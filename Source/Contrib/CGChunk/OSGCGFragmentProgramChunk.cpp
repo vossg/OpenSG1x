@@ -97,8 +97,10 @@ CGFragmentProgramChunk::~CGFragmentProgramChunk(void)
 {
 }
 
-void CGFragmentProgramChunk::onCreate(const CGFragmentProgramChunk */*source*/)
+void CGFragmentProgramChunk::onCreate(const CGFragmentProgramChunk *source)
 {
+    CGProgramChunk::onCreate(source);
+
     // ignore prototypes.
     if(GlobalSystemState == Startup)
         return;
@@ -330,7 +332,7 @@ bool CGFragmentProgramChunk::hasFP(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFragmentProgramChunk.cpp,v 1.1 2004/02/29 18:40:35 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFragmentProgramChunk.cpp,v 1.2 2004/03/11 14:32:35 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFRAGMENTPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFRAGMENTPROGRAMCHUNKBASE_INLINE_CVSID;
 

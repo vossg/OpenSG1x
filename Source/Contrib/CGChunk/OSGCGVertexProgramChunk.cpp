@@ -97,8 +97,10 @@ CGVertexProgramChunk::~CGVertexProgramChunk(void)
 {
 }
 
-void CGVertexProgramChunk::onCreate(const CGVertexProgramChunk */*source*/)
+void CGVertexProgramChunk::onCreate(const CGVertexProgramChunk *source)
 {
+    CGProgramChunk::onCreate(source);
+    
     // ignore prototypes.
     if(GlobalSystemState == Startup)
         return;
@@ -343,7 +345,7 @@ bool CGVertexProgramChunk::hasVP(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGVertexProgramChunk.cpp,v 1.1 2004/02/29 18:40:35 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGVertexProgramChunk.cpp,v 1.2 2004/03/11 14:32:35 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGVERTEXPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGVERTEXPROGRAMCHUNKBASE_INLINE_CVSID;
 
