@@ -92,7 +92,7 @@ inline  const IDString &StatElemDescBase::getDescription (void)
 // The templated StatElemDesc
 
 template <class T>
-char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.3 2002/01/21 02:43:14 jbehr Exp $";
+char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.4 2002/01/21 17:38:41 dirk Exp $";
 
 
 template <class T>
@@ -115,6 +115,6 @@ StatElem *StatElemDesc<T>::createElem(void)
 }
 
 
-
-
 OSG_END_NAMESPACE
+
+#define OSGSTATELEMDESC_INLINE_CVSID "@(#)$Id: OSGStatElemDesc.inl,v 1.4 2002/01/21 17:38:41 dirk Exp $"

@@ -63,3 +63,5 @@ inline const Time & StatTimeElem::getTime(void)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGSTATTIMEELEM_INLINE_CVSID "@(#)$Id: OSGStatTimeElem.inl,v 1.2 2002/01/21 17:38:42 dirk Exp $"

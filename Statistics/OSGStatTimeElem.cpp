@@ -43,11 +43,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
+#include <OSGBaseFieldDataType.h>
 
 #include "OSGStatTimeElem.h"
 
 OSG_USING_NAMESPACE
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSTATTIMEELEM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATTIMEELEM_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
@@ -120,14 +136,15 @@ StatElem *StatTimeElem::create ( StatElemDescBase *desc)
   return new StatTimeElem(desc);
 }
 
-std::string &StatTimeElem::putToString ( std::string &str)
+
+void StatTimeElem::putToString(string &str)
 {
-  char buffer[64];
+    FieldDataTraits1<Time>::putToString(_time, str);
+}
 
-  sprintf(buffer,"%g", _time);
-  str = buffer;
-
-  return str;
+Bool StatTimeElem::getFromString(const Char8 *&inVal)
+{
+    return FieldDataTraits1<Time>::getFromString(_time, inVal);
 }
 
 //StatTimeElem::StatTimeElem(const StatTimeElem &source) :

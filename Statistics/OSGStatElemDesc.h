@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _STATELEMDESC_H_
-#define _STATELEMDESC_H_
+#ifndef _OSGSTATELEMDESC_H_
+#define _OSGSTATELEMDESC_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -51,10 +51,7 @@
 OSG_BEGIN_NAMESPACE
 
 class StatElemCollector;
-class StatElemDescBase;
 class StatElem;
-
-typedef StatElem *(*CreateStatElemMethod)(StatElemDescBase *desc);
 
 /*! \ingroup baselib
  *  \brief Brief
@@ -62,7 +59,7 @@ typedef StatElem *(*CreateStatElemMethod)(StatElemDescBase *desc);
  *  detailed
  */
  
-class StatElemDescBase
+class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
 {
   friend class StatCollector;
 
@@ -133,8 +130,6 @@ class StatElemDescBase
     static char cvsid[];
 
 
-    CreateStatElemMethod _createMethod;
-
     Int32                _ID;
 
     IDString             _name;
@@ -195,4 +190,6 @@ OSG_END_NAMESPACE
 
 #include <OSGStatElemDesc.inl>
 
-#endif /* _CLASSNAME_H_ */
+#define OSGSTATELEMDESC_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGSTATELEMDESC_H_ */

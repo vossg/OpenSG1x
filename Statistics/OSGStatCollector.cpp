@@ -52,6 +52,21 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSTATCOLLECTOR_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATCOLLECTOR_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
  */
@@ -137,11 +152,13 @@ StatCollector::~StatCollector(void)
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
-std::string &StatCollector::putToString( std::string &str )
+
+void StatCollector::putToString(string &str) const
 {
-    vector<StatElem*>::iterator it;
-    
-    str = "";
+    vector<StatElem*>::const_iterator it;
+    Bool first = true;
+     
+    str = "{";
     
     for(it = _elemVec.begin(); it != _elemVec.end(); ++it)
     {
@@ -149,14 +166,74 @@ std::string &StatCollector::putToString( std::string &str )
         {
             std::string elem;
             
+            if(!first)
+                str.append("|");
             str.append((*it)->getDesc()->getName().str());
-            str.append(" ");
+            str.append(":");
             (*it)->putToString(elem);
             str.append(elem);
-            str.append("\n");
+            first = false;
         }
     }
-    return str;
+    str.append("}");
+}
+     
+Bool StatCollector::getFromString(const Char8 *&inVal)
+{
+    const Char8 *c = inVal;
+    
+    if(*c++ != '{')
+        return false;
+
+    StatElemDescBase *desc;
+    StatElem *elem;
+    
+    clearElems();
+    
+    while(*c && *c != '}')
+    {
+        const Char8 *end = c;
+        
+        while(*end != 0 && *end != ':' && *end != '}' && *end != '|')
+            end++;
+            
+        if(*end == 0 || *end == '}' || *end == '|')
+            return false;
+        
+        string name(c, end - c);
+        desc = StatElemDescBase::findDescByName(name.c_str());
+        
+        if(!desc)
+            return false;
+        
+        elem = getElem(*desc);
+
+        c = end = end + 1;       
+        while(*end != 0 && *end != '}' && *end != '|')
+            end++;
+            
+        if(*end == 0)
+            return false;
+
+        string val(c, end - c);
+        const Char8 *valp = val.c_str();
+        if(!elem->getFromString(valp))
+            return false;
+ 
+        c = end + 1;
+    }
+    return true;
+}
+
+void StatCollector::clearElems(void)
+{
+    for(vector<StatElem*>::iterator i = _elemVec.begin(); 
+        i != _elemVec.end();
+        ++i)
+    {
+        delete *i;
+        *i = NULL;
+    }
 }
 
 /*-------------------------- assignment -----------------------------------*/

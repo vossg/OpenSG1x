@@ -80,3 +80,5 @@ T *StatCollector::getElem(StatElemDesc<T> &desc, Bool create)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.5 2002/01/21 17:38:40 dirk Exp $"

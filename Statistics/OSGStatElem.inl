@@ -57,3 +57,5 @@ inline  StatElemDescBase * StatElem::getDesc     (void)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGSTATELEM_INLINE_CVSID "@(#)$Id: OSGStatElem.inl,v 1.3 2002/01/21 17:38:40 dirk Exp $"

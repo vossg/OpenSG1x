@@ -40,5 +40,10 @@ int main (int argc, char **argv)
     collector.putToString(str);
     cerr << "Collector data:" << endl << str << endl;
  
+    const osg::Char8 *c = str.c_str();
+    collector.getFromString(c);
+    collector.putToString(str);
+    cerr << "Collector data:" << endl << str << endl;
+    
     osg::StatElemDescBase::printAll();
 }

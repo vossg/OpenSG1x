@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _STATELEM_H_
-#define _STATELEM_H_
+#ifndef _OSGSTATELEM_H_
+#define _OSGSTATELEM_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -74,13 +74,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
-    inline  Bool           getOn       (void);
+    inline  Bool               getOn        (void);
 
-    inline  void           setOn       (Bool on);
+    inline  void               setOn        (Bool on);
 
-    inline  StatElemDescBase * getDesc     (void);
+    inline  StatElemDescBase * getDesc      (void);
 
-    virtual std::string      &putToString ( std::string &str ) = 0;
+    virtual void               putToString  (string &str) = 0;
+
+    virtual Bool               getFromString(const Char8 *&inVal) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,4 +133,6 @@ OSG_END_NAMESPACE
 
 #include <OSGStatElem.inl>
 
-#endif /* _STATELEM_H_ */
+#define OSGSTATELEM_HEADER_CVSID "@(#)$Id:$"
+
+#endif /* _OSGSTATELEM_H_ */

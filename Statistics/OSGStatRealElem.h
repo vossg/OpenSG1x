@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _STATREALELEM_H_
-#define _STATREALELEM_H_
+#ifndef _OSGSTATREALELEM_H_
+#define _OSGSTATREALELEM_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -93,7 +93,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
 
     inline void reset (void);
 
-    virtual std::string &putToString ( std::string &str);
+    virtual void putToString(string &str);
+
+    virtual Bool getFromString(const Char8 *&inVal);
 
     virtual ~StatRealElem(void); 
 
@@ -144,4 +146,6 @@ OSG_END_NAMESPACE
 
 #include "OSGStatRealElem.inl"
 
-#endif /* _STATREALELEM_H_ */
+#define OSGSTATREALELEM_HEADER_CVSID "@(#)$Id:$"
+
+#endif /* _OSGSTATREALELEM_H_ */

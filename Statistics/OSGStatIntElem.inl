@@ -81,3 +81,5 @@ inline void StatIntElem::dec (void)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGSTATINTELEM_INLINE_CVSID "@(#)$Id: OSGStatIntElem.inl,v 1.2 2002/01/21 17:38:42 dirk Exp $"

@@ -69,3 +69,5 @@ inline void StatRealElem::reset (void)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGSTATREALELEM_INLINE_CVSID "@(#)$Id: OSGStatRealElem.inl,v 1.2 2002/01/21 17:38:42 dirk Exp $"

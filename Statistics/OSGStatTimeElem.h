@@ -93,7 +93,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
 
     inline const Time & getTime(void);
         
-    virtual std::string &putToString ( std::string &str);
+    virtual void putToString(string &str);
+
+    virtual Bool getFromString(const Char8 *&inVal);
 
     virtual ~StatTimeElem(void); 
 
@@ -143,5 +145,7 @@ typedef StatTimeElem *StatTimeElemP;
 OSG_END_NAMESPACE
 
 #include <OSGStatTimeElem.inl>
+
+#define OSGSTATTIMEELEM_HEADER_CVSID "@(#)$Id:$"
 
 #endif /* _STATTIMEELEM_H_ */

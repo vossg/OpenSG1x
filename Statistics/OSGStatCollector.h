@@ -37,14 +37,19 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _STATCOLLECTOR_H_
-#define _STATCOLLECTOR_H_
+#ifndef _OSGSTATCOLLECTOR_H_
+#define _OSGSTATCOLLECTOR_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
+#include <OSGConfig.h>
 #include <OSGSystemDef.h>
+
+#include <OSGBaseTypes.h>
+#include <OSGFieldDataType.h>
+#include <OSGSField.h>
+#include <OSGMField.h>
 
 #include <OSGStatElemDesc.h>
 
@@ -79,16 +84,20 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     inline  Bool     isValidID     (Int32 ID);
 
+            void     clearElems    (void);
+
     inline  StatElem *getElem      (Int32 ID, Bool create = true);
 
-    inline  StatElem *getElem      (StatElemDescBase &desc, Bool create = true );
+    inline  StatElem *getElem      (StatElemDescBase &desc, Bool create = true);
 
 
     template <class T> 
     inline  T        *getElem      (StatElemDesc<T> &desc, Bool create = true);
 
 
-            std::string &putToString( std::string &str );
+            void      putToString  (string &outVal) const;
+     
+            Bool      getFromString(const Char8 *&inVal);
             
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,8 +147,63 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 typedef StatCollector *StatCollectorP;
 
 
+/*! \brief StatCollector field traits 
+*/
+
+template <>
+struct FieldDataTraits<StatCollector> : 
+    public FieldTraitsRecurseBase<StatCollector>
+{
+    static DataType       _type;
+
+    enum                  { StringConvertable = ToStringConvertable | 
+                                                FromStringConvertable    };
+
+    static DataType       &getType      (void) { return _type;          }
+
+    static Char8          *getSName     (void) { return "SFStatCollector"; }
+    static Char8          *getMName     (void) { return "MFStatCollector"; }
+
+    static StatCollector getDefault   (void) { return StatCollector();   }
+
+    static Bool            getFromString(      StatCollector  &outVal,
+                                         const Char8         *&inVal)
+    {
+        return outVal.getFromString(inVal);
+    }
+
+    static void            putToString  (const StatCollector &inVal,
+                                               string        &outVal)
+    {
+        inVal.putToString(outVal);
+    }
+};
+
+/*! \brief StatCollector fields
+*/
+
+//! SFStatCollector
+//! \ingroup SingleFields
+
+typedef SField<StatCollector> SFStatCollector;
+
+#ifndef OSG_COMPILEPARTICLEBSPINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<StatCollector>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 OSG_END_NAMESPACE
 
 #include <OSGStatCollector.inl>
 
-#endif /* _STATCOLLECTOR_H_ */
+#define OSGSTATCOLLECTOR_HEADER_CVSID "@(#)$Id:$"
+
+#endif /* _OSGSTATCOLLECTOR_H_ */

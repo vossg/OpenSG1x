@@ -43,11 +43,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
+#include <OSGSysFieldDataType.h>
 
 #include "OSGStatRealElem.h"
 
 OSG_USING_NAMESPACE
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSTATREALELEM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATREALELEM_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
@@ -120,15 +136,14 @@ StatElem *StatRealElem::create ( StatElemDescBase *desc)
   return new StatRealElem(desc);
 }
 
-std::string &StatRealElem::putToString ( std::string &str )
+void StatRealElem::putToString(string &str)
 {
-  char buffer[64];
+  FieldDataTraits<Real32>::putToString(_value, str);
+}
 
-  // TODO; optimize !
-  sprintf(buffer,"%g", _value);
-  str = buffer;
-  
-  return str;
+Bool StatRealElem::getFromString(const Char8 *&inVal)
+{
+    return FieldDataTraits<Real32>::getFromString(_value, inVal);
 }
 
 //StatRealElem::StatRealElem(const StatRealElem &source) :

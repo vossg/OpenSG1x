@@ -50,6 +50,21 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSTATELEMDESC_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATELEMDESC_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
  */
