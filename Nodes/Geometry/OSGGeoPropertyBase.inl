@@ -256,8 +256,8 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
 }
 
 template <class GeoPropertyDesc> inline 
-void GeoProperty<GeoPropertyDesc>::changed(BitVector  whichField, 
-                                           ChangeMode from)
+void GeoProperty<GeoPropertyDesc>::changed(BitVector   , 
+                                           FCChangeMode)
 {
     MFFieldContainerPtr::iterator parentsIt  = _parents.begin();
     MFFieldContainerPtr::iterator parentsEnd = _parents.end();

@@ -217,6 +217,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     typedef typename GeoPropertyDesc::GenericType         StoredGenericType;
     typedef typename StoredFieldType::StoredType          StoredType;
 
+    typedef          FieldContainer::ChangeMode           FCChangeMode;
+
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*---------------------------------------------------------------------*/
@@ -319,7 +321,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     /*! \name                      Changed                                 */
     /*! \{                                                                 */
 
-    virtual void changed        (BitVector whichField, ChangeMode from);
+    virtual void changed        (BitVector    whichField, 
+                                 FCChangeMode from      );
             
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
