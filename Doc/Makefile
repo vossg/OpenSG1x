@@ -63,15 +63,6 @@ DOCS_QT    := ../Source/WindowSystem/QT
 DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 			  $(DOCS_X) $(DOCS_W32) $(DOCS_GLUT) $(DOCS_QT) $(DOCS_PAGES)
 
-# DOC_LIBS   := $(DOC_LIBS) mainpage.dox ../Common/dummyClasses.dox
-
-# test setup: only do what's necessary
-#DOC_LIBS   = $(DOCS_BASE) \
-		     ../Source/System/State\
-		     ../Source/System/NodeCores/Drawables/Particles\
-             ../Source/System/FieldContainer\
-             ../Source/System/FieldContainer/Impl
-
 # defines for starter guide generation
 DOC_LATEX ?= "NO"
 DOC_DOT   ?= "NO"
@@ -91,6 +82,7 @@ DOC_PAGES  := 	Code/mainpage.dox \
 				../Source/Base/Network/Socket.dox \
 				../Source/Base/StringConversion/StringConversion.dox \
 				../Source/System/FieldContainer/FieldContainer.dox \
+				../Source/System/Image/Image.dox \
 				../Source/System/NodeCores/NodeCores.dox \
 				../Source/System/NodeCores/Groups/Groups.dox \
 				../Source/System/NodeCores/Groups/Base/GroupsBase.dox \
@@ -130,8 +122,7 @@ DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 #			 ../Source/Base/StringConversion/StringConversion.dox	\
 #			 ../Source/Base/StringConversion
 
-# DOC_FILES := $(DOC_PAGES) ../Source/System/NodeCores/Groups/Misc \
-#            ../Source/System/NodeCores/Groups/Base
+#DOC_FILES := $(DOC_PAGES) $(DOCS_BASE) ../Source/System/NodeCores/Drawables/Geometry
 
 # level-dependent defines
 DOC_LEVEL ?= 1
@@ -146,12 +137,14 @@ DOC_ENV += OSG_USE_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
-DOXYGEN := doxygen
+#DOXYGEN := doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
+#DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.2.18/bin/doxygen
+#DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.3-rc2/bin/doxygen
+DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
-#DOXYGEN := /data/dirk/software/doxygen-1.2.18/bin/doxygen
 
 default: help
 
@@ -211,7 +204,8 @@ devtrdoc:
 # Starter targets
 
 dostarter:
-	make DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc# link the images
+	make DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
+	# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
 	latex StarterGuide && latex StarterGuide && dvips StarterGuide && \
