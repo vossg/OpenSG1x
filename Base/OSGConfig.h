@@ -362,6 +362,11 @@
 # define OSG_USE_GLX
 #endif
 
+#ifdef __ICL
+#ifndef __INTEL_COMPILER
+#define __INTEL_COMPILER __ICL
+#endif
+#endif
 
 /* name Intel compiler, which uses the EDG front end. */ 
 # if defined(__INTEL_COMPILER)
@@ -369,7 +374,9 @@
 #   endif
 #   ifdef _MT
 #   endif
-
+# ifndef __ICL
+# define __ICL __INTEL_COMPILER
+# endif
 # if __INTEL_COMPILER_VERSION >= 501
 # define OSG_BASE_SPEZ_IMPL_DLLMAPPING 
 # else
