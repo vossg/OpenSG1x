@@ -74,16 +74,16 @@ int main (int argc, char **argv)
 
     MFPnt3f *p = pnts->getFieldPtr();       // The p pointer is not MT-safe!!
     // generic access
-    pnts->addValue( Pnt3f( -1, -1, -1) );
+    pnts->push_back( Pnt3f( -1, -1, -1) );
     // via the property
-    pnts->getFieldPtr()->addValue( Pnt3f(  1, -1, -1) );
+    pnts->getFieldPtr()->push_back( Pnt3f(  1, -1, -1) );
     // via the field
-    p->addValue( Pnt3f( -1,  1, -1) );
-    p->addValue( Pnt3f(  1,  1, -1) );
-    p->addValue( Pnt3f( -2, -1,  1) );
-    p->addValue( Pnt3f(  1, -1,  1) );
-    p->addValue( Pnt3f( -2,  1,  1) );
-    p->addValue( Pnt3f(  1,  1,  1) );
+    p->push_back( Pnt3f( -1,  1, -1) );
+    p->push_back( Pnt3f(  1,  1, -1) );
+    p->push_back( Pnt3f( -2, -1,  1) );
+    p->push_back( Pnt3f(  1, -1,  1) );
+    p->push_back( Pnt3f( -2,  1,  1) );
+    p->push_back( Pnt3f(  1,  1,  1) );
 
     endEditCP(g1, FieldBits::AllFields);
     
@@ -101,7 +101,7 @@ int main (int argc, char **argv)
 
     for(i = 0; i < p->size(); i++ )
     {
-        cerr << "Point " << i << " " << p->getValue( i ) << endl;
+        cerr << "Point " << i << " " << (*p)[i] << endl;
     }
 
     cerr << "Generic Access" << endl;

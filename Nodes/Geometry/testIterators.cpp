@@ -45,31 +45,31 @@ int main (int argc, char **argv)
     MFPnt3f* p = pnts->getFieldPtr();
 
     beginEditCP(pnts);
-    p->addValue( Pnt3f( -1, -1, -1) );
-    p->addValue( Pnt3f(  1, -1, -1) );
-    p->addValue( Pnt3f(  1,  1, -1) );
-    p->addValue( Pnt3f( -1,  1, -1) );
-    p->addValue( Pnt3f( -1, -1,  1) );
-    p->addValue( Pnt3f(  1, -1,  1) );
-    p->addValue( Pnt3f(  1,  1,  1) );
-    p->addValue( Pnt3f( -1,  1,  1) );
+    p->push_back( Pnt3f( -1, -1, -1) );
+    p->push_back( Pnt3f(  1, -1, -1) );
+    p->push_back( Pnt3f(  1,  1, -1) );
+    p->push_back( Pnt3f( -1,  1, -1) );
+    p->push_back( Pnt3f( -1, -1,  1) );
+    p->push_back( Pnt3f(  1, -1,  1) );
+    p->push_back( Pnt3f(  1,  1,  1) );
+    p->push_back( Pnt3f( -1,  1,  1) );
     endEditCP(pnts);
 
 
     GeoColors4ub::PtrType cols = GeoColors4ub::create();
     g->setColors( cols );
-    g->getIndexMapping().addValue( Geometry::MapPosition | 
+    g->getIndexMapping().push_back( Geometry::MapPosition | 
                                    Geometry::MapColor );
     
     beginEditCP(cols);
-    cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255,   0, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255, 255,   0, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255,   0,   0, 255) );
-    cols->getFieldPtr()->addValue( Color4ub(   0, 255,   0, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255,   0, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255, 255,   0, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255,   0,   0, 255) );
+    cols->getFieldPtr()->push_back( Color4ub(   0, 255,   0, 255) );
     endEditCP(cols);
 
     // don't use normals to test non-existing attributes
@@ -79,18 +79,18 @@ int main (int argc, char **argv)
     GeoPTypesUI8Ptr type = GeoPTypesUI8::create();  
     g->setTypes( type );
     beginEditCP(type);
-    type->getFieldPtr()->addValue( GL_POINTS );
-    type->getFieldPtr()->addValue( GL_LINES );
-    type->getFieldPtr()->addValue( GL_LINE_LOOP );
-    type->getFieldPtr()->addValue( GL_LINE_STRIP );
-    type->getFieldPtr()->addValue( GL_TRIANGLES );
-    type->getFieldPtr()->addValue( GL_TRIANGLE_STRIP );
-    type->getFieldPtr()->addValue( GL_TRIANGLE_FAN );
-    type->getFieldPtr()->addValue( GL_QUADS );
-    type->getFieldPtr()->addValue( GL_QUAD_STRIP );
-    type->getFieldPtr()->addValue( GL_POLYGON );
-    type->getFieldPtr()->addValue( GL_POLYGON );
-    type->getFieldPtr()->addValue( GL_POLYGON );
+    type->getFieldPtr()->push_back( GL_POINTS );
+    type->getFieldPtr()->push_back( GL_LINES );
+    type->getFieldPtr()->push_back( GL_LINE_LOOP );
+    type->getFieldPtr()->push_back( GL_LINE_STRIP );
+    type->getFieldPtr()->push_back( GL_TRIANGLES );
+    type->getFieldPtr()->push_back( GL_TRIANGLE_STRIP );
+    type->getFieldPtr()->push_back( GL_TRIANGLE_FAN );
+    type->getFieldPtr()->push_back( GL_QUADS );
+    type->getFieldPtr()->push_back( GL_QUAD_STRIP );
+    type->getFieldPtr()->push_back( GL_POLYGON );
+    type->getFieldPtr()->push_back( GL_POLYGON );
+    type->getFieldPtr()->push_back( GL_POLYGON );
     endEditCP(type);
 
 
@@ -100,7 +100,7 @@ int main (int argc, char **argv)
     {
     static Int32 l[] = { 2,4,3,3,9,5,5,12,6,3,4,5,-1};
     for ( int ind = 0; l[ind] >= 0; ind++ )
-        lens->getFieldPtr()->addValue( l[ind] );
+        lens->getFieldPtr()->push_back( l[ind] );
     }
     endEditCP(lens);
 
@@ -113,7 +113,7 @@ int main (int argc, char **argv)
                           3,0,2,1,6, 0,3,2,1,5, 0,1,2,3,4,5,6,7,0,1,4,5,
                           6,5,7,4,3,0, 0,1,2, 0,1,2,3, 0,1,2,3,4, -1};
     for ( int ind = 0; i[ind] >= 0; ind++ )
-        index->getFieldPtr()->addValue( i[ind] );
+        index->getFieldPtr()->push_back( i[ind] );
     }
     endEditCP(index);
 

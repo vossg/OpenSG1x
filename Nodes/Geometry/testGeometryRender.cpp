@@ -122,26 +122,26 @@ int main (int argc, char **argv)
     MFPnt3f* p = pnts->getFieldPtr();
 
     beginEditCP(pnts);
-    p->addValue( Pnt3f( -1, -1, -1) );
-    p->addValue( Pnt3f(  1, -1, -1) );
-    p->addValue( Pnt3f(  1,  1, -1) );
-    p->addValue( Pnt3f( -1,  1, -1) );
-    p->addValue( Pnt3f( -1, -1,  1) );
-    p->addValue( Pnt3f(  1, -1,  1) );
-    p->addValue( Pnt3f(  1,  1,  1) );
-    p->addValue( Pnt3f( -1,  1,  1) );
+    p->push_back( Pnt3f( -1, -1, -1) );
+    p->push_back( Pnt3f(  1, -1, -1) );
+    p->push_back( Pnt3f(  1,  1, -1) );
+    p->push_back( Pnt3f( -1,  1, -1) );
+    p->push_back( Pnt3f( -1, -1,  1) );
+    p->push_back( Pnt3f(  1, -1,  1) );
+    p->push_back( Pnt3f(  1,  1,  1) );
+    p->push_back( Pnt3f( -1,  1,  1) );
     endEditCP(pnts);
 
 
     GeoColors4ubPtr cols = GeoColors4ub::create();
     g1->setColors( cols );
     beginEditCP(cols);
-    cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255,   0, 255, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255, 255,   0, 255) );
-    cols->getFieldPtr()->addValue( Color4ub( 255,   0,   0, 255) );
-    cols->getFieldPtr()->addValue( Color4ub(   0, 255,   0, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255,   0, 255, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255, 255,   0, 255) );
+    cols->getFieldPtr()->push_back( Color4ub( 255,   0,   0, 255) );
+    cols->getFieldPtr()->push_back( Color4ub(   0, 255,   0, 255) );
     endEditCP(cols);
 
 
@@ -150,83 +150,83 @@ int main (int argc, char **argv)
     GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
     g1->setTexCoords( texs );
     beginEditCP(texs);
-    texs->addValue( Vec2f( 0, 0 ) );
-    texs->addValue( Vec2f( 1, 0 ) );
-    texs->addValue( Vec2f( 1, 1 ) );
-    texs->addValue( Vec2f( 0, 1 ) );
-    texs->addValue( Vec2f( 0, 0 ) );
-    texs->addValue( Vec2f( 2, 0 ) );
-    texs->addValue( Vec2f( 2, 2 ) );
-    texs->addValue( Vec2f( 0, 2 ) );
+    texs->push_back( Vec2f( 0, 0 ) );
+    texs->push_back( Vec2f( 1, 0 ) );
+    texs->push_back( Vec2f( 1, 1 ) );
+    texs->push_back( Vec2f( 0, 1 ) );
+    texs->push_back( Vec2f( 0, 0 ) );
+    texs->push_back( Vec2f( 2, 0 ) );
+    texs->push_back( Vec2f( 2, 2 ) );
+    texs->push_back( Vec2f( 0, 2 ) );
     endEditCP(texs);
 
     // use second texture coordinates
     texs = GeoTexCoords2f::create();
     g1->setTexCoords1( texs );
     beginEditCP(texs);
-    texs->addValue( Vec2f( 0, 0 ) );
-    texs->addValue( Vec2f( 1, 0 ) );
-    texs->addValue( Vec2f( 1, 1 ) );
-    texs->addValue( Vec2f( 0, 1 ) );
-    texs->addValue( Vec2f( 0, 0 ) );
-    texs->addValue( Vec2f( 2, 0 ) );
-    texs->addValue( Vec2f( 2, 2 ) );
-    texs->addValue( Vec2f( 0, 2 ) );
+    texs->push_back( Vec2f( 0, 0 ) );
+    texs->push_back( Vec2f( 1, 0 ) );
+    texs->push_back( Vec2f( 1, 1 ) );
+    texs->push_back( Vec2f( 0, 1 ) );
+    texs->push_back( Vec2f( 0, 0 ) );
+    texs->push_back( Vec2f( 2, 0 ) );
+    texs->push_back( Vec2f( 2, 2 ) );
+    texs->push_back( Vec2f( 0, 2 ) );
     endEditCP(texs);
     
     GeoTexCoords3fPtr texs3 = GeoTexCoords3f::create();
     g1->setTexCoords( texs3 );
     beginEditCP(texs3);
-    texs3->getField().addValue( Vec3f( 0, 0, 0 ) );
-    texs3->getField().addValue( Vec3f( 1, 0, 0 ) );
-    texs3->getField().addValue( Vec3f( 1, 1, 0 ) );
-    texs3->getField().addValue( Vec3f( 0, 1, 0 ) );
-    texs3->getField().addValue( Vec3f( 0, 0, 0 ) );
-    texs3->getField().addValue( Vec3f( 3, 0, 0 ) );
-    texs3->getField().addValue( Vec3f( 3, 3, 0 ) );
-    texs3->getField().addValue( Vec3f( 0, 3, 0 ) );
+    texs3->getField().push_back( Vec3f( 0, 0, 0 ) );
+    texs3->getField().push_back( Vec3f( 1, 0, 0 ) );
+    texs3->getField().push_back( Vec3f( 1, 1, 0 ) );
+    texs3->getField().push_back( Vec3f( 0, 1, 0 ) );
+    texs3->getField().push_back( Vec3f( 0, 0, 0 ) );
+    texs3->getField().push_back( Vec3f( 3, 0, 0 ) );
+    texs3->getField().push_back( Vec3f( 3, 3, 0 ) );
+    texs3->getField().push_back( Vec3f( 0, 3, 0 ) );
     endEditCP(texs3);
 
     GeoIndicesUI32Ptr index = GeoIndicesUI32::create();     
     g1->setIndices( index );
     beginEditCP(index);
-    index->getFieldPtr()->addValue( 0 ); // PNT index
-//  index->getFieldPtr()->addValue( 0 ); // C index
-    index->getFieldPtr()->addValue( 1 ); // PNT index
-//  index->getFieldPtr()->addValue( 0 ); // C index
-    index->getFieldPtr()->addValue( 2 ); // PNT index
-//  index->getFieldPtr()->addValue( 1 ); // C index
-    index->getFieldPtr()->addValue( 3 ); // PNT index
-//  index->getFieldPtr()->addValue( 1 ); // C index
-    index->getFieldPtr()->addValue( 4 ); // PNT index
-//  index->getFieldPtr()->addValue( 2 ); // C index
-    index->getFieldPtr()->addValue( 5 ); // PNT index
-//  index->getFieldPtr()->addValue( 3 ); // C index
-    index->getFieldPtr()->addValue( 6 ); // PNT index
-//  index->getFieldPtr()->addValue( 4 ); // C index
-    index->getFieldPtr()->addValue( 7 ); // PNT index
-//  index->getFieldPtr()->addValue( 5 ); // C index
+    index->getFieldPtr()->push_back( 0 ); // PNT index
+//  index->getFieldPtr()->push_back( 0 ); // C index
+    index->getFieldPtr()->push_back( 1 ); // PNT index
+//  index->getFieldPtr()->push_back( 0 ); // C index
+    index->getFieldPtr()->push_back( 2 ); // PNT index
+//  index->getFieldPtr()->push_back( 1 ); // C index
+    index->getFieldPtr()->push_back( 3 ); // PNT index
+//  index->getFieldPtr()->push_back( 1 ); // C index
+    index->getFieldPtr()->push_back( 4 ); // PNT index
+//  index->getFieldPtr()->push_back( 2 ); // C index
+    index->getFieldPtr()->push_back( 5 ); // PNT index
+//  index->getFieldPtr()->push_back( 3 ); // C index
+    index->getFieldPtr()->push_back( 6 ); // PNT index
+//  index->getFieldPtr()->push_back( 4 ); // C index
+    index->getFieldPtr()->push_back( 7 ); // PNT index
+//  index->getFieldPtr()->push_back( 5 ); // C index
     endEditCP(index);
 
-//    g1->getIndexMapping().addValue( 
+//    g1->getIndexMapping().push_back( 
 //      Geometry::MapPosition | Geometry::MapNormal |
 //      Geometry::MapTexCoords );
-//    g1->getIndexMapping().addValue( Geometry::MapColor );
+//    g1->getIndexMapping().push_back( Geometry::MapColor );
 
 
     GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
     g1->setLengths( lens );
     beginEditCP(lens);
-    lens->addValue( 4 );
-    lens->addValue( 4 );
+    lens->push_back( 4 );
+    lens->push_back( 4 );
     endEditCP(lens);
 
 
     GeoPTypesPtr type = GeoPTypesUI8::create();     
     g1->setTypes( type );
     beginEditCP(type);
-    type->addValue( GL_POLYGON );
-    type->addValue( GL_POLYGON );
+    type->push_back( GL_POLYGON );
+    type->push_back( GL_POLYGON );
     endEditCP(type);
 
         endEditCP(g1);
