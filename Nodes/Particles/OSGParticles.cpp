@@ -1863,6 +1863,9 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
 
     Pnt3f refpoint(camera[3].getValues());
     
+    if(getMode() == ViewDirQuads)
+        camera.invert();
+        
     Pnt3f p,q;
     UInt32 size;
     
@@ -1879,39 +1882,92 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     
     len = 0;
     UInt32 i;
-    for(i = 0; i<size; i++)
+    
+    if(getMode() == ViewDirQuads)
     {
         if(indices->size() > 0)
         {
-            if((*(indices))[i] < 0 || 
-               (*(indices))[i] > pos->size())
-                continue;
-                
-            list[len]._index = (*(indices))[i];
+            for(i = 0; i < size; i++)
+            {
+                if((*(indices))[i] < 0 || 
+                   (*(indices))[i] > pos->size())
+                    continue;
+
+                list[len]._index = (*(indices))[i];
+
+                pos->getValue(p,i);                
+                camera.mult(p);      
+                list[len]._value = p[2];
+
+                len++;
+            }
         }
         else
         {
-            list[len]._index = i;         
+            for(i = 0; i < size; i++)
+            {
+                list[len]._index = i;         
+
+                pos->getValue(p,i);       
+                camera.mult(p);      
+                list[len]._value = p[2];
+
+                len++;
+            }
         }
-        
-        pos->getValue(p,i);
-        
-        list[len]._value = - refpoint.dist2(p);
-        
-        len++;
+    }
+    else
+    {
+        if(indices->size() > 0)
+        {
+            for(i = 0; i < size; i++)
+            {
+                if((*(indices))[i] < 0 || 
+                   (*(indices))[i] > pos->size())
+                    continue;
+
+                list[len]._index = (*(indices))[i];
+
+                pos->getValue(p,i);       
+                list[len]._value = - refpoint.dist2(p);
+
+                len++;
+            }
+        }
+        else
+        {
+            for(i = 0; i < size; i++)
+            {
+                list[len]._index = i;         
+
+                pos->getValue(p,i);       
+                list[len]._value = - refpoint.dist2(p);
+
+                len++;
+            }
+        }
     }
     
-    list.resize(len);
-    sort(list.begin(),list.end());
+    sort(list.begin(),list.begin() + len);
     
     if(index == NULL)
         index=new Int32[len];
     
-    for(i = 0; i<len; i++)
+    if(getDrawOrder() == FrontToBack)
     {
-        index[i] = list[i]._index;
+        for(i = 0; i<len; i++)
+        {
+            index[i] = list[len - 1 - i]._index;
+        }
     }
-        
+    else
+    {
+        for(i = 0; i<len; i++)
+        {
+            index[i] = list[i]._index;
+        }
+    }
+       
     return index;    
 }
 
@@ -1983,7 +2039,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
         }
         else
         {
-            if(! getBsp().created())
+            if(!getBsp().created())
             {
                 getBsp().build(this);
             }
@@ -2212,7 +2268,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.18 2002/05/13 09:21:11 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.19 2002/05/31 08:52:38 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

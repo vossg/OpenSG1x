@@ -155,7 +155,7 @@ int main(int argc, char **argv)
     beginEditCP(trans);
     trans->setTranslation(Vec3f(2,0,0));
     trans->setRotation(Quaternion(Vec3f(0,1,0),Pi/2));
-//    trans->setScale(Vec3f(2,2,2));
+    trans->setScale(Vec3f(2,2,2));
     endEditCP(trans);
     
     
@@ -502,6 +502,11 @@ void keyboard(unsigned char k, int , int )
                 FLOG(("Particles switched to ViewDirQuads mode\n"));
                 break;
     case '3':   beginEditCP(particles, Particles::ModeFieldMask);
+                particles->setMode(Particles::ViewerQuads);
+                endEditCP  (particles, Particles::ModeFieldMask);
+                FLOG(("Particles switched to ViewerQuads mode\n"));
+                break;
+    case '4':   beginEditCP(particles, Particles::ModeFieldMask);
                 particles->setMode(Particles::Arrows);
                 endEditCP  (particles, Particles::ModeFieldMask);
                 FLOG(("Particles switched to Arrows mode\n"));
