@@ -86,28 +86,6 @@ static void vrmlScalarInterpolatorDescInserter(ReflexiveContainerType *pType)
         NULL);
 
     pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFReal32::getClassType(),
-        "set_fraction",
-        OSG_RC_ELEM_IDM_DESC(VRMLScalarInterpolator::SetFractionField),
-        false,
-        (DataElemGetMethod) &VRMLScalarInterpolator::getSFSetFraction,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFReal32::getClassType(),
-        "value_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLScalarInterpolator::ValueChangedField),
-        false,
-        (DataElemGetMethod) &VRMLScalarInterpolator::getSFValueChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
 }
 
 
@@ -162,9 +140,7 @@ VRMLObjectType VRMLScalarInterpolator::_type(
 VRMLScalarInterpolator::VRMLScalarInterpolator(void) :
 	 Inherited        (     ),
     _mfKey            (     ),
-    _mfKeyValue       (     ),
-    _sfSetFraction    (0.0  ),
-    _sfValueChanged   (     )
+    _mfKeyValue       (     )
 {
 }
 
@@ -172,9 +148,7 @@ VRMLScalarInterpolator::VRMLScalarInterpolator(void) :
 VRMLScalarInterpolator::VRMLScalarInterpolator(const VRMLScalarInterpolator &source) :
 	 Inherited          (source                ),
     _mfKey              (source._mfKey         ),
-    _mfKeyValue         (source._mfKeyValue    ),
-    _sfSetFraction      (source._sfSetFraction ),
-    _sfValueChanged     (source._sfValueChanged)
+    _mfKeyValue         (source._mfKeyValue    )
 {
 }
 
@@ -216,16 +190,6 @@ MFReal32 *VRMLScalarInterpolator::getMFKeyValue(void)
     return &_mfKeyValue;
 }
 
-SFReal32 *VRMLScalarInterpolator::getSFSetFraction(void)
-{
-    return &_sfSetFraction;
-}
-
-SFReal32 *VRMLScalarInterpolator::getSFValueChanged(void)
-{
-    return &_sfValueChanged;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -239,6 +203,6 @@ SFReal32 *VRMLScalarInterpolator::getSFValueChanged(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLScalarInterpolator.cpp,v 1.1 2004/03/05 17:36:07 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLScalarInterpolator.cpp,v 1.2 2004/03/07 17:43:09 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGVRMLSCALARINTERPOLATOR_HEADER_CVSID;
 }

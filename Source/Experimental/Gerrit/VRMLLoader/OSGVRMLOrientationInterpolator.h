@@ -100,12 +100,8 @@ class OSG_VRML_DLLMAPPING VRMLOrientationInterpolator : public VRMLUnlimitedNode
 
     OSG_RC_ELEM_IDM_DECL      (KeyValueField,
                                KeyField);
-    OSG_RC_ELEM_IDM_DECL      (SetFractionField,
-                               KeyValueField);
-    OSG_RC_ELEM_IDM_DECL      (ValueChangedField,
-                               SetFractionField);
 
-    OSG_RC_LAST_ELEM_IDM_DECL (ValueChangedField);
+    OSG_RC_LAST_ELEM_IDM_DECL (KeyValueField);
 
     //-----------------------------------------------------------------------
     //   enums
@@ -174,8 +170,6 @@ class OSG_VRML_DLLMAPPING VRMLOrientationInterpolator : public VRMLUnlimitedNode
 
     MFReal32        _mfKey;
     MFQuaternion    _mfKeyValue;
-    SFReal32        _sfSetFraction;
-    SFQuaternion    _sfValueChanged;
 
     //-----------------------------------------------------------------------
     //   instance functions
@@ -206,13 +200,11 @@ class OSG_VRML_DLLMAPPING VRMLOrientationInterpolator : public VRMLUnlimitedNode
 
     MFReal32        *getMFKey           (void);
     MFQuaternion    *getMFKeyValue      (void);
-    SFReal32        *getSFSetFraction   (void);
-    SFQuaternion    *getSFValueChanged  (void);
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLORIENTATIONINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLOrientationInterpolator.h,v 1.1 2004/03/05 17:36:07 a-m-z Exp $"
+#define OSGVRMLORIENTATIONINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLOrientationInterpolator.h,v 1.2 2004/03/07 17:43:09 a-m-z Exp $"
 
 #endif /* _OSGVRMLORIENTATIONINTERPOLATOR_HPP_ */

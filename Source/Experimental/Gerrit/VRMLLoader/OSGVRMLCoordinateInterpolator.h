@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVRMLTOUCHSENSOR_HPP_
-#define _OSGVRMLTOUCHSENSOR_HPP_
+#ifndef _OSGVRMLCOORDINATEINTERPOLATOR_HPP_
+#define _OSGVRMLCOORDINATEINTERPOLATOR_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,7 +47,12 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
-#include <OSGVRMLSensor.h>
+#include <OSGVRMLUnlimitedNode.h>
+#include <OSGSFSysTypes.h>
+#include <OSGMFSysTypes.h>
+#include <OSGSFBaseTypes.h>
+#include <OSGSFVecTypes.h>
+#include <OSGMFVecTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -63,128 +68,141 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-//! Brief VRMLTouchSensor
+//! Brief VRMLCoordinateInterpolator
 //! \ingroup VRMLNodeLib
 
-class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
+class OSG_VRML_DLLMAPPING VRMLCoordinateInterpolator : public VRMLUnlimitedNode
 {
   private:
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
-    typedef VRMLSensor Inherited;
+    typedef VRMLUnlimitedNode Inherited;
 
   public:
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
-    typedef       VRMLTouchSensor *Ptr;
-    typedef const VRMLTouchSensor *ConstPtr;
+    typedef       VRMLCoordinateInterpolator *Ptr;
+    typedef const VRMLCoordinateInterpolator *ConstPtr;
 
     //-----------------------------------------------------------------------
-    //   constants                                                           
+    //   constants
     //-----------------------------------------------------------------------
 
-    OSG_RC_EMPTY_FIRST_IDM_DECL;
-    OSG_RC_EMPTY_LAST_ELEM_IDM_DECL(FirstElem);
+    OSG_RC_FIRST_ELEM_IDM_DECL(KeyField);
+
+    OSG_RC_ELEM_IDM_DECL      (KeyValueField,
+                               KeyField);
+
+    OSG_RC_LAST_ELEM_IDM_DECL (KeyField);
 
     //-----------------------------------------------------------------------
-    //   enums                                                               
+    //   enums
     //-----------------------------------------------------------------------
 
   private:
 
     //-----------------------------------------------------------------------
-    //   enums                                                               
+    //   enums
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   friend classes                                                      
+    //   friend classes
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   friend functions                                                    
+    //   friend functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   class variables                                                     
+    //   class variables
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   class functions                                                     
+    //   class functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance variables                                                  
+    //   instance variables
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance functions                                                  
+    //   instance functions
     //-----------------------------------------------------------------------
 
-    //! prohibit default function (move to 'public' if needed) 
-    void operator =(const VRMLTouchSensor &source);
+    //! prohibit default function (move to 'public' if needed)
+    void operator =(const VRMLCoordinateInterpolator &source);
 
   protected:
 
     //-----------------------------------------------------------------------
-    //   enums                                                               
+    //   enums
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   class variables                                                     
+    //   class variables
     //-----------------------------------------------------------------------
 
     static VRMLObjectType _type;
 
     //-----------------------------------------------------------------------
-    //   class functions                                                     
+    //   class functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance variables                                                  
+    //   instance variables
     //-----------------------------------------------------------------------
 
+    MFReal32    _mfKey;
+    MFVec3f     _mfKeyValue;
+
     //-----------------------------------------------------------------------
-    //   instance functions                                                  
+    //   instance functions
     //-----------------------------------------------------------------------
 
-    VRMLTouchSensor(void);
-    VRMLTouchSensor(const VRMLTouchSensor &source);
+    VRMLCoordinateInterpolator(void);
+    VRMLCoordinateInterpolator(const VRMLCoordinateInterpolator &source);
 
   public :
 
     OSG_VRMLOBJ_DECL(Ptr);
 
     //-----------------------------------------------------------------------
-    //   class functions                                                     
+    //   class functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance functions                                                  
+    //   instance functions
     //-----------------------------------------------------------------------
 
-    virtual ~VRMLTouchSensor(void); 
+    virtual ~VRMLCoordinateInterpolator(void);
 
     /*------------------------- your_category -------------------------------*/
 
     virtual void evaluate(Time oTime);
+
+    /*-------------------------- field access -------------------------------*/
+
+    MFReal32    *getMFKey           (void);
+    MFVec3f     *getMFKeyValue      (void);
+
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLTOUCHSENSOR_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLCOORDINATEINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLCoordinateInterpolator.h,v 1.1 2004/03/07 17:43:09 a-m-z Exp $"
 
-#endif /* _OSGVRMLTOUCHSENSOR_HPP_ */
+#endif /* _OSGVRMLCOORDINATEINTERPOLATOR_HPP_ */

@@ -98,12 +98,8 @@ class OSG_VRML_DLLMAPPING VRMLScalarInterpolator : public VRMLUnlimitedNode
 
     OSG_RC_ELEM_IDM_DECL      (KeyValueField,
                                KeyField);
-    OSG_RC_ELEM_IDM_DECL      (SetFractionField,
-                               KeyValueField);
-    OSG_RC_ELEM_IDM_DECL      (ValueChangedField,
-                               SetFractionField);
 
-    OSG_RC_LAST_ELEM_IDM_DECL (ValueChangedField);
+    OSG_RC_LAST_ELEM_IDM_DECL (KeyValueField);
 
     //-----------------------------------------------------------------------
     //   enums
@@ -172,8 +168,6 @@ class OSG_VRML_DLLMAPPING VRMLScalarInterpolator : public VRMLUnlimitedNode
 
     MFReal32    _mfKey;
     MFReal32    _mfKeyValue;
-    SFReal32    _sfSetFraction;
-    SFReal32    _sfValueChanged;
 
     //-----------------------------------------------------------------------
     //   instance functions
@@ -204,13 +198,11 @@ class OSG_VRML_DLLMAPPING VRMLScalarInterpolator : public VRMLUnlimitedNode
 
     MFReal32    *getMFKey           (void);
     MFReal32    *getMFKeyValue      (void);
-    SFReal32    *getSFSetFraction   (void);
-    SFReal32    *getSFValueChanged  (void);
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLSCALARINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLScalarInterpolator.h,v 1.1 2004/03/05 17:36:07 a-m-z Exp $"
+#define OSGVRMLSCALARINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLScalarInterpolator.h,v 1.2 2004/03/07 17:43:09 a-m-z Exp $"
 
 #endif /* _OSGVRMLSCALARINTERPOLATOR_HPP_ */

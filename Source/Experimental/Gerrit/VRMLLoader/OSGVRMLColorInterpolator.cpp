@@ -87,27 +87,6 @@ static void vrmlColorInterpolatorDescInserter(ReflexiveContainerType *pType)
 
     pType->addInitialDesc(pDesc);
 
-    pDesc = new DataElementDesc(
-        SFReal32::getClassType(),
-        "set_fraction",
-        OSG_RC_ELEM_IDM_DESC(VRMLColorInterpolator::SetFractionField),
-        false,
-        (DataElemGetMethod) &VRMLColorInterpolator::getSFSetFraction,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFColor3f::getClassType(),
-        "value_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLColorInterpolator::ValueChangedField),
-        false,
-        (DataElemGetMethod) &VRMLColorInterpolator::getSFValueChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
 }
 
 
@@ -162,9 +141,7 @@ VRMLObjectType VRMLColorInterpolator::_type(
 VRMLColorInterpolator::VRMLColorInterpolator(void) :
 	 Inherited        (     ),
     _mfKey            (     ),
-    _mfKeyValue       (     ),
-    _sfSetFraction    (0.0  ),
-    _sfValueChanged   (     )
+    _mfKeyValue       (     )
 {
 }
 
@@ -172,9 +149,7 @@ VRMLColorInterpolator::VRMLColorInterpolator(void) :
 VRMLColorInterpolator::VRMLColorInterpolator(const VRMLColorInterpolator &source) :
 	 Inherited          (source                ),
     _mfKey              (source._mfKey         ),
-    _mfKeyValue         (source._mfKeyValue    ),
-    _sfSetFraction      (source._sfSetFraction ),
-    _sfValueChanged     (source._sfValueChanged)
+    _mfKeyValue         (source._mfKeyValue    )
 {
 }
 
@@ -216,16 +191,6 @@ MFColor3f *VRMLColorInterpolator::getMFKeyValue(void)
     return &_mfKeyValue;
 }
 
-SFReal32 *VRMLColorInterpolator::getSFSetFraction(void)
-{
-    return &_sfSetFraction;
-}
-
-SFColor3f *VRMLColorInterpolator::getSFValueChanged(void)
-{
-    return &_sfValueChanged;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -239,6 +204,6 @@ SFColor3f *VRMLColorInterpolator::getSFValueChanged(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLColorInterpolator.cpp,v 1.1 2004/03/05 17:36:07 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLColorInterpolator.cpp,v 1.2 2004/03/07 17:43:09 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGVRMLPOSITIONINTERPOLATOR_HEADER_CVSID;
 }

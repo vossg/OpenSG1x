@@ -47,7 +47,7 @@
 
 #include <iostream>
 
-#include "OSGVRMLPositionInterpolator.h"
+#include "OSGVRMLCoordinateInterpolator.h"
 #include "OSGDataElementDesc.h"
 
 OSG_USING_NAMESPACE
@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
 
 #if !defined(OSG_NO_FULL_DOC)
 
-static void vrmlPositionInterpolatorDescInserter(ReflexiveContainerType *pType)
+static void vrmlCoordinateInterpolatorDescInserter(ReflexiveContainerType *pType)
 {
     if(pType == NULL)
         return;
@@ -68,9 +68,9 @@ static void vrmlPositionInterpolatorDescInserter(ReflexiveContainerType *pType)
     pDesc = new DataElementDesc(
         MFReal32::getClassType(),
         "key",
-        OSG_RC_ELEM_IDM_DESC(VRMLPositionInterpolator::KeyField),
+        OSG_RC_ELEM_IDM_DESC(VRMLCoordinateInterpolator::KeyField),
         false,
-        (DataElemGetMethod) &VRMLPositionInterpolator::getMFKey,
+        (DataElemGetMethod) &VRMLCoordinateInterpolator::getMFKey,
         NULL,
         NULL);
 
@@ -79,23 +79,24 @@ static void vrmlPositionInterpolatorDescInserter(ReflexiveContainerType *pType)
     pDesc = new DataElementDesc(
         MFVec3f::getClassType(),
         "keyValue",
-        OSG_RC_ELEM_IDM_DESC(VRMLPositionInterpolator::KeyValueField),
+        OSG_RC_ELEM_IDM_DESC(VRMLCoordinateInterpolator::KeyValueField),
         false,
-        (DataElemGetMethod) &VRMLPositionInterpolator::getMFKeyValue,
+        (DataElemGetMethod) &VRMLCoordinateInterpolator::getMFKeyValue,
         NULL,
         NULL);
 
     pType->addInitialDesc(pDesc);
+
 }
 
 
-VRMLObjectType VRMLPositionInterpolator::_type(
-    "PositionInterpolator",
+VRMLObjectType VRMLCoordinateInterpolator::_type(
+    "CoordinateInterpolator",
     "VRMLUnlimitedNode",
     "VRMLNodes",
-    (VRMLProtoCreateF) &VRMLPositionInterpolator::createEmpty,
+    (VRMLProtoCreateF) &VRMLCoordinateInterpolator::createEmpty,
     NULL, // Init
-    vrmlPositionInterpolatorDescInserter,
+    vrmlCoordinateInterpolatorDescInserter,
     true);
 
 #endif
@@ -137,7 +138,7 @@ VRMLObjectType VRMLPositionInterpolator::_type(
 \*-------------------------------------------------------------------------*/
 
 
-VRMLPositionInterpolator::VRMLPositionInterpolator(void) :
+VRMLCoordinateInterpolator::VRMLCoordinateInterpolator(void) :
 	 Inherited        (     ),
     _mfKey            (     ),
     _mfKeyValue       (     )
@@ -145,7 +146,7 @@ VRMLPositionInterpolator::VRMLPositionInterpolator(void) :
 }
 
 
-VRMLPositionInterpolator::VRMLPositionInterpolator(const VRMLPositionInterpolator &source) :
+VRMLCoordinateInterpolator::VRMLCoordinateInterpolator(const VRMLCoordinateInterpolator &source) :
 	 Inherited          (source                ),
     _mfKey              (source._mfKey         ),
     _mfKeyValue         (source._mfKeyValue    )
@@ -160,7 +161,7 @@ VRMLPositionInterpolator::VRMLPositionInterpolator(const VRMLPositionInterpolato
 #pragma warning (disable : 424)
 #endif
 
-OSG_VRMLOBJ_DEF(VRMLPositionInterpolator, Ptr);
+OSG_VRMLOBJ_DEF(VRMLCoordinateInterpolator, Ptr);
 
 #if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
@@ -168,27 +169,28 @@ OSG_VRMLOBJ_DEF(VRMLPositionInterpolator, Ptr);
 
 /*------------- constructors & destructors --------------------------------*/
 
-VRMLPositionInterpolator::~VRMLPositionInterpolator(void)
+VRMLCoordinateInterpolator::~VRMLCoordinateInterpolator(void)
 {
 }
 
 /*-------------------------------- eval -----------------------------------*/
 
-void VRMLPositionInterpolator::evaluate(Time)
+void VRMLCoordinateInterpolator::evaluate(Time)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-MFReal32 *VRMLPositionInterpolator::getMFKey(void)
+MFReal32 *VRMLCoordinateInterpolator::getMFKey(void)
 {
     return &_mfKey;
 }
 
-MFVec3f *VRMLPositionInterpolator::getMFKeyValue(void)
+MFVec3f *VRMLCoordinateInterpolator::getMFKeyValue(void)
 {
     return &_mfKeyValue;
 }
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -203,6 +205,6 @@ MFVec3f *VRMLPositionInterpolator::getMFKeyValue(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLPositionInterpolator.cpp,v 1.2 2004/03/07 17:43:09 a-m-z Exp $";
-    static Char8 cvsid_hpp[] = OSGVRMLPOSITIONINTERPOLATOR_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLCoordinateInterpolator.cpp,v 1.1 2004/03/07 17:43:09 a-m-z Exp $";
+    static Char8 cvsid_hpp[] = OSGVRMLCOORDINATEINTERPOLATOR_HEADER_CVSID;
 }

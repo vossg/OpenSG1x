@@ -98,12 +98,8 @@ class OSG_VRML_DLLMAPPING VRMLPositionInterpolator : public VRMLUnlimitedNode
 
     OSG_RC_ELEM_IDM_DECL      (KeyValueField,
                                KeyField);
-    OSG_RC_ELEM_IDM_DECL      (SetFractionField,
-                               KeyValueField);
-    OSG_RC_ELEM_IDM_DECL      (ValueChangedField,
-                               SetFractionField);
 
-    OSG_RC_LAST_ELEM_IDM_DECL (ValueChangedField);
+    OSG_RC_LAST_ELEM_IDM_DECL (KeyValueField);
 
     //-----------------------------------------------------------------------
     //   enums
@@ -172,8 +168,6 @@ class OSG_VRML_DLLMAPPING VRMLPositionInterpolator : public VRMLUnlimitedNode
 
     MFReal32    _mfKey;
     MFVec3f     _mfKeyValue;
-    SFReal32    _sfSetFraction;
-    SFVec3f     _sfValueChanged;
 
     //-----------------------------------------------------------------------
     //   instance functions
@@ -204,13 +198,11 @@ class OSG_VRML_DLLMAPPING VRMLPositionInterpolator : public VRMLUnlimitedNode
 
     MFReal32    *getMFKey           (void);
     MFVec3f     *getMFKeyValue      (void);
-    SFReal32    *getSFSetFraction   (void);
-    SFVec3f     *getSFValueChanged  (void);
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLPOSITIONINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLPositionInterpolator.h,v 1.1 2004/03/05 17:36:07 a-m-z Exp $"
+#define OSGVRMLPOSITIONINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLPositionInterpolator.h,v 1.2 2004/03/07 17:43:09 a-m-z Exp $"
 
 #endif /* _OSGVRMLPOSITIONINTERPOLATOR_HPP_ */

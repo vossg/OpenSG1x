@@ -55,81 +55,6 @@ OSG_USING_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-static void vrmlTouchSensorDescInserter(ReflexiveContainerType *pType)
-{
-    if(pType == NULL)
-        return;
-
-    DataElementDesc *pDesc = NULL;
-
-    pDesc = new DataElementDesc(
-        SFBool::getClassType(),
-        "isActive",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::IsActiveField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFIsActive,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFBool::getClassType(),
-        "isOver",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::IsOverField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFIsOver,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFTime::getClassType(),
-        "touchTime",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::TouchTimeField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFTouchTime,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFVec3f::getClassType(),
-        "hitNormal_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::HitNormalChangedField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFHitNormalChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFPnt3f::getClassType(),
-        "hitPoint_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::HitPointChangedField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFHitPointChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFVec2f::getClassType(),
-        "hitTexCoord_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::HitTexCoordChangedField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFHitTexCoordChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-}
-
-
 VRMLObjectType VRMLTouchSensor::_type(
     "TouchSensor",
     "VRMLSensor",
@@ -176,13 +101,7 @@ VRMLObjectType VRMLTouchSensor::_type(
 \*-------------------------------------------------------------------------*/
 
 VRMLTouchSensor::VRMLTouchSensor(void) :
-     Inherited(),
-     _sfIsActive(false),
-     _sfIsOver(false),
-     _sfTouchTime(),
-     _sfHitNormalChanged(),
-     _sfHitPointChanged(),
-     _sfHitTexCoordChanged()
+     Inherited()
 {
 }
 
@@ -190,13 +109,7 @@ VRMLTouchSensor::VRMLTouchSensor(void) :
 VRMLTouchSensor::VRMLTouchSensor(
     const VRMLTouchSensor &source) :
 
-     Inherited(source),
-    _sfIsActive(source._sfIsActive),
-     _sfIsOver(source._sfIsOver),
-     _sfTouchTime(source._sfTouchTime),
-     _sfHitNormalChanged(source._sfHitNormalChanged),
-     _sfHitPointChanged(source._sfHitPointChanged),
-     _sfHitTexCoordChanged(source._sfHitTexCoordChanged)
+     Inherited(source)
 {
 }
 
@@ -224,38 +137,6 @@ void VRMLTouchSensor::evaluate(Time)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-SFBool *VRMLTouchSensor::getSFIsActive(void)
-{
-    return &_sfIsActive;
-}
-
-SFBool *VRMLTouchSensor::getSFIsOver(void)
-{
-    return &_sfIsOver;
-}
-
-SFTime *VRMLTouchSensor::getSFTouchTime(void)
-{
-    return &_sfTouchTime;
-}
-
-SFVec3f *VRMLTouchSensor::getSFHitNormalChanged(void)
-{
-    return &_sfHitNormalChanged;
-}
-
-SFPnt3f *VRMLTouchSensor::getSFHitPointChanged(void)
-{
-    return &_sfHitPointChanged;
-}
-
-SFVec2f *VRMLTouchSensor::getSFHitTexCoordChanged(void)
-{
-    return &_sfHitTexCoordChanged;
-}
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -268,8 +149,8 @@ SFVec2f *VRMLTouchSensor::getSFHitTexCoordChanged(void)
 #pragma warning( disable : 177 )
 #endif
 
-namespace
+namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLTouchSensor.cpp,v 1.3 2003/06/23 07:05:13 amz Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGVRMLTOUCHSENSOR_HEADER_CVSID;
 }

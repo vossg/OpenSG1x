@@ -86,28 +86,6 @@ static void vrmlOrientationInterpolatorDescInserter(ReflexiveContainerType *pTyp
         NULL);
 
     pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFReal32::getClassType(),
-        "set_fraction",
-        OSG_RC_ELEM_IDM_DESC(VRMLOrientationInterpolator::SetFractionField),
-        false,
-        (DataElemGetMethod) &VRMLOrientationInterpolator::getSFSetFraction,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFQuaternion::getClassType(),
-        "value_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLOrientationInterpolator::ValueChangedField),
-        false,
-        (DataElemGetMethod) &VRMLOrientationInterpolator::getSFValueChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
 }
 
 
@@ -162,9 +140,7 @@ VRMLObjectType VRMLOrientationInterpolator::_type(
 VRMLOrientationInterpolator::VRMLOrientationInterpolator(void) :
 	 Inherited        (     ),
     _mfKey            (     ),
-    _mfKeyValue       (     ),
-    _sfSetFraction    (0.0  ),
-    _sfValueChanged   (     )
+    _mfKeyValue       (     )
 {
 }
 
@@ -172,9 +148,7 @@ VRMLOrientationInterpolator::VRMLOrientationInterpolator(void) :
 VRMLOrientationInterpolator::VRMLOrientationInterpolator(const VRMLOrientationInterpolator &source) :
 	 Inherited          (source                ),
     _mfKey              (source._mfKey         ),
-    _mfKeyValue         (source._mfKeyValue    ),
-    _sfSetFraction      (source._sfSetFraction ),
-    _sfValueChanged     (source._sfValueChanged)
+    _mfKeyValue         (source._mfKeyValue    )
 {
 }
 
@@ -216,16 +190,6 @@ MFQuaternion *VRMLOrientationInterpolator::getMFKeyValue(void)
     return &_mfKeyValue;
 }
 
-SFReal32 *VRMLOrientationInterpolator::getSFSetFraction(void)
-{
-    return &_sfSetFraction;
-}
-
-SFQuaternion *VRMLOrientationInterpolator::getSFValueChanged(void)
-{
-    return &_sfValueChanged;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -239,6 +203,6 @@ SFQuaternion *VRMLOrientationInterpolator::getSFValueChanged(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLOrientationInterpolator.cpp,v 1.1 2004/03/05 17:36:07 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLOrientationInterpolator.cpp,v 1.2 2004/03/07 17:43:09 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGVRMLORIENTATIONINTERPOLATOR_HEADER_CVSID;
 }
