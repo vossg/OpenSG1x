@@ -1,0 +1,326 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page PageAck Acknowledgements
+
+Just like any good work, OpenSG has not been created out of thin air, but has
+built on top of the work of many others. Either in the form of ideas, or in the
+form of code. 
+
+The following libraries/tools are used by OpenSG:
+
+<ul>
+
+<li>xmlpp v0.6
+
+   xmlpp - an xml parser and validator written in C++
+   copyright (c) 2000-2001 Michael Fink
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public
+   License as published by the Free Software Foundation; either
+   version 2 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+
+   You should have received a copy of the GNU Library General Public
+   License along with this library; if not, write to the
+   Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA  02111-1307  USA.
+
+</li>
+
+<li><a href="http://www.gnu.org/software/flex/flex.html">Flex</a>
+
+Copyright (C) 1990 The Regents of the University of California. All rights
+reserved. 
+
+This code is derived from software contributed to Berkeley by Vern Paxson. 
+
+The United States Government has rights in this work pursuant to contract no.
+DE-AC03-76SF00098 between the United States Department of Energy and the
+University of California. 
+
+Redistribution and use in source and binary forms with or without modification
+are permitted provided that: (1) source distributions retain this entire
+copyright notice and comment, and (2) distributions including binaries display
+the following acknowledgement: "This product includes software developed by
+the University of California, Berkeley and its contributors" in the
+documentation or other materials provided with the distribution and in all
+advertising materials mentioning features or use of this software. Neither the
+name of the University nor the names of its contributors may be used to
+endorse or promote products derived from this software without specific prior
+written permission. 
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
+
+</li>
+
+<li><a href="http://www.gnu.org/software/bison/bison.html">Bison</a>
+
+Licensed under the <a href="http://www.gnu.org/licenses/licenses.html#GPL">GNU
+General Public License</a>. Additionally note the following:
+
+As of Bison version 1.24, we have changed the distribution terms for yyparse
+to permit using Bison's output in nonfree programs. Formerly, Bison parsers
+could be used only in programs that were free software.  
+
+</li>
+
+
+</ul>
+
+The following libraries are not included in the OpenSG source code, but they
+can be used in conjunction with OpenSG, depending on the used configuration:
+
+<ul>
+
+<li><a href="http://www.ijg.org/">IJG's libjpeg</a>
+
+The authors make NO WARRANTY or representation, either express or implied,
+with respect to this software, its quality, accuracy, merchantability, or
+fitness for a particular purpose.  This software is provided "AS IS", and you,
+its user, assume the entire risk as to its quality and accuracy.
+
+This software is copyright (C) 1991-1998, Thomas G. Lane.
+All Rights Reserved except as specified below.
+
+Permission is hereby granted to use, copy, modify, and distribute this
+software (or portions thereof) for any purpose, without fee, subject to these
+conditions:
+(1) If any part of the source code for this software is distributed, then this
+README file must be included, with this copyright and no-warranty notice
+unaltered; and any additions, deletions, or changes to the original files
+must be clearly indicated in accompanying documentation.
+(2) If only executable code is distributed, then the accompanying
+documentation must state that "this software is based in part on the work of
+the Independent JPEG Group".
+(3) Permission for use of this software is granted only if the user accepts
+full responsibility for any undesirable consequences; the authors accept
+NO LIABILITY for damages of any kind.
+
+These conditions apply to any software derived from or based on the IJG code,
+not just to the unmodified library.  If you use our work, you ought to
+acknowledge us.
+
+Permission is NOT granted for the use of any IJG author's name or company name
+in advertising or publicity relating to this software or products derived from
+it.  This software may be referred to only as "the Independent JPEG Group's
+software".
+
+We specifically permit and encourage the use of this software as the basis of
+commercial products, provided that all warranty or liability claims are
+assumed by the product vendor.
+
+</li>
+
+<li><a href="http://www.libtiff.org/">Sam Leffler's TIFF library</a>
+
+Copyright (c) 1988-1997 Sam Leffler
+Copyright (c) 1991-1997 Silicon Graphics, Inc.
+
+Permission to use, copy, modify, distribute, and sell this software and 
+its documentation for any purpose is hereby granted without fee, provided
+that (i) the above copyright notices and this permission notice appear in
+all copies of the software and related documentation, and (ii) the names of
+Sam Leffler and Silicon Graphics may not be used in any advertising or
+publicity relating to the software without the specific, prior written
+permission of Sam Leffler and Silicon Graphics.
+
+THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+
+IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+OF THIS SOFTWARE.
+
+</li>
+
+<li><a href="http://www.stlport.org">STLPort</a>
+
+This software is being distributed under the following terms :
+
+  Copyright (c) 1994
+  Hewlett-Packard Company
+ 
+  Copyright (c) 1996-1999
+  Silicon Graphics Computer Systems, Inc.
+ 
+  Copyright (c) 1997
+  Moscow Center for SPARC Technology
+ 
+  Copyright (c) 1999, 2000, 2001
+  Boris Fomitchev
+ 
+  This material is provided "as is", with absolutely no warranty expressed
+  or implied. Any use is at your own risk.
+ 
+  Permission to use or copy this software for any purpose is hereby granted 
+  without fee, provided the above notices are retained on all copies.
+  Permission to modify the code and to distribute modified code is granted,
+  provided the above notices are retained, and a notice that the code was
+  modified is included with the above copyright notice.
+
+</li>
+
+<li><a href="http://www.libpng.org/">libpng</a>
+
+This copy of the libpng notices is provided for your convenience.  In case of
+any discrepancy between this copy and the notices in the file png.h that is
+included in the libpng distribution, the latter shall prevail.
+
+COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:
+
+If you modify libpng you may insert additional notices immediately following
+this sentence.
+
+libpng versions 1.0.7, July 1, 2000, through 1.2.5, October 3, 2002, are
+Copyright (c) 2000-2002 Glenn Randers-Pehrson
+and are distributed according to the same disclaimer and license as libpng-1.0.6
+with the following individuals added to the list of Contributing Authors
+
+   Simon-Pierre Cadieux
+   Eric S. Raymond
+   Gilles Vollant
+
+and with the following additions to the disclaimer:
+
+   There is no warranty against interference with your enjoyment of the
+   library or against infringement.  There is no warranty that our
+   efforts or the library will fulfill any of your particular purposes
+   or needs.  This library is provided with all faults, and the entire
+   risk of satisfactory quality, performance, accuracy, and effort is with
+   the user.
+
+libpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are
+Copyright (c) 1998, 1999 Glenn Randers-Pehrson, and are
+distributed according to the same disclaimer and license as libpng-0.96,
+with the following individuals added to the list of Contributing Authors:
+
+   Tom Lane
+   Glenn Randers-Pehrson
+   Willem van Schaik
+
+libpng versions 0.89, June 1996, through 0.96, May 1997, are
+Copyright (c) 1996, 1997 Andreas Dilger
+Distributed according to the same disclaimer and license as libpng-0.88,
+with the following individuals added to the list of Contributing Authors:
+
+   John Bowler
+   Kevin Bracey
+   Sam Bushell
+   Magnus Holmgren
+   Greg Roelofs
+   Tom Tanner
+
+libpng versions 0.5, May 1995, through 0.88, January 1996, are
+Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
+
+For the purposes of this copyright and license, "Contributing Authors"
+is defined as the following set of individuals:
+
+   Andreas Dilger
+   Dave Martindale
+   Guy Eric Schalnat
+   Paul Schmidt
+   Tim Wegner
+
+The PNG Reference Library is supplied "AS IS".  The Contributing Authors
+and Group 42, Inc. disclaim all warranties, expressed or implied,
+including, without limitation, the warranties of merchantability and of
+fitness for any purpose.  The Contributing Authors and Group 42, Inc.
+assume no liability for direct, indirect, incidental, special, exemplary,
+or consequential damages, which may result from the use of the PNG
+Reference Library, even if advised of the possibility of such damage.
+
+Permission is hereby granted to use, copy, modify, and distribute this
+source code, or portions hereof, for any purpose, without fee, subject
+to the following restrictions:
+
+1. The origin of this source code must not be misrepresented.
+
+2. Altered versions must be plainly marked as such and must not
+   be misrepresented as being the original source.
+
+3. This Copyright notice may not be removed or altered from any
+   source or altered source distribution.
+
+The Contributing Authors and Group 42, Inc. specifically permit, without
+fee, and encourage the use of this source code as a component to
+supporting the PNG file format in commercial products.  If you use this
+source code in a product, acknowledgment is not required but would be
+appreciated.
+
+</li>
+
+<li><a href="http://www.gzip.org/zlib/">libz</a>
+
+
+ (C) 1995-2002 Jean-loup Gailly and Mark Adler
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any damages
+  arising from the use of this software.
+
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+  Jean-loup Gailly        Mark Adler
+  jloup@gzip.org          madler@alumni.caltech.edu
+  
+</li>
+
+<li><a href="http://www.opengl.org/developers/documentation/glut.html">GLUT</a>
+
+For the UNIX versions:
+
+Copyright (c) Mark J. Kilgard, 1994. 
+
+This program is freely distributable without licensing fees 
+and is provided without guarantee or warrantee expressed or 
+implied. This program is -not- in the public domain. 
+
+
+For the Windows version:
+
+The OpenGL Utility Toolkit distribution for Win32 (Windows NT &
+Windows 95) contains source code modified from the original source
+code for GLUT version 3.3 which was developed by Mark J. Kilgard.  The
+original source code for GLUT is Copyright 1997 by Mark J. Kilgard.
+GLUT for Win32 is Copyright 1997 by Nate Robins and is not in the
+public domain, but it is freely distributable without licensing fees.
+It is provided without guarantee or warrantee expressed or implied.
+It was ported with the permission of Mark J. Kilgard by Nate Robins.
+
+THIS SOURCE CODE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OR MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+OpenGL (R) is a registered trademark of Silicon Graphics, Inc.
+
+</li>
+
+</ul>
+
+If we forgot anything, please notify us and we will fix it ASAP.
+
+*/
