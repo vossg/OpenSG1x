@@ -117,10 +117,10 @@ DOC_IMAGE_PATHES := Images
 
 DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 
-DOC_FILES := ../Source/Base/Base/Base.dox         		\
-			 ../Source/Base/Base 						\
-             ../Source/Base/Functors/Functors.dox 		\
-			 ../Source/Base/Functors
+#DOC_FILES := ../Source/Base/Base/Base.dox         		\
+#			 ../Source/Base/Base 						\
+#             ../Source/Base/Functors/Functors.dox 		\
+#			 ../Source/Base/Functors
 
 # DOC_FILES := $(DOC_PAGES) ../Source/System/NodeCores/Groups/Misc \
 #            ../Source/System/NodeCores/Groups/Base
@@ -138,8 +138,8 @@ DOC_ENV += OSG_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF)"
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
-#DOXYGEN := doxygen
-DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
+DOXYGEN := doxygen
+#DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
 
 default: help
 
@@ -254,7 +254,8 @@ Images/%.eps: Images/%.eps.gz
 	touch $@
 
 Images/%.png: Images/%.fig
-	fig2dev -L png $< $@ 
+	-fig2dev -L png $< $@ 
+
 
 Images/%.png: Images/%.jpg
 	convert  $< $@ 
