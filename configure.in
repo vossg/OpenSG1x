@@ -290,7 +290,6 @@ else
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs
 fi
 
-
 dnl ############# Myrinet Settings #####################
 
 AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                 Use Myrinet lib, if DIR is given use the file from the give directory],
@@ -946,7 +945,7 @@ else
     AC_DEFINE(OSG_SGI_USE_SPROC)
 fi
 
-if test "$with_patrol" != no; then
+if test "$with_mpatrol" != no; then
     AC_DEFINE(OSG_USE_MPATROL)
 fi
 
