@@ -1,10 +1,9 @@
-import dumbdbm
 import fnmatch
 import os.path
 import string
 import sys
 
-SConsignFile(dbm_module=dumbdbm)
+SConsignFile()
 #CacheDir('cache')
 
 def Glob(match):
