@@ -57,40 +57,27 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGPointLight.h>
-#include <OSGVec3fFields.h>	// Direction type
-#include <OSGReal32Fields.h>	// SpotExponent type
-#include <OSGReal32Fields.h>	// SpotCutOff type
+
+#include <OSGPointLight.h> // Parent
+
+#include <OSGVec3fFields.h> // Direction type
+#include <OSGReal32Fields.h> // SpotExponent type
+#include <OSGReal32Fields.h> // SpotCutOff type
 
 #include <OSGSpotLightFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class SpotLight;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! SpotLight Base Class. */
+/*! \brief SpotLight Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 {
@@ -98,59 +85,77 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     typedef PointLight Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        DirectionFieldId = Inherited::NextFieldId,
-        SpotExponentFieldId = DirectionFieldId + 1,
-        SpotCutOffFieldId = SpotExponentFieldId + 1,
-        NextFieldId = SpotCutOffFieldId + 1
-
+        DirectionFieldId    = Inherited::NextFieldId,
+        SpotExponentFieldId = DirectionFieldId    + 1,
+        SpotCutOffFieldId   = SpotExponentFieldId + 1,
+        NextFieldId         = SpotCutOffFieldId   + 1
     };
 
     static const osg::BitVector DirectionFieldMask;
     static const osg::BitVector SpotExponentFieldMask;
     static const osg::BitVector SpotCutOffFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "SpotLightBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static SpotLightPtr         create          (void); 
-    static SpotLightPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFVec3f             *getSFDirection      (void);
+    inline       SFReal32            *getSFSpotExponent   (void);
+    inline       SFReal32            *getSFSpotCutOff     (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Vec3f               &getDirection      (void);
+    inline const Vec3f               &getDirection      (void) const;
+    inline       Real32              &getSpotExponent   (void);
+    inline const Real32              &getSpotExponent   (void) const;
+    inline       Real32              &getSpotCutOff     (void);
+    inline const Real32              &getSpotCutOff     (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setDirection      ( const Vec3f &value );
+    inline void setSpotExponent   ( const Real32 &value );
+    inline void setSpotCutOff     ( const Real32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -158,126 +163,69 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFVec3f	*getSFDirection(void);
-    inline SFReal32	*getSFSpotExponent(void);
-    inline SFReal32	*getSFSpotCutOff(void);
+    static  SpotLightPtr    create          (void); 
+    static  SpotLightPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Vec3f	&getDirection(void);
-    inline const Vec3f	&getDirection(void) const;
-    inline       void	         setDirection( const Vec3f &value );
-    inline       Real32	&getSpotExponent(void);
-    inline const Real32	&getSpotExponent(void) const;
-    inline       void	         setSpotExponent( const Real32 &value );
-    inline       Real32	&getSpotCutOff(void);
-    inline const Real32	&getSpotCutOff(void) const;
-    inline       void	         setSpotCutOff( const Real32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFVec3f          	_sfDirection;
+    SFReal32         	_sfSpotExponent;
+    SFReal32         	_sfSpotCutOff;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFVec3f	_sfDirection;
-    /*! The drop-off exponent of the spotlight.
-     */
-    SFReal32	_sfSpotExponent;
-    /*! The cut-off angle of the spotlight (in radians, not degrees!).
-     */
-    SFReal32	_sfSpotCutOff;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     SpotLightBase(void);
     SpotLightBase(const SpotLightBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~SpotLightBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      SpotLightBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -289,8 +237,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE

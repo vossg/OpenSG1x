@@ -43,31 +43,11 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
-
 #include <OSGStateBase.h>
-
 #include <OSGStateChunk.h>
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-class DrawActionBase;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \brief State base class
  *  \ingroup StateLib
@@ -75,183 +55,108 @@ class DrawActionBase;
 
 class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "State"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual void changed(BitVector  whichField,
+                        ChangeMode from);
 
-    /*--------------------------- access fields ----------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-    /*----------------------------- access ----------------------------------*/
-
-    /*-------------------------- transformation ----------------------------*/
-
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
- 
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      State                                   */
+    /*! \{                                                                 */
 
-	// call the OpenGL commands to set my part of the state.
-	void activate  (DrawActionBase *action);
+    void activate   (DrawActionBase *action);
 
-	// call commands to get from old to my state. 
-	void changeFrom(DrawActionBase *action, State *old);
+    void changeFrom (DrawActionBase *action, State *old);
 
-	// reset my part of the state.
-	void deactivate(DrawActionBase *action);
+    void deactivate (DrawActionBase *action);
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Access                                    */
+    /*! \{                                                                 */
 
-	// get the chunk, returns NullStateChunk if not present
-	
-	StateChunkPtr getChunk( UInt32 id );
-	
-	// check if there's already a chunk of that type present
-	
-	Bool chunkPresent( UInt32 id );
-	Bool chunkPresent( StateChunkPtr chunk );
-	
-	// add the chunk to the state
-	// index == -1: find an empty slot
-	void addChunk( StateChunkPtr chunk, Int32 index = 0 );
-	
-	// remove the chunk from the state
-	// index == -1: find it in the classes slots	
-	void subChunk( StateChunkPtr chunk, Int32 index = -1 );
-	
-	// remove the chunk of the given class from the state
-	void subChunk( UInt32 classid, Int32 index = -1 );
+    StateChunkPtr getChunk     ( UInt32 id );
 
-    void clearChunks(void);
-	
-    /*------------------------- comparison ----------------------------------*/
+    Bool          chunkPresent ( UInt32 id );
+    Bool          chunkPresent ( StateChunkPtr chunk );
 
-	// estimate the cost to switch to the state 
-	// the unit is unclear, maybe musecs. It's not important anyway,
-	// it just has to be consistent over all types of chunks
-	virtual Real32 switchCost( State * state );
+    void           addChunk     ( StateChunkPtr chunk, Int32 index = 0 );
 
-	// defines an ordering for states.
-    virtual Bool operator < (const State &other) const;
-    
-	virtual Bool operator == (const State &other) const;
-	virtual Bool operator != (const State &other) const;
+    void           subChunk     ( StateChunkPtr chunk, Int32 index = -1 );
 
+    void           subChunk     ( UInt32 classid, Int32 index = -1 );
+
+    void           clearChunks  (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Comparison                                */
+    /*! \{                                                                 */
+
+    virtual Real32 switchCost  ( State * state );
+
+    virtual Bool   operator <  (const State &other) const;
+
+    virtual Bool   operator == (const State &other) const;
+    virtual Bool   operator != (const State &other) const;
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // They should all be in StateBase.
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     State(void);
     State(const State &source);
-    virtual ~State(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~State(void);
+
+    /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef StateBase Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class StateBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
     static void initMethod( void );
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const State &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
 typedef State *StateP;
 
 OSG_END_NAMESPACE

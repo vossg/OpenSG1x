@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #ifndef OSG_NOFUNCTORS
@@ -57,43 +53,20 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class DrawAction;
 class RenderAction;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \brief *put brief class description here* 
+/*! \brief The abstract base for all windows
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-	enum GLObjectStatusE { 
-		notused=1, initialize, reinitialize, initialized, 
-		needrefresh, destroy, finaldestroy };
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    enum GLObjectStatusE {
+        notused=1, initialize, reinitialize, initialized,
+        needrefresh, destroy, finaldestroy };
 
 #ifdef OSG_NOFUNCTORS
     typedef void (*FunctorFunc)(Window*, UInt32);
@@ -119,278 +92,279 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         return result;
     }
 #else
-	typedef Functor2Base<void,Window*,UInt32> GLObjectFunctor;
+    typedef Functor2Base<void,Window*,UInt32> GLObjectFunctor;
 #endif
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "Window"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
+    virtual void changed(BitVector  whichField,
                          ChangeMode from);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Viewport handling                             */
+    /*! \{                                                                 */
 
     void addPort      (const ViewportPtr &portP);
-    void insertPort   (      UInt32       portIndex, 
+    void insertPort   (      UInt32       portIndex,
                        const ViewportPtr &portP);
 
-    void replacePort  (      UInt32       portIndex, 
+    void replacePort  (      UInt32       portIndex,
                        const ViewportPtr &portP);
-    void replacePortBy(const ViewportPtr &portP, 
+    void replacePortBy(const ViewportPtr &portP,
                        const ViewportPtr &newPortP);
 
     void subPort      (const ViewportPtr &portP);
     void subPort      (      UInt32       portIndex);
 
 
-    void setSize(UInt16 width, UInt16 height);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name             Extension registration                           */
+    /*! \{                                                                 */
 
     static UInt32   registerExtension ( const Char8 *s );
     static UInt32   registerFunction  ( const Char8 *s );
-    Bool	    	hasExtension  	  ( UInt32 id );    
-	void           *getFunction       ( UInt32 id );
-	void 		    dumpExtensions    ( void );
 
-	static UInt32	registerGLObject    (GLObjectFunctor functor, UInt32 num);
-	void			validateGLObject    (UInt32 id);	
-	GLObjectStatusE	getGLObjectStatus   (UInt32 id);	
-	static void	    refreshGLObject     (UInt32 id);	
-	static void	    reinitializeGLObject(UInt32 id);	
-	static void 	destroyGLObject     (UInt32 id, UInt32 num);
- 
-    virtual void    draw   			  ( DrawAction *action = NULL );
- 	virtual void    drawAllViewports  ( DrawAction *action = NULL );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               Extension handling                             */
+    /*! \{                                                                 */
 
-    virtual void    render 			  ( RenderAction *action = NULL );
- 	virtual void    renderAllViewports( RenderAction *action = NULL );
+    Bool            hasExtension      ( UInt32 id );
+    void           *getFunction       ( UInt32 id );
+    void            dumpExtensions    ( void );
 
-    virtual void    frameInit	     (void);
-    virtual void    frameExit  	     (void);
-   
-	Bool		isResizePending  ( void );
- 
-    virtual void resize 			(int width, int height);
- 	virtual void resizeGL			(void);
-	   
-	/** GL implementation dependent functions **/
-    
-	// Query for a GL extension function 
-	virtual void	(*getFunctionByName ( const Char8 *s ))() = 0;
-	   
-    /** Window-system dependent functions **/
-    
-    // init the window: create the context  
-    virtual void init( void ) = 0;
-    
-    // activate the window: bind the OGL context    
-    virtual void activate( void ) = 0;
-    
-    // deactivate the window: release the OGL context
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name             GL object registration                           */
+    /*! \{                                                                 */
+
+    static UInt32   registerGLObject  (GLObjectFunctor functor, UInt32 num);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               GL object handling                             */
+    /*! \{                                                                 */
+
+    void            validateGLObject    (UInt32 id);
+    GLObjectStatusE getGLObjectStatus   (UInt32 id);
+    static void     refreshGLObject     (UInt32 id);
+    static void     reinitializeGLObject(UInt32 id);
+    static void     destroyGLObject     (UInt32 id, UInt32 num);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Size handling                                */
+    /*! \{                                                                 */
+
+            Bool isResizePending( void );
+
+    virtual void resize         (int width, int height);
+    virtual void resizeGL       (void);
+
+            void setSize        (UInt16 width, UInt16 height);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Drawing                                   */
+    /*! \{                                                                 */
+
+    virtual void    draw              ( DrawAction *action = NULL );
+    virtual void    drawAllViewports  ( DrawAction *action = NULL );
+
+    virtual void    render            ( RenderAction *action = NULL );
+    virtual void    renderAllViewports( RenderAction *action = NULL );
+
+    virtual void    frameInit        (void);
+    virtual void    frameExit        (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name            GL implementation functions                       */
+    /*! \{                                                                 */
+
+    virtual void    (*getFunctionByName ( const Char8 *s ))() = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name      Window system implementation functions                  */
+    /*! \{                                                                 */
+
+    virtual void init       ( void ) = 0;
+    virtual void activate   ( void ) = 0;
     virtual void deactivate ( void ) = 0;
-    
-    // swap front and back buffers  
-    virtual void swap( void ) = 0;
+    virtual void swap       ( void ) = 0;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
 
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name           GL object handling helper class                    */
+    /*! \{     
+	                                                            */
+    class GLObject {
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+      public:
+        GLObject( GLObjectFunctor funct ) :
+            functor( funct ), refCounter( 0 )
+        {}
 
-	class GLObject {
+        GLObjectFunctor& getFunctor ( void )
+        {
+            return ( functor );
+        };
 
-	  public:		  
-	    GLObject( GLObjectFunctor funct ) : 
-			functor( funct ), refCounter( 0 ) 
-		{}
+        void setFunctor ( GLObjectFunctor funct )
+        {
+            functor = funct;
+        };
 
-		GLObjectFunctor& getFunctor ( void ) 
-		{
-		    return ( functor );
-		};
-		  
-	    void setFunctor ( GLObjectFunctor funct )
-		{
-			functor = funct;
-		};
+        UInt32 getRefCounter ( void )
+        {
+            return ( refCounter );
+        }
 
-		UInt32 getRefCounter ( void ) 
-		{
-  		    return ( refCounter );
-		}
+        UInt32 incRefCounter ( void )
+        {
+            UInt32 val;
 
-		UInt32 incRefCounter ( void )
-		{
-			UInt32 val;
-			
-			if ( ! _GLObjectLock )
-			{
-				_GLObjectLock = ThreadManager::the()->getLock(NULL);
-			}
-			
-			_GLObjectLock->aquire();
-			val = refCounter = refCounter + 1;
-			_GLObjectLock->release();
-			
-			return val;
-		}
+            if ( ! _GLObjectLock )
+            {
+                _GLObjectLock = ThreadManager::the()->getLock(NULL);
+            }
 
-		UInt32 decRefCounter ( void )
-		{
-			UInt32 val;
-			
-			if ( ! _GLObjectLock )
-			{
-				_GLObjectLock = ThreadManager::the()->getLock(NULL);
-			}
-			
-			_GLObjectLock->aquire();
-			if ( refCounter )
-				val = refCounter = refCounter - 1;
-			else
-				val = 0;
-			_GLObjectLock->release();
-			
-			return val;
-		}
+            _GLObjectLock->aquire();
+            val = refCounter = refCounter + 1;
+            _GLObjectLock->release();
 
-	  protected:		
-		GLObjectFunctor functor;
-		volatile UInt32 refCounter;
-	};
+            return val;
+        }
+
+        UInt32 decRefCounter ( void )
+        {
+            UInt32 val;
+
+            if ( ! _GLObjectLock )
+            {
+                _GLObjectLock = ThreadManager::the()->getLock(NULL);
+            }
+
+            _GLObjectLock->aquire();
+            if ( refCounter )
+                val = refCounter = refCounter - 1;
+            else
+                val = 0;
+            _GLObjectLock->release();
+
+            return val;
+        }
+
+      protected:
+        GLObjectFunctor functor;
+        volatile UInt32 refCounter;
+    };
 
     friend class GLObject;
-	
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // They should all be in WindowBase.
-   
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     Window(void);
     Window(const Window &source);
-    virtual ~Window(void); 
-	
-	// called when the context is created, to setup general OpenGL options
-	virtual void setupGL( void );
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-	// mark the object for refresh
-	void doRefreshGLObject( UInt32 id );	
+    virtual ~Window(void);
 
-	// mark the object for reinitialization
-	void doReinitializeGLObject( UInt32 id );	
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                GL setup handling                             */
+    /*! \{                                                                 */
 
+    virtual void setupGL( void );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                GL object handling                            */
+    /*! \{                                                                 */
+
+    void doRefreshGLObject     ( UInt32 id );
+    void doReinitializeGLObject( UInt32 id );
+
+    /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef WindowBase Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class WindowBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
-	/** global window list, need by static refreshGLObject */
-	
-	static vector<WindowPtr>	      _allWindows;
+    /*! global window list, needed by static refreshGLObject */
+    static vector<WindowPtr>          _allWindows;
 
-    /** Extension stuff **/
-	
-	// contains the extensions registered by the application 
-    static vector<StringLink>	      _registeredExtensions;
-	
-	// contains the GL extension functions registered by the application
-    static vector<StringLink>       _registeredFunctions;	
- 
-	/** GLObject stuff **/
+    /*---------------------------------------------------------------------*/
+    /*! \name   Static GL Object / Extension variables                     */
+    /*! \{                                                                 */
 
-	static Lock                      *_GLObjectLock;
-	static vector<GLObject*>          _glObjects;
-	static vector<UInt32>	          _glObjectDestroyList;
-   
- 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static vector<StringLink>         _registeredExtensions;
+    static vector<StringLink>         _registeredFunctions;
+    static Lock                      *_GLObjectLock;
+    static vector<GLObject*>          _glObjects;
+    static vector<UInt32>             _glObjectDestroyList;
+
+    /*! \}                                                                 */
 
     static void initMethod( void );
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name        GL Object / Extension variables                       */
+    /*! \{                                                                 */
 
-    /** Extension stuff **/
-		
-	// contains the split glGetString(GL_EXTENSIONS)
-	vector<String> 					  _extensions;
+    //! contains the split glGetString(GL_EXTENSIONS)
+    vector<String>                    _extensions;
 
-	
-	/* contains a boolean for every registered extension which
-	   indicates, whether an extensions is available for the Window's
-	   context or not  */
+    /*! contains a boolean for every registered extension which
+       indicates, whether an extensions is available for the Window's
+       context or not  */
     vector<Bool>                      _availExtensions;
 
-	// contains the GL extension functions registered by the application
-	vector<void*>        	  		  _extFunctions;
-	
+    //! contains the GL extension functions registered by the application
+    vector<void*>                     _extFunctions;
 
-	// register/unregister the instance with the global list
-	void onCreate(  const FieldContainer &  );
-	void onDestroy( void );
+    //! register/unregister the instance with the global list
+    void onCreate(  const FieldContainer &  );
+    void onDestroy( void );
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -401,9 +375,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef Window *WindowP;
 
 OSG_END_NAMESPACE

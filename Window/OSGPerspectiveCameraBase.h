@@ -57,38 +57,25 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGCamera.h>
-#include <OSGReal32Fields.h>	// Fov type
+
+#include <OSGCamera.h> // Parent
+
+#include <OSGReal32Fields.h> // Fov type
 
 #include <OSGPerspectiveCameraFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class PerspectiveCamera;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! PerspectiveCamera Base Class. */
+/*! \brief PerspectiveCamera Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 {
@@ -96,55 +83,65 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     typedef Camera Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        FovFieldId = Inherited::NextFieldId,
-        NextFieldId = FovFieldId + 1
-
+        FovFieldId  = Inherited::NextFieldId,
+        NextFieldId = FovFieldId  + 1
     };
 
     static const osg::BitVector FovFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "PerspectiveCameraBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static PerspectiveCameraPtr         create          (void); 
-    static PerspectiveCameraPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFReal32            *getSFFov            (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Real32              &getFov            (void);
+    inline const Real32              &getFov            (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setFov            ( const Real32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -152,112 +149,67 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFReal32	*getSFFov(void);
+    static  PerspectiveCameraPtr    create          (void); 
+    static  PerspectiveCameraPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Real32	&getFov(void);
-    inline const Real32	&getFov(void) const;
-    inline       void	         setFov( const Real32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFReal32         	_sfFov;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The vertical field of view, in radians.
-     */
-    SFReal32	_sfFov;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     PerspectiveCameraBase(void);
     PerspectiveCameraBase(const PerspectiveCameraBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~PerspectiveCameraBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      PerspectiveCameraBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -269,8 +221,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE

@@ -39,157 +39,77 @@
 #ifndef OSGGIFIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGGIFIMAGEFILETYPE_CLASS_DECLARATION
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
-
+#pragma  once
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-
 #include <OSGImageFileType.h>
-
 
 OSG_BEGIN_NAMESPACE
 
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
 class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~GIFImageFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual const Char8 *getMimeType (void) { return "GIF"; }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    virtual Bool         read  (Image &image,
+                                const Char8 *fileName);
 
+    virtual Bool         write (const Image &image,
+                                const Char8 *fileName);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-  /** Destructor */
-  virtual ~GIFImageFileType (void);
+    GIFImageFileType & the (void) { return _the; }
 
-  /** get method for the type name */
-  virtual const Char8 *getMimeType (void) { return "GIF"; }
+    /*! \}                                                                 */
 
-  /** read the the image from the given filename */
-  virtual Bool read (Image &image, const Char8 *fileName);
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-  /** write the the image to the given filename */
-  virtual Bool write (const Image &image, const Char8 *fileName);
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
-  /** get method for attribute the */
-  GIFImageFileType & the (void) { return _the; }
+    GIFImageFileType ( const Char8 *suffixArray[],
+                       UInt16 suffixByteCount );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
+    GIFImageFileType (const GIFImageFileType &obj);
 
-protected:
+    /*! \}                                                                 */
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    typedef ImageFileType Inherited;
 
-//------------------------------
-//types    		 								 
-//------------------------------
-
-
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-  /** Default Constructor */
-  GIFImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
-
-  /** Copy Constructor */
-  GIFImageFileType (const GIFImageFileType &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-	typedef ImageFileType Inherited;
-
-  /**  */
-  static GIFImageFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
+    static  GIFImageFileType _the;
 
 
 };

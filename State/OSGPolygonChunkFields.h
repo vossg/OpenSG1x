@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class PolygonChunk;
-/** \brief PolygonChunkPtr
- */
+//! PolygonChunkPtr
+
 typedef FCPtr<StateChunkPtr, PolygonChunk> PolygonChunkPtr;
 
 

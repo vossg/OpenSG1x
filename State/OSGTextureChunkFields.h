@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class TextureChunk;
-/** \brief TextureChunkPtr
- */
+//! TextureChunkPtr
+
 typedef FCPtr<StateChunkPtr, TextureChunk> TextureChunkPtr;
 
 

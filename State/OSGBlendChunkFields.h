@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class BlendChunk;
-/** \brief BlendChunkPtr
- */
+//! BlendChunkPtr
+
 typedef FCPtr<StateChunkPtr, BlendChunk> BlendChunkPtr;
 
 

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILESOLIDBACKGROUNDINST
@@ -66,12 +62,6 @@
 #include "OSGSolidBackgroundBase.h"
 #include "OSGSolidBackground.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -89,19 +79,21 @@ OSG_DLLEXPORT_DEF1(SField, SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	SolidBackgroundBase::ColorFieldMask = 
     (1 << SolidBackgroundBase::ColorFieldId);
 
 
 
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.12 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Color3f         SolidBackgroundBase::_sfColor
+    The background color.
+*/
+//! SolidBackground description
 
 FieldDescription *SolidBackgroundBase::_desc[] = 
 {
@@ -112,8 +104,7 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      (FieldAccessMethod) &SolidBackgroundBase::getSFColor)
 };
 
-/** \brief SolidBackground type
- */
+//! SolidBackground type
 
 FieldContainerType SolidBackgroundBase::_type(
     "SolidBackground",
@@ -124,32 +115,14 @@ FieldContainerType SolidBackgroundBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(SolidBackgroundBase, SolidBackgroundPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "SolidBackground"; 
+}
 
 FieldContainerType &SolidBackgroundBase::getType(void) 
 {
@@ -160,6 +133,7 @@ const FieldContainerType &SolidBackgroundBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr SolidBackgroundBase::shallowCopy(void) const 
 { 
@@ -182,28 +156,27 @@ void SolidBackgroundBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((SolidBackgroundBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 SolidBackgroundBase::SolidBackgroundBase(void) :
-	_sfColor	(), 
+	_sfColor                  (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
-	_sfColor		(source._sfColor), 
-	Inherited        (source)
+	_sfColor                  (source._sfColor                  ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 SolidBackgroundBase::~SolidBackgroundBase(void)
 {
@@ -230,9 +203,7 @@ MemoryHandle SolidBackgroundBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _sfColor.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -244,20 +215,11 @@ MemoryHandle SolidBackgroundBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _sfColor.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
                                         const BitVector         &whichField)
@@ -266,14 +228,8 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         _sfColor.syncWith(pOther->_sfColor);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

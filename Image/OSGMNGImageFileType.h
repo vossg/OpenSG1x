@@ -39,158 +39,76 @@
 #ifndef OSGMNGIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGMNGIMAGEFILETYPE_CLASS_DECLARATION
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
-
+#pragma  once
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-
 #include <OSGImageFileType.h>
-
 
 OSG_BEGIN_NAMESPACE
 
-
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
 class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~MNGImageFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual const Char8 *getMimeType (void) { return "MNG"; }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
-
-
-  /** Destructor */
-  virtual ~MNGImageFileType (void);
-
-  /** get method for the type name */
-  virtual const Char8 *getMimeType (void) { return "MNG"; }
-
-  /** read the the image from the given filename */
-  virtual bool read (Image &image, const Char8 *fileName);
-
-  /** write the the image to the given filename */
-  virtual bool write (const Image &image, const Char8 *fileName);
-
-  /** get method for attribute the */
-  MNGImageFileType & the (void) { return _the; }
+    virtual bool read  (Image &image, const Char8 *fileName);
 
 
-protected:
+    virtual bool write (const Image &image, const Char8 *fileName);
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
+    MNGImageFileType & the (void) { return _the; }
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    /*! \}                                                                 */
 
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-//---------------------------
-//class Variables 			     
-//---------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
+    MNGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
-//---------------------------
-//class functions 			     
-//---------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
+    MNGImageFileType (const MNGImageFileType &obj);
 
-  /** Default Constructor */
-  MNGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
+    /*! \}                                                                 */
 
-  /** Copy Constructor */
-  MNGImageFileType (const MNGImageFileType &obj);
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
+    typedef ImageFileType Inherited;
 
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-	typedef ImageFileType Inherited;
-
-  /**  */
-  static MNGImageFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
+    static MNGImageFileType _the;
 
 };
 

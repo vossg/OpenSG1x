@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Viewport;
-/** \brief ViewportPtr
- */
+//! ViewportPtr
+
 typedef FCPtr<AttachmentContainerPtr, Viewport> ViewportPtr;
 
 /** \ingroup FieldLib Viewport
- *  \brief ViewportPtr field traits 
+ *  ViewportPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<ViewportPtr> :
     static char     *getMName(void) { return "MFViewportPtr"; }
 };
 
-/** \brief SFViewportPtr
- */
+//! SFViewportPtr
+
 typedef SField<ViewportPtr> SFViewportPtr;
 
 #ifndef OSG_COMPILEVIEWPORTINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFViewportPtr
- */
+//! MFViewportPtr
+
 typedef MField<ViewportPtr> MFViewportPtr;
 
 #ifndef OSG_COMPILEVIEWPORTINST

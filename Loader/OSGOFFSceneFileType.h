@@ -39,13 +39,8 @@
 #ifndef _OSGOFFSCENEFILETYPE_H_
 #define _OSGOFFSCENEFILETYPE_H_
 #ifdef  __sig
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #include <OSGBaseTypes.h>
 
@@ -53,146 +48,69 @@
 
 OSG_BEGIN_NAMESPACE
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
-class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType 
+class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
 {
-
+    /*==========================  PUBLIC  =================================*/
   public:
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
+    virtual ~OFFSceneFileType (void);
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get                                        */
+    /*! \{                                                                 */
 
-
-//---------------------------
-//class functions 	   		   
-//---------------------------
-
-
-    /** Destructor */
-	virtual ~OFFSceneFileType (void);
-
-    /** get method for attribute the */
     virtual OFFSceneFileType & the (void) { return _the; }
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
     static  OFFSceneFileType & staticThe (void) { return _the; }
 #endif
 
-    /** read the model from the given file */
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read                                       */
+    /*! \{                                                                 */
+
     virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
 
-    /** write the model to the given file */
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Write                                      */
+    /*! \{                                                                 */
+
     virtual Bool write (const NodePtr node, const char *fileName) const;
 
-    /** get method for the type name */
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Get                                  */
+    /*! \{                                                                 */
+
     virtual const char *getName (void) const { return "OFF GEOMETRY"; }
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-
-//------------------------------
-//types    		 								 
-//------------------------------
-
-
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-    /** Default Constructor */
-    OFFSceneFileType ( const char *suffixArray[], 
+    OFFSceneFileType ( const char *suffixArray[],
                        UInt16 suffixByteCount );
 
-    /** Copy Constructor */
     OFFSceneFileType (const OFFSceneFileType &obj);
 
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-//----------------------------------
-//enums    		 										 
-//----------------------------------
+    typedef SceneFileType Inherited;
 
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-
-	typedef SceneFileType Inherited;
-
-
-    /**  */
     static OFFSceneFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
 
 };
 

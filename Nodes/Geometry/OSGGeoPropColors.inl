@@ -36,11 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -48,89 +43,67 @@
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-// special cases, mostly conversions between dimensions
-
-// Colors: Unsigned byte needs to be mapped to [0..1]
-
-// Color3ub
-
 template<>
 inline Color3f
-GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) 
+GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index )
 {
-	const Color3ub &val = _field.getValue( index );
-	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
+    const Color3ub &val = _field.getValue( index );
+    return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
 inline Color3f
 GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) const
 {
-	const Color3ub &val = _field.getValue( index );
-	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
+    const Color3ub &val = _field.getValue( index );
+    return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::getValue( 
-	Color3f & res, 
-	const UInt32 index ) 
+GeoProperty<GeoColor3ubPropertyDesc>::getValue(
+    Color3f & res,
+    const UInt32 index )
 {
-	const Color3ub &val = _field.getValue( index );
-	res.setValuesRGB(	val.red  ()/255.f,  
-						val.green()/255.f,  
-						val.blue ()/255.f );
+    const Color3ub &val = _field.getValue( index );
+    res.setValuesRGB(   val.red  ()/255.f,
+                        val.green()/255.f,
+                        val.blue ()/255.f );
 }
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::getValue( 
-	Color3f & res, 
-	const UInt32 index ) const
+GeoProperty<GeoColor3ubPropertyDesc>::getValue(
+    Color3f & res,
+    const UInt32 index ) const
 {
-	const Color3ub &val = _field.getValue( index );
-	res.setValuesRGB(	val.red  ()/255.f,  
-						val.green()/255.f,  
-						val.blue ()/255.f );
+    const Color3ub &val = _field.getValue( index );
+    res.setValuesRGB(   val.red  ()/255.f,
+                        val.green()/255.f,
+                        val.blue ()/255.f );
 }
 
 template<>
 inline void
 GeoProperty<GeoColor3ubPropertyDesc>::setValue( const Color3f & val,
-	const UInt32 index ) 
+    const UInt32 index )
 {
-	_field.setValue( 
-			Color3ub(	UInt8(val.red  () * 255.f), 
-						UInt8(val.green() * 255.f), 
-						UInt8(val.blue () * 255.f)), 
-			index );
+    _field.setValue(
+            Color3ub(   UInt8(val.red  () * 255.f),
+                        UInt8(val.green() * 255.f),
+                        UInt8(val.blue () * 255.f)),
+            index );
 }
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val ) 
+GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val )
 {
-	_field.addValue( 
-			Color3ub(	UInt8(val.red  () * 255.f), 
-						UInt8(val.green() * 255.f), 
-						UInt8(val.blue () * 255.f) ) 
-			);
+    _field.addValue(
+            Color3ub(   UInt8(val.red  () * 255.f),
+                        UInt8(val.green() * 255.f),
+                        UInt8(val.blue () * 255.f) )
+            );
 }
 
 
@@ -138,134 +111,63 @@ GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val )
 
 template<>
 inline Color3f
-GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) 
+GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index )
 {
-	const Color4ub &val = _field.getValue( index );
-	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
+    const Color4ub &val = _field.getValue( index );
+    return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
 inline Color3f
 GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) const
 {
-	const Color4ub &val = _field.getValue( index );
-	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
+    const Color4ub &val = _field.getValue( index );
+    return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::getValue( 
-	Color3f & res, 
-	const UInt32 index ) 
+GeoProperty<GeoColor4ubPropertyDesc>::getValue(
+    Color3f & res,
+    const UInt32 index )
 {
-	const Color4ub &val = _field.getValue( index );
-	res.setValuesRGB( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
+    const Color4ub &val = _field.getValue( index );
+    res.setValuesRGB( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::getValue( 
-	Color3f & res, 
-	const UInt32 index ) const
+GeoProperty<GeoColor4ubPropertyDesc>::getValue(
+    Color3f & res,
+    const UInt32 index ) const
 {
-	const Color4ub &val = _field.getValue( index );
-	res.setValuesRGB( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
+    const Color4ub &val = _field.getValue( index );
+    res.setValuesRGB( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
 inline void
 GeoProperty<GeoColor4ubPropertyDesc>::setValue( const Color3f & val,
-	const UInt32 index ) 
+    const UInt32 index )
 {
-	_field.setValue( 
-			Color4ub(	UInt8(val.red  () * 255.f), 
-						UInt8(val.green() * 255.f), 
-						UInt8(val.blue () * 255.f), 
-						255), 
-			index );
+    _field.setValue(
+            Color4ub(   UInt8(val.red  () * 255.f),
+                        UInt8(val.green() * 255.f),
+                        UInt8(val.blue () * 255.f),
+                        255),
+            index );
 }
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::addValue( const Color3f & val ) 
+GeoProperty<GeoColor4ubPropertyDesc>::addValue( const Color3f & val )
 {
-	_field.addValue( 
-			Color4ub(	UInt8(val.red  () * 255.f), 
-						UInt8(val.green() * 255.f), 
-						UInt8(val.blue () * 255.f), 
-						255) 
-			);
+    _field.addValue(
+            Color4ub(   UInt8(val.red  () * 255.f),
+                        UInt8(val.green() * 255.f),
+                        UInt8(val.blue () * 255.f),
+                        255)
+            );
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
 OSG_END_NAMESPACE
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-

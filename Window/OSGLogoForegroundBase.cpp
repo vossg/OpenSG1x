@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILELOGOFOREGROUNDINST
@@ -66,12 +62,6 @@
 #include "OSGLogoForegroundBase.h"
 #include "OSGLogoForeground.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, LogoForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	LogoForegroundBase::ImagesFieldMask = 
     (1 << LogoForegroundBase::ImagesFieldId);
@@ -105,8 +93,15 @@ const OSG::BitVector	LogoForegroundBase::PositionsFieldMask =
 
 char LogoForegroundBase::cvsid[] = "@(#)$Id: $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var ImageP          LogoForegroundBase::_mfImages
+    The images to display.
+*/
+/*! \var Pnt2f           LogoForegroundBase::_mfPositions
+    The positions of the images.
+*/
+//! LogoForeground description
 
 FieldDescription *LogoForegroundBase::_desc[] = 
 {
@@ -122,8 +117,7 @@ FieldDescription *LogoForegroundBase::_desc[] =
                      (FieldAccessMethod) &LogoForegroundBase::getMFPositions)
 };
 
-/** \brief LogoForeground type
- */
+//! LogoForeground type
 
 FieldContainerType LogoForegroundBase::_type(
     "LogoForeground",
@@ -134,32 +128,14 @@ FieldContainerType LogoForegroundBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(LogoForegroundBase, LogoForegroundPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "LogoForeground"; 
+}
 
 FieldContainerType &LogoForegroundBase::getType(void) 
 {
@@ -170,6 +146,7 @@ const FieldContainerType &LogoForegroundBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr LogoForegroundBase::shallowCopy(void) const 
 { 
@@ -192,30 +169,29 @@ void LogoForegroundBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((LogoForegroundBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 LogoForegroundBase::LogoForegroundBase(void) :
-	_mfImages	(), 
-	_mfPositions	(), 
+	_mfImages                 (), 
+	_mfPositions              (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 LogoForegroundBase::LogoForegroundBase(const LogoForegroundBase &source) :
-	_mfImages		(source._mfImages), 
-	_mfPositions		(source._mfPositions), 
-	Inherited        (source)
+	_mfImages                 (source._mfImages                 ), 
+	_mfPositions              (source._mfPositions              ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 LogoForegroundBase::~LogoForegroundBase(void)
 {
@@ -247,14 +223,10 @@ MemoryHandle LogoForegroundBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
-    {
         pMem = _mfImages.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
         pMem = _mfPositions.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -266,25 +238,14 @@ MemoryHandle LogoForegroundBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
-    {
         pMem = _mfImages.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
         pMem = _mfPositions.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void LogoForegroundBase::executeSyncImpl(      LogoForegroundBase *pOther,
                                         const BitVector         &whichField)
@@ -293,19 +254,11 @@ void LogoForegroundBase::executeSyncImpl(      LogoForegroundBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
-    {
         _mfImages.syncWith(pOther->_mfImages);
-    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
         _mfPositions.syncWith(pOther->_mfPositions);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

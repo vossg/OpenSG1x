@@ -42,27 +42,11 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGVector.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 template <class ValueTypeT> class QuaternionBase;
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathMatrices
  *  \brief TransformationMatrix, for details about the vector, point and
@@ -72,15 +56,12 @@ template <class ValueTypeT> class QuaternionBase;
 template<class ValueTypeT>
 class OSG_BASE_DLLMAPPING TransformationMatrix
 {
+	/*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
+    /*! \name                    Types                                     */
+    /*! \{                                                                 */
 
     typedef                 ValueTypeT                ValueType;
     typedef VectorInterface<ValueTypeT, 
@@ -92,160 +73,171 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                             VecStorage3<ValueTypeT> > VectorType3f;
 
     typedef PointInterface<ValueTypeT, 
-                           VecStorage3<ValueTypeT> > PointType3f;
+                           VecStorage3<ValueTypeT>  > PointType3f;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "TransformationMatrix";};
+	/*! \}                                                                 */
+	/*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-	static const TransformationMatrix &identity(void);
+    static const char 				  *getClassname	(void)
+											{ return "TransformationMatrix";};
+	static const TransformationMatrix &identity		(void);
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     TransformationMatrix(void);
-
-    TransformationMatrix(const TransformationMatrix &source);
-
-    TransformationMatrix(const VectorType3f &vector1,
-                         const VectorType3f &vector2,
-                         const VectorType3f &vector3);
-    
-    TransformationMatrix(const VectorType3f &vector1,
-                         const VectorType3f &vector2,
-                         const VectorType3f &vector3,
-                         const VectorType3f &vector4);
-    
-    TransformationMatrix(const ValueTypeT rVal00,
-                         const ValueTypeT rVal10,
-                         const ValueTypeT rVal20,
-                         const ValueTypeT rVal30,
+    TransformationMatrix(const TransformationMatrix &source		);
+    TransformationMatrix(const VectorType3f 		&vector1,
+                         const VectorType3f 		&vector2,
+                         const VectorType3f 		&vector3	);    
+    TransformationMatrix(const VectorType3f			&vector1,
+                         const VectorType3f 		&vector2,
+                         const VectorType3f 		&vector3,
+                         const VectorType3f 		&vector4	);    
+    TransformationMatrix(const ValueTypeT 	 		 rVal00,
+                         const ValueTypeT 			 rVal10,
+                         const ValueTypeT 			 rVal20,
+                         const ValueTypeT 			 rVal30,
                          
-                         const ValueTypeT rVal01,
-                         const ValueTypeT rVal11,
-                         const ValueTypeT rVal21,
-                         const ValueTypeT rVal31,
+                         const ValueTypeT		 	 rVal01,
+                         const ValueTypeT 			 rVal11,
+                         const ValueTypeT 			 rVal21,
+                         const ValueTypeT 			 rVal31,
                          
-                         const ValueTypeT rVal02,
-                         const ValueTypeT rVal12,
-                         const ValueTypeT rVal22,
-                         const ValueTypeT rVal32,
+                         const ValueTypeT 			 rVal02,
+                         const ValueTypeT 			 rVal12,
+                         const ValueTypeT 			 rVal22,
+                         const ValueTypeT 			 rVal32,
                          
-                         const ValueTypeT rVal03,
-                         const ValueTypeT rVal13,
-                         const ValueTypeT rVal23,
-                         const ValueTypeT rVal33);
-    
+                         const ValueTypeT		 	 rVal03,
+                         const ValueTypeT 			 rVal13,
+                         const ValueTypeT 			 rVal23,
+                         const ValueTypeT 			 rVal33		);
+ 
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+   
     ~TransformationMatrix(void); 
 
-    /*------------------------- set functions -------------------------------*/
-
-	void setIdentity(void);
-
-    void setValue(const TransformationMatrix &mat);
-
-    void setValue(const VectorType3f &vector1,
-                  const VectorType3f &vector2,
-                  const VectorType3f &vector3);
-    
-    void setValue(const VectorType3f &vector1,
-                  const VectorType3f &vector2,
-                  const VectorType3f &vector3,
-                  const VectorType3f &vector4);
-
-    void setValue(const ValueTypeT rVal00,
-                  const ValueTypeT rVal10,
-                  const ValueTypeT rVal20,
-                  const ValueTypeT rVal30,
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Set                                        */
+    /*! \{                                                                 */
+   
+	void setIdentity		(void);
+    void setValue			(const TransformationMatrix 	&mat			  );
+    void setValue			(const VectorType3f 			&vector1,
+                  			 const VectorType3f 			&vector2,
+               			  	 const VectorType3f 			&vector3		  );
+    void setValue			(const VectorType3f 			&vector1,
+              			   	 const VectorType3f 			&vector2,
+          			      	 const VectorType3f 			&vector3,
+      			           	 const VectorType3f 			&vector4		  );
+    void setValue			(const ValueTypeT				 rVal00,
+            		      	 const ValueTypeT				 rVal10,
+         		         	 const ValueTypeT				 rVal20,
+          			       	 const ValueTypeT				 rVal30,
                   
-                  const ValueTypeT rVal01,
-                  const ValueTypeT rVal11,
-                  const ValueTypeT rVal21,
-                  const ValueTypeT rVal31,
+          			      	 const ValueTypeT				 rVal01,
+                 			 const ValueTypeT				 rVal11,
+          			       	 const ValueTypeT				 rVal21,
+          			       	 const ValueTypeT				 rVal31,
                   
-                  const ValueTypeT rVal02,
-                  const ValueTypeT rVal12,
-                  const ValueTypeT rVal22,
-                  const ValueTypeT rVal32,
+           			      	 const ValueTypeT				 rVal02,
+                		 	 const ValueTypeT				 rVal12,
+               			  	 const ValueTypeT				 rVal22,
+                		 	 const ValueTypeT				 rVal32,
                   
-                  const ValueTypeT rVal03,
-                  const ValueTypeT rVal13,
-                  const ValueTypeT rVal23,
-                  const ValueTypeT rVal33);
-
-
-    void setValueTransposed(const ValueTypeT rVal00,
-                            const ValueTypeT rVal01,
-                            const ValueTypeT rVal02,
-                            const ValueTypeT rVal03,
+                 			 const ValueTypeT				 rVal03,
+                		 	 const ValueTypeT				 rVal13,
+                 			 const ValueTypeT				 rVal23,
+                  			 const ValueTypeT				 rVal33			  );
+    void setValueTransposed	(const ValueTypeT				 rVal00,
+                             const ValueTypeT				 rVal01,
+                             const ValueTypeT				 rVal02,
+                             const ValueTypeT				 rVal03,
                             
-                            const ValueTypeT rVal10,
-                            const ValueTypeT rVal11,
-                            const ValueTypeT rVal12,
-                            const ValueTypeT rVal13,
+                             const ValueTypeT				 rVal10,
+                             const ValueTypeT				 rVal11,
+                             const ValueTypeT				 rVal12,
+                             const ValueTypeT				 rVal13,
                             
-                            const ValueTypeT rVal20,
-                            const ValueTypeT rVal21,
-                            const ValueTypeT rVal22,
-                            const ValueTypeT rVal23,
+                             const ValueTypeT				 rVal20,
+                             const ValueTypeT				 rVal21,
+                             const ValueTypeT				 rVal22,
+                             const ValueTypeT				 rVal23,
                             
-                            const ValueTypeT rVal30,
-                            const ValueTypeT rVal31,
-                            const ValueTypeT rVal32,
-                            const ValueTypeT rVal33);
-    
-    void setValue(const ValueTypeT   *pMat, Bool bTransposed = true);
-    void setValue(const VectorType   *pMat);
+                             const ValueTypeT				 rVal30,
+                             const ValueTypeT				 rVal31,
+                             const ValueTypeT				 rVal32,
+                             const ValueTypeT				 rVal33			  );
+    void setValue			(const ValueTypeT   			*pMat,
+								   Bool 					bTransposed = true);
+    void setValue			(const VectorType   			*pMat			  );
 #ifndef WIN32
-    void setValue(const VectorType3f *pMat);
+    void setValue			(const VectorType3f 			*pMat			  );
 #endif
 
-    /*------------------------- get functions -------------------------------*/
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get			                               */
+    /*! \{                                                                 */
 
-    ValueTypeT *getValues(void);
-	const ValueTypeT *getValues(void) const;
+    		ValueTypeT *getValues(void);
+	const 	ValueTypeT *getValues(void) const;
     
-    /*---------------------- create transformation --------------------------*/
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Set Transformations                        */
+    /*! \{                                                                 */
 
-	void setScale    (const ValueTypeT s);
-	void setScale    (const ValueTypeT sx, const ValueTypeT sy, 
-					  const ValueTypeT sz);
-	void setScale    (const VectorType3f &s);
 
-    void setTranslate(const ValueTypeT tx,
-                      const ValueTypeT ty,
-                      const ValueTypeT tz);
-	void setTranslate(const VectorType3f &t);
-	void setTranslate(const PointType3f &t);
+	void setScale    (const ValueTypeT 		 s		);
+	void setScale    (const ValueTypeT 		 sx,
+					  const ValueTypeT 		 sy, 
+					  const ValueTypeT 		 sz		);
+	void setScale    (const VectorType3f 	&s		);
 
-	void setRotate   (const QuaternionType &q);
+    void setTranslate(const ValueTypeT 		 tx,
+                      const ValueTypeT 		 ty,
+                      const ValueTypeT 		 tz		);
+	void setTranslate(const VectorType3f 	&t		);
+	void setTranslate(const PointType3f     &t		);
 
-	void setTransform (const VectorType3f   &t);
+	void setRotate   (const QuaternionType  &q		);
 
-	void setTransform (const QuaternionType &r);
+	void setTransform(const VectorType3f    &t		);
 
-	void setTransform (const VectorType3f   &t, 
-                       const QuaternionType &r);
+	void setTransform(const QuaternionType  &r		);
 
-	void setTransform(const VectorType3f   &t, 
-                      const QuaternionType &r,
-	                  const VectorType3f   &s);
+	void setTransform(const VectorType3f    &t, 
+                       const QuaternionType &r		);
 
-	void setTransform(const VectorType3f   &t, 
-                      const QuaternionType &r,
-	                  const VectorType3f   &s, 
-                      const QuaternionType &so);
+	void setTransform(const VectorType3f    &t, 
+                      const QuaternionType  &r,
+	                  const VectorType3f    &s		);
 
-	void setTransform(const VectorType3f   &translation,
-	                  const QuaternionType &rotation,
-	                  const VectorType3f   &scaleFactor,
-	                  const QuaternionType &scaleOrientation,
-	                  const VectorType3f   &center);
+	void setTransform(const VectorType3f   	&t, 
+                      const QuaternionType 	&r,
+	                  const VectorType3f   	&s, 
+                      const QuaternionType 	&so		);
 
-    /*---------------------- get transformation parts -----------------------*/
+	void setTransform(const VectorType3f   	&translation,
+	                  const QuaternionType 	&rotation,
+	                  const VectorType3f   	&scaleFactor,
+	                  const QuaternionType 	&scaleOrientation,
+	                  const VectorType3f   	&center	);
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get	Transformations                        */
+    /*! \{                                                                 */
 
 	void getTransform(VectorType3f   &translation, 
                       QuaternionType &rotation,
@@ -264,163 +256,121 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                 VectorType3f         &t, 
                 TransformationMatrix &proj) const;
     
-    /*------------------------ transform objects ---------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Transform			                       */
+    /*! \{                                                                 */
 
-	void multMatrixPnt(const PointType3f &src, 
-                             PointType3f &dst) const;
+	void multMatrixPnt		(const  PointType3f &src, 
+                             		PointType3f &dst				) const;
+	void multMatrixPnt		(  		PointType3f &pnt				) const;
+	void multFullMatrixPnt	(const 	PointType3f &src, 
+								 	PointType3f &dst				) const;
+	void multFullMatrixPnt	(      	PointType3f &pnt				) const;
 
-	void multMatrixPnt(      PointType3f &pnt) const;
-
-
-	void multFullMatrixPnt(const PointType3f &src, 
-								 PointType3f &dst) const;
-
-	void multFullMatrixPnt(      PointType3f &pnt) const;
-
-	void multMatrixVec(const VectorType3f &src, 
-                             VectorType3f &dst) const;
-
-	void multMatrixVec(      VectorType3f &vec) const;
-
-    void transform(const PointType3f &src, 
-                         PointType3f &dest) const;
-
-    void transform(PointType3f &vec) const;
-
-    void transform(const VectorType3f &src, 
-                         VectorType3f &dest) const;
-
-    void transform(VectorType3f &vec) const;
+	void multMatrixVec		(const 	VectorType3f &src, 
+                             		VectorType3f &dst				) const;
+	void multMatrixVec		(	    VectorType3f &vec				) const;
+    void transform			(const 	PointType3f  &src, 
+                         			PointType3f  &dest				) const;
+    void transform			(		PointType3f  &vec				) const;
+    void transform			(const  VectorType3f &src, 
+                         			VectorType3f &dest				) const;
+    void transform			(		VectorType3f &vec				) const;
 
 
-    /*------------------------- simple math ---------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Math				                       */
+    /*! \{                                                                 */
 
-    Bool       equals(const TransformationMatrix &matrix, 
-                      const ValueType             tolerance) const;
+    Bool       	equals		(const TransformationMatrix		&matrix, 
+                      		 const ValueType             	 tolerance	) const;
 
-    ValueTypeT det3(void) const;
-    ValueTypeT det (void) const;
+    ValueTypeT 	det3		(void										) const;
+    ValueTypeT 	det 		(void										) const;
 
-    Bool inverse   (TransformationMatrix &result) const;
-    Bool invert    (void);
-    Bool invertFrom(const TransformationMatrix &matrix);
+    Bool 		inverse   	(	   TransformationMatrix		&result		) const;
+    Bool 		invert    	(void										);
+    Bool 		invertFrom	(const TransformationMatrix		&matrix		);
 
-    Bool inverse3   (TransformationMatrix &result) const;
-    Bool invert3    (void);
-    Bool invertFrom3(const TransformationMatrix &matrix);
+    Bool 		inverse3    (	   TransformationMatrix		&result		) const;
+    Bool 		invert3     (void										);
+    Bool 		invertFrom3 (const  TransformationMatrix	&matrix		);
 
-    void mult    (const TransformationMatrix &matrix);
-    void multLeft(const TransformationMatrix &matrix);
+    void 		mult    	(const TransformationMatrix		&matrix		);
+    void 		multLeft	(const TransformationMatrix		&matrix		);
 
-    Bool transposed   (TransformationMatrix &result) const;
-    Bool transpose    (void);
-    Bool transposeFrom(const TransformationMatrix &matrix);
+    Bool 		transposed   (TransformationMatrix 			&result		) const;
+    Bool 		transpose    (void										);
+    Bool 		transposeFrom(const TransformationMatrix 	&matrix		);
 
-    /*------------------------- elemen acess --------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Element Access		                       */
+    /*! \{                                                                 */
 
           VectorType &operator [](UInt32 uiIndex);
     const VectorType &operator [](UInt32 uiIndex) const;
 
-    /*------------------------- assignment ----------------------------------*/
-    
-    TransformationMatrix<ValueTypeT> &operator =(
-        const TransformationMatrix &source);
+  	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Assignment  		                       */
+    /*! \{                                                                 */
 
-    /*------------------------- comparison ----------------------------------*/
+    TransformationMatrix<ValueTypeT> &operator =(
+		const TransformationMatrix &source);
+
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison			                       */
+    /*! \{                                                                 */
 
 	Bool operator == (const TransformationMatrix &other) const;
 	Bool operator != (const TransformationMatrix &other) const;
 
+	/*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
+    /*! \name                   Storage     		                       */
+    /*! \{                                                                 */
 
     VectorType _matrix[4];
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+	/*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Internal Math		                       */
+    /*! \{                                                                 */
 
-    ValueTypeT rowMulCol4(const TransformationMatrix &gRowMat, 
-                                 UInt32                iRow, 
-                          const TransformationMatrix &gColMat, 
-                                 UInt32                iColumn) const;
+    ValueTypeT rowMulCol4	(const 	TransformationMatrix &gRowMat, 
+                                 	UInt32                iRow, 
+                          	const 	TransformationMatrix &gColMat, 
+                                 	UInt32                iColumn		) const;
+    ValueTypeT det2			(const ValueTypeT a1, 
+                    		 const ValueTypeT a2,
+                   			 const ValueTypeT b1, 
+                   			 const ValueTypeT b2						) const;
+    ValueTypeT det3			(const ValueTypeT a1, 
+                   			 const ValueTypeT a2, 
+                   			 const ValueTypeT a3,
+                   			 const ValueTypeT b1, 
+                   			 const ValueTypeT b2, 
+                   			 const ValueTypeT b3,
+                   			 const ValueTypeT c1, 
+                   			 const ValueTypeT c2, 
+                   			 const ValueTypeT c3						) const;
 
-    ValueTypeT det2(const ValueTypeT a1, 
-                    const ValueTypeT a2,
-                    const ValueTypeT b1, 
-                    const ValueTypeT b2) const;
-
-    ValueTypeT det3(const ValueTypeT a1, 
-                    const ValueTypeT a2, 
-                    const ValueTypeT a3,
-                    const ValueTypeT b1, 
-                    const ValueTypeT b2, 
-                    const ValueTypeT b3,
-                    const ValueTypeT c1, 
-                    const ValueTypeT c2, 
-                    const ValueTypeT c3) const;
-
+	/*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
 	static char cvsid[];
 
     static TransformationMatrix _identityMatrix;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
 
 /** \var typedef TransformationMatrix<Real32> Matrix;
  *  \brief Matrix

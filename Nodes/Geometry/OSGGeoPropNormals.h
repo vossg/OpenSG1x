@@ -43,50 +43,42 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// Normal 3f
-
 struct GeoNormal3fPropertyDesc
 {
-	static const Char8 *getTypeName  (void) { return "GeoNormal3f";         }
-	static const Char8 *getClassName (void) { return "GeoNormal3fProperty"; }
-	static const Char8 *getFieldName (void) { return "Normals";             }
-	static const Char8 *getGroupName (void) { return "GeoNormal";           }
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static const Char8 *getTypeName  (void) { return "GeoNormal3f";         }
+    static const Char8 *getClassName (void) { return "GeoNormal3fProperty"; }
+    static const Char8 *getFieldName (void) { return "Normals";             }
+    static const Char8 *getGroupName (void) { return "GeoNormal";           }
 
-	static UInt32 getFormat    (void) { return GL_FLOAT;        }
-	static UInt32 getFormatSize(void) { return sizeof(GLfloat); }
-	static UInt32 getDimension (void) { return 3;               }
-	static UInt32 getStride    (void) { return 0;               }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef GeoNormal                Inherit;
-	typedef GeoNormal::PtrType       InheritPtr;
+    static UInt32 getFormat    (void) { return GL_FLOAT;        }
+    static UInt32 getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32 getDimension (void) { return 3;               }
+    static UInt32 getStride    (void) { return 0;               }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+
+    typedef GeoNormal                Inherit;
+    typedef GeoNormal::PtrType       InheritPtr;
     typedef GeoNormalPropertyDesc    InheritDesc;
-	typedef MFVec3f                  FieldType;
+    typedef MFVec3f                  FieldType;
 
-	typedef InheritDesc::GenericType GenericType;
- 
+    typedef InheritDesc::GenericType GenericType;
+
     typedef GeoPropertyInterface<GeoNormalPropertyDesc> Interface;
+    /*! \}                                                                 */
 };
 
 typedef GeoProperty<GeoNormal3fPropertyDesc> GeoNormal3f;
@@ -99,8 +91,8 @@ typedef GeoProperty<GeoNormal3fPropertyDesc> GeoNormal3f;
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoNormal3fPropertyDesc, 
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoNormal3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

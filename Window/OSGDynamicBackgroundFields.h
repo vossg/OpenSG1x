@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class DynamicBackground;
-/** \brief DynamicBackgroundPtr
- */
+//! DynamicBackgroundPtr
+
 typedef FCPtr<BackgroundPtr, DynamicBackground> DynamicBackgroundPtr;
 
 /** \ingroup FieldLib DynamicBackground
- *  \brief DynamicBackgroundPtr field traits 
+ *  DynamicBackgroundPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<DynamicBackgroundPtr> :
 };
 
 
-/** \brief MFDynamicBackgroundPtr
- */
+//! MFDynamicBackgroundPtr
+
 typedef MField<DynamicBackgroundPtr> MFDynamicBackgroundPtr;
 
 #ifndef OSG_COMPILEDYNAMICBACKGROUNDINST

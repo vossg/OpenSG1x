@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &GradientBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 GradientBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline GradientBackgroundPtr GradientBackgroundBase::create(void) 
 {
     GradientBackgroundPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = GradientBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline GradientBackgroundPtr GradientBackgroundBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline GradientBackgroundPtr GradientBackgroundBase::createEmpty(void) 
 { 
     GradientBackgroundPtr returnValue; 
@@ -126,11 +90,7 @@ inline GradientBackgroundPtr GradientBackgroundBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFColor3f *GradientBackgroundBase::getMFColor(void)
@@ -147,7 +107,7 @@ MFReal32 *GradientBackgroundBase::getMFPosition(void)
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-Color3f &GradientBackgroundBase::getColor( UInt32 index)
+Color3f &GradientBackgroundBase::getColor(UInt32 index)
 {
 	return _mfColor.getValue( index );
 }
@@ -163,7 +123,7 @@ const MFColor3f &GradientBackgroundBase::getColor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Real32 &GradientBackgroundBase::getPosition( UInt32 index)
+Real32 &GradientBackgroundBase::getPosition(UInt32 index)
 {
 	return _mfPosition.getValue( index );
 }
@@ -177,22 +137,6 @@ const MFReal32 &GradientBackgroundBase::getPosition(void) const
 {
 	return _mfPosition;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

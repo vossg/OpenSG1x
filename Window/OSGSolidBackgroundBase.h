@@ -57,38 +57,25 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGBackground.h>
-#include <OSGColor3fFields.h>	// Color type
+
+#include <OSGBackground.h> // Parent
+
+#include <OSGColor3fFields.h> // Color type
 
 #include <OSGSolidBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class SolidBackground;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! SolidBackground Base Class. */
+/*! \brief SolidBackground Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 {
@@ -96,55 +83,65 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
     typedef Background Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
         ColorFieldId = Inherited::NextFieldId,
-        NextFieldId = ColorFieldId + 1
-
+        NextFieldId  = ColorFieldId + 1
     };
 
     static const osg::BitVector ColorFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "SolidBackgroundBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static SolidBackgroundPtr         create          (void); 
-    static SolidBackgroundPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFColor3f           *getSFColor          (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Color3f             &getColor          (void);
+    inline const Color3f             &getColor          (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setColor          ( const Color3f &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -152,112 +149,67 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFColor3f	*getSFColor(void);
+    static  SolidBackgroundPtr    create          (void); 
+    static  SolidBackgroundPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Color3f	&getColor(void);
-    inline const Color3f	&getColor(void) const;
-    inline       void	         setColor( const Color3f &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFColor3f        	_sfColor;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The background color.
-     */
-    SFColor3f	_sfColor;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     SolidBackgroundBase(void);
     SolidBackgroundBase(const SolidBackgroundBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~SolidBackgroundBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      SolidBackgroundBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -269,8 +221,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE

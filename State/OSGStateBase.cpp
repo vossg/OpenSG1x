@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILESTATEINST
@@ -66,12 +62,6 @@
 #include "OSGStateBase.h"
 #include "OSGState.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,19 +81,21 @@ OSG_DLLEXPORT_DEF1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	StateBase::ChunksFieldMask = 
     (1 << StateBase::ChunksFieldId);
 
 
 
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.10 2001/08/03 16:11:16 vossg Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.11 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var StateChunkPtr   StateBase::_mfChunks
+    
+*/
+//! State description
 
 FieldDescription *StateBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *StateBase::_desc[] =
                      (FieldAccessMethod) &StateBase::getMFChunks)
 };
 
-/** \brief State type
- */
+//! State type
 
 FieldContainerType StateBase::_type(
     "State",
@@ -126,32 +117,14 @@ FieldContainerType StateBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(StateBase, StatePtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "State"; 
+}
 
 FieldContainerType &StateBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &StateBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr StateBase::shallowCopy(void) const 
 { 
@@ -184,28 +158,27 @@ void StateBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((StateBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 StateBase::StateBase(void) :
-	_mfChunks	(), 
+	_mfChunks                 (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 StateBase::StateBase(const StateBase &source) :
-	_mfChunks		(source._mfChunks), 
-	Inherited        (source)
+	_mfChunks                 (source._mfChunks                 ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 StateBase::~StateBase(void)
 {
@@ -232,9 +205,7 @@ MemoryHandle StateBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-    {
         pMem = _mfChunks.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -246,20 +217,11 @@ MemoryHandle StateBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-    {
         pMem = _mfChunks.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void StateBase::executeSyncImpl(      StateBase *pOther,
                                         const BitVector         &whichField)
@@ -268,14 +230,8 @@ void StateBase::executeSyncImpl(      StateBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-    {
         _mfChunks.syncWith(pOther->_mfChunks);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

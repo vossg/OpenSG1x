@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILETRANSFORMCHUNKINST
@@ -67,26 +63,22 @@
 #include "OSGTransformChunk.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	TransformChunkBase::MatrixFieldMask = 
     (1 << TransformChunkBase::MatrixFieldId);
 
 
 
-char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.9 2001/07/31 13:39:05 vossg Exp $";
+char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.10 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Matrix          TransformChunkBase::_sfMatrix
+    
+*/
+//! TransformChunk description
 
 FieldDescription *TransformChunkBase::_desc[] = 
 {
@@ -97,8 +89,7 @@ FieldDescription *TransformChunkBase::_desc[] =
                      (FieldAccessMethod) &TransformChunkBase::getSFMatrix)
 };
 
-/** \brief TransformChunk type
- */
+//! TransformChunk type
 
 FieldContainerType TransformChunkBase::_type(
     "TransformChunk",
@@ -109,32 +100,14 @@ FieldContainerType TransformChunkBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(TransformChunkBase, TransformChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "TransformChunk"; 
+}
 
 FieldContainerType &TransformChunkBase::getType(void) 
 {
@@ -145,6 +118,7 @@ const FieldContainerType &TransformChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr TransformChunkBase::shallowCopy(void) const 
 { 
@@ -167,28 +141,27 @@ void TransformChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((TransformChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 TransformChunkBase::TransformChunkBase(void) :
-	_sfMatrix	(), 
+	_sfMatrix                 (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 TransformChunkBase::TransformChunkBase(const TransformChunkBase &source) :
-	_sfMatrix		(source._sfMatrix), 
-	Inherited        (source)
+	_sfMatrix                 (source._sfMatrix                 ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 TransformChunkBase::~TransformChunkBase(void)
 {
@@ -215,9 +188,7 @@ MemoryHandle TransformChunkBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
         pMem = _sfMatrix.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -229,20 +200,11 @@ MemoryHandle TransformChunkBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
         pMem = _sfMatrix.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,
                                         const BitVector         &whichField)
@@ -251,14 +213,8 @@ void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
         _sfMatrix.syncWith(pOther->_sfMatrix);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

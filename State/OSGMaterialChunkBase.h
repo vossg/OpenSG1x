@@ -57,44 +57,31 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGStateChunk.h>
-#include <OSGColor4fFields.h>	// Diffuse type
-#include <OSGColor4fFields.h>	// Ambient type
-#include <OSGColor4fFields.h>	// Specular type
-#include <OSGColor4fFields.h>	// Emission type
-#include <OSGReal32Fields.h>	// Shininess type
-#include <OSGBoolFields.h>	// Lit type
-#include <OSGUInt32Fields.h>	// ColorMaterial type
+
+#include <OSGStateChunk.h> // Parent
+
+#include <OSGColor4fFields.h> // Diffuse type
+#include <OSGColor4fFields.h> // Ambient type
+#include <OSGColor4fFields.h> // Specular type
+#include <OSGColor4fFields.h> // Emission type
+#include <OSGReal32Fields.h> // Shininess type
+#include <OSGBoolFields.h> // Lit type
+#include <OSGUInt32Fields.h> // ColorMaterial type
 
 #include <OSGMaterialChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class MaterialChunk;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! MaterialChunk Base Class. */
+/*! \brief MaterialChunk Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 {
@@ -102,23 +89,19 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
     typedef StateChunk Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        DiffuseFieldId = Inherited::NextFieldId,
-        AmbientFieldId = DiffuseFieldId + 1,
-        SpecularFieldId = AmbientFieldId + 1,
-        EmissionFieldId = SpecularFieldId + 1,
-        ShininessFieldId = EmissionFieldId + 1,
-        LitFieldId = ShininessFieldId + 1,
-        ColorMaterialFieldId = LitFieldId + 1,
-        NextFieldId = ColorMaterialFieldId + 1
-
+        DiffuseFieldId       = Inherited::NextFieldId,
+        AmbientFieldId       = DiffuseFieldId       + 1,
+        SpecularFieldId      = AmbientFieldId       + 1,
+        EmissionFieldId      = SpecularFieldId      + 1,
+        ShininessFieldId     = EmissionFieldId      + 1,
+        LitFieldId           = ShininessFieldId     + 1,
+        ColorMaterialFieldId = LitFieldId           + 1,
+        NextFieldId          = ColorMaterialFieldId + 1
     };
 
     static const osg::BitVector DiffuseFieldMask;
@@ -129,40 +112,78 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     static const osg::BitVector LitFieldMask;
     static const osg::BitVector ColorMaterialFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "MaterialChunkBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static MaterialChunkPtr         create          (void); 
-    static MaterialChunkPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFColor4f           *getSFDiffuse        (void);
+    inline       SFColor4f           *getSFAmbient        (void);
+    inline       SFColor4f           *getSFSpecular       (void);
+    inline       SFColor4f           *getSFEmission       (void);
+    inline       SFReal32            *getSFShininess      (void);
+    inline       SFBool              *getSFLit            (void);
+    inline       SFUInt32            *getSFColorMaterial  (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Color4f             &getDiffuse        (void);
+    inline const Color4f             &getDiffuse        (void) const;
+    inline       Color4f             &getAmbient        (void);
+    inline const Color4f             &getAmbient        (void) const;
+    inline       Color4f             &getSpecular       (void);
+    inline const Color4f             &getSpecular       (void) const;
+    inline       Color4f             &getEmission       (void);
+    inline const Color4f             &getEmission       (void) const;
+    inline       Real32              &getShininess      (void);
+    inline const Real32              &getShininess      (void) const;
+    inline       Bool                &getLit            (void);
+    inline const Bool                &getLit            (void) const;
+    inline       UInt32              &getColorMaterial  (void);
+    inline const UInt32              &getColorMaterial  (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setDiffuse        ( const Color4f &value );
+    inline void setAmbient        ( const Color4f &value );
+    inline void setSpecular       ( const Color4f &value );
+    inline void setEmission       ( const Color4f &value );
+    inline void setShininess      ( const Real32 &value );
+    inline void setLit            ( const Bool &value );
+    inline void setColorMaterial  ( const UInt32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -170,154 +191,73 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFColor4f	*getSFDiffuse(void);
-    inline SFColor4f	*getSFAmbient(void);
-    inline SFColor4f	*getSFSpecular(void);
-    inline SFColor4f	*getSFEmission(void);
-    inline SFReal32	*getSFShininess(void);
-    inline SFBool	*getSFLit(void);
-    inline SFUInt32	*getSFColorMaterial(void);
+    static  MaterialChunkPtr    create          (void); 
+    static  MaterialChunkPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Color4f	&getDiffuse(void);
-    inline const Color4f	&getDiffuse(void) const;
-    inline       void	         setDiffuse( const Color4f &value );
-    inline       Color4f	&getAmbient(void);
-    inline const Color4f	&getAmbient(void) const;
-    inline       void	         setAmbient( const Color4f &value );
-    inline       Color4f	&getSpecular(void);
-    inline const Color4f	&getSpecular(void) const;
-    inline       void	         setSpecular( const Color4f &value );
-    inline       Color4f	&getEmission(void);
-    inline const Color4f	&getEmission(void) const;
-    inline       void	         setEmission( const Color4f &value );
-    inline       Real32	&getShininess(void);
-    inline const Real32	&getShininess(void) const;
-    inline       void	         setShininess( const Real32 &value );
-    inline       Bool	&getLit(void);
-    inline const Bool	&getLit(void) const;
-    inline       void	         setLit( const Bool &value );
-    inline       UInt32	&getColorMaterial(void);
-    inline const UInt32	&getColorMaterial(void) const;
-    inline       void	         setColorMaterial( const UInt32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFColor4f        	_sfDiffuse;
+    SFColor4f        	_sfAmbient;
+    SFColor4f        	_sfSpecular;
+    SFColor4f        	_sfEmission;
+    SFReal32         	_sfShininess;
+    SFBool           	_sfLit;
+    SFUInt32         	_sfColorMaterial;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFColor4f	_sfDiffuse;
-    /*! 
-     */
-    SFColor4f	_sfAmbient;
-    /*! 
-     */
-    SFColor4f	_sfSpecular;
-    /*! 
-     */
-    SFColor4f	_sfEmission;
-    /*! 
-     */
-    SFReal32	_sfShininess;
-    /*! 
-     */
-    SFBool	_sfLit;
-    /*! 
-     */
-    SFUInt32	_sfColorMaterial;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     MaterialChunkBase(void);
     MaterialChunkBase(const MaterialChunkBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~MaterialChunkBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      MaterialChunkBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -329,8 +269,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE

@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &ChunkMaterialBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 ChunkMaterialBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline ChunkMaterialPtr ChunkMaterialBase::create(void) 
 {
     ChunkMaterialPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = ChunkMaterialPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline ChunkMaterialPtr ChunkMaterialBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline ChunkMaterialPtr ChunkMaterialBase::createEmpty(void) 
 { 
     ChunkMaterialPtr returnValue; 
@@ -126,11 +90,7 @@ inline ChunkMaterialPtr ChunkMaterialBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
@@ -141,7 +101,7 @@ MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-StateChunkPtr &ChunkMaterialBase::getChunks( UInt32 index)
+StateChunkPtr &ChunkMaterialBase::getChunks(UInt32 index)
 {
 	return _mfChunks.getValue( index );
 }
@@ -155,22 +115,6 @@ const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 {
 	return _mfChunks;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

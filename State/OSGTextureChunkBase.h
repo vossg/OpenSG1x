@@ -57,56 +57,43 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGStateChunk.h>
-#include <OSGImagePFields.h>	// Image type
-#include <OSGUInt32Fields.h>	// InternalFormat type
-#include <OSGBoolFields.h>	// Scale type
-#include <OSGUInt32Fields.h>	// Frame type
-#include <OSGUInt32Fields.h>	// MinFilter type
-#include <OSGUInt32Fields.h>	// MagFilter type
-#include <OSGUInt32Fields.h>	// WrapS type
-#include <OSGUInt32Fields.h>	// WrapT type
-#include <OSGUInt32Fields.h>	// WrapR type
-#include <OSGUInt32Fields.h>	// EnvMode type
-#include <OSGUInt32Fields.h>	// GenFuncS type
-#include <OSGUInt32Fields.h>	// GenFuncT type
-#include <OSGUInt32Fields.h>	// GenFuncR type
-#include <OSGUInt32Fields.h>	// GenFuncQ type
-#include <OSGPlaneFields.h>	// GenFuncSPlane type
-#include <OSGPlaneFields.h>	// GenFuncTPlane type
-#include <OSGPlaneFields.h>	// GenFuncRPlane type
-#include <OSGPlaneFields.h>	// GenFuncQPlane type
-#include <OSGUInt32Fields.h>	// GLId type
+
+#include <OSGStateChunk.h> // Parent
+
+#include <OSGImagePFields.h> // Image type
+#include <OSGUInt32Fields.h> // InternalFormat type
+#include <OSGBoolFields.h> // Scale type
+#include <OSGUInt32Fields.h> // Frame type
+#include <OSGUInt32Fields.h> // MinFilter type
+#include <OSGUInt32Fields.h> // MagFilter type
+#include <OSGUInt32Fields.h> // WrapS type
+#include <OSGUInt32Fields.h> // WrapT type
+#include <OSGUInt32Fields.h> // WrapR type
+#include <OSGUInt32Fields.h> // EnvMode type
+#include <OSGUInt32Fields.h> // GenFuncS type
+#include <OSGUInt32Fields.h> // GenFuncT type
+#include <OSGUInt32Fields.h> // GenFuncR type
+#include <OSGUInt32Fields.h> // GenFuncQ type
+#include <OSGPlaneFields.h> // GenFuncSPlane type
+#include <OSGPlaneFields.h> // GenFuncTPlane type
+#include <OSGPlaneFields.h> // GenFuncRPlane type
+#include <OSGPlaneFields.h> // GenFuncQPlane type
+#include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGTextureChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class TextureChunk;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! TextureChunk Base Class. */
+/*! \brief TextureChunk Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 {
@@ -114,35 +101,31 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     typedef StateChunk Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        ImageFieldId = Inherited::NextFieldId,
-        InternalFormatFieldId = ImageFieldId + 1,
-        ScaleFieldId = InternalFormatFieldId + 1,
-        FrameFieldId = ScaleFieldId + 1,
-        MinFilterFieldId = FrameFieldId + 1,
-        MagFilterFieldId = MinFilterFieldId + 1,
-        WrapSFieldId = MagFilterFieldId + 1,
-        WrapTFieldId = WrapSFieldId + 1,
-        WrapRFieldId = WrapTFieldId + 1,
-        EnvModeFieldId = WrapRFieldId + 1,
-        GenFuncSFieldId = EnvModeFieldId + 1,
-        GenFuncTFieldId = GenFuncSFieldId + 1,
-        GenFuncRFieldId = GenFuncTFieldId + 1,
-        GenFuncQFieldId = GenFuncRFieldId + 1,
-        GenFuncSPlaneFieldId = GenFuncQFieldId + 1,
-        GenFuncTPlaneFieldId = GenFuncSPlaneFieldId + 1,
-        GenFuncRPlaneFieldId = GenFuncTPlaneFieldId + 1,
-        GenFuncQPlaneFieldId = GenFuncRPlaneFieldId + 1,
-        GLIdFieldId = GenFuncQPlaneFieldId + 1,
-        NextFieldId = GLIdFieldId + 1
-
+        ImageFieldId          = Inherited::NextFieldId,
+        InternalFormatFieldId = ImageFieldId          + 1,
+        ScaleFieldId          = InternalFormatFieldId + 1,
+        FrameFieldId          = ScaleFieldId          + 1,
+        MinFilterFieldId      = FrameFieldId          + 1,
+        MagFilterFieldId      = MinFilterFieldId      + 1,
+        WrapSFieldId          = MagFilterFieldId      + 1,
+        WrapTFieldId          = WrapSFieldId          + 1,
+        WrapRFieldId          = WrapTFieldId          + 1,
+        EnvModeFieldId        = WrapRFieldId          + 1,
+        GenFuncSFieldId       = EnvModeFieldId        + 1,
+        GenFuncTFieldId       = GenFuncSFieldId       + 1,
+        GenFuncRFieldId       = GenFuncTFieldId       + 1,
+        GenFuncQFieldId       = GenFuncRFieldId       + 1,
+        GenFuncSPlaneFieldId  = GenFuncQFieldId       + 1,
+        GenFuncTPlaneFieldId  = GenFuncSPlaneFieldId  + 1,
+        GenFuncRPlaneFieldId  = GenFuncTPlaneFieldId  + 1,
+        GenFuncQPlaneFieldId  = GenFuncRPlaneFieldId  + 1,
+        GLIdFieldId           = GenFuncQPlaneFieldId  + 1,
+        NextFieldId           = GLIdFieldId           + 1
     };
 
     static const osg::BitVector ImageFieldMask;
@@ -165,40 +148,126 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const osg::BitVector GenFuncQPlaneFieldMask;
     static const osg::BitVector GLIdFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "TextureChunkBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static TextureChunkPtr         create          (void); 
-    static TextureChunkPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFImageP            *getSFImage          (void);
+    inline       SFUInt32            *getSFInternalFormat (void);
+    inline       SFBool              *getSFScale          (void);
+    inline       SFUInt32            *getSFFrame          (void);
+    inline       SFUInt32            *getSFMinFilter      (void);
+    inline       SFUInt32            *getSFMagFilter      (void);
+    inline       SFUInt32            *getSFWrapS          (void);
+    inline       SFUInt32            *getSFWrapT          (void);
+    inline       SFUInt32            *getSFWrapR          (void);
+    inline       SFUInt32            *getSFEnvMode        (void);
+    inline       SFUInt32            *getSFGenFuncS       (void);
+    inline       SFUInt32            *getSFGenFuncT       (void);
+    inline       SFUInt32            *getSFGenFuncR       (void);
+    inline       SFUInt32            *getSFGenFuncQ       (void);
+    inline       SFPlane             *getSFGenFuncSPlane  (void);
+    inline       SFPlane             *getSFGenFuncTPlane  (void);
+    inline       SFPlane             *getSFGenFuncRPlane  (void);
+    inline       SFPlane             *getSFGenFuncQPlane  (void);
+    inline       SFUInt32            *getSFGLId           (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       ImageP              &getImage          (void);
+    inline const ImageP              &getImage          (void) const;
+    inline       UInt32              &getInternalFormat (void);
+    inline const UInt32              &getInternalFormat (void) const;
+    inline       Bool                &getScale          (void);
+    inline const Bool                &getScale          (void) const;
+    inline       UInt32              &getFrame          (void);
+    inline const UInt32              &getFrame          (void) const;
+    inline       UInt32              &getMinFilter      (void);
+    inline const UInt32              &getMinFilter      (void) const;
+    inline       UInt32              &getMagFilter      (void);
+    inline const UInt32              &getMagFilter      (void) const;
+    inline       UInt32              &getWrapS          (void);
+    inline const UInt32              &getWrapS          (void) const;
+    inline       UInt32              &getWrapT          (void);
+    inline const UInt32              &getWrapT          (void) const;
+    inline       UInt32              &getWrapR          (void);
+    inline const UInt32              &getWrapR          (void) const;
+    inline       UInt32              &getEnvMode        (void);
+    inline const UInt32              &getEnvMode        (void) const;
+    inline       UInt32              &getGenFuncS       (void);
+    inline const UInt32              &getGenFuncS       (void) const;
+    inline       UInt32              &getGenFuncT       (void);
+    inline const UInt32              &getGenFuncT       (void) const;
+    inline       UInt32              &getGenFuncR       (void);
+    inline const UInt32              &getGenFuncR       (void) const;
+    inline       UInt32              &getGenFuncQ       (void);
+    inline const UInt32              &getGenFuncQ       (void) const;
+    inline       Plane               &getGenFuncSPlane  (void);
+    inline const Plane               &getGenFuncSPlane  (void) const;
+    inline       Plane               &getGenFuncTPlane  (void);
+    inline const Plane               &getGenFuncTPlane  (void) const;
+    inline       Plane               &getGenFuncRPlane  (void);
+    inline const Plane               &getGenFuncRPlane  (void) const;
+    inline       Plane               &getGenFuncQPlane  (void);
+    inline const Plane               &getGenFuncQPlane  (void) const;
+    inline       UInt32              &getGLId           (void);
+    inline const UInt32              &getGLId           (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setImage          ( const ImageP &value );
+    inline void setInternalFormat ( const UInt32 &value );
+    inline void setScale          ( const Bool &value );
+    inline void setFrame          ( const UInt32 &value );
+    inline void setMinFilter      ( const UInt32 &value );
+    inline void setMagFilter      ( const UInt32 &value );
+    inline void setWrapS          ( const UInt32 &value );
+    inline void setWrapT          ( const UInt32 &value );
+    inline void setWrapR          ( const UInt32 &value );
+    inline void setEnvMode        ( const UInt32 &value );
+    inline void setGenFuncS       ( const UInt32 &value );
+    inline void setGenFuncT       ( const UInt32 &value );
+    inline void setGenFuncR       ( const UInt32 &value );
+    inline void setGenFuncQ       ( const UInt32 &value );
+    inline void setGenFuncSPlane  ( const Plane &value );
+    inline void setGenFuncTPlane  ( const Plane &value );
+    inline void setGenFuncRPlane  ( const Plane &value );
+    inline void setGenFuncQPlane  ( const Plane &value );
+    inline void setGLId           ( const UInt32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -206,238 +275,85 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFImageP	*getSFImage(void);
-    inline SFUInt32	*getSFInternalFormat(void);
-    inline SFBool	*getSFScale(void);
-    inline SFUInt32	*getSFFrame(void);
-    inline SFUInt32	*getSFMinFilter(void);
-    inline SFUInt32	*getSFMagFilter(void);
-    inline SFUInt32	*getSFWrapS(void);
-    inline SFUInt32	*getSFWrapT(void);
-    inline SFUInt32	*getSFWrapR(void);
-    inline SFUInt32	*getSFEnvMode(void);
-    inline SFUInt32	*getSFGenFuncS(void);
-    inline SFUInt32	*getSFGenFuncT(void);
-    inline SFUInt32	*getSFGenFuncR(void);
-    inline SFUInt32	*getSFGenFuncQ(void);
-    inline SFPlane	*getSFGenFuncSPlane(void);
-    inline SFPlane	*getSFGenFuncTPlane(void);
-    inline SFPlane	*getSFGenFuncRPlane(void);
-    inline SFPlane	*getSFGenFuncQPlane(void);
-    inline SFUInt32	*getSFGLId(void);
+    static  TextureChunkPtr    create          (void); 
+    static  TextureChunkPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       ImageP	&getImage(void);
-    inline const ImageP	&getImage(void) const;
-    inline       void	         setImage( const ImageP &value );
-    inline       UInt32	&getInternalFormat(void);
-    inline const UInt32	&getInternalFormat(void) const;
-    inline       void	         setInternalFormat( const UInt32 &value );
-    inline       Bool	&getScale(void);
-    inline const Bool	&getScale(void) const;
-    inline       void	         setScale( const Bool &value );
-    inline       UInt32	&getFrame(void);
-    inline const UInt32	&getFrame(void) const;
-    inline       void	         setFrame( const UInt32 &value );
-    inline       UInt32	&getMinFilter(void);
-    inline const UInt32	&getMinFilter(void) const;
-    inline       void	         setMinFilter( const UInt32 &value );
-    inline       UInt32	&getMagFilter(void);
-    inline const UInt32	&getMagFilter(void) const;
-    inline       void	         setMagFilter( const UInt32 &value );
-    inline       UInt32	&getWrapS(void);
-    inline const UInt32	&getWrapS(void) const;
-    inline       void	         setWrapS( const UInt32 &value );
-    inline       UInt32	&getWrapT(void);
-    inline const UInt32	&getWrapT(void) const;
-    inline       void	         setWrapT( const UInt32 &value );
-    inline       UInt32	&getWrapR(void);
-    inline const UInt32	&getWrapR(void) const;
-    inline       void	         setWrapR( const UInt32 &value );
-    inline       UInt32	&getEnvMode(void);
-    inline const UInt32	&getEnvMode(void) const;
-    inline       void	         setEnvMode( const UInt32 &value );
-    inline       UInt32	&getGenFuncS(void);
-    inline const UInt32	&getGenFuncS(void) const;
-    inline       void	         setGenFuncS( const UInt32 &value );
-    inline       UInt32	&getGenFuncT(void);
-    inline const UInt32	&getGenFuncT(void) const;
-    inline       void	         setGenFuncT( const UInt32 &value );
-    inline       UInt32	&getGenFuncR(void);
-    inline const UInt32	&getGenFuncR(void) const;
-    inline       void	         setGenFuncR( const UInt32 &value );
-    inline       UInt32	&getGenFuncQ(void);
-    inline const UInt32	&getGenFuncQ(void) const;
-    inline       void	         setGenFuncQ( const UInt32 &value );
-    inline       Plane	&getGenFuncSPlane(void);
-    inline const Plane	&getGenFuncSPlane(void) const;
-    inline       void	         setGenFuncSPlane( const Plane &value );
-    inline       Plane	&getGenFuncTPlane(void);
-    inline const Plane	&getGenFuncTPlane(void) const;
-    inline       void	         setGenFuncTPlane( const Plane &value );
-    inline       Plane	&getGenFuncRPlane(void);
-    inline const Plane	&getGenFuncRPlane(void) const;
-    inline       void	         setGenFuncRPlane( const Plane &value );
-    inline       Plane	&getGenFuncQPlane(void);
-    inline const Plane	&getGenFuncQPlane(void) const;
-    inline       void	         setGenFuncQPlane( const Plane &value );
-    inline       UInt32	&getGLId(void);
-    inline const UInt32	&getGLId(void) const;
-    inline       void	         setGLId( const UInt32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFImageP         	_sfImage;
+    SFUInt32         	_sfInternalFormat;
+    SFBool           	_sfScale;
+    SFUInt32         	_sfFrame;
+    SFUInt32         	_sfMinFilter;
+    SFUInt32         	_sfMagFilter;
+    SFUInt32         	_sfWrapS;
+    SFUInt32         	_sfWrapT;
+    SFUInt32         	_sfWrapR;
+    SFUInt32         	_sfEnvMode;
+    SFUInt32         	_sfGenFuncS;
+    SFUInt32         	_sfGenFuncT;
+    SFUInt32         	_sfGenFuncR;
+    SFUInt32         	_sfGenFuncQ;
+    SFPlane          	_sfGenFuncSPlane;
+    SFPlane          	_sfGenFuncTPlane;
+    SFPlane          	_sfGenFuncRPlane;
+    SFPlane          	_sfGenFuncQPlane;
+    SFUInt32         	_sfGLId;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFImageP	_sfImage;
-    /*! The internal texture format.
-     */
-    SFUInt32	_sfInternalFormat;
-    /*! 
-     */
-    SFBool	_sfScale;
-    /*! 
-     */
-    SFUInt32	_sfFrame;
-    /*! 
-     */
-    SFUInt32	_sfMinFilter;
-    /*! 
-     */
-    SFUInt32	_sfMagFilter;
-    /*! 
-     */
-    SFUInt32	_sfWrapS;
-    /*! 
-     */
-    SFUInt32	_sfWrapT;
-    /*! 
-     */
-    SFUInt32	_sfWrapR;
-    /*! 
-     */
-    SFUInt32	_sfEnvMode;
-    /*! 
-     */
-    SFUInt32	_sfGenFuncS;
-    /*! 
-     */
-    SFUInt32	_sfGenFuncT;
-    /*! 
-     */
-    SFUInt32	_sfGenFuncR;
-    /*! 
-     */
-    SFUInt32	_sfGenFuncQ;
-    /*! 
-     */
-    SFPlane	_sfGenFuncSPlane;
-    /*! 
-     */
-    SFPlane	_sfGenFuncTPlane;
-    /*! 
-     */
-    SFPlane	_sfGenFuncRPlane;
-    /*! 
-     */
-    SFPlane	_sfGenFuncQPlane;
-    /*! 
-     */
-    SFUInt32	_sfGLId;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     TextureChunkBase(void);
     TextureChunkBase(const TextureChunkBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~TextureChunkBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      TextureChunkBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -449,8 +365,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE

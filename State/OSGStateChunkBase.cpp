@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILESTATECHUNKINST
@@ -66,12 +62,6 @@
 #include "OSGStateChunkBase.h"
 #include "OSGStateChunk.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,15 +81,12 @@ OSG_DLLEXPORT_DEF1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 
-char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.9 2001/08/03 16:11:16 vossg Exp $";
+char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.10 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief StateChunk type
- */
+//! StateChunk type
 
 FieldContainerType StateChunkBase::_type(
     "StateChunk",
@@ -110,32 +97,14 @@ FieldContainerType StateChunkBase::_type(
     NULL,
     0);
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(StateChunkBase, StateChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "StateChunk"; 
+}
 
 FieldContainerType &StateChunkBase::getType(void) 
 {
@@ -146,6 +115,7 @@ const FieldContainerType &StateChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 StateChunkBase::getContainerSize(void) const 
 { 
@@ -159,26 +129,25 @@ void StateChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((StateChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 StateChunkBase::StateChunkBase(void) :
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 StateChunkBase::StateChunkBase(const StateChunkBase &source) :
-	Inherited        (source)
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 StateChunkBase::~StateChunkBase(void)
 {
@@ -212,13 +181,6 @@ MemoryHandle StateChunkBase::copyFromBin(      MemoryHandle  pMem,
     return pMem;
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
 void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -227,8 +189,4 @@ void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

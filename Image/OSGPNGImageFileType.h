@@ -39,159 +39,73 @@
 #ifndef OSGPNGIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGPNGIMAGEFILETYPE_CLASS_DECLARATION
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
-
+#pragma  once
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-
 #include <OSGImageFileType.h>
-
 
 OSG_BEGIN_NAMESPACE
 
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
 class OSG_SYSTEMLIB_DLLMAPPING PNGImageFileType : public ImageFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~PNGImageFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual const Char8 *getMimeType (void) { return "PNG"; }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    virtual bool read  (Image &image, const Char8 *fileName);
 
+    virtual bool write (const Image &image, const Char8 *fileName);
 
-  /** Destructor */
-  virtual ~PNGImageFileType (void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-  /** get method for the type name */
-  virtual const Char8 *getMimeType (void) { return "PNG"; }
+    PNGImageFileType & the (void) { return _the; }
 
-  /** read the the image from the given filename */
-  virtual bool read (Image &image, const Char8 *fileName);
+    /*! \}                                                                 */
 
-  /** write the the image to the given filename */
-  virtual bool write (const Image &image, const Char8 *fileName);
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-  /** get method for attribute the */
-  PNGImageFileType & the (void) { return _the; }
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
+    PNGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
-protected:
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    PNGImageFileType (const PNGImageFileType &obj);
 
+    typedef ImageFileType Inherited;
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    static PNGImageFileType _the;
 
-
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-  /** Default Constructor */
-  PNGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
-
-  /** Copy Constructor */
-  PNGImageFileType (const PNGImageFileType &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-	typedef ImageFileType Inherited;
-
-  /**  */
-  static PNGImageFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
-
+    /*! \}                                                                 */
 };
 
 typedef PNGImageFileType* PNGImageFileTypeP;

@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &GeometryBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 GeometryBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline GeometryPtr GeometryBase::create(void) 
 {
     GeometryPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = GeometryPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline GeometryPtr GeometryBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline GeometryPtr GeometryBase::createEmpty(void) 
 { 
     GeometryPtr returnValue; 
@@ -126,11 +90,7 @@ inline GeometryPtr GeometryBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFGeoPTypePtr *GeometryBase::getSFTypes(void)
@@ -212,7 +172,7 @@ const GeoPTypePtr &GeometryBase::getTypes(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setTypes( const GeoPTypePtr &value )
+void GeometryBase::setTypes(const GeoPTypePtr &value)
 {
 	_sfTypes.setValue(value);
 }
@@ -230,7 +190,7 @@ const GeoPLengthPtr &GeometryBase::getLengths(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setLengths( const GeoPLengthPtr &value )
+void GeometryBase::setLengths(const GeoPLengthPtr &value)
 {
 	_sfLengths.setValue(value);
 }
@@ -248,7 +208,7 @@ const GeoPositionPtr &GeometryBase::getPositions(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setPositions( const GeoPositionPtr &value )
+void GeometryBase::setPositions(const GeoPositionPtr &value)
 {
 	_sfPositions.setValue(value);
 }
@@ -266,7 +226,7 @@ const GeoNormalPtr &GeometryBase::getNormals(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setNormals( const GeoNormalPtr &value )
+void GeometryBase::setNormals(const GeoNormalPtr &value)
 {
 	_sfNormals.setValue(value);
 }
@@ -284,7 +244,7 @@ const GeoColorPtr &GeometryBase::getColors(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setColors( const GeoColorPtr &value )
+void GeometryBase::setColors(const GeoColorPtr &value)
 {
 	_sfColors.setValue(value);
 }
@@ -302,7 +262,7 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setTexCoords( const GeoTexCoordsPtr &value )
+void GeometryBase::setTexCoords(const GeoTexCoordsPtr &value)
 {
 	_sfTexCoords.setValue(value);
 }
@@ -320,7 +280,7 @@ const GeoIndexPtr &GeometryBase::getIndex(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setIndex( const GeoIndexPtr &value )
+void GeometryBase::setIndex(const GeoIndexPtr &value)
 {
 	_sfIndex.setValue(value);
 }
@@ -338,7 +298,7 @@ const MaterialPtr &GeometryBase::getMaterial(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setMaterial( const MaterialPtr &value )
+void GeometryBase::setMaterial(const MaterialPtr &value)
 {
 	_sfMaterial.setValue(value);
 }
@@ -356,7 +316,7 @@ const Bool &GeometryBase::getDlistCache(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setDlistCache( const Bool &value )
+void GeometryBase::setDlistCache(const Bool &value)
 {
 	_sfDlistCache.setValue(value);
 }
@@ -374,14 +334,14 @@ const Int32 &GeometryBase::getGLId(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setGLId( const Int32 &value )
+void GeometryBase::setGLId(const Int32 &value)
 {
 	_sfGLId.setValue(value);
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-UInt16 &GeometryBase::getIndexMapping( UInt32 index)
+UInt16 &GeometryBase::getIndexMapping(UInt32 index)
 {
 	return _mfIndexMapping.getValue( index );
 }
@@ -395,22 +355,6 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 {
 	return _mfIndexMapping;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

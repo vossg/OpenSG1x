@@ -57,40 +57,26 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGBackground.h>
-#include <OSGColor3fFields.h>	// Color type
-#include <OSGReal32Fields.h>	// Angle type
-#include <OSGInt16Fields.h>	// Subdivisions type
+
+#include <OSGBackground.h> // Parent
+
+#include <OSGColor3fFields.h> // Color type
+#include <OSGReal32Fields.h> // Angle type
 
 #include <OSGDynamicBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class DynamicBackground;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! DynamicBackground Base Class. */
+/*! \brief DynamicBackground Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 {
@@ -98,59 +84,71 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
     typedef Background Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
         ColorFieldId = Inherited::NextFieldId,
         AngleFieldId = ColorFieldId + 1,
-        SubdivisionsFieldId = AngleFieldId + 1,
-        NextFieldId = SubdivisionsFieldId + 1
-
+        NextFieldId  = AngleFieldId + 1
     };
 
     static const osg::BitVector ColorFieldMask;
     static const osg::BitVector AngleFieldMask;
-    static const osg::BitVector SubdivisionsFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "DynamicBackgroundBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static DynamicBackgroundPtr         create          (void); 
-    static DynamicBackgroundPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       MFColor3f           *getMFColor          (void);
+    inline       MFReal32            *getMFAngle          (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Color3f             &getColor          (UInt32 index);
+    inline       MFColor3f           &getColor          (void);
+    inline const MFColor3f           &getColor          (void) const;
+    inline       Real32              &getAngle          (UInt32 index);
+    inline       MFReal32            &getAngle          (void);
+    inline const MFReal32            &getAngle          (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -158,126 +156,68 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline MFColor3f	*getMFColor(void);
-    inline MFReal32	*getMFAngle(void);
-    inline SFInt16	*getSFSubdivisions(void);
+    static  DynamicBackgroundPtr    create          (void); 
+    static  DynamicBackgroundPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Int16	&getSubdivisions(void);
-    inline const Int16	&getSubdivisions(void) const;
-    inline       void	         setSubdivisions( const Int16 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-    inline       Color3f	               &getColor( UInt32 index );
-    inline       MFColor3f &getColor(void);
-    inline const MFColor3f &getColor(void) const;
-    inline       Real32	               &getAngle( UInt32 index );
-    inline       MFReal32 &getAngle(void);
-    inline const MFReal32 &getAngle(void) const;
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    MFColor3f        	_mfColor;
+    MFReal32         	_mfAngle;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The colors of the sphere's rings.
-     */
-    MFColor3f	_mfColor;
-    /*! The angles for the colors in radians, from 0 (top) to Pi (bottom).
-     */
-    MFReal32	_mfAngle;
-    /*! Number of subdivisions per ring
-     */
-    SFInt16	_sfSubdivisions;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     DynamicBackgroundBase(void);
     DynamicBackgroundBase(const DynamicBackgroundBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~DynamicBackgroundBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      DynamicBackgroundBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -289,8 +229,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
 
 OSG_END_NAMESPACE

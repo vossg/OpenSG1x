@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGImage.h>
@@ -55,7 +51,7 @@
  *  \ingroup FieldLib
  *  \ingroup SingleFields
  *  \brief OpenSG image single fields
- * 
+ *
  *  <UL>
  *  <LI> osg::SFImagePointer
  *  </UL>

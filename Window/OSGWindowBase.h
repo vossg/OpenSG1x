@@ -57,42 +57,29 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGAttachmentContainer.h>
-#include <OSGUInt16Fields.h>	// Width type
-#include <OSGUInt16Fields.h>	// Height type
-#include <OSGViewportFields.h>	// Port type
-#include <OSGBoolFields.h>	// ResizePending type
-#include <OSGUInt32Fields.h>	// GlObjectStatus type
+
+#include <OSGAttachmentContainer.h> // Parent
+
+#include <OSGUInt16Fields.h> // Width type
+#include <OSGUInt16Fields.h> // Height type
+#include <OSGViewportFields.h> // Port type
+#include <OSGBoolFields.h> // ResizePending type
+#include <OSGUInt32Fields.h> // GlObjectStatus type
 
 #include <OSGWindowFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Window;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! Window Base Class. */
+/*! \brief Window Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 {
@@ -100,21 +87,17 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 
     typedef AttachmentContainer Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        WidthFieldId = Inherited::NextFieldId,
-        HeightFieldId = WidthFieldId + 1,
-        PortFieldId = HeightFieldId + 1,
-        ResizePendingFieldId = PortFieldId + 1,
-        GlObjectStatusFieldId = ResizePendingFieldId + 1,
-        NextFieldId = GlObjectStatusFieldId + 1
-
+        WidthFieldId          = Inherited::NextFieldId,
+        HeightFieldId         = WidthFieldId          + 1,
+        PortFieldId           = HeightFieldId         + 1,
+        ResizePendingFieldId  = PortFieldId           + 1,
+        GlObjectStatusFieldId = ResizePendingFieldId  + 1,
+        NextFieldId           = GlObjectStatusFieldId + 1
     };
 
     static const osg::BitVector WidthFieldMask;
@@ -123,36 +106,70 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     static const osg::BitVector ResizePendingFieldMask;
     static const osg::BitVector GlObjectStatusFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "WindowBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       SFUInt16            *getSFWidth          (void);
+    inline       SFUInt16            *getSFHeight         (void);
+    inline       MFViewportPtr       *getMFPort           (void);
+    inline       SFBool              *getSFResizePending  (void);
+    inline       MFUInt32            *getMFGlObjectStatus (void);
 
+    inline       UInt16              &getWidth          (void);
+    inline const UInt16              &getWidth          (void) const;
+    inline       UInt16              &getHeight         (void);
+    inline const UInt16              &getHeight         (void) const;
+    inline       Bool                &getResizePending  (void);
+    inline const Bool                &getResizePending  (void) const;
+    inline       ViewportPtr         &getPort           (UInt32 index);
+    inline       MFViewportPtr       &getPort           (void);
+    inline const MFViewportPtr       &getPort           (void) const;
+    inline       UInt32              &getGlObjectStatus (UInt32 index);
+    inline       MFUInt32            &getGlObjectStatus (void);
+    inline const MFUInt32            &getGlObjectStatus (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setWidth          ( const UInt16 &value );
+    inline void setHeight         ( const UInt16 &value );
+    inline void setResizePending  ( const Bool &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -160,140 +177,55 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
-
-    inline SFUInt16	*getSFWidth(void);
-    inline SFUInt16	*getSFHeight(void);
-    inline MFViewportPtr	*getMFPort(void);
-    inline SFBool	*getSFResizePending(void);
-    inline MFUInt32	*getMFGlObjectStatus(void);
-
-    /*----------------------------- access ----------------------------------*/
-
-    //!@{ Return the fields' values.
-
-    inline       UInt16	&getWidth(void);
-    inline const UInt16	&getWidth(void) const;
-    inline       void	         setWidth( const UInt16 &value );
-    inline       UInt16	&getHeight(void);
-    inline const UInt16	&getHeight(void) const;
-    inline       void	         setHeight( const UInt16 &value );
-    inline       Bool	&getResizePending(void);
-    inline const Bool	&getResizePending(void) const;
-    inline       void	         setResizePending( const Bool &value );
-
-    inline       ViewportPtr	               &getPort( UInt32 index );
-    inline       MFViewportPtr &getPort(void);
-    inline const MFViewportPtr &getPort(void) const;
-    inline       UInt32	               &getGlObjectStatus( UInt32 index );
-    inline       MFUInt32 &getGlObjectStatus(void);
-    inline const MFUInt32 &getGlObjectStatus(void) const;
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFUInt16         	_sfWidth;
+    SFUInt16         	_sfHeight;
+    MFViewportPtr    	_mfPort;
+    SFBool           	_sfResizePending;
+    MFUInt32         	_mfGlObjectStatus;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFUInt16	_sfWidth;
-    /*! 
-     */
-    SFUInt16	_sfHeight;
-    /*! 
-     */
-    MFViewportPtr	_mfPort;
-    /*! 
-     */
-    SFBool	_sfResizePending;
-    /*! The GL object's status in this window.
-     */
-    MFUInt32	_mfGlObjectStatus;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     WindowBase(void);
     WindowBase(const WindowBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~WindowBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      WindowBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -305,8 +237,6 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef WindowBase *WindowBaseP;
 
 OSG_END_NAMESPACE

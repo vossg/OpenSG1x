@@ -41,43 +41,39 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
 
-
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Functions
-//---------------------------------------------------------------------------
-
+/*---------------------------------------------------------------------*/
+/*! \name                   Geometry Functions                         */
+/*! \{                                                                 */
 
 /*! \brief calculate vertex normals for the geometry
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING void calcVertexNormals( GeometryPtr geo );
+OSG_SYSTEMLIB_DLLMAPPING
+void calcVertexNormals( GeometryPtr geo );
 
 /*! \brief create a geometry that shows the normals of the geometry
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr getNormals( GeometryPtr geo, Real32 length );
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr getNormals( GeometryPtr geo, Real32 length );
 
 /*! \brief create the geometry index form the given FaceSet (VRML style) data 
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING 
-Int32 setIndexFromVRMLData ( GeometryPtr geo, 
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 setIndexFromVRMLData ( GeometryPtr geo,
                              vector<Int32> & coordIndex,
                              vector<Int32> & normalIndex,
                              vector<Int32> & colorIndex,
                              vector<Int32> & texCoordIndex,
-                             Bool convex = true, 
+                             Bool convex = true,
                              Bool ccw = true,
                              Bool normalPerVertex = true,
                              Bool colorPerVertex = true,
@@ -90,32 +86,31 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
  *  returns the number of points to be transformed 
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING 
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 createOptimizedPrimitives ( GeometryPtr geo,
                                   UInt32 iteration = 1,
-                                  Bool createStrips = true, 
+                                  Bool createStrips = true,
                                   Bool createFans = true,
-                                  UInt32 minFanEdgeCount = 8, 
+                                  UInt32 minFanEdgeCount = 8,
                                   Bool colorCode = false );
 
 /*! \brief return the number of triangle/line/point elem 
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt32 calcPrimitiveCount ( GeometryPtr geo,
                             UInt32 &triangle, UInt32 &line, UInt32 &point);
 
 /*! \brief merge the given geometries into a minimal number of nodes
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING 
+OSG_SYSTEMLIB_DLLMAPPING
 void mergeGeometries( vector<NodePtr> & nodes, vector<NodePtr> & results );
-
 
 /*! \brief calculate face normals for the geometry
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING 
+OSG_SYSTEMLIB_DLLMAPPING
 void calcFaceNormals( GeometryPtr geo );
 
 /*! \brief create a geometry that shows the face normals of another geometry
@@ -123,6 +118,7 @@ void calcFaceNormals( GeometryPtr geo );
  */
 OSG_SYSTEMLIB_DLLMAPPING
 NodePtr getFaceNormals(GeometryPtr geo, Real32 length);
+/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 

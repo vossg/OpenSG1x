@@ -964,6 +964,3 @@ OSG_USING_STD_NAMESPACE
 #endif
 
 #endif /* _OSGCONFIG_H_ */
-
-
-

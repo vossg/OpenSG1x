@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Transform;
-/** \brief TransformPtr
- */
+//! TransformPtr
+
 typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 
 /** \ingroup FieldLib Transform
- *  \brief TransformPtr field traits 
+ *  TransformPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<TransformPtr> :
     static char     *getMName(void) { return "MFTransformPtr"; }
 };
 
-/** \brief SFTransformPtr
- */
+//! SFTransformPtr
+
 typedef SField<TransformPtr> SFTransformPtr;
 
 #ifndef OSG_COMPILETRANSFORMINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFTransformPtr
- */
+//! MFTransformPtr
+
 typedef MField<TransformPtr> MFTransformPtr;
 
 #ifndef OSG_COMPILETRANSFORMINST

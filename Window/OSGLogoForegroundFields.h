@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class LogoForeground;
-/** \brief LogoForegroundPtr
- */
+//! LogoForegroundPtr
+
 typedef FCPtr<ForegroundPtr, LogoForeground> LogoForegroundPtr;
 
 /** \ingroup FieldLib LogoForeground
- *  \brief LogoForegroundPtr field traits 
+ *  LogoForegroundPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<LogoForegroundPtr> :
     static char     *getMName(void) { return "MFLogoForegroundPtr"; }
 };
 
-/** \brief SFLogoForegroundPtr
- */
+//! SFLogoForegroundPtr
+
 typedef SField<LogoForegroundPtr> SFLogoForegroundPtr;
 
 #ifndef OSG_COMPILELOGOFOREGROUNDINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, LogoForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFLogoForegroundPtr
- */
+//! MFLogoForegroundPtr
+
 typedef MField<LogoForegroundPtr> MFLogoForegroundPtr;
 
 #ifndef OSG_COMPILELOGOFOREGROUNDINST

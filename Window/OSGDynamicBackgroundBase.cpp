@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDYNAMICBACKGROUNDINST
@@ -66,12 +62,6 @@
 #include "OSGDynamicBackgroundBase.h"
 #include "OSGDynamicBackground.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -89,9 +79,7 @@ OSG_DLLEXPORT_DEF1(MField, DynamicBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	DynamicBackgroundBase::ColorFieldMask = 
     (1 << DynamicBackgroundBase::ColorFieldId);
@@ -99,15 +87,19 @@ const OSG::BitVector	DynamicBackgroundBase::ColorFieldMask =
 const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask = 
     (1 << DynamicBackgroundBase::AngleFieldId);
 
-const OSG::BitVector	DynamicBackgroundBase::SubdivisionsFieldMask = 
-    (1 << DynamicBackgroundBase::SubdivisionsFieldId);
 
 
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.13 2001/09/13 16:21:04 dirk Exp $";
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.12 2001/08/07 17:20:08 dirk Exp $";
+// Field descriptions
 
-/** \brief Group field description
- */
+/*! \var Color3f         DynamicBackgroundBase::_mfColor
+    The colors of the sphere's rings.
+*/
+/*! \var Real32          DynamicBackgroundBase::_mfAngle
+    The angles for the colors in degrees, from 0 (top) to 180 (bottom).
+*/
+//! DynamicBackground description
 
 FieldDescription *DynamicBackgroundBase::_desc[] = 
 {
@@ -120,16 +112,10 @@ FieldDescription *DynamicBackgroundBase::_desc[] =
                      "angle", 
                      AngleFieldId, AngleFieldMask,
                      false,
-                     (FieldAccessMethod) &DynamicBackgroundBase::getMFAngle),
-    new FieldDescription(SFInt16::getClassType(), 
-                     "subdivisions", 
-                     SubdivisionsFieldId, SubdivisionsFieldMask,
-                     false,
-                     (FieldAccessMethod) &DynamicBackgroundBase::getSFSubdivisions)
+                     (FieldAccessMethod) &DynamicBackgroundBase::getMFAngle)
 };
 
-/** \brief DynamicBackground type
- */
+//! DynamicBackground type
 
 FieldContainerType DynamicBackgroundBase::_type(
     "DynamicBackground",
@@ -140,32 +126,14 @@ FieldContainerType DynamicBackgroundBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(DynamicBackgroundBase, DynamicBackgroundPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "DynamicBackground"; 
+}
 
 FieldContainerType &DynamicBackgroundBase::getType(void) 
 {
@@ -176,6 +144,7 @@ const FieldContainerType &DynamicBackgroundBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr DynamicBackgroundBase::shallowCopy(void) const 
 { 
@@ -198,32 +167,29 @@ void DynamicBackgroundBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((DynamicBackgroundBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 DynamicBackgroundBase::DynamicBackgroundBase(void) :
-	_mfColor	(), 
-	_mfAngle	(), 
-	_sfSubdivisions	(Int16(8)), 
+	_mfColor                  (), 
+	_mfAngle                  (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 DynamicBackgroundBase::DynamicBackgroundBase(const DynamicBackgroundBase &source) :
-	_mfColor		(source._mfColor), 
-	_mfAngle		(source._mfAngle), 
-	_sfSubdivisions		(source._sfSubdivisions), 
-	Inherited        (source)
+	_mfColor                  (source._mfColor                  ), 
+	_mfAngle                  (source._mfAngle                  ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 DynamicBackgroundBase::~DynamicBackgroundBase(void)
 {
@@ -245,11 +211,6 @@ UInt32 DynamicBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _mfAngle.getBinSize();
     }
 
-    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
-    {
-        returnValue += _sfSubdivisions.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -260,19 +221,10 @@ MemoryHandle DynamicBackgroundBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _mfColor.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (AngleFieldMask & whichField))
-    {
         pMem = _mfAngle.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
-    {
-        pMem = _sfSubdivisions.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -284,30 +236,14 @@ MemoryHandle DynamicBackgroundBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _mfColor.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (AngleFieldMask & whichField))
-    {
         pMem = _mfAngle.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
-    {
-        pMem = _sfSubdivisions.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void DynamicBackgroundBase::executeSyncImpl(      DynamicBackgroundBase *pOther,
                                         const BitVector         &whichField)
@@ -316,24 +252,11 @@ void DynamicBackgroundBase::executeSyncImpl(      DynamicBackgroundBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         _mfColor.syncWith(pOther->_mfColor);
-    }
 
     if(FieldBits::NoField != (AngleFieldMask & whichField))
-    {
         _mfAngle.syncWith(pOther->_mfAngle);
-    }
-
-    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
-    {
-        _sfSubdivisions.syncWith(pOther->_sfSubdivisions);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &MaterialGroupBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 MaterialGroupBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline MaterialGroupPtr MaterialGroupBase::create(void) 
 {
     MaterialGroupPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = MaterialGroupPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline MaterialGroupPtr MaterialGroupBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline MaterialGroupPtr MaterialGroupBase::createEmpty(void) 
 { 
     MaterialGroupPtr returnValue; 
@@ -126,11 +90,7 @@ inline MaterialGroupPtr MaterialGroupBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
@@ -152,27 +112,11 @@ const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialGroupBase::setMaterial( const MaterialPtr &value )
+void MaterialGroupBase::setMaterial(const MaterialPtr &value)
 {
 	_sfMaterial.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

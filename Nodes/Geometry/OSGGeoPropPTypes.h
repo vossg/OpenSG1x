@@ -43,50 +43,41 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// PType uint8
-
 struct GeoPTypeUI8PropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoPTypeUI8";         }
-	static const Char8 *getClassName(void) { return "GeoPTypeUI8Property"; }
-	static const Char8 *getFieldName(void) { return "Types";               }
-	static const Char8 *getGroupName(void) { return "GeoPType";            }
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+        
+    static const Char8 *getTypeName (void) { return "GeoPTypeUI8";         }
+    static const Char8 *getClassName(void) { return "GeoPTypeUI8Property"; }
+    static const Char8 *getFieldName(void) { return "Types";               }
+    static const Char8 *getGroupName(void) { return "GeoPType";            }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE; }
-	static UInt32 getFormatSize(void) { return sizeof(GLubyte);  }
-	static UInt32 getDimension (void) { return 1;                }
-	static UInt32 getStride    (void) { return 0;                }
+    static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE; }
+    static UInt32 getFormatSize(void) { return sizeof(GLubyte);  }
+    static UInt32 getDimension (void) { return 1;                }
+    static UInt32 getStride    (void) { return 0;                }
 
-	typedef GeoPType                 Inherit;
-	typedef GeoPType::PtrType        InheritPtr;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */    
+    
+    typedef GeoPType                 Inherit;
+    typedef GeoPType::PtrType        InheritPtr;
     typedef GeoPTypePropertyDesc     InheritDesc;
-	typedef MFUInt8                  FieldType;
-
+    typedef MFUInt8                  FieldType;
     typedef InheritDesc::GenericType GenericType;
- 
+
     typedef GeoPropertyInterface<GeoPTypePropertyDesc> Interface;
+    /*! \}                                                                 */    
 };
 
 typedef GeoProperty<GeoPTypeUI8PropertyDesc> GeoPTypeUI8;
@@ -100,8 +91,8 @@ typedef GeoProperty<GeoPTypeUI8PropertyDesc> GeoPTypeUI8;
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoPTypeUI8PropertyDesc, 
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPTypeUI8PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILECHUNKMATERIALINST
@@ -67,26 +63,22 @@
 #include "OSGChunkMaterial.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	ChunkMaterialBase::ChunksFieldMask = 
     (1 << ChunkMaterialBase::ChunksFieldId);
 
 
 
-char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.10 2001/09/13 16:21:01 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var StateChunkPtr   ChunkMaterialBase::_mfChunks
+    
+*/
+//! ChunkMaterial description
 
 FieldDescription *ChunkMaterialBase::_desc[] = 
 {
@@ -97,8 +89,7 @@ FieldDescription *ChunkMaterialBase::_desc[] =
                      (FieldAccessMethod) &ChunkMaterialBase::getMFChunks)
 };
 
-/** \brief ChunkMaterial type
- */
+//! ChunkMaterial type
 
 FieldContainerType ChunkMaterialBase::_type(
     "ChunkMaterial",
@@ -109,32 +100,14 @@ FieldContainerType ChunkMaterialBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(ChunkMaterialBase, ChunkMaterialPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "ChunkMaterial"; 
+}
 
 FieldContainerType &ChunkMaterialBase::getType(void) 
 {
@@ -145,6 +118,7 @@ const FieldContainerType &ChunkMaterialBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr ChunkMaterialBase::shallowCopy(void) const 
 { 
@@ -167,28 +141,27 @@ void ChunkMaterialBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((ChunkMaterialBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 ChunkMaterialBase::ChunkMaterialBase(void) :
-	_mfChunks	(), 
+	_mfChunks                 (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
-	_mfChunks		(source._mfChunks), 
-	Inherited        (source)
+	_mfChunks                 (source._mfChunks                 ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 ChunkMaterialBase::~ChunkMaterialBase(void)
 {
@@ -215,9 +188,7 @@ MemoryHandle ChunkMaterialBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-    {
         pMem = _mfChunks.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -229,20 +200,11 @@ MemoryHandle ChunkMaterialBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-    {
         pMem = _mfChunks.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
                                         const BitVector         &whichField)
@@ -251,14 +213,8 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-    {
         _mfChunks.syncWith(pOther->_mfChunks);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

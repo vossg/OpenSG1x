@@ -41,10 +41,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
@@ -55,131 +51,120 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Functions
-//---------------------------------------------------------------------------
-
+/*---------------------------------------------------------------------*/
+/*! \name                   Construction fucntions                     */
+/*! \{                                                                 */
 
 /*! \brief create a plane
  *  \ingroup SimpleGeometry
  */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize, 
-                                		  UInt16 hor,   UInt16 vert);
-
+OSG_SYSTEMLIB_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize,
+                                          UInt16 hor,   UInt16 vert);
 
 /*! \brief create a box geometry
  *  \ingroup SimpleGeometry
  */
-
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeBoxGeo(Real32 xsize, 
-                                                Real32 ysize, 
-                                                Real32 zsize, 
-                                                UInt16 hor,   
-                                                UInt16 vert,  
+OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeBoxGeo(Real32 xsize,
+                                                Real32 ysize,
+                                                Real32 zsize,
+                                                UInt16 hor,
+                                                UInt16 vert,
                                                 UInt16 depth);
-
 
 /*! \brief create a box geometry and node
  *  \ingroup SimpleGeometry
  */
-
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeBox(Real32 xsize, 
-                                         Real32 ysize, 
-                                         Real32 zsize, 
-										 UInt16 hor,   
-                                         UInt16 vert,  
+OSG_SYSTEMLIB_DLLMAPPING NodePtr makeBox(Real32 xsize,
+                                         Real32 ysize,
+                                         Real32 zsize,
+                                         UInt16 hor,
+                                         UInt16 vert,
                                          UInt16 depth);
-
 
 /*! \brief create a cone
  *  \ingroup SimpleGeometry
  */
-
 OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConeGeo(Real32 height,
-                                                 Real32 botradius, 
-                                                 UInt16 sides, 
-                                                 Bool   doSide, 
+                                                 Real32 botradius,
+                                                 UInt16 sides,
+                                                 Bool   doSide,
                                                  Bool   doBottom);
 
 /*! \brief create a cone and node
  *  \ingroup SimpleGeometry
  */
-
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCone(Real32 height,
-                                          Real32 botradius, 
-                                          UInt16 sides, 
-                                          Bool   doSide, 
+                                          Real32 botradius,
+                                          UInt16 sides,
+                                          Bool   doSide,
                                           Bool   doBottom);
 
 /*! \brief create a cylinder
  *  \ingroup SimpleGeometry
  */
 OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeCylinderGeo(Real32 height,
-                                                     Real32 radius, 
-                                                     UInt16 sides, 
-                                                     Bool   doSide, 
-                                                     Bool   doTop, 
+                                                     Real32 radius,
+                                                     UInt16 sides,
+                                                     Bool   doSide,
+                                                     Bool   doTop,
                                                      Bool   doBottom);
 
 /*! \brief create a cylinder and node
  *  \ingroup SimpleGeometry
  */
-
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCylinder(Real32 height,
-                                              Real32 radius, 
-                                              UInt16 sides, 
-                                              Bool   doSide, 
-                                              Bool   doTop, 
+                                              Real32 radius,
+                                              UInt16 sides,
+                                              Bool   doSide,
+                                              Bool   doTop,
                                               Bool   doBottom);
 
 /*! \brief create a torus
  *  \ingroup SimpleGeometry
  */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeTorus( Real32 innerRadius, 
-										   Real32 outerRadius, 
-										   UInt16 sides, UInt16 rings );
+OSG_SYSTEMLIB_DLLMAPPING NodePtr makeTorus( Real32 innerRadius,
+                                           Real32 outerRadius,
+                                           UInt16 sides, UInt16 rings );
 
 /*! \brief create a sphere
  *  \ingroup SimpleGeometry
  */
-
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeSphereGeo(UInt16 depth, 
+OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeSphereGeo(UInt16 depth,
                                                    Real32 radius);
 
 /*! \brief create a sphere geometry and node
  *  \ingroup SimpleGeometry
  */
-
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeSphere(UInt16 depth, Real32 radius);
 
 /*! \brief create a conical frustum
  *  \ingroup SimpleGeometry
  */
-
 OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConicalFrustumGeo(Real32 height,
-                                                           Real32 topradius, 
-                                                           Real32 botradius, 
-                                                           UInt16 sides, 
-                                                           Bool   doSide, 
-                                                           Bool   doTop, 
+                                                           Real32 topradius,
+                                                           Real32 botradius,
+                                                           UInt16 sides,
+                                                           Bool   doSide,
+                                                           Bool   doTop,
                                                            Bool   doBottom);
 
 /*! \brief create a conical frustum and node
  *  \ingroup SimpleGeometry
  */
-
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeConicalFrustum(Real32 height,
-                                                    Real32 topradius, 
-                                                    Real32 botradius, 
-                                                    UInt16 sides, 
-                                                    Bool   doSide, 
-                                                    Bool   doTop, 
+                                                    Real32 topradius,
+                                                    Real32 botradius,
+                                                    UInt16 sides,
+                                                    Bool   doSide,
+                                                    Bool   doTop,
                                                     Bool   doBottom);
 
 OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr makeGeoPosition3f  (UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr  makeGeoIndexUI32Ptr(UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr    makeGeoPLengthPtr  (UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr      makeGeoPTypePtr    (UInt32 uiSize);
+
+/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 

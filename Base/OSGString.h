@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
@@ -55,22 +51,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
 
 class String;
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
                                               const String       &obj);
-
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseTypes
  *  \brief OSGString
@@ -80,182 +64,126 @@ OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
 
 class OSG_BASE_DLLMAPPING String
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-	enum MemType 
-    { 
+    enum MemType
+    {
         COPY,
-        LINK 
+        LINK
     };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "OSGString"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
-	explicit String(UInt32 size = 0);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-	explicit String(const Char8 *str,  MemType memType = COPY);
+    explicit String(UInt32 size = 0);
+
+    explicit String(const Char8 *str,  MemType memType = COPY);
              String(const String &obj, MemType memType = COPY);
 
-	virtual ~String(void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-    /*------------------------- your_category -------------------------------*/
+    virtual ~String(void);
 
-	inline const Char8  *str  (void) const { return _str; }
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Your Category                               */
+    /*! \{                                                                 */
 
-    inline Bool          empty(void) const { return (_str && *_str) ? 
+    inline const Char8   *str  (void) const { return _str; }
+
+    inline Bool          empty (void) const { return (_str && *_str) ?
                                                  false : true; }
-	
-	void   set       (const Char8 *str, MemType memType = COPY);
 
-	void   toUpper   (void);
-	void   toLower   (void);
+    void   set       (const Char8 *str, MemType memType = COPY);
 
-	UInt32 length    (void) const;
+    void   toUpper   (void);
+    void   toLower   (void);
 
-	void    setLength(UInt32 length);
+    UInt32 length    (void) const;
 
-	void    tokenize( std::vector <String> &v);
-	void    tokenize( std::vector <String*> &v);
+    void   setLength (UInt32 length);
 
+    void   tokenize  (std::vector <String> &v);
+    void   tokenize  (std::vector <String*> &v);
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Assignment                                 */
+    /*! \{                                                                 */
 
-    /*------------------------- assignment ----------------------------------*/
+    inline const String & operator =(const String &obj)
+        {
+            set(obj._str);
 
-	inline const String & operator =(const String &obj) 
-		{
-			set(obj._str);
+            return *this;
+        }
 
-			return *this;
-		}
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Comparison                                  */
+    /*! \{                                                                 */
 
-    /*------------------------- comparison ----------------------------------*/
-
-	inline Bool operator <(const String &obj) const
-  	{ 
-        return (_str && obj._str && (::strcmp(_str, obj._str) < 0)); 
+    inline Bool operator < (const String &obj) const
+    {
+        return (_str && obj._str && (::strcmp(_str, obj._str) < 0));
     }
 
-	inline Bool operator ==(const String &o) const
-	{ 
-        return ((_str == o._str) ? 
-                1 : (_str && o._str && !::strcmp(_str, o._str))); 
+    inline Bool operator ==(const String &o)   const
+    {
+        return ((_str == o._str) ?
+                1 : (_str && o._str && !::strcmp(_str, o._str)));
     }
 
-	inline Bool operator !=(const String &o) const
+    inline Bool operator !=(const String &o)   const
     {
         return ! (*this == o);
     }
 
-	inline Bool operator >(const String &o) const
-  	{ 
+    inline Bool operator > (const String &o)   const
+    {
         return ! (*this < o) && ! (*this == o);
     }
 
-	inline Bool operator >=(const String &o) const
-  	{ 
+    inline Bool operator >=(const String &o)   const
+    {
         return ! (*this < o);
     }
 
-	inline Bool operator <=(const String &o) const
-  	{ 
+    inline Bool operator <=(const String &o)   const
+    {
         return (*this < o) || (*this == o);
     }
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*==========================  PRIVATE  ================================*/
+    private:
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-	friend OSG_BASE_DLLMAPPING 
-    std::ostream &operator <<(      std::ostream &os, 
+    friend OSG_BASE_DLLMAPPING
+    std::ostream &operator <<(      std::ostream &os,
                               const String       &obj);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-	static char cvsid[];
+    Char8   *_str;
+    MemType  _memType;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-	Char8   *_str;
-	MemType  _memType;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
 typedef String *StringP;
 
 OSG_END_NAMESPACE

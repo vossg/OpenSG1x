@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCore.h>
@@ -55,219 +51,126 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Geometry;
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
- 
 /*! \brief The PrimitiveIterator iterates through a geometry one primitive
  *  at a time.
  *  \ingroup GeoIterators
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator 
+class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "PrimitiveIterator"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     PrimitiveIterator( void );
- 
-    PrimitiveIterator(const PrimitiveIterator &source);
+
+    PrimitiveIterator( const PrimitiveIterator &source);
 
     PrimitiveIterator( const GeometryPtr& geo );
     PrimitiveIterator( const NodePtr& geo );
- 
-    virtual ~PrimitiveIterator(void); 
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-	void setGeo(  const GeometryPtr& geo );
-	void setGeo(  const NodePtr& geo );
+    virtual ~PrimitiveIterator(void);
 
-	void setToBegin( void );
-	void setToEnd( void );
-	
-    /*------------------------- access -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Set                                    */
+    /*! \{                                                                 */
 
-	// check for end
-	inline Bool    		isAtEnd			( void 	      ) const;
+    void setGeo(  const GeometryPtr& geo );
+    void setGeo(  const NodePtr& geo );
 
-	// get the primitive information
-	inline Int32    	getIndex		( void 	      ) const;
-	inline UInt32    	getLength		( void 	      ) const;
-	inline UInt32    	getType			( void 	      ) const;
+    void setToBegin( void );
+    void setToEnd( void );
 
-	// get the data indices/values. Indices < 0 indicate data not present
-	// in that case the value will be Nullxxx
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-	inline Int32    	getPositionIndex( Int32 which ) const;
-	inline Pnt3f		getPosition		( Int32 which ) const;
+    inline Bool         isAtEnd         ( void        ) const;
 
-	inline Int32    	getNormalIndex	( Int32 which ) const;
-	inline Vec3f   		getNormal	 	( Int32 which ) const;
+    inline Int32        getIndex        ( void        ) const;
+    inline UInt32       getLength       ( void        ) const;
+    inline UInt32       getType         ( void        ) const;
 
-	inline Int32    	getColorIndex 	( Int32 which ) const;
-	inline Color3f		getColor		( Int32 which ) const;
+    inline Int32        getPositionIndex( Int32 which ) const;
+    inline Pnt3f        getPosition     ( Int32 which ) const;
 
-	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
-	inline Vec2f		getTexCoords		( Int32 which ) const;
+    inline Int32        getNormalIndex  ( Int32 which ) const;
+    inline Vec3f        getNormal       ( Int32 which ) const;
 
-	inline Int32    	getIndexIndex	( Int32 which ) const;
+    inline Int32        getColorIndex   ( Int32 which ) const;
+    inline Color3f      getColor        ( Int32 which ) const;
 
-	// TODO add texture coordinates
+    inline Int32        getTexCoordsIndex   ( Int32 which ) const;
+    inline Vec2f        getTexCoords        ( Int32 which ) const;
 
-    /*------------------------- your_operators ------------------------------*/
+    inline Int32        getIndexIndex   ( Int32 which ) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Operators                              */
+    /*! \{                                                                 */
 
     void operator ++( void );
-	
-	// seek the iterator to the index-th primitive
-	void seek( Int32 index );
-
-    /*------------------------- assignment ----------------------------------*/
+    void seek( Int32 index );
 
     PrimitiveIterator & operator =(const PrimitiveIterator &source);
 
-    /*------------------------- comparison ----------------------------------*/
-
     Bool operator < (const PrimitiveIterator &other) const;
-    
-	Bool operator == (const PrimitiveIterator &other) const;
-	Bool operator != (const PrimitiveIterator &other) const;
 
+    Bool operator == (const PrimitiveIterator &other) const;
+    Bool operator != (const PrimitiveIterator &other) const;
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-	
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    friend class Geometry;
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-	friend class Geometry;
-	
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-	// The geometry being iterated.
-	GeometryPtr 	_geo; 
-
-	// Flag for having reached the end.
-	// isAtEnd() caught some very strange compiler bug on sgi, 
-	// so this is a workaround. Try it again with the next version.
-	Bool 			_ended; 
-
-	// index of the active primitive
-	UInt32 			_primIndex;
-	
-	// index of the first actual point within the active primitive
-	// this is an index into the index field, not an actual index
-	UInt32 			_actPointIndex;
-	
-	// type and length of the active primitive
-	UInt32  		_actPrimType;
-	UInt32 			_actPrimLength;
-	
-	// cached for speed
-	// Not using the direct fields to allow passing the iterator between 
-	// processes
-	GeoPTypePtr 	_types;
-	GeoPLengthPtr 	_lengths;
-	GeoIndexPtr 	_indices;
-
-	// inverse mappings for faster access
-	UInt16 _nmappings;
-	Int16  _positionIndex;
-	Int16  _normalIndex;
-	Int16  _colorIndex;
-	Int16  _texcoordsIndex;
-	
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    GeometryPtr     _geo;
+    Bool            _ended;
+    UInt32          _primIndex;
+    UInt32          _actPointIndex;
+    UInt32          _actPrimType;
+    UInt32          _actPrimLength;
+    GeoPTypePtr     _types;
+    GeoPLengthPtr   _lengths;
+    GeoIndexPtr     _indices;
+    UInt16 _nmappings;
+    Int16  _positionIndex;
+    Int16  _normalIndex;
+    Int16  _colorIndex;
+    Int16  _texcoordsIndex;
+    /*! \}                                                                 */
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
 
 typedef PrimitiveIterator *PrimitiveIteratorP;
 

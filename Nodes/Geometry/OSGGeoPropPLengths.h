@@ -51,42 +51,39 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// PLength uint32
-
 struct GeoPLengthUI32PropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoPLengthUI32";         }
-	static const Char8 *getClassName(void) { return "GeoPLengthUI32Property"; }
-	static const Char8 *getFieldName(void) { return "Indices";              }
-	static const Char8 *getGroupName(void) { return "GeoPLength";             }
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoPLengthUI32";         }
+    static const Char8 *getClassName(void) { return "GeoPLengthUI32Property"; }
+    static const Char8 *getFieldName(void) { return "Indices";              }
+    static const Char8 *getGroupName(void) { return "GeoPLength";             }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-	static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
-	static UInt32 getDimension (void) { return 1;               }
-	static UInt32 getStride    (void) { return 0;               }
+    static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
+    static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
+    static UInt32 getDimension (void) { return 1;               }
+    static UInt32 getStride    (void) { return 0;               }
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */    
 
-	typedef GeoPLength                 Inherit;
-	typedef GeoPLength::PtrType        InheritPtr;
+    typedef GeoPLength                 Inherit;
+    typedef GeoPLength::PtrType        InheritPtr;
     typedef GeoPLengthPropertyDesc     InheritDesc;
-	typedef MFUInt32                 FieldType;
+    typedef MFUInt32                 FieldType;
 
     typedef InheritDesc::GenericType GenericType;
- 
+
     typedef GeoPropertyInterface<GeoPLengthPropertyDesc> Interface;
+    
+    /*! \}                                                                 */    
 };
 
 typedef GeoProperty<GeoPLengthUI32PropertyDesc> GeoPLengthUI32;
@@ -100,8 +97,8 @@ typedef GeoProperty<GeoPLengthUI32PropertyDesc> GeoPLengthUI32;
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoPLengthUI32PropertyDesc, 
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPLengthUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

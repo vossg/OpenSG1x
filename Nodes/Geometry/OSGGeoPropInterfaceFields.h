@@ -42,19 +42,7 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyInterface.h>
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 
 OSG_BEGIN_NAMESPACE
 
@@ -64,11 +52,21 @@ template <>
 struct FieldDataTraits<GeoPositionInterfacePtr> : 
     public FieldTraitsRecurseMapper<GeoPositionInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                           { StringConvertable = 0x00            };
     enum                           { bHasParent        = 0x01            };
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
+    
     static Char8 *getSName (void)  { return "SFGeoPositionInterfacePtr"; }
     static Char8 *getMName (void)  { return "MFGeoPositionInterfacePtr"; }
+    
+    /*! \}                                                                 */        
 };
 
 #if 0
@@ -95,11 +93,22 @@ template <>
 struct FieldDataTraits<GeoNormalInterfacePtr> :
     public FieldTraitsRecurseMapper<GeoNormalInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                            { StringConvertable = 0x00          };
     enum                            { bHasParent        = 0x01          };
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
     static Char8  *getSName  (void) { return "SFGeoNormalInterfacePtr"; }
     static Char8  *getMName  (void) { return "MFGeoNormalInterfacePtr"; }
+    
+    /*! \}                                                                 */    
 };
 
 #if 0
@@ -125,11 +134,22 @@ template <>
 struct FieldDataTraits<GeoColorInterfacePtr> : 
     public FieldTraitsRecurseMapper<GeoColorInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                            { StringConvertable = 0x00         };
     enum                            { bHasParent        = 0x01         };
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
     static Char8  *getSName  (void) { return "SFGeoColorInterfacePtr"; }
     static Char8  *getMName  (void) { return "MFGeoColorInterfacePtr"; }
+    
+    /*! \}                                                                 */        
 };
 
 #if 0
@@ -156,11 +176,22 @@ template <>
 struct FieldDataTraits<GeoTexCoordsInterfacePtr> : 
     public FieldTraitsRecurseMapper<GeoTexCoordsInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                            { StringConvertable = 0x00             };
     enum                            { bHasParent        = 0x01             };
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
 
     static Char8  *getSName  (void) { return "SFGeoTexCoordsInterfacePtr"; }
     static Char8  *getMName  (void) { return "MFGeoTexCoordsInterfacePtr"; }
+    
+    /*! \}                                                                 */        
 };
 
 #if 0
@@ -186,11 +217,22 @@ template <>
 struct FieldDataTraits<GeoIndexInterfacePtr> : 
     public FieldTraitsRecurseMapper<GeoIndexInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                            { StringConvertable = 0x00         };
     enum                            { bHasParent        = 0x01         };
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
     static Char8  *getSName  (void) { return "SFGeoIndexInterfacePtr"; }
     static Char8  *getMName  (void) { return "MFGeoIndexInterfacePtr"; }
+    
+    /*! \}                                                                 */        
 };
 
 #if 0
@@ -217,11 +259,22 @@ template <>
 struct FieldDataTraits<GeoPTypeInterfacePtr> : 
     public FieldTraitsRecurseMapper<GeoPTypeInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                            { StringConvertable = 0x00         };
     enum                            { bHasParent        = 0x01         };
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
     static Char8  *getSName  (void) { return "SFGeoPTypeInterfacePtr"; }
     static Char8  *getMName  (void) { return "MFGeoPTypeInterfacePtr"; }
+    
+    /*! \}                                                                 */        
 };
 
 #if 0
@@ -247,11 +300,22 @@ template <>
 struct FieldDataTraits<GeoPLengthInterfacePtr> :
     public FieldTraitsRecurseMapper<GeoPLengthInterfacePtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+    
     enum                            { StringConvertable = 0x00           };
     enum                            { bHasParent        = 0x01           };
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
     static char   *getSName  (void) { return "SFGeoPLengthInterfacePtr"; }
     static char   *getMName  (void) { return "MFGeoPLengthInterfacePtr"; }
+    
+    /*! \}                                                                 */        
 };
 
 #if 0
@@ -273,5 +337,3 @@ OSG_DLLEXPORT_DECL1(SField, GeoPLengthPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 OSG_END_NAMESPACE
 
 #endif /* _OSGGEOPROPFIELDS_H_ */
-
-

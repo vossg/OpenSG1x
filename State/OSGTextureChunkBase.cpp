@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILETEXTURECHUNKINST
@@ -66,28 +62,20 @@
 #include "OSGTextureChunkBase.h"
 #include "OSGTextureChunk.h"
 
-#include <GL/gl.h>	// InternalFormat default header
-#include <GL/gl.h>	// MinFilter default header
-#include <GL/gl.h>	// MagFilter default header
-#include <GL/gl.h>	// WrapS default header
-#include <GL/gl.h>	// WrapT default header
-#include <GL/gl.h>	// WrapR default header
-#include <GL/gl.h>	// EnvMode default header
-#include <GL/gl.h>	// GenFuncS default header
-#include <GL/gl.h>	// GenFuncT default header
-#include <GL/gl.h>	// GenFuncR default header
-#include <GL/gl.h>	// GenFuncQ default header
+#include <GL/gl.h>                     	// InternalFormat default header
+#include <GL/gl.h>                     	// MinFilter default header
+#include <GL/gl.h>                     	// MagFilter default header
+#include <GL/gl.h>                     	// WrapS default header
+#include <GL/gl.h>                     	// WrapT default header
+#include <GL/gl.h>                     	// WrapR default header
+#include <GL/gl.h>                     	// EnvMode default header
+#include <GL/gl.h>                     	// GenFuncS default header
+#include <GL/gl.h>                     	// GenFuncT default header
+#include <GL/gl.h>                     	// GenFuncR default header
+#include <GL/gl.h>                     	// GenFuncQ default header
+
 
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	TextureChunkBase::ImageFieldMask = 
     (1 << TextureChunkBase::ImageFieldId);
@@ -148,10 +136,68 @@ const OSG::BitVector	TextureChunkBase::GLIdFieldMask =
 
 
 
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.12 2001/08/07 17:36:05 dirk Exp $";
+char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.13 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var ImageP          TextureChunkBase::_sfImage
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfInternalFormat
+    The internal texture format.
+*/
+/*! \var Bool            TextureChunkBase::_sfScale
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfFrame
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfMinFilter
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfMagFilter
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfWrapS
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfWrapT
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfWrapR
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvMode
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfGenFuncS
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfGenFuncT
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfGenFuncR
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfGenFuncQ
+    
+*/
+/*! \var Plane           TextureChunkBase::_sfGenFuncSPlane
+    
+*/
+/*! \var Plane           TextureChunkBase::_sfGenFuncTPlane
+    
+*/
+/*! \var Plane           TextureChunkBase::_sfGenFuncRPlane
+    
+*/
+/*! \var Plane           TextureChunkBase::_sfGenFuncQPlane
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfGLId
+    
+*/
+//! TextureChunk description
 
 FieldDescription *TextureChunkBase::_desc[] = 
 {
@@ -252,8 +298,7 @@ FieldDescription *TextureChunkBase::_desc[] =
                      (FieldAccessMethod) &TextureChunkBase::getSFGLId)
 };
 
-/** \brief TextureChunk type
- */
+//! TextureChunk type
 
 FieldContainerType TextureChunkBase::_type(
     "TextureChunk",
@@ -264,32 +309,14 @@ FieldContainerType TextureChunkBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(TextureChunkBase, TextureChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "TextureChunk"; 
+}
 
 FieldContainerType &TextureChunkBase::getType(void) 
 {
@@ -300,6 +327,7 @@ const FieldContainerType &TextureChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr TextureChunkBase::shallowCopy(void) const 
 { 
@@ -322,64 +350,63 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((TextureChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 TextureChunkBase::TextureChunkBase(void) :
-	_sfImage	(), 
-	_sfInternalFormat	(UInt32(GL_NONE)), 
-	_sfScale	(Bool(true)), 
-	_sfFrame	(UInt32(0)), 
-	_sfMinFilter	(UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
-	_sfMagFilter	(UInt32(GL_LINEAR)), 
-	_sfWrapS	(UInt32(GL_REPEAT)), 
-	_sfWrapT	(UInt32(GL_REPEAT)), 
-	_sfWrapR	(UInt32(GL_REPEAT)), 
-	_sfEnvMode	(UInt32(GL_REPLACE)), 
-	_sfGenFuncS	(UInt32(GL_NONE)), 
-	_sfGenFuncT	(UInt32(GL_NONE)), 
-	_sfGenFuncR	(UInt32(GL_NONE)), 
-	_sfGenFuncQ	(UInt32(GL_NONE)), 
-	_sfGenFuncSPlane	(), 
-	_sfGenFuncTPlane	(), 
-	_sfGenFuncRPlane	(), 
-	_sfGenFuncQPlane	(), 
-	_sfGLId	(), 
+	_sfImage                  (), 
+	_sfInternalFormat         (UInt32(GL_NONE)), 
+	_sfScale                  (Bool(true)), 
+	_sfFrame                  (UInt32(0)), 
+	_sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
+	_sfMagFilter              (UInt32(GL_LINEAR)), 
+	_sfWrapS                  (UInt32(GL_REPEAT)), 
+	_sfWrapT                  (UInt32(GL_REPEAT)), 
+	_sfWrapR                  (UInt32(GL_REPEAT)), 
+	_sfEnvMode                (UInt32(GL_REPLACE)), 
+	_sfGenFuncS               (UInt32(GL_NONE)), 
+	_sfGenFuncT               (UInt32(GL_NONE)), 
+	_sfGenFuncR               (UInt32(GL_NONE)), 
+	_sfGenFuncQ               (UInt32(GL_NONE)), 
+	_sfGenFuncSPlane          (), 
+	_sfGenFuncTPlane          (), 
+	_sfGenFuncRPlane          (), 
+	_sfGenFuncQPlane          (), 
+	_sfGLId                   (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
-	_sfImage		(source._sfImage), 
-	_sfInternalFormat		(source._sfInternalFormat), 
-	_sfScale		(source._sfScale), 
-	_sfFrame		(source._sfFrame), 
-	_sfMinFilter		(source._sfMinFilter), 
-	_sfMagFilter		(source._sfMagFilter), 
-	_sfWrapS		(source._sfWrapS), 
-	_sfWrapT		(source._sfWrapT), 
-	_sfWrapR		(source._sfWrapR), 
-	_sfEnvMode		(source._sfEnvMode), 
-	_sfGenFuncS		(source._sfGenFuncS), 
-	_sfGenFuncT		(source._sfGenFuncT), 
-	_sfGenFuncR		(source._sfGenFuncR), 
-	_sfGenFuncQ		(source._sfGenFuncQ), 
-	_sfGenFuncSPlane		(source._sfGenFuncSPlane), 
-	_sfGenFuncTPlane		(source._sfGenFuncTPlane), 
-	_sfGenFuncRPlane		(source._sfGenFuncRPlane), 
-	_sfGenFuncQPlane		(source._sfGenFuncQPlane), 
-	_sfGLId		(source._sfGLId), 
-	Inherited        (source)
+	_sfImage                  (source._sfImage                  ), 
+	_sfInternalFormat         (source._sfInternalFormat         ), 
+	_sfScale                  (source._sfScale                  ), 
+	_sfFrame                  (source._sfFrame                  ), 
+	_sfMinFilter              (source._sfMinFilter              ), 
+	_sfMagFilter              (source._sfMagFilter              ), 
+	_sfWrapS                  (source._sfWrapS                  ), 
+	_sfWrapT                  (source._sfWrapT                  ), 
+	_sfWrapR                  (source._sfWrapR                  ), 
+	_sfEnvMode                (source._sfEnvMode                ), 
+	_sfGenFuncS               (source._sfGenFuncS               ), 
+	_sfGenFuncT               (source._sfGenFuncT               ), 
+	_sfGenFuncR               (source._sfGenFuncR               ), 
+	_sfGenFuncQ               (source._sfGenFuncQ               ), 
+	_sfGenFuncSPlane          (source._sfGenFuncSPlane          ), 
+	_sfGenFuncTPlane          (source._sfGenFuncTPlane          ), 
+	_sfGenFuncRPlane          (source._sfGenFuncRPlane          ), 
+	_sfGenFuncQPlane          (source._sfGenFuncQPlane          ), 
+	_sfGLId                   (source._sfGLId                   ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 TextureChunkBase::~TextureChunkBase(void)
 {
@@ -496,99 +523,61 @@ MemoryHandle TextureChunkBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
-    {
         pMem = _sfImage.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
-    {
         pMem = _sfInternalFormat.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-    {
         pMem = _sfScale.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (FrameFieldMask & whichField))
-    {
         pMem = _sfFrame.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
-    {
         pMem = _sfMinFilter.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (MagFilterFieldMask & whichField))
-    {
         pMem = _sfMagFilter.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (WrapSFieldMask & whichField))
-    {
         pMem = _sfWrapS.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (WrapTFieldMask & whichField))
-    {
         pMem = _sfWrapT.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (WrapRFieldMask & whichField))
-    {
         pMem = _sfWrapR.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
-    {
         pMem = _sfEnvMode.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
-    {
         pMem = _sfGenFuncS.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
-    {
         pMem = _sfGenFuncT.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
-    {
         pMem = _sfGenFuncR.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
-    {
         pMem = _sfGenFuncQ.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncSPlane.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncTPlane.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncRPlane.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncQPlane.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
         pMem = _sfGLId.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -600,110 +589,65 @@ MemoryHandle TextureChunkBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
-    {
         pMem = _sfImage.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
-    {
         pMem = _sfInternalFormat.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-    {
         pMem = _sfScale.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (FrameFieldMask & whichField))
-    {
         pMem = _sfFrame.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
-    {
         pMem = _sfMinFilter.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (MagFilterFieldMask & whichField))
-    {
         pMem = _sfMagFilter.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (WrapSFieldMask & whichField))
-    {
         pMem = _sfWrapS.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (WrapTFieldMask & whichField))
-    {
         pMem = _sfWrapT.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (WrapRFieldMask & whichField))
-    {
         pMem = _sfWrapR.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
-    {
         pMem = _sfEnvMode.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
-    {
         pMem = _sfGenFuncS.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
-    {
         pMem = _sfGenFuncT.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
-    {
         pMem = _sfGenFuncR.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
-    {
         pMem = _sfGenFuncQ.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncSPlane.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncTPlane.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncRPlane.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
-    {
         pMem = _sfGenFuncQPlane.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
         pMem = _sfGLId.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
                                         const BitVector         &whichField)
@@ -712,104 +656,62 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
-    {
         _sfImage.syncWith(pOther->_sfImage);
-    }
 
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
-    {
         _sfInternalFormat.syncWith(pOther->_sfInternalFormat);
-    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-    {
         _sfScale.syncWith(pOther->_sfScale);
-    }
 
     if(FieldBits::NoField != (FrameFieldMask & whichField))
-    {
         _sfFrame.syncWith(pOther->_sfFrame);
-    }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
-    {
         _sfMinFilter.syncWith(pOther->_sfMinFilter);
-    }
 
     if(FieldBits::NoField != (MagFilterFieldMask & whichField))
-    {
         _sfMagFilter.syncWith(pOther->_sfMagFilter);
-    }
 
     if(FieldBits::NoField != (WrapSFieldMask & whichField))
-    {
         _sfWrapS.syncWith(pOther->_sfWrapS);
-    }
 
     if(FieldBits::NoField != (WrapTFieldMask & whichField))
-    {
         _sfWrapT.syncWith(pOther->_sfWrapT);
-    }
 
     if(FieldBits::NoField != (WrapRFieldMask & whichField))
-    {
         _sfWrapR.syncWith(pOther->_sfWrapR);
-    }
 
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
-    {
         _sfEnvMode.syncWith(pOther->_sfEnvMode);
-    }
 
     if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
-    {
         _sfGenFuncS.syncWith(pOther->_sfGenFuncS);
-    }
 
     if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
-    {
         _sfGenFuncT.syncWith(pOther->_sfGenFuncT);
-    }
 
     if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
-    {
         _sfGenFuncR.syncWith(pOther->_sfGenFuncR);
-    }
 
     if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
-    {
         _sfGenFuncQ.syncWith(pOther->_sfGenFuncQ);
-    }
 
     if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
-    {
         _sfGenFuncSPlane.syncWith(pOther->_sfGenFuncSPlane);
-    }
 
     if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
-    {
         _sfGenFuncTPlane.syncWith(pOther->_sfGenFuncTPlane);
-    }
 
     if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
-    {
         _sfGenFuncRPlane.syncWith(pOther->_sfGenFuncRPlane);
-    }
 
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
-    {
         _sfGenFuncQPlane.syncWith(pOther->_sfGenFuncQPlane);
-    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
         _sfGLId.syncWith(pOther->_sfGLId);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

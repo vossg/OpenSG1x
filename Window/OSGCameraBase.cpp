@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILECAMERAINST
@@ -66,12 +62,6 @@
 #include "OSGCameraBase.h"
 #include "OSGCamera.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	CameraBase::BeaconFieldMask = 
     (1 << CameraBase::BeaconFieldId);
@@ -106,10 +94,20 @@ const OSG::BitVector	CameraBase::FarFieldMask =
 
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.12 2001/08/07 17:20:08 dirk Exp $";
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.13 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var NodePtr         CameraBase::_sfBeacon
+    The object that define's the camera's coordinate system. The camera is positioned 	at the origin of the system and looks doen the negative z-axis (OpenGL-style).
+*/
+/*! \var Real32          CameraBase::_sfNear
+    The near distance of the camera.
+*/
+/*! \var Real32          CameraBase::_sfFar
+    The far distance of the camera.
+*/
+//! Camera description
 
 FieldDescription *CameraBase::_desc[] = 
 {
@@ -130,8 +128,7 @@ FieldDescription *CameraBase::_desc[] =
                      (FieldAccessMethod) &CameraBase::getSFFar)
 };
 
-/** \brief Camera type
- */
+//! Camera type
 
 FieldContainerType CameraBase::_type(
     "Camera",
@@ -142,32 +139,14 @@ FieldContainerType CameraBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(CameraBase, CameraPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Camera"; 
+}
 
 FieldContainerType &CameraBase::getType(void) 
 {
@@ -178,6 +157,7 @@ const FieldContainerType &CameraBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 CameraBase::getContainerSize(void) const 
 { 
@@ -191,32 +171,31 @@ void CameraBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((CameraBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 CameraBase::CameraBase(void) :
-	_sfBeacon	(), 
-	_sfNear	(), 
-	_sfFar	(), 
+	_sfBeacon                 (), 
+	_sfNear                   (), 
+	_sfFar                    (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 CameraBase::CameraBase(const CameraBase &source) :
-	_sfBeacon		(source._sfBeacon), 
-	_sfNear		(source._sfNear), 
-	_sfFar		(source._sfFar), 
-	Inherited        (source)
+	_sfBeacon                 (source._sfBeacon                 ), 
+	_sfNear                   (source._sfNear                   ), 
+	_sfFar                    (source._sfFar                    ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 CameraBase::~CameraBase(void)
 {
@@ -253,19 +232,13 @@ MemoryHandle CameraBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-    {
         pMem = _sfBeacon.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (NearFieldMask & whichField))
-    {
         pMem = _sfNear.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
-    {
         pMem = _sfFar.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -277,30 +250,17 @@ MemoryHandle CameraBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-    {
         pMem = _sfBeacon.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (NearFieldMask & whichField))
-    {
         pMem = _sfNear.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
-    {
         pMem = _sfFar.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void CameraBase::executeSyncImpl(      CameraBase *pOther,
                                         const BitVector         &whichField)
@@ -309,24 +269,14 @@ void CameraBase::executeSyncImpl(      CameraBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-    {
         _sfBeacon.syncWith(pOther->_sfBeacon);
-    }
 
     if(FieldBits::NoField != (NearFieldMask & whichField))
-    {
         _sfNear.syncWith(pOther->_sfNear);
-    }
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
-    {
         _sfFar.syncWith(pOther->_sfFar);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

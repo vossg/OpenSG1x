@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class GradientBackground;
-/** \brief GradientBackgroundPtr
- */
+//! GradientBackgroundPtr
+
 typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
 
 /** \ingroup FieldLib GradientBackground
- *  \brief GradientBackgroundPtr field traits 
+ *  GradientBackgroundPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<GradientBackgroundPtr> :
 };
 
 
-/** \brief MFGradientBackgroundPtr
- */
+//! MFGradientBackgroundPtr
+
 typedef MField<GradientBackgroundPtr> MFGradientBackgroundPtr;
 
 #ifndef OSG_COMPILEGRADIENTBACKGROUNDINST

@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &VRMLTransformBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 VRMLTransformBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline VRMLTransformPtr VRMLTransformBase::create(void) 
 {
     VRMLTransformPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = VRMLTransformPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline VRMLTransformPtr VRMLTransformBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline VRMLTransformPtr VRMLTransformBase::createEmpty(void) 
 { 
     VRMLTransformPtr returnValue; 
@@ -126,11 +90,7 @@ inline VRMLTransformPtr VRMLTransformBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFVec3f *VRMLTransformBase::getSFCenter(void)
@@ -176,7 +136,7 @@ const Vec3f &VRMLTransformBase::getCenter(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setCenter( const Vec3f &value )
+void VRMLTransformBase::setCenter(const Vec3f &value)
 {
 	_sfCenter.setValue(value);
 }
@@ -194,7 +154,7 @@ const Quaternion &VRMLTransformBase::getRotation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setRotation( const Quaternion &value )
+void VRMLTransformBase::setRotation(const Quaternion &value)
 {
 	_sfRotation.setValue(value);
 }
@@ -212,7 +172,7 @@ const Vec3f &VRMLTransformBase::getScale(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setScale( const Vec3f &value )
+void VRMLTransformBase::setScale(const Vec3f &value)
 {
 	_sfScale.setValue(value);
 }
@@ -230,7 +190,7 @@ const Quaternion &VRMLTransformBase::getScaleOrientation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setScaleOrientation( const Quaternion &value )
+void VRMLTransformBase::setScaleOrientation(const Quaternion &value)
 {
 	_sfScaleOrientation.setValue(value);
 }
@@ -248,27 +208,11 @@ const Vec3f &VRMLTransformBase::getTranslation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setTranslation( const Vec3f &value )
+void VRMLTransformBase::setTranslation(const Vec3f &value)
 {
 	_sfTranslation.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEFOREGROUNDINST
@@ -66,12 +62,6 @@
 #include "OSGForegroundBase.h"
 #include "OSGForeground.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,15 +81,12 @@ OSG_DLLEXPORT_DEF1(MField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 
 char ForegroundBase::cvsid[] = "@(#)$Id: $";
 
-/** \brief Foreground type
- */
+//! Foreground type
 
 FieldContainerType ForegroundBase::_type(
     "Foreground",
@@ -110,32 +97,14 @@ FieldContainerType ForegroundBase::_type(
     NULL,
     0);
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(ForegroundBase, ForegroundPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Foreground"; 
+}
 
 FieldContainerType &ForegroundBase::getType(void) 
 {
@@ -146,6 +115,7 @@ const FieldContainerType &ForegroundBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 ForegroundBase::getContainerSize(void) const 
 { 
@@ -159,26 +129,25 @@ void ForegroundBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((ForegroundBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 ForegroundBase::ForegroundBase(void) :
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 ForegroundBase::ForegroundBase(const ForegroundBase &source) :
-	Inherited        (source)
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 ForegroundBase::~ForegroundBase(void)
 {
@@ -212,13 +181,6 @@ MemoryHandle ForegroundBase::copyFromBin(      MemoryHandle  pMem,
     return pMem;
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
 void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -227,8 +189,4 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

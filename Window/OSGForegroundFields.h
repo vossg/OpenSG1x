@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Foreground;
-/** \brief ForegroundPtr
- */
+//! ForegroundPtr
+
 typedef FCPtr<AttachmentContainerPtr, Foreground> ForegroundPtr;
 
 /** \ingroup FieldLib Foreground
- *  \brief ForegroundPtr field traits 
+ *  ForegroundPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<ForegroundPtr> :
     static char     *getMName(void) { return "MFForegroundPtr"; }
 };
 
-/** \brief SFForegroundPtr
- */
+//! SFForegroundPtr
+
 typedef SField<ForegroundPtr> SFForegroundPtr;
 
 #ifndef OSG_COMPILEFOREGROUNDINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFForegroundPtr
- */
+//! MFForegroundPtr
+
 typedef MField<ForegroundPtr> MFForegroundPtr;
 
 #ifndef OSG_COMPILEFOREGROUNDINST

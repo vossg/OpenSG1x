@@ -44,63 +44,48 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
 //---------------------------------------------------------------------------
 //   Base Math Functions
 //---------------------------------------------------------------------------
 
-
 /*! \brief osgispower2
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Bool osgispower2(UInt32 rValue)
 {
-	// find the lowest 1 bit
+    // find the lowest 1 bit
     while ( rValue && ! ( rValue & 1 ) )
-		rValue >>= 1;
+        rValue >>= 1;
 
-	// shift the 1 bit out
-	rValue >>= 1;
+    // shift the 1 bit out
+    rValue >>= 1;
 
-	// if another 1 left => not 2^
-	if ( rValue )	return false;
-	else			return true;
+    // if another 1 left => not 2^
+    if ( rValue )   return false;
+    else            return true;
 }
 
 /*! \brief osgispower2
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Bool osgispower2(Int32 rValue)
 {
-	// find the lowest 1 bit
+    // find the lowest 1 bit
     while ( rValue && ! ( rValue & 1 ) )
-		rValue >>= 1;
+        rValue >>= 1;
 
-	// shift the 1 bit out
-	rValue >>= 1;
+    // shift the 1 bit out
+    rValue >>= 1;
 
-	// if another 1 left => not 2^
-	if ( rValue )	return false;
-	else			return true;
+    // if another 1 left => not 2^
+    if ( rValue )   return false;
+    else            return true;
 }
 
 
@@ -108,32 +93,32 @@ Bool osgispower2(Int32 rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 UInt32 osgnextpower2(UInt32 rValue)
 {
-	UInt32 result = 1;
+    UInt32 result = 1;
 
     while ( result < rValue )
-		result <<= 1;
+        result <<= 1;
 
-	return result;
+    return result;
 }
 
 /*! \brief osgnextpower2
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Int32 osgnextpower2(Int32 rValue)
 {
-	Int32 result = 1;
+    Int32 result = 1;
 
     while ( result < rValue )
-		result <<= 1;
+        result <<= 1;
 
-	return result;
+    return result;
 }
 
 /*! @name Generic Versions
@@ -145,18 +130,18 @@ Int32 osgnextpower2(Int32 rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <class TypeT> inline 
+template <class TypeT> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 TypeT osgabs(const TypeT &rValue)
 {
-	return (rValue > 0) ? rValue : -rValue;
+    return (rValue > 0) ? rValue : -rValue;
 }
 
 /*! \brief deg2rad
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> inline 
+template <class FloatTypeT> inline
 FloatTypeT deg2rad(const FloatTypeT &rValue)
 {
    return osgdegree2rad( Real32(rValue) );
@@ -184,7 +169,7 @@ FloatTypeT rad2deg(const FloatTypeT &rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgsqrt<Real32>(const Real32 &rVal)
 {
@@ -293,10 +278,10 @@ Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
 #ifndef _OSG_HAS_ATANF2__
     return atan2f(rVal1, rVal2);
 #else
-	return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
+    return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
 #endif
 #else
-	return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
+    return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
 #endif
 }
 
@@ -304,7 +289,7 @@ Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgdegree2rad(const Real32 &rValue)
 {
@@ -326,7 +311,7 @@ Real32 osgrad2degree(const Real32 &rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgabs(const Real32 &rValue)
 {
@@ -341,7 +326,7 @@ Real32 osgabs(const Real32 &rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
 {
@@ -356,7 +341,7 @@ Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgfloor(const Real32 &rValue)
 {
@@ -374,7 +359,7 @@ Real32 osgfloor(const Real32 &rValue)
 template <class TypeT> inline
 TypeT osgMin(const TypeT &lVal, const TypeT &rVal)
 {
-	return ((lVal < rVal) ? lVal : rVal);
+    return ((lVal < rVal) ? lVal : rVal);
 }
 
 /*! \brief osgMax
@@ -384,7 +369,7 @@ TypeT osgMin(const TypeT &lVal, const TypeT &rVal)
 template <class TypeT> inline
 TypeT osgMax(const TypeT &lVal, const TypeT &rVal)
 {
-	return ((lVal > rVal) ? lVal : rVal);
+    return ((lVal > rVal) ? lVal : rVal);
 }
 
 template <class FloatTypeT>
@@ -408,7 +393,7 @@ UInt32 osgfinite(const FloatTypeT &rVal)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgsqrt(const Real64 &rVal)
 {
@@ -496,7 +481,7 @@ Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgdegree2rad(const Real64 &rValue)
 {
@@ -518,7 +503,7 @@ Real64 osgrad2degree(const Real64 &rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgabs(const Real64 &rValue)
 {
@@ -529,7 +514,7 @@ Real64 osgabs(const Real64 &rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
 {
@@ -540,7 +525,7 @@ Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
+template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgfloor(const Real64 &rValue)
 {
@@ -549,7 +534,7 @@ Real64 osgfloor(const Real64 &rValue)
 
 /*@}*/
 
-/*! @name String Functions 
+/*! @name String Functions
  */
 
 /*@{*/
@@ -559,7 +544,7 @@ Real64 osgfloor(const Real64 &rValue)
  */
 
 inline
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 void stringDup(const char *szInput, char *&szOutput)
 {
     delete [] szOutput;
@@ -572,11 +557,11 @@ void stringDup(const char *szInput, char *&szOutput)
     }
 }
 
-inline 
+inline
 OSG_BASE_DLLMAPPING
 Int32 stringncmp(const char *string1, const char *string2, size_t count)
 {
-	return ::strncmp(string1, string2, count);
+    return ::strncmp(string1, string2, count);
 }
 
 /*! \brief limited string compare
@@ -584,8 +569,8 @@ Int32 stringncmp(const char *string1, const char *string2, size_t count)
  */
 
 
-inline 
-OSG_BASE_DLLMAPPING 
+inline
+OSG_BASE_DLLMAPPING
 Int32 stringlen(const char *string1)
 {
     return ::strlen(string1);
@@ -596,24 +581,24 @@ Int32 stringlen(const char *string1)
  *  \ingroup BaseFunctions
  */
 
-inline 
-OSG_BASE_DLLMAPPING 
+inline
+OSG_BASE_DLLMAPPING
 Int32 stringcmp(const char *string1, const char *string2)
 {
-	return ::strcmp(string1, string2);
+    return ::strcmp(string1, string2);
 }
 
 /*! \brief string case compare
  *  \ingroup BaseFunctions
  */
 
-inline 
-OSG_BASE_DLLMAPPING 
-Int32 stringcasecmp(const char *string1, 
+inline
+OSG_BASE_DLLMAPPING
+Int32 stringcasecmp(const char *string1,
                     const char *string2)
 {
 #if !defined(WIN32)
-	return ::strcasecmp(string1, string2);
+    return ::strcasecmp(string1, string2);
 #else
     return _stricmp  (string1, string2);
 #endif
@@ -622,7 +607,7 @@ Int32 stringcasecmp(const char *string1,
 /*@}*/
 
 inline
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 int putenv(char *string)
 {
 #if !defined(WIN32) || defined(BCC)
@@ -638,13 +623,13 @@ int putenv(char *string)
 /*@{*/
 
 inline
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 void osgsleep(UInt32 millisecs)
 {
 #ifdef WIN32
     Sleep(millisecs);
 #else
-    
+
     // Rough aproximation, have to find a better way soon (GV)
 
     if( (millisecs * 1000) > 1000000)
@@ -661,7 +646,3 @@ void osgsleep(UInt32 millisecs)
 /*@}*/
 
 OSG_END_NAMESPACE
-
-
-
-

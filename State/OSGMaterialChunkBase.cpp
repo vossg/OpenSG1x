@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEMATERIALCHUNKINST
@@ -66,18 +62,10 @@
 #include "OSGMaterialChunkBase.h"
 #include "OSGMaterialChunk.h"
 
-#include <GL/gl.h>	// ColorMaterial default header
+#include <GL/gl.h>                     	// ColorMaterial default header
+
 
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	MaterialChunkBase::DiffuseFieldMask = 
     (1 << MaterialChunkBase::DiffuseFieldId);
@@ -102,10 +90,32 @@ const OSG::BitVector	MaterialChunkBase::ColorMaterialFieldMask =
 
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.10 2001/09/04 12:57:52 dirk Exp $";
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.11 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Color4f         MaterialChunkBase::_sfDiffuse
+    
+*/
+/*! \var Color4f         MaterialChunkBase::_sfAmbient
+    
+*/
+/*! \var Color4f         MaterialChunkBase::_sfSpecular
+    
+*/
+/*! \var Color4f         MaterialChunkBase::_sfEmission
+    
+*/
+/*! \var Real32          MaterialChunkBase::_sfShininess
+    
+*/
+/*! \var Bool            MaterialChunkBase::_sfLit
+    
+*/
+/*! \var UInt32          MaterialChunkBase::_sfColorMaterial
+    
+*/
+//! MaterialChunk description
 
 FieldDescription *MaterialChunkBase::_desc[] = 
 {
@@ -146,8 +156,7 @@ FieldDescription *MaterialChunkBase::_desc[] =
                      (FieldAccessMethod) &MaterialChunkBase::getSFColorMaterial)
 };
 
-/** \brief MaterialChunk type
- */
+//! MaterialChunk type
 
 FieldContainerType MaterialChunkBase::_type(
     "MaterialChunk",
@@ -158,32 +167,14 @@ FieldContainerType MaterialChunkBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(MaterialChunkBase, MaterialChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "MaterialChunk"; 
+}
 
 FieldContainerType &MaterialChunkBase::getType(void) 
 {
@@ -194,6 +185,7 @@ const FieldContainerType &MaterialChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr MaterialChunkBase::shallowCopy(void) const 
 { 
@@ -216,40 +208,39 @@ void MaterialChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((MaterialChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 MaterialChunkBase::MaterialChunkBase(void) :
-	_sfDiffuse	(Color4f(1,1,1,0)), 
-	_sfAmbient	(Color4f(.2,.2,.2,0)), 
-	_sfSpecular	(Color4f(.5,.5,.5,0)), 
-	_sfEmission	(Color4f(0,0,0,0)), 
-	_sfShininess	(Real32(10)), 
-	_sfLit	(Bool(true)), 
-	_sfColorMaterial	(UInt32(GL_DIFFUSE)), 
+	_sfDiffuse                (Color4f(1,1,1,0)), 
+	_sfAmbient                (Color4f(.2,.2,.2,0)), 
+	_sfSpecular               (Color4f(.5,.5,.5,0)), 
+	_sfEmission               (Color4f(0,0,0,0)), 
+	_sfShininess              (Real32(10)), 
+	_sfLit                    (Bool(true)), 
+	_sfColorMaterial          (UInt32(GL_DIFFUSE)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 MaterialChunkBase::MaterialChunkBase(const MaterialChunkBase &source) :
-	_sfDiffuse		(source._sfDiffuse), 
-	_sfAmbient		(source._sfAmbient), 
-	_sfSpecular		(source._sfSpecular), 
-	_sfEmission		(source._sfEmission), 
-	_sfShininess		(source._sfShininess), 
-	_sfLit		(source._sfLit), 
-	_sfColorMaterial		(source._sfColorMaterial), 
-	Inherited        (source)
+	_sfDiffuse                (source._sfDiffuse                ), 
+	_sfAmbient                (source._sfAmbient                ), 
+	_sfSpecular               (source._sfSpecular               ), 
+	_sfEmission               (source._sfEmission               ), 
+	_sfShininess              (source._sfShininess              ), 
+	_sfLit                    (source._sfLit                    ), 
+	_sfColorMaterial          (source._sfColorMaterial          ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 MaterialChunkBase::~MaterialChunkBase(void)
 {
@@ -306,39 +297,25 @@ MemoryHandle MaterialChunkBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-    {
         pMem = _sfEmission.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-    {
         pMem = _sfShininess.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-    {
         pMem = _sfLit.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-    {
         pMem = _sfColorMaterial.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -350,50 +327,29 @@ MemoryHandle MaterialChunkBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-    {
         pMem = _sfEmission.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-    {
         pMem = _sfShininess.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-    {
         pMem = _sfLit.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-    {
         pMem = _sfColorMaterial.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
                                         const BitVector         &whichField)
@@ -402,44 +358,26 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         _sfDiffuse.syncWith(pOther->_sfDiffuse);
-    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         _sfAmbient.syncWith(pOther->_sfAmbient);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         _sfSpecular.syncWith(pOther->_sfSpecular);
-    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-    {
         _sfEmission.syncWith(pOther->_sfEmission);
-    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-    {
         _sfShininess.syncWith(pOther->_sfShininess);
-    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-    {
         _sfLit.syncWith(pOther->_sfLit);
-    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-    {
         _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

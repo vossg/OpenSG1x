@@ -57,47 +57,34 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGStateChunk.h>
-#include <OSGColor4fFields.h>	// Diffuse type
-#include <OSGColor4fFields.h>	// Ambient type
-#include <OSGColor4fFields.h>	// Specular type
-#include <OSGVec4fFields.h>	// Position type
-#include <OSGVec3fFields.h>	// Direction type
-#include <OSGReal32Fields.h>	// Exponent type
-#include <OSGReal32Fields.h>	// Cutoff type
-#include <OSGReal32Fields.h>	// ConstantAttenuation type
-#include <OSGReal32Fields.h>	// LinearAttenuation type
-#include <OSGReal32Fields.h>	// QuadraticAttenuation type
+
+#include <OSGStateChunk.h> // Parent
+
+#include <OSGColor4fFields.h> // Diffuse type
+#include <OSGColor4fFields.h> // Ambient type
+#include <OSGColor4fFields.h> // Specular type
+#include <OSGVec4fFields.h> // Position type
+#include <OSGVec3fFields.h> // Direction type
+#include <OSGReal32Fields.h> // Exponent type
+#include <OSGReal32Fields.h> // Cutoff type
+#include <OSGReal32Fields.h> // ConstantAttenuation type
+#include <OSGReal32Fields.h> // LinearAttenuation type
+#include <OSGReal32Fields.h> // QuadraticAttenuation type
 
 #include <OSGLightChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class LightChunk;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! LightChunk Base Class. */
+/*! \brief LightChunk Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 {
@@ -105,26 +92,22 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 
     typedef StateChunk Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        DiffuseFieldId = Inherited::NextFieldId,
-        AmbientFieldId = DiffuseFieldId + 1,
-        SpecularFieldId = AmbientFieldId + 1,
-        PositionFieldId = SpecularFieldId + 1,
-        DirectionFieldId = PositionFieldId + 1,
-        ExponentFieldId = DirectionFieldId + 1,
-        CutoffFieldId = ExponentFieldId + 1,
-        ConstantAttenuationFieldId = CutoffFieldId + 1,
-        LinearAttenuationFieldId = ConstantAttenuationFieldId + 1,
-        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1,
-        NextFieldId = QuadraticAttenuationFieldId + 1
-
+        DiffuseFieldId              = Inherited::NextFieldId,
+        AmbientFieldId              = DiffuseFieldId              + 1,
+        SpecularFieldId             = AmbientFieldId              + 1,
+        PositionFieldId             = SpecularFieldId             + 1,
+        DirectionFieldId            = PositionFieldId             + 1,
+        ExponentFieldId             = DirectionFieldId            + 1,
+        CutoffFieldId               = ExponentFieldId             + 1,
+        ConstantAttenuationFieldId  = CutoffFieldId               + 1,
+        LinearAttenuationFieldId    = ConstantAttenuationFieldId  + 1,
+        QuadraticAttenuationFieldId = LinearAttenuationFieldId    + 1,
+        NextFieldId                 = QuadraticAttenuationFieldId + 1
     };
 
     static const osg::BitVector DiffuseFieldMask;
@@ -138,40 +121,90 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     static const osg::BitVector LinearAttenuationFieldMask;
     static const osg::BitVector QuadraticAttenuationFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "LightChunkBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static LightChunkPtr         create          (void); 
-    static LightChunkPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFColor4f           *getSFDiffuse        (void);
+    inline       SFColor4f           *getSFAmbient        (void);
+    inline       SFColor4f           *getSFSpecular       (void);
+    inline       SFVec4f             *getSFPosition       (void);
+    inline       SFVec3f             *getSFDirection      (void);
+    inline       SFReal32            *getSFExponent       (void);
+    inline       SFReal32            *getSFCutoff         (void);
+    inline       SFReal32            *getSFConstantAttenuation(void);
+    inline       SFReal32            *getSFLinearAttenuation(void);
+    inline       SFReal32            *getSFQuadraticAttenuation(void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Color4f             &getDiffuse        (void);
+    inline const Color4f             &getDiffuse        (void) const;
+    inline       Color4f             &getAmbient        (void);
+    inline const Color4f             &getAmbient        (void) const;
+    inline       Color4f             &getSpecular       (void);
+    inline const Color4f             &getSpecular       (void) const;
+    inline       Vec4f               &getPosition       (void);
+    inline const Vec4f               &getPosition       (void) const;
+    inline       Vec3f               &getDirection      (void);
+    inline const Vec3f               &getDirection      (void) const;
+    inline       Real32              &getExponent       (void);
+    inline const Real32              &getExponent       (void) const;
+    inline       Real32              &getCutoff         (void);
+    inline const Real32              &getCutoff         (void) const;
+    inline       Real32              &getConstantAttenuation(void);
+    inline const Real32              &getConstantAttenuation(void) const;
+    inline       Real32              &getLinearAttenuation(void);
+    inline const Real32              &getLinearAttenuation(void) const;
+    inline       Real32              &getQuadraticAttenuation(void);
+    inline const Real32              &getQuadraticAttenuation(void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setDiffuse        ( const Color4f &value );
+    inline void setAmbient        ( const Color4f &value );
+    inline void setSpecular       ( const Color4f &value );
+    inline void setPosition       ( const Vec4f &value );
+    inline void setDirection      ( const Vec3f &value );
+    inline void setExponent       ( const Real32 &value );
+    inline void setCutoff         ( const Real32 &value );
+    inline void setConstantAttenuation( const Real32 &value );
+    inline void setLinearAttenuation( const Real32 &value );
+    inline void setQuadraticAttenuation( const Real32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -179,175 +212,76 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFColor4f	*getSFDiffuse(void);
-    inline SFColor4f	*getSFAmbient(void);
-    inline SFColor4f	*getSFSpecular(void);
-    inline SFVec4f	*getSFPosition(void);
-    inline SFVec3f	*getSFDirection(void);
-    inline SFReal32	*getSFExponent(void);
-    inline SFReal32	*getSFCutoff(void);
-    inline SFReal32	*getSFConstantAttenuation(void);
-    inline SFReal32	*getSFLinearAttenuation(void);
-    inline SFReal32	*getSFQuadraticAttenuation(void);
+    static  LightChunkPtr    create          (void); 
+    static  LightChunkPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Color4f	&getDiffuse(void);
-    inline const Color4f	&getDiffuse(void) const;
-    inline       void	         setDiffuse( const Color4f &value );
-    inline       Color4f	&getAmbient(void);
-    inline const Color4f	&getAmbient(void) const;
-    inline       void	         setAmbient( const Color4f &value );
-    inline       Color4f	&getSpecular(void);
-    inline const Color4f	&getSpecular(void) const;
-    inline       void	         setSpecular( const Color4f &value );
-    inline       Vec4f	&getPosition(void);
-    inline const Vec4f	&getPosition(void) const;
-    inline       void	         setPosition( const Vec4f &value );
-    inline       Vec3f	&getDirection(void);
-    inline const Vec3f	&getDirection(void) const;
-    inline       void	         setDirection( const Vec3f &value );
-    inline       Real32	&getExponent(void);
-    inline const Real32	&getExponent(void) const;
-    inline       void	         setExponent( const Real32 &value );
-    inline       Real32	&getCutoff(void);
-    inline const Real32	&getCutoff(void) const;
-    inline       void	         setCutoff( const Real32 &value );
-    inline       Real32	&getConstantAttenuation(void);
-    inline const Real32	&getConstantAttenuation(void) const;
-    inline       void	         setConstantAttenuation( const Real32 &value );
-    inline       Real32	&getLinearAttenuation(void);
-    inline const Real32	&getLinearAttenuation(void) const;
-    inline       void	         setLinearAttenuation( const Real32 &value );
-    inline       Real32	&getQuadraticAttenuation(void);
-    inline const Real32	&getQuadraticAttenuation(void) const;
-    inline       void	         setQuadraticAttenuation( const Real32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFColor4f        	_sfDiffuse;
+    SFColor4f        	_sfAmbient;
+    SFColor4f        	_sfSpecular;
+    SFVec4f          	_sfPosition;
+    SFVec3f          	_sfDirection;
+    SFReal32         	_sfExponent;
+    SFReal32         	_sfCutoff;
+    SFReal32         	_sfConstantAttenuation;
+    SFReal32         	_sfLinearAttenuation;
+    SFReal32         	_sfQuadraticAttenuation;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The light's diffuse color.
-     */
-    SFColor4f	_sfDiffuse;
-    /*! The light's ambient color.
-     */
-    SFColor4f	_sfAmbient;
-    /*! The light's specular color.
-     */
-    SFColor4f	_sfSpecular;
-    /*! The light's position.
-     */
-    SFVec4f	_sfPosition;
-    /*! The light's direction (only for spotlights).
-     */
-    SFVec3f	_sfDirection;
-    /*! The light's spotlight exponent.
-     */
-    SFReal32	_sfExponent;
-    /*! The light's spotlight cutoff.
-     */
-    SFReal32	_sfCutoff;
-    /*! The light's constant attenuation.
-     */
-    SFReal32	_sfConstantAttenuation;
-    /*! The light's linear attenuation.
-     */
-    SFReal32	_sfLinearAttenuation;
-    /*! The light's quadratic attenuation.
-     */
-    SFReal32	_sfQuadraticAttenuation;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     LightChunkBase(void);
     LightChunkBase(const LightChunkBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~LightChunkBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      LightChunkBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -359,8 +293,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE

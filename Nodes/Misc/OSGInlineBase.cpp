@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEINLINEINST
@@ -66,12 +62,6 @@
 #include "OSGInlineBase.h"
 #include "OSGInline.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	InlineBase::UrlFieldMask = 
     (1 << InlineBase::UrlFieldId);
@@ -102,8 +90,12 @@ const OSG::BitVector	InlineBase::UrlFieldMask =
 
 char InlineBase::cvsid[] = "@(#)$Id: $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var String          InlineBase::_mfUrl
+    
+*/
+//! Inline description
 
 FieldDescription *InlineBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *InlineBase::_desc[] =
                      (FieldAccessMethod) &InlineBase::getMFUrl)
 };
 
-/** \brief Inline type
- */
+//! Inline type
 
 FieldContainerType InlineBase::_type(
     "Inline",
@@ -126,32 +117,14 @@ FieldContainerType InlineBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(InlineBase, InlinePtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Inline"; 
+}
 
 FieldContainerType &InlineBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &InlineBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr InlineBase::shallowCopy(void) const 
 { 
@@ -184,28 +158,27 @@ void InlineBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((InlineBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 InlineBase::InlineBase(void) :
-	_mfUrl	(), 
+	_mfUrl                    (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 InlineBase::InlineBase(const InlineBase &source) :
-	_mfUrl		(source._mfUrl), 
-	Inherited        (source)
+	_mfUrl                    (source._mfUrl                    ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 InlineBase::~InlineBase(void)
 {
@@ -232,9 +205,7 @@ MemoryHandle InlineBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
-    {
         pMem = _mfUrl.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -246,20 +217,11 @@ MemoryHandle InlineBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
-    {
         pMem = _mfUrl.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void InlineBase::executeSyncImpl(      InlineBase *pOther,
                                         const BitVector         &whichField)
@@ -268,14 +230,8 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
-    {
         _mfUrl.syncWith(pOther->_mfUrl);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

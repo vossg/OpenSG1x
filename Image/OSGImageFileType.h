@@ -56,80 +56,116 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
-private:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-  /** MTD Header */
-  struct Head {
-    Char8          mimeType[8];
-    unsigned short pixelFormat;
-    unsigned short width;
-    unsigned short height;
-    unsigned short depth;
-    unsigned short mipmapCount;
-    unsigned short frameCount;
-    unsigned short frameDelay;
-    unsigned short _reserved1;
-    unsigned short _reserved2;
-    unsigned short _reserved3;
-    unsigned short _reserved4;
+    /*---------------------------------------------------------------------*/
+    /*! \name                   MTD Header                                 */
+    /*! \{                                                                 */
+
+    struct Head {
+      Char8          mimeType[8];
+      unsigned short pixelFormat;
+      unsigned short width;
+      unsigned short height;
+      unsigned short depth;
+      unsigned short mipmapCount;
+      unsigned short frameCount;
+      unsigned short frameDelay;
+      unsigned short _reserved1;
+      unsigned short _reserved2;
+      unsigned short _reserved3;
+      unsigned short _reserved4;
 
     Bool netToHost (void);
     Bool hostToNet (void);
 
-  };     
+    };
 
-  /**  */
-  list<String> _suffixList;
+    list<String> _suffixList;
 
-protected:
+    /*! \}                                                                 */
 
-  /** Default Constructor */
-  ImageFileType ( const Char8 * suffixArray[], UInt16 suffixByteCount );
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-  /** Copy Constructor */
-  ImageFileType ( const ImageFileType &obj);
+    /*---------------------------------------------------------------------*/
+    /*! \name                Default Constructor                           */
+    /*! \{                                                                 */
 
-  /** fill the given image with the content of the mem 'buffer' */
-  virtual UInt64 restoreData ( Image &image, const UChar8 *buffer, 
-                               Int32 memSize = -1 );
+    ImageFileType ( const Char8 * suffixArray[], UInt16 suffixByteCount );
 
-  /** store the given image to the mem 'buffer' */
-  virtual UInt64 storeData ( const Image &image, UChar8 *buffer,
-                             Int32 memSize = -1 );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
-public:
+    ImageFileType ( const ImageFileType &obj);
 
-  /** Destructor */
-  virtual ~ImageFileType (void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
 
-	/** get mathod for the type mimeType */
-	virtual const Char8 *getMimeType (void) = 0;
+    virtual UInt64 restoreData ( Image &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
 
-  /** get method for attribute suffixList */
-  virtual list<String> & suffixList (void) { return _suffixList; }
+    virtual UInt64 storeData   ( const Image &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
 
-  /** fill the given image with the content of the file 'fileName' */
-  virtual Bool read (Image &image, const Char8 *fileName ) = 0;
+    /*! \}                                                                 */
 
-  /** write the given image to 'fileName' */
-  virtual Bool write (const Image &image, const Char8 *fileName ) = 0;
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-  /** fill the given image with the content of the mem 'buffer' */
-  static UInt64 restore ( Image &image, const UChar8 *buffer, 
-                          Int32 memSize = -1 );
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-  /** store the given image to the mem 'buffer' */
-  static UInt64 store ( const Image &image, const char *mimeType,
-                        UChar8 *buffer, Int32 memSize = -1 );
+    virtual ~ImageFileType (void);
 
-  /** store the given image to the mem 'buffer' */
-  UInt64 store ( const Image &image, UChar8 *buffer, Int32 memSize = -1 );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Get  Methods                              */
+    /*! \{                                                                 */
 
-  /** returns the max needed buffer size */ 
-  virtual UInt64 maxBufferSize(const Image &image );
+    virtual const Char8  *getMimeType (void) = 0;
 
-	/** print debug info to cerr */
-	void print(void);
+    virtual list<String> & suffixList (void) { return _suffixList; }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
+
+    virtual Bool read  (Image &image, const Char8 *fileName )       = 0;
+
+    virtual Bool write (const Image &image, const Char8 *fileName ) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
+
+    static  UInt64 restore       ( Image &image, const UChar8 *buffer,
+                                   Int32 memSize = -1 );
+
+    static  UInt64 store         ( const Image &image, const char *mimeType,
+                                   UChar8 *buffer, Int32 memSize = -1 );
+
+            UInt64  store        ( const Image &image, UChar8 *buffer,
+                                   Int32 memSize = -1 );
+
+    virtual UInt64 maxBufferSize (const Image &image );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Print                                  */
+    /*! \{                                                                 */
+
+    void print(void);
+
+    /*! \}                                                                 */
 
 };
 

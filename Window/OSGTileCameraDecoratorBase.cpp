@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILETILECAMERADECORATORINST
@@ -66,12 +62,6 @@
 #include "OSGTileCameraDecoratorBase.h"
 #include "OSGTileCameraDecorator.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	TileCameraDecoratorBase::LeftFieldMask = 
     (1 << TileCameraDecoratorBase::LeftFieldId);
@@ -115,10 +103,29 @@ const OSG::BitVector	TileCameraDecoratorBase::FullHeightFieldMask =
 
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.8 2001/08/07 17:20:08 dirk Exp $";
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.9 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Real32          TileCameraDecoratorBase::_sfLeft
+    The left border of the selected tile.
+*/
+/*! \var Real32          TileCameraDecoratorBase::_sfRight
+    The right border of the selected tile.
+*/
+/*! \var Real32          TileCameraDecoratorBase::_sfBottom
+    The bottom border of the selected tile.
+*/
+/*! \var Real32          TileCameraDecoratorBase::_sfTop
+    The top border of the selected tile.
+*/
+/*! \var UInt32          TileCameraDecoratorBase::_sfFullWidth
+    The width of the full image this is a tile of.
+*/
+/*! \var UInt32          TileCameraDecoratorBase::_sfFullHeight
+    The height of the full image this is a tile of.
+*/
+//! TileCameraDecorator description
 
 FieldDescription *TileCameraDecoratorBase::_desc[] = 
 {
@@ -154,8 +161,7 @@ FieldDescription *TileCameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFFullHeight)
 };
 
-/** \brief TileCameraDecorator type
- */
+//! TileCameraDecorator type
 
 FieldContainerType TileCameraDecoratorBase::_type(
     "TileCameraDecorator",
@@ -166,32 +172,14 @@ FieldContainerType TileCameraDecoratorBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(TileCameraDecoratorBase, TileCameraDecoratorPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "TileCameraDecorator"; 
+}
 
 FieldContainerType &TileCameraDecoratorBase::getType(void) 
 {
@@ -202,6 +190,7 @@ const FieldContainerType &TileCameraDecoratorBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr TileCameraDecoratorBase::shallowCopy(void) const 
 { 
@@ -224,38 +213,37 @@ void TileCameraDecoratorBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((TileCameraDecoratorBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 TileCameraDecoratorBase::TileCameraDecoratorBase(void) :
-	_sfLeft	(Real32(0)), 
-	_sfRight	(Real32(1)), 
-	_sfBottom	(Real32(0)), 
-	_sfTop	(Real32(1)), 
-	_sfFullWidth	(UInt32(0)), 
-	_sfFullHeight	(UInt32(0)), 
+	_sfLeft                   (Real32(0)), 
+	_sfRight                  (Real32(1)), 
+	_sfBottom                 (Real32(0)), 
+	_sfTop                    (Real32(1)), 
+	_sfFullWidth              (UInt32(0)), 
+	_sfFullHeight             (UInt32(0)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 TileCameraDecoratorBase::TileCameraDecoratorBase(const TileCameraDecoratorBase &source) :
-	_sfLeft		(source._sfLeft), 
-	_sfRight		(source._sfRight), 
-	_sfBottom		(source._sfBottom), 
-	_sfTop		(source._sfTop), 
-	_sfFullWidth		(source._sfFullWidth), 
-	_sfFullHeight		(source._sfFullHeight), 
-	Inherited        (source)
+	_sfLeft                   (source._sfLeft                   ), 
+	_sfRight                  (source._sfRight                  ), 
+	_sfBottom                 (source._sfBottom                 ), 
+	_sfTop                    (source._sfTop                    ), 
+	_sfFullWidth              (source._sfFullWidth              ), 
+	_sfFullHeight             (source._sfFullHeight             ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 TileCameraDecoratorBase::~TileCameraDecoratorBase(void)
 {
@@ -307,34 +295,22 @@ MemoryHandle TileCameraDecoratorBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-    {
         pMem = _sfLeft.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-    {
         pMem = _sfRight.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-    {
         pMem = _sfBottom.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-    {
         pMem = _sfTop.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (FullWidthFieldMask & whichField))
-    {
         pMem = _sfFullWidth.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (FullHeightFieldMask & whichField))
-    {
         pMem = _sfFullHeight.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -346,45 +322,26 @@ MemoryHandle TileCameraDecoratorBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-    {
         pMem = _sfLeft.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-    {
         pMem = _sfRight.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-    {
         pMem = _sfBottom.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-    {
         pMem = _sfTop.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (FullWidthFieldMask & whichField))
-    {
         pMem = _sfFullWidth.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (FullHeightFieldMask & whichField))
-    {
         pMem = _sfFullHeight.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOther,
                                         const BitVector         &whichField)
@@ -393,39 +350,23 @@ void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOt
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-    {
         _sfLeft.syncWith(pOther->_sfLeft);
-    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-    {
         _sfRight.syncWith(pOther->_sfRight);
-    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-    {
         _sfBottom.syncWith(pOther->_sfBottom);
-    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-    {
         _sfTop.syncWith(pOther->_sfTop);
-    }
 
     if(FieldBits::NoField != (FullWidthFieldMask & whichField))
-    {
         _sfFullWidth.syncWith(pOther->_sfFullWidth);
-    }
 
     if(FieldBits::NoField != (FullHeightFieldMask & whichField))
-    {
         _sfFullHeight.syncWith(pOther->_sfFullHeight);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

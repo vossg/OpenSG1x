@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
@@ -97,5 +93,3 @@ static _OSG##OSGPROP##PropReqDummyStructFor##OSGCLASS<                   \
 OSG_END_NAMESPACE
 
 #endif /* _OSGCONCEPTPROPERTYCHECKS_H_ */
-
-

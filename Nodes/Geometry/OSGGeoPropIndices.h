@@ -43,50 +43,42 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// Index uint32
-
 struct GeoIndexUI32PropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoIndexUI32";         }
-	static const Char8 *getClassName(void) { return "GeoIndexUI32Property"; }
-	static const Char8 *getFieldName(void) { return "Indices";              }
-	static const Char8 *getGroupName(void) { return "GeoIndex";             }
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static const Char8 *getTypeName (void) { return "GeoIndexUI32";         }
+    static const Char8 *getClassName(void) { return "GeoIndexUI32Property"; }
+    static const Char8 *getFieldName(void) { return "Indices";              }
+    static const Char8 *getGroupName(void) { return "GeoIndex";             }
 
-	static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-	static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
-	static UInt32 getDimension (void) { return 1;               }
-	static UInt32 getStride    (void) { return 0;               }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef GeoIndex                 Inherit;
-	typedef GeoIndex::PtrType        InheritPtr;
+    static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
+    static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
+    static UInt32 getDimension (void) { return 1;               }
+    static UInt32 getStride    (void) { return 0;               }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+
+    typedef GeoIndex                 Inherit;
+    typedef GeoIndex::PtrType        InheritPtr;
     typedef GeoIndexPropertyDesc     InheritDesc;
-	typedef MFUInt32                 FieldType;
+    typedef MFUInt32                 FieldType;
 
     typedef InheritDesc::GenericType GenericType;
- 
+
     typedef GeoPropertyInterface<GeoIndexPropertyDesc> Interface;
+    /*! \}                                                                 */
 };
 
 typedef GeoProperty<GeoIndexUI32PropertyDesc> GeoIndexUI32;
@@ -100,8 +92,8 @@ typedef GeoProperty<GeoIndexUI32PropertyDesc> GeoIndexUI32;
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoIndexUI32PropertyDesc, 
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoIndexUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

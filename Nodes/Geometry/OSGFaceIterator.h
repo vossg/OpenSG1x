@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodePtr.h>
@@ -57,20 +53,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
 
 class Geometry;
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \brief The FaceIterator allows iteration through faces, i.e. tris and/or quads.
  *  \ingroup GeoIterators
@@ -78,200 +63,93 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
 {
+    /*==========================  PUBLIC  =================================*/    
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-	//! classname access	
     static const char *getClassname(void) { return "FaceIterator"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
-	//! default constructor	
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */  
+
     FaceIterator( void );
- 
-	//! copy constructor	
-    FaceIterator(const FaceIterator &source);
- 
-	//! geometry constructor
+    FaceIterator( const FaceIterator &source);
     FaceIterator( const GeometryPtr& geo );
-
- 	//! node constructor
     FaceIterator( const NodePtr& geo );
 
-	//! destructor
-    virtual ~FaceIterator(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+    
+    virtual ~FaceIterator(void);
 
-    /*------------------------- access -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Access                                     */
+    /*! \{                                                                 */
+    
+    inline Int32        getIndex            ( void        ) const;
+    inline UInt32       getType             ( void        ) const;
+    inline UInt32       getLength           ( void        ) const;
+    
+    inline Int32        getPositionIndex    ( Int32 which ) const;
+    inline Pnt3f        getPosition         ( Int32 which ) const;
 
-	//! get the face index
-	inline Int32    	getIndex		( void 	      ) const;
+    inline Int32        getNormalIndex      ( Int32 which ) const;
+    inline Vec3f        getNormal           ( Int32 which ) const;
 
-	//! get the type of the currently processed primitive
-	inline UInt32 getType				( void ) const;
+    inline Int32        getColorIndex       ( Int32 which ) const;
+    inline Color3f      getColor            ( Int32 which ) const;
 
-	//! get the length, i.e. number of points of the face
-	inline UInt32    	getLength		( void 	      ) const;
+    inline Int32        getTexCoordsIndex   ( Int32 which ) const;
+    inline Vec2f        getTexCoords        ( Int32 which ) const;
 
+    inline Int32        getIndexIndex       ( Int32 which ) const;
 
-	//! @name face point attribute access
-	//@{
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Your operators                         */
+    /*! \{                                                                 */
 
-	inline Int32    	getPositionIndex	( Int32 which ) const;
-	inline Pnt3f		getPosition			( Int32 which ) const;
+    void           seek        (Int32 index);    
+    void           operator ++ (void);
+    FaceIterator & operator =  (const FaceIterator &source);
+    Bool           operator <  (const FaceIterator &other) const;
+    Bool           operator == (const FaceIterator &other) const;
+    Bool           operator != (const FaceIterator &other) const;
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
 
-	inline Int32    	getNormalIndex		( Int32 which ) const;
-	inline Vec3f   		getNormal	 		( Int32 which ) const;
+    void setToBegin( void );
+    void setToEnd  ( void );
 
-	inline Int32    	getColorIndex 		( Int32 which ) const;
-	inline Color3f		getColor			( Int32 which ) const;
+    /*! \}                                                                 */
 
-	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
-	inline Vec2f		getTexCoords		( Int32 which ) const;
-
-	inline Int32    	getIndexIndex    	( Int32 which ) const;
-	
-	//@}
-
-    /*------------------------- your_operators ------------------------------*/
-
-	//! increment to the next face
-    void operator ++( void );
-
-	//! seek from the beginning to face with index \a index
-	void seek( Int32 index );
-
-    /*------------------------- assignment ----------------------------------*/
-
-	//! assigment operator
-    FaceIterator & operator =(const FaceIterator &source);
-
-    /*------------------------- comparison ----------------------------------*/
-
-	//! @name comparison operators
-	//@{
-		
-    Bool operator <  (const FaceIterator &other) const;    
-	Bool operator == (const FaceIterator &other) const;
-	Bool operator != (const FaceIterator &other) const;
-
-	//@}
-
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	//! set the iterator to the first face
-	void setToBegin( void );
-
-	//! set the iterator after the last face
-	void setToEnd( void );
-	
+          
+   /*==========================  PRIVATE  ================================*/    
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-	//! Geometry needs access to setToBegin() and setToEnd() for construction
-	friend class Geometry;
-	
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	//! the CVS version id
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-	
-	//! the primitive Iterator it's based on
-	PrimitiveIterator _primIt;
-	
-	//! the geometry (for faster access)
-	GeometryPtr 	_geo;
-	
-	//! the face index, input for seek().
-	Int32 			_faceIndex;
-	
-	//! index of the first actual point within the active primitive
-	// this is the index into the primitive
-	UInt32 			_actPrimIndex;
-	
-	//! indices of the actual triangles' points
-	// these are indices into the primtive's indices, not actual indices
-	Int32 			_facePntIndex[4];
-	
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	//! called when stepping to next primitive, and at beginning
-	void startPrim( void );
+    static char cvsid[];
+  
+    PrimitiveIterator _primIt;
+    GeometryPtr       _geo;
+    Int32             _faceIndex;
+    UInt32            _actPrimIndex;
+    Int32             _facePntIndex[4];
+    
+    void startPrim( void );
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-//! class pointer
 typedef FaceIterator *FaceIteratorP;
 
 OSG_END_NAMESPACE

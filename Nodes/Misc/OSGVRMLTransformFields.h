@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class VRMLTransform;
-/** \brief VRMLTransformPtr
- */
+//! VRMLTransformPtr
+
 typedef FCPtr<TransformPtr, VRMLTransform> VRMLTransformPtr;
 
 /** \ingroup FieldLib VRMLTransform
- *  \brief VRMLTransformPtr field traits 
+ *  VRMLTransformPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<VRMLTransformPtr> :
     static char     *getMName(void) { return "MFVRMLTransformPtr"; }
 };
 
-/** \brief SFVRMLTransformPtr
- */
+//! SFVRMLTransformPtr
+
 typedef SField<VRMLTransformPtr> SFVRMLTransformPtr;
 
 #ifndef OSG_COMPILEVRMLTRANSFORMINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, VRMLTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFVRMLTransformPtr
- */
+//! MFVRMLTransformPtr
+
 typedef MField<VRMLTransformPtr> MFVRMLTransformPtr;
 
 #ifndef OSG_COMPILEVRMLTRANSFORMINST

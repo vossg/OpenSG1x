@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGRADIENTBACKGROUNDINST
@@ -66,12 +62,6 @@
 #include "OSGGradientBackgroundBase.h"
 #include "OSGGradientBackground.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -89,9 +79,7 @@ OSG_DLLEXPORT_DEF1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	GradientBackgroundBase::ColorFieldMask = 
     (1 << GradientBackgroundBase::ColorFieldId);
@@ -101,10 +89,17 @@ const OSG::BitVector	GradientBackgroundBase::PositionFieldMask =
 
 
 
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
+char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.12 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Color3f         GradientBackgroundBase::_mfColor
+    The colors of the gradient.
+*/
+/*! \var Real32          GradientBackgroundBase::_mfPosition
+    The positions of the gradient.
+*/
+//! GradientBackground description
 
 FieldDescription *GradientBackgroundBase::_desc[] = 
 {
@@ -120,8 +115,7 @@ FieldDescription *GradientBackgroundBase::_desc[] =
                      (FieldAccessMethod) &GradientBackgroundBase::getMFPosition)
 };
 
-/** \brief GradientBackground type
- */
+//! GradientBackground type
 
 FieldContainerType GradientBackgroundBase::_type(
     "GradientBackground",
@@ -132,32 +126,14 @@ FieldContainerType GradientBackgroundBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(GradientBackgroundBase, GradientBackgroundPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "GradientBackground"; 
+}
 
 FieldContainerType &GradientBackgroundBase::getType(void) 
 {
@@ -168,6 +144,7 @@ const FieldContainerType &GradientBackgroundBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr GradientBackgroundBase::shallowCopy(void) const 
 { 
@@ -190,30 +167,29 @@ void GradientBackgroundBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((GradientBackgroundBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 GradientBackgroundBase::GradientBackgroundBase(void) :
-	_mfColor	(), 
-	_mfPosition	(), 
+	_mfColor                  (), 
+	_mfPosition               (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &source) :
-	_mfColor		(source._mfColor), 
-	_mfPosition		(source._mfPosition), 
-	Inherited        (source)
+	_mfColor                  (source._mfColor                  ), 
+	_mfPosition               (source._mfPosition               ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 GradientBackgroundBase::~GradientBackgroundBase(void)
 {
@@ -245,14 +221,10 @@ MemoryHandle GradientBackgroundBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _mfColor.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _mfPosition.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -264,25 +236,14 @@ MemoryHandle GradientBackgroundBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _mfColor.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _mfPosition.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOther,
                                         const BitVector         &whichField)
@@ -291,19 +252,11 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         _mfColor.syncWith(pOther->_mfColor);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         _mfPosition.syncWith(pOther->_mfPosition);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

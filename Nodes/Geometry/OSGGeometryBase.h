@@ -57,48 +57,35 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGNodeCore.h>
-#include <OSGGeoPTypeFields.h>	// Types type
-#include <OSGGeoPLengthFields.h>	// Lengths type
-#include <OSGGeoPositionFields.h>	// Positions type
-#include <OSGGeoNormalFields.h>	// Normals type
-#include <OSGGeoColorFields.h>	// Colors type
-#include <OSGGeoTexCoordsFields.h>	// TexCoords type
-#include <OSGGeoIndexFields.h>	// Index type
-#include <OSGUInt16Fields.h>	// IndexMapping type
-#include <OSGMaterialFields.h>	// Material type
-#include <OSGBoolFields.h>	// DlistCache type
-#include <OSGInt32Fields.h>	// GLId type
+
+#include <OSGNodeCore.h> // Parent
+
+#include <OSGGeoPTypeFields.h> // Types type
+#include <OSGGeoPLengthFields.h> // Lengths type
+#include <OSGGeoPositionFields.h> // Positions type
+#include <OSGGeoNormalFields.h> // Normals type
+#include <OSGGeoColorFields.h> // Colors type
+#include <OSGGeoTexCoordsFields.h> // TexCoords type
+#include <OSGGeoIndexFields.h> // Index type
+#include <OSGUInt16Fields.h> // IndexMapping type
+#include <OSGMaterialFields.h> // Material type
+#include <OSGBoolFields.h> // DlistCache type
+#include <OSGInt32Fields.h> // GLId type
 
 #include <OSGGeometryFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Geometry;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! Geometry Base Class. */
+/*! \brief Geometry Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 {
@@ -106,27 +93,23 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
     typedef NodeCore Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        TypesFieldId = Inherited::NextFieldId,
-        LengthsFieldId = TypesFieldId + 1,
-        PositionsFieldId = LengthsFieldId + 1,
-        NormalsFieldId = PositionsFieldId + 1,
-        ColorsFieldId = NormalsFieldId + 1,
-        TexCoordsFieldId = ColorsFieldId + 1,
-        IndexFieldId = TexCoordsFieldId + 1,
-        IndexMappingFieldId = IndexFieldId + 1,
-        MaterialFieldId = IndexMappingFieldId + 1,
-        DlistCacheFieldId = MaterialFieldId + 1,
-        GLIdFieldId = DlistCacheFieldId + 1,
-        NextFieldId = GLIdFieldId + 1
-
+        TypesFieldId        = Inherited::NextFieldId,
+        LengthsFieldId      = TypesFieldId        + 1,
+        PositionsFieldId    = LengthsFieldId      + 1,
+        NormalsFieldId      = PositionsFieldId    + 1,
+        ColorsFieldId       = NormalsFieldId      + 1,
+        TexCoordsFieldId    = ColorsFieldId       + 1,
+        IndexFieldId        = TexCoordsFieldId    + 1,
+        IndexMappingFieldId = IndexFieldId        + 1,
+        MaterialFieldId     = IndexMappingFieldId + 1,
+        DlistCacheFieldId   = MaterialFieldId     + 1,
+        GLIdFieldId         = DlistCacheFieldId   + 1,
+        NextFieldId         = GLIdFieldId         + 1
     };
 
     static const osg::BitVector TypesFieldMask;
@@ -141,40 +124,90 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     static const osg::BitVector DlistCacheFieldMask;
     static const osg::BitVector GLIdFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "GeometryBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static GeometryPtr         create          (void); 
-    static GeometryPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFGeoPTypePtr       *getSFTypes          (void);
+    inline       SFGeoPLengthPtr     *getSFLengths        (void);
+    inline       SFGeoPositionPtr    *getSFPositions      (void);
+    inline       SFGeoNormalPtr      *getSFNormals        (void);
+    inline       SFGeoColorPtr       *getSFColors         (void);
+    inline       SFGeoTexCoordsPtr   *getSFTexCoords      (void);
+    inline       SFGeoIndexPtr       *getSFIndex          (void);
+    inline       MFUInt16            *getMFIndexMapping   (void);
+    inline       SFMaterialPtr       *getSFMaterial       (void);
+    inline       SFBool              *getSFDlistCache     (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       GeoPTypePtr         &getTypes          (void);
+    inline const GeoPTypePtr         &getTypes          (void) const;
+    inline       GeoPLengthPtr       &getLengths        (void);
+    inline const GeoPLengthPtr       &getLengths        (void) const;
+    inline       GeoPositionPtr      &getPositions      (void);
+    inline const GeoPositionPtr      &getPositions      (void) const;
+    inline       GeoNormalPtr        &getNormals        (void);
+    inline const GeoNormalPtr        &getNormals        (void) const;
+    inline       GeoColorPtr         &getColors         (void);
+    inline const GeoColorPtr         &getColors         (void) const;
+    inline       GeoTexCoordsPtr     &getTexCoords      (void);
+    inline const GeoTexCoordsPtr     &getTexCoords      (void) const;
+    inline       GeoIndexPtr         &getIndex          (void);
+    inline const GeoIndexPtr         &getIndex          (void) const;
+    inline       MaterialPtr         &getMaterial       (void);
+    inline const MaterialPtr         &getMaterial       (void) const;
+    inline       Bool                &getDlistCache     (void);
+    inline const Bool                &getDlistCache     (void) const;
+    inline       UInt16              &getIndexMapping   (UInt32 index);
+    inline       MFUInt16            &getIndexMapping   (void);
+    inline const MFUInt16            &getIndexMapping   (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setTypes          ( const GeoPTypePtr &value );
+    inline void setLengths        ( const GeoPLengthPtr &value );
+    inline void setPositions      ( const GeoPositionPtr &value );
+    inline void setNormals        ( const GeoNormalPtr &value );
+    inline void setColors         ( const GeoColorPtr &value );
+    inline void setTexCoords      ( const GeoTexCoordsPtr &value );
+    inline void setIndex          ( const GeoIndexPtr &value );
+    inline void setMaterial       ( const MaterialPtr &value );
+    inline void setDlistCache     ( const Bool &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -182,190 +215,94 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFGeoPTypePtr	*getSFTypes(void);
-    inline SFGeoPLengthPtr	*getSFLengths(void);
-    inline SFGeoPositionPtr	*getSFPositions(void);
-    inline SFGeoNormalPtr	*getSFNormals(void);
-    inline SFGeoColorPtr	*getSFColors(void);
-    inline SFGeoTexCoordsPtr	*getSFTexCoords(void);
-    inline SFGeoIndexPtr	*getSFIndex(void);
-    inline MFUInt16	*getMFIndexMapping(void);
-    inline SFMaterialPtr	*getSFMaterial(void);
-    inline SFBool	*getSFDlistCache(void);
+    static  GeometryPtr    create          (void); 
+    static  GeometryPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       GeoPTypePtr	&getTypes(void);
-    inline const GeoPTypePtr	&getTypes(void) const;
-    inline       void	         setTypes( const GeoPTypePtr &value );
-    inline       GeoPLengthPtr	&getLengths(void);
-    inline const GeoPLengthPtr	&getLengths(void) const;
-    inline       void	         setLengths( const GeoPLengthPtr &value );
-    inline       GeoPositionPtr	&getPositions(void);
-    inline const GeoPositionPtr	&getPositions(void) const;
-    inline       void	         setPositions( const GeoPositionPtr &value );
-    inline       GeoNormalPtr	&getNormals(void);
-    inline const GeoNormalPtr	&getNormals(void) const;
-    inline       void	         setNormals( const GeoNormalPtr &value );
-    inline       GeoColorPtr	&getColors(void);
-    inline const GeoColorPtr	&getColors(void) const;
-    inline       void	         setColors( const GeoColorPtr &value );
-    inline       GeoTexCoordsPtr	&getTexCoords(void);
-    inline const GeoTexCoordsPtr	&getTexCoords(void) const;
-    inline       void	         setTexCoords( const GeoTexCoordsPtr &value );
-    inline       GeoIndexPtr	&getIndex(void);
-    inline const GeoIndexPtr	&getIndex(void) const;
-    inline       void	         setIndex( const GeoIndexPtr &value );
-    inline       MaterialPtr	&getMaterial(void);
-    inline const MaterialPtr	&getMaterial(void) const;
-    inline       void	         setMaterial( const MaterialPtr &value );
-    inline       Bool	&getDlistCache(void);
-    inline const Bool	&getDlistCache(void) const;
-    inline       void	         setDlistCache( const Bool &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-    inline       UInt16	               &getIndexMapping( UInt32 index );
-    inline       MFUInt16 &getIndexMapping(void);
-    inline const MFUInt16 &getIndexMapping(void) const;
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFGeoPTypePtr	_sfTypes;
-    /*! 
-     */
-    SFGeoPLengthPtr	_sfLengths;
-    /*! 
-     */
-    SFGeoPositionPtr	_sfPositions;
-    /*! 
-     */
-    SFGeoNormalPtr	_sfNormals;
-    /*! 
-     */
-    SFGeoColorPtr	_sfColors;
-    /*! 
-     */
+    SFGeoPTypePtr    	_sfTypes;
+    SFGeoPLengthPtr  	_sfLengths;
+    SFGeoPositionPtr 	_sfPositions;
+    SFGeoNormalPtr   	_sfNormals;
+    SFGeoColorPtr    	_sfColors;
     SFGeoTexCoordsPtr	_sfTexCoords;
-    /*! 
-     */
-    SFGeoIndexPtr	_sfIndex;
-    /*! 
-     */
-    MFUInt16	_mfIndexMapping;
-    /*! 
-     */
-    SFMaterialPtr	_sfMaterial;
-    /*! Flag to activate caching the geometry inside a display list.
-     */
-    SFBool	_sfDlistCache;
-    /*! The dlist id, if used.
-     */
-    SFInt32	_sfGLId;
+    SFGeoIndexPtr    	_sfIndex;
+    MFUInt16         	_mfIndexMapping;
+    SFMaterialPtr    	_sfMaterial;
+    SFBool           	_sfDlistCache;
+    SFInt32          	_sfGLId;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     GeometryBase(void);
     GeometryBase(const GeometryBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~GeometryBase(void); 
-    
-    //! Return the protected fields.
 
-    inline SFInt32	*getSFGLId(void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    //!@{ Return the fields' values.
+    inline       SFInt32             *getSFGLId           (void);
 
-    inline       Int32	&getGLId(void);
-    inline const Int32	&getGLId(void) const;
-    inline       void	         setGLId( const Int32 &value );
+    inline       Int32               &getGLId           (void);
+    inline const Int32               &getGLId           (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
 
-    //!@}
+    inline void setGLId           (const Int32 &value);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      GeometryBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -377,8 +314,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef GeometryBase *GeometryBaseP;
 
 OSG_END_NAMESPACE

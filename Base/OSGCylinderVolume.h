@@ -41,167 +41,106 @@
 #ifndef CYLINDERVOLUME_CLASS_DECLARATION
 #define CYLINDERVOLUME_CLASS_DECLARATION
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include "OSGLine.h"
 #include "OSGVolume.h"
 #include "OSGVector.h"
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 /** 3D cylinder in space defined by axis and radius.
 
 This class is used within other classes in ase. It contains data to
-represent a cylinder by an axis and a radius. The height of the 
-cylinder is defined by the length of the axis, i.e. its apex is at 
+represent a cylinder by an axis and a radius. The height of the
+cylinder is defined by the length of the axis, i.e. its apex is at
 _axisPos + _axisDir.
 
 */
 
-class OSG_BASE_DLLMAPPING CylinderVolume : public Volume {
+class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-public:
+    inline CylinderVolume(void);
 
-	//-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    inline CylinderVolume(const Pnt3f &p, const Vec3f &d, float r);
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    inline CylinderVolume(const CylinderVolume &c);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    inline ~CylinderVolume(void); // {;}
 
-	/*-------------------------- constructor ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Set                                   */
+    /*! \{                                                                 */
 
-	/*! Default Constructor
-	*/
-	inline CylinderVolume(void);
+    inline void setValue  (const Pnt3f &p, const Vec3f &d, float r);
+    inline void setAxis   (const Pnt3f &p, const Vec3f &d);
+    inline void setRadius (float r);
 
-  /// Construct a cylinder given its axis and radius
-	inline CylinderVolume(const Pnt3f &p, const Vec3f &d, float r);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Get                                   */
+    /*! \{                                                                 */
+    
+    inline  void  getAxis         (Pnt3f &apos, Vec3f &adir) const;
+    inline  float getRadius       (void) const;
+    virtual void  getCenter       (Pnt3f &center) const;
+    virtual float getScalarVolume (void) const;
+    virtual void  getBounds       ( Pnt3f &min, Pnt3f &max ) const;
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Extend                                */
+    /*! \{                                                                 */
 
-  /// Copy constructor
-	inline CylinderVolume(const CylinderVolume &c);
+    virtual void extendBy (const Pnt3f &pt);
+    inline  void extendBy (const Volume &volume);
+    inline  void extendBy (const CylinderVolume &obj);
 
-  /// Desctructor
-	inline ~CylinderVolume(void); // {;}
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Intersect                             */
+    /*! \{                                                                 */
 
+    virtual Bool intersect   (const Pnt3f &point) const;
+    Bool intersect           (const Line &line) const;
+    virtual Bool intersect   (const Line &line,
+                              Real32 &enter, Real32 &exit  ) const;
 
-	
-/*------------------------------ feature ----------------------------------*/
-	
-  /// Change the axis and radius
-  inline void setValue(const Pnt3f &p, const Vec3f &d, float r);
+    virtual Bool intersect   (const Volume &volume) const;
+    virtual Bool intersect   (const CylinderVolume &volume) const;
+    virtual Bool isOnSurface (const Pnt3f &point) const;
 
-  /// set just the axis 
-  inline void setAxis(const Pnt3f &p, const Vec3f &d); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Transform                             */
+    /*! \{                                                                 */
 
-  /// set just the radius
-  inline void setRadius(float r);
+    virtual void transform (const Matrix &mat);
 
-  /// return the axis
-  inline void getAxis(Pnt3f &apos, Vec3f &adir) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Output                                */
+    /*! \{                                                                 */
 
-  /// return the radius
-  inline float getRadius(void) const;
+    virtual void dump(UInt32 uiIndent = 0,
+                      const BitVector & bvFlags = 0) const;
 
-	/// Returns the center
-	virtual void getCenter(Pnt3f &center) const;
-	
-  /** returns the scalar volume of the cylinder */
-  virtual float getScalarVolume (void) const;
-
-  /** gives the boundaries of the volume */
-  virtual void getBounds( Pnt3f &min, Pnt3f &max ) const;
-
-
-
-/*-------------------------- extending ------------------------------------*/
-
-  /** extends (if necessary) to contain the given 3D point */
-  virtual void extendBy (const Pnt3f &pt);
-
-  /** extend the volume by the given volume */
-	inline void extendBy (const Volume &volume);
-
-	/** extends cylinder (if necessary) to contain given cylinder */
-	inline void extendBy (const CylinderVolume &obj);
-
-
-
-/*-------------------------- intersection ---------------------------------*/
-
-	/** Returns true if intersection of given point and CylinderVolume is not empty */
-  virtual Bool intersect (const Pnt3f &point) const;	
-
-	/** intersect the CylinderVolume with the given Line */
-	Bool intersect (const Line &line) const;
-
-	/** intersect the CylinderVolume with the given Line */
-	virtual Bool intersect ( const Line &line, 
-							 Real32 &enter, Real32 &exit  ) const;
-
-	/** intersect the CylinderVolume with another Volume */
-  	virtual Bool intersect (const Volume &volume) const;
-
-	/** intersect the CylinderVolume with another CylinderVolume */
-	virtual Bool intersect (const CylinderVolume &volume) const;
-
-  /** check if the point is on the volume's surface */
-  virtual Bool isOnSurface (const Pnt3f &point) const;
-
-
-
-/*-------------------------- transformation -------------------------------*/
-
-  /** transform volume by the given matrix */
-  virtual void transform (const Matrix &mat);
-
-/*-------------------------- output -------------------------------*/
-
-	/** print the volume */
-  virtual void dump(	UInt32				uiIndent = 0, 
-						const BitVector &	bvFlags = 0) const;
-
-//-----------------------------------------------------------------------
-//   instance variables                                                  
-//-----------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-//   instance functions                                                  
-//-----------------------------------------------------------------------
-
-private:
-
-	/// axis startpoint
-	Pnt3f _axisPos;
-
-	// axis direction
-	Vec3f _axisDir;
-
-  /// Radius
-  float	_radius;
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+    Pnt3f _axisPos;
+    Vec3f _axisDir;
+    float _radius;
 
 };
 

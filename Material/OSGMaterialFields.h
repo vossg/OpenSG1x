@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Material;
-/** \brief MaterialPtr
- */
+//! MaterialPtr
+
 typedef FCPtr<FieldContainerPtr, Material> MaterialPtr;
 
 /** \ingroup FieldLib Material
- *  \brief MaterialPtr field traits 
+ *  MaterialPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<MaterialPtr> :
     static char     *getMName(void) { return "MFMaterialPtr"; }
 };
 
-/** \brief SFMaterialPtr
- */
+//! SFMaterialPtr
+
 typedef SField<MaterialPtr> SFMaterialPtr;
 
 #ifndef OSG_COMPILEMATERIALINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFMaterialPtr
- */
+//! MFMaterialPtr
+
 typedef MField<MaterialPtr> MFMaterialPtr;
 
 #ifndef OSG_COMPILEMATERIALINST

@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
@@ -54,18 +50,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 /*! \ingroup BaseMathQuaternions
  *  \brief QuaternionBase, that's the way how to define rotations.
  */
@@ -73,208 +57,191 @@ OSG_BEGIN_NAMESPACE
 template <class ValueTypeT>
 class OSG_BASE_DLLMAPPING QuaternionBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Types                                     */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VectorInterface     <ValueTypeT, 
+    typedef VectorInterface     <ValueTypeT,
                                  VecStorage3<ValueTypeT> > VectorType;
-
     typedef TransformationMatrix<ValueTypeT>               MatrixType;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "QuaternionBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-	static const QuaternionBase &identity(void);
+    static const char           *getClassname(void                          )
+                                { return "QuaternionBase"; };
+    static const QuaternionBase &identity    (void                          );
 
-    static       QuaternionBase slerp    (const QuaternionBase &rot0,
-                                          const QuaternionBase &rot1, 
-                                          const ValueTypeT      t);
-    
+    static       QuaternionBase slerp        (const QuaternionBase &rot0,
+                                              const QuaternionBase &rot1,
+                                              const ValueTypeT      t       );
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+                QuaternionBase(      void                               );
+                QuaternionBase(const QuaternionBase &source             );
+                QuaternionBase(      ValueTypeT      x,
+                                     ValueTypeT      y,
+                                     ValueTypeT      z,
+                                     ValueTypeT      w                  );
+    explicit    QuaternionBase(const MatrixType     &matrix             );
+                QuaternionBase(const VectorType     &axis,
+                               const ValueTypeT      angle              );
+                QuaternionBase(const VectorType     &rotateFrom,
+                               const VectorType     &rotateTo           );
 
-    QuaternionBase(void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    QuaternionBase(const QuaternionBase &source);
+    virtual ~QuaternionBase(void);
 
-    QuaternionBase(ValueTypeT x, 
-                   ValueTypeT y, 
-                   ValueTypeT z,
-                   ValueTypeT w);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Set                                        */
+    /*! \{                                                                 */
 
-    explicit QuaternionBase(const MatrixType &matrix);
+    void setIdentity        (       void                                    );
+    void setValueAsAxisRad  (const  ValueTypeT *valsP                       );
+    void setValueAsAxisDeg  (const  ValueTypeT *valsP                       );
+    void setValueAsQuat     (const  ValueTypeT *valsP                       );
+    void setValueAsAxisRad  (const  ValueTypeT  x,
+                             const  ValueTypeT  y,
+                             const  ValueTypeT  z,
+                             const  ValueTypeT  w                           );
+    void setValueAsAxisDeg  (const  ValueTypeT  x,
+                             const  ValueTypeT  y,
+                             const  ValueTypeT  z,
+                             const  ValueTypeT  w                           );
+    void setValueAsQuat     (const  ValueTypeT  x,
+                             const  ValueTypeT  y,
+                             const  ValueTypeT  z,
+                             const  ValueTypeT  w                           );
+    void setValue           (const  MatrixType &matrix);
+    void setValueAsAxisRad  (const  VectorType &axis,    ValueTypeT angle   );
+    void setValueAsAxisDeg  (const  VectorType &axis,    ValueTypeT angle   );
+    void setValue           (const  VectorType &rotateFrom,
+                             const  VectorType &rotateTo                    );
+    void setValueAsQuat     (const  char       *str                         );
+    void setValueAsAxisRad  (const  char       *str                         );
+    void setValueAsAxisDeg  (const  char       *str                         );
+    void setValue           (const  ValueTypeT alpha,
+                             const  ValueTypeT beta,
+                             const  ValueTypeT gamma                        );
 
-    QuaternionBase(const VectorType &axis, 
-                   const ValueTypeT  angle);
-    
-    QuaternionBase(const VectorType &rotateFrom, 
-                   const VectorType &rotateTo);
+    //*! \}                                                                */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get                                        */
+    /*! \{                                                                 */
 
-    virtual ~QuaternionBase(void); 
+    const ValueTypeT *getValues (void) const;
+    void  getValueAsAxisDeg     (ValueTypeT &x,
+                                 ValueTypeT &y,
+                                 ValueTypeT &z,
+                                 ValueTypeT &w)      const;
+    void  getValueAsAxisRad     (ValueTypeT &x,
+                                 ValueTypeT &y,
+                                 ValueTypeT &z,
+                                 ValueTypeT &w)      const;
+    void  getValueAsQuat        (ValueTypeT &x,
+                                 ValueTypeT &y,
+                                 ValueTypeT &z,
+                                 ValueTypeT &w)      const;
 
-    /*------------------------- set functions -------------------------------*/
+    void  getValueAsAxisRad (VectorType &axis, ValueTypeT &radians) const;
+    void  getValueAsAxisDeg (VectorType &axis, ValueTypeT &radians) const;
+    void  getValue          (MatrixType &matrix)                    const;
 
-    void setIdentity(void);
+    ValueTypeT x(void) const;
+    ValueTypeT y(void) const;
+    ValueTypeT z(void) const;
+    ValueTypeT w(void) const;
 
-	void setValueAsAxisRad(const ValueTypeT *valsP);
-	void setValueAsAxisDeg(const ValueTypeT *valsP);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Simple Math                               */
+    /*! \{                                                                 */
 
-	void setValueAsQuat(const ValueTypeT *valsP);
+    ValueTypeT            length    (void);
+    void                  normalize (void);
 
-	void setValueAsAxisRad ( const ValueTypeT x, 
-                           const ValueTypeT y, 
-                           const ValueTypeT z, 
-                           const ValueTypeT w);
-	void setValueAsAxisDeg ( const ValueTypeT x, 
-                           const ValueTypeT y, 
-                           const ValueTypeT z, 
-                           const ValueTypeT w);
+    void                  invert    (void);
+    const QuaternionBase  inverse   (void)                       const;
 
-	void setValueAsQuat(const ValueTypeT x, 
-                        const ValueTypeT y, 
-                        const ValueTypeT z, 
-                        const ValueTypeT w);
+    void                  multVec   (const VectorType &src,
+                                          VectorType &dst)       const;
 
-	void setValue(const MatrixType &matrix);
+    void                  transform (const VectorType &src,
+                                          VectorType &dst)       const;
 
-	void setValueAsAxisRad(const VectorType &axis, ValueTypeT angle);
-	void setValueAsAxisDeg(const VectorType &axis, ValueTypeT angle);
+    void                  scaleAngle(ValueTypeT scaleFactor);
 
-	void setValue ( const VectorType &rotateFrom, 
-                  const VectorType &rotateTo);
+    void                  slerpThis (const QuaternionBase &rot0,
+                                     const QuaternionBase &rot1,
+                                     const ValueTypeT      t);
 
-	void setValueAsQuat     (const char *str);
-  void setValueAsAxisRad  (const char *str);
-  void setValueAsAxisDeg  (const char *str);
+    void                  mult      (const QuaternionBase &other);
+    void                  multLeft  (const QuaternionBase &other);
 
-	void setValue ( const ValueTypeT alpha, 
-                  const ValueTypeT beta,
-                  const ValueTypeT gamma);
+    Bool                  equals    (const QuaternionBase &rot,
+                                     const ValueTypeT tolerance) const;
 
-    /*------------------------- get functions -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Element Access                              */
+    /*! \{                                                                 */
 
-	const ValueTypeT *getValues(void) const;
+          ValueTypeT &operator [](const UInt32 index);
+    const ValueTypeT &operator [](const UInt32 index) const;
 
-	void getValueAsAxisDeg ( ValueTypeT &x, 
-                           ValueTypeT &y, 
-                           ValueTypeT &z,
-                           ValueTypeT &w) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Math Operators                             */
+    /*! \{                                                                 */
 
-	void getValueAsAxisRad ( ValueTypeT &x, 
-                           ValueTypeT &y, 
-                           ValueTypeT &z,
-                           ValueTypeT &w) const;
+    void operator *=(const QuaternionBase &other);
 
-
-  void getValueAsQuat ( ValueTypeT &x, 
-                        ValueTypeT &y, 
-                        ValueTypeT &z,
-                        ValueTypeT &w) const;
-
-	void getValueAsAxisRad(VectorType &axis, ValueTypeT &radians) const;
-	void getValueAsAxisDeg(VectorType &axis, ValueTypeT &radians) const;
-
-	void getValue(MatrixType &matrix) const;
-
-	ValueTypeT x(void) const;
-	ValueTypeT y(void) const;
-	ValueTypeT z(void) const;
-	ValueTypeT w(void) const;
-
-    /*------------------------- simple math -------------------------------*/
-
-    ValueTypeT length   (void);
-    void       normalize(void);
-
-    void                  invert (void);
-	const QuaternionBase  inverse(void) const;
-
-	void multVec   (const VectorType &src, VectorType &dst) const;
-
-	void transform (const VectorType &src, VectorType &dst) const;
-
-	void scaleAngle(ValueTypeT scaleFactor);
-
-    void slerpThis (const QuaternionBase &rot0,
-                    const QuaternionBase &rot1, 
-                    const ValueTypeT      t);
-
-	void mult      (const QuaternionBase &other);
-	void multLeft  (const QuaternionBase &other);
-
-	Bool equals    (const QuaternionBase &rot, 
-                    const ValueTypeT tolerance) const;
-
-    /*------------------------- element access ------------------------------*/
-
-	      ValueTypeT &operator [](const UInt32 index);
-	const ValueTypeT &operator [](const UInt32 index) const;
-
-    /*------------------------- math operators ------------------------------*/
-
-	void operator *=(const QuaternionBase &other);
-
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Assignment                                 */
+    /*! \{                                                                 */
 
     const QuaternionBase& operator = (const QuaternionBase &source);
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
 
     Bool operator <  (const QuaternionBase &other) const;
-    
-	Bool operator == (const QuaternionBase &other) const;
-	Bool operator != (const QuaternionBase &other) const;
 
+    Bool operator == (const QuaternionBase &other) const;
+    Bool operator != (const QuaternionBase &other) const;
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
     static void slerp(const QuaternionBase &rot0,
-                      const QuaternionBase &rot1, 
+                      const QuaternionBase &rot1,
                             QuaternionBase &result,
                       const ValueTypeT      t);
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+           void mult (const ValueTypeT rVal1[4],
+                      const ValueTypeT rVal2[4]);
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    void mult(const ValueTypeT rVal1[4], const ValueTypeT rVal2[4]);
-
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum ElementIndices
     {
@@ -284,46 +251,13 @@ class OSG_BASE_DLLMAPPING QuaternionBase
         Q_W = 3
     };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
+    static char            cvsid[];
 
     static QuaternionBase _identity;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+           ValueTypeT     _quat[4];
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    ValueTypeT _quat[4];
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
 
 /** \var typedef QuaternionBase<Real32> Quaternion;
  *  \brief Quaternion

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEMATERIALGROUPINST
@@ -66,12 +62,6 @@
 #include "OSGMaterialGroupBase.h"
 #include "OSGMaterialGroup.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,19 +81,21 @@ OSG_DLLEXPORT_DEF1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	MaterialGroupBase::MaterialFieldMask = 
     (1 << MaterialGroupBase::MaterialFieldId);
 
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.10 2001/08/03 16:11:48 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.11 2001/09/13 16:21:02 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var MaterialPtr     MaterialGroupBase::_sfMaterial
+    
+*/
+//! MaterialGroup description
 
 FieldDescription *MaterialGroupBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *MaterialGroupBase::_desc[] =
                      (FieldAccessMethod) &MaterialGroupBase::getSFMaterial)
 };
 
-/** \brief MaterialGroup type
- */
+//! MaterialGroup type
 
 FieldContainerType MaterialGroupBase::_type(
     "MaterialGroup",
@@ -126,32 +117,14 @@ FieldContainerType MaterialGroupBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(MaterialGroupBase, MaterialGroupPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "MaterialGroup"; 
+}
 
 FieldContainerType &MaterialGroupBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &MaterialGroupBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr MaterialGroupBase::shallowCopy(void) const 
 { 
@@ -184,28 +158,27 @@ void MaterialGroupBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((MaterialGroupBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 MaterialGroupBase::MaterialGroupBase(void) :
-	_sfMaterial	(), 
+	_sfMaterial               (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 MaterialGroupBase::MaterialGroupBase(const MaterialGroupBase &source) :
-	_sfMaterial		(source._sfMaterial), 
-	Inherited        (source)
+	_sfMaterial               (source._sfMaterial               ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 MaterialGroupBase::~MaterialGroupBase(void)
 {
@@ -232,9 +205,7 @@ MemoryHandle MaterialGroupBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         pMem = _sfMaterial.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -246,20 +217,11 @@ MemoryHandle MaterialGroupBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         pMem = _sfMaterial.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void MaterialGroupBase::executeSyncImpl(      MaterialGroupBase *pOther,
                                         const BitVector         &whichField)
@@ -268,14 +230,8 @@ void MaterialGroupBase::executeSyncImpl(      MaterialGroupBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         _sfMaterial.syncWith(pOther->_sfMaterial);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
@@ -54,23 +50,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 template<class ValueTypeT, class StorageInterfaceT>
 class VectorInterface;
 
 template<class ValueTypeT, class StorageInterfaceT>
 class PointInterface;
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathVectors
  *  \brief Vector storage holding 2 elements, for details about how vectors,
@@ -78,116 +63,64 @@ class PointInterface;
  */
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING VecStorage2 
+class OSG_BASE_DLLMAPPING VecStorage2
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum VectorSizeE { _iSize = 2 };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "VecStorage2"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructor                                */
+    /*! \{                                                                 */
 
     VecStorage2(void);
 
-    ~VecStorage2(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    /*----------------------------- access ----------------------------------*/
+    ~VecStorage2(void);
 
-    void setValues(const ValueTypeT rVal1, const ValueTypeT rVal2);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Access                                  */
+    /*! \{                                                                 */
+
+    void setValues        (const ValueTypeT rVal1, const ValueTypeT rVal2);
 
     void getSeparateValues(ValueTypeT &rVal1, ValueTypeT &rVal2) const;
 
     ValueTypeT x(void) const;
     ValueTypeT y(void) const;
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
 
     ValueTypeT _values[_iSize];
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    // prohibit default functions (move to 'public' if you need one)
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
-
-    VecStorage2(const VecStorage2 &source);
+    VecStorage2    (const VecStorage2 &source);
     void operator =(const VecStorage2 &source);
 };
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathVectors
  *  \brief Vector storage holding 3 elements, for details about how vectors,
@@ -197,119 +130,67 @@ class OSG_BASE_DLLMAPPING VecStorage2
 template <class ValueTypeT>
 class OSG_BASE_DLLMAPPING VecStorage3
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum VectorSizeE { _iSize = 3 };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "VecStorage3"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructor                                */
+    /*! \{                                                                 */
 
     VecStorage3(void);
 
-    ~VecStorage3(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    /*----------------------------- access ---------------------------------*/
+    ~VecStorage3(void);
 
-    void setValues(const ValueTypeT rVal1, 
-                   const ValueTypeT rVal2, 
-                   const ValueTypeT rVal3);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Access                                  */
+    /*! \{                                                                 */
 
-    void getSeparateValues(ValueTypeT &rVal1, 
-                           ValueTypeT &rVal2, 
-                           ValueTypeT &rVal3) const;
+    void       setValues        (const ValueTypeT rVal1,
+                                 const ValueTypeT rVal2,
+                                 const ValueTypeT rVal3);
 
-    ValueTypeT x(void) const;
-    ValueTypeT y(void) const;
-    ValueTypeT z(void) const;
+    void       getSeparateValues(ValueTypeT &rVal1,
+                                 ValueTypeT &rVal2,
+                                 ValueTypeT &rVal3) const;
 
+    ValueTypeT x(void)  const;
+    ValueTypeT y(void)  const;
+    ValueTypeT z(void)  const;
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
 
     ValueTypeT _values[_iSize];
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    // prohibit default functions (move to 'public' if you need one)
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
-
-    VecStorage3(const VecStorage3 &source);
+    VecStorage3    (const VecStorage3 &source);
     void operator =(const VecStorage3 &source);
 };
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathVectors
  *  \brief Vector storage holding 4 elements, for details about how vectors,
@@ -319,42 +200,45 @@ class OSG_BASE_DLLMAPPING VecStorage3
 template <class ValueTypeT>
 class OSG_BASE_DLLMAPPING VecStorage4
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum VectorSizeE { _iSize = 4 };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "VecStorage4"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructor                                */
+    /*! \{                                                                 */
 
     VecStorage4(void);
 
-    ~VecStorage4(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    /*----------------------------- access ----------------------------------*/
+    ~VecStorage4(void);
 
-    void setValues(const ValueTypeT rVal1, 
-                   const ValueTypeT rVal2, 
-                   const ValueTypeT rVal3, 
-                   const ValueTypeT rVal4);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Access                                  */
+    /*! \{                                                                 */
 
-    void getSeparateValues(ValueTypeT &rVal1, 
-                           ValueTypeT &rVal2, 
-                           ValueTypeT &rVal3, 
+    void setValues        (const ValueTypeT rVal1,
+                           const ValueTypeT rVal2,
+                           const ValueTypeT rVal3,
+                           const ValueTypeT rVal4);
+
+    void getSeparateValues(ValueTypeT &rVal1,
+                           ValueTypeT &rVal2,
+                           ValueTypeT &rVal3,
                            ValueTypeT &rVal4) const;
 
     ValueTypeT x(void) const;
@@ -362,83 +246,29 @@ class OSG_BASE_DLLMAPPING VecStorage4
     ValueTypeT z(void) const;
     ValueTypeT w(void) const;
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
 
     ValueTypeT _values[_iSize];
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    // prohibit default functions (move to 'public' if you need one)
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
-
-    VecStorage4(const VecStorage4 &source);
+    VecStorage4    (const VecStorage4 &source);
     void operator =(const VecStorage4 &source);
 };
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathVectors
  *  \brief Point Interface, for details about how vectors, points and matrices
- *   are actually build see \ref vecpointmat. 
+ *   are actually build see \ref vecpointmat.
  */
 
 #ifdef __sgi
@@ -448,62 +278,55 @@ class OSG_BASE_DLLMAPPING VecStorage4
 template<class ValueTypeT, class StorageInterfaceT>
 class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef StorageInterfaceT Inherited;
 
     typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
 
-    typedef                        ValueTypeT                  ValueType;
+    typedef ValueTypeT        ValueType;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "PointInterface"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    /*------------ constructors & destructors -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     PointInterface(void);
 
-	explicit PointInterface(const ValueTypeT *pVals);
-	explicit PointInterface(      ValueTypeT *pVals);
+    explicit PointInterface(const ValueTypeT *pVals);
+    explicit PointInterface(      ValueTypeT *pVals);
 
-	/** \brief Constructor which take a lot of types as it's argument :-).
-	 *
-	 * The argument type must provide a _iSize enum entry, a *getValueRef(void)
-	 *  function and the value types must be convertable to the current one. 
-	 *  The main problem is that through the constructor 
-	 *  VecBase(const ValueTypeT *pVals); and the following cast
-	 *  operator const ValueTypeT * (void); you are able to to the
-	 *  following :
-	 *  \code
-	 *  void foo(void)
-	 *  {
-	 *      ClassWithValueTypeT_*_Cast v2f;
-	 *      Vec4f v4f(v2f);
-	 *  }              
-	 *  \endcode
-	 *  This will at least give you some array read out of bounds erros;       
-	 *  So this constructor make the things a little bit more save, but you
-	 *  will get nasty error messages from the compiler if the argument does
-	 *  not satisfy the requirements given above. 
-	 *
-	 *	Thanks to that ****** MS Compiler the code must be included within
-	 *  the header file, but at least it seems work ;-) (GV)
-	 */
+    /** \brief Constructor which take a lot of types as it's argument :-).
+     *
+     * The argument type must provide a _iSize enum entry, a *getValueRef(void)
+     *  function and the value types must be convertable to the current one.
+     *  The main problem is that through the constructor
+     *  VecBase(const ValueTypeT *pVals); and the following cast
+     *  operator const ValueTypeT * (void); you are able to to the
+     *  following :
+     *  \code
+     *  void foo(void)
+     *  {
+     *      ClassWithValueTypeT_*_Cast v2f;
+     *      Vec4f v4f(v2f);
+     *  }
+     *  \endcode
+     *  This will at least give you some array read out of bounds erros;
+     *  So this constructor make the things a little bit more save, but you
+     *  will get nasty error messages from the compiler if the argument does
+     *  not satisfy the requirements given above.
+     *
+     *  Thanks to that ****** MS Compiler the code must be included within
+     *  the header file, but at least it seems work ;-) (GV)
+     */
 
 #ifdef __sgi
 #pragma set woff 1209
@@ -521,7 +344,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
                     _values[i] = vec.getValues()[i];
                 }
             }
-            else	
+            else
             {
                 for(i = 0; i < VectorT::_iSize; i++)
                 {
@@ -538,12 +361,12 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 #pragma reset woff 1209
 #endif
 
-    PointInterface(const PointInterface &source);    
+    PointInterface(const PointInterface &source);
 
 #if 0
     /* Constructor which takes one value, remaining entries will be zero;
-       Actually this one collides with the template constuctor above, 
-       so I do not implement this one, any problems with that (GV) 
+       Actually this one collides with the template constuctor above,
+       so I do not implement this one, any problems with that (GV)
     */
 
     PointInterface(const ValueTypeT rVal1);
@@ -555,22 +378,30 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2);
 
-    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2,
                    const ValueTypeT rVal3);
-    
-    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+
+    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2,
                    const ValueTypeT rVal3, const ValueTypeT rVal4);
 
-    ~PointInterface(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    /*------------------------- set values -------------------------------*/
-    
-    void setNull(void);
+    ~PointInterface(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Set Values                                */
+    /*! \{                                                                 */
+
+    void setNull (void);
 
 #if 0
     /* set first values, remaining entries will not change;
-       Actually this one collides with the template set function below, 
-       so I do not implement this one, any problems with that (GV) 
+       Actually this one collides with the template set function below,
+       so I do not implement this one, any problems with that (GV)
     */
 
     void setValue(const ValueTypeT &rVal1);
@@ -578,30 +409,30 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     void setValue(const PointInterface &vec);
 
-	/** \brief Set function which take a lot of types as it's argument :-).
-	 *
-	 * The argument type must provide a _iSize enum entry, a *getValueRef(void)
-	 *  function and the value types must be convertable to the current one. 
-	 *  The main problem is that through the set function
-	 *  void setValue(const ValueTypeT *pVals); and the following cast
-	 *  operator const ValueTypeT * (void); you are able to to the
-	 * following :
-	 * \code
-	 *  void foo(void)
-	 *  {
-	 *      ClassWithValueTypeT_*_Cast v2f;
-	 *      Vec4f v4f;
-	 *
-	 *      v4f.setValue(v2f);
-	 *  }              
-	 *  \endcode
-	 *  This will at least give you some array read out of bounds erros;       
-	 *  So this function make the things a little bit more save, but you
+    /** \brief Set function which take a lot of types as it's argument :-).
+     *
+     * The argument type must provide a _iSize enum entry, a *getValueRef(void)
+     *  function and the value types must be convertable to the current one.
+     *  The main problem is that through the set function
+     *  void setValue(const ValueTypeT *pVals); and the following cast
+     *  operator const ValueTypeT * (void); you are able to to the
+     * following :
+     * \code
+     *  void foo(void)
+     *  {
+     *      ClassWithValueTypeT_*_Cast v2f;
+     *      Vec4f v4f;
+     *
+     *      v4f.setValue(v2f);
+     *  }
+     *  \endcode
+     *  This will at least give you some array read out of bounds erros;
+     *  So this function make the things a little bit more save, but you
      *  will get nasty error messages from the compiler if the argument does
      *  not satisfy the requirements given above.
-	 *
-	 *	Thanks to that ****** MS Compiler the code must be included within
-	 *  the header file, but at least it seems to work ;-) (GV)
+     *
+     *  Thanks to that ****** MS Compiler the code must be included within
+     *  the header file, but at least it seems to work ;-) (GV)
      */
 
 #ifdef __sgi
@@ -613,8 +444,8 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
         {
             UInt32 i;
 
-            for(i = 0; 
-                i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
+            for(i = 0;
+                i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize);
                 i++)
             {
                 _values[i] = vec.getValues()[i];
@@ -630,21 +461,30 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     void setValue(const char *szString);
     void setValue(      char *szString);
 
-    /*------------------------- get values -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Values                                  */
+    /*! \{                                                                 */
 
-    ValueTypeT *getValues(void);
+    ValueTypeT       *getValues(void);
     const ValueTypeT *getValues(void) const;
 
-    /*--------------------------- common math -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Common Math                                */
+    /*! \{                                                                 */
 
     Bool            isZero   (void) const;
 
     void            negate   (void);
 
-    Bool            equals   (const PointInterface &vec, 
+    Bool            equals   (const PointInterface &vec,
                               const ValueTypeT       tolerance) const;
 
-    /*------------------------------ math -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Math                                    */
+    /*! \{                                                                 */
 
     void       operator *=(const ValueTypeT  val);
     void       operator /=(const ValueTypeT  val);
@@ -653,19 +493,22 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
         const PointInterface &vec) const;
 
     PointInterface operator + (
-        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;	
+        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;
 
     PointInterface operator - (
-        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;	
+        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;
 
     PointInterface operator * (const ValueTypeT rVal) const;
 
-    PointInterface operator -  (void);
+    PointInterface operator - (void);
 
-    /*------------------------- element access ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Element Access                             */
+    /*! \{                                                                 */
 
-    ValueTypeT &operator[](const UInt32 uiVal);
-    const  ValueTypeT &operator[](const UInt32 uiVal) const;   
+           ValueTypeT &operator[](const UInt32 uiVal);
+    const  ValueTypeT &operator[](const UInt32 uiVal) const;
 
     /* Cast operator, cast VecBase to ValueTypeT *
        Bad Bad idea, in my opion to buggy to be used, use getValues
@@ -675,107 +518,50 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
        operator const ValueTypeT *(void);
     */
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Assignment                                 */
+    /*! \{                                                                 */
 
     PointInterface &operator =(const PointInterface &source);
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
 
-    Bool operator < (const PointInterface &other)  const;
+    Bool operator <  (const PointInterface &other)  const;
 
-	Bool operator == (const PointInterface &other) const;
-	Bool operator != (const PointInterface &other) const;
+    Bool operator == (const PointInterface &other) const;
+    Bool operator != (const PointInterface &other) const;
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-	// Could not declare the operators as friends because of that f****** 
-	// MS Compiler :-( (GV)
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 };
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathVectors
  *  \brief Vector Interface, for details about how vectors, points and matrices
- *   are actually build see \ref vecpointmat. 
+ *   are actually build see \ref vecpointmat.
  */
 
 template<class ValueTypeT, class StorageInterfaceT>
-class OSG_BASE_DLLMAPPING VectorInterface : 
+class OSG_BASE_DLLMAPPING VectorInterface :
     public PointInterface<ValueTypeT, StorageInterfaceT>
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
-    typedef          PointInterface<ValueTypeT, 
+    typedef          PointInterface<ValueTypeT,
                                     StorageInterfaceT>         Inherited;
 
     typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
@@ -784,46 +570,45 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 
     typedef          Inherited                                 PntInterface;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "VectorInterface"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    /*------------ constructors & destructors -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     VectorInterface(void);
 
-	explicit VectorInterface(const ValueTypeT *pVals);
-	explicit VectorInterface(      ValueTypeT *pVals);
+    explicit VectorInterface(const ValueTypeT *pVals);
+    explicit VectorInterface(      ValueTypeT *pVals);
 
-	/** \brief Constructor which take a lot of types as it's argument :-).
-	 *
-	 * The argument type must provide a _iSize enum entry, a *getValueRef(void)
-	 *  function and the value types must be convertable to the current one. 
-	 *  The main problem is that through the constructor 
-	 *  VecBase(const ValueTypeT *pVals); and the following cast
-	 *  operator const ValueTypeT * (void); you are able to to the
-	 *  following :
-	 *  \code
-	 *  void foo(void)
-	 *  {
-	 *      ClassWithValueTypeT_*_Cast v2f;
-	 *      Vec4f v4f(v2f);
-	 *  }              
-	 *  \endcode
-	 *  This will at least give you some array read out of bounds erros;       
-	 *  So this constructor make the things a little bit more save, but you
-	 *  will get nasty error messages from the compiler if the argument does
-	 *  not satisfy the requirements given above. 
-	 *
-	 *	Thanks to that ****** MS Compiler the code must be included within
-	 *  the header file, but at least it seems work ;-) (GV)
-	 */
+    /** \brief Constructor which take a lot of types as it's argument :-).
+     *
+     * The argument type must provide a _iSize enum entry, a *getValueRef(void)
+     *  function and the value types must be convertable to the current one.
+     *  The main problem is that through the constructor
+     *  VecBase(const ValueTypeT *pVals); and the following cast
+     *  operator const ValueTypeT * (void); you are able to to the
+     *  following :
+     *  \code
+     *  void foo(void)
+     *  {
+     *      ClassWithValueTypeT_*_Cast v2f;
+     *      Vec4f v4f(v2f);
+     *  }
+     *  \endcode
+     *  This will at least give you some array read out of bounds erros;
+     *  So this constructor make the things a little bit more save, but you
+     *  will get nasty error messages from the compiler if the argument does
+     *  not satisfy the requirements given above.
+     *
+     *  Thanks to that ****** MS Compiler the code must be included within
+     *  the header file, but at least it seems work ;-) (GV)
+     */
 
 #ifdef __sgi
 #pragma set woff 1209
@@ -841,7 +626,7 @@ class OSG_BASE_DLLMAPPING VectorInterface :
                     _values[i] = vec.getValues()[i];
                 }
             }
-            else	
+            else
             {
                 for(i = 0; i < VectorT::_iSize; i++)
                 {
@@ -858,12 +643,12 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 #pragma reset woff 1209
 #endif
 
-    VectorInterface(const VectorInterface &source);    
+    VectorInterface(const VectorInterface &source);
 
 #if 0
     /* Constructor which takes one value, remaining entries will be zero;
-       Actually this one collides with the template constuctor above, 
-       so I do not implement this one, any problems with that (GV) 
+       Actually this one collides with the template constuctor above,
+       so I do not implement this one, any problems with that (GV)
     */
 
     VectorInterface(const ValueTypeT rVal1);
@@ -875,130 +660,89 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 
     VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2);
 
-    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2,
                     const ValueTypeT rVal3);
 
-    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2,
                     const ValueTypeT rVal3, const ValueTypeT rVal4);
 
-    ~VectorInterface(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    /*--------------------------- common math -------------------------------*/
+    ~VectorInterface(void);
 
-    RealReturnType  length   (void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Common Math                                */
+    /*! \{                                                                 */
 
-    void            normalize(void);
+    RealReturnType  length       (void)                       const;
 
-    VectorInterface cross     (const VectorInterface &vec) const;
-    VectorInterface operator %(const VectorInterface &vec) const;
+    void            normalize    (void);
 
-    void            crossThis (const VectorInterface &vec);
+    VectorInterface cross        (const VectorInterface &vec) const;
+    VectorInterface operator %   (const VectorInterface &vec) const;
 
-    ValueTypeT      dot       (const VectorInterface &vec) const;
-    ValueTypeT  	operator *(const VectorInterface &vec) const;
-    ValueTypeT      dot       (const PntInterface &pnt   ) const;
-    ValueTypeT  	operator *(const PntInterface &pnt   ) const;
+    void            crossThis    (const VectorInterface &vec);
+
+    ValueTypeT      dot          (const VectorInterface &vec) const;
+    ValueTypeT      operator *   (const VectorInterface &vec) const;
+    ValueTypeT      dot          (const PntInterface &pnt   ) const;
+    ValueTypeT      operator *   (const PntInterface &pnt   ) const;
 
     RealReturnType  enclosedAngle(const VectorInterface &vec) const;
 
     RealReturnType  projectTo    (const VectorInterface &toVec);
 
-    /*------------------------------ math -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Math                                    */
+    /*! \{                                                                 */
 
-    void       operator +=(const VectorInterface    &vec);
-    void       operator -=(const VectorInterface    &vec);
+    void            operator +=(const VectorInterface    &vec);
+    void            operator -=(const VectorInterface    &vec);
 
-    VectorInterface operator - (const VectorInterface &vec) const;
-    VectorInterface operator + (const VectorInterface &vec) const;
+    VectorInterface operator - (const VectorInterface &vec)      const;
+    VectorInterface operator + (const VectorInterface &vec)      const;
 
-    VectorInterface operator * (const ValueTypeT rVal) const;
+    VectorInterface operator * (const ValueTypeT rVal)           const;
 
-    VectorInterface operator -  (void) const;
+    VectorInterface operator - (void)                            const;
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Assignment                                 */
+    /*! \{                                                                 */
 
     VectorInterface &operator =(const VectorInterface &source);
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
 
-    Bool operator < (const VectorInterface &other)  const;
+    Bool operator <  (const VectorInterface &other)  const;
 
-	Bool operator == (const VectorInterface &other) const;
-	Bool operator != (const VectorInterface &other) const;
+    Bool operator == (const VectorInterface &other)  const;
+    Bool operator != (const VectorInterface &other)  const;
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-	// Could not declare the operators as friends because of that f****** 
-	// MS Compiler :-( (GV)
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 };
 
 #ifdef __sgi
 #pragma reset woff 1375
 #endif
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
 
 /** \var typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
  *  \brief Vec2f

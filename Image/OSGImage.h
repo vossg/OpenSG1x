@@ -41,12 +41,8 @@
 #define OSGIMAGE_CLASS_DECLARATION
 
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #ifdef WIN32
 #include <windows.h>
@@ -64,30 +60,12 @@ extern "C" {
 
 OSG_BEGIN_NAMESPACE
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
 class OSG_SYSTEMLIB_DLLMAPPING Image {
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-//----------------------------
-//enums    		 							 
-//----------------------------
-
-	enum PixelFormat { 	OSG_INVALID_PF = 0,
+    enum PixelFormat {   OSG_INVALID_PF = 0,
                         OSG_L_PF       = GL_LUMINANCE,
                         OSG_LA_PF      = GL_LUMINANCE_ALPHA,
 #if defined(GL_BGR)
@@ -103,356 +81,315 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 #endif
                         OSG_RGB_PF     = GL_RGB,
                         OSG_RGBA_PF    = GL_RGBA
-	};		
- 
-//----------------------------
-//types    		 						   
-//----------------------------
+    };
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                Default Constructor                           */
+    /*! \{                                                                 */
 
-//---------------------------
-// functions 	   		   
-//---------------------------
-
-
-    /** Default Constructor */
     Image (void);
 
-    /** Copy Constructor */
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
+
     Image (const Image &obj);
 
-    /** Destructor */
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     virtual ~Image (void);
 
-    /** construktor */
-    Image ( PixelFormat pixelFormat, 
-            Int32 width, Int32 height = 1, Int32 depth = 1, 
-            Int32 mipmapCount = 1, 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructor                                */
+    /*! \{                                                                 */
+
+    Image ( PixelFormat pixelFormat,
+            Int32 width, Int32 height = 1, Int32 depth = 1,
+            Int32 mipmapCount = 1,
             Int32 frameCount = 1, Time frameDelay = 0.0,
             const UChar8 *data = 0, Bool doCopy = true );
 
-    /** set methode wich sets the image data */
-    Bool set ( PixelFormat pixelFormat,
-               Int32 width, Int32 height = 1, Int32 depth = 1, 
-               Int32 mipmapCount = 1, 
-               Int32 frameCount = 1, Time frameDelay = 0.0,
-               const UChar8 *data = 0, Bool doCopy = true );
-		
-		/** set method */
-		Bool set ( const Image &image, Bool doCopy = true );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Set                                   */
+    /*! \{                                                                 */
 
-    /** set only the data pointer */
+    Bool set     ( PixelFormat pixelFormat,
+                   Int32 width, Int32 height = 1,
+                   Int32 depth = 1,
+                   Int32 mipmapCount = 1,
+                   Int32 frameCount = 1, Time frameDelay = 0.0,
+                   const UChar8 *data = 0, Bool doCopy = true );
+
+    Bool set     ( const Image &image, Bool doCopy = true );
+
     Bool setData ( const UChar8 *data = 0, Bool doCopy = true );
 
-		/** str add value method, mainly used by ascii parser */
-		Bool addValue (const char *value);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Add Value                                */
+    /*! \{                                                                 */
 
-    /** reformate the image to the given pixelFormat */
-    Bool reformat ( PixelFormat pixelFormat, Image *destination = 0);
+    Bool addValue (const char *value);
 
-    /** scale the image to the given dimension */
-    Bool scale ( Int32 width, Int32 height = 1, Int32 depth = 1, 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Reformate                                */
+    /*! \{                                                                 */
+
+    Bool reformat ( PixelFormat pixelFormat,
+                    Image *destination = 0);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Scale                                  */
+    /*! \{                                                                 */
+
+    Bool scale ( Int32 width, Int32 height = 1,
+                 Int32 depth = 1,
                  Image *destination = 0);
 
-    /** create mipmap, level == -1 will create all maipmaps until 1x1 */
-    Bool createMipmap ( Int32 level = -1, Image *destination = 0);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Mipmap                                  */
+    /*! \{                                                                 */
 
-    /** methode to write the image data to the given File */
+    Bool createMipmap ( Int32 level = -1,
+                        Image *destination = 0);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
+
     Bool write (const Char8 *fileName);
 
-    /** methode to read the image data from the given File */
-    Bool read (const Char8 *fileName);
+    Bool read  (const Char8 *fileName);
 
-    /** methode to store the image to a piece of mem */
-    UInt64 store ( Char8 *mimeType, UChar8* mem, 
-                   UInt32 memSize = -1);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Storage                                   */
+    /*! \{                                                                 */
 
-    /** methode to restore the image from a piece of mem */
+    UInt64 store   ( Char8 *mimeType, UChar8* mem,
+                     UInt32 memSize = -1);
+
     UInt64 restore ( const UChar8* mem, UInt32 memSize = -1);
 
-    /** Equality comparison operator */
-    Bool operator == (const Image &image);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               Comparison/Assign                              */
+    /*! \{                                                                 */
 
-		/** assign operator */
-		Image &operator= (const Image &image);
+    Bool   operator == (const Image &image);
 
-    /** lower comparison operator */
-    Bool operator < (const Image &image);
+    Image &operator=   (const Image &image);
 
-    /** get method for attribute dimension, it is 1,2 or 3 */
-		inline
-    Int32 getDimension (void) const { return _dimension; }
+    Bool   operator <  (const Image &image);
 
-    /** get method for attribute width */
-		inline
-    Int32 getWidth (void) const { return _width; }
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Get  Methods                              */
+    /*! \{                                                                 */
 
-    /** get method for attribute height */
-		inline
-    Int32 getHeight (void) const { return _height; }
+    inline Int32  getDimension  (void) const { return _dimension; }
 
-    /** get method for attribute depth */
-		inline
-    Int32 getDepth (void) const { return _depth; }
+    inline Int32  getWidth      (void) const { return _width; }
 
-    /** get method for attribute bpp */
-		inline
-		UChar8 getBpp (void) const { return _bpp; }
+    inline Int32  getHeight     (void) const { return _height; }
 
-		/** get the number of mipmaps */
-		inline
-		Int32 getMipMapCount(void) const { return _mipmapCount; }
-	
-		/** geth the number of frames */
-		inline
-		Int32 getFrameCount(void) const { return _frameCount; }
+    inline Int32  getDepth      (void) const { return _depth; }
 
-		/** geth the frame delay */
-		inline
-		Time getFrameDelay(void) const { return _frameDelay; }
-			
-    /** get method for attribute pixelFormat */
-		inline
-		PixelFormat getPixelFormat (void) const { return _pixelFormat; }
+    inline UChar8 getBpp        (void) const { return _bpp; }
+
+    inline Int32  getMipMapCount(void) const { return _mipmapCount; }
+
+    inline Int32  getFrameCount (void) const { return _frameCount; }
+
+    inline Time   getFrameDelay (void) const { return _frameDelay; }
+
+    inline PixelFormat getPixelFormat (void) const { return _pixelFormat; }
+
 
     Bool hasAlphaChannel(void);
 
-    /** get the size of used mem */
-    inline 
-    unsigned long getSize ( Bool withMipmap = true, 
-                            Bool withFrames = true) const
-		{ return  (calcMipmapSumSize((withMipmap ? (_mipmapCount-1) : 0)) *
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Size                                    */
+    /*! \{                                                                 */
+
+
+    inline unsigned long getSize ( Bool withMipmap = true,
+                         Bool withFrames = true) const
+        { return  (calcMipmapSumSize((withMipmap ? (_mipmapCount-1) : 0)) *
                    (withFrames ? _frameCount : 1) * _bpp);
-		}
+        }
 
-    /** get method for attribute data */
-    inline 
-    UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
-		{
-			UChar8 *data = _data + (frameNum * _frameSize * _bpp);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get Methods                                */
+    /*! \{                                                                 */
 
-			if (mipmapNum) 
-				data += calcMipmapSumSize(mipmapNum - 1);
+    inline UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
+        {
+            UChar8 *data = _data + (frameNum * _frameSize * _bpp);
 
-			return data;
-		}
+            if (mipmapNum)
+                data += calcMipmapSumSize(mipmapNum - 1);
 
-    /** get method for attribute data */
-    inline 
-    UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1) 
-		{ 
-			return _data; 
-		}	
+            return data;
+        }
 
-	/** calculate mipmap geometry */
-	inline 
-    void calcMipmapGeometry ( UInt32 mipmapNum,
+    inline UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1)
+        {
+            return _data;
+        }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Calculate                               */
+    /*! \{                                                                 */
+
+    inline void   calcMipmapGeometry   ( UInt32 mipmapNum,
                               UInt32 &width, UInt32 &height, UInt32 &depth )
-		{
-			width  = _width >> mipmapNum;
-			height = _height >> mipmapNum;
-			depth  = _depth >> mipmapNum;
-		}
+        {
+            width  = _width >> mipmapNum;
+            height = _height >> mipmapNum;
+            depth  = _depth >> mipmapNum;
+        }
 
-	/** calculate mipmap level count */
-	inline 
-    UInt32 calcMipmapLevelCount ( void )
-		{
-			UInt32  w = _width, h = _height, d = _depth;
-			UInt32 level;
-			
-			for (level = 1; true; level++) 
-			{
-				if ((w == 1) && (h == 1) && (d == 1))
-					break;
-				else 
-				{
-					w = (w >>= 1) ? w : 1;
-					h = (h >>= 1) ? h : 1;
-					d = (d >>= 1) ? d : 1;
-				}
-			}
-			return level;
-		}
+    inline UInt32 calcMipmapLevelCount ( void )
+        {
+            UInt32  w = _width, h = _height, d = _depth;
+            UInt32 level;
 
-	/** calculate the frame num for the given time */
-	inline
-	UInt32 calcFrameNum ( Time time, Bool loop = true ) 
-	{
-		int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
-										(int(time / _frameDelay) % _frameCount) : 0;
+            for (level = 1; true; level++)
+            {
+                if ((w == 1) && (h == 1) && (d == 1))
+                    break;
+                else
+                {
+                    w = (w >>= 1) ? w : 1;
+                    h = (h >>= 1) ? h : 1;
+                    d = (d >>= 1) ? d : 1;
+                }
+            }
+            return level;
+        }
 
-		return ((frameNum > 0) ? frameNum : 0);
-	}
 
-  /** clears the image (sets all pixel to pixelValue) */
-  virtual void clear (UChar8 pixelValue = 0);
+    inline UInt32 calcFrameNum         ( Time time, Bool loop = true )
+    {
+        int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
+                                        (int(time / _frameDelay) % _frameCount) : 0;
 
-  /** dump the image info to log */
-  virtual void dump (void);
+        return ((frameNum > 0) ? frameNum : 0);
+    }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Clear Image                                */
+    /*! \{                                                                 */
+
+    virtual void clear (UChar8 pixelValue = 0);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
+
+    virtual void dump (void);
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    static Int32 _formatMap[][2];
 
+    PixelFormat _pixelFormat;
 
-//------------------------------
-//types    		 								 
-//------------------------------
-
-	/** pixelFormat/bpp map */
-	static Int32 _formatMap[][2];
-
-    /** PixelFormat */
-	PixelFormat _pixelFormat;
-
-    /** image width */
     Int32 _width;
 
-    /** image height */
     Int32 _height;
 
-    /** image depth */
     Int32 _depth;
 
-	/** number of mipmaps */
-	Int32 _mipmapCount;
+    Int32 _mipmapCount;
 
-	/** number of frames */
-	Int32 _frameCount;
+    Int32 _frameCount;
 
-	/** frame delay */
-	Time _frameDelay;
+    Time _frameDelay;
 
-    /** byte per pixel */
-	UChar8 _bpp;
+    UChar8 _bpp;
 
-    /** image dimension ( 0= unvalid 1,2 or 3 is valid ) */
     Int32 _dimension;
 
-	/** frame size with all mipmaps in pixel, not byte */
-	Int32 _frameSize;
+    Int32 _frameSize;
 
-    /** indicates if the _data is a private copy or outside link */
     Bool  _isCopy;
 
-    /** image data, can be NULL */
-	UChar8 * _data;
+    UChar8 * _data;
 
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-//----------------------------------
-//enums    		 										 
-//----------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name               Calculate Mipmap Size                          */
+    /*! \{                                                                 */
+
+    inline UInt32 calcMipmapSize    ( UInt32 mipmapNum,
+                                      UInt32 w, UInt32 h, UInt32 d) const
+        {
+            w >>= mipmapNum;
+            h >>= mipmapNum;
+            d >>= mipmapNum;
+
+            return (w?w:1) * (h?h:1) * (d?d:1);
+        }
+
+    inline UInt32 calcMipmapSize    ( UInt32 mipmapNum) const
+        {
+            return calcMipmapSize(mipmapNum,_width,_height,_depth);
+        }
+
+    inline UInt32 calcMipmapSumSize ( UInt32 mipmapNum,
+                                      UInt32 w, UInt32 h, UInt32 d) const
+        {
+            Int32 sum = w * h * d;
+
+            while (mipmapNum--) {
+                w >>= 1;
+                h >>= 1;
+                d >>= 1;
+                sum += (w?w:1) * (h?h:1) * (d?d:1);
+            }
+
+            return sum;
+        }
 
 
-//----------------------------------
-//types    		 										 
-//----------------------------------
+    inline UInt32 calcMipmapSumSize (UInt32 mipmapNum) const
+        {
+            return calcMipmapSumSize(mipmapNum,_width,_height,_depth);
+        }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Image Data                                 */
+    /*! \{                                                                 */
 
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
+    inline Bool createData (const UChar8 *data, Bool doCopy );
 
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
-	/** calculate the mipmap Size in pixel */
-    inline
-    UInt32 calcMipmapSize ( UInt32 mipmapNum, 
-                            UInt32 w, UInt32 h, UInt32 d) const
-		{
-			w >>= mipmapNum;
-			h >>= mipmapNum;
-			d >>= mipmapNum;
-			
-			return (w?w:1) * (h?h:1) * (d?d:1);
-		}
-
-	/** calculate the mipmap Size in pixel */
-    inline
-    UInt32 calcMipmapSize (UInt32 mipmapNum) const
-		{
-			return calcMipmapSize(mipmapNum,_width,_height,_depth);
-		}
-
-	/** calculate the size of all mipmaps until mipmapNum */
-	inline 
-    UInt32 calcMipmapSumSize ( UInt32 mipmapNum, 
-                               UInt32 w, UInt32 h, UInt32 d) const
-		{
-			Int32 sum = w * h * d;
-
-			while (mipmapNum--) {
-				w >>= 1;
-				h >>= 1;
-				d >>= 1;
-				sum += (w?w:1) * (h?h:1) * (d?d:1);
-			}
-
-			return sum;
-		}
-
-	/** calculate the size of all mipmaps until mipmapNum */
-    inline
-    UInt32 calcMipmapSumSize (UInt32 mipmapNum) const
-		{
-			return calcMipmapSumSize(mipmapNum,_width,_height,_depth);
-		}
-
-    /** Internal method to alloc and copy the image data */
-    inline
-    Bool createData (const UChar8 *data, Bool doCopy );
-
-    /** Internal medhot to copy&scale image data */
-    inline
-    Bool scaleData ( UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD,
+    inline Bool scaleData  (UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD,
                      UChar8* destData, Int32 destW, Int32 destH, Int32 destD );
+
+    /*! \}                                                                 */
 };
 
 typedef Image* ImageP;

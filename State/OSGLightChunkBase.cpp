@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILELIGHTCHUNKINST
@@ -67,16 +63,8 @@
 #include "OSGLightChunk.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	LightChunkBase::DiffuseFieldMask = 
     (1 << LightChunkBase::DiffuseFieldId);
@@ -110,10 +98,41 @@ const OSG::BitVector	LightChunkBase::QuadraticAttenuationFieldMask =
 
 
 
-char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.10 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Color4f         LightChunkBase::_sfDiffuse
+    The light's diffuse color.
+*/
+/*! \var Color4f         LightChunkBase::_sfAmbient
+    The light's ambient color.
+*/
+/*! \var Color4f         LightChunkBase::_sfSpecular
+    The light's specular color.
+*/
+/*! \var Vec4f           LightChunkBase::_sfPosition
+    The light's position.
+*/
+/*! \var Vec3f           LightChunkBase::_sfDirection
+    The light's direction (only for spotlights).
+*/
+/*! \var Real32          LightChunkBase::_sfExponent
+    The light's spotlight exponent.
+*/
+/*! \var Real32          LightChunkBase::_sfCutoff
+    The light's spotlight cutoff.
+*/
+/*! \var Real32          LightChunkBase::_sfConstantAttenuation
+    The light's constant attenuation.
+*/
+/*! \var Real32          LightChunkBase::_sfLinearAttenuation
+    The light's linear attenuation.
+*/
+/*! \var Real32          LightChunkBase::_sfQuadraticAttenuation
+    The light's quadratic attenuation.
+*/
+//! LightChunk description
 
 FieldDescription *LightChunkBase::_desc[] = 
 {
@@ -169,8 +188,7 @@ FieldDescription *LightChunkBase::_desc[] =
                      (FieldAccessMethod) &LightChunkBase::getSFQuadraticAttenuation)
 };
 
-/** \brief LightChunk type
- */
+//! LightChunk type
 
 FieldContainerType LightChunkBase::_type(
     "LightChunk",
@@ -181,32 +199,14 @@ FieldContainerType LightChunkBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(LightChunkBase, LightChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "LightChunk"; 
+}
 
 FieldContainerType &LightChunkBase::getType(void) 
 {
@@ -217,6 +217,7 @@ const FieldContainerType &LightChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr LightChunkBase::shallowCopy(void) const 
 { 
@@ -239,46 +240,45 @@ void LightChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((LightChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 LightChunkBase::LightChunkBase(void) :
-	_sfDiffuse	(Color4f(1,1,1,0)), 
-	_sfAmbient	(Color4f(.1,.1,.1,0)), 
-	_sfSpecular	(Color4f(1,1,1,0)), 
-	_sfPosition	(Vec4f(0,-1,0,0)), 
-	_sfDirection	(Vec3f(0,0,1)), 
-	_sfExponent	(Real32(2)), 
-	_sfCutoff	(Real32(180)), 
-	_sfConstantAttenuation	(Real32(1)), 
-	_sfLinearAttenuation	(Real32(0)), 
-	_sfQuadraticAttenuation	(Real32(0)), 
+	_sfDiffuse                (Color4f(1,1,1,0)), 
+	_sfAmbient                (Color4f(.1,.1,.1,0)), 
+	_sfSpecular               (Color4f(1,1,1,0)), 
+	_sfPosition               (Vec4f(0,-1,0,0)), 
+	_sfDirection              (Vec3f(0,0,1)), 
+	_sfExponent               (Real32(2)), 
+	_sfCutoff                 (Real32(180)), 
+	_sfConstantAttenuation    (Real32(1)), 
+	_sfLinearAttenuation      (Real32(0)), 
+	_sfQuadraticAttenuation   (Real32(0)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 LightChunkBase::LightChunkBase(const LightChunkBase &source) :
-	_sfDiffuse		(source._sfDiffuse), 
-	_sfAmbient		(source._sfAmbient), 
-	_sfSpecular		(source._sfSpecular), 
-	_sfPosition		(source._sfPosition), 
-	_sfDirection		(source._sfDirection), 
-	_sfExponent		(source._sfExponent), 
-	_sfCutoff		(source._sfCutoff), 
-	_sfConstantAttenuation		(source._sfConstantAttenuation), 
-	_sfLinearAttenuation		(source._sfLinearAttenuation), 
-	_sfQuadraticAttenuation		(source._sfQuadraticAttenuation), 
-	Inherited        (source)
+	_sfDiffuse                (source._sfDiffuse                ), 
+	_sfAmbient                (source._sfAmbient                ), 
+	_sfSpecular               (source._sfSpecular               ), 
+	_sfPosition               (source._sfPosition               ), 
+	_sfDirection              (source._sfDirection              ), 
+	_sfExponent               (source._sfExponent               ), 
+	_sfCutoff                 (source._sfCutoff                 ), 
+	_sfConstantAttenuation    (source._sfConstantAttenuation    ), 
+	_sfLinearAttenuation      (source._sfLinearAttenuation      ), 
+	_sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 LightChunkBase::~LightChunkBase(void)
 {
@@ -350,54 +350,34 @@ MemoryHandle LightChunkBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _sfPosition.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-    {
         pMem = _sfDirection.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ExponentFieldMask & whichField))
-    {
         pMem = _sfExponent.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (CutoffFieldMask & whichField))
-    {
         pMem = _sfCutoff.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
         pMem = _sfConstantAttenuation.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
         pMem = _sfLinearAttenuation.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
         pMem = _sfQuadraticAttenuation.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -409,65 +389,38 @@ MemoryHandle LightChunkBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _sfPosition.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-    {
         pMem = _sfDirection.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ExponentFieldMask & whichField))
-    {
         pMem = _sfExponent.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (CutoffFieldMask & whichField))
-    {
         pMem = _sfCutoff.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
         pMem = _sfConstantAttenuation.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
         pMem = _sfLinearAttenuation.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
         pMem = _sfQuadraticAttenuation.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
                                         const BitVector         &whichField)
@@ -476,59 +429,35 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         _sfDiffuse.syncWith(pOther->_sfDiffuse);
-    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         _sfAmbient.syncWith(pOther->_sfAmbient);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         _sfSpecular.syncWith(pOther->_sfSpecular);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         _sfPosition.syncWith(pOther->_sfPosition);
-    }
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-    {
         _sfDirection.syncWith(pOther->_sfDirection);
-    }
 
     if(FieldBits::NoField != (ExponentFieldMask & whichField))
-    {
         _sfExponent.syncWith(pOther->_sfExponent);
-    }
 
     if(FieldBits::NoField != (CutoffFieldMask & whichField))
-    {
         _sfCutoff.syncWith(pOther->_sfCutoff);
-    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
         _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
-    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
         _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
-    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
         _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

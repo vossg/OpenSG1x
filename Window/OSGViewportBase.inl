@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &ViewportBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 ViewportBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline ViewportPtr ViewportBase::create(void) 
 {
     ViewportPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = ViewportPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline ViewportPtr ViewportBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline ViewportPtr ViewportBase::createEmpty(void) 
 { 
     ViewportPtr returnValue; 
@@ -126,11 +90,7 @@ inline ViewportPtr ViewportBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *ViewportBase::getSFLeft(void)
@@ -200,7 +160,7 @@ const Real32 &ViewportBase::getLeft(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setLeft( const Real32 &value )
+void ViewportBase::setLeft(const Real32 &value)
 {
 	_sfLeft.setValue(value);
 }
@@ -218,7 +178,7 @@ const Real32 &ViewportBase::getRight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setRight( const Real32 &value )
+void ViewportBase::setRight(const Real32 &value)
 {
 	_sfRight.setValue(value);
 }
@@ -236,7 +196,7 @@ const Real32 &ViewportBase::getBottom(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setBottom( const Real32 &value )
+void ViewportBase::setBottom(const Real32 &value)
 {
 	_sfBottom.setValue(value);
 }
@@ -254,7 +214,7 @@ const Real32 &ViewportBase::getTop(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setTop( const Real32 &value )
+void ViewportBase::setTop(const Real32 &value)
 {
 	_sfTop.setValue(value);
 }
@@ -272,7 +232,7 @@ const WindowPtr &ViewportBase::getParent(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setParent( const WindowPtr &value )
+void ViewportBase::setParent(const WindowPtr &value)
 {
 	_sfParent.setValue(value);
 }
@@ -290,7 +250,7 @@ const CameraPtr &ViewportBase::getCamera(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setCamera( const CameraPtr &value )
+void ViewportBase::setCamera(const CameraPtr &value)
 {
 	_sfCamera.setValue(value);
 }
@@ -308,7 +268,7 @@ const NodePtr &ViewportBase::getRoot(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setRoot( const NodePtr &value )
+void ViewportBase::setRoot(const NodePtr &value)
 {
 	_sfRoot.setValue(value);
 }
@@ -326,14 +286,14 @@ const BackgroundPtr &ViewportBase::getBackground(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setBackground( const BackgroundPtr &value )
+void ViewportBase::setBackground(const BackgroundPtr &value)
 {
 	_sfBackground.setValue(value);
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-ForegroundPtr &ViewportBase::getForegrounds( UInt32 index)
+ForegroundPtr &ViewportBase::getForegrounds(UInt32 index)
 {
 	return _mfForegrounds.getValue( index );
 }
@@ -347,22 +307,6 @@ const MFForegroundPtr &ViewportBase::getForegrounds(void) const
 {
 	return _mfForegrounds;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Switch;
-/** \brief SwitchPtr
- */
+//! SwitchPtr
+
 typedef FCPtr<NodeCorePtr, Switch> SwitchPtr;
 
 /** \ingroup FieldLib Switch
- *  \brief SwitchPtr field traits 
+ *  SwitchPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<SwitchPtr> :
     static char     *getMName(void) { return "MFSwitchPtr"; }
 };
 
-/** \brief SFSwitchPtr
- */
+//! SFSwitchPtr
+
 typedef SField<SwitchPtr> SFSwitchPtr;
 
 #ifndef OSG_COMPILESWITCHINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFSwitchPtr
- */
+//! MFSwitchPtr
+
 typedef MField<SwitchPtr> MFSwitchPtr;
 
 #ifndef OSG_COMPILESWITCHINST

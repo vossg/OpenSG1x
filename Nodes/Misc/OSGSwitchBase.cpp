@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILESWITCHINST
@@ -66,12 +62,6 @@
 #include "OSGSwitchBase.h"
 #include "OSGSwitch.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	SwitchBase::ChoiceFieldMask = 
     (1 << SwitchBase::ChoiceFieldId);
@@ -102,8 +90,12 @@ const OSG::BitVector	SwitchBase::ChoiceFieldMask =
 
 char SwitchBase::cvsid[] = "@(#)$Id: $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Int32           SwitchBase::_sfChoice
+    
+*/
+//! Switch description
 
 FieldDescription *SwitchBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *SwitchBase::_desc[] =
                      (FieldAccessMethod) &SwitchBase::getSFChoice)
 };
 
-/** \brief Switch type
- */
+//! Switch type
 
 FieldContainerType SwitchBase::_type(
     "Switch",
@@ -126,32 +117,14 @@ FieldContainerType SwitchBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(SwitchBase, SwitchPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Switch"; 
+}
 
 FieldContainerType &SwitchBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &SwitchBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr SwitchBase::shallowCopy(void) const 
 { 
@@ -184,28 +158,27 @@ void SwitchBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((SwitchBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 SwitchBase::SwitchBase(void) :
-	_sfChoice	(Int32(-1)), 
+	_sfChoice                 (Int32(-1)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 SwitchBase::SwitchBase(const SwitchBase &source) :
-	_sfChoice		(source._sfChoice), 
-	Inherited        (source)
+	_sfChoice                 (source._sfChoice                 ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 SwitchBase::~SwitchBase(void)
 {
@@ -232,9 +205,7 @@ MemoryHandle SwitchBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChoiceFieldMask & whichField))
-    {
         pMem = _sfChoice.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -246,20 +217,11 @@ MemoryHandle SwitchBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChoiceFieldMask & whichField))
-    {
         pMem = _sfChoice.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
                                         const BitVector         &whichField)
@@ -268,14 +230,8 @@ void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ChoiceFieldMask & whichField))
-    {
         _sfChoice.syncWith(pOther->_sfChoice);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

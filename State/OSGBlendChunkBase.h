@@ -57,40 +57,27 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGStateChunk.h>
-#include <OSGUInt32Fields.h>	// SrcFactor type
-#include <OSGUInt32Fields.h>	// DestFactor type
-#include <OSGColor4fFields.h>	// Color type
+
+#include <OSGStateChunk.h> // Parent
+
+#include <OSGUInt32Fields.h> // SrcFactor type
+#include <OSGUInt32Fields.h> // DestFactor type
+#include <OSGColor4fFields.h> // Color type
 
 #include <OSGBlendChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class BlendChunk;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! BlendChunk Base Class. */
+/*! \brief BlendChunk Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 {
@@ -98,59 +85,77 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 
     typedef StateChunk Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        SrcFactorFieldId = Inherited::NextFieldId,
-        DestFactorFieldId = SrcFactorFieldId + 1,
-        ColorFieldId = DestFactorFieldId + 1,
-        NextFieldId = ColorFieldId + 1
-
+        SrcFactorFieldId  = Inherited::NextFieldId,
+        DestFactorFieldId = SrcFactorFieldId  + 1,
+        ColorFieldId      = DestFactorFieldId + 1,
+        NextFieldId       = ColorFieldId      + 1
     };
 
     static const osg::BitVector SrcFactorFieldMask;
     static const osg::BitVector DestFactorFieldMask;
     static const osg::BitVector ColorFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "BlendChunkBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static BlendChunkPtr         create          (void); 
-    static BlendChunkPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFUInt32            *getSFSrcFactor      (void);
+    inline       SFUInt32            *getSFDestFactor     (void);
+    inline       SFColor4f           *getSFColor          (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       UInt32              &getSrcFactor      (void);
+    inline const UInt32              &getSrcFactor      (void) const;
+    inline       UInt32              &getDestFactor     (void);
+    inline const UInt32              &getDestFactor     (void) const;
+    inline       Color4f             &getColor          (void);
+    inline const Color4f             &getColor          (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setSrcFactor      ( const UInt32 &value );
+    inline void setDestFactor     ( const UInt32 &value );
+    inline void setColor          ( const Color4f &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -158,126 +163,69 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFUInt32	*getSFSrcFactor(void);
-    inline SFUInt32	*getSFDestFactor(void);
-    inline SFColor4f	*getSFColor(void);
+    static  BlendChunkPtr    create          (void); 
+    static  BlendChunkPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       UInt32	&getSrcFactor(void);
-    inline const UInt32	&getSrcFactor(void) const;
-    inline       void	         setSrcFactor( const UInt32 &value );
-    inline       UInt32	&getDestFactor(void);
-    inline const UInt32	&getDestFactor(void) const;
-    inline       void	         setDestFactor( const UInt32 &value );
-    inline       Color4f	&getColor(void);
-    inline const Color4f	&getColor(void) const;
-    inline       void	         setColor( const Color4f &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFUInt32         	_sfSrcFactor;
+    SFUInt32         	_sfDestFactor;
+    SFColor4f        	_sfColor;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
-     */
-    SFUInt32	_sfSrcFactor;
-    /*! The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
-     */
-    SFUInt32	_sfDestFactor;
-    /*! This is the constant color used by blend modes *_CONSTANT_*.
-     */
-    SFColor4f	_sfColor;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     BlendChunkBase(void);
     BlendChunkBase(const BlendChunkBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~BlendChunkBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      BlendChunkBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -289,8 +237,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE

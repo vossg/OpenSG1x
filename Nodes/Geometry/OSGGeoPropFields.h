@@ -42,35 +42,35 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyBase.h>
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 
 OSG_BEGIN_NAMESPACE
 
 typedef GeoPosition::PtrType GeoPositionPtr;
 
 template <>
-struct FieldDataTraits<GeoPositionPtr> : 
+struct FieldDataTraits<GeoPositionPtr> :
     public FieldTraitsRecurseMapper<GeoPositionPtr>
 {
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                                 */
+    /*! \{                                                                 */
+
+
     static DataType                  _type;
     enum                             { StringConvertable = 0x00   };
     enum                             { bHasParent        = 0x01   };
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
     static DataType &getType  (void) { return _type;              }
     static Char8    *getSName (void) { return "SFGeoPositionPtr"; }
     static Char8    *getMName (void) { return "MFGeoPositionPtr"; }
+
+    /*! \}                                                                 */
 };
 
 typedef SField<GeoPositionPtr> SFGeoPositionPtr;
@@ -124,7 +124,7 @@ OSG_DLLEXPORT_DECL1(SField, GeoNormalPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoColor::PtrType GeoColorPtr;
 
 template <>
-struct FieldDataTraits<GeoColorPtr> : 
+struct FieldDataTraits<GeoColorPtr> :
     public FieldTraitsRecurseMapper<GeoColorPtr>
 {
     static DataType                  _type;
@@ -156,7 +156,7 @@ OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
 
 template <>
-struct FieldDataTraits<GeoTexCoordsPtr> : 
+struct FieldDataTraits<GeoTexCoordsPtr> :
     public FieldTraitsRecurseMapper<GeoTexCoordsPtr>
 {
     static DataType                  _type;
@@ -187,7 +187,7 @@ OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoIndex::PtrType GeoIndexPtr;
 
 template <>
-struct FieldDataTraits<GeoIndexPtr> : 
+struct FieldDataTraits<GeoIndexPtr> :
     public FieldTraitsRecurseMapper<GeoIndexPtr>
 {
     static DataType                  _type;
@@ -219,7 +219,7 @@ OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoPType::PtrType GeoPTypePtr;
 
 template <>
-struct FieldDataTraits<GeoPTypePtr> : 
+struct FieldDataTraits<GeoPTypePtr> :
     public FieldTraitsRecurseMapper<GeoPTypePtr>
 {
     static DataType                  _type;

@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class TransformChunk;
-/** \brief TransformChunkPtr
- */
+//! TransformChunkPtr
+
 typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
 
 

@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class MaterialChunk;
-/** \brief MaterialChunkPtr
- */
+//! MaterialChunkPtr
+
 typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 
 

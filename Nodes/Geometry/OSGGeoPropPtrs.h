@@ -43,11 +43,7 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-#include <OSGGeoPropPositions.h>
+    #include <OSGGeoPropPositions.h>
 #include <OSGGeoPropColors.h>
 #include <OSGGeoPropNormals.h>
 #include <OSGGeoPropTexCoords.h>
@@ -57,13 +53,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
+/*---------------------------------------------------------------------*/
+/*! \name                    Typedefs                                  */
+/*! \{                                                                 */    
 
 typedef GeoPosition3f::PtrType  GeoPosition3fPtr;
 
@@ -80,6 +72,8 @@ typedef GeoIndexUI32::PtrType   GeoIndexUI32Ptr;
 typedef GeoPTypeUI8::PtrType    GeoPTypeUI8Ptr;
 
 typedef GeoPLengthUI32::PtrType GeoPLengthUI32Ptr;
+
+/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 

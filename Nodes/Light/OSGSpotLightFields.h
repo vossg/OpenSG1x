@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class SpotLight;
-/** \brief SpotLightPtr
- */
+//! SpotLightPtr
+
 typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 

@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class StateChunk;
-/** \brief StateChunkPtr
- */
+//! StateChunkPtr
+
 typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
 /** \ingroup FieldLib StateChunk
- *  \brief StateChunkPtr field traits 
+ *  StateChunkPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<StateChunkPtr> :
     static char     *getMName(void) { return "MFStateChunkPtr"; }
 };
 
-/** \brief SFStateChunkPtr
- */
+//! SFStateChunkPtr
+
 typedef SField<StateChunkPtr> SFStateChunkPtr;
 
 #ifndef OSG_COMPILESTATECHUNKINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFStateChunkPtr
- */
+//! MFStateChunkPtr
+
 typedef MField<StateChunkPtr> MFStateChunkPtr;
 
 #ifndef OSG_COMPILESTATECHUNKINST

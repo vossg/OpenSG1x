@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILETRANSFORMINST
@@ -66,12 +62,6 @@
 #include "OSGTransformBase.h"
 #include "OSGTransform.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,19 +81,21 @@ OSG_DLLEXPORT_DEF1(MField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	TransformBase::MatrixFieldMask = 
     (1 << TransformBase::MatrixFieldId);
 
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.10 2001/08/03 16:11:48 vossg Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.11 2001/09/13 16:21:02 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Matrix          TransformBase::_sfMatrix
+    The transformation matrix.
+*/
+//! Transform description
 
 FieldDescription *TransformBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *TransformBase::_desc[] =
                      (FieldAccessMethod) &TransformBase::getSFMatrix)
 };
 
-/** \brief Transform type
- */
+//! Transform type
 
 FieldContainerType TransformBase::_type(
     "Transform",
@@ -126,32 +117,14 @@ FieldContainerType TransformBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(TransformBase, TransformPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Transform"; 
+}
 
 FieldContainerType &TransformBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &TransformBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr TransformBase::shallowCopy(void) const 
 { 
@@ -184,28 +158,27 @@ void TransformBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((TransformBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 TransformBase::TransformBase(void) :
-	_sfMatrix	(), 
+	_sfMatrix                 (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 TransformBase::TransformBase(const TransformBase &source) :
-	_sfMatrix		(source._sfMatrix), 
-	Inherited        (source)
+	_sfMatrix                 (source._sfMatrix                 ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 TransformBase::~TransformBase(void)
 {
@@ -232,9 +205,7 @@ MemoryHandle TransformBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
         pMem = _sfMatrix.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -246,20 +217,11 @@ MemoryHandle TransformBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
         pMem = _sfMatrix.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void TransformBase::executeSyncImpl(      TransformBase *pOther,
                                         const BitVector         &whichField)
@@ -268,14 +230,8 @@ void TransformBase::executeSyncImpl(      TransformBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
         _sfMatrix.syncWith(pOther->_sfMatrix);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

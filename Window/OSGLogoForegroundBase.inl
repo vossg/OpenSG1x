@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &LogoForegroundBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 LogoForegroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline LogoForegroundPtr LogoForegroundBase::create(void) 
 {
     LogoForegroundPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = LogoForegroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline LogoForegroundPtr LogoForegroundBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline LogoForegroundPtr LogoForegroundBase::createEmpty(void) 
 { 
     LogoForegroundPtr returnValue; 
@@ -126,11 +90,7 @@ inline LogoForegroundPtr LogoForegroundBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFImageP *LogoForegroundBase::getMFImages(void)
@@ -147,7 +107,7 @@ MFPnt2f *LogoForegroundBase::getMFPositions(void)
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-ImageP &LogoForegroundBase::getImages( UInt32 index)
+ImageP &LogoForegroundBase::getImages(UInt32 index)
 {
 	return _mfImages.getValue( index );
 }
@@ -163,7 +123,7 @@ const MFImageP &LogoForegroundBase::getImages(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Pnt2f &LogoForegroundBase::getPositions( UInt32 index)
+Pnt2f &LogoForegroundBase::getPositions(UInt32 index)
 {
 	return _mfPositions.getValue( index );
 }
@@ -177,22 +137,6 @@ const MFPnt2f &LogoForegroundBase::getPositions(void) const
 {
 	return _mfPositions;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

@@ -43,192 +43,113 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
-
 #include <OSGPolygonChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \brief chunk for Polygon attributes
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "PolygonChunk"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Fieldcontainer declaration                      */
+    /*! \{                                                                 */
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual const StateChunkClass *  getClass( void ) const;
 
-	virtual const StateChunkClass *  getClass( void ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    /*--------------------------- access fields ----------------------------*/
+    virtual void changed(BitVector  whichField,
+                        ChangeMode from);
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-    /*-------------------------- transformation ----------------------------*/
-
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
- 
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
-    /*------------------------- your_category -------------------------------*/
 
-	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( DrawActionBase * action, UInt32 index = 0 );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       State                                  */
+    /*! \{                                                                 */
 
-	// call commands to get from old to my state. Only meaningful for
-	// chunks of the same type
-	virtual void changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index = 0 );
+    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
-	// reset my part of the state
-	virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
+                             UInt32 index = 0 );
 
-   /*------------------------- comparison ----------------------------------*/
+    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
-	// estimate the cost to switch to the chunk 
-	// the unit is unclear, maybe musecs. It's not important anyway,
-	// it just has to be consistent over all types of chunks
-	virtual Real32 switchCost( StateChunk * chunk );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Comparison                                */
+    /*! \{                                                                 */
 
-	// defines an ordering for chunks. Only well defined for chunks of the
-	// same type.
-    virtual Bool operator < (const StateChunk &other) const;
-    
-	virtual Bool operator == (const StateChunk &other) const;
-	virtual Bool operator != (const StateChunk &other) const;
+    virtual Real32 switchCost  ( StateChunk * chunk );
 
+    virtual Bool   operator <  (const StateChunk &other) const;
+
+    virtual Bool   operator == (const StateChunk &other) const;
+    virtual Bool   operator != (const StateChunk &other) const;
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // They should all be in PolygonChunkBase.
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     PolygonChunk(void);
     PolygonChunk(const PolygonChunk &source);
-    virtual ~PolygonChunk(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~PolygonChunk(void);
+
+    /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef PolygonChunkBase Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class PolygonChunkBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
-	// class. Used for indexing in State
-	static StateChunkClass _class;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    // class. Used for indexing in State
+    static StateChunkClass _class;
 
     static void initMethod( void );
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
     // void operator =(const PolygonChunk &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
 typedef PolygonChunk *PolygonChunkP;
 
 OSG_END_NAMESPACE

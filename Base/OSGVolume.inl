@@ -40,10 +40,6 @@
 #ifndef _OSGVOLUME_INL_
 #define _OSGVOLUME_INL_
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGVolume.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
@@ -55,104 +51,86 @@
 OSG_BEGIN_NAMESPACE
 
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
 /*-------------------------- state -----------------------------------------*/
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setValid (const Bool value = true) 
-{ 
-	if ( ! isStatic() )
-	{
-		if (value)
-		  _state |= OSGVALID;
-		else 
-		  _state &= ~OSGVALID; 
-	}
+void Volume::setValid (const Bool value = true)
+{
+    if ( ! isStatic() )
+    {
+        if (value)
+          _state |= OSGVALID;
+        else
+          _state &= ~OSGVALID;
+    }
 }
 
 /**  Checks if the volume is valid */
 OSG_BASE_DLLMAPPING
-Bool Volume::isValid (void) const 
-{ 
-	return ( _state & OSGVALID ) ? true : false;
+Bool Volume::isValid (void) const
+{
+    return ( _state & OSGVALID ) ? true : false;
 }
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setEmpty (const Bool value = true) 
-{ 
-	if (value) 
-	{
-		_state |= OSGEMPTY;
-		_state |= OSGVALID;
-		_state &= ~OSGINFINITE;
-	}	
-	else 
-		_state &= ~OSGEMPTY;
+void Volume::setEmpty (const Bool value = true)
+{
+    if (value)
+    {
+        _state |= OSGEMPTY;
+        _state |= OSGVALID;
+        _state &= ~OSGINFINITE;
+    }
+    else
+        _state &= ~OSGEMPTY;
 }
 
 /**  Checks if the volume is empty */
 OSG_BASE_DLLMAPPING
-Bool Volume::isEmpty (void) const 
-{ 
-	return ( _state & OSGEMPTY ) ? true : false; 
+Bool Volume::isEmpty (void) const
+{
+    return ( _state & OSGEMPTY ) ? true : false;
 }
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setStatic (const Bool value = true) 
-{ 
-	if (value)
-		_state |= OSGSTATIC;
-	else 
-		_state &= ~OSGSTATIC; 
+void Volume::setStatic (const Bool value = true)
+{
+    if (value)
+        _state |= OSGSTATIC;
+    else
+        _state &= ~OSGSTATIC;
 }
 
 /**  Checks if the volume is static */
 OSG_BASE_DLLMAPPING
 Bool Volume::isStatic (void) const
-{ 
-	return ( _state & OSGSTATIC ) ? true : false; 
+{
+    return ( _state & OSGSTATIC ) ? true : false;
 }
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setInfinite (const Bool value = true) 
-{ 
-	if (value) 
-	{
-		_state |= OSGINFINITE;
-		_state |= OSGVALID;
-		_state &= ~OSGEMPTY;
-	}
-	else 
-		_state &= ~OSGINFINITE; 
+void Volume::setInfinite (const Bool value = true)
+{
+    if (value)
+    {
+        _state |= OSGINFINITE;
+        _state |= OSGVALID;
+        _state &= ~OSGEMPTY;
+    }
+    else
+        _state &= ~OSGINFINITE;
 }
 
 /**  Checks if the volume is infinite */
 OSG_BASE_DLLMAPPING
-Bool Volume::isInfinite (void) const 
-{ 
-	return ( _state & OSGINFINITE ) ? true : false; 
+Bool Volume::isInfinite (void) const
+{
+    return ( _state & OSGINFINITE ) ? true : false;
 }
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
 
 
 OSG_END_NAMESPACE

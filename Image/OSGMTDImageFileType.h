@@ -39,13 +39,8 @@
 #ifndef OSGMTDIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGMTDIMAGEFILETYPE_CLASS_DECLARATION
 #ifdef  __sig
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -53,149 +48,71 @@
 
 OSG_BEGIN_NAMESPACE
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
-class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType 
+class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~MTDImageFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Methods                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual MTDImageFileType & the        (void) { return _the; }
 
+    virtual const Char8      *getMimeType (void) { return "MTD"; }
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
+    virtual bool read  (Image &image, const Char8 *fileName);
 
-  /** Destructor */
-	virtual ~MTDImageFileType (void);
+    virtual bool write (const Image &image, const Char8 *fileName);
 
-  /** get method for attribute the */
-  virtual MTDImageFileType & the (void) { return _the; }
+    /*! \}                                                                 */
 
-  /** get method for the type name */
-  virtual const Char8 *getMimeType (void) { return "MTD"; }
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-  /** read the image from the given file */
-  virtual bool read (Image &image, const Char8 *fileName);
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
-  /** write the image to the given file */
-  virtual bool write (const Image &image, const Char8 *fileName);
+    MTDImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
-protected:
+    MTDImageFileType (const MTDImageFileType &obj);
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
 
+    virtual UInt64 restoreData ( Image &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    virtual UInt64 storeData   ( const Image &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
+    /*! \}                                                                 */
 
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-//---------------------------
-//class Variables 			     
-//---------------------------
+    typedef ImageFileType Inherited;
 
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-  /** Default Constructor */
-  MTDImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
-
-  /** Copy Constructor */
-  MTDImageFileType (const MTDImageFileType &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-  /** fill the given image with the content of the mem 'buffer' */
-  virtual UInt64 restoreData ( Image &image, const UChar8 *buffer,
-                               Int32 memSize = -1 );
-  
-  /** store the given image to the mem 'buffer' */
-  virtual UInt64 storeData ( const Image &image, UChar8 *buffer,
-                             Int32 memSize = -1 );
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-
-	typedef ImageFileType Inherited;
-
-  /**  */
-  static MTDImageFileType _the;
-
-      
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
+    static  MTDImageFileType _the;
 
 };
 

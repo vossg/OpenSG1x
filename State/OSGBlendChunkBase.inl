@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &BlendChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 BlendChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline BlendChunkPtr BlendChunkBase::create(void) 
 {
     BlendChunkPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = BlendChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline BlendChunkPtr BlendChunkBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline BlendChunkPtr BlendChunkBase::createEmpty(void) 
 { 
     BlendChunkPtr returnValue; 
@@ -126,11 +90,7 @@ inline BlendChunkPtr BlendChunkBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *BlendChunkBase::getSFSrcFactor(void)
@@ -164,7 +124,7 @@ const UInt32 &BlendChunkBase::getSrcFactor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setSrcFactor( const UInt32 &value )
+void BlendChunkBase::setSrcFactor(const UInt32 &value)
 {
 	_sfSrcFactor.setValue(value);
 }
@@ -182,7 +142,7 @@ const UInt32 &BlendChunkBase::getDestFactor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setDestFactor( const UInt32 &value )
+void BlendChunkBase::setDestFactor(const UInt32 &value)
 {
 	_sfDestFactor.setValue(value);
 }
@@ -200,27 +160,11 @@ const Color4f &BlendChunkBase::getColor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setColor( const Color4f &value )
+void BlendChunkBase::setColor(const Color4f &value)
 {
 	_sfColor.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

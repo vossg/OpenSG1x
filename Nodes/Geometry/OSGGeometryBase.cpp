@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGEOMETRYINST
@@ -67,16 +63,8 @@
 #include "OSGGeometry.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	GeometryBase::TypesFieldMask = 
     (1 << GeometryBase::TypesFieldId);
@@ -113,10 +101,44 @@ const OSG::BitVector	GeometryBase::GLIdFieldMask =
 
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.13 2001/08/19 18:07:42 vossg Exp $";
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.14 2001/09/13 16:21:01 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var GeoPTypePtr     GeometryBase::_sfTypes
+    
+*/
+/*! \var GeoPLengthPtr   GeometryBase::_sfLengths
+    
+*/
+/*! \var GeoPositionPtr  GeometryBase::_sfPositions
+    
+*/
+/*! \var GeoNormalPtr    GeometryBase::_sfNormals
+    
+*/
+/*! \var GeoColorPtr     GeometryBase::_sfColors
+    
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords
+    
+*/
+/*! \var GeoIndexPtr     GeometryBase::_sfIndex
+    
+*/
+/*! \var UInt16          GeometryBase::_mfIndexMapping
+    
+*/
+/*! \var MaterialPtr     GeometryBase::_sfMaterial
+    
+*/
+/*! \var Bool            GeometryBase::_sfDlistCache
+    Flag to activate caching the geometry inside a display list.
+*/
+/*! \var Int32           GeometryBase::_sfGLId
+    The dlist id, if used.
+*/
+//! Geometry description
 
 FieldDescription *GeometryBase::_desc[] = 
 {
@@ -177,8 +199,7 @@ FieldDescription *GeometryBase::_desc[] =
                      (FieldAccessMethod) &GeometryBase::getSFGLId)
 };
 
-/** \brief Geometry type
- */
+//! Geometry type
 
 FieldContainerType GeometryBase::_type(
     "Geometry",
@@ -189,32 +210,14 @@ FieldContainerType GeometryBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(GeometryBase, GeometryPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Geometry"; 
+}
 
 FieldContainerType &GeometryBase::getType(void) 
 {
@@ -225,6 +228,7 @@ const FieldContainerType &GeometryBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr GeometryBase::shallowCopy(void) const 
 { 
@@ -247,48 +251,47 @@ void GeometryBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((GeometryBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 GeometryBase::GeometryBase(void) :
-	_sfTypes	(), 
-	_sfLengths	(), 
-	_sfPositions	(), 
-	_sfNormals	(), 
-	_sfColors	(), 
-	_sfTexCoords	(), 
-	_sfIndex	(), 
-	_mfIndexMapping	(), 
-	_sfMaterial	(), 
-	_sfDlistCache	(Bool(true)), 
-	_sfGLId	(Int32(0)), 
+	_sfTypes                  (), 
+	_sfLengths                (), 
+	_sfPositions              (), 
+	_sfNormals                (), 
+	_sfColors                 (), 
+	_sfTexCoords              (), 
+	_sfIndex                  (), 
+	_mfIndexMapping           (), 
+	_sfMaterial               (), 
+	_sfDlistCache             (Bool(true)), 
+	_sfGLId                   (Int32(0)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 GeometryBase::GeometryBase(const GeometryBase &source) :
-	_sfTypes		(source._sfTypes), 
-	_sfLengths		(source._sfLengths), 
-	_sfPositions		(source._sfPositions), 
-	_sfNormals		(source._sfNormals), 
-	_sfColors		(source._sfColors), 
-	_sfTexCoords		(source._sfTexCoords), 
-	_sfIndex		(source._sfIndex), 
-	_mfIndexMapping		(source._mfIndexMapping), 
-	_sfMaterial		(source._sfMaterial), 
-	_sfDlistCache		(source._sfDlistCache), 
-	_sfGLId		(source._sfGLId), 
-	Inherited        (source)
+	_sfTypes                  (source._sfTypes                  ), 
+	_sfLengths                (source._sfLengths                ), 
+	_sfPositions              (source._sfPositions              ), 
+	_sfNormals                (source._sfNormals                ), 
+	_sfColors                 (source._sfColors                 ), 
+	_sfTexCoords              (source._sfTexCoords              ), 
+	_sfIndex                  (source._sfIndex                  ), 
+	_mfIndexMapping           (source._mfIndexMapping           ), 
+	_sfMaterial               (source._sfMaterial               ), 
+	_sfDlistCache             (source._sfDlistCache             ), 
+	_sfGLId                   (source._sfGLId                   ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 GeometryBase::~GeometryBase(void)
 {
@@ -365,59 +368,37 @@ MemoryHandle GeometryBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (TypesFieldMask & whichField))
-    {
         pMem = _sfTypes.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (LengthsFieldMask & whichField))
-    {
         pMem = _sfLengths.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
         pMem = _sfPositions.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
-    {
         pMem = _sfNormals.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
-    {
         pMem = _sfColors.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
-    {
         pMem = _sfTexCoords.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (IndexFieldMask & whichField))
-    {
         pMem = _sfIndex.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
-    {
         pMem = _mfIndexMapping.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         pMem = _sfMaterial.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
-    {
         pMem = _sfDlistCache.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
         pMem = _sfGLId.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -429,70 +410,41 @@ MemoryHandle GeometryBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (TypesFieldMask & whichField))
-    {
         pMem = _sfTypes.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (LengthsFieldMask & whichField))
-    {
         pMem = _sfLengths.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
         pMem = _sfPositions.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
-    {
         pMem = _sfNormals.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
-    {
         pMem = _sfColors.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
-    {
         pMem = _sfTexCoords.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (IndexFieldMask & whichField))
-    {
         pMem = _sfIndex.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
-    {
         pMem = _mfIndexMapping.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         pMem = _sfMaterial.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
-    {
         pMem = _sfDlistCache.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
         pMem = _sfGLId.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
                                         const BitVector         &whichField)
@@ -501,64 +453,38 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (TypesFieldMask & whichField))
-    {
         _sfTypes.syncWith(pOther->_sfTypes);
-    }
 
     if(FieldBits::NoField != (LengthsFieldMask & whichField))
-    {
         _sfLengths.syncWith(pOther->_sfLengths);
-    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
         _sfPositions.syncWith(pOther->_sfPositions);
-    }
 
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
-    {
         _sfNormals.syncWith(pOther->_sfNormals);
-    }
 
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
-    {
         _sfColors.syncWith(pOther->_sfColors);
-    }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
-    {
         _sfTexCoords.syncWith(pOther->_sfTexCoords);
-    }
 
     if(FieldBits::NoField != (IndexFieldMask & whichField))
-    {
         _sfIndex.syncWith(pOther->_sfIndex);
-    }
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
-    {
         _mfIndexMapping.syncWith(pOther->_mfIndexMapping);
-    }
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         _sfMaterial.syncWith(pOther->_sfMaterial);
-    }
 
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
-    {
         _sfDlistCache.syncWith(pOther->_sfDlistCache);
-    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
         _sfGLId.syncWith(pOther->_sfGLId);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

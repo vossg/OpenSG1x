@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &SimpleMaterialBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 SimpleMaterialBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline SimpleMaterialPtr SimpleMaterialBase::create(void) 
 {
     SimpleMaterialPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = SimpleMaterialPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline SimpleMaterialPtr SimpleMaterialBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline SimpleMaterialPtr SimpleMaterialBase::createEmpty(void) 
 { 
     SimpleMaterialPtr returnValue; 
@@ -126,11 +90,7 @@ inline SimpleMaterialPtr SimpleMaterialBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SimpleMaterialBase::getSFAmbient(void)
@@ -194,7 +154,7 @@ const Color3f &SimpleMaterialBase::getAmbient(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setAmbient( const Color3f &value )
+void SimpleMaterialBase::setAmbient(const Color3f &value)
 {
 	_sfAmbient.setValue(value);
 }
@@ -212,7 +172,7 @@ const Color3f &SimpleMaterialBase::getDiffuse(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setDiffuse( const Color3f &value )
+void SimpleMaterialBase::setDiffuse(const Color3f &value)
 {
 	_sfDiffuse.setValue(value);
 }
@@ -230,7 +190,7 @@ const Color3f &SimpleMaterialBase::getSpecular(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setSpecular( const Color3f &value )
+void SimpleMaterialBase::setSpecular(const Color3f &value)
 {
 	_sfSpecular.setValue(value);
 }
@@ -248,7 +208,7 @@ const Real32 &SimpleMaterialBase::getShininess(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setShininess( const Real32 &value )
+void SimpleMaterialBase::setShininess(const Real32 &value)
 {
 	_sfShininess.setValue(value);
 }
@@ -266,7 +226,7 @@ const Color3f &SimpleMaterialBase::getEmission(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setEmission( const Color3f &value )
+void SimpleMaterialBase::setEmission(const Color3f &value)
 {
 	_sfEmission.setValue(value);
 }
@@ -284,7 +244,7 @@ const Real32 &SimpleMaterialBase::getTransparency(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setTransparency( const Real32 &value )
+void SimpleMaterialBase::setTransparency(const Real32 &value)
 {
 	_sfTransparency.setValue(value);
 }
@@ -302,7 +262,7 @@ const Bool &SimpleMaterialBase::getLit(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setLit( const Bool &value )
+void SimpleMaterialBase::setLit(const Bool &value)
 {
 	_sfLit.setValue(value);
 }
@@ -320,27 +280,11 @@ const UInt32 &SimpleMaterialBase::getColorMaterial(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setColorMaterial( const UInt32 &value )
+void SimpleMaterialBase::setColorMaterial(const UInt32 &value)
 {
 	_sfColorMaterial.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDIRECTIONALLIGHTINST
@@ -67,26 +63,22 @@
 #include "OSGDirectionalLight.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	DirectionalLightBase::DirectionFieldMask = 
     (1 << DirectionalLightBase::DirectionFieldId);
 
 
 
-char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.10 2001/09/13 16:21:02 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Vec3f           DirectionalLightBase::_sfDirection
+    
+*/
+//! DirectionalLight description
 
 FieldDescription *DirectionalLightBase::_desc[] = 
 {
@@ -97,8 +89,7 @@ FieldDescription *DirectionalLightBase::_desc[] =
                      (FieldAccessMethod) &DirectionalLightBase::getSFDirection)
 };
 
-/** \brief DirectionalLight type
- */
+//! DirectionalLight type
 
 FieldContainerType DirectionalLightBase::_type(
     "DirectionalLight",
@@ -109,32 +100,14 @@ FieldContainerType DirectionalLightBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(DirectionalLightBase, DirectionalLightPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "DirectionalLight"; 
+}
 
 FieldContainerType &DirectionalLightBase::getType(void) 
 {
@@ -145,6 +118,7 @@ const FieldContainerType &DirectionalLightBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr DirectionalLightBase::shallowCopy(void) const 
 { 
@@ -167,28 +141,27 @@ void DirectionalLightBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((DirectionalLightBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 DirectionalLightBase::DirectionalLightBase(void) :
-	_sfDirection	(), 
+	_sfDirection              (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 DirectionalLightBase::DirectionalLightBase(const DirectionalLightBase &source) :
-	_sfDirection		(source._sfDirection), 
-	Inherited        (source)
+	_sfDirection              (source._sfDirection              ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 DirectionalLightBase::~DirectionalLightBase(void)
 {
@@ -215,9 +188,7 @@ MemoryHandle DirectionalLightBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-    {
         pMem = _sfDirection.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -229,20 +200,11 @@ MemoryHandle DirectionalLightBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-    {
         pMem = _sfDirection.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,
                                         const BitVector         &whichField)
@@ -251,14 +213,8 @@ void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-    {
         _sfDirection.syncWith(pOther->_sfDirection);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

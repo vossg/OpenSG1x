@@ -48,67 +48,25 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &WindowBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 WindowBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt16 *WindowBase::getSFWidth(void)
@@ -154,7 +112,7 @@ const UInt16 &WindowBase::getWidth(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setWidth( const UInt16 &value )
+void WindowBase::setWidth(const UInt16 &value)
 {
 	_sfWidth.setValue(value);
 }
@@ -172,7 +130,7 @@ const UInt16 &WindowBase::getHeight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setHeight( const UInt16 &value )
+void WindowBase::setHeight(const UInt16 &value)
 {
 	_sfHeight.setValue(value);
 }
@@ -190,14 +148,14 @@ const Bool &WindowBase::getResizePending(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setResizePending( const Bool &value )
+void WindowBase::setResizePending(const Bool &value)
 {
 	_sfResizePending.setValue(value);
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-ViewportPtr &WindowBase::getPort( UInt32 index)
+ViewportPtr &WindowBase::getPort(UInt32 index)
 {
 	return _mfPort.getValue( index );
 }
@@ -213,7 +171,7 @@ const MFViewportPtr &WindowBase::getPort(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-UInt32 &WindowBase::getGlObjectStatus( UInt32 index)
+UInt32 &WindowBase::getGlObjectStatus(UInt32 index)
 {
 	return _mfGlObjectStatus.getValue( index );
 }
@@ -227,22 +185,6 @@ const MFUInt32 &WindowBase::getGlObjectStatus(void) const
 {
 	return _mfGlObjectStatus;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGTime.h>
 
@@ -53,50 +49,38 @@
 #include <list>
 
 /*! \defgroup LogLib OpenSG Log Library
-    OpenSG Log Library 
+    OpenSG Log Library
  */
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Enums
-//---------------------------------------------------------------------------
 
 /*! \ingroup LogLib
  *  \brief Log types
  */
 
-enum LogType  
-{ 
-    LOG_NONE = 0, 
-    LOG_STDOUT, 
-    LOG_STDERR, 
-    LOG_FILE 
+enum LogType
+{
+    LOG_NONE = 0,
+    LOG_STDOUT,
+    LOG_STDERR,
+    LOG_FILE
 };
 
 /*! \ingroup LogLib
  *  \brief Log Levels
  */
 
-enum LogLevel 
+enum LogLevel
 {
-    LOG_LOG  = 0, 
-    LOG_FATAL, 
-    LOG_WARNING, 
+    LOG_LOG  = 0,
+    LOG_FATAL,
+    LOG_WARNING,
     LOG_NOTICE,
-    LOG_INFO, 
-    LOG_DEBUG 
+    LOG_INFO,
+    LOG_DEBUG
 };
 
-enum LogHeaderElem 
+enum LogHeaderElem
 {
     LOG_NONE_HEADER          = 0,
     LOG_BEGIN_NEWLINE_HEADER = 1,
@@ -108,8 +92,8 @@ enum LogHeaderElem
     LOG_END_NEWLINE_HEADER   = 64,
     LOG_ALL_HEADER           = 127
 };
-            
-enum LogModuleHandling 
+
+enum LogModuleHandling
 {
     LOG_MODULE_NONE           = 0,
     LOG_MODULE_KNOWN          = 1,
@@ -117,10 +101,6 @@ enum LogModuleHandling
     LOG_MODULE_UNDEFINED      = 4,
     LOG_MODULE_ALL            = 7
 };
-
-//---------------------------------------------------------------------------
-//  Support Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup LogLib
  *  \brief Logger ostream, required to fix some problems between the different
@@ -141,67 +121,55 @@ class OSG_BASE_DLLMAPPING LogOStream : public ostream
 #endif
 };
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 /*! \ingroup LogLib
  *  \brief Message logger class, handles info,warning and error messages
  */
 
-
-
-class OSG_BASE_DLLMAPPING Log : public ostream 
+class OSG_BASE_DLLMAPPING Log : public ostream
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "Log"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
-    Log(LogType  logType  = LOG_STDERR, 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    Log(LogType  logType  = LOG_STDERR,
         LogLevel logLevel = LOG_NOTICE);
 
     Log(const char *fileName, LogLevel logLevel = LOG_NOTICE );
 
-    virtual ~Log(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-    /*------------------------- your_category -------------------------------*/
+    virtual ~Log(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
 
     void lock(void) {;}   // TODO: implement
 
     void unlock(void) {;} // TODO: implement
 
     virtual void setHeaderElem(LogHeaderElem elem);
-
     virtual void addHeaderElem(LogHeaderElem elem);
-
     virtual void delHeaderElem(LogHeaderElem elem);
 
     virtual void addModuleHandling(LogModuleHandling handling);
-
     virtual void delModuleHandling(LogModuleHandling handling);
 
     virtual void addModuleName(const Char8 *module, Bool isStatic = false);
-
     virtual void delModuleName(const Char8 *module);
 
     Bool hasModule  (const Char8 *module);
@@ -211,98 +179,50 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     void    setLogType(LogType logType);
 
     LogLevel getLogLevel(void);
-    void     setLogLevel(LogLevel logLevel); 
+    void     setLogLevel(LogLevel logLevel);
     Bool     checkLevel (LogLevel logLevel);
 
     void     setLogFile (const Char8 *fileName);
 
-    inline Time getRefTime  (void);
-    inline void setRefTime  (Time refTime);
+    inline Time getRefTime(void);
+    inline void setRefTime(Time refTime);
 
     inline void resetRefTime(void);
 
     inline ostream &stream   (LogLevel level);
     inline ostream &nilstream(void);
 
-    inline ostream &doHeader (      LogLevel  level, 
-                              const Char8    *module, 
-                              const Char8    *file, 
+    inline ostream &doHeader (LogLevel  level,
+                              const Char8    *module,
+                              const Char8    *file,
                                     UInt32    line);
 
     void  doLog (char * format, ...);
-                                    
-    /*------------------------- your_operators ------------------------------*/
 
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
+          
     void connect(void );
 
+    /*! \}                                                                 */
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef ostream Inherited;
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
     friend OSG_BASE_DLLMAPPING void initLog(void);
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    /** defines a nil buffer */
-    class OSG_BASE_DLLMAPPING nilbuf : public streambuf { };
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Fields                                   */
+    /*! \{                                                                 */
+    
+    class OSG_BASE_DLLMAPPING nilbuf : public streambuf {};
 
     static nilbuf  *_nilbufP;
     static ostream *_nilstreamP;
@@ -312,49 +232,43 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     LogType     _logType;
     LogLevel    _logLevel;
 
-    fstream        _fileStream;
+    fstream     _fileStream;
 
     LogOStream *_streamVec[6];
 
-    UInt32 _headerElem;
+    UInt32      _headerElem;
 
-    UInt32 _moduleHandling;
+    UInt32      _moduleHandling;
 
-    struct Module 
+    struct Module
     {
         const Char8 *name;
               Bool   isStatic;
-        
-        Module() :
-            name    (NULL),
-            isStatic(true) 
-        {
-        }
+
+        Module() : name(NULL), isStatic(true) {}
     };
-            
+
     list<Module> _moduleList;
 
     Time _refTime;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     Log(const Log &source);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Operators                                  */
+    /*! \{                                                                 */
+    
     void operator =(const Log &source);
+    
+    /*! \}                                                                 */    
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
 typedef Log *LogP;
-
-/** appLog */
 
 #ifndef OSG_LOG_MODULE
 #define OSG_LOG_MODULE "UNKNOWN MODULE"
@@ -368,9 +282,9 @@ inline OSG_BASE_DLLMAPPING Log     &osgLog     (void);
 inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      Bool      logHeader,
                                                       LogLevel  level,
                                                 const Char8    *module,
-                                                const Char8    *file, 
+                                                const Char8    *file,
                                                       UInt32    line);
-inline OSG_BASE_DLLMAPPING void  indentLog     (UInt32   indent, 
+inline OSG_BASE_DLLMAPPING void  indentLog     (UInt32   indent,
                                                 ostream &stream);
 
 #define SLOG \
@@ -512,14 +426,3 @@ OSG_END_NAMESPACE
 #include <OSGLog.inl>
 
 #endif /* _OSGLOG_H_ */
-
-
-
-
-
-
-
-
-
-
-

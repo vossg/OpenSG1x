@@ -32,7 +32,7 @@ OSG_BEGIN_NAMESPACE
  *                     Volume intersection Functions                        *
 \***************************************************************************/
 
-// Intersect implementation maxtrix: 
+// Intersect implementation maxtrix:
 //   Func:   Function implementation
 //   Inl :   Inline implementation
 //
@@ -50,80 +50,71 @@ OSG_BEGIN_NAMESPACE
 
 
 // # Sphere ###########################################################
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere, 
-		                  							 const BoxVolume &box )	
+
+inline OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere,
+                                            const BoxVolume &box )
 {
-	return intersect(box,sphere);
+    return intersect(box,sphere);
 }
 
 // # Cylinder ########################################################
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder, 
-																		 const BoxVolume &box)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder,
+                                            const BoxVolume &box)
 {
-	return intersect(box,cylinder);
+    return intersect(box,cylinder);
 }
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder, 
-																		 const SphereVolume &sphere)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder,
+                                            const SphereVolume &sphere)
 {
-	return intersect(sphere,cylinder);
+    return intersect(sphere,cylinder);
 }
 
 // # Frustum ########################################################
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum, 
-																		 const BoxVolume &box)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
+                                            const BoxVolume &box)
 {
-	return intersect(box,frustum);
+    return intersect(box,frustum);
 }
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
-																		 const SphereVolume &sphere)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
+                                            const SphereVolume &sphere)
 {
-	return intersect(sphere,frustum);
+    return intersect(sphere,frustum);
 }
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum, 
-																		 const CylinderVolume &cylinder)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
+                                            const CylinderVolume &cylinder)
 {
-	return intersect(cylinder,frustum);
+    return intersect(cylinder,frustum);
 }
 
 // # Volume ########################################################
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
-      	                            const BoxVolume &vol)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+                                            const BoxVolume &vol)
 {
-	return intersect(vol,srcVol);
+    return intersect(vol,srcVol);
 }
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
-	                                  const SphereVolume &vol)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+                                            const SphereVolume &vol)
 {
-	return intersect(vol,srcVol);
+    return intersect(vol,srcVol);
 }
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
-  	                                const CylinderVolume &vol)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+                                            const CylinderVolume &vol)
 {
-	return intersect(vol,srcVol);
+    return intersect(vol,srcVol);
 }
 
-inline
-OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
-    	                              	const FrustumVolume &vol)
+inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+                                            const FrustumVolume &vol)
 {
-	return intersect(vol,srcVol);
+    return intersect(vol,srcVol);
 }
 
 OSG_END_NAMESPACE

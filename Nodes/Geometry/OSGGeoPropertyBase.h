@@ -41,10 +41,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <GL/gl.h>
 
 #include <OSGSystemDef.h>
@@ -56,82 +52,53 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 /*! \ingroup GeometryLib
- *  \brief GeoProperty is a specialized form of Attachment, used to 
- *  define the properties of the geometry node. This is the abstract base 
- *  class for all 
+ *  \brief GeoProperty is a specialized form of Attachment, used to
+ *  define the properties of the geometry node. This is the abstract base
+ *  class for all
  *  properties.
  */
 
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty : 
+class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     public GeoPropertyDesc::Interface
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef AbstractGeoProperty<GeoPropertyDesc>          PropertyType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InterfacePtr, 
+    typedef FCPtr<typename GeoPropertyDesc::InterfacePtr,
                            PropertyType                 > PtrType;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
     static const PtrType NullPtr;
 
-    static const char *getClassname(void) 
-        { return GeoPropertyDesc::getClassName(); }
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    static const char *getClassname(void)
+        { return GeoPropertyDesc::getClassName(); }
+    /*! \}                                                                 */
 
     OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
-    /*----------------------------- access ----------------------------------*/
-    
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Access                                 */
+    /*! \{                                                                 */
+
     virtual PtrType clone        (void) = 0;
-    
+
     virtual UInt32  getFormat    (void) = 0;
-    // number of bytes per format element
-    virtual UInt32  getFormatSize(void) = 0;    
+    virtual UInt32  getFormatSize(void) = 0;
     virtual UInt32  getStride    (void) = 0;
     virtual UInt32  getDimension (void) = 0;
     virtual UInt32  getSize      (void) = 0;
     virtual UInt8   *getData     (void) = 0;
-    
-    // generic access to make using different types easier
-    // mimics the MField interface as far as possible
 
-    virtual typename GeoPropertyDesc::GenericType 
+    virtual typename GeoPropertyDesc::GenericType
                     getValue( const UInt32 index ) = 0;
-                    
-    virtual typename GeoPropertyDesc::GenericType 
+
+    virtual typename GeoPropertyDesc::GenericType
                     getValue( const UInt32 index ) const = 0;
 
     virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
@@ -139,128 +106,72 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 
     virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
                         const UInt32 index ) const = 0;
-                    
+
     virtual void    setValue(
                         const typename GeoPropertyDesc::GenericType & val,
                         const UInt32 index ) = 0;
-    
+
     virtual void    addValue(
                         const typename GeoPropertyDesc::GenericType & val )= 0;
 
-    // insert() and erase() should go here
-    // it's just not clear how to handle iterators in a generic way
-    // what about find()? Probably not very useful in this context
-    
     virtual void    clear( void ) = 0;
-    
 
     virtual void    resize(size_t newsize) = 0;
-    
-    virtual void    push_back( 
+
+    virtual void    push_back(
                     const typename GeoPropertyDesc::GenericType & val ) = 0;
-    
-    // size clashes with another size()...
-    // virtual UInt32   size( void ) const;
 
-    /*------------------------------ dump -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                         Sync                                 */
+    /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
 
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     AbstractGeoProperty(void);
     AbstractGeoProperty(const AbstractGeoProperty &source);
-    virtual ~AbstractGeoProperty(void); 
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~AbstractGeoProperty(void);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef typename GeoPropertyDesc::Interface   Inherited;
     typedef typename GeoPropertyDesc::InheritDesc InheritDesc;
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
     static FieldContainerType _type;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-
 };
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : 
+class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     public GeoPropertyDesc::Inherit
 {
+    /*==========================  PRIVATE  ================================*/
   private:
 
     typedef typename GeoPropertyDesc::Inherit Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
 
     enum
     {
@@ -270,69 +181,50 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     static const BitVector GeoPropDataFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef GeoProperty<GeoPropertyDesc>                PropertyType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InheritPtr, 
+    typedef FCPtr<typename GeoPropertyDesc::InheritPtr,
                            PropertyType               > PtrType;
 
     typedef typename GeoPropertyDesc::FieldType   StoredFieldType;
     typedef typename GeoPropertyDesc::GenericType StoredGenericType;
-    
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static const PtrType NullPtr;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    static const char *getClassname(void) 
+    static const char *getClassname(void)
         { return GeoPropertyDesc::getClassName(); }
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
 
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
-    /*----------------------------- access ----------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Access                                  */
+    /*! \{                                                                 */
 
           StoredFieldType *getFieldPtr(void);
 
           StoredFieldType &getField(void);
     const StoredFieldType &getField(void) const;
-    
-	   
+
+
     virtual typename GeoPropertyDesc::InheritPtr clone(void);
-    
+
     virtual UInt32  getFormat    (void);
-    // number of bytes per format element
-    virtual UInt32  getFormatSize(void);    
+    virtual UInt32  getFormatSize(void);
     virtual UInt32  getStride    (void);
     virtual UInt32  getDimension (void);
-    // number of elements
-    virtual UInt32  getSize      (void);        
-    virtual UInt8   *getData     (void);
-
-    // cast operator to allow using a geoProperty just like its only field
+    virtual UInt32  getSize      (void);
+    virtual UInt8  *getData      (void);
 
     typename GeoPropertyDesc::FieldType& operator->() { return _field; }
 
-    
-    // generic access to make using different types easier
-
     virtual StoredGenericType getValue(const UInt32 index);
-                    
+
     virtual StoredGenericType getValue(const UInt32 index) const;
 
     virtual void              getValue(      StoredGenericType &val,
@@ -340,75 +232,72 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     virtual void              getValue(      StoredGenericType &val,
                                        const UInt32             index) const;
-                    
+
     virtual void              setValue(const StoredGenericType &val,
                                        const UInt32             index);
-    
+
     virtual void              addValue(const StoredGenericType &val);
 
-    // insert() and erase() should go here
-    // it's just not clear how to handle iterators in a generic way
-    // what about find()? Probably not very useful in this context
-    
     virtual void    clear();
-    
+
     virtual void    resize(size_t newsize);
-    
+
     virtual void    push_back(const StoredGenericType &val);
     
-    // size clashes with FieldContainer::size()
-    // virtual UInt32   size( void ) const;
-
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Assigment                               */
+    /*! \{                                                                 */
 
     GeoProperty &operator =(const GeoProperty &source);
 
-    /*------------------------------ dump -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/    
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef typename GeoPropertyDesc::InheritDesc InheritDesc;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
     typename GeoPropertyDesc::FieldType _field;
-    
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     GeoProperty(void);
     GeoProperty(const GeoProperty &source);
-    virtual ~GeoProperty(void); 
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+    
+    virtual ~GeoProperty(void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+    
     virtual void executeSync    (      FieldContainer &other,
                                  const BitVector      &whichField);
 
             void executeSyncImpl(      GeoProperty *pOther,
                                  const BitVector   &whichField);
+            
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Binary Operations                       */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -416,54 +305,16 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
 
     static FieldContainerType  _type;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// Position
 
 typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
 
@@ -474,15 +325,12 @@ typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
-                            GeoPositionPropertyDesc, 
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
+                            GeoPositionPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
-
-
-// Normal
 
 typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
 
@@ -493,15 +341,12 @@ typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
-                            GeoNormalPropertyDesc, 
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
+                            GeoNormalPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
-
-
-// Color
 
 typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
 
@@ -512,15 +357,12 @@ typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoColorPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
-
-
-// TexCoords
 
 typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
 
@@ -531,15 +373,12 @@ typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoTexCoordsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
-
-
-// Index
 
 typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
 
@@ -550,15 +389,12 @@ typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
-                            GeoIndexPropertyDesc, 
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
+                            GeoIndexPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
-
-
-// Primitive Type
 
 typedef AbstractGeoProperty<GeoPTypePropertyDesc> GeoPType;
 
@@ -569,19 +405,12 @@ typedef AbstractGeoProperty<GeoPTypePropertyDesc> GeoPType;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
-                      		GeoPTypePropertyDesc, 
-                      		OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
+                            GeoPTypePropertyDesc,
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
-
-
-// Primitive Lengths
-
-// just one kind, to cut down the number of pumps needed
-// screwed up architectures might have a problem with uint8, maybe we'll
-// have to expand it later 
 
 typedef AbstractGeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 
@@ -592,8 +421,8 @@ typedef AbstractGeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
-                            GeoPLengthPropertyDesc, 
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
+                            GeoPLengthPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 
@@ -54,21 +50,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
 class StatElemCollector;
 class StatElemDesc;
 class StatElem;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 typedef StatElem * (*CreateStatElemMethod) ( StatElemDesc *desc );
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup baselib
  *  \brief Brief
@@ -76,181 +62,100 @@ typedef StatElem * (*CreateStatElemMethod) ( StatElemDesc *desc );
  *  detailed
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc 
+class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 {
   friend class StatCollector;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+   /*---------------------------------------------------------------------*/
+   /*! \name                    instance                                  */
+   /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    inline  static Bool isValidID (Int32 ID)
+        { return (_descVec && (ID >= 0) && (ID < Int32(_descVec->size()))); }
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    inline  static StatElemDesc *getDesc (Int32 ID)
+        { return (*_descVec)[ID]; }
 
-    //-----------------------------------------------------------------------
-    //   class functions                                              
-    //-----------------------------------------------------------------------
+    static StatElemDesc *findDescByName (const Char8 *name);
 
-  inline
-    static Bool isValidID (Int32 ID)
-    { return (_descVec && (ID >= 0) && (ID < Int32(_descVec->size()))); }
-  
-  inline      
-    static StatElemDesc *getDesc (Int32 ID)
-    { return (*_descVec)[ID]; }
-  
-  static StatElemDesc *findDescByName (const Char8 *name);
+    inline  static Int32 getNumOfDescs(void)
+        { return _descVec ? _descVec->size() : 0; }
 
-  inline
-    static Int32 getNumOfDescs(void) 
-    { return _descVec ? _descVec->size() : 0; }
+    inline  static const Char8 *getClassname(void)
+        { return "StatElemDesc"; }
 
-  inline
-    static const Char8 *getClassname(void) { return "StatElemDesc"; }
+    static void printAll (void);
 
-  static void printAll (void);
+    void print(void);
 
-    /** returns a desc by id */
-    
+    inline        Int32   getID          (void) { return _ID; }
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-  
+    inline  const String &getName        (void) { return _name; }
+
+    inline  const String &getDescription (void) { return _description; }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructors                              */
+    /*! \{                                                                 */
+
     StatElemDesc( const Char8 *name, const Char8 *description,
                   CreateStatElemMethod createMethod );
 
-    virtual ~StatElemDesc(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    void print(void);
-    
-    inline
-      Int32 getID(void) { return _ID; }
+    virtual ~StatElemDesc(void);
 
-    inline
-      const String &getName(void) { return _name; }
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
 
-    inline
-      const String &getDescription (void) { return _description; }
-      
-    /*------------------------- your_category -------------------------------*/
+         Bool operator < (const StatElemDesc &other) const;
 
+    //OSGBool operator == (const CLASSNAME &other) const;
+    //OSGBool operator != (const CLASSNAME &other) const;
 
-    /*------------------------- your_operators ------------------------------*/
-
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    Bool operator < (const StatElemDesc &other) const;
-    
-	//OSGBool operator == (const CLASSNAME &other) const;
-	//OSGBool operator != (const CLASSNAME &other) const;
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     // typedef PARENTCLASS Inherited;
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    /** vector which holds pointer to all objects */
     static vector<StatElemDesc*> *_descVec;
-    
-    // cvsid
+
     static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
- 
-    /** the type ID, will be unique and automatically created */
-    Int32 _ID;
 
-    /** the type name, must be unique */
-    String _name;
+    Int32                _ID;
 
-    /** the type description */
-    String _description; 
+    String               _name;
 
-    /** the method pointer to create a StatElem */
+    String               _description;
+
     CreateStatElemMethod _createMethod;
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     // only called by OSGStatCollector friend
     inline
-      StatElem* createElem ( void ) 
-      { return _createMethod ? _createMethod(this) : 0; }      
+      StatElem* createElem ( void )
+      { return _createMethod ? _createMethod(this) : 0; }
 
     StatElemDesc (const StatElemDesc &source);
     StatElemDesc& operator =(const StatElemDesc &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
 
 typedef StatElemDesc *StatElemDescP;
 

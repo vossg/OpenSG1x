@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &TileCameraDecoratorBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 TileCameraDecoratorBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline TileCameraDecoratorPtr TileCameraDecoratorBase::create(void) 
 {
     TileCameraDecoratorPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = TileCameraDecoratorPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline TileCameraDecoratorPtr TileCameraDecoratorBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline TileCameraDecoratorPtr TileCameraDecoratorBase::createEmpty(void) 
 { 
     TileCameraDecoratorPtr returnValue; 
@@ -126,11 +90,7 @@ inline TileCameraDecoratorPtr TileCameraDecoratorBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *TileCameraDecoratorBase::getSFLeft(void)
@@ -182,7 +142,7 @@ const Real32 &TileCameraDecoratorBase::getLeft(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setLeft( const Real32 &value )
+void TileCameraDecoratorBase::setLeft(const Real32 &value)
 {
 	_sfLeft.setValue(value);
 }
@@ -200,7 +160,7 @@ const Real32 &TileCameraDecoratorBase::getRight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setRight( const Real32 &value )
+void TileCameraDecoratorBase::setRight(const Real32 &value)
 {
 	_sfRight.setValue(value);
 }
@@ -218,7 +178,7 @@ const Real32 &TileCameraDecoratorBase::getBottom(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setBottom( const Real32 &value )
+void TileCameraDecoratorBase::setBottom(const Real32 &value)
 {
 	_sfBottom.setValue(value);
 }
@@ -236,7 +196,7 @@ const Real32 &TileCameraDecoratorBase::getTop(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setTop( const Real32 &value )
+void TileCameraDecoratorBase::setTop(const Real32 &value)
 {
 	_sfTop.setValue(value);
 }
@@ -254,7 +214,7 @@ const UInt32 &TileCameraDecoratorBase::getFullWidth(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setFullWidth( const UInt32 &value )
+void TileCameraDecoratorBase::setFullWidth(const UInt32 &value)
 {
 	_sfFullWidth.setValue(value);
 }
@@ -272,27 +232,11 @@ const UInt32 &TileCameraDecoratorBase::getFullHeight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setFullHeight( const UInt32 &value )
+void TileCameraDecoratorBase::setFullHeight(const UInt32 &value)
 {
 	_sfFullHeight.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

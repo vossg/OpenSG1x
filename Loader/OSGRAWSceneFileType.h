@@ -39,13 +39,8 @@
 #ifndef _OSGRAWSCENEFILETYPE_H_
 #define _OSGRAWSCENEFILETYPE_H_
 #ifdef  __sig
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #include <OSGBaseTypes.h>
 
@@ -53,147 +48,69 @@
 
 OSG_BEGIN_NAMESPACE
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
-class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType 
+class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~RAWSceneFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get                                        */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
-
-
-//---------------------------
-//class functions 	   		   
-//---------------------------
-
-
-  /** Destructor */
-	virtual ~RAWSceneFileType (void);
-
-  /** get method for attribute the */
-  virtual RAWSceneFileType & the (void) { return _the; }
+    virtual RAWSceneFileType & the (void) { return _the; }
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-  static  RAWSceneFileType & staticThe (void) { return _the; }
+    static  RAWSceneFileType & staticThe (void) { return _the; }
 #endif
 
-  /** read the model from the given file */
-  virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read                                       */
+    /*! \{                                                                 */
 
-  /** write the model to the given file */
-  virtual Bool write (const NodePtr node, const char *fileName) const;
+    virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
 
-  /** get method for the type name */
-  virtual const char *getName (void) const { return "RAW GEOMETRY"; }
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Write                                      */
+    /*! \{                                                                 */
 
-protected:
+    virtual Bool write (const NodePtr node, const char *fileName) const;
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Get                                  */
+    /*! \{                                                                 */
 
+    virtual const char *getName (void) const { return "RAW GEOMETRY"; }
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-//---------------------------
-//class Variables 			     
-//---------------------------
+   RAWSceneFileType ( const char *suffixArray[],
+                                                UInt16 suffixByteCount );
 
+    RAWSceneFileType (const RAWSceneFileType &obj);
 
-//---------------------------
-//class functions 			     
-//---------------------------
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    typedef SceneFileType Inherited;
 
-  /** Default Constructor */
-  RAWSceneFileType ( const char *suffixArray[], 
-												UInt16 suffixByteCount );
-
-  /** Copy Constructor */
-  RAWSceneFileType (const RAWSceneFileType &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-
-	typedef SceneFileType Inherited;
-
-
-  /**  */
-  static RAWSceneFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
-
+    static RAWSceneFileType _the;
 };
 
 typedef RAWSceneFileType* RAWSceneFileTypeP;

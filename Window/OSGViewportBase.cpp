@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEVIEWPORTINST
@@ -66,12 +62,6 @@
 #include "OSGViewportBase.h"
 #include "OSGViewport.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	ViewportBase::LeftFieldMask = 
     (1 << ViewportBase::LeftFieldId);
@@ -124,10 +112,38 @@ const OSG::BitVector	ViewportBase::ForegroundsFieldMask =
 
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.13 2001/08/19 18:07:42 vossg Exp $";
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.14 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Real32          ViewportBase::_sfLeft
+    The left edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	left border. All other values are illegal.
+*/
+/*! \var Real32          ViewportBase::_sfRight
+    The right edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	right border. All other values are illegal.
+*/
+/*! \var Real32          ViewportBase::_sfBottom
+    The bottom edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	bottom border. All other values are illegal.
+*/
+/*! \var Real32          ViewportBase::_sfTop
+    The top edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	top border. All other values are illegal.
+*/
+/*! \var WindowPtr       ViewportBase::_sfParent
+    The Window this viewport is contained in.
+*/
+/*! \var CameraPtr       ViewportBase::_sfCamera
+    The Camera used to render the viewport.
+*/
+/*! \var NodePtr         ViewportBase::_sfRoot
+    The root of the tree that is displayed in this viewport.
+*/
+/*! \var BackgroundPtr   ViewportBase::_sfBackground
+    The background used to clear this viewport.
+*/
+/*! \var ForegroundPtr   ViewportBase::_mfForegrounds
+    The foreground additions to the rendered image.
+*/
+//! Viewport description
 
 FieldDescription *ViewportBase::_desc[] = 
 {
@@ -178,8 +194,7 @@ FieldDescription *ViewportBase::_desc[] =
                      (FieldAccessMethod) &ViewportBase::getMFForegrounds)
 };
 
-/** \brief Viewport type
- */
+//! Viewport type
 
 FieldContainerType ViewportBase::_type(
     "Viewport",
@@ -190,32 +205,14 @@ FieldContainerType ViewportBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(ViewportBase, ViewportPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Viewport"; 
+}
 
 FieldContainerType &ViewportBase::getType(void) 
 {
@@ -226,6 +223,7 @@ const FieldContainerType &ViewportBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr ViewportBase::shallowCopy(void) const 
 { 
@@ -248,44 +246,43 @@ void ViewportBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((ViewportBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 ViewportBase::ViewportBase(void) :
-	_sfLeft	(), 
-	_sfRight	(), 
-	_sfBottom	(), 
-	_sfTop	(), 
-	_sfParent	(), 
-	_sfCamera	(), 
-	_sfRoot	(), 
-	_sfBackground	(), 
-	_mfForegrounds	(), 
+	_sfLeft                   (), 
+	_sfRight                  (), 
+	_sfBottom                 (), 
+	_sfTop                    (), 
+	_sfParent                 (), 
+	_sfCamera                 (), 
+	_sfRoot                   (), 
+	_sfBackground             (), 
+	_mfForegrounds            (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 ViewportBase::ViewportBase(const ViewportBase &source) :
-	_sfLeft		(source._sfLeft), 
-	_sfRight		(source._sfRight), 
-	_sfBottom		(source._sfBottom), 
-	_sfTop		(source._sfTop), 
-	_sfParent		(source._sfParent), 
-	_sfCamera		(source._sfCamera), 
-	_sfRoot		(source._sfRoot), 
-	_sfBackground		(source._sfBackground), 
-	_mfForegrounds		(source._mfForegrounds), 
-	Inherited        (source)
+	_sfLeft                   (source._sfLeft                   ), 
+	_sfRight                  (source._sfRight                  ), 
+	_sfBottom                 (source._sfBottom                 ), 
+	_sfTop                    (source._sfTop                    ), 
+	_sfParent                 (source._sfParent                 ), 
+	_sfCamera                 (source._sfCamera                 ), 
+	_sfRoot                   (source._sfRoot                   ), 
+	_sfBackground             (source._sfBackground             ), 
+	_mfForegrounds            (source._mfForegrounds            ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 ViewportBase::~ViewportBase(void)
 {
@@ -352,49 +349,31 @@ MemoryHandle ViewportBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-    {
         pMem = _sfLeft.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-    {
         pMem = _sfRight.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-    {
         pMem = _sfBottom.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-    {
         pMem = _sfTop.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
-    {
         pMem = _sfParent.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-    {
         pMem = _sfCamera.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
-    {
         pMem = _sfRoot.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
-    {
         pMem = _sfBackground.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
-    {
         pMem = _mfForegrounds.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -406,60 +385,35 @@ MemoryHandle ViewportBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-    {
         pMem = _sfLeft.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-    {
         pMem = _sfRight.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-    {
         pMem = _sfBottom.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-    {
         pMem = _sfTop.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
-    {
         pMem = _sfParent.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-    {
         pMem = _sfCamera.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
-    {
         pMem = _sfRoot.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
-    {
         pMem = _sfBackground.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
-    {
         pMem = _mfForegrounds.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
                                         const BitVector         &whichField)
@@ -468,54 +422,32 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-    {
         _sfLeft.syncWith(pOther->_sfLeft);
-    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-    {
         _sfRight.syncWith(pOther->_sfRight);
-    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-    {
         _sfBottom.syncWith(pOther->_sfBottom);
-    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-    {
         _sfTop.syncWith(pOther->_sfTop);
-    }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
-    {
         _sfParent.syncWith(pOther->_sfParent);
-    }
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-    {
         _sfCamera.syncWith(pOther->_sfCamera);
-    }
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
-    {
         _sfRoot.syncWith(pOther->_sfRoot);
-    }
 
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
-    {
         _sfBackground.syncWith(pOther->_sfBackground);
-    }
 
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
-    {
         _mfForegrounds.syncWith(pOther->_mfForegrounds);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

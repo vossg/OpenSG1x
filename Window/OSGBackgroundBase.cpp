@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEBACKGROUNDINST
@@ -66,12 +62,6 @@
 #include "OSGBackgroundBase.h"
 #include "OSGBackground.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,15 +81,12 @@ OSG_DLLEXPORT_DEF1(MField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.10 2001/08/07 17:20:08 dirk Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.11 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Background type
- */
+//! Background type
 
 FieldContainerType BackgroundBase::_type(
     "Background",
@@ -110,32 +97,14 @@ FieldContainerType BackgroundBase::_type(
     NULL,
     0);
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(BackgroundBase, BackgroundPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Background"; 
+}
 
 FieldContainerType &BackgroundBase::getType(void) 
 {
@@ -146,6 +115,7 @@ const FieldContainerType &BackgroundBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 BackgroundBase::getContainerSize(void) const 
 { 
@@ -159,26 +129,25 @@ void BackgroundBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((BackgroundBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 BackgroundBase::BackgroundBase(void) :
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 BackgroundBase::BackgroundBase(const BackgroundBase &source) :
-	Inherited        (source)
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 BackgroundBase::~BackgroundBase(void)
 {
@@ -212,13 +181,6 @@ MemoryHandle BackgroundBase::copyFromBin(      MemoryHandle  pMem,
     return pMem;
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
 void BackgroundBase::executeSyncImpl(      BackgroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -227,8 +189,4 @@ void BackgroundBase::executeSyncImpl(      BackgroundBase *pOther,
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

@@ -39,33 +39,15 @@
 #ifndef OSGVOLUME_CLASS_DECLARATION
 #define OSGVOLUME_CLASS_DECLARATION
 
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
 #include "OSGVector.h"
 #include "OSGMatrix.h"
 #include "OSGLine.h"
-
 #include "OSGVolumeFunctions.h"
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /* 3D base volume.
  *
@@ -75,195 +57,117 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_BASE_DLLMAPPING Volume {
 
-private:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-	// need the prefix, collides with some compiler symbols otherwise
-	
-	enum State 
-	{
-		OSGVALID    = 1,
-		OSGEMPTY    = 2,
-		OSGSTATIC   = 4,
-		OSGINFINITE = 8
-	};
+    enum State
+    {
+        OSGVALID    = 1,
+        OSGEMPTY    = 2,
+        OSGSTATIC   = 4,
+        OSGINFINITE = 8
+    };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    UInt16 _state;
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-	//-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
+    Volume (void ) : _state( OSGVALID | OSGEMPTY) {;}
 
-protected:
+    Volume (const Volume &obj) : _state(obj._state) {;}
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    virtual ~Volume (void) {;}
 
-	UInt16 _state;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     State                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    inline void setValid    (const Bool value);
 
-	/*-------------------------- constructor ----------------------------------*/
+    inline Bool isValid     (void)                  const;
 
-  /** Default Constructor */
-	Volume (void ) : _state( OSGVALID | OSGEMPTY) {;}
+    inline void setEmpty    (const Bool value);
 
-  /** Copy Constructor */
-  Volume (const Volume &obj) : _state(obj._state) {;}
+    inline Bool isEmpty     (void)                  const;
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    inline void setStatic   (const Bool value);
 
-	//-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    inline Bool isStatic    (void)                  const;
 
+    inline void setInfinite (const Bool value);
 
-public:
+    inline Bool isInfinite  (void)                  const;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get Values                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual void  getCenter       (Pnt3f &center)            const = 0;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    virtual float getScalarVolume (void)                     const = 0;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    virtual void  getBounds       ( Pnt3f &min, Pnt3f &max ) const = 0;
 
-/*-------------------------- destructor -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Extending                                  */
+    /*! \{                                                                 */
 
-  /** Destructor */
-  virtual ~Volume (void) {;}
+    virtual void extendBy (const Pnt3f &pt)      = 0;
 
+    virtual void extendBy (const Volume &volume) = 0;
 
-/*-------------------------- state -----------------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Intersection                                */
+    /*! \{                                                                 */
 
-  /** set the volume to contain nothing */
-	inline void setValid (const Bool value); 
+    virtual Bool intersect   (const Pnt3f &point)            const = 0;
 
-  /**  Checks if the volume is valid */
-	inline Bool isValid (void) const; 
+    virtual Bool intersect   (const Line &line )             const = 0;
 
-  /** set the volume to contain nothing */
-	inline void setEmpty (const Bool value); 
+    virtual Bool intersect   (const Line &line,
+                              Real32 &enter, Real32 &exit  ) const = 0;
 
-  /**  Checks if the volume is empty */
-	inline Bool isEmpty (void) const; 
+    virtual Bool intersect   (const Volume &volume)          const = 0;
 
-  /** set the volume to contain nothing */
-	inline void setStatic (const Bool value); 
+    virtual Bool isOnSurface (const Pnt3f &point)            const = 0;
 
-  /**  Checks if the volume is static */
-	inline Bool isStatic (void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Transformation                             */
+    /*! \{                                                                 */
 
-  /** set the volume to contain nothing */
-	inline void setInfinite (const Bool value); 
+    virtual void transform (const Matrix &matrix) = 0;
 
-  /**  Checks if the volume is infinite */
-	inline Bool isInfinite (void) const; 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
+    virtual void dump  (    UInt32              uiIndent = 0,
+                            const BitVector &   bvFlags = 0) const = 0;
 
+    /*! \}                                                                 */
 
-/*------------------------- get values -------------------------------*/
-
-  /** gives the center of the volume */
-  virtual void getCenter (Pnt3f &center) const = 0;
-
-  /** gives the scalar volume of the volume */
-  virtual float getScalarVolume (void) const = 0;
-
-  /** gives the boundaries of the volume */
-  virtual void getBounds( Pnt3f &min, Pnt3f &max ) const = 0;
-
-
-/*-------------------------- extending ------------------------------------*/
-
-  /** extends (if necessary) to contain the given 3D point */
-  virtual void extendBy (const Pnt3f &pt) = 0;
-
-  /** extend the volume by the given volume */
-  virtual void extendBy (const Volume &volume) = 0;   
-
-/*-------------------------- intersection ---------------------------------*/
-
-  /** Returns true if intersection of given point and Volume is not empty */
-  virtual Bool intersect (const Pnt3f &point) const = 0;
-
-	/** intersect the volume with the given Line */
-	virtual Bool intersect (const Line &line ) const = 0;
-
-	/** intersect the volume with the given Line */
-	virtual Bool intersect ( const Line &line, 
-													 Real32 &enter, Real32 &exit  ) const = 0;
-
-  /** intersect the volume with another volume */
-  virtual Bool intersect (const Volume &volume) const = 0;
-
-  /** check if the point is on the volume's surface */
-  virtual Bool isOnSurface (const Pnt3f &point) const = 0;
-
-
-/*-------------------------- transformation -------------------------------*/
-
-
-	/** transform the volume bye the given matrix*/
-  virtual void transform (const Matrix &matrix) = 0;
-
-
-/*-------------------------- output -------------------------------*/
-
-
-	/** print the volume */
-  virtual void dump(	UInt32				uiIndent = 0, 
-						const BitVector &	bvFlags = 0) const = 0;
-
-			
-	//-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-	//-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-			
 };
 
 typedef Volume* VolumeP;

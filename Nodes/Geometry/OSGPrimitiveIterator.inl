@@ -38,11 +38,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,48 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-
-inline         
+inline
 Bool PrimitiveIterator::isAtEnd( void ) const
 {
 #if 1
@@ -106,48 +60,48 @@ Bool PrimitiveIterator::isAtEnd( void ) const
 #endif
 }
 
-inline         
+inline
 Int32 PrimitiveIterator::getIndex( void ) const
 {
     return _primIndex;
 }
 
-inline         
+inline
 UInt32 PrimitiveIterator::getLength( void ) const
 {
     return _actPrimLength;
 }
 
-inline         
+inline
 UInt32 PrimitiveIterator::getType( void ) const
 {
     return _actPrimType;
 }
 
-inline         
+inline
 Int32 PrimitiveIterator::getPositionIndex( Int32 which ) const
 {
     if ( _geo->getIndex() != NullFC )
     {
-    	if ( _positionIndex != -1 )
-            return _indices->getValue( ( _actPointIndex + which ) * 
-	                                _nmappings + _positionIndex );
+        if ( _positionIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) *
+                                    _nmappings + _positionIndex );
         else
-	    return _indices->getValue( _actPointIndex * _nmappings + which  );
+        return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
 }
 
-inline         
+inline
 Pnt3f PrimitiveIterator::getPosition( Int32 which ) const
 {
     Int32 ind = getPositionIndex( which );
-    
+
     return _geo->getPositions()->getValue( ind );
 }
 
-inline         
+inline
 Int32 PrimitiveIterator::getNormalIndex( Int32 which ) const
 {
     if ( _geo->getNormals() == NullFC )
@@ -155,28 +109,28 @@ Int32 PrimitiveIterator::getNormalIndex( Int32 which ) const
 
     if ( _geo->getIndex() != NullFC )
     {
-    	if ( _normalIndex != -1 )
-            return _indices->getValue( ( _actPointIndex + which ) * 
-	                                _nmappings + _normalIndex );
+        if ( _normalIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) *
+                                    _nmappings + _normalIndex );
         else
-	    return _indices->getValue( _actPointIndex * _nmappings + which  );
+        return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
 }
 
-inline 
+inline
 Vec3f PrimitiveIterator::getNormal( Int32 which ) const
-{    
+{
     Int32 ind = getNormalIndex( which );
-    
+
     if ( ind < 0 )
         return NullVec3f;
-        
+
     return _geo->getNormals()->getValue( ind );
 }
 
-inline         
+inline
 Int32 PrimitiveIterator::getColorIndex( Int32 which ) const
 {
     if ( _geo->getColors() == NullFC )
@@ -184,30 +138,30 @@ Int32 PrimitiveIterator::getColorIndex( Int32 which ) const
 
     if ( _geo->getIndex() != NullFC )
     {
-    	if ( _colorIndex != -1 )
-            return _indices->getValue( ( _actPointIndex + which ) * 
-	                                _nmappings + _colorIndex );
+        if ( _colorIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) *
+                                    _nmappings + _colorIndex );
         else
-	    return _indices->getValue( _actPointIndex * _nmappings + which  );
+        return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
 }
 
-inline 
+inline
 Color3f PrimitiveIterator::getColor( Int32 which ) const
-{    
+{
     Int32 ind = getColorIndex( which );
-    
+
     if ( ind < 0 )
         return NullColor3f;
-        
+
     return _geo->getColors()->getValue( ind );
 }
 
 
 
-inline         
+inline
 Int32 PrimitiveIterator::getTexCoordsIndex( Int32 which ) const
 {
     if ( _geo->getTexCoords() == NullFC )
@@ -215,28 +169,28 @@ Int32 PrimitiveIterator::getTexCoordsIndex( Int32 which ) const
 
     if ( _geo->getIndex() != NullFC )
     {
-    	if ( _texcoordsIndex != -1 )
-            return _indices->getValue( ( _actPointIndex + which ) * 
-	                                _nmappings + _texcoordsIndex );
+        if ( _texcoordsIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) *
+                                    _nmappings + _texcoordsIndex );
         else
-	    return _indices->getValue( _actPointIndex * _nmappings + which  );
+        return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
 }
 
-inline 
+inline
 Vec2f PrimitiveIterator::getTexCoords( Int32 which ) const
-{    
+{
     Int32 ind = getTexCoordsIndex( which );
-    
+
     if ( ind < 0 )
         return NullVec2f;
-        
+
     return _geo->getTexCoords()->getValue( ind );
 }
 
-inline         
+inline
 Int32 PrimitiveIterator::getIndexIndex( Int32 which ) const
 {
     if ( _geo->getIndex() != NullFC )
@@ -247,42 +201,4 @@ Int32 PrimitiveIterator::getIndexIndex( Int32 which ) const
         return -1;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
 OSG_END_NAMESPACE
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-

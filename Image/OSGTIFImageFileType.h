@@ -39,13 +39,8 @@
 #ifndef OSGTIFIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGTIFIMAGEFILETYPE_CLASS_DECLARATION
 #ifdef  __sig
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -53,140 +48,62 @@
 
 OSG_BEGIN_NAMESPACE
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
 
 class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~TIFImageFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual TIFImageFileType the          (void) { return _the; }
 
+    virtual const Char8      *getMimeType (void) { return "TIFF"; }
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
+    virtual bool read  (Image &image, const Char8 *fileName);
 
-  /** Destructor */
-  virtual ~TIFImageFileType (void);
+    virtual bool write (const Image &image, const Char8 *fileName);
 
-  /** get method for attribute the */
-  virtual TIFImageFileType the (void) { return _the; }
+    /*! \}                                                                 */
 
-  /** get method for the type name */
-  virtual const Char8 *getMimeType (void) { return "TIFF"; }
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-  /** read the image from the given file */
-  virtual bool read (Image &image, const Char8 *fileName);
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
-  /** write the image to the given file */
-  virtual bool write (const Image &image, const Char8 *fileName);
+    TIFImageFileType (const Char8 *suffixArray[], UInt16 suffixByteCount );
 
-protected:
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    TIFImageFileType (const TIFImageFileType &obj);
 
+    /*! \}                                                                 */
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    typedef ImageFileType Inherited;
 
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-  /** Default Constructor */
-  TIFImageFileType (const Char8 *suffixArray[], UInt16 suffixByteCount );
-
-  /** Copy Constructor */
-  TIFImageFileType (const TIFImageFileType &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-
-	typedef ImageFileType Inherited;
-
-
-  /**  */
-  static TIFImageFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
+    static TIFImageFileType _the;
 
 };
 

@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Window;
-/** \brief WindowPtr
- */
+//! WindowPtr
+
 typedef FCPtr<AttachmentContainerPtr, Window> WindowPtr;
 
 /** \ingroup FieldLib Window
- *  \brief WindowPtr field traits 
+ *  WindowPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<WindowPtr> :
     static char     *getMName(void) { return "MFWindowPtr"; }
 };
 
-/** \brief SFWindowPtr
- */
+//! SFWindowPtr
+
 typedef SField<WindowPtr> SFWindowPtr;
 
 #ifndef OSG_COMPILEWINDOWINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFWindowPtr
- */
+//! MFWindowPtr
+
 typedef MField<WindowPtr> MFWindowPtr;
 
 #ifndef OSG_COMPILEWINDOWINST

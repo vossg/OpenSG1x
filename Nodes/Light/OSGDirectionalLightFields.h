@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class DirectionalLight;
-/** \brief DirectionalLightPtr
- */
+//! DirectionalLightPtr
+
 typedef FCPtr<LightBasePtr, DirectionalLight> DirectionalLightPtr;
 
 

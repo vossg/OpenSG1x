@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEPERSPECTIVECAMERAINST
@@ -66,12 +62,6 @@
 #include "OSGPerspectiveCameraBase.h"
 #include "OSGPerspectiveCamera.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,19 +81,21 @@ OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	PerspectiveCameraBase::FovFieldMask = 
     (1 << PerspectiveCameraBase::FovFieldId);
 
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.12 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Real32          PerspectiveCameraBase::_sfFov
+    The vertical field of view, in radians.
+*/
+//! PerspectiveCamera description
 
 FieldDescription *PerspectiveCameraBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *PerspectiveCameraBase::_desc[] =
                      (FieldAccessMethod) &PerspectiveCameraBase::getSFFov)
 };
 
-/** \brief PerspectiveCamera type
- */
+//! PerspectiveCamera type
 
 FieldContainerType PerspectiveCameraBase::_type(
     "PerspectiveCamera",
@@ -126,32 +117,14 @@ FieldContainerType PerspectiveCameraBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(PerspectiveCameraBase, PerspectiveCameraPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "PerspectiveCamera"; 
+}
 
 FieldContainerType &PerspectiveCameraBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &PerspectiveCameraBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr PerspectiveCameraBase::shallowCopy(void) const 
 { 
@@ -184,28 +158,27 @@ void PerspectiveCameraBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((PerspectiveCameraBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 PerspectiveCameraBase::PerspectiveCameraBase(void) :
-	_sfFov	(), 
+	_sfFov                    (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source) :
-	_sfFov		(source._sfFov), 
-	Inherited        (source)
+	_sfFov                    (source._sfFov                    ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 PerspectiveCameraBase::~PerspectiveCameraBase(void)
 {
@@ -232,9 +205,7 @@ MemoryHandle PerspectiveCameraBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
-    {
         pMem = _sfFov.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -246,20 +217,11 @@ MemoryHandle PerspectiveCameraBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
-    {
         pMem = _sfFov.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
                                         const BitVector         &whichField)
@@ -268,14 +230,8 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
-    {
         _sfFov.syncWith(pOther->_sfFov);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

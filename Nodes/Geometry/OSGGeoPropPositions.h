@@ -43,50 +43,41 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// Position 3f
-
 struct GeoPosition3fPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoPosition3f";         }
-	static const Char8 *getClassName(void) { return "GeoPosition3fProperty"; }
-	static const Char8 *getFieldName(void) { return "positions";             }
-	static const Char8 *getGroupName(void) { return "GeoPosition";           }
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */        
+    
+    static const Char8 *getTypeName (void) { return "GeoPosition3f";         }
+    static const Char8 *getClassName(void) { return "GeoPosition3fProperty"; }
+    static const Char8 *getFieldName(void) { return "positions";             }
+    static const Char8 *getGroupName(void) { return "GeoPosition";           }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-	static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-	static UInt32 getDimension (void)  { return 3;               }
-	static UInt32 getStride    (void)  { return 0;               }
+    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
+    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
+    static UInt32 getDimension (void)  { return 3;               }
+    static UInt32 getStride    (void)  { return 0;               }
 
-	typedef GeoPosition              Inherit;
-	typedef GeoPosition::PtrType     InheritPtr;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */    
+    
+    typedef GeoPosition              Inherit;
+    typedef GeoPosition::PtrType     InheritPtr;
     typedef GeoPositionPropertyDesc  InheritDesc;
-	typedef MFPnt3f                  FieldType;
-
+    typedef MFPnt3f                  FieldType;
     typedef InheritDesc::GenericType GenericType;
- 
+
     typedef GeoPropertyInterface<GeoPositionPropertyDesc> Interface;
+    /*! \}                                                                 */        
 };
 
 typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;
@@ -99,7 +90,7 @@ typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPosition3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
@@ -109,12 +100,3 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 OSG_END_NAMESPACE
 
 #endif /* _OSGGEOPROPPOSITIONS_H_ */
-
-
-
-
-
-
-
-
-

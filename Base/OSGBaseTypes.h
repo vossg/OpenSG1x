@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGBase.h>
 
@@ -64,10 +60,6 @@
 #include <stdio.h>
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 
 #if defined(OSG_SGI_TYPES)
 
@@ -530,7 +522,7 @@ struct OSG_BASE_DLLMAPPING TypeConstants : public TypeConstantsBase
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<UInt8> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -541,17 +533,17 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     static inline UInt8 getAllSet     (void) { return 0xFF; };
     static inline UInt8 getAllClear   (void) { return 0x00; };
 
-    static inline UInt8 getMax        (void) { return 0xFF; }; 
-    static inline UInt8 getMin        (void) { return 0x00; }; 
+    static inline UInt8 getMax        (void) { return 0xFF; };
+    static inline UInt8 getMin        (void) { return 0x00; };
 
 
-    static inline Real32 getFraction   (UInt8 val) 
+    static inline Real32 getFraction   (UInt8 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt8 getPortion    (Real32 val) 
+    static inline UInt8 getPortion    (Real32 val)
     {
-        return (UInt8) (val * Real32(getMax())); 
+        return (UInt8) (val * Real32(getMax()));
     };
 
 
@@ -565,20 +557,20 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const UInt8 val)
-  {
-    char buffer[10];
-    sprintf( buffer, "%u", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const UInt8 val)
+    {
+        char buffer[10];
+        sprintf( buffer, "%u", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<Int8>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<Int8> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -589,17 +581,17 @@ struct TypeConstants<Int8> : public TypeConstantsBase
     static inline Int8 getAllSet     (void) { return 0xFF; };
     static inline Int8 getAllClear   (void) { return 0x00; };
 
-    static inline Int8 getMax        (void) { return  0x7F; }; 
-    static inline Int8 getMin        (void) { return -0x80; }; 
+    static inline Int8 getMax        (void) { return  0x7F; };
+    static inline Int8 getMin        (void) { return -0x80; };
 
 
-    static inline Real32 getFraction   (Int8 val) 
+    static inline Real32 getFraction   (Int8 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline Int8 getPortion    (Real32 val) 
+    static inline Int8 getPortion    (Real32 val)
     {
-        return (Int8) (val * Real32(getMax())); 
+        return (Int8) (val * Real32(getMax()));
     };
 
 
@@ -613,20 +605,20 @@ struct TypeConstants<Int8> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const Int8 val)
-  {
-    char buffer[10];
-    sprintf( buffer, "%i", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const Int8 val)
+    {
+        char buffer[10];
+        sprintf( buffer, "%i", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<UInt16>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<UInt16> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -641,13 +633,13 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
     static inline UInt16 getMin        (void) { return 0x0000; };
 
 
-    static inline Real32 getFraction   (UInt16 val) 
+    static inline Real32 getFraction   (UInt16 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt16 getPortion    (Real32 val) 
+    static inline UInt16 getPortion    (Real32 val)
     {
-        return (UInt16) (val * Real32(getMax())); 
+        return (UInt16) (val * Real32(getMax()));
     };
 
 
@@ -661,20 +653,20 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const UInt16 val)
-  {
-    char buffer[10];
-    sprintf( buffer, "%u", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const UInt16 val)
+    {
+        char buffer[10];
+        sprintf( buffer, "%u", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<Int16>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<Int16> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -689,13 +681,13 @@ struct TypeConstants<Int16> : public TypeConstantsBase
     static inline Int16 getMin(void)         { return -0x8000; };
 
 
-    static inline Real32 getFraction   (Int16 val) 
+    static inline Real32 getFraction   (Int16 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline Int16 getPortion    (Real32 val) 
+    static inline Int16 getPortion    (Real32 val)
     {
-        return (Int16) (val * Real32(getMax())); 
+        return (Int16) (val * Real32(getMax()));
     };
 
 
@@ -709,20 +701,20 @@ struct TypeConstants<Int16> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const Int16 val)
-  {
-    char buffer[10];
-    sprintf( buffer, "%i", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const Int16 val)
+    {
+      char buffer[10];
+        sprintf( buffer, "%i", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<UInt32>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<UInt32> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -737,13 +729,13 @@ struct TypeConstants<UInt32> : public TypeConstantsBase
     static inline UInt32 getMin(void)         { return 0x00000000; };
 
 
-    static inline Real32 getFraction   (UInt32 val) 
+    static inline Real32 getFraction   (UInt32 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt32 getPortion    (Real32 val) 
+    static inline UInt32 getPortion    (Real32 val)
     {
-        return (UInt32) (val * Real32(getMax())); 
+        return (UInt32) (val * Real32(getMax()));
     };
 
 
@@ -757,20 +749,20 @@ struct TypeConstants<UInt32> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	 static inline std::string putToString (const UInt32 val)
-  {
-    char buffer[15];
-    sprintf( buffer, "%u", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const UInt32 val)
+    {
+        char buffer[15];
+        sprintf( buffer, "%u", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<Int32>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<Int32> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -785,13 +777,13 @@ struct TypeConstants<Int32> : public TypeConstantsBase
     static inline Int32 getMin        (void) { return -0x80000000; };
 
 
-    static inline Real32 getFraction   (Int32 val) 
+    static inline Real32 getFraction   (Int32 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline Int32 getPortion    (Real32 val) 
+    static inline Int32 getPortion    (Real32 val)
     {
-        return (Int32) (val * Real32(getMax())); 
+        return (Int32) (val * Real32(getMax()));
     };
 
 
@@ -805,20 +797,20 @@ struct TypeConstants<Int32> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const Int32 val)
-  {
-    char buffer[15];
-    sprintf( buffer, "%i", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const Int32 val)
+    {
+        char buffer[15];
+        sprintf( buffer, "%i", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<UInt64>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<UInt64> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -840,13 +832,13 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
     static inline UInt64 getMax     (void) { return 0xFFFFFFFFFFFFFFFF; };
 #endif
 
-    static inline Real32 getFraction   (UInt64 val) 
+    static inline Real32 getFraction   (UInt64 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt64 getPortion    (Real32 val) 
+    static inline UInt64 getPortion    (Real32 val)
     {
-        return (UInt64) (val * Real32(getMax())); 
+        return (UInt64) (val * Real32(getMax()));
     };
 
 
@@ -863,23 +855,23 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
             return _atoi64(szString);
 #endif
         else
-#endif 
+#endif
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const UInt64 val)
-  {
-    char buffer[25];
-    sprintf( buffer, "%llu", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const UInt64 val)
+    {
+        char buffer[25];
+        sprintf( buffer, "%llu", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<Int64>
  *  \ingroup BaseConstants
  */
 
-template <> 
+template <>
 struct TypeConstants<Int64> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
@@ -902,13 +894,13 @@ struct TypeConstants<Int64> : public TypeConstantsBase
 #endif
 
 
-    static inline Real32 getFraction   (Int64 val) 
+    static inline Real32 getFraction   (Int64 val)
     {
-        return (Real32(val) / Real32(getMax())); 
+        return (Real32(val) / Real32(getMax()));
     };
-    static inline Int64 getPortion    (Real32 val) 
+    static inline Int64 getPortion    (Real32 val)
     {
-        return (Int64) (val * Real32(getMax())); 
+        return (Int64) (val * Real32(getMax()));
     };
 
 
@@ -925,16 +917,16 @@ struct TypeConstants<Int64> : public TypeConstantsBase
             return _atoi64(szString);
 #endif
         else
-#endif 
+#endif
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const Int64 val)
-  {
-    char buffer[25];
-    sprintf( buffer, "%lli", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const Int64 val)
+    {
+        char buffer[25];
+        sprintf( buffer, "%lli", val );
+        return std::string( buffer );
+    }
 };
 
 /*! \brief TypeConstants<Real64>
@@ -961,13 +953,13 @@ struct TypeConstants<Real64> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const Real64 val)
-  {
-    char buffer[25];
-    sprintf( buffer, "%e", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const Real64 val)
+    {
+        char buffer[25];
+        sprintf( buffer, "%e", val );
+        return std::string( buffer );
+    }
 
     static inline Real64 getMax(void) { return DBL_MAX; };
     static inline Real64 getMin(void) { return DBL_MIN; };
@@ -997,13 +989,13 @@ struct TypeConstants<Real32> : public TypeConstantsBase
         else
             return getZeroElement();
     }
-	
-	static inline std::string putToString (const Real32 val)
-  {
-    char buffer[20];
-    sprintf( buffer, "%e", val );
-    return std::string( buffer );
-  }
+
+    static inline std::string putToString (const Real32 val)
+    {
+        char buffer[20];
+        sprintf( buffer, "%e", val );
+        return std::string( buffer );
+    }
 
     static inline Real32 getMax(void) { return FLT_MAX; };
     static inline Real32 getMin(void) { return FLT_MIN; };
@@ -1012,7 +1004,3 @@ struct TypeConstants<Real32> : public TypeConstantsBase
 OSG_END_NAMESPACE
 
 #endif /* OSGBASETYPES_H */
-
-
-
-

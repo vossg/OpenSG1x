@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Camera;
-/** \brief CameraPtr
- */
+//! CameraPtr
+
 typedef FCPtr<AttachmentContainerPtr, Camera> CameraPtr;
 
 /** \ingroup FieldLib Camera
- *  \brief CameraPtr field traits 
+ *  CameraPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<CameraPtr> :
     static char     *getMName(void) { return "MFCameraPtr"; }
 };
 
-/** \brief SFCameraPtr
- */
+//! SFCameraPtr
+
 typedef SField<CameraPtr> SFCameraPtr;
 
 #ifndef OSG_COMPILECAMERAINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFCameraPtr
- */
+//! MFCameraPtr
+
 typedef MField<CameraPtr> MFCameraPtr;
 
 #ifndef OSG_COMPILECAMERAINST

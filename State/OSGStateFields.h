@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class State;
-/** \brief StatePtr
- */
+//! StatePtr
+
 typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
 /** \ingroup FieldLib State
- *  \brief StatePtr field traits 
+ *  StatePtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<StatePtr> :
     static char     *getMName(void) { return "MFStatePtr"; }
 };
 
-/** \brief SFStatePtr
- */
+//! SFStatePtr
+
 typedef SField<StatePtr> SFStatePtr;
 
 #ifndef OSG_COMPILESTATEINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFStatePtr
- */
+//! MFStatePtr
+
 typedef MField<StatePtr> MFStatePtr;
 
 #ifndef OSG_COMPILESTATEINST

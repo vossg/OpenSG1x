@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEBLENDCHUNKINST
@@ -67,16 +63,8 @@
 #include "OSGBlendChunk.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	BlendChunkBase::SrcFactorFieldMask = 
     (1 << BlendChunkBase::SrcFactorFieldId);
@@ -89,10 +77,20 @@ const OSG::BitVector	BlendChunkBase::ColorFieldMask =
 
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.10 2001/07/31 13:39:04 vossg Exp $";
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.11 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var UInt32          BlendChunkBase::_sfSrcFactor
+    The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
+*/
+/*! \var UInt32          BlendChunkBase::_sfDestFactor
+    The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
+*/
+/*! \var Color4f         BlendChunkBase::_sfColor
+    This is the constant color used by blend modes *_CONSTANT_*.
+*/
+//! BlendChunk description
 
 FieldDescription *BlendChunkBase::_desc[] = 
 {
@@ -113,8 +111,7 @@ FieldDescription *BlendChunkBase::_desc[] =
                      (FieldAccessMethod) &BlendChunkBase::getSFColor)
 };
 
-/** \brief BlendChunk type
- */
+//! BlendChunk type
 
 FieldContainerType BlendChunkBase::_type(
     "BlendChunk",
@@ -125,32 +122,14 @@ FieldContainerType BlendChunkBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(BlendChunkBase, BlendChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "BlendChunk"; 
+}
 
 FieldContainerType &BlendChunkBase::getType(void) 
 {
@@ -161,6 +140,7 @@ const FieldContainerType &BlendChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr BlendChunkBase::shallowCopy(void) const 
 { 
@@ -183,32 +163,31 @@ void BlendChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((BlendChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 BlendChunkBase::BlendChunkBase(void) :
-	_sfSrcFactor	(), 
-	_sfDestFactor	(), 
-	_sfColor	(Color4f(0,0,0,0)), 
+	_sfSrcFactor              (), 
+	_sfDestFactor             (), 
+	_sfColor                  (Color4f(0,0,0,0)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
-	_sfSrcFactor		(source._sfSrcFactor), 
-	_sfDestFactor		(source._sfDestFactor), 
-	_sfColor		(source._sfColor), 
-	Inherited        (source)
+	_sfSrcFactor              (source._sfSrcFactor              ), 
+	_sfDestFactor             (source._sfDestFactor             ), 
+	_sfColor                  (source._sfColor                  ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 BlendChunkBase::~BlendChunkBase(void)
 {
@@ -245,19 +224,13 @@ MemoryHandle BlendChunkBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
-    {
         pMem = _sfSrcFactor.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (DestFactorFieldMask & whichField))
-    {
         pMem = _sfDestFactor.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _sfColor.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -269,30 +242,17 @@ MemoryHandle BlendChunkBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
-    {
         pMem = _sfSrcFactor.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (DestFactorFieldMask & whichField))
-    {
         pMem = _sfDestFactor.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _sfColor.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
                                         const BitVector         &whichField)
@@ -301,24 +261,14 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
-    {
         _sfSrcFactor.syncWith(pOther->_sfSrcFactor);
-    }
 
     if(FieldBits::NoField != (DestFactorFieldMask & whichField))
-    {
         _sfDestFactor.syncWith(pOther->_sfDestFactor);
-    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         _sfColor.syncWith(pOther->_sfColor);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

@@ -43,48 +43,19 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
-
 #include <OSGWindow.h>
-
 #include <OSGTextureChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \brief chunk for single texture attributes
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
 #ifdef OSG_NOFUNCTORS
     typedef void (TextureChunk::*FunctorFunc)(Window *, UInt32);
@@ -102,177 +73,138 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
         }
     };
 
-    static TexGLObjectFunctor osgMethodFunctor2CPtr(TextureChunkPtr pTexChunk, 
+    static TexGLObjectFunctor osgMethodFunctor2CPtr(TextureChunkPtr pTexChunk,
                                                     FunctorFunc     func)
     {
         TexGLObjectFunctor result;
 
-		result._pObj = pTexChunk;
+        result._pObj = pTexChunk;
         result._func = func;
 
         return result;
     }
 #endif
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "TextureChunk"; };
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Instance Functions                            */
+    /*! \{                                                                 */
 
-	virtual const StateChunkClass *  getClass( void ) const;
+    virtual const StateChunkClass *  getClass( void ) const;
 
-    virtual Bool isTransparent(void) const;
+    virtual      Bool               isTransparent(void) const;
 
-    /*--------------------------- access fields ----------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    /*----------------------------- access ----------------------------------*/
+    virtual void changed(BitVector  whichField,
+                        ChangeMode from);
 
-    /*-------------------------- transformation ----------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
- 
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       State                                  */
+    /*! \{                                                                 */
 
-	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
-	// call commands to get from old to my state. Only meaningful for
-	// chunks of the same type
-	virtual void changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index = 0 );
+    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
+                             UInt32 index = 0 );
 
-	// reset my part of the state
-	virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
 
-	// estimate the cost to switch to the chunk 
-	// the unit is unclear, maybe musecs. It's not important anyway,
-	// it just has to be consistent over all types of chunks
-	virtual Real32 switchCost( StateChunk * chunk );
+    virtual Real32 switchCost  ( StateChunk * chunk );
 
-	// defines an ordering for chunks. Only well defined for chunks of the
-	// same type.
-    virtual Bool operator < (const StateChunk &other) const;
-    
-	virtual Bool operator == (const StateChunk &other) const;
-	virtual Bool operator != (const StateChunk &other) const;
+    virtual Bool   operator <  (const StateChunk &other) const;
 
-    /*---------------------- texture specific -------------------------------*/
+    virtual Bool   operator == (const StateChunk &other) const;
+    virtual Bool   operator != (const StateChunk &other) const;
 
-	inline void imageContentChanged( void );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Texture specific                              */
+    /*! \{                                                                 */
 
+    inline void imageContentChanged( void );
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Init                                   */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    void onCreate(const FieldContainer &source);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // They should all be in TextureChunkBase.
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-	
-	// instance init
-	void onCreate(const FieldContainer &source);
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     TextureChunk(void);
     TextureChunk(const TextureChunk &source);
-    virtual ~TextureChunk(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~TextureChunk(void);
+
+    /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef TextureChunkBase Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class TextureChunkBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
-	// class. Used for indexing in State
-	static StateChunkClass _class;
+    // class. Used for indexing in State
+    static StateChunkClass _class;
 
-	// extension indices for used extensions;
-	static UInt32 _extTex3D;
-	
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    // extension indices for used extensions;
+    static UInt32 _extTex3D;
 
     static void initMethod( void );
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                         GL                                   */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    void handleGL( Window *win, UInt32 id );
 
-	// handle the GL stuff: creation, activatiom, deletion
-	void handleGL( Window *win, UInt32 id );
+    /*! \}                                                                 */
 
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const TextureChunk &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
 typedef TextureChunk *TextureChunkP;
 
 OSG_END_NAMESPACE

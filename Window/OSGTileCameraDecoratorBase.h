@@ -57,43 +57,30 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGCameraDecorator.h>
-#include <OSGReal32Fields.h>	// Left type
-#include <OSGReal32Fields.h>	// Right type
-#include <OSGReal32Fields.h>	// Bottom type
-#include <OSGReal32Fields.h>	// Top type
-#include <OSGUInt32Fields.h>	// FullWidth type
-#include <OSGUInt32Fields.h>	// FullHeight type
+
+#include <OSGCameraDecorator.h> // Parent
+
+#include <OSGReal32Fields.h> // Left type
+#include <OSGReal32Fields.h> // Right type
+#include <OSGReal32Fields.h> // Bottom type
+#include <OSGReal32Fields.h> // Top type
+#include <OSGUInt32Fields.h> // FullWidth type
+#include <OSGUInt32Fields.h> // FullHeight type
 
 #include <OSGTileCameraDecoratorFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class TileCameraDecorator;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! TileCameraDecorator Base Class. */
+/*! \brief TileCameraDecorator Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 {
@@ -101,22 +88,18 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 
     typedef CameraDecorator Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        LeftFieldId = Inherited::NextFieldId,
-        RightFieldId = LeftFieldId + 1,
-        BottomFieldId = RightFieldId + 1,
-        TopFieldId = BottomFieldId + 1,
-        FullWidthFieldId = TopFieldId + 1,
-        FullHeightFieldId = FullWidthFieldId + 1,
-        NextFieldId = FullHeightFieldId + 1
-
+        LeftFieldId       = Inherited::NextFieldId,
+        RightFieldId      = LeftFieldId       + 1,
+        BottomFieldId     = RightFieldId      + 1,
+        TopFieldId        = BottomFieldId     + 1,
+        FullWidthFieldId  = TopFieldId        + 1,
+        FullHeightFieldId = FullWidthFieldId  + 1,
+        NextFieldId       = FullHeightFieldId + 1
     };
 
     static const osg::BitVector LeftFieldMask;
@@ -126,40 +109,74 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     static const osg::BitVector FullWidthFieldMask;
     static const osg::BitVector FullHeightFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "TileCameraDecoratorBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static TileCameraDecoratorPtr         create          (void); 
-    static TileCameraDecoratorPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFReal32            *getSFLeft           (void);
+    inline       SFReal32            *getSFRight          (void);
+    inline       SFReal32            *getSFBottom         (void);
+    inline       SFReal32            *getSFTop            (void);
+    inline       SFUInt32            *getSFFullWidth      (void);
+    inline       SFUInt32            *getSFFullHeight     (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Real32              &getLeft           (void);
+    inline const Real32              &getLeft           (void) const;
+    inline       Real32              &getRight          (void);
+    inline const Real32              &getRight          (void) const;
+    inline       Real32              &getBottom         (void);
+    inline const Real32              &getBottom         (void) const;
+    inline       Real32              &getTop            (void);
+    inline const Real32              &getTop            (void) const;
+    inline       UInt32              &getFullWidth      (void);
+    inline const UInt32              &getFullWidth      (void) const;
+    inline       UInt32              &getFullHeight     (void);
+    inline const UInt32              &getFullHeight     (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setLeft           ( const Real32 &value );
+    inline void setRight          ( const Real32 &value );
+    inline void setBottom         ( const Real32 &value );
+    inline void setTop            ( const Real32 &value );
+    inline void setFullWidth      ( const UInt32 &value );
+    inline void setFullHeight     ( const UInt32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -167,147 +184,72 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFReal32	*getSFLeft(void);
-    inline SFReal32	*getSFRight(void);
-    inline SFReal32	*getSFBottom(void);
-    inline SFReal32	*getSFTop(void);
-    inline SFUInt32	*getSFFullWidth(void);
-    inline SFUInt32	*getSFFullHeight(void);
+    static  TileCameraDecoratorPtr    create          (void); 
+    static  TileCameraDecoratorPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Real32	&getLeft(void);
-    inline const Real32	&getLeft(void) const;
-    inline       void	         setLeft( const Real32 &value );
-    inline       Real32	&getRight(void);
-    inline const Real32	&getRight(void) const;
-    inline       void	         setRight( const Real32 &value );
-    inline       Real32	&getBottom(void);
-    inline const Real32	&getBottom(void) const;
-    inline       void	         setBottom( const Real32 &value );
-    inline       Real32	&getTop(void);
-    inline const Real32	&getTop(void) const;
-    inline       void	         setTop( const Real32 &value );
-    inline       UInt32	&getFullWidth(void);
-    inline const UInt32	&getFullWidth(void) const;
-    inline       void	         setFullWidth( const UInt32 &value );
-    inline       UInt32	&getFullHeight(void);
-    inline const UInt32	&getFullHeight(void) const;
-    inline       void	         setFullHeight( const UInt32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFReal32         	_sfLeft;
+    SFReal32         	_sfRight;
+    SFReal32         	_sfBottom;
+    SFReal32         	_sfTop;
+    SFUInt32         	_sfFullWidth;
+    SFUInt32         	_sfFullHeight;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The left border of the selected tile.
-     */
-    SFReal32	_sfLeft;
-    /*! The right border of the selected tile.
-     */
-    SFReal32	_sfRight;
-    /*! The bottom border of the selected tile.
-     */
-    SFReal32	_sfBottom;
-    /*! The top border of the selected tile.
-     */
-    SFReal32	_sfTop;
-    /*! The width of the full image this is a tile of.
-     */
-    SFUInt32	_sfFullWidth;
-    /*! The height of the full image this is a tile of.
-     */
-    SFUInt32	_sfFullHeight;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     TileCameraDecoratorBase(void);
     TileCameraDecoratorBase(const TileCameraDecoratorBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~TileCameraDecoratorBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      TileCameraDecoratorBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -319,8 +261,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE

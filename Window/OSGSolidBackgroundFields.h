@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class SolidBackground;
-/** \brief SolidBackgroundPtr
- */
+//! SolidBackgroundPtr
+
 typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 
 /** \ingroup FieldLib SolidBackground
- *  \brief SolidBackgroundPtr field traits 
+ *  SolidBackgroundPtr field traits 
  */
 
 template <>
@@ -93,8 +89,8 @@ struct FieldDataTraits<SolidBackgroundPtr> :
     static char     *getSName(void) { return "SFSolidBackgroundPtr"; }
 };
 
-/** \brief SFSolidBackgroundPtr
- */
+//! SFSolidBackgroundPtr
+
 typedef SField<SolidBackgroundPtr> SFSolidBackgroundPtr;
 
 #ifndef OSG_COMPILESOLIDBACKGROUNDINST

@@ -40,9 +40,6 @@
 #ifndef _OSGLINE_INL_
 #define _OSGLINE_INL_
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGLine.h>
 #include <OSGBaseTypes.h>
@@ -53,38 +50,23 @@
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
 
 /** Accessors for position
 */
 OSG_BASE_DLLMAPPING
-const Pnt3f &Line::getPosition(void) const 
-{ 
-	return _pos; 
+const Pnt3f &Line::getPosition(void) const
+{
+    return _pos;
 }
 
 /** Accessors for direction
 */
 OSG_BASE_DLLMAPPING
-const Vec3f &Line::getDirection(void) const 
-{ 
-	return _dir; 
+const Vec3f &Line::getDirection(void) const
+{
+    return _dir;
 }
 
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
 
 OSG_END_NAMESPACE
 

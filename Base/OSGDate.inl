@@ -40,76 +40,42 @@
 #ifndef _OSGDATE_INL_
 #define _OSGDATE_INL_
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-
-//-------------------------------------------------------
-//Includes
-//-------------------------------------------------------
-
+#pragma  once
+#endif
 
 #include<OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
+inline void Date::setSecond (unsigned int second)
+    { _second = second; }
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+inline unsigned int Date::getSecond (void)
+    { return _second;}
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+inline void Date::setMinute (unsigned int minute)
+    { _minute = minute; }
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+inline unsigned int Date::getMinute (void)
+    { return _minute; }
 
-  /** set method for attribute second */
-  inline void Date::setSecond (unsigned int second)
-		{ _second = second; }
+inline unsigned int Date::getHour (void)
+    { return _hour; }
 
-  /** get method for attribute second */
-	inline unsigned int Date::getSecond (void) 
-		{ return _second;}
-	
-  /** set method for attribute minute */
-	inline void Date::setMinute (unsigned int minute)
-		{ _minute = minute; }
-	
-  /** get method for attribute minute */
-  inline unsigned int Date::getMinute (void)
-		{ return _minute; }
+inline void Date::setHour (unsigned int hour)
+    { _hour = hour; }
 
-  /** get method for attribute hour */
-  inline unsigned int Date::getHour (void)
-		{ return _hour; }
-	
-  /** set method for attribute hour */
-  inline void Date::setHour (unsigned int hour)
-		{ _hour = hour; }
-	
-  /** get method for attribute day */
-  inline unsigned int Date::getDay (void)
-		{ return _day; }
-	
-  /** set method for attribute day */
-  inline void Date::setDay (unsigned int day)
-		{ _day = day; }
-	
-  /** get method for attribute year */
-  inline int Date::getYear (void)
-		{ return _year; }
+inline unsigned int Date::getDay (void)
+    { return _day; }
 
-  /** set method for attribute year */
-  inline void Date::setYear (int year)
-		{ _year = year; }
+inline void Date::setDay (unsigned int day)
+    { _day = day; }
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
- 
+inline int Date::getYear (void)
+    { return _year; }
+
+inline void Date::setYear (int year)
+    { _year = year; }
+
 OSG_END_NAMESPACE
 
 #endif // DATE_CLASS_DECLARATION

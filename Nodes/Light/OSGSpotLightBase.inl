@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &SpotLightBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 SpotLightBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline SpotLightPtr SpotLightBase::create(void) 
 {
     SpotLightPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = SpotLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline SpotLightPtr SpotLightBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline SpotLightPtr SpotLightBase::createEmpty(void) 
 { 
     SpotLightPtr returnValue; 
@@ -126,11 +90,7 @@ inline SpotLightPtr SpotLightBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFVec3f *SpotLightBase::getSFDirection(void)
@@ -164,7 +124,7 @@ const Vec3f &SpotLightBase::getDirection(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SpotLightBase::setDirection( const Vec3f &value )
+void SpotLightBase::setDirection(const Vec3f &value)
 {
 	_sfDirection.setValue(value);
 }
@@ -182,7 +142,7 @@ const Real32 &SpotLightBase::getSpotExponent(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SpotLightBase::setSpotExponent( const Real32 &value )
+void SpotLightBase::setSpotExponent(const Real32 &value)
 {
 	_sfSpotExponent.setValue(value);
 }
@@ -200,27 +160,11 @@ const Real32 &SpotLightBase::getSpotCutOff(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SpotLightBase::setSpotCutOff( const Real32 &value )
+void SpotLightBase::setSpotCutOff(const Real32 &value)
 {
 	_sfSpotCutOff.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

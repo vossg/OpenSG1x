@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDISTANCELODINST
@@ -67,16 +63,8 @@
 #include "OSGDistanceLOD.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	DistanceLODBase::CenterFieldMask = 
     (1 << DistanceLODBase::CenterFieldId);
@@ -86,10 +74,17 @@ const OSG::BitVector	DistanceLODBase::RangeFieldMask =
 
 
 
-char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.3 2001/07/31 13:39:04 vossg Exp $";
+char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.4 2001/09/13 16:21:02 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Pnt3f           DistanceLODBase::_sfCenter
+    The center for distance calculation.
+*/
+/*! \var Real32          DistanceLODBase::_mfRange
+    The range intervals.
+*/
+//! DistanceLOD description
 
 FieldDescription *DistanceLODBase::_desc[] = 
 {
@@ -105,8 +100,7 @@ FieldDescription *DistanceLODBase::_desc[] =
                      (FieldAccessMethod) &DistanceLODBase::getMFRange)
 };
 
-/** \brief DistanceLOD type
- */
+//! DistanceLOD type
 
 FieldContainerType DistanceLODBase::_type(
     "DistanceLOD",
@@ -117,32 +111,14 @@ FieldContainerType DistanceLODBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(DistanceLODBase, DistanceLODPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "DistanceLOD"; 
+}
 
 FieldContainerType &DistanceLODBase::getType(void) 
 {
@@ -153,6 +129,7 @@ const FieldContainerType &DistanceLODBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr DistanceLODBase::shallowCopy(void) const 
 { 
@@ -175,30 +152,29 @@ void DistanceLODBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((DistanceLODBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 DistanceLODBase::DistanceLODBase(void) :
-	_sfCenter	(), 
-	_mfRange	(), 
+	_sfCenter                 (), 
+	_mfRange                  (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 DistanceLODBase::DistanceLODBase(const DistanceLODBase &source) :
-	_sfCenter		(source._sfCenter), 
-	_mfRange		(source._mfRange), 
-	Inherited        (source)
+	_sfCenter                 (source._sfCenter                 ), 
+	_mfRange                  (source._mfRange                  ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 DistanceLODBase::~DistanceLODBase(void)
 {
@@ -230,14 +206,10 @@ MemoryHandle DistanceLODBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-    {
         pMem = _sfCenter.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (RangeFieldMask & whichField))
-    {
         pMem = _mfRange.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -249,25 +221,14 @@ MemoryHandle DistanceLODBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-    {
         pMem = _sfCenter.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (RangeFieldMask & whichField))
-    {
         pMem = _mfRange.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
                                         const BitVector         &whichField)
@@ -276,19 +237,11 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-    {
         _sfCenter.syncWith(pOther->_sfCenter);
-    }
 
     if(FieldBits::NoField != (RangeFieldMask & whichField))
-    {
         _mfRange.syncWith(pOther->_mfRange);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

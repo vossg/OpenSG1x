@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -66,13 +62,6 @@ OSG_BEGIN_NAMESPACE
  *  \brief Classname
  */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 template <class ValueTypeT>
 char QuaternionBase<ValueTypeT>::cvsid[] = "@(#)$Id: $";
@@ -83,14 +72,7 @@ char QuaternionBase<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 template <class ValueTypeT>
 QuaternionBase<ValueTypeT> QuaternionBase<ValueTypeT>::_identity;
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
 
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /** \brief Returns identity quaternion
  */
@@ -106,101 +88,84 @@ const QuaternionBase<ValueTypeT> &
  */
 
 template <class ValueTypeT> inline
-QuaternionBase<ValueTypeT> 
+QuaternionBase<ValueTypeT>
     QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
-                                      const QuaternionBase &rot1, 
+                                      const QuaternionBase &rot1,
                                       const ValueTypeT      t)
 {
     QuaternionBase returnValue;
 
     slerp(rot0, rot1, returnValue, t);
 
-	return returnValue;
+    return returnValue;
 }
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /** \brief The actual internal slerp code
  */
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
-                                       const QuaternionBase &rot1, 
+                                       const QuaternionBase &rot1,
                                              QuaternionBase &result,
                                        const ValueTypeT      t)
 {
-	ValueTypeT rot1q[4];
+    ValueTypeT rot1q[4];
 
-	Real64     omega;
+    Real64     omega;
     Real64     cosom;
     Real64     sinom;
-	Real64     scalerot0;
+    Real64     scalerot0;
     Real64     scalerot1;
 
-	UInt32 i;
+    UInt32 i;
     UInt32 j;
 
-	// Calculate the cosine
-	cosom = 
-        rot0._quat[0] * rot1._quat[0] + 
+    // Calculate the cosine
+    cosom =
+        rot0._quat[0] * rot1._quat[0] +
         rot0._quat[1] * rot1._quat[1] +
-		rot0._quat[2] * rot1._quat[2] + 
+        rot0._quat[2] * rot1._quat[2] +
         rot0._quat[3] * rot1._quat[3];
-	
-	// adjust signs if necessary
-	if(cosom < 0.0) 
-    {
-		cosom = -cosom;
 
-		for(j = 0; j < 4; j++)
+    // adjust signs if necessary
+    if(cosom < 0.0)
+    {
+        cosom = -cosom;
+
+        for(j = 0; j < 4; j++)
         {
-			rot1q[j] = -rot1[j];
+            rot1q[j] = -rot1[j];
         }
-	} 
+    }
     else
     {
-		for(j = 0; j < 4; j++)
+        for(j = 0; j < 4; j++)
         {
-			rot1q[j] = rot1[j];
+            rot1q[j] = rot1[j];
         }
-	}
+    }
 
-	// calculate interpolating coeffs
-	if ((1.0 - cosom) > 0.00001) 
+    // calculate interpolating coeffs
+    if ((1.0 - cosom) > 0.00001)
     {
-		// standard case
-		omega = osgacos(cosom);
-		sinom = osgsin(omega);
-		scalerot0 = osgsin((1.0 - t) * omega) / sinom;
-		scalerot1 = osgsin(t * omega) / sinom;
-	}
-    else 
+        // standard case
+        omega = osgacos(cosom);
+        sinom = osgsin(omega);
+        scalerot0 = osgsin((1.0 - t) * omega) / sinom;
+        scalerot1 = osgsin(t * omega) / sinom;
+    }
+    else
     {
-		// rot0 and rot1 very close - just do linear interp.
-		scalerot0 = 1.0 - t;
-		scalerot1 = t;
-	}
-	
-	// build the new quarternion
-	for (i = 0; i < 4; i++)
-		result[i] = (ValueTypeT) (scalerot0 * rot0._quat[i] + 
+        // rot0 and rot1 very close - just do linear interp.
+        scalerot0 = 1.0 - t;
+        scalerot1 = t;
+    }
+
+    // build the new quarternion
+    for (i = 0; i < 4; i++)
+        result[i] = (ValueTypeT) (scalerot0 * rot0._quat[i] +
                                      scalerot1 * rot1q[i]);
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -239,8 +204,8 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
  */
 
 template <class ValueTypeT> inline
-QuaternionBase<ValueTypeT>::QuaternionBase(ValueTypeT x, 
-                                           ValueTypeT y, 
+QuaternionBase<ValueTypeT>::QuaternionBase(ValueTypeT x,
+                                           ValueTypeT y,
                                            ValueTypeT z,
                                            ValueTypeT w)
 {
@@ -262,7 +227,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
 
 template <class ValueTypeT> inline
 QuaternionBase<ValueTypeT>::QuaternionBase(
-    const VectorType &axis, 
+    const VectorType &axis,
     const ValueTypeT  angle)
 {
     setValueAsAxisRad(axis, angle);
@@ -273,7 +238,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
 
 template <class ValueTypeT> inline
 QuaternionBase<ValueTypeT>::QuaternionBase(
-    const VectorType &rotateFrom, 
+    const VectorType &rotateFrom,
     const VectorType &rotateTo)
 {
     setValue(rotateFrom, rotateTo);
@@ -352,9 +317,9 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x, 
-                                                   const ValueTypeT y, 
-                                                   const ValueTypeT z, 
+void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x,
+                                                   const ValueTypeT y,
+                                                   const ValueTypeT z,
                                                    const ValueTypeT w)
 {
     ValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
@@ -362,7 +327,7 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x,
     if(rTmp > Eps)
     {
         rTmp = osgsin(w / 2.0f) / rTmp;
-        
+
         _quat[0] = x * rTmp;
         _quat[1] = y * rTmp;
         _quat[2] = z * rTmp;
@@ -379,9 +344,9 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x,
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const ValueTypeT x, 
-                                                   const ValueTypeT y, 
-                                                    const ValueTypeT z, 
+void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const ValueTypeT x,
+                                                   const ValueTypeT y,
+                                                    const ValueTypeT z,
                                                     const ValueTypeT w)
 {
     setValueAsAxisRad(x,y,z,osgdegree2rad(w));
@@ -392,9 +357,9 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const ValueTypeT x,
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsQuat(const ValueTypeT x, 
-                                                const ValueTypeT y, 
-                                                const ValueTypeT z, 
+void QuaternionBase<ValueTypeT>::setValueAsQuat(const ValueTypeT x,
+                                                const ValueTypeT y,
+                                                const ValueTypeT z,
                                                 const ValueTypeT w)
 {
     _quat[0] = x;
@@ -418,7 +383,7 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
     UInt32 k;
 
     UInt32 nxt[3] = { 1, 2, 0};
-     
+
     tr = matrix[0][0] + matrix[1][1] + matrix[2][2];
 
     if(tr > 0.0)
@@ -442,7 +407,7 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
         if(matrix[2][2] > matrix[i][i])
             i = 2;
 
-        j = nxt[i];  
+        j = nxt[i];
         k = nxt[j];
 
         s = osgsqrt(matrix[i][i] - (matrix[j][j] + matrix[k][k]) + 1.0 );
@@ -459,7 +424,7 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
         _quat[1] = qt[1];
         _quat[2] = qt[2];
     }
-    
+
     if(_quat[3] > 1.0 || _quat[3] < -1.0)
     {
         if(_quat[3] > 1.0 + Eps || _quat[3] < -1.0 - Eps)
@@ -480,23 +445,23 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
     }
 }
 
-/** \brief Sets value of quaternion from 3D rotation axis vector and angle in 
+/** \brief Sets value of quaternion from 3D rotation axis vector and angle in
  *  degrees
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const VectorType &axis, 
+void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const VectorType &axis,
                                                     ValueTypeT  angle)
 {
-  setValueAsAxisRad(axis[0],axis[1],axis[2],angle); 
+  setValueAsAxisRad(axis[0],axis[1],axis[2],angle);
 }
 
-/** \brief Sets value of quaternion from 3D rotation axis vector and angle in 
+/** \brief Sets value of quaternion from 3D rotation axis vector and angle in
  *  degrees
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const VectorType &axis, 
+void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const VectorType &axis,
                                                     ValueTypeT  angle)
 {
   setValueAsAxisDeg(axis[0],axis[1],axis[2],angle);
@@ -507,126 +472,126 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const VectorType &axis,
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValue(
-    const VectorType &rotateFrom, 
+    const VectorType &rotateFrom,
     const VectorType &rotateTo)
 {
-	VectorType from = rotateFrom;
-	VectorType to   = rotateTo;
-	VectorType axis;
-	ValueTypeT cost;
+    VectorType from = rotateFrom;
+    VectorType to   = rotateTo;
+    VectorType axis;
+    ValueTypeT cost;
 
-	from.normalize();
-	to.normalize();
+    from.normalize();
+    to.normalize();
 
-	cost = from.dot(to);
+    cost = from.dot(to);
 
-	// check for degeneracies
-	if(cost > 0.99999) 
-    {	// vectors are parallel
+    // check for degeneracies
+    if(cost > 0.99999)
+    {   // vectors are parallel
         setIdentity();
-		return;
-	}
-	else if(cost < -0.99999) 
-    {		
+        return;
+    }
+    else if(cost < -0.99999)
+    {
         // vectors are opposite
-		// find an axis to rotate around, which should be
-		// perpendicular to the original axis
-		// Try cross product with (1,0,0) first, if that's one of our
-		// original vectors then try  (0,1,0).
-		
+        // find an axis to rotate around, which should be
+        // perpendicular to the original axis
+        // Try cross product with (1,0,0) first, if that's one of our
+        // original vectors then try  (0,1,0).
+
         VectorType cAxis(1.0, 0.0, 0.0);
 
         VectorType tmp = from.cross(cAxis);
 
-		if(tmp.length() < 0.00001)
+        if(tmp.length() < 0.00001)
         {
             cAxis.setValues(0.0, 1.0, 0.0);
 
-			tmp = from.cross(cAxis);
-		}
+            tmp = from.cross(cAxis);
+        }
 
-		tmp.normalize();
+        tmp.normalize();
 
-		setValueAsAxisRad(tmp[0], tmp[1], tmp[2], Pi);
+        setValueAsAxisRad(tmp[0], tmp[1], tmp[2], Pi);
 
-		return;
-	}
+        return;
+    }
 
-	axis = rotateFrom.cross(rotateTo);
-	axis.normalize();
+    axis = rotateFrom.cross(rotateTo);
+    axis.normalize();
 
-	// use half-angle formulae
-	// sin^2 t = ( 1 - cos (2t) ) / 2
+    // use half-angle formulae
+    // sin^2 t = ( 1 - cos (2t) ) / 2
 
-	axis *= osgsqrt(0.5 * (1.0 - cost));
+    axis *= osgsqrt(0.5 * (1.0 - cost));
 
-	// scale the axis by the sine of half the rotation angle to get
-	// the normalized quaternion
+    // scale the axis by the sine of half the rotation angle to get
+    // the normalized quaternion
 
-	_quat[0] = axis[0];
-	_quat[1] = axis[1];
-	_quat[2] = axis[2];
+    _quat[0] = axis[0];
+    _quat[1] = axis[1];
+    _quat[2] = axis[2];
 
-	// cos^2 t = ( 1 + cos (2t) ) / 2
-	// w part is cosine of half the rotation angle
+    // cos^2 t = ( 1 + cos (2t) ) / 2
+    // w part is cosine of half the rotation angle
 
-	_quat[3] = osgsqrt(0.5 * (1.0 + cost));
+    _quat[3] = osgsqrt(0.5 * (1.0 + cost));
 }
 
 /** \brief Sets rotation by a given str (like "0.0 1.0 0.0 180"), be aware
-    that these values are interpreted as axis, angle in degrees    
+    that these values are interpreted as axis, angle in degrees
  */
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsQuat(const char *str)
 {
-	UInt32 i;
+    UInt32 i;
     UInt32 numOfToken = 4;
 
-	char *c = const_cast<char*>(str);
+    char *c = const_cast<char*>(str);
 
-	char *tokenC = 0;
-	char  token[256];
+    char *tokenC = 0;
+    char  token[256];
 
-	ValueTypeT vec[4];
+    ValueTypeT vec[4];
 
-	if( (str  == NULL) || 
+    if( (str  == NULL) ||
         (*str == '\0') )
     {
         setIdentity();
         return;
-	}
+    }
 
-    for(i = 0; i < numOfToken; c++) 
+    for(i = 0; i < numOfToken; c++)
     {
-        switch (*c) 
+        switch (*c)
         {
             case '\0':
-                if (tokenC) 
+                if (tokenC)
                 {
                     *tokenC = 0;
-                    vec[i++] = 
+                    vec[i++] =
                         TypeConstants<ValueTypeT>::getFromString(token);
-    
+
                 }
-                
-                while (i < numOfToken) 
-                    vec[i++] = 
+
+                while (i < numOfToken)
+                    vec[i++] =
                         TypeConstants<ValueTypeT>::getZeroElement();
 
                 break;
             case ' ':
             case '\t':
-                if (tokenC) 
+                if (tokenC)
                 {
                     *tokenC = 0;
-                    vec[i++] = 
+                    vec[i++] =
                         TypeConstants<ValueTypeT>::getFromString(token);
                     tokenC = 0;
                 }
                 break;
             default:
-                if (!tokenC) 
+                if (!tokenC)
                 {
                     tokenC = token;
                 }
@@ -634,7 +599,7 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const char *str)
                 break;
         }
     }
-  
+
   _quat[0] = vec[0];
   _quat[1] = vec[1];
   _quat[2] = vec[2];
@@ -642,14 +607,14 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const char *str)
 }
 
 /** \brief Sets rotation by a given str (like "0.0 1.0 0.0 3.14"), be aware
-    that these values are interpreted as axis, angle in rad    
+    that these values are interpreted as axis, angle in rad
  */
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const char *str)
 {
-    setValueAsQuat(str); 
-    
+    setValueAsQuat(str);
+
     if(osgfinite(_quat[0]) == 0 ||
        osgfinite(_quat[1]) == 0 ||
        osgfinite(_quat[2]) == 0 ||
@@ -664,14 +629,14 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const char *str)
 }
 
 /** \brief Sets rotation by a given str (like "0.0 1.0 0.0 180"), be aware
-    that these values are interpreted as axis, angle in degree   
+    that these values are interpreted as axis, angle in degree
  */
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const char *str)
 {
-    setValueAsQuat(str); 
-    
+    setValueAsQuat(str);
+
     if(osgfinite(_quat[0]) == 0 ||
        osgfinite(_quat[1]) == 0 ||
        osgfinite(_quat[2]) == 0 ||
@@ -689,7 +654,7 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const char *str)
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValue(const ValueTypeT alpha, 
+void QuaternionBase<ValueTypeT>::setValue(const ValueTypeT alpha,
                                                 const ValueTypeT beta,
                                                 const ValueTypeT gamma)
 {
@@ -702,10 +667,10 @@ void QuaternionBase<ValueTypeT>::setValue(const ValueTypeT alpha,
     ValueTypeT sz = osgsin(gamma * 0.5);
     ValueTypeT cz = osgcos(gamma * 0.5);
 
-	_quat[0] = (sx * cy * cz) - (cx * sy * sz);
-	_quat[1] = (cx * sy * cz) + (sx * cy * sz);
-	_quat[2] = (cx * cy * sz) - (sx * sy * cz);
-	_quat[3] = (cx * cy * cz) + (sx * sy * sz);
+    _quat[0] = (sx * cy * cz) - (cx * sy * sz);
+    _quat[1] = (cx * sy * cz) + (sx * cy * sz);
+    _quat[2] = (cx * cy * sz) - (sx * sy * cz);
+    _quat[3] = (cx * cy * cz) + (sx * sy * sz);
 }
 
 //@}
@@ -729,12 +694,12 @@ const ValueTypeT *QuaternionBase<ValueTypeT>::getValues(void) const
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsAxisRad ( ValueTypeT &x, 
-                                                     ValueTypeT &y, 
+void QuaternionBase<ValueTypeT>::getValueAsAxisRad ( ValueTypeT &x,
+                                                     ValueTypeT &y,
                                                         ValueTypeT &z,
                                                       ValueTypeT &w) const
 {
-	getValueAsAxisDeg(x,y,z,w);
+    getValueAsAxisDeg(x,y,z,w);
   w = osgdegree2rad(w);
 }
 
@@ -743,43 +708,43 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisRad ( ValueTypeT &x,
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsAxisDeg ( ValueTypeT &x, 
-                                                     ValueTypeT &y, 
+void QuaternionBase<ValueTypeT>::getValueAsAxisDeg ( ValueTypeT &x,
+                                                     ValueTypeT &y,
                                                     ValueTypeT &z,
                                                       ValueTypeT &w) const
 {
-	ValueTypeT len;
+    ValueTypeT len;
 
-	VectorType q(_quat[0], _quat[1], _quat[2]);
-	 
+    VectorType q(_quat[0], _quat[1], _quat[2]);
+
     len = q.length();
 
-	if(len > Eps) 
+    if(len > Eps)
     {
-		q *= (TypeConstants<ValueTypeT>::getOneElement() / len);
+        q *= (TypeConstants<ValueTypeT>::getOneElement() / len);
 
         x = q[0];
         y = q[1];
         z = q[2];
 
-		w = osgrad2degree(2.0 * osgacos(_quat[3]));
-	}
-	else 
+        w = osgrad2degree(2.0 * osgacos(_quat[3]));
+    }
+    else
     {
         x = TypeConstants<ValueTypeT>::getZeroElement();
         y = TypeConstants<ValueTypeT>::getZeroElement();
         z = TypeConstants<ValueTypeT>::getOneElement();
 
         w = TypeConstants<ValueTypeT>::getZeroElement();
-	}          
+    }
 }
 
 /** \brief Returns 4 individual components of rotation quaternion
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsQuat(ValueTypeT &x, 
-                                                      ValueTypeT &y, 
+void QuaternionBase<ValueTypeT>::getValueAsQuat(ValueTypeT &x,
+                                                      ValueTypeT &y,
                                                       ValueTypeT &z,
                                                       ValueTypeT &w) const
 {
@@ -791,26 +756,26 @@ void QuaternionBase<ValueTypeT>::getValueAsQuat(ValueTypeT &x,
 
 /// Returns corresponding 3D rotation axis vector and angle in rad
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsAxisRad(VectorType &axis, 
+void QuaternionBase<ValueTypeT>::getValueAsAxisRad(VectorType &axis,
                                                    ValueTypeT &radians) const
 {
   ValueTypeT x,y,z,w;
 
   getValueAsAxisRad(x,y,z,w);
-  
+
   axis.setValues(x,y,z);
   radians = w;
 }
 
 /// Returns corresponding 3D rotation axis vector and angle in degrees
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis, 
+void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis,
                                                    ValueTypeT &radians) const
 {
   ValueTypeT x,y,z,w;
 
   getValueAsAxisDeg(x,y,z,w);
-  
+
   axis.setValues(x,y,z);
   radians = w;
 }
@@ -819,28 +784,28 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis,
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::getValue(MatrixType &matrix) const
 {
-    matrix[0][0] = 1.0f - 2.0f * (_quat[Q_Y] * _quat[Q_Y] + 
+    matrix[0][0] = 1.0f - 2.0f * (_quat[Q_Y] * _quat[Q_Y] +
                                   _quat[Q_Z] * _quat[Q_Z]);
-    matrix[0][1] =        2.0f * (_quat[Q_X] * _quat[Q_Y] + 
+    matrix[0][1] =        2.0f * (_quat[Q_X] * _quat[Q_Y] +
                                   _quat[Q_Z] * _quat[Q_W]);
-    matrix[0][2] =         2.0f * (_quat[Q_Z] * _quat[Q_X] - 
+    matrix[0][2] =         2.0f * (_quat[Q_Z] * _quat[Q_X] -
                                    _quat[Q_Y] * _quat[Q_W]);
     matrix[0][3] = 0.0f;
 
-    matrix[1][0] =        2.0f * (_quat[Q_X] * _quat[Q_Y] - 
+    matrix[1][0] =        2.0f * (_quat[Q_X] * _quat[Q_Y] -
                                   _quat[Q_Z] * _quat[Q_W]);
-    matrix[1][1] = 1.0f - 2.0f * (_quat[Q_Z] * _quat[Q_Z] + 
+    matrix[1][1] = 1.0f - 2.0f * (_quat[Q_Z] * _quat[Q_Z] +
                                   _quat[Q_X] * _quat[Q_X]);
-    matrix[1][2] =         2.0f * (_quat[Q_Y] * _quat[Q_Z] + 
+    matrix[1][2] =         2.0f * (_quat[Q_Y] * _quat[Q_Z] +
                                    _quat[Q_X] * _quat[Q_W]);
     matrix[1][3] = 0.0f;
 
 
-    matrix[2][0] =        2.0f * (_quat[Q_Z] * _quat[Q_X] + 
+    matrix[2][0] =        2.0f * (_quat[Q_Z] * _quat[Q_X] +
                                  _quat[Q_Y] * _quat[Q_W]);
-    matrix[2][1] =        2.0f * (_quat[Q_Y] * _quat[Q_Z] - 
+    matrix[2][1] =        2.0f * (_quat[Q_Y] * _quat[Q_Z] -
                                   _quat[Q_X] * _quat[Q_W]);
-    matrix[2][2] =  1.0f - 2.0f * (_quat[Q_Y] * _quat[Q_Y] + 
+    matrix[2][2] =  1.0f - 2.0f * (_quat[Q_Y] * _quat[Q_Y] +
                                    _quat[Q_X] * _quat[Q_X]);
     matrix[2][3] = 0.0f;
 
@@ -933,16 +898,16 @@ template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::invert(void)
 {
     _quat[0] = -_quat[0];
-	_quat[1] = -_quat[1];
-	_quat[2] = -_quat[2];
-	_quat[3] =  _quat[3];
+    _quat[1] = -_quat[1];
+    _quat[2] = -_quat[2];
+    _quat[3] =  _quat[3];
 }
 
 /** \brief Returns the inverse of a rotation
  */
 
 template <class ValueTypeT> inline
-const QuaternionBase<ValueTypeT> 
+const QuaternionBase<ValueTypeT>
     QuaternionBase<ValueTypeT>::inverse(void) const
 {
     QuaternionBase returnValue(*this);
@@ -956,12 +921,12 @@ const QuaternionBase<ValueTypeT>
 */
 // this one should be optimized a little bit too (GV)
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::multVec(const VectorType &src, 
+void QuaternionBase<ValueTypeT>::multVec(const VectorType &src,
                                                      VectorType &dst) const
 {
-	Matrix mat;
-	getValue(mat);
-	mat.transform(src, dst);
+    Matrix mat;
+    getValue(mat);
+    mat.transform(src, dst);
 }
 
 /** \brief Puts the given vector through this rotation
@@ -969,30 +934,30 @@ void QuaternionBase<ValueTypeT>::multVec(const VectorType &src,
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::transform(
-    const VectorType &src, 
+    const VectorType &src,
           VectorType &dst) const
 {
     multVec(src, dst);
 }
 
-/** \brief Keep the axis the same. Multiply the angle of rotation by 
+/** \brief Keep the axis the same. Multiply the angle of rotation by
  *   the amount 'scaleFactor'
  */
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::scaleAngle(ValueTypeT scaleFactor)
 {
-	VectorType axis;
-	ValueTypeT radians;
+    VectorType axis;
+    ValueTypeT radians;
 
-	getValueAsAxisRad(axis, radians);
-	setValueAsAxisRad(axis, radians * scaleFactor);
+    getValueAsAxisRad(axis, radians);
+    setValueAsAxisRad(axis, radians * scaleFactor);
 }
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::slerpThis(
     const QuaternionBase &rot0,
-    const QuaternionBase &rot1, 
+    const QuaternionBase &rot1,
     const ValueTypeT      t)
 {
     slerp(rot0, rot1, *this, t);
@@ -1013,15 +978,15 @@ void QuaternionBase<ValueTypeT>::multLeft(
 
 template <class ValueTypeT> inline
 Bool QuaternionBase<ValueTypeT>::equals(
-    const QuaternionBase &rot, 
+    const QuaternionBase &rot,
     const ValueTypeT tolerance) const
 {
-    UInt32 i; 
+    UInt32 i;
     Bool   returnValue = true;
 
     for(i = 0; i < 4; i++)
     {
-        returnValue &= ( (_quat[i]     - rot._quat[i] <= tolerance) && 
+        returnValue &= ( (_quat[i]     - rot._quat[i] <= tolerance) &&
                          (rot._quat[i] - _quat[i]     <= tolerance));
     }
 
@@ -1089,8 +1054,8 @@ const QuaternionBase<ValueTypeT> &
 {
     UInt32 i;
 
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
     for(i = 0; i < 4; i++)
     {
@@ -1134,14 +1099,11 @@ template <class ValueTypeT> inline
 Bool QuaternionBase<ValueTypeT>::operator != (
     const QuaternionBase &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 //@}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /** \brief \internal Take the give buffers as quaternions and write the
  *  result to the current.
@@ -1152,7 +1114,7 @@ void QuaternionBase<ValueTypeT>::mult(const ValueTypeT rVal1[4],
                                             const ValueTypeT rVal2[4])
 {
     ValueTypeT s1, s2, s3, s4, s5, s6, s7, s8, s9, t;
-    
+
     s1 = (rVal1[2] - rVal1[1]) * (rVal2[1] - rVal2[2]);
     s2 = (rVal1[3] + rVal1[0]) * (rVal2[3] + rVal2[0]);
     s3 = (rVal1[3] - rVal1[0]) * (rVal2[1] + rVal2[2]);
@@ -1164,7 +1126,7 @@ void QuaternionBase<ValueTypeT>::mult(const ValueTypeT rVal1[4],
 
     s9 = s6 + s7 + s8;
     t  = ( s5 + s9 ) / 2.0f;
-    
+
     _quat[3] = s1 + t - s6;
     _quat[0] = s2 + t - s9;
     _quat[1] = s3 + t - s8;
@@ -1173,10 +1135,6 @@ void QuaternionBase<ValueTypeT>::mult(const ValueTypeT rVal1[4],
     normalize();
 }
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 template <class ValueTypeT> inline
 ostream &operator <<(ostream &os, const QuaternionBase<ValueTypeT> &obj)
@@ -1187,38 +1145,38 @@ ostream &operator <<(ostream &os, const QuaternionBase<ValueTypeT> &obj)
     os << setprecision(3) << setfill(' ');
 #endif
 
-	return os << setw(8) 
-              << obj.x() << " " << obj.y() << " " 
+    return os << setw(8)
+              << obj.x() << " " << obj.y() << " "
               << obj.z() << " " << obj.w();
 }
 
 OSG_END_NAMESPACE
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

@@ -43,198 +43,122 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
-
 #include <OSGMaterialChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \brief chunk for glMaterial() attributes 
+/*! \brief chunk for glMaterial() attributes
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "MaterialChunk"; };
 
-    static const StateChunkClass &getChunkClass(void);
+    static const      StateChunkClass &getChunkClass(void);
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Fieldcontainer declaration                      */
+    /*! \{                                                                 */
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual const StateChunkClass *  getClass( void ) const;
 
-	virtual const StateChunkClass *  getClass( void ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    /*--------------------------- access fields ----------------------------*/
+    virtual void changed(BitVector  whichField,
+                        ChangeMode from);
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-    /*-------------------------- transformation ----------------------------*/
-
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
- 
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector &bvFlags  = 0) const;
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      State                                   */
+    /*! \{                                                                 */
 
-	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
-	// call commands to get from old to my state. Only meaningful for
-	// chunks of the same type
-	virtual void changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index = 0 );
+    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
+                            UInt32 index = 0 );
 
-	// reset my part of the state
-	virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Rendering                                  */
+    /*! \{                                                                 */
 
-	// estimate the cost to switch to the chunk 
-	// the unit is unclear, maybe musecs. It's not important anyway,
-	// it just has to be consistent over all types of chunks
-	virtual Real32 switchCost( StateChunk * chunk );
+    virtual Real32  switchCost    ( StateChunk * chunk );
 
-    virtual Bool isTransparent(void) const;
+    virtual Bool    isTransparent (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Comparison                                */
+    /*! \{                                                                 */
 
-	// defines an ordering for chunks. Only well defined for chunks of the
-	// same type.
-    virtual Bool operator < (const StateChunk &other) const;
-    
-	virtual Bool operator == (const StateChunk &other) const;
-	virtual Bool operator != (const StateChunk &other) const;
+    virtual Bool operator <  (const StateChunk &other) const;
 
+    virtual Bool operator == (const StateChunk &other) const;
+    virtual Bool operator != (const StateChunk &other) const;
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // They should all be in MaterialChunkBase.
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     MaterialChunk(void);
     MaterialChunk(const MaterialChunk &source);
-    virtual ~MaterialChunk(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~MaterialChunk(void);
+
+    /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef MaterialChunkBase Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class MaterialChunkBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
-	// class. Used for indexing in State
-	static StateChunkClass _class;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    // class. Used for indexing in State
+    static StateChunkClass _class;
 
     static void initMethod( void );
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
     // void operator =(const MaterialChunk &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
 typedef MaterialChunk *MaterialChunkP;
 
 OSG_END_NAMESPACE

@@ -39,24 +39,12 @@
 #ifndef OSGDATE_CLASS_DECLARATION
 #define OSGDATE_CLASS_DECLARATION
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-
-//-------------------------------------------------------
-//Includes
-//-------------------------------------------------------
-
+#pragma  once
+#endif
 
 #include<OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
-
-//-------------------------------------------------------
-//Forward References	 
-//-------------------------------------------------------
-
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Date;
@@ -66,214 +54,79 @@ ostream& operator<< (ostream & os, const Date &obj);
 istream& operator>> (istream & is, Date &obj);
 #endif
 
-
-//-------------------------------------------------------
-//Types		 
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//Class 	   
-//-------------------------------------------------------
-
-
 /** Date & Time.
 *
 * @autor jBehr, Wed Oct 27 13:16:07
 */
 
-class OSG_BASE_DLLMAPPING Date 
+class OSG_BASE_DLLMAPPING Date
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-//-------------------------------------------------------
-//enums   
-//-------------------------------------------------------
+    Date (void);
+    Date (const Date &obj);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-//-------------------------------------------------------
-//types 
-//-------------------------------------------------------
+    virtual ~Date (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Access                                     */
+    /*! \{                                                                 */
 
-//-------------------------------------------------------
-//class functions 
-//-------------------------------------------------------
+    inline void         setSecond     (unsigned int second);
+    inline unsigned int getSecond     (void);
+    inline void         setMinute     (unsigned int minute);
+    inline unsigned int getMinute     (void);
+    inline unsigned int getHour       (void);
+    inline void         setHour       (unsigned int hour);
+    inline unsigned int getDay        (void);
+    inline void         setDay        (unsigned int day);
+    inline int          getYear       (void);
+    inline void         setYear       (int year);
+           void         clear         (void) ;
+           void         setSystemDate (void);
+           void         set           (const char *string);
+    Bool                isLeapYear    (void);
+    Bool                valid         (void);
+           void         set (unsigned int day, unsigned int month, int year,
+                             unsigned int hour = 0, unsigned int minute = 0,
+                             unsigned int second = 0 );
+    
 
-/*-------------------------- constructor ----------------------------------*/
+    /*! \}                                                                 */
+    /*===========================  PRIVATE  ===============================*/    
+  private:
 
-  /** Default Constructor */
-  Date (void);
-
-  /** Copy Constructor */
-  Date (const Date &obj);
-
-
-/*-------------------------- destructor -----------------------------------*/
-
-  /** Destructor */
-  virtual ~Date (void);
-
-
-/*------------------------------ feature ----------------------------------*/
-
-  /** set method for attribute second */
-  inline void setSecond (unsigned int second);
-
-  /** get method for attribute second */
-	inline unsigned int getSecond (void); 
-	
-  /** set method for attribute minute */
-	inline void setMinute (unsigned int minute);
-	
-  /** get method for attribute minute */
-  inline unsigned int getMinute (void);
-
-  /** get method for attribute hour */
-  inline unsigned int getHour (void);
-	
-  /** set method for attribute hour */
-  inline void setHour (unsigned int hour);
-	
-  /** get method for attribute day */
-  inline unsigned int getDay (void);
-	
-  /** set method for attribute day */
-  inline void setDay (unsigned int day);
-	
-  /** get method for attribute year */
-  inline int getYear (void);
-
-  /** set method for attribute year */
-  inline void setYear (int year);
-	
-  /** cleares all entires */
-  void clear (void) ;
-
-  /** set the object with current system date */
-  void setSystemDate (void);
-
-  /** set all elements at once */
-  void set (unsigned int day, unsigned int month, int year, 
-    	    	unsigned int hour = 0, unsigned int minute = 0,  
-						unsigned int second = 0 );
-
-  /** check if it is a leap year */
-  void set (const char *string);
-
-  /** check if year is leap year */
-  Bool isLeapYear (void);
-
-  /** check if the date valid */
-  Bool valid (void);
-
-protected:
-
-//-------------------------------------------------------
-//enums 
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//types 	 
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//class Variables  
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//class functions  
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//instance Variables  
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//instance functions  	       
-//-------------------------------------------------------
-
-
-private:
-
-//-------------------------------------------------------
-//enums    		 
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//types 
-//-------------------------------------------------------
-
-
-
-  /** holds the second */
-  unsigned int _second;
-
-  /** holds the minute */
-  unsigned int _minute;
-
-  /** holds the hour */
-  unsigned int _hour;
-
-  /** holds the day */
-  unsigned int _day;
-
-	/** holds the month */
-	unsigned int _month;
-
-  /** holds the year */
-  unsigned int _year;
-
-//-------------------------------------------------------
-//friend Classes   
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//friend functions 
-//-------------------------------------------------------
-
- public:
-
-  /** equal comparison operator */
-  friend Bool operator == (const Date &v1,const Date &v2);
-  
-  /** lower comparison operator */
-  friend Bool operator < (const Date &v1,const Date &v2);
-  
-  /** write values from stream */
-  friend ostream &operator << (ostream &os, const Date &obj);
-  
-  /** read value from stream */
-  friend istream &operator >> (istream &is, Date &obj);
-
-//-------------------------------------------------------
-//class Variables 
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//class functions
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//instance Variables  
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
-//instance functions   
-//-------------------------------------------------------
-
-
+    unsigned int _second;
+    unsigned int _minute;
+    unsigned int _hour;
+    unsigned int _day;
+    unsigned int _month;
+    unsigned int _year;
+    
+    /*==========================  PUBLIC  =================================*/    
+  public:
+         
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Operators                                  */
+    /*! \{                                                                 */
+         
+    friend Bool operator == (const Date &v1,const Date &v2);
+    friend Bool operator < (const Date &v1,const Date &v2);
+    friend ostream &operator << (ostream &os, const Date &obj);
+    friend istream &operator >> (istream &is, Date &obj);
+    
+    /*! \}                                                                 */
 };
 
 typedef Date* DateP;

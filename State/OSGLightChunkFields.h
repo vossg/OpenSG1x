@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class LightChunk;
-/** \brief LightChunkPtr
- */
+//! LightChunkPtr
+
 typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 
 

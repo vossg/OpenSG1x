@@ -39,13 +39,8 @@
 #ifndef OSGIMAGEFILEHANDLER_CLASS_DECLARATION
 #define OSGIMAGEFILEHANDLER_CLASS_DECLARATION
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #include <list>
 #include <map>
@@ -55,170 +50,101 @@
 #include <OSGStringLink.h>
 #include <OSGImageFileType.h>
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
 
 OSG_BEGIN_NAMESPACE
 
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
-	friend class ImageFileType;
-		
-public:
+    friend class ImageFileType;
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    /*==========================  PUBLIC  =================================*/
+  public:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual ~ImageFileHandler (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    virtual Image * read  ( const char *fileName, const char *mimeType = 0);
 
+    virtual bool    read  ( Image &image,
+                            const char *fileName, const char *mimeType = 0);
 
-  /** Destructor */
-  virtual ~ImageFileHandler (void);
+    virtual bool    write ( const Image &image,
+                            const char *fileName, const char *mimeType = 0);
 
-	/** read image */
-	virtual Image * read ( const char *fileName, const char *mimeType = 0);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Storage                                  */
+    /*! \{                                                                 */
 
-  /**  read image */
-  virtual bool read ( Image &image, 
-                      const char *fileName, const char *mimeType = 0);
+    virtual UInt64 restore ( Image &image,
+                             const UChar8 *buffer, UInt32 memSize = -1 );
 
-  /** write image  */
-  virtual bool write (const Image &image, 
-                      const char *fileName, const char *mimeType = 0
-                      );
+    virtual UInt64 store   ( const Image &image, const char *mimeType,
+                             UChar8 *buffer, UInt32 memSize = -1 );
 
-  /** fill the given image with the content of the mem 'buffer' */
-  virtual UInt64 restore ( Image &image,
-                           const UChar8 *buffer, UInt32 memSize = -1 );
+    virtual UChar8* store  ( const Image &image, UInt64 &memSize,
+                             const char *mimeType = 0);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get Types                                  */
+    /*! \{                                                                 */
 
-  /** store the given image to the mem 'buffer' */
-  virtual UInt64 store ( const Image &image, const char *mimeType,
-                         UChar8 *buffer, UInt32 memSize = -1 );
+    virtual ImageFileType * getFileType    ( const char *mimeType,
+                                             const char *fileName = 0 );
 
-  /** store the given image, mem is automatic allocated, the user has
-      to 'delete' the mem, returns the size of the data in 'memSize'  */
-  virtual UChar8* store ( const Image &image, UInt64 &memSize,
-                          const char *mimeType = 0);
+    virtual ImageFileType * getDefaultType (void);
 
-  /** get file type */
-  virtual ImageFileType * getFileType ( const char *mimeType,
-                                        const char *fileName = 0 );
-                      
-  /** get the system default type */
-  virtual ImageFileType *getDefaultType (void);
-                                        
-  /** print debug info to cerr */
-  void print (void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Print                                     */
+    /*! \{                                                                 */
 
-  /** get method for attribute the */
-  static ImageFileHandler & the (void) { return *_the; }
+    void print (void);
 
-protected:
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    static ImageFileHandler & the (void) { return *_the; }
 
+    /*! \}                                                                 */
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
-//---------------------------
-//class Variables 			     
-//---------------------------
+    ImageFileHandler (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 			     
-//---------------------------
+    ImageFileHandler (const ImageFileHandler &obj);
 
+    /*! \}                                                                 */
 
-  /** Default Constructor */
-  ImageFileHandler (void);
-
-  /** Copy Constructor */
-  ImageFileHandler (const ImageFileHandler &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
+    /*==========================  PRIVATE  ================================*/
 private:
 
-//----------------------------------
-//enums    		 										 
-//----------------------------------
+    static ImageFileHandler *          _the;
 
+    map    < String, ImageFileType *>  _suffixTypeMap;
 
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-
-  /**  */
-  static ImageFileHandler * _the;
-
-  /**  */
-  map < String, ImageFileType *>  _suffixTypeMap;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-  /**  */
-  static bool addImageFileType (ImageFileType &fileType);
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
+    static bool addImageFileType (ImageFileType &fileType);
 
 };
 

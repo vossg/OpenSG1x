@@ -36,11 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,18 +44,6 @@
 #include <OSGLog.h>
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 template <class SizeTraitsT>
 char FunctorBase<SizeTraitsT>::cvsid[] = "@(#)$Id: $";
@@ -73,35 +56,6 @@ const UInt8 FunctorBase<SizeTraitsT>::FuncPtrValid = 0x02;
 
 template <class SizeTraitsT>
 const UInt8 FunctorBase<SizeTraitsT>::FunctorActive = 0x80;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /** \brief Constructor
  */
@@ -116,82 +70,26 @@ FunctorBase<SizeTraitsT>::FunctorBase(void) :
  */
 
 template <class SizeTraitsT> inline
-FunctorBase<SizeTraitsT>::FunctorBase(const FunctorBase &) 
+FunctorBase<SizeTraitsT>::FunctorBase(const FunctorBase &)
 {
 }
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Destructor
  */
 
 template <class SizeTraitsT> inline
-FunctorBase<SizeTraitsT>::~FunctorBase(void) 
+FunctorBase<SizeTraitsT>::~FunctorBase(void)
 {
 }
 
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 template <class RetT, class Arg1T, class SizeTraitsT>
 char Functor1Base<RetT, Arg1T, SizeTraitsT>::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
 template <class RetT, class Arg1T, class SizeTraitsT> inline
-Functor1Base<RetT, Arg1T, SizeTraitsT>::Functor1Base(void) : 
+Functor1Base<RetT, Arg1T, SizeTraitsT>::Functor1Base(void) :
     Inherited()
 {
 }
@@ -202,8 +100,8 @@ Functor1Base<RetT, Arg1T, SizeTraitsT>::Functor1Base(
 
     Inherited()
 {
-    memcpy(this, &source, 
-           sizeof(Functor1Base<RetT, Arg1T, SizeTraitsT>)); 
+    memcpy(this, &source,
+           sizeof(Functor1Base<RetT, Arg1T, SizeTraitsT>));
 }
 
 
@@ -211,106 +109,52 @@ Functor1Base<RetT, Arg1T, SizeTraitsT>::Functor1Base(
  */
 
 template <class RetT, class Arg1T, class SizeTraitsT> inline
-Functor1Base<RetT, Arg1T, SizeTraitsT>::~Functor1Base(void) 
+Functor1Base<RetT, Arg1T, SizeTraitsT>::~Functor1Base(void)
 {
 }
-
-
-/*-------------------------- your_category---------------------------------*/
 
 // turn of returnValue used before set warning
 
 #ifdef __sgi
-#pragma set woff 1551 
+#pragma set woff 1551
 #endif
 
 template <class RetT, class Arg1T, class SizeTraitsT> inline
-RetT Functor1Base<RetT, Arg1T, SizeTraitsT>::call(Arg1T) 
-{ 
+RetT Functor1Base<RetT, Arg1T, SizeTraitsT>::call(Arg1T)
+{
     RetT returnValue;
 
-    FWARNING(("Functor1Base::call called, undefined behaviour might " 
+    FWARNING(("Functor1Base::call called, undefined behaviour might "
               "be the consequence\n"));
 
     return returnValue;
 }
 
 #ifdef __sgi
-#pragma reset woff 1551 
+#pragma reset woff 1551
 #endif
-
-/*-------------------------- assignment -----------------------------------*/
 
 template <class RetT, class Arg1T, class SizeTraitsT> inline
 void Functor1Base<RetT, Arg1T, SizeTraitsT>::operator =(
-    const Functor1Base &source) 
+    const Functor1Base &source)
 {
     if(this != &source)
     {
-        memcpy(this, &source, 
-               sizeof(Functor1Base<RetT, Arg1T, SizeTraitsT>)); 
+        memcpy(this, &source,
+               sizeof(Functor1Base<RetT, Arg1T, SizeTraitsT>));
     }
 }
 
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 template <class Arg1T, class SizeTraitsT>
-char Functor1Base<void, Arg1T, SizeTraitsT>::cvsid[] = 
+char Functor1Base<void, Arg1T, SizeTraitsT>::cvsid[] =
     "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
 template <class Arg1T, class SizeTraitsT> inline
-Functor1Base<void, Arg1T, SizeTraitsT>::Functor1Base(void) : 
+Functor1Base<void, Arg1T, SizeTraitsT>::Functor1Base(void) :
     Inherited()
 {
 }
@@ -321,8 +165,8 @@ Functor1Base<void, Arg1T, SizeTraitsT>::Functor1Base(
 
     Inherited()
 {
-    memcpy(this, &source, 
-           sizeof(Functor1Base<void, Arg1T, SizeTraitsT>)); 
+    memcpy(this, &source,
+           sizeof(Functor1Base<void, Arg1T, SizeTraitsT>));
 }
 
 
@@ -330,96 +174,42 @@ Functor1Base<void, Arg1T, SizeTraitsT>::Functor1Base(
  */
 
 template <class Arg1T, class SizeTraitsT> inline
-Functor1Base<void, Arg1T, SizeTraitsT>::~Functor1Base(void) 
+Functor1Base<void, Arg1T, SizeTraitsT>::~Functor1Base(void)
 {
 }
-
-
-/*-------------------------- your_category---------------------------------*/
 
 // turn of returnValue used before set warning
 
 #ifdef __sgi
-#pragma set woff 1551 
+#pragma set woff 1551
 #endif
 
 template <class Arg1T, class SizeTraitsT> inline
-void Functor1Base<void, Arg1T, SizeTraitsT>::call(Arg1T) 
-{ 
-    FWARNING(("Functor1Base::call called, undefined behaviour might " 
+void Functor1Base<void, Arg1T, SizeTraitsT>::call(Arg1T)
+{
+    FWARNING(("Functor1Base::call called, undefined behaviour might "
               "be the consequence\n"));
 }
 
 #ifdef __sgi
-#pragma reset woff 1551 
+#pragma reset woff 1551
 #endif
-
-/*-------------------------- assignment -----------------------------------*/
 
 template <class Arg1T, class SizeTraitsT> inline
 void Functor1Base<void, Arg1T, SizeTraitsT>::operator =(
-    const Functor1Base &source) 
+    const Functor1Base &source)
 {
     if(this != &source)
     {
-        memcpy(this, &source, 
-               sizeof(Functor1Base<void, Arg1T, SizeTraitsT>)); 
+        memcpy(this, &source,
+               sizeof(Functor1Base<void, Arg1T, SizeTraitsT>));
     }
 }
 
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 template <class RetT, class Arg1T, class SizeTraitsT>
-char FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::cvsid[] = 
+char FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::cvsid[] =
     "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
@@ -437,12 +227,12 @@ FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::FunctionFunctor1(
 
 template <class RetT, class Arg1T, class SizeTraitsT> inline
 FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::FunctionFunctor1(
-    const FunctionFunctor1 &source) : 
-    
-    Inherited(source) 
+    const FunctionFunctor1 &source) :
+
+    Inherited(source)
 {
 }
-    
+
 /** \brief Destructor
  */
 
@@ -452,16 +242,12 @@ FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::~FunctionFunctor1(
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
 template <class RetT, class Arg1T, class SizeTraitsT> inline
 void FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::setFunction(
     FunctionP pFunc)
 {
     *((FunctionP *) _data2) = pFunc;
 }
-
-/*-------------------------- your_category---------------------------------*/
 
 template <class RetT, class Arg1T, class SizeTraitsT> inline
 RetT FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::call(
@@ -473,57 +259,10 @@ RetT FunctionFunctor1<RetT, Arg1T, SizeTraitsT>::call(
 }
 
 
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 template <class Arg1T, class SizeTraitsT>
-char FunctionFunctor1<void, Arg1T, SizeTraitsT>::cvsid[] = 
+char FunctionFunctor1<void, Arg1T, SizeTraitsT>::cvsid[] =
     "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
@@ -541,12 +280,12 @@ FunctionFunctor1<void, Arg1T, SizeTraitsT>::FunctionFunctor1(
 
 template <class Arg1T, class SizeTraitsT> inline
 FunctionFunctor1<void, Arg1T, SizeTraitsT>::FunctionFunctor1(
-    const FunctionFunctor1 &source) : 
-    
-    Inherited(source) 
+    const FunctionFunctor1 &source) :
+
+    Inherited(source)
 {
 }
-    
+
 /** \brief Destructor
  */
 
@@ -556,7 +295,6 @@ FunctionFunctor1<void, Arg1T, SizeTraitsT>::~FunctionFunctor1(
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
 template <class Arg1T, class SizeTraitsT> inline
 void FunctionFunctor1<void, Arg1T, SizeTraitsT>::setFunction(
@@ -565,7 +303,6 @@ void FunctionFunctor1<void, Arg1T, SizeTraitsT>::setFunction(
     *((FunctionP *) _data2) = pFunc;
 }
 
-/*-------------------------- your_category---------------------------------*/
 
 template <class Arg1T, class SizeTraitsT> inline
 void FunctionFunctor1<void, Arg1T, SizeTraitsT>::call(
@@ -576,73 +313,25 @@ void FunctionFunctor1<void, Arg1T, SizeTraitsT>::call(
     pFunc(arg1);
 }
 
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT>
 char ObjectFunctor1<RetT,    Arg1T,
                        ObjectT, MethodCallType,
                        SizeTraitsT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-ObjectFunctor1<RetT, 
+ObjectFunctor1<RetT,
                   Arg1T,
                   ObjectT,
                   MethodCallType,
@@ -655,9 +344,9 @@ ObjectFunctor1<RetT,
  */
 
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
 ObjectFunctor1<RetT,
@@ -665,39 +354,36 @@ ObjectFunctor1<RetT,
                   ObjectT,
                   MethodCallType,
                   SizeTraitsT>::ObjectFunctor1(
-    const ObjectFunctor1 &source) : 
+    const ObjectFunctor1 &source) :
 
-    Inherited(source) 
+    Inherited(source)
 {
 }
-    
+
 
 /** \brief Destructor
  */
 
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
 ObjectFunctor1<RetT,
                   Arg1T,
                   ObjectT,
                   MethodCallType,
-                  SizeTraitsT>::~ObjectFunctor1(void) 
+                  SizeTraitsT>::~ObjectFunctor1(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<RetT, 
+void ObjectFunctor1<RetT,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
@@ -705,33 +391,33 @@ void ObjectFunctor1<RetT,
 {
     _flags |= FuncPtrValid;
 
-    *((ObjectMethodT *) _data2) = pFunc; 
+    *((ObjectMethodT *) _data2) = pFunc;
 }
 
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<RetT, 
+void ObjectFunctor1<RetT,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::setMethod(ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
-  
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<RetT, 
+void ObjectFunctor1<RetT,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
@@ -743,43 +429,41 @@ void ObjectFunctor1<RetT,
 }
 
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<RetT, 
+void ObjectFunctor1<RetT,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::setObjectAndMethod(
-    SetObjectT       pObj, 
+    SetObjectT       pObj,
     ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
     _flags |= ObjectValid;
-     
+
     FunctorTrait::setCalledObject(_data1, pObj);
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
-/*-------------------------- your_category---------------------------------*/
-
 #ifdef __sgi
-#pragma set woff 1551 
+#pragma set woff 1551
 #endif
 
-template <class RetT, 
-          class Arg1T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-RetT ObjectFunctor1<RetT, 
+RetT ObjectFunctor1<RetT,
                           Arg1T,
                           ObjectT,
                           MethodCallType,
-                          SizeTraitsT>::call(Arg1T arg1) 
-{ 
+                          SizeTraitsT>::call(Arg1T arg1)
+{
     RetT returnValue;
 
     if(_flags & FuncPtrValid)
@@ -798,75 +482,28 @@ RetT ObjectFunctor1<RetT,
 }
 
 #ifdef __sgi
-#pragma reset woff 1551 
+#pragma reset woff 1551
 #endif
 
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT>
-char ObjectFunctor1<void, 
+char ObjectFunctor1<void,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-ObjectFunctor1<void, 
+ObjectFunctor1<void,
                   Arg1T,
                   ObjectT,
                   MethodCallType,
@@ -879,8 +516,8 @@ ObjectFunctor1<void,
  */
 
 
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
 ObjectFunctor1<void,
@@ -888,37 +525,35 @@ ObjectFunctor1<void,
                   ObjectT,
                   MethodCallType,
                   SizeTraitsT>::ObjectFunctor1(
-    const ObjectFunctor1 &source) : 
+    const ObjectFunctor1 &source) :
 
-    Inherited(source) 
+    Inherited(source)
 {
 }
-    
+
 
 /** \brief Destructor
  */
 
 
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-ObjectFunctor1<void, 
+ObjectFunctor1<void,
                   Arg1T,
                   ObjectT,
                   MethodCallType,
-                  SizeTraitsT>::~ObjectFunctor1(void) 
+                  SizeTraitsT>::~ObjectFunctor1(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<void, 
+void ObjectFunctor1<void,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
@@ -927,15 +562,15 @@ void ObjectFunctor1<void,
 {
     _flags |= FuncPtrValid;
 
-    *((ObjectMethodT *) _data2) = pFunc; 
+    *((ObjectMethodT *) _data2) = pFunc;
 }
 
 
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<void, 
+void ObjectFunctor1<void,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
@@ -943,16 +578,16 @@ void ObjectFunctor1<void,
     ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
-  
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
 
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<void, 
+void ObjectFunctor1<void,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
@@ -965,38 +600,36 @@ void ObjectFunctor1<void,
 }
 
 
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<void, 
+void ObjectFunctor1<void,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::setObjectAndMethod(
-    SetObjectT       pObj, 
+    SetObjectT       pObj,
     ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
     _flags |= ObjectValid;
-     
+
     FunctorTrait::setCalledObject(_data1, pObj);
 
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
-/*-------------------------- your_category---------------------------------*/
-
-template <class Arg1T, 
-          class ObjectT, 
+template <class Arg1T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor1<void, 
+void ObjectFunctor1<void,
                        Arg1T,
                        ObjectT,
                        MethodCallType,
-                       SizeTraitsT>::call(Arg1T arg1) 
-{ 
+                       SizeTraitsT>::call(Arg1T arg1)
+{
     if(_flags & FuncPtrValid)
     {
         if(_flags & ObjectValid)
@@ -1012,93 +645,93 @@ void ObjectFunctor1<void,
 
 
 template <class RetT, class Arg1T> inline
-FunctionFunctor1<RetT, Arg1T> osgFunctionFunctor1( 
-    RetT (*pFunc)(Arg1T)) 
-{ 
-    FunctionFunctor1<RetT, Arg1T> returnValue; 
+FunctionFunctor1<RetT, Arg1T> osgFunctionFunctor1(
+    RetT (*pFunc)(Arg1T))
+{
+    FunctionFunctor1<RetT, Arg1T> returnValue;
 
-    returnValue.setFunction(pFunc); 
+    returnValue.setFunction(pFunc);
 
-    return returnValue; 
-} 
+    return returnValue;
+}
 
 template <class RetT, class Arg1T> inline
-ObjectFunctor1<RetT, 
-                  Arg1T &, 
+ObjectFunctor1<RetT,
+                  Arg1T &,
                   Arg1T,
                   OnArgument> osgMethodFunctor1Ref(
     RetT (Arg1T::*pFunc)())
 {
-    typedef ObjectFunctor1<RetT, 
-                              Arg1T &, 
+    typedef ObjectFunctor1<RetT,
+                              Arg1T &,
                               Arg1T,
                               OnArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-    
+    returnValue.setMethod(pFunc);
+
     return returnValue;
-} 
+}
 
 
 template <class RetT, class Arg1T, class ObjectT> inline
-ObjectFunctor1<RetT, 
-                  Arg1T, 
+ObjectFunctor1<RetT,
+                  Arg1T,
                   ObjectT &,
                   OnStoredObject> osgMethodFunctor1Ref(
     ObjectT &obj, RetT (ObjectT::*pFunc)(Arg1T))
 {
-    typedef ObjectFunctor1<RetT, 
-                              Arg1T, 
+    typedef ObjectFunctor1<RetT,
+                              Arg1T,
                               ObjectT &,
                               OnStoredObject> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
+    returnValue.setMethod(pFunc);
     returnValue.setCalledObject(obj);
 
     return returnValue;
-} 
+}
 
 
 
 template <class RetT, class Arg1T> inline
-ObjectFunctor1<RetT, 
-                  Arg1T *, 
+ObjectFunctor1<RetT,
+                  Arg1T *,
                   Arg1T,
                   OnArgument> osgMethodFunctor1Ptr(
     RetT (Arg1T::*pFunc)())
 {
-    typedef ObjectFunctor1<RetT, 
-                              Arg1T *, 
+    typedef ObjectFunctor1<RetT,
+                              Arg1T *,
                               Arg1T,
                               OnArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-    
+    returnValue.setMethod(pFunc);
+
     return returnValue;
-} 
+}
 
 
 template <class RetT, class Arg1T, class ObjectT> inline
-ObjectFunctor1<RetT, 
-                  Arg1T, 
+ObjectFunctor1<RetT,
+                  Arg1T,
                   ObjectT *,
                   OnStoredObject> osgMethodFunctor1Ptr(
     ObjectT *pObj, RetT (ObjectT::*pFunc)(Arg1T))
 {
-    typedef ObjectFunctor1<RetT, 
-                              Arg1T, 
+    typedef ObjectFunctor1<RetT,
+                              Arg1T,
                               ObjectT *,
                               OnStoredObject> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
+    returnValue.setMethod(pFunc);
     returnValue.setCalledObject(pObj);
 
     return returnValue;
@@ -1106,107 +739,60 @@ ObjectFunctor1<RetT,
 
 
 template <class RetT, class Arg1T> inline
-ObjectFunctor1<RetT, 
-                  Arg1T &, 
+ObjectFunctor1<RetT,
+                  Arg1T &,
                   Arg1T,
                   OnCPtrArgument> osgMethodFunctor1CPtr(
    typename FunctorBuildFuncType1<RetT, Arg1T>::FunctionType pFunc)
 {
-    typedef ObjectFunctor1<RetT, 
-                              Arg1T &, 
+    typedef ObjectFunctor1<RetT,
+                              Arg1T &,
                               Arg1T,
                               OnCPtrArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-   
+    returnValue.setMethod(pFunc);
+
     return returnValue;
-} 
+}
 
 template <class RetT, class Arg1T, class ObjectT> inline
-ObjectFunctor1<RetT, 
-                  Arg1T, 
+ObjectFunctor1<RetT,
+                  Arg1T,
                   ObjectT &,
                   OnStoredCPtr> osgMethodFunctor1CPtr(
-    ObjectT &obj, 
-    typename FunctorBuildFuncType2<RetT, 
-                                      Arg1T, 
+    ObjectT &obj,
+    typename FunctorBuildFuncType2<RetT,
+                                      Arg1T,
                                       ObjectT>::FunctionType pFunc)
 {
-    typedef ObjectFunctor1<RetT, 
-                              Arg1T, 
+    typedef ObjectFunctor1<RetT,
+                              Arg1T,
                               ObjectT &,
                               OnStoredCPtr> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
+    returnValue.setMethod(pFunc);
     returnValue.setCalledObject(obj);
 
     return returnValue;
-} 
+}
 
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 template <class RetT, class Arg1T, class Arg2T, class SizeTraitsT>
-char Functor2Base<RetT,  Arg1T, 
+char Functor2Base<RetT,  Arg1T,
                      Arg2T, SizeTraitsT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-template <class RetT,  class Arg1T, 
+template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
 Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>::Functor2Base(
-    void) : 
+    void) :
 
     Inherited()
 {
@@ -1219,9 +805,9 @@ Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>::Functor2Base(
 
     Inherited()
 {
-    memcpy(this, &source, 
-           sizeof(Functor2Base<RetT, Arg1T, 
-                                  Arg2T, SizeTraitsT>)); 
+    memcpy(this, &source,
+           sizeof(Functor2Base<RetT, Arg1T,
+                                  Arg2T, SizeTraitsT>));
 }
 
 
@@ -1231,111 +817,57 @@ Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>::Functor2Base(
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
 Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>::~Functor2Base(
-    void) 
+    void)
 {
 }
-
-
-/*-------------------------- your_category---------------------------------*/
 
 // turn of returnValue used before set warning
 
 #ifdef __sgi
-#pragma set woff 1551 
+#pragma set woff 1551
 #endif
 
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
 RetT Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>::call(
-    Arg1T, Arg2T) 
-{ 
+    Arg1T, Arg2T)
+{
     RetT returnValue;
 
-    FWARNING(("Functor2Base::call called, undefined behaviour might " 
+    FWARNING(("Functor2Base::call called, undefined behaviour might "
               "be the consequence\n"));
 
     return returnValue;
 }
 
 #ifdef __sgi
-#pragma reset woff 1551 
+#pragma reset woff 1551
 #endif
-
-/*-------------------------- assignment -----------------------------------*/
 
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
 void Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>::operator =(
-    const Functor2Base &source) 
+    const Functor2Base &source)
 {
     if(this != &source)
     {
-        memcpy(this, &source, 
-               sizeof(Functor2Base<RetT,  Arg1T, 
-                                      Arg2T, SizeTraitsT>)); 
+        memcpy(this, &source,
+               sizeof(Functor2Base<RetT,  Arg1T,
+                                      Arg2T, SizeTraitsT>));
     }
 }
 
 
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 template <class Arg1T, class Arg2T, class SizeTraitsT>
-char Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::cvsid[] = 
+char Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::cvsid[] =
     "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
 Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::Functor2Base(
-    void) : 
+    void) :
 
     Inherited()
 {
@@ -1347,8 +879,8 @@ Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::Functor2Base(
 
     Inherited()
 {
-    memcpy(this, &source, 
-           sizeof(Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>)); 
+    memcpy(this, &source,
+           sizeof(Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>));
 }
 
 
@@ -1357,106 +889,51 @@ Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::Functor2Base(
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
 Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::~Functor2Base(
-    void) 
+    void)
 {
 }
-
-
-/*-------------------------- your_category---------------------------------*/
 
 // turn of returnValue used before set warning
 
 #ifdef __sgi
-#pragma set woff 1551 
+#pragma set woff 1551
 #endif
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
 void Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::call(
-    Arg1T, Arg2T) 
-{ 
-    FWARNING(("Functor2Base::call called, undefined behaviour might " 
+    Arg1T, Arg2T)
+{
+    FWARNING(("Functor2Base::call called, undefined behaviour might "
               "be the consequence\n"));
 }
 
 #ifdef __sgi
-#pragma reset woff 1551 
+#pragma reset woff 1551
 #endif
-
-/*-------------------------- assignment -----------------------------------*/
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
 void Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>::operator =(
-    const Functor2Base &source) 
+    const Functor2Base &source)
 {
     if(this != &source)
     {
-        memcpy(this, &source, 
-               sizeof(Functor2Base<void,     Arg1T, 
-                                      Arg2T, SizeTraitsT>)); 
+        memcpy(this, &source,
+               sizeof(Functor2Base<void,     Arg1T,
+                                      Arg2T, SizeTraitsT>));
     }
 }
-
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT>
 char FunctionFunctor2<RetT, Arg1T, Arg2T, SizeTraitsT>::cvsid[]=
     "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
 /** \brief Constructor
  */
 
-template <class RetT,  class Arg1T, 
+template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
-FunctionFunctor2<RetT,  Arg1T, 
+FunctionFunctor2<RetT,  Arg1T,
                     Arg2T, SizeTraitsT>::FunctionFunctor2(void) :
 
     Inherited()
@@ -1468,36 +945,32 @@ FunctionFunctor2<RetT,  Arg1T,
 
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
-FunctionFunctor2<RetT,  Arg1T, 
+FunctionFunctor2<RetT,  Arg1T,
                     Arg2T, SizeTraitsT>::FunctionFunctor2(
-    const FunctionFunctor2 &source) : 
-    
-    Inherited(source) 
+    const FunctionFunctor2 &source) :
+
+    Inherited(source)
 {
 }
-    
+
 /** \brief Destructor
  */
 
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
-FunctionFunctor2<RetT, Arg1T, 
+FunctionFunctor2<RetT, Arg1T,
                     Arg2T, SizeTraitsT>::~FunctionFunctor2(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
-void FunctionFunctor2<RetT,  Arg1T, 
+void FunctionFunctor2<RetT,  Arg1T,
                          Arg2T, SizeTraitsT>::setFunction(
     FunctionP pFunc)
 {
     *((FunctionP *) _data2) = pFunc;
 }
-
-/*-------------------------- your_category---------------------------------*/
 
 template <class RetT,  class Arg1T,
           class Arg2T, class SizeTraitsT> inline
@@ -1511,62 +984,16 @@ RetT FunctionFunctor2<RetT, Arg1T, Arg2T, SizeTraitsT>::call(
 
 
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 template <class Arg1T, class Arg2T, class SizeTraitsT>
-char FunctionFunctor2<void, Arg1T, Arg2T, SizeTraitsT>::cvsid[] = 
+char FunctionFunctor2<void, Arg1T, Arg2T, SizeTraitsT>::cvsid[] =
     "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
-FunctionFunctor2<void,     Arg1T, 
+FunctionFunctor2<void,     Arg1T,
                     Arg2T, SizeTraitsT>::FunctionFunctor2(void) :
 
     Inherited()
@@ -1577,35 +1004,31 @@ FunctionFunctor2<void,     Arg1T,
  */
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
-FunctionFunctor2<void,     Arg1T, 
+FunctionFunctor2<void,     Arg1T,
                     Arg2T, SizeTraitsT>::FunctionFunctor2(
-    const FunctionFunctor2 &source) : 
-    
-    Inherited(source) 
+    const FunctionFunctor2 &source) :
+
+    Inherited(source)
 {
 }
-    
+
 /** \brief Destructor
  */
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
-FunctionFunctor2<void,     Arg1T, 
+FunctionFunctor2<void,     Arg1T,
                     Arg2T, SizeTraitsT>::~FunctionFunctor2(
     void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
-void FunctionFunctor2<void,     Arg1T, 
+void FunctionFunctor2<void,     Arg1T,
                          Arg2T, SizeTraitsT>::setFunction(
     FunctionP pFunc)
 {
     *((FunctionP *) _data2) = pFunc;
 }
-
-/*-------------------------- your_category---------------------------------*/
 
 template <class Arg1T, class Arg2T, class SizeTraitsT> inline
 void FunctionFunctor2<void, Arg1T, Arg2T, SizeTraitsT>::call(
@@ -1617,77 +1040,30 @@ void FunctionFunctor2<void, Arg1T, Arg2T, SizeTraitsT>::call(
 }
 
 
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT>
-char ObjectFunctor2<RetT,    
+char ObjectFunctor2<RetT,
                        Arg1T,
                        Arg2T,
-                       ObjectT, 
+                       ObjectT,
                        MethodCallType,
                        SizeTraitsT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-ObjectFunctor2<RetT, 
+ObjectFunctor2<RetT,
                   Arg1T,
                   Arg2T,
                   ObjectT,
@@ -1701,10 +1077,10 @@ ObjectFunctor2<RetT,
  */
 
 
-template <class RetT, 
-          class Arg1T, 
-          class Arg2T, 
-          class ObjectT, 
+template <class RetT,
+          class Arg1T,
+          class Arg2T,
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
 ObjectFunctor2<RetT,
@@ -1713,21 +1089,21 @@ ObjectFunctor2<RetT,
                   ObjectT,
                   MethodCallType,
                   SizeTraitsT>::ObjectFunctor2(
-    const ObjectFunctor2 &source) : 
+    const ObjectFunctor2 &source) :
 
-    Inherited(source) 
+    Inherited(source)
 {
 }
-    
+
 
 /** \brief Destructor
  */
 
 
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
 ObjectFunctor2<RetT,
@@ -1735,20 +1111,17 @@ ObjectFunctor2<RetT,
                   Arg2T,
                   ObjectT,
                   MethodCallType,
-                  SizeTraitsT>::~ObjectFunctor2(void) 
+                  SizeTraitsT>::~ObjectFunctor2(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<RetT, 
+void ObjectFunctor2<RetT,
                        Arg1T,
                        Arg2T,
                        ObjectT,
@@ -1757,17 +1130,17 @@ void ObjectFunctor2<RetT,
 {
     _flags |= FuncPtrValid;
 
-    *((ObjectMethodT *) _data2) = pFunc; 
+    *((ObjectMethodT *) _data2) = pFunc;
 }
 
 
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<RetT, 
+void ObjectFunctor2<RetT,
                        Arg1T,
                        Arg2T,
                        ObjectT,
@@ -1775,18 +1148,18 @@ void ObjectFunctor2<RetT,
                        SizeTraitsT>::setMethod(ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
-  
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
 
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<RetT, 
+void ObjectFunctor2<RetT,
                        Arg1T,
                        Arg2T,
                        ObjectT,
@@ -1799,54 +1172,52 @@ void ObjectFunctor2<RetT,
 }
 
 
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<RetT, 
+void ObjectFunctor2<RetT,
                        Arg1T,
                        Arg2T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::setObjectAndMethod(
-    SetObjectT       pObj, 
+    SetObjectT       pObj,
     ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
     _flags |= ObjectValid;
-     
+
     FunctorTrait::setCalledObject(_data1, pObj);
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
-/*-------------------------- your_category---------------------------------*/
-
 #ifdef __sgi
-#pragma set woff 1551 
+#pragma set woff 1551
 #endif
 
-template <class RetT, 
-          class Arg1T, 
+template <class RetT,
+          class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-RetT ObjectFunctor2<RetT, 
+RetT ObjectFunctor2<RetT,
                           Arg1T,
                           Arg2T,
                           ObjectT,
                           MethodCallType,
-                          SizeTraitsT>::call(Arg1T arg1, Arg2T arg2) 
-{ 
+                          SizeTraitsT>::call(Arg1T arg1, Arg2T arg2)
+{
     RetT returnValue;
-    
+
     if(_flags & FuncPtrValid)
     {
         if(_flags & ObjectValid)
         {
-            return FunctorTrait::callObjectMethod(_data1, _data2, 
+            return FunctorTrait::callObjectMethod(_data1, _data2,
                                                       arg1,   arg2);
         }
         else
@@ -1859,78 +1230,31 @@ RetT ObjectFunctor2<RetT,
 }
 
 #ifdef __sgi
-#pragma reset woff 1551 
+#pragma reset woff 1551
 #endif
 
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT>
-char ObjectFunctor2<void, 
+char ObjectFunctor2<void,
                        Arg1T,
                        Arg2T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-ObjectFunctor2<void, 
+ObjectFunctor2<void,
                   Arg1T,
                   Arg2T,
                   ObjectT,
@@ -1944,9 +1268,9 @@ ObjectFunctor2<void,
  */
 
 
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
 ObjectFunctor2<void,
@@ -1955,40 +1279,37 @@ ObjectFunctor2<void,
                   ObjectT,
                   MethodCallType,
                   SizeTraitsT>::ObjectFunctor2(
-    const ObjectFunctor2 &source) : 
+    const ObjectFunctor2 &source) :
 
-    Inherited(source) 
+    Inherited(source)
 {
 }
-    
+
 
 /** \brief Destructor
  */
 
 
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-ObjectFunctor2<void, 
+ObjectFunctor2<void,
                   Arg1T,
                   Arg2T,
                   ObjectT,
                   MethodCallType,
-                  SizeTraitsT>::~ObjectFunctor2(void) 
+                  SizeTraitsT>::~ObjectFunctor2(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<void, 
+void ObjectFunctor2<void,
                        Arg1T,
                        Arg2T,
                        ObjectT,
@@ -1998,16 +1319,16 @@ void ObjectFunctor2<void,
 {
     _flags |= FuncPtrValid;
 
-    *((ObjectMethodT *) _data2) = pFunc; 
+    *((ObjectMethodT *) _data2) = pFunc;
 }
 
 
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<void, 
+void ObjectFunctor2<void,
                        Arg1T,
                        Arg2T,
                        ObjectT,
@@ -2016,17 +1337,17 @@ void ObjectFunctor2<void,
     ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
-  
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
 
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<void, 
+void ObjectFunctor2<void,
                        Arg1T,
                        Arg2T,
                        ObjectT,
@@ -2040,42 +1361,40 @@ void ObjectFunctor2<void,
 }
 
 
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<void, 
+void ObjectFunctor2<void,
                        Arg1T,
                        Arg2T,
                        ObjectT,
                        MethodCallType,
                        SizeTraitsT>::setObjectAndMethod(
-    SetObjectT       pObj, 
+    SetObjectT       pObj,
     ObjectMethodPtrT pFunc)
 {
     _flags |= FuncPtrValid;
     _flags |= ObjectValid;
-     
+
     FunctorTrait::setCalledObject(_data1, pObj);
 
-    *((ObjectMethodPtrT *) _data2) = pFunc; 
+    *((ObjectMethodPtrT *) _data2) = pFunc;
 }
 
-/*-------------------------- your_category---------------------------------*/
-
-template <class Arg1T, 
+template <class Arg1T,
           class Arg2T,
-          class ObjectT, 
+          class ObjectT,
           enum  FunctorMethodCallTypeE MethodCallType,
           class SizeTraitsT> inline
-void ObjectFunctor2<void, 
+void ObjectFunctor2<void,
                        Arg1T,
                        Arg2T,
                        ObjectT,
                        MethodCallType,
-                       SizeTraitsT>::call(Arg1T arg1, Arg2T arg2) 
-{ 
+                       SizeTraitsT>::call(Arg1T arg1, Arg2T arg2)
+{
     if(_flags & FuncPtrValid)
     {
         if(_flags & ObjectValid)
@@ -2091,218 +1410,190 @@ void ObjectFunctor2<void,
 
 
 template <class RetT, class Arg1T, class Arg2T> inline
-FunctionFunctor2<RetT, Arg1T, Arg2T> osgFunctionFunctor2( 
-    RetT (*pFunc)(Arg1T, Arg2T)) 
-{ 
-    FunctionFunctor2<RetT, Arg1T, Arg2T> returnValue; 
+FunctionFunctor2<RetT, Arg1T, Arg2T> osgFunctionFunctor2(
+    RetT (*pFunc)(Arg1T, Arg2T))
+{
+    FunctionFunctor2<RetT, Arg1T, Arg2T> returnValue;
 
-    returnValue.setFunction(pFunc); 
+    returnValue.setFunction(pFunc);
 
-    return returnValue; 
-} 
+    return returnValue;
+}
 
 
 
 template <class RetT, class Arg1T, class Arg2T> inline
-ObjectFunctor2<RetT, 
-                  Arg1T &, 
+ObjectFunctor2<RetT,
+                  Arg1T &,
                   Arg2T,
                   Arg1T,
                   OnArgument> osgMethodFunctor2Ref(
     RetT (Arg1T::*pFunc)(Arg2T))
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T &, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T &,
                               Arg2T,
                               Arg1T,
                               OnArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-    
-    return returnValue;
-} 
+    returnValue.setMethod(pFunc);
 
-template <class RetT, class Arg1T, 
+    return returnValue;
+}
+
+template <class RetT, class Arg1T,
           class Arg2T, class ObjectT> inline
-ObjectFunctor2<RetT, 
-                  Arg1T, 
+ObjectFunctor2<RetT,
+                  Arg1T,
                   Arg2T,
                   ObjectT &,
                   OnStoredObject> osgMethodFunctor2Ref(
     ObjectT &obj, RetT (ObjectT::*pFunc)(Arg1T, Arg2T))
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T,
                               Arg2T,
                               ObjectT &,
                               OnStoredObject> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
+    returnValue.setMethod(pFunc);
     returnValue.setCalledObject(obj);
 
     return returnValue;
-} 
+}
 
 
 
 template <class RetT, class Arg1T, class Arg2T> inline
-ObjectFunctor2<RetT, 
-                  Arg1T *, 
+ObjectFunctor2<RetT,
+                  Arg1T *,
                   Arg2T,
                   Arg1T,
                   OnArgument> osgMethodFunctor2Ptr(
     RetT (Arg1T::*pFunc)(Arg2T))
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T *, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T *,
                               Arg2T,
                               Arg1T,
                               OnArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-    
+    returnValue.setMethod(pFunc);
+
     return returnValue;
-} 
+}
 
 
-template <class RetT,  class Arg1T, 
+template <class RetT,  class Arg1T,
           class Arg2T, class ObjectT> inline
-ObjectFunctor2<RetT, 
-                  Arg1T, 
+ObjectFunctor2<RetT,
+                  Arg1T,
                   Arg2T,
                   ObjectT *,
                   OnStoredObject> osgMethodFunctor2Ptr(
     ObjectT *pObj, RetT (ObjectT::*pFunc)(Arg1T, Arg2T))
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T,
                               Arg2T,
                               ObjectT *,
                               OnStoredObject> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
+    returnValue.setMethod(pFunc);
     returnValue.setCalledObject(pObj);
 
     return returnValue;
-} 
+}
 
 
 template <class RetT, class Arg1T, class Arg2T> inline
-ObjectFunctor2<RetT, 
-                  Arg1T &, 
-                  Arg2T, 
+ObjectFunctor2<RetT,
+                  Arg1T &,
+                  Arg2T,
                   Arg1T,
                   OnCPtrArgument> osgMethodFunctor2CPtr(
-    typename FunctorBuildFuncType2<RetT, 
+    typename FunctorBuildFuncType2<RetT,
                                       Arg2T,
                                       Arg1T>::FunctionType pFunc)
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T &, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T &,
                               Arg2T,
                               Arg1T,
                               OnCPtrArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-   
+    returnValue.setMethod(pFunc);
+
     return returnValue;
-} 
+}
 
 #ifdef __sgi
 #pragma set woff 1424
 #endif
 
-template <class RetT,    class Arg1T, 
+template <class RetT,    class Arg1T,
           class ObjectT, class Arg2T> inline
-ObjectFunctor2<RetT, 
-                  Arg1T &, 
-                  Arg2T, 
+ObjectFunctor2<RetT,
+                  Arg1T &,
+                  Arg2T,
                   ObjectT,
                   OnCPtrArgument> osgMethodFunctor2BaseCPtr(
-    typename FunctorBuildFuncType2<RetT, 
+    typename FunctorBuildFuncType2<RetT,
                                       Arg2T,
                                       ObjectT>::FunctionType pFunc)
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T &, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T &,
                               Arg2T,
                               ObjectT,
                               OnCPtrArgument> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
-   
+    returnValue.setMethod(pFunc);
+
     return returnValue;
-} 
+}
 
 #ifdef __sgi
 #pragma reset woff 1424
 #endif
 
-template <class RetT,  class Arg1T, 
+template <class RetT,  class Arg1T,
           class Arg2T, class ObjectT> inline
-ObjectFunctor2<RetT, 
-                  Arg1T, 
+ObjectFunctor2<RetT,
+                  Arg1T,
                   Arg2T,
                   ObjectT &,
                   OnStoredCPtr> osgMethodFunctor2CPtr(
     ObjectT &obj,
-    typename FunctorBuildFuncType3<RetT, 
-                                      Arg1T, 
-                                      Arg2T, 
+    typename FunctorBuildFuncType3<RetT,
+                                      Arg1T,
+                                      Arg2T,
                                       ObjectT>::FunctionType pFunc)
 {
-    typedef ObjectFunctor2<RetT, 
-                              Arg1T, 
+    typedef ObjectFunctor2<RetT,
+                              Arg1T,
                               Arg2T,
                               ObjectT &,
                               OnStoredCPtr> OFunctor;
 
     OFunctor returnValue;
 
-    returnValue.setMethod(pFunc);    
+    returnValue.setMethod(pFunc);
     returnValue.setCalledObject(obj);
 
     return returnValue;
-} 
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+}
 
 OSG_END_NAMESPACE

@@ -57,45 +57,32 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGChunkMaterial.h>
-#include <OSGColor3fFields.h>	// Ambient type
-#include <OSGColor3fFields.h>	// Diffuse type
-#include <OSGColor3fFields.h>	// Specular type
-#include <OSGReal32Fields.h>	// Shininess type
-#include <OSGColor3fFields.h>	// Emission type
-#include <OSGReal32Fields.h>	// Transparency type
-#include <OSGBoolFields.h>	// Lit type
-#include <OSGUInt32Fields.h>	// ColorMaterial type
+
+#include <OSGChunkMaterial.h> // Parent
+
+#include <OSGColor3fFields.h> // Ambient type
+#include <OSGColor3fFields.h> // Diffuse type
+#include <OSGColor3fFields.h> // Specular type
+#include <OSGReal32Fields.h> // Shininess type
+#include <OSGColor3fFields.h> // Emission type
+#include <OSGReal32Fields.h> // Transparency type
+#include <OSGBoolFields.h> // Lit type
+#include <OSGUInt32Fields.h> // ColorMaterial type
 
 #include <OSGSimpleMaterialFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class SimpleMaterial;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! SimpleMaterial Base Class. */
+/*! \brief SimpleMaterial Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 {
@@ -103,24 +90,20 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 
     typedef ChunkMaterial Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        AmbientFieldId = Inherited::NextFieldId,
-        DiffuseFieldId = AmbientFieldId + 1,
-        SpecularFieldId = DiffuseFieldId + 1,
-        ShininessFieldId = SpecularFieldId + 1,
-        EmissionFieldId = ShininessFieldId + 1,
-        TransparencyFieldId = EmissionFieldId + 1,
-        LitFieldId = TransparencyFieldId + 1,
-        ColorMaterialFieldId = LitFieldId + 1,
-        NextFieldId = ColorMaterialFieldId + 1
-
+        AmbientFieldId       = Inherited::NextFieldId,
+        DiffuseFieldId       = AmbientFieldId       + 1,
+        SpecularFieldId      = DiffuseFieldId       + 1,
+        ShininessFieldId     = SpecularFieldId      + 1,
+        EmissionFieldId      = ShininessFieldId     + 1,
+        TransparencyFieldId  = EmissionFieldId      + 1,
+        LitFieldId           = TransparencyFieldId  + 1,
+        ColorMaterialFieldId = LitFieldId           + 1,
+        NextFieldId          = ColorMaterialFieldId + 1
     };
 
     static const osg::BitVector AmbientFieldMask;
@@ -132,40 +115,82 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     static const osg::BitVector LitFieldMask;
     static const osg::BitVector ColorMaterialFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "SimpleMaterialBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static SimpleMaterialPtr         create          (void); 
-    static SimpleMaterialPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFColor3f           *getSFAmbient        (void);
+    inline       SFColor3f           *getSFDiffuse        (void);
+    inline       SFColor3f           *getSFSpecular       (void);
+    inline       SFReal32            *getSFShininess      (void);
+    inline       SFColor3f           *getSFEmission       (void);
+    inline       SFReal32            *getSFTransparency   (void);
+    inline       SFBool              *getSFLit            (void);
+    inline       SFUInt32            *getSFColorMaterial  (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Color3f             &getAmbient        (void);
+    inline const Color3f             &getAmbient        (void) const;
+    inline       Color3f             &getDiffuse        (void);
+    inline const Color3f             &getDiffuse        (void) const;
+    inline       Color3f             &getSpecular       (void);
+    inline const Color3f             &getSpecular       (void) const;
+    inline       Real32              &getShininess      (void);
+    inline const Real32              &getShininess      (void) const;
+    inline       Color3f             &getEmission       (void);
+    inline const Color3f             &getEmission       (void) const;
+    inline       Real32              &getTransparency   (void);
+    inline const Real32              &getTransparency   (void) const;
+    inline       Bool                &getLit            (void);
+    inline const Bool                &getLit            (void) const;
+    inline       UInt32              &getColorMaterial  (void);
+    inline const UInt32              &getColorMaterial  (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setAmbient        ( const Color3f &value );
+    inline void setDiffuse        ( const Color3f &value );
+    inline void setSpecular       ( const Color3f &value );
+    inline void setShininess      ( const Real32 &value );
+    inline void setEmission       ( const Color3f &value );
+    inline void setTransparency   ( const Real32 &value );
+    inline void setLit            ( const Bool &value );
+    inline void setColorMaterial  ( const UInt32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -173,161 +198,74 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFColor3f	*getSFAmbient(void);
-    inline SFColor3f	*getSFDiffuse(void);
-    inline SFColor3f	*getSFSpecular(void);
-    inline SFReal32	*getSFShininess(void);
-    inline SFColor3f	*getSFEmission(void);
-    inline SFReal32	*getSFTransparency(void);
-    inline SFBool	*getSFLit(void);
-    inline SFUInt32	*getSFColorMaterial(void);
+    static  SimpleMaterialPtr    create          (void); 
+    static  SimpleMaterialPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Color3f	&getAmbient(void);
-    inline const Color3f	&getAmbient(void) const;
-    inline       void	         setAmbient( const Color3f &value );
-    inline       Color3f	&getDiffuse(void);
-    inline const Color3f	&getDiffuse(void) const;
-    inline       void	         setDiffuse( const Color3f &value );
-    inline       Color3f	&getSpecular(void);
-    inline const Color3f	&getSpecular(void) const;
-    inline       void	         setSpecular( const Color3f &value );
-    inline       Real32	&getShininess(void);
-    inline const Real32	&getShininess(void) const;
-    inline       void	         setShininess( const Real32 &value );
-    inline       Color3f	&getEmission(void);
-    inline const Color3f	&getEmission(void) const;
-    inline       void	         setEmission( const Color3f &value );
-    inline       Real32	&getTransparency(void);
-    inline const Real32	&getTransparency(void) const;
-    inline       void	         setTransparency( const Real32 &value );
-    inline       Bool	&getLit(void);
-    inline const Bool	&getLit(void) const;
-    inline       void	         setLit( const Bool &value );
-    inline       UInt32	&getColorMaterial(void);
-    inline const UInt32	&getColorMaterial(void) const;
-    inline       void	         setColorMaterial( const UInt32 &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFColor3f        	_sfAmbient;
+    SFColor3f        	_sfDiffuse;
+    SFColor3f        	_sfSpecular;
+    SFReal32         	_sfShininess;
+    SFColor3f        	_sfEmission;
+    SFReal32         	_sfTransparency;
+    SFBool           	_sfLit;
+    SFUInt32         	_sfColorMaterial;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFColor3f	_sfAmbient;
-    /*! 
-     */
-    SFColor3f	_sfDiffuse;
-    /*! 
-     */
-    SFColor3f	_sfSpecular;
-    /*! 
-     */
-    SFReal32	_sfShininess;
-    /*! 
-     */
-    SFColor3f	_sfEmission;
-    /*! 
-     */
-    SFReal32	_sfTransparency;
-    /*! 
-     */
-    SFBool	_sfLit;
-    /*! 
-     */
-    SFUInt32	_sfColorMaterial;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     SimpleMaterialBase(void);
     SimpleMaterialBase(const SimpleMaterialBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~SimpleMaterialBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      SimpleMaterialBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -339,8 +277,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE

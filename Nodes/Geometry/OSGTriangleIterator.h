@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCore.h>
@@ -55,20 +51,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Geometry;
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \brief The TriangleIterator allows iteration through triangles.
  *  \ingroup GeoIterators
@@ -76,178 +60,100 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "TriangleIterator"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     TriangleIterator( void );
-
-	// used by geometry to create them. useful for seeking	
     TriangleIterator( const GeometryPtr& geo );
     TriangleIterator( const NodePtr& geo );
-
     TriangleIterator(const TriangleIterator &source);
-	
-    virtual ~TriangleIterator(void); 
 
-    /*------------------------- access -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-	// get the triangle index
-	inline Int32    	getIndex		( void 	      ) const;
+    virtual ~TriangleIterator(void);
 
-	// type of currently processed primitive
-	inline UInt32 		getType			( void ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-	// get the data indices/values. Indices < 0 indicate data not present
-	// in that case the value will be Nullxxx
+    inline Int32        getIndex        ( void        ) const;
+    inline UInt32       getType         ( void ) const;
 
-	inline Int32    	getPositionIndex	( Int32 which ) const;
-	inline Pnt3f		getPosition			( Int32 which ) const;
+    inline Int32        getPositionIndex    ( Int32 which ) const;
+    inline Pnt3f        getPosition         ( Int32 which ) const;
 
-	inline Int32    	getNormalIndex		( Int32 which ) const;
-	inline Vec3f   		getNormal	 		( Int32 which ) const;
+    inline Int32        getNormalIndex      ( Int32 which ) const;
+    inline Vec3f        getNormal           ( Int32 which ) const;
 
-	inline Int32    	getColorIndex 		( Int32 which ) const;
-	inline Color3f		getColor			( Int32 which ) const;
+    inline Int32        getColorIndex       ( Int32 which ) const;
+    inline Color3f      getColor            ( Int32 which ) const;
 
-	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
-	inline Vec2f		getTexCoords		( Int32 which ) const;
+    inline Int32        getTexCoordsIndex   ( Int32 which ) const;
+    inline Vec2f        getTexCoords        ( Int32 which ) const;
 
-	inline Int32    	getIndexIndex    	( Int32 which ) const;
+    inline Int32        getIndexIndex       ( Int32 which ) const;
 
-
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Operators                              */
+    /*! \{                                                                 */
 
     void operator ++( void );
-
-	// seek from the beginning to triangle with index index
-	void seek( Int32 index );
-
-    /*------------------------- assignment ----------------------------------*/
+    void seek( Int32 index );
 
     TriangleIterator & operator =(const TriangleIterator &source);
-
-    /*------------------------- comparison ----------------------------------*/
-
     Bool operator < (const TriangleIterator &other) const;
-    
-	Bool operator == (const TriangleIterator &other) const;
-	Bool operator != (const TriangleIterator &other) const;
- 
+    Bool operator == (const TriangleIterator &other) const;
+    Bool operator != (const TriangleIterator &other) const;
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	void setToBegin( void );
-	void setToEnd( void );
-	
+          
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Set                                    */
+    /*! \{                                                                 */
+          
+    void setToBegin( void );
+    void setToEnd( void );
+    
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    friend class Geometry;
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-	friend class Geometry;
-	
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    PrimitiveIterator _primIt;
+    GeometryPtr     _geo;
+    Int32           _triIndex;
+    UInt32          _actPrimIndex;
+    Int32           _triPntIndex[3];
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-	
-	// the primitive Iterator it's based on
-	PrimitiveIterator _primIt;
-	
-	// the geometry (for faster access)
-	GeometryPtr 	_geo;
-	
-	// Mainly for statistics.
-	Int32 			_triIndex;
-	
-	// index of the first actual point within the active primitive
-	// this is the index into the primitive
-	UInt32 			_actPrimIndex;
-	
-	// indices of the actual triangels' points
-	// these are indices into the primtive's indices, not actual indices
-	Int32 			_triPntIndex[3];
-	
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// called when stepping to next primitive, and at beginning
-	void startPrim( void );
+    /*! \}                                                                 */
+    
+    void startPrim( void );
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
 
 typedef TriangleIterator *TriangleIteratorP;
 

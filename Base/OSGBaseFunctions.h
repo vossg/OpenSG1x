@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <math.h>
 
 #include <string.h>
@@ -68,11 +64,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Base Math Functions
-//---------------------------------------------------------------------------
+/*---------------------------------------------------------------------*/
+/*! \name                    Base Math Functions                                 */
+/*! \{                                                                 */
 
-/*! @name Generall Desclarations
+/*! @name General Declarations
  */
 
 /*@{*/
@@ -139,7 +135,7 @@ FloatTypeT osgatan(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgatan2(const FloatTypeT &rVal1, 
+FloatTypeT osgatan2(const FloatTypeT &rVal1,
                     const FloatTypeT &rVal2);
 
 /*! \brief osgdegree2rad
@@ -186,7 +182,7 @@ FloatTypeT osgabs(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgpow(const FloatTypeT &rVal, 
+FloatTypeT osgpow(const FloatTypeT &rVal,
                   const FloatTypeT &rExp);
 
 /*! \brief osgfloor
@@ -257,12 +253,12 @@ struct osgIF<false, IThenT, IElseT>
 template <bool IConditionV>
 struct osgIFGen
 {
-	template<class IThenT, class IElseT>
-	struct osgIFSwitch
-	{
-		typedef IThenT _IRet;
-	    typedef IElseT _IDummyRef;
-	};
+    template<class IThenT, class IElseT>
+    struct osgIFSwitch
+    {
+        typedef IThenT _IRet;
+        typedef IElseT _IDummyRef;
+    };
 };
 
 /*! \ingroup BaseMathFunctions
@@ -272,12 +268,12 @@ struct osgIFGen
 template <>
 struct osgIFGen<false>
 {
-	template<class IThenT, class IElseT>
-	struct osgIFSwitch
-	{
-	    typedef IElseT _IRet;
-		typedef IThenT _IDummyRef;
-	};
+    template<class IThenT, class IElseT>
+    struct osgIFSwitch
+    {
+        typedef IElseT _IRet;
+        typedef IThenT _IDummyRef;
+    };
 };
 
 
@@ -288,7 +284,7 @@ struct osgIFGen<false>
 template<bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
-	typedef osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
+    typedef osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
 };
 
 #endif
@@ -309,9 +305,11 @@ template <class TypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 TypeT osgnextpower2(TypeT rVal);
 
+/*! \}                                                                 */
+
 /*@}*/
 
-/*! @name MemoryObject Reference Count Functions 
+/*! @name MemoryObject Reference Count Functions
  */
 
 /*@{*/
@@ -320,7 +318,7 @@ TypeT osgnextpower2(TypeT rVal);
  *  \ingroup BaseFunctions
  */
 
-template <class T> inline 
+template <class T> inline
 void setRefP(T *&pObject, T *&pNewObject)
 {
     if(pObject != NULL)
@@ -336,7 +334,7 @@ void setRefP(T *&pObject, T *&pNewObject)
  *  \ingroup BaseFunctions
  */
 
-template <class T> inline 
+template <class T> inline
 void addRefP(T *&pObject)
 {
     if(pObject != NULL)
@@ -347,7 +345,7 @@ void addRefP(T *&pObject)
  *  \ingroup BaseFunctions
  */
 
-template <class T> inline 
+template <class T> inline
 void subRefP(T *&pObject)
 {
     if(pObject != NULL)
@@ -358,7 +356,7 @@ void subRefP(T *&pObject)
  *  \ingroup BaseFunctions
  */
 
-template <class T> inline 
+template <class T> inline
 void clearRefP(T *&pObject)
 {
     if(pObject != NULL)
@@ -392,7 +390,7 @@ void clearRefPVectorP(std::vector<T *> *pVector)
     {
         for(UInt32 uiIndex = 0; uiIndex < pVector->size(); uiIndex++)
             (*pVector)[uiIndex]->subRef();
-        
+
         pVector->erase(pVector->begin(), pVector->end());
     }
 }
@@ -401,7 +399,7 @@ void clearRefPVectorP(std::vector<T *> *pVector)
 /*@}*/
 
 
-/*! @name String Functions 
+/*! @name String Functions
  */
 
 /*@{*/
@@ -417,7 +415,7 @@ OSG_BASE_DLLMAPPING void stringDup(const char *szInput, char *&szOutput);
  *  \ingroup BaseFunctions
  */
 
-inline 
+inline
 OSG_BASE_DLLMAPPING
 Int32 stringncmp(const char *string1, const char *string2, size_t count);
 
@@ -426,7 +424,7 @@ Int32 stringncmp(const char *string1, const char *string2, size_t count);
  */
 
 
-inline 
+inline
 OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1);
 
 
@@ -434,15 +432,15 @@ OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1);
  *  \ingroup BaseFunctions
  */
 
-inline 
+inline
 OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2);
 
 /*! \brief string case compare
  *  \ingroup BaseFunctions
  */
 
-inline 
-OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1, 
+inline
+OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
                                         const char *string2);
 
 /*! \brief String less than compare functor used for a STL weak ordering
@@ -474,7 +472,7 @@ struct OSG_BASE_DLLMAPPING EQString
 template<class VecPntT> inline
 UInt32 getMaxIndexAbs3(const VecPntT &v)
 {
-    return fabsf(v[0]) > fabsf(v[1]) ? 
+    return fabsf(v[0]) > fabsf(v[1]) ?
         fabsf(v[0]) > fabsf(v[2]) ? 0 : 2 : fabsf(v[1]) > fabsf(v[2]) ? 1 : 2;
 }
 
@@ -551,7 +549,7 @@ OSG_BASE_DLLMAPPING void addMPExitFunction(ExitFuncF exitFunc);
 
 Bool OSG_BASE_DLLMAPPING osgInit(int argc, char **argv);
 
-/*! \brief Exit  
+/*! \brief Exit
  *  \ingroup BaseFunctions
  */
 

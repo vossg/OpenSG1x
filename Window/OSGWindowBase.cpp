@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEWINDOWINST
@@ -66,12 +62,6 @@
 #include "OSGWindowBase.h"
 #include "OSGWindow.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	WindowBase::WidthFieldMask = 
     (1 << WindowBase::WidthFieldId);
@@ -112,10 +100,26 @@ const OSG::BitVector	WindowBase::GlObjectStatusFieldMask =
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.13 2001/08/07 17:20:08 dirk Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.14 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var UInt16          WindowBase::_sfWidth
+    
+*/
+/*! \var UInt16          WindowBase::_sfHeight
+    
+*/
+/*! \var ViewportPtr     WindowBase::_mfPort
+    
+*/
+/*! \var Bool            WindowBase::_sfResizePending
+    
+*/
+/*! \var UInt32          WindowBase::_mfGlObjectStatus
+    The GL object's status in this window.
+*/
+//! Window description
 
 FieldDescription *WindowBase::_desc[] = 
 {
@@ -146,8 +150,7 @@ FieldDescription *WindowBase::_desc[] =
                      (FieldAccessMethod) &WindowBase::getMFGlObjectStatus)
 };
 
-/** \brief Window type
- */
+//! Window type
 
 FieldContainerType WindowBase::_type(
     "Window",
@@ -158,32 +161,14 @@ FieldContainerType WindowBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(WindowBase, WindowPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Window"; 
+}
 
 FieldContainerType &WindowBase::getType(void) 
 {
@@ -194,6 +179,7 @@ const FieldContainerType &WindowBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 WindowBase::getContainerSize(void) const 
 { 
@@ -207,36 +193,35 @@ void WindowBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((WindowBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 WindowBase::WindowBase(void) :
-	_sfWidth	(), 
-	_sfHeight	(), 
-	_mfPort	(), 
-	_sfResizePending	(), 
-	_mfGlObjectStatus	(), 
+	_sfWidth                  (), 
+	_sfHeight                 (), 
+	_mfPort                   (), 
+	_sfResizePending          (), 
+	_mfGlObjectStatus         (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 WindowBase::WindowBase(const WindowBase &source) :
-	_sfWidth		(source._sfWidth), 
-	_sfHeight		(source._sfHeight), 
-	_mfPort		(source._mfPort), 
-	_sfResizePending		(source._sfResizePending), 
-	_mfGlObjectStatus		(source._mfGlObjectStatus), 
-	Inherited        (source)
+	_sfWidth                  (source._sfWidth                  ), 
+	_sfHeight                 (source._sfHeight                 ), 
+	_mfPort                   (source._mfPort                   ), 
+	_sfResizePending          (source._sfResizePending          ), 
+	_mfGlObjectStatus         (source._mfGlObjectStatus         ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 WindowBase::~WindowBase(void)
 {
@@ -283,29 +268,19 @@ MemoryHandle WindowBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (WidthFieldMask & whichField))
-    {
         pMem = _sfWidth.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (HeightFieldMask & whichField))
-    {
         pMem = _sfHeight.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (PortFieldMask & whichField))
-    {
         pMem = _mfPort.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
-    {
         pMem = _sfResizePending.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
-    {
         pMem = _mfGlObjectStatus.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -317,40 +292,23 @@ MemoryHandle WindowBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (WidthFieldMask & whichField))
-    {
         pMem = _sfWidth.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (HeightFieldMask & whichField))
-    {
         pMem = _sfHeight.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PortFieldMask & whichField))
-    {
         pMem = _mfPort.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
-    {
         pMem = _sfResizePending.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
-    {
         pMem = _mfGlObjectStatus.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void WindowBase::executeSyncImpl(      WindowBase *pOther,
                                         const BitVector         &whichField)
@@ -359,34 +317,20 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (WidthFieldMask & whichField))
-    {
         _sfWidth.syncWith(pOther->_sfWidth);
-    }
 
     if(FieldBits::NoField != (HeightFieldMask & whichField))
-    {
         _sfHeight.syncWith(pOther->_sfHeight);
-    }
 
     if(FieldBits::NoField != (PortFieldMask & whichField))
-    {
         _mfPort.syncWith(pOther->_mfPort);
-    }
 
     if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
-    {
         _sfResizePending.syncWith(pOther->_sfResizePending);
-    }
 
     if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
-    {
         _mfGlObjectStatus.syncWith(pOther->_mfGlObjectStatus);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

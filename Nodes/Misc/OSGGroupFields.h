@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Group;
-/** \brief GroupPtr
- */
+//! GroupPtr
+
 typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
 /** \ingroup FieldLib Group
- *  \brief GroupPtr field traits 
+ *  GroupPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<GroupPtr> :
     static char     *getMName(void) { return "MFGroupPtr"; }
 };
 
-/** \brief SFGroupPtr
- */
+//! SFGroupPtr
+
 typedef SField<GroupPtr> SFGroupPtr;
 
 #ifndef OSG_COMPILEGROUPINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFGroupPtr
- */
+//! MFGroupPtr
+
 typedef MField<GroupPtr> MFGroupPtr;
 
 #ifndef OSG_COMPILEGROUPINST

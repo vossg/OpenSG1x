@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class DistanceLOD;
-/** \brief DistanceLODPtr
- */
+//! DistanceLODPtr
+
 typedef FCPtr<NodeCorePtr, DistanceLOD> DistanceLODPtr;
 
 

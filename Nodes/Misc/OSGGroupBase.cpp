@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGROUPINST
@@ -66,12 +62,6 @@
 #include "OSGGroupBase.h"
 #include "OSGGroup.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,15 +81,12 @@ OSG_DLLEXPORT_DEF1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 
-char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.8 2001/08/03 16:11:48 vossg Exp $";
+char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.9 2001/09/13 16:21:02 dirk Exp $";
 
-/** \brief Group type
- */
+//! Group type
 
 FieldContainerType GroupBase::_type(
     "Group",
@@ -110,32 +97,14 @@ FieldContainerType GroupBase::_type(
     NULL,
     0);
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(GroupBase, GroupPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Group"; 
+}
 
 FieldContainerType &GroupBase::getType(void) 
 {
@@ -146,6 +115,7 @@ const FieldContainerType &GroupBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr GroupBase::shallowCopy(void) const 
 { 
@@ -168,26 +138,25 @@ void GroupBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((GroupBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 GroupBase::GroupBase(void) :
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 GroupBase::GroupBase(const GroupBase &source) :
-	Inherited        (source)
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 GroupBase::~GroupBase(void)
 {
@@ -221,13 +190,6 @@ MemoryHandle GroupBase::copyFromBin(      MemoryHandle  pMem,
     return pMem;
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
 void GroupBase::executeSyncImpl(      GroupBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -236,8 +198,4 @@ void GroupBase::executeSyncImpl(      GroupBase *pOther,
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

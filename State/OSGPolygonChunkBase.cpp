@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEPOLYGONCHUNKINST
@@ -66,25 +62,17 @@
 #include "OSGPolygonChunkBase.h"
 #include "OSGPolygonChunk.h"
 
-#include <GL/gl.h>	// CullFace default header
-#include <GL/gl.h>	// FrontFace default header
-#include <GL/gl.h>	// ModeFace default header
-#include <GL/gl.h>	// Mode default header
-#include <GL/gl.h>	// Smooth default header
-#include <GL/gl.h>	// OffsetPoint default header
-#include <GL/gl.h>	// OffsetLine default header
-#include <GL/gl.h>	// OffsetFill default header
+#include <GL/gl.h>                     	// CullFace default header
+#include <GL/gl.h>                     	// FrontFace default header
+#include <GL/gl.h>                     	// ModeFace default header
+#include <GL/gl.h>                     	// Mode default header
+#include <GL/gl.h>                     	// Smooth default header
+#include <GL/gl.h>                     	// OffsetPoint default header
+#include <GL/gl.h>                     	// OffsetLine default header
+#include <GL/gl.h>                     	// OffsetFill default header
+
 
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	PolygonChunkBase::CullFaceFieldMask = 
     (1 << PolygonChunkBase::CullFaceFieldId);
@@ -121,10 +109,44 @@ const OSG::BitVector	PolygonChunkBase::StippleFieldMask =
 
 
 
-char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.10 2001/09/13 16:21:03 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Int32           PolygonChunkBase::_sfCullFace
+    Defines which side of the polygon is invisible.
+*/
+/*! \var Int32           PolygonChunkBase::_sfFrontFace
+    Defines which side of the polygon is considered the front side.
+*/
+/*! \var Int32           PolygonChunkBase::_sfModeFace
+    
+*/
+/*! \var Int32           PolygonChunkBase::_sfMode
+    Defines if polygons are rendered filled, outlined or as points.
+*/
+/*! \var Bool            PolygonChunkBase::_sfSmooth
+    Defines if gouraud or flat shading is used.
+*/
+/*! \var Real32          PolygonChunkBase::_sfOffsetFactor
+    Defines the polygon offset factor.
+*/
+/*! \var Real32          PolygonChunkBase::_sfOffsetBias
+    Defines the polygon offset bias.
+*/
+/*! \var Bool            PolygonChunkBase::_sfOffsetPoint
+    
+*/
+/*! \var Bool            PolygonChunkBase::_sfOffsetLine
+    
+*/
+/*! \var Bool            PolygonChunkBase::_sfOffsetFill
+    
+*/
+/*! \var Int32           PolygonChunkBase::_mfStipple
+    Defines the stipple pattern. Is only valid and used if it contains 32 elements.
+*/
+//! PolygonChunk description
 
 FieldDescription *PolygonChunkBase::_desc[] = 
 {
@@ -185,8 +207,7 @@ FieldDescription *PolygonChunkBase::_desc[] =
                      (FieldAccessMethod) &PolygonChunkBase::getMFStipple)
 };
 
-/** \brief PolygonChunk type
- */
+//! PolygonChunk type
 
 FieldContainerType PolygonChunkBase::_type(
     "PolygonChunk",
@@ -197,32 +218,14 @@ FieldContainerType PolygonChunkBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(PolygonChunkBase, PolygonChunkPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "PolygonChunk"; 
+}
 
 FieldContainerType &PolygonChunkBase::getType(void) 
 {
@@ -233,6 +236,7 @@ const FieldContainerType &PolygonChunkBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr PolygonChunkBase::shallowCopy(void) const 
 { 
@@ -255,48 +259,47 @@ void PolygonChunkBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((PolygonChunkBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 PolygonChunkBase::PolygonChunkBase(void) :
-	_sfCullFace	(Int32(GL_FALSE)), 
-	_sfFrontFace	(Int32(GL_CCW)), 
-	_sfModeFace	(Int32(GL_FRONT)), 
-	_sfMode	(Int32(GL_FILL)), 
-	_sfSmooth	(Bool(GL_TRUE)), 
-	_sfOffsetFactor	(Real32(0)), 
-	_sfOffsetBias	(Real32(0)), 
-	_sfOffsetPoint	(Bool(GL_FALSE)), 
-	_sfOffsetLine	(Bool(GL_FALSE)), 
-	_sfOffsetFill	(Bool(GL_FALSE)), 
-	_mfStipple	(), 
+	_sfCullFace               (Int32(GL_FALSE)), 
+	_sfFrontFace              (Int32(GL_CCW)), 
+	_sfModeFace               (Int32(GL_FRONT)), 
+	_sfMode                   (Int32(GL_FILL)), 
+	_sfSmooth                 (Bool(GL_TRUE)), 
+	_sfOffsetFactor           (Real32(0)), 
+	_sfOffsetBias             (Real32(0)), 
+	_sfOffsetPoint            (Bool(GL_FALSE)), 
+	_sfOffsetLine             (Bool(GL_FALSE)), 
+	_sfOffsetFill             (Bool(GL_FALSE)), 
+	_mfStipple                (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 PolygonChunkBase::PolygonChunkBase(const PolygonChunkBase &source) :
-	_sfCullFace		(source._sfCullFace), 
-	_sfFrontFace		(source._sfFrontFace), 
-	_sfModeFace		(source._sfModeFace), 
-	_sfMode		(source._sfMode), 
-	_sfSmooth		(source._sfSmooth), 
-	_sfOffsetFactor		(source._sfOffsetFactor), 
-	_sfOffsetBias		(source._sfOffsetBias), 
-	_sfOffsetPoint		(source._sfOffsetPoint), 
-	_sfOffsetLine		(source._sfOffsetLine), 
-	_sfOffsetFill		(source._sfOffsetFill), 
-	_mfStipple		(source._mfStipple), 
-	Inherited        (source)
+	_sfCullFace               (source._sfCullFace               ), 
+	_sfFrontFace              (source._sfFrontFace              ), 
+	_sfModeFace               (source._sfModeFace               ), 
+	_sfMode                   (source._sfMode                   ), 
+	_sfSmooth                 (source._sfSmooth                 ), 
+	_sfOffsetFactor           (source._sfOffsetFactor           ), 
+	_sfOffsetBias             (source._sfOffsetBias             ), 
+	_sfOffsetPoint            (source._sfOffsetPoint            ), 
+	_sfOffsetLine             (source._sfOffsetLine             ), 
+	_sfOffsetFill             (source._sfOffsetFill             ), 
+	_mfStipple                (source._mfStipple                ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 PolygonChunkBase::~PolygonChunkBase(void)
 {
@@ -373,59 +376,37 @@ MemoryHandle PolygonChunkBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (CullFaceFieldMask & whichField))
-    {
         pMem = _sfCullFace.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
-    {
         pMem = _sfFrontFace.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
-    {
         pMem = _sfModeFace.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
-    {
         pMem = _sfMode.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
-    {
         pMem = _sfSmooth.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
-    {
         pMem = _sfOffsetFactor.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
-    {
         pMem = _sfOffsetBias.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
-    {
         pMem = _sfOffsetPoint.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
-    {
         pMem = _sfOffsetLine.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
-    {
         pMem = _sfOffsetFill.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (StippleFieldMask & whichField))
-    {
         pMem = _mfStipple.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -437,70 +418,41 @@ MemoryHandle PolygonChunkBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (CullFaceFieldMask & whichField))
-    {
         pMem = _sfCullFace.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
-    {
         pMem = _sfFrontFace.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
-    {
         pMem = _sfModeFace.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
-    {
         pMem = _sfMode.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
-    {
         pMem = _sfSmooth.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
-    {
         pMem = _sfOffsetFactor.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
-    {
         pMem = _sfOffsetBias.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
-    {
         pMem = _sfOffsetPoint.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
-    {
         pMem = _sfOffsetLine.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
-    {
         pMem = _sfOffsetFill.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (StippleFieldMask & whichField))
-    {
         pMem = _mfStipple.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
                                         const BitVector         &whichField)
@@ -509,64 +461,38 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (CullFaceFieldMask & whichField))
-    {
         _sfCullFace.syncWith(pOther->_sfCullFace);
-    }
 
     if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
-    {
         _sfFrontFace.syncWith(pOther->_sfFrontFace);
-    }
 
     if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
-    {
         _sfModeFace.syncWith(pOther->_sfModeFace);
-    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
-    {
         _sfMode.syncWith(pOther->_sfMode);
-    }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
-    {
         _sfSmooth.syncWith(pOther->_sfSmooth);
-    }
 
     if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
-    {
         _sfOffsetFactor.syncWith(pOther->_sfOffsetFactor);
-    }
 
     if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
-    {
         _sfOffsetBias.syncWith(pOther->_sfOffsetBias);
-    }
 
     if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
-    {
         _sfOffsetPoint.syncWith(pOther->_sfOffsetPoint);
-    }
 
     if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
-    {
         _sfOffsetLine.syncWith(pOther->_sfOffsetLine);
-    }
 
     if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
-    {
         _sfOffsetFill.syncWith(pOther->_sfOffsetFill);
-    }
 
     if(FieldBits::NoField != (StippleFieldMask & whichField))
-    {
         _mfStipple.syncWith(pOther->_mfStipple);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

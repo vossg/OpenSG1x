@@ -39,13 +39,8 @@
 #ifndef _OSGSCENEFILEHANDLER_H_
 #define _OSGSCENEFILEHANDLER_H_
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
+#pragma  once
+#endif
 
 #include <list>
 #include <map>
@@ -55,150 +50,70 @@
 #include <OSGStringLink.h>
 #include <OSGSceneFileType.h>
 
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
 OSG_BEGIN_NAMESPACE
 
 
-class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler {
+class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
+{
 
-	friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
-		
-public:
+    friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    /*==========================  PUBLIC  =================================*/
+  public:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual ~SceneFileHandler (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Get                                        */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    virtual SceneFileType * getFileType ( const char *fileName );
+    static SceneFileHandler & the (void) { return *_the; }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read                                       */
+    /*! \{                                                                 */
 
-  /** Destructor */
-  virtual ~SceneFileHandler (void);
+    virtual NodePtr read (const Char8 *fileName, UInt32 uiOptions = 0);
 
-  /** get file type */
-  virtual SceneFileType * getFileType ( const char *fileName );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Write                                      */
+    /*! \{                                                                 */
 
-  /**  read image*/
-  virtual NodePtr read (const Char8 *fileName, UInt32 uiOptions = 0);
+    virtual Bool write (const NodePtr node, const char *fileName);
 
-  /** write image  */
-  virtual Bool write (const NodePtr node, const char *fileName);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Debug                                      */
+    /*! \{                                                                 */
 
-  /** print debug info to cerr */
-  void print (void);
+    void print (void);
 
-  /** get method for attribute the */
-  static SceneFileHandler & the (void) { return *_the; }
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-protected:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+    SceneFileHandler (void);
+    SceneFileHandler (const SceneFileHandler &obj);
 
-//------------------------------
-//enums    		 								 
-//------------------------------
-
-
-//------------------------------
-//types    		 								 
-//------------------------------
-
-
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-  /** Default Constructor */
-  SceneFileHandler (void);
-
-  /** Copy Constructor */
-  SceneFileHandler (const SceneFileHandler &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-
-  /**  */
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
   static SceneFileHandler * _the;
 
-  /**  */
   map < String, SceneFileType *>  _suffixTypeMap;
 
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-  /**  */
   static Bool addSceneFileType (SceneFileType &fileType);
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
-
 };
 
 typedef SceneFileHandler* SceneFileHandlerP;

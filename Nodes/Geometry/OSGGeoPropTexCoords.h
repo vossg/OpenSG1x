@@ -42,51 +42,41 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGGeoPropertyBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// TexCoords 2f
-
 struct GeoTexCoords2fPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoTexCoords2f";         }
-	static const Char8 *getClassName(void) { return "GeoTexCoords2fProperty"; }
-	static const Char8 *getFieldName(void) { return "TexCoords";             }
-	static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static const Char8 *getTypeName (void) { return "GeoTexCoords2f";         }
+    static const Char8 *getClassName(void) { return "GeoTexCoords2fProperty"; }
+    static const Char8 *getFieldName(void) { return "TexCoords";             }
+    static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
 
-	static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-	static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-	static UInt32 getDimension (void)  { return 2;               }
-	static UInt32 getStride    (void)  { return 0;               }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef GeoTexCoords                Inherit;
-	typedef GeoTexCoords::PtrType		InheritPtr;
-    typedef GeoTexCoordsPropertyDesc	InheritDesc;
-	typedef MFVec2f                		FieldType;
+    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
+    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
+    static UInt32 getDimension (void)  { return 2;               }
+    static UInt32 getStride    (void)  { return 0;               }
 
-    typedef InheritDesc::GenericType 	GenericType;
- 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+
+    typedef GeoTexCoords                Inherit;
+    typedef GeoTexCoords::PtrType       InheritPtr;
+    typedef GeoTexCoordsPropertyDesc    InheritDesc;
+    typedef MFVec2f                     FieldType;
+    typedef InheritDesc::GenericType    GenericType;
+
     typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
+    /*! \}                                                                 */
 };
 
 typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;
@@ -99,8 +89,8 @@ typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoTexCoords2fPropertyDesc, 
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoTexCoords2fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

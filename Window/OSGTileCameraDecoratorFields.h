@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class TileCameraDecorator;
-/** \brief TileCameraDecoratorPtr
- */
+//! TileCameraDecoratorPtr
+
 typedef FCPtr<CameraDecoratorPtr, TileCameraDecorator> TileCameraDecoratorPtr;
 
 /** \ingroup FieldLib TileCameraDecorator
- *  \brief TileCameraDecoratorPtr field traits 
+ *  TileCameraDecoratorPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<TileCameraDecoratorPtr> :
     static char     *getMName(void) { return "MFTileCameraDecoratorPtr"; }
 };
 
-/** \brief SFTileCameraDecoratorPtr
- */
+//! SFTileCameraDecoratorPtr
+
 typedef SField<TileCameraDecoratorPtr> SFTileCameraDecoratorPtr;
 
 #ifndef OSG_COMPILETILECAMERADECORATORINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 #endif
 #endif
 
-/** \brief MFTileCameraDecoratorPtr
- */
+//! MFTileCameraDecoratorPtr
+
 typedef MField<TileCameraDecoratorPtr> MFTileCameraDecoratorPtr;
 
 #ifndef OSG_COMPILETILECAMERADECORATORINST

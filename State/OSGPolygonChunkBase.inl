@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &PolygonChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 PolygonChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline PolygonChunkPtr PolygonChunkBase::create(void) 
 {
     PolygonChunkPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = PolygonChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline PolygonChunkPtr PolygonChunkBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline PolygonChunkPtr PolygonChunkBase::createEmpty(void) 
 { 
     PolygonChunkPtr returnValue; 
@@ -126,11 +90,7 @@ inline PolygonChunkPtr PolygonChunkBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFInt32 *PolygonChunkBase::getSFCullFace(void)
@@ -212,7 +172,7 @@ const Int32 &PolygonChunkBase::getCullFace(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setCullFace( const Int32 &value )
+void PolygonChunkBase::setCullFace(const Int32 &value)
 {
 	_sfCullFace.setValue(value);
 }
@@ -230,7 +190,7 @@ const Int32 &PolygonChunkBase::getFrontFace(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setFrontFace( const Int32 &value )
+void PolygonChunkBase::setFrontFace(const Int32 &value)
 {
 	_sfFrontFace.setValue(value);
 }
@@ -248,7 +208,7 @@ const Int32 &PolygonChunkBase::getModeFace(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setModeFace( const Int32 &value )
+void PolygonChunkBase::setModeFace(const Int32 &value)
 {
 	_sfModeFace.setValue(value);
 }
@@ -266,7 +226,7 @@ const Int32 &PolygonChunkBase::getMode(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setMode( const Int32 &value )
+void PolygonChunkBase::setMode(const Int32 &value)
 {
 	_sfMode.setValue(value);
 }
@@ -284,7 +244,7 @@ const Bool &PolygonChunkBase::getSmooth(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setSmooth( const Bool &value )
+void PolygonChunkBase::setSmooth(const Bool &value)
 {
 	_sfSmooth.setValue(value);
 }
@@ -302,7 +262,7 @@ const Real32 &PolygonChunkBase::getOffsetFactor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetFactor( const Real32 &value )
+void PolygonChunkBase::setOffsetFactor(const Real32 &value)
 {
 	_sfOffsetFactor.setValue(value);
 }
@@ -320,7 +280,7 @@ const Real32 &PolygonChunkBase::getOffsetBias(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetBias( const Real32 &value )
+void PolygonChunkBase::setOffsetBias(const Real32 &value)
 {
 	_sfOffsetBias.setValue(value);
 }
@@ -338,7 +298,7 @@ const Bool &PolygonChunkBase::getOffsetPoint(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetPoint( const Bool &value )
+void PolygonChunkBase::setOffsetPoint(const Bool &value)
 {
 	_sfOffsetPoint.setValue(value);
 }
@@ -356,7 +316,7 @@ const Bool &PolygonChunkBase::getOffsetLine(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetLine( const Bool &value )
+void PolygonChunkBase::setOffsetLine(const Bool &value)
 {
 	_sfOffsetLine.setValue(value);
 }
@@ -374,14 +334,14 @@ const Bool &PolygonChunkBase::getOffsetFill(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetFill( const Bool &value )
+void PolygonChunkBase::setOffsetFill(const Bool &value)
 {
 	_sfOffsetFill.setValue(value);
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 &PolygonChunkBase::getStipple( UInt32 index)
+Int32 &PolygonChunkBase::getStipple(UInt32 index)
 {
 	return _mfStipple.getValue( index );
 }
@@ -395,22 +355,6 @@ const MFInt32 &PolygonChunkBase::getStipple(void) const
 {
 	return _mfStipple;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

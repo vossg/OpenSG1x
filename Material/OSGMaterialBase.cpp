@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEMATERIALINST
@@ -66,12 +62,6 @@
 #include "OSGMaterialBase.h"
 #include "OSGMaterial.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,15 +81,12 @@ OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 
-char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.9 2001/08/03 16:12:15 vossg Exp $";
+char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.10 2001/09/13 16:21:01 dirk Exp $";
 
-/** \brief Material type
- */
+//! Material type
 
 FieldContainerType MaterialBase::_type(
     "Material",
@@ -110,32 +97,14 @@ FieldContainerType MaterialBase::_type(
     NULL,
     0);
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(MaterialBase, MaterialPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Material"; 
+}
 
 FieldContainerType &MaterialBase::getType(void) 
 {
@@ -146,6 +115,7 @@ const FieldContainerType &MaterialBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 MaterialBase::getContainerSize(void) const 
 { 
@@ -159,26 +129,25 @@ void MaterialBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((MaterialBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 MaterialBase::MaterialBase(void) :
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 MaterialBase::MaterialBase(const MaterialBase &source) :
-	Inherited        (source)
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 MaterialBase::~MaterialBase(void)
 {
@@ -212,13 +181,6 @@ MemoryHandle MaterialBase::copyFromBin(      MemoryHandle  pMem,
     return pMem;
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
 void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -227,8 +189,4 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

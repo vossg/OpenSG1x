@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &TextureChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 TextureChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline TextureChunkPtr TextureChunkBase::create(void) 
 {
     TextureChunkPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = TextureChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline TextureChunkPtr TextureChunkBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline TextureChunkPtr TextureChunkBase::createEmpty(void) 
 { 
     TextureChunkPtr returnValue; 
@@ -126,11 +90,7 @@ inline TextureChunkPtr TextureChunkBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFImageP *TextureChunkBase::getSFImage(void)
@@ -260,7 +220,7 @@ const ImageP &TextureChunkBase::getImage(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setImage( const ImageP &value )
+void TextureChunkBase::setImage(const ImageP &value)
 {
 	_sfImage.setValue(value);
 }
@@ -278,7 +238,7 @@ const UInt32 &TextureChunkBase::getInternalFormat(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setInternalFormat( const UInt32 &value )
+void TextureChunkBase::setInternalFormat(const UInt32 &value)
 {
 	_sfInternalFormat.setValue(value);
 }
@@ -296,7 +256,7 @@ const Bool &TextureChunkBase::getScale(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setScale( const Bool &value )
+void TextureChunkBase::setScale(const Bool &value)
 {
 	_sfScale.setValue(value);
 }
@@ -314,7 +274,7 @@ const UInt32 &TextureChunkBase::getFrame(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setFrame( const UInt32 &value )
+void TextureChunkBase::setFrame(const UInt32 &value)
 {
 	_sfFrame.setValue(value);
 }
@@ -332,7 +292,7 @@ const UInt32 &TextureChunkBase::getMinFilter(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setMinFilter( const UInt32 &value )
+void TextureChunkBase::setMinFilter(const UInt32 &value)
 {
 	_sfMinFilter.setValue(value);
 }
@@ -350,7 +310,7 @@ const UInt32 &TextureChunkBase::getMagFilter(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setMagFilter( const UInt32 &value )
+void TextureChunkBase::setMagFilter(const UInt32 &value)
 {
 	_sfMagFilter.setValue(value);
 }
@@ -368,7 +328,7 @@ const UInt32 &TextureChunkBase::getWrapS(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setWrapS( const UInt32 &value )
+void TextureChunkBase::setWrapS(const UInt32 &value)
 {
 	_sfWrapS.setValue(value);
 }
@@ -386,7 +346,7 @@ const UInt32 &TextureChunkBase::getWrapT(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setWrapT( const UInt32 &value )
+void TextureChunkBase::setWrapT(const UInt32 &value)
 {
 	_sfWrapT.setValue(value);
 }
@@ -404,7 +364,7 @@ const UInt32 &TextureChunkBase::getWrapR(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setWrapR( const UInt32 &value )
+void TextureChunkBase::setWrapR(const UInt32 &value)
 {
 	_sfWrapR.setValue(value);
 }
@@ -422,7 +382,7 @@ const UInt32 &TextureChunkBase::getEnvMode(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setEnvMode( const UInt32 &value )
+void TextureChunkBase::setEnvMode(const UInt32 &value)
 {
 	_sfEnvMode.setValue(value);
 }
@@ -440,7 +400,7 @@ const UInt32 &TextureChunkBase::getGenFuncS(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncS( const UInt32 &value )
+void TextureChunkBase::setGenFuncS(const UInt32 &value)
 {
 	_sfGenFuncS.setValue(value);
 }
@@ -458,7 +418,7 @@ const UInt32 &TextureChunkBase::getGenFuncT(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncT( const UInt32 &value )
+void TextureChunkBase::setGenFuncT(const UInt32 &value)
 {
 	_sfGenFuncT.setValue(value);
 }
@@ -476,7 +436,7 @@ const UInt32 &TextureChunkBase::getGenFuncR(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncR( const UInt32 &value )
+void TextureChunkBase::setGenFuncR(const UInt32 &value)
 {
 	_sfGenFuncR.setValue(value);
 }
@@ -494,7 +454,7 @@ const UInt32 &TextureChunkBase::getGenFuncQ(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncQ( const UInt32 &value )
+void TextureChunkBase::setGenFuncQ(const UInt32 &value)
 {
 	_sfGenFuncQ.setValue(value);
 }
@@ -512,7 +472,7 @@ const Plane &TextureChunkBase::getGenFuncSPlane(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncSPlane( const Plane &value )
+void TextureChunkBase::setGenFuncSPlane(const Plane &value)
 {
 	_sfGenFuncSPlane.setValue(value);
 }
@@ -530,7 +490,7 @@ const Plane &TextureChunkBase::getGenFuncTPlane(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncTPlane( const Plane &value )
+void TextureChunkBase::setGenFuncTPlane(const Plane &value)
 {
 	_sfGenFuncTPlane.setValue(value);
 }
@@ -548,7 +508,7 @@ const Plane &TextureChunkBase::getGenFuncRPlane(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncRPlane( const Plane &value )
+void TextureChunkBase::setGenFuncRPlane(const Plane &value)
 {
 	_sfGenFuncRPlane.setValue(value);
 }
@@ -566,7 +526,7 @@ const Plane &TextureChunkBase::getGenFuncQPlane(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncQPlane( const Plane &value )
+void TextureChunkBase::setGenFuncQPlane(const Plane &value)
 {
 	_sfGenFuncQPlane.setValue(value);
 }
@@ -584,27 +544,11 @@ const UInt32 &TextureChunkBase::getGLId(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGLId( const UInt32 &value )
+void TextureChunkBase::setGLId(const UInt32 &value)
 {
 	_sfGLId.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

@@ -41,10 +41,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -55,10 +51,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Functions
-//---------------------------------------------------------------------------
-
+/*---------------------------------------------------------------------*/
+/*! \name                   Draw Functions                             */
+/*! \{                                                                 */
 
 /*! \brief draw volume 
  *  \ingroup Geometry
@@ -66,13 +61,13 @@ OSG_BEGIN_NAMESPACE
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const DynamicVolume &volume );
 
-/*! \brief draw box volume 
+/*! \brief draw volume 
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const BoxVolume &volume );
 
-/*! \brief draw sphere volume 
+/*! \brief draw volume 
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
@@ -89,6 +84,8 @@ void drawVolume ( const FrustumVolume &volume );
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const CylinderVolume &volume );
+
+/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 

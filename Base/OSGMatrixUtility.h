@@ -42,98 +42,75 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 template<class ValueTypeT>class TransformationMatrix;
 typedef TransformationMatrix<Real32> Matrix;
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup BaseLib
- *  \ingroup BaseMathMatrices
+/*! \ingroup BaseLib BaseMathMatrices
  *  \brief Matrix utility functions to create and analyze special kinds of matrices
  */
 
+OSG_BASE_DLLMAPPING Bool MatrixOrthogonal			(Matrix &result, 
+                                         			 Real32  rLeft, 
+                                         			 Real32  rRight, 
+                                         			 Real32  rBottom, 
+                                         			 Real32  rTop, 
+                                         			 Real32  rNear, 
+                                         			 Real32  rFar		);
 
-OSG_BASE_DLLMAPPING Bool MatrixOrthogonal(Matrix &result, 
-                                          Real32  rLeft, 
-                                          Real32  rRight, 
-                                          Real32  rBottom, 
-                                          Real32  rTop, 
-                                          Real32  rNear, 
-                                          Real32  rFar);
+OSG_BASE_DLLMAPPING Bool MatrixFrustum				(Matrix &result, 
+                                      				 Real32  rLeft, 
+                                      				 Real32  rRight,
+                                      				 Real32  rBottom, 
+                                      				 Real32  rTop, 
+                                      				 Real32  rNear, 
+                                      				 Real32  rFar		);
 
+OSG_BASE_DLLMAPPING Bool MatrixPerspective			(Matrix &result, 
+                                          			 Real32  rFovy, 
+                                          			 Real32  rAspect,
+                                          			 Real32  rNear, 
+                                          			 Real32  rFar		);
 
-OSG_BASE_DLLMAPPING Bool MatrixFrustum(Matrix &result, 
-                                       Real32  rLeft, 
-                                       Real32  rRight,
-                                       Real32  rBottom, 
-                                       Real32  rTop, 
-                                       Real32  rNear, 
-                                       Real32  rFar);
+OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective	(Matrix &projection, 
+                                                	 Matrix &projtrans, 
+                                               	 	 Real32  rFovy, 
+                                                	 Real32  rAspect, 
+                                                	 Real32  rNear, 
+                                                	 Real32  rFfar, 
+                                                	 Real32  rZeroparallax, 
+                                                	 Real32  rEyedistance, 
+                                                	 Real32  rWhicheye, 
+                                                	 Real32  rOverlap 	);
 
+OSG_BASE_DLLMAPPING Bool MatrixLookAt				(Matrix &result, 
+                                    				 Real32  fromx, 
+                                     				 Real32  fromy, 
+                                     				 Real32  fromz, 
+                                    				 Real32  atx,   
+                                    				 Real32  aty,   
+                                    				 Real32  atz, 
+                                     				 Real32  upx,   
+                                     				 Real32  upy,   
+                                     				 Real32  upz		);
 
-/** fovy is vertical fov/2 in radians, aspect is width/height */
-
-OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result, 
-                                           Real32  rFovy, 
-                                           Real32  rAspect,
-                                           Real32  rNear, 
-                                           Real32  rFar);
-
-
-/** fovy is vertical fov/2 in radians, aspect is width/height, ... */
-
-OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection, 
-                                                 Matrix &projtrans, 
-                                                 Real32  rFovy, 
-                                                 Real32  rAspect, 
-                                                 Real32  rNear, 
-                                                 Real32  rFfar, 
-                                                 Real32  rZeroparallax, 
-                                                 Real32  rEyedistance, 
-                                                 Real32  rWhicheye, 
-                                                 Real32  rOverlap );
-
-
-/** creates a matrix that transforms the given pos/ori into the origin */
-
-OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result, 
-                                      Real32 fromx, 
-                                      Real32 fromy, 
-                                      Real32 fromz, 
-                                      Real32 atx,   
-                                      Real32 aty,   
-                                      Real32 atz, 
-                                      Real32 upx,   
-                                      Real32 upy,   
-                                      Real32 upz);
-
-OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result, 
-                                      Pnt3f from, Pnt3f at, Vec3f up);
+OSG_BASE_DLLMAPPING Bool MatrixLookAt				(Matrix &result, 
+                                      				 Pnt3f 	from,
+													 Pnt3f  at,
+													 Vec3f  up			);
 
 
-OSG_BASE_DLLMAPPING Bool MatrixProjection(Matrix & result, 
-                                          Real32 rLeft,   Real32 rRight, 
-                                          Real32 rBottom, Real32 rTop,  
-                                          Real32 rNear,   Real32 rFar);
+OSG_BASE_DLLMAPPING Bool MatrixProjection			(Matrix &result, 
+                                          			 Real32 rLeft,
+													 Real32 rRight, 
+                                         			 Real32 rBottom,
+													 Real32 rTop,  
+                                         			 Real32 rNear,
+													 Real32 rFar		);
 
 OSG_END_NAMESPACE
 

@@ -36,11 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -57,116 +52,97 @@
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 template <class ValueTypeT>
 char Color3<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 template <class ValueTypeT> inline
-void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP, 
+void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP,
                                         Real32 h,
                                         Real32 s,
                                         Real32 v)
 {
-	Int32  i;
-	Real32 f;
-	Real32 p, q, t;
+    Int32  i;
+    Real32 f;
+    Real32 p, q, t;
 
-	if(s) 
+    if(s)
     {
-		h = (h == 360) ? 0.0 : (h / 60.0); 
-		i = int(h);
-		f = h - float(i);
-		p = v * (1.0 - s);
-		q = v * (1.0 - (s * f));
-		t = v * (1.0 - (s * (1 - f)));
-		switch (i) 
+        h = (h == 360) ? 0.0 : (h / 60.0);
+        i = int(h);
+        f = h - float(i);
+        p = v * (1.0 - s);
+        q = v * (1.0 - (s * f));
+        t = v * (1.0 - (s * (1 - f)));
+        switch (i)
         {
             case 0:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v); 
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(t); 
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v);
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(t);
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(p);
                 break;
             case 1:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(q); 
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v); 
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(q);
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v);
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(p);
                 break;
             case 2:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p); 
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v); 
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p);
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v);
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(t);
                 break;
             case 3:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p); 
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(q); 
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p);
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(q);
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(v);
                 break;
             case 4:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(t); 
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p); 
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(t);
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p);
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(v);
                 break;
             case 5:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v); 
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p); 
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v);
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p);
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(q);
                 break;
             default:
                 cerr << "ERROR i not in [0, 5] in Color::setHSV()!"
                      << endl;
-		}
-	}
-	else
+        }
+    }
+    else
     {
-		rgbP[0] = rgbP[1] = rgbP[2] = 
+        rgbP[0] = rgbP[1] = rgbP[2] =
             TypeConstants<ValueTypeT>::getPortion(v);
     }
 }
 
 template <class ValueTypeT> inline
-void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP, 
+void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP,
                                       Real32 &h,
                                       Real32 &s,
                                       Real32 &v)
 {
-	const Real32 r = TypeConstants<ValueTypeT>::getFraction(rgbP[0]);
-	const Real32 g = TypeConstants<ValueTypeT>::getFraction(rgbP[1]);
-	const Real32 b = TypeConstants<ValueTypeT>::getFraction(rgbP[2]);
+    const Real32 r = TypeConstants<ValueTypeT>::getFraction(rgbP[0]);
+    const Real32 g = TypeConstants<ValueTypeT>::getFraction(rgbP[1]);
+    const Real32 b = TypeConstants<ValueTypeT>::getFraction(rgbP[2]);
 
-	const Int32 maxIndex = maxPart(rgbP);
-	const Int32 minIndex = minPart(rgbP);
+    const Int32 maxIndex = maxPart(rgbP);
+    const Int32 minIndex = minPart(rgbP);
 
-	const Real32 max = TypeConstants<ValueTypeT>::getFraction(
+    const Real32 max = TypeConstants<ValueTypeT>::getFraction(
         rgbP[maxIndex]);
-	const Real32 min = TypeConstants<ValueTypeT>::getFraction(
+    const Real32 min = TypeConstants<ValueTypeT>::getFraction(
         rgbP[minIndex]);
 
-	const Real32 delta = max - min;
+    const Real32 delta = max - min;
 
-	v = max;
-	s = max ? (max - min) / max : 0.0;
+    v = max;
+    s = max ? (max - min) / max : 0.0;
 
-	if(s) 
+    if(s)
     {
-		switch (maxIndex) 
+        switch (maxIndex)
         {
             case 0: // red part is max;
                 h = (( g - b) / delta) * 60.0;
@@ -177,40 +153,40 @@ void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP,
             case 2: // blue part is max
                 h = (4.0 + (( r - g) / delta)) * 60.0;
                 break;
-		}
+        }
 
-		if (h < 0.0)
-			h += 360.0;
-	}
-	else
+        if (h < 0.0)
+            h += 360.0;
+    }
+    else
     {
-		h = 0.0;
+        h = 0.0;
     }
 }
 
 template <class ValueTypeT> inline
 UInt32 Color3<ValueTypeT>::maxPart(const ValueType *rgbP)
 {
-	if(rgbP[0] > rgbP[1])
+    if(rgbP[0] > rgbP[1])
     {
-		if(rgbP[2] > rgbP[0])
+        if(rgbP[2] > rgbP[0])
         {
-			return 2;
+            return 2;
         }
-		else
+        else
         {
-			return 0;
+            return 0;
         }
     }
-	else
+    else
     {
-		if (rgbP[2] > rgbP[1])
+        if (rgbP[2] > rgbP[1])
         {
-			return 2;
+            return 2;
         }
-		else
+        else
         {
-			return 1;
+            return 1;
         }
     }
 }
@@ -219,49 +195,29 @@ UInt32 Color3<ValueTypeT>::maxPart(const ValueType *rgbP)
 template <class ValueTypeT> inline
 UInt32 Color3<ValueTypeT>::minPart(const ValueType *rgbP)
 {
-	if(rgbP[0] < rgbP[1])
+    if(rgbP[0] < rgbP[1])
     {
-		if(rgbP[2] < rgbP[0])
+        if(rgbP[2] < rgbP[0])
         {
-			return 2;
+            return 2;
         }
-		else
+        else
         {
-			return 0;
+            return 0;
         }
     }
-	else
+    else
     {
-		if(rgbP[2] < rgbP[1])
+        if(rgbP[2] < rgbP[1])
         {
-			return 2;
+            return 2;
         }
-		else
+        else
         {
-			return 1;
+            return 1;
         }
     }
 }
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
@@ -292,7 +248,7 @@ Color3<ValueTypeT>::Color3(ValueType r,
 {
     _rgb[0] = r;
     _rgb[1] = g;
-    _rgb[2] = b;    
+    _rgb[2] = b;
 }
 
 /** \brief Destructor
@@ -302,8 +258,6 @@ template <class ValueTypeT> inline
 Color3<ValueTypeT>::~Color3(void)
 {
 }
-
-/*------------------------------ access -----------------------------------*/
 
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::clear(void)
@@ -320,7 +274,7 @@ void Color3<ValueTypeT>::setValuesRGB(ValueType red,
 {
     _rgb[0] = red;
     _rgb[1] = green;
-    _rgb[2] = blue;    
+    _rgb[2] = blue;
 }
 
 template <class ValueTypeT> inline
@@ -334,9 +288,9 @@ void Color3<ValueTypeT>::setValuesHSV(Real32 h,
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::setRandom(void)
 {
- 	float rf = 1.0 / float(RAND_MAX);
+    float rf = 1.0 / float(RAND_MAX);
 
-	setValuesRGB(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+    setValuesRGB(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
                  TypeConstants<ValueTypeT>::getPortion(rf * rand()),
                  TypeConstants<ValueTypeT>::getPortion(rf * rand()));
 }
@@ -347,19 +301,19 @@ void Color3<ValueTypeT>::setRandom(void)
 template <class ValueTypeT> inline
 UInt32 Color3<ValueTypeT>::getRGB(void) const
 {
-	Int32  i;
-	UInt32 pack = 0;
+    Int32  i;
+    UInt32 pack = 0;
 
-	for(i = 2; i >= 0; --i)
+    for(i = 2; i >= 0; --i)
     {
-		pack = 
+        pack =
             (pack << 8) | int(
-                TypeConstants<ValueTypeT>::getFraction(_rgb[i]) * 
-                255.0                                                 + 
+                TypeConstants<ValueTypeT>::getFraction(_rgb[i]) *
+                255.0                                                 +
                 0.5);
     }
 
-	return pack;
+    return pack;
 }
 
 /** \brief method to set the rgb values (AABBGGRR)
@@ -367,16 +321,16 @@ UInt32 Color3<ValueTypeT>::getRGB(void) const
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::setRGB(UInt32 rgbPack)
 {
-	Int32  i;
+    Int32  i;
 
-	for(i = 0; i < 3; ++i) 
+    for(i = 0; i < 3; ++i)
     {
         Real32 rTmp = float(rgbPack & 255) / 255.0;
 
-		_rgb[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
+        _rgb[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
 
-		rgbPack >>= 8;
-	}
+        rgbPack >>= 8;
+    }
 }
 
 
@@ -387,7 +341,7 @@ void Color3<ValueTypeT>::getValuesRGB(ValueType &red,
 {
     red   = _rgb[0];
     green = _rgb[1];
-    blue  = _rgb[2];    
+    blue  = _rgb[2];
 }
 
 template <class ValueTypeT> inline
@@ -399,21 +353,21 @@ void Color3<ValueTypeT>::getValuesHSV(Real32 &h,
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType 
+Color3<ValueTypeT>::ValueType
     Color3<ValueTypeT>::red  (void) const
 {
     return _rgb[0];
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType 
+Color3<ValueTypeT>::ValueType
     Color3<ValueTypeT>::green(void) const
 {
     return _rgb[1];
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType 
+Color3<ValueTypeT>::ValueType
     Color3<ValueTypeT>::blue (void) const
 {
     return _rgb[2];
@@ -434,18 +388,16 @@ const Color3<ValueTypeT>::ValueType *
     return _rgb;
 }
 
-
-
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::setValue( const char *szString )
 {
-	// this is the easiest way, not the most efficient...
-	Vec3f v;
-	v.setValue( szString );
+    // this is the easiest way, not the most efficient...
+    Vec3f v;
+    v.setValue( szString );
 
-	_rgb[0] = ValueTypeT(v[0]);
-	_rgb[1] = ValueTypeT(v[1]);
-	_rgb[2] = ValueTypeT(v[2]);
+    _rgb[0] = ValueTypeT(v[0]);
+    _rgb[1] = ValueTypeT(v[1]);
+    _rgb[2] = ValueTypeT(v[2]);
 }
 
 template <class ValueTypeT> inline
@@ -458,14 +410,14 @@ void Color3<ValueTypeT>::setValue( char *szString )
 template <class ValueTypeT> inline
 void Color4<ValueTypeT>::setValue( const char *szString )
 {
-	// this is the easiest way, not the most efficient...
-	Vec4f v;
-	v.setValue( szString );
+    // this is the easiest way, not the most efficient...
+    Vec4f v;
+    v.setValue( szString );
 
-	_rgba[0] = ValueTypeT(v[0]);
-	_rgba[1] = ValueTypeT(v[1]);
-	_rgba[2] = ValueTypeT(v[2]);
-	_rgba[3] = ValueTypeT(v[3]);
+    _rgba[0] = ValueTypeT(v[0]);
+    _rgba[1] = ValueTypeT(v[1]);
+    _rgba[2] = ValueTypeT(v[2]);
+    _rgba[3] = ValueTypeT(v[3]);
 }
 
 template <class ValueTypeT> inline
@@ -473,11 +425,6 @@ void Color4<ValueTypeT>::setValue( char *szString )
 {
     setValue(static_cast<const char *>(szString));
 }
-
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
 
 template <class ValueTypeT> inline
 Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const ValueType val)
@@ -506,8 +453,6 @@ const Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (
     return _rgb[uiIndex];
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
 /** \brief assignment
  */
 
@@ -515,8 +460,8 @@ template <class ValueTypeT> inline
 Color3<ValueTypeT> &Color3<ValueTypeT>::operator = (
      const Color3 &other)
 {
-	if (this == &other)
-		return *this;
+    if (this == &other)
+        return *this;
 
     _rgb[0] = other._rgb[0];
     _rgb[1] = other._rgb[1];
@@ -524,8 +469,6 @@ Color3<ValueTypeT> &Color3<ValueTypeT>::operator = (
 
     return *this;
 }
-
-/*-------------------------- comparison -----------------------------------*/
 
 /** \brief equal
  */
@@ -537,7 +480,7 @@ Bool Color3<ValueTypeT>::operator == (const Color3 &other) const
 
     for(UInt32 i = 0; i < 3; i++)
     {
-        returnValue &= ( (      _rgb[i] - other._rgb[i] <= Eps) && 
+        returnValue &= ( (      _rgb[i] - other._rgb[i] <= Eps) &&
                          (other._rgb[i] -       _rgb[i] <= Eps));
     }
 
@@ -554,7 +497,7 @@ Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueTypeT tolerance) cons
 
     for(UInt32 i = 0; i < 3; i++)
     {
-        returnValue &= ( (      _rgb[i] - other._rgb[i] <= tolerance) && 
+        returnValue &= ( (      _rgb[i] - other._rgb[i] <= tolerance) &&
                          (other._rgb[i] -       _rgb[i] <= tolerance));
     }
 
@@ -567,70 +510,14 @@ Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueTypeT tolerance) cons
 template <class ValueTypeT> inline
 Bool Color3<ValueTypeT>::operator != (const Color3 &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-
-
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 template <class ValueTypeT>
 char Color4<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
 /** \brief Constructor
  */
-
 template <class ValueTypeT> inline
 Color4<ValueTypeT>::Color4(void)
 {
@@ -660,8 +547,8 @@ Color4<ValueTypeT>::Color4(ValueType red,
 {
     _rgba[0] = red;
     _rgba[1] = green;
-    _rgba[2] = blue;    
-    _rgba[3] = alpha;    
+    _rgba[2] = blue;
+    _rgba[3] = alpha;
 }
 
 /** \brief Destructor
@@ -671,8 +558,6 @@ template <class ValueTypeT> inline
 Color4<ValueTypeT>::~Color4(void)
 {
 }
-
-/*------------------------------ access -----------------------------------*/
 
 template <class ValueTypeT> inline
 void Color4<ValueTypeT>::clear(void)
@@ -691,8 +576,8 @@ void Color4<ValueTypeT>::setValuesRGBA(ValueType red,
 {
     _rgba[0] = red;
     _rgba[1] = green;
-    _rgba[2] = blue;    
-    _rgba[3] = alpha;    
+    _rgba[2] = blue;
+    _rgba[3] = alpha;
 }
 
 template <class ValueTypeT> inline
@@ -708,9 +593,9 @@ void Color4<ValueTypeT>::setValuesHSV(Real32 h,
 template <class ValueTypeT> inline
 void Color4<ValueTypeT>::setRandom(void)
 {
- 	float rf = 1.0 / float(RAND_MAX);
+    float rf = 1.0 / float(RAND_MAX);
 
-	setValuesRGBA(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+    setValuesRGBA(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
                   TypeConstants<ValueTypeT>::getPortion(rf * rand()),
                   TypeConstants<ValueTypeT>::getPortion(rf * rand()),
                   TypeConstants<ValueTypeT>::getPortion(rf * rand()));
@@ -720,35 +605,35 @@ void Color4<ValueTypeT>::setRandom(void)
 template <class ValueTypeT> inline
 UInt32 Color4<ValueTypeT>::getRGBA(void) const
 {
-	Int32  i;
-	UInt32 pack = 0;
+    Int32  i;
+    UInt32 pack = 0;
 
-	for(i = 3; i >= 0; --i)
+    for(i = 3; i >= 0; --i)
     {
-		pack = 
+        pack =
             (pack << 8) | int(
-                TypeConstants<ValueTypeT>::getFraction(_rgba[i]) * 
-                255.0                                                  + 
+                TypeConstants<ValueTypeT>::getFraction(_rgba[i]) *
+                255.0                                                  +
                 0.5);
     }
 
-	return pack;
+    return pack;
 }
 
     /// method to set the rgb values (ABGGRR)
 template <class ValueTypeT> inline
 void Color4<ValueTypeT>::setRGBA(UInt32 rgbPack)
 {
-	Int32 i;
+    Int32 i;
 
-	for(i = 0; i < 4; ++i) 
+    for(i = 0; i < 4; ++i)
     {
         Real32 rTmp = float(rgbPack & 255) / 255.0;
 
-		_rgba[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
+        _rgba[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
 
-		rgbPack >>= 8;
-	}
+        rgbPack >>= 8;
+    }
 }
 
 
@@ -760,8 +645,8 @@ void Color4<ValueTypeT>::getValuesRGBA(ValueType &red,
 {
     red   = _rgba[0];
     green = _rgba[1];
-    blue  = _rgba[2];    
-    alpha = _rgba[3];    
+    blue  = _rgba[2];
+    alpha = _rgba[3];
 }
 
 template <class ValueTypeT> inline
@@ -773,28 +658,28 @@ void Color4<ValueTypeT>::getValuesHSV(Real32 &h,
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType 
+Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::red  (void) const
 {
     return _rgba[0];
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType 
+Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::green(void) const
 {
     return _rgba[1];
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType 
+Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::blue (void) const
 {
     return _rgba[2];
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType 
+Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::alpha (void) const
 {
     return _rgba[3];
@@ -814,12 +699,6 @@ const Color4<ValueTypeT>::ValueType *
 {
     return _rgba;
 }
-
-
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
 
 template <class ValueTypeT> inline
 Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const ValueType val)
@@ -857,8 +736,8 @@ template <class ValueTypeT> inline
 Color4<ValueTypeT> &Color4<ValueTypeT>::operator = (
      const Color4 &other)
 {
-	if (this == &other)
-		return *this;
+    if (this == &other)
+        return *this;
 
     _rgba[0] = other._rgba[0];
     _rgba[1] = other._rgba[1];
@@ -867,8 +746,6 @@ Color4<ValueTypeT> &Color4<ValueTypeT>::operator = (
 
     return *this;
 }
-
-/*-------------------------- comparison -----------------------------------*/
 
 /** \brief equal
  */
@@ -880,7 +757,7 @@ Bool Color4<ValueTypeT>::operator == (const Color4 &other) const
 
     for(UInt32 i = 0; i < 4; i++)
     {
-        returnValue &= ( (      _rgba[i] - other._rgba[i] <= Eps) && 
+        returnValue &= ( (      _rgba[i] - other._rgba[i] <= Eps) &&
                          (other._rgba[i] -       _rgba[i] <= Eps));
     }
 
@@ -897,7 +774,7 @@ Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueTypeT tolerance) cons
 
     for(UInt32 i = 0; i < 4; i++)
     {
-        returnValue &= ( (      _rgba[i] - other._rgba[i] <= tolerance) && 
+        returnValue &= ( (      _rgba[i] - other._rgba[i] <= tolerance) &&
                          (other._rgba[i] -       _rgba[i] <= tolerance));
     }
 
@@ -910,62 +787,15 @@ Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueTypeT tolerance) cons
 template <class ValueTypeT> inline
 Bool Color4<ValueTypeT>::operator != (const Color4 &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
 template <class ValueTypeT> inline
 ostream &operator <<(      ostream            &outStream,
                      const Color3<ValueTypeT> &color)
 {
-    return outStream << color.red()   << ' ' 
-                     << color.green() << ' ' 
+    return outStream << color.red()   << ' '
+                     << color.green() << ' '
                      << color.blue();
 }
 
@@ -973,9 +803,9 @@ template <class ValueTypeT> inline
 ostream &operator <<(      ostream            &outStream,
                      const Color4<ValueTypeT> &color)
 {
-    return outStream << color.red()   << ' ' 
-                     << color.green() << ' ' 
-                     << color.blue()  << ' ' 
+    return outStream << color.red()   << ' '
+                     << color.green() << ' '
+                     << color.blue()  << ' '
                      << color.alpha();
 }
 

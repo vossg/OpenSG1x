@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEVRMLTRANSFORMINST
@@ -66,12 +62,6 @@
 #include "OSGVRMLTransformBase.h"
 #include "OSGVRMLTransform.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, VRMLTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	VRMLTransformBase::CenterFieldMask = 
     (1 << VRMLTransformBase::CenterFieldId);
@@ -112,10 +100,26 @@ const OSG::BitVector	VRMLTransformBase::TranslationFieldMask =
 
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.11 2001/08/03 16:11:48 vossg Exp $";
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.12 2001/09/13 16:21:02 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Vec3f           VRMLTransformBase::_sfCenter
+    
+*/
+/*! \var Quaternion      VRMLTransformBase::_sfRotation
+    
+*/
+/*! \var Vec3f           VRMLTransformBase::_sfScale
+    
+*/
+/*! \var Quaternion      VRMLTransformBase::_sfScaleOrientation
+    
+*/
+/*! \var Vec3f           VRMLTransformBase::_sfTranslation
+    
+*/
+//! VRMLTransform description
 
 FieldDescription *VRMLTransformBase::_desc[] = 
 {
@@ -146,8 +150,7 @@ FieldDescription *VRMLTransformBase::_desc[] =
                      (FieldAccessMethod) &VRMLTransformBase::getSFTranslation)
 };
 
-/** \brief VRMLTransform type
- */
+//! VRMLTransform type
 
 FieldContainerType VRMLTransformBase::_type(
     "VRMLTransform",
@@ -158,32 +161,14 @@ FieldContainerType VRMLTransformBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(VRMLTransformBase, VRMLTransformPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "VRMLTransform"; 
+}
 
 FieldContainerType &VRMLTransformBase::getType(void) 
 {
@@ -194,6 +179,7 @@ const FieldContainerType &VRMLTransformBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr VRMLTransformBase::shallowCopy(void) const 
 { 
@@ -216,36 +202,35 @@ void VRMLTransformBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((VRMLTransformBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 VRMLTransformBase::VRMLTransformBase(void) :
-	_sfCenter	(), 
-	_sfRotation	(), 
-	_sfScale	(), 
-	_sfScaleOrientation	(), 
-	_sfTranslation	(), 
+	_sfCenter                 (), 
+	_sfRotation               (), 
+	_sfScale                  (), 
+	_sfScaleOrientation       (), 
+	_sfTranslation            (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 VRMLTransformBase::VRMLTransformBase(const VRMLTransformBase &source) :
-	_sfCenter		(source._sfCenter), 
-	_sfRotation		(source._sfRotation), 
-	_sfScale		(source._sfScale), 
-	_sfScaleOrientation		(source._sfScaleOrientation), 
-	_sfTranslation		(source._sfTranslation), 
-	Inherited        (source)
+	_sfCenter                 (source._sfCenter                 ), 
+	_sfRotation               (source._sfRotation               ), 
+	_sfScale                  (source._sfScale                  ), 
+	_sfScaleOrientation       (source._sfScaleOrientation       ), 
+	_sfTranslation            (source._sfTranslation            ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 VRMLTransformBase::~VRMLTransformBase(void)
 {
@@ -292,29 +277,19 @@ MemoryHandle VRMLTransformBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-    {
         pMem = _sfCenter.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (RotationFieldMask & whichField))
-    {
         pMem = _sfRotation.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-    {
         pMem = _sfScale.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
-    {
         pMem = _sfScaleOrientation.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (TranslationFieldMask & whichField))
-    {
         pMem = _sfTranslation.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -326,40 +301,23 @@ MemoryHandle VRMLTransformBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-    {
         pMem = _sfCenter.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (RotationFieldMask & whichField))
-    {
         pMem = _sfRotation.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-    {
         pMem = _sfScale.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
-    {
         pMem = _sfScaleOrientation.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (TranslationFieldMask & whichField))
-    {
         pMem = _sfTranslation.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void VRMLTransformBase::executeSyncImpl(      VRMLTransformBase *pOther,
                                         const BitVector         &whichField)
@@ -368,34 +326,20 @@ void VRMLTransformBase::executeSyncImpl(      VRMLTransformBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-    {
         _sfCenter.syncWith(pOther->_sfCenter);
-    }
 
     if(FieldBits::NoField != (RotationFieldMask & whichField))
-    {
         _sfRotation.syncWith(pOther->_sfRotation);
-    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-    {
         _sfScale.syncWith(pOther->_sfScale);
-    }
 
     if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
-    {
         _sfScaleOrientation.syncWith(pOther->_sfScaleOrientation);
-    }
 
     if(FieldBits::NoField != (TranslationFieldMask & whichField))
-    {
         _sfTranslation.syncWith(pOther->_sfTranslation);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

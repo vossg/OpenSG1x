@@ -40,28 +40,11 @@
 #ifndef _OSGSPHEREVOLUME_H_
 #define _OSGSPHEREVOLUME_H_
 
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGVolume.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Line;
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /** Sphere in 3D space defined by center and radius.
 
@@ -72,163 +55,105 @@ class Line;
 
 class OSG_BASE_DLLMAPPING SphereVolume : public Volume {
 
+    /*==========================  PUBLIC  =================================*/
 public:
 
-	//-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructor                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SphereVolume(void);
+    SphereVolume(const SphereVolume &obj);
+    SphereVolume(const Pnt3f &c, float r);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Destructor                                */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    ~SphereVolume();
 
-/*-------------------------- constructor ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Feature                                  */
+    /*! \{                                                                 */
 
-	/** Default constructor
-	*/
-	SphereVolume(void);
+    inline void setValue(const Pnt3f &c, float r);
 
-	/** Copy Constructor
-	*/
-	SphereVolume(const SphereVolume &obj);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Set Values                                */
+    /*! \{                                                                 */
 
-	/** Construct a sphere given center and radius
-	*/
-	SphereVolume(const Pnt3f &c, float r);
+    inline void setCenter(const Pnt3f &c);
 
-	/** Destructor */
-	~SphereVolume();
+    inline void setRadius(float r);
 
-/*------------------------------ feature ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Get Values                                */
+    /*! \{                                                                 */
 
-	/// Change the center and radius
-	inline void setValue(const Pnt3f &c, float r);
+    inline  void  getCenter       (Pnt3f &center)            const;
 
-/*------------------------- set values -------------------------------*/
+    inline  const Pnt3f& getCenter( void )                   const;
 
-	/// set just the center
-	inline void setCenter(const Pnt3f &c); 
+    inline  float getRadius()                                const;
 
-	/// set just the radius
-	inline void setRadius(float r); 
+    virtual float getScalarVolume (void )                    const;
 
-/*------------------------- get values -------------------------------*/
+    virtual void  getBounds       ( Pnt3f &min, Pnt3f &max ) const;
 
-	/// Returns the center
-	inline void getCenter(Pnt3f &center) const; 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Extending                                  */
+    /*! \{                                                                 */
 
-	/// Returns the center
-	inline const Pnt3f& getCenter( void ) const; 
-	
-	/// Returns the radius
-	inline float getRadius() const;
+    virtual void extendBy (const Pnt3f &pt);
 
-  /** returns the scalar volume of the volume */
-  virtual float getScalarVolume (void) const;
+    inline  void extendBy (const Volume &volume);
 
-  /** gives the boundaries of the volume */
-  virtual void getBounds( Pnt3f &min, Pnt3f &max ) const;
+    inline  void extendBy (const SphereVolume &bb);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Intersection                                 */
+    /*! \{                                                                 */
 
-/*-------------------------- extending -----------------------------------*/
+    virtual Bool intersect   (const Pnt3f &point)             const;
 
-	/** extends (if necessary) to contain the given 3D point 
-	*/
-  virtual void extendBy (const Pnt3f &pt);
+            Bool intersect   (const Line &line)               const;
 
-	/** extend the volume by the given volume 
-	*/
-	inline void extendBy (const Volume &volume);   
+    virtual Bool intersect   ( const Line &line,
+                               Real32 &enter, Real32 &exit  ) const;
 
-	/** Extends Box3f (if necessary) to contain given Box3f
-	*/
-  inline void extendBy(const SphereVolume &bb);
+    inline  Bool intersect   (const Volume &volume)           const;
 
+    inline  Bool intersect   (const SphereVolume &sphere)     const;
 
-/*-------------------------- intersection ---------------------------------*/
+    virtual Bool isOnSurface (const Pnt3f &point)             const;
 
-	/** Returns true if intersection of given point and SphereVolume is not empty */
-  virtual Bool intersect (const Pnt3f &point) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Transformation                             */
+    /*! \{                                                                 */
 
-	/** intersect the SphereVolume with the given Line */
-	Bool intersect (const Line &line) const;
+    virtual void transform(const Matrix &mat);
 
-	/** intersect the SphereVolume with the given Line */
-	virtual Bool intersect ( const Line &line, 
-							 Real32 &enter, Real32 &exit  ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Output                                  */
+    /*! \{                                                                 */
 
-	/** intersect the SphereVolume with another volume */
-	inline Bool intersect (const Volume &volume) const;
+    virtual void dump(  UInt32              uiIndent = 0,
+                        const BitVector &   bvFlags = 0) const;
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-	/** Intersect sphere/sphere, returning true if there is an intersection */
-	inline Bool intersect(const SphereVolume &sphere) const;
+    Pnt3f _center;
 
-  /** check if the point is on the volume's surface */
-  virtual Bool isOnSurface (const Pnt3f &point) const;
-
-/*-------------------------- transformation ---------------------------------*/
-
-
-  /// Transforms Box3f by matrix
-  virtual void transform(const Matrix &mat);
-
-
-/*-------------------------- output -------------------------------*/
-
-	/** print the volume */
-  virtual void dump(	UInt32				uiIndent = 0, 
-						const BitVector &	bvFlags = 0) const;
-
-	//-----------------------------------------------------------------------
-	//   instance variables                                                  
-	//-----------------------------------------------------------------------
-
-	//-----------------------------------------------------------------------
-	//   instance functions                                                  
-	//-----------------------------------------------------------------------
-
-private:
-
-
-	//-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	/** center of the sphere
-	*/
-	Pnt3f _center;
-	
-	/** radius of the sphere
-	*/
-	float _radius;
-
-	//-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-	//-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    float _radius;
 
 };
 

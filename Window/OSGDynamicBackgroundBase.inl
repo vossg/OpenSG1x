@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &DynamicBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 DynamicBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline DynamicBackgroundPtr DynamicBackgroundBase::create(void) 
 {
     DynamicBackgroundPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = DynamicBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void) 
 { 
     DynamicBackgroundPtr returnValue; 
@@ -126,11 +90,7 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFColor3f *DynamicBackgroundBase::getMFColor(void)
@@ -144,34 +104,10 @@ MFReal32 *DynamicBackgroundBase::getMFAngle(void)
 	return &_mfAngle;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFInt16 *DynamicBackgroundBase::getSFSubdivisions(void)
-{
-	return &_sfSubdivisions;
-}
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-Int16 &DynamicBackgroundBase::getSubdivisions(void)
-{
-	return _sfSubdivisions.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Int16 &DynamicBackgroundBase::getSubdivisions(void) const
-{
-	return _sfSubdivisions.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void DynamicBackgroundBase::setSubdivisions( const Int16 &value )
-{
-	_sfSubdivisions.setValue(value);
-}
-
-
-OSG_SYSTEMLIB_DLLMAPPING
-Color3f &DynamicBackgroundBase::getColor( UInt32 index)
+Color3f &DynamicBackgroundBase::getColor(UInt32 index)
 {
 	return _mfColor.getValue( index );
 }
@@ -187,7 +123,7 @@ const MFColor3f &DynamicBackgroundBase::getColor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Real32 &DynamicBackgroundBase::getAngle( UInt32 index)
+Real32 &DynamicBackgroundBase::getAngle(UInt32 index)
 {
 	return _mfAngle.getValue( index );
 }
@@ -201,22 +137,6 @@ const MFReal32 &DynamicBackgroundBase::getAngle(void) const
 {
 	return _mfAngle;
 }
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

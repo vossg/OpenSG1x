@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class SimpleMaterial;
-/** \brief SimpleMaterialPtr
- */
+//! SimpleMaterialPtr
+
 typedef FCPtr<ChunkMaterialPtr, SimpleMaterial> SimpleMaterialPtr;
 
 

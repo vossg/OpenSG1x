@@ -42,28 +42,12 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGGeometry.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Window;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup GeometryLib
  *  \brief Pump factory. Selects a fitting pump for the given geometry.
@@ -73,200 +57,136 @@ class Window;
 
 class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    typedef UInt32 Index;
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-	
-	// The pump selection is a two-part process. In the first step the Geometry is 
-	// analyzed for its attribute bindings etc. In the second step the actual
-	// pump is returned, depending on the capabilities of the Window/Context and 
-	// the bindings as represented by a selection.
-	
-	typedef UInt32 Index;
-	
-	// The simple pump type. Draws the whole geometry. Useful as it uses
-	// the minimal number of parameters.
-	
-	typedef void (*GeoPump)( Window *win, Geometry * geo );	
-	
-	// The partial pump type. Draws a part of the geometry. 
-	
-	typedef void (*PartialGeoPump)( Window *win, Geometry * geo,
-	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
-	
-	// The interface pump type. Draws the whole geometry. More flexible
-	// than the GeoPump, as the interfaces can originate in different 
-	// objects.
-	
-	typedef void (*InterfacePump)( Window *win, 
-	    GeoPositionInterface *pos, GeoNormalInterface *norm,
-	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
-	    GeoTexCoordsInterface *texcoords2,
-	    GeoTexCoordsInterface *texcoords3,
-	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface *len,
-	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );	
-	
-	// The partial interface pump type. Similar to the interface pump, but 
-	// it can draw parts of the object.
-	
-	typedef void (*PartialInterfacePump)( Window *win, 
-	    GeoPositionInterface *pos, GeoNormalInterface *norm,
-	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
-	    GeoTexCoordsInterface *texcoords2,
-	    GeoTexCoordsInterface *texcoords3,
-	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface *len,
-	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
-	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Draws                                     */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    typedef void (*GeoPump)( Window *win, Geometry * geo );
+
+    typedef void (*PartialGeoPump)( Window *win, Geometry * geo,
+        UInt32 primtype, UInt32 firstvert, UInt32 nvert );
+
+    typedef void (*InterfacePump)( Window *win,
+        GeoPositionInterface *pos, GeoNormalInterface *norm,
+        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoTexCoordsInterface *texcoords2,
+        GeoTexCoordsInterface *texcoords3,
+        GeoTexCoordsInterface *texcoords4,
+        GeoPTypeInterface *type, GeoPLengthInterface *len,
+        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );
+
+    typedef void (*PartialInterfacePump)( Window *win,
+        GeoPositionInterface *pos, GeoNormalInterface *norm,
+        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoTexCoordsInterface *texcoords2,
+        GeoTexCoordsInterface *texcoords3,
+        GeoTexCoordsInterface *texcoords4,
+        GeoPTypeInterface *type, GeoPLengthInterface *len,
+        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+        UInt32 primtype, UInt32 firstvert, UInt32 nvert );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "GeoPumpFactory"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
-    virtual ~GeoPumpFactory(void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-    /*------------------------- your_category -------------------------------*/
+    virtual ~GeoPumpFactory(void);
 
-	Index                getIndex( Geometry * geo );	
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-	GeoPump              getGeoPump      ( Window *win, Index index );
+    Index                getIndex( Geometry * geo );
 
-	PartialGeoPump       getPartialGeoPump(Window *win, Index index );
+    GeoPump              getGeoPump      ( Window *win, Index index );
 
-	InterfacePump        getInterfacePump( Window *win, Index index );
+    PartialGeoPump       getPartialGeoPump(Window *win, Index index );
 
-	PartialInterfacePump getPartialInterfacePump( Window *win, 
-	                                                Index index );
-	
+    InterfacePump        getInterfacePump( Window *win, Index index );
 
-    /*------------------------- your_operators ------------------------------*/
+    PartialInterfacePump getPartialInterfacePump( Window *win,
+                                                    Index index );
 
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Access                                 */
+    /*! \{                                                                 */
 
-    /*------------------------- comparison ----------------------------------*/
+    static GeoPumpFactory& the( void );
 
-    /*--------------------------- access ------------------------------------*/
-	
-	static GeoPumpFactory& the( void );
-	
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    Index numIndices( void );
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-	// To allow cascading of pump factories the next one in the chain needs to 
-	// know how many indices are used up by the lower one. This function 
-	// returns the number of indices used (i.e. the max used index + 1).
-	
-	Index numIndices( void );
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     GeoPumpFactory(void);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    static char cvsid[];
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static GeoPumpFactory _the;
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                       The Pumps                              */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    static void masterGeoPump( Window *win, Geometry *geo );
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    static void masterPartialGeoPump( Window *win, Geometry *geo,
+        UInt32 primtype, UInt32 firstvert, UInt32 nvert );
 
-	static char cvsid[];
+    static void masterInterfacePump( Window *win,
+        GeoPositionInterface *pos, GeoNormalInterface *norm,
+        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoTexCoordsInterface *texcoords2,
+        GeoTexCoordsInterface *texcoords3,
+        GeoTexCoordsInterface *texcoords4,
+        GeoPTypeInterface *type, GeoPLengthInterface*len,
+        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );
 
-	static GeoPumpFactory _the;
-	
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static void masterPartialInterfacePump( Window *win,
+        GeoPositionInterface *pos, GeoNormalInterface *norm,
+        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoTexCoordsInterface *texcoords2,
+        GeoTexCoordsInterface *texcoords3,
+        GeoTexCoordsInterface *texcoords4,
+        GeoPTypeInterface *type, GeoPLengthInterface*len,
+        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+        UInt32 primtype, UInt32 firstvert, UInt32 nvert );
 
-	// The pumps, in all their glory.
-	
-	// The master pump. Can render everything, but takes ages to do so.	
-	static void masterGeoPump( Window *win, Geometry *geo );
-		
-	static void masterPartialGeoPump( Window *win, Geometry *geo,
-	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
-	
-	static void masterInterfacePump( Window *win, 
-	    GeoPositionInterface *pos, GeoNormalInterface *norm,
-	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
-	    GeoTexCoordsInterface *texcoords2,
-	    GeoTexCoordsInterface *texcoords3,
-	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface*len,
-	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );	
-	
-	static void masterPartialInterfacePump( Window *win, 
-	    GeoPositionInterface *pos, GeoNormalInterface *norm,
-	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
-	    GeoTexCoordsInterface *texcoords2,
-	    GeoTexCoordsInterface *texcoords3,
-	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface*len,
-	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
-	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
-	
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     GeoPumpFactory(const GeoPumpFactory &source);
+    
+    /*! \}                                                                 */
+    
     void operator =(const GeoPumpFactory &source);
-	
+
 };
 
 OSG_END_NAMESPACE

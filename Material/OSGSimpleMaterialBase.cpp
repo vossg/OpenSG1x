@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILESIMPLEMATERIALINST
@@ -66,18 +62,10 @@
 #include "OSGSimpleMaterialBase.h"
 #include "OSGSimpleMaterial.h"
 
-#include <GL/gl.h>	// ColorMaterial default header
+#include <GL/gl.h>                     	// ColorMaterial default header
+
 
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	SimpleMaterialBase::AmbientFieldMask = 
     (1 << SimpleMaterialBase::AmbientFieldId);
@@ -105,10 +93,35 @@ const OSG::BitVector	SimpleMaterialBase::ColorMaterialFieldMask =
 
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.10 2001/09/04 10:56:39 dirk Exp $";
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.11 2001/09/13 16:21:01 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var Color3f         SimpleMaterialBase::_sfAmbient
+    
+*/
+/*! \var Color3f         SimpleMaterialBase::_sfDiffuse
+    
+*/
+/*! \var Color3f         SimpleMaterialBase::_sfSpecular
+    
+*/
+/*! \var Real32          SimpleMaterialBase::_sfShininess
+    
+*/
+/*! \var Color3f         SimpleMaterialBase::_sfEmission
+    
+*/
+/*! \var Real32          SimpleMaterialBase::_sfTransparency
+    
+*/
+/*! \var Bool            SimpleMaterialBase::_sfLit
+    
+*/
+/*! \var UInt32          SimpleMaterialBase::_sfColorMaterial
+    
+*/
+//! SimpleMaterial description
 
 FieldDescription *SimpleMaterialBase::_desc[] = 
 {
@@ -154,8 +167,7 @@ FieldDescription *SimpleMaterialBase::_desc[] =
                      (FieldAccessMethod) &SimpleMaterialBase::getSFColorMaterial)
 };
 
-/** \brief SimpleMaterial type
- */
+//! SimpleMaterial type
 
 FieldContainerType SimpleMaterialBase::_type(
     "SimpleMaterial",
@@ -166,32 +178,14 @@ FieldContainerType SimpleMaterialBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(SimpleMaterialBase, SimpleMaterialPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "SimpleMaterial"; 
+}
 
 FieldContainerType &SimpleMaterialBase::getType(void) 
 {
@@ -202,6 +196,7 @@ const FieldContainerType &SimpleMaterialBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr SimpleMaterialBase::shallowCopy(void) const 
 { 
@@ -224,42 +219,41 @@ void SimpleMaterialBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((SimpleMaterialBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 SimpleMaterialBase::SimpleMaterialBase(void) :
-	_sfAmbient	(Color3f(0,0,0)), 
-	_sfDiffuse	(Color3f(0,0,0)), 
-	_sfSpecular	(Color3f(0,0,0)), 
-	_sfShininess	(Real32(1)), 
-	_sfEmission	(Color3f(0,0,0)), 
-	_sfTransparency	(Real32(0)), 
-	_sfLit	(Bool(true)), 
-	_sfColorMaterial	(UInt32(GL_DIFFUSE)), 
+	_sfAmbient                (Color3f(0,0,0)), 
+	_sfDiffuse                (Color3f(0,0,0)), 
+	_sfSpecular               (Color3f(0,0,0)), 
+	_sfShininess              (Real32(1)), 
+	_sfEmission               (Color3f(0,0,0)), 
+	_sfTransparency           (Real32(0)), 
+	_sfLit                    (Bool(true)), 
+	_sfColorMaterial          (UInt32(GL_DIFFUSE)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 SimpleMaterialBase::SimpleMaterialBase(const SimpleMaterialBase &source) :
-	_sfAmbient		(source._sfAmbient), 
-	_sfDiffuse		(source._sfDiffuse), 
-	_sfSpecular		(source._sfSpecular), 
-	_sfShininess		(source._sfShininess), 
-	_sfEmission		(source._sfEmission), 
-	_sfTransparency		(source._sfTransparency), 
-	_sfLit		(source._sfLit), 
-	_sfColorMaterial		(source._sfColorMaterial), 
-	Inherited        (source)
+	_sfAmbient                (source._sfAmbient                ), 
+	_sfDiffuse                (source._sfDiffuse                ), 
+	_sfSpecular               (source._sfSpecular               ), 
+	_sfShininess              (source._sfShininess              ), 
+	_sfEmission               (source._sfEmission               ), 
+	_sfTransparency           (source._sfTransparency           ), 
+	_sfLit                    (source._sfLit                    ), 
+	_sfColorMaterial          (source._sfColorMaterial          ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 SimpleMaterialBase::~SimpleMaterialBase(void)
 {
@@ -321,44 +315,28 @@ MemoryHandle SimpleMaterialBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-    {
         pMem = _sfShininess.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-    {
         pMem = _sfEmission.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
-    {
         pMem = _sfTransparency.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-    {
         pMem = _sfLit.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-    {
         pMem = _sfColorMaterial.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -370,55 +348,32 @@ MemoryHandle SimpleMaterialBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-    {
         pMem = _sfShininess.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-    {
         pMem = _sfEmission.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
-    {
         pMem = _sfTransparency.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-    {
         pMem = _sfLit.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-    {
         pMem = _sfColorMaterial.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
                                         const BitVector         &whichField)
@@ -427,49 +382,29 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         _sfAmbient.syncWith(pOther->_sfAmbient);
-    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         _sfDiffuse.syncWith(pOther->_sfDiffuse);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         _sfSpecular.syncWith(pOther->_sfSpecular);
-    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-    {
         _sfShininess.syncWith(pOther->_sfShininess);
-    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-    {
         _sfEmission.syncWith(pOther->_sfEmission);
-    }
 
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
-    {
         _sfTransparency.syncWith(pOther->_sfTransparency);
-    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-    {
         _sfLit.syncWith(pOther->_sfLit);
-    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-    {
         _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

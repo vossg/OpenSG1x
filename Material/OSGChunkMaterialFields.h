@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class ChunkMaterial;
-/** \brief ChunkMaterialPtr
- */
+//! ChunkMaterialPtr
+
 typedef FCPtr<MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
 

@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Inline;
-/** \brief InlinePtr
- */
+//! InlinePtr
+
 typedef FCPtr<NodeCorePtr, Inline> InlinePtr;
 
 /** \ingroup FieldLib Inline
- *  \brief InlinePtr field traits 
+ *  InlinePtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<InlinePtr> :
     static char     *getMName(void) { return "MFInlinePtr"; }
 };
 
-/** \brief SFInlinePtr
- */
+//! SFInlinePtr
+
 typedef SField<InlinePtr> SFInlinePtr;
 
 #ifndef OSG_COMPILEINLINEINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFInlinePtr
- */
+//! MFInlinePtr
+
 typedef MField<InlinePtr> MFInlinePtr;
 
 #ifndef OSG_COMPILEINLINEINST

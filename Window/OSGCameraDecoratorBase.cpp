@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILECAMERADECORATORINST
@@ -66,12 +62,6 @@
 #include "OSGCameraDecoratorBase.h"
 #include "OSGCameraDecorator.h"
 
-
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,19 +81,21 @@ OSG_DLLEXPORT_DEF1(MField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	CameraDecoratorBase::CameraFieldMask = 
     (1 << CameraDecoratorBase::CameraFieldId);
 
 
 
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.7 2001/08/03 16:11:02 vossg Exp $";
+char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.8 2001/09/13 16:21:04 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
+
+/*! \var CameraPtr       CameraDecoratorBase::_sfCamera
+    The Camera that is being decorated.
+*/
+//! CameraDecorator description
 
 FieldDescription *CameraDecoratorBase::_desc[] = 
 {
@@ -114,8 +106,7 @@ FieldDescription *CameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &CameraDecoratorBase::getSFCamera)
 };
 
-/** \brief CameraDecorator type
- */
+//! CameraDecorator type
 
 FieldContainerType CameraDecoratorBase::_type(
     "CameraDecorator",
@@ -126,32 +117,14 @@ FieldContainerType CameraDecoratorBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(CameraDecoratorBase, CameraDecoratorPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "CameraDecorator"; 
+}
 
 FieldContainerType &CameraDecoratorBase::getType(void) 
 {
@@ -162,6 +135,7 @@ const FieldContainerType &CameraDecoratorBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 CameraDecoratorBase::getContainerSize(void) const 
 { 
@@ -175,28 +149,27 @@ void CameraDecoratorBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((CameraDecoratorBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 CameraDecoratorBase::CameraDecoratorBase(void) :
-	_sfCamera	(), 
+	_sfCamera                 (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 CameraDecoratorBase::CameraDecoratorBase(const CameraDecoratorBase &source) :
-	_sfCamera		(source._sfCamera), 
-	Inherited        (source)
+	_sfCamera                 (source._sfCamera                 ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 CameraDecoratorBase::~CameraDecoratorBase(void)
 {
@@ -223,9 +196,7 @@ MemoryHandle CameraDecoratorBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-    {
         pMem = _sfCamera.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -237,20 +208,11 @@ MemoryHandle CameraDecoratorBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-    {
         pMem = _sfCamera.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
                                         const BitVector         &whichField)
@@ -259,14 +221,8 @@ void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-    {
         _sfCamera.syncWith(pOther->_sfCamera);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Geometry;
-/** \brief GeometryPtr
- */
+//! GeometryPtr
+
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 

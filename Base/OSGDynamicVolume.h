@@ -40,135 +40,52 @@
 #ifndef DYNAMICVOLUME_CLASS_DECLARATION
 #define DYNAMICVOLUME_CLASS_DECLARATION
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
 #include <OSGVolume.h>
 
-
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /** 3D base volume.
 */
 
-class OSG_BASE_DLLMAPPING DynamicVolume : public Volume {
-        
-public:
+class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    enum Type { BOX_VOLUME, SPHERE_VOLUME };
 
-    enum Type { BOX_VOLUME, SPHERE_VOLUME };    
-
-private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*==========================  PRIVATE  ================================*/
+  private:
 
     Type _type;
-
     UChar8 _volumeMem [32];
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-
-protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-
-public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-/*-------------------------- constructor ----------------------------------*/
-
-  /** Default Constructor */
-  DynamicVolume (Type type = BOX_VOLUME );
-
-  /** Copy Constructor */
+    DynamicVolume (Type type = BOX_VOLUME );
     DynamicVolume (const DynamicVolume &obj);
 
-/*-------------------------- destructor -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+    virtual ~DynamicVolume (void) {;}
 
-  /** Destructor */
-  virtual ~DynamicVolume (void) {;}
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Specific                            */
+    /*! \{                                                                 */
 
-/*------------------------------ feature ----------------------------------*/
-
-    /** */
     const Volume & getInstance (void) const
         // { return *((OSG::Volume*)(_volumeMem)); }
         { return *(reinterpret_cast<const OSG::Volume*>(_volumeMem)); }
@@ -190,66 +107,58 @@ public:
     DynamicVolume & operator = (const DynamicVolume &source);
 
 
-/*------------------------- get values -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-  /** gives the center of the volume */
-  virtual void getCenter (Pnt3f &center) const ;
+    virtual void  getCenter       (Pnt3f &center)           const ;
+    virtual float getScalarVolume (void)                    const ;
+    virtual void  getBounds       (Pnt3f &min, Pnt3f &max ) const ;
 
-  /** gives the scalar volume of the volume */
-  virtual float getScalarVolume (void) const ;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Extend                                 */
+    /*! \{                                                                 */
 
-  /** gives the boundaries of the volume */
-  virtual void getBounds( Pnt3f &min, Pnt3f &max ) const ;
+    virtual void extendBy (const Pnt3f &pt) ;
+    virtual void extendBy (const Volume &volume) ;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Intersection                              */
+    /*! \{                                                                 */
 
-/*-------------------------- extending ------------------------------------*/
+    virtual Bool intersect   (const Pnt3f &point)            const ;
+    virtual Bool intersect   (const Line &line )             const ;
+    virtual Bool intersect   (const Line &line,
+                              Real32 &enter, Real32 &exit  ) const ;
+    virtual Bool intersect   (const Volume &volume)          const ;
+    virtual Bool isOnSurface (const Pnt3f &point)            const ;
 
-  /** extends (if necessary) to contain the given 3D point */
-  virtual void extendBy (const Pnt3f &pt) ;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Transform                              */
+    /*! \{                                                                 */
 
-  /** extend the volume by the given volume */
-  virtual void extendBy (const Volume &volume) ;   
+    virtual void transform (const Matrix &matrix);
 
-/*-------------------------- intersection ---------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Output                                 */
+    /*! \{                                                                 */
 
-  /** Returns true if intersection of given point and Volume is not empty */
-  virtual Bool intersect (const Pnt3f &point) const ;
+    virtual void dump(UInt32 uiIndent = 0,
+                      const BitVector & bvFlags = 0) const;
 
-    /** intersect the volume with the given Line */
-    virtual Bool intersect (const Line &line ) const ;
-
-    /** intersect the volume with the given Line */
-    virtual Bool intersect ( const Line &line, 
-                                                     Real32 &enter, Real32 &exit  ) const ;
-
-  /** intersect the volume with another volume */
-  virtual Bool intersect (const Volume &volume) const ;
-
-  /** check if the point is on the volume's surface */
-  virtual Bool isOnSurface (const Pnt3f &point) const ;
-
-/*-------------------------- transformation -------------------------------*/
-
-
-    /** transform the volume bye the given matrix*/
-  virtual void transform (const Matrix &matrix);
-
-
-/*-------------------------- output -------------------------------*/
-
-    /** print the volume */
-  virtual void dump(    UInt32              uiIndent = 0, 
-                        const BitVector &   bvFlags = 0) const;
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Operators                              */
+    /*! \{                                                                 */
 
     Bool operator ==(const DynamicVolume &other) const { return false; }
+
+    /*! \}                                                                 */
 };
 
 OSG_BASE_DLLMAPPING

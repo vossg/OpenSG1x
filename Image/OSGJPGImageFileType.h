@@ -39,158 +39,76 @@
 #ifndef OSGJPGIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGJPGIMAGEFILETYPE_CLASS_DECLARATION
 #ifdef  __sgi
-#pragma  once 
-#endif 
-
-
-//------------------------------
-//Includes
-//-------------------------------
-
+#pragma  once
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-
 #include <OSGImageFileType.h>
 
 
 OSG_BEGIN_NAMESPACE
 
-
-//------------------------------
-//Forward References						 
-//------------------------------
-
-
-//------------------------------
-//Types												 
-//------------------------------
-
-
-//------------------------------
-//Class												 
-//------------------------------
-
-
 class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 {
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-//----------------------------
-//enums    		 							 
-//----------------------------
+    virtual ~JPGImageFileType (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-//----------------------------
-//types    		 						   
-//----------------------------
+    virtual const Char8 *getMimeType (void) { return "JPEG"; }
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
 
-//---------------------------
-//class functions 	   		   
-//---------------------------
+    virtual bool read  (Image &image, const Char8 *fileName);
 
+    virtual bool write (const Image &image, const Char8 *fileName);
 
-  /** Destructor */
-  virtual ~JPGImageFileType (void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
 
-  /** get method for the type name */
-  virtual const Char8 *getMimeType (void) { return "JPEG"; }
+    JPGImageFileType & the (void) { return _the; }
 
-  /** read the the image from the given filename */
-  virtual bool read (Image &image, const Char8 *fileName);
+    /*! \}                                                                 */
 
-  /** write the the image to the given filename */
-  virtual bool write (const Image &image, const Char8 *fileName);
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-  /** get method for attribute the */
-  JPGImageFileType & the (void) { return _the; }
+    /*---------------------------------------------------------------------*/
+    /*! \name               Default Constructor                            */
+    /*! \{                                                                 */
 
+    JPGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
-protected:
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Constructor                              */
+    /*! \{                                                                 */
 
-//------------------------------
-//enums    		 								 
-//------------------------------
+    JPGImageFileType (const JPGImageFileType &obj);
 
+    /*! \}                                                                 */
 
-//------------------------------
-//types    		 								 
-//------------------------------
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    typedef ImageFileType   Inherited;
 
-//---------------------------
-//class Variables 			     
-//---------------------------
-
-
-//---------------------------
-//class functions 			     
-//---------------------------
-
-
-  /** Default Constructor */
-  JPGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
-
-  /** Copy Constructor */
-  JPGImageFileType (const JPGImageFileType &obj);
-
-//-----------------------------
-//instance Variables  		     
-//-----------------------------
-
-
-//-----------------------------
-//instance functions  	       
-//-----------------------------
-
-
-private:
-
-//----------------------------------
-//enums    		 										 
-//----------------------------------
-
-
-//----------------------------------
-//types    		 										 
-//----------------------------------
-
-	typedef ImageFileType Inherited;
-
-  /**  */
-  static JPGImageFileType _the;
-
-//-------------------------------
-//friend Classes      	  	     
-//-------------------------------
-
-
-//-------------------------------
-//friend functions 	   			     
-//-------------------------------
-
-
-//-------------------------------
-//class Variables	   				     
-//-------------------------------
-
-
-//-------------------------------
-//class functions 	   		       
-//-------------------------------
-
-
-//------------------------------
-//instance Variables  				  
-//------------------------------
-
-
-//------------------------------
-//instance functions  				  
-//------------------------------
-
+    static JPGImageFileType _the;
 
 };
 

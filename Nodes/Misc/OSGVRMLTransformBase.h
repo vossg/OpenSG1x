@@ -57,42 +57,29 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGTransform.h>
-#include <OSGVec3fFields.h>	// Center type
-#include <OSGQuaternionFields.h>	// Rotation type
-#include <OSGVec3fFields.h>	// Scale type
-#include <OSGQuaternionFields.h>	// ScaleOrientation type
-#include <OSGVec3fFields.h>	// Translation type
+
+#include <OSGTransform.h> // Parent
+
+#include <OSGVec3fFields.h> // Center type
+#include <OSGQuaternionFields.h> // Rotation type
+#include <OSGVec3fFields.h> // Scale type
+#include <OSGQuaternionFields.h> // ScaleOrientation type
+#include <OSGVec3fFields.h> // Translation type
 
 #include <OSGVRMLTransformFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class VRMLTransform;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! VRMLTransform Base Class. */
+/*! \brief VRMLTransform Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 {
@@ -100,21 +87,17 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 
     typedef Transform Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        CenterFieldId = Inherited::NextFieldId,
-        RotationFieldId = CenterFieldId + 1,
-        ScaleFieldId = RotationFieldId + 1,
-        ScaleOrientationFieldId = ScaleFieldId + 1,
-        TranslationFieldId = ScaleOrientationFieldId + 1,
-        NextFieldId = TranslationFieldId + 1
-
+        CenterFieldId           = Inherited::NextFieldId,
+        RotationFieldId         = CenterFieldId           + 1,
+        ScaleFieldId            = RotationFieldId         + 1,
+        ScaleOrientationFieldId = ScaleFieldId            + 1,
+        TranslationFieldId      = ScaleOrientationFieldId + 1,
+        NextFieldId             = TranslationFieldId      + 1
     };
 
     static const osg::BitVector CenterFieldMask;
@@ -123,40 +106,70 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
     static const osg::BitVector ScaleOrientationFieldMask;
     static const osg::BitVector TranslationFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "VRMLTransformBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static VRMLTransformPtr         create          (void); 
-    static VRMLTransformPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFVec3f             *getSFCenter         (void);
+    inline       SFQuaternion        *getSFRotation       (void);
+    inline       SFVec3f             *getSFScale          (void);
+    inline       SFQuaternion        *getSFScaleOrientation(void);
+    inline       SFVec3f             *getSFTranslation    (void);
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       Vec3f               &getCenter         (void);
+    inline const Vec3f               &getCenter         (void) const;
+    inline       Quaternion          &getRotation       (void);
+    inline const Quaternion          &getRotation       (void) const;
+    inline       Vec3f               &getScale          (void);
+    inline const Vec3f               &getScale          (void) const;
+    inline       Quaternion          &getScaleOrientation(void);
+    inline const Quaternion          &getScaleOrientation(void) const;
+    inline       Vec3f               &getTranslation    (void);
+    inline const Vec3f               &getTranslation    (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setCenter         ( const Vec3f &value );
+    inline void setRotation       ( const Quaternion &value );
+    inline void setScale          ( const Vec3f &value );
+    inline void setScaleOrientation( const Quaternion &value );
+    inline void setTranslation    ( const Vec3f &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -164,140 +177,71 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFVec3f	*getSFCenter(void);
-    inline SFQuaternion	*getSFRotation(void);
-    inline SFVec3f	*getSFScale(void);
-    inline SFQuaternion	*getSFScaleOrientation(void);
-    inline SFVec3f	*getSFTranslation(void);
+    static  VRMLTransformPtr    create          (void); 
+    static  VRMLTransformPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       Vec3f	&getCenter(void);
-    inline const Vec3f	&getCenter(void) const;
-    inline       void	         setCenter( const Vec3f &value );
-    inline       Quaternion	&getRotation(void);
-    inline const Quaternion	&getRotation(void) const;
-    inline       void	         setRotation( const Quaternion &value );
-    inline       Vec3f	&getScale(void);
-    inline const Vec3f	&getScale(void) const;
-    inline       void	         setScale( const Vec3f &value );
-    inline       Quaternion	&getScaleOrientation(void);
-    inline const Quaternion	&getScaleOrientation(void) const;
-    inline       void	         setScaleOrientation( const Quaternion &value );
-    inline       Vec3f	&getTranslation(void);
-    inline const Vec3f	&getTranslation(void) const;
-    inline       void	         setTranslation( const Vec3f &value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFVec3f          	_sfCenter;
+    SFQuaternion     	_sfRotation;
+    SFVec3f          	_sfScale;
+    SFQuaternion     	_sfScaleOrientation;
+    SFVec3f          	_sfTranslation;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFVec3f	_sfCenter;
-    /*! 
-     */
-    SFQuaternion	_sfRotation;
-    /*! 
-     */
-    SFVec3f	_sfScale;
-    /*! 
-     */
-    SFQuaternion	_sfScaleOrientation;
-    /*! 
-     */
-    SFVec3f	_sfTranslation;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     VRMLTransformBase(void);
     VRMLTransformBase(const VRMLTransformBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~VRMLTransformBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      VRMLTransformBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -309,8 +253,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef VRMLTransformBase *VRMLTransformBaseP;
 
 OSG_END_NAMESPACE

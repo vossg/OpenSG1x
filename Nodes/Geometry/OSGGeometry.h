@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGAction.h>
 #include <OSGWindow.h>
@@ -55,24 +51,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class DrawActionBase;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-// Iterators
 class TriangleIterator;
 class PrimitiveIterator;
 class FaceIterator;
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup GeometryLib
  *  \brief Geometry base class
@@ -80,124 +63,72 @@ class FaceIterator;
 
 class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    // Mapping constants
-    
     static const UInt16 MapPosition;
     static const UInt16 MapNormal;
     static const UInt16 MapColor;
     static const UInt16 MapTexcoords;
-    static const UInt16 MapTexcoords2;	// not used yet
-    static const UInt16 MapTexcoords3;	// not used yet
-    static const UInt16 MapTexcoords4;	// not used yet
+    static const UInt16 MapTexcoords2;  // not used yet
+    static const UInt16 MapTexcoords3;  // not used yet
+    static const UInt16 MapTexcoords4;  // not used yet
     static const UInt16 MapEmpty;
-   
-    
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
     static const char *getClassname(void) { return "Geometry"; };
 
-    // map the primitive type to a name
-    static const char *mapType( UInt8 type );
-     
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Class Specific                         */
+    /*! \{                                                                 */
 
+    static const char *mapType          (UInt8 type);
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void       changed          (BitVector whichField,
+                                         ChangeMode from);
 
-    /** pointer */
+    GeometryPtr        getPtr           (void) const;
 
-    GeometryPtr getPtr(void) const;
+    void               adjustVolume     (Volume & volume);
+
+    TriangleIterator   beginTriangles   (void) const;
+    TriangleIterator   endTriangles     (void) const;
     
-    /** updates */
-    
-    void adjustVolume( Volume & volume );
-    
-    /** Triangle iterator functions */
-    
-	TriangleIterator beginTriangles( void ) const;
-	TriangleIterator endTriangles  ( void ) const;
+    PrimitiveIterator  beginPrimitives  (void) const;
+    PrimitiveIterator  endPrimitives    (void) const;
 
-    
-    /** Primitive iterator functions */
+    FaceIterator       beginFaces       (void) const;
+    FaceIterator       endFaces         (void) const;
 
-	PrimitiveIterator beginPrimitives( void ) const;
-	PrimitiveIterator endPrimitives  ( void ) const;
-	
-    
-    /** Face iterator functions */
+    Int16              calcMappingIndex (UInt16 attrib) const;
 
-	FaceIterator beginFaces( void ) const;
-	FaceIterator endFaces  ( void ) const;
+    Bool               isMergeable      (const GeometryPtr other);
 
-    /** calc the inverse property mappings */
-    
-    Int16 calcMappingIndex( UInt16 attrib ) const;
-   
+    Bool               merge            (const GeometryPtr other);
 
-    /** check if the geometry can be merged into this one, return true if yes */
-    
-    Bool isMergeable( const GeometryPtr other );
+    GeometryPtr        clone            (void);
 
-    /** merge the geometry into this one, return true if successful */
-    
-    Bool merge( const GeometryPtr other );
+    virtual void       dump             (UInt32     uiIndent = 0,
+                                         const BitVector &bvFlags = 0) const;
 
-    /** create a deep copy of the geometry */
-    
-    GeometryPtr clone( void );
+    inline void        invalidateDlistCache    (void);
 
-    /*------------------------------ dump -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Draw                                   */
+    /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    Action::ResultE doDraw  (Action * action );
+    Action::ResultE draw    (DrawActionBase *action);
+    Action::ResultE render  (Action *action);
 
-    /*--------------------------- gl objects --------------------------------*/
-    
-    inline void invalidateDlistCache(void);
-
-    /*------------------------------ Actions --------------------------------*/
-	
-	// execute the OpenGL commands to draw the geometry	
-	Action::ResultE doDraw(Action * action );
-	
-	// low-level OpenGL calls, ignoring materials	
-	Action::ResultE draw(DrawActionBase *action);
-
-    // generate draw tree
-    Action::ResultE render(Action *action);
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
 #ifdef OSG_NOFUNCTORS
 
@@ -228,103 +159,57 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     }
 #endif
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
 #ifdef OSG_NOFUNCTORS
-    static Action::ResultE GeoDrawEnter(CNodePtr &cnode, 
-                                        Action   *pAction);
-
-    static Action::ResultE GeoRenderEnter(CNodePtr &cnode, 
-                                        Action   *pAction);
-
-    static Action::ResultE GeoIntEnter(CNodePtr &cnode, 
-                                       Action   *pAction);
+    static Action::ResultE GeoDrawEnter(CNodePtr &cnode, Action   *pAction);
+    static Action::ResultE GeoRenderEnter(CNodePtr &cnode, Action   *pAction);
+    static Action::ResultE GeoIntEnter(CNodePtr &cnode, Action   *pAction);
 #endif
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // They should all be in GeometryBase.
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     Geometry(void);
     Geometry(const Geometry &source);
-    virtual ~Geometry(void); 
 
-    void handleGL( Window* win, UInt32 id );
-    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~Geometry(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
+
+    void handleGL(Window* win, UInt32 id);
+
     void onCreate(const FieldContainer &source);
-    
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
     typedef GeometryBase Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class GeometryBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
     static void initMethod( void );
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
     void operator =(const Geometry &source);
-	
-	// intersect action: ray test	
-	Action::ResultE intersect(Action * action );
+
+    // intersect action: ray test
+    Action::ResultE intersect(Action * action );
 
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
 typedef Geometry *GeometryP;
 
-/** empty geometry instance
- */
 extern OSG_SYSTEMLIB_DLLMAPPING GeometryPtr NullGeo;
 
 OSG_END_NAMESPACE

@@ -66,17 +66,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class PerspectiveCamera;
-/** \brief PerspectiveCameraPtr
- */
+//! PerspectiveCameraPtr
+
 typedef FCPtr<CameraPtr, PerspectiveCamera> PerspectiveCameraPtr;
 
 /** \ingroup FieldLib PerspectiveCamera
- *  \brief PerspectiveCameraPtr field traits 
+ *  PerspectiveCameraPtr field traits 
  */
 
 template <>
@@ -94,8 +90,8 @@ struct FieldDataTraits<PerspectiveCameraPtr> :
     static char     *getMName(void) { return "MFPerspectiveCameraPtr"; }
 };
 
-/** \brief SFPerspectiveCameraPtr
- */
+//! SFPerspectiveCameraPtr
+
 typedef SField<PerspectiveCameraPtr> SFPerspectiveCameraPtr;
 
 #ifndef OSG_COMPILEPERSPECTIVECAMERAINST
@@ -110,8 +106,8 @@ OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPerspectiveCameraPtr
- */
+//! MFPerspectiveCameraPtr
+
 typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 
 #ifndef OSG_COMPILEPERSPECTIVECAMERAINST
