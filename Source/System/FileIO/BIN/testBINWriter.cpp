@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
 
     OSG::NodePtr    root = OSG::Node::create();
     OSG::GroupPtr   group = OSG::Group::create();
-    beginEditCP(root);
-    beginEditCP(group);
+    OSG::beginEditCP(root);
+    OSG::beginEditCP(group);
     root->setCore(group);
 
     if(argc < 3)
@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
     OSG::BINWriter writer(outFile);
     writer.write(root);
 
-    endEditCP(root);
-    endEditCP(group);
+    OSG::endEditCP(root);
+    OSG::endEditCP(group);
 
     return 0;
 }
