@@ -223,30 +223,6 @@ void key(unsigned char key, int , int )
 }
 
 
-Action::ResultE wireDraw( CNodePtr &, Action * action )
-{
-	NodePtr node = action->getActNode();
-	
-	if ( doWire )
-	{		
-		node->updateVolume();
-
-		bool l = glIsEnabled( GL_LIGHTING );
-		glDisable( GL_LIGHTING );
-		
-		glColor3f( .8,.8,.8 );
-		
-		drawVolume( node->getVolume() );
-
-		if ( l )
-			glEnable( GL_LIGHTING );
-	}
-	
-	GeometryPtr g = GeometryPtr::dcast( node->getCore() );
-	
-	return g->doDraw( action );
-}
-
 int main (int argc, char **argv)
 {
 	osgInit(argc,argv);

@@ -205,53 +205,6 @@ vis(int visible)
     }
 }
 
-OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
-{
-    OSG::NodePtr node = action->getActNode();
-    
-    if ( doWire )
-    {       
-        node->updateVolume();
-        const OSG::DynamicVolume& vol = node->getVolume();
-
-        OSG::Pnt3f min,max;
-        vol.getBounds( min, max );
-
-        bool l = glIsEnabled( GL_LIGHTING );
-        glDisable( GL_LIGHTING );
-        
-        glColor3f( .8,.8,.8 );
-        glBegin( GL_LINE_LOOP );
-        glVertex3f( min[0], min[1], min[2] );   
-        glVertex3f( max[0], min[1], min[2] );   
-        glVertex3f( max[0], max[1], min[2] );   
-        glVertex3f( min[0], max[1], min[2] );   
-        glVertex3f( min[0], min[1], min[2] );   
-        glVertex3f( min[0], min[1], max[2] );   
-        glVertex3f( max[0], min[1], max[2] );   
-        glVertex3f( max[0], max[1], max[2] );   
-        glVertex3f( min[0], max[1], max[2] );   
-        glVertex3f( min[0], min[1], max[2] );   
-        glEnd();
-
-        glBegin( GL_LINES );
-        glVertex3f( min[0], max[1], min[2] );   
-        glVertex3f( min[0], max[1], max[2] );   
-        glVertex3f( max[0], max[1], min[2] );   
-        glVertex3f( max[0], max[1], max[2] );   
-        glVertex3f( max[0], min[1], min[2] );   
-        glVertex3f( max[0], min[1], max[2] );   
-        glEnd();
-        
-        if ( l )
-            glEnable( GL_LIGHTING );
-    }
-    
-    OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
-    
-    return g->doDraw( action );
-}
-
 OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
 {
     OSG::NodePtr node = action->getActNode();
@@ -509,12 +462,7 @@ int main (int argc, char **argv)
 //  ract->apply( dlight );
 
     std::cerr << "done." << std::endl;
-    
-    // Task 2: draw wireframe bbox, if wanted
-//  ract->registerEnterFunction( OSG::Geometry::getClassType(),
-//                                  OSG::osgFunctionFunctor2( wireDraw ) );
-                                    
-
+ 
     // tball
     
     OSG::Vec3f pos(min[0] + ((max[0] - min[0]) * 0.5), 

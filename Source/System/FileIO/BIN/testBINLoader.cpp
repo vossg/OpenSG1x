@@ -61,8 +61,6 @@ Trackball           tball;
 int                 mouseb = 0;
 int                 lastx = 0, lasty = 0;
 
-bool                doWire = false;
-
 /* */
 void display(void)
 {
@@ -199,10 +197,6 @@ void key(unsigned char key, int, int)
         glEnable(GL_COLOR_MATERIAL);
         std::cerr << "ColorMaterial enabled." << std::endl;
         break;
-    case 'e':
-        doWire = !doWire;
-        std::cerr << "BBox render: " << (doWire ? "on" : "off") << std::endl;
-        break;
     case 'd':
         ract->setFrustumCulling(!ract->getFrustumCulling());
         std::cerr <<
@@ -226,31 +220,6 @@ void key(unsigned char key, int, int)
         printf("Now using %s action\n", doRender ? "render" : "draw");
         break;
     }
-}
-
-/* */
-Action::ResultE wireDraw(CNodePtr &, Action *action)
-{
-    NodePtr node = action->getActNode();
-
-    if(doWire)
-    {
-        node->updateVolume();
-
-        bool    l = glIsEnabled(GL_LIGHTING);
-        glDisable(GL_LIGHTING);
-
-        glColor3f(.8, .8, .8);
-
-        drawVolume(node->getVolume());
-
-        if(l)
-            glEnable(GL_LIGHTING);
-    }
-
-    GeometryPtr g = GeometryPtr::dcast(node->getCore());
-
-    return g->doDraw(action);
 }
 
 /* */

@@ -45,7 +45,6 @@
 #endif
 
 OSG::DrawAction * ract;
-bool doWire = false;
 
 OSG::NodePtr  root;
 
@@ -317,54 +316,6 @@ vis(int visible)
     }
 }
 
-OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
-{
-    OSG::NodePtr node = action->getActNode();
-
-    if ( doWire )
-    {
-        node->updateVolume();
-        const OSG::DynamicVolume& vol = node->getVolume();
-
-        OSG::Pnt3f min,max;
-
-        vol.getBounds( min, max );
-
-        bool l = glIsEnabled( GL_LIGHTING );
-        glDisable( GL_LIGHTING );
-
-        glColor3f( .8,.8,.8 );
-        glBegin( GL_LINE_LOOP );
-        glVertex3f( min[0], min[1], min[2] );
-        glVertex3f( max[0], min[1], min[2] );
-        glVertex3f( max[0], max[1], min[2] );
-        glVertex3f( min[0], max[1], min[2] );
-        glVertex3f( min[0], min[1], min[2] );
-        glVertex3f( min[0], min[1], max[2] );
-        glVertex3f( max[0], min[1], max[2] );
-        glVertex3f( max[0], max[1], max[2] );
-        glVertex3f( min[0], max[1], max[2] );
-        glVertex3f( min[0], min[1], max[2] );
-        glEnd();
-
-        glBegin( GL_LINES );
-        glVertex3f( min[0], max[1], min[2] );
-        glVertex3f( min[0], max[1], max[2] );
-        glVertex3f( max[0], max[1], min[2] );
-        glVertex3f( max[0], max[1], max[2] );
-        glVertex3f( max[0], min[1], min[2] );
-        glVertex3f( max[0], min[1], max[2] );
-        glEnd();
-
-        if ( l )
-            glEnable( GL_LIGHTING );
-    }
-
-    OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
-
-    return g->doDraw( action );
-}
-
 OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
 {
     OSG::NodePtr node = action->getActNode();
@@ -404,10 +355,6 @@ void key(unsigned char key, int , int)
         case 'c':
             glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
             std::cerr << "PolygonMode: Fill." << std::endl;
-            break;
-        case 'w':
-            doWire = !doWire;
-            std::cerr << "BBox render: " << (doWire?"on":"off") << std::endl;
             break;
         case 'd':
             root->dump(0, 0);
@@ -659,14 +606,6 @@ int main (int argc, char **argv)
     // Action
 
     ract = OSG::DrawAction::create();
-
-    // Task 2: draw wireframe bbox, if wanted
-    ract->registerEnterFunction( OSG::Geometry::getClassType(),
-                                 OSG::osgTypedFunctionFunctor2CPtrRef<
-                                    OSG::Action::ResultE, 
-                                    OSG::CNodePtr,
-                                    OSG::Action *                      >(
-                                        wireDraw));
 
     // tball
 
