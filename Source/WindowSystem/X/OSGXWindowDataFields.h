@@ -108,7 +108,7 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
 /*! \hideinhierarchy */
 #endif
 
-#if ! (defined(__GNUC__) && defined(__linux) && defined(__ia64))
+#if !defined(__GNUC__) || !defined(__linux) || !defined(__ia64)
 template <>
 struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> : 
     public FieldTraitsRecurseBase<X11Window>
@@ -190,7 +190,7 @@ typedef SField<DisplayP> SFDisplayP;
 
 typedef MField<DisplayP> MFDisplayP;
 
-# if defined(__GNUC__) && defined(__linux) && defined(__ia64)
+#if !defined(__GNUC__) || !defined(__linux) || !defined(__ia64)
 
 /*! \ingroup GrpWindowXFieldSingle
  */
