@@ -48,6 +48,7 @@
 #include "OSGConfig.h"
 
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 
 #include "OSGGroup.h"
 
@@ -153,11 +154,27 @@ void Group::initMethod (void)
                                 CNodePtr,  
                                 GroupPtr, 
                                 Action *>(&Group::drawLeave));
+    RenderAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                GroupPtr, 
+                                Action *>(&Group::drawEnter));
+    RenderAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                GroupPtr, 
+                                Action *>(&Group::drawLeave));
 #else
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         Group::GroupDrawEnter));
     DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Group::GroupDrawLeave));
+    RenderAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Group::GroupDrawEnter));
+    RenderAction::registerLeaveDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         Group::GroupDrawLeave));
 #endif
@@ -225,7 +242,7 @@ void Group::dump(      UInt32     uiIndent,
 //! DrawAction:  execute the OpenGL commands directly   
 Action::ResultE Group::drawEnter(Action * action)
 {
-    DrawAction *da = dynamic_cast<DrawAction *>(action);
+    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
 
     if ( da->selectVisibles() == 0 )
     	return Action::Skip;

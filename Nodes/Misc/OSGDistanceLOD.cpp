@@ -80,7 +80,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.11 2001/08/10 03:33:11 vossg Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.12 2001/09/30 19:34:51 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -147,6 +147,10 @@ void DistanceLOD::initMethod (void)
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        DistanceLOD::DistLODDraw));
+
+    RenderAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         DistanceLOD::DistLODDraw));
 

@@ -146,6 +146,10 @@ void Switch::initMethod (void)
                                      Action::osgFunctionFunctor2(
                                         Switch::SwitchDraw));
 
+    RenderAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Switch::SwitchDraw));
+
 #endif
 }
 

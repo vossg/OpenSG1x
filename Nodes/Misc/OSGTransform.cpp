@@ -361,6 +361,8 @@ Action::ResultE Transform::renderEnter(Action *action)
 
     pAction->push_matrix(this->getMatrix());
 
+    pAction->selectVisibles();
+
     return Action::Continue;
 }
 
