@@ -309,7 +309,7 @@ list:
 	@echo "	available test cases :"
 	@echo "	======================\n"
 	@for file in $(TEST_TARGETS_LIST); do	\
-		echo "		gmake $$file";         	\
+		echo "		$(MAKE) $$file";         	\
 	done
 	@echo 
 	@echo 

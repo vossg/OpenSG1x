@@ -276,6 +276,7 @@ INSTALL_DIR_SED := $(shell echo $(INSTALL_DIR) | sed -e 's/\//\\\//g')
 install-bin:
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
 	VERSION=`cat $($(PROJ)POOL)/VERSION`; \
+	ICOMP=`echo $(CC) | sed -e 's|^[ ]*||' -e 's|[ ]*$$||'`;\
 	cat CommonPackages/osg-config |										\
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
 	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
@@ -284,6 +285,7 @@ install-bin:
 		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
 		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
 		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
+		   -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"			\
 		   -e "s/@am_gdz_version@/$$VERSION/g"							\
 		> $(INSTALL_DIR)/bin/osg-config
 	chmod 755 $(INSTALL_DIR)/bin/osg-config
@@ -355,9 +357,10 @@ help:
 	@echo "install-libs-cp   copying them"
 	@echo "install-libs      linking or copying them, the same as last time"
 	@echo "install-includes  install the include files into INSTALL_DIR/include"
-	@echo "install-ln        install-includes + install-libs-ln"
-	@echo "install-cp        install-includes + install-libs-cp"
-	@echo "install           install-includes + install-libs-ln"
+	@echo "install-bin       install osg-config into INSTALL_DIR/bin"
+	@echo "install-ln        install-includes + install-libs-ln + install-bin"
+	@echo "install-cp        install-includes + install-libs-cp + install-bin"
+	@echo "install           install-includes + install-libs-cp + install-bin"
 	@echo 
 	@echo "Other targets"
 	@echo 

@@ -148,9 +148,11 @@ Options:
     [--prefix[=DIR]]
     [--exec-prefix[=DIR]]
     [--version]
+    [--compiler]
     [--libs]
     [--cflags]
     [--lflags]
+    [--llibs]
     [--opt]
     [--dbg]
 Libraries:
@@ -201,6 +203,10 @@ while test $# -gt 0; do
     --version)
       echo @am_gdz_version@
       valid_print=yes
+      ;;
+    --compiler)
+      echo @am_gdz_compiler@
+      exit 0
       ;;
     --cflags)
       echo_cflags=yes
@@ -371,6 +377,14 @@ if test "$echo_lflags" = "yes"; then
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
     echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path
+
+fi      
+
+if test "$echo_llibs" = "yes"; then
+
+    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
+
+    echo $opensg_libs $img_libs $system_libs
 
 fi      
 
