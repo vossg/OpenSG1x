@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.4 2001/11/16 13:12:09 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.5 2001/12/03 23:54:32 dirk Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }
@@ -109,18 +109,12 @@ void ImageBackground::changed(BitVector, ChangeMode)
 
 //! clear the background
 
-void ImageBackground::clear(DrawActionBase *, Viewport *)
+void ImageBackground::clear(DrawActionBase *, Viewport *vp)
 {
     ImageP img = getImage();
     
     if(!img)
         return; 
-    
-    if(getScale())
-    {
-        FWARNING(("ImageBackground::clear: scale not supported yet,"
-                  " ignored!\n"));
-    }
 
     glClearColor(_sfColor.getValue()[0],
                  _sfColor.getValue()[1],
@@ -141,6 +135,12 @@ void ImageBackground::clear(DrawActionBase *, Viewport *)
     glPushMatrix();
     glLoadIdentity();
     glOrtho(0, 1, 0, 1, 0, 1);
+  
+    if(getScale())
+    {   
+        glPixelZoom(vp->getPixelWidth () / (Real32)img->getWidth (),
+                    vp->getPixelHeight() / (Real32)img->getHeight());
+    }
 
     glRasterPos2f(0, 0);
     glDrawPixels(img->getWidth(), img->getHeight(),
@@ -150,6 +150,9 @@ void ImageBackground::clear(DrawActionBase *, Viewport *)
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
+
+    if(getScale())
+        glPixelZoom(1,1);
 
     if(depth)    glEnable(GL_DEPTH_TEST);
     
