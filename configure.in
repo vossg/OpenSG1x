@@ -54,12 +54,11 @@ AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir)
 dnl ############# Compiler Settings #####################
 
 AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
- compilers (required)
+ compilers
         IRIX    : CC
         Windows : icl, icl45, icl50, bcc55, g++
         Linux   : g++],
-        echo Compiler : $with_compiler;ac_gdz_compiler=$with_compiler;,
-        echo ERROR --with-compiler option required; exit 1;) 
+        echo Compiler : $with_compiler;ac_gdz_compiler=$with_compiler;) 
 
 dnl ############# SUFFIX Settings #####################
 
@@ -376,10 +375,10 @@ dnl ############# Run Tests #####################
 
 AC_CANONICAL_SYSTEM()
 
+AC_GDZ_SET_COMPILER_DEFAULTS()
+
 ac_gdz_os_base=$build_os
 ac_gdz_compiler_base=$ac_gdz_compiler
-
-AC_GDZ_SET_COMPILER_DEFAULTS()
 
 AC_GDZ_EXEEXT()
 AC_GDZ_OBJEXT()

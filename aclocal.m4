@@ -235,6 +235,23 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
 
 AC_DEFUN(AC_GDZ_SET_COMPILER_DEFAULTS,
 [
+    # guess compiler if not set
+    if test "x$ac_gdz_compiler" == "x"
+    then
+        case "$build_os" in
+        cygwin*)    ac_gdz_compiler=icl50 
+                    ;;
+        linux*)     ac_gdz_compiler=g++
+                    ;;
+        irix*)      ac_gdz_compiler=CC
+                    ;;
+        *)          echo "System $build_os unknown, use --with-compiler!"
+                    exit 1
+                    ;;
+        esac
+        echo "selected compiler $ac_gdz_compiler for system $build_os"
+    fi
+    
     ac_gdz_check_compiler_available=no
 
     AC_MSG_CHECKING("site config conf.$build-$ac_gdz_compiler.in")
