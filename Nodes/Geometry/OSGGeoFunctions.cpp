@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.31 2001/10/13 14:33:10 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.32 2001/10/14 17:24:55 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -76,7 +76,6 @@ static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.31 2001/10/13 14:33:10 v
 
 
 /*! \ingroup Geometry
-    \param geo  the geometry to work on
 
 calcVertexNormals calculates the normals for the geometry's vertices. It
 does this simply by accumulating the face normals of all triangles that
@@ -85,7 +84,7 @@ use the vertex and renormalizing.
 */
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::calcVertexNormals(GeometryPtr geo, Real32 creaseAngle)
+void osg::calcVertexNormals( GeometryPtr geo )
 /*
 
 faster; but not well tested code
@@ -309,7 +308,7 @@ faster; but not well tested code
             pi = geo->calcMappingIndex( Geometry::MapPosition );
             ni = geo->calcMappingIndex( Geometry::MapNormal );
 
-            if ( ni )
+            if ( ni >= 0 )
                 im.setValue( im.getValue(ni) & ~ Geometry::MapNormal, ni );
             if ( pi >= 0 )
                 im.setValue( im.getValue(pi) |   Geometry::MapNormal, pi );
@@ -319,6 +318,241 @@ faster; but not well tested code
 
 }
 
+
+/*! \ingroup Geometry
+    calcVertexNormals calculates the normals for the geometry's vertices. This
+    version uses a creaseAngle to define which faces are averaged at the
+    vertices. Only faces whose angle is smaller than the
+    creaseAngle are used.
+    
+    Caveats: It won't always work for striped geometry. It will process it,
+    but if a stripe point needs to be split because it has two normals, that
+    won't be done.
+*/
+
+template <class type>
+struct vecless
+{
+    bool operator() (const type &a, const type &b) const
+    {
+        UInt32 i;
+        Bool ret = false;
+
+        for(i = 0; i < type::_iSize; i++)
+        {
+            if(osgabs(a[i] - b[i]) < Eps)
+                continue;
+
+            if(a[i] > b[i])
+            {
+                ret = false;
+                break;
+            }
+
+            ret = true;
+            break;
+        }
+
+        return ret;
+    }
+};
+
+OSG_SYSTEMLIB_DLLMAPPING
+void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
+{
+    GeoNormalsPtr   norms;
+
+    if(creaseAngle >= Pi)
+    {
+        calcVertexNormals( geo );
+        return;
+    }
+   
+    // Get normal property, create if needed
+    if(geo->getNormals() == NullFC)
+    {
+        norms = GeoNormals3f::create();
+    }
+    else
+    {
+        norms = geo->getNormals();
+    }
+
+    // need to set it early, is used below
+    beginEditCP(geo);
+    {
+        geo->setNormals( norms );
+    }
+    endEditCP( geo );
+
+    // Do the normals have their own index?
+    MFUInt16      &im   = geo->getIndexMapping();
+    Int16          ni   = geo->calcMappingIndex( Geometry::MapNormal );
+    GeoIndicesPtr  ip   = geo->getIndices();
+    UInt32         nind = ip->getSize() / (im.getSize() ? im.getSize() : 1);
+
+    if(ni < 0 || im.getValue(ni) != Geometry::MapNormal)
+    {
+        // normals need their own index
+        if(ni >= 0)
+            im.setValue( im.getValue(ni) & ~Geometry::MapNormal, ni);
+
+        // need to be multi-indexed?
+        if(im.getSize() == 0)
+        {
+            UInt32 map = Geometry::MapPosition;
+            
+            if(geo->getTexCoords() != NullFC)   
+                map |= Geometry::MapTexcoords;
+                
+            if(geo->getColors()    != NullFC)   
+                map |= Geometry::MapColor;
+                
+            im.addValue( map );           
+        }
+            
+        ni = im.getSize();
+        im.addValue( Geometry::MapNormal );
+        
+        // add an entry to the indices for the normals
+        const int imsize = im.getSize();
+        
+        beginEditCP(ip);
+        ip->resize(nind * imsize);
+        for(UInt32 i = nind - 1; i > 0; --i)
+        {
+            for(UInt16 j = 0; j < imsize - 1; ++j )
+            {
+                UInt32 val;
+                ip->getValue( val, i * (imsize - 1) + j );
+                ip->setValue( val, i *  imsize      + j );
+            }
+            ip->setValue( i, i *  imsize + imsize - 1 );
+        }
+        ip->setValue( 0, imsize - 1 );
+        endEditCP(ip);
+    }
+    else // set the normal indices
+    {
+        const int imsize = im.getSize();
+        beginEditCP(ip);
+        for(UInt32 i = 0; i < nind; ++i)
+        {
+            ip->setValue( i, i * imsize + ni );
+        }     
+        endEditCP(ip);
+    }
+    
+    
+    // now calc the normals
+    
+    // if creaseAngle is 0, it's simple: every face uses its own.
+    
+    if(creaseAngle == 0)
+    {
+        beginEditCP(norms);
+        beginEditCP(ip);
+        
+        norms->resize(nind);
+        
+        for(TriangleIterator ti = geo->beginTriangles(); 
+                             ti != geo->endTriangles(); 
+                             ++ti )
+        {
+            Vec3f d1 = ti.getPosition(1) - ti.getPosition(0);
+            Vec3f d2 = ti.getPosition(2) - ti.getPosition(0);        
+            d1.crossThis(d2);
+
+            d1.normalize();
+            
+            norms->setValue( d1, ti.getNormalIndex(0) );
+            norms->setValue( d1, ti.getNormalIndex(1) );
+            norms->setValue( d1, ti.getNormalIndex(2) );
+        }
+        
+        endEditCP(norms);
+        endEditCP(ip);
+        return;
+    }
+    
+    // creaseAngle > 0, need to calculate
+    
+    // collect a map from points to faces using this point
+    // collect the face normals in a separate vector
+    
+    vector< Vec3f > faceNormals; 
+    multimap< Pnt3f, UInt32, vecless<Pnt3f> > pntMap;
+    TriangleIterator ti;
+    
+    for(ti = geo->beginTriangles(); ti != geo->endTriangles(); ++ti )
+    {
+        Vec3f d1 = ti.getPosition(1) - ti.getPosition(0);
+        Vec3f d2 = ti.getPosition(2) - ti.getPosition(0);        
+        d1.crossThis(d2);
+        
+        d1.normalize();
+        faceNormals.push_back(d1);  
+             
+        pntMap.insert(pair<Pnt3f, UInt32>(ti.getPosition(0),
+                                           faceNormals.size() - 1));
+        pntMap.insert(pair<Pnt3f, UInt32>(ti.getPosition(1),
+                                           faceNormals.size() - 1));
+        pntMap.insert(pair<Pnt3f, UInt32>(ti.getPosition(2),
+                                           faceNormals.size() - 1));
+    }
+    
+    // now walk through the geometry again and calc the normals
+    
+    beginEditCP(norms);
+    beginEditCP(ip);
+
+    norms->resize( nind );
+    
+    Real32 cosCrease = osgcos( creaseAngle );
+    
+    for(ti = geo->beginTriangles(); ti != geo->endTriangles(); ++ti )
+    {
+        Int32 tind = ti.getIndex();
+        Vec3f mynorm = faceNormals[tind];        
+        
+        multimap< Pnt3f, UInt32, vecless<Pnt3f> >::iterator st,en;  
+        
+        for(UInt16 i = 0; i < 3; ++i)
+        {   
+            // calculate the normal: average all different normals
+            // that use a point. Simple addition or weighted addition
+            // doesn't work, as it depends on the triangulation
+            // of the object. :(
+            
+            set< Vec3f, vecless<Vec3f> > normset;
+             
+            st = pntMap.lower_bound(ti.getPosition(i));
+            en = pntMap.upper_bound(ti.getPosition(i));
+
+            for(; st != en; st++)
+            {
+                if(mynorm.dot(faceNormals[(*st).second]) > cosCrease)
+                    normset.insert(faceNormals[(*st).second]);
+            }
+            
+            Vec3f norm(0, 0, 0);
+            
+            for(set< Vec3f, less<Vec3f> >::iterator it = normset.begin(); 
+                it != normset.end();
+                ++it)
+            {
+                norm += (*it);
+            }
+            
+            norm.normalize();
+            norms->setValue(norm, ti.getNormalIndex(i));
+        }
+        
+    }
+    
+    endEditCP(ip);
+    endEditCP(norms);
+}
 
 /*! \ingroup Geometry
     \param geo      the geometry to work on

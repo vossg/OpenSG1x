@@ -48,15 +48,21 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*---------------------------------------------------------------------*/
-/*! \name                   Geometry Functions                         */
-/*! \{                                                                 */
+/*--------------------------------------------------------------------------*/
+/*! \name                     Geometry Functions                            */
+/*! \{                                                                      */
 
-/*! \brief calculate vertex normals for the geometry
+/*! \brief calculate vertex normals for the geometry. 
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-void calcVertexNormals(GeometryPtr geo, Real32 creaseAngle = 0.f);
+void calcVertexNormals(GeometryPtr geo);
+
+/*! \brief calculate vertex normals for the geometry, use creaseAngle to discrimnate
+ *  \ingroup Geometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+void calcVertexNormals( GeometryPtr geo,  Real32 creaseAngle );
 
 /*! \brief create a geometry that shows the normals of the geometry
  *  \ingroup Geometry

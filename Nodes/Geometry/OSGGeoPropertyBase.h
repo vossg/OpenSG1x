@@ -83,7 +83,7 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Access                                 */
+    /*! \name                     Access                                   */
     /*! \{                                                                 */
 
     virtual PtrType clone        (void) = 0;
