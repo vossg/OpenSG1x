@@ -88,7 +88,18 @@ image_incs_path=
 image_defs=
 
 if test "$system_win" = "yes"; then
-    sys_libs='-LIBPATH:@ac_gdz_compiler_lib_e15@ -LIBPATH:"@ac_gdz_system_lib_dir_e15@"'" $win_sys_libs"
+    compiler_libs_in="@ac_gdz_compiler_lib_e15@"
+    sys_libs_in="@ac_gdz_system_lib_dir_e15@"
+
+    sys_libs=" $win_sys_libs"
+
+    if test "$compiler_libs_in"X != X; then 
+        sys_libs=-LIBPATH:'"'$compiler_libs_in'" '$sys_libs 
+    fi
+
+    if test "$sys_libs_in"X != X; then 
+        sys_libs=-LIBPATH:'"'$sys_libs_in'" '$sys_libs 
+    fi
 else
     sys_libs=$unix_sys_libs
 fi;

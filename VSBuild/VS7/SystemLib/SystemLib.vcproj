@@ -37,15 +37,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib"
-				OutputFile="..\lib\dbg\OSGSystemD.dll"
+				OutputFile="..\lib\dbg\OSGSystem.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile=".\lib.dbg.def"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGSystemD.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGSystem.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGSystemD.map"
-				ImportLibrary=".\..\lib\dbg/OSGSystemD.lib"/>
+				MapFileName=".\Debug/OSGSystem.map"
+				ImportLibrary=".\..\lib\dbg/OSGSystem.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -69,7 +69,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
+			OutputDirectory=".\..\lib\opt"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -94,14 +94,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib"
-				OutputFile="..\lib\dbg\OSGSystem.dll"
+				OutputFile="..\lib\opt\OSGSystem.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile=".\lib.dbg.def"
-				ProgramDatabaseFile=".\Release/OSGSystem.pdb"
+				ProgramDatabaseFile=".\..\lib\opt\OSGSystem.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Release/OSGSystem.map"
-				ImportLibrary=".\Release/OSGSystem.lib"/>
+				ImportLibrary=".\..\lib\opt\OSGSystem.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -923,9 +923,6 @@
 			<Filter
 				Name="RenderingBackend h"
 				Filter="">
-				<File
-					RelativePath="..\..\..\RenderingBackend\OSGDrawTreeFactory.h">
-				</File>
 				<File
 					RelativePath="..\..\..\RenderingBackend\OSGDrawTreeNode.h">
 				</File>
@@ -2177,9 +2174,6 @@
 				<File
 					RelativePath="..\..\..\FieldContainer\OSGNodePtr.cpp">
 				</File>
-				<File
-					RelativePath="..\..\..\FieldContainer\OSGTest.cpp">
-				</File>
 			</Filter>
 			<Filter
 				Name="Image cpp"
@@ -2476,9 +2470,6 @@
 			<Filter
 				Name="RenderingBackend cpp"
 				Filter="">
-				<File
-					RelativePath="..\..\..\RenderingBackend\OSGDrawTreeFactory.cpp">
-				</File>
 				<File
 					RelativePath="..\..\..\RenderingBackend\OSGDrawTreeNode.cpp">
 				</File>

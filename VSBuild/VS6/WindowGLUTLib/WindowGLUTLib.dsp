@@ -38,7 +38,7 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "Release"
+# PROP Output_Dir "..\lib\opt"
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib glut32.lib -NODEFAULTLIB -dll -map -out:..\lib\dbg\OSGWindowGLUT.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib glut32.lib -NODEFAULTLIB -dll -map -out:..\lib\opt\OSGWindowGLUT.dll
 
 !ELSEIF  "$(CFG)" == "WindowGLUTLib - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32           
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib glut32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGWindowGLUTD.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib glut32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGWindowGLUT.dll
       
 
 !ENDIF 

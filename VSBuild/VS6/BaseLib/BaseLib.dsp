@@ -33,7 +33,7 @@ RSC=rc.exe
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "Release"
+# PROP BASE Output_Dir "..\lib\opt"
 # PROP BASE Intermediate_Dir "Release"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  -NODEFAULTLIB -dll -map -out:..\lib\dbg\OSGBase.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  -NODEFAULTLIB -dll -map -out:..\lib\opt\OSGBase.dll
 
 !ELSEIF  "$(CFG)" == "BaseLib - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32           
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGBaseD.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGBase.dll
       
 
 !ENDIF 

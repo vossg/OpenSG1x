@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
+			OutputDirectory=".\..\lib\opt"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -37,14 +37,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib"
-				OutputFile="..\lib\dbg\OSGBase.dll"
+				OutputFile="..\lib\opt\OSGBase.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile=".\lib.dbg.def"
-				ProgramDatabaseFile=".\Release/OSGBase.pdb"
+				ProgramDatabaseFile=".\..\lib\opt\OSGBase.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Release/OSGBase.map"
-				ImportLibrary=".\Release/OSGBase.lib"/>
+				MapFileName=".\Release\OSGBase.map"
+				ImportLibrary=".\..\lib\opt\OSGBase.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -94,15 +94,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib"
-				OutputFile="..\lib\dbg\OSGBaseD.dll"
+				OutputFile="..\lib\dbg\OSGBase.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile=".\lib.dbg.def"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGBaseD.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGBase.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGBaseD.map"
-				ImportLibrary=".\..\lib\dbg/OSGBaseD.lib"/>
+				MapFileName=".\Debug/OSGBase.map"
+				ImportLibrary=".\..\lib\dbg/OSGBase.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"

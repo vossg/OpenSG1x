@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
+			OutputDirectory=".\..\lib\opt"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -37,13 +37,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowWIN32.dll"
+				OutputFile="..\lib\opt\OSGWindowWIN32.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
-				ProgramDatabaseFile=".\Release/OSGWindowWIN32.pdb"
+				ProgramDatabaseFile=".\..\lib\opt\OSGWindowWIN32.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Release/OSGWindowWIN32.map"
-				ImportLibrary=".\Release/OSGWindowWIN32.lib"/>
+				ImportLibrary=".\..\lib\opt\OSGWindowWIN32.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -93,14 +93,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowWIN32D.dll"
+				OutputFile="..\lib\dbg\OSGWindowWIN32.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32D.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGWindowWIN32D.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32D.lib"/>
+				MapFileName=".\Debug/OSGWindowWIN32.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"

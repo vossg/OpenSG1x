@@ -1558,32 +1558,53 @@ dnl e15
     ac_gdz_qt_lib_e15=
     ac_gdz_qt_incdir_e15=
     ac_gdz_qt_libdir_e15=
-    ac_gdz_qt_moc_e15=
-    ac_gdz_qt_uic_e15=
+    ac_gdz_qt_moc_e15=moc
+    ac_gdz_qt_uic_e15=uic
 
-    if test -n "$ac_gdz_qt_dir"; then
+    if test "$enable_qt" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls qt-mt[0-9]*.lib 2> /dev/null`
+                            
+                if test "x"$ac_gdz_qt_lib_e15 = "x"; then
+                    ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls qt[0-9]*.lib 2> /dev/null`
+                fi
+            ;;
+
+            *)
+               ac_gdz_qt_lib_e15='-lqt'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_qt_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_qt_incdir_e15='"'`cygpath -w $ac_gdz_qt_incdir`'"'
+                ;;
+                *)
+                   ac_gdz_qt_incdir_e15=$ac_gdz_qt_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_qt_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_libdir`'"'
+                ;;
+                *)
+                   ac_gdz_qt_libdir_e15=$ac_gdz_qt_libdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_qt_bindir"; then
+            ac_gdz_qt_moc_e15=$ac_gdz_qt_bindir/moc
+            ac_gdz_qt_uic_e15=$ac_gdz_qt_bindir/uic
+        fi
 
         ac_gdz_have_qt_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_qt_incdir_e15='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
-           ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
-           ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
-           ac_gdz_qt_uic_e15=$ac_gdz_qt_dir/bin/uic
-
-            ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
-                        
-            if test "x"$ac_gdz_qt_lib_e15 = "x"; then
-                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_dir/lib; ls qt[0-9]*.lib 2> /dev/null`
-            fi
-            
-        else
-           ac_gdz_qt_incdir_e15=$ac_gdz_qt_dir/include
-           ac_gdz_qt_libdir_e15=$ac_gdz_qt_dir/lib
-           ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
-           ac_gdz_qt_uic_e15=$ac_gdz_qt_dir/bin/uic
-           ac_gdz_qt_lib_e15='"-lqt"'
-        fi
     else
         ac_gdz_have_qt_e15=no
     fi
@@ -1596,69 +1617,84 @@ dnl e15
     ac_gdz_tif_incdir_e15=
     ac_gdz_tif_libdir_e15=
 
-    if test "$with_tif" = yes; then
+    if test "$enable_tif" = yes; then
 
-        ac_gdz_have_tif_e15=yes
+        case $build_os in
+            cygwin*)
+                ac_gdz_tif_lib_e15='tif32.lib'
+            ;;
+            *)
+                ac_gdz_tif_lib_e15='-ltiff'
+            ;;
+        esac
 
-        if test $build_os = cygwin; then
-           ac_gdz_tif_lib_e15='tif32.lib'
-        else
-           ac_gdz_tif_lib_e15='-ltiff'
+        if test -n "$ac_gdz_tif_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_tif_incdir_e15='"'`cygpath -w $ac_gdz_tif_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_tif_incdir_e15=$ac_gdz_tif_incdir
+                ;;
+            esac
         fi
 
-    elif test -n "$ac_gdz_tif_dir"; then
-
-        ac_gdz_have_tif_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_tif_incdir_e15='"'`cygpath -w $ac_gdz_tif_dir/include`'"'
-           ac_gdz_tif_libdir_e15='"'`cygpath -w $ac_gdz_tif_dir/lib`'"'
-           ac_gdz_tif_lib_e15='"tif32.lib"'
-        else
-           ac_gdz_tif_incdir_e15=$ac_gdz_tif_dir/include
-           ac_gdz_tif_libdir_e15=$ac_gdz_tif_dir/lib
-           ac_gdz_tif_lib_e15='"-ltiff"'
+        if test -n "$ac_gdz_tif_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_tif_libdir_e15='"'`cygpath -w $ac_gdz_tif_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_tif_libdir_e15=$ac_gdz_tif_libdir
+                ;;
+            esac
         fi
-
+        ac_gdz_have_tif_e15=yes
     else
-    
         ac_gdz_have_tif_e15=no
-
     fi
+
 
 
     ac_gdz_jpg_lib_e15=
     ac_gdz_jpg_incdir_e15=
     ac_gdz_jpg_libdir_e15=
 
-    if test "$with_jpg" = yes; then
+    if test "$enable_jpg" = yes; then
 
-        ac_gdz_have_jpg_e15=yes
+        case $build_os in
+            cygwin*)
+                ac_gdz_jpg_lib_e15='libjpeg.lib'
+            ;;
+            *)
+                ac_gdz_jpg_lib_e15='-ljpeg'
+            ;;
+        esac
 
-        if test $build_os = cygwin; then
-           ac_gdz_jpg_lib_e15='"libjpeg.lib"'
-        else
-           ac_gdz_jpg_lib_e15='"-ljpeg"'
+        if test -n "$ac_gdz_jpg_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_jpg_incdir_e15='"'`cygpath -w $ac_gdz_jpg_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_jpg_incdir_e15=$ac_gdz_jpg_incdir
+                ;;
+            esac
         fi
 
-    elif test -n "$ac_gdz_jpg_dir"; then
-
-        ac_gdz_have_jpg_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_jpg_incdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
-           ac_gdz_jpg_libdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
-           ac_gdz_jpg_lib_e15='"libjpeg.lib"'
-        else
-           ac_gdz_jpg_incdir_e15=$ac_gdz_jpg_dir/include
-           ac_gdz_jpg_libdir_e15=$ac_gdz_jpg_dir/lib
-           ac_gdz_jpg_lib_e15='"-ljpeg"'
+        if test -n "$ac_gdz_jpg_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_jpg_libdir_e15='"'`cygpath -w $ac_gdz_jpg_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_jpg_libdir_e15=$ac_gdz_jpg_libdir
+                ;;
+            esac
         fi
-
-    else
-    
+        ac_gdz_have_jpg_e15=yes
+    else    
         ac_gdz_have_jpg_e15=no
-
     fi
 
 
@@ -1667,34 +1703,41 @@ dnl e15
     ac_gdz_png_incdir_e15=
     ac_gdz_png_libdir_e15=
 
-    if test "$with_png" = yes; then
+    if test "$enable_png" = yes; then
 
-        ac_gdz_have_png_e15=yes
+        case $build_os in
+            cygwin*)
+                ac_gdz_png_lib_e15='png32.lib'
+            ;;
+            *)
+                ac_gdz_png_lib_e15='-lpng -lz'
+            ;;
+        esac
 
-        if test $build_os = cygwin; then
-           ac_gdz_png_lib_e15='"png32.lib"'
-        else
-           ac_gdz_png_lib_e15='"-lpng -lz"'
+        if test -n "$ac_gdz_png_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_png_incdir_e15='"'`cygpath -w $ac_gdz_png_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_png_incdir_e15=$ac_gdz_png_incdir
+                ;;
+            esac
         fi
 
-    elif test -n "$ac_gdz_png_dir"; then
-
-        ac_gdz_have_png_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_png_incdir_e15='"'`cygpath -w $ac_gdz_png_dir/include`'"'
-           ac_gdz_png_libdir_e15='"'`cygpath -w $ac_gdz_png_dir/lib`'"'
-           ac_gdz_png_lib_e15='"png32.lib"'
-        else
-           ac_gdz_png_incdir_e15=$ac_gdz_png_dir/include
-           ac_gdz_png_libdir_e15=$ac_gdz_png_dir/lib
-           ac_gdz_png_lib_e15='"-lpng"'
+        if test -n "$ac_gdz_png_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_png_libdir_e15='"'`cygpath -w $ac_gdz_png_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_png_libdir_e15=$ac_gdz_png_libdir
+                ;;
+            esac
         fi
-    
+        ac_gdz_have_png_e15=yes
     else
-    
         ac_gdz_have_png_e15=no
-
     fi
 
 
@@ -1703,34 +1746,41 @@ dnl e15
     ac_gdz_mng_incdir_e15=
     ac_gdz_mng_libdir_e15=
 
-    if test "$with_mng" = yes; then
+    if test "$enable_mng" = yes; then
 
-        ac_gdz_have_mng_e15=yes
+        case $build_os in
+            cygwin*)
+                ac_gdz_mng_lib_e15='mng32.lib'
+            ;;
+            *)
+                ac_gdz_mng_lib_e15='-lmng'
+            ;;
+        esac
 
-        if test $build_os = cygwin; then
-           ac_gdz_mng_lib_e15='"mng32.lib"'
-        else
-           ac_gdz_mng_lib_e15='"-lmng"'
+        if test -n "$ac_gdz_mng_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_mng_incdir_e15='"'`cygpath -w $ac_gdz_mng_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_mng_incdir_e15=$ac_gdz_mng_incdir
+                ;;
+            esac
         fi
 
-    elif test -n "$ac_gdz_mng_dir"; then
-
-        ac_gdz_have_mng_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_mng_incdir_e15='"'`cygpath -w $ac_gdz_mng_dir/include`'"'
-           ac_gdz_mng_libdir_e15='"'`cygpath -w $ac_gdz_mng_dir/lib`'"'
-           ac_gdz_mng_lib_e15='"mng32.lib"'
-        else
-           ac_gdz_mng_incdir_e15=$ac_gdz_mng_dir/include
-           ac_gdz_mng_libdir_e15=$ac_gdz_mng_dir/lib
-           ac_gdz_mng_lib_e15='"-lmng"'
+        if test -n "$ac_gdz_mng_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_mng_libdir_e15='"'`cygpath -w $ac_gdz_mng_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_mng_libdir_e15=$ac_gdz_mng_libdir
+                ;;
+            esac
         fi
-
+        ac_gdz_have_mng_e15=yes
     else
-
         ac_gdz_have_mng_e15=no
-
     fi
 
 
@@ -1780,12 +1830,17 @@ dnl e15
     fi
 
 
-    ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
-
-    if test $build_os = cygwin; then 
-        ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+    if test $enable_win_exclude_default_path = yes; then
+        ac_gdz_compiler_lib_e15=
+        ac_gdz_system_lib_dir_e15=
     else
-        ac_gdz_system_lib_dir_e15="$ac_gdz_system_lib_dir"
+        ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
+
+        if test $build_os = cygwin; then 
+            ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+        else
+            ac_gdz_system_lib_dir_e15="$ac_gdz_system_lib_dir"
+        fi
     fi
 
     ac_gdz_base_system_libs_e15='"'$ac_gdz_base_system_libs'"'

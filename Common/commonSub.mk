@@ -14,7 +14,7 @@ endif
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
 ifeq ($(OS_BASE), cygwin)
-ifeq ($(OS_CMPLR), cl)
+ifeq ($(OS_CMPLR), cl.net)
 OSGNODEPS := 1
 endif
 endif
@@ -317,7 +317,11 @@ LIB_QTTARGET_CPP  := $(subst _qt,_qt_moc,$(LIB_QT_SOURCES))
 
 LIB_QTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_QTTARGET_CPP))
 
+ifneq ($($(PROJ)NODEPS),1)
 LIB_QTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_QTTARGET_CPP))
+else
+LIB_QTTARGET_DEPS :=
+endif
 
 LIB_QT_TARGET     := $(LIB_QTTARGET_CPP) : $(LIB_QT_SOURCES)
 endif
@@ -357,7 +361,11 @@ LIB_TESTQTTARGET_CPP  := $(subst _qt,_qt_moc,$(LIB_TESTQT_SOURCES))
 
 LIB_TESTQTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
 
+ifneq ($($(PROJ)NODEPS),1)
 LIB_TESTQTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_TESTQTTARGET_CPP))
+else
+LIB_TESTQTTARGET_DEPS := 
+endif
 
 LIB_TESTQT_TARGET     := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
 endif

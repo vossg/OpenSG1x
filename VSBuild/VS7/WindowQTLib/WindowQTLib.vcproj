@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
+			OutputDirectory=".\..\lib\opt"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -37,13 +37,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib qt-mt301.lib"
-				OutputFile="..\lib\dbg\OSGWindowQT.dll"
+				OutputFile="..\lib\opt\OSGWindowQT.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
-				ProgramDatabaseFile=".\Release/OSGWindowQT.pdb"
+				ProgramDatabaseFile=".\..\lib\opt\OSGWindowQT.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Release/OSGWindowQT.map"
-				ImportLibrary=".\Release/OSGWindowQT.lib"/>
+				ImportLibrary=".\..\lib\opt\OSGWindowQT.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -93,14 +93,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib qt-mt301.lib"
-				OutputFile="..\lib\dbg\OSGWindowQTD.dll"
+				OutputFile="..\lib\dbg\OSGWindowQT.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowQTD.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowQT.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGWindowQTD.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowQTD.lib"/>
+				MapFileName=".\Debug/OSGWindowQT.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowQT.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -217,6 +217,9 @@
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="lib.dbg.def">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

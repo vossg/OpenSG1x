@@ -33,7 +33,7 @@ RSC=rc.exe
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "Release"
+# PROP BASE Output_Dir "..\lib\opt"
 # PROP BASE Intermediate_Dir "Release"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib -NODEFAULTLIB -dll -map -out:..\lib\dbg\OSGSystem.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib -NODEFAULTLIB -dll -map -out:..\lib\opt\OSGSystem.dll
 
 !ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32           
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGSystemD.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGSystem.dll
       
 
 !ENDIF 
@@ -1311,11 +1311,6 @@ SOURCE=../../../Nodes/Particles/OSGParticlesFields.h
 # End Group
 # Begin Group "RenderingBackend h"
 # PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../RenderingBackend/OSGDrawTreeFactory.h
-# End Source File
-
 
 # Begin Source File
 SOURCE=../../../RenderingBackend/OSGDrawTreeNode.h
@@ -3292,10 +3287,6 @@ SOURCE=../../../FieldContainer/OSGNodePtr.cpp
 # End Source File
 
 
-# Begin Source File
-SOURCE=../../../FieldContainer/OSGTest.cpp
-# End Source File
-
 # End Group
 # Begin Group "FieldContainerImpl cpp"
 # PROP Default_Filter ""
@@ -3744,11 +3735,6 @@ SOURCE=../../../Nodes/Particles/OSGParticlesBase.cpp
 # End Group
 # Begin Group "RenderingBackend cpp"
 # PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../RenderingBackend/OSGDrawTreeFactory.cpp
-# End Source File
-
 
 # Begin Source File
 SOURCE=../../../RenderingBackend/OSGDrawTreeNode.cpp
