@@ -128,7 +128,7 @@ template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Int32 osgnextpower2(Int32 rValue)
 {
-	UInt32 result = 1;
+	Int32 result = 1;
 
     while ( result < rValue )
 		result <<= 1;

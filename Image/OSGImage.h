@@ -129,14 +129,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
             Int32 width, Int32 height = 1, Int32 depth = 1, 
             Int32 mipmapCount = 1, 
             Int32 frameCount = 1, Time frameDelay = 0.0,
-            UChar8 *data = 0, Bool doCopy = true );
+            const UChar8 *data = 0, Bool doCopy = true );
 
     /** set methode wich sets the image data */
     Bool set ( PixelFormat pixelFormat,
                Int32 width, Int32 height = 1, Int32 depth = 1, 
                Int32 mipmapCount = 1, 
                Int32 frameCount = 1, Time frameDelay = 0.0,
-               UChar8 *data = 0, Bool doCopy = true );
+               const UChar8 *data = 0, Bool doCopy = true );
 
 		/** str add value method, mainly used by ascii parser */
 		Bool addValue (const char *value);
@@ -157,35 +157,55 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /** methode to read the image data from the given File */
     Bool read (const Char8 *fileName);
 
+    /** methode to store the image to a piece of mem */
+    UInt64 store ( Char8 *mimeType, UChar8* mem, 
+                   UInt32 memSize = -1);
+
+    /** methode to restore the image from a piece of mem */
+    UInt64 restore ( const Char8 *mimeType, const UChar8* mem, 
+                     UInt32 memSize = -1);
+
     /** Equality comparison operator */
     Bool operator == (const Image &image);
 
     /** lower comparison operator */
     Bool operator < (const Image &image);
 
-    /** get method for attribute dimension */
-    Int32 dimension (void) const { return _dimension; }
+    /** get method for attribute dimension, it is 1,2 or 3 */
+		inline
+    Int32 getDimension (void) const { return _dimension; }
 
     /** get method for attribute width */
+		inline
     Int32 getWidth (void) const { return _width; }
 
     /** get method for attribute height */
+		inline
     Int32 getHeight (void) const { return _height; }
 
     /** get method for attribute depth */
+		inline
     Int32 getDepth (void) const { return _depth; }
 
     /** get method for attribute bpp */
-	UChar8 getBpp (void) const { return _bpp; }
+		inline
+		UChar8 getBpp (void) const { return _bpp; }
 
-	/** get the number of mipmaps */
-	Int32 getMipMapCount(void) { return _mipmapCount; }
+		/** get the number of mipmaps */
+		inline
+		Int32 getMipMapCount(void) const { return _mipmapCount; }
 	
-	/** geth the number of frames */
-	Int32 getFrameCount(void) { return _frameCount; }
+		/** geth the number of frames */
+		inline
+		Int32 getFrameCount(void) const { return _frameCount; }
+
+		/** geth the frame delay */
+		inline
+		Time getFrameDelay(void) const { return _frameDelay; }
 			
     /** get method for attribute pixelFormat */
-	PixelFormat getPixelFormat (void) const { return _pixelFormat; }
+		inline
+		PixelFormat getPixelFormat (void) const { return _pixelFormat; }
 
     /** get the size of used mem */
     inline 
@@ -199,10 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     inline 
     UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
 		{
-			UChar8 *data = _data;
-
-			if (frameNum) 
-				data += _frameSize * _bpp;
+			UChar8 *data = _data + (frameNum * _frameSize * _bpp);
 
 			if (mipmapNum) 
 				data += calcMipmapSumSize(mipmapNum - 1);
@@ -248,8 +265,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 			return level;
 		}
 
-    /** clears the image (sets all pixel to pixelValue) */
-    virtual void clear (UChar8 pixelValue = 0);
+	/** calculate the frame num for the given time */
+	inline
+	UInt32 calcFrameNum ( Time time, Bool loop = true ) 
+	{
+		int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
+										(int(time / _frameDelay) % _frameCount) : 0;
+
+		return ((frameNum > 0) ? frameNum : 0);
+	}
+
+  /** clears the image (sets all pixel to pixelValue) */
+  virtual void clear (UChar8 pixelValue = 0);
 
   protected:
 

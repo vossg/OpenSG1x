@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
  *****************************/
 
 // Static Class Varible implementations:
-static const char *suffixArray[] = {
+static const Char8 *suffixArray[] = {
   "jpg", "jpeg"
 };
 
@@ -93,7 +93,7 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //----------------------------
 //
 //Parameters:
-//p: Image &image, const char *fileName
+//p: Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -108,7 +108,7 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-bool JPGImageFileType::read (Image &image, const char *fileName )
+bool JPGImageFileType::read (Image &image, const Char8 *fileName )
 {
 
 #ifdef OSG_WITH_JPG
@@ -201,7 +201,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const Image &image, const char *fileName
+//p: const Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -216,7 +216,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool JPGImageFileType::write (const Image &image, const char *fileName )
+bool JPGImageFileType::write (const Image &image, const Char8 *fileName )
 {
 #ifdef OSG_WITH_JPG
 
@@ -339,7 +339,7 @@ bool JPGImageFileType::write (const Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-JPGImageFileType::JPGImageFileType ( const char *suffixArray[], 
+JPGImageFileType::JPGImageFileType ( const Char8 *suffixArray[], 
 																					 UInt16 suffixByteCount)
   : ImageFileType ( suffixArray, suffixByteCount )
 {

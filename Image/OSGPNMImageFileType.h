@@ -95,13 +95,13 @@ public:
   virtual PNMImageFileType & the (void) { return _the; }
 
   /** get method for the type name */
-  virtual const char *getMimeType (void) { return "PNM"; }
+  virtual const Char8 *getMimeType (void) { return "PNM"; }
 
   /** read the image from the given file */
-  virtual bool read (Image &image, const char *fileName);
+  virtual bool read (Image &image, const Char8 *fileName);
 
   /** write the image to the given file */
-  virtual bool write (const Image &image, const char *fileName);
+  virtual bool write (const Image &image, const Char8 *fileName);
 
 protected:
 
@@ -126,7 +126,7 @@ protected:
 
 
   /** Default Constructor */
-  PNMImageFileType ( const char *suffixArray[], UInt16 suffixByteCount );
+  PNMImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
   PNMImageFileType (const PNMImageFileType &obj);

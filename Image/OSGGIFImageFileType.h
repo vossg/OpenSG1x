@@ -96,13 +96,13 @@ public:
   virtual ~GIFImageFileType (void);
 
   /** get method for the type name */
-  virtual const char *getMimeType (void) { return "GIF"; }
+  virtual const Char8 *getMimeType (void) { return "GIF"; }
 
   /** read the the image from the given filename */
-  virtual bool read (Image &image, const char *fileName);
+  virtual Bool read (Image &image, const Char8 *fileName);
 
   /** write the the image to the given filename */
-  virtual bool write (const Image &image, const char *fileName);
+  virtual Bool write (const Image &image, const Char8 *fileName);
 
   /** get method for attribute the */
   GIFImageFileType & the (void) { return _the; }
@@ -131,7 +131,7 @@ protected:
 
 
   /** Default Constructor */
-  GIFImageFileType ( const char *suffixArray[], UInt16 suffixByteCount );
+  GIFImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
   GIFImageFileType (const GIFImageFileType &obj);

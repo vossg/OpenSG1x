@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const char *suffixArray[] = 
+static const Char8 *suffixArray[] = 
 {
 	"pnm", "pbm", "pgm", "ppm"
 };
@@ -97,7 +97,7 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //----------------------------
 //
 //Parameters:
-//p: Image &image, const char *fileName
+//p: Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -112,7 +112,7 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //s:
 //
 //------------------------------
-bool PNMImageFileType::read (Image &image, const char *fileName )
+bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 {
 	Int16 type, width, height, lineSize, maxValue = 0, value, x, y;
 	UInt16 i;
@@ -171,7 +171,7 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 		lineSize = width * image.getBpp();
 		if (type >= 4) { // image is binary
 			for (y = height - 1; y >= 0; y--) 
-				in.read((char *) &(image.getData()[y * lineSize]), lineSize);
+				in.read((Char8 *) &(image.getData()[y * lineSize]), lineSize);
 		}
 		else {           // image is ascii
 			for (y = height - 1; y >= 0; y--) {
@@ -197,7 +197,7 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: Image &image, const char *fileName
+//p: Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -212,7 +212,7 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool PNMImageFileType::write (const Image &image, const char *fileName )
+bool PNMImageFileType::write (const Image &image, const Char8 *fileName )
 {	
 	Int16  p, y, x, lineSize;
 	ofstream  out(fileName);
@@ -288,7 +288,7 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const char *suffixArray[], UInit16 suffixByteCount
+//p: const Char8 *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
 //g: 
 //Returns:
@@ -303,7 +303,7 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-PNMImageFileType::PNMImageFileType ( const char *suffixArray[], 
+PNMImageFileType::PNMImageFileType ( const Char8 *suffixArray[], 
 																					 UInt16 suffixByteCount )
 	: ImageFileType ( suffixArray, suffixByteCount )
 {

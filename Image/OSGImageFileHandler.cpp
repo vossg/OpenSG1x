@@ -52,6 +52,8 @@
 
 #include "OSGImageFileHandler.h"
 
+#include "OSGMTDImageFileType.h"
+
 OSG_USING_NAMESPACE
 
 /* enum VecBase::VectorSizeE
@@ -160,6 +162,40 @@ ImageFileType * ImageFileHandler::getFileType ( const char *mimeType,
 	}
 		
 	return type;
+}
+
+//----------------------------
+// Function name: getFileType
+//----------------------------
+//
+//Parameters:
+//p: const char *mimeType, const char *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:ImageFileType
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: getFileType
+//SeeAlso:
+//s:
+//
+//------------------------------
+ImageFileType * ImageFileHandler::getDefaultType (void)
+{
+  String dSuffix("opensg");
+  map <String, ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
+  ImageFileType *type =(sI == _suffixTypeMap.end()) ? 0 : sI->second;
+
+  if (!type) {
+    FFATAL (( "Can not find any default (suffix:%s) image handler\n",
+              dSuffix.str() ));
+  }
+  
+  return type;
 }
 
 //----------------------------
@@ -273,6 +309,107 @@ bool ImageFileHandler::write ( const Image &image,
 		SWARNING << "can't write " << fileName << "; unknown image format" <<                         endl;
 
 	return retCode;
+}
+
+//----------------------------
+// Function name: write
+//----------------------------
+//
+//Parameters:
+//p: const Image &image, const char *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: 
+//SeeAlso:
+//s:
+//
+//------------------------------
+UInt64 ImageFileHandler::restore ( Image &image, const char *mimeType,
+                                   const UChar8 *buffer, UInt32 memSize = -1 )
+{
+	ImageFileType *type;
+
+  type = mimeType ? getFileType(mimeType) : getDefaultType();
+
+  return type->restore(image,buffer,memSize);
+}
+
+//----------------------------
+// Function name: write
+//----------------------------
+//
+//Parameters:
+//p: const Image &image, const char *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: 
+//SeeAlso:
+//s:
+//
+//------------------------------
+UInt64 ImageFileHandler::store ( const Image &image, const char *mimeType,
+                                 UChar8 *buffer, UInt32 memSize = -1 )
+{
+	ImageFileType *type;
+
+  type = mimeType ? getFileType(mimeType) : getDefaultType();
+
+  return type->store(image,buffer,memSize);
+}
+
+//----------------------------
+// Function name: write
+//----------------------------
+//
+//Parameters:
+//p: const Image &image, const char *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: 
+//SeeAlso:
+//s:
+//
+//------------------------------
+UChar8* ImageFileHandler::store ( const Image &image,
+                                  UInt64 &memSize,
+                                  const char *mimeType = 0)
+{
+  ImageFileType *type = 0;
+  UChar8 *mem = 0;
+ 
+  type = mimeType ? getFileType(mimeType) : getDefaultType();
+  memSize = type->maxBufferSize(image);
+  
+  if (memSize) {
+    mem = new UChar8[memSize];
+    memSize = type->store(image,mem,memSize);
+  } 
+  else {
+    FFATAL (("Can not store the image as %s\n", type->getMimeType()));
+  }   
+    
+  return mem;
 }
 
 //----------------------------

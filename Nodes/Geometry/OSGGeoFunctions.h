@@ -72,18 +72,32 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr getNormals( GeometryPtr geo, Real32 length );
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
-Int32 setIndexFromVRMLData(GeometryPtr geo, 
-                           vector<Int32> & coordIndex,
-                           vector<Int32> & normalIndex,
-                           vector<Int32> & colorIndex,
-                           vector<Int32> & texCoordIndex,
-                           Bool convex = true, 
-                           Bool ccw = true,
-                           Bool normalPerVertex = true,
-                           Bool colorPerVertex = true,
-                           Bool faceSet = true );
+Int32 setIndexFromVRMLData ( GeometryPtr geo, 
+                             vector<Int32> & coordIndex,
+                             vector<Int32> & normalIndex,
+                             vector<Int32> & colorIndex,
+                             vector<Int32> & texCoordIndex,
+                             Bool convex = true, 
+                             Bool ccw = true,
+                             Bool normalPerVertex = true,
+                             Bool colorPerVertex = true,
+                             Bool faceSet = true );
 
 
+/*! \brief optimize the geo by creating strips and fans, 
+ *  creates new index values but does not touch the property values
+ *  returns the number of points to be tranformed 
+ *  \ingroup Geometry
+ */
+Int32 createOptimizedPrimitives ( GeometryPtr geo,
+                                  Bool createStrips = true, 
+                                  Bool createFans = true);
+
+/*! \brief return the number of triangle/line/point elem 
+ *  \ingroup Geometry
+ */
+UInt64 calcPrimitiveCount ( GeometryPtr geo,
+                            UInt64 &triangle, UInt64 &line, UInt64 &point);
 
 OSG_END_NAMESPACE
 

@@ -145,7 +145,7 @@ OSG_USING_NAMESPACE
  *****************************/
 
 // Static Class Varible implementations:
-static const char *suffixArray[] = {
+static const Char8 *suffixArray[] = {
     "gif"
 };
 
@@ -165,7 +165,7 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //----------------------------
 //
 //Parameters:
-//p: Image &image, const char *fileName
+//p: Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -180,7 +180,7 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-bool GIFImageFileType::read (Image &image, const char *fileName )
+bool GIFImageFileType::read (Image &image, const Char8 *fileName )
 {
 	bool retCode = false;
 
@@ -402,7 +402,7 @@ bool GIFImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool GIFImageFileType::write (const Image &image, const char *fileName )
+bool GIFImageFileType::write (const Image &image, const Char8 *fileName )
 {
 
 #ifdef OSG_WITH_GIF
@@ -465,7 +465,7 @@ bool GIFImageFileType::write (const Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-GIFImageFileType::GIFImageFileType ( const char *suffixArray[], 
+GIFImageFileType::GIFImageFileType ( const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount)
     : ImageFileType ( suffixArray, suffixByteCount )
 {

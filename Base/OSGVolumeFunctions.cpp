@@ -25,7 +25,8 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
-\*---------------------------------------------------------------------------*//*---------------------------------------------------------------------------*\
+ \*--------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
  *                                                                           *
@@ -57,7 +58,26 @@ OSG_BEGIN_NAMESPACE
 OSG_BASE_DLLMAPPING Bool intersect ( const Volume &vol1, 
 													    			 const Volume &vol2)
 {
-	FFATAL (("intersect (volume/volume) is not impl.\n"));
+	Bool retCode = false;
+	const DynamicVolume *dv = dynamic_cast<const DynamicVolume *>(&vol1);
+	const Volume *v = dv ? &(dv->getInstance()) : &vol1;
+	const BoxVolume *bv;
+	const SphereVolume *sv;
+	const CylinderVolume *cv;
+	const FrustumVolume *fv;
+
+	if ((bv = dynamic_cast<const BoxVolume*>(v)))
+		retCode = intersect(*bv,vol2);
+	else
+		if ((sv = dynamic_cast<const SphereVolume*>(v)))
+			retCode = intersect(*sv,vol2);
+		else
+			if ((cv = dynamic_cast<const CylinderVolume*>(v)))
+				retCode = intersect(*cv,vol2);
+			else
+				if ((fv = dynamic_cast<const FrustumVolume*>(v)))
+					retCode = intersect(*fv,vol2);
+
 	return false;
 }
 	
@@ -140,13 +160,17 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
       retCode = true;
 
     else {
-
-
+      
+      // find the distance between the min and the max of the box 
+      //with the lower point and the upper point of the cylinder respectively
+     
 	s1 = (apos - box.getMin()).length();
 	s2 = (apos - box.getMax()).length();
 	s3 = (apos + adir - box.getMin()).length();
 	s4 = (apos + adir - box.getMax()).length();
-      
+
+	//Check the minimum of the above distances
+ 
       if (s1 <= s2) { 
        d1 = s1;
        p1 = box.getMin();
@@ -166,7 +190,9 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 	d2 = s4;
 	p2 = box.getMax();
       }
-      
+
+      //set the value of the vector corresponding to the shortest distance
+
       if (d1 <= d2) {
 	d = d1;
 	c = apos;
@@ -178,6 +204,8 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 	c = apos + adir;
 	p = p2;
       }
+      //decompose the vector in u1 and u2 which are parallel and perpendicular to the cylinder axis respectively
+
 
       u = p-c;
       u1 = (u[0]*adir[0] + u[1]*adir[1] +u[2]*adir[2]) 
@@ -206,31 +234,62 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
   const Pnt3f &min = box.getMin();
   const Pnt3f &max = box.getMax();
  
-  Plane frust[] = {frustum.getNear(), frustum.getFar(), frustum.getLeft(), frustum.getRight(), frustum.getTop(), frustum.getBottom()};
+  Plane frust[] = {frustum.getNear(),
+		   frustum.getFar(),
+		   frustum.getLeft(), 
+		   frustum.getRight(),
+		   frustum.getTop(),
+		   frustum.getBottom()};
+
+  // check each point of the box to the 6 planes
 
   for (i=0; i<6; i++){
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
 
@@ -278,10 +337,14 @@ OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere1,
 	Real32 dist = (sphere2.getCenter() - sphere1.getCenter()).length();
 	
 	if (sphere1.isEmpty() || sphere2.isEmpty())
-		retCode = false;
+	  retCode = false;
+       
 	else
 		if (sphere1.isInfinite() || sphere2.isInfinite())
 			retCode = true;
+
+	//check if the distance between the center of the 2 spheres is bigger than the sum of the 2 radiuses
+
 		else
 			if ( dist < sphere1.getRadius() + sphere2.getRadius())
 				retCode = true;
@@ -299,6 +362,7 @@ OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &sphere,
   Vec3f adir, u, u1, u2;
 
   cylinder.getAxis(apos,adir);
+
   if (sphere.isEmpty() || cylinder.isEmpty())
     retCode = false;
 
@@ -306,9 +370,13 @@ OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &sphere,
     if (sphere.isInfinite() || cylinder.isInfinite())
       retCode = true;
 
+  //get the distance between the upper and lower point of the cylinder and the sphere center
+
     else {
       s1 = (apos - sphere.getCenter()).length();
       s2 = (apos +adir - sphere.getCenter()).length();
+
+      //check the smallest distance and set the vector coordinate
 
       if (s1<=s2) {
 	d = s1;
@@ -319,11 +387,12 @@ OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &sphere,
 	c = apos + adir;
       }
       
-      
+       //decompose the vector in u1 and u2 which are parallel and perpendicular to the cylinder axis respectively
+
       u = ((d-sphere.getRadius())/d)*(c-sphere.getCenter());
       u1 = (u[0]*adir[0] + u[1]*adir[1] + u[2]*adir[2])/(adir.length()*adir.length())* adir;
-      u2 = (u-u1);
-      
+      u2 = u - u1;
+          
       if (u2.length()<=10e-6)
 	retCode = (d <=sphere.getRadius());
 
@@ -340,9 +409,11 @@ OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere,
 																		 const FrustumVolume &frustum)
 {
 	int i;
-	Plane frust[6] = {frustum.getNear(), frustum.getFar(), frustum.getLeft(), frustum.getRight(), 
-			  frustum.getTop(), frustum.getBottom()};
+	Plane frust[6] = { frustum.getNear(), frustum.getFar(), 
+                     frustum.getLeft(), frustum.getRight(), 
+                     frustum.getTop(), frustum.getBottom()};
 
+	//check the center of the sphere with each plane of the frustum
 	for (i=0;i<6;i++){
 	  if (frust[i].getNormal().x()*sphere.getCenter().x() +
 	      frust[i].getNormal().y()*sphere.getCenter().y() +
@@ -388,18 +459,21 @@ OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder1,
 																		 const CylinderVolume &cylinder2)
 {
 
-  Vec3f adir1, adir2, n;
+
+  Vec3f adir1, adir2,n;
   Pnt3f apos1, apos2, p;
+  double d;
   Bool retCode = false;
   cylinder1.getAxis(apos1,adir1);
   cylinder2.getAxis(apos2,adir2);
-  double d;
 
-  n = (adir1.cross(adir2));
+  //get the shortest distance between the two axes of the cylinders
+
+  n = adir1.cross(adir2);
   n.normalize();
   p = apos1 - apos2;
   d = fabs(n.dot(p));
-
+  
   if (cylinder1.isEmpty() || cylinder2.isEmpty())
     retCode = false;
 
@@ -410,48 +484,74 @@ OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder1,
 
     else 
 
+      //check whether the distance is smaller than the sum of the 2 radiuses
       if(d <=cylinder1.getRadius()+cylinder2.getRadius())
 	   retCode = true;
 
   return retCode;
-
   
-
+  
 }
 
 OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder, 
-															
-			 const FrustumVolume &frustum)
+                                     const FrustumVolume &frustum )
 {
  int i;
  Pnt3f min, max;
  cylinder.getBounds(min, max);
 
-  Plane frust[] = {frustum.getNear(), frustum.getFar(), frustum.getLeft(), frustum.getRight(), frustum.getTop(), frustum.getBottom()};
+  Plane frust[] = { frustum.getNear(), frustum.getFar(), frustum.getLeft(), 
+                    frustum.getRight(), frustum.getTop(), frustum.getBottom()};
+
+  //check the boundaries of the cylinder with each plane of the frustum
 
   for (i=0; i<6; i++){
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*min.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*min.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*min.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*min.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*min.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*min.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
-    if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
+    if(frust[i].getNormal().x()*max.x()+
+       frust[i].getNormal().y()*max.y()+
+       frust[i].getNormal().z()*max.z()+
+       frust[i].getDistanceFromOrigin()>0)
       continue;
 
     return false;
@@ -473,16 +573,17 @@ OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder,
 	if ((bv = dynamic_cast<const BoxVolume*>(v)))
 		retCode = intersect(cylinder,*bv);
 	else
-		if ((sv = dynamic_cast<const SphereVolume*>(v)))
+		if (sv = dynamic_cast<const SphereVolume*>(v))
 			retCode = intersect(cylinder,*sv);
 		else
-			if ((cv = dynamic_cast<const CylinderVolume*>(v)))
+			if (cv = dynamic_cast<const CylinderVolume*>(v))
 				retCode = intersect(cylinder,*cv);
 			else
-				if ((fv = dynamic_cast<const FrustumVolume*>(v)))
+				if (fv = dynamic_cast<const FrustumVolume*>(v))
 					retCode = intersect(cylinder,*fv);
 			
 	return retCode;
+
 
 }
 
@@ -492,15 +593,34 @@ OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder,
 OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum1, 
 																		 const FrustumVolume &frustum2)
 {
-	// imp;
+	FFATAL (("intersect (frustum/frustum) is not impl.\n"));
 	return false;
 }
 
 OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum, 
 																		 const Volume &vol)
 {
-	// imp;
-	return false;
+  Bool retCode = false;
+  const DynamicVolume *dv = dynamic_cast<const DynamicVolume *>(&vol);
+  const Volume *v = dv ? &(dv->getInstance()) : &vol;
+  const BoxVolume *bv;
+  const SphereVolume *sv;
+  const CylinderVolume *cv;
+  const FrustumVolume *fv;
+
+	if ((bv = dynamic_cast<const BoxVolume*>(v)))
+		retCode = intersect(frustum,*bv);
+	else
+		if (sv = dynamic_cast<const SphereVolume*>(v))
+			retCode = intersect(frustum,*sv);
+		else
+			if (cv = dynamic_cast<const CylinderVolume*>(v))
+				retCode = intersect(frustum,*cv);
+			else
+				if (fv = dynamic_cast<const FrustumVolume*>(v))
+					retCode = intersect(frustum,*fv);
+			
+	return retCode;
 }
 
 // ###################################################################
@@ -510,12 +630,13 @@ OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
 OSG_BASE_DLLMAPPING void extend ( Volume &srcVol, 
                                   const Volume &vol)
 {
-	// imp;
+	FFATAL (("extend (frustum/volume) is not impl.\n"));
 	return;
 }
 
 
 // # Box #############################################################
+
 OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol, 
 																	const BoxVolume &vol)
 {
@@ -538,11 +659,11 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 			return;
 
 	srcVol.setBounds ( osgMin(vol.getMin().x(),srcVol.getMin().x()),
-										 osgMin(vol.getMin().y(),srcVol.getMin().y()),
-										 osgMin(vol.getMin().z(),srcVol.getMin().z()),
-										 osgMax(vol.getMax().x(),srcVol.getMax().x()),
-										 osgMax(vol.getMax().y(),srcVol.getMax().y()),
-										 osgMax(vol.getMax().z(),srcVol.getMax().z()));
+			   osgMin(vol.getMin().y(),srcVol.getMin().y()),
+			   osgMin(vol.getMin().z(),srcVol.getMin().z()),
+			   osgMax(vol.getMax().x(),srcVol.getMax().x()),
+			   osgMax(vol.getMax().y(),srcVol.getMax().y()),
+			   osgMax(vol.getMax().z(),srcVol.getMax().z()));
 
 	if (vol.isInfinite())
 		srcVol.setInfinite(true);
@@ -577,15 +698,15 @@ Pnt3f min, max;
 vol.getBounds(min, max);
 
 srcVol.setBounds ( osgMin(min.x(),srcVol.getMin().x()),
-										 osgMin(min.y(),srcVol.getMin().y()),
-										 osgMin(min.z(),srcVol.getMin().z()),
-										 osgMax(max.x(),srcVol.getMax().x()),
-										 osgMax(max.y(),srcVol.getMax().y()),
-										 osgMax(max.z(),srcVol.getMax().z()));
+		   osgMin(min.y(),srcVol.getMin().y()),
+		   osgMin(min.z(),srcVol.getMin().z()),
+		   osgMax(max.x(),srcVol.getMax().x()),
+		   osgMax(max.y(),srcVol.getMax().y()),
+		   osgMax(max.z(),srcVol.getMax().z()));
+
 	if (vol.isInfinite())
 		srcVol.setInfinite(true);
 
-	// imp;
 	return;
 }
 
@@ -616,11 +737,12 @@ Pnt3f min, max;
 vol.getBounds(min, max);
 
 srcVol.setBounds ( osgMin(min.x(),srcVol.getMin().x()),
-										 osgMin(min.y(),srcVol.getMin().y()),
-										 osgMin(min.z(),srcVol.getMin().z()),
-										 osgMax(max.x(),srcVol.getMax().x()),
-										 osgMax(max.y(),srcVol.getMax().y()),
-										 osgMax(max.z(),srcVol.getMax().z()));
+		   osgMin(min.y(),srcVol.getMin().y()),
+		   osgMin(min.z(),srcVol.getMin().z()),
+		   osgMax(max.x(),srcVol.getMax().x()),
+		   osgMax(max.y(),srcVol.getMax().y()),
+		   osgMax(max.z(),srcVol.getMax().z()));
+
 	if (vol.isInfinite())
 		srcVol.setInfinite(true);
 
@@ -630,8 +752,9 @@ srcVol.setBounds ( osgMin(min.x(),srcVol.getMin().x()),
 OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol, 
 																	const FrustumVolume &vol)
 {
+  FFATAL (("extend (box/frustum) is not impl.\n"));
+  return;
 
-	return;
 }
 
 #ifdef __sgi
@@ -666,14 +789,15 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 #endif
 
 // # Sphere ###########################################################
+
 OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol, 
 																	const BoxVolume &vol)
 {
-Pnt3f min,max,min1,max1, c;
-float r;
-BoxVolume vol1;
+  Pnt3f min,max,min1,max1, c;
+  float r;
+  BoxVolume vol1;
 
-vol.getBounds(min,max);
+  vol.getBounds(min,max);
 
 	if ( (! srcVol.isValid() && ! srcVol.isEmpty()) || 
 			 srcVol.isInfinite() || srcVol.isStatic() )
@@ -686,7 +810,9 @@ vol.getBounds(min,max);
 		if (vol.isEmpty())
 			return;
 		else {
-		  c=Pnt3f((min.x()+max.x())*0.5,(min.y()+max.y())*0.5,(min.z()+max.z())*0.5);
+		  c=Pnt3f( (min.x()+max.x())*0.5,
+               (min.y()+max.y())*0.5,
+               (min.z()+max.z())*0.5);
 		    r=((max-min).length())/2;
 		    
 			srcVol.setValue(c,r);
@@ -696,20 +822,22 @@ vol.getBounds(min,max);
 		if (vol.isEmpty())
 			return;
 
-srcVol.getBounds(min1,max1);
-vol1.setBounds ( osgMin(min.x(),min1.x()),
-										 osgMin(min.y(),min1.y()),
-										 osgMin(min.z(),min1.z()),
-										 osgMax(max.x(),max1.x()),
-										 osgMax(max.y(),max1.y()),
-										 osgMax(max.z(),max1.z()));
-
-vol1.getBounds(min,max);
-
-c=Pnt3f((min.x()+max.x())*0.5,(min.y()+max.y())*0.5,(min.z()+max.z())*0.5);
-r=((max-min).length())/2;
-
-srcVol.setValue(c,r);
+  srcVol.getBounds(min1,max1);
+  vol1.setBounds ( osgMin(min.x(),min1.x()),
+                   osgMin(min.y(),min1.y()),
+                   osgMin(min.z(),min1.z()),
+                   osgMax(max.x(),max1.x()),
+                   osgMax(max.y(),max1.y()),
+                   osgMax(max.z(),max1.z()));
+  
+  vol1.getBounds(min,max);
+  
+  c = Pnt3f ( (min.x()+max.x())*0.5,
+              (min.y()+max.y())*0.5,
+              (min.z()+max.z())*0.5);
+  r = ((max-min).length())/2;
+  
+  srcVol.setValue(c,r);
 
 	return;
 }
@@ -740,10 +868,16 @@ float r;
 	srcVol.getBounds(min,max);
 	vol.getBounds(min1,max1);
 
-	min2 = Pnt3f (osgMin(min.x(),min1.x()), osgMin(min.y(),min1.y()), osgMin(min.z(),min1.z()));
- 	max2 = Pnt3f(osgMax(max.x(),max1.x()),osgMax(max.y(),max1.y()),osgMax(max.z(),max1.z()));
+	min2 = Pnt3f (osgMin(min.x(),min1.x()), 
+                osgMin(min.y(),min1.y()), 
+                osgMin(min.z(),min1.z()));
+ 	max2 = Pnt3f (osgMax(max.x(),max1.x()),
+                osgMax(max.y(),max1.y()),
+                osgMax(max.z(),max1.z()));
 				     
-	c=Pnt3f((min2.x()+max2.x())*0.5,(min2.y()+max2.y())*0.5,(min2.z()+max2.z())*0.5);
+	c = Pnt3f    ((min2.x()+max2.x())*0.5,
+                (min2.y()+max2.y())*0.5,
+                (min2.z()+max2.z())*0.5);
 	r=((max2-min2).length())*0.5;
 	
 	srcVol.setValue(c,r);										 
@@ -783,10 +917,17 @@ OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol,
   srcVol.getBounds(min, max);
   vol.getBounds(min1, max1);
   
-  min2 = Pnt3f (osgMin(min.x(),min1.x()),osgMin(min.y(),min1.y()),osgMin(min.z(),min1.z()));
-  max2 = Pnt3f(osgMax(max.x(),max1.x()),osgMax(max.y(),max1.y()),osgMax(max.z(),max1.z()));
+  min2 = Pnt3f ( osgMin(min.x(),min1.x()),
+                 osgMin(min.y(),min1.y()),
+                 osgMin(min.z(),min1.z()));
+
+  max2 = Pnt3f ( osgMax(max.x(),max1.x()),
+                 osgMax(max.y(),max1.y()),
+                 osgMax(max.z(),max1.z()));
   
-  c=Pnt3f((min2.x()+max2.x())*0.5,(min2.y()+max2.y())*0.5,(min2.z()+max2.z())*0.5);
+  c = Pnt3f    ( (min2.x()+max2.x())*0.5,
+                 (min2.y()+max2.y())*0.5,
+                 (min2.z()+max2.z())*0.5);
   r=((max2-min2).length())*0.5;
   
   srcVol.setValue(c,r);
@@ -799,15 +940,18 @@ OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol,
 OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol, 
 																	const FrustumVolume &vol)
 {
-	// imp;
+  FFATAL (("extend (sphere/frustum) is not impl.\n"));
 	return;
+
 }
 
 OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol, 
 																	const Volume &vol )
 {
 	const Volume *v = &vol;
+	const BoxVolume *box;
 	const SphereVolume *sphere;
+	const CylinderVolume *cylinder;
 	const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume*>(v);
 
 	if (dynamic)
@@ -820,8 +964,10 @@ OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol,
 		Pnt3f min,max,c;
 		float r;
 		v->getBounds(min,max);
-		c=Pnt3f((min.x()+max.x())*0.5,(min.y()+max.y())*0.5,(min.z()+max.z())*0.5);
-		r=((max-min).length())*0.5;
+		c = Pnt3f( (min.x()+max.x())*0.5,
+               (min.y()+max.y())*0.5,
+               (min.z()+max.z())*0.5);
+		r = ((max-min).length())*0.5;
 		localSphere.setValue(c,r);
 		osg::extend(srcVol,localSphere);
 	}
@@ -830,6 +976,7 @@ OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol,
 }
 
 // # Cylinder ########################################################
+
 OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol, 
 																	const BoxVolume &vol)
 {
@@ -866,8 +1013,12 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
   srcVol.getBounds(min,max);
   vol.getBounds(min1,max1);
 
-  min2 = Pnt3f (osgMin(min.x(),min1.x()),osgMin(min.y(),min1.y()),osgMin(min.z(),min1.z()));
-  max2 = Pnt3f(osgMax(max.x(),max1.x()),osgMax(max.y(),max1.y()),osgMax(max.z(),max1.z()));
+  min2 = Pnt3f ( osgMin(min.x(),min1.x()),
+                 osgMin(min.y(),min1.y()),
+                 osgMin(min.z(),min1.z()));
+  max2 = Pnt3f ( osgMax(max.x(),max1.x()),
+                 osgMax(max.y(),max1.y()),
+                 osgMax(max.z(),max1.z()));
  
   p = Vec2f(max2.x()-min2.x(),max2.y()-min2.y());
   r = (p.length())*0.5;
@@ -900,8 +1051,12 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
       return;
     else {
       r = vol.getRadius();
-      apos = Pnt3f(vol.getCenter().x()-r, vol.getCenter().y()-r, vol.getCenter().z()-r);
-      adir = Vec3f(vol.getCenter().x()+r-apos.x(), vol.getCenter().y()+r-apos.y(), vol.getCenter().z()+r-apos.z());
+      apos = Pnt3f ( vol.getCenter().x()-r, 
+                     vol.getCenter().y()-r, 
+                     vol.getCenter().z()-r);
+      adir = Vec3f ( vol.getCenter().x()+r-apos.x(), 
+                     vol.getCenter().y()+r-apos.y(), 
+                     vol.getCenter().z()+r-apos.z());
       
        srcVol.setValue(apos,adir,r);
        return;
@@ -913,8 +1068,12 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
   srcVol.getBounds(min,max);
   vol.getBounds(min1,max1);
 
-  min2 = Pnt3f (osgMin(min.x(),min1.x()),osgMin(min.y(),min1.y()),osgMin(min.z(),min1.z()));
-  max2 = Pnt3f(osgMax(max.x(),max1.x()),osgMax(max.y(),max1.y()),osgMax(max.z(),max1.z()));
+  min2 = Pnt3f ( osgMin(min.x(),min1.x()),
+                 osgMin(min.y(),min1.y()),
+                 osgMin(min.z(),min1.z()));
+  max2 = Pnt3f ( osgMax(max.x(),max1.x()),
+                 osgMax(max.y(),max1.y()),
+                 osgMax(max.z(),max1.z()));
  
   p = Vec2f(max2.x()-min2.x(),max2.y()-min2.y());
   r = (p.length())*0.5;
@@ -957,8 +1116,12 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
 	srcVol.getBounds(min,max);
 	vol.getBounds(min1,max1);
 	
-	min2 = Pnt3f (osgMin(min.x(),min1.x()),osgMin(min.y(),min1.y()),osgMin(min.z(),min1.z()));
-	max2 = Pnt3f(osgMax(max.x(),max1.x()),osgMax(max.y(),max1.y()),osgMax(max.z(),max1.z()));
+	min2 = Pnt3f ( osgMin(min.x(),min1.x()),
+                 osgMin(min.y(),min1.y()),
+                 osgMin(min.z(),min1.z()));
+	max2 = Pnt3f ( osgMax(max.x(),max1.x()),
+                 osgMax(max.y(),max1.y()),
+                 osgMax(max.z(),max1.z()));
  
 	p = Vec2f(max2.x()-min2.x(),max2.y()-min2.y());
 	r = (p.length())*0.5;
@@ -973,15 +1136,17 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
 OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol, 
 																	const FrustumVolume &vol)
 {
-	// imp;
-
+  FFATAL (("extend (cylinder/frustum) is not impl.\n"));
 	return;
+
 }
 
 OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol, 
 																	const Volume &vol)
 {
 	const Volume *v = &vol;
+	const BoxVolume *box;
+	const SphereVolume *sphere;
 	const CylinderVolume *cylinder;
 	const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume*>(v);
 
@@ -1009,39 +1174,48 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
 }
 
 // # Frustum ########################################################
+
 OSG_BASE_DLLMAPPING void extend ( FrustumVolume &srcVol, 
 																	const BoxVolume &vol)
 {
-	// imp;
-	return;
+
+  FFATAL (("extend (frustum/box) is not impl.\n"));
+  return;
+
 }
 
 OSG_BASE_DLLMAPPING void extend ( FrustumVolume &srcVol, 
 																	const SphereVolume &vol)
 {
-	// imp;
-	return;
+  FFATAL (("extend (frustum/sphere) is not impl.\n"));
+  return;
+
 }
 
 OSG_BASE_DLLMAPPING void extend ( FrustumVolume &srcVol, 
 																	const CylinderVolume &vol)
 {
-	// imp;
-	return;
+  FFATAL (("extend (frustum/cylinder) is not impl.\n"));
+  return;
+
+
 }
 
 OSG_BASE_DLLMAPPING void extend ( FrustumVolume &srcVol, 
 																	const FrustumVolume &vol)
 {
-	// imp;
-	return;
+
+  FFATAL (("extend (frustum/frustum) is not impl.\n"));
+  return;
+
 }
 
 OSG_BASE_DLLMAPPING void extend ( FrustumVolume &srcVol, 
 																	const Volume &vol)
 {
-	// imp;
-	return;
+  FFATAL (("extend (frustum/volume) is not impl.\n"));
+  return;
+
 }
 
 OSG_END_NAMESPACE

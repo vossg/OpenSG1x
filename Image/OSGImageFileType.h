@@ -64,10 +64,10 @@ private:
 protected:
 
   /** Default Constructor */
-  ImageFileType ( const char * suffixArray[], UInt16 suffixByteCount );
+  ImageFileType ( const Char8 * suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
-  ImageFileType (const ImageFileType &obj);
+  ImageFileType ( const ImageFileType &obj);
 
 public:
 
@@ -75,16 +75,27 @@ public:
   virtual ~ImageFileType (void);
 
 	/** get mathod for the type mimeType */
-	virtual const char *getMimeType (void) = 0;
+	virtual const Char8 *getMimeType (void) = 0;
 
   /** get method for attribute suffixList */
   virtual list<String> & suffixList (void) { return _suffixList; }
 
   /** fill the given image with the content of the file 'fileName' */
-  virtual bool read (Image &image, const char *fileName ) = 0;
+  virtual Bool read (Image &image, const Char8 *fileName ) = 0;
 
   /** write the given image to 'fileName' */
-  virtual bool write (const Image &image, const char *fileName ) = 0;
+  virtual Bool write (const Image &image, const Char8 *fileName ) = 0;
+
+  /** fill the given image with the content of the mem 'buffer' */
+  virtual UInt64 restore ( Image &image, const UChar8 *buffer, 
+                           UInt32 memSize = -1 );
+
+  /** store the given image to the mem 'buffer' */
+  virtual UInt64 store ( const Image &image, UChar8 *buffer,
+                         UInt32 memSize = -1 );
+
+  /** returns the max needed buffer size */ 
+  virtual UInt64 maxBufferSize(const Image &image );
 
 	/** print debug info to cerr */
 	void print(void);

@@ -123,7 +123,7 @@ Int32 Image::_formatMap[][2] = {
 //----------------------------
 //
 //Parameters:
-//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapCount, Int32 frameCount, Time frameDelay, UChar8 *data
+//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapCount, Int32 frameCount, Time frameDelay, const UChar8 *data
 //GlobalVars:
 //g: 
 //Returns:
@@ -142,7 +142,7 @@ Bool Image::set ( PixelFormat pF,
                   Int32 w, Int32 h, Int32 d, 
                   Int32 mmS, Int32 fS,
                   Time fD,
-                  UChar8 *da, 
+                  const UChar8 *da, 
                   Bool doCopy )
 {
 	_pixelFormat = pF;
@@ -450,7 +450,7 @@ Bool Image::scale ( int width, int height, int depth, Image *destination )
 	Image *destImage = destination ? destination : new Image;
 	Bool retCode = true;
 	UInt32 sw,sh,sd,dw,dh,dd;
-	UInt32 frame, mipmap;
+	Int32 frame, mipmap;
 	UChar8 *src, *dest;
   
 	if (width != _width || height != _height || depth != _depth) {
@@ -674,6 +674,59 @@ Bool Image::read (const Char8 *fileName )
 {
 	return ImageFileHandler::the().read(*this, fileName);
 }
+
+
+//----------------------------
+// Function name: store
+//----------------------------
+//
+//Parameters:
+//p: const Char8 *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d:
+//SeeAlso:
+//s:
+//
+//------------------------------
+UInt64 Image::store (Char8 *mimeType, UChar8* mem, UInt32 memSize)
+{
+  return ImageFileHandler::the().store(*this,mimeType,mem,memSize);
+}
+
+//----------------------------
+// Function name: restore
+//----------------------------
+//
+//Parameters:
+//p: const Char8 *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d:
+//SeeAlso:
+//s:
+//
+//------------------------------
+UInt64 Image::restore ( const Char8 *mimeType, const UChar8* mem, 
+                        UInt32 memSize )
+{
+  return ImageFileHandler::the().restore(*this,mimeType,mem,memSize);;
+}
+
 /******************************
 *protected
 ******************************/
@@ -723,29 +776,32 @@ Bool Image::createData (const UChar8 *data, Bool doCopy )
 		_dimension = 3;
 
 	// set frameSize
-	_frameSize = calcMipmapSumSize(_mipmapCount);  
+	_frameSize = calcMipmapSumSize(_mipmapCount - 1);  
+
+  FINFO (("FrameSize: %d\n", _frameSize ));
 
 	// delete old data
 	if (_isCopy && _data)
 		delete [] _data;
 
 	// copy/link the data
-    if ((_isCopy = doCopy)) 
-        if ((byteCount = getSize())) {
-            _data = new UChar8[byteCount];
-            if (_data) {
-                if (data)
-                    memcpy(_data, data, byteCount);
-            }
-            else
-                SWARNING << "Couldn't alloc image data in Image::createData()!\n";
-        }
-        else
-            _data = 0;
+  if ((_isCopy = doCopy)) 
+    if ((byteCount = getSize())) {
+      _data = new UChar8[byteCount];
+      if (_data) {
+        if (data)
+          memcpy(_data, data, byteCount);
+      }
+      else {
+        FFATAL (("Can not alloc mem for image data\n"));
+      }
+    }
     else
-        _data = const_cast<UChar8*>(data);
-
-	return _data;
+      _data = 0;
+  else
+    _data = const_cast<UChar8*>(data);
+  
+  return _data;
 }
 
 //----------------------------
@@ -930,7 +986,7 @@ Image::~Image (void )
 Image::Image ( PixelFormat pixelFormat, 
                Int32 width, Int32 height, Int32 depth, 
                Int32 mipmapCount, Int32 frameCount, Time frameDelay,
-               UChar8 *data, Bool doCopy )
+               const UChar8 *data, Bool doCopy )
 	: _pixelFormat(pixelFormat),
       _width(width), _height(height), _depth(depth),
       _mipmapCount(mipmapCount), 

@@ -108,10 +108,26 @@ public:
                       const char *fileName, const char *mimeType = 0
                       );
 
+  /** fill the given image with the content of the mem 'buffer' */
+  virtual UInt64 restore ( Image &image, const char *mimeType,
+                           const UChar8 *buffer, UInt32 memSize = -1 );
+
+  /** store the given image to the mem 'buffer' */
+  virtual UInt64 store ( const Image &image, const char *mimeType,
+                         UChar8 *buffer, UInt32 memSize = -1 );
+
+  /** store the given image, mem is automatic allocated, the user has
+      to 'delete' the mem, returns the size of the data in 'memSize'  */
+  virtual UChar8* store ( const Image &image, UInt64 &memSize,
+                          const char *mimeType = 0);
+
   /** get file type */
   virtual ImageFileType * getFileType ( const char *mimeType,
                                         const char *fileName = 0 );
-
+                      
+  /** get the system default type */
+  virtual ImageFileType *getDefaultType (void);
+                                        
   /** print debug info to cerr */
   void print (void);
 

@@ -58,7 +58,7 @@
 OSG_USING_NAMESPACE
 
 // Static Class Varible implementations:
-static const char *suffixArray[] = {
+static const Char8 *suffixArray[] = {
   "tif", "tiff"
 };
 
@@ -124,7 +124,7 @@ TIFImageFileType TIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-bool TIFImageFileType::read (Image &image, const char *fileName )
+bool TIFImageFileType::read (Image &image, const Char8 *fileName )
 {
 		bool valid = false;
 
@@ -262,7 +262,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool TIFImageFileType::write (const Image &image, const char *fileName )
+bool TIFImageFileType::write (const Image &image, const Char8 *fileName )
 {
 	bool retCode = false;
 
@@ -369,7 +369,7 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-TIFImageFileType::TIFImageFileType ( const char *suffixArray[], 
+TIFImageFileType::TIFImageFileType ( const Char8 *suffixArray[], 
 																		 UInt16 suffixByteCount )
 	: ImageFileType ( suffixArray, suffixByteCount )
 {

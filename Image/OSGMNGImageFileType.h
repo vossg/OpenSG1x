@@ -96,13 +96,13 @@ public:
   virtual ~MNGImageFileType (void);
 
   /** get method for the type name */
-  virtual const char *getMimeType (void) { return "MNG"; }
+  virtual const Char8 *getMimeType (void) { return "MNG"; }
 
   /** read the the image from the given filename */
-  virtual bool read (Image &image, const char *fileName);
+  virtual bool read (Image &image, const Char8 *fileName);
 
   /** write the the image to the given filename */
-  virtual bool write (const Image &image, const char *fileName);
+  virtual bool write (const Image &image, const Char8 *fileName);
 
   /** get method for attribute the */
   MNGImageFileType & the (void) { return _the; }
@@ -131,7 +131,7 @@ protected:
 
 
   /** Default Constructor */
-  MNGImageFileType ( const char *suffixArray[], UInt16 suffixByteCount );
+  MNGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
   MNGImageFileType (const MNGImageFileType &obj);

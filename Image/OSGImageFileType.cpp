@@ -65,11 +65,11 @@ OSG_USING_NAMESPACE
 // Description:
 //         Default Constructor
 //----------------------------------------------------------------------
-ImageFileType::ImageFileType ( const char * suffixArray[], 
+ImageFileType::ImageFileType ( const Char8 * suffixArray[], 
                                UInt16 suffixByteCount )
 {
-	int suffixCount = suffixByteCount / sizeof(const char *);
-  int i = 0;
+	Int32 suffixCount = suffixByteCount / sizeof(const Char8 *);
+  Int32 i = 0;
 	list<String>::iterator sI;
 
 	_suffixList.resize(suffixCount);
@@ -104,6 +104,44 @@ ImageFileType::ImageFileType (const ImageFileType &obj )
 ImageFileType::~ImageFileType (void )
 {
 	return;
+}
+
+//----------------------------------------------------------------------
+// Method: print
+// Author: jbehr
+// Date:   Tue Apr 11 15:32:43 2000
+// Description:
+//         Destructor
+//----------------------------------------------------------------------
+UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
+                                UInt32 memSize )
+{
+  return 0;
+}
+
+//----------------------------------------------------------------------
+// Method: print
+// Author: jbehr
+// Date:   Tue Apr 11 15:32:43 2000
+// Description:
+//         Destructor
+//----------------------------------------------------------------------
+UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
+                              UInt32 memSize )
+{
+  return 0;
+}
+
+//----------------------------------------------------------------------
+// Method: print
+// Author: jbehr
+// Date:   Tue Apr 11 15:32:43 2000
+// Description:
+//         Destructor
+//----------------------------------------------------------------------
+UInt64 ImageFileType::maxBufferSize(const Image &image )
+{
+  return 0;
 }
 
 //----------------------------------------------------------------------

@@ -70,7 +70,7 @@ OSG_USING_NAMESPACE
  *****************************/
 
 // Static Class Varible implementations:
-static const char *suffixArray[] = {
+static const Char8 *suffixArray[] = {
   "png"
 };
 
@@ -90,7 +90,7 @@ PNGImageFileType PNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //----------------------------
 //
 //Parameters:
-//p: Image &image, const char *fileName
+//p: Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -105,7 +105,7 @@ PNGImageFileType PNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-bool PNGImageFileType::read (Image &image, const char *fileName )
+bool PNGImageFileType::read (Image &image, const Char8 *fileName )
 {
 
 #ifdef OSG_WITH_PNG
@@ -225,7 +225,7 @@ bool PNGImageFileType::read (Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const Image &image, const char *fileName
+//p: const Image &image, const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -240,7 +240,7 @@ bool PNGImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool PNGImageFileType::write (const Image &image, const char *fileName )
+bool PNGImageFileType::write (const Image &image, const Char8 *fileName )
 {
 
 #ifdef PNG_LIB
@@ -289,7 +289,7 @@ bool PNGImageFileType::write (const Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: cinst char *suffixArray[], UInit16 suffixByteCount
+//p: cinst Char8 *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
 //g: 
 //Returns:
@@ -304,7 +304,7 @@ bool PNGImageFileType::write (const Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-PNGImageFileType::PNGImageFileType ( const char *suffixArray[], 
+PNGImageFileType::PNGImageFileType ( const Char8 *suffixArray[], 
 																					 UInt16 suffixByteCount)
   : ImageFileType ( suffixArray, suffixByteCount )
 {

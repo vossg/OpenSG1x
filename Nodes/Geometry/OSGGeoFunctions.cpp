@@ -52,6 +52,8 @@
 #include "OSGTriangleIterator.h"
 #include "OSGGeoFunctions.h"
 
+#include "OSGNodeGraph.h"
+
 OSG_USING_NAMESPACE
 
 
@@ -64,7 +66,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.12 2001/08/03 16:03:08 mroth Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.13 2001/08/04 19:49:36 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -159,8 +161,8 @@ has the length \a length.
 OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo, 
                                                  Real32      length)
 {
-    NodePtr  p = Node::create();
-    GeometryPtr g = Geometry::create();
+  NodePtr  p = Node::create();
+  GeometryPtr g = Geometry::create();
 	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	GeoPTypePtr type = GeoPType::create();	
@@ -252,13 +254,13 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     /** define the bag type */
     typedef vector<Int32>* IndexBagP;
 
-  /** defines the Index Types */
+    /** defines the Index Types */
     enum IndexType { UNKNOWN_IT = 0,
                      EMPTY_IT,
                      VERTEX_COORD_IT, VERTEX_IT, VERTEX_DUP_IT,
                      PRIMITIVE_IT, PRIMITIVE_INDEX_IT
     };
-  
+    
     /** holds the Index types as str, mainly for log/debug outputs */
     static const char *indexTypeStr[] = {
         "UNKNOWN_IT", "EMPTY_IT",
@@ -276,11 +278,11 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
 
     Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0, pType = 0;
     Int32 maxPType = (faceSet ? 5 : 3);
-    Int32 beginIndex, endIndex, len, sysPType = 0;
+    Int32 beginIndex, endIndex, step, len, sysPType = 0;
     Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
     Int32 pN = 0, nN = 0, cN = 0, tN = 0;
     IndexType indexType[4];
-//  IndexType &coordIT = indexType[0];
+    IndexType &coordIT = indexType[0];
     IndexType &normalIT = indexType[1];
     IndexType &colorIT = indexType[2];
     IndexType &textureIT = indexType[3];
@@ -289,6 +291,11 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     Int16 indexMap[4], indexMapID[4];
     IndexBagP indexBag[4] = { &coordIndex, &normalIndex,
                               &colorIndex, &texCoordIndex };
+
+    //----------------------------------------------------------------------   
+    // init
+    coordIT = VERTEX_IT;
+    indexMap[0] = Geometry::MapPosition;
 
     //----------------------------------------------------------------------
     // get the property pointer and element count
@@ -303,6 +310,8 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
 
     texCoordsPtr = geoPtr->getTexCoords();
     tN = ((texCoordsPtr == osg::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    FDEBUG (( "vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN ));
 
     //----------------------------------------------------------------------
     // check the vertex index and count the primitives
@@ -463,7 +472,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
         textureIT = EMPTY_IT;
 
     if (faceSet) {
-        FINFO (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
+        FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
                 primitiveN,
                 primitiveTypeCount[0], 
                 primitiveTypeCount[1], 
@@ -473,7 +482,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                 primitiveTypeCount[5] ));
     }
     else {
-        FINFO (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
+        FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
                 primitiveN,
                 primitiveTypeCount[0], 
                 primitiveTypeCount[1], 
@@ -481,9 +490,11 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                 primitiveTypeCount[3] ));
     }
 
-    FINFO (( "IndexType: color: %s, normal: %s, texture: %s \n", 
-            indexTypeStr[colorIT], indexTypeStr[normalIT],
-            indexTypeStr[textureIT] ));
+    FDEBUG (( "IndexType: coord: %s, color: %s, normal: %s, texture: %s \n", 
+              indexTypeStr[coordIT],
+              indexTypeStr[colorIT], 
+              indexTypeStr[normalIT],
+              indexTypeStr[textureIT] ));
 
     //----------------------------------------------------------------------
     // check/create the indexPtr/lengthsPtr/geoTypePtr
@@ -505,14 +516,12 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     else
         geoTypePtr->clear();
 
-  //----------------------------------------------------------------------
-  // create the index mapping
+    //----------------------------------------------------------------------
+    // create the index mapping
     indexMapID[0] = Geometry::MapPosition;
     indexMapID[1] = Geometry::MapNormal;
     indexMapID[2] = Geometry::MapColor;
     indexMapID[3] = Geometry::MapTexcoords;
-    indexMap[0] = Geometry::MapPosition;
-    indexType[0] = VERTEX_IT;
     for (mapi = i = 1; i <= 3; i++) {
         indexMap[i] = 0;
         switch (indexType[i]) {
@@ -546,8 +555,8 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     }
     osg::endEditCP(geoPtr);
   
-  //----------------------------------------------------------------------
-  // create index face/line data
+    //----------------------------------------------------------------------
+    // create index face/line data
     osg::beginEditCP (indexPtr);
     for (pType = (faceSet ? 3 : 2); pType <= maxPType; pType++) {
     
@@ -586,11 +595,19 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
             beginIndex = endIndex = -1;
             for ( i = 0; i <= piN; i++) {
                 if ( ((coordIndex[i]) < 0 ) || (i == piN) ) {
+                  len = i - beginIndex;
+                  if (ccw) {
                     endIndex = i;
-                    len = endIndex - beginIndex;
-                    if ((beginIndex >= 0) && (len == pType)) {
-            
-                        if (len >= maxPType) {
+                    step = 1;
+                  }
+                  else {
+                    endIndex = beginIndex - 1;
+                    beginIndex = i - 1;
+                    step = -1;
+                  }
+                  if ((beginIndex >= 0) && (len == pType)) {
+                    
+                    if (len >= maxPType) {
                             sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
                             osg::beginEditCP(lensPtr);
                             {
@@ -605,8 +622,8 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                         }
             
                         // add index data
-                        for (pi = beginIndex; pi < endIndex; pi++) {
-                            indexPtr->addValue(coordIndex[pi]);
+                        for (pi = beginIndex; pi != endIndex; pi += step) {
+                          indexPtr->addValue(coordIndex[pi]);
                             for (mapi = 1; (mapi <= 3) && (indexMap[mapi]); mapi++) {
                                 for (typei = 1; typei <= 3; typei++) {
                                     if (indexMap[mapi] & indexMapID[typei]) {      
@@ -647,4 +664,222 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     osg::endEditCP (indexPtr);
 
     return triCount;
+}
+
+/*! \brief optimize the geo by creating strips and fans, 
+ *  creates new index values but does not touch the property values
+ *  returns the number of points to be tranformed 
+ *  \ingroup Geometry
+ */
+Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
+                                       Bool createStrips, 
+                                       Bool createFans )
+{
+  NodeGraph graph;
+	vector<NodeGraph::Path> pathVec;	
+  TriangleIterator tI;
+  GeoPositionPtr posPtr;
+  Int32 cost = 0, i, j, n, pN, primN, triCount, sysPType;
+	Bool multiIndex;
+	vector<int> primitive;
+	GeoPLengthPtr lensPtr;
+  GeoPTypePtr geoTypePtr;
+  GeoIndexPtr indexPtr;
+	Time time, inputT, optimizeT, outputT;
+  UInt64 triN, lineN, pointN;
+
+	if (geoPtr != NullFC) {
+		posPtr = geoPtr->getPositions();
+  	pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
+    multiIndex =  (geoPtr->getIndexMapping().size() > 1);
+    calcPrimitiveCount(geoPtr,triN,lineN,pointN);
+	}
+  
+	if (pN && !multiIndex) {
+
+		FNOTICE (("Start Geometry (%d,%d,%d)\n", triN, lineN, pointN));
+
+		inputT = getSystemTime();
+		graph.init(pN,triN,8);
+	
+		if (!multiIndex)
+			triCount = 0;
+    for (tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles(); ++tI){
+          graph.addNode( triCount,
+                         tI.getPositionIndex(0),
+                         tI.getPositionIndex(1),
+                         tI.getPositionIndex(2) );
+          triCount++;
+		}
+   
+		graph.verify();
+    if (triN != triCount) {
+      FFATAL (("Triangle count missmatch (%d/%d)\n", triN, triCount));
+      return 0;
+    }
+
+		pathVec.resize(triN);
+
+    FDEBUG (("Start path.createPathVec() \n"));
+		time = getSystemTime();
+		inputT = time - inputT;
+		optimizeT = time;	
+		graph.createPathVec(pathVec,false);
+
+    //----------------------------------------------------------------------
+    // check/create the indexPtr/lengthsPtr/geoTypePtr
+    indexPtr = geoPtr->getIndex();
+    if (indexPtr == osg::NullFC)
+        indexPtr = osg::GeoIndexUI32::create();
+    else
+        indexPtr->clear();
+
+    lensPtr = geoPtr->getLengths();
+    if (lensPtr == osg::NullFC)
+        lensPtr = osg::GeoPLength::create();
+    else
+        lensPtr->clear();
+
+    geoTypePtr = geoPtr->getTypes();
+    if (geoTypePtr == osg::NullFC)
+        geoTypePtr = osg::GeoPType::create();
+    else
+        geoTypePtr->clear();
+
+    /*
+    //----------------------------------------------------------------------
+    // set lens/geoType/index/mapping the index mapping
+    osg::beginEditCP(geoPtr);
+    {
+        geoPtr->setLengths(lensPtr);
+        geoPtr->setTypes(geoTypePtr);
+        geoPtr->setIndex(indexPtr);
+    }
+    osg::endEditCP(geoPtr);
+    */
+
+		time = getSystemTime();
+		optimizeT = time - optimizeT;
+		outputT = time;
+
+    FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
+  
+		for (i = 0; i < triN; i++) {
+			n = graph.getPrimitive(pathVec[i],primitive);	
+		  cost += primitive.size();
+      if (n) {
+        if (n == 3) 
+          sysPType = GL_TRIANGLES;
+        else
+          sysPType = GL_TRIANGLE_STRIP;
+        
+        osg::beginEditCP(lensPtr);
+        {
+          lensPtr->getFieldPtr()->addValue(n);
+        }
+        osg::endEditCP (lensPtr);
+        osg::beginEditCP (geoTypePtr);
+        {
+          geoTypePtr->getFieldPtr()->addValue( sysPType );
+        }
+        osg::endEditCP (geoTypePtr);
+        
+        for (j = 0; j < n; j++)
+          indexPtr->addValue( primitive[j]);	
+     
+      }
+			else
+				break;
+		}
+    
+
+		time = getSystemTime();
+		outputT = time - outputT;
+
+		FNOTICE ((	"Graph create/optimize/output: %g/%g/%g, cost: %g\n",
+								inputT, optimizeT, outputT, 
+								double ( double(cost)/double(triN * 3) * 100.0) ));
+}
+
+return cost;
+}  
+
+/*! \brief return the number of triangle/line/point elem 
+ *  \ingroup Geometry
+ */
+UInt64 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
+                                 UInt64 &triangle, 
+                                 UInt64 &line, 
+                                 UInt64 &point)
+{	
+  GeoPTypePtr geoTypePtr;
+  GeoPLengthPtr lensPtr;
+  GeoPTypePtr::ObjectType::StoredFieldType::iterator typeI, endTypeI;
+  GeoPLengthPtr::ObjectType::StoredFieldType::iterator lenI;
+  UInt32 lN, tN, len, type;
+
+  triangle = line = point = 0;
+
+  if (geoPtr == osg::NullFC) {
+    FWARNING (("No geo in calcPrimitiveCount\n"));
+  }
+  else {
+    lensPtr = geoPtr->getLengths();
+    lN = (lensPtr == osg::NullFC) ? 0 : lensPtr->getSize();
+
+    geoTypePtr = geoPtr->getTypes();
+    tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
+
+    if ((tN == 0) || (tN != lN)) {
+      FWARNING (("Invalid GeoPLength and GeoPType data\n"));
+    }
+    else {
+      typeI = geoTypePtr->getFieldPtr()->begin();
+			lenI = lensPtr->getFieldPtr()->begin();
+      endTypeI = geoTypePtr->getFieldPtr()->end();   
+      while ( typeI != endTypeI  ) {
+        type = *typeI;
+        len = *lenI;
+        switch (type) {
+        case GL_POINTS:
+          point += len;
+          break;
+        case GL_LINES:
+          line += len / 2;
+          break;
+        case GL_LINE_LOOP:
+          line += len;
+          break;
+        case GL_LINE_STRIP:
+          line += len - 1;
+          break;
+        case GL_TRIANGLES:
+          triangle += len / 3;
+          break;
+        case GL_TRIANGLE_STRIP:
+          triangle += len - 2;
+          break;
+        case GL_TRIANGLE_FAN:
+          triangle += len - 2;
+          break;
+        case GL_QUADS:
+          triangle += len / 2;
+          break;
+        case GL_QUAD_STRIP:
+          triangle += len - 2;
+          break;
+        case GL_POLYGON:
+          triangle += len - 2;
+          break;
+        default:
+          FWARNING (("Invalid geoType: %d\n", type));
+          break;
+        }
+        ++typeI;
+        ++lenI;
+      }
+    }
+  }
+
+  return (triangle + line + point);
 }
