@@ -7,8 +7,8 @@ using namespace OSG;
 
 \latexonly Tutorial:NewChapter \endlatexonly
 
-\image html opensg_logo_small.gif ""
-\image latex opensg_logo_small.gif ""
+\image html opensg_logo_small.png ""
+\image latex opensg_logo_small.png ""
 
 
 \section TutorialWhatIsOpenSG What is OpenSG
