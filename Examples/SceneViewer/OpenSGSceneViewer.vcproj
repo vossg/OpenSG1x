@@ -21,7 +21,7 @@
 				AdditionalOptions="-Zm1000"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(OutDir)\moc\,$(QTDIR)\include,..\..\include"
+				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;UNICODE;NDEBUG;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_WITH_GLUT;OSG_WITH_GIF;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_QT;QT_DLL;QT_NO_DEBUG;QT_TRIAL;QT_ACCESSIBILITY_SUPPORT;QT_TABLET_SUPPORT;QT_THREAD_SUPPORT;OSG_WITH_FREETYPE1;QT_NO_STL;_WINDLL"
 				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
@@ -80,7 +80,7 @@
 				AdditionalOptions="-Zm1000"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(OutDir)\moc\,$(QTDIR)\include,..\..\include"
+				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;UNICODE;NDEBUG;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_WITH_GLUT;OSG_WITH_GIF;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_QT;QT_DLL;QT_NO_DEBUG;QT_TRIAL;QT_ACCESSIBILITY_SUPPORT;QT_TABLET_SUPPORT;QT_THREAD_SUPPORT;OSG_WITH_FREETYPE1;QT_NO_STL;_WINDLL"
 				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
@@ -153,20 +153,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC&apos;ing OSGMainView_qt.h"
-						CommandLine="$(QTDIR)\bin\moc.exe OSGMainView_qt.h -o $(OutDir)\moc\moc_OSGMainView_qt.cpp
+						CommandLine="$(QTDIR)\bin\moc.exe OSGMainView_qt.h -o moc_OSGMainView_qt.cpp
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
-						Outputs="$(OutDir)\moc\moc_OSGMainView_qt.cpp"/>
+						Outputs="moc_OSGMainView_qt.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC&apos;ing OSGMainView_qt.h"
-						CommandLine="$(QTDIR)\bin\moc.exe OSGMainView_qt.h -o $(OutDir)\moc\moc_OSGMainView_qt.cpp
+						CommandLine="$(QTDIR)\bin\moc.exe OSGMainView_qt.h -o moc_OSGMainView_qt.cpp
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
-						Outputs="$(OutDir)\moc\moc_OSGMainView_qt.cpp"/>
+						Outputs="moc_OSGMainView_qt.cpp"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -179,20 +179,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing OSGSceneView_qt.h..."
-						CommandLine="$(QTDIR)\bin\moc.exe OSGSceneView_qt.h -o $(OutDir)\moc\moc_OSGSceneView_qt.cpp
+						CommandLine="$(QTDIR)\bin\moc.exe OSGSceneView_qt.h -o moc_OSGSceneView_qt.cpp
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
-						Outputs="$(OutDir)\moc\moc_OSGSceneView_qt.cpp"/>
+						Outputs="moc_OSGSceneView_qt.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing OSGSceneView_qt.h..."
-						CommandLine="$(QTDIR)\bin\moc.exe OSGSceneView_qt.h -o $(OutDir)\moc\moc_OSGSceneView_qt.cpp
+						CommandLine="$(QTDIR)\bin\moc.exe OSGSceneView_qt.h -o moc_OSGSceneView_qt.cpp
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
-						Outputs="$(OutDir)\moc\moc_OSGSceneView_qt.cpp"/>
+						Outputs="moc_OSGSceneView_qt.cpp"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -205,12 +205,12 @@
 		</Filter>
 		<Filter
 			Name="MOCed Files"
-			Filter="">
+			Filter="cpp">
 			<File
-				RelativePath="$(OutDir)\moc\moc_OSGMainView_qt.cpp">
+				RelativePath="moc_OSGMainView_qt.cpp">
 			</File>
 			<File
-				RelativePath="$(OutDir)\moc\moc_OSGSceneView_qt.cpp">
+				RelativePath="moc_OSGSceneView_qt.cpp">
 			</File>
 		</Filter>
 	</Files>
