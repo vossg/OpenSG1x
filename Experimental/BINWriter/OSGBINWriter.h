@@ -142,7 +142,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 
 OSG_END_NAMESPACE
 
-#define OSG_HEADER_CVSID "@(#)$Id: $"
+#define OSGBINWRITER_HEADER_CVSID "@(#)$Id: $"
 
 
 #endif /* _OSGBINWriter_H_ */

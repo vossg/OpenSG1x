@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGBINLOADER_HEADER_CVSID;
 }
 
 #ifdef __sgi

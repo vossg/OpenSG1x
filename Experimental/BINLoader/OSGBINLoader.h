@@ -121,6 +121,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 
 OSG_END_NAMESPACE
 
-#define OSG_HEADER_CVSID "@(#)$Id: $"
+#define OSGBINLOADER_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGBINLoader_H_ */

@@ -116,7 +116,7 @@ class StringTokenizer
 
 OSG_END_NAMESPACE
 
-#define OSG_HEADER_CVSID "@(#)$Id: OSGStringTokenizer.h,v 1.1 2002/02/22 17:01:53 neumannc Exp $"
+#define OSGSTRINGTOKENIZER_HEADER_CVSID "@(#)$Id: OSGStringTokenizer.h,v 1.2 2002/02/23 01:02:08 dirk Exp $"
 
 #include "OSGStringTokenizer.inl"
 

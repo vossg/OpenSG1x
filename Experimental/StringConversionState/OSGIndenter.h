@@ -197,7 +197,7 @@ inline ostream& operator<<(ostream& stream, const Indenter& indent);
 
 OSG_END_NAMESPACE
 
-#define OSG_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.1 2002/02/22 17:01:53 neumannc Exp $"
+#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.2 2002/02/23 01:02:08 dirk Exp $"
 
 #include "OSGIndenter.inl"
 

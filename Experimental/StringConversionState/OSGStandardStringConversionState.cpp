@@ -55,9 +55,9 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStandardStringConversionState.cpp,v 1.2 2002/02/22 23:44:24 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStandardStringConversionState.cpp,v 1.3 2002/02/23 01:02:08 dirk Exp $";
+    static Char8 cvsid_hpp[] = OSGSTANDARDSTRINGCONVERSIONSTATE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTANDARDSTRINGCONVERSIONSTATE_INLINE_CVSID;
 }
 
 #ifdef __sgi
