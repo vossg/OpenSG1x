@@ -179,6 +179,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     virtual FieldContainerPtr     shallowCopy     (void) const; 
 
     /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -214,6 +215,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
+
     /*==========================  PRIVATE  ================================*/
   private:
 

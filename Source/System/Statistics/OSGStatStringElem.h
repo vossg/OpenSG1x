@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 class StatElemDescBase;
 
 /*! \ingroup baselib
- *  \brief Brief
+ *  \brief Abstract statistice element base class
  *
  *  detailed
  */
@@ -106,6 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
     //OSGbool operator != (const StatStringElem &other) const;
 
     /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -116,6 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
     StatStringElem ( StatElemDescBase *desc );
 
     /*! \}                                                                 */
+
     /*=========================  PRIVATE    ===============================*/
   private:
 

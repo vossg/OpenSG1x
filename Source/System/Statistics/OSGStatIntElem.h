@@ -105,6 +105,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     bool operator < (const StatIntElem &other) const;
 
     /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 

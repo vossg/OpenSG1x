@@ -55,31 +55,6 @@ OSG_BEGIN_NAMESPACE
     PageSystemWindowForegroundStatisticsGraphics for a description.
 */
 
-// The different types of the displayed Statistic
-#define STATISTICS_ANALOG 0
-#define STATISTICS_BAR   1
-#define STATISTICS_CHART 2
-#define STATISTICS_LINE_CHART 3
-#define STATISTICS_TEXT 4
-
-// Flags for Statistics
-#define STATISTICS_OVERFLOW_RESIZE 0x1
-#define STATISTICS_UNDERFLOW_RESIZE 0x2
-#define STATISTICS_RECIPROC 0x4
-#define STATISTICS_SMOOTH 0x8 
-#define STATISTICS_ENABLE_POINTS 0x10
-#define STATISTICS_MAX_TEXT 0x20
-#define STATISTICS_MIN_TEXT 0x40
-
-// Alignments for the text:
-#define STATISTICS_LEFT   0
-#define STATISTICS_RIGHT  1
-#define STATISTICS_CENTER 2
-
-#define STATISTICS_BOTTOM 0
-#define STATISTICS_MIDDLE 1
-#define STATISTICS_TOP    2
-
 class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStatisticsForegroundBase
 {
   private:
@@ -88,6 +63,36 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    enum Type {
+      OSG_ANALOG     = 0,
+      OSG_BAR        = 1,
+      OSG_CHART      = 2,
+      OSG_LINE_CHART = 3,
+      OSG_TEXT       = 4     
+    };
+
+    enum Mode {
+      OSG_OVERFLOW_RESIZE  = 1,
+      OSG_UNDERFLOW_RESIZE = 2,
+      OSG_RECIPROC         = 4,
+      OSG_SMOOTH           = 8,
+      OSG_ENABLE_POINTS    = 16,
+      OSG_MAX_TEXT         = 32,
+      OSG_MIN_TEXT         = 64
+    };
+
+    enum TextHA {
+      OSG_LEFT   = 0,
+      OSG_RIGHT  = 1,
+      OSG_CENTER = 2
+    };
+
+    enum TextVA {
+      OSG_BOTTOM = 0,
+      OSG_MIDDLE = 1,
+      OSG_TOP    = 2
+    };
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -117,8 +122,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
                     Color4f           currentColor,
                     Real32            minValue     = 0.0,
                     Real32            maxValue     = 0.0,
-                    UInt32            Flags = STATISTICS_UNDERFLOW_RESIZE | 
-                                              STATISTICS_OVERFLOW_RESIZE,
+                    UInt32            Flags = OSG_UNDERFLOW_RESIZE | 
+                                              OSG_OVERFLOW_RESIZE,
                     UInt32            historySize = 0,
                     std::string       description=""                      );
     
@@ -167,8 +172,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     //! Draws a string
     void drawString(           DrawActionBase *base, 
                     const std::string         &text,
-                               UInt32          align  = STATISTICS_LEFT,
-                               UInt32          valign = STATISTICS_BOTTOM);
+                               UInt32          align  = OSG_LEFT,
+                               UInt32          valign = OSG_BOTTOM);
     
     // converts a Real32 to a std::string
     std::string real2String(Real32 value, char* format = 0);

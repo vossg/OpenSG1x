@@ -61,7 +61,6 @@ void keyboard(unsigned char k, int, int)
     }
 }
 
-
 int main(int argc, char **argv)
 {
     osgInit(argc,argv);
@@ -119,7 +118,7 @@ int main(int argc, char **argv)
 	beginEditCP(statfg);
 	
 	statfg->addElement(RenderAction::statDrawTime,
-					   STATISTICS_ANALOG,
+					   GraphicStatisticsForeground::OSG_ANALOG,
 					   Vec2f(0.0,0.0),
 					   Vec2f(-1.0,0.25),
 					   highColor,
@@ -127,13 +126,15 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE | STATISTICS_SMOOTH,
+					   GraphicStatisticsForeground::OSG_RECIPROC | 
+             GraphicStatisticsForeground::OSG_OVERFLOW_RESIZE | 
+             GraphicStatisticsForeground::OSG_SMOOTH,
 					   100,
 					   "FPS"
 					   );
 	statfg->addElement(RenderAction::statDrawTime,
-                     STATISTICS_BAR,
-					 //  STATISTICS_ANALOG,                     
+                     GraphicStatisticsForeground::OSG_BAR,
+					 //  GraphicStatisticsForeground::OSG_ANALOG,                     
 					   Vec2f(0.0,-1.0),
 					   Vec2f(0.4,0.2),
 					   highColor,
@@ -141,13 +142,14 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE
-					   | STATISTICS_SMOOTH,
+					   GraphicStatisticsForeground::OSG_RECIPROC | 
+             GraphicStatisticsForeground::OSG_OVERFLOW_RESIZE |
+             GraphicStatisticsForeground::OSG_SMOOTH,
 					   100,
 					   "FPS"
 					   );
 	statfg->addElement(RenderAction::statDrawTime,
-                     STATISTICS_LINE_CHART,
+                     GraphicStatisticsForeground::OSG_LINE_CHART,
                      Vec2f(-1.0,0.0),
                      Vec2f(0.4,0.2),
                      highColor,
@@ -155,15 +157,18 @@ int main(int argc, char **argv)
                      currentColor,
                      0.0,
                      0.0,
-                     STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE
-                     | STATISTICS_SMOOTH | STATISTICS_ENABLE_POINTS
-                     | STATISTICS_MAX_TEXT | STATISTICS_MIN_TEXT,
+                     GraphicStatisticsForeground::OSG_RECIPROC | 
+                     GraphicStatisticsForeground::OSG_OVERFLOW_RESIZE |
+                     GraphicStatisticsForeground::OSG_SMOOTH | 
+                     GraphicStatisticsForeground::OSG_ENABLE_POINTS |
+                     GraphicStatisticsForeground::OSG_MAX_TEXT | 
+                     GraphicStatisticsForeground::OSG_MIN_TEXT,
                      100,
                      "FPS"
                      );
 
 	statfg->addElement(RenderAction::statDrawTime,
-					   STATISTICS_CHART,
+					   GraphicStatisticsForeground::OSG_CHART,
 					   Vec2f(-1.0,-1.0),
 					   Vec2f(0.4,0.2),
 					   highColor,
@@ -171,8 +176,9 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE
-					   | STATISTICS_SMOOTH,
+					   GraphicStatisticsForeground::OSG_RECIPROC 
+             | GraphicStatisticsForeground::OSG_OVERFLOW_RESIZE
+					   | GraphicStatisticsForeground::OSG_SMOOTH,
 					   100,
 					   "FPS"
 					   );

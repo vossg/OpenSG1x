@@ -230,6 +230,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     virtual FieldContainerPtr     shallowCopy     (void) const; 
 
     /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -331,6 +332,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
+
     /*==========================  PRIVATE  ================================*/
   private:
 
