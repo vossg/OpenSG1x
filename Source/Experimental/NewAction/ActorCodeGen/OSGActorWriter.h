@@ -43,6 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include "OSGActorInfo.h"
 #include "OSGStateElemInfo.h"
@@ -52,7 +53,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class ActorWriter
+class OSG_SYSTEMLIB_DLLMAPPING ActorWriter
 {
 public:
      ActorWriter(void            );
@@ -123,6 +124,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorWriter.inl"
 
-#define OSGACTORWRITER_HEADER_CVSID "@(#)$Id: OSGActorWriter.h,v 1.1 2003/10/10 13:51:07 neumannc Exp $"
+#define OSGACTORWRITER_HEADER_CVSID "@(#)$Id: OSGActorWriter.h,v 1.2 2003/10/17 07:34:59 a-m-z Exp $"
 
 #endif /* _OSGACTORWRITER_H_ */

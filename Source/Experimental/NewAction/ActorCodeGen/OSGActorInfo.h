@@ -43,6 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <string>
 #include <vector>
@@ -56,7 +57,7 @@ class StateElemInfo;
            FunctorStores for enter and leave and a list of StateElemInfos.
 */
 
-class ActorInfo
+class OSG_SYSTEMLIB_DLLMAPPING ActorInfo
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -185,6 +186,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorInfo.inl"
 
-#define OSGACTORINFO_HEADER_CVSID "@(#)$Id: OSGActorInfo.h,v 1.1 2003/10/10 13:51:07 neumannc Exp $"
+#define OSGACTORINFO_HEADER_CVSID "@(#)$Id: OSGActorInfo.h,v 1.2 2003/10/10 14:27:45 neumannc Exp $"
 
 #endif /* _OSGACTORINFO_H_ */

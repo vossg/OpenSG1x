@@ -6,6 +6,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 #include <OSGXmlpp.h>
 
 #include "OSGActorInfo.h"
@@ -15,7 +16,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class ActorDescReader
+class OSG_SYSTEMLIB_DLLMAPPING ActorDescReader
 {
 public:
     enum NodeTypeE
@@ -105,6 +106,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorDescReader.inl"
 
-#define OSGACTORDESCREADER_HEADER_CVSID "@(#)$Id: $"
+#define OSGACTORDESCREADER_HEADER_CVSID "@(#)$Id: OSGActorDescReader.h,v 1.1 2003/10/10 13:51:07 neumannc Exp $"
 
 #endif /* _OSGACTORDESCREADER_H_ */

@@ -43,12 +43,13 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <string>
 
 OSG_BEGIN_NAMESPACE
 
-class StateElemInfo
+class OSG_SYSTEMLIB_DLLMAPPING StateElemInfo
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -118,6 +119,6 @@ OSG_END_NAMESPACE
 
 #include "OSGStateElemInfo.inl"
 
-#define OSGSTATEELEMINFO_HEADER_CVSID "@(#)$Id: OSGStateElemInfo.h,v 1.1 2003/10/10 13:51:07 neumannc Exp $"
+#define OSGSTATEELEMINFO_HEADER_CVSID "@(#)$Id: OSGStateElemInfo.h,v 1.2 2003/10/10 14:27:45 neumannc Exp $"
 
 #endif /* _OSGSTATEELEMINFO_H_ */
