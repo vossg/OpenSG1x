@@ -73,10 +73,10 @@ inline void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
         {
             switch (button)
             {
-                case LEFT_BUTTON:   {_currentState=ROTATING;      } break;
-                case MIDDLE_BUTTON: {_currentState=TRANSLATING_XY;
+                case LEFT_MOUSE:   {_currentState=ROTATING;      } break;
+                case MIDDLE_MOUSE: {_currentState=TRANSLATING_XY;
                                      getIntersectionPoint(x,y);   } break;
-                case RIGHT_BUTTON:  {_currentState=TRANSLATING_Z; } break;
+                case RIGHT_MOUSE:  {_currentState=TRANSLATING_Z; } break;
             }
         } break;
         
@@ -84,9 +84,9 @@ inline void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
         {
             switch (button)
             {
-                case LEFT_BUTTON:   {_currentState=TRANSLATING_ZPLUS; } break;
-                case MIDDLE_BUTTON: {_currentState=ROTATING;          } break;
-                case RIGHT_BUTTON:  {_currentState=TRANSLATING_ZMINUS;} break;
+                case LEFT_MOUSE:   {_currentState=TRANSLATING_ZPLUS; } break;
+                case MIDDLE_MOUSE: {_currentState=ROTATING;          } break;
+                case RIGHT_MOUSE:  {_currentState=TRANSLATING_ZMINUS;} break;
             }
         } break;                
     }
@@ -245,7 +245,6 @@ inline void Navigator::setViewport(ViewportPtr new_viewport)
 
 inline void Navigator::setCenter(Pnt3f new_center)
 {
-    cout << new_center[0] << " " << new_center[1] << " " << new_center[2] << "\n";
     switch (_currentMode)
     {
         case TRACKBALL: { _trackball.setCenter(new_center); } break;

@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.15 2001/11/14 14:31:24 istoynov Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.16 2001/11/16 13:12:41 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -642,11 +642,11 @@ void SimpleSceneManager::mouseButtonPress(UInt16 button, Int16 x, Int16 y)
 {            
     switch (button)
     {
-    case MouseLeft:     _navigator.buttonPress(Navigator::LEFT_BUTTON,x,y); 
+    case MouseLeft:     _navigator.buttonPress(Navigator::LEFT_MOUSE,x,y); 
                         break;
-    case MouseMiddle:   _navigator.buttonPress(Navigator::MIDDLE_BUTTON,x,y); 
+    case MouseMiddle:   _navigator.buttonPress(Navigator::MIDDLE_MOUSE,x,y); 
                         break;
-    case MouseRight:    _navigator.buttonPress(Navigator::RIGHT_BUTTON,x,y); 
+    case MouseRight:    _navigator.buttonPress(Navigator::RIGHT_MOUSE,x,y); 
                         break;
     }
     _mousebuttons |= 1 << button;
@@ -664,11 +664,11 @@ void SimpleSceneManager::mouseButtonRelease(UInt16 button, Int16 x, Int16 y)
 {    
     switch (button)
     {
-    case MouseLeft:     _navigator.buttonRelease(Navigator::LEFT_BUTTON,x,y); 
+    case MouseLeft:     _navigator.buttonRelease(Navigator::LEFT_MOUSE,x,y); 
                         break;
-    case MouseMiddle:   _navigator.buttonRelease(Navigator::MIDDLE_BUTTON,x,y); 
+    case MouseMiddle:   _navigator.buttonRelease(Navigator::MIDDLE_MOUSE,x,y); 
                         break;
-    case MouseRight:    _navigator.buttonRelease(Navigator::RIGHT_BUTTON,x,y); 
+    case MouseRight:    _navigator.buttonRelease(Navigator::RIGHT_MOUSE,x,y); 
                         break;
     }
     _mousebuttons &= ~(1 << button);

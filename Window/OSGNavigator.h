@@ -79,9 +79,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
         
     enum MouseButton
     {
-        LEFT_BUTTON=0,
-        MIDDLE_BUTTON,
-        RIGHT_BUTTON
+        LEFT_MOUSE=0,
+        MIDDLE_MOUSE,
+        RIGHT_MOUSE
     };    
         
     enum Key
