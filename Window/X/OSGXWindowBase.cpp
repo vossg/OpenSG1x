@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<XWindowPtr>::_type("XWindowPtr", "WindowPtr", true);
+DataType FieldDataTraits<XWindowPtr>::_type("XWindowPtr", "WindowPtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.1 2002/01/31 00:28:39 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.2 2002/02/11 05:09:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 

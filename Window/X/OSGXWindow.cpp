@@ -55,9 +55,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<DisplayP>  ::_type("DisplayP", NULL, true);
-DataType FieldDataTraits<X11Window> ::_type("X11Window", NULL, true);
-DataType FieldDataTraits<GLXContext>::_type("GLXContext", NULL, true);
+DataType FieldDataTraits<DisplayP>  ::_type("DisplayP", NULL);
+DataType FieldDataTraits<X11Window> ::_type("X11Window", NULL);
+DataType FieldDataTraits<GLXContext>::_type("GLXContext", NULL);
 
 #if defined(__sgi)
 
