@@ -42,13 +42,6 @@ display(void)
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    switch ( (int) ( t / 4000 ) % 3 )   
-    {
-    case 0:     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
-    case 1:     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
-    case 2:     glPolygonMode( GL_FRONT_AND_BACK, GL_POINT ); break;
-    }
-
     Matrix m;
     Quaternion q;
     q.setValueAsAxisDeg( 0,1,0, -t/20 );
@@ -240,6 +233,7 @@ int main( int argc, char *argv[] )
     xchunk1->setWrapS( GL_REPEAT );
     xchunk1->setWrapT( GL_REPEAT );
     xchunk1->setEnvMode( GL_REPLACE );
+    xchunk1->setEnvColor( Color4f(.5,.5,.5,0) );
     xchunk1->setScale( false );
     endEditCP(xchunk1);
 
@@ -253,10 +247,11 @@ int main( int argc, char *argv[] )
 
     blchunk = BlendChunk::create();
 #ifndef WIN32
-//    blchunk->setSrcFactor( GL_CONSTANT_ALPHA );
-//    blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
+    blchunk->setSrcFactor( GL_CONSTANT_ALPHA );
+    blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
 #endif
-    blchunk->setColor( Color4f( 1,1,1,0.1 ) );
+    blchunk->setColor( Color4f( .5,.5,.5,0.1 ) );
+    blchunk->setEquation(GL_FUNC_SUBTRACT);
 
     // texture transform chunk
 
@@ -285,6 +280,9 @@ int main( int argc, char *argv[] )
         pchunk1->getMFStipple()->push_back( stipple[i] );
     }
 
+    pchunk1->setFrontMode(GL_LINE);
+    pchunk1->setBackMode(GL_FILL);
+    
     pchunk2 = PolygonChunk::create();
     {
     UInt32 stipple[32] = {

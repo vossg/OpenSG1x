@@ -87,11 +87,7 @@ int main( int argc, char *argv[] )
     state1 = State::create();
     state1->addChunk( tchunk1 );
 
-    tchunk2 = TransformChunk::create();
-    tchunk2->setMatrix( Matrix::identity() );
-
     state2 = State::create();
-    state2->addChunk( tchunk2 );
 
     MaterialChunkPtr mchunk1, mchunk2;
 

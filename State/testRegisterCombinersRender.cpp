@@ -1,21 +1,7 @@
 
 
-// HACK: to get the Secondary Color Functions defined
-#define GL_GLEXT_PROTOTYPES
-#include <OSGGLUT.h>
-
-#ifndef GL_NV_register_combiners
-#include <stdio.h>
-
-int main(int argc, char *argv[])
-{
-    fprintf(stderr,"%s: only works with register combiners support!\n", argv[0]);
-    return 0;
-}
-
-#else
-
 #include <OSGLog.h>
+#include <OSGGLEXT.h>
 
 #include <OSGWindow.h>
 #include <OSGGLUTWindow.h>
@@ -380,5 +366,3 @@ int main( int argc, char *argv[] )
 
     return 0;
 }
-
-#endif
