@@ -54,6 +54,7 @@
 #include <OSGImageFileHandler.h>
 
 #include "OSGSceneFileHandler.h"
+#include "OSGZStream.h"
 
 #include <OSGNode.h>
 #include <OSGThread.h>
@@ -127,39 +128,34 @@ SceneFileHandler * SceneFileHandler::_the = NULL;
 
 SceneFileType *SceneFileHandler::getFileType(const Char8 *fileNameOrExtension)
 {
-          Int32                  i;
-          Int32                  l;
-          IDString               suffix;
-    const Char8                  separator = '.';
-          SceneFileType         *type = NULL;
-          FileTypeMap::iterator  sI;
-          std::ifstream          fin;
+    const Char8 separator = '.';
 
-    if(fileNameOrExtension)
+    if(fileNameOrExtension == NULL)
+        return NULL;
+
+    std::string fe = fileNameOrExtension;
+    
+    Int32 p = fe.rfind(separator);
+    
+    if(p == -1)
+        return NULL;
+    
+    std::string ext = fe.substr(p+1, fe.length() - p - 1);
+    
+    // skip .gz extension
+    if(ext == "gz")
     {
-        l = strlen(fileNameOrExtension);
-
-        if(l == 0)
-            return NULL;
-
-        for(i = l - 1; i >= 0; i--)
-        {
-            if(fileNameOrExtension[i] == separator)
-                break;
-        }
-
-        // it is also possible to give a complete filename as extension.
-        if(i >= 0)
-            suffix.set(&(fileNameOrExtension[i+1]));
-        else
-            suffix.set(fileNameOrExtension);
-
-        suffix.toLower();
-
-        sI = _suffixTypeMap.find(suffix);
-
-        type = (sI == _suffixTypeMap.end()) ? 0 : sI->second->front();
+        fe = fe.substr(0, p);
+        p = fe.rfind(separator);
+        ext = fe.substr(p+1, fe.length() - p - 1);
     }
+    
+    IDString suffix;
+    suffix.set(ext.c_str());
+    suffix.toLower();
+
+    FileTypeMap::iterator sI = _suffixTypeMap.find(suffix);
+    SceneFileType *type = (sI == _suffixTypeMap.end()) ? 0 : sI->second->front();
 
     return type;
 }
@@ -184,6 +180,29 @@ Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList)
   return count;
 }
 
+bool SceneFileHandler::isGZip(std::istream &is)
+{
+    const int gz_magic[2] = {0x1f, 0x8b};
+    
+    int c1 = (int) is.get();
+    if(c1 != gz_magic[0])
+    {
+        is.putback(c1);
+        return false;
+    }
+    
+    int c2 = (int) is.get();
+    if(c2 != gz_magic[1])
+    {
+        is.putback(c1);
+        is.putback(c2);
+        return false;
+    }
+    
+    is.putback(c1);
+    is.putback(c2);
+    return true;
+}
 
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
@@ -205,10 +224,30 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtensio
     if (type)
     {
         SINFO << "try to read stream as " << type->getName() << std::endl;
+    
+        if(isGZip(is))
+        {
+            SINFO << "Detected gzip compressed stream." << std::endl;
 
-        startReadProgressThread(is);
-        scene = type->read(is, fileNameOrExtension);
-        stopReadProgressThread();
+#ifdef OSG_ZSTREAM_SUPPORTED
+            startReadProgressThread(is);
+            zip_istream unzipper(is);
+            scene = type->read(unzipper, fileNameOrExtension);
+            if(unzipper.check_crc())
+                SINFO << "Compressed stream has correct checksum." << std::endl;
+            else
+                SFATAL << "Compressed stream has wrong checksum." << std::endl;
+            stopReadProgressThread();
+#else
+            SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
+#endif
+        }
+        else
+        {
+            startReadProgressThread(is);
+            scene = type->read(is, fileNameOrExtension);
+            stopReadProgressThread();
+        }
 
         if(scene != NullFC)
         {
@@ -398,7 +437,7 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 //
 //------------------------------
 bool SceneFileHandler::write(const NodePtr &node, std::ostream &os,
-                             const Char8 *fileNameOrExtension)
+                             const Char8 *fileNameOrExtension, bool compress)
 {
     bool retCode = false;
     SceneFileType *type = getFileType(fileNameOrExtension);
@@ -406,7 +445,21 @@ bool SceneFileHandler::write(const NodePtr &node, std::ostream &os,
     if(type)
     {
         SINFO << "try to write stream as " << type->getName() << std::endl;
-        retCode = type->write(node, os, fileNameOrExtension);
+        if(compress)
+        {
+#ifdef OSG_ZSTREAM_SUPPORTED
+            SINFO << "writing compressed stream." << std::endl;
+            zip_ostream zipper(os, true);
+            retCode = type->write(node, zipper, fileNameOrExtension);
+            zipper.zflush();
+#else
+            SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
+#endif
+        }
+        else
+        {
+            retCode = type->write(node, os, fileNameOrExtension);
+        }
     }
     else
         SWARNING << "can't write stream unknown scene format" << std::endl;
@@ -434,7 +487,7 @@ bool SceneFileHandler::write(const NodePtr &node, std::ostream &os,
 //s:
 //
 //------------------------------
-bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName)
+bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName, bool compress)
 {
     bool retCode = false;
     SceneFileType *type = getFileType(fileName);
@@ -446,7 +499,7 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName)
         std::ofstream out(fileName, std::ios::binary);
         if(out)
         {
-            retCode = write(node, out, fileName);
+            retCode = write(node, out, fileName, compress);
             out.close();
         }
         else

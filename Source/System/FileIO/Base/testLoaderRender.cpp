@@ -152,6 +152,8 @@ int main (int argc, char **argv)
     SceneFileHandler::the().write(scene, out, "bin");
     out.close();
 #endif
+    
+    //SceneFileHandler::the().write(scene, "test.osg", true);
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;

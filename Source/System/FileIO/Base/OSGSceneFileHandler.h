@@ -119,8 +119,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr &node, std::ostream &os, const Char8 *ext);
-    virtual bool write(const NodePtr &node, const Char8 *fileName);
+    virtual bool write(const NodePtr &node, std::ostream &os, const Char8 *ext, bool compress = false);
+    virtual bool write(const NodePtr &node, const Char8 *fileName, bool compress = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -181,6 +181,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const SceneFileHandler &source);
+
+    bool isGZip(std::istream &is);
 
     typedef struct
     {
