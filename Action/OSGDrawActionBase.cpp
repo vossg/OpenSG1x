@@ -47,6 +47,7 @@
 #include <OSGWindow.h>
 #include <OSGCamera.h>
 #include <OSGViewport.h>
+#include <OSGGeometry.h>
 
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
@@ -64,6 +65,15 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 char DrawActionBase::cvsid[] = "@(#)$Id: $";
+
+StatElemDesc<StatTimeElem>  
+DrawActionBase::statTravTime ("travTime", "time for traversal");
+
+StatElemDesc<StatIntElem>   
+DrawActionBase::statCullTestedNodes("cullTestedNodes", "nodes tested");
+
+StatElemDesc<StatIntElem>   
+DrawActionBase::statCulledNodes("culledNodes", "nodes culled from frustum");
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -105,6 +115,8 @@ DrawActionBase::DrawActionBase(void) :
     _background    (NULL ),
     _window        (NULL ),
     _viewport      (NULL ),
+    _statistics    (NULL ),
+    _ownStat       (false),
     _frustumCulling(true ),
     _volumeDrawing (false),
     _autoFrustum   (true ),
@@ -119,6 +131,8 @@ DrawActionBase::DrawActionBase(const DrawActionBase &source) :
     _background    (source._background     ),
     _window        (source._window         ),
     _viewport      (source._viewport       ),
+    _statistics    (source._statistics     ),
+    _ownStat       (source._ownStat        ),
     _frustumCulling(source._frustumCulling ),
     _volumeDrawing (source._volumeDrawing  ),
     _autoFrustum   (source._autoFrustum    ),
@@ -144,8 +158,34 @@ Action::ResultE DrawActionBase::start(void)
        getViewport      () != NULL)
     {
         getCamera()->getFrustum( _frustum, *getViewport() );
+//_frustum.dump();
     }
 
+    if(_statistics == NULL)
+    {
+        _statistics = StatCollector::create();
+        _ownStat = true;
+    }
+    else
+    {
+        _ownStat = false;        
+    }
+
+    getStatistics()->getElem(statTravTime)->start();
+    getStatistics()->getElem(statCullTestedNodes)->reset();
+    getStatistics()->getElem(statCulledNodes)->reset();
+   
+    // this really doesn't belong here, but don't know a better place to put it
+    if(getStatistics()->getElem(Geometry::statNTriangles,false))
+    {
+        getStatistics()->getElem(Geometry::statNTriangles)->set(0);
+        getStatistics()->getElem(Geometry::statNLines)->set(0);
+        getStatistics()->getElem(Geometry::statNPoints)->set(0);
+        getStatistics()->getElem(Geometry::statNVertices)->set(0);
+    }
+
+//fprintf(stderr,"%p: start\n", Thread::getCurrent());
+        
     return Action::Continue;
 }
 
@@ -153,6 +193,18 @@ Action::ResultE DrawActionBase::stop(ResultE res)
 {
     if ( getVolumeDrawing() )
         drawVolume( _frustum );  
+ 
+    getStatistics()->getElem(statTravTime)->stop();
+  
+    if(_ownStat)
+    {
+        delete _statistics;
+        _statistics = NULL;
+    }
+    else
+    {
+        _ownStat = false;        
+    }
         
     return res; 
 }
@@ -177,6 +229,12 @@ void DrawActionBase::setBackground(Background *background)
 void DrawActionBase::setWindow(Window *window)
 {
     _window = window;
+}
+
+void DrawActionBase::setStatistics(StatCollector *statistics)
+{
+    _statistics = statistics;
+    _ownStat = false;
 }
 
 
@@ -219,13 +277,22 @@ bool DrawActionBase::isVisible( Node* node )
 {
     if ( getFrustumCulling() == false )
         return true;
-
+        
+    getStatistics()->getElem(statCullTestedNodes)->inc();
+    
     DynamicVolume vol;
     node->getWorldVolume( vol );
 
     if ( _frustum.intersect( vol ) )
+    {
+// fprintf(stderr,"%p: node 0x%p vis\n", Thread::getCurrent(), node);
         return true;
+    }
+    
+    getStatistics()->getElem(statCulledNodes)->inc();
 
+// fprintf(stderr,"%p: node 0x%p invis\n", Thread::getCurrent(), node);
+// _frustum.dump();            
     return false;
 }
 

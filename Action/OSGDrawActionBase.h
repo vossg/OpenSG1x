@@ -49,6 +49,8 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGFrustumVolume.h>
+#include <OSGStatCollector.h>
+#include <OSGStatElemTypes.h>
 #include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
@@ -62,7 +64,6 @@ class Background;
 class Window;
 class Node;
 class Viewport;
-
 
 //---------------------------------------------------------------------------
 //   Types
@@ -86,6 +87,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     //   constants                                                           
     //-----------------------------------------------------------------------
 
+    static StatElemDesc<StatTimeElem> statTravTime;
+    static StatElemDesc<StatIntElem>  statCullTestedNodes;
+    static StatElemDesc<StatIntElem>  statCulledNodes;
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -107,18 +112,21 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     /*------------------------- your_category -------------------------------*/
 
     // rendering state handling
+       
+    Viewport      *getViewport  (void                  ) const;    
+    void           setViewport  (Viewport   *viewport  );
     
-    Viewport   *getViewport  (void                  ) const;    
-    void        setViewport  (Viewport   *viewport  );
+    Camera        *getCamera    (void                  ) const;    
+    void           setCamera    (Camera     *cam       );
     
-    Camera     *getCamera    (void                  ) const;    
-    void        setCamera    (Camera     *cam       );
+    Background    *getBackground(void                  ) const;
+    void           setBackground(Background *background);
     
-    Background *getBackground(void                  ) const;
-    void        setBackground(Background *background);
+    Window        *getWindow    (void                  ) const;
+    void           setWindow    (Window * window       );
     
-    Window     *getWindow    (void                  ) const;
-    void        setWindow    (Window * window       );
+    StatCollector *getStatistics(void                  ) const;
+    void           setStatistics(StatCollector * stat  );
 
     // frustum culling functions
     // these are just temporary, sooner or later they'll move into a 
@@ -179,10 +187,12 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    Camera     *_camera;
-    Background *_background;
-    Window     *_window;
-    Viewport   *_viewport;
+    Camera        *_camera;
+    Background    *_background;
+    Window        *_window;
+    Viewport      *_viewport;
+    StatCollector *_statistics;
+    bool           _ownStat;
 
     // frustum culling attributes
     

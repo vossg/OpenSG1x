@@ -138,6 +138,12 @@ const FrustumVolume& DrawActionBase::getFrustum(void) const
 {
     return _frustum;
 }
+    
+inline
+StatCollector* DrawActionBase::getStatistics(void) const
+{
+    return _statistics;
+}
 
 /*---------------------------- properties ---------------------------------*/
 
