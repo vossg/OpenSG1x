@@ -350,6 +350,25 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
         {
             if(pNewNode->getType().isAttachment() == true)
             {
+                AttachmentContainerPtr pAttContainer =
+                    AttachmentContainerPtr::dcast(_pCurrentFC);
+
+                if(pAttContainer != NullFC)
+                {
+                    AttachmentPtr pAtt  = AttachmentPtr::dcast(pNewNode);
+
+                    pAttContainer->addAttachment(pAtt);
+                    
+                    SLOG << "Added attachment" << endl;
+                }
+                else
+                {
+                    SLOG << "FieldContainer " 
+                         << _pCurrentFC->getType().getName()
+                         << "is no attachment container"
+                         << endl;
+                }
+/*
                 if(_pCurrentFC->getType().isNode() == true)
                 {
                     NodePtr       pNode = NodePtr      ::dcast(_pCurrentFC);
@@ -364,10 +383,11 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
 
                     pNodeCore->addAttachment(pAtt); 
                 }
+ */
             }
             else
             {
-                SLOG << "FieldContainer : " << _pCurrentFC->getType().getName()
+                SLOG << "FieldContainer : " << pNewNode->getType().getName()
                      << " is no attachment" << endl;
             }
         }
