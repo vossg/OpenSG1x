@@ -510,7 +510,7 @@ void *drawThreadProc (void *arg)
     return NULL;
 }
 
-void *syncThreadProc (void *arg) 
+void *syncThreadProc (void *OSG_CHECK_ARG(arg)) 
 {               
     while(doRun)
     {
