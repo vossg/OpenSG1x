@@ -1,0 +1,229 @@
+
+define([AC_CACHE_LOAD], )dnl
+define([AC_CACHE_SAVE], )dnl
+
+AC_INIT(Base/VSCConfig.hpp)
+#AC_INIT(Base/OSGConfig.h)
+
+AC_CONFIG_HEADER(config.h)
+
+
+dnl ############# Default Settings #####################
+
+ac_gdz_common_dir=Common.new
+ac_gdz_commonpackage_dir=CommonPackages.new
+ac_gdz_commonconf_dir=CommonConf
+ac_gdz_so_praefix=
+ac_gdz_so_suffix=
+ac_gdz_lib_suffix=
+ac_gdz_obj_suffix=
+ac_gdz_common_patterns=$ac_gdz_commonconf_dir/common.pattern.in
+ac_gdz_build_dir=`pwd`
+
+ac_gdz_compiler_exe=
+
+AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
+
+dnl ############# Compiler Settings #####################
+
+AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
+ compilers (required)
+        IRIX    : CC
+        Windows : icl, icl45, icl50, bcc55
+        Linux   : gcc],
+        echo Compiler : $with_compiler;ac_gdz_compiler=$with_compiler;,
+        echo ERROR --with-compiler option required; exit 1;) 
+
+dnl ############# STL Settings #####################
+
+AC_ARG_WITH(stl,     [  --with-stl=DIR          Where to find the stl to use],
+			,with_stl=no) 
+
+if [[ $with_stl = yes ]]; then
+	ac_gdz_stl_dir=
+elif [[ $with_stl = no ]]; then
+	ac_gdz_stl_dir=
+else
+	ac_gdz_stl_dir=$with_stl
+fi
+
+dnl ############# GLUT Settings #####################
+
+AC_ARG_WITH(glut,     [  --with-glut=DIR          Where to find the glut files to use],
+			,with_glut=no) 
+
+if [[ $with_glut = yes ]]; then
+	ac_gdz_glut_dir=
+elif [[ $with_glut = no ]]; then
+	ac_gdz_glut_dir=
+else
+	ac_gdz_glut_dir=$with_glut
+fi
+
+dnl ############# Run Tests #####################
+
+AC_CANONICAL_SYSTEM()
+
+ac_gdz_os_base=$build_os
+ac_gdz_compiler_base=$ac_gdz_compiler
+
+AC_GDZ_SET_COMPILER_DEFAULTS()
+
+AC_GDZ_EXEEXT()
+AC_GDZ_OBJEXT()
+AC_GDZ_LIBEXT()
+AC_GDZ_SOEXT()
+AC_GDZ_SOPRAEFIX()
+
+if test $build_os = cygwin; 
+then 
+
+	AC_GDZ_SET_SYSTEM_DIRS()
+
+	ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
+
+	ac_gdz_compiler_exe_shared='"$(CC_PATH)/xilink" -dll -map -NODEFAULTLIB'
+
+	ac_gdz_flex_exe=//v/Win/NT/cygwin/bin/flex.exe
+	ac_gdz_bison_exe=//v/Win/NT/cygwin/bin/bison.exe
+
+	ac_gdz_gmake_exe=gmake
+
+	ac_gdz_ln_exe="cp"
+
+	ac_gdz_sed_exe=sed
+
+	ac_gdz_system_incl_dir=`cygpath -w "$ac_gdz_studio_incl_dir"`
+	ac_gdz_system_lib_dir=`cygpath -w "$ac_gdz_studio_lib_dir"`
+
+	ac_gdz_system_incl_dir='"'$ac_gdz_system_incl_dir'"'
+	ac_gdz_system_lib_dir='"'$ac_gdz_system_lib_dir'"'
+
+	ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
+	ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
+
+	ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
+	ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
+
+	ac_gdz_base_system_libs='kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
+	ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
+else 
+	ac_gdz_compiler_exe_shared="$(CC) -shared"
+
+	ac_gdz_flex_exe=/usr/bin/flex
+	ac_gdz_bison_exe=/usr/bin/bison
+
+	ac_gdz_gmake_exe=gmake
+
+	ac_gdz_ln_exe="ln -s"
+
+	ac_gdz_sed_exe=sed
+
+	ac_gdz_systen_incl_dir=
+	ac_gdz_system_lib_dir=
+
+	ac_gdz_base_system_libs=
+fi 
+
+
+if ! test -w Builds; then 
+	echo Need Builds
+	mkdir Builds
+fi
+
+ac_gdz_lib_base_dir=Builds/$build-$ac_gdz_compiler
+
+if ! test -w $ac_gdz_lib_base_dir; then 
+	echo Need $ac_gdz_lib_base_dir
+	mkdir $ac_gdz_lib_base_dir
+fi
+
+ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
+
+AC_MSG_CHECKING([project config common.project.in])
+
+if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
+    AC_MSG_RESULT("yes")
+    . "$ac_gdz_commonconf_dir/common.project.in"
+else
+    AC_MSG_RESULT("error could not find project config")
+	exit
+fi
+
+AC_MSG_CHECKING([package config common.libs.in])
+
+if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
+    AC_MSG_RESULT("yes")
+    . "$ac_gdz_commonconf_dir/common.libs.in"
+else
+    AC_MSG_RESULT("error could not find package config")
+	exit
+fi
+
+
+
+if [[ $srcdir = . ]]; then
+	ac_gdz_src_dir=`pwd`
+	ac_gdz_lib_src_dir=`pwd`
+elif [[ $srcdir = .. ]]; then
+    ac_gdz_src_dir=`pwd`/..
+    ac_gdz_lib_src_dir=`pwd`/..
+else
+	ac_gdz_src_dir=$srcdir
+	ac_gdz_lib_src_dir=$srcdir
+fi
+
+ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler
+
+AC_GDZ_SCAN_PACKET_DESC()
+
+AC_SUBST(ac_gdz_so_praefix)
+AC_SUBST(ac_gdz_so_suffix)
+AC_SUBST(ac_gdz_lib_suffix)
+AC_SUBST(ac_gdz_obj_suffix)
+AC_SUBST(ac_gdz_os_base)
+
+AC_SUBST(ac_gdz_compiler_path)
+AC_SUBST(ac_gdz_compiler_exe)
+AC_SUBST(ac_gdz_compiler_exe_shared)
+AC_SUBST(ac_gdz_flex_exe)
+AC_SUBST(ac_gdz_bison_exe)
+AC_SUBST(ac_gdz_gmake_exe)
+AC_SUBST(ac_gdz_ln_exe)
+AC_SUBST(ac_gdz_sed_exe)
+
+AC_SUBST(ac_gdz_system_incl_dir)
+AC_SUBST(ac_gdz_system_lib_dir)
+
+AC_SUBST(ac_gdz_compiler_incl)
+AC_SUBST(ac_gdz_compiler_lib)
+
+AC_SUBST(ac_gdz_base_system_libs)
+AC_SUBST(ac_gdz_plat_project_praefix)
+
+AC_SUBST_FILE(ac_gdz_common_patterns)
+AC_SUBST_FILE(ac_gdz_common_system)
+
+ac_gdz_common_platform_in=$ac_gdz_commonconf_dir/common.platform.mk.in
+ac_gdz_common_platform=$ac_gdz_common_dir/common.$build-$ac_gdz_compiler.mk
+
+ac_gdz_common_packetmake_in=$ac_gdz_commonconf_dir/Makefile.lib.in
+ac_gdz_common_buildsmake_in=$ac_gdz_commonconf_dir/Makefile.builds.in
+
+AC_OUTPUT($ac_gdz_common_platform:$ac_gdz_common_platform_in)
+
+ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
+
+AC_GDZ_WRITE_PACKET_MAKE()
+
+ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
+
+AC_GDZ_WRITE_BUILDS_MAKE()
+
+AC_GDZ_WRITE_COMMON_STL()
+
+AC_DEFINE(XXX)
+
+AC_CHECK_HEADERS(unistd.h)
+
+AC_GDZ_WRITE_COMMON_GLUT()

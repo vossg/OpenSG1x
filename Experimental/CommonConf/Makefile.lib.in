@@ -1,0 +1,26 @@
+
+
+@ac_gdz_project_praefix@COMMON     ?= Common.new
+@ac_gdz_project_praefix@COMMONPACK ?= CommonPackages.new
+
+ifndef @ac_gdz_project_praefix@POOL
+@ac_gdz_project_praefix@POOL         ?= @ac_gdz_src_dir@
+@ac_gdz_win_pool_e2@
+endif
+
+include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/common.mk
+
+BUILD_BASE     := @ac_gdz_build_dir_e2@/@ac_gdz_package_sub_dir_out@
+@ac_gdz_win_build_base_e2@
+
+SUB_SO = $(LIBDIR)/$(SO_PRAEFIX)@ac_gdz_project_praefix@@ac_gdz_package_name_out@$(SO_SUFFIX)
+
+VPATH := @az_gdz_vpath_out@
+
+LIB_REQUIRED_INCPACKAGES := @ac_gdz_package_inc_dep_out@
+LIB_REQUIRED_LNKPACKAGES := @ac_gdz_package_link_dep_out@
+
+SUB_JOB = build
+
+include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/@ac_gdz_package_sys_common_out@
+include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/commonSub.mk
