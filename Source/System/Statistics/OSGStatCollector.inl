@@ -52,17 +52,30 @@ inline bool StatCollector::isValidID(Int32 id)
 }
 
 /*-------------------------------------------------------------------------*/
+
+/*! Return a pointer to the StatElem for the id. 
+    This function has two modes. By default it's careful and sets
+    the create argument to true. In this case it checks whether the 
+    Collector already contains a StatElem for the given id and creates
+    it if necessary. If you know that your Collector already contains that
+    element (because you explicitly created it outside the testing loop)
+    you can set it to false and speed up the whole function a bit.
+*/
+
 inline StatElem *StatCollector::getElem(Int32 id, bool create)
 {
-    StatElem    *elem = _elemVec[id];
-
-    if(create && !elem)
+    if(create)
     {
+        // This only happens when dynamically adding StatElems
+        // but it's really nasty if it happens.
+        if(id >= _elemVec.size()) 
+            refitElemNum();
+            
         StatElemDescBase    *desc = StatElemDescBase::getDesc(id);
-        elem = _elemVec[id] = desc->createElem();
+        _elemVec[id] = desc->createElem();
     }
 
-    return elem;
+    return _elemVec[id];
 }
 
 /*-------------------------------------------------------------------------*/
