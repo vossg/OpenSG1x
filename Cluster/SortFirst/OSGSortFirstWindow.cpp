@@ -43,7 +43,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <OSGConfig.h>
-#include <GL/gl.h>
+#include <OSGGL.h>
 #include <OSGTileCameraDecorator.h>
 #include <OSGViewport.h>
 #include <OSGGeometry.h>

@@ -100,7 +100,7 @@ inline void BinaryMessage::putString(const string &value)
 
 inline void BinaryMessage::putReal32(const Real32  value)
 {
-    putInt32(*((Int32*)(&value)));
+    putInt32(*((const Int32*)(&value)));
 }
 
 /*---------------------------------------------------------------------*/

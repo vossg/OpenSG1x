@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.39 2002/06/10 22:10:47 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.40 2002/06/13 03:16:18 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -88,11 +88,11 @@ UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
 
 // define GL_TEXTURE_3D, if not defined yet
 #ifndef GL_VERSION_1_2
-#  define GL_FUNC_TEXIMAGE3D    "glTexImage3DEXT"
-#  define GL_FUNC_TEXSUBIMAGE3D "glTexSubImage3DEXT"
+#  define GL_FUNC_TEXIMAGE3D    OSG_DLSYM_UNDERSCORE"glTexImage3DEXT"
+#  define GL_FUNC_TEXSUBIMAGE3D OSG_DLSYM_UNDERSCORE"glTexSubImage3DEXT"
 #else
-#  define GL_FUNC_TEXIMAGE3D    "glTexImage3D"
-#  define GL_FUNC_TEXSUBIMAGE3D "glTexSubImage3D"
+#  define GL_FUNC_TEXIMAGE3D    OSG_DLSYM_UNDERSCORE"glTexImage3D"
+#  define GL_FUNC_TEXSUBIMAGE3D OSG_DLSYM_UNDERSCORE"glTexSubImage3D"
 #endif
 
 
@@ -161,12 +161,18 @@ void TextureChunk::initMethod (void)
 TextureChunk::TextureChunk(void) :
     Inherited()
 {
-    _extTex3D          = Window::registerExtension( "GL_EXT_texture3D" );
-    _arbMultiTex       = Window::registerExtension( "GL_ARB_multitexture" );
-    _arbCubeTex        = Window::registerExtension( "GL_ARB_texture_cube_map" );
-    _funcTexImage3D    = Window::registerFunction ( GL_FUNC_TEXIMAGE3D );
-    _funcTexSubImage3D = Window::registerFunction ( GL_FUNC_TEXSUBIMAGE3D );
-    _funcActiveTexture = Window::registerFunction ( "glActiveTextureARB" );
+    _extTex3D          = 
+        Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_EXT_texture3D"    );
+    _arbMultiTex       = 
+        Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_ARB_multitexture" );
+    _arbCubeTex        = 
+     Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_ARB_texture_cube_map");
+    _funcTexImage3D    = 
+        Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
+    _funcTexSubImage3D = 
+        Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D                     );
+    _funcActiveTexture = 
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"  );
 }
 
 /** \brief Copy Constructor

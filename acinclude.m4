@@ -559,7 +559,7 @@ dnl e2
 
                 eval ac_gdz_package_inc_cnv_tmp=\${ac_gdz_package_dirs_${p1}}
 
-                ac_gdz_package_inc_cnv_tmp=`echo ${ac_gdz_package_inc_cnv_tmp} | sed 's/@//g'`
+                ac_gdz_package_inc_cnv_tmp=`echo ${ac_gdz_package_inc_cnv_tmp} | sed 's/@ / /g' | sed 's/@$'//g`
 
                 ac_gdz_package_inc_cnv_out="$ac_gdz_package_inc_cnv_out $ac_gdz_package_inc_cnv_tmp"
             else
@@ -628,14 +628,46 @@ dnl e2
 
         ac_gdz_package_name_out=${ac_gdz_package_name}
 
-        eval ac_gdz_package_inc_dep_out=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
+        eval ac_gdz_package_inc_dep=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
+
+        ac_gdz_package_inc_dep_out=  
+
+        for dir in ${ac_gdz_package_inc_dep}; do
+
+            p1=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\1/'`
+            p2=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\2/'`
+
+            if test $p1 = $p2; then
+                dir=$p1 
+            else
+                if test $build_os = $p2; then
+                    dir=$p1
+                else
+                    continue
+                fi
+            fi
+
+            ac_gdz_package_inc_dep_out="$ac_gdz_package_inc_dep_out $dir"
+        done
+
         ac_gdz_package_inc_dep_out_files= 
 
         eval ac_gdz_package_link_dep_out=\${ac_gdz_package_link_dep_${ac_gdz_package_name}}
 
-        eval ac_gdz_package_inc_dep=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
-
         for dir in ${ac_gdz_package_inc_dep}; do
+
+            p1=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\1/'`
+            p2=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\2/'`
+            
+            if test $p1 = $p2; then
+                dir=$p1 
+            else
+                if test $build_os = $p2; then
+                    dir=$p1
+                else
+                    continue
+                fi
+            fi
 
             ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir            
 
@@ -661,6 +693,7 @@ dnl e2
         eval ac_gdz_package_link_dep=\${ac_gdz_package_link_dep_${ac_gdz_package_name}}
 
         for dir in ${ac_gdz_package_link_dep}; do
+
             ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
             
             if test -r $ac_gdz_package_check_file_e2; then

@@ -223,7 +223,8 @@ string SocketAddress::getHostByName() const
  */
 sockaddr *SocketAddress::getSockAddr() const
 {
-    return (struct sockaddr *)&_sockaddr;
+    return const_cast<struct sockaddr *>(
+        reinterpret_cast<const struct sockaddr *>(&_sockaddr));
 }
 
 /** \brief Get the size of the sockaddr struct

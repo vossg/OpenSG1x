@@ -107,13 +107,13 @@ ClusterServer::ClusterServer(WindowPtr window,
                              UInt32 servicePort):
     _window(window),
     _connection(NULL),
+    _address(address),
     _clusterWindow(),
     _aspect(NULL),
     _serviceName(serviceName),
     _servicePort(servicePort),
     _serviceAvailable(false),
     _serverId(0),
-    _address(address),
     _connectionType(connectionType)
 {
 }

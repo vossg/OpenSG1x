@@ -97,13 +97,13 @@ RegisterCombinersChunk::RegisterCombinersChunk(void) :
     _nvRegisterCombiners      = Window::registerExtension( 
                                                 "GL_NV_register_combiners" );
     _funcCombinerParameterfv  = Window::registerFunction (
-                                                "glCombinerParameterfvNV" );
+                                                OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV" );
     _funcCombinerInput        = Window::registerFunction (
-                                                "glCombinerInputNV" );
+                                                OSG_DLSYM_UNDERSCORE"glCombinerInputNV" );
     _funcCombinerOutput       = Window::registerFunction (
-                                                "glCombinerOutputNV" );
+                                                OSG_DLSYM_UNDERSCORE"glCombinerOutputNV" );
     _funcFinalCombinerInput   = Window::registerFunction (
-                                                "glFinalCombinerInputNV" );
+                                                OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV" );
 
     clearCombiners();
 }
@@ -622,7 +622,7 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.2 2002/06/11 08:59:23 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.3 2002/06/13 03:16:18 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }

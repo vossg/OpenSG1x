@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.16 2002/06/01 10:37:24 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.17 2002/06/13 03:16:18 vossg Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -130,8 +130,10 @@ void BlendChunk::initMethod (void)
 BlendChunk::BlendChunk(void) :
     Inherited()
 {
-    _extBlend      =Window::registerExtension("GL_EXT_blend_color");
-    _funcBlendColor=Window::registerFunction ("glBlendColorEXT");
+    _extBlend       =
+        Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_EXT_blend_color");
+    _funcBlendColor =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendColorEXT");
 }
 
 /** \brief Copy Constructor

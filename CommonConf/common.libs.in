@@ -6,7 +6,7 @@ ac_gdz_packages="Base System WindowX WindowWIN32 WindowQT WindowGLUT"
 
 ac_gdz_package_name_Base="Base" 
 ac_gdz_package_fact_init_Base="0" 
-ac_gdz_package_dirs_Base="Base@ Field@ Experimental/Gerrit/Functors@ Log@  Experimental/StringConversionState@ Network@ Network/Socket@" 
+ac_gdz_package_dirs_Base="Base@ Field@ Experimental/Gerrit/Functors@ Log@ Experimental/StringConversionState@ Network@ Network/Socket@ Base/OSHelper/darwin@darwin" 
 ac_gdz_package_inc_dep_Base="" 
 ac_gdz_package_link_dep_Base="" 
 ac_gdz_package_testinc_dep_Base="" 

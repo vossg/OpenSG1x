@@ -381,6 +381,7 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 # define OSG_NOGLSUBDIR
 # define OSG_NOGLUTSUBDIR
 # define OSG_NO_FABSF
+# define OSG_DLSYM_NEEDS_UNDERSCORE
 #endif
 
 
@@ -634,6 +635,11 @@ OSG_USING_STD_NAMESPACE
 
 #endif /*  */
 
+#if defined(OSG_DLSYM_NEEDS_UNDERSCORE)
+#define OSG_DLSYM_UNDERSCORE "_"
+#else
+#define OSG_DLSYM_UNDERSCORE
+#endif
 
 #if defined (OSG_USE_PTHREADS)
 

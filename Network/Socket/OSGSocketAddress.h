@@ -67,8 +67,10 @@ class OSG_BASE_DLLMAPPING SocketAddress {
     /*! \enum SocketAddress type */
     enum Type { ANY,BROADCAST,MULTICAST };
 
-#if defined WIN32
-    typedef char              SocketAddrT;
+#if   defined(WIN32)
+    typedef        char       SocketAddrT;
+#elif defined(darwin)
+    typedef        const char SocketAddrT;
 #else
     typedef struct socketaddr SocketAddrT;
 #endif

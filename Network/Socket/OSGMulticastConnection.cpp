@@ -139,9 +139,9 @@ MulticastConnection::MulticastConnection(int ) :
     _waitForAck(0.04),
     _maxWaitForSync(0.5),
     _socket(),
+    _aliveTime(4),
     _aliveThread(NULL),
-    _stopAliveThread(false),
-    _aliveTime(4)
+    _stopAliveThread(false)
 {
     UInt32 i;
 

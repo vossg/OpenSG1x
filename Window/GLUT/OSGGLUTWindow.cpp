@@ -53,7 +53,7 @@
 
 #include <OSGGLUT.h>
 
-#ifdef sgi
+#if defined(__sgi) || defined(darwin)
 #include <dlfcn.h>
 #endif
 
@@ -155,7 +155,14 @@ void (*GLUTWindow::getFunctionByName(const Char8 *s))(void)
     return (void (*)(void)) wglGetProcAddress(s);
 #elif defined(__hpux)
 #elif defined(darwin)
-    return NULL;
+    static void *libHandle = NULL;
+
+    if(libHandle == NULL)
+    {
+        libHandle = dlopen("libGL.dylib", RTLD_NOW);
+    }
+
+    return (void (*)(void)) dlsym(libHandle, s);
 #else
     return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif

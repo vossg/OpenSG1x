@@ -44,8 +44,8 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
-#include "GL/gl.h"
-#include "GL/glu.h"
+#include "OSGGL.h"
+#include "OSGGLU.h"
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
 #include "OSGClusterViewBuffer.h"
