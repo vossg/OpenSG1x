@@ -128,7 +128,11 @@ LANG_FLAGS          =
 ifeq ($(COMPILERMAJOR),7)
 COMPILER    		= -Qvc6 -GX -Gi- -Qansi_alias -Qoption,cpp,--new_for_init -GR
 else
+ifeq ($(COMPILERMAJOR),8)
+COMPILER    		= -Qvc6 -GX -Gi- -Qansi_alias -Qoption,cpp,--new_for_init -GR
+else
 COMPILER    		= -Qvc6 -GX -Gi- -Qansi -Qoption,cpp,--new_for_init -GR
+endif
 endif
 
 ifeq ($(LNK),lnk)

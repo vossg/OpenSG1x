@@ -181,6 +181,11 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
 
     case $ac_gdz_compiler_version in
 
+        8*)
+        ac_gdz_compiler_version=80
+        ac_gdz_intelsearchdir=Intel/CPP/Compiler$ac_gdz_compiler_version/IA32
+        ac_gdz_compiler_bin_dir=Bin
+        ;;
         7*)
         ac_gdz_compiler_version=70
         ac_gdz_intelsearchdir=Intel/Compiler$ac_gdz_compiler_version/IA32
