@@ -307,8 +307,10 @@
 // streams in std namespace
 # define OSG_STREAM_IN_STD_NAMESPACE
 
-#   define OSG_SGI_STL
 # endif
+
+# define OSG_SGI_STL
+# define OSG_HASH_MAP_AS_EXT
 
 // compiler supports namespaces
 # define OSG_HAS_NAMESPACE

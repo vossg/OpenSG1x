@@ -593,7 +593,7 @@ OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1,
 #endif
 }
 
-/*! \brief String compare used fo a STL weak ordering
+/*! \brief String less than compare functor used for a STL weak ordering
  *  \ingroup BaseFunctions
  */
 
@@ -602,6 +602,18 @@ OSG_BASE_DLLMAPPING struct LTString
     Bool operator()(const char* s1, const char* s2) const
     {
         return strcmp(s1, s2) < 0;
+    }
+};
+
+/*! \brief String equal compare functor
+ *  \ingroup BaseFunctions
+ */
+
+OSG_BASE_DLLMAPPING struct EQString
+{
+    Bool operator()(const char* s1, const char* s2) const
+    {
+        return strcmp(s1, s2) == 0;
     }
 };
 
