@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEMULTITHREADING
+#define OSG_COMPILEBASE
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,27 +49,13 @@
 
 #include <iostream>
 
-#include "OSGThread.h"
-#include "OSGBaseFunctions.h"
-#include "OSGChangeList.h"
-#include "OSGThreadManager.h"
-#include "OSGLog.h"
-
-#if ! defined (OSG_USE_PTHREADS) && ! defined (OSG_USE_WINTHREADS)
-#include <sys/types.h>
-#include <sys/prctl.h>
-#include <errno.h>
-
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <signal.h>
-#endif
+#include "OSGMPBase.h"
+#include <OSGTypeFactory.h>
+#include <OSGBaseFunctions.h>
+#include <OSGThreadManager.h>
 
 OSG_USING_NAMESPACE
 
-
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -82,7 +68,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char ThreadCommonBase::cvsid[]        = "@(#)$Id: $";
+char MPType::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -112,829 +98,548 @@ char ThreadCommonBase::cvsid[]        = "@(#)$Id: $";
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
 /** \brief Constructor
  */
 
-ThreadCommonBase::ThreadCommonBase(const Char8  *szName,
-                                         UInt32  uiId) :
+MPType::MPType(const Char8 *szName, 
+                     const Char8 *szParentName,
+                           Bool   bRegister) :
+    Inherited(szName, bRegister)
+{
+}
+
+/** \brief Destructor
+ */
+
+MPType::~MPType(void)
+{
+}
+
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- inheriteance ---------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char      MPThreadType::cvsid[]        = "@(#)$Id: $";
+
+UInt32 MPThreadType::_uiThreadCount = 0;
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+MPThreadType::MPThreadType(const Char8          *szName, 
+                                 const Char8    *szParentName,
+                                 CreateThreadF   fCreateThread,
+                                 InitThreadingF  fInitThreading) :
+    Inherited(szName, szParentName),
+
+    _fCreateThread(fCreateThread)
+{
+    _uiTypeId = ThreadManager::the()->registerThreadType(this);
+
+    if(fInitThreading != NULL)
+        fInitThreading();
+}
+
+/** \brief Destructor
+ */
+
+MPThreadType::~MPThreadType(void)
+{
+}
+
+
+/*---------------------------- properties ---------------------------------*/
+
+BaseThread *MPThreadType::create(const Char8 *szName)
+{
+    Char8  *szTmp;
+    UInt32  uiNewId = _uiThreadCount++;
+
+    if(szName == NULL)
+    {
+        szTmp = new Char8[16];
+        sprintf(szTmp, "OSGThread_%d", uiNewId);
+    }
+    else
+    {
+        szTmp = const_cast<Char8 *>(szName);
+    }
+
+    if(_fCreateThread != NULL)
+        return _fCreateThread(szTmp, uiNewId);
+    else
+        return NULL;
+}
+
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- inheriteance ---------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char MPBarrierType::cvsid[] = "@(#)$Id: $";
+
+UInt32 MPBarrierType::_uiBarrierCount = 0;
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+MPBarrierType::MPBarrierType(const Char8          *szName, 
+                                   const Char8          *szParentName,
+                                         CreateBarrierF  fCreateBarrier) :
+    Inherited(szName, szParentName),
+    _fCreateBarrier(fCreateBarrier)
+{
+    _uiTypeId = ThreadManager::the()->registerBarrierType(this);
+}
+
+/** \brief Destructor
+ */
+
+MPBarrierType::~MPBarrierType(void)
+{
+}
+
+/*---------------------------- properties ---------------------------------*/
+
+Barrier *MPBarrierType::create(const Char8 *szName)
+{
+    UInt32 uiNewId = _uiBarrierCount++;
+
+    if(_fCreateBarrier != NULL)
+        return _fCreateBarrier(szName, uiNewId);
+    else
+        return NULL;
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- inheriteance ---------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char MPLockType::cvsid[] = "@(#)$Id: $";
+
+UInt32 MPLockType::_uiLockCount = 0;
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+MPLockType::MPLockType(const Char8       *szName, 
+                             const Char8       *szParentName,
+                                   CreateLockF  fCreateLock) :
+    Inherited(szName, szParentName),
+    _fCreateLock(fCreateLock)
+{
+    _uiTypeId = ThreadManager::the()->registerLockType(this);
+}
+
+
+/** \brief Destructor
+ */
+
+MPLockType::~MPLockType(void)
+{
+}
+
+
+/*---------------------------- properties ---------------------------------*/
+
+Lock *MPLockType::create(const Char8 *szName)
+{
+    UInt32 uiNewId = _uiLockCount++;
+
+    if(_fCreateLock != NULL)
+        return _fCreateLock(szName, uiNewId);
+    else
+        return NULL;
+}
+
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- inheriteance ---------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char MPLockPoolType::cvsid[] = "@(#)$Id: $";
+
+UInt32 MPLockPoolType::_uiLockPoolCount = 0;
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+MPLockPoolType::MPLockPoolType(
+    const Char8          *szName, 
+    const Char8          *szParentName,
+    CreateLockPoolF  fCreateLockPool) :
+
+    Inherited(szName, szParentName),
+    _fCreateLockPool(fCreateLockPool)
+{
+    _uiTypeId = ThreadManager::the()->registerLockPoolType(this);
+}
+
+
+/** \brief Destructor
+ */
+
+MPLockPoolType::~MPLockPoolType(void)
+{
+}
+
+/*---------------------------- properties ---------------------------------*/
+
+LockPool *MPLockPoolType::create(const Char8 *szName)
+{
+    UInt32 uiNewId = _uiLockPoolCount++;
+
+    if(_fCreateLockPool != NULL)
+        return _fCreateLockPool(szName, uiNewId);
+    else
+        return NULL;
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- inheriteance ---------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+
+char      MPBase::cvsid[] = "@(#)$Id: $";
+
+MPType MPBase::_type("OSGMPBase", NULL, true);
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+const MPType &MPBase::getStaticType(void)
+{
+    return _type;
+}
+
+UInt32 MPBase::getStaticTypeId(void)
+{
+    return 0;
+}
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+MPBase::MPBase(const Char8 *szName) :
+    Inherited(),
     
-    Inherited(szName, uiId),
-
-    _uiAspectId (0),
-    _pChangeList(NULL)
+    _szName(NULL)
 {
+    stringDup(szName, _szName);
 }
 
 /** \brief Destructor
  */
 
-ThreadCommonBase::~ThreadCommonBase(void)
+MPBase::~MPBase(void)
 {
-    subRefP(_pChangeList);
-}
-
-void ThreadCommonBase::setAspect(UInt32 uiAspectId)
-{
-    _uiAspectId = uiAspectId;
-}
-
-void ThreadCommonBase::setChangeList(ChangeList *pChangeList)
-{
-    setRefP(_pChangeList, pChangeList);
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-ChangeList *ThreadCommonBase::getChangeList(void)
-{
-    return _pChangeList;
+    delete [] _szName;
 }
 
 /*---------------------------- properties ---------------------------------*/
+
+MPType &MPBase::getType(void)
+{
+    return _type;
+}
+
+const MPType &MPBase::getType(void) const
+{
+    return _type;
+}
+
+UInt32 MPBase::getTypeId(void)
+{
+    return getType().getId();
+}
+
+const Char8 *MPBase::getCName(void) const
+{
+    return _szName;
+}
 
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
 
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-#if defined (OSG_USE_PTHREADS)
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-
-extern "C"
-{
-    extern pthread_t gThreadSelf(void);
-}
-
-#endif
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char PThreadBase::cvsid[] = "@(#)$Id: $";
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-pthread_key_t PThreadBase::_aspectKey;
-pthread_key_t PThreadBase::_changeListKey;
-#endif
-
-#if defined(OSG_ASPECT_USE_PTHREADSELF) || defined(OSG_ASPECT_USE_CUSTOMSELF)
-vector<UInt16      > PThreadBase::_vAspects;    
-vector<ChangeList *> PThreadBase::_vChangelists;
-#endif
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-void PThreadBase::init(void)
-{
-    Inherited::init();
-
-    setupAspect    ();        
-    setupChangeList();        
-}
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-void PThreadBase::freeAspect(void *pAspect)
-{
-    UInt32 *pUint = (UInt32 *) pAspect;
-
-    if(pUint != NULL)
-        delete pUint;
-}
-
-void PThreadBase::freeChangeList(void *pChangeList)
-{
-    ChangeList **pCl = (ChangeList **) pChangeList;
-
-    if(pCl != NULL)
-        delete pCl;
-}
-#endif
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-UInt32 PThreadBase::getAspect(void)
-{
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    UInt32 *pUint;
-
-    pUint = (UInt32 *) pthread_getspecific(_aspectKey);
-
-    return *pUint;
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    return _vAspects[threadId & 0x00FF];
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    return _vAspects[threadId];
-#endif
-}
-
-ChangeList *PThreadBase::getCurrentChangeList(void)
-{
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    ChangeList **pCList;
-
-    pCList = (ChangeList **) pthread_getspecific(_changeListKey);
-
-    return *pCList;
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    return _vChangelists[threadId & 0x00FF];
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    return _vChangelistsA[threadId];
-#endif
-}
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-void PThreadBase::setupAspect(void)
-{
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    UInt32 *pUint = new UInt32;
-
-    *pUint = Inherited::_uiAspectId;
-
-    pthread_setspecific(_aspectKey, (void *) pUint);  
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _vAspects.resize((threadId & 0x00FF) + 1);
-
-    _vAspects[threadId & 0x00FF] = Inherited::_uiAspectId;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _vAspects.resize(threadId + 1);
-
-    _vAspects[threadId] = Inherited::_uiAspectId;
-#endif
-}
-
-void PThreadBase::setupChangeList(void)
-{
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    ChangeList **pChangeList = new ChangeList *;
-
-    if(Inherited::_pChangeList == NULL)
-    {
-        *pChangeList = new ChangeList;
-
-        Inherited::setChangeList(*pChangeList);
-    }
-    else
-    {
-        *pChangeList = Inherited::_pChangeList;
-        
-        (*pChangeList)->clearAll();
-    }
-
-    (*pChangeList)->setAspect(Inherited::_uiAspectId);
-    pthread_setspecific(_changeListKey, (void *) pChangeList);  
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    ChangeList *pChangeList;
-    pthread_t      threadId = pthread_self(); 
-
-    if(Inherited::_pChangeList == NULL)
-    {
-        pChangeList = new ChangeList;
-
-        Inherited::setChangeList(pChangeList);
-    }
-    else
-    {
-        pChangeList = Inherited::_pChangeList;
-        
-        pChangeList->clearAll();
-    }
-
-    pChangeList->setAspect(Inherited::_uiAspectId);
-    
-    _vChangelists.resize((threadId & 0x00FF) + 1);
-    _vChangelists[threadId & 0x00FF] = pChangeList;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    ChangeList *pChangeList;
-    pthread_t   threadId = gThreadSelf(); 
-
-    if(Inherited::_pChangeList == NULL)
-    {
-        pChangeList = new ChangeList;
-
-        Inherited::setChangeList(pChangeList);
-    }
-    else
-    {
-        pChangeList = Inherited::_pChangeList;
-        
-        pChangeList->clearAll();
-    }
-
-    pChangeList->setAspect(Inherited::_uiAspectId);
-
-    _vChangelists.resize(threadId + 1);
-    _vChangelists[threadId] = pChangeList;
-#endif
-}
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
-
-PThreadBase::PThreadBase(const Char8   *szName, 
-                                UInt32  uiId) :
-    Inherited   (szName, uiId)
-{
-}
-
-/** \brief Destructor
- */
-
-PThreadBase::~PThreadBase(void)
-{
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-Bool PThreadBase::run(ThreadFuncF  fThreadFunc, 
-                      UInt32       uiAspectId,
-                      void        *pThreadArg)
-{
-    if(uiAspectId >= ThreadManager::getNumAspects())
-    {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
-        return false;
-    }
-
-    Inherited::setAspect(uiAspectId);
-
-    return Inherited::run(fThreadFunc, pThreadArg);
-}
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
+/*-------------------------- inheriteance ---------------------------------*/
 
 /*-------------------------- comparison -----------------------------------*/
-
-#endif /* OSG_USE_PTHREADS */
-
-
-
-
-#if defined (OSG_USE_SPROC)
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char SprocBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-void SprocBase::init(void)
-{
-    Inherited::init();
-
-    setAspectInternal      (this->_uiAspectId);
-    setupChangeListInternal();
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-UInt32 SprocBase::getAspect(void)
-{
-    return ((OSGProcessData *) PRDA->usr2_prda.fill)->_uiAspectId;
-}
-
-ChangeList *SprocBase::getCurrentChangeList(void)
-{
-    return ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList;
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
-
-SprocBase::SprocBase(const Char8  *szName,
-                           UInt32  uiId) :    
-    Inherited(szName, uiId)
-{
-}
-
-/** \brief Destructor
- */
-
-SprocBase::~SprocBase(void)
-{
-}
-
-void SprocBase::setAspectInternal(UInt32 uiAspect)
-{
-    ((OSGProcessData *) PRDA->usr2_prda.fill)->_uiAspectId = uiAspect;
-}
-
-void SprocBase::setupChangeListInternal(void)
-{
-    if(Inherited::_pChangeList == NULL)
-    {
-        ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList = 
-            new ChangeList();
-
-        Inherited::setChangeList(
-            ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList);
-    }
-    else
-    {
-        ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList = 
-            Inherited::_pChangeList;
-
-        Inherited::_pChangeList->clearAll();
-    }
-
-    Inherited::_pChangeList->setAspect(Inherited::_uiAspectId);
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-Bool SprocBase::run(ThreadFuncF  fThreadFunc, 
-                    UInt32       uiAspectId,
-                    void        *pThreadArg)
-{
-    if(uiAspectId >= ThreadManager::getNumAspects())
-    {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
-        return false;
-    }
-
-    Inherited::setAspect(uiAspectId);
-
-    return Inherited::run(fThreadFunc, pThreadArg);
-}
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-#endif /* OSG_USE_SPROC */
-
-
-#if defined (OSG_USE_WINTHREADS)
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char WinThreadBase::cvsid[] = "@(#)$Id: $";
-
-#if defined(OSG_ASPECT_USE_LOCALSTORAGE)
-UInt32 WinThreadBase::_aspectKey = 0;
-UInt32 WinThreadBase::_changeListKey = 0;
-#endif
-
-#if defined(OSG_ASPECT_USE_DECLSPEC)
-__declspec (thread) UInt32      WinThreadBase::_uiAspectLocal    = 0;
-__declspec (thread) ChangeList *WinThreadBase::_pChangeListLocal = NULL;
-#endif
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-void WinThreadBase::freeAspect(void)
-{
-    UInt32 *pUint;
-
-    pUint = (UInt32 *) TlsGetValue(_aspectKey);
-
-	delete pUint;
-}
-
-void WinThreadBase::freeChangeList(void)
-{
-    ChangeList **pCList;
-
-    pCList = (ChangeList **) TlsGetValue(_changeListKey);
-
-	delete pCList;
-}
-#endif
-
-void WinThreadBase::init(void)
-{
-    Inherited::init();
-
-	setupAspect();
-    setupChangeList();        
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-UInt32 WinThreadBase::getAspect(void)
-{
-#ifdef OSG_ASPECT_USE_LOCALSTORAGE
-    UInt32 *pUint;
-
-    pUint = (UInt32 *) TlsGetValue(_aspectKey);
-
-    return *pUint;
-#endif
-#ifdef OSG_ASPECT_USE_DECLSPEC
-	return _uiAspectLocal;
-#endif
-}
-
-ChangeList *WinThreadBase::getCurrentChangeList(void)
-{
-#ifdef OSG_ASPECT_USE_LOCALSTORAGE
-    ChangeList **pCList;
-
-    pCList = (ChangeList **) TlsGetValue(_changeListKey);
-
-    return *pCList;
-#endif
-#ifdef OSG_ASPECT_USE_DECLSPEC
-	return _pChangeListLocal;
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
-
-WinThreadBase::WinThreadBase(const Char8  *szName,
-                                   UInt32  uiId) :
-    Inherited(szName, uiId)
-{
-}
-
-/** \brief Destructor
- */
-
-WinThreadBase::~WinThreadBase(void)
-{
-}
-
-
-void WinThreadBase::setupAspect(void)
-{
-#ifdef OSG_ASPECT_USE_LOCALSTORAGE
-    UInt32 *pUint = new UInt32;
-
-    *pUint = Inherited::_uiAspectId;
-
-    TlsSetValue(_aspectKey, pUint);
-#endif
-
-#ifdef OSG_ASPECT_USE_DECLSPEC
-	_uiAspectLocal = Inherited::_uiAspectId;
-#endif
-}
-
-void WinThreadBase::setupChangeList(void)
-{
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-	ChangeList **pChangeList = new ChangeList *;
-
-   if(Inherited::_pChangeList == NULL)
-    {
-        *pChangeList = new ChangeList;
-
-        Inherited::setChangeList(*pChangeList);
-    }
-    else
-    {
-        *pChangeList = Inherited::_pChangeList;
-        
-        (*pChangeList)->clearAll();
-    }
-
-    (*pChangeList)->setAspect(Inherited::_uiAspectId);
-	TlsSetValue(_changeListKey, pChangeList);
-#endif
-
-#if defined (OSG_ASPECT_USE_DECLSPEC)
-    if(Inherited::_pChangeList == NULL)
-    {
-        _pChangeListLocal = new ChangeList;
-        Inherited::setChangeList(_pChangeListLocal);
-    }
-    else
-    {
-        _pChangeListLocal = Inherited::_pChangeList;
-
-        _pChangeListLocal->clearAll();
-    }
-
-    _pChangeListLocal->setAspect(Inherited::_uiAspectId);
-#endif
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-Bool WinThreadBase::run(ThreadFuncF  fThreadFunc, 
-                        UInt32       uiAspectId,
-                        void        *pThreadArg)
-{
-    if(uiAspectId >= ThreadManager::getNumAspects())
-    {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
-        return false;
-    }
-
-    Inherited::setAspect(uiAspectId);
-
-    return Inherited::run(fThreadFunc, pThreadArg);
-}
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-#endif /* OSG_USE_WINTHREADS */
-
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Thread::cvsid[] = "@(#)$Id: $";
-
-MPThreadType Thread::_type("OSGThread", 
-                           "OSGMPBase", 
-                           (CreateThreadF)  Thread::create,
-                           (InitThreadingF) Thread::initThreading);
-
-const UInt32 Thread::InvalidAspect = TypeConstants<UInt32>::getAllSet();
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-Thread *Thread::create(const Char8 *szName, UInt32 uiId)
-{
-    return new Thread(szName, uiId);
-}
-
-void Thread::initThreading(void)
-{
-    FINFO(("Thread::initThreading\n"))
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    int rc; 
-
-    rc = pthread_key_create(&(Thread::_aspectKey), 
-                              Thread::freeAspect);
-
-    FFASSERT((rc != 0), 1, ("Failed to create pthread aspect key\n");)
-
-    rc = pthread_key_create(&(Thread::_changeListKey), 
-                              Thread::freeChangeList);
-
-    FFASSERT((rc != 0), 1, ("Failed to create pthread changelist key\n");)
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-
-    Thread::_vAspects    .resize(16);
-    Thread::_vChangelists.resize(16);
-
-    for(UInt32 i = 0; i < 16; i++)
-    {
-        Thread::_vAspects[i]     = 0;
-        Thread::_vChangelists[i] = NULL;
-    }
-#endif
-
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
-	Thread::_aspectKey     = TlsAlloc();
-
-	FFASSERT((Thread::_aspectKey != 0xFFFFFFFF), 1, 
-             ("Failed to alloc aspect key local storage\n");)
-
-	Thread::_changeListKey = TlsAlloc();
-
-	FFASSERT((Thread::_changeListKey != 0xFFFFFFFF), 1, 
-             ("Failed to alloc changelist key local storage\n");)
-#endif
-
-    ThreadManager::setAppThreadType("OSGThread");
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
-
-Thread::Thread(const Char8 *szName, UInt32 uiId) :
-    Inherited(szName, uiId)
-{
-}
-
-/** \brief Destructor
- */
-
-Thread::~Thread(void)
-{
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
 
 
 
@@ -965,4 +670,3 @@ Thread::~Thread(void)
 //s: SeeAlso:
 //s: 
 ///---------------------------------------------------------------------------
-

@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEMULTITHREADING
+#define OSG_COMPILEBASE
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,18 +49,24 @@
 
 #include <iostream>
 
-#include "OSGLock.h"
-
-#include "OSGLock.h"
-
+#include "OSGBaseThread.h"
 #include "OSGBaseFunctions.h"
-
 #include "OSGThreadManager.h"
+#include "OSGLog.h"
 
+#if ! defined (OSG_USE_PTHREADS) && ! defined (OSG_USE_WINTHREADS)
+#include <sys/types.h>
+#include <sys/prctl.h>
 #include <errno.h>
-#include <OSGLog.h>
+
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
+#endif
 
 OSG_USING_NAMESPACE
+
 
 
 //---------------------------------------------------------------------------
@@ -75,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char LockCommonBase::cvsid[] = "@(#)$Id: $";
+char BaseThreadCommonBase::cvsid[]        = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -108,26 +114,20 @@ char LockCommonBase::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-LockCommonBase::LockCommonBase(void) :
-    Inherited(NULL),
-    _uiLockId(0)
-{
-}
-
-LockCommonBase::LockCommonBase(const Char8  *szName,
-                                           UInt32  uiId):
-    Inherited(szName),
-    _uiLockId(uiId)
+BaseThreadCommonBase::BaseThreadCommonBase(const Char8  *szName,
+                                                 UInt32  uiId  ) :
+    
+     Inherited  (szName),
+    _uiThreadId (uiId)
 {
 }
 
 /** \brief Destructor
  */
 
-LockCommonBase::~LockCommonBase(void)
+BaseThreadCommonBase::~BaseThreadCommonBase(void)
 {
 }
-
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -149,6 +149,15 @@ LockCommonBase::~LockCommonBase(void)
 
 #if defined (OSG_USE_PTHREADS)
 
+#ifdef OSG_ASPECT_USE_CUSTOMSELF
+
+extern "C"
+{
+    extern pthread_t gThreadSelf(void);
+}
+
+#endif
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -161,7 +170,15 @@ LockCommonBase::~LockCommonBase(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char PThreadLockBase::cvsid[] = "@(#)$Id: $";
+char BasePThreadBase::cvsid[] = "@(#)$Id: $";
+
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+pthread_key_t BasePThreadBase::_threadKey;
+#endif
+
+#if defined(OSG_ASPECT_USE_PTHREADSELF) || defined(OSG_ASPECT_USE_CUSTOMSELF)
+vector<BaseThread *> BasePThreadBase::_vThreads;
+#endif
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -175,9 +192,78 @@ char PThreadLockBase::cvsid[] = "@(#)$Id: $";
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+void *BasePThreadBase::threadFunc(void *pThreadArg)
+{
+    void **pArgs = (void **) pThreadArg;
+
+    if(pArgs != NULL)
+    {
+        if(pArgs[2] != NULL)
+        {
+            ((BaseThread *) pArgs[2])->init();
+
+            if(pArgs[0] != NULL)
+            {
+                ThreadFuncF fThreadFunc = (ThreadFuncF) pArgs[0];
+                
+                fThreadFunc(pArgs[1]);
+            }
+        }
+    }    
+
+    return NULL;
+}
+
+void BasePThreadBase::init(void)
+{
+    setupThread    ();        
+    setupBlockCond ();
+}
+
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+void BasePThreadBase::freeThread(void *pThread)
+{
+    BaseThread **pT = (BaseThread **) pThread;
+
+    if(pT != NULL)
+        delete pT;    
+}
+#endif
+
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
+BaseThread *BasePThreadBase::getCurrent(void)
+{
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    BaseThread **pThread;
+
+    pThread = (BaseThread **) pthread_getspecific(_threadKey);
+
+    return *pThread;
+#endif
+
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+    pthread_t threadId = pthread_self(); 
+
+    return _vThreads[threadId & 0x00FF];
+#endif
+
+#ifdef OSG_ASPECT_USE_CUSTOMSELF
+    pthread_t threadId = gThreadSelf(); 
+
+    return _vThreads[threadId];
+#endif
+}
+
+void BasePThreadBase::join(BasePThreadBase *pThread)
+{
+    if(pThread != NULL && pThread->_pThreadDesc != NULL)
+    {
+        pthread_join(*(pThread->_pThreadDesc), NULL);
+    }
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -194,39 +280,61 @@ char PThreadLockBase::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-PThreadLockBase::PThreadLockBase(void):
-    Inherited(),
-    _pLowLevelLock()
-{
-}
+BasePThreadBase::BasePThreadBase(const Char8  *szName, 
+                                       UInt32  uiId  ) :
+    Inherited   (szName, uiId),
 
-/** \brief Constructor
- */
-
-PThreadLockBase::PThreadLockBase(const Char8  *szName,
-                                             UInt32  uiId) :
-    Inherited(szName, uiId),
-    _pLowLevelLock()
+    _pThreadDesc(NULL),
+    _pBlockCond (NULL),
+    _pBlockMutex(NULL)
 {
+    _pThreadData[0] = NULL;
+    _pThreadData[1] = NULL;
+    _pThreadData[2] = NULL;
 }
 
 /** \brief Destructor
  */
 
-PThreadLockBase::~PThreadLockBase(void)
+BasePThreadBase::~BasePThreadBase(void)
 {
+    delete _pThreadDesc;
 }
 
-Bool PThreadLockBase::init(void)
+void BasePThreadBase::setupThread(void)
 {
-    pthread_mutex_init(&(_pLowLevelLock), NULL);
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    BaseThread **pThread = new BaseThread *;
 
-    return true;
+    *pThread = (BaseThread *) this;
+
+    pthread_setspecific(_threadKey, (void *) pThread);  
+#endif
+
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+    pthread_t threadId = pthread_self(); 
+
+    _vThreads.resize((threadId & 0x00FF) + 1);
+
+    _vThreads[threadId & 0x00FF] = (BaseThread *) this;
+#endif
+
+#ifdef OSG_ASPECT_USE_CUSTOMSELF
+    pthread_t threadId = gThreadSelf(); 
+
+    _vThreads.resize(threadId + 1);
+
+    _vThreadsA[threadId] = (BaseThread *) this;
+#endif
 }
 
-void PThreadLockBase::shutdown(void)
+void BasePThreadBase::setupBlockCond(void)
 {
-    pthread_mutex_destroy(&(_pLowLevelLock));
+    _pBlockCond  = new pthread_cond_t;
+    _pBlockMutex = new pthread_mutex_t;
+
+    pthread_cond_init (_pBlockCond, NULL);
+    pthread_mutex_init(_pBlockMutex, NULL);
 }
 
 /*-------------------------------------------------------------------------*\
@@ -237,19 +345,57 @@ void PThreadLockBase::shutdown(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void PThreadLockBase::aquire(void)
+Bool BasePThreadBase::run(ThreadFuncF  fThreadFunc, 
+                          void        *pThreadArg)
 {
-    pthread_mutex_lock  (&(_pLowLevelLock));         
+    Bool  returnValue = true;
+    Int32 rc          = 0;
+
+    if(fThreadFunc != NULL)
+    {
+        if(_pThreadDesc == NULL)
+            _pThreadDesc = new pthread_t;
+
+        _pThreadData[0] = (void *) fThreadFunc;
+        _pThreadData[1] =          pThreadArg;
+        _pThreadData[2] = (void *) this;
+
+		rc = pthread_create(_pThreadDesc, 
+                            NULL,
+                            BasePThreadBase::threadFunc,
+                            (void *) &_pThreadData);
+
+        if(rc != 0)
+        {
+            SFATAL << "OSGPTB : pthread_create failed" << endl;
+            returnValue = false;
+        }
+        
+    }
+    else
+    {
+        SFATAL << "OSGPTB : no thread function given";
+        returnValue = false;
+    }
+
+    return returnValue;
 }
 
-void PThreadLockBase::release(void)
+void BasePThreadBase::block(void)
 {
-    pthread_mutex_unlock(&(_pLowLevelLock));               
+    pthread_mutex_lock  (_pBlockMutex);
+    pthread_cond_wait   (_pBlockCond, _pBlockMutex);
+    pthread_mutex_unlock(_pBlockMutex);
 }
 
-Bool PThreadLockBase::request(void)
+void BasePThreadBase::unblock(void)
 {
-    return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY); 
+    pthread_cond_broadcast(_pBlockCond);
+}
+
+void BasePThreadBase::print(void)
+{
+    fprintf(stderr, "OSGPThreadBase -%s-%d-\n", _szName, _uiThreadId);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -279,7 +425,7 @@ Bool PThreadLockBase::request(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char SprocLockBase::cvsid[] = "@(#)$Id: $";
+char BaseSprocBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -293,9 +439,47 @@ char SprocLockBase::cvsid[] = "@(#)$Id: $";
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+void BaseSprocBase::threadFunc(void *pThreadArg)
+{
+    void **pArgs = (void **) pThreadArg;
+
+    if(pArgs != NULL)
+    {
+        if(pArgs[2] != NULL)
+        {
+            ((BaseThread *) pArgs[2])->init();
+
+            ((BaseThread *) pArgs[2])->setPid();
+
+            if(pArgs[0] != NULL)
+            {
+                ThreadFuncF threadFuncF = (ThreadFuncF) pArgs[0];
+
+                threadFuncF(pArgs[1]);
+            }
+        }
+    }    
+}
+
+void BaseSprocBase::init(void)
+{
+    setCurrentInternal((BaseThread *) this);
+}
+
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
+BaseThread *BaseSprocBase::getCurrent(void)
+{
+    return ((ProcessData *) PRDA->usr2_prda.fill)->_pThread;
+}
+
+void BaseSprocBase::join(BaseSprocBase *pThread)
+{
+    if(pThread != NULL)
+        waitpid(pThread->_pid, NULL, 0);
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -312,65 +496,32 @@ char SprocLockBase::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-SprocLockBase::SprocLockBase(void):
-    Inherited(),
-    _pLowLevelLock(NULL)
-{
-}
-
-/** \brief Constructor
- */
-
-SprocLockBase::SprocLockBase(const Char8  *szName, 
-                                         UInt32  uiId):
+BaseSprocBase::BaseSprocBase(const Char8  *szName,
+                                   UInt32  uiId) :    
     Inherited(szName, uiId),
-    _pLowLevelLock(NULL)
+
+    _pid(NULL)
 {
+    _pThreadData[0] = NULL;
+    _pThreadData[1] = NULL;
+    _pThreadData[2] = NULL;    
 }
 
 /** \brief Destructor
  */
 
-SprocLockBase::~SprocLockBase(void)
+BaseSprocBase::~BaseSprocBase(void)
 {
 }
 
-Bool SprocLockBase::init(void)
+void BaseSprocBase::setPid(void)
 {
-    ThreadManager *pThreadManager = ThreadManager::the();
-
-    if(pThreadManager == NULL)
-        return false;
-
-    if(pThreadManager->getArena() == NULL)
-        return false;
-
-    _pLowLevelLock = usnewlock(pThreadManager->getArena());
-
-    if(_pLowLevelLock == NULL)
-        return false;
-
-    usinitlock(_pLowLevelLock);
-
-    return true;
+    _pid = getpid();
 }
 
-void SprocLockBase::shutdown(void)
+void BaseSprocBase::setCurrentInternal(BaseThread *pThread)
 {
-    ThreadManager *pThreadManager = ThreadManager::the();
-
-    if(pThreadManager == NULL)
-        return;
-
-    if(pThreadManager->getArena() == NULL)
-        return;
-
-    if(_pLowLevelLock != NULL)
-    {
-        usfreelock(_pLowLevelLock, pThreadManager->getArena());
-
-        _pLowLevelLock = NULL;
-    }
+    ((ProcessData *) PRDA->usr2_prda.fill)->_pThread  = pThread;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -381,29 +532,68 @@ void SprocLockBase::shutdown(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void SprocLockBase::aquire(void)
+Bool BaseSprocBase::run(ThreadFuncF  fThreadFunc, 
+                        void        *pThreadArg)
 {
-    if(_pLowLevelLock != NULL)
-        ussetlock(_pLowLevelLock);
-}
-
-void SprocLockBase::release(void)
-{
-    if(_pLowLevelLock != NULL)
-        usunsetlock(_pLowLevelLock);
-}
-
-Bool SprocLockBase::request(void)
-{
-    Bool  returnValue = false;
+    Bool  returnValue = true;
     Int32 rc          = 0;
 
-    if(_pLowLevelLock != NULL)
-        rc = uscsetlock(_pLowLevelLock, 0);
+    if(fThreadFunc != NULL)
+    {
+        _pThreadData[0] = (void *) fThreadFunc;
+        _pThreadData[1] =          pThreadArg;
+        _pThreadData[2] = (void *) this;
 
-    returnValue = (rc == 1);
+		rc = sproc(BaseSprocBase::threadFunc, PR_SALL, (void *) _pThreadData);
+
+        if(rc == -1)
+        {
+            SFATAL << "OSGSPB : sproc thread failed" << endl;
+            returnValue = false;
+        }
+    }
+    else
+    {
+        SFATAL << "OSGSPB : no thread function given";
+        returnValue = false;
+    }
 
     return returnValue;
+}
+
+void BaseSprocBase::block(void)
+{
+    blockproc(_pid);
+}
+
+void BaseSprocBase::unblock(void)
+{
+    unblockproc(_pid);
+}
+
+Bool BaseSprocBase::exists(void)
+{
+    Bool returnValue = false;
+
+    returnValue = (prctl(PR_ISBLOCKED, _pid) != -1);
+
+    return returnValue;
+}
+
+
+void BaseSprocBase::terminate(void)
+{
+    ::kill(_pid, SIGTERM);
+}
+
+void BaseSprocBase::kill(void)
+{
+    ::kill(_pid, SIGKILL);
+}
+
+void BaseSprocBase::print(void)
+{
+    fprintf(stderr, "OSGSprocBase -%s-%d-\n", _szName, _uiThreadId);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -414,9 +604,7 @@ Bool SprocLockBase::request(void)
 
 /*-------------------------- comparison -----------------------------------*/
 
-
 #endif /* OSG_USE_SPROC */
-
 
 
 #if defined (OSG_USE_WINTHREADS)
@@ -433,7 +621,15 @@ Bool SprocLockBase::request(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char WinThreadLockBase::cvsid[] = "@(#)$Id: $";
+char BaseWinThreadBase::cvsid[] = "@(#)$Id: $";
+
+#if defined(OSG_ASPECT_USE_LOCALSTORAGE)
+UInt32 BaseWinThreadBase::_threadKey = 0;
+#endif
+
+#if defined(OSG_ASPECT_USE_DECLSPEC)
+__declspec (thread) BaseThread *BaseWinThreadBase::_pThreadLocal     = NULL;
+#endif
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -447,9 +643,67 @@ char WinThreadLockBase::cvsid[] = "@(#)$Id: $";
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
+void BaseWinThreadBase::freeThread(void)
+{
+    BaseThread **pThread;
+
+    pThread = (BaseThread **) TlsGetValue(_threadKey);
+
+	delete pThread;
+}
+#endif
+
+void BaseWinThreadBase::threadFunc(void *pThreadArg)
+{
+    void **pArgs = (void **) pThreadArg;
+
+    if(pArgs != NULL)
+    {
+        if(pArgs[2] != NULL)
+        {
+            ((BaseThread *) pArgs[2])->init();
+
+            ((WinThreadBase *) pArgs[2])->setPid();
+        }
+
+        if(pArgs[0] != NULL)
+        {
+            ThreadFuncF threadFuncF = (ThreadFuncF) pArgs[0];
+
+            threadFuncF(pArgs[1]);
+        }
+    }    
+}
+
+void BaseWinThreadBase::init(void)
+{
+    setupThread(); 
+}
+
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
+BaseThread *BaseWinThreadBase::getCurrent(void)
+{
+#ifdef OSG_ASPECT_USE_LOCALSTORAGE
+    BaseThread **pThread;
+
+    pThread = (BaseThread **) TlsGetValue(_threadKey);
+
+    return *pThread;
+#endif
+#ifdef OSG_ASPECT_USE_DECLSPEC
+	return _pThreadLocal;
+#endif
+}
+        
+void BaseWinThreadBase::join(WinThreadBase *pThread)
+{
+	if(pThread != NULL)
+		WaitForSingleObject(pThread->_pExternalHandle, INFINITE);
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -466,62 +720,50 @@ char WinThreadLockBase::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-WinThreadLockBase::WinThreadLockBase(void) :
-    Inherited()
-#ifdef OSG_WINLOCK_USE_MUTEX
-    , _pMutex(NULL)
-#endif
-{
-}
+BaseWinThreadBase::BaseWinThreadBase(const Char8  *szName,
+                                           UInt32  uiId) :
+    Inherited(szName, uiId),
 
-/** \brief Constructor
- */
-
-WinThreadLockBase::WinThreadLockBase(const Char8  *szName,
-                                                 UInt32  uiId) :
-    Inherited(szName, uiId)
-#ifdef OSG_WINLOCK_USE_MUTEX
-    , _pMutex(NULL)
-#endif
+	_pThreadHandle(NULL),
+	_pExternalHandle(NULL),
+	_uiNativeThreadId(0)
 {
+    _pThreadData[0] = NULL;
+    _pThreadData[1] = NULL;
+    _pThreadData[2] = NULL;
 }
 
 /** \brief Destructor
  */
 
-WinThreadLockBase::~WinThreadLockBase(void)
+BaseWinThreadBase::~BaseWinThreadBase(void)
 {
 }
 
-Bool WinThreadLockBase::init(void)
-{ 
-#ifdef OSG_WINLOCK_USE_MUTEX
-	_pMutex = CreateMutex(NULL,      // no security attributes
-                          FALSE,     // initially not owned
-                          _szName);  // name of mutex
-	
-	if(_pMutex == NULL) 
-	{
-		return false;
-    }
+void BaseWinThreadBase::setPid(void)
+{
+	_pThreadHandle   = GetCurrentThread();
+	_uiNativeThreadId = GetCurrentThreadId();
+}
 
-    return true;
-#else
-    InitializeCriticalSection(&_pCriticalSection);
+void BaseWinThreadBase::setExternalHandle(Handle pExternalHandle)
+{
+	_pExternalHandle = pExternalHandle;
+}
 
-    return true;
+
+void BaseWinThreadBase::setupThread(void)
+{
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
+	BaseThread **pThread = new Thread *;
+
+	*pThread = (BaseThread *) this;
+
+	TlsSetValue(_threadKey, pThread);
 #endif
-}
 
-void WinThreadLockBase::shutdown(void)
-{
-#ifdef OSG_WINLOCK_USE_MUTEX
-    if(_pMutex != NULL)
-    {
-        CloseHandle(_pMutex);
-    }
-#else
-    DeleteCriticalSection(&_pCriticalSection);
+#if defined (OSG_ASPECT_USE_DECLSPEC)
+    _pThreadLocal = (BaseThread *) this;
 #endif
 }
 
@@ -533,41 +775,102 @@ void WinThreadLockBase::shutdown(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void WinThreadLockBase::aquire(void)
+Bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc, 
+                            void        *pThreadArg)
 {
-#ifdef OSG_WINLOCK_USE_MUTEX
-    WaitForSingleObject(_pMutex, INFINITE);
-#else
-    EnterCriticalSection(&_pCriticalSection);
-#endif
-}
+    Bool   returnValue = true;
+    Handle rc          = 0;
+	DWord  tmp;
 
-void WinThreadLockBase::release(void)
-{
-#ifdef OSG_WINLOCK_USE_MUTEX
-    ReleaseMutex(_pMutex);
-#else
-    LeaveCriticalSection(&_pCriticalSection);
-#endif
-}
-
-Bool WinThreadLockBase::request(void)
-{
-#ifdef OSG_WINLOCK_USE_MUTEX
-    DWORD rc;
-    rc = WaitForSingleObject(_pMutex, 0);
-
-    if(rc == WAIT_OBJECT_0)
+    if(fThreadFunc != NULL)
     {
-        return true;
+        _pThreadData[0] = (void *) fThreadFunc;
+        _pThreadData[1] =          pThreadArg;
+        _pThreadData[2] = (void *) this;
+
+		rc = CreateThread(NULL, 
+						  0,    
+                          (LPTHREAD_START_ROUTINE) ThreadBase::threadFunc, 
+				          _pThreadData, 
+						  0,    
+						  &tmp);
+		
+		this->setExternalHandle(rc);
+
+        if(rc == NULL)
+        {
+            SFATAL << "OSGWTB : sproc thread failed" << endl;
+            returnValue = false;
+        }
     }
     else
     {
-        return false;
+        SFATAL << "OSGWTB : no thread function given";
+        returnValue = false;
     }
-#else
-    return TryEnterCriticalSection(&_pCriticalSection);
-#endif
+
+    return returnValue;
+}
+
+void BaseWinThreadBase::block(void)
+{
+    SuspendThread(_pThreadHandle);
+}
+
+void BaseWinThreadBase::unblock(void)
+{
+    ResumeThread(_pExternalHandle);
+}
+
+Bool BaseWinThreadBase::exists(void)
+{
+    Bool returnValue = false;
+    DWORD   rc          = 0;
+
+    if(Thread::getCurrent() == this)
+    {
+        GetExitCodeThread(_pThreadHandle,
+                          &rc);
+    }
+    else
+    {
+        GetExitCodeThread(_pExternalHandle,
+                          &rc);
+    }
+
+    returnValue = (rc == STILL_ACTIVE);
+
+    return returnValue;
+}
+
+
+void BaseWinThreadBase::terminate(void)
+{
+    if(Thread::getCurrent() == this)
+    {
+        TerminateThread(_pThreadHandle, 0);
+    }
+    else
+    {
+        TerminateThread(_pExternalHandle, 0);
+    }
+}
+
+void BaseWinThreadBase::kill(void)
+{
+    if(Thread::getCurrent() == this)
+    {
+        TerminateThread(_pThreadHandle, 0);
+    }
+    else
+    {
+        TerminateThread(_pExternalHandle, 0);
+    }
+}
+
+void BaseWinThreadBase::print(void)
+{
+	fprintf(stderr, "OSGWinThreadBase -%s-%d-\n", _szName, _uiThreadId);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -583,7 +886,6 @@ Bool WinThreadLockBase::request(void)
 
 
 
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -596,8 +898,12 @@ Bool WinThreadLockBase::request(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char          Lock::cvsid[] = "@(#)$Id: $";
-MPLockType Lock::_type("OSGLock", "OSGMPBase", Lock::create);
+char BaseThread::cvsid[] = "@(#)$Id: $";
+
+MPThreadType BaseThread::_type("OSGBaseThread", 
+                               "OSGMPBase", 
+                               BaseThread::create,
+                               BaseThread::initThreading);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -611,167 +917,52 @@ MPLockType Lock::_type("OSGLock", "OSGMPBase", Lock::create);
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-Lock *Lock::create(const Char8 *szName, UInt32 uiId)
+BaseThread *BaseThread::create(const Char8 *szName, UInt32 uiId)
 {
-    Lock *returnValue = NULL;
-
-    returnValue = new Lock(szName, uiId);
-
-    if(returnValue->init() == false)
-    {
-        delete returnValue;
-        returnValue = NULL;
-    }
-    
-    return returnValue;
+    return new BaseThread(szName, uiId);
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
-
-Lock::Lock(void) :
-    Inherited()
+void BaseThread::initThreading(void)
 {
-}
+    FINFO(("BaseThread::initThreading\n"))
 
-Lock::Lock(const Char8 *szName, UInt32 uiId) :
-    Inherited(szName, uiId)
-{
-}
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    int rc; 
 
-/** \brief Destructor
- */
+    rc = pthread_key_create(&(BaseThread::_threadKey), 
+                              BaseThread::freeThread);
 
-Lock::~Lock(void)
-{
-    ThreadManager::the()->removeLock(this);
-    shutdown();
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char LockPool::cvsid[] = "@(#)$Id: $";
-
-MPLockPoolType LockPool::_type("OSGLockPool", 
-                                     "OSGMPBase", 
-                                     LockPool::create);
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-LockPool *LockPool::create(const Char8 *szName, UInt32 uiId)
-{
-    LockPool *returnValue = NULL;
-
-    returnValue = new LockPool(szName, uiId);
-
-    if(returnValue->init() == false)
-    {
-        delete returnValue;
-        returnValue = NULL;
-    }
-    
-    return returnValue;
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-Bool LockPool::init(void)
-{
-    Bool   returnValue = true;
-    Char8 *pTmp;
-
-    pTmp = new Char8[strlen(_szName) + 6];
-
-    for(UInt32 i = 0; i < uiLockPoolSize; i++)
-    {
-#ifdef OSG_DEBUG_LOCK_STAT
-        _pLockStats[i] = 0;
+    FFASSERT((rc != 0), 1, ("Failed to create pthread thread key\n");)
 #endif
-        sprintf(pTmp, "%s%d\n", _szName, i);
 
-        stringDup(pTmp, _pLocks[i]._szName);
-
-        returnValue &= _pLocks[i].init();
-    }
-
-    delete [] pTmp;
-        
-    return returnValue;
-}
-
-void LockPool::shutdown(void)
-{
-    for(UInt32 i = 0; i < uiLockPoolSize; i++)
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+    BaseThread::_vThreads.resize(16);
+    
+    for(UInt32 i = 0; i < 16; i++)
     {
-        _pLocks[i].shutdown();
+        BaseThread::_vThreads[i]     = NULL;
     }
+#endif
+
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
+	BaseThread::_threadKey     = TlsAlloc();
+
+	FFASSERT((BaseThread::_threadKey != 0xFFFFFFFF), 1, 
+             ("Failed to alloc thread key local storage\n"))
+#endif
 }
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -780,8 +971,7 @@ void LockPool::shutdown(void)
 /** \brief Constructor
  */
 
-LockPool::LockPool(const Char8  *szName,
-                               UInt32  uiId) :
+BaseThread::BaseThread(const Char8 *szName, UInt32 uiId) :
     Inherited(szName, uiId)
 {
 }
@@ -789,10 +979,12 @@ LockPool::LockPool(const Char8  *szName,
 /** \brief Destructor
  */
 
-LockPool::~LockPool(void)
+BaseThread::~BaseThread(void)
 {
-    ThreadManager::the()->removeLockPool(this);
-    shutdown();
+    ThreadManager::the()->removeThread(this);
+
+    if(this != ThreadManager::getAppThread())
+        terminate();
 }
 
 /*-------------------------------------------------------------------------*\
@@ -803,21 +995,6 @@ LockPool::~LockPool(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void LockPool::aquire(void *keyP)
-{
-    _pLocks[(((UInt32) keyP) & uiLockPoolMask) >> 7].aquire();
-}
-
-void LockPool::release(void *keyP)
-{
-    _pLocks[(((UInt32) keyP) & uiLockPoolMask) >> 7].release();
-}
-
-Bool LockPool::request(void *keyP)
-{
-    return _pLocks[(((UInt32) keyP) & uiLockPoolMask) >> 7].request();
-}
-
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
@@ -825,6 +1002,9 @@ Bool LockPool::request(void *keyP)
 /*-------------------------- assignment -----------------------------------*/
 
 /*-------------------------- comparison -----------------------------------*/
+
+
+
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <OSGString.h>
@@ -58,20 +58,16 @@
 
 #include <map>
 
-#include <OSGThread.h>
+#include <OSGBaseThread.h>
 #include <OSGBarrier.h>
 #include <OSGLock.h>
 #include <OSGLog.h>
-
-//OSG_USING_STD_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
-
-class ChangeList;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -90,7 +86,7 @@ class ChangeList;
  */
 
 template <class MPFieldT>
-class OSG_MULTITHREADING_DLLMAPPING MPFieldStore 
+class OSG_BASE_DLLMAPPING MPFieldStore 
 {
   public:
 
@@ -118,14 +114,13 @@ class OSG_MULTITHREADING_DLLMAPPING MPFieldStore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<StringLink, MPFieldType  *> MPFieldTypeMap;
-    typedef typename MPFieldTypeMap::iterator  MPFieldTypeMapIt;
+    typedef map<StringLink, MPFieldType  *>         MPFieldTypeMap;
+    typedef typename MPFieldTypeMap::iterator       MPFieldTypeMapIt;
 
-    typedef typename MPFieldTypeMap::const_iterator 
-        MPFieldTypeMapCIt;
+    typedef typename MPFieldTypeMap::const_iterator MPFieldTypeMapCIt;
 
-    typedef map<StringLink, MPFieldT *>     MPFieldMap;
-    typedef typename MPFieldMap::iterator      MPFieldMapIt;
+    typedef map<StringLink, MPFieldT *>             MPFieldMap;
+    typedef typename MPFieldMap::iterator           MPFieldMapIt;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -207,12 +202,12 @@ class OSG_MULTITHREADING_DLLMAPPING MPFieldStore
 
     /*------------------------- your_category -------------------------------*/
 
-    MPFieldT *getMPField   (const Char8      *szName,
-                                   const Char8      *szTypeName);
+    MPFieldT *getMPField   (const Char8    *szName,
+                            const Char8    *szTypeName);
 
-    MPFieldT *findMPField  (const Char8      *szName);
-
-    void           removeMPField(      MPFieldT *pField);
+    MPFieldT *findMPField  (const Char8    *szName);
+    
+    void      removeMPField(      MPFieldT *pField);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -234,7 +229,7 @@ class OSG_MULTITHREADING_DLLMAPPING MPFieldStore
  *  \brief ThreadManager
  */
 
-class OSG_MULTITHREADING_DLLMAPPING ThreadManager 
+class OSG_BASE_DLLMAPPING ThreadManager 
 {
   public:
 
@@ -250,10 +245,10 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef MPFieldStore<Thread  > ThreadStore;
-    typedef MPFieldStore<Barrier > BarrierStore;
-    typedef MPFieldStore<Lock    > LockStore;
-    typedef MPFieldStore<LockPool> LockPoolStore;
+    typedef MPFieldStore<BaseThread> ThreadStore;
+    typedef MPFieldStore<Barrier   > BarrierStore;
+    typedef MPFieldStore<Lock      > LockStore;
+    typedef MPFieldStore<LockPool  > LockPoolStore;
 
   private:
 
@@ -274,7 +269,7 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
     friend class MPLockType;
     friend class MPLockPoolType;
 
-    friend class Thread;
+    friend class BaseThread;
     friend class Barrier;
     friend class Lock;
     friend class LockPool;
@@ -290,7 +285,7 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
 	static char cvsid[];
 
     static ThreadManager   *_pThreadManager;
-    static Thread          *_pAppThread;
+    static BaseThread      *_pAppThread;
 
     static Bool             _bShutdownInProgress;
 
@@ -313,7 +308,9 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
     LockStore      _sLockStore;
     LockPoolStore  _sLockPoolStore;
 
-    Lock            *_storePLock;
+    Lock          *_storePLock;
+
+    static Char8  *_szAppThreadType;
 
 #if defined(OSG_USE_SPROC)
     usptr_t *_pArena;
@@ -357,10 +354,10 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void removeThread  (Thread   *pThread);
-    void removeBarrier (Barrier  *pBarrier);
-    void removeLock    (Lock     *pLock);
-    void removeLockPool(LockPool *pLockPool);
+    void removeThread  (BaseThread *pThread);
+    void removeBarrier (Barrier    *pBarrier);
+    void removeLock    (Lock       *pLock);
+    void removeLockPool(LockPool   *pLockPool);
 
     UInt32 registerThreadType  (MPThreadType   *pType);
     UInt32 registerBarrierType (MPBarrierType  *pType);
@@ -379,14 +376,15 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static ThreadManager *the          (void);
+    static void           setAppThreadType(const Char8 *szAppThreadType);
 
-    static Thread        *getAppThread (void);
+    static ThreadManager *the             (void);
 
-    static void              setNumAspects(UInt32 uiNumApects);
-    static UInt32         getNumAspects(void);
+    static BaseThread    *getAppThread    (void);
 
-    static ChangeList    *getChangeList(UInt32 aspectId);
+    static void           setNumAspects   (UInt32 uiNumApects);
+    static UInt32         getNumAspects   (void);
+
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -394,19 +392,19 @@ class OSG_MULTITHREADING_DLLMAPPING ThreadManager
 
      /*--------------------- create threading element ----------------------*/
 
-    Thread   *getThread   (const Char8     *szName,
-                              const Char8     *szTypeName = "OSGThread");
-    Barrier  *getBarrier  (const Char8     *szName,
-                              const Char8     *szTypeName = "OSGBarrier");
-    Lock     *getLock     (const Char8     *szName,
-                              const Char8     *szTypeName = "OSGLock");
-    LockPool *getLockPool (const Char8     *szName,
-                              const Char8     *szTypeName = "OSGLockPool");
+    BaseThread   *getThread   (const Char8 *szName,
+                               const Char8 *szTypeName = "OSGThread");
+    Barrier      *getBarrier  (const Char8 *szName,
+                               const Char8 *szTypeName = "OSGBarrier");
+    Lock         *getLock     (const Char8 *szName,
+                               const Char8 *szTypeName = "OSGLock");
+    LockPool     *getLockPool (const Char8 *szName,
+                               const Char8 *szTypeName = "OSGLockPool");
 
-    Thread   *findThread  (const Char8 *szName);
-    Barrier  *findBarrier (const Char8 *szName);
-    Lock     *findLock    (const Char8 *szName);    
-    LockPool *findLockPool(const Char8 *szName);    
+    BaseThread   *findThread  (const Char8 *szName);
+    Barrier      *findBarrier (const Char8 *szName);
+    Lock         *findLock    (const Char8 *szName);    
+    LockPool     *findLockPool(const Char8 *szName);    
 
 #if defined(OSG_USE_SPROC)
     usptr_t *getArena(void);

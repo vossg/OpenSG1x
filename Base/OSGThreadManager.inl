@@ -96,8 +96,7 @@ char MPFieldStore<MPFieldT>::cvsid[] = "@(#)$Id: $";
 \*-------------------------------------------------------------------------*/
 
 template <class MPFieldT>
-UInt32 MPFieldStore<MPFieldT>::registerMPType(
-    MPFieldType *pType)
+UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
 {
     UInt32 returnValue = 0;
 
@@ -153,9 +152,8 @@ MPFieldStore<MPFieldT>::~MPFieldStore(void)
 /*------------------------------ access -----------------------------------*/
 
 template <class MPFieldT>
-MPFieldT *MPFieldStore<MPFieldT>::getMPField(
-    const Char8 *szName,
-    const Char8 *szTypeName)
+MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
+                                             const Char8 *szTypeName)
 {
     MPFieldT    *returnValue = NULL;
     MPFieldType *pElemType;
@@ -172,8 +170,7 @@ MPFieldT *MPFieldStore<MPFieldT>::getMPField(
             
             if(returnValue != NULL)
             {
-                _mFieldMap[StringLink(returnValue->getCName())] = 
-                    returnValue;
+                _mFieldMap[StringLink(returnValue->getCName())] = returnValue;
             }
         }
         else
@@ -186,8 +183,7 @@ MPFieldT *MPFieldStore<MPFieldT>::getMPField(
 }
 
 template <class MPFieldT>
-MPFieldT *MPFieldStore<MPFieldT>::findMPField(
-    const Char8 *szName)
+MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
 {
     MPFieldMapIt gIt;
     
@@ -235,8 +231,7 @@ void MPFieldStore<MPFieldT>::clear(void)
 
 template <class MPFieldT>
 MPFieldStore<MPFieldT>::MPFieldType *
-    MPFieldStore<MPFieldT>::findMPFieldType(
-        const Char8 *szName) const
+    MPFieldStore<MPFieldT>::findMPFieldType(const Char8 *szName) const
 {
     MPFieldTypeMapCIt gIt;
 
@@ -254,7 +249,7 @@ MPFieldStore<MPFieldT>::MPFieldType *
     }
     else 
     {
-				PWARNING  << "could not find type named : " << szName << endl;
+        PWARNING  << "could not find type named : " << szName << endl;
         return NULL;
     }
 }

@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGMPBase.h>
 
@@ -80,7 +80,7 @@ class MPFieldStore;
  *  \brief BarrierCommonBase
  */
 
-class OSG_MULTITHREADING_DLLMAPPING BarrierCommonBase : public MPBase
+class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
 {
   public:
 
@@ -465,7 +465,7 @@ typedef SprocBarrierBase BarrierBase;
  *  \brief WinThreadBarrierBase
  */
 
-class OSG_MULTITHREADING_DLLMAPPING WinThreadBarrierBase : 
+class OSG_BASE_DLLMAPPING WinThreadBarrierBase : 
     public BarrierCommonBase
 {
   public:
@@ -596,7 +596,7 @@ typedef WinThreadBarrierBase BarrierBase;
  *  \brief Barrier
  */
 
-class OSG_MULTITHREADING_DLLMAPPING Barrier : public BarrierBase
+class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 {
   public:
 

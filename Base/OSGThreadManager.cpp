@@ -69,10 +69,12 @@ OSG_USING_NAMESPACE
 char ThreadManager::cvsid[] = "@(#)$Id: $";
 
 ThreadManager *ThreadManager::_pThreadManager      = NULL;
-Thread        *ThreadManager::_pAppThread          = NULL;
+BaseThread    *ThreadManager::_pAppThread          = NULL;
 
 Bool           ThreadManager::_bShutdownInProgress = false;
 UInt32         ThreadManager::_uiNumAspects        = OSG_NUM_ASPECTS;
+
+Char8         *ThreadManager::_szAppThreadType     = NULL;
 
 #ifdef OSG_RUNTIME_NUM_ASPECTS 
 Bool           ThreadManager::_bNumAspectSet       = false;
@@ -104,6 +106,11 @@ Bool ThreadManager::terminate (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+void ThreadManager::setAppThreadType(const Char8 *szAppThreadType)
+{
+    stringDup(szAppThreadType, _szAppThreadType);
+}
+
 ThreadManager *ThreadManager::the(void)
 {
     if(_pThreadManager == NULL)
@@ -113,7 +120,7 @@ ThreadManager *ThreadManager::the(void)
     return _pThreadManager;
 }
 
-Thread *ThreadManager::getAppThread(void)
+BaseThread *ThreadManager::getAppThread(void)
 {
     return _pAppThread;
 }
@@ -149,17 +156,6 @@ UInt32 ThreadManager::getNumAspects(void)
     return _uiNumAspects;
 }
 
-ChangeList *ThreadManager::getChangeList(UInt32 uiAspectId)
-{
-    ChangeList *returnValue = NULL;
-
-    if(uiAspectId < _uiNumAspects)
-    {
-    }
-    
-    return returnValue;
-}
-
 #if defined(OSG_USE_SPROC)
 usptr_t *ThreadManager::getArena(void)
 {
@@ -179,7 +175,7 @@ usptr_t *ThreadManager::getArena(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void ThreadManager::removeThread(Thread *pThread)
+void ThreadManager::removeThread(BaseThread *pThread)
 {
     if(_bShutdownInProgress == true)
         return;
@@ -251,50 +247,7 @@ Bool ThreadManager::init(void)
 {
     Bool returnValue = true;
 
-    SINFO << "OSGThreadManager init" << endl;
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    int rc; 
-
-    rc = pthread_key_create(&(Thread::_aspectKey), 
-                              Thread::freeAspect);
-
-    rc = pthread_key_create(&(Thread::_threadKey), 
-                              Thread::freeThread);
-
-    rc = pthread_key_create(&(Thread::_changeListKey), 
-                              Thread::freeChangeList);
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-#ifdef OSG_RUNTIME_NUM_ASPECTS
-    Thread::_pAspects     = new UInt16      [_uiNumAspects];
-    Thread::_pThreads     = new Thread     *[_uiNumAspects];
-    Thread::_pChangelists = new ChangeList *[_uiNumAspects];
-#endif
-
-   for(UInt32 i = 0; i < _uiNumAspects; i++)
-    {
-        Thread::_pAspects[i]     = 0;
-        Thread::_pThreads[i]     = NULL;
-        Thread::_pChangelists[i] = NULL;
-    }
-#endif
-
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
-	Thread::_aspectKey     = TlsAlloc();
-	Thread::_threadKey     = TlsAlloc();
-	Thread::_changeListKey = TlsAlloc();
-
-	if(Thread::_aspectKey == 0xFFFFFFFF) 
-		fprintf(stderr, "Local alloc failed\n");
-
-	if(Thread::_threadKey == 0xFFFFFFFF) 
-		fprintf(stderr, "Local alloc failed\n");
-
-	if(Thread::_changeListKey == 0xFFFFFFFF) 
-		fprintf(stderr, "Local alloc failed\n");
-#endif
+    FDEBUG(("OSGThreadManager init\n"))
 
 #if defined(OSG_USE_SPROC)
     usconfig(CONF_AUTOGROW,   1);
@@ -328,19 +281,25 @@ Bool ThreadManager::init(void)
         SINFO << "OSGTM : got table lock " << _storePLock << endl;
     }
 
-    _pAppThread = getThread("OSGApp");
-    Thread::init(_pAppThread);
-
-    if(_pAppThread == NULL)
+    if(_szAppThreadType == NULL)
     {
-        SFATAL << "OSGTM : could not get application thread " << endl;
+        FINFO(("OSGTM : create -OSGBaseThread- app thread\n"))
 
-        returnValue = false;
+        _pAppThread = getThread("OSGAppThread", "OSGBaseThread");
     }
     else
     {
-        SINFO << "OSGTM : got application thread " << _pAppThread << endl;
+        FINFO(("OSGTM : create -%s- app thread\n", _szAppThreadType))
+        _pAppThread = getThread("OSGAppThread", _szAppThreadType);
     }
+
+    FFASSERT((_pAppThread != NULL), 1, 
+             ("OSGTM : could not get application thread \n");)
+             
+
+    FINFO(("OSGTM : got application thread %p\n", _pAppThread))
+
+    _pAppThread->init();
 
     return returnValue;
 }
@@ -354,10 +313,12 @@ Bool ThreadManager::shutdown(void)
     _sLockStore.clear();
     _sLockPoolStore.clear();
 
+#ifdef CHECK
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
     Thread::freeAspect();
     Thread::freeThread();
     Thread::freeChangeList();
+#endif
 #endif
 
 #if defined(OSG_USE_SPROC)
@@ -403,10 +364,10 @@ ThreadManager::~ThreadManager(void)
 
 /*------------------------------ access -----------------------------------*/
 
-Thread *ThreadManager::getThread(const Char8 *szName,
-                                       const Char8 *szTypeName)
+BaseThread *ThreadManager::getThread(const Char8 *szName,
+                                     const Char8 *szTypeName)
 {
-    Thread *returnValue = NULL;
+    BaseThread *returnValue = NULL;
 
     _storePLock->aquire();
 
@@ -418,7 +379,7 @@ Thread *ThreadManager::getThread(const Char8 *szName,
 }
 
 Barrier *ThreadManager::getBarrier(const Char8 *szName,
-                                         const Char8 *szTypeName)
+                                   const Char8 *szTypeName)
 {
     Barrier *returnValue = NULL;
 
@@ -432,7 +393,7 @@ Barrier *ThreadManager::getBarrier(const Char8 *szName,
 }
 
 Lock *ThreadManager::getLock(const Char8 *szName,
-                                   const Char8 *szTypeName)
+                             const Char8 *szTypeName)
 {
     Lock *returnValue = NULL;
 
@@ -446,7 +407,7 @@ Lock *ThreadManager::getLock(const Char8 *szName,
 }
 
 LockPool *ThreadManager::getLockPool(const Char8 *szName,
-                                           const Char8 *szTypeName)
+                                     const Char8 *szTypeName)
 {
     LockPool *returnValue = NULL;
 
@@ -459,9 +420,9 @@ LockPool *ThreadManager::getLockPool(const Char8 *szName,
     return returnValue;
 }
 
-Thread  *ThreadManager::findThread (const Char8 *szName)
+BaseThread  *ThreadManager::findThread (const Char8 *szName)
 {
-    Thread *returnValue = NULL;
+    BaseThread *returnValue = NULL;
 
     _storePLock->aquire();
     

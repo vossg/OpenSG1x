@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEMULTITHREADING
+#define OSG_COMPILEBASE
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -651,6 +651,7 @@ Barrier::Barrier(const Char8  *szName,
 Barrier::~Barrier(void)
 {
     ThreadManager::the()->removeBarrier(this);
+
     shutdown();
 }
 
