@@ -67,6 +67,9 @@ OSG_USING_NAMESPACE
 const OSG::BitVector  ChunkMaterialBase::ChunksFieldMask = 
     (TypeTraits<BitVector>::One << ChunkMaterialBase::ChunksFieldId);
 
+const OSG::BitVector  ChunkMaterialBase::SlotsFieldMask = 
+    (TypeTraits<BitVector>::One << ChunkMaterialBase::SlotsFieldId);
+
 const OSG::BitVector ChunkMaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -75,6 +78,9 @@ const OSG::BitVector ChunkMaterialBase::MTInfluenceMask =
 // Field descriptions
 
 /*! \var StateChunkPtr   ChunkMaterialBase::_mfChunks
+    
+*/
+/*! \var Int32           ChunkMaterialBase::_mfSlots
     
 */
 
@@ -86,7 +92,12 @@ FieldDescription *ChunkMaterialBase::_desc[] =
                      "chunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,
-                     (FieldAccessMethod) &ChunkMaterialBase::getMFChunks)
+                     (FieldAccessMethod) &ChunkMaterialBase::getMFChunks),
+    new FieldDescription(MFInt32::getClassType(), 
+                     "slots", 
+                     SlotsFieldId, SlotsFieldMask,
+                     false,
+                     (FieldAccessMethod) &ChunkMaterialBase::getMFSlots)
 };
 
 
@@ -143,6 +154,7 @@ void ChunkMaterialBase::executeSync(      FieldContainer &other,
 
 ChunkMaterialBase::ChunkMaterialBase(void) :
     _mfChunks                 (), 
+    _mfSlots                  (), 
     Inherited() 
 {
 }
@@ -153,6 +165,7 @@ ChunkMaterialBase::ChunkMaterialBase(void) :
 
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
     _mfChunks                 (source._mfChunks                 ), 
+    _mfSlots                  (source._mfSlots                  ), 
     Inherited                 (source)
 {
 }
@@ -174,6 +187,11 @@ UInt32 ChunkMaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _mfChunks.getBinSize();
     }
 
+    if(FieldBits::NoField != (SlotsFieldMask & whichField))
+    {
+        returnValue += _mfSlots.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -186,6 +204,11 @@ void ChunkMaterialBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
     {
         _mfChunks.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SlotsFieldMask & whichField))
+    {
+        _mfSlots.copyToBin(pMem);
     }
 
 
@@ -201,6 +224,11 @@ void ChunkMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfChunks.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SlotsFieldMask & whichField))
+    {
+        _mfSlots.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -212,6 +240,9 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
         _mfChunks.syncWith(pOther->_mfChunks);
+
+    if(FieldBits::NoField != (SlotsFieldMask & whichField))
+        _mfSlots.syncWith(pOther->_mfSlots);
 
 
 }
@@ -246,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 

@@ -19,6 +19,8 @@
 #include <OSGGLUTWindow.h>
 
 #include <OSGMaterialChunk.h>
+#include <OSGTextureChunk.h>
+#include <OSGImage.h>
 
 #include "OSGMaterial.h"
 #include "OSGChunkMaterial.h"
@@ -126,6 +128,47 @@ int main (int argc, char **argv)
     torus_geo = GeometryPtr::dcast(torus->getCore());
 
 
+    TextureChunkPtr tx2 = TextureChunk::create();
+   
+   
+    const UInt16 p2size = 128;
+    const UInt16 t2size = 16;
+    
+    ImagePtr pImg2 = Image::create();
+    pImg2->set(Image::OSG_RGB_PF, p2size, p2size );
+    
+    beginEditCP(pImg2);
+    UInt8 *d = pImg2->getData();
+    
+    for(UInt16 y = 0; y < p2size; ++y)
+    {
+        for(UInt16 x = 0; x < p2size; ++x)
+        {
+            if((x / t2size + y / t2size) & 1)
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+            }
+            else
+            {
+                *d++ = 64;
+                *d++ = 128;
+                *d++ = 255;
+            }
+        }
+    }
+    endEditCP(pImg2);
+    
+    beginEditCP(tx2);
+    tx2->setImage(pImg2);
+    tx2->setMinFilter(GL_LINEAR);
+    tx2->setMagFilter(GL_LINEAR);
+    tx2->setWrapS(GL_REPEAT);
+    tx2->setWrapT(GL_REPEAT);
+    
+    endEditCP(tx2);
+
     pm = ChunkMaterial::create();
 
     beginEditCP(pm);
@@ -139,8 +182,14 @@ int main (int argc, char **argv)
     endEditCP(pmc);
 
     pm->addChunk( pmc );
+    pm->addChunk( tx2, 1 );
     endEditCP(pm);
 
+    pm->dump();
+    
+    std::cout << pm->getMFChunks()->size() << " " 
+              << pm->getMFSlots()->size() << std::endl;
+    
     plane_geo->setMaterial( pm );
 
     BlendChunkPtr bl = BlendChunk::create();
@@ -159,6 +208,8 @@ int main (int argc, char **argv)
 
     torus_geo->setMaterial( tmat );
 
+    tmat->dump();
+    
     FLOG(("TorusMat is trans: %d\n", tmat->isTransparent() ));
 
     // the window is needed for the chunks that access GLObjects

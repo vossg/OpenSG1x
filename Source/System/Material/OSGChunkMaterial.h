@@ -101,9 +101,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     /*! \name                    Access                                    */
     /*! \{                                                                 */
 
-    bool          addChunk  ( StateChunkPtr chunk );
-    bool          subChunk  ( StateChunkPtr chunk );
-    StateChunkPtr find      ( const FieldContainerType &type, UInt32 index = 0 );
+    bool addChunk(StateChunkPtr chunk, Int32 slot = State::AutoSlotReplace);
+    bool subChunk(StateChunkPtr chunk, Int32 slot = State::AutoSlotReplace);
+
+    StateChunkPtr find(const FieldContainerType &type, UInt32 slot = 0);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

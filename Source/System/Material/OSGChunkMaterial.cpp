@@ -136,43 +136,55 @@ void ChunkMaterial::changed(BitVector whichField, UInt32 origin)
 
 /*-------------------------- your_category---------------------------------*/
 
-bool ChunkMaterial::addChunk(StateChunkPtr chunk)
+bool ChunkMaterial::addChunk(StateChunkPtr chunk, Int32 slot)
 {
+    if(slot != State::AutoSlotReplace)
+    {
+        while(_mfSlots.size() < _mfChunks.size())
+            _mfSlots.push_back(State::AutoSlotReplace);
+    }
+    
     _mfChunks.push_back(chunk);
-
+    
+    if(slot != State::AutoSlotReplace)
+        _mfSlots.push_back(slot);
+        
     addRefCP(chunk);
 
     return true;
 }
 
-bool ChunkMaterial::subChunk(StateChunkPtr chunk)
+bool ChunkMaterial::subChunk(StateChunkPtr chunk, Int32 slot)
 {
-    MFStateChunkPtr::iterator i;
-
-    i = _mfChunks.find(chunk);
-
-    if(i == _mfChunks.end())
+    UInt32 i;
+    
+    for(i = 0; i < _mfChunks.size(); ++i)
     {
-        SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk "
-                 << chunk << std::endl;
+        if(_mfChunks[i] == chunk &&
+           (i < _mfSlots.size() || _mfSlots[i] == slot)
+          )
+        {
+            subRefCP(chunk);
+            _mfChunks.erase(_mfChunks.begin() + i);
+            return true;
+        }
     }
-    else
-    {
-         subRefCP      (chunk);
-        _mfChunks.erase(i    );
-    }
-
+    
+    SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk "
+             << chunk << " with slot " << slot << std::endl;
+             
     return true;
 }
 
-StateChunkPtr ChunkMaterial::find(const FieldContainerType &type, UInt32 index)
+StateChunkPtr ChunkMaterial::find(const FieldContainerType &type, 
+                                    UInt32 slot)
 {
     UInt32 count = 0;
     for(MFStateChunkPtr::iterator i = _mfChunks.begin();i != _mfChunks.end();++i)
     {
         if((*i)->getType() == type)
         {
-            if(count == index)
+            if(count == slot)
                 return (*i);
             ++count;
         }
@@ -224,10 +236,12 @@ void ChunkMaterial::draw(DrawFunctor& func, DrawActionBase * action)
 StatePtr ChunkMaterial::makeState(void)
 {
     StatePtr state = State::create();
-
-    for(MFStateChunkPtr::iterator i = _mfChunks.begin();
-            i != _mfChunks.end(); i++)
-        state->addChunk(*i);
+    UInt32 i;
+    
+    for(i = 0; i < _mfChunks.size(); ++i)
+        state->addChunk(_mfChunks[i], 
+                        (i < _mfSlots.size()) ? _mfSlots[i]
+                                                : State::AutoSlotReplace);
 
     return state;
 }
@@ -248,13 +262,12 @@ void ChunkMaterial::rebuildState(void)
         addRefCP(_pState);
     }
 
-    MFStateChunkPtr::iterator it        = _mfChunks.begin();
-    MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
-
-    for(; it != chunksEnd; ++it)
-    {
-        _pState->addChunk(*it);
-    }
+    UInt32 i;
+    
+    for(i = 0; i < _mfChunks.size(); ++i)
+        _pState->addChunk(_mfChunks[i], 
+                          (i < _mfSlots.size()) ? _mfSlots[i]
+                                                  : State::AutoSlotReplace);
 }
 
 /*! Check if the Material (i.e. any of its chunks) is transparent..
@@ -283,9 +296,14 @@ void ChunkMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "ChunkMaterial at " << this << std::endl;
     SLOG << "Chunks: " << std::endl;
 
-    for(MFStateChunkPtr::const_iterator i = _mfChunks.begin();
-            i != _mfChunks.end(); i++)
-        SLOG << *i << std::endl;
+    UInt32 i;
+    
+    for(i = 0; i < _mfChunks.size(); ++i)
+        SLOG << _mfChunks[i] << " "
+             << static_cast<Int32>((i < _mfSlots.size()) 
+                                   ? _mfSlots[i]
+                                   :   State::AutoSlotReplace)
+             << std::endl;
 }
 
 

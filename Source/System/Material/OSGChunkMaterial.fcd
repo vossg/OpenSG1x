@@ -16,4 +16,11 @@
 		visibility="external"
 	>
 	</Field>
+	<Field
+		name="slots"
+		type="Int32"
+		cardinality="multi"
+		visibility="external"
+	>
+	</Field>
 </FieldContainer>

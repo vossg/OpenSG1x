@@ -66,6 +66,7 @@
 #include <OSGMaterial.h> // Parent
 
 #include <OSGStateChunkFields.h> // Chunks type
+#include <OSGInt32Fields.h> // Slots type
 
 #include <OSGChunkMaterialFields.h>
 
@@ -90,10 +91,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     enum
     {
         ChunksFieldId = Inherited::NextFieldId,
-        NextFieldId   = ChunksFieldId + 1
+        SlotsFieldId  = ChunksFieldId + 1,
+        NextFieldId   = SlotsFieldId  + 1
     };
 
     static const OSG::BitVector ChunksFieldMask;
+    static const OSG::BitVector SlotsFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -121,10 +124,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     /*! \{                                                                 */
 
            MFStateChunkPtr     *getMFChunks         (void);
+           MFInt32             *getMFSlots          (void);
 
            StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
      const MFStateChunkPtr     &getChunks         (void) const;
+           Int32               &getSlots          (const UInt32 index);
+           MFInt32             &getSlots          (void);
+     const MFInt32             &getSlots          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -177,6 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     /*! \{                                                                 */
 
     MFStateChunkPtr     _mfChunks;
+    MFInt32             _mfSlots;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +232,6 @@ typedef ChunkMaterialBase *ChunkMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGCHUNKMATERIALBASE_H_ */
