@@ -50,6 +50,12 @@
 #endif
 #include <OSGLog.h>
 
+#ifdef OSG_WITH_TIF
+#define OSG_TIF_ARG(ARG) ARG
+#else
+#define OSG_TIF_ARG(ARG)
+#endif
+
 OSG_USING_NAMESPACE
 
 // Static Class Varible implementations:
@@ -111,7 +117,8 @@ TIFImageFileType TIFImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool TIFImageFileType::read(Image &image, const Char8 *fileName)
+Bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image), 
+                            const Char8 *OSG_TIF_ARG(fileName))
 {
     Bool    valid = false;
 
@@ -256,7 +263,8 @@ Bool TIFImageFileType::read(Image &image, const Char8 *fileName)
 //s:
 //
 //------------------------------
-Bool TIFImageFileType::write(const Image &image, const Char8 *fileName)
+Bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
+                             const Char8 *OSG_TIF_ARG(fileName))
 {
     Bool                retCode = false;
 
