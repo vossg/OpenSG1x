@@ -48,7 +48,7 @@
 
 #include <OSGConceptPropertyChecks.h>
 #include <OSGFieldContainerProperties.h>
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGBaseTypes.h>
 
 

@@ -45,7 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGFieldContainerType.h>
 #include <OSGStringLink.h>
 #include <OSGFieldContainerFactory.h>
@@ -197,6 +197,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
 
     static       FieldContainerType &getClassType  (void);
     static       UInt32              getClassTypeId(void);
+    static       UInt16              getClassGroupId(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

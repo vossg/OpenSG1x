@@ -47,7 +47,7 @@
 
 #include <map>
 
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
 #include <OSGFieldContainer.h>

@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGFIELDCONTAINERBASE_H_
-#define _OSGFIELDCONTAINERBASE_H_
+#ifndef _OSGFIELDCONTAINERDEF_H_
+#define _OSGFIELDCONTAINERDEF_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -78,4 +78,4 @@
 #define OSG_FIELDCONTAINER_TMPLDLLMAPPING
 #endif
 
-#endif /* _OSGFIELDCONTAINERBASE_H_ */
+#endif /* _OSGFIELDCONTAINERDEF_H_ */

@@ -48,7 +48,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE

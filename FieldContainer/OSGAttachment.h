@@ -45,7 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldDescription.h>

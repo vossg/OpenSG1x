@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGBaseTypes.h>
 
 #include <OSGString.h>
@@ -218,6 +218,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldDescription
 
           UInt32     getFieldId  (void            ) const;
           void       setFieldId  (UInt32 uiFieldId);
+
+	      Bool       isInternal  (void) const;
 
 	      Bool       isValid     (void) const;
 
