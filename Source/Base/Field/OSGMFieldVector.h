@@ -84,10 +84,12 @@ class MField;
 template <class Tp, class Alloc OSG_STL_DEFAULT_ALLOCATOR(Tp) >
 class MFieldVector : public std::vector<Tp, Alloc> 
 {
-  private:
-    
+  public:
+
     typedef std::vector<Tp, Alloc> Inherited;
 
+  private:
+    
     template <class FieldTypeT, Int32 fieldNameSpace>
     friend class MField;
 
@@ -140,9 +142,12 @@ class MFieldVector : public std::vector<Tp, Alloc>
 template<class Ty, class A = std::allocator<Ty> >
 class MFieldVector : public std::vector<Ty, A>
 {
-  private :
+  public:
 
     typedef          std::vector<Ty, A>        Inherited;
+
+  private :
+
 	typedef typename Inherited::const_iterator It;
 
 //    template <class FieldTypeT, Int32 fieldNameSpace>
