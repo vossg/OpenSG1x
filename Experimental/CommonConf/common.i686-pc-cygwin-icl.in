@@ -105,6 +105,7 @@ ifeq ($(DEBUG_VERSION), 0)
 	LINK_DEBUG       = 
 else
 	LINK_OPTIMIZE    =
+	AR_FLAGS         = -Debug
 	LINK_DEBUG       = -Debug 
 endif
 
