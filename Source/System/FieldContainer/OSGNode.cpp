@@ -471,20 +471,23 @@ void Node::updateVolume(void)
 
     vol.getInstance().setEmpty();
 
-    for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
+    if(getActive())
     {
-        (*it)->updateVolume();
-        vol.getInstance().extendBy((*it)->getVolume());
+        for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
+        {
+            (*it)->updateVolume();
+            vol.getInstance().extendBy((*it)->getVolume());
+        }
+
+        // test for null core. Shouldn't happen, but just in case...
+        if(getCore() != NullFC)
+            getCore()->adjustVolume(vol.getInstance());
     }
-
-    // test for null core. Shouldn't happen, but just in case...
-    if(getCore() != NullFC)
-        getCore()->adjustVolume(vol.getInstance());
-
+    
     beginEdit(VolumeFieldMask, _sfVolume);
    
     vol.instanceChanged();
-
+    
     _sfVolume.setValue(vol);
     
     endEdit(VolumeFieldMask, _sfVolume);
