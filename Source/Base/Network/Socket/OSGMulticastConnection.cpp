@@ -350,13 +350,19 @@ UInt32 MulticastConnection::getChannelCount(void)
     data can be read. So we need to select one channel for exclusive
     read. 
  */
-void MulticastConnection::selectChannel()
+void MulticastConnection::selectChannel(UInt32 channel)
 {
     UDPHeader header;
     SocketAddress from;
     SocketSelection selection;
     UInt32 size;
 
+    if(channel != ALL_CHANNELS &&
+       channel < _channelAddress.size())
+    {
+        _channel=channel;
+        return;
+    }
     for(;;)
     {
         if(!_inSocket.waitReadable(_aliveTime+1))

@@ -90,18 +90,24 @@ Connection::~Connection(void)
 
 /*! wait for signal
  */
-void Connection::wait(void)
+void Connection::wait(UInt32 channel)
 {
     UInt32 tag;
     UInt32 i;
+    UInt32 waitFor;
+
+    if(channel == ALL_CHANNELS)
+        waitFor = getChannelCount();
+    else
+        waitFor = 1;
 
     // wait for signals on all channels
-    for(i=0 ; i<getChannelCount() ; ++i)
+    while(waitFor--)
     {
         // read sync tag;
         do
         {
-            selectChannel();
+            selectChannel(channel);
             getValue(tag);
         } 
         while(tag != 0x12345678);

@@ -61,6 +61,9 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
 {
     /*==========================  PUBLIC  =================================*/
   public:
+
+    enum { ALL_CHANNELS=0xffff };
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -76,10 +79,10 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
     virtual std::string bind           (const std::string &address) = 0;
     virtual void        accept         (      void                ) = 0;
     virtual void        connect        (const std::string &address) = 0;
-    virtual void        wait           (      void                );
-    virtual void        signal         (      void                );
+    virtual void        wait           (      UInt32 channel=ALL_CHANNELS);
+    virtual void        signal         (      void                       );
     virtual UInt32      getChannelCount(      void                ) = 0;
-    virtual void        selectChannel  (      void                ) = 0;
+    virtual void        selectChannel  (UInt32 channel=ALL_CHANNELS) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

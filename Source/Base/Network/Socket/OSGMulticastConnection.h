@@ -87,7 +87,7 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
           void            accept         (void                      );
           void            connect        (const std::string &address);
           UInt32          getChannelCount(void                      );
-          void            selectChannel  (void                      );
+          void            selectChannel  (           UInt32  channel);
     const ConnectionType *getType        (void                      );
 
     /*! \}                                                                 */

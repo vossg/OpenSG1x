@@ -323,11 +323,18 @@ UInt32 StreamSockConnection::getChannelCount(void)
  * A connection can have n links from which data can be read. So we
  * need to select one channel for exclusive read. 
  **/
-void StreamSockConnection::selectChannel(void)
+void StreamSockConnection::selectChannel(UInt32 channel)
 {
     Int32 maxnread=0,nread;
     SocketsT::iterator socket;
     SocketSelection selection,result;
+
+    if(channel != ALL_CHANNELS &&
+       channel < _sockets.size())
+    {
+        _readSocket=_sockets[channel];
+        return;
+    }
 
     // only one socket?
     if(_sockets.size()==1)
