@@ -1,5 +1,5 @@
 #LyX 1.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 218
+\lyxformat 2.16
 \textclass book
 \begin_preamble
 \usepackage[T1]{fontenc}
@@ -302,7 +302,11 @@ ailybuild_logs.
 Compilation
 \layout Standard
 
-Short version: ./configure ; make should work.
+Short version: 
+\family typewriter 
+./configure ; make
+\family default 
+ should work.
 \layout Standard
 
 Long version: OpenSG uses a relatively standard configure script to adapt
@@ -349,7 +353,7 @@ Program Files
 .../lib/*dll+*lib
 \family default 
 , otherwise it won't be found.
- Note that you need to the directory where the libs are created to your
+ Note that you need to add the directory where the libs are created to your
  
 \family typewriter 
 PATH
@@ -1941,7 +1945,7 @@ Node
 
 \begin_inset Figure size 238 304
 file node_core_share.eps
-width 4 80
+width 4 80.00
 flags 9
 
 \end_inset 
@@ -2282,7 +2286,7 @@ Using these properties it is possible to define geometry (see fig.
 
 \begin_inset Figure size 476 225
 file geo_nonindexed.eps
-width 3 80
+width 3 80.00
 flags 9
 
 \end_inset 
@@ -2329,7 +2333,7 @@ Indices are stored in the GeoIndices property, which only exists in the
 
 \begin_inset Figure size 476 225
 file geo_indexed.eps
-width 3 80
+width 3 80.00
 flags 9
 
 \end_inset 
@@ -2376,7 +2380,7 @@ To get around that you need multiple indices per vertex to index the different
 
 \begin_inset Figure size 476 212
 file geo_multiindexed.eps
-width 3 80
+width 3 80.00
 flags 9
 
 \end_inset 
@@ -3043,7 +3047,7 @@ value * size - 1
 
 \begin_inset Figure size 238 308
 file viewports.eps
-width 4 80
+width 4 80.00
 flags 9
 
 \end_inset 
@@ -3744,7 +3748,7 @@ The basic idea is that you use the 'field container description editor'
 
 \begin_inset Figure size 267 177
 file fcd.eps
-width 4 90
+width 4 90.00
 flags 9
 
 \end_inset 
@@ -4102,7 +4106,7 @@ fcdEdit Interface Components
 
 \begin_inset Figure size 595 482
 file fcdEdit-numbered.eps
-width 3 100
+width 3 100.00
 flags 11
 
 \end_inset 
