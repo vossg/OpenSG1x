@@ -139,7 +139,7 @@ endif
 $(SUB_SO): $(LIBOBJECTS) $(PROJLIBSDEP)
 	@echo $(LIBOBJECTS) $(AR_FLAGS)
 	$(LD_SHARED) /out:"$(SUB_SO)" $(LD_SHARED_FLAGS) $(LIBOBJECTS) 	\
-		     $(PRAE_LINK_LIBS) $(PROJLIBS) $(POST_LINK_LIBS) 
+		     $(PROJLIBS) 
 
 else
 
@@ -272,6 +272,12 @@ endif
 Clean: clean
 ifneq ($(TESTCLEANSYSTEMS),)
 	@-rm -f $(TESTCLEANSYSTEMS)  2>/dev/null
+endif
+ifneq ($(SUB_LIB),)
+	@-rm -f $(OBJDIRBASE)$(LASTDBG)/*.$(LIBEXT) 2>/dev/null
+endif
+ifneq ($(SUB_SO),)
+	@-rm -f $(OBJDIRBASE)$(LASTDBG)/*.$(LIBSO) 2>/dev/null
 endif
 
 #########################################################################

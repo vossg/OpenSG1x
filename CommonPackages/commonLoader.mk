@@ -1,9 +1,11 @@
 
 SUB_DIR                  := Loader
+PACKAGENAME              := Loader
 
 INCL_DIR                 := $(OSGPOOL)/$(SUB_DIR)
 
-PROJLIBS_FILE_$(SUB_DIR) := $(OSGPOOL)/$(SUB_DIR)/lib$(SUB_DIR).$(OS).$(LIBEXT)
+PROJLIBS_FILE_$(SUB_DIR) := \
+	$(OSGPOOL)/$(SUB_DIR)/lib$(PACKAGENAME).$(OS).$(LIBEXT)
 
 
 ifeq ($(OS_BASE), NT)

@@ -1,10 +1,11 @@
 
 SUB_DIR                  := Window
+PACKAGENAME              := Window
 
 INCL_DIR                 := $(OSGPOOL)/$(SUB_DIR)
 
 PROJLIBS_FILE_$(SUB_DIR) := \
-	$(OSGPOOL)/$(SUB_DIR)/lib$(SUB_DIR).$(OS).$(LIBEXT)
+	$(OSGPOOL)/$(SUB_DIR)/lib$(PACKAGENAME).$(OS).$(LIBEXT)
 
 
 ifeq ($(OS_BASE), NT)

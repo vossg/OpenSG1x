@@ -1,9 +1,11 @@
 
 SUB_DIR                  := Field
+PACKAGENAME              := Field
 
 INCL_DIR                 := $(OSGPOOL)/$(SUB_DIR)
 
-PROJLIBS_FILE_$(SUB_DIR) := $(OSGPOOL)/$(SUB_DIR)/lib$(SUB_DIR).$(OS).$(LIBEXT)
+PROJLIBS_FILE_$(SUB_DIR) := \
+	$(OSGPOOL)/$(SUB_DIR)/lib$(PACKAGENAME).$(OS).$(LIBEXT)
 
 REQUIRED_SYSTEM_LIBS$(OS) :=
 
