@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Particles"
+	parent="NodeCore"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+	<Field
+		name="positions"
+		type="GeoPositionsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+        The positions of the particles. This is the primary defining information
+        for a particle.
+	</Field>
+	<Field
+		name="secPositions"
+		type="GeoPositionsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+        The secondary position of the particle. This information is only used by
+        a few rendering modes, e.g. the streak mode. Usually it represents the 
+        particle's last position.
+	</Field>
+	<Field
+		name="colors"
+		type="GeoColorsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+        The particle colors (optional).
+	</Field>
+	<Field
+		name="normals"
+		type="GeoNormalsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+        Most particles will be automatically aligned to the view direction.
+        If normals are set they will be used to define the direction the 
+        particles are facing.
+	</Field>
+	<Field
+		name="sizes"
+		type="Vec3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+        The particle sizes. If not set (1,1,1) will be used, if only one entry is
+        set, it will be used for all particles. If the number of sizes if equal
+        to the number of positions every particle will get its own size.
+        Most modes only use the X coordinate of the vector.
+	</Field>
+	<Field
+		name="material"
+		type="MaterialPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+        The material used to render the particles.
+	</Field>
+</FieldContainer>

@@ -1,0 +1,224 @@
+#include <OSGConfig.h>
+
+#ifdef OSG_STREAM_IN_STD_NAMESPACE
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
+
+#include <GL/glut.h>
+
+#include <OSGBaseFunctions.h>
+#include <OSGSFSysTypes.h>
+#include <OSGNode.h>
+#include <OSGGroup.h>
+#include <OSGThread.h>
+#include <OSGTransform.h>
+#include <OSGAttachment.h>
+#include <OSGMFVecTypes.h>
+#include <OSGAction.h>
+#include <OSGDrawAction.h>
+#include <OSGGeometry.h>
+#include <OSGSimpleGeometry.h>
+#include <OSGFaceIterator.h>
+#include <OSGGLUTWindow.h>
+
+#include "OSGSimpleTexturedMaterial.h"
+#include "OSGBlendChunk.h"
+#include <OSGParticles.h>
+
+
+OSG_USING_NAMESPACE
+
+
+DrawAction * dact;
+WindowPtr win;
+NodePtr plane,parts;
+
+void
+display(void)
+{
+    // do the motion in OpenGl, to stay independent of the ransform node
+    // use the draw action to check the material
+
+    float a = glutGet( GLUT_ELAPSED_TIME );
+
+    win->frameInit();
+
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+    glPushMatrix();
+    glRotatef( a / 20, 0,0,1 );
+
+    dact->apply( plane );
+
+    glPushMatrix();
+    glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2+.5 );
+    glRotatef( (a/3000) * 360 / 2, 1,0,0 );
+
+    dact->apply( parts );
+
+    glPopMatrix();
+
+    glPopMatrix();
+
+    win->frameExit();
+
+    glutSwapBuffers();
+}
+
+int main (int argc, char **argv)
+{
+    // GLUT init
+
+    osgInit(argc, argv);
+
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutCreateWindow("OpenSG");
+    // glutKeyboardFunc(key);
+    // glutReshapeFunc(resize);
+    glutDisplayFunc(display);
+    // glutMouseFunc(mouse);
+    // glutMotionFunc(motion);
+
+    glutIdleFunc(display);
+
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 10 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
+
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHT0 );
+
+    // OSG
+
+    plane = makePlane( 2, 2, 2, 2 );
+
+    GeometryPtr plane_geo;
+    plane_geo = GeometryPtr::dcast(plane->getCore());
+
+    // create the scene
+    parts = Node::create();
+    ParticlesPtr particles = Particles::create();
+
+    beginEditCP(parts);
+    parts->setCore( particles );
+    endEditCP(parts);
+
+    beginEditCP(particles);
+
+    GeoPositions3fPtr pnts = GeoPositions3f::create();
+    particles->setPositions( pnts );
+
+    MFPnt3f* p = pnts->getFieldPtr();
+
+    beginEditCP(pnts);
+    p->addValue( Pnt3f( -.5, -.5, -0.5) );
+    p->addValue( Pnt3f(  .5, -.5, -0.5) );
+    p->addValue( Pnt3f(  .5,  .5, -0.5) );
+    p->addValue( Pnt3f( -.5,  .5, -0.5) );
+    p->addValue( Pnt3f( -.5, -.5,  0.5) );
+    p->addValue( Pnt3f(  .5, -.5,  0.5) );
+    p->addValue( Pnt3f(  .5,  .5,  0.5) );
+    p->addValue( Pnt3f( -.5,  .5,  0.5) );
+    endEditCP(pnts);
+
+
+    GeoColors3fPtr cols = GeoColors3f::create();
+    particles->setColors( cols );
+    beginEditCP(cols);
+    cols->getFieldPtr()->addValue( Color3f( 255, 255, 255) );
+    cols->getFieldPtr()->addValue( Color3f(   0, 255, 255) );
+    cols->getFieldPtr()->addValue( Color3f( 255,   0, 255) );
+    cols->getFieldPtr()->addValue( Color3f( 255, 255,   0) );
+    cols->getFieldPtr()->addValue( Color3f( 255,   0,   0) );
+    cols->getFieldPtr()->addValue( Color3f(   0, 255,   0) );
+    cols->getFieldPtr()->addValue( Color3f( 255,   0,   0) );
+    cols->getFieldPtr()->addValue( Color3f(   0, 255,   0) );
+    endEditCP(cols);
+
+    MFReal32 *size = particles->getMFSizes();
+    size->addValue( Vec3f(.3,0,0) );
+    size->addValue( Vec3f(.3,0,0) );
+    size->addValue( Vec3f(.3,0,0) );
+    size->addValue( Vec3f(.3,0,0) );
+    size->addValue( Vec3f(.2,0,0) );
+    size->addValue( Vec3f(.2,0,0) );
+    size->addValue( Vec3f(.2,0,0) );
+    size->addValue( Vec3f(.2,0,0) );
+
+     
+    endEditCP(particles);
+
+
+
+    SimpleTexturedMaterialPtr pm, tm;
+
+    pm = SimpleTexturedMaterial::create();
+
+    beginEditCP(pm);
+    pm->setDiffuse( Color3f( 1,0,0 ) );
+    pm->setAmbient( Color3f( 1,0,0 ) );
+    pm->setSpecular( Color3f( 1,1,1 ) );
+    pm->setShininess( 10 );
+    pm->setMagFilter( GL_NEAREST );
+    endEditCP(pm);
+
+    plane_geo->setMaterial( pm );
+
+
+    tm = SimpleTexturedMaterial::create();
+
+    UChar8 imgdata[] =
+        {  255,0,0,  255,0,0,  255,0,255,
+           255,0,0,  255,0,0,  255,0,255 };
+    Image image;
+
+    if (argc > 1)
+    {
+        image.read(argv[1]);
+    }
+    else
+    {
+        image.set(Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata);
+    }
+    
+    beginEditCP(tm);
+    tm->setDiffuse( Color3f( 1,1,1 ) );
+    tm->setLit( false );
+
+    tm->setImage( &image );
+    tm->setEnvMode( GL_MODULATE );
+    
+    BlendChunkPtr bl=BlendChunk::create();
+    
+    beginEditCP(bl);
+    bl->setSrcFactor(GL_SRC_ALPHA);
+    bl->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    bl->setAlphaFunc(GL_NOTEQUAL);
+    bl->setAlphaValue(0);   
+    endEditCP(bl);
+   
+    tm->addChunk(bl);
+    
+    endEditCP(tm);
+
+    particles->setMaterial( tm );
+
+    //
+    // The action
+
+    win = GLUTWindow::create();
+
+    dact = DrawAction::create();
+    dact->setWindow( win.getCPtr() );
+
+    glutMainLoop();
+
+    return 0;
+}
+

@@ -1,0 +1,4 @@
+# Add our directory to the System Lib
+
+ac_gdz_package_dirs_WindowGLUT="${ac_gdz_package_dirs_WindowGLUT} Nodes/Particles@ " 
+
