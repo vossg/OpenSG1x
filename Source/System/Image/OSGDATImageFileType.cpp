@@ -356,10 +356,83 @@ bool DATImageFileType::read (      ImagePtr &image,
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool DATImageFileType::write(const ImagePtr &, 
-                             const Char8 *OSG_CHECK_ARG(fileName))
+bool DATImageFileType::write(const ImagePtr &image, 
+                             const Char8 *fileName)
 {
-    bool retCode = false;
+    initTypeMap();
+
+    // ok we write always in big endian.
+#if BYTE_ORDER == LITTLE_ENDIAN
+    image->swapDataEndian();
+#endif
+
+    std::ofstream dat(fileName, std::ios::binary);
+    if(!dat)
+    {
+        SWARNING << "DATImageFileType::write : Can not open output stream for file '" << fileName << "'!" << std::endl;
+        return false;
+    }
+
+    Real64 sT[3];
+    sT[0] = sT[1] = sT[2] = 1.0;
+    const std::string *attr = image->findAttachmentField("SliceThickness");
+    if(attr != NULL)
+         sscanf(attr->c_str(), "%lf %lf %lf", &sT[0], &sT[1], &sT[2]);
+    
+    std::string format = "UCHAR";
+    for(std::map<std::string, FormatDesc>::iterator it = _formatStrMap.begin();
+        it != _formatStrMap.end();++it)
+    {
+        if((*it).second.type == image->getDataType())
+        {
+            format = (*it).first;
+            break;
+        }
+    }
+
+    std::string basename = fileName;
+    int i = basename.rfind(".");
+    if(i != std::string::npos)
+        basename = basename.substr(0, i);
+    basename += ".raw";
+    
+    std::string name = basename;
+    i = name.rfind("/");
+    // on windows also a / is possible!
+#if defined(WIN32)
+    if(i == std::string::npos)
+        i = name.rfind("\\");
+#endif
+    if(i != std::string::npos)
+        name = name.substr(i+1);
+
+    dat << "ObjectFileName: " << name << "\n";
+    dat << "TaggedFileName: ---\n";
+    dat << "Resolution:     " << image->getWidth() << " " << image->getHeight()
+                              << " " << image->getDepth() << "\n";
+    dat << "SliceThickness: " << sT[0] << " " << sT[1] << " " << sT[2] << "\n";
+    dat << "Format:         " << format << "\n";
+    dat << "NbrTags:        0\n";
+    dat << "ObjectType:     TEXTURE_VOLUME_OBJECT\n";
+    dat << "ObjectModel:    DENSITY\n";
+    dat << "GridType:       EQUIDISTANT\n";
+
+    dat.close();
+    
+    std::ofstream raw(basename.c_str(), std::ios::binary);
+    if(!raw)
+    {
+        SWARNING << "DATImageFileType::write : Can not open output stream for file '" << basename << "'!" << std::endl;
+        return false;
+    }
+    
+    raw.write ((const char *) image->getData(), image->getSize());
+    raw.close();
+
+    // restore to original endian
+#if BYTE_ORDER == LITTLE_ENDIAN
+    image->swapDataEndian();
+#endif
 
     /*
     ofstream out(fileName);
@@ -384,7 +457,7 @@ bool DATImageFileType::write(const ImagePtr &,
         retCode = false;    
     */
 
-    return retCode;
+    return true;
 }
 
 
