@@ -429,6 +429,75 @@ void TransformationMatrix<ValueTypeT>::setValue(
 
 #endif
 
+/** \brief Set matrix by a given str (like "1.0 0.0 0.0 0.0 ... (16 entries at all)"),
+    be shure the size matches
+ */
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(const char *str)
+{
+    UInt32 i;
+    UInt32 numOfToken = 16;
+
+      char *c = const_cast<char*>(str);
+
+      char *tokenC = 0;
+      char  token[256];
+
+      ValueTypeT vec[16];
+
+      if( (str  == NULL) || 
+        (*str == '\0') )
+    {
+        setIdentity();
+        return;
+      }
+
+    for(i = 0; i < numOfToken; c++) 
+    {
+        switch (*c) 
+        {
+            case '\0':
+                if (tokenC) 
+                {
+                    *tokenC = 0;
+                    vec[i++] = 
+                        TypeConstants<ValueTypeT>::getFromString(token);
+    
+                }
+                
+                while (i < numOfToken) 
+                    vec[i++] = 
+                        TypeConstants<ValueTypeT>::getZeroElement();
+
+                break;
+            case ' ':
+            case '\t':
+                  case '\n':  
+                if (tokenC) 
+                {
+                    *tokenC = 0;
+                    vec[i++] = 
+                        TypeConstants<ValueTypeT>::getFromString(token);
+                    tokenC = 0;
+                }
+                break;
+            default:
+                if (!tokenC) 
+                {
+                    tokenC = token;
+                }
+                *tokenC++ = *c;
+                break;
+        }
+    }
+
+      setValue(vec[0],  vec[1],  vec[2],  vec[3],
+                       vec[4],  vec[5],  vec[6],  vec[7],
+                       vec[8],  vec[9],  vec[10], vec[11],
+                       vec[12], vec[13], vec[14], vec[15]);
+}
+
+
 //@}
 
 /*------------------------------ get Values -------------------------------*/
@@ -1604,10 +1673,10 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposeFrom(
 	const TransformationMatrix &matrix)
 {
-	this->setValues(	result[0][0], result[1][0], result[2][0], result[3][0], 
-						result[0][1], result[1][1], result[2][1], result[3][1], 
-						result[0][2], result[1][2], result[2][2], result[3][2], 
-						result[0][3], result[1][3], result[2][3], result[3][3] );
+	this->setValues(	matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0], 
+						matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1], 
+						matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2], 
+						matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3] );
 	return true;
 }
 

@@ -184,6 +184,7 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 #ifndef WIN32
     void setValue			(const VectorType3f 			*pMat			  );
 #endif
+    void setValue			(const char         			*string           );
 
 	/*! \}                                                                 */
     /*---------------------------------------------------------------------*/
