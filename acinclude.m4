@@ -1599,6 +1599,9 @@ dnl e16
     ac_gdz_string_fix_in_e16=$ac_gdz_commonconf_dir/string.in
     ac_gdz_string_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/string
 
+    ac_gdz_strstream_fix_in_e16=$ac_gdz_commonconf_dir/strstream.in
+    ac_gdz_strstream_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/strstream
+
     ac_gdz_vector_fix_in_e16=$ac_gdz_commonconf_dir/vector.in
     ac_gdz_vector_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/vector
 
@@ -1613,6 +1616,7 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
               $ac_gdz_list_fix_out_e16:$ac_gdz_list_fix_in_e16
               $ac_gdz_map_fix_out_e16:$ac_gdz_map_fix_in_e16
               $ac_gdz_string_fix_out_e16:$ac_gdz_string_fix_in_e16
+              $ac_gdz_strstream_fix_out_e16:$ac_gdz_strstream_fix_in_e16
               $ac_gdz_algo_fix_out_e16:$ac_gdz_algo_fix_in_e16
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16)
 ])
