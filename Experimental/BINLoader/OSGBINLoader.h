@@ -89,6 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 
     struct FCIdMapper : public FieldContainerMapper
     {                                              
+      public:
         const IDLookupMap *ptrMap;
         FCIdMapper(IDLookupMap *m);
 
