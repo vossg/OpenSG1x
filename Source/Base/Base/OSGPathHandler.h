@@ -106,6 +106,7 @@ class OSG_BASE_DLLMAPPING PathHandler
     void push_frontUnixPath  (const Char8 *pathList);
     void push_frontWin32Path (const Char8 *pathList);
 
+    void subPath             (const Char8 *pathList);
     void subUnixPath         (const Char8 *pathList);
     void subWin32Path        (const Char8 *pathList);
 
@@ -113,6 +114,8 @@ class OSG_BASE_DLLMAPPING PathHandler
 
     void setBaseFile         (const Char8 *fileName);
     void clearBaseFile       (      void           );
+
+    std::string extractPath         (const Char8       *szFilename);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,8 +174,6 @@ class OSG_BASE_DLLMAPPING PathHandler
 
     void        validateList        (void                         );
 
-    std::string extractPath         (const Char8       *szFilename);
-    
     PathType    analysePathList     (const Char8       *pathList  );
     PathType    analysePath         (const Char8       *path      );
 
@@ -181,6 +182,8 @@ class OSG_BASE_DLLMAPPING PathHandler
     
     void        push_backPathList   (      PathList    &pathList  );
     void        push_frontPathList  (      PathList    &pathList  );
+
+    void        subPathList         (const PathList    &pathList  );
 
     void        convertPath         (      std::string &path      );
 

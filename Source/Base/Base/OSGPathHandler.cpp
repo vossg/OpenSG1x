@@ -252,13 +252,28 @@ void PathHandler::push_frontWin32Path(const Char8 *pathList)
     push_frontPathList(tmpList);
 }
 
-
-void PathHandler::subUnixPath(const Char8 *OSG_CHECK_ARG(pathList))
+void PathHandler::subPath(const Char8 *pathList)
 {
+    PathList tmpList;
+
+    parsePathList(pathList, tmpList);
+    subPathList(tmpList);
 }
 
-void PathHandler::subWin32Path(const Char8 *OSG_CHECK_ARG(pathList))
+void PathHandler::subUnixPath(const Char8 *pathList)
 {
+    PathList tmpList;
+
+    parseUnixPathList(pathList, tmpList);
+    subPathList(tmpList);
+}
+
+void PathHandler::subWin32Path(const Char8 *pathList)
+{
+    PathList tmpList;
+
+    parseWin32PathList(pathList, tmpList);
+    subPathList(tmpList);
 }
 
 void PathHandler::clearPathList(void)
@@ -642,6 +657,20 @@ void PathHandler::push_frontPathList(PathList &pathList)
     validateList();
 }
 
+void PathHandler::subPathList(const PathList &pathList)
+{
+    for(PathList::const_iterator i = pathList.begin();i != pathList.end();++i)
+    {
+        for(PathList::iterator j = _pathList.begin();j != _pathList.end();++j)
+        {
+            if(*j == *i)
+            {
+                _pathList.erase(j);
+                break;
+            }
+        }
+    }
+}
 
 void PathHandler::convertPath(std::string &path)
 {
