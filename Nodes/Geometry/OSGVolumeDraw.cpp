@@ -45,7 +45,13 @@
 
 #include "OSGConfig.h"
 
+#include <GL/gl.h>
+
 #include <OSGLog.h>
+#include <OSGBoxVolume.h>
+#include <OSGSphereVolume.h>
+#include <OSGFrustumVolume.h>
+#include <OSGCylinderVolume.h>
 
 #include "OSGVolumeDraw.h"
 
@@ -61,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.3 2001/07/30 22:17:45 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.4 2001/08/06 07:10:13 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -69,16 +75,185 @@ static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.3 2001/07/30 22:17:45 voss
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-void drawVolume ( Volume &volume )
+void osg::drawVolume ( const DynamicVolume &volume )
 {
-  return;
+	const Volume *v = &volume.getInstance();
+	const BoxVolume *bv;
+	const SphereVolume *sv;
+	const CylinderVolume *cv;
+	const FrustumVolume *fv;
+
+	if ((bv = dynamic_cast<const BoxVolume*>(v)))
+		drawVolume( *bv );
+	else if ((sv = dynamic_cast<const SphereVolume*>(v)))
+		drawVolume( *sv );
+	else if ((cv = dynamic_cast<const CylinderVolume*>(v)))
+		drawVolume( *cv );
+	else if ((fv = dynamic_cast<const FrustumVolume*>(v)))
+		drawVolume( *fv );
 }
 
 /*! \brief draw box volume 
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
-void drawVolume ( BoxVolume &volume )
+void osg::drawVolume ( const BoxVolume &volume )
 {
-  return;
+    Pnt3f min,max;
+    volume.getBounds( min, max );
+
+    glBegin( GL_LINE_LOOP );
+    glVertex3f( min[0], min[1], min[2] );	
+    glVertex3f( max[0], min[1], min[2] );	
+    glVertex3f( max[0], max[1], min[2] );	
+    glVertex3f( min[0], max[1], min[2] );	
+    glVertex3f( min[0], min[1], min[2] );	
+    glVertex3f( min[0], min[1], max[2] );	
+    glVertex3f( max[0], min[1], max[2] );	
+    glVertex3f( max[0], max[1], max[2] );	
+    glVertex3f( min[0], max[1], max[2] );	
+    glVertex3f( min[0], min[1], max[2] );	
+    glEnd();
+
+    glBegin( GL_LINES );
+    glVertex3f( min[0], max[1], min[2] );	
+    glVertex3f( min[0], max[1], max[2] );	
+    glVertex3f( max[0], max[1], min[2] );	
+    glVertex3f( max[0], max[1], max[2] );	
+    glVertex3f( max[0], min[1], min[2] );	
+    glVertex3f( max[0], min[1], max[2] );	
+    glEnd();
+
+    return;
+}
+
+/*! \brief draw sphere volume 
+ *  \ingroup Geometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING 
+void osg::drawVolume ( const SphereVolume &volume )
+{
+	PWARNING(( "drawVolume(SphereVolume): not implemented yet!\n" ));
+    return;
+}
+
+/*! \brief draw frustum volume 
+ *  \ingroup Geometry
+ *  Draw the frustum, Calc the corners by intersecting near/far with the
+ *  pairwise intersection of left/right and top/bottom.
+ */
+OSG_SYSTEMLIB_DLLMAPPING 
+void osg::drawVolume ( const FrustumVolume &volume )
+{
+    Line lines[4];
+    
+	// calc the intersection lines between left/right/bottom/top
+    if ( volume.getLeft().intersect( volume.getTop(), lines[0] ) == false )
+    {
+    	FWARNING(( "drawVolume(Frustum): left & top parallel ?!?\n" ));
+    	return;
+    }
+    
+    if ( volume.getLeft().intersect( volume.getBottom(), lines[1] ) == false )
+    {
+    	FWARNING(( "drawVolume(Frustum): left & bottom parallel ?!?\n" ));
+    	return;
+    }
+    
+    if ( volume.getRight().intersect( volume.getTop(), lines[2] ) == false )
+    {
+    	FWARNING(( "drawVolume(Frustum): right & top parallel ?!?\n" ));
+    	return;
+    }
+    
+    if ( volume.getRight().intersect( volume.getBottom(), lines[3] ) == false )
+    {
+    	FWARNING(( "drawVolume(Frustum): right & bottom parallel ?!?\n" ));
+    	return;
+    }
+    
+	// calc the intersection points
+    Pnt3f pnts[8];
+	
+	if ( volume.getNear().intersectInfinite( lines[0], pnts[0] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): near & left/top parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getFar().intersectInfinite( lines[0], pnts[1] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): far & left/top parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getNear().intersectInfinite( lines[1], pnts[2] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): near & left/bottom parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getFar().intersectInfinite( lines[1], pnts[3] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): far & left/bottom parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getNear().intersectInfinite( lines[2], pnts[4] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): near & right/top parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getFar().intersectInfinite( lines[2], pnts[5] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): far & right/top parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getNear().intersectInfinite( lines[3], pnts[6] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): near & right/bottom parallel ?!?\n" ));
+    	return;
+	}
+	
+	if ( volume.getFar().intersectInfinite( lines[3], pnts[7] ) == false )
+	{
+    	FWARNING(( "drawVolume(Frustum): far & right/bottom parallel ?!?\n" ));
+    	return;
+	}
+	
+	// got the points, draw them
+
+    glBegin( GL_LINE_LOOP );
+	glVertex3fv( pnts[0].getValuesRef() );
+	glVertex3fv( pnts[1].getValuesRef() );
+	glVertex3fv( pnts[3].getValuesRef() );
+	glVertex3fv( pnts[2].getValuesRef() );
+	glVertex3fv( pnts[6].getValuesRef() );
+	glVertex3fv( pnts[7].getValuesRef() );
+	glVertex3fv( pnts[5].getValuesRef() );
+	glVertex3fv( pnts[4].getValuesRef() );
+    glEnd();
+
+    glBegin( GL_LINES );
+ 	glVertex3fv( pnts[1].getValuesRef() );
+ 	glVertex3fv( pnts[5].getValuesRef() );
+ 	glVertex3fv( pnts[2].getValuesRef() );
+ 	glVertex3fv( pnts[6].getValuesRef() );
+ 	glVertex3fv( pnts[3].getValuesRef() );
+ 	glVertex3fv( pnts[7].getValuesRef() );
+    glEnd();
+
+    return;
+}
+
+/*! \brief draw cylinder volume 
+ *  \ingroup Geometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING 
+void osg::drawVolume ( const CylinderVolume &volume )
+{
+	PWARNING(( "drawVolume(CylinderVolume): not implemented yet!\n" ));
+    return;
 }
