@@ -2604,7 +2604,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
     Separates shared geometry properties.
 */
 
-OSG_SYSTEMLIB_DLLMAPPING void OSG::separateProperties(GeometryPtr &geo)
+OSG_SYSTEMLIB_DLLMAPPING void OSG::separateProperties(GeometryPtr geo)
 {
     separateProperty(PTypes, Types)
     separateProperty(PLengths, Lengths)
