@@ -8,9 +8,9 @@
 #include "OSGFont.h"
 
 #ifndef WIN32
-#include "freetype/freetype.h"
+#include "freetype1/freetype/freetype.h"
 #else
-#include "freetype.h"
+#include "freetype/freetype.h"
 #endif
 
 OSG_BEGIN_NAMESPACE 
