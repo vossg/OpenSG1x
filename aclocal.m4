@@ -33,7 +33,6 @@ else
   fi
 fi
 ])
-
 AC_DEFUN(AC_GDZ_PROG_CXX_AVAILABLE,
 [AC_BEFORE([$0], [AC_PROG_CXXCPP])dnl
 
@@ -97,19 +96,17 @@ AC_DEFUN(AC_GDZ_PROG_CC_AVAILABLE,
 AC_LANG_SAVE
 AC_LANG_C
 
-if [[ "set"$2 = set ]]; then
+if [[ "xset$2" = xset ]]; then
     AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH)
 else
     AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH:$2)
 fi
 
+
 AC_LANG_RESTORE
 
 AC_MSG_RESULT($ac_cv_prog_cc_works)
 
-AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler])
-
-AC_MSG_RESULT($ac_cv_prog_cc_cross)
 cross_compiling=$ac_cv_prog_cc_cross
 ])
 
