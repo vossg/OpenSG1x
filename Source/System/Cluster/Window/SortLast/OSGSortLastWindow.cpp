@@ -161,6 +161,7 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );
         serverPort->getMFForegrounds()->setValues( clientPort->getForegrounds() );
+        serverPort->setTravMask  ( clientPort->getTravMask()   );
         endEditCP(serverPort);
 
         sv++;
