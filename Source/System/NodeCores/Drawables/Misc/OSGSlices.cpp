@@ -59,7 +59,7 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class OSG::Slices
+/*! \class osg::Slices
 
 */
 
