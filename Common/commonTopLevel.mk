@@ -174,7 +174,7 @@ endif
 
 
 fcdToBase:
-	FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;							\
+	@FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;							\
 	CURRDIRBASE=`pwd` ;														\
 	cd $($(PROJ)POOL) ;														\
 	for i in `find .														\
