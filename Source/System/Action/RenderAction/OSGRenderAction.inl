@@ -108,6 +108,23 @@ Material *RenderAction::getMaterial(void) const
     return _pMaterial;
 }
 
+inline 
+void RenderAction::updateTopMatrix(void)
+{
+    _accMatrix = _camInverse;
+    _accMatrix.mult(_currMatrix.second);
+}
+
+inline
+const Matrix &RenderAction::top_matrix(void)
+{
+// not necessary anymore, is updated as soon as _currMatrix changes
+//    _accMatrix = _camInverse;
+//    _accMatrix.mult(_currMatrix.second);
+
+    return _accMatrix;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/

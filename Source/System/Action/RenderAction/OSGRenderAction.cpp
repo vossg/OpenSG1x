@@ -241,7 +241,8 @@ RenderAction::RenderAction(void) :
     _bSortTrans          (true),
     _bZWriteTrans        (false),
 
-    _vLights()
+    _vLights(),
+    _visibilityStack()
 {
     if(_vDefaultEnterFunctors != NULL)
         _enterFunctors = *_vDefaultEnterFunctors;
@@ -285,7 +286,8 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _bSortTrans          (source._bSortTrans),
     _bZWriteTrans        (source._bZWriteTrans),
-    _vLights             (source._vLights)
+    _vLights             (source._vLights),
+    _visibilityStack     (source._visibilityStack)
 {
 #if defined(OSG_OPT_DRAWTREE)
     _pNodeFactory = new DrawTreeNodeFactory;
@@ -681,6 +683,79 @@ bool RenderAction::isVisible( Node* node )
     return false;
 }
 
+//! enter a new level for visibility Return false if noed is not visible, true
+//  if it is.
+
+bool RenderAction::pushVisibility(void)
+{
+    if(getFrustumCulling() == false)
+        return true;
+    
+    FrustumVolume::PlaneSet inplanes = _visibilityStack.back();
+
+    if(inplanes == FrustumVolume::P_ALL)
+    {
+        _visibilityStack.push_back(inplanes);
+        return true;
+    }
+
+    Color3f col;
+    bool result = true;
+    
+    NodePtr node = getActNode();
+    
+    DynamicVolume vol = node->getVolume(true);
+    FrustumVolume frustum = _frustum;
+
+#if 1
+    vol.transform(top_matrix());
+#else   
+    // not quite working 
+    Matrix m = top_matrix();
+    m.invert();
+    
+    frustum.transform(m);
+#endif
+
+    getStatistics()->getElem(statCullTestedNodes)->inc();
+    
+    if ( !intersect( frustum, vol, inplanes ) )
+    {
+        result = false;
+        col.setValuesRGB(1,0,0);
+        getStatistics()->getElem(statCulledNodes)->inc();
+        useNodeList(); // ignore all children
+    }
+    else
+    {
+        if(inplanes == FrustumVolume::P_ALL)
+        {
+            col.setValuesRGB(0,1,0);            
+        }
+        else
+        {
+            col.setValuesRGB(0,0,1);            
+        }
+    }
+
+    if(getVolumeDrawing())
+    {
+        dropVolume(this, node, col);
+    }
+
+    _visibilityStack.push_back(inplanes);
+    return result;
+}
+
+void RenderAction::popVisibility(void)
+{
+    if(getFrustumCulling() == false)
+        return;
+
+    _visibilityStack.pop_back();
+}
+
+
 /*-------------------------- your_category---------------------------------*/
 
 void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
@@ -735,7 +810,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         _uiNumMatrixChanges++;
 
         _currMatrix.second = pRoot->getMatrixStore().second;
-
+        updateTopMatrix();
+        
 #ifdef PRINT_MAT
         fprintf(stderr, "pushed to gl %d\n", _uiActiveMatrix);
         
@@ -827,6 +903,9 @@ Action::ResultE RenderAction::start(void)
     _currMatrix.first = 1;
     _currMatrix.second.setIdentity();
 
+    _visibilityStack.clear();
+    _visibilityStack.push_back(FrustumVolume::P_NONE);
+    
     bool full;
     
     if(_viewport != NULL)
@@ -859,7 +938,7 @@ Action::ResultE RenderAction::start(void)
                                 _viewport->getPixelHeight());
 
             _camInverse.invertFrom(_currMatrix.second);
-
+            
             glMatrixMode(GL_MODELVIEW);
         }
 
@@ -868,6 +947,8 @@ Action::ResultE RenderAction::start(void)
             _background->clear(this, _viewport);
         }
     }
+    
+    updateTopMatrix();
 
     _mMatMap.clear();
 
@@ -1022,7 +1103,8 @@ void RenderAction::push_matrix(const Matrix &matrix)
 
     _currMatrix.first = ++_uiMatrixId;
     _currMatrix.second.mult(matrix);
-
+    updateTopMatrix();
+    
 #ifdef PRINT_MAT
     fprintf(stderr, "current %d\n", _currMatrix.first);
 
@@ -1054,6 +1136,7 @@ void RenderAction::pop_matrix(void)
 
     _currMatrix.first  = _vMatrixStack.back().first;
     _currMatrix.second = _vMatrixStack.back().second;
+    updateTopMatrix();
 
     _vMatrixStack.pop_back();
 
@@ -1069,14 +1152,6 @@ void RenderAction::pop_matrix(void)
                 _currMatrix.second[i][3]);
     }
 #endif
-}
-
-const Matrix &RenderAction::top_matrix(void)
-{
-    _accMatrix = _camInverse;
-    _accMatrix.mult(_currMatrix.second);
-
-    return _accMatrix;
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -141,10 +141,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     /*------------------------- your_operators ------------------------------*/
 
-    void          push_matrix(const Matrix &matrix);
-    void          pop_matrix (      void          );
+           void          push_matrix(const Matrix &matrix);
+           void          pop_matrix (      void          );
 
-    const Matrix &top_matrix (      void          );
+    inline const Matrix &top_matrix (      void          );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -161,6 +161,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     // test a single node
     bool            isVisible( Node* node );
+    
+    // visibility levels
+    bool  pushVisibility(void);
+    void  popVisibility(void);
     
   protected:
 
@@ -223,6 +227,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bZWriteTrans;
 
     std::vector<LightStore>   _vLights;
+    
+    std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 
 //    Time                 _tMatSlot
 
@@ -244,6 +250,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
             void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
     virtual void draw(DrawTreeNode *pRoot);
+
+    inline  void updateTopMatrix(void);
 
   private:
 
