@@ -13,4 +13,5 @@ endif
 
 ifneq ($(LIB_GIF),)
 LIB_FILE_GIF     := $(LIB_GIF)
+LIB_FILE_GIF_LNK := $(LIB_GIF)
 endif

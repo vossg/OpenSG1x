@@ -16,4 +16,5 @@ endif
 
 ifneq ($(LIB_QT),)
 LIB_FILE_QT     := $(LIB_QT)
+LIB_FILE_QT_LNK := $(LIB_QT)
 endif

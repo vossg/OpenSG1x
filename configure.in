@@ -468,11 +468,24 @@ then
 
 else 
 
-	if test $build_os = solaris2.7; then
+    ac_gdz_compiler_exe_ranlib=
+
+    case "$build_os" in
+
+       solaris*)
 		ac_gdz_compiler_exe_shared="$CC -shared"
-	else
+        ;;
+
+       darwin*)
+		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib'
+        ac_gdz_compiler_exe_ranlib=ranlib
+        ;;
+
+        *)
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
-	fi
+        ;;
+
+    esac
 
     ac_gdz_compiler_exe_lnk="ar -cr"
 
@@ -587,6 +600,7 @@ AC_SUBST(ac_gdz_compiler_exe)
 AC_SUBST(ac_gdz_compiler_exe_shared)
 AC_SUBST(ac_gdz_compiler_exe_lnk)
 AC_SUBST(ac_gdz_compiler_exe_exe)
+AC_SUBST(ac_gdz_compiler_exe_ranlib)
 AC_SUBST(ac_gdz_flex_exe)
 AC_SUBST(ac_gdz_bison_exe)
 AC_SUBST(ac_gdz_gmake_exe)

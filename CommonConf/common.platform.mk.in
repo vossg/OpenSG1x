@@ -9,6 +9,8 @@ LD_SHARED  := @ac_gdz_compiler_exe_shared@
 
 LD_LNK     := @ac_gdz_compiler_exe_lnk@
 
+RANLIB     := @ac_gdz_compiler_exe_ranlib@
+
 LD         := @ac_gdz_compiler_exe_exe@
 
 FLEX       := @ac_gdz_flex_exe@

@@ -2078,8 +2078,12 @@ echo "configure:2078: checking shared object suffix" >&5
 
     case "$build_os" in
 
-       cygwin*)
+        cygwin*)
         ac_gdz_so_suffix=.dll
+        ;;
+
+        darwin*)
+        ac_gdz_so_suffix=.dylib
         ;;
 
         *)
@@ -2092,7 +2096,7 @@ echo "configure:2078: checking shared object suffix" >&5
 
 
      echo $ac_n "checking shared object praefix""... $ac_c" 1>&6
-echo "configure:2096: checking shared object praefix" >&5
+echo "configure:2100: checking shared object praefix" >&5
 
      case "$build_os" in
 
@@ -2116,7 +2120,7 @@ then
 
 		
     echo $ac_n "checking system dir""... $ac_c" 1>&6
-echo "configure:2120: checking system dir" >&5
+echo "configure:2124: checking system dir" >&5
 
     case "$build_os" in
         cygwin*)
@@ -2209,11 +2213,24 @@ echo "configure:2120: checking system dir" >&5
 
 else 
 
-	if test $build_os = solaris2.7; then
+    ac_gdz_compiler_exe_ranlib=
+
+    case "$build_os" in
+
+       solaris*)
 		ac_gdz_compiler_exe_shared="$CC -shared"
-	else
+        ;;
+
+       darwin*)
+		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib'
+        ac_gdz_compiler_exe_ranlib=ranlib
+        ;;
+
+        *)
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
-	fi
+        ;;
+
+    esac
 
     ac_gdz_compiler_exe_lnk="ar -cr"
 
@@ -2273,7 +2290,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:2277: checking project config common.project.in" >&5
+echo "configure:2294: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -2284,7 +2301,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:2288: checking package config common.libs.in" >&5
+echo "configure:2305: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -2362,6 +2379,7 @@ fi
     done
 
     
+
 
 
 
@@ -2563,6 +2581,7 @@ s%@ac_gdz_compiler_exe@%$ac_gdz_compiler_exe%g
 s%@ac_gdz_compiler_exe_shared@%$ac_gdz_compiler_exe_shared%g
 s%@ac_gdz_compiler_exe_lnk@%$ac_gdz_compiler_exe_lnk%g
 s%@ac_gdz_compiler_exe_exe@%$ac_gdz_compiler_exe_exe%g
+s%@ac_gdz_compiler_exe_ranlib@%$ac_gdz_compiler_exe_ranlib%g
 s%@ac_gdz_flex_exe@%$ac_gdz_flex_exe%g
 s%@ac_gdz_bison_exe@%$ac_gdz_bison_exe%g
 s%@ac_gdz_gmake_exe@%$ac_gdz_gmake_exe%g
@@ -3114,21 +3133,39 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     ac_gdz_glut_libdir_e5=
 
     if test "$with_glut" = yes; then
-        if test $build_os = cygwin; then
-           ac_gdz_glut_lib_e5='glut32.lib'
-        else
-           ac_gdz_glut_lib_e5='-lglut'
-        fi
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_glut_lib_e5='glut32.lib'
+            ;;
+            darwin*)
+                ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
+            ;;
+            *)
+                ac_gdz_glut_lib_e5='-lglut'
+            ;;
+        esac
+
     elif test -n "$ac_gdz_glut_dir"; then
         if test $build_os = cygwin; then
            ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
            ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
-           ac_gdz_glut_lib_e5='glut32.lib'
         else
            ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
            ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
-           ac_gdz_glut_lib_e5='-lglut'
         fi
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_glut_lib_e5='glut32.lib'
+            ;;
+            darwin*)
+                ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
+            ;;
+            *)
+                ac_gdz_glut_lib_e5='-lglut'
+            ;;
+        esac
     fi
 
     ac_gdz_common_glut_in_e5=$ac_gdz_commonconf_dir/commonGLUT.in
@@ -5326,10 +5363,27 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
 
 
-    ac_gdz_common_gl_in_e4=$ac_gdz_commonconf_dir/commonGL.in
-    ac_gdz_common_gl_e4=$ac_gdz_commonpackage_dir/commonGL.mk
+    ac_gdz_common_gl_in_e8=$ac_gdz_commonconf_dir/commonGL.in
+    ac_gdz_common_gl_e8=$ac_gdz_commonpackage_dir/commonGL.mk
+
+    ac_gdz_gl_incdir_e8=
+
+    case $build_os in
+        darwin*)
+            if ! test -w $ac_gdz_package_sub_dir_out/Base/GL; then
+                mkdir $ac_gdz_package_sub_dir_out/Base/GL;
+            else
+                rm -f $ac_gdz_package_sub_dir_out/Base/GL/*.h
+            fi
+
+            ln -s /System/Library/Frameworks/OpenGL.framework/Headers/gl.h $ac_gdz_package_sub_dir_out/Base/GL/gl.h
+            ln -s /System/Library/Frameworks/OpenGL.framework/Headers/glu.h $ac_gdz_package_sub_dir_out/Base/GL/glu.h
+        ;;
+    esac
 
     touch confdefs.h
+
+    
 
     trap '' 1 2 15
 
@@ -5385,7 +5439,7 @@ done
 
 ac_given_srcdir=$srcdir
 
-trap 'rm -fr `echo "$ac_gdz_common_gl_e4:$ac_gdz_common_gl_in_e4 $ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "$ac_gdz_common_gl_e8:$ac_gdz_common_gl_in_e8 $ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -5394,6 +5448,7 @@ sed 's/%@/@@/; s/@%/@@/; s/%g\$/@g/; /@g\$/s/[\\\\&%]/\\\\&/g;
  s/@@/%@/; s/@@/@%/; s/@g\$/%g/' > conftest.subs <<\\CEOF
 $ac_vpsub
 $extrasub
+s%@ac_gdz_gl_incdir_e8@%$ac_gdz_gl_incdir_e8%g
 
 CEOF
 EOF
@@ -5435,7 +5490,7 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"$ac_gdz_common_gl_e4:$ac_gdz_common_gl_in_e4"}
+CONFIG_FILES=\${CONFIG_FILES-"$ac_gdz_common_gl_e8:$ac_gdz_common_gl_in_e8"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
@@ -5869,7 +5924,12 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
 
     ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
-    ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+
+    if test $build_os = cygwin; then 
+        ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+    else
+        ac_gdz_system_lib_dir_e15="$ac_gdz_system_lib_dir"
+    fi
 
     ac_gdz_base_system_libs_e15='"'$ac_gdz_base_system_libs'"'
 
@@ -6557,12 +6617,18 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
         echo configuring package ${ac_gdz_package_name}
 
         if test ${ac_gdz_package_name} = "WindowX"; then
-            if test ${build_os} = "cygwin"; then
-                echo Skipping ${ac_gdz_package_name}
-                continue
-            else
-                ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
-            fi
+            case ${build_os} in
+    
+                cygwin*)
+                    echo Skipping ${ac_gdz_package_name}
+                ;;
+                darwin*)
+                    echo Skipping ${ac_gdz_package_name}
+                ;;
+                *)
+                    ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
+                ;;
+            esac
         fi
         if test ${ac_gdz_package_name} = "WindowWIN32"; then
             if test ${build_os} != "cygwin"; then
@@ -6677,27 +6743,40 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
         eval ac_gdz_package_fact_init=\${ac_gdz_package_fact_init_${ac_gdz_package_name}}
 
         if test ${ac_gdz_package_fact_init} = "1"; then
-            if test $build_os = cygwin; then
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=1
-            elif test $build_os = linux-gnu; then
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=0
-            elif test $build_os = solaris2.7; then
-                ac_gdz_common_init_code_i_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=0
-            else
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=1
-            fi
+
+            case $build_os in
+
+                cygwin*)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=1
+                ;;
+                linux-gnu*)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=0
+                ;;
+                darwin*)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=0
+                ;;
+                solaris*)
+                    ac_gdz_common_init_code_i_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=0
+                ;;
+                *)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=1
+                ;;
+            esac
         else
             ac_gdz_common_init_code_files_e2=
             ac_gdz_package_so_needs_init_e2=0

@@ -356,8 +356,12 @@ AC_DEFUN(AC_GDZ_SOEXT,
 
     case "$build_os" in
 
-       cygwin*)
+        cygwin*)
         ac_gdz_so_suffix=.dll
+        ;;
+
+        darwin*)
+        ac_gdz_so_suffix=.dylib
         ;;
 
         *)
@@ -498,12 +502,18 @@ dnl e2
         echo configuring package ${ac_gdz_package_name}
 
         if test ${ac_gdz_package_name} = "WindowX"; then
-            if test ${build_os} = "cygwin"; then
-                echo Skipping ${ac_gdz_package_name}
-                continue
-            else
-                ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
-            fi
+            case ${build_os} in
+    
+                cygwin*)
+                    echo Skipping ${ac_gdz_package_name}
+                ;;
+                darwin*)
+                    echo Skipping ${ac_gdz_package_name}
+                ;;
+                *)
+                    ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
+                ;;
+            esac
         fi
         if test ${ac_gdz_package_name} = "WindowWIN32"; then
             if test ${build_os} != "cygwin"; then
@@ -618,27 +628,40 @@ dnl e2
         eval ac_gdz_package_fact_init=\${ac_gdz_package_fact_init_${ac_gdz_package_name}}
 
         if test ${ac_gdz_package_fact_init} = "1"; then
-            if test $build_os = cygwin; then
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=1
-            elif test $build_os = linux-gnu; then
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=0
-            elif test $build_os = solaris2.7; then
-                ac_gdz_common_init_code_i_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=0
-            else
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                ac_gdz_package_so_needs_init_e2=1
-            fi
+
+            case $build_os in
+
+                cygwin*)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=1
+                ;;
+                linux-gnu*)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=0
+                ;;
+                darwin*)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=0
+                ;;
+                solaris*)
+                    ac_gdz_common_init_code_i_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=0
+                ;;
+                *)
+                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                    ac_gdz_package_so_needs_init_e2=1
+                ;;
+            esac
         else
             ac_gdz_common_init_code_files_e2=
             ac_gdz_package_so_needs_init_e2=0
@@ -817,21 +840,39 @@ dnl e5
     ac_gdz_glut_libdir_e5=
 
     if test "$with_glut" = yes; then
-        if test $build_os = cygwin; then
-           ac_gdz_glut_lib_e5='glut32.lib'
-        else
-           ac_gdz_glut_lib_e5='-lglut'
-        fi
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_glut_lib_e5='glut32.lib'
+            ;;
+            darwin*)
+                ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
+            ;;
+            *)
+                ac_gdz_glut_lib_e5='-lglut'
+            ;;
+        esac
+
     elif test -n "$ac_gdz_glut_dir"; then
         if test $build_os = cygwin; then
            ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
            ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
-           ac_gdz_glut_lib_e5='glut32.lib'
         else
            ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
            ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
-           ac_gdz_glut_lib_e5='-lglut'
         fi
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_glut_lib_e5='glut32.lib'
+            ;;
+            darwin*)
+                ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
+            ;;
+            *)
+                ac_gdz_glut_lib_e5='-lglut'
+            ;;
+        esac
     fi
 
     ac_gdz_common_glut_in_e5=$ac_gdz_commonconf_dir/commonGLUT.in
@@ -921,12 +962,29 @@ AC_DEFUN(AC_GDZ_WRITE_COMMON_GL,
 [
 dnl e8
 
-    ac_gdz_common_gl_in_e4=$ac_gdz_commonconf_dir/commonGL.in
-    ac_gdz_common_gl_e4=$ac_gdz_commonpackage_dir/commonGL.mk
+    ac_gdz_common_gl_in_e8=$ac_gdz_commonconf_dir/commonGL.in
+    ac_gdz_common_gl_e8=$ac_gdz_commonpackage_dir/commonGL.mk
+
+    ac_gdz_gl_incdir_e8=
+
+    case $build_os in
+        darwin*)
+            if ! test -w $ac_gdz_package_sub_dir_out/Base/GL; then
+                mkdir $ac_gdz_package_sub_dir_out/Base/GL;
+            else
+                rm -f $ac_gdz_package_sub_dir_out/Base/GL/*.h
+            fi
+
+            ln -s /System/Library/Frameworks/OpenGL.framework/Headers/gl.h $ac_gdz_package_sub_dir_out/Base/GL/gl.h
+            ln -s /System/Library/Frameworks/OpenGL.framework/Headers/glu.h $ac_gdz_package_sub_dir_out/Base/GL/glu.h
+        ;;
+    esac
 
     touch confdefs.h
 
-    AC_OUTPUT($ac_gdz_common_gl_e4:$ac_gdz_common_gl_in_e4)
+    AC_SUBST(ac_gdz_gl_incdir_e8)
+
+    AC_OUTPUT($ac_gdz_common_gl_e8:$ac_gdz_common_gl_in_e8)
 ])
 
 AC_DEFUN(AC_GDZ_WRITE_COMMON_TIF,
@@ -1421,7 +1479,12 @@ dnl e15
 
 
     ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
-    ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+
+    if test $build_os = cygwin; then 
+        ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+    else
+        ac_gdz_system_lib_dir_e15="$ac_gdz_system_lib_dir"
+    fi
 
     ac_gdz_base_system_libs_e15='"'$ac_gdz_base_system_libs'"'
 

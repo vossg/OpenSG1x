@@ -13,5 +13,6 @@ endif
 
 ifneq ($(LIB_GLUT),)
 LIB_FILE_GLUT     := $(LIB_GLUT)
+LIB_FILE_GLUT_LNK := $(LIB_GLUT)
 endif
 

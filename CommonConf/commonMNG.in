@@ -13,4 +13,6 @@ endif
 
 ifneq ($(LIB_MNG),)
 LIB_FILE_MNG     := $(LIB_MNG)
+LIB_FILE_MNG_LNK := $(LIB_MNG)
 endif
+

@@ -124,6 +124,8 @@ else
 buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)
 endif
 
+buildLnkLibName   = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)
+
 ifeq ($(OS_BASE), cygwin)
 buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)
 else
@@ -298,7 +300,6 @@ REQUIRED_PACKAGES := $(sort $(REQUIRED_PACKAGES))
 
 include $(REQUIRED_PACKAGES)
 
-
 #########################################################################
 # Setup Compiler Environment
 #########################################################################
@@ -313,7 +314,9 @@ ifeq ($(OS_BASE), cygwin)
 RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) \
 				$(filter-out $(LIB_REQUIRED_TESTLNKPACKAGES),$(RQ_LPACKS))
 else
-RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) $(RQ_LPACKS)
+RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) \
+				$(filter-out $(LIB_REQUIRED_TESTLNKPACKAGES), $(RQ_LPACKS))
+#$(error $(LIBS) $(RQ_LPACKS))
 endif
 else
 ifeq ($(OS_BASE), cygwin)
@@ -325,7 +328,11 @@ LIBPACKPATHS := $(foreach lp,$(RQ_LPACKS), $(LIBPATHS_$(lp)))
 
 LIBPATHS     := $(LIBPATHS) $(LIBPACKPATHS)
 
+ifeq ($(LNK),)
 LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)))
+else
+LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)_LNK))
+endif
 
 LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 
