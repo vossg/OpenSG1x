@@ -62,34 +62,34 @@ OSG_BEGIN_NAMESPACE
  */
 
 OSG_SYSTEMLIB_DLLMAPPING 
-NodePtr OSG::makeExtrusion( const vector<osg::Vec2f> &crossSection,
-                            const vector<osg::Quaternion> &orientation,
-                            const vector<osg::Vec2f> &scale,
-                            const vector<osg::Vec3f> &spine,
-                            bool beginCap,
-                            bool endCap,
-                            bool ccw,
-                            bool convex,
-                            bool buildNormal,
-                            bool buildTexCoord,
-                            UInt32 numOfSubdivision );  
+NodePtr makeExtrusion( const vector<osg::Vec2f> &crossSection,
+                       const vector<osg::Quaternion> &orientation,
+                       const vector<osg::Vec2f> &scale,
+                       const vector<osg::Vec3f> &spine,
+                       bool beginCap,
+                       bool endCap,
+                       bool ccw,
+                       bool convex,
+                       bool buildNormal,
+                       bool buildTexCoord,
+                       UInt32 numOfSubdivision );  
 
 /*! \brief create a extrusion and node
  *  \ingroup ExtrusionGeometry
  */
 
 OSG_SYSTEMLIB_DLLMAPPING
-GeometryPtr OSG::makeExtrusionGeo( const vector<osg::Vec2f> &crossSection,
-                                   const vector<osg::Quaternion> &orientation,
-                                   const vector<osg::Vec2f> &scale,
-                                   const vector<osg::Vec3f> &spine,
-                                   bool beginCap,
-                                   bool endCap,
-                                   bool ccw,
-                                   bool convex,
-                                   bool buildNormal,
-                                   bool buildTexCoord,
-                                   UInt32 numOfSubdivision ); 
+GeometryPtr makeExtrusionGeo( const vector<osg::Vec2f> &crossSection,
+                              const vector<osg::Quaternion> &orientation,
+                              const vector<osg::Vec2f> &scale,
+                              const vector<osg::Vec3f> &spine,
+                              bool beginCap,
+                              bool endCap,
+                              bool ccw,
+                              bool convex,
+                              bool buildNormal,
+                              bool buildTexCoord,
+                              UInt32 numOfSubdivision ); 
 
 
 OSG_END_NAMESPACE

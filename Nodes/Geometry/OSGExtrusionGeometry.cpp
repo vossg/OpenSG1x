@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.2 2002/08/24 05:45:07 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.3 2002/08/26 09:02:46 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -704,9 +704,6 @@ static void createSCP( const vector<osg::Vec3f> &spine,
   
   UInt32 sp_len = spine.size();
 
-  UInt32 firstYIndex = sp_len;
-  UInt32 firstZIndex = sp_len;
-
   bool spineClosed = false;
   bool yFound = false;
   bool zFound = false;
@@ -922,19 +919,19 @@ static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
   UInt32 sc_len = scale.size();
   UInt32 or_len = orientation.size();
 
-  bool crossSectionClosed = false;
+  // bool crossSectionClosed = false;
   bool spineClosed  = false;
   bool pureRotation = false;
 
   if((crossSection[0] - crossSection[cs_len - 1]).length() < EPS)
     {
-      crossSectionClosed = true;
+      // crossSectionClosed = true;
       *vWrap = true;
       vertices.resize((cs_len - 1)*sp_len);
     }
   else
     {
-      crossSectionClosed = false;
+      // crossSectionClosed = false;
       *vWrap = false;
       vertices.resize(cs_len*sp_len);
     }
@@ -1042,10 +1039,14 @@ static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
     }
 }
 
-static void calcHullNormals(  const vector<osg::Vec2f> &crossSection,
-                              const vector<osg::Quaternion> &orientation,
-                              const vector<osg::Vec2f> &scale,
-                              const vector<osg::Vec3f> &spine,
+static void calcHullNormals(  const vector<osg::Vec2f>&
+                                    OSG_CHECK_ARG(crossSection),
+                              const vector<osg::Quaternion>&
+                                    OSG_CHECK_ARG(orientation),
+                              const vector<osg::Vec2f> &
+                                    OSG_CHECK_ARG(scale),
+                              const vector<osg::Vec3f> &
+                                    OSG_CHECK_ARG(spine),
                               const vector<osg::Pnt3f> &vertices,
                               bool ccw,
                               bool uWrap,
@@ -1613,7 +1614,7 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
   osg::Vec3f vertexBaryCenter(0.0f, 0.0f, 0.0f);
   osg::Vec3f v;
 
-  UInt32 tot_uValues = uWrap ? uValues + 1 : uValues;
+  // UInt32 tot_uValues = uWrap ? uValues + 1 : uValues;
   UInt32 tot_vValues = vWrap ? vValues + 1 : vValues;
   UInt32 v_limit = vWrap ? tot_vValues : tot_vValues + 1;
 
@@ -1750,7 +1751,7 @@ GeometryPtr OSG::makeExtrusionGeo( const vector<osg::Vec2f> &crossSection,
                                    const vector<osg::Vec2f> &scale,
                                    const vector<osg::Vec3f> &spine,
                                    bool beginCap,
-                                   bool endCap,
+                                   bool OSG_CHECK_ARG(endCap),
                                    bool ccw,
                                    bool convex,
                                    bool buildNormal,
@@ -1802,7 +1803,7 @@ GeometryPtr OSG::makeExtrusionGeo( const vector<osg::Vec2f> &crossSection,
              geoTexCoords, geoLengths, geoTypes);
 
   UInt32 tot_uValues = uWrap ? uValues + 1 : uValues;
-  UInt32 tot_vValues = vWrap ? vValues + 1 : vValues;
+//  UInt32 tot_vValues = vWrap ? vValues + 1 : vValues;
   
   if(beginCap)
     {
