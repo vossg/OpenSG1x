@@ -7,9 +7,9 @@ ifndef OSGPOOL
 OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
 endif
 
-REQUIRED_INCPACKAGES := DrawAction Action Geometry Material State Misc \
+REQUIRED_INCPACKAGES := Window IntersectAction DrawAction Action Geometry Material State Misc \
 						MultiThreading FieldContainer Field Base Log
-REQUIRED_LNKPACKAGES := Geometry DrawAction Action Material State Misc \
+REQUIRED_LNKPACKAGES := Window IntersectAction Geometry DrawAction Action Material State Misc \
 						MultiThreading FieldContainer Field Base Log
 
 #FieldContainer Field
