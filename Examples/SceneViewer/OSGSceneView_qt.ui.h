@@ -93,6 +93,7 @@ void OSGSceneView::init()
   // init the class variables
   rootTreeItem = 0;
   activeTreeItem = 0;
+  statState = false;
   
   // create tree popup menu
   menu = new QPopupMenu (this, "treeMenu");
@@ -324,6 +325,7 @@ void OSGSceneView::setStatistics(bool val)
   for (wI = viewList.begin(); wI != viewList.end(); ++wI)
     if ((w = dynamic_cast<osg::OSGQGLManagedWidget*>(*wI)))
       w->getManager().setStatistics(val);
+  updateAllViews();
 }
 
 //////////////////////////////////////////////////////////////////
