@@ -128,7 +128,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
                                        RenderActionBase *action )
 {
     TileCameraDecoratorPtr deco;
-    StereoBufferViewportPtr serverPort;
+    ViewportPtr serverPort;
     ViewportPtr clientPort;
     StereoBufferViewportPtr clientStereoPort;
     UInt32 sv,cv;
@@ -187,7 +187,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         t = osgMin(ctop   ,top   ) - bottom;
         if(serverWindow->getPort().size() <= sv)
         {
-            serverPort = StereoBufferViewport::create();
+            serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
             deco=TileCameraDecorator::create();
             beginEditCP(serverWindow);
             serverWindow->addPort(serverPort);
@@ -196,22 +196,11 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         }
         else
         {
-            serverPort = StereoBufferViewportPtr::dcast(
-			    serverWindow->getPort()[sv]);
+            serverPort = serverWindow->getPort()[sv];
             deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
         }
         // duplicate values
         beginEditCP(serverPort);
-        if(clientStereoPort!=NullFC)
-        {
-            serverPort->setRightBuffer( clientStereoPort->getRightBuffer() );
-            serverPort->setLeftBuffer( clientStereoPort->getLeftBuffer() );
-        }
-        else
-        {
-            serverPort->setRightBuffer( true );
-            serverPort->setLeftBuffer( true );
-        }
         serverPort->setSize(Real32(l),Real32(b),Real32(r),Real32(t));
         // use pixel even if pixel = 1
         if(serverPort->getLeft() == 1.0)
