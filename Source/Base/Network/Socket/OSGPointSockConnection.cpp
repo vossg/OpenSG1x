@@ -183,7 +183,8 @@ std::string PointSockConnection::bind(const std::string &address)
 {
     int         port=0;
     char        localhost[256];
-    char        portStr[6];
+    char        host[256];
+    char        portStr[256];
     std::string interf;
     std::string boundedAddress;
 
@@ -196,14 +197,17 @@ std::string PointSockConnection::bind(const std::string &address)
     // parse address
     if(!address.empty())
         if(sscanf(address.c_str(),"%*[^:]:%d",&port) != 1)
-            if(sscanf(address.c_str(),"%d",&port) != 1)
+            if(sscanf(address.c_str(),":%d",&port) != 1)
                 port = 0;
-    SINFO << "Connection bound to port " << port << std::endl;
     // bind port
+    _acceptSocket.setReusePort(true);
     _acceptSocket.bind(SocketAddress(interf.c_str(),port));
+    SINFO << "Connection bound to "
+          << _acceptSocket.getAddress().getHost() << ":"
+          << _acceptSocket.getAddress().getPort() << std::endl;
     _acceptSocket.listen();
     // create address
-    sprintf(portStr,"%5d",_acceptSocket.getAddress().getPort());
+    sprintf(portStr,"%d",_acceptSocket.getAddress().getPort());
     return interf + ":" + portStr;
 }
 
