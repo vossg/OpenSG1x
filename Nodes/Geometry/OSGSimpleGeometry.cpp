@@ -277,7 +277,7 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 	UInt16 j;
 	Real32 delta = 2.0 * Pi / sides;
 	Real32 beta, x, z;
-	Real32 incl = ( topradius - botradius ) / height;
+	Real32 incl = ( botradius - topradius ) / height;
 	Real32 nlen = 1.f / osgsqrt( 1 + incl * incl );
 	
 	// vertices
@@ -309,22 +309,22 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 		for ( j = 0; j <= sides; j++ )
 		{
 			beta = j * delta;
-			x = topradius * sin(beta);
-			z = - topradius * cos(beta);		
+			x = sin(beta);
+			z = -cos(beta);		
 
-			p->addValue( Pnt3f( x, height/2, z ) );
-			n->addValue( Vec3f( x/nlen, incl/nlen, z/nlen ) );
+			p->addValue( Pnt3f( x * topradius, height/2, z * topradius ) );
+			n->addValue( Vec3f( x/nlen, incl/nlen, -z/nlen ) );
 			tx->addValue( Vec2f( j / (Real32) sides, 1 ) );
 		}
 		
 		for ( j = 0; j <= sides; j++ )
 		{
 			beta = j * delta;
-			x = botradius * sin(beta);
-			z = - botradius * cos(beta);		
+			x = sin(beta);
+			z = -cos(beta);		
 
-			p->addValue( Pnt3f(x, -height/2, z) );
-			n->addValue( Vec3f(x/nlen, incl/nlen, z/nlen) );
+			p->addValue( Pnt3f(x * botradius, -height/2, z * botradius) );
+			n->addValue( Vec3f(x/nlen, incl/nlen, -z/nlen) );
 			tx->addValue( Vec2f( j / (Real32) sides, 0) );
 		}
 
@@ -355,7 +355,7 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 			tx->addValue( Vec2f( x / topradius / 2 + .5, z / topradius / 2 + .5 ) );
 		}
 
-		t->addValue(GL_TRIANGLE_FAN);
+		t->addValue(GL_POLYGON);
 		l->addValue( sides + 1 );
 
 		for ( j = 0; j < sides; j++ ) 
@@ -382,7 +382,7 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 			tx->addValue( Vec2f( x / botradius / 2 + .5, z / botradius / 2 + .5 ) );
 		}
 
-		t->addValue(GL_TRIANGLE_FAN);
+		t->addValue(GL_POLYGON);
 		l->addValue( sides + 1 );
 
 		for ( j = 0; j < sides; j++ ) 

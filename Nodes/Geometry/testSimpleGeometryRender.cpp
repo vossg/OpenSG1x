@@ -40,6 +40,7 @@ NodePtr  objects[nobjects];
 NodePtr  normalobjects[nobjects];
 
 Bool autoswitch = true;
+Bool autowire = true;
 int obj = 0;
 
 void 
@@ -47,12 +48,13 @@ display(void)
 {
 	float a = glutGet( GLUT_ELAPSED_TIME );
 
-	switch ( (int) ( a / 2000 ) % 3 )	
-	{
-	case 0:	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
-	case 1:	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
-	case 2:	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT ); break;
-	}
+	if ( autowire )
+		switch ( (int) ( a / 2000 ) % 3 )	
+		{
+		case 0:	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
+		case 1:	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
+		case 2:	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT ); break;
+		}
 
 	if ( autoswitch )
 		obj = (int) ( a / 5000 ) % nobjects ;  
@@ -77,6 +79,9 @@ void key( unsigned char key, int x, int y )
 	case ' ':	autoswitch = ! autoswitch;
 				cerr << "autoswitch " << (autoswitch?"on":"off") << endl;
 				break;
+	case 'w':	autowire = ! autowire;
+				cerr << "autowire " << (autowire?"on":"off") << endl;
+				break;
 	case 'a':	obj = ( ++ obj ) % nobjects;
 				cerr << "object now " << obj << endl;
 				break;
@@ -85,9 +90,15 @@ void key( unsigned char key, int x, int y )
 				break;
 
 	case 'c':	if ( glIsEnabled( GL_CULL_FACE ) )
+				{
 					glDisable( GL_CULL_FACE );
+					cerr << "cullface disabled" << endl;
+				}
 				else
+				{
 					glEnable( GL_CULL_FACE );
+					cerr << "cullface enabled" << endl;
+				}
 	}
 }
 
