@@ -97,7 +97,7 @@ void DynamicVolume::setVolumeType(Type type)
     instanceChanged();
 }
 
-void DynamicVolume::morphToType ( Type type )
+void DynamicVolume::morphToType(Type type)
 {
     Pnt3f         min;
     Pnt3f         max;
@@ -111,7 +111,7 @@ void DynamicVolume::morphToType ( Type type )
     }
     else
     {
-        switch(getType()) 
+        switch(type) 
         {
             case BOX_VOLUME:
 
