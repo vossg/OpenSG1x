@@ -67,6 +67,7 @@
 #include <iostream.h>
 #endif
 
+#include <OSGWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -90,7 +91,7 @@ class OSGQGLWidget;
  *  detailed
  */
 
-class OSGQGLWidget : public QGLWidget
+class OSG_WINDOW_DLLMAPPING OSGQGLWidget : public QGLWidget
 {
   Q_OBJECT
 

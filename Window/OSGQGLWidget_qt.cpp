@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEWINDOW
 
 #include <stdlib.h>
 #include <stdio.h>
