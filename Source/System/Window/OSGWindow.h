@@ -87,9 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     };
 
     enum { invalidExtensionID = 0x7fffffff, invalidFunctionID = 0x7fffffff };
-    
+
     // max status value = 7, 3 bit shift is enough 
     enum { statusShift = 3, statusMask = 7 }; 
+
+    static const Real32 unknownConstant = -1e100;    
     
     typedef ArgsCollector<UInt32>                      GLObjectFunctorArgs;
 

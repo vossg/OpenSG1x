@@ -361,12 +361,15 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
     Window *win = action->getWindow();
     
     Real32 nteximages, ntexcoords;
-    if(isnanf(nteximages = 
-                win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
+    if((nteximages = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
@@ -492,7 +495,9 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     ntexunits = static_cast<UInt32>(
                             win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
     
-    if(isnanf(dummy = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
+    if((dummy = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         nteximages = ntexunits;
     }
@@ -501,7 +506,9 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
         nteximages = static_cast<UInt32>(dummy);
     }
     
-    if(isnanf(dummy = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((dummy = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = ntexunits;
     }
@@ -611,12 +618,15 @@ void CubeTextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     Window *win = action->getWindow();   
 
     Real32 nteximages, ntexcoords;
-    if(isnanf(nteximages = 
-                win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
+    if((nteximages = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }

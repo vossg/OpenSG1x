@@ -1113,7 +1113,7 @@ void OSG::Window::frameInit(void)
             it != _registeredConstants.end();
             ++it)
         {
-            Vec2f val(1.f/0.f,1.f/0.f); // init to NaN
+            Vec2f val(unknownConstant, unknownConstant); 
             glGetFloatv(*it, static_cast<GLfloat*>(val.getValues()));
             _availConstants[*it] = val;
             FDEBUG(("Window(%p): Constant 0x%x value is %.3f %.3f\n", this,

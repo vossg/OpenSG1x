@@ -134,7 +134,9 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
     Window *win = action->getWindow();
     
     Real32 ntexcoords;
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
@@ -166,7 +168,9 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     Window *win = action->getWindow();
     
     Real32 ntexcoords;
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
@@ -193,7 +197,9 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
     Window *win = action->getWindow();   
 
     Real32 ntexcoords;
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }

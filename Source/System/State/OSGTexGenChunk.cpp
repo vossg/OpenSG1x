@@ -174,7 +174,9 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
     Window *win = action->getWindow();   
 
     Real32 ntexcoords;
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
@@ -278,7 +280,9 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
     Window *win = action->getWindow();   
 
     Real32 ntexcoords;
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
@@ -321,7 +325,9 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
     Window *win = action->getWindow();   
 
     Real32 ntexcoords;
-    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
+       Window::unknownConstant
+      )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
