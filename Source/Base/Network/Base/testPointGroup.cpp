@@ -91,7 +91,8 @@ void testSocketGroup(int maxServers)
     group->signal();
     group->wait();
 
-    sleep(1);
+    osgsleep(1000);
+
     // check sync
     t=-getSystemTime();
     max=0;
