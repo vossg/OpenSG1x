@@ -58,29 +58,33 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::ProjectionCameraDecorator
-    \ingroup GrpSystemWindowCameras
+    \ingroup GrpSystemWindowCameraDecoratorsStereo
 
-The decorator for tracked projection screens. 	
+The decorator for tracked projection screens, see \ref
+PageSystemWindowCameraDecoratorsStereoProjection for a description.
+
+The parameters are defined by the _sfUser and _mfSurface fields.
+
+\dev
+
+The derived parameters used to actually calculate the matrix are stored in the
+_sfLeft, _sfBottom, _sfNormal, sfWidth and _sfHeight fields.
+
+\enddev
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 ProjectionCameraDecorator::ProjectionCameraDecorator(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 ProjectionCameraDecorator::ProjectionCameraDecorator(const ProjectionCameraDecorator &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 ProjectionCameraDecorator::~ProjectionCameraDecorator(void)
 {
@@ -88,13 +92,9 @@ ProjectionCameraDecorator::~ProjectionCameraDecorator(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void ProjectionCameraDecorator::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void ProjectionCameraDecorator::changed(BitVector whichField, UInt32 origin)
 {
@@ -105,16 +105,14 @@ void ProjectionCameraDecorator::changed(BitVector whichField, UInt32 origin)
         updateData();
 }
 
-//! output the instance for debug purposes
-
 void ProjectionCameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
 {
     SLOG << "Dump ProjectionCameraDecorator NI" << std::endl;
 }
 
-//! update dependent data
-
+/*! Update dependent data, i.e. the internal Field values.
+*/
 void ProjectionCameraDecorator::updateData(void)
 {
     if(getSurface().size() != 4)
@@ -167,8 +165,6 @@ void ProjectionCameraDecorator::getViewing(Matrix &result,
     result.invert();
 }
 
-//! get the projection matrix
-
 void ProjectionCameraDecorator::getProjection(Matrix &result, 
                         UInt32  OSG_CHECK_ARG(width ),
                         UInt32  OSG_CHECK_ARG(height))
@@ -215,8 +211,6 @@ void ProjectionCameraDecorator::getProjection(Matrix &result,
                           camera->getNear(), camera->getFar() );
 }                                       
 
-
-//! get the projection translation matrix
 
 void ProjectionCameraDecorator::getProjectionTranslation(Matrix &result, 
                         UInt32  OSG_CHECK_ARG(width ),

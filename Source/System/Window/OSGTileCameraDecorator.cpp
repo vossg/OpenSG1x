@@ -57,53 +57,20 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::TileCameraDecorator
-    \ingroup GrpSystemWindowCameras
+    \ingroup GrpSystemWindowCameraDecorators
 
-The decorator to select a rectangular part of the image.
+The osg::TileCameraDecorator for selecting only a part of a virtual large image, see \ref
+PageSystemWindowCameraDecoratorsTile for a description.
 
-Left/Right/Bottom/Top define the part to scale up. All ar etaken from (0..1).
-
-Note: Pixel-based backgrounds will not work here, as they use the viewport
-for definition, which doesn't change.
+The borders of the tile are defined by the _sfLeft, _sfRight, _sfBottom and
+_sfTop Fields. The size of the full image is defined by the _sfFullWidth and
+_sfFullHeight Fields.
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char TileCameraDecorator::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void TileCameraDecorator::initMethod (void)
 {
@@ -113,46 +80,31 @@ void TileCameraDecorator::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 TileCameraDecorator::TileCameraDecorator(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 TileCameraDecorator::TileCameraDecorator(const TileCameraDecorator &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 TileCameraDecorator::~TileCameraDecorator(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void TileCameraDecorator::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
+/*! Set all the size-related Fields at once. 
 
+    Does not call begin/endEdit internally!
+*/ 
 void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right, 
                         Real32 top )
 {
@@ -162,8 +114,6 @@ void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right,
     _sfTop.setValue( top );
 }
 
-
-/** get the separate elements needed for rendering */
 
 void TileCameraDecorator::getProjection( Matrix &result, 
                                          UInt32 width, UInt32 height)
@@ -191,22 +141,26 @@ void TileCameraDecorator::getProjection( Matrix &result,
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
 void TileCameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                                const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump TileCameraDecorator NI" << std::endl;
 }
 
-    
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGTILECAMERADECORATOR_HEADER_CVSID;
+    static char cvsid_inl[] = OSGTILECAMERADECORATOR_INLINE_CVSID;
+}

@@ -85,16 +85,16 @@ const OSG::BitVector  ColorBufferViewportBase::AlphaFieldMask =
 // Field descriptions
 
 /*! \var bool            ColorBufferViewportBase::_sfRed
-    
+    Define whether the red color channel is written to.
 */
 /*! \var bool            ColorBufferViewportBase::_sfBlue
-    
+    Define whether the green color channel is written to.
 */
 /*! \var bool            ColorBufferViewportBase::_sfGreen
-    
+    Define whether the blue color channel is written to.
 */
 /*! \var bool            ColorBufferViewportBase::_sfAlpha
-    
+    Define whether the alpha color channel is written to.
 */
 
 //! ColorBufferViewport description

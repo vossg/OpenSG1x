@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief FlyNavigator class
- */
+/*! \brief Navigator for simple fly model. See \ref 
+    PageSystemWindowNavigatorsFly for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING FlyNavigator
 {
@@ -66,17 +67,17 @@ class OSG_SYSTEMLIB_DLLMAPPING FlyNavigator
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    ~FlyNavigator();
+    virtual ~FlyNavigator();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Get                                   */
     /*! \{                                                                 */
 
-    Matrix &getMatrix();
-    Pnt3f &getFrom();
-    Pnt3f &getAt();
-    Vec3f &getUp();
+    Matrix &getMatrix(void);
+    Pnt3f  &getFrom  (void);
+    Pnt3f  &getAt    (void);
+    Vec3f  &getUp    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -99,13 +100,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FlyNavigator
     void right  (Real32 step);
 
     /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*==========================  PROTECTED  ==============================*/
+  protected:
     /*---------------------------------------------------------------------*/
     /*! \name                     Members                                  */
     /*! \{                                                                 */
 
-    Pnt3f  _rFrom,_rAt;
+    Pnt3f  _rFrom;
+    Pnt3f  _rAt;
     Vec3f  _vUp;
     Matrix _tMatrix;
 

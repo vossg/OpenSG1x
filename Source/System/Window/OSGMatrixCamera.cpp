@@ -60,46 +60,20 @@ OSG_USING_NAMESPACE
 /*! \class osg::MatrixCamera
     \ingroup GrpSystemWindowCameras
 
-.
+The Matrix Camera class, see \ref PageSystemWindowCameraMatrix for 
+a description.
 
+The used matrices are stored in the _sfModelviewMatrix and _sfProjectionMatrix
+Fields.
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char MatrixCamera::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void MatrixCamera::initMethod (void)
 {
@@ -109,39 +83,21 @@ void MatrixCamera::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 MatrixCamera::MatrixCamera(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 MatrixCamera::MatrixCamera(const MatrixCamera &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 MatrixCamera::~MatrixCamera(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void MatrixCamera::changed(BitVector whichField, UInt32 origin)
 {
@@ -149,9 +105,6 @@ void MatrixCamera::changed(BitVector whichField, UInt32 origin)
 }
 
 /*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
 
 void MatrixCamera::dump(      UInt32     OSG_CHECK_ARG(uiIndent), 
                          const BitVector OSG_CHECK_ARG(bvFlags)) const
@@ -176,12 +129,28 @@ void MatrixCamera::getViewing( Matrix& result, UInt32 OSG_CHECK_ARG(width),
 	result = getModelviewMatrix();
 }
  
+    
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGMATRIXCAMERA_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGMATRIXCAMERA_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGMATRIXCAMERAFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

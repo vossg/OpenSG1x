@@ -67,47 +67,17 @@ OSG_USING_NAMESPACE
 /*! \class osg::PassiveBackground
     \ingroup GrpSystemWindowBackgrounds
 
-A passive background, does nothing within the clear call, mainly used
-to stack viewports on top of each other
+A passive background, see \ref PageSystemWindowBackgroundPassive for a
+description.
 
 */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char PassiveBackground::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void PassiveBackground::initMethod (void)
 {
@@ -117,39 +87,19 @@ void PassiveBackground::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
 PassiveBackground::PassiveBackground(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 PassiveBackground::PassiveBackground(const PassiveBackground &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 PassiveBackground::~PassiveBackground(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void PassiveBackground::changed(BitVector whichField, UInt32 origin)
 {
@@ -164,22 +114,36 @@ void PassiveBackground::clear(DrawActionBase *, Viewport *)
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
 void PassiveBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                              const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump PassiveBackground NI" << std::endl;
 }
 
-    
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGPASSIVEBACKGROUND_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGPASSIVEBACKGROUND_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGPASSIVEBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

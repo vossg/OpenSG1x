@@ -43,20 +43,20 @@
 
 OSG_BEGIN_NAMESPACE
 
-
 /*------------------------------ access -----------------------------------*/
-inline void GradientBackground::addLine( Color3f col, Real32 pos )
+inline void GradientBackground::addLine(Color3f col, Real32 pos)
 {
-    _mfColor.push_back( col );
-    _mfPosition.push_back( pos );
+    _mfColor.push_back(col);
+    _mfPosition.push_back(pos);
 }
 
-inline void GradientBackground::clearLines( void )
+inline void GradientBackground::clearLines(void)
 {
     _mfColor.clear();
     _mfPosition.clear();
 }
 
-
 OSG_END_NAMESPACE
+
+#define OSGGRADIENTBACKGROUND_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
 

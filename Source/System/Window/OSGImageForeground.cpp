@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright(C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,49 +66,24 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::ImageForeground
     \ingroup GrpSystemWindowForegrounds
+    
+The ImageForeground is used to draw images on top of the viewport.  See \ref
+PageSystemWindowForegroundImage for a description.
 
-Background is the base class for all background clearing.       
+The images are stored in the _mfImages Field, the corresponding positions in
+the _mfPositions Field.
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.6 2001/11/01 09:03:30 vossg Exp $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void ImageForeground::initMethod (void)
+void ImageForeground::initMethod(void)
 {
 }
 
@@ -116,39 +91,21 @@ void ImageForeground::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 ImageForeground::ImageForeground(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 ImageForeground::ImageForeground(const ImageForeground &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 ImageForeground::~ImageForeground(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void ImageForeground::changed(BitVector whichField, UInt32 origin)
 {
@@ -157,18 +114,12 @@ void ImageForeground::changed(BitVector whichField, UInt32 origin)
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
-void ImageForeground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                           const BitVector OSG_CHECK_ARG(bvFlags )) const
+void ImageForeground::dump(     UInt32    OSG_CHECK_ARG(uiIndent), 
+                           const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump ImageForeground NI" << std::endl;
 }
 
-
-/** \brief draw the images 
- */
     
 void ImageForeground::draw(DrawActionBase *, Viewport *)
 {
@@ -177,24 +128,24 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
     for(i = 0; i < getPositions().size(); i++)
     {
         if(getImages(i) != NULL)
-            break;;
+            break;
     }
     
     if(i == getPositions().size())   // all images == NULL?
         return; 
         
     bool light = glIsEnabled(GL_LIGHTING);
-//      if (light)  glDisable(GL_LIGHTING);
+//      if(light)  glDisable(GL_LIGHTING);
 
     GLint fill[2];
     glGetIntegerv(GL_POLYGON_MODE, fill);
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    bool depth = glIsEnabled( GL_DEPTH_TEST );
-    glDisable( GL_DEPTH_TEST );
+    bool depth = glIsEnabled(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
 
-    bool colmat = glIsEnabled( GL_COLOR_MATERIAL );
-    glDisable( GL_COLOR_MATERIAL );
+    bool colmat = glIsEnabled(GL_COLOR_MATERIAL);
+    glDisable(GL_COLOR_MATERIAL);
 
     glDisable(GL_TEXTURE_2D);
 
@@ -207,44 +158,55 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
     glLoadIdentity();
     glOrtho(0, 1, 0, 1, 0, 1);
 
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glEnable( GL_BLEND );
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     for(i = 0; i < getPositions().size(); i++)
     {
-        ImageP img = getImages( i );
+        ImageP img = getImages(i);
 
-        if ( ! img )
+        if(! img)
             continue;
 
-        Pnt2f p = getPositions( i );
-        glRasterPos2f( p[0], p[1] );
-        glDrawPixels( img->getWidth(), img->getHeight(),
-                      img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                      img->getData() );
+        Pnt2f p = getPositions(i);
+        glRasterPos2f(p[0], p[1]);
+        glDrawPixels(img->getWidth(), img->getHeight(),
+                     img->getPixelFormat(), GL_UNSIGNED_BYTE,
+                     img->getData());
     }
-    glDisable( GL_BLEND );
+    glDisable(GL_BLEND);
         
 
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    if ( depth )    glEnable( GL_DEPTH_TEST );
-    if ( light )    glEnable( GL_LIGHTING );
-    if ( colmat )   glEnable( GL_COLOR_MATERIAL );
-    glPolygonMode( GL_FRONT, fill[0] );
-    glPolygonMode( GL_BACK , fill[1] );
+    if(depth)    
+        glEnable(GL_DEPTH_TEST);
+    if(light)    
+        glEnable(GL_LIGHTING);
+    if(colmat)   
+        glEnable(GL_COLOR_MATERIAL);
+    glPolygonMode(GL_FRONT, fill[0]);
+    glPolygonMode(GL_BACK , fill[1]);
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
 
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGIMAGEFOREGROUND_HEADER_CVSID;
+    static char cvsid_inl[] = OSGIMAGEFOREGROUND_INLINE_CVSID;
+}
 
 

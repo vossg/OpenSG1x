@@ -51,7 +51,9 @@ OSG_BEGIN_NAMESPACE
 
 class DrawAction;
 
-//! PerspectiveCamera class
+/*! \brief Perspective Camera class. See \ref PageSystemCameraPerspective for 
+    a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
 {
@@ -116,8 +118,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
     friend class FieldContainer;
     friend class PerspectiveCameraBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const PerspectiveCamera &source);
@@ -127,14 +127,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef PerspectiveCamera *PerspectiveCameraP;
 
 OSG_END_NAMESPACE
 
 #include <OSGPerspectiveCameraBase.inl>
 #include <OSGPerspectiveCamera.inl>
+
+#define OSGPERSPECTIVECAMERA_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERA_H_ */

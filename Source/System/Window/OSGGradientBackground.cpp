@@ -22,7 +22,7 @@
  * Library General Public License for more details.                          *
  *                                                                           *
  * You should have received a copy of the GNU Library General Public         *
- * License along with this library; if not, write to the Free Software       *
+ * License along with this library; ifnot, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -67,52 +67,26 @@ OSG_USING_NAMESPACE
 /*! \class osg::GradientBackground
     \ingroup GrpSystemWindowBackgrounds
 
-A background showing a vertical color gradient. The colors and positions
-correspond to each other, so both have to have the same number of
-elements.    
+A background showing a vertical color gradient, see
+\PageSystemWindowBackgroundGradient. 
+
+The colors (_mfColor) and positions (_mfPosition) correspond to each other, so
+both have to have the same number of elements. The addColor() method should
+be used for defining the gradient, as it ensures that constarint.
 
 */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.14 2001/11/01 09:03:30 vossg Exp $";
-
 const OSG::BitVector  GradientBackground::LineFieldMask = 
-    (GradientBackground::PositionFieldMask | 
-     GradientBackground::ColorFieldMask    );
+                     (GradientBackground::PositionFieldMask | 
+                      GradientBackground::ColorFieldMask   );
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void GradientBackground::initMethod (void)
 {
@@ -122,39 +96,21 @@ void GradientBackground::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 GradientBackground::GradientBackground(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 GradientBackground::GradientBackground(const GradientBackground &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 GradientBackground::~GradientBackground(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void GradientBackground::changed(BitVector whichField, UInt32 origin)
 {
@@ -166,36 +122,37 @@ void GradientBackground::changed(BitVector whichField, UInt32 origin)
 void GradientBackground::clear(DrawActionBase *, Viewport *)
 {
 
-    if (_mfPosition.size() < 2)
+    if(_mfPosition.size() < 2)
     {
-        if (_mfPosition.size() == 1)
+        if(_mfPosition.size() == 1)
         {
             Color3f col = _mfColor[0];
             Real32 r, g, b;
             col.getValuesRGB(r, g, b);
-            glClearColor( r, g, b, 1);
-            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+            glClearColor(r, g, b, 1);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         else
         {
-            glClearColor( 0, 0, 0, 1);
-            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+            glClearColor(0, 0, 0, 1);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
     }
     else
     {
         bool light = glIsEnabled(GL_LIGHTING);
-        if (light)  glDisable(GL_LIGHTING);
+        if(light)  
+            glDisable(GL_LIGHTING);
 
         GLint fill[2];
         glGetIntegerv(GL_POLYGON_MODE, fill);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-        bool depth = glIsEnabled( GL_DEPTH_TEST );
-        glDisable( GL_DEPTH_TEST );
+        bool depth = glIsEnabled(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
 
-        bool colmat = glIsEnabled( GL_COLOR_MATERIAL );
-        glDisable( GL_COLOR_MATERIAL );
+        bool colmat = glIsEnabled(GL_COLOR_MATERIAL);
+        glDisable(GL_COLOR_MATERIAL);
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -209,31 +166,31 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         Real32 r1, g1, b1;
         UInt32 size = _mfPosition.size();
 
-        glBegin( GL_QUAD_STRIP );
+        glBegin(GL_QUAD_STRIP);
         
         Real32 pos = _mfPosition[0];
-        if ( pos > 0 ) 
+        if(pos > 0) 
         {
-            glColor3f( 0.0, 0.0, 0.0);
+            glColor3f(0.0, 0.0, 0.0);
             glVertex3f(0, 0, 0);
             glVertex3f(1, 0, 0);
         }
 
-        for( UInt32 i = 0; i < size; i++)
+        for(UInt32 i = 0; i < size; i++)
         {
             pos = _mfPosition[i];
 
             Color3f col1 = _mfColor[i];
             col1.getValuesRGB(r1, g1, b1);
 
-            glColor3f( r1, g1, b1);
+            glColor3f(r1, g1, b1);
             glVertex3f(0, pos, 0);
             glVertex3f(1, pos, 0);
         }
 
-        if ( pos < 1 ) 
+        if(pos < 1) 
         {
-            glColor3f( 0.0, 0.0, 0.0);
+            glColor3f(0.0, 0.0, 0.0);
             glVertex3f(0, 1, 0);
             glVertex3f(1, 1, 0);
         }
@@ -244,34 +201,51 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
-        if ( depth )    glEnable( GL_DEPTH_TEST );
-        if ( light )    glEnable( GL_LIGHTING );
-        if ( colmat )   glEnable( GL_COLOR_MATERIAL );
-        glPolygonMode( GL_FRONT, fill[0] );
-        glPolygonMode( GL_BACK , fill[1] );
+        if(depth)    
+            glEnable(GL_DEPTH_TEST);
+        if(light)    
+            glEnable(GL_LIGHTING);
+        if(colmat)   
+            glEnable(GL_COLOR_MATERIAL);
+        glPolygonMode(GL_FRONT, fill[0]);
+        glPolygonMode(GL_BACK , fill[1]);
 
-        glClear( GL_DEPTH_BUFFER_BIT );
+        glClear(GL_DEPTH_BUFFER_BIT);
     }
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
-void GradientBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                              const BitVector OSG_CHECK_ARG(bvFlags )) const
+void GradientBackground::dump(     UInt32    OSG_CHECK_ARG(uiIndent), 
+                              const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump GradientBackground NI" << std::endl;
 }
 
-    
+ 
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUND_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUND_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

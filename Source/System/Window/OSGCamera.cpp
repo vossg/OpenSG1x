@@ -64,46 +64,14 @@ OSG_USING_NAMESPACE
 /*! \class osg::Camera
     \ingroup GrpSystemWindowCameras
 
-The Camera base class.
+The Camera base class, see \ref PageSystemWindowCamera for a description.
 
+The only common fields are _sfNear and _sfFar.
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Camera::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void Camera::initMethod (void)
 {
@@ -113,39 +81,19 @@ void Camera::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
 Camera::Camera(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 Camera::Camera(const Camera &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 Camera::~Camera(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void Camera::changed(BitVector whichField, UInt32 origin)
 {
@@ -155,8 +103,9 @@ void Camera::changed(BitVector whichField, UInt32 origin)
 
 /*-------------------------- your_category---------------------------------*/
 
-/** setup the GL for rendering and tell the Action what it needs to know */
-
+/*! Setup OpenGL for rendering, call all the necessary commands to start
+    rendering with this camera.
+*/
 void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action), 
                    const Viewport       &port                 )
 {
@@ -184,6 +133,8 @@ void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action),
     glLoadMatrixf( m.getValues() );
 }
 
+/*! Setup OpenGL projection for rendering.
+*/
 void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
                              const Viewport       &port                 )
 {
@@ -202,16 +153,15 @@ void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
     glLoadMatrixf( m.getValues() );
 }
 
-
-
-/** draw the camera's geometry (if any). Usually there is none. */
+/*! Draw the camera's geometry (if any). Usually there is none. 
+*/
 void Camera::draw(      DrawAction *OSG_CHECK_ARG(action), 
                   const Viewport   &OSG_CHECK_ARG(port  ))
 {
 }
 
-/** get the separate elements needed for rendering */
-
+/*! Get/calculate the projection matrix for this camera. 
+*/
 void Camera::getProjection(Matrix &OSG_CHECK_ARG(result),
                            UInt32  OSG_CHECK_ARG(width ),
                            UInt32  OSG_CHECK_ARG(height))
@@ -220,6 +170,9 @@ void Camera::getProjection(Matrix &OSG_CHECK_ARG(result),
     abort();
 }
 
+/*! Get/calculate the projection translation matrix for this camera. The
+    default is identity.
+*/
 void Camera::getProjectionTranslation(Matrix &result, 
                                       UInt32  OSG_CHECK_ARG(width ), 
                                       UInt32  OSG_CHECK_ARG(height))
@@ -227,47 +180,59 @@ void Camera::getProjectionTranslation(Matrix &result,
     result.setIdentity();
 }
 
+/*! Get/calculate the viewing matrix for this camera. This is the inverse
+    of the beacon's toWorld transformation.
+*/
 void Camera::getViewing(Matrix &result, 
                         UInt32  OSG_CHECK_ARG(width ),
                         UInt32  OSG_CHECK_ARG(height))
 {
-    if ( getBeacon() == NullFC )
+    if (getBeacon() == NullFC)
     {
         SWARNING << "Camera::setup: no beacon!" << std::endl;
         return;
     }   
 
-    getBeacon()->getToWorld( result );  
+    getBeacon()->getToWorld(result);  
     result.invert();
 }
 
-void Camera::getFrustum( FrustumVolume& result, const Viewport& p )
+/*! Calculate the frustum of this camera's visible area. 
+*/
+void Camera::getFrustum(FrustumVolume& result, const Viewport& p)
 {
     Matrix mv,prt,pr;
     
-    getProjection           ( pr , p.getPixelWidth(), p.getPixelHeight() );
-    getProjectionTranslation( prt, p.getPixelWidth(), p.getPixelHeight() );
-    getViewing              ( mv , p.getPixelWidth(), p.getPixelHeight() );
+    getProjection           (pr , p.getPixelWidth(), p.getPixelHeight());
+    getProjectionTranslation(prt, p.getPixelWidth(), p.getPixelHeight());
+    getViewing              (mv , p.getPixelWidth(), p.getPixelHeight());
 
-    pr.mult( prt );
-    pr.mult( mv  );
+    pr.mult(prt);
+    pr.mult(mv );
     
-    result.setPlanes( pr );
+    result.setPlanes(pr);
 }
 
+/*! Calculate the matrix that transforms world coordinates into the screen
+    coordinate system for this camera. 
+*/
 void Camera::getWorldToScreen(Matrix &result, const Viewport& p)
 {
     Matrix mv,prt,pr;
     
-    getProjection           ( result, p.getPixelWidth(), p.getPixelHeight() );
-    getProjectionTranslation( prt   , p.getPixelWidth(), p.getPixelHeight() );
-    getViewing              ( mv    , p.getPixelWidth(), p.getPixelHeight() );
+    getProjection           (result, p.getPixelWidth(), p.getPixelHeight());
+    getProjectionTranslation(prt   , p.getPixelWidth(), p.getPixelHeight());
+    getViewing              (mv    , p.getPixelWidth(), p.getPixelHeight());
 
-    result.mult( prt );
-    result.mult( mv  );
+    result.mult(prt);
+    result.mult(mv );
 }
 
-bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
+/*! Calculate a ray that starts at the camera position and goes through the
+pixel \a x, \a y in the viewport \a port. \a x and \a y are relative to the
+viewport's lower left corner. 
+*/
+bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
 {
     if(port.getPixelWidth() <= 0 || port.getPixelHeight() <= 0)
     {
@@ -276,39 +241,38 @@ bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
     
     Matrix proj, projtrans, view;
 
-    getProjection( proj, port.getPixelWidth(), port.getPixelHeight() );
-    getProjectionTranslation( projtrans, port.getPixelWidth(), 
-                                port.getPixelHeight() );
-    getViewing( view, port.getPixelWidth(), port.getPixelHeight() );
+    getProjection(proj, port.getPixelWidth(), port.getPixelHeight());
+    getProjectionTranslation(projtrans, port.getPixelWidth(), 
+                                port.getPixelHeight());
+    getViewing(view, port.getPixelWidth(), port.getPixelHeight());
     
     Matrix wctocc = proj;
-    wctocc.mult( projtrans );
-    wctocc.mult( view );
+    wctocc.mult(projtrans);
+    wctocc.mult(view);
 
     Matrix cctowc;
-    cctowc.invertFrom( wctocc );
+    cctowc.invertFrom(wctocc);
        
-    Real32  rx = ( x - port.getPixelLeft()) / (Real32) port.getPixelWidth()
+    Real32  rx = (x - port.getPixelLeft()) / (Real32) port.getPixelWidth()
                     * 2.f - 1.f,
-            ry = 1.f - ( (y - ( port.getParent()->getHeight() - 
-                                port.getPixelTop())) / 
-                         (Real32) port.getPixelHeight() ) * 2.f;
+            ry = 1.f - ((y - (port.getParent()->getHeight() - 
+                              port.getPixelTop())
+                        ) / 
+                        (Real32) port.getPixelHeight()
+                       ) * 2.f;
     
     view.invert();
-    Pnt3f from( view[3][0], view[3][1], view[3][2] );
+    Pnt3f from(view[3][0], view[3][1], view[3][2]);
             
     Pnt3f at;
-    cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );
+    cctowc.multFullMatrixPnt(Pnt3f(rx, ry, 1), at);
     
-    line.setValue( from, at-from );
+    line.setValue(from, at-from);
     
     return true;
 }
 
 /*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
 
 void Camera::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -316,13 +280,28 @@ void Camera::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "Dump Camera NI" << std::endl;
 }
 
-    
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGCAMERA_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCAMERA_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGCAMERAFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

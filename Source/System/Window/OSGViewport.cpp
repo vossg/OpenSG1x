@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright(C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -68,22 +68,25 @@ OSG_USING_NAMESPACE
 /*! \class osg::Viewport
     \ingroup GrpSystemWindowsViewports
 
-A Viewport is a part of the Window it is attached to used for rendering. Every 
-Window can hold an arbitrary number of viewports.   
+A Viewport is a part of the Window it is attached to used for rendering. See
+\ref PageSystemWindowViewports for a description.
+
+The size of the viewport is defined by the _sfLeft, _sfRight, _sfBottom and
+_sfTop Fields. The Window this Viewport is attached is stored in _sfWindow.
+_sfBackground defines the background clearing method, the
+_sfRoot and _sfCamera Fields the scene being rendered and the camera used to
+view it. The optional _mfForegrounds define which information are added or
+actions are executed after the Viewport has been rendered.
+
+\ext
+
+To create a new Viewport the draw and render methods should be overridden. 
+
+\endext
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Viewport::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
@@ -91,26 +94,7 @@ char Viewport::cvsid[] = "@(#)$Id: $";
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void Viewport::initMethod (void)
+void Viewport::initMethod(void)
 {
 }
 
@@ -118,39 +102,21 @@ void Viewport::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 Viewport::Viewport(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Viewport::Viewport(const Viewport &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 Viewport::~Viewport(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void Viewport::changed(BitVector whichField, UInt32 origin)
 {
@@ -159,44 +125,58 @@ void Viewport::changed(BitVector whichField, UInt32 origin)
 
 /*---------------------------- properties ---------------------------------*/
 
-
-Int32 Viewport::getPixelLeft( void ) const
+/*! Calculate the positon of the left border of the viewport. Needs a valid
+    _sfParent value.
+*/
+Int32 Viewport::getPixelLeft(void) const
 {
-    if ( getLeft() > 1 )
+    if(getLeft() > 1)
         return Int32(getLeft());
 
     return Int32(getParent()->getWidth() * getLeft());
 }
 
-Int32 Viewport::getPixelRight( void ) const
+/*! Calculate the positon of the right border of the viewport. Needs a valid
+    _sfParent value.
+*/
+Int32 Viewport::getPixelRight(void) const
 {
     // >1: pixel
-    if ( getRight() > 1 )
+    if(getRight() > 1)
         return Int32(getRight());
 
     // <=1: partial screen, use 1 less to not overlap other windows
     return Int32(getParent()->getWidth() * getRight() - 1);
 }
 
-Int32 Viewport::getPixelBottom( void ) const
+/*! Calculate the positon of the bottom border of the viewport. Needs a valid
+    _sfParent value.
+*/
+Int32 Viewport::getPixelBottom(void) const
 {
-    if ( getBottom() > 1 )
+    if(getBottom() > 1)
         return Int32(getBottom());
 
     return Int32(getParent()->getHeight() * getBottom());
 }
 
-Int32 Viewport::getPixelTop( void ) const
+/*! Calculate the positon of the top border of the viewport. Needs a valid
+    _sfParent value.
+*/
+Int32 Viewport::getPixelTop(void) const
 {
     // >1: pixel
-    if ( getTop() > 1 )
+    if(getTop() > 1)
         return Int32(getTop());
 
     // <=1: partial screen, use 1 less to not overlap other windows
     return Int32(getParent()->getHeight() * getTop() - 1);
 }
 
-bool Viewport::isFullWindow( void ) const
+/*! Checks if the viewport fills the whole window. Needs a valid
+    _sfParent value.
+*/
+bool Viewport::isFullWindow(void) const
 {
     return  getPixelBottom() == 0 &&
             getPixelLeft()   == 0 &&
@@ -206,19 +186,33 @@ bool Viewport::isFullWindow( void ) const
 
 /*-------------------------- your_category---------------------------------*/
 
-void Viewport::draw( DrawAction * action )
+/*! Draw the viewport. Restrict the OpenGL rendering to the given part of the
+window, clear it, draw it using the given DrawAction and add the Foregrounds.
+
+The _sfCamera, _sfBackground and _sfRoot Fields need to be valid, otherwise
+drawing will fail.
+
+\dev
+
+Activates scissoring only if the viewport doesn't fill the wholw window, as it
+significantly slows down some OpenGL implementations.
+
+\enddev
+
+*/
+void Viewport::draw(DrawAction * action)
 {
-    if ( getCamera() == NullFC )
+    if(getCamera() == NullFC)
     {
         SWARNING << "Viewport::draw: no camera!" << std::endl;
         return;
     }
-    if ( getBackground() == NullFC )
+    if(getBackground() == NullFC)
     {
-        SWARNING << "Viewport::draw: no background!" << std::endl;
+        SWARNING << "Viewport::draw: no Background!" << std::endl;
         return;
     }
-    if ( getRoot() == NullFC )
+    if(getRoot() == NullFC)
     {
         SWARNING << "Viewport::draw: no root!" << std::endl;
         return;
@@ -229,42 +223,42 @@ void Viewport::draw( DrawAction * action )
     GLint pw=pr-pl+1,ph=pt-pb+1;
     bool full = isFullWindow();
 
-    glViewport( pl, pb, pw, ph );
-    glScissor( pl, pb, pw, ph );
+    glViewport(pl, pb, pw, ph);
+    glScissor(pl, pb, pw, ph);
     
-    if ( ! full )
-        glEnable( GL_SCISSOR_TEST );
+    if(! full)
+        glEnable(GL_SCISSOR_TEST);
 
-    action->setViewport( this );
-    action->setCamera( getCamera().getCPtr() );
-    action->setBackground( getBackground().getCPtr() );
+    action->setViewport  (this);
+    action->setCamera    (getCamera    ().getCPtr());
+    action->setBackground(getBackground().getCPtr());
     
-    getCamera()->setup( action, *this );
-    getBackground()->clear( action, this );
+    getCamera    ()->setup(action, *this);
+    getBackground()->clear(action,  this);
 
-    action->apply( getRoot() );
+    action->apply(getRoot());
 
-    for ( UInt16 i=0; i < getForegrounds().size(); i++ )
-        getForegrounds( i )->draw( action, this );
+    for(UInt16 i=0; i < getForegrounds().size(); i++)
+        getForegrounds(i)->draw(action, this);
 
-    if ( ! full )
-        glDisable( GL_SCISSOR_TEST );
+    if(! full)
+        glDisable(GL_SCISSOR_TEST);
 }
 
 
-void Viewport::render( RenderAction * action )
+void Viewport::render(RenderAction * action)
 {
-    if ( getCamera() == NullFC )
+    if(getCamera() == NullFC)
     {
         SWARNING << "Viewport::render: no camera!" << std::endl;
         return;
     }
-    if ( getBackground() == NullFC )
+    if(getBackground() == NullFC)
     {
-        SWARNING << "Viewport::render: no background!" << std::endl;
+        SWARNING << "Viewport::render: no Background!" << std::endl;
         return;
     }
-    if ( getRoot() == NullFC )
+    if(getRoot() == NullFC)
     {
         SWARNING << "Viewport::render: no root!" << std::endl;
         return;
@@ -276,54 +270,67 @@ void Viewport::render( RenderAction * action )
     GLint pw=pr-pl+1,ph=pt-pb+1;
     bool full = isFullWindow();
 
-    glViewport( pl, pb, pw, ph );
-    glScissor( pl, pb, pw, ph );
+    glViewport(pl, pb, pw, ph);
+    glScissor(pl, pb, pw, ph);
 
-    if ( ! full )
-        glEnable( GL_SCISSOR_TEST );
+    if(! full)
+        glEnable(GL_SCISSOR_TEST);
     */
 
     action->setCamera    (getCamera    ().getCPtr());
     action->setBackground(getBackground().getCPtr());
-    action->setViewport  (this                     );
+    action->setViewport  (this                    );
 
-//  getCamera()->setup( action, *this );
-//  getBackground()->clear( action, this );
+//  getCamera()->setup(action, *this);
+//  getBackground()->clear(action, this);
 
 /*
 fprintf(stderr,"%p: node 0x%p startrender\n", Thread::getCurrent(), 
                 getRoot().getCPtr());
 */
-    action->apply( getRoot() );
+    action->apply(getRoot());
 
     for(UInt16 i=0; i < getForegrounds().size(); i++)
         getForegrounds(i)->draw(action, this);
 
 /*
-    if ( ! full )
-        glDisable( GL_SCISSOR_TEST );
+    if(! full)
+        glDisable(GL_SCISSOR_TEST);
         */
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
-void Viewport::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                    const BitVector OSG_CHECK_ARG(bvFlags )) const
+void Viewport::dump(     UInt32    OSG_CHECK_ARG(uiIndent), 
+                    const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump Viewport NI" << std::endl;
 }
 
-    
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGVIEWPORT_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGVIEWPORT_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGVIEWPORTFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

@@ -60,27 +60,25 @@ OSG_USING_NAMESPACE
 /*! \class osg::ImageBackground
     \ingroup GrpSystemWindowBackgrounds
     
-A background showing an image.
+A background showing an image, see \ref PageSystemWindowBackgroundImage for a
+description.
+
+The background color is defined by _sfColor, the image by _sfImage, and the
+scaling by _sfScale.
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 ImageBackground::ImageBackground(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 ImageBackground::ImageBackground(const ImageBackground &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 ImageBackground::~ImageBackground(void)
 {
@@ -88,33 +86,27 @@ ImageBackground::~ImageBackground(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void ImageBackground::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void ImageBackground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-//! clear the background
-
 void ImageBackground::clear(DrawActionBase *, Viewport *vp)
 {
-    ImageP img = getImage();
-    
-    if(!img || img->getWidth() <= 0 || img->getHeight() <= 0)
-        return; 
-
     glClearColor(_sfColor.getValue()[0],
                  _sfColor.getValue()[1],
                  _sfColor.getValue()[2],
                  1);                 
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    ImageP img = getImage();
+
+    if(!img || img->getWidth() <= 0 || img->getHeight() <= 0)
+        return; 
 
     bool depth=glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
@@ -146,14 +138,13 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
     glPopMatrix();
 
     if(getScale())
-        glPixelZoom(1,1);
+        glPixelZoom(1, 1);
 
-    if(depth)    glEnable(GL_DEPTH_TEST);
+    if(depth)    
+        glEnable(GL_DEPTH_TEST);
     
     glClear(GL_DEPTH_BUFFER_BIT);
 }
-
-//! output the instance for debug purposes
 
 void ImageBackground::dump(      UInt32     , 
                            const BitVector  ) const

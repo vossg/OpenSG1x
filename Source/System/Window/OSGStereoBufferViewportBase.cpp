@@ -75,10 +75,10 @@ const OSG::BitVector  StereoBufferViewportBase::RightBufferFieldMask =
 // Field descriptions
 
 /*! \var bool            StereoBufferViewportBase::_sfLeftBuffer
-    
+    Defines whether the left buffer is written to.
 */
 /*! \var bool            StereoBufferViewportBase::_sfRightBuffer
-    
+    Defines whether the right buffer is written to.
 */
 
 //! StereoBufferViewport description

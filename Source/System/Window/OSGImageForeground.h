@@ -49,7 +49,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! *put brief class description here* 
+/*! \brief Foreground class for displaying an image. See \ref 
+    PageSystemWindowForegroundImage for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageForeground : public ImageForegroundBase
 {
@@ -122,8 +124,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForeground : public ImageForegroundBase
     friend class FieldContainer;
     friend class ImageForegroundBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const ImageForeground &source);
@@ -142,6 +142,8 @@ OSG_END_NAMESPACE
 
 #include <OSGImageForegroundBase.inl>
 #include <OSGImageForeground.inl>
+
+#define OSGIMAGEFOREGROUND_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGIMAGEFORGROUND_H_ */
 

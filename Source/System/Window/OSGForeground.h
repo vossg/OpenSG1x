@@ -52,7 +52,9 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-//! foreground base class 
+/*! \brief Foreground base class. See \ref 
+    PageSystemWindowForeground for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase
 {
@@ -120,8 +122,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase
     friend class FieldContainer;
     friend class ForegroundBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const Foreground &source);
@@ -131,15 +131,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef Foreground *ForegroundP;
 
 OSG_END_NAMESPACE
 
 #include <OSGForegroundBase.inl>
 #include <OSGForeground.inl>
+
+#define OSGFOREGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGFOREGROUND_H_ */
 

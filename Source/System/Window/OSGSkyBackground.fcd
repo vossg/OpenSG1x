@@ -9,7 +9,8 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 >
-A sky-sphere background showing a color gradient. The colors and angles correspond to each other, they should have the same number of elements.
+A sky-sphere background showing a color gradient. The colors and angles
+correspond to each other, they should have the same number of elements.
 	<Field
 		name="skyColor"
 		type="Color3f"
@@ -17,6 +18,11 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		visibility="external"
 		access="public"
 	>
+        The colors for the sky gradient bands. Corresponds to the skyAngle
+        angles.  The first value is for the apex (i.e. straight up), which
+        doesn't need an angle, thus there  should be one more color than
+        angles. If no angles are given color[0] is used, or black if none are
+        given.
 	</Field>
 	<Field
 		name="skyAngle"
@@ -25,6 +31,8 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		visibility="external"
 		access="public"
 	>
+        The angles for the sky gradient bands. Corresponds to the skyColor colors, 
+        with the exception of the apex. Values should be between 0 and PI.
 	</Field>
 	<Field
 		name="groundColor"
@@ -33,6 +41,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		visibility="external"
 		access="public"
 	>
+        The colors of the ground sphere-part. Interpretation is similar to the sky.
 	</Field>
 	<Field
 		name="groundAngle"
@@ -41,6 +50,8 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		visibility="external"
 		access="public"
 	>
+        The angles of the ground sphere-part. Interpretation is similar to the sky, with 
+        0 being straight down.       
 	</Field>
 	<Field
 		name="sphereRes"
@@ -50,6 +61,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="8"
 		access="public"
 	>
+        The polygonal resolution of the sky/ground sphere.
 	</Field>
 	<Field
 		name="backTexture"
@@ -59,6 +71,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="NullFC"
 		access="public"
 	>
+        Texture for the back (+Z) side of the sky cube.
 	</Field>
 	<Field
 		name="bottomTexture"
@@ -68,6 +81,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="NullFC"
 		access="public"
 	>
+        Texture for the bottom (-Y) side of the sky cube.
 	</Field>
 	<Field
 		name="frontTexture"
@@ -77,6 +91,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="NullFC"
 		access="public"
 	>
+        Texture for the front (-Z) side of the sky cube.
 	</Field>
 	<Field
 		name="leftTexture"
@@ -86,6 +101,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="NullFC"
 		access="public"
 	>
+        Texture for the left (-X) side of the sky cube.
 	</Field>
 	<Field
 		name="rightTexture"
@@ -95,6 +111,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="NullFC"
 		access="public"
 	>
+        Texture for the right (+X) side of the sky cube.
 	</Field>
 	<Field
 		name="topTexture"
@@ -104,5 +121,6 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		defaultValue="NullFC"
 		access="public"
 	>
+        Texture for the top (+Y) side of the sky cube.
 	</Field>
 </FieldContainer>

@@ -52,7 +52,9 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-//! \brief PassiveBackground class
+/*! \brief Passive Background  class. See \ref 
+    PageSystemWindowBackgroundPassive for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING PassiveBackground : 
     public PassiveBackgroundBase
@@ -110,8 +112,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveBackground :
     friend class FieldContainer;
     friend class PassiveBackgroundBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const PassiveBackground &source);
@@ -130,5 +130,7 @@ OSG_END_NAMESPACE
 
 #include <OSGPassiveBackgroundBase.inl>
 #include <OSGPassiveBackground.inl>
+
+#define OSGPASSIVEBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGPASSIVEBACKGROUND_H_ */

@@ -35,6 +35,6 @@ A single colored background.
 		visibility="external"
 		access="public"
 	>
-	Define whether the image is scaled to fill the viewport or not (non-functional right now).
+	Define whether the image is scaled to fill the viewport or not.
 	</Field>
 </FieldContainer>

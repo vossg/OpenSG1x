@@ -51,28 +51,26 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::CameraDecorator
-    \ingroup GrpSystemWindowCameras
+    \ingroup GrpSystemWindowCameraDecorators
     
-The base class for the camera. 	
+The base class for the camera decorator, see \ref
+PageSystemWindowCameraDecorators for a description. 
+
+The decorated object is held in the _sfDecoratee field.	
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 CameraDecorator::CameraDecorator(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 CameraDecorator::CameraDecorator(const CameraDecorator &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 CameraDecorator::~CameraDecorator(void)
 {
@@ -80,20 +78,14 @@ CameraDecorator::~CameraDecorator(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void CameraDecorator::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void CameraDecorator::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void CameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
@@ -102,17 +94,14 @@ void CameraDecorator::dump(      UInt32    ,
 }
 
 
-/*-------------------------- your_category---------------------------------*/
+/*---------------------- Decorated Functions ----------------------------*/
 
 
-/** draw the camera's geometry (if any). Usually there is none. */
 void CameraDecorator::draw(      DrawAction *action, 
                            const Viewport   &port  )
 {
     getDecoratee()->draw(action, port);
 }
-
-/** get the separate elements needed for rendering */
 
 void CameraDecorator::getProjection(Matrix &result,
                                     UInt32  width ,

@@ -10,7 +10,7 @@
 	parentsystemcomponent="true"
 	decoratable="false"
 >
-A Viewport is a part of the Window it is attached to used for rendering. Every Window can hold an arbitrary number of viewports. 	
+A Viewport for rendering to quad-buffered visuals.
 	<Field
 		name="leftBuffer"
 		type="bool"
@@ -19,6 +19,7 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 		defaultValue="true"
 		access="public"
 	>
+        Defines whether the left buffer is written to.
 	</Field>
 	<Field
 		name="rightBuffer"
@@ -28,5 +29,6 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 		defaultValue="true"
 		access="public"
 	>
+        Defines whether the right buffer is written to.
 	</Field>
 </FieldContainer>

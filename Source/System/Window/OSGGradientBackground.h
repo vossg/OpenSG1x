@@ -52,7 +52,9 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-//! gradient background class
+/*! \brief Background clearing with a color gradient. See \ref 
+    PageSystemWindowBackground for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING GradientBackground : 
     public GradientBackgroundBase
@@ -118,13 +120,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackground :
     /*==========================  PRIVATE  ================================*/  
 private:
 
-
     typedef GradientBackgroundBase Inherited;
 
     friend class FieldContainer;
     friend class GradientBackgroundBase;
-
-    static char cvsid[];
 
     static void initMethod( void );
 
@@ -135,14 +134,13 @@ private:
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef GradientBackground *GradientBackgroundP;
 
 OSG_END_NAMESPACE
 
 #include <OSGGradientBackgroundBase.inl>
 #include <OSGGradientBackground.inl>
+
+#define OSGGRADIENTBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUND_H_ */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright(C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -69,48 +69,21 @@ OSG_USING_NAMESPACE
 /*! \class osg::PerspectiveCamera
     \ingroup GrpSystemWindowCameras
 
-A perspective camera with a symmetric frustum.      
+The Perspective Camera class, see \ref PageSystemWindowCameraPerspective for 
+a description.
 
+The only new parameter is the _sfFov.
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char PerspectiveCamera::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void PerspectiveCamera::initMethod (void)
+void PerspectiveCamera::initMethod(void)
 {
 }
 
@@ -125,32 +98,19 @@ void PerspectiveCamera::initMethod (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 PerspectiveCamera::PerspectiveCamera(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 PerspectiveCamera::PerspectiveCamera(const PerspectiveCamera &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 PerspectiveCamera::~PerspectiveCamera(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void PerspectiveCamera::changed(BitVector whichField, UInt32 origin)
 {
@@ -160,12 +120,12 @@ void PerspectiveCamera::changed(BitVector whichField, UInt32 origin)
 /*-------------------------- your_category---------------------------------*/
 
 void PerspectiveCamera::draw(      DrawAction *OSG_CHECK_ARG(action), 
-                             const Viewport&   OSG_CHECK_ARG(port  ))
+                             const Viewport&   OSG_CHECK_ARG(port ))
 {
 }
 
-void PerspectiveCamera::getProjection( Matrix& result, 
-    UInt32 width, UInt32 height )
+void PerspectiveCamera::getProjection(Matrix& result, 
+    UInt32 width, UInt32 height)
 {
     Real32 fov = getFov();
 
@@ -177,33 +137,46 @@ void PerspectiveCamera::getProjection( Matrix& result,
     }
     
     // try to be nice to people giving degrees...
-    if ( fov > Pi )
-        fov = osgdegree2rad( fov );
+    if(fov > Pi)
+        fov = osgdegree2rad(fov);
 
-    MatrixPerspective( result, fov / 2, 
-            width / (Real32) height, 
-            getNear(), getFar() );
+    MatrixPerspective(result, fov / 2, 
+            width /(Real32) height, 
+            getNear(), getFar());
 }
     
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
 void PerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                             const BitVector OSG_CHECK_ARG(bvFlags )) const
+                             const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump PerspectiveCamera NI" << std::endl;
 }
 
     
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERA_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERA_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

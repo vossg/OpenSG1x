@@ -51,9 +51,9 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-
-/*! \brief *put brief class description here* 
- */
+/*! \brief Background clearing class using a sky sphere and box. See \ref 
+    PageSystemWindowBackgroundSky for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
 {

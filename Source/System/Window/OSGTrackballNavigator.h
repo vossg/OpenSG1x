@@ -48,9 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief TrackballNavigator class
- */
-
+/*! \brief Navigator for trackball model. See \ref 
+    PageSystemWindowNavigatorsTrackball for a description.
+*/
 class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
 {
     /*==========================  PUBLIC  =================================*/
@@ -91,9 +91,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \{                                                                 */
 
     Matrix &getMatrix();
-    Pnt3f &getFrom();
-    Pnt3f &getAt();
-    Vec3f &getUp();
+    Pnt3f  &getFrom();
+    Pnt3f  &getAt();
+    Vec3f  &getUp();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -113,25 +113,28 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \{                                                                 */
 
     void rotate     (Real32 fromX, Real32 fromY,
-                            Real32 toX, Real32 toY);
+                     Real32 toX,   Real32 toY);
     void translateXY(Real32 distanceX, Real32 distanceY);
     void translateZ (Real32 distance);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-    void updateFinalMatrix();
+    
     /*---------------------------------------------------------------------*/
     /*! \name                     Members                                  */
     /*! \{                                                                 */
 
-    Real32 _rRadius,_rDistance;
-    Matrix _tMatrix,_finalMatrix;
+    Real32 _rRadius, _rDistance;
+    Matrix _tMatrix, _finalMatrix;
     State  _currentState;
-    Pnt3f  _pFrom,_pAt;
+    Pnt3f  _pFrom, _pAt;
     Vec3f  _vUp;
 
     /*! \}                                                                 */
+
+    void updateFinalMatrix();
+
     Real32 projectToSphere(Real32 rRadius, Real32 rX, Real32 rY);
 };
 

@@ -81,7 +81,7 @@ const OSG::BitVector  FileGrabForegroundBase::IncrementFieldMask =
 // Field descriptions
 
 /*! \var bool            FileGrabForegroundBase::_sfActive
-    Activate the grabber
+    Activate the grabber.
 */
 /*! \var std::string     FileGrabForegroundBase::_sfName
     The filename template. %d is replaced by the frame number.

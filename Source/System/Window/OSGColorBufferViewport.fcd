@@ -10,7 +10,7 @@
 	parentsystemcomponent="true"
 	decoratable="false"
 >
-A Viewport is a part of the Window it is attached to used for rendering. Every Window can hold an arbitrary number of viewports.
+A viewport used to restrict rendering to specific color channels.
 	<Field
 		name="red"
 		type="bool"
@@ -20,6 +20,7 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 		defaultValue="GL_TRUE"
 		access="public"
 	>
+        Define whether the red color channel is written to.
 	</Field>
 	<Field
 		name="blue"
@@ -30,6 +31,7 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 		defaultValue="GL_TRUE"
 		access="public"
 	>
+        Define whether the green color channel is written to.
 	</Field>
 	<Field
 		name="green"
@@ -40,6 +42,7 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 		defaultValue="GL_TRUE"
 		access="public"
 	>
+        Define whether the blue color channel is written to.
 	</Field>
 	<Field
 		name="alpha"
@@ -50,5 +53,6 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 		defaultValue="GL_TRUE"
 		access="public"
 	>
+        Define whether the alpha color channel is written to.
 	</Field>
 </FieldContainer>

@@ -58,25 +58,25 @@ OSG_USING_NAMESPACE
 /*! \class osg::StereoBufferViewport
     \ingroup GrpSystemWindowViewports
 
+Viewport for quad-buffered stereo rendering, see \ref
+PageSystemWindowViewports for a description.
+
+The active buffers are selected using the _sfLeftBuffer and _sfRightBuffer
+Fields. 
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 StereoBufferViewport::StereoBufferViewport(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 StereoBufferViewport::StereoBufferViewport(const StereoBufferViewport &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 StereoBufferViewport::~StereoBufferViewport(void)
 {
@@ -84,20 +84,14 @@ StereoBufferViewport::~StereoBufferViewport(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void StereoBufferViewport::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void StereoBufferViewport::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void StereoBufferViewport::dump(      UInt32    , 
                          const BitVector ) const

@@ -54,4 +54,6 @@ inline void ImageForeground::addImage(ImageP image, Pnt2f position)
 
 OSG_END_NAMESPACE
 
+#define OSGIMAGEFOREGROUND_INLINE_CVSID "@(#)$Id: $"
+
 

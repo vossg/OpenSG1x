@@ -52,7 +52,9 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-//! \brief SolidBackground class
+/*! \brief Single color background clearing class. See \ref 
+    PageSystemWindowBackgroundSolid for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING SolidBackground : public SolidBackgroundBase
 {
@@ -116,8 +118,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackground : public SolidBackgroundBase
     friend class FieldContainer;
     friend class SolidBackgroundBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const SolidBackground &source);
@@ -127,14 +127,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackground : public SolidBackgroundBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef SolidBackground *SolidBackgroundP;
 
 OSG_END_NAMESPACE
 
 #include <OSGSolidBackgroundBase.inl>
 #include <OSGSolidBackground.inl>
+
+#define OSGSOLIDBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUND_H_ */

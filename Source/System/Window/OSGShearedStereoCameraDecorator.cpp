@@ -58,28 +58,26 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::ShearedStereoCameraDecorator
-    \ingroup GrpSystemWindowCameras
+    \ingroup GrpSystemWindowCameraDecorators
 
+The osg::CameraDecorator for standard sheared stereo projections, see \ref
+PageSystemWindowCameraDecoratorsStereoSheared for a description.
+
+The only parameter is defined by the _sfZeroParallaxDistance field.
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 ShearedStereoCameraDecorator::ShearedStereoCameraDecorator(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 ShearedStereoCameraDecorator::ShearedStereoCameraDecorator(const ShearedStereoCameraDecorator &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 ShearedStereoCameraDecorator::~ShearedStereoCameraDecorator(void)
 {
@@ -87,20 +85,14 @@ ShearedStereoCameraDecorator::~ShearedStereoCameraDecorator(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void ShearedStereoCameraDecorator::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void ShearedStereoCameraDecorator::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void ShearedStereoCameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
@@ -109,7 +101,8 @@ void ShearedStereoCameraDecorator::dump(      UInt32    ,
 }
 
 
-//! get the projection matrix
+/*! Get the projection matrix, uses MatrixStereoPerspective to generate it.
+*/
 
 void ShearedStereoCameraDecorator::getProjection( Matrix &result, 
                                                   UInt32 width, UInt32 height)

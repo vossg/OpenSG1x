@@ -53,8 +53,10 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
+/*! \brief Background clearing base class. See \ref 
+    PageSystemWindowBackground for a description.
+*/
 
-//! background base class
 class OSG_SYSTEMLIB_DLLMAPPING Background : public BackgroundBase
 {
 
@@ -119,8 +121,6 @@ private:
   
     friend class FieldContainer;
     friend class BackgroundBase;
-  
-    static char cvsid[];
 
     static void initMethod( void );
 
@@ -131,14 +131,13 @@ private:
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef Background *BackgroundP;
 
 OSG_END_NAMESPACE
 
 #include <OSGBackgroundBase.inl>
 #include <OSGBackground.inl>
+
+#define OSGBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGBACKGROUND_H_ */

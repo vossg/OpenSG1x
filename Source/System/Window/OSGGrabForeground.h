@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Foreground class for grabbing the viewport into an image. See \ref 
+    PageSystemWindowForegroundGrab for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING GrabForeground : public GrabForegroundBase
 {

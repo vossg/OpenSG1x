@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Camera Decorator for stereo image generation, see \ref
+    PageSystemWindowCameraDecoratorsStereo for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecorator : public StereoCameraDecoratorBase
 {

@@ -62,27 +62,23 @@ OSG_USING_NAMESPACE
 /*! \class osg::GrabForeground
     \ingroup GrpSystemWindowForegrounds
     
-Foreground is the base class for all foreground rendering.  
+The GrabForeground is used for grabbing a rendered viewport into an Image. 
+See \ref PageSystemWindowForegroundGrabFile for a description.
+
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 GrabForeground::GrabForeground(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 GrabForeground::GrabForeground(const GrabForeground &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 GrabForeground::~GrabForeground(void)
 {
@@ -90,20 +86,14 @@ GrabForeground::~GrabForeground(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void GrabForeground::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void GrabForeground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void GrabForeground::dump(      UInt32    , 
                          const BitVector ) const
@@ -112,9 +102,8 @@ void GrabForeground::dump(      UInt32    ,
 }
 
 
-/** \brief grab the image 
- */
-    
+/*! Grab the image, if it is actually set.
+*/   
 void GrabForeground::draw(DrawActionBase *, Viewport *port)
 {
     ImageP i = getImage();

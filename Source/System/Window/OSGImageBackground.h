@@ -51,7 +51,10 @@ OSG_BEGIN_NAMESPACE
 class Viewport;
 class DrawActionBase;
 
-//! *put brief class description here* 
+
+/*! \brief using an image as the background class. See \ref 
+    PageSystemWindowBackgroundImage for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageBackground : public ImageBackgroundBase
 {

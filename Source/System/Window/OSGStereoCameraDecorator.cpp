@@ -55,29 +55,26 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::StereoCameraDecorator
-    \ingroup GrpSystemWindowCameras
+    \ingroup PageSystemWindowCameraDecoratorsStereo
 
-The base class for stereo decorators. 
+The abstract base class for stereo camera decorators, see \ref
+PageSystemWindowCameraDecoratorsStereo for a description.
+
+The basic parameters are given by the _sfEyeSeparation and _sfLeftEye fields.
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 StereoCameraDecorator::StereoCameraDecorator(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 StereoCameraDecorator::StereoCameraDecorator(const StereoCameraDecorator &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 StereoCameraDecorator::~StereoCameraDecorator(void)
 {
@@ -85,19 +82,13 @@ StereoCameraDecorator::~StereoCameraDecorator(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void StereoCameraDecorator::initMethod (void)
 {
 }
 
-//! react to field changes
-
 void StereoCameraDecorator::changed(BitVector, UInt32)
 {
 }
-
-//! output the instance for debug purposes
 
 void StereoCameraDecorator::dump(      UInt32    , 
                          const BitVector ) const

@@ -8,6 +8,20 @@ using namespace OSG;
 
 \section PageSystemOGLObj OpenGL Objects
 
+OpenGL objects are an important way to manage data and speed up repetitive use.
+OpenGL objects in OpenSG include everything that can be stored inside the
+OpenGL, most prominently display lists and texture objects.
+
+Handling OpenGL objects in a multi-window and possibly multi-pipe environment
+becomes an interesting problem. As the different windows may show different
+parts of a scene or different scenes alltogether the actually used and defined
+set of OpenGL objects should include only what's necessary to reduce the
+consumed ressources.
+
+\dev 
+
+And the problem becomes even more interesting 
+
 register, validate
 
 \section PageSystemOGLExt OpenGL Extensions

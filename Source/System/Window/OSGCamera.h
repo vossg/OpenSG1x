@@ -58,14 +58,13 @@ class DrawActionBase;
 class FrustumVolume;
 class Line;
 
-//! Camera base class
+/*! \brief Camera base class. See \ref PageSystemCamera for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
 {
      /*==========================  PUBLIC  =================================*/
  public:
-
-   
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -83,18 +82,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      your_category                           */
+    /*! \name                   Setup Rendering                            */
     /*! \{                                                                 */
 
-    /** setup the GL for rendering and tell the Action what it needs to know */
     virtual void setup          (DrawActionBase *action, const Viewport& port);
 
     virtual void setupProjection(DrawActionBase *action, const Viewport& port);
 
-    /** draw the camera's geometry (if any). Usually there is none. */
-    virtual void draw (DrawAction *action, const Viewport& port);
+    virtual void draw           (DrawAction     *action, const Viewport& port);
 
-    /** get the separate elements needed for rendering */
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Access Parameters                           */
+    /*! \{                                                                 */
 
     virtual void getProjection           (Matrix        &result, 
                                           UInt32 width, UInt32 height);
@@ -107,16 +107,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
 
     virtual void getFrustum              (FrustumVolume &result,
                                           const Viewport& port);
-    
-    /* get it all in a nice package */
-    
+     
     virtual void getWorldToScreen        (Matrix        &result, 
                                           const Viewport& port);
-    
-    /* calc a ray from the eye through the given pixel into the scene */
-    /* pixel are from top-left */
-    bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Intersection Helper                          */
+    /*! \{                                                                 */
+    
+    bool calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,8 +154,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
     friend class FieldContainer;
     friend class CameraBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const Camera &source);
@@ -165,14 +163,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef Camera *CameraP;
 
 OSG_END_NAMESPACE
 
 #include <OSGCameraBase.inl>
 #include <OSGCamera.inl>
+
+#define OSGCAMERA_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGCAMERA_H_ */

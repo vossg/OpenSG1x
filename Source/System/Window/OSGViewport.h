@@ -52,7 +52,9 @@ OSG_BEGIN_NAMESPACE
 class DrawAction;
 class RenderAction;
 
-//! Viewport class
+/*! \brief Viewport base class. See \ref 
+    PageSystemWindowViewports for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
 {
@@ -132,8 +134,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
     friend class FieldContainer;
     friend class ViewportBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const Viewport &source);
@@ -143,14 +143,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef Viewport *ViewportP;
 
 OSG_END_NAMESPACE
 
 #include <OSGViewportBase.inl>
 #include <OSGViewport.inl>
+
+#define OSGVIEWPORT_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGVIEWPORT_H_ */

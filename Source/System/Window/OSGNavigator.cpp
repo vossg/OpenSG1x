@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -55,13 +55,100 @@ OSG_USING_NAMESPACE
 /*! \class osg::Navigator
     \ingroup GrpSystemWindowNavigators
 
+    The general Navigator helper class, see \ref 
+    PageSystemWindowNavigatorsNavigator for a description.
+    
+    
+*/
 
+
+/*! \enum Navigator::Mode
+
+    The navigation mode, i.e. the actual active low-level navigator. 
+*/
+
+
+/*! \enum Navigator::State
+
+    The navigation state, mainly needed for correct interpretation of mouse
+    motions, which have to be interpreted differently for  different states. 
+    Interpretation also depends on the currently active Navigator::Mode.
+*/
+
+/*! \var Navigator::State Navigator::IDLE
+
+    Inactive state. 
+*/
+
+/*! \var Navigator::State Navigator::ROTATING
+
+    State for in-place rotation. 
+*/
+
+/*! \var Navigator::State Navigator::TRANSLATING_XY
+
+    State for x/y translation, used by the Trackball case. 
+*/
+
+/*! \var Navigator::State Navigator::TRANSLATING_Z
+
+    State for z translation, used by the Trackball case. 
+*/
+
+/*! \var Navigator::State Navigator::TRANSLATING_ZPLUS
+
+    State for rotation with automatic forward motion. The standard fly forward
+    state. 
+*/
+
+/*! \var Navigator::State Navigator::TRANSLATING_ZMINUS
+
+    State for rotation with automatic backwards motion. The standard fly
+    backwards state. 
+*/
+
+
+/*! \enum Navigator::MouseButton
+
+    Abstraction enumeration for mouse buttons, to keep the Navigator
+    independent of the actual Window System.
+*/
+
+/*! \var Navigator::MouseButton Navigator::UP_MOUSE
+
+    Mouse wheel up button. 
+*/
+
+/*! \var Navigator::MouseButton Navigator::DOWN_MOUSE
+
+    Mouse wheel down button. 
+*/
+
+
+/*! \enum Navigator::Key
+
+    Abstraction enumeration for keys, to keep the Navigator
+    independent of the actual Window System.
+*/
+
+
+
+/*! \var Navigator::_rMotionFactor
+
+    The motion factor, roughly equivalent to speed.
+*/
+
+/*! \var Navigator::_ip
+    
+    Temporary hit point for intersection testing.
+*/
+
+/*! \var Navigator::_dir
+
+    Temporary ray direction for intersection testing.
 */
 
 /*------------------------- constructors ----------------------------------*/
-
-/*! Constructor
- */
 
 Navigator::Navigator(): 
     _rMotionFactor(1.f),
@@ -79,247 +166,323 @@ Navigator::Navigator():
 
 /*-------------------------- destructors ----------------------------------*/
 
-/*! Destructor
- */
-
 Navigator::~Navigator()
 {
 }
 
 /*-------------------------- Notificators ---------------------------------*/
 
-/*! Notifies for mouse button press.
- */
-
+/*! Mouse button press handler.
+*/
 void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
 {
-    _lastX=x; _lastY=y;
-    _moved=false;
+    _lastX = x; _lastY = y;
+    _moved = false;
 
     switch (_currentMode)
     {
-        case TRACKBALL:
-        {
-            switch (button)
-            {
-                case LEFT_MOUSE  : {_currentState=ROTATING;      } break;
-                case MIDDLE_MOUSE: {_currentState=TRANSLATING_XY;
-                                    getIntersectionPoint(x,y);   } break;
-                case RIGHT_MOUSE : {_currentState=TRANSLATING_Z; } break;
-                case UP_MOUSE    : {_currentState=IDLE;
-                                    _trackball.translateZ(-_rMotionFactor);
-                                   } break;
-                case DOWN_MOUSE  : {_currentState=IDLE;
-                                    _trackball.translateZ(_rMotionFactor);
-                                   } break;
-                default: FNOTICE(("Navigator: buttonPress, unknown button\n"));
-            }
-        } break;
+    case TRACKBALL:
 
-        case FLY:
+        switch (button)
         {
-            switch (button)
-            {
-                case LEFT_MOUSE:   {_currentState=TRANSLATING_ZPLUS; } break;
-                case MIDDLE_MOUSE: {_currentState=ROTATING;          } break;
-                case RIGHT_MOUSE:  {_currentState=TRANSLATING_ZMINUS;} break;
-                case UP_MOUSE    : {_currentState=IDLE;
-                                    _flyer.forward(-_rMotionFactor);
-                                   } break;
-                case DOWN_MOUSE  : {_currentState=IDLE;
-                                    _flyer.forward(_rMotionFactor);
-                                   } break;
-                default: FNOTICE(("Navigator: buttonPress, unknown button\n"));
-            }
-        } break;
-        default: FNOTICE(("Navigator: buttonPress, unknown mode\n"));
+        case LEFT_MOUSE  :  _currentState = ROTATING;         
+                            break;
+                            
+        case RIGHT_MOUSE :  _currentState = TRANSLATING_Z;    
+                            break;
+ 
+        case MIDDLE_MOUSE:  _currentState = TRANSLATING_XY;
+                            getIntersectionPoint(x,y);      
+                            break;
+ 
+        case UP_MOUSE    :  _currentState = IDLE;
+                            _trackball.translateZ(-_rMotionFactor);
+                            break;
+ 
+        case DOWN_MOUSE  :  _currentState = IDLE;
+                            _trackball.translateZ(_rMotionFactor);
+                            break;
+
+        default:            FNOTICE(("Navigator: buttonPress, unknown button\n"));
+                            break;
+        }
+        break;
+
+    case FLY:
+
+        switch (button)
+        {
+        case LEFT_MOUSE  :  _currentState = TRANSLATING_ZPLUS;  
+                            break;
+                            
+        case MIDDLE_MOUSE:  _currentState = ROTATING;           
+                            break;
+                            
+        case RIGHT_MOUSE :  _currentState = TRANSLATING_ZMINUS; 
+                            break;
+                            
+        case UP_MOUSE    :  _currentState = IDLE;
+                            _flyer.forward(-_rMotionFactor);
+                            break;
+                            
+        case DOWN_MOUSE  :  _currentState = IDLE;
+                            _flyer.forward(_rMotionFactor);
+                            break;
+                            
+        default:            FNOTICE(("Navigator: buttonPress, unknown button\n"));
+                            break;
+        }
+        break;
+
+    case WALK:
+
+        switch (button)
+        {
+        case LEFT_MOUSE  :  _currentState = TRANSLATING_ZPLUS;  
+                            break;
+                            
+        case MIDDLE_MOUSE:  _currentState = ROTATING;           
+                            break;
+                            
+        case RIGHT_MOUSE :  _currentState = TRANSLATING_ZMINUS; 
+                            break;
+                            
+        case UP_MOUSE    :  _currentState = IDLE;
+                            _walker.forward(-_rMotionFactor);
+                            break;
+                            
+        case DOWN_MOUSE  :  _currentState = IDLE;
+                            _walker.forward(_rMotionFactor);
+                            break;
+                            
+        default:            FNOTICE(("Navigator: buttonPress, unknown button\n"));
+                            break;
+        }
+        break;
+
+    default: 
+    
+        FNOTICE(("Navigator: buttonPress, unknown mode\n"));
+        break;
     }
 }
 
-
-/*! Notifies for mouse button release
- */
-
+/*! Mouse button release handler.
+*/
 void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
 {
     switch (_currentMode)
     {
-        case TRACKBALL:
-        {
-            if (!_moved && _clickCenter)
-            {
-                IntersectAction * act = IntersectAction::create();
-                Line line;
-                _vp->getCamera()->calcViewRay(line, x, y, *_vp);
+    case TRACKBALL: if (!_moved && _clickCenter)
+                    {
+                        IntersectAction * act  =  IntersectAction::create();
+                        Line line;
+                        _vp->getCamera()->calcViewRay(line, x, y, *_vp);
 
-                Pnt3f lp1=line.getPosition();
-                Vec3f ld1=line.getDirection();
+                        Pnt3f lp1 = line.getPosition();
+                        Vec3f ld1 = line.getDirection();
 
-                act->setLine(line);
-                act->apply(_vp->getRoot());
-                if (act->didHit())
-                {
-                    Pnt3f p1=act->getHitPoint();
-                    _trackball.setAt(p1);
-                }
-            }
-        } break;
-        case FLY:
-        {
-        } break;
-        default: FNOTICE(("Navigator: buttonRelease, unknown mode\n"));
+                        act->setLine(line);
+                        act->apply(_vp->getRoot());
+                        if (act->didHit())
+                        {
+                            Pnt3f p1 = act->getHitPoint();
+                            _trackball.setAt(p1);
+                        }
+                    }
+                    break;
+        
+    case FLY:       break;
+    case WALK:      break;
+
+    default:        FNOTICE(("Navigator: buttonRelease, unknown mode\n"));
+                    break;
     }
     _currentState=IDLE;
 }
 
-/*! Notifies for key press
- */
-
+/*! Key press handler.
+*/
 void Navigator::keyPress(Int16 key, Int16 , Int16 )
 {
     switch (_currentMode)
     {
-        case TRACKBALL:
+    case TRACKBALL: 
+    
+        switch (key)
         {
-            switch (key)
-            {
-                case LEFT      : /*undefined*/ break;
-                case RIGHT     : /*undefined*/ break;
-                case FORWARDS  : _trackball.translateZ(-_rMotionFactor); break;
-                case BACKWARDS : _trackball.translateZ(_rMotionFactor);  break;
-                default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
-            }
-        } break;
+        case LEFT      : /*undefined*/ break;
+        case RIGHT     : /*undefined*/ break;
+        case FORWARDS  : _trackball.translateZ(-_rMotionFactor); break;
+        case BACKWARDS : _trackball.translateZ(_rMotionFactor);  break;
+        default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
+        }
+        break;
 
-        case FLY:
+    case FLY:       
+    
+        switch (key)
         {
-            switch (key)
-            {
-                case LEFT      : _flyer.right(-_rMotionFactor);   break;
-                case RIGHT     : _flyer.right(_rMotionFactor);    break;
-                case FORWARDS  : _flyer.forward(-_rMotionFactor); break;
-                case BACKWARDS : _flyer.forward(_rMotionFactor);  break;
-                default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
-            }
-        } break;
-        default: FNOTICE(("Navigator: keyPress, unknown mode\n"));
+        case LEFT      : _flyer.right(-_rMotionFactor);   break;
+        case RIGHT     : _flyer.right(_rMotionFactor);    break;
+        case FORWARDS  : _flyer.forward(-_rMotionFactor); break;
+        case BACKWARDS : _flyer.forward(_rMotionFactor);  break;
+        default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
+        }
+        break;
+
+    case WALK:      
+    
+        switch (key)
+        {
+        case LEFT      : _walker.right(-_rMotionFactor);   break;
+        case RIGHT     : _walker.right(_rMotionFactor);    break;
+        case FORWARDS  : _walker.forward(-_rMotionFactor); break;
+        case BACKWARDS : _walker.forward(_rMotionFactor);  break;
+        default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
+        }
+        break;
+
+    default:        
+    
+        FNOTICE(("Navigator: keyPress, unknown mode\n"));
+        break;
     }
 }
 
-/*! Notifies for mouse motion
- */
-
-OSG_BEGIN_NAMESPACE
-
-template <typename t>
-t osgsgn(t val)
-{
-    if(val < 0) return -1;
-    if(val > 0) return  1;
-    return 0;
-}
-
-OSG_END_NAMESPACE
-
+/*! Mouse motion handler.
+*/
 void Navigator::moveTo(Int16 x, Int16 y)
 {
-    _moved=true;
+    _moved = true;
 
-    Real32 width=_vp->getPixelWidth();
-    Real32 height=_vp->getPixelHeight();
+    Real32 width  = _vp->getPixelWidth();
+    Real32 height = _vp->getPixelHeight();
 
     if(width <= 0 || height <= 0)
         return;
 
-    Real32 fromX=(2.0f * _lastX - width) / width;
-    Real32 fromY=(height - 2.0f * _lastY) / height;
-    Real32 toX=(2.0f * x - width) / width;
-    Real32 toY=(height - 2.0f * y) / height;
+    Real32 fromX = (2.0f * _lastX - width) / width;
+    Real32 fromY = (height - 2.0f * _lastY) / height;
+    Real32 toX   = (2.0f * x - width) / width;
+    Real32 toY   = (height - 2.0f * y) / height;
 
     switch (_currentMode)
     {
-        case TRACKBALL:
+    case TRACKBALL: 
+    
+        switch (_currentState)
         {
-            switch (_currentState)
-            {
-                case ROTATING:
-                    {
-                        _trackball.rotate(fromX, fromY, toX, toY);
-                    } break;
-                case TRANSLATING_XY:
-                    {
-                        Real32 distanceX=0,distanceY=0;
-                        calcDeltas(_lastX, _lastY, x, y, distanceX, distanceY);
-                        _trackball.translateXY(distanceX, distanceY);
-                    } break;
-                case TRANSLATING_Z:
-                    {
-                        Real32 distance=osgsgn(toY-fromY)*
-                                        100.f * osgpow(osgabs(toY-fromY),2.f);
-                        _trackball.translateZ(distance * _rMotionFactor);
-                    } break;
-                default           : ;//IDLE                        
-            }
-        } break;
+        case ROTATING      :_trackball.rotate(fromX, fromY, toX, toY);
+                            break;
 
-        case FLY:
+        case TRANSLATING_XY:{
+                            Real32 distanceX = 0,distanceY = 0;
+                            calcDeltas(_lastX, _lastY, x, y, 
+                                       distanceX, distanceY);
+                            _trackball.translateXY(distanceX, distanceY);
+                            }
+                            break;
+
+        case TRANSLATING_Z: {
+                            Real32 distance = osgSgn(toY-fromY)*
+                                              100.f * 
+                                              osgpow(osgabs(toY-fromY),2.f);
+                            _trackball.translateZ(distance * _rMotionFactor);
+                            }
+                            break;
+
+        default            :;//IDLE                        
+        }
+        
+        break;
+
+    case FLY:
+     
         {
-            Real32 distanceX=-(fromX-toX);
-            Real32 distanceY=(fromY-toY);
-            _flyer.rotate(distanceX, distanceY);
+        Real32 distanceX = -(fromX-toX);
+        Real32 distanceY =  (fromY-toY);
+        _flyer.rotate(distanceX, distanceY);
 
-            switch (_currentState)
-            {
-                case TRANSLATING_ZPLUS:
-                    {
-                        _flyer.forward(-_rMotionFactor);
-                    } break;
-                case TRANSLATING_ZMINUS:
-                    {
-                        _flyer.forward(_rMotionFactor);
-                    } break;
-                case ROTATING:
-                    {
-                    } break;
-                default           : ;//IDLE
-            }
-        } break;
-        default: FNOTICE(("Navigator: moveTo, unknown mode\n"));
+        switch (_currentState)
+        {
+        case TRANSLATING_ZPLUS:     _flyer.forward(-_rMotionFactor);
+                                    break;
+                                    
+        case TRANSLATING_ZMINUS:    _flyer.forward(_rMotionFactor);
+                                    break;
+                                    
+        case ROTATING:              break;
+        
+        default:                    ;//IDLE
+        }
+        }
+        break;
+
+    case WALK:
+    
+        {
+        Real32 distanceX = -(fromX-toX);
+        Real32 distanceY =  (fromY-toY);
+        _walker.rotate(distanceX, distanceY);
+
+        switch (_currentState)
+        {
+        case TRANSLATING_ZPLUS:     _walker.forward(-_rMotionFactor);
+                                    break;
+                                
+        case TRANSLATING_ZMINUS:    _walker.forward(_rMotionFactor);
+                                    break;
+                                    
+        case ROTATING:              break;
+        
+        default:                    ;//IDLE
+        }
+        }
+        break;
+
+    default: 
+    
+        FNOTICE(("Navigator: moveTo, unknown mode\n"));
+        break;
     }
-    _lastX=x;
-    _lastY=y;
+    _lastX = x;
+    _lastY = y;
 }
 
-/*! Updates the camera transformation matrix directly in the node
- */
+/*! Updates the camera transformation matrix directly in the node specified as
+    the cart.
+*/
 void Navigator::updateCameraTransformation()
 {
     theMatrix.setIdentity();
-    if (_cartN!=NullFC && _cartN->getParent()!=NullFC)
+    if(_cartN != NullFC && _cartN->getParent() != NullFC)
     {
         _cartN->getParent()->getToWorld(theMatrix);
         theMatrix.inverse(theMatrix);
     }
 
-    switch (_currentMode)
+    switch(_currentMode)
     {
-        case TRACKBALL: theMatrix.mult(_trackball.getMatrix()); break;
-        case FLY:       theMatrix.mult(_flyer.getMatrix()); break;
-        default: FNOTICE(("Navigator: updateCamTrans, unknown mode\n"));
+    case TRACKBALL: theMatrix.mult(_trackball.getMatrix()); break;
+    case FLY:       theMatrix.mult(_flyer    .getMatrix()); break;
+    case WALK:      theMatrix.mult(_walker   .getMatrix()); break;        
+    default:        FNOTICE(("Navigator: updateCamTrans, unknown mode\n"));
+                    break;
     }
 
-    if (_cartN!=NullFC) 
+    if(_cartN != NullFC) 
     {
-        TransformPtr t=TransformPtr::dcast(_cartN->getCore());
-        if (t == NullFC)
+        TransformPtr t = TransformPtr::dcast(_cartN->getCore());
+        if(t == NullFC)
         {
             FWARNING (("Navigator: updateCamTrans, core is not TransformPtr\n"));
         }
         else
         {
-	    beginEditCP(t);
-	    {
-              t->getSFMatrix()->setValue(theMatrix);
+	        beginEditCP(t);
+	        {
+                t->getSFMatrix()->setValue(theMatrix);
             }
             endEditCP(t);
         }
@@ -332,115 +495,143 @@ void Navigator::updateCameraTransformation()
 
 /*------------------------------ set --------------------------------------*/
 
-/*! Sets the navigator mode (Trackball or Flyer)
- */
-
+/*! Set the navigator mode (Trackball/Flyer/Walker).
+*/
 void Navigator::setMode(Navigator::Mode new_mode)
 {
-    if (_currentMode==new_mode) return;
+    if (_currentMode == new_mode) return;
 
-    _currentMode=new_mode;
+    _currentMode = new_mode;
 }
 
-/*! Sets the motion factor
- */
-
+/*! Set the motion factor.
+*/
 void Navigator::setMotionFactor(Real32 new_factor)
 {
-    _rMotionFactor=new_factor;
+    _rMotionFactor = new_factor;
 }
 
-/*! Sets the viewport
- */
-
+/*! Set the viewport.
+*/
 void Navigator::setViewport(ViewportPtr new_viewport)
 {
     _vp=new_viewport;
+    _walker.setGround(_vp->getRoot());
+    _walker.setWorld (_vp->getRoot());
 }
 
-/*! Sets the from of the navigator (actually this is its center)
- */
-
+/*! Set the from point, i.e. the viewer position.
+*/
 void Navigator::setFrom(Pnt3f new_from)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.setFrom(new_from); } break;
-        case FLY:       { _flyer.setFrom(new_from);     } break;
-        default: FNOTICE(("Navigator: setFrom, unknown mode"));
+    case TRACKBALL:     _trackball.setFrom(new_from);   break;
+    case FLY:           _flyer    .setFrom(new_from);   break;
+    case WALK:          _walker   .setFrom(new_from);   break;
+    default:            FNOTICE(("Navigator: setFrom, unknown mode"));
+                        break;
     }
 }
 
-/*! Sets where the from is looking
- */
-
+/*! Set the at point, i.e. the target position for the viewer.
+*/
 void Navigator::setAt(Pnt3f new_at)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.setAt(new_at); } break;
-        case FLY:       { _flyer.setAt(new_at);     } break;
-        default: FNOTICE(("Navigator: setAt, unknown mode"));
+    case TRACKBALL:     _trackball.setAt(new_at);   break;
+    case FLY:           _flyer    .setAt(new_at);   break;
+    case WALK:          _walker   .setAt(new_at);   break;
+    default:            FNOTICE(("Navigator: setAt, unknown mode"));
+                        break;
     }
 }
 
-/*! Sets the distance from the from in the view direction
- */
-
+/*! Set the distance from the target position.
+*/
 void Navigator::setDistance(Real32 new_distance)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.setDistance(new_distance); } break;
-        case FLY:       { _flyer.forward(new_distance);         } break;
-        default: FNOTICE(("Navigator: setDistance, unknown mode"));
+    case TRACKBALL:     _trackball.setDistance(new_distance);
+                        break;
+                        
+    case FLY:           _flyer.forward(new_distance);
+                        break;
+                        
+    case WALK:          _walker.forward(new_distance);
+                        break;
+                                
+    default:            FNOTICE(("Navigator: setDistance, unknown mode"));
+                        break;
     }
 }
 
 
-/*! Sets the up vector
- */
-
+/*! Set the up vector, i.e. the vertical direction on screen.
+*/
 void Navigator::setUp(Vec3f new_up)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.setUp(new_up); } break;
-        case FLY:       { _flyer.setUp(new_up);     } break;
-        default: FNOTICE(("Navigator: setUp, unknown mode"));
+    case TRACKBALL:     _trackball.setUp(new_up);
+                        break;
+                        
+    case FLY:           _flyer.setUp(new_up);
+                        break;
+                        
+    case WALK:          _walker.setUp(new_up);
+                        break;        
+
+    default:            FNOTICE(("Navigator: setUp, unknown mode"));
+                        break;
     }
 }
 
-/*! Sets the navigator position
- */
-
+/*! Set the full navigator parameters.
+*/
 void Navigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.set(new_from, new_at, new_up); } break;
-        case FLY:       { _flyer.set(new_from, new_at, new_up);     } break;
-        default: FNOTICE(("Navigator: set, unknown mode"));
+    case TRACKBALL:     _trackball.set(new_from, new_at, new_up);
+                        break;
+                        
+    case FLY:           _flyer.set(new_from, new_at, new_up);
+                        break;
+                        
+    case WALK:          _walker.set(new_from, new_at, new_up);
+                        break; 
+           
+    default:            FNOTICE(("Navigator: set, unknown mode"));
+                        break;
     }
 }
 
-/*! Sets the navigator position from matrix
- */
-
+/*! Set the full navigator parameters from a matrix.
+*/
 void Navigator::set(const Matrix & new_matrix)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.set(new_matrix); } break;
-        case FLY:       { _flyer.set(new_matrix);     } break;
-        default: FNOTICE(("Navigator: set(Matrix), unknown mode"));
+    case TRACKBALL:     _trackball.set(new_matrix);
+                        break;
+                        
+    case FLY:           _flyer.set(new_matrix);
+                        break;
+                        
+    case WALK:          _walker.set(new_matrix);
+                        break;        
+                        
+    default:            FNOTICE(("Navigator: set(Matrix), unknown mode"));
+                        break;
     }
 }
 
 
-/*! Sets the camera transformation node
- */
-
+/*! Set the camera transformation node.
+*/
 void Navigator::setCameraTransformation(const NodePtr & new_cartn)
 {
     if (new_cartn == NullFC)
@@ -453,82 +644,86 @@ void Navigator::setCameraTransformation(const NodePtr & new_cartn)
 
 /*------------------------------ get --------------------------------------*/
 
-/*! Gets the transformation matrix
- */
-
-Matrix &Navigator::getMatrix()
+/*! Get the transformation matrix.
+*/
+const Matrix &Navigator::getMatrix()
 {
     switch (_currentMode)
     {
-        case TRACKBALL: return _trackball.getMatrix();
-        case FLY:       return _flyer.getMatrix();
-        default: FNOTICE(("Navigator: getMatrix, unknown mode"));
+    case TRACKBALL: return _trackball.getMatrix();
+    case FLY:       return _flyer    .getMatrix();
+    case WALK:      return _walker   .getMatrix();        
+    default:        FNOTICE(("Navigator: getMatrix, unknown mode"));
+                    break;
     }
 
-    return _trackball.getMatrix();
+    return Matrix::identity();
 }
 
-/*! Gets from point
- */
-Pnt3f  &Navigator::getFrom()
+/*! Get the from point, i.e. the viewer position.
+*/
+const Pnt3f  &Navigator::getFrom()
 {
     switch (_currentMode)
     {
-        case TRACKBALL: return _trackball.getFrom();
-        case FLY:       return _flyer.getFrom();
-        default: FNOTICE(("Navigator: getFrom, unknown mode"));
+    case TRACKBALL: return _trackball.getFrom();
+    case FLY:       return _flyer    .getFrom();
+    case WALK:      return _walker   .getFrom();
+    default:        FNOTICE(("Navigator: getFrom, unknown mode"));
+                    break;
     }
 
-    return _trackball.getFrom();
+    return Pnt3f(0,0,0);
 }
 
-/*! Gets at point
- */
-Pnt3f  &Navigator::getAt()
+/*! Get the at point, i.e. the target position.
+*/
+const Pnt3f  &Navigator::getAt()
 {
     switch (_currentMode)
     {
-        case TRACKBALL: return _trackball.getAt();
-        case FLY:       return _flyer.getAt();
-        default: FNOTICE(("Navigator: getAt, unknown mode"));
+    case TRACKBALL: return _trackball.getAt();
+    case FLY:       return _flyer    .getAt();
+    case WALK:      return _walker   .getAt();
+    default:        FNOTICE(("Navigator: getAt, unknown mode"));
+                    break;
     }
 
-    return _trackball.getAt();
+    return Pnt3f(0,0,0);
 }
 
-/*! Gets up vector
- */
-Vec3f  &Navigator::getUp()
+/*! Get the up vector.
+*/
+const Vec3f  &Navigator::getUp()
 {
     switch (_currentMode)
     {
-        case TRACKBALL: return _trackball.getUp();
-        case FLY:       return _flyer.getUp();
-        default: FNOTICE(("Navigator: getUp, unknown mode"));
+    case TRACKBALL: return _trackball.getUp();
+    case FLY:       return _flyer    .getUp();
+    case WALK:      return _walker   .getUp();
+    default:        FNOTICE(("NavigUpor: getUp, unknown mode"));
+                    break;
     }
 
-    return _trackball.getUp();
+    return Vec3f(0,0,0);
 }
 
-/*! Gets the navigator's current state
- */
-
+/*! Get the navigator's current state.
+*/
 Navigator::State Navigator::getState()
 {
     return _currentState;
 }
 
-/*! Gets the navigator's current mode
- */
-
+/*! Get the navigator's current mode.
+*/
 Navigator::Mode Navigator::getMode()
 {
     return _currentMode;
 }
 
-/*! sets the clickCenter current state
- */
-
+/*! Set the clickCenter current state.
+*/
 bool Navigator::setClickCenter(bool state)
 {
     bool old = _clickCenter;
@@ -537,10 +732,9 @@ bool Navigator::setClickCenter(bool state)
     return old;
 }
 
-/*! Calculates the transformation matrix from CC to WC using actuall view
-    matrix
- */
-
+/*! Calculates the transformation matrix from CC to WC using the actual view
+    matrix.
+*/
 static void calcCCtoWCMatrix(Matrix &cctowc, const Matrix &view,
                              const ViewportPtr port)
 {
@@ -559,23 +753,23 @@ static void calcCCtoWCMatrix(Matrix &cctowc, const Matrix &view,
     cctowc.invertFrom( wctocc );
 }
 
-/*! Calculates the intesection point of a ray that starts at the from and goes
+/*! Calculates the intersection point of a ray that starts at from and goes
     through the position on the screen given by x,y with the world, if no
     intersection point exists the intersection is set to (0,0,0)
- */
-
+*/
 void Navigator::getIntersectionPoint(Int16 x, Int16 y)
 {
     IntersectAction * act = IntersectAction::create();
     Line line;
-    _vp->getCamera()->calcViewRay(line,x,y, *_vp);
+    
+    _vp->getCamera()->calcViewRay(line, x, y, *_vp);
 
     act->setLine(line);
     act->apply(_vp->getRoot());
 
     Matrix cctowc,view;
-    Int16 width=_vp->getPixelWidth();
-    Int16 height=_vp->getPixelHeight();
+    Int16 width  = _vp->getPixelWidth();
+    Int16 height = _vp->getPixelHeight();
 
     _vp->getCamera()->getViewing(view, width, height);
 
@@ -584,29 +778,28 @@ void Navigator::getIntersectionPoint(Int16 x, Int16 y)
     Pnt3f at,to;
 
     cctowc.multFullMatrixPnt( Pnt3f( 0, 0, 0.5f ), to );
-    cctowc.multFullMatrixPnt( Pnt3f( 0, 0, 1 ), at );
+    cctowc.multFullMatrixPnt( Pnt3f( 0, 0, 1    ), at );
 
-    _dir=to-at;
+    _dir = to - at;
 
     if (act->didHit())
     {
-        _ip=act->getHitPoint();
+        _ip = act->getHitPoint();
     }
     else
     {
-        Real32 u=(_dir.dot(Pnt3f(0.0f,0.0f,0.0f)-line.getPosition())) /
-                 (_dir.dot(line.getDirection()));
-        _ip=line.getPosition() + u*line.getDirection();
+        Real32 u = (_dir.dot(Pnt3f(0.0f, 0.0f, 0.0f) - line.getPosition())) /
+                   (_dir.dot(line.getDirection()));
+        _ip = line.getPosition() + u * line.getDirection();
     }
 }
 
-/*! Calculate the real translation that have to be done, so that the
+/*! Calculate the real translation that has to be done, so that the
     trackball can actually drag the object in the plane parallel to the
     screen.
- */
-
+*/
 void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
-                                  Real32 &distanceX, Real32 &distanceY)
+                           Real32 &distanceX, Real32 &distanceY)
 {
     Matrix view;
 
@@ -627,20 +820,20 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
     Line line2;
     line2.setValue(from, at-from);
 
-    Real32 u=(_dir.dot(_ip-line2.getPosition())) /
-             (_dir.dot(line2.getDirection()));
+    Real32 u = (_dir.dot(_ip-line2.getPosition())) /
+               (_dir.dot(line2.getDirection()));
 
-    Pnt3f p2=line2.getPosition() + u*line2.getDirection();
+    Pnt3f p2 = line2.getPosition() + u * line2.getDirection();
 
     Vec3f transl;
-    transl[0]=-p2[0]+_ip[0];
-    transl[1]=-p2[1]+_ip[1];
-    transl[2]=-p2[2]+_ip[2];
+    transl[0] = -p2[0] + _ip[0];
+    transl[1] = -p2[1] + _ip[1];
+    transl[2] = -p2[2] + _ip[2];
 
     view.multMatrixVec(transl);
 
-    distanceX=transl[0];
-    distanceY=transl[1];
+    distanceX = transl[0];
+    distanceY = transl[1];
 }
 
 

@@ -18,7 +18,7 @@ Background is the base class for all background clearing.
 		defaultValue="false"
 		access="public"
 	>
-	Activate the grabber
+	Activate the grabber.
 	</Field>
 	<Field
 		name="name"

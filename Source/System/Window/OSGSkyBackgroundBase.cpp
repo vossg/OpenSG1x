@@ -102,37 +102,37 @@ const OSG::BitVector  SkyBackgroundBase::TopTextureFieldMask =
 // Field descriptions
 
 /*! \var Color3f         SkyBackgroundBase::_mfSkyColor
-    
+    The colors for the sky gradient bands. Corresponds to the skyAngle         angles.  The first value is for the apex (i.e. straight up), which         doesn't need an angle, thus there  should be one more color than         angles. If no angles are given color[0] is used, or black if none are         given.
 */
 /*! \var Real32          SkyBackgroundBase::_mfSkyAngle
-    
+    The angles for the sky gradient bands. Corresponds to the skyColor colors,          with the exception of the apex. Values should be between 0 and PI.
 */
 /*! \var Color3f         SkyBackgroundBase::_mfGroundColor
-    
+    The colors of the ground sphere-part. Interpretation is similar to the sky.
 */
 /*! \var Real32          SkyBackgroundBase::_mfGroundAngle
-    
+    The angles of the ground sphere-part. Interpretation is similar to the sky, with          0 being straight down.
 */
 /*! \var UInt32          SkyBackgroundBase::_sfSphereRes
-    
+    The polygonal resolution of the sky/ground sphere.
 */
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfBackTexture
-    
+    Texture for the back (+Z) side of the sky cube.
 */
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfBottomTexture
-    
+    Texture for the bottom (-Y) side of the sky cube.
 */
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfFrontTexture
-    
+    Texture for the front (-Z) side of the sky cube.
 */
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfLeftTexture
-    
+    Texture for the left (-X) side of the sky cube.
 */
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfRightTexture
-    
+    Texture for the right (+X) side of the sky cube.
 */
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfTopTexture
-    
+    Texture for the top (+Y) side of the sky cube.
 */
 
 //! SkyBackground description

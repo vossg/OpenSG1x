@@ -66,46 +66,22 @@ OSG_USING_NAMESPACE
 /*! \class osg::Background
     \ingroup GrpSystemWindowBackgrounds
 
-Background is the base class for all background clearing. 
+Background is the base class for all background clearing.  See \ref
+PageSystemWindowBackground for a description.
+
+\ext
+
+To create a new Background the method that has be overridden is  
+clear(DrawActionBase * action, Viewport * port);. It can directly call OpenGL
+commands, but should restore the state after it's done.
+
+\endext
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Background::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void Background::initMethod (void)
 {
@@ -115,39 +91,21 @@ void Background::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 Background::Background(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Background::Background(const Background &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 Background::~Background(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void Background::changed(BitVector whichField, UInt32 origin)
 {
@@ -156,22 +114,35 @@ void Background::changed(BitVector whichField, UInt32 origin)
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
 void Background::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump Background NI" << std::endl;
 }
 
-    
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGBACKGROUND_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGBACKGROUND_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

@@ -57,46 +57,26 @@ OSG_USING_NAMESPACE
 /*! \class osg::Foreground
     \ingroup GrpSystemWindowForegrounds
     
-Foreground is the base class for all foreground rendering.  
+Foreground is the base class for all foreground rendering.  See \ref
+PageSystemWindowForeground for a description.
+
+\ext
+
+To create a new Background the method that has be overridden is  
+draw(DrawActionBase * action, Viewport * port);. It can directly call OpenGL
+commands, but should restore the state after it's done.
+
+\endext
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Foreground::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void Foreground::initMethod (void)
 {
@@ -106,39 +86,21 @@ void Foreground::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 Foreground::Foreground(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Foreground::Foreground(const Foreground &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 Foreground::~Foreground(void)
 {
 }
-
-
-/** \brief react to field changes
- */
 
 void Foreground::changed(BitVector whichField, UInt32 origin)
 {
@@ -147,23 +109,34 @@ void Foreground::changed(BitVector whichField, UInt32 origin)
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
 void Foreground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump Foreground NI" << std::endl;
 }
 
-    
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGFOREGROUND_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGFOREGROUND_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGFOREGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif

@@ -63,28 +63,22 @@ OSG_USING_NAMESPACE
 /*! \class osg::PassiveViewport
     \ingroup GrpSystemWindowViewports
 
-The PassiveViewport does nothing itself, but expects OpenGL to be properly
-configured when draw() or render() are called. 
+A PassiveViewport is a basic Viewport for integration into other OpenGL
+programs. See \ref PageSystemWindowViewports for a description.
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 PassiveViewport::PassiveViewport(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 PassiveViewport::PassiveViewport(const PassiveViewport &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 PassiveViewport::~PassiveViewport(void)
 {
@@ -92,20 +86,14 @@ PassiveViewport::~PassiveViewport(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void PassiveViewport::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void PassiveViewport::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void PassiveViewport::dump(      UInt32    , 
                          const BitVector ) const

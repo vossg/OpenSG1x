@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Camera Decorator for standard sheared stereo, see \ref
+    PageSystemWindowCameraDecoratorsStereoSheared for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecorator : public ShearedStereoCameraDecoratorBase
 {

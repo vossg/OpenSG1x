@@ -54,28 +54,24 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::PassiveWindow
-    \ingroup GrpSystemWindow
+    \ingroup GrpSystemWindowPassive
 
+A PassiveWindow is a Window class for integration into other OpenGL
+programs. See \ref PageSystemWindowPassive for a description.
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 PassiveWindow::PassiveWindow(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 PassiveWindow::PassiveWindow(const PassiveWindow &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 PassiveWindow::~PassiveWindow(void)
 {
@@ -83,20 +79,14 @@ PassiveWindow::~PassiveWindow(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void PassiveWindow::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void PassiveWindow::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void PassiveWindow::dump(      UInt32    , 
                          const BitVector ) const
@@ -104,18 +94,21 @@ void PassiveWindow::dump(      UInt32    ,
     SLOG << "Dump PassiveWindow NI" << std::endl;
 }
 
-// init the window: create the context  
+/*! Just call the standard OpenGL setup.
+*/
 void PassiveWindow::init( void )
 {
     setupGL();
 }
-    
-// activate the window: bind the OGL context    
+
+/* Do nothing, has to be setup when we come here.
+*/
 void PassiveWindow::activate( void )
 {
 }
     
-// swap front and back buffers  
+/* Do nothing, has to be done manually for this class.
+*/
 void PassiveWindow::swap( void )
 {
 }

@@ -50,15 +50,19 @@
 OSG_BEGIN_NAMESPACE
 
 
-//! TileCameraDecorator selects a rectangular part of the image
+/*! \brief Camera Decorator class to select a part of the image, see \ref
+    PageSystemWindowCameraDecoratorsTile for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorBase
 {
-    /*==========================  PRIVATE  ================================*/     private:
+    /*==========================  PRIVATE  ================================*/     
+  private:
 
     typedef TileCameraDecoratorBase Inherited;
 
-    /*==========================  PUPLIC   ================================*/       public:
+    /*==========================  PUPLIC   ================================*/       
+  public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -120,8 +124,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorB
     friend class FieldContainer;
     friend class TileCameraDecoratorBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const TileCameraDecorator &source);
@@ -131,14 +133,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorB
 //   Exported Types
 //---------------------------------------------------------------------------
 
-
-/** \brief class pointer
- */
 typedef TileCameraDecorator *TileCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
 #include <OSGTileCameraDecoratorBase.inl>
 #include <OSGTileCameraDecorator.inl>
+
+#define OSGTILECAMERADECORATOR_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGTILECAMERADECORATOR_H_ */

@@ -84,7 +84,7 @@ const OSG::BitVector  ImageBackgroundBase::ScaleFieldMask =
     The image to put in the background.
 */
 /*! \var bool            ImageBackgroundBase::_sfScale
-    Define whether the image is scaled to fill the viewport or not (non-functional right now).
+    Define whether the image is scaled to fill the viewport or not.
 */
 
 //! ImageBackground description

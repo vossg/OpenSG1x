@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -52,12 +52,13 @@
 #include <OSGIntersectAction.h>
 #include <OSGTrackballNavigator.h>
 #include <OSGFlyNavigator.h>
+#include <OSGWalkNavigator.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Navigator class
- */
-
+/*! \brief General Navigator for wrapping simple navigators. See \ref 
+    PageSystemWindowNavigatorsNavigator for a description.
+*/
 class OSG_SYSTEMLIB_DLLMAPPING Navigator
 {
     /*==========================  PUBLIC  =================================*/
@@ -65,7 +66,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     enum Mode
     {
         TRACKBALL=0,
-        FLY
+        FLY,
+        WALK
     };
 
     enum State
@@ -115,10 +117,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     /*! \name                    Notificators                              */
     /*! \{                                                                 */
 
-    void buttonPress  (Int16 button,Int16 x,Int16 y);
-    void buttonRelease(Int16 button,Int16 x,Int16 y);
-    void keyPress     (Int16 key   ,Int16 x,Int16 y);
-    void moveTo       (             Int16 x,Int16 y);
+    void buttonPress  (Int16 button, Int16 x, Int16 y);
+    void buttonRelease(Int16 button, Int16 x, Int16 y);
+    void keyPress     (Int16 key   , Int16 x, Int16 y);
+    void moveTo       (              Int16 x, Int16 y);
 
     void updateCameraTransformation();
 
@@ -127,16 +129,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     /*! \name                        Set                                   */
     /*! \{                                                                 */
 
-    void setMode         (Mode        new_mode    );
-    void setViewport     (ViewportPtr new_viewport);
-    void setMotionFactor (Real32      new_factor  );
-    void setFrom         (Pnt3f       new_from    );
-    void setAt           (Pnt3f       new_at      );
-    void setDistance     (Real32      new_distance);
-    void setUp           (Vec3f       new_up      );
-    void set             (Pnt3f       new_from, Pnt3f new_at, Vec3f new_up);
-    void set             (const Matrix      & new_matrix  );
-    bool setClickCenter  (bool        state       );
+    void setMode         (Mode          new_mode    );
+    void setViewport     (ViewportPtr   new_viewport);
+    void setMotionFactor (Real32        new_factor  );
+    void setFrom         (Pnt3f         new_from    );
+    void setAt           (Pnt3f         new_at      );
+    void setDistance     (Real32        new_distance);
+    void setUp           (Vec3f         new_up      );
+    void set             (Pnt3f         new_from, Pnt3f new_at, Vec3f new_up);
+    void set             (const Matrix &new_matrix  );
+    bool setClickCenter  (bool          state       );
 
     void setCameraTransformation(const NodePtr & new_cartn);
 
@@ -145,12 +147,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     /*! \name                        Get                                   */
     /*! \{                                                                 */
 
-    Matrix &getMatrix();
-    Pnt3f  &getFrom();
-    Pnt3f  &getAt();
-    Vec3f  &getUp();
-    State   getState();
-    Mode    getMode();
+    const Matrix &getMatrix();
+    const Pnt3f  &getFrom();
+    const Pnt3f  &getAt();
+    const Vec3f  &getUp();
+          State   getState();
+          Mode    getMode();
+    
+          WalkNavigator* getWalkNavigator() { return &_walker; }
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -162,6 +166,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
     TrackballNavigator _trackball;
     FlyNavigator       _flyer;
+    WalkNavigator      _walker;
 
     Real32      _rMotionFactor;
     State       _currentState;
@@ -172,10 +177,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
     bool        _moved;
     bool        _clickCenter;
-    Real32      _lastX,_lastY;
+    Real32      _lastX, _lastY;
     Pnt3f       _ip;
     Vec3f       _dir;
     Matrix      theMatrix;
+    
     /*! \}                                                                 */
 
     void getIntersectionPoint(Int16 x, Int16 y);

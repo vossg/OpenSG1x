@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Camera Decorator base class, see \ref
+    PageSystemWindowCameraDecorators for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
 {
@@ -72,10 +73,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
     /*! \name                      your_category                           */
     /*! \{                                                                 */
 
-    /** draw the camera's geometry (if any). Usually there is none. */
     virtual void draw (DrawAction *action, const Viewport& port);
-
-    /** get the separate elements needed for rendering */
 
     virtual void getProjection           (Matrix        &result, 
                                           UInt32 width, UInt32 height);

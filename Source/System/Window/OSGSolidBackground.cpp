@@ -67,46 +67,15 @@ OSG_USING_NAMESPACE
 /*! \class osg::SolidBackground
     \ingroup GrpSystemWindowBackgrounds
 
-A single colored background.    
+A single colored background, see \ref PageSystemWindowBackgroundSolid for a
+description.    
 
+The color of the background is given by the _sfColor field.
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char SolidBackground::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void SolidBackground::initMethod (void)
 {
@@ -116,39 +85,20 @@ void SolidBackground::initMethod (void)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
 SolidBackground::SolidBackground(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 SolidBackground::SolidBackground(const SolidBackground &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 SolidBackground::~SolidBackground(void)
 {
 }
 
-
-/** \brief react to field changes
- */
 
 void SolidBackground::changed(BitVector whichField, UInt32 origin)
 {
@@ -159,15 +109,12 @@ void SolidBackground::changed(BitVector whichField, UInt32 origin)
 
 void SolidBackground::clear(DrawActionBase *, Viewport *)
 {
-    Color3f col = getColor();
-    glClearColor( col[0], col[1], col[2], 1.0);
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    Color3f &col = getColor();
+    glClearColor(col[0], col[1], col[2], 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 /*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
 
 void SolidBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                            const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -175,13 +122,30 @@ void SolidBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "Dump SolidBackground NI" << std::endl;
 }
 
-    
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUND_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUND_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

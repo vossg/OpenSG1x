@@ -52,25 +52,28 @@ OSG_USING_NAMESPACE
 /*! \class osg::FileGrabForeground
     \ingroup GrpSystemWindowForegrounds
     
+The FileGrabForeground is used for grabbing a frame or sequence of frames to
+disk.  See \ref
+PageSystemWindowForegroundGrabFile for a description.
+
+The name of the file(s) grabbed to are defined by the _sfName Field, the
+current frame number by _sfFrame. _sfIncrement can be used to automatically
+increment the frame number after each image is written. The whole grabber can
+be activated/deactivated using _sfActive.
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 FileGrabForeground::FileGrabForeground(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 FileGrabForeground::FileGrabForeground(const FileGrabForeground &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 FileGrabForeground::~FileGrabForeground(void)
 {
@@ -78,20 +81,14 @@ FileGrabForeground::~FileGrabForeground(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void FileGrabForeground::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void FileGrabForeground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void FileGrabForeground::dump(      UInt32    , 
                          const BitVector ) const
@@ -100,8 +97,8 @@ void FileGrabForeground::dump(      UInt32    ,
 }
 
 
-/** \brief grab the image and write it to the file
- */
+/*! Grab the image and write it to the file. The name needs to be set.
+*/
     
 void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
 {

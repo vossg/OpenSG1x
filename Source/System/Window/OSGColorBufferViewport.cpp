@@ -52,27 +52,26 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::ColorBufferViewport
     \ingroup GrpSystemWindowViewports
-    
+
+Viewport to only render to specific color channels, see \ref
+PageSystemWindowViewports for a description.
+
+The color channels used are defined by the _sfRed, _sfGreen, _sfBlue and
+_sfAlpha Fields. 
 
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 ColorBufferViewport::ColorBufferViewport(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 ColorBufferViewport::ColorBufferViewport(const ColorBufferViewport &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 ColorBufferViewport::~ColorBufferViewport(void)
 {
@@ -80,20 +79,14 @@ ColorBufferViewport::~ColorBufferViewport(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void ColorBufferViewport::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void ColorBufferViewport::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void ColorBufferViewport::dump(      UInt32    , 
                          const BitVector ) const

@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \brief Trackball class
+//! \brief Trackball class. Deprecated, use the TrackballNavigator instead.
 
 class OSG_SYSTEMLIB_DLLMAPPING Trackball
 {

@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Viewport class for color channel selection. See \ref 
+    PageSystemWindowViewports for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewport : public ColorBufferViewportBase
 {

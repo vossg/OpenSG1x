@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -52,27 +52,44 @@ OSG_USING_NAMESPACE
 /*! \class osg::FlyNavigator
     \ingroup GrpSystemWindowNavigators
 
+The FlyNavigator models a simple flying navigation model, see \ref 
+PageSystemWindowNavigatorsFly for a description.
 
 */
 
-/*------------------------- constructors ----------------------------------*/
+/*! \var osg::FlyNavigator::_rFrom
 
-/*! Constructor
- */
+    The from point, i.e. the viewer position.
+*/
+
+/*! \var osg::FlyNavigator::_rAt
+
+    The at point, i.e. the target position.
+*/
+
+/*! \var osg::FlyNavigator::_vUp
+
+    The up vector.
+*/
+
+/*! \var osg::FlyNavigator::_tMatrix
+
+    The transformation matrix for this navigator.
+*/
+
+
+/*------------------------- constructors ----------------------------------*/
 
 FlyNavigator::FlyNavigator()
 {
-    _rFrom.setValues(0,0,0);
-    _rAt.setValues(0,0,1);
-    _vUp.setValues(0,1,0);
+    _rFrom  .setValues(0,0,0);
+    _rAt    .setValues(0,0,1);
+    _vUp    .setValues(0,1,0);
     _tMatrix.setIdentity();
 }
 
 
 /*-------------------------- destructors ----------------------------------*/
-
-/*! Destructor
- */
 
 FlyNavigator::~FlyNavigator()
 {
@@ -80,25 +97,30 @@ FlyNavigator::~FlyNavigator()
 
 /*------------------------------ get --------------------------------------*/
 
-/*! get the current transformation matrix
- */
-
+/*! Get the current transformation matrix.
+*/
 Matrix &FlyNavigator::getMatrix()
 {
     MatrixLookAt(_tMatrix,_rFrom,_rAt,_vUp);
     return _tMatrix;
 }
 
+/*! Get the from point.
+*/
 Pnt3f &FlyNavigator::getFrom()
 {
     return _rFrom;
 }
 
+/*! Get the at point.
+*/
 Pnt3f &FlyNavigator::getAt()
 {
     return _rAt;
 }
 
+/*! Get the up vector.
+*/
 Vec3f &FlyNavigator::getUp()
 {
     return _vUp;
@@ -107,33 +129,30 @@ Vec3f &FlyNavigator::getUp()
 
 /*------------------------------ set --------------------------------------*/
 
-/*! sets the from point. that's the point where the person is (i.e the center of all transformations)
- */
-
+/*! Set the from point, the point where the viewer is (i.e the center 
+    of all transformations).
+*/
 void FlyNavigator::setFrom(Pnt3f new_from)
 {
     _rFrom=new_from;
 }
 
-/*! sets the point at which the from is looking
- */
-
+/*! Sets the target point at which the viewer is looking.
+*/
 void FlyNavigator::setAt(Pnt3f new_At)
 {
     _rAt=new_At;
 }
 
-/*! sets the up vector
- */
-
+/*! Sets the up vector, i.e. the direction that point up on the screen.
+*/
 void FlyNavigator::setUp(Vec3f new_up)
 {
     _vUp=new_up;
 }
 
-/*! sets the position and the orientation
- */
-
+/*! Set the position and the orientation at once.
+*/
 void FlyNavigator::set(Pnt3f new_from,Pnt3f new_At,Vec3f new_up)
 {
     _rFrom=new_from;
@@ -141,19 +160,21 @@ void FlyNavigator::set(Pnt3f new_from,Pnt3f new_At,Vec3f new_up)
     _vUp=new_up;
 }
 
+/*! Set the position and the orientation at once using a matrix.
+*/
 void FlyNavigator::set(Matrix new_matrix)
 {
-    _rFrom=(Pnt3f)new_matrix[3];
-    _rAt=(Pnt3f)(new_matrix[3] - new_matrix[2]);
-    _vUp=(Vec3f)new_matrix[1];
-    set(_rFrom,_rAt,_vUp);
+    _rFrom= (Pnt3f) new_matrix[3];
+    _rAt  = (Pnt3f)(new_matrix[3] - new_matrix[2]);
+    _vUp  = (Vec3f) new_matrix[1];
+    set(_rFrom, _rAt, _vUp);
 }
 
 /*---------------------- Flyer Transformations ----------------------------*/
 
-/*! makes a rotation
- */
-
+/*! Rotate the viewer \a deltaX around the up axis and deltaY around the 
+    left/right axis. \a deltaX and \a deltaY should be between -Pi and Pi.
+*/
 void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
 {
     // rotate around the up vector
@@ -175,10 +196,10 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
 
     // rotate around the side vector
 
-    Vec3f lv=_rAt-_rFrom;
+    Vec3f lv = _rAt-_rFrom;
     lv.normalize();
 
-    Vec3f sv=lv;
+    Vec3f sv = lv;
     sv.crossThis(_vUp);
     sv.normalize();
     q.setValueAsAxisRad(sv,-deltaY);
@@ -195,15 +216,14 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
     final.multMatrixPnt(_rAt);
 }
 
-/*! "flyes" forward, i.e. makes a translation along the view vector
- */
-
+/*! Flies forward, i.e. translation \a step units along the view vector.
+*/
 void FlyNavigator::forward(Real32 step)
 {
     Vec3f lv;
-    lv=_rFrom-_rAt;
+    lv = _rFrom-_rAt;
     lv.normalize();
-    lv*=(step);
+    lv *= (step);
     Matrix transl;
     transl.setIdentity();
     transl.setTranslate(lv);
@@ -211,16 +231,15 @@ void FlyNavigator::forward(Real32 step)
     transl.multMatrixPnt(_rFrom);
 }
 
-/*! "flyes" on the right, i.e. makes a translation along the side vector
- */
-
+/*! Strafes to the right, i.e. translates along the side vector.
+*/
 void FlyNavigator::right(Real32 step)
 {
     Vec3f sv;
-    sv=_rFrom-_rAt;
+    sv = _rFrom-_rAt;
     sv.crossThis(_vUp);
     sv.normalize();
-    sv*=(step);
+    sv *= (step);
     Matrix transl;
     transl.setIdentity();
     transl.setTranslate(sv);
