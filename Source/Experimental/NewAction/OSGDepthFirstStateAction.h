@@ -195,24 +195,24 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstStateAction : public NewActionBase
     class NodeStackEntry
     {
       public:
-        inline NodeStackEntry(const NodePtr              &pNode,
-                              const StateRefCountStoreIt &itStateRefCount );
+        inline NodeStackEntry(      void                                  );
+        inline NodeStackEntry(const NodeStackEntry       &source          );
         inline NodeStackEntry(const NodePtr              &pNode,
                               const StateRefCountStoreIt &itStateRefCount,
-                                    bool                  enterFlag       );
+                                    Int32                 passCount       );
 
-        inline NodePtr getNode         (void          ) const;
+        inline NodePtr getNode     (void           ) const;
+
+        inline Int32   getPassCount(void           ) const;
+        inline void    setPassCount(Int32 passCount);
 
         inline StateRefCountStoreIt getStateRefCount(void          ) const;
         inline void setStateRefCount(const StateRefCountStoreIt &itStateRefCount);
 
-        inline bool getEnterFlag    (void          ) const;
-        inline void setEnterFlag    (bool enterFlag);
-
       private:
         NodePtr              _pNode;
         StateRefCountStoreIt _itStateRefCount;
-        bool                 _enterFlag;
+        Int32                _passCount;
     };
 
     typedef std::deque<NodeStackEntry> NodeStack;
@@ -227,8 +227,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstStateAction : public NewActionBase
 
            void    pushChildren      (const NodePtr &pNode, ResultE result);
 
-    inline ResultE enterNode         (const NodePtr &pNode                );
-    inline ResultE leaveNode         (const NodePtr &pNode                );
+    inline ResultE enterNode         (const NodePtr &pNode, UInt32  pass  );
+    inline ResultE leaveNode         (const NodePtr &pNode, UInt32  pass  );
 
     inline StateRefCountStoreIt cloneState(void                                );
     inline StateRefCountStoreIt getState  (void                                );
@@ -263,6 +263,6 @@ OSG_END_NAMESPACE
 
 #include "OSGDepthFirstStateAction.inl"
 
-#define OSGDEPTHFIRSTSTATEACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstStateAction.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGDEPTHFIRSTSTATEACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstStateAction.h,v 1.2 2004/09/17 14:09:42 neumannc Exp $"
 
 #endif /* _OSGDEPTHFIRSTSTATEACTION_H_ */

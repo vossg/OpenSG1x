@@ -107,14 +107,8 @@ PriorityAction::apply(NodePtr pRoot)
     // gained refs: active, root
     incRefCount(_itActiveState, 2);
 
-    //~ _nodePrioQueue.push(
-        //~ NodeQueueEntry(pRoot,
-                       //~ TypeTraits<PriorityType>::getZeroElement(),
-                       //~ _itActiveState                             ));
-
-    pqPush(NodeQueueEntry(pRoot,
-                          TypeTraits<PriorityType>::getZeroElement(),
-                          _itActiveState                             ));
+    pqPush(NodeQueueEntry(pRoot, PriorityTypeTraits::getZeroElement(),
+                          1,     _itActiveState                       ));
 
     result = traverseEnter();
 
@@ -133,12 +127,16 @@ PriorityAction::apply(NodePtr pRoot)
     _stateRefCountStore.clear();
 
     if(result & NewActionTypes::Quit)
-        return result;
-
-    result = stopActors();
-
-    stopEvent();
-
+    {
+        stopActors();
+        stopEvent ();
+    }
+    else
+    {
+        result = stopActors();
+        stopEvent();
+    }
+    
     return result;
 }
 
@@ -322,11 +320,16 @@ PriorityAction::traverseEnter(void)
 {
     ResultE              result          = NewActionTypes::Continue;
     NodePtr              pNode;
+    PriorityType         nodePrio;
+    UInt32               nodePass;
+    UInt32               multiPasses;
     StateRefCountStoreIt itStateRefCount;
 
     while((pqEmpty() == false) && !(result & NewActionTypes::Quit))
     {
         pNode           = pqTop().getNode         ();
+        nodePrio        = pqTop().getPriority     ();
+        nodePass        = pqTop().getPassCount    ();
         itStateRefCount = pqTop().getStateRefCount();
 
         if(itStateRefCount != _itActiveState)
@@ -354,9 +357,23 @@ PriorityAction::traverseEnter(void)
         getStatistics()->getElem(statNodesEnter)->inc();
 #endif /* OSG_NEWACTION_STATISTICS */
 
-        result = enterNode(pNode);
-
+        result      = enterNode   (pNode, nodePass - 1);
+        multiPasses = getNumPasses(                   );
+        
         pqPop();
+        
+        // only initial pass (nodePass == 1) can request multiPasses
+        if((nodePass == 1) && (multiPasses > 1))
+        {
+            for(; multiPasses > 1; --multiPasses)
+            {
+                // gained refs: additional pass
+                incRefCount(_itActiveState);
+                
+                pqPush(NodeQueueEntry(pNode,       nodePrio, 
+                                      multiPasses, _itActiveState));
+            }
+        }
 
         enqueueChildren(pNode, result);
     }
@@ -376,7 +393,8 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
                  NewActionTypes::Quit   ))
     {
         setChildrenListEnabled(false);
-
+        setNumPasses          (1    );
+        
         getExtraChildrenList().clear();
 
         // lost refs: current node
@@ -399,14 +417,8 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
                 // gained refs: child
                 incRefCount(_itActiveState);
 
-                //~ _nodePrioQueue.push(
-                    //~ NodeQueueEntry(cl.getChild   (i),
-                                   //~ cl.getPriority(i),
-                                   //~ _itActiveState    ));
-
-                pqPush(NodeQueueEntry(cl.getChild   (i),
-                                      cl.getPriority(i),
-                                      _itActiveState    ));
+                pqPush(NodeQueueEntry(cl.getChild(i), cl.getPriority(i),
+                                      1,              _itActiveState    ));
             }
         }
     }
@@ -423,15 +435,10 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
                 // gained refs: child
                 incRefCount(_itActiveState);
 
-                //~ _nodePrioQueue.push(
-                    //~ NodeQueueEntry(*itChildren,
-                                   //~ TypeTraits<PriorityType>::getZeroElement(),
-                                   //~ _itActiveState                            ));
-
                 pqPush(
                     NodeQueueEntry(*itChildren,
-                                   TypeTraits<PriorityType>::getZeroElement(),
-                                   _itActiveState                            ));
+                                   PriorityTypeTraits::getZeroElement(),
+                                   1, _itActiveState                    ));
             }
         }
     }
@@ -445,19 +452,14 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
             // gained refs: extra child
             incRefCount(_itActiveState);
 
-            //~ _nodePrioQueue.push(
-                //~ NodeQueueEntry(ecl.getChild   (i),
-                               //~ ecl.getPriority(i),
-                               //~ _itActiveState      ));
-
-            pqPush(NodeQueueEntry(ecl.getChild   (i),
-                                  ecl.getPriority(i),
-                                  _itActiveState      ));
+            pqPush(NodeQueueEntry(ecl.getChild(i), ecl.getPriority(i),
+                                  1,               _itActiveState     ));
         }
     }
 
     setChildrenListEnabled(false);
     ecl.clear             (     );
+    setNumPasses          (1    );
 
     // lost refs: current node
     decRefCount(_itActiveState);
@@ -476,7 +478,7 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPriorityAction.cpp,v 1.2 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPriorityAction.cpp,v 1.3 2004/09/17 14:09:43 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGPRIORITYACTION_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPRIORITYACTION_INLINE_CVSID;
 }

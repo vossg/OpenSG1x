@@ -50,8 +50,8 @@ OSG_BEGIN_NAMESPACE
 
 inline
 ChildrenList::ChildrenListEntry::ChildrenListEntry(void)
-    : _active  (true                                      ),
-      _priority(TypeTraits<PriorityType>::getZeroElement())
+    : _active  (true                                ),
+      _priority(PriorityTypeTraits::getZeroElement())
 {
 }
 
@@ -177,4 +177,4 @@ ChildrenList::getSize(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCHILDRENLIST_INLINE_CVSID "@(#)$Id: OSGChildrenList.inl,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGCHILDRENLIST_INLINE_CVSID "@(#)$Id: OSGChildrenList.inl,v 1.2 2004/09/17 14:09:42 neumannc Exp $"

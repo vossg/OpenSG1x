@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Actor>
+    <Name>TestingExtendActor</Name>
+    <ParentName>ExtendActorBase</ParentName>
+    <EnterFunctorStore>Multi</EnterFunctorStore>
+    <LeaveFunctorStore>Multi</LeaveFunctorStore>
+    <UseLocalIncludes>false</UseLocalIncludes>
+    <SystemComponent>true</SystemComponent>
+    <ParentSystemComponent>true</ParentSystemComponent>
+    <LibraryName>System</LibraryName>
+    <StateElements>
+        <StateElement>
+            <Name>TreeLevel</Name>
+            <Type>UInt32</Type>
+            <Access>public</Access>
+            <Hierarchical>true</Hierarchical>
+            <Header>OSGBaseTypes.h</Header>
+            <DefaultValue>0</DefaultValue>
+        </StateElement>
+        <StateElement>
+            <Name>WorldMatrix</Name>
+            <Type>Matrix</Type>
+            <Access>public</Access>
+            <Hierarchical>true</Hierarchical>
+            <Header>OSGMatrix.h</Header>
+            <DefaultValue></DefaultValue>
+        </StateElement>
+    </StateElements>
+</Actor>
+

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class PrintNameActor
+ **     class TestingExtendActor
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -58,23 +58,23 @@ OSG_BEGIN_NAMESPACE
 //----------------------------------------------------------------------------
 
 /*! Return the StatePtr, cast to this actor's state class
- *  PrintNameActorBaseState
+ *  TestingExtendActorBaseState
  */
 
-inline const PrintNameActorBase::PrintNameActorBaseState *
-PrintNameActorBase::getCastState(void) const
+inline const TestingExtendActorBase::TestingExtendActorBaseState *
+TestingExtendActorBase::getCastState(void) const
 {
-    return reinterpret_cast<const PrintNameActorBaseState *>(getState());
+    return reinterpret_cast<const TestingExtendActorBaseState *>(getState());
 }
 
 /*! Return the StatePtr, cast to this actor's state class
- *  PrintNameActorBaseState
+ *  TestingExtendActorBaseState
  */
 
-inline PrintNameActorBase::PrintNameActorBaseState *
-PrintNameActorBase::getCastState(void)
+inline TestingExtendActorBase::TestingExtendActorBaseState *
+TestingExtendActorBase::getCastState(void)
 {
-    return reinterpret_cast<PrintNameActorBaseState *>(getState());
+    return reinterpret_cast<TestingExtendActorBaseState *>(getState());
 }
 
 //----------------------------------------------------------------------------
@@ -85,9 +85,9 @@ PrintNameActorBase::getCastState(void)
  */
 
 inline
-PrintNameActorBase::PrintNameActorBaseState::PrintNameActorBaseState(void) :
+TestingExtendActorBase::TestingExtendActorBaseState::TestingExtendActorBaseState(void) :
       _stateTreeLevel(0),
-      _stateParentNode(NullFC),
+      _stateWorldMatrix(),
       ParentStateType()
 {
 }
@@ -96,10 +96,10 @@ PrintNameActorBase::PrintNameActorBaseState::PrintNameActorBaseState(void) :
  */
 
 inline
-PrintNameActorBase::PrintNameActorBaseState::PrintNameActorBaseState(
-    const PrintNameActorBaseState &source) :
+TestingExtendActorBase::TestingExtendActorBaseState::TestingExtendActorBaseState(
+    const TestingExtendActorBaseState &source) :
       _stateTreeLevel(source._stateTreeLevel),
-      _stateParentNode(source._stateParentNode),
+      _stateWorldMatrix(source._stateWorldMatrix),
       ParentStateType(source)
 {
 }
@@ -108,7 +108,7 @@ PrintNameActorBase::PrintNameActorBaseState::PrintNameActorBaseState(
  */
 
 inline const UInt32 &
-PrintNameActorBase::PrintNameActorBaseState::getTreeLevel(void) const
+TestingExtendActorBase::TestingExtendActorBaseState::getTreeLevel(void) const
 {
     return _stateTreeLevel;
 }
@@ -117,26 +117,26 @@ PrintNameActorBase::PrintNameActorBaseState::getTreeLevel(void) const
  */
 
 inline UInt32 &
-PrintNameActorBase::PrintNameActorBaseState::getTreeLevel(void)
+TestingExtendActorBase::TestingExtendActorBaseState::getTreeLevel(void)
 {
     return _stateTreeLevel;
 }
-/*! Return the state element ParentNode. For internal use only.
+/*! Return the state element WorldMatrix. For internal use only.
  */
 
-inline const NodePtr &
-PrintNameActorBase::PrintNameActorBaseState::getParentNode(void) const
+inline const Matrix &
+TestingExtendActorBase::TestingExtendActorBaseState::getWorldMatrix(void) const
 {
-    return _stateParentNode;
+    return _stateWorldMatrix;
 }
 
-/*! Return the state element ParentNode. For internal use only.
+/*! Return the state element WorldMatrix. For internal use only.
  */
 
-inline NodePtr &
-PrintNameActorBase::PrintNameActorBaseState::getParentNode(void)
+inline Matrix &
+TestingExtendActorBase::TestingExtendActorBaseState::getWorldMatrix(void)
 {
-    return _stateParentNode;
+    return _stateWorldMatrix;
 }
 
 //----------------------------------------------------------------------------
@@ -149,7 +149,7 @@ PrintNameActorBase::PrintNameActorBaseState::getParentNode(void)
  */
 
 inline const UInt32 &
-PrintNameActorBase::getTreeLevel(void) const
+TestingExtendActorBase::getTreeLevel(void) const
 {
     return getCastState()->getTreeLevel();
 }
@@ -160,70 +160,52 @@ PrintNameActorBase::getTreeLevel(void) const
  */
 
 inline UInt32 &
-PrintNameActorBase::getTreeLevel(void)
+TestingExtendActorBase::getTreeLevel(void)
 {
     return getCastState()->getTreeLevel();
 }
 
+/*! Set the state element TreeLevel.
+ *  \warning This state element can only be accessed after the actor was
+ *  attached to an action.
+ */
+
 inline void
-PrintNameActorBase::setTreeLevel(const UInt32 &stateVal)
+TestingExtendActorBase::setTreeLevel(const UInt32 &stateVal)
 {
     getCastState()->getTreeLevel() = stateVal;
 }
-
-/*! Return the state element ParentNode.
+/*! Return the state element WorldMatrix.
  *  \warning This state element can only be accessed after the actor was
  *  attached to an action.
  */
 
-inline const NodePtr &
-PrintNameActorBase::getParentNode(void) const
+inline const Matrix &
+TestingExtendActorBase::getWorldMatrix(void) const
 {
-    return getCastState()->getParentNode();
+    return getCastState()->getWorldMatrix();
 }
 
-/*! Return the state element ParentNode.
+/*! Return the state element WorldMatrix.
  *  \warning This state element can only be accessed after the actor was
  *  attached to an action.
  */
 
-inline NodePtr &
-PrintNameActorBase::getParentNode(void)
+inline Matrix &
+TestingExtendActorBase::getWorldMatrix(void)
 {
-    return getCastState()->getParentNode();
+    return getCastState()->getWorldMatrix();
 }
 
-inline void
-PrintNameActorBase::setParentNode(const NodePtr &stateVal)
-{
-    getCastState()->getParentNode() = stateVal;
-}
-
-/*! Return the state element NumNodes.
- */
-
-inline const UInt32 &
-PrintNameActorBase::getNumNodes(void) const
-{
-    return _stateNumNodes;
-}
-
-/*! Return the state element NumNodes.
- */
-
-inline UInt32 &
-PrintNameActorBase::getNumNodes(void)
-{
-    return _stateNumNodes;
-}
-
-/*! Set the state element NumNodes.
+/*! Set the state element WorldMatrix.
+ *  \warning This state element can only be accessed after the actor was
+ *  attached to an action.
  */
 
 inline void
-PrintNameActorBase::setNumNodes(const UInt32 &stateVal)
+TestingExtendActorBase::setWorldMatrix(const Matrix &stateVal)
 {
-    _stateNumNodes = stateVal;
+    getCastState()->getWorldMatrix() = stateVal;
 }
 
 //----------------------------------------------------------------------------
@@ -233,4 +215,4 @@ PrintNameActorBase::setNumNodes(const UInt32 &stateVal)
 
 OSG_END_NAMESPACE
 
-#define OSGPRINTNAMEACTORBASE_INLINE_CVSID "@(#)$Id: OSGPrintNameActorBase.inl,v 1.3 2004/09/10 15:00:48 neumannc Exp $"
+#define OSGTESTINGEXTENDACTORBASE_INLINE_CVSID "@(#)$Id: OSGTestingExtendActorBase.inl,v 1.1 2004/09/17 14:09:47 neumannc Exp $"

@@ -248,10 +248,12 @@ inline
 PriorityAction::NodeQueueEntry::NodeQueueEntry(
     const NodePtr              &pNode,
           PriorityType          priority,
+          UInt32                passCount,
     const StateRefCountStoreIt &itStateRefCount)
 
     : _pNode          (pNode          ),
       _priority       (priority       ),
+      _passCount      (passCount      ),
       _itStateRefCount(itStateRefCount)
 {
 }
@@ -272,6 +274,15 @@ inline PriorityAction::PriorityType
 PriorityAction::NodeQueueEntry::getPriority(void) const
 {
     return _priority;
+}
+
+/*! Return the pass count.
+ */
+
+inline UInt32
+PriorityAction::NodeQueueEntry::getPassCount(void) const
+{
+    return _passCount;
 }
 
 /*! Return the iterator to the state ref count.
@@ -301,10 +312,11 @@ PriorityAction::NodeQueueEntry::LessCompare::operator()(
  */
 
 inline PriorityAction::ResultE
-PriorityAction::enterNode(const NodePtr &pNode)
+PriorityAction::enterNode(const NodePtr &pNode, UInt32 pass)
 {
-    ResultE            result      = NewActionTypes::Continue;
-
+    FunctorArgumentType funcArg(NULL, pNode, pass);
+    ResultE             result     = NewActionTypes::Continue;
+    
     ExtendActorStoreIt itExtend    = _extendEnterActors.begin();
     ExtendActorStoreIt endItExtend = _extendEnterActors.end  ();
 
@@ -312,7 +324,9 @@ PriorityAction::enterNode(const NodePtr &pNode)
           !(result   & (NewActionTypes::Break | NewActionTypes::Quit));
         ++itExtend                                                       )
     {
-        result = static_cast<ResultE>(result | (*itExtend)->enterNode(pNode));
+        funcArg.setActor(*itExtend);
+        
+        result = static_cast<ResultE>(result | (*itExtend)->enterNode(funcArg));
     }
 
     BasicActorStoreIt  itBasic     = beginBasic ();
@@ -322,7 +336,9 @@ PriorityAction::enterNode(const NodePtr &pNode)
           !(result  & (NewActionTypes::Break | NewActionTypes::Quit));
         ++itBasic                                                        )
     {
-        result = static_cast<ResultE>(result | (*itBasic)->enterNode(pNode));
+        funcArg.setActor(*itBasic);
+        
+        result = static_cast<ResultE>(result | (*itBasic)->enterNode(funcArg));
     }
 
     return result;
@@ -621,4 +637,4 @@ PriorityAction::pqClear(void)
 
 OSG_END_NAMESPACE
 
-#define OSGPRIORITYACTION_INLINE_CVSID "@(#)$Id: OSGPriorityAction.inl,v 1.3 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGPRIORITYACTION_INLINE_CVSID "@(#)$Id: OSGPriorityAction.inl,v 1.4 2004/09/17 14:09:43 neumannc Exp $"

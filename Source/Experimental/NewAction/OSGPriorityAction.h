@@ -194,10 +194,12 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewActionBase
 
         inline NodeQueueEntry(const NodePtr              &pNode,
                                     PriorityType          priority,
+                                    UInt32                passCount,
                               const StateRefCountStoreIt &itStateRefCount);
 
         inline NodePtr              getNode         (void) const;
         inline PriorityType         getPriority     (void) const;
+        inline UInt32               getPassCount    (void) const;
         inline StateRefCountStoreIt getStateRefCount(void) const;
 
         struct LessCompare
@@ -209,6 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewActionBase
       private:
         NodePtr              _pNode;
         PriorityType         _priority;
+        UInt32               _passCount;
         StateRefCountStoreIt _itStateRefCount;
     };
 
@@ -225,7 +228,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewActionBase
     /*! \name    Helper Methods                                              */
     /*! \{                                                                   */
 
-    inline ResultE enterNode      (const NodePtr &pNode                );
+    inline ResultE enterNode(const NodePtr &pNode, UInt32 pass);
 
     inline StateRefCountStoreIt cloneState(void                                );
     inline StateRefCountStoreIt getState  (void                                );
@@ -266,6 +269,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityAction.inl"
 
-#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.5 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.6 2004/09/17 14:09:43 neumannc Exp $"
 
 #endif /* _OSGPRIORITYACTION_H_ */

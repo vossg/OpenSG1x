@@ -45,13 +45,13 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class PrintNameActor
+ **     class TestingExtendActor
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
-#ifndef _OSGPRINTNAMEACTORBASE_H_
-#define _OSGPRINTNAMEACTORBASE_H_
+#ifndef _OSGTESTINGEXTENDACTORBASE_H_
+#define _OSGTESTINGEXTENDACTORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -61,17 +61,16 @@
 #include <OSGSystemDef.h>
 
 #include <OSGNewActionTypes.h>
-#include <OSGBasicActorBase.h>               // Parent
-#include <OSGSimpleFunctorStore.h>      // EnterStore
-#include <OSGSimpleFunctorStore.h>      // LeaveStore
+#include <OSGExtendActorBase.h>               // Parent
+#include <OSGMultiFunctorStore.h>      // EnterStore
+#include <OSGMultiFunctorStore.h>      // LeaveStore
 
 #include <OSGBaseTypes.h>   // TreeLevel type
-#include <OSGNodePtr.h>   // ParentNode type
-#include <OSGBaseTypes.h>   // NumNodes type
+#include <OSGMatrix.h>   // WorldMatrix type
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
+class OSG_SYSTEMLIB_DLLMAPPING TestingExtendActorBase : public ExtendActorBase
 {
     /*====  PUBLIC  =========================================================*/
   public:
@@ -79,15 +78,15 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
     /*! \name    Types                                                       */
     /*! \{                                                                   */
 
-    typedef BasicActorBase::ResultE ResultE;
-    typedef BasicActorBase::Functor Functor;
+    typedef ExtendActorBase::ResultE ResultE;
+    typedef ExtendActorBase::Functor Functor;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Destructor                                                  */
     /*! \{                                                                   */
 
-    virtual ~PrintNameActorBase(void);
+    virtual ~TestingExtendActorBase(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -99,32 +98,44 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Apply                                                       */
+    /*! \name    Enter/Leave                                                 */
     /*! \{                                                                   */
 
-    virtual ResultE enterNode(const NodePtr &pNode);
-    virtual ResultE leaveNode(const NodePtr &pNode);
+    virtual ResultE enterNode(FunctorArgumentType &funcArg);
+    virtual ResultE leaveNode(FunctorArgumentType &funcArg);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Enter Registration                                          */
     /*! \{                                                                   */
 
-    static void regClassEnter  (const Functor &refFunc);
-           void regEnter       (const Functor &refFunc);
+    static void regClassEnter         (const Functor            &refFunc,
+                                       const FieldContainerType &refType );
+           void regEnter              (const Functor            &refFunc,
+                                       const FieldContainerType &refType );
+    static void regDefaultClassEnter  (const Functor            &refFunc );
+           void regDefaultEnter       (const Functor            &refFunc );
 
-    static void unregClassEnter(      void            );
-           void unregEnter     (      void            );
+    static void unregClassEnter       (const FieldContainerType &refType );
+           void unregEnter            (const FieldContainerType &refType );
+    static void unregDefaultClassEnter(      void                        );
+           void unregDefaultEnter     (      void                        );
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Leave Registration                                          */
     /*! \{                                                                   */
 
-    static void regClassLeave  (const Functor &refFunc);
-           void regLeave       (const Functor &refFunc);
+    static void regClassLeave         (const Functor            &refFunc,
+                                       const FieldContainerType &refType );
+           void regLeave              (const Functor            &refFunc,
+                                       const FieldContainerType &refType );
+    static void regDefaultClassLeave  (const Functor            &refFunc );
+           void regDefaultLeave       (const Functor            &refFunc );
 
-    static void unregClassLeave(      void            );
-           void unregLeave     (      void            );
+    static void unregClassLeave       (const FieldContainerType &refType );
+           void unregLeave            (const FieldContainerType &refType );
+    static void unregDefaultClassLeave(      void                        );
+           void unregDefaultLeave     (      void                        );
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -134,16 +145,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
     inline const UInt32 &getTreeLevel(void                             ) const;
     inline       UInt32 &getTreeLevel(void                             );
     inline       void               setTreeLevel(const UInt32 &stateVal);
-    inline const NodePtr &getParentNode(void                             ) const;
-    inline       NodePtr &getParentNode(void                             );
-    inline       void               setParentNode(const NodePtr &stateVal);
-    inline const UInt32 &getNumNodes(void                             ) const;
-    inline       UInt32 &getNumNodes(void                             );
-    inline       void               setNumNodes(const UInt32 &stateVal);
+    inline const Matrix &getWorldMatrix(void                             ) const;
+    inline       Matrix &getWorldMatrix(void                             );
+    inline       void               setWorldMatrix(const Matrix &stateVal);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    State Managment                                             */
+    /*! \name    State Management                                            */
     /*! \{                                                                   */
 
 #ifdef OSG_NEWACTION_STATESLOTINTERFACE
@@ -164,35 +172,35 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
     /*! \name    Types & Friends                                             */
     /*! \{                                                                   */
 
-    class   PrintNameActorBaseState;
-    friend  class OSG::PrintNameActorBase::PrintNameActorBaseState;
+    class   TestingExtendActorBaseState;
+    friend  class OSG::TestingExtendActorBase::TestingExtendActorBaseState;
 
-    typedef PrintNameActorBaseState     StateType;
-    typedef BasicActorBase::StateType  ParentStateType;
-    typedef SimpleFunctorStore EnterStoreType;
-    typedef SimpleFunctorStore LeaveStoreType;
+    typedef TestingExtendActorBaseState     StateType;
+    typedef ExtendActorBase::StateType  ParentStateType;
+    typedef MultiFunctorStore EnterStoreType;
+    typedef MultiFunctorStore LeaveStoreType;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    State Class                                                 */
     /*! \{                                                                   */
 
-    class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBaseState : public ParentStateType
+    class OSG_SYSTEMLIB_DLLMAPPING TestingExtendActorBaseState : public ParentStateType
     {
       public:
-        inline   PrintNameActorBaseState(void                                );
-        inline   PrintNameActorBaseState(const PrintNameActorBaseState &source);
+        inline   TestingExtendActorBaseState(void                                );
+        inline   TestingExtendActorBaseState(const TestingExtendActorBaseState &source);
 
-        virtual ~PrintNameActorBaseState(void                                );
+        virtual ~TestingExtendActorBaseState(void                                );
 
         inline const UInt32 &getTreeLevel(void) const;
         inline       UInt32 &getTreeLevel(void);
-        inline const NodePtr &getParentNode(void) const;
-        inline       NodePtr &getParentNode(void);
+        inline const Matrix &getWorldMatrix(void) const;
+        inline       Matrix &getWorldMatrix(void);
 
       private:
         UInt32 _stateTreeLevel;
-        NodePtr _stateParentNode;
+        Matrix _stateWorldMatrix;
     };
 
     /*! \}                                                                   */
@@ -200,7 +208,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
     /*! \name    Constructor                                                 */
     /*! \{                                                                   */
 
-    PrintNameActorBase(void);
+    TestingExtendActorBase(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -215,19 +223,18 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
     /*! \name    State Access                                                */
     /*! \{                                                                   */
 
-    inline const PrintNameActorBaseState *getCastState(void) const;
-    inline       PrintNameActorBaseState *getCastState(void);
+    inline const TestingExtendActorBaseState *getCastState(void) const;
+    inline       TestingExtendActorBaseState *getCastState(void);
 
 
     /*! \}                                                                   */
     /*====  PRIVATE  ========================================================*/
   private:
-    typedef BasicActorBase Inherited;
+    typedef ExtendActorBase Inherited;
 
     static EnterStoreType *_pClassEnterStore;
     static LeaveStoreType *_pClassLeaveStore;
 
-    UInt32 _stateNumNodes;
 
     EnterStoreType         _instanceEnterStore;
     LeaveStoreType         _instanceLeaveStore;
@@ -235,8 +242,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : public BasicActorBase
 
 OSG_END_NAMESPACE
 
-#include <OSGPrintNameActorBase.inl>
+#include <OSGTestingExtendActorBase.inl>
 
-#define OSGPRINTNAMEACTORBASE_HEADER_CVSID "@(#)$Id:"
+#define OSGTESTINGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id:"
 
-#endif /* _OSGPRINTNAMEACTORBASE_H_ */
+#endif /* _OSGTESTINGEXTENDACTORBASE_H_ */

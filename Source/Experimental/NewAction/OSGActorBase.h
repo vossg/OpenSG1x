@@ -63,9 +63,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
     /*! \name    Types                                                       */
     /*! \{                                                                   */
 
-    typedef NewActionTypes::ResultE      ResultE;
-    typedef NewActionTypes::PriorityType PriorityType;
-    typedef NewActionTypes::Functor      Functor;
+    typedef NewActionTypes::ResultE             ResultE;
+    typedef NewActionTypes::PriorityType        PriorityType;
+    typedef NewActionTypes::PriorityTypeTraits PriorityTypeTraits;
+    typedef NewActionTypes::Functor             Functor;
+    typedef NewActionTypes::FunctorArgumentType FunctorArgumentType;
 
     class ActorBaseState
     {
@@ -93,11 +95,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Enter/Leave                                                 */
+    /*! \name    Enter/Leave Callback                                        */
     /*! \{                                                                   */
 
-    virtual ResultE enterNode(const NodePtr &pNode) = 0;
-    virtual ResultE leaveNode(const NodePtr &pNode) = 0;
+    virtual ResultE enterNode(FunctorArgumentType &funcArg) = 0;
+    virtual ResultE leaveNode(FunctorArgumentType &funcArg) = 0;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -156,6 +158,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
     inline PriorityType getExtraChildPriority(UInt32       childIndex ) const;
     inline void         setExtraChildPriority(UInt32       childIndex,
                                               PriorityType prio       );
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Multi Pass Management                                       */
+    /*! \{                                                                   */
+
+    inline UInt32 getNumPasses(void) const;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -248,6 +257,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorBase.inl"
 
-#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.5 2004/09/13 15:15:02 neumannc Exp $"
+#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.6 2004/09/17 14:09:41 neumannc Exp $"
 
 #endif /* _OSGACTORBASE_H_ */

@@ -364,6 +364,7 @@ NewActionBase::NewActionBase(void)
       _ownStatistics      (false                      ),
 #endif /* OSG_NEWACTION_STATISTICS */
       _travMask           (TypeTraits<UInt32>::BitsSet),
+      _numPasses          (1                          ),
       _childrenListEnabled(false                      ),
       _childrenList       (                           ),
       _extraChildrenList  (                           )
@@ -482,7 +483,7 @@ NewActionBase::stopActors(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNewActionBase.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNewActionBase.cpp,v 1.2 2004/09/17 14:09:43 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGNEWACTIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGNEWACTIONBASE_INLINE_CVSID;
 }

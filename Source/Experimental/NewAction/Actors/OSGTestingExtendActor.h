@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,8 +36,72 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifndef _OSGTESTINGEXTENDACTOR_H_
+#define _OSGTESTINGEXTENDACTOR_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
+#include <OSGConfig.h>
+
+#include <OSGTestingExtendActorBase.h>
+
 OSG_BEGIN_NAMESPACE
+
+class OSG_SYSTEMLIB_DLLMAPPING TestingExtendActor : public TestingExtendActorBase
+{
+    /*====  PUBLIC  =========================================================*/
+  public:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Types                                                       */
+    /*! \{                                                                   */
+
+    typedef ExtendActorBase::ResultE ResultE;
+    typedef ExtendActorBase::Functor Functor;
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Create                                                      */
+    /*! \{                                                                   */
+
+    static TestingExtendActor *create(void);
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Destructor                                                  */
+    /*! \{                                                                   */
+
+    virtual ~TestingExtendActor(void);
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Enter/Leave                                                 */
+    /*! \{                                                                   */
+
+
+    /*! \}                                                                   */
+    /*==== PROTECTED ========================================================*/
+  protected:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Constructor                                                 */
+    /*! \{                                                                   */
+
+    TestingExtendActor(void);
+
+    /*! \}                                                                   */
+    /*==== PRIVATE ==========================================================*/
+  private:
+    typedef TestingExtendActorBase Inherited;
+};
 
 OSG_END_NAMESPACE
 
-#define OSGPRINTNAMEACTOR_INLINE_CVSID "@(#)$Id:"
+#include <OSGTestingExtendActor.inl>
+
+#define OSGTESTINGEXTENDACTOR_HEADER_CVSID "@(#)$Id:"
+
+#endif /* _OSGTESTINGEXTENDACTOR_H_ */

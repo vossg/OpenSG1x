@@ -91,10 +91,10 @@ class @!Classname!@ : public @!ClassName!@Base
     /*! \{                                                                   */
 
 @@if EnterStore_IS_Empty
-    virtual ResultE enterNode(const NodePtr &pNode);
+    virtual ResultE enterNode(const NodePtr &pNode, UInt32 pass);
 @@endif
 @@if LeaveStore_IS_Empty
-    virtual ResultE leaveNode(const NodePtr &pNode);
+    virtual ResultE leaveNode(const NodePtr &pNode, UInt32 pass);
 @@endif
 
     /*! \}                                                                   */

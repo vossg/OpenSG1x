@@ -88,7 +88,7 @@ DepthFirstAction::apply(NodePtr pRoot)
     if(result & NewActionTypes::Quit)
         return result;
 
-    _nodeStack.push_back(NodeStackEntry(pRoot, true));
+    _nodeStack.push_back(NodeStackEntry(pRoot, 1));
 
     if((_extendLeaveActors.empty() == true) &&
        (_basicLeaveActors .empty() == true)    )
@@ -288,10 +288,13 @@ DepthFirstAction::traverseEnter(void)
 {
     ResultE result = NewActionTypes::Continue;
     NodePtr pNode;
+    Int32   nodePass;     // pass over the current node
+    UInt32  multiPasses;  // requested passes over the current node
 
     while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
     {
-        pNode = _nodeStack.back().getNode();
+        pNode    = _nodeStack.back().getNode     ();
+        nodePass = _nodeStack.back().getPassCount();
 
         getChildrenList().setParentNode(pNode);
 
@@ -299,9 +302,19 @@ DepthFirstAction::traverseEnter(void)
         getStatistics()->getElem(statNodesEnter)->inc();
 #endif /* OSG_NEWACTION_STATISTICS */
 
-        result = enterNode(pNode);
+        result      = enterNode   (pNode, static_cast<UInt32>(nodePass - 1));
+        multiPasses = getNumPasses(                                        );
 
         _nodeStack.pop_back();
+
+        // only initial pass (nodePass == 1) can request multiPasses
+        if((nodePass == 1) && (multiPasses > 1))
+        {
+            for(; multiPasses > 1; --multiPasses)
+            {
+                _nodeStack.push_back(NodeStackEntry(pNode, multiPasses));
+            }
+        }
 
         pushChildren(pNode, result);
     }
@@ -318,32 +331,58 @@ DepthFirstAction::traverseEnterLeave(void)
 {
     ResultE result = NewActionTypes::Continue;
     NodePtr pNode;
+    Int32   nodePass;     // pass over the current node
+    UInt32  multiPasses;  // requested passes over the current node
 
     while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
     {
-        pNode = _nodeStack.back().getNode();
+        pNode    = _nodeStack.back().getNode     ();
+        nodePass = _nodeStack.back().getPassCount();
 
         getChildrenList().setParentNode(pNode);
 
-        if(_nodeStack.back().getEnterFlag() == true)
+        if(nodePass > 0)
         {
-            _nodeStack.back().setEnterFlag(false);
+            // positive pass -> enter node
 
 #ifdef OSG_NEWACTION_STATISTICS
             getStatistics()->getElem(statNodesEnter)->inc();
 #endif /* OSG_NEWACTION_STATISTICS */
 
-            result = enterNode(pNode);
+            result      = enterNode   (pNode, static_cast<UInt32>(nodePass - 1));
+            multiPasses = getNumPasses(               );
+
+            // only initial pass (nodePass == 1) can request multiPasses
+            if((nodePass == 1) && (multiPasses > 1))
+            {
+                // remove current node from stack
+                _nodeStack.pop_back();
+
+                for(; multiPasses > 1; --multiPasses)
+                {
+                    _nodeStack.push_back(NodeStackEntry(pNode, multiPasses));
+                }
+
+                // readd current node - with negative pass -> leave
+                _nodeStack.push_back(NodeStackEntry(pNode, -nodePass));
+            }
+            else
+            {
+                // change current node passCount to negative -> leave
+                _nodeStack.back().setPassCount(-nodePass);
+            }
 
             pushChildren(pNode, result);
         }
         else
         {
+            // negative pass -> leave node
+
 #ifdef OSG_NEWACTION_STATISTICS
             getStatistics()->getElem(statNodesLeave)->inc();
 #endif /* OSG_NEWACTION_STATISTICS */
 
-            result = leaveNode(pNode);
+            result = leaveNode(pNode, static_cast<UInt32>(-nodePass - 1));
 
             _nodeStack.pop_back();
         }
@@ -364,6 +403,7 @@ DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
                  NewActionTypes::Quit   ))
     {
         setChildrenListEnabled(false);
+        setNumPasses          (1    );
 
         getExtraChildrenList().clear();
 
@@ -381,7 +421,7 @@ DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
                ( cl.getChild (i)                                 != NullFC) &&
                ((cl.getChild (i)->getTravMask() & getTravMask()) != 0     )   )
             {
-                _nodeStack.push_back(NodeStackEntry(cl.getChild(i), true));
+                _nodeStack.push_back(NodeStackEntry(cl.getChild(i), 1));
             }
         }
     }
@@ -395,7 +435,7 @@ DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
             if((  *itChildren                                  != NullFC) &&
                (((*itChildren)->getTravMask() & getTravMask()) != 0     )   )
             {
-                _nodeStack.push_back(NodeStackEntry(*itChildren, true));
+                _nodeStack.push_back(NodeStackEntry(*itChildren, 1));
             }
         }
     }
@@ -406,11 +446,12 @@ DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
            ( ecl.getChild (i)                                 != NullFC) &&
            ((ecl.getChild (i)->getTravMask() & getTravMask()) != 0     )   )
         {
-            _nodeStack.push_back(NodeStackEntry(ecl.getChild(i), true));
+            _nodeStack.push_back(NodeStackEntry(ecl.getChild(i), 1));
         }
     }
 
     setChildrenListEnabled(false);
+    setNumPasses          (1    );
     ecl.clear             (     );
 }
 
@@ -427,7 +468,7 @@ DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstAction.cpp,v 1.3 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstAction.cpp,v 1.4 2004/09/17 14:09:42 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHFIRSTACTION_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHFIRSTACTION_INLINE_CVSID;
 }

@@ -78,7 +78,7 @@ void    createRays(UInt32 uiNumRays, std::vector<Line> &rays);
 // Intersect callbacks
 
 NewActionTypes::ResultE
-enterDefault(NodeCorePtr pNodeCore, ActorBase *pActor);
+enterDefault(NodeCorePtr pNodeCore, ActorBase::FunctorArgumentType &funcArg);
 
 // MAIN
 
@@ -183,9 +183,9 @@ int main(int argc, char *argv[])
     endEditCP  (pRayGeo, Node::CoreFieldId);
 
     IntersectActor::regDefaultClassEnter(
-        osgTypedFunctionFunctor2CPtr<NewActionTypes::ResultE,
-                                     NodeCorePtr,
-                                     ActorBase *             >(enterDefault));
+        osgTypedFunctionFunctor2CPtr<
+            NewActionTypes::ResultE,          NodeCorePtr,
+            ActorBase::FunctorArgumentType &              >(enterDefault));
 
 
     NewActionBase  *pDFAction  = DepthFirstAction     ::create();
@@ -483,25 +483,25 @@ int main(int argc, char *argv[])
         //SINFO << "  \t"     << (Ofastest   ? "O ->" : "    ") << " hit: " << resultsO  [i]._hit << " time: " << resultsO  [i]._time << endLog;
     }
 
-    SINFO << " df total:  " << tDFTotal
+    SINFO << " df total:  "    << tDFTotal   << (tDFTotal < tDFSTotal && tDFTotal < tPTotal && tDFTotal < tOTotal ? " *" : "  ") 
           << " wins: "         << DFwins     << " (" << (static_cast<Real32>(DFwins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
           << " wins on hit: "  << DFwinsHit  << " (" << (static_cast<Real32>(DFwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
           << " wins on miss: " << DFwinsMiss << " (" << (static_cast<Real32>(DFwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
           << endLog;
 
-    SINFO << " dfs total: " << tDFSTotal
+    SINFO << " dfs total: "    << tDFSTotal  << (tDFSTotal < tDFTotal && tDFSTotal < tPTotal && tDFSTotal < tOTotal ? " *" : "  ") 
           << " wins: "         << DFSwins     << " (" << (static_cast<Real32>(DFSwins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
           << " wins on hit: "  << DFSwinsHit  << " (" << (static_cast<Real32>(DFSwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
           << " wins on miss: " << DFSwinsMiss << " (" << (static_cast<Real32>(DFSwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
           << endLog;
 
-    SINFO << " p total:   " << tPTotal
+    SINFO << " p total:   "    << tPTotal   << (tPTotal < tDFTotal && tPTotal < tDFSTotal && tPTotal < tOTotal ? " *" : "  ") 
           << " wins: "         << Pwins     << " (" << (static_cast<Real32>(Pwins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
           << " wins on hit: "  << PwinsHit  << " (" << (static_cast<Real32>(PwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
           << " wins on miss: " << PwinsMiss << " (" << (static_cast<Real32>(PwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
           << endLog;
 
-    SINFO << " o total:   " << tOTotal
+    SINFO << " o total:   "    << tOTotal   << (tOTotal < tDFTotal && tOTotal < tDFSTotal && tOTotal < tPTotal ? " *" : "  ") 
           << " wins: "         << Owins     << " (" << (static_cast<Real32>(Owins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
           << " wins on hit: "  << OwinsHit  << " (" << (static_cast<Real32>(OwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
           << " wins on miss: " << OwinsMiss << " (" << (static_cast<Real32>(OwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
@@ -666,9 +666,9 @@ createRays(UInt32 uiNumRays, std::vector<Line> &rays)
 
 // This is the default operation of the IntersectActor
 NewActionTypes::ResultE
-enterDefault(NodeCorePtr pNodeCore, ActorBase *pActor)
+enterDefault(NodeCorePtr pNodeCore, ActorBase::FunctorArgumentType &funcArg)
 {
-    IntersectActor *pIA = dynamic_cast<IntersectActor *>(pActor);
+    IntersectActor *pIA = dynamic_cast<IntersectActor *>(funcArg.getActor());
 
     pIA->setupChildrenPriorities();
 

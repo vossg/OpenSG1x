@@ -62,6 +62,16 @@ ExtendActorBase::addExtraChild(const NodePtr &pNode, PriorityType prio)
     return getAction()->getExtraChildrenList().addChild(pNode, prio);
 }
 
+//----------------------------------------------------------------------------
+//    Multi Pass Management
+//----------------------------------------------------------------------------
+
+inline void
+ExtendActorBase::setNumPasses(UInt32 numPasses)
+{
+    getAction()->setNumPasses(numPasses);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGEXTENDACTORBASE_INLINE_CVSID "@(#)$Id: OSGExtendActorBase.inl,v 1.3 2004/09/13 15:15:02 neumannc Exp $"
+#define OSGEXTENDACTORBASE_INLINE_CVSID "@(#)$Id: OSGExtendActorBase.inl,v 1.4 2004/09/17 14:09:43 neumannc Exp $"

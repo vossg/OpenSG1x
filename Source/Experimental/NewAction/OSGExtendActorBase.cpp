@@ -73,13 +73,13 @@ ExtendActorBase::stop(void)
 //----------------------------------------------------------------------------
 
 ExtendActorBase::ResultE
-ExtendActorBase::enterNode(const NodePtr &pNode)
+ExtendActorBase::enterNode(FunctorArgumentType &funcArg)
 {
     return NewActionTypes::Continue;
 }
 
 ExtendActorBase::ResultE
-ExtendActorBase::leaveNode(const NodePtr &pNode)
+ExtendActorBase::leaveNode(FunctorArgumentType &funcArg)
 {
     return NewActionTypes::Continue;
 }
@@ -141,7 +141,7 @@ ExtendActorBase::findHelper(const NewActionBase *pAction)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGExtendActorBase.cpp,v 1.2 2004/09/11 11:10:03 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGExtendActorBase.cpp,v 1.3 2004/09/17 14:09:43 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGEXTENDACTORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGEXTENDACTORBASE_INLINE_CVSID;
 }

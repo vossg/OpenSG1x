@@ -73,13 +73,13 @@ BasicActorBase::stop(void)
 //----------------------------------------------------------------------------
 
 BasicActorBase::ResultE
-BasicActorBase::enterNode(const NodePtr &pNode)
+BasicActorBase::enterNode(FunctorArgumentType &funcArg)
 {
     return NewActionTypes::Continue;
 }
 
 BasicActorBase::ResultE
-BasicActorBase::leaveNode(const NodePtr &pNode)
+BasicActorBase::leaveNode(FunctorArgumentType &funcArg)
 {
     return NewActionTypes::Continue;
 }
@@ -141,7 +141,7 @@ BasicActorBase::findHelper(const NewActionBase *pAction)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBasicActorBase.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBasicActorBase.cpp,v 1.2 2004/09/17 14:09:42 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGBASICACTORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBASICACTORBASE_INLINE_CVSID;
 }

@@ -68,8 +68,11 @@ class OSG_SYSTEMLIB_DLLMAPPING NewActionBase
     /*! \name    Types                                                       */
     /*! \{                                                                   */
 
-    typedef NewActionTypes::ResultE      ResultE;
-    typedef NewActionTypes::PriorityType PriorityType;
+    typedef NewActionTypes::ResultE             ResultE;
+    typedef NewActionTypes::PriorityType        PriorityType;
+    typedef NewActionTypes::PriorityTypeTraits  PriorityTypeTraits;
+    typedef NewActionTypes::Functor             Functor;
+    typedef NewActionTypes::FunctorArgumentType FunctorArgumentType;
 
 #ifdef OSG_NEWACTION_STATISTICS
     /*! \}                                                                   */
@@ -212,6 +215,14 @@ class OSG_SYSTEMLIB_DLLMAPPING NewActionBase
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
+    /*! \name    MultiPass Setup                                             */
+    /*! \{                                                                   */
+
+    inline UInt32 getNumPasses(void            ) const;
+    inline void   setNumPasses(UInt32 numPasses);
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
     /*! \name    Actor Access                                                */
     /*! \{                                                                   */
 
@@ -240,6 +251,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NewActionBase
 #endif /* OSG_NEWACTION_STATISTICS */
 
     UInt32             _travMask;
+    UInt32             _numPasses;
 
     bool               _childrenListEnabled;
     ChildrenList       _childrenList;
@@ -251,6 +263,6 @@ OSG_END_NAMESPACE
 
 #include "OSGNewActionBase.inl"
 
-#define OSGNEWACTIONBASE_HEADER_CVSID "@(#)$Id: OSGNewActionBase.h,v 1.4 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGNEWACTIONBASE_HEADER_CVSID "@(#)$Id: OSGNewActionBase.h,v 1.5 2004/09/17 14:09:43 neumannc Exp $"
 
 #endif /* _OSGNEWACTIONBASE_H_ */

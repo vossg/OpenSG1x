@@ -103,11 +103,11 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : public BasicActorBase
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Apply                                                       */
+    /*! \name    Enter/Leave                                                 */
     /*! \{                                                                   */
 
-    virtual ResultE enterNode(const NodePtr &pNode);
-    virtual ResultE leaveNode(const NodePtr &pNode);
+    virtual ResultE enterNode(FunctorArgumentType &funcArg);
+    virtual ResultE leaveNode(FunctorArgumentType &funcArg);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -147,12 +147,12 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : public BasicActorBase
     /*! \name    Public State Access                                         */
     /*! \{                                                                   */
 
-    inline const bool &getHit(void                             ) const;
-    inline       bool &getHit(void                             );
-    inline       void               setHit(const bool &stateVal);
     inline const Real32 &getHitDistance(void                             ) const;
     inline       Real32 &getHitDistance(void                             );
     inline       void               setHitDistance(const Real32 &stateVal);
+    inline const bool &getHit(void                             ) const;
+    inline       bool &getHit(void                             );
+    inline       void               setHit(const bool &stateVal);
     inline const NodePtr &getHitObject(void                             ) const;
     inline       NodePtr &getHitObject(void                             );
     inline       void               setHitObject(const NodePtr &stateVal);
@@ -258,8 +258,8 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : public BasicActorBase
     static EnterStoreType *_pClassEnterStore;
     static LeaveStoreType *_pClassLeaveStore;
 
-    bool _stateHit;
     Real32 _stateHitDistance;
+    bool _stateHit;
     NodePtr _stateHitObject;
     Int32 _stateHitTriangleIndex;
     Vec3f _stateHitNormal;

@@ -68,16 +68,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ExtendActorBase : public ActorBase
     /*! \name    Start/Stop                                                  */
     /*! \{                                                                   */
 
-    virtual ResultE start    (      void          ) = 0;
-    virtual ResultE stop     (      void          ) = 0;
+    virtual ResultE start(void) = 0;
+    virtual ResultE stop (void) = 0;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Enter/Leave                                                 */
+    /*! \name    Enter/Leave Callback                                        */
     /*! \{                                                                   */
 
-    virtual ResultE enterNode(const NodePtr &pNode) = 0;
-    virtual ResultE leaveNode(const NodePtr &pNode) = 0;
+    virtual ResultE enterNode(FunctorArgumentType &funcArg) = 0;
+    virtual ResultE leaveNode(FunctorArgumentType &funcArg) = 0;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -87,6 +87,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ExtendActorBase : public ActorBase
     inline UInt32 addExtraChild(const NodePtr &pNode                   );
     inline UInt32 addExtraChild(const NodePtr &pNode, PriorityType prio);
 
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Mutli Pass Management                                       */
+    /*! \{                                                                   */
+
+    inline void setNumPasses(UInt32 numPasses);
+    
     /*! \}                                                                   */
     /*==== PROTECTED ========================================================*/
   protected:
@@ -120,6 +127,6 @@ OSG_END_NAMESPACE
 
 #include "OSGExtendActorBase.inl"
 
-#define OSGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id: OSGExtendActorBase.h,v 1.3 2004/09/13 15:15:02 neumannc Exp $"
+#define OSGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id: OSGExtendActorBase.h,v 1.4 2004/09/17 14:09:43 neumannc Exp $"
 
 #endif /* _OSGEXTENDACTORBASE_H_ */

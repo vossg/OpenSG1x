@@ -36,79 +36,67 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifndef _OSGFUNCTORARGUMENTTYPE_H_
+#define _OSGFUNCTORARGUMENTTYPE_H_
+#ifdef __sgi
+#pragma once
+#endif
+
 //----------------------------------------------------------------------------
 //    Includes
 //----------------------------------------------------------------------------
 
-#include "OSGPrintNameActor.h"
+#include <OSGConfig.h>
+#include <OSGSystemDef.h>
+#include <OSGBaseTypes.h>
+#include <OSGTypedFunctors.h>
+#include <OSGNodePtr.h>
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
-//----------------------------------------------------------------------------
-//    Create
-//----------------------------------------------------------------------------
+class ActorBase;
 
-/*! Create a new instance of this actor.
- */
-
-PrintNameActor *
-PrintNameActor::create(void)
+namespace NewActionTypes
 {
-    return new PrintNameActor();
+    class OSG_SYSTEMLIB_DLLMAPPING FunctorArgumentType
+    {
+        /*==== PUBLIC =======================================================*/
+      public:
+        /*-------------------------------------------------------------------*/
+        /*! \name    Constructors                                            */
+        /*! \{                                                               */
+
+        inline FunctorArgumentType(      ActorBase           *pActor,
+                                   const NodePtr             &pNode,
+                                   UInt32     pass                   );
+
+        /*! \}                                                               */
+        /*-------------------------------------------------------------------*/
+        /*! \name    Get/Set                                                 */
+        /*! \{                                                               */
+
+        inline ActorBase *getActor(      void             ) const;
+        inline void       setActor(      ActorBase *pActor);
+        
+        inline NodePtr    getNode (      void             ) const;
+        inline void       setNode (const NodePtr   &pNode );
+        
+        inline UInt32     getPass (      void             ) const;
+        inline void       setPass (      UInt32     pass  );
+
+        /*! \}                                                               */
+        /*==== PRIVATE ======================================================*/
+      private:
+        ActorBase *_pActor;
+        NodePtr    _pNode;
+        UInt32     _pass;
+    };
 }
 
-//----------------------------------------------------------------------------
-//    Destructor
-//----------------------------------------------------------------------------
+OSG_END_NAMESPACE
 
-/*! Destructor.
- */
+#include "OSGFunctorArgumentType.inl"
 
-PrintNameActor::~PrintNameActor(void)
-{
-}
+#define OSGFUNCTORARGUMENTTYPE_HEADER_CVSID "@(#)$Id: OSGFunctorArgumentType.h,v 1.1 2004/09/17 14:09:43 neumannc Exp $"
 
-//----------------------------------------------------------------------------
-//    Enter/Leave
-//----------------------------------------------------------------------------
-
-
-
-//----------------------------------------------------------------------------
-//    Constructors
-//----------------------------------------------------------------------------
-
-/*! Constructor.
- */
-
-PrintNameActor::PrintNameActor(void)
-    : Inherited()
-{
-}
-
-/*------------------------------------------------------------------------*/
-/*    cvs id's                                                            */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning(disable : 177)
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp     [] = "@(#)$Id:";
-    static Char8 cvsid_hpp     [] = OSGPRINTNAMEACTOR_HEADER_CVSID;
-    static Char8 cvsid_inl     [] = OSGPRINTNAMEACTOR_INLINE_CVSID;
-}
-
-
-#ifdef OSG_LINUX_ICC
-#pragma warning(enable : 177)
-#endif
-
-#ifdef OSG_SGI_CC
-#pragma reset woff 1174
-#endif
+#endif /* _OSGFUNCTORARGUMENTTYPE_H_ */

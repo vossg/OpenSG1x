@@ -143,32 +143,6 @@ IntersectActorBase::IntersectActorBaseState::getRay(void)
 //    Public State Access
 //----------------------------------------------------------------------------
 
-/*! Return the state element Hit.
- */
-
-inline const bool &
-IntersectActorBase::getHit(void) const
-{
-    return _stateHit;
-}
-
-/*! Return the state element Hit.
- */
-
-inline bool &
-IntersectActorBase::getHit(void)
-{
-    return _stateHit;
-}
-
-/*! Set the state element Hit.
- */
-
-inline void
-IntersectActorBase::setHit(const bool &stateVal)
-{
-    _stateHit = stateVal;
-}
 /*! Return the state element HitDistance.
  */
 
@@ -194,6 +168,32 @@ inline void
 IntersectActorBase::setHitDistance(const Real32 &stateVal)
 {
     _stateHitDistance = stateVal;
+}
+/*! Return the state element Hit.
+ */
+
+inline const bool &
+IntersectActorBase::getHit(void) const
+{
+    return _stateHit;
+}
+
+/*! Return the state element Hit.
+ */
+
+inline bool &
+IntersectActorBase::getHit(void)
+{
+    return _stateHit;
+}
+
+/*! Set the state element Hit.
+ */
+
+inline void
+IntersectActorBase::setHit(const bool &stateVal)
+{
+    _stateHit = stateVal;
 }
 /*! Return the state element HitObject.
  */
@@ -371,4 +371,4 @@ IntersectActorBase::setRay(const Line &stateVal)
 
 OSG_END_NAMESPACE
 
-#define OSGINTERSECTACTORBASE_INLINE_CVSID "@(#)$Id: OSGIntersectActorBase.inl,v 1.5 2004/09/10 15:00:48 neumannc Exp $"
+#define OSGINTERSECTACTORBASE_INLINE_CVSID "@(#)$Id: OSGIntersectActorBase.inl,v 1.6 2004/09/17 14:09:47 neumannc Exp $"

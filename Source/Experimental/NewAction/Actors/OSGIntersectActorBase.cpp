@@ -113,23 +113,23 @@ IntersectActorBase::stop(void)
  */
 
 IntersectActorBase::ResultE
-IntersectActorBase::enterNode(const NodePtr &pNode)
+IntersectActorBase::enterNode(FunctorArgumentType &funcArg)
 {
     ResultE      result    = NewActionTypes::Continue;
-    NodeCorePtr  pNodeCore = pNode->getCore();
+    NodeCorePtr  pNodeCore = funcArg.getNode()->getCore();
     Functor     *pFunc     = NULL;
 
     if((pFunc = _instanceEnterStore.getFunctor(pNodeCore->getType())) != NULL)
     {
-        result = pFunc->call(pNodeCore, this);
+        result = pFunc->call(pNodeCore, funcArg);
     }
     else if((pFunc = _pClassEnterStore->getFunctor(pNodeCore->getType())) != NULL)
     {
-        result = pFunc->call(pNodeCore, this);
+        result = pFunc->call(pNodeCore, funcArg);
     }
     else
     {
-        result = BasicActorBase::enterNode(pNode);
+        result = BasicActorBase::enterNode(funcArg);
     }
 
     return result;
@@ -141,23 +141,23 @@ IntersectActorBase::enterNode(const NodePtr &pNode)
  */
 
 IntersectActorBase::ResultE
-IntersectActorBase::leaveNode(const NodePtr &pNode)
+IntersectActorBase::leaveNode(FunctorArgumentType &funcArg)
 {
     ResultE      result    = NewActionTypes::Continue;
-    NodeCorePtr  pNodeCore = pNode->getCore();
+    NodeCorePtr  pNodeCore = funcArg.getNode()->getCore();
     Functor     *pFunc     = NULL;
 
     if((pFunc = _instanceLeaveStore.getFunctor(pNodeCore->getType())) != NULL)
     {
-        result = pFunc->call(pNodeCore, this);
+        result = pFunc->call(pNodeCore, funcArg);
     }
     else if((pFunc = _pClassLeaveStore->getFunctor(pNodeCore->getType())) != NULL)
     {
-        result = pFunc->call(pNodeCore, this);
+        result = pFunc->call(pNodeCore, funcArg);
     }
     else
     {
-        result = BasicActorBase::leaveNode(pNode);
+        result = BasicActorBase::leaveNode(funcArg);
     }
 
     return result;
@@ -175,7 +175,7 @@ IntersectActorBase::leaveNode(const NodePtr &pNode)
 
 void
 IntersectActorBase::regClassEnter(const Functor            &refFunc,
-                                 const FieldContainerType &refType )
+                                  const FieldContainerType &refType )
 {
     if(_pClassEnterStore == NULL)
         _pClassEnterStore = new EnterStoreType();
@@ -191,7 +191,7 @@ IntersectActorBase::regClassEnter(const Functor            &refFunc,
 
 void
 IntersectActorBase::regEnter(const Functor            &refFunc,
-                            const FieldContainerType &refType )
+                             const FieldContainerType &refType )
 {
     _instanceEnterStore.regFunctor(refFunc, refType);
 }
@@ -458,8 +458,8 @@ IntersectActorBase::IntersectActorBaseState::~IntersectActorBaseState(void)
 
 IntersectActorBase::IntersectActorBase(void)
     : Inherited(),
-      _stateHit(false),
       _stateHitDistance(0.0),
+      _stateHit(false),
       _stateHitObject(NullFC),
       _stateHitTriangleIndex(0),
       _stateHitNormal(),
@@ -514,7 +514,7 @@ IntersectActorBase::subEvent(NewActionBase *pAction, UInt32 uiActorId)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGIntersectActorBase.cpp,v 1.5 2004/09/10 15:00:48 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGIntersectActorBase.cpp,v 1.6 2004/09/17 14:09:47 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGINTERSECTACTORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGINTERSECTACTORBASE_INLINE_CVSID;
 }

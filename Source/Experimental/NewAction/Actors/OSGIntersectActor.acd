@@ -10,20 +10,20 @@
     <LibraryName>System</LibraryName>
     <StateElements>
         <StateElement>
-            <Name>Hit</Name>
-            <Type>bool</Type>
-            <Access>public</Access>
-            <Hierarchical>false</Hierarchical>
-            <Header></Header>
-            <DefaultValue>false</DefaultValue>
-        </StateElement>
-        <StateElement>
             <Name>HitDistance</Name>
             <Type>Real32</Type>
             <Access>public</Access>
             <Hierarchical>false</Hierarchical>
             <Header>OSGBaseTypes.h</Header>
             <DefaultValue>0.0</DefaultValue>
+        </StateElement>
+        <StateElement>
+            <Name>Hit</Name>
+            <Type>bool</Type>
+            <Access>public</Access>
+            <Hierarchical>false</Hierarchical>
+            <Header></Header>
+            <DefaultValue>false</DefaultValue>
         </StateElement>
         <StateElement>
             <Name>HitObject</Name>

@@ -40,7 +40,7 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include "OSG@!Classname!@.h"
+#include "OSGTestingExtendActor.h"
 
 OSG_USING_NAMESPACE
 
@@ -51,10 +51,10 @@ OSG_USING_NAMESPACE
 /*! Create a new instance of this actor.
  */
 
-@!Classname!@ *
-@!Classname!@::create(void)
+TestingExtendActor *
+TestingExtendActor::create(void)
 {
-    return new @!Classname!@();
+    return new TestingExtendActor();
 }
 
 //----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 /*! Destructor.
  */
 
-@!Classname!@::~@!Classname!@(void)
+TestingExtendActor::~TestingExtendActor(void)
 {
 }
 
@@ -72,27 +72,7 @@ OSG_USING_NAMESPACE
 //    Enter/Leave
 //----------------------------------------------------------------------------
 
-@@if EnterStore_IS_Empty
-/*! Default implementation, replace with your own code.
- */
 
-@!Classname!@::ResultE
-@!Classname!@::enterNode(const NodePtr &pNode, UInt32 pass)
-{
-    return Inherited::enterNode(pNode, pass);
-}
-@@endif
-
-@@if LeaveStore_IS_Empty
-/*! Default implementation, replace with your own code.
- */
-
-@!Classname!@::ResultE
-@!Classname!@::leaveNode(const NodePtr &pNode, UInt32 pass)
-{
-    return Inherited::leaveNode(pNode, pass);
-}
-@@endif
 
 //----------------------------------------------------------------------------
 //    Constructors
@@ -101,7 +81,7 @@ OSG_USING_NAMESPACE
 /*! Constructor.
  */
 
-@!Classname!@::@!Classname!@(void)
+TestingExtendActor::TestingExtendActor(void)
     : Inherited()
 {
 }
@@ -120,8 +100,8 @@ OSG_USING_NAMESPACE
 namespace
 {
     static Char8 cvsid_cpp     [] = "@(#)$Id:";
-    static Char8 cvsid_hpp     [] = OSG@!CLASSNAME!@_HEADER_CVSID;
-    static Char8 cvsid_inl     [] = OSG@!CLASSNAME!@_INLINE_CVSID;
+    static Char8 cvsid_hpp     [] = OSGTESTINGEXTENDACTOR_HEADER_CVSID;
+    static Char8 cvsid_inl     [] = OSGTESTINGEXTENDACTOR_INLINE_CVSID;
 }
 
 

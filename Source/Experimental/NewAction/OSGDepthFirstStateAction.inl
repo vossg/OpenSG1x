@@ -49,28 +49,33 @@ OSG_BEGIN_NAMESPACE
  */
 
 inline DepthFirstStateAction::ResultE
-DepthFirstStateAction::enterNode(const NodePtr &pNode)
+DepthFirstStateAction::enterNode(const NodePtr &pNode, UInt32 pass)
 {
-    ResultE            result    = NewActionTypes::Continue;
+    FunctorArgumentType funcArg(NULL, pNode, pass);
+    ResultE             result    = NewActionTypes::Continue;
 
-    ExtendActorStoreIt itExtend  = _extendEnterActors.begin();
-    ExtendActorStoreIt endExtend = _extendEnterActors.end  ();
-
-    BasicActorStoreIt  itBasic   = _basicEnterActors.begin();
-    BasicActorStoreIt  endBasic  = _basicEnterActors.end  ();
+    ExtendActorStoreIt  itExtend  = _extendEnterActors.begin();
+    ExtendActorStoreIt  endExtend = _extendEnterActors.end  ();
 
     for(;  (itExtend != endExtend                                    )  &&
           !(result   &  (NewActionTypes::Break | NewActionTypes::Quit));
         ++itExtend                                                         )
     {
-        result = static_cast<ResultE>(result | (*itExtend)->enterNode(pNode));
+        funcArg.setActor(*itExtend);
+
+        result = static_cast<ResultE>(result | (*itExtend)->enterNode(funcArg));
     }
+
+    BasicActorStoreIt   itBasic   = _basicEnterActors.begin();
+    BasicActorStoreIt   endBasic  = _basicEnterActors.end  ();
 
     for(;  (itBasic != endBasic                                     )  &&
           !(result  &  (NewActionTypes::Break | NewActionTypes::Quit));
         ++itBasic                                                        )
     {
-        result = static_cast<ResultE>(result | (*itBasic)->enterNode(pNode));
+        funcArg.setActor(*itBasic);
+
+        result = static_cast<ResultE>(result | (*itBasic)->enterNode(funcArg));
     }
 
     return result;
@@ -80,28 +85,33 @@ DepthFirstStateAction::enterNode(const NodePtr &pNode)
  */
 
 inline DepthFirstStateAction::ResultE
-DepthFirstStateAction::leaveNode(const NodePtr &pNode)
+DepthFirstStateAction::leaveNode(const NodePtr &pNode, UInt32 pass)
 {
-    ResultE            result    = NewActionTypes::Continue;
+    FunctorArgumentType funcArg(NULL, pNode, pass);
+    ResultE             result    = NewActionTypes::Continue;
 
-    ExtendActorStoreIt itExtend  = _extendLeaveActors.begin();
-    ExtendActorStoreIt endExtend = _extendLeaveActors.end  ();
-
-    BasicActorStoreIt  itBasic   = _basicLeaveActors.begin();
-    BasicActorStoreIt  endBasic  = _basicLeaveActors.end  ();
+    ExtendActorStoreIt  itExtend  = _extendLeaveActors.begin();
+    ExtendActorStoreIt  endExtend = _extendLeaveActors.end  ();
 
     for(;  (itExtend != endExtend                                    )  &&
           !(result   &  (NewActionTypes::Break | NewActionTypes::Quit));
         ++itExtend                                                         )
     {
-        result = static_cast<ResultE>(result | (*itExtend)->leaveNode(pNode));
+        funcArg.setActor(*itExtend);
+
+        result = static_cast<ResultE>(result | (*itExtend)->leaveNode(funcArg));
     }
+
+    BasicActorStoreIt  itBasic   = _basicLeaveActors.begin();
+    BasicActorStoreIt  endBasic  = _basicLeaveActors.end  ();
 
     for(;  (itBasic != endBasic                                     )  &&
           !(result  &  (NewActionTypes::Break | NewActionTypes::Quit));
         ++itBasic                                                         )
     {
-        result = static_cast<ResultE>(result | (*itBasic)->leaveNode(pNode));
+        funcArg.setActor(*itBasic);
+
+        result = static_cast<ResultE>(result | (*itBasic)->leaveNode(funcArg));
     }
 
     return result;
@@ -146,7 +156,9 @@ DepthFirstStateAction::StateRefCount::StateRefCount(UInt32 stateSlot)
  */
 
 inline
-DepthFirstStateAction::StateRefCount::StateRefCount(UInt32 stateSlot, Int32 refCount)
+DepthFirstStateAction::StateRefCount::StateRefCount
+    (UInt32 stateSlot, Int32 refCount)
+
     : _stateSlot(stateSlot),
       _refCount (refCount )
 {
@@ -288,23 +300,32 @@ DepthFirstStateAction::StateRefCount::decRefCount(Int32 dec)
 #endif /* OSG_NEWACTION_STATESLOTINTERFACE */
 
 inline
-DepthFirstStateAction::NodeStackEntry::NodeStackEntry(
-    const NodePtr &pNode, const StateRefCountStoreIt &itStateRefCount)
+DepthFirstStateAction::NodeStackEntry::NodeStackEntry(void)
 
-    : _pNode          (pNode          ),
-      _itStateRefCount(itStateRefCount),
-      _enterFlag      (true           )
+    : _pNode          (NullFC),
+      _itStateRefCount(      ),
+      _passCount      (0     )
+{
+}
+
+inline
+DepthFirstStateAction::NodeStackEntry::NodeStackEntry(
+    const NodeStackEntry &source)
+
+    : _pNode          (source._pNode          ),
+      _itStateRefCount(source._itStateRefCount),
+      _passCount      (source._passCount      )
 {
 }
 
 inline
 DepthFirstStateAction::NodeStackEntry::NodeStackEntry(
     const NodePtr &pNode,     const StateRefCountStoreIt &itStateRefCount,
-          bool     enterFlag                                              )
+          Int32    passCount                                              )
 
     : _pNode          (pNode          ),
       _itStateRefCount(itStateRefCount),
-      _enterFlag      (enterFlag      )
+      _passCount      (passCount      )
 {
 }
 
@@ -312,6 +333,18 @@ inline NodePtr
 DepthFirstStateAction::NodeStackEntry::getNode(void) const
 {
     return _pNode;
+}
+
+inline Int32
+DepthFirstStateAction::NodeStackEntry::getPassCount(void) const
+{
+    return _passCount;
+}
+
+inline void
+DepthFirstStateAction::NodeStackEntry::setPassCount(Int32 passCount)
+{
+    _passCount = passCount;
 }
 
 inline DepthFirstStateAction::StateRefCountStoreIt
@@ -325,18 +358,6 @@ DepthFirstStateAction::NodeStackEntry::setStateRefCount(
     const StateRefCountStoreIt &itStateRefCount)
 {
     _itStateRefCount = itStateRefCount;
-}
-
-inline bool
-DepthFirstStateAction::NodeStackEntry::getEnterFlag(void) const
-{
-    return _enterFlag;
-}
-
-inline void
-DepthFirstStateAction::NodeStackEntry::setEnterFlag(bool enterFlag)
-{
-    _enterFlag = enterFlag;
 }
 
 /*! Creates a copy of the state currently used by the attached actors.
@@ -596,4 +617,4 @@ DepthFirstStateAction::decRefCount(StateRefCountStoreIt itStateRefCount, Int32 d
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHFIRSTSTATEACTION_INLINE_CVSID "@(#)$Id: OSGDepthFirstStateAction.inl,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGDEPTHFIRSTSTATEACTION_INLINE_CVSID "@(#)$Id: OSGDepthFirstStateAction.inl,v 1.2 2004/09/17 14:09:43 neumannc Exp $"

@@ -294,6 +294,20 @@ ActorBase::setExtraChildPriority(UInt32 childIndex, PriorityType prio)
 }
 
 //----------------------------------------------------------------------------
+//    Multi Pass Management
+//----------------------------------------------------------------------------
+
+/*! Return the number of passes requested for the current node. The default
+    number of passes is 1.
+ */
+
+inline UInt32
+ActorBase::getNumPasses(void) const
+{
+    return _pAction->getNumPasses();
+}
+
+//----------------------------------------------------------------------------
 //    State Management
 //----------------------------------------------------------------------------
 
@@ -380,4 +394,4 @@ ActorBase::getSlotMap(void)
 
 OSG_END_NAMESPACE
 
-#define OSGACTORBASE_INLINE_CVSID "@(#)$Id: OSGActorBase.inl,v 1.5 2004/09/13 15:15:02 neumannc Exp $"
+#define OSGACTORBASE_INLINE_CVSID "@(#)$Id: OSGActorBase.inl,v 1.6 2004/09/17 14:09:42 neumannc Exp $"

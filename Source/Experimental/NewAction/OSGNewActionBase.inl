@@ -179,6 +179,22 @@ NewActionBase::getExtraChildrenList(void)
 }
 
 //----------------------------------------------------------------------------
+//    MultiPass Setup
+//----------------------------------------------------------------------------
+
+inline UInt32
+NewActionBase::getNumPasses(void) const
+{
+    return _numPasses;
+}
+
+inline void
+NewActionBase::setNumPasses(UInt32 numPasses)
+{
+    _numPasses = numPasses;
+}
+
+//----------------------------------------------------------------------------
 //    Actor Access
 //----------------------------------------------------------------------------
 
@@ -256,4 +272,4 @@ NewActionBase::endBasic(void)
 
 OSG_END_NAMESPACE
 
-#define OSGNEWACTIONBASE_INLINE_CVSID "@(#)$Id: OSGNewActionBase.inl,v 1.2 2004/09/13 15:15:02 neumannc Exp $"
+#define OSGNEWACTIONBASE_INLINE_CVSID "@(#)$Id: OSGNewActionBase.inl,v 1.3 2004/09/17 14:09:43 neumannc Exp $"

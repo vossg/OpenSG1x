@@ -73,11 +73,11 @@ class OSG_SYSTEMLIB_DLLMAPPING BasicActorBase : public ActorBase
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Enter/Leave                                                 */
+    /*! \name    Enter/Leave Callback                                        */
     /*! \{                                                                   */
 
-    virtual ResultE enterNode(const NodePtr &pNode) = 0;
-    virtual ResultE leaveNode(const NodePtr &pNode) = 0;
+    virtual ResultE enterNode(FunctorArgumentType &funcArg) = 0;
+    virtual ResultE leaveNode(FunctorArgumentType &funcArg) = 0;
 
     /*! \}                                                                   */
     /*==== PROTECTED ========================================================*/
@@ -112,6 +112,6 @@ OSG_END_NAMESPACE
 
 #include "OSGBasicActorBase.inl"
 
-#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.3 2004/09/13 15:15:02 neumannc Exp $"
+#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.4 2004/09/17 14:09:42 neumannc Exp $"
 
 #endif /* _OSGBASICACTORBASE_H_ */

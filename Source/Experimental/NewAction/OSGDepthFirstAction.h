@@ -123,18 +123,19 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
     class NodeStackEntry
     {
       public:
-        inline explicit NodeStackEntry(const NodePtr &pNode                );
-        inline explicit NodeStackEntry(const NodePtr &pNode, bool enterFlag);
+        inline NodeStackEntry(      void                                  );
+        inline NodeStackEntry(const NodeStackEntry &source                );
+        inline NodeStackEntry(const NodePtr        &pNode, Int32 passCount);
 
         inline NodePtr getNode     (      void              ) const;
         inline void    setNode     (const NodePtr &pNode    );
 
-        inline bool    getEnterFlag(      void              ) const;
-        inline void    setEnterFlag(      bool     enterFlag);
+        inline Int32   getPassCount(      void              ) const;
+        inline void    setPassCount(      Int32    passCount);
 
       private:
         NodePtr _pNode;
-        bool    _enterFlag;
+        Int32   _passCount;
     };
 
     typedef std::deque<NodeStackEntry> NodeStack;
@@ -149,8 +150,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
 
            void    pushChildren      (const NodePtr &pNode, ResultE result);
 
-    inline ResultE enterNode         (const NodePtr &pNode                );
-    inline ResultE leaveNode         (const NodePtr &pNode                );
+    inline ResultE enterNode         (const NodePtr &pNode, UInt32  pass  );
+    inline ResultE leaveNode         (const NodePtr &pNode, UInt32  pass  );
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -168,6 +169,6 @@ OSG_END_NAMESPACE
 
 #include "OSGDepthFirstAction.inl"
 
-#define OSGDEPTHFIRSTACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstAction.h,v 1.2 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGDEPTHFIRSTACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstAction.h,v 1.3 2004/09/17 14:09:42 neumannc Exp $"
 
 #endif /* _OSGDEPTHFIRSTACTION_H_ */

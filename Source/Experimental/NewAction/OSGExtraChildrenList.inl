@@ -49,17 +49,17 @@ OSG_BEGIN_NAMESPACE
 
 inline
 ExtraChildrenList::ChildrenListEntry::ChildrenListEntry(void)
-    : _pNode   (NullFC                                    ),
-      _priority(TypeTraits<PriorityType>::getZeroElement()),
-      _active  (false                                     )
+    : _pNode   (NullFC                              ),
+      _priority(PriorityTypeTraits::getZeroElement()),
+      _active  (false                               )
 {
 }
 
 inline
 ExtraChildrenList::ChildrenListEntry::ChildrenListEntry(const NodePtr &pNode)
-    : _pNode   (pNode                                     ),
-      _priority(TypeTraits<PriorityType>::getZeroElement()),
-      _active  (true                                      )
+    : _pNode   (pNode                               ),
+      _priority(PriorityTypeTraits::getZeroElement()),
+      _active  (true                                )
 {
 }
 
@@ -199,4 +199,4 @@ ExtraChildrenList::clear(void)
 
 OSG_END_NAMESPACE
 
-#define OSGEXTRACHILDRENLIST_INLINE_CVSID "@(#)$Id: OSGExtraChildrenList.inl,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGEXTRACHILDRENLIST_INLINE_CVSID "@(#)$Id: OSGExtraChildrenList.inl,v 1.2 2004/09/17 14:09:43 neumannc Exp $"

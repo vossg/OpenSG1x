@@ -44,9 +44,7 @@
 
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGTypedFunctors.h>
-#include <OSGNodePtr.h>
+#include "OSGFunctorArgumentType.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -65,17 +63,18 @@ namespace NewActionTypes
         Quit     = 0x04   // end traversal
     };
 
-    typedef Real32                                            PriorityType;
+    typedef Real32                                        PriorityType;
+    typedef TypeTraits<PriorityType>                      PriorityTypeTraits;
 
-    //typedef ArgsCollector2   <ActorBase *, NodePtr>         FunctorArguments;
-    typedef ArgsCollector    <ActorBase *>                    FunctorArguments;
+    //typedef ArgsCollector2   <ActorBase *, NodePtr>     FunctorArguments;
+    typedef ArgsCollector    <FunctorArgumentType &  >    FunctorArguments;
     typedef TypedFunctor2Base<ResultE,
                               CPtrCallArg<NodeCorePtr>,
-                              FunctorArguments            > Functor;
+                              FunctorArguments          > Functor;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGNEWACTIONTYPES_HEADER_CVSID "@(#)$Id: OSGNewActionTypes.h,v 1.2 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGNEWACTIONTYPES_HEADER_CVSID "@(#)$Id: OSGNewActionTypes.h,v 1.3 2004/09/17 14:09:43 neumannc Exp $"
 
 #endif /* _OSGNEWACTIONTYPES_H_ */

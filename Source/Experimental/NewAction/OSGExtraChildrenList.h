@@ -57,7 +57,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ExtraChildrenList
     /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    typedef NewActionTypes::PriorityType PriorityType;
+    typedef NewActionTypes::PriorityType       PriorityType;
+    typedef NewActionTypes::PriorityTypeTraits PriorityTypeTraits;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,6 +148,6 @@ OSG_END_NAMESPACE
 
 #include "OSGExtraChildrenList.inl"
 
-#define OSGEXTRACHILDRENLIST_HEADER_CVSID "@(#)$Id: OSGExtraChildrenList.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGEXTRACHILDRENLIST_HEADER_CVSID "@(#)$Id: OSGExtraChildrenList.h,v 1.2 2004/09/17 14:09:43 neumannc Exp $"
 
 #endif /* _OSGEXTRACHILDRENLIST_H_ */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,72 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGPRINTNAMEACTOR_H_
-#define _OSGPRINTNAMEACTOR_H_
-#ifdef __sgi
-#pragma once
-#endif
-
-//----------------------------------------------------------------------------
-//    Includes
-//----------------------------------------------------------------------------
-
-#include <OSGConfig.h>
-
-#include <OSGPrintNameActorBase.h>
-
 OSG_BEGIN_NAMESPACE
-
-class OSG_SYSTEMLIB_DLLMAPPING PrintNameActor : public PrintNameActorBase
-{
-    /*====  PUBLIC  =========================================================*/
-  public:
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Types                                                       */
-    /*! \{                                                                   */
-
-    typedef BasicActorBase::ResultE ResultE;
-    typedef BasicActorBase::Functor Functor;
-
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Create                                                      */
-    /*! \{                                                                   */
-
-    static PrintNameActor *create(void);
-
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Destructor                                                  */
-    /*! \{                                                                   */
-
-    virtual ~PrintNameActor(void);
-
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Enter/Leave                                                 */
-    /*! \{                                                                   */
-
-
-    /*! \}                                                                   */
-    /*==== PROTECTED ========================================================*/
-  protected:
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Constructor                                                 */
-    /*! \{                                                                   */
-
-    PrintNameActor(void);
-
-    /*! \}                                                                   */
-    /*==== PRIVATE ==========================================================*/
-  private:
-    typedef PrintNameActorBase Inherited;
-};
 
 OSG_END_NAMESPACE
 
-#include <OSGPrintNameActor.inl>
-
-#define OSGPRINTNAMEACTOR_HEADER_CVSID "@(#)$Id:"
-
-#endif /* _OSGPRINTNAMEACTOR_H_ */
+#define OSGTESTINGEXTENDACTOR_INLINE_CVSID "@(#)$Id:"
