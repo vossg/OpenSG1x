@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="FileGrabForeground"
+	parent="GrabForeground"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+Background is the base class for all background clearing.
+	<Field
+		name="active"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Activate the grabber
+	</Field>
+	<Field
+		name="name"
+		type="string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The filename template. %d is replaced by the frame number.
+	</Field>
+	<Field
+		name="frame"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	The frame number to use.
+	</Field>
+	<Field
+		name="increment"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Flag to start/stop automatic frame increments after each grab.
+	</Field>
+</FieldContainer>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="GrabForeground"
+	parent="Foreground"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+Background is the base class for all background clearing.  	
+	<Field
+		name="image"
+		type="ImageP"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The image to write to.
+	</Field>
+</FieldContainer>
