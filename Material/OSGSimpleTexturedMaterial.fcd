@@ -16,6 +16,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="0"
 	>
 	the texture image
 	</Field>

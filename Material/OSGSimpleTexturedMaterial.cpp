@@ -83,6 +83,8 @@ SimpleTexturedMaterial::SimpleTexturedMaterial(const SimpleTexturedMaterial &sou
 {
     _textureChunk = TextureChunk::create();
     _texGenChunk  = TexGenChunk::create();
+    addRefCP(_textureChunk);
+    addRefCP(_texGenChunk);
 }
 
 //! Destructor
@@ -194,7 +196,7 @@ void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.12 2002/06/10 21:56:40 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.13 2002/07/02 14:38:22 dirk Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }

@@ -189,7 +189,7 @@ void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
 #endif
 
 SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(void) :
-    _sfImage                  (), 
+    _sfImage                  (ImageP(0)), 
     _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
     _sfMagFilter              (UInt32(GL_LINEAR)), 
     _sfEnvMode                (UInt32(GL_REPLACE)), 
@@ -376,7 +376,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.19 2002/06/18 08:17:51 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.20 2002/07/02 14:38:23 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
