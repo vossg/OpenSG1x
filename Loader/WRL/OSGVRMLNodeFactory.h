@@ -45,9 +45,8 @@
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
-#ifdef OSG_SGI_STL
+#ifdef OSG_STL_HAS_HASH_MAP
 #ifdef OSG_HASH_MAP_AS_EXT
-#include <ext/hash_map>
 #else
 #include <hash_map>
 #endif
@@ -76,11 +75,13 @@ class VRMLNodeFactory : public BaseT
     /*==========================  PRIVATE  ================================*/
   private:
 
-#ifdef OSG_SGI_STL
+#ifdef OSG_STL_HAS_HASH_MAP
     typedef 
-        std::hash_map
-            <          const Char8 *,  VRMLNodeDesc *, 
-             std::hash<const Char8 *>, EQString      > NodeNameDescHash;
+        OSG_STDEXTENSION_NAMESPACE::hash_map<
+            const Char8  *,  
+            VRMLNodeDesc *, 
+            OSG_STDEXTENSION_NAMESPACE::hash<const Char8 *>, 
+            EQString                                      > NodeNameDescHash;
 #else
     typedef 
         std::map<     const Char8 *,  VRMLNodeDesc  *, 

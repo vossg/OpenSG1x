@@ -379,7 +379,7 @@ void *ClusterServer::serviceProc(void *arg)
                     }
                 }
             }
-            catch(OSG_EX_NAMESPACE::exception &e)
+            catch(OSG_EXCEPTION_NAMESPACE::exception &e)
             {
                 SWARNING << e.what() << std::endl;
             }
@@ -387,7 +387,7 @@ void *ClusterServer::serviceProc(void *arg)
 
         serviceSock.close();
     }
-    catch(OSG_EX_NAMESPACE::exception &e)
+    catch(OSG_EXCEPTION_NAMESPACE::exception &e)
     {
         SFATAL << e.what() << ": Server is now unknown" << std::endl;
     }

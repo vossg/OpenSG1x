@@ -48,10 +48,6 @@
 #include <iostream>
 #include <fstream>
 
-#ifdef OSG_SGI_STL
-//#include <limits>
-#endif
-
 #include <OSGLog.h>
 
 #include <OSGNode.h>

@@ -48,10 +48,6 @@
 #include <iostream>
 #include <fstream>
 
-#ifdef OSG_SGI_STL
-//#include <limits>
-#endif
-
 #include <OSGLog.h>
 
 #include <OSGNode.h>
@@ -397,7 +393,7 @@ RAWSceneFileType::~RAWSceneFileType (void )
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.15 2002/09/02 07:04:45 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.16 2002/09/21 09:25:59 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 

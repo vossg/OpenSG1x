@@ -202,6 +202,12 @@ void TypeFactory::writeTypeGraph(const Char8 *szFilename)
              bind1st(ptr_fun(writeTypeDot), pOut));
  */
 
+    fprintf(pOut, "    rankdir=LR;\n");
+    fprintf(pOut, "    size=\"8,60\";\n");
+    fprintf(pOut, "    page=\"8.2677,11.69\";\n");
+    fprintf(pOut, "    radio=auto;\n");
+
+
     for(UInt32 i = 1; i < _vTypeStore.size(); i++)
     {
         writeTypeDot(pOut, _vTypeStore[i]);
@@ -240,12 +246,14 @@ TypeFactory::~TypeFactory(void)
 void TypeFactory::writeTypeDot(FILE     *pOut,
                                TypeBase *pTypeBase)
 {
-    fprintf(pOut, "    %s [shape=box]\n", pTypeBase->getCName());
+    fprintf(pOut, "    OpenSG%s [shape=record,label=\"%s\"]\n", 
+            pTypeBase->getCName(),
+            pTypeBase->getCName());
 
     if(pTypeBase->getCParentName() != NULL)
     {
         fprintf(pOut, 
-                "    %s -> %s\n", 
+                "    OpenSG%s -> OpenSG%s\n", 
                 pTypeBase->getCParentName(), 
                 pTypeBase->getCName());
     }

@@ -49,10 +49,9 @@
 #include <vector>
 #include <string>
 
-#ifdef OSG_SGI_STL
+#ifdef OSG_STL_HAS_HASH_MAP
 #ifdef OSG_HASH_MAP_AS_EXT
 #include <ext/hash_map>
-using namespace __gnu_cxx;
 #else
 #include <hash_map>
 #endif
@@ -257,10 +256,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-#ifdef OSG_SGI_STL
+#ifdef OSG_STL_HAS_HASH_MAP
     typedef 
-        std::hash_map<          const Char8 *,  UInt32, 
-                      std::hash<const Char8 *>, EQString> FieldNameTypeHash;
+        OSG_STDEXTENSION_NAMESPACE::hash_map<
+            const Char8 *,  
+            UInt32, 
+            OSG_STDEXTENSION_NAMESPACE::hash<const Char8 *>, 
+            EQString                                      > FieldNameTypeHash;
 #else
     typedef 
         std::map<     const Char8 *,  UInt32,   LTString> FieldNameTypeHash;

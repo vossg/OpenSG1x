@@ -139,9 +139,11 @@
 
 #    define OSG_THROW_NOTHING() throw()
 
-#    define OSG_EX_NAMESPACE    std
+#    define OSG_EXCEPTION_NAMESPACE     std
 
-namespace __gnu_cxx {} using namespace __gnu_cxx;
+#    define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
+
+#    define OSG_STL_HAS_HASH_MAP
 
 # else
 #     define OSG_THROW_NOTHING() 
@@ -229,6 +231,8 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_SGI_STL
 
+# define OSG_STL_HAS_HASH_MAP
+
 /*! \brief Use GLX 
  *  \ingroup BaseDefines
  */
@@ -247,7 +251,7 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_FOUND_OS 
 
-# define OSG_EX_NAMESPACE std
+# define OSG_EXCEPTION_NAMESPACE std
 
 # endif // defined(__sgi) && !defined(__GNUC__)
 
@@ -320,7 +324,9 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_FOUND_OS
 
-# define OSG_EX_NAMESPACE std
+# define OSG_EXCEPTION_NAMESPACE std
+
+# define OSG_STL_HAS_HASH_MAP
 
 # endif // defined(__INTEL_COMPILER) && defined(__linux)
 
@@ -549,7 +555,7 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_NOGLUTSUBDIR
 
-# define OSG_EX_NAMESPACE std
+# define OSG_EXCEPTION_NAMESPACE std
 
 # endif // defined(__hpux) && !defined(__GNUC__)
 
@@ -674,10 +680,12 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 // ToBeChecked Defaults
 
-#if !defined(OSG_EX_NAMESPACE)
+#if !defined(OSG_EXCEPTION_NAMESPACE)
+#    define OSG_EXCEPTION_NAMESPACE
+#endif
 
-#    define OSG_EX_NAMESPACE
-
+#ifndef OSG_STDEXTENSION_NAMESPACE
+#    define OSG_STDEXTENSION_NAMESPACE  std
 #endif
 
 #endif /* _OSGCONFIG_H_ */
