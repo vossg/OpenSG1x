@@ -16,6 +16,7 @@
 #include <OpenSG/OSGNodeCore.h>
 #include <OpenSG/OSGSFFieldContainerPtr.h>
 #include <OpenSG/OSGSceneFileHandler.h>
+#include <OpenSG/OSGSimpleAttachments.h>
 #include <qfiledialog.h>
 #include <qgroupbox.h>
 #include <qheader.h>
