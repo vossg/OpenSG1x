@@ -97,6 +97,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+	virtual ~OSGSceneFileType (void);
  
     /*------------------------- your_category -------------------------------*/
 
@@ -148,8 +149,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
 
     OSGSceneFileType(const char   *suffixArray[], 
                            UInt16  suffixByteCount);
-
-	virtual ~OSGSceneFileType (void);
 
   private:
 

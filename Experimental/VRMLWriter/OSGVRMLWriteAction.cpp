@@ -1034,6 +1034,8 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
 {
     fprintf(stderr, "Init VRMLWriter\n");
 
+#ifndef OSG_NOFUNCTORS
+
     VRMLWriteAction::registerEnterDefault( 
         Group::getClassType(), 
         osgFunctionFunctor2<Action::ResultE,
@@ -1071,6 +1073,36 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
         osgFunctionFunctor2<Action::ResultE,
                             CNodePtr &,
                             Action *>(&VRMLWriteAction::writeGeoLeave));
+
+#else
+
+    VRMLWriteAction::registerEnterDefault( 
+        Group::getClassType(), 
+        Action::osgFunctionFunctor2(VRMLWriteAction::writeGroupEnter));
+
+    VRMLWriteAction::registerEnterDefault( 
+        VRMLTransform::getClassType(), 
+        Action::osgFunctionFunctor2(VRMLWriteAction::writeVTransformEnter));
+
+    VRMLWriteAction::registerEnterDefault( 
+        Geometry::getClassType(), 
+        Action::osgFunctionFunctor2(VRMLWriteAction::writeGeoEnter));
+
+
+
+    VRMLWriteAction::registerLeaveDefault(
+        Group::getClassType(), 
+        Action::osgFunctionFunctor2(&VRMLWriteAction::writeGroupLeave));
+
+    VRMLWriteAction::registerLeaveDefault(
+        VRMLTransform::getClassType(), 
+        Action::osgFunctionFunctor2(&VRMLWriteAction::writeVTransformLeave));
+
+    VRMLWriteAction::registerLeaveDefault(
+        Geometry::getClassType(), 
+        Action::osgFunctionFunctor2(&VRMLWriteAction::writeGeoLeave));
+
+#endif
 
     return true;
 }

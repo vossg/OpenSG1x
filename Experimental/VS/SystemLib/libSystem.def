@@ -39,3 +39,7 @@ EXPORTS
     ?getValue@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@osg@@$0A@@osg@@QAEAAV?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@2@XZ
     ?getValue@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@osg@@$0A@@osg@@QBEABV?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@2@XZ
     ?setValue@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@osg@@$0A@@osg@@QAEXABV?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@2@@Z
+
+    ?findNodeDesc@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@IAEPAVVRMLNodeDesc@2@PBD@Z
+    ?addNodeDesc@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@IAEXPBDPAVVRMLNodeDesc@2@@Z
+    ?beginProtoInterface@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD@Z

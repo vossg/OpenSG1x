@@ -240,7 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class ActionInitializer;
+	friend struct ActionInitializer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -264,6 +264,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
 
     static Action::ResultE writeGroupEnter(CNodePtr &pGroup,
                                            Action   *pAction);

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /MD /W3 /GR /GX /O2 /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\FieldContainer" /I "..\..\..\Multithreading" /I "..\..\..\Field" /I "..\..\..\Action" /I "..\..\..\Action\DrawAction" /I "..\..\..\Action\IntersectAction" /I "..\..\..\Nodes\Misc" /I "..\..\..\Nodes\Light" /I "..\..\..\Nodes\Geometry" /I "..\..\..\Material" /I "..\..\..\State" /I "..\..\..\Window" /I "..\..\..\Image" /I "..\..\..\Loader" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /D "OSG_NOFUNCTORS" /FD /Zm200 /c
+# ADD CPP /MD /W3 /GR /GX /O2 /I "." /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\FieldContainer" /I "..\..\..\Multithreading" /I "..\..\..\Field" /I "..\..\..\Action" /I "..\..\..\Action\DrawAction" /I "..\..\..\Action\IntersectAction" /I "..\..\..\Nodes\Misc" /I "..\..\..\Nodes\Light" /I "..\..\..\Nodes\Geometry" /I "..\..\..\Material" /I "..\..\..\State" /I "..\..\..\Window" /I "..\..\..\Image" /I "..\..\..\Loader" /I "..\..\..\Loader\Fhs" /I "..\..\..\Experimental\ScanParseSkel" /I "..\..\..\Experimental\OSGLoader" /I "..\..\..\Experimental\VRMLLoader" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /D "OSG_NOFUNCTORS" /FD /Zm200 /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /MDd /W3 /Gm /GR /GX /ZI /Od /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\FieldContainer" /I "..\..\..\Multithreading" /I "..\..\..\Field" /I "..\..\..\Action" /I "..\..\..\Action\DrawAction" /I "..\..\..\Action\IntersectAction" /I "..\..\..\Nodes\Misc" /I "..\..\..\Nodes\Light" /I "..\..\..\Nodes\Geometry" /I "..\..\..\Material" /I "..\..\..\State" /I "..\..\..\Window" /I "..\..\..\Image" /I "..\..\..\Loader" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /D "OSG_NOFUNCTORS" /FD /GZ /Zm200 /c
+# ADD CPP /MDd /W3 /Gm /GR /GX /ZI /Od /I "." /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\FieldContainer" /I "..\..\..\Multithreading" /I "..\..\..\Field" /I "..\..\..\Action" /I "..\..\..\Action\DrawAction" /I "..\..\..\Action\IntersectAction" /I "..\..\..\Nodes\Misc" /I "..\..\..\Nodes\Light" /I "..\..\..\Nodes\Geometry" /I "..\..\..\Material" /I "..\..\..\State" /I "..\..\..\Window" /I "..\..\..\Image" /I "..\..\..\Loader" /I "..\..\..\Loader\Fhs" /I "..\..\..\Experimental\ScanParseSkel" /I "..\..\..\Experimental\OSGLoader" /I "..\..\..\Experimental\VRMLLoader" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /D "OSG_NOFUNCTORS" /FD /GZ /Zm200 /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -536,6 +536,74 @@ SOURCE=..\..\..\Loader\OSGSceneFileHandler.cpp
 # Begin Source File
 
 SOURCE=..\..\..\Loader\OSGSceneFileType.cpp
+# End Source File
+# End Group
+# Begin Group "Fhs_cpp"
+
+# PROP Default_Filter "cpp"
+# Begin Source File
+
+SOURCE=.\fhs.lex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\fhs.tab.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Loader\Fhs\OSGFhsFile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Loader\Fhs\OSGFhsSceneFileType.cpp
+# End Source File
+# End Group
+# Begin Group "ScanParseSkel_cpp"
+
+# PROP Default_Filter "cpp"
+# Begin Source File
+
+SOURCE=..\..\ScanParseSkel\OSGScanParseSkel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGScanParseSkel.lex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGScanParseSkel.tab.cpp
+# End Source File
+# End Group
+# Begin Group "OSGLoader_cpp"
+
+# PROP Default_Filter "cpp"
+# Begin Source File
+
+SOURCE=..\..\OSGLoader\OSGLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\OSGLoader\OSGOSGSceneFileType.cpp
+# End Source File
+# End Group
+# Begin Group "VRMLLoader_cpp"
+
+# PROP Default_Filter "cpp"
+# Begin Source File
+
+SOURCE=..\..\VRMLLoader\OSGVRMLFile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\VRMLLoader\OSGVRMLNodeDescs.cpp
+# End Source File
+# End Group
+# Begin Group "VRMLWriter_cpp"
+
+# PROP Default_Filter "cpp"
+# Begin Source File
+
+SOURCE=..\..\VRMLWriter\OSGVRMLWriteAction.cpp
 # End Source File
 # End Group
 # Begin Source File
@@ -1370,6 +1438,78 @@ SOURCE=..\..\..\Loader\OSGSceneFileHandler.h
 SOURCE=..\..\..\Loader\OSGSceneFileType.h
 # End Source File
 # End Group
+# Begin Group "Fhs_h"
+
+# PROP Default_Filter "h"
+# Begin Source File
+
+SOURCE=.\fhs.tab.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Loader\Fhs\OSGFhsComm.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Loader\Fhs\OSGFhsFile.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Loader\Fhs\OSGFhsSceneFileType.h
+# End Source File
+# End Group
+# Begin Group "ScanParseSkel_h"
+
+# PROP Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\ScanParseSkel\OSGScanParseFieldTypeMapper.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\ScanParseSkel\OSGScanParseSkel.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGScanParseSkel.tab.h
+# End Source File
+# End Group
+# Begin Group "OSGLoader_h"
+
+# PROP Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\OSGLoader\OSGLoader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\OSGLoader\OSGOSGSceneFileType.h
+# End Source File
+# End Group
+# Begin Group "VRMLLoader_h"
+
+# PROP Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\VRMLLoader\OSGVRMLFile.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\VRMLLoader\OSGVRMLNodeDescs.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\VRMLLoader\OSGVRMLNodeFactory.h
+# End Source File
+# End Group
+# Begin Group "VRMLWriter_h"
+
+# PROP Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\VRMLWriter\OSGVRMLWriteAction.h
+# End Source File
+# End Group
 # End Group
 # Begin Group "Inline Files"
 
@@ -1730,6 +1870,38 @@ SOURCE=..\..\..\Material\OSGSimpleMaterialBase.inl
 
 # PROP Default_Filter "inl"
 # End Group
+# Begin Group "Fhs_inl"
+
+# PROP Default_Filter "inl"
+# End Group
+# Begin Group "ScanParserSkel_inl"
+
+# PROP Default_Filter "inl"
+# Begin Source File
+
+SOURCE=..\..\ScanParseSkel\OSGScanParseFieldTypeMapper.inl
+# End Source File
+# End Group
+# Begin Group "OSGLoader_inl"
+
+# PROP Default_Filter "inl"
+# End Group
+# Begin Group "VRMLLoader_inl"
+
+# PROP Default_Filter "inl"
+# Begin Source File
+
+SOURCE=..\..\VRMLLoader\OSGVRMLNodeFactory.inl
+# End Source File
+# End Group
+# Begin Group "VRMLWriter_inl"
+
+# PROP Default_Filter "inl"
+# Begin Source File
+
+SOURCE=..\..\VRMLWriter\OSGVRMLWriteAction.inl
+# End Source File
+# End Group
 # End Group
 # Begin Group "Resource Files"
 
@@ -1745,4 +1917,3 @@ SOURCE=.\defs
 # End Group
 # End Target
 # End Project
-
