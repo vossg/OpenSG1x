@@ -83,6 +83,10 @@ void display ( void )
     m1.mult( m2 );
     cam_trans->getSFMatrix()->setValue( m1 );
 
+    glClearColor( 0.f, 0.f, 1.0, 1.0);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+
     win->draw( ract );
 }
 
@@ -92,6 +96,11 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 {
     RECT clientRect;
     int  eventThread = 0, x, y, i;
+
+    PIXELFORMATDESCRIPTOR	pfd;	
+    HDC	  	  hDC;
+
+    int iPixelFormat;
 
     switch(uMsg)
     {		
@@ -187,6 +196,41 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 		    	display();
 			break;
 
+        case WM_CREATE:
+            dpr << "Create " << endl;
+
+            memset(&pfd, 0, sizeof(pfd));
+            pfd.nSize = sizeof(pfd);
+            pfd.nVersion = 1;
+            pfd.dwFlags = 
+                PFD_DRAW_TO_WINDOW | 
+                PFD_SUPPORT_OPENGL | 
+                PFD_DOUBLEBUFFER;
+            pfd.iPixelType = PFD_TYPE_RGBA;
+            pfd.iLayerType = PFD_MAIN_PLANE;
+            pfd.cDepthBits = 16;   	    
+
+            win->setWindow ( hwnd2 );
+
+
+            // init the OSG window	
+            hDC = GetDC(hwnd2);
+
+            iPixelFormat = ChoosePixelFormat(hDC, &pfd);
+            SetPixelFormat(hDC, iPixelFormat, &pfd);	
+            
+            win->setHDC ( hDC );
+            
+            win->init();
+	
+            // some manual init, will be moved into StateChunks later
+            win->activate();
+            glEnable( GL_LIGHTING );
+            glEnable( GL_LIGHT0 );
+            glEnable( GL_DEPTH_TEST );
+            win->deactivate();
+            break;
+
 	    case WM_CLOSE:
 		    return DefWindowProc(hwnd2,uMsg,wParam,lParam);
 			break;
@@ -204,8 +248,6 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 int main (int argc, char **argv)
 {   
     WNDCLASS  wndClass;
-    PIXELFORMATDESCRIPTOR	pfd;	
-    HDC	  	  hDC;
     MSG		  msg;
     Int32	  i,
                   iPixelFormat,
@@ -332,15 +374,10 @@ int main (int argc, char **argv)
         return FALSE;
     }
 
-    memset(&pfd, 0, sizeof(pfd));
-    pfd.nSize = sizeof(pfd);
-    pfd.nVersion = 1;
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pfd.iPixelType = PFD_TYPE_RGBA;
-    pfd.iLayerType = PFD_MAIN_PLANE;
-    pfd.cDepthBits = 16;   	    
     
     // Create Windows
+
+    win = WIN32Window::create();
     
     // Create a Window
     hwnd = CreateWindow( "testWindowWIN32", "testWindowWIN32",
@@ -354,27 +391,9 @@ int main (int argc, char **argv)
 			        GetModuleHandle(NULL), 
 			        0 );
 
-	// init the OSG window	
-	hDC = GetDC(hwnd);
-	
-	iPixelFormat = ChoosePixelFormat(hDC, &pfd);
-	SetPixelFormat(hDC, iPixelFormat, &pfd);	
-	
-	win = WIN32Window::create();
-	win->setWindow ( hwnd );
-	win->setHDC ( hDC );
-	
 	ShowWindow( hwnd, SW_SHOWNORMAL );
 	SetActiveWindow( hwnd );
-
-	win->init();
 	
-	// some manual init, will be moved into StateChunks later
-	win->activate();
-	glEnable( GL_LIGHTING );
-	glEnable( GL_LIGHT0 );
-	glEnable( GL_DEPTH_TEST );
-	win->deactivate();
 
 	// Viewport
 	ViewportPtr vp = Viewport::create();
