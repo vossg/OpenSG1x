@@ -194,7 +194,7 @@ int main (int argc, char **argv)
 	
 
 
-	dact = new DrawAction;
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 	

@@ -98,7 +98,7 @@ int main (int argc, char **argv)
 	objects[3] = makeSphere( 3, 2 );
 	cerr << "Sphere Node: " << hex << objects[3] << endl;
 	
-	dact = new DrawAction;
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 	
