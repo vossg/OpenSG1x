@@ -75,17 +75,17 @@ $(warning DBG=$(DBG))
 endif
 
 MAKEMAJOR := \
-	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 4 | cut -d'.' -f 1)
+	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 4 | cut -d'.' -f 1)
 
 MAKEMINOR := \
-	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 4 | cut -d'.' -f 2)
+	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 4 | cut -d'.' -f 2)
 
 ifeq ($(MAKEMAJOR),)
 MAKEMAJOR := \
-	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 3 | cut -d'.' -f 1)
+	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 3 | cut -d'.' -f 1)
 
 MAKEMINOR := \
-	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 3 | cut -d'.' -f 2)
+	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 3 | cut -d'.' -f 2)
 endif
 
 
