@@ -50,7 +50,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.8 2002/02/22 16:46:42 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.9 2002/02/28 08:02:39 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
 
@@ -371,25 +371,28 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
         AttachmentMap::const_iterator iter = attMap.begin();
         AttachmentMap::const_iterator end  = attMap.end();
 
-        _outStream << _indent << fieldDesc->getName();
+        _outStream << _indent << fieldDesc->getName() << " [ ";
         _indent++;
         _state.setIndent(_indent.getIndent());
         
-        //if the Attachment Map is empty write NULL as its content
+        //if the Attachment Map is empty write [] as its content
         if(iter==end)
         {
-            _outStream << " NULL" << endl;
+            _outStream << " ] " << endl;
+            _indent--; 
         }
         else
         {
             _outStream << endl;
-        }
         
-        for(; iter!=end; ++iter)
-        {
-            writeContainer(iter->second);
+            for(; iter!=end; ++iter)
+            {
+                writeContainer(iter->second);
+            }
+            _indent--; 
+            
+            _outStream << _indent << " ] " << endl;
         }
-        _indent--; 
     }
     //else if(contentType.isDerivedFrom(FieldContainerPtr::getClassType()))
     else if(strstr(fType.getCName(), "Ptr") != NULL)

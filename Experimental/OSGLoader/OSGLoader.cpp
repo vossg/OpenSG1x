@@ -172,6 +172,9 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFVec3f::getClassType().getId(),
                      ScanParseSkel::OSGsfVec3f);
 
+    setIntExtMapping(SFVec4f::getClassType().getId(),
+                     ScanParseSkel::OSGsfVec4f);
+
     setIntExtMapping(SFColor4f::getClassType().getId(),
                      ScanParseSkel::OSGsfColor4f);
     
@@ -204,6 +207,9 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(MFVec3f::getClassType().getId(),
                      ScanParseSkel::OSGmfVec3f);
+
+    setIntExtMapping(MFVec4f::getClassType().getId(),
+                     ScanParseSkel::OSGmfVec4f);
 
     setIntExtMapping(MFColor4f::getClassType().getId(),
                      ScanParseSkel::OSGmfColor4f);
@@ -257,6 +263,9 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfPlane);
     setIntExtMapping(MFPlane::getClassType().getId(),
                      ScanParseSkel::OSGmfPlane);
+
+    setIntExtMapping(SFDynamicVolume::getClassType().getId(),
+                     ScanParseSkel::OSGsfVolume);
 }
 
 /* remove this, if there is a general methode to find containers */

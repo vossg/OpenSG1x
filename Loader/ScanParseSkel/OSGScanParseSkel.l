@@ -84,7 +84,7 @@ static char *tmpChar = yy_full_match;
 
 
 %x sfcolor4fValue sfmatrixValue sfpnt2fValue sfpnt3fValue sfpnt4fValue
-%x sfvec4fValue sfcolor3fValue sfplaneValue
+%x sfvec4fValue sfcolor3fValue sfplaneValue sfvolumeValue
 
 %x mfcolor4fValue mfmatrixValue mfpnt2fValue mfpnt3fValue mfpnt4fValue 
 %x mfvec4fValue mfcolor3fValue mfplaneValue
@@ -187,6 +187,7 @@ header (#[^\n]*\n)
             case TOK_SFVEC4F:   BEGIN sfvec4fValue;   break;
             case TOK_MFPLANE:   BEGIN mfplaneValue;   break;
             case TOK_SFPLANE:   BEGIN sfplaneValue;   break;            
+            case TOK_SFVOLUME:  BEGIN sfvolumeValue;  break;
 
             default: 
                 fprintf(stderr, "ACK: Bad expectToken"); 
@@ -790,6 +791,19 @@ header (#[^\n]*\n)
     /* sfplaneValue ::= float float float float; */
 
 <sfplaneValue>({float}{ws}){3}{float} { 
+    BEGIN NODE; 
+    expectToken = 0; 
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+    return TOK_SFPLANE; 
+}
+
+    /* sfplaneValue ::= float float float float;
+                    |   float float float float float float; */
+
+<sfvolumeValue>({float}{ws}){4}(({float}{ws}){2})? { 
     BEGIN NODE; 
     expectToken = 0; 
 

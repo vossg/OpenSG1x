@@ -155,6 +155,7 @@ void freeName(char *&szName);
 %token TOK_SFPNT4F
 %token TOK_SFVEC4F
 %token TOK_SFPLANE
+%token TOK_SFVOLUME
 
 
 
@@ -175,6 +176,7 @@ void freeName(char *&szName);
 %token Tok_SFPnt4f
 %token Tok_SFVec4f
 %token Tok_SFPlane
+%token Tok_SFVolume
 
 %%
 
@@ -558,6 +560,7 @@ fieldType : Tok_MFColor     { nextType = TOK_MFCOLOR;    }
           | Tok_SFPnt4f     { nextType = TOK_SFPNT4F;    }
           | Tok_SFVec4f     { nextType = TOK_SFVEC4F;    }
           | Tok_SFPlane     { nextType = TOK_SFPLANE;    }
+          | Tok_SFVolume    { nextType = TOK_SFVOLUME;   }
 ;
 
 
@@ -596,6 +599,7 @@ fieldValue : TOK_SFBOOL
            | TOK_SFPNT3F
            | TOK_SFPNT4F
            | TOK_SFPLANE
+           | TOK_SFVOLUME
            | TOK_SFVEC4F
 ;
 

@@ -504,8 +504,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     {
         Pnt3f min, max;
         outStr.erase();
+
         switch(inVal.getType())
-            {
+        {
 
             case DynamicVolume::BOX_VOLUME:
 
@@ -542,7 +543,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 outStr.append(TypeConstants<Real32>::
                               putToString(sVol.getRadius()));
                 break;
-            }
+        }
     }
         
     static UInt32 getBinSize(const DynamicVolume &oObject)

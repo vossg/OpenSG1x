@@ -94,7 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGsfPnt3f    = TOK_SFPNT3F,
         OSGsfPnt4f    = TOK_SFPNT4F,
         OSGsfVec4f    = TOK_SFVEC4F,
-        OSGsfPlane    = TOK_SFPLANE
+        OSGsfPlane    = TOK_SFPLANE,
+        OSGsfVolume   = TOK_SFVOLUME
     };
 
     enum 
