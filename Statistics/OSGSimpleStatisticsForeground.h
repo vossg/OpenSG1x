@@ -91,8 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*! \name               Convenience Functions                          */
     /*! \{                                                                 */
 
-    void addElement( StatElemDescBase &desc, char *format = NULL);
-    void addElement( UInt32            id,   char *format = NULL);
+    void addElement( StatElemDescBase &desc, const char *format = NULL);
+    void addElement( UInt32            id,   const char *format = NULL);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -144,6 +144,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleStatisticsForegroundBase.inl>
 #include <OSGSimpleStatisticsForeground.inl>
 
-#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.4 2002/06/01 10:37:25 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.5 2002/08/08 14:00:19 jbehr Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUND_H_ */

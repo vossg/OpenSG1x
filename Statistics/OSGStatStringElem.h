@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGSTATSTRINGTELEM_H_
+#ifndef _OSGSTATSTRINGELEM_H_
 #define _OSGSTATSTRINGELEM_H_
 #ifdef __sgi
 #pragma once
@@ -83,7 +83,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
 
     virtual ~StatStringElem(void); 
    
-    inline void set(string value);
+    inline void set(const string & value);
+
+    inline void set(const Char8 * value);
 
     inline void reset(void);
 
@@ -140,6 +142,6 @@ OSG_END_NAMESPACE
 
 #include <OSGStatStringElem.inl>
 
-#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.2 2002/05/23 12:58:24 dirk Exp $"
+#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.3 2002/08/08 14:00:19 jbehr Exp $"
 
 #endif /* _OSGSTATSTRINGELEM_H_ */

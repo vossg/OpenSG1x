@@ -124,16 +124,17 @@ void SimpleStatisticsForeground::dump(      UInt32    ,
  */
 
 void SimpleStatisticsForeground::addElement( StatElemDescBase &desc, 
-                                             char *format)
+                                             const char *format)
 {
     getElementIDs().push_back(desc.getID());
-    getFormats().push_back(format);
+    getFormats().push_back(format ? format : "");
 }
 
-void SimpleStatisticsForeground::addElement( UInt32 id, char *format)
+void SimpleStatisticsForeground::addElement( UInt32 id, 
+                                             const char *format)
 {
     getElementIDs().push_back(id);
-    getFormats().push_back(format);
+    getFormats().push_back(format ? format : "");
 }
 
 
@@ -240,7 +241,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
                 vector<string>::iterator str = stat.end() - 1;
                 
                 const char *format = NULL;
-                if(i < getFormats().size())
+                if(i < getFormats().size() && getFormats()[i].length())
                 {
                     format = getFormats()[i].c_str();
                 }
@@ -318,7 +319,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.11 2002/08/07 04:04:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.12 2002/08/08 14:00:19 jbehr Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }
