@@ -1153,9 +1153,13 @@ bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
 
     for(UInt32 i = 0; i < Self::_iSize; i++)
     {
-        if(Self::_values[i] >= other._values[i])
+        if(Self::_values[i] > other._values[i])
         {
             ret = false;
+            break;
+        }
+        if(Self::_values[i] < other._values[i])
+        {
             break;
         }
     }
@@ -1819,17 +1823,17 @@ template <class ValueTypeT,
 bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const VectorInterface &other) const
 {
-    bool ret = true;
+    bool ret = false;
 
     for(UInt32 i = 0; i < Self::_iSize; i++)
     {
-        if(Self::_values[i] > other._values[i])
+        if(Self::_values[i] < other._values[i])
         {
-            ret = false;
+            ret = true;
             break;
         }
 
-        if(Self::_values[i] < other._values[i])
+        if(Self::_values[i] > other._values[i])
             break;
     }
 
