@@ -19,7 +19,7 @@ int main( int argc, char ** argv )
       root = osg::SceneFileHandler::the().read(argv[1]);
       if (root == osg::NullFC)
         {
-          FINFO (( "Couldn't load %s", argv[1]));
+          FFATAL (( "Couldn't load %s", argv[1]));
         }
       else
         {
@@ -31,7 +31,7 @@ int main( int argc, char ** argv )
     }
   else
     {
-      FINFO (( "%s usage: $s 'sceneFileName'\n", argv[0], argv[0] ));
+      FFATAL (( "%s usage: %s 'sceneFileName'\n", argv[0], argv[0] ));
     }
   
   osg::osgExit();

@@ -56,7 +56,7 @@ using namespace osg;
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.1 2001/10/12 10:44:19 jbehr Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.2 2001/10/12 16:57:22 dirk Exp $";
     char cvsid_hpp[] = OSG_HEADER_CVSID;
     char cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -151,7 +151,6 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
 
 OSGQGLManagedWidget::~OSGQGLManagedWidget(void)
 {
-  cerr << "lala" << endl; 
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -317,8 +316,6 @@ void OSGQGLManagedWidget::closeEvent ( QCloseEvent *event )
   FDEBUG (("OSGQGLManagedWidget::closeEvent()\n"));
   
   emit closed(this);
-  
-  return Inherited::closeEvent(event);
 }
 
 #ifdef __sgi
