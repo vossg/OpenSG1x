@@ -228,15 +228,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ChunkMaterialPtr>::_type("ChunkMaterialPtr", "MaterialPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<ChunkMaterialPtr>::_fieldType
 #pragma instantiate MField<ChunkMaterialPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.24 2002/05/20 02:45:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.25 2002/05/20 08:12:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 

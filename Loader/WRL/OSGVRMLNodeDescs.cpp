@@ -4120,7 +4120,7 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
                                                "AttachmentPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate DynFieldAttachment<GenericAttDesc>::_type
 
@@ -4129,12 +4129,16 @@ DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
 
 #else
 
+#ifdef __sgi
+#pragma instantiate DynFieldAttachment<GenericAttDesc>::_type
+#else
 OSG_ABSTR_FC_DLLEXPORT_DEF(DynFieldAttachment, 
                            GenericAttDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+#endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 OSG_END_NAMESPACE

@@ -259,15 +259,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ImageForegroundPtr>::_type("ImageForegroundPtr", "ForegroundPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<ImageForegroundPtr>::_fieldType
 #pragma instantiate MField<ImageForegroundPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -287,7 +287,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.14 2002/05/20 02:45:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.15 2002/05/20 08:10:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 

@@ -683,6 +683,62 @@ OSG_USING_STD_NAMESPACE
 #endif
 
 
+#define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)
+
+#define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)
+
+/*
+#define  OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template<>                                                     \
+FieldContainerType CLASSNAME< T1 >::_type =                    \
+    FieldContainerType(                                        \
+        T1::getTypeName(),                                     \
+        T1::getParentTypeName(),                               \
+        T1::getGroupName(),                                    \
+        (PrototypeCreateF) &CLASSNAME< T1 >::createEmpty,      \
+        T1::getInitMethod(),                                   \
+        _desc,                                                 \
+        sizeof(FieldDescription *))
+ */
+
+
+#define OSG_DLLEXPORT_SFIELD_DEF1(T1,     DLLMAPPING) \
+template <>                                           \
+const FieldType SField< T1, 0 >::_fieldType(          \
+    SFieldTraits::getSName(),                         \
+    SFieldTraits::getPName (),                        \
+    SFieldTraits::getType(),                          \
+    SField< T1, 0 >::create,                          \
+    FieldType::SINGLE_FIELD)
+
+#define OSG_DLLEXPORT_SFIELD_DEF2(T1, T2, DLLMAPPING) \
+template <>                                           \
+const FieldType SField< T1, T2 >::_fieldType(         \
+    SFieldTraits::getSName(),                         \
+    SFieldTraits::getPName (),                        \
+    SFieldTraits::getType(),                          \
+    SField< T1, T2 >::create,                         \
+    FieldType::SINGLE_FIELD)
+
+#define OSG_DLLEXPORT_MFIELD_DEF1(T1,     DLLMAPPING) \
+template <>                                           \
+const FieldType MField< T1, 0 >::_fieldType(          \
+    MFieldTraits::getMName(),                         \
+    MFieldTraits::getPName (),                        \
+    MFieldTraits::getType(),                          \
+    MField< T1 >::create,                             \
+    FieldType::MULTI_FIELD)
+
+#define OSG_DLLEXPORT_MFIELD_DEF2(T1, T2, DLLMAPPING) \
+template <>                                           \
+const FieldType MField< T1, T2 >::_fieldType(         \
+    MFieldTraits::getMName(),                         \
+    MFieldTraits::getPName (),                        \
+    MFieldTraits::getType(),                          \
+    MField< T1, T2 >::create,                         \
+    FieldType::MULTI_FIELD)
+
+#if 0
 #if (defined(WIN32) && defined(__ICL)) || defined (darwin)
 
 #define OSG_EXTERN_EXPORT
@@ -1096,6 +1152,9 @@ OSG_USING_STD_NAMESPACE
 #define OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                \
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)
 #endif
+
+#endif
+
 
 #elif defined (__sgi)
 #define OSG_EXTERN_EXPORT

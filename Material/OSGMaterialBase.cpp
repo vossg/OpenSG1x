@@ -179,15 +179,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainerPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<MaterialPtr>::_fieldType
 #pragma instantiate MField<MaterialPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -207,7 +207,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.27 2002/05/20 02:45:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.28 2002/05/20 08:12:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 

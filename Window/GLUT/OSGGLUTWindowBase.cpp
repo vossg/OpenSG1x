@@ -228,15 +228,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GLUTWindowPtr>::_type("GLUTWindowPtr", "WindowPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<GLUTWindowPtr>::_fieldType
 #pragma instantiate MField<GLUTWindowPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGLUTWindowBase.cpp,v 1.8 2002/05/20 02:45:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGLUTWindowBase.cpp,v 1.9 2002/05/20 08:10:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGLUTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGLUTWINDOWBASE_INLINE_CVSID;
 

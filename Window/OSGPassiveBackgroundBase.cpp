@@ -187,13 +187,13 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", "BackgroundPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<PassiveBackgroundPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 

@@ -228,15 +228,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<StatePtr>::_fieldType
 #pragma instantiate MField<StatePtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.27 2002/05/20 02:45:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.28 2002/05/20 08:12:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 

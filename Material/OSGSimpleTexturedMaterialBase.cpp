@@ -355,15 +355,17 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SimpleTexturedMaterialPtr>::_type("SimpleTexturedMaterialPtr", "SimpleMaterialPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<SimpleTexturedMaterialPtr>::_fieldType
 #pragma instantiate MField<SimpleTexturedMaterialPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(SimpleTexturedMaterialPtr, 
+                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(SimpleTexturedMaterialPtr, 
+                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -383,7 +385,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.15 2002/05/20 02:45:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.16 2002/05/20 08:12:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 

@@ -537,13 +537,13 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "BackgroundPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate MField<SkyBackgroundPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_MFIELD_DEF1(SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -563,7 +563,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.8 2002/05/20 02:45:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.9 2002/05/20 08:10:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 

@@ -228,15 +228,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GrabForegroundPtr>::_type("GrabForegroundPtr", "ForegroundPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<GrabForegroundPtr>::_fieldType
 #pragma instantiate MField<GrabForegroundPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGrabForegroundBase.cpp,v 1.8 2002/05/20 02:45:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGrabForegroundBase.cpp,v 1.9 2002/05/20 08:10:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRABFOREGROUNDBASE_INLINE_CVSID;
 

@@ -361,7 +361,7 @@
         SFieldTraits::getPName(),  \
         SFieldTraits::getType (),  \
         SField<T1, 0>::create,     \
-        FieldType::SINGLE_FIELD);
+        FieldType::SINGLE_FIELD)
 
 #define OSG_EXPORT_TYPE_SFIELD_DEF2(T1, T2, DLLMAPPING)                  \
     template <> \
@@ -370,7 +370,7 @@
         SFieldTraits::getPName(),  \
         SFieldTraits::getType (),  \
         SField<T1, T2>::create,    \
-        FieldType::SINGLE_FIELD);
+        FieldType::SINGLE_FIELD)
 
 
 #define OSG_EXPORT_TYPE_MFIELD_DEF1(T1, DLLMAPPING)                      \
@@ -380,8 +380,7 @@
         MFieldTraits::getPName(),  \
         MFieldTraits::getType (),  \
         MField<T1, 0>::create,     \
-        FieldType::MULTI_FIELD);
-
+        FieldType::MULTI_FIELD)
 
 #define OSG_EXPORT_TYPE_MFIELD_DEF2(T1, T2, DLLMAPPING)                  \
     template <> \
@@ -390,7 +389,7 @@
         MFieldTraits::getPName(),  \
         MFieldTraits::getType (),  \
         MField<T1, T2>::create,    \
-        FieldType::MULTI_FIELD);
+        FieldType::MULTI_FIELD)
 
 
 #define OSG_DLLEXPORT_SFIELD_DEF1(T1, DLLMAPPING)                 \

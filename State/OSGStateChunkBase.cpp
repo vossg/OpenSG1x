@@ -179,15 +179,15 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "FieldContainerPtr");
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate SField<StateChunkPtr>::_fieldType
 #pragma instantiate MField<StateChunkPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_MFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -207,7 +207,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.26 2002/05/20 02:45:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.27 2002/05/20 08:12:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 
