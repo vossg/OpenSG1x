@@ -91,6 +91,8 @@ WIN32Window::WIN32Window(const WIN32Window &source) :
 
 WIN32Window::~WIN32Window(void)
 {
+    if(getHglrc() != NULL)
+        wglDeleteContext(getHglrc());
 }
 
 /*----------------------------- class specific ----------------------------*/
