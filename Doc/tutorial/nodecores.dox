@@ -919,7 +919,8 @@ copied. Why? They were not copied because the are a geometry node on their own, 
 they are named and extend the search and copy function thus the eyes are correctly copied with the rest of the body.
 
 <I>
-Hint: Load the VRML file with a 3D modelling package or just read the itself with a common text editor. It is really not that hard!
+Hint: To figure out the names, load the VRML file with a 3D modelling package or just read the file itself with a common text editor. 
+It is really not that hard!
 </I>
 
 \subsection TutorialNodeCoresExercises2 Ex. Optimizing transformation switches

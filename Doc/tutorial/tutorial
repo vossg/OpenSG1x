@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = OpenSG
-PROJECT_NUMBER         = 0.5.0
+PROJECT_NUMBER         = 0.5.1
 OUTPUT_DIRECTORY       = output
 OUTPUT_LANGUAGE        = English
 USE_WINDOWS_ENCODING   = NO
@@ -73,7 +73,7 @@ INPUT                  = main.dox \
                          light.dox \
                          windows.dox \
                          traversal.dox \
-			multithreading.dox
+			multithreading.dox \
                          solutions.dox
 FILE_PATTERNS          = *.dox
 RECURSIVE              = YES

@@ -7,7 +7,10 @@ using namespace OSG;
 
 Chapter Overview
 <HR>
+	\ref TutorialMultithreadigSimpleExample <BR>
 <HR>
+
+\section TutorialMultithreadigSimpleExample Simple Example
 
 Multithreading is often not very easy to handle and even more often it is dangerous and evil to debug. However, multithreading is powerful and very useful in
 many situations. At the very beginning I promised that multithreading is very easy with OpenSG. So now let's see if I can hold this promise. If I am right you
@@ -56,5 +59,27 @@ functions. Add the following code right before the main function!
 If you now run this application, watch the terminal. You will see many many A's and B's mixed together. Notice that you still can navigate in the window (well,
 you need some geometry to see that effect), because the OpenSG rendering (i.e. the GLUT main loop) runs in the main thread. 
 
-If you like to replace the letters with a word or a sentence and watch what happens.
+You can find the code in file 13multithreading.cpp, like always in the progs folder.
+
+If you like to replace the letters with a word or a sentence and watch what happens. I chose "Power Mac G5" and "Taschenrechner", the next image shows the
+output.
+
+\image html thread_change.png "Two threads producing non-stop output"
+\image latex thread_change.eps "Two threads producing non-stop output" width=6cm
+
+As you can see, the printing of "Power mac G5" was interrupted directly after a "P" and the other word began with "rechner" where "Taschen" was completly left
+out. Afterwards the output continues normally. What happend? Well, the execution of threads is handled by your operating system, which decides when a thread is
+halted an another stalled process is continued. If your threads are computing some stuff in the background that might be no problem to you, but if potentially
+these threads can produce output in the terminal, that might not be desired. Most likely you want the output of the first thread finished, before the second
+starts. 
+
+Even worse is if one thread writes data and another is writing or reading the same data segment - this will crash your application in most cases or at least
+will produce undesired results. 
+
+\subsection TutorialMultithreadingSimpleExample SLOG
+
+The simultaneous ouput problem can be solved easily with OpenSG. We have always used the <I>cout</I> command from the standard template library to print 
+something in the terminal. As OpenSG is designed with thread safety in mind, it provides an alternative command, that will first finish its output, before
+another thread is allowed to take over.
+
 */

@@ -214,8 +214,12 @@ Well, this one is a bit quick and dirty but it works well, so open the "OSGConfi
 \endcode
 
 These two steps should make it possible for you to compile and execute OpenSG. Just run the configure and make command as you would normally on 
-linux. If you are encounterng any problems during compilation make sure you have all the needed libraries (and the appropriate devel packages)
+linux. If you are encountering any problems during compilation make sure you have all the needed libraries (and the appropriate devel packages)
 installed. 
+
+GENTOO:
+I recently tried to install OpenSG on Gentoo/PPC, but encountered a lot of problems. As mentioned previously mentioned, I really recommend using Yellow
+Dog Linux!
 
 NOTE:
 If you have just installed a new linux on your Mac, the hardware acceleration of your graphic cards is most likely not activated. I can not explain

@@ -69,4 +69,82 @@ Instead of loading just a single file and returning that node we node create one
 all given files and add them to the root node. Notice that our loop begins with one and not zero, as the very first argument is always the program name.
 Also note that you have to provide the complete relative path to the source files.
 
+\section SolNodecores2 Chapter Node Cores - Exercise 2
+Solution to \ref TutoralNodeCoresExercises1
+
+The eyes are named <I>FACESET_Eyes</I>. The geometry node with this names stores both eyes in a single core. In order to copy the whole woman with her eyes
+we first need to extend the checkName function. We previously have hardcoded the search string "FACESET_Woman" as the node's name this function is looking 
+for. Of course this is not very good programming - so we add another parameter which will carry the search string. Change the function head from
+
+\code
+NodePtr checkName(NodePtr n)
+\endcode
+
+to 
+
+\code
+NodePtr checkName(NodePtr n, std::string search)
+\endcode
+
+next replace the string "FACESET_Woman" in the function body with the new variable search like this
+
+\code
+	if (getName(n) == search)
+\endcode
+
+the conversion to std::string is of course no longer needed. 
+
+Now in the createScenegraph() function locate the line that says
+
+\code
+	NodePtr womanGeometry = checkName(w_high);
+\endcode
+
+which is found directly after the root node is created. As we have changed the interface of the checkName() function, you need to add the new parameter which
+will be the hard coded string we just removed. The new line is
+
+\code
+	NodePtr womanGeometryGeometry = checkName(w_high, "FACESET_Woman");
+\endcode
+
+Don't forget to adjust the path right at the beginning of the createScenegraph() function when loading the models (if you place your file somewhere else than
+in the progs folder).
+
+Well, now our checkName() function  is able to find any node with a given name. We can get the geometry core containing the eyes by invoking a new search.
+Add the following code right below the code where we call checkNames() with "FACESET_Woman"
+
+\code
+	// now we extract the eye geometry
+	NodePtr womanEyes = checkName(w_high, "FACESET_Eyes");
+	GeometryPtr eyesGeo = GeometryPtr::dcast(womanEyesGeometry->getCore());
+\endcode
+
+Now scroll some lines down and add the next block of code below the lines where the material for "geo" is set.
+
+\code
+	beginEditCP(eyesGeo, Geometry::MaterialFieldMask);
+		eyesGeo->setMaterial(mat);
+	endEditCP(eyesGeo, Geometry::MaterialFieldMask);
+\endcode
+
+Next, place this block after the "woman" Node is created (again, just a few lines below)
+
+\code
+	NodePtr womanEyes = Node::create();
+	beginEditCP(womanEyes);
+		womanEyes->setCore(eyesGeo);
+	endEditCP(womanEyes);
+\endcode 
+
+Finally locate the line where the ctNode is edited (somewhere near the end of the createScenegraph() function) and add this line somewhere beween the begin- and
+endEditCP commands.
+
+\code
+		ctNode->addChild(womanEyes);
+\endcode
+
+Now compile and execute! Well, the eyes are still not there, but if you have a closer look at the stomach you can find the eyes. It seems that the trasformation
+is missing - what actually makes sense, as we have copied the geometry only. So we have to locate and copy the transformation that was applied to the eyes.
+
+[TODO: continue]
 */
