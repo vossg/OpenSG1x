@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.3 2002/01/10 04:51:31 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.4 2002/01/14 18:39:37 dirk Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }
@@ -263,7 +263,20 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
             glEnd();
         }
+    }
+    else // no angles, just fill single color
+    {
+        if(_mfSkyColor.size() > 0)
+        {
+            glClearColor(_mfSkyColor[0][0], _mfSkyColor[0][1], 
+                         _mfSkyColor[0][2], 0 );
         }
+        else
+        {
+            glClearColor(0, 0, 0, 0);
+        }
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
     
     // Draw the ground.
     // It's possible to be smarter about this, but for now just overdraw.

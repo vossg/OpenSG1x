@@ -291,7 +291,7 @@ int main (int argc, char **argv)
     SkyBackgroundPtr sky = SkyBackground::create();
     beginEditCP(sky);
     sky->setSphereRes(16);
-    
+
     sky->getMFSkyColor()->addValue(Color3f(0, 0, 1));
     sky->getMFSkyAngle()->addValue(Pi / 4);
     sky->getMFSkyColor()->addValue(Color3f(0, 1, 0));
@@ -303,7 +303,7 @@ int main (int argc, char **argv)
     sky->getMFGroundColor()->addValue(Color3f(1, 0, 1));
     sky->getMFGroundAngle()->addValue(Pi / 4);
     sky->getMFGroundColor()->addValue(Color3f(1, 1, 1));
-    
+
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
     Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
@@ -320,11 +320,11 @@ int main (int argc, char **argv)
     tex1->setEnvMode( GL_REPLACE );
     
     sky->setBackTexture(tex1);
-    sky->setFrontTexture(tex1);
+//    sky->setFrontTexture(tex1);
     sky->setLeftTexture(tex1);
     sky->setRightTexture(tex1);
     sky->setBottomTexture(tex1);
-    sky->setTopTexture(tex1);
+//    sky->setTopTexture(tex1);
  
     endEditCP  (sky);
 
