@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.7 2002/02/11 03:46:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.8 2002/03/19 17:19:38 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 
@@ -181,6 +181,7 @@ const OSG::BitVector  ParticlesBase::BspFieldMask =
 /*! \var ParticleBSPTree ParticlesBase::_sfBsp
     
 */
+
 //! Particles description
 
 FieldDescription *ParticlesBase::_desc[] = 
@@ -625,4 +626,5 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 
 
 }
+
 

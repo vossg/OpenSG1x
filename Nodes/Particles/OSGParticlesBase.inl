@@ -403,5 +403,5 @@ const MFReal32 &ParticlesBase::getTextureZs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.6 2002/02/04 20:14:10 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.7 2002/03/19 17:19:38 dirk Exp $"
 

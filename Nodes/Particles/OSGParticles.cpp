@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.15 2002/02/18 08:18:19 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.16 2002/03/19 17:19:38 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -350,6 +350,10 @@ struct ColTraitNone : public ColTraitBase
     {
         return false;
     }
+    
+    static inline void vertex(dataType &, UInt32, UInt32)
+    {
+    }
 };
 
 struct ColTraitSingle : public ColTraitBase
@@ -385,6 +389,10 @@ struct ColTraitSingle : public ColTraitBase
     static inline bool particle(dataType &, UInt32)
     {
         return false;
+    }
+
+    static inline void vertex(dataType &, UInt32, UInt32)
+    {
     }
 };
 
@@ -425,6 +433,9 @@ struct ColTraitParticle : public ColTraitBase
         return false;
     }
     
+    static inline void vertex(dataType &, UInt32, UInt32)
+    {
+    }
 };
 
 struct ColTraitGeneric : public ColTraitBase
@@ -479,7 +490,10 @@ struct ColTraitGeneric : public ColTraitBase
             data.func((GLubyte*)(data.data + particle * data.stride));
         return false;
     }
-    
+        
+    static inline void vertex(dataType &, UInt32, UInt32)
+    {
+    }
 };
 
 /*! Position Particle Traits */
@@ -954,7 +968,7 @@ struct NormalTraitGeneric3f : public ParticleTraits
     }
 };
 
-/* Particle sdrawer base classes, define the common interface(s) */
+/* ParticlesDrawer base classes, define the common interface(s) */
 
 struct OSG::ParticlesDrawer
 {
@@ -1035,15 +1049,19 @@ struct drawViewDirQuads : public ParticlesDrawer
             if(s == 0)
                 continue;
 
+            colTrait::vertex(colData, i, 0);
             texTrait::vertex(texData, 0, 0, 0);
             posTrait::vertex(posData, 0, d1, s);
 
+            colTrait::vertex(colData, i, 1);
             texTrait::vertex(texData, 1, 1, 0);
             posTrait::vertex(posData, 1, d2, s);
 
+            colTrait::vertex(colData, i, 2);
             texTrait::vertex(texData, 2, 1, 1);
             posTrait::vertex(posData, 2, d3, s);
 
+            colTrait::vertex(colData, i, 3);
             texTrait::vertex(texData, 3, 0, 1);
             posTrait::vertex(posData, 3, d4, s);
         }
@@ -1111,17 +1129,242 @@ struct drawViewDirQuads : public ParticlesDrawer
             if(s == 0)
                 continue;
                 
+            colTrait::vertex(colData, i, 0);
             texTrait::vertex(texData, 0, 0, 0);
             posTrait::vertex(posData, 0, d1, s);
 
+            colTrait::vertex(colData, i, 1);
             texTrait::vertex(texData, 1, 1, 0);
             posTrait::vertex(posData, 1, d2, s);
 
+            colTrait::vertex(colData, i, 2);
             texTrait::vertex(texData, 2, 1, 1);
             posTrait::vertex(posData, 2, d3, s);
 
+            colTrait::vertex(colData, i, 3);
             texTrait::vertex(texData, 3, 0, 1);
             posTrait::vertex(posData, 3, d4, s);
+        }
+
+        glEnd();
+    }
+};
+
+
+/* Viewer aligned, indexed quad rendering */
+
+template <class posTrait, class colTrait, class texTrait, class sizeTrait>
+struct drawViewerQuads : public ParticlesDrawer 
+{
+    virtual void drawIndexed(Particles *part, DrawActionBase *action, 
+                          Int32 *index, UInt32 length)
+    {
+        // get ModelView matrix to define the direction vectors
+        Matrix camera,toworld;
+        action->getCamera()->getBeacon()->getToWorld(camera);
+        action->getActNode()->getToWorld(toworld);
+        // normalize them, we don't want to neutralize scales in toworld
+        toworld[0].normalize();
+        toworld[1].normalize();
+        toworld[2].normalize();       
+        toworld.invert();
+        camera.multLeft(toworld);
+
+        // Viewer position & up
+        Pnt3f  vpos(camera[3]);
+        Vec3f  vup (camera[1]);
+        vup.normalize();
+        Vec3f  vdir,vnorm;
+
+        // direction vector
+        Vec4f d;
+        
+        // some variables for faster access
+        GeoPositionsPtr  pos  = part->getPositions();
+
+        // init traits
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename texTrait::dataType texData;
+        texTrait::init(part, action, texData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename posTrait::dataType posData;
+        posTrait::init(part, action, posData, part->getPositions());
+
+        glBegin(GL_QUADS);
+
+        Int32 i;
+
+        for(UInt32 ii = 0; ii < length; ++ii)
+        {
+            i = index[ii];
+
+            if(i < 0 || i > pos->getSize())
+                continue;
+
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(texTrait::particle (texData,  i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(posTrait::particle(posData, i))
+                continue;
+
+            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.;
+
+            if(s == 0)
+                continue;
+
+            // calc viewer-relative coord system
+            
+            Pnt3f p = pos->getValue(i);  
+            vdir = vpos - p;  
+            vdir.normalize();         
+            vnorm = vup.cross(vdir);
+ 
+            d.setValues( -vnorm[0] - vup[0],
+                         -vnorm[1] - vup[1],
+                         -vnorm[2] - vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 0);
+            texTrait::vertex(texData, 0, 0, 0);
+            posTrait::vertex(posData, 0, d, s);
+
+            d.setValues(  vnorm[0] - vup[0],
+                          vnorm[1] - vup[1],
+                          vnorm[2] - vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 1);
+            texTrait::vertex(texData, 1, 1, 0);
+            posTrait::vertex(posData, 1, d, s);
+
+            d.setValues(  vnorm[0] + vup[0],
+                          vnorm[1] + vup[1],
+                          vnorm[2] + vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 2);
+            texTrait::vertex(texData, 2, 1, 1);
+            posTrait::vertex(posData, 2, d, s);
+
+            d.setValues( -vnorm[0] + vup[0],
+                         -vnorm[1] + vup[1],
+                         -vnorm[2] + vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 3);
+            texTrait::vertex(texData, 3, 0, 1);
+            posTrait::vertex(posData, 3, d, s);
+        }
+
+        glEnd();
+    }
+
+    virtual void draw(Particles *part, DrawActionBase *action)
+    {
+        // get ModelView matrix to define the direction vectors
+        Matrix camera,toworld;
+        action->getCamera()->getBeacon()->getToWorld(camera);
+        action->getActNode()->getToWorld(toworld);
+        // normalize them, we don't want to neutralize scales in toworld
+        toworld[0].normalize();
+        toworld[1].normalize();
+        toworld[2].normalize();       
+        toworld.invert();
+        camera.multLeft(toworld);
+
+        // Viewer position & up
+        Pnt3f  vpos(camera[3]);
+        Vec3f  vup (camera[1]);
+        vup.normalize();
+        Vec3f  vdir,vnorm;
+
+        // direction vector
+        Vec4f d;
+        
+        // some variables for faster access
+        GeoPositionsPtr pos = part->getPositions();
+
+        // init traits
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename texTrait::dataType texData;
+        texTrait::init(part, action, texData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename posTrait::dataType posData;
+        posTrait::init(part, action, posData, part->getPositions());
+
+        glBegin(GL_QUADS);
+
+        UInt32 length = pos->getSize();
+        
+        for(UInt32 i = 0; i < length; ++i)
+        {
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(texTrait::particle (texData,  i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(posTrait::particle(posData, i))
+                continue;
+
+            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.;
+
+            if(s == 0)
+                continue;
+
+            // calc viewer-relative coord system
+            
+            Pnt3f p = pos->getValue(i);  
+            vdir = vpos - p;  
+            vdir.normalize();         
+            vnorm = vup.cross(vdir);
+ 
+            d.setValues( -vnorm[0] - vup[0],
+                         -vnorm[1] - vup[1],
+                         -vnorm[2] - vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 0);
+            texTrait::vertex(texData, 0, 0, 0);
+            posTrait::vertex(posData, 0, d, s);
+
+            d.setValues(  vnorm[0] - vup[0],
+                          vnorm[1] - vup[1],
+                          vnorm[2] - vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 1);
+            texTrait::vertex(texData, 1, 1, 0);
+            posTrait::vertex(posData, 1, d, s);
+
+            d.setValues(  vnorm[0] + vup[0],
+                          vnorm[1] + vup[1],
+                          vnorm[2] + vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 2);
+            texTrait::vertex(texData, 2, 1, 1);
+            posTrait::vertex(posData, 2, d, s);
+
+            d.setValues( -vnorm[0] + vup[0],
+                         -vnorm[1] + vup[1],
+                         -vnorm[2] + vup[2],
+                         1 );
+            colTrait::vertex(colData, i, 3);
+            texTrait::vertex(texData, 3, 0, 1);
+            posTrait::vertex(posData, 3, d, s);
         }
 
         glEnd();
@@ -1728,7 +1971,8 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
                           norm->getSize() != pos->getSize())
       )
     {
-        FWARNING(("Particles::draw: inconsistent attributes (p:%d s:%d c:%d)!",
+        FWARNING(("Particles::draw: inconsistent attributes "
+                    "(p:%d s:%d c:%d)!\n",
                     pos->getSize(), size->getSize(),
                     (col != NullFC)? (int)col->getSize() : -1));
         return Action::Continue;
@@ -1923,6 +2167,36 @@ ParticlesDrawer *Particles::findDrawer(void)
         return fallback;
     }
     
+    case ViewerQuads:
+    {
+        static ParticlesDrawer *fallback = 
+                    new drawViewerQuads<PosTraitGeneric,ColTraitGeneric,
+                                         TexTraitGeneric,SizeTraitGeneric>;
+        
+        if(posIs3f && tex == none && size != none)
+        {
+            static ParticlesDrawer *pumps[] = {
+              new drawViewerQuads<PosTrait3f,ColTraitParticle,
+                                  TexTraitNone,SizeTraitParticle>,
+              new drawViewerQuads<PosTrait3f,ColTraitSingle,
+                                  TexTraitNone,SizeTraitParticle>,
+              new drawViewerQuads<PosTrait3f,ColTraitNone,
+                                  TexTraitNone,SizeTraitParticle>,
+                                   
+              new drawViewerQuads<PosTrait3f,ColTraitParticle,
+                                  TexTraitNone,SizeTraitSingle>,
+              new drawViewerQuads<PosTrait3f,ColTraitSingle,
+                                  TexTraitNone,SizeTraitSingle>,
+              new drawViewerQuads<PosTrait3f,ColTraitNone,
+                                  TexTraitNone,SizeTraitSingle>,
+              };
+              
+              return pumps[size * 3 + color];
+        }
+        
+        return fallback;
+    }
+    
     case Arrows:
     {
         static ParticlesDrawer *fallback = 
@@ -1930,12 +2204,13 @@ ParticlesDrawer *Particles::findDrawer(void)
                                     SizeTraitGeneric,NormalTraitGeneric,
                                     GeoTraitArrow>;
         
-        if(normal) return fallback;
         return fallback;
     }
+    
     };
 
     
+    if (normal) return NULL; // make picky compilers happy
     return NULL;
 }
  

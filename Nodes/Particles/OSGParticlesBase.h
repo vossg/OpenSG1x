@@ -131,6 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     static const osg::BitVector PumpFieldMask;
     static const osg::BitVector BspFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -336,6 +337,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.6 2002/02/04 20:14:10 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.7 2002/03/19 17:19:38 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

@@ -69,7 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \name                     Modes                                    */
     /*! \{                                                                 */
     
-    enum { Points=0, Lines, ViewDirQuads, Arrows, 
+    enum { Points=0, Lines, ViewDirQuads, ViewerQuads, Arrows, 
            LastMode }
            ModeE;
     
@@ -159,6 +159,6 @@ OSG_END_NAMESPACE
 #include <OSGParticles.inl>
 #include <OSGParticlesBase.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.4 2002/01/16 15:14:00 dirk Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.5 2002/03/19 17:19:38 dirk Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

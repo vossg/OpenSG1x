@@ -1,5 +1,0 @@
-# Add our directory to the System Lib
-
-ac_gdz_package_dirs_System="${ac_gdz_package_dirs_System} Nodes/Particles@ " 
-ac_gdz_package_testinc_dep_System="${ac_gdz_package_testinc_dep_System} Experimental/OSGWriter" 
-
