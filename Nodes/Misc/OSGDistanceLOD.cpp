@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.17 2001/11/07 11:15:47 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.18 2002/02/16 03:48:42 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }
@@ -93,28 +93,6 @@ void DistanceLOD::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 {
     SLOG << "Dump DistanceLOD NI" << endl;
 }
-
-/*-------------------------------------------------------------------------*/
-/*                               Draw                                      */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE DistanceLOD::DistLODDraw(CNodePtr &cnode, 
-                                              Action  *pAction)
-{
-    NodeCore    *pNC = cnode.getCPtr();
-    DistanceLOD *pSC = dynamic_cast<DistanceLOD *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "DLDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->draw(pAction);
-    }
-}
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -202,33 +180,21 @@ Action::ResultE DistanceLOD::draw(Action *action)
 
 void DistanceLOD::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault( 
         getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,
-                                  DistanceLODPtr,
-                                  Action*>(&DistanceLOD::draw));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            DistanceLODPtr  ,
+            CNodePtr        ,
+            Action         *>(&DistanceLOD::draw));
 
     RenderAction::registerEnterDefault(
         getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,
-                                  DistanceLODPtr,
-                                  Action*>(&DistanceLOD::draw));
-
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(DistanceLOD::DistLODDraw));
-
-    RenderAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(DistanceLOD::DistLODDraw));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            DistanceLODPtr  ,
+            CNodePtr        ,
+            Action         *>(&DistanceLOD::draw));
 }
 
 

@@ -75,19 +75,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
 
     typedef InlineBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Inline Draw                               */
-    /*! \{                                                                 */  
-
-    static Action::ResultE InlineDrawEnter(CNodePtr &cnode, 
-                                           Action   *pAction);
-    static Action::ResultE InlineDrawLeave(CNodePtr &cnode, 
-                                           Action   *pAction);
-
-    /*! \}                                                                 */
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                    Draw                                      */
     /*! \{                                                                 */

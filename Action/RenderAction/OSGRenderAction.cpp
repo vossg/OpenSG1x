@@ -128,7 +128,10 @@ void RenderAction::registerEnterDefault(const FieldContainerType &type,
     while(type.getId() >= _vDefaultEnterFunctors->size())
     {
         _vDefaultEnterFunctors->push_back( 
-            osgFunctionFunctor2(&Action::_defaultEnterFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultEnterFunction));
     }
     
     (*_vDefaultEnterFunctors)[type.getId()] = func;
@@ -145,7 +148,10 @@ void RenderAction::registerLeaveDefault(const FieldContainerType &type,
     while(type.getId() >= _vDefaultLeaveFunctors->size())
     {
         _vDefaultLeaveFunctors->push_back( 
-            osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultLeaveFunction));
     }
     
     (*_vDefaultLeaveFunctors)[type.getId()] = func;

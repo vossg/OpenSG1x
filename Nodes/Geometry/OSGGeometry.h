@@ -140,41 +140,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void               adjustVolume     (Volume & volume);
 
     /*! \}                                                                 */
-
-#ifdef OSG_NOFUNCTORS
-   typedef void (Geometry::*FunctorFunc)(Window *, UInt32);
-
-    struct GeoGLObjectFunctor : public Window::GLObjectFunctor
-    {
-       public:
-
-        GeometryPtr _pObj;
-        FunctorFunc     _func;
-
-        virtual void call(Window *win, UInt32 uiOpt)
-        {
-            (_pObj.getCPtr()->*_func)(win, uiOpt);
-        }
-    };
-
-    static GeoGLObjectFunctor osgMethodFunctor2CPtr(GeometryPtr pTexChunk,
-                                                    FunctorFunc     func)
-    {
-        GeoGLObjectFunctor result;
-
-        result._pObj = pTexChunk;
-        result._func = func;
-
-        return result;
-    }
-#endif
-
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE GeoDrawEnter(CNodePtr &cnode, Action   *pAction);
-    static Action::ResultE GeoRenderEnter(CNodePtr &cnode, Action   *pAction);
-    static Action::ResultE GeoIntEnter(CNodePtr &cnode, Action   *pAction);
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

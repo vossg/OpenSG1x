@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.13 2002/02/04 20:14:10 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.14 2002/02/16 03:48:42 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -155,16 +155,16 @@ Particles::~Particles(void)
 void Particles::initMethod (void)
 {
     DrawAction::registerEnterDefault( getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,
-                                ParticlesPtr,
-                                Action *>(&Particles::draw));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          ParticlesPtr  ,
+                                          CNodePtr      ,
+                                          Action       *>(&Particles::draw));
 
     RenderAction::registerEnterDefault( getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,
-                                ParticlesPtr,
-                                Action *>(&Particles::render));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          ParticlesPtr  ,
+                                          CNodePtr      ,
+                                          Action       *>(&Particles::render));
 }
 
 //! react to field changes
@@ -1694,7 +1694,7 @@ Action::ResultE Particles::draw(Action * action )
     DrawAction *a = dynamic_cast<DrawAction*>(action);
     Material::DrawFunctor func;
 
-    func=osgMethodFunctor1Ptr(&(*this), &Particles::doDraw);
+    func=osgTypedMethodFunctor1ObjPtr(&(*this), &Particles::doDraw);
 
     if(a->getMaterial() != NULL)
     {
@@ -1799,7 +1799,7 @@ Action::ResultE Particles::render(Action *action)
     RenderAction *a = dynamic_cast<RenderAction *>(action);
 
     Material::DrawFunctor func;
-    func=osgMethodFunctor1Ptr(this, &Particles::doDraw);
+    func=osgTypedMethodFunctor1ObjPtr(this, &Particles::doDraw);
 
     Material* m = a->getMaterial();
 

@@ -53,7 +53,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.15 2001/11/05 11:15:31 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.16 2002/02/16 03:48:42 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
 }
@@ -80,78 +80,6 @@ void MaterialGroup::dump(      UInt32    uiIndent,
 {
     Inherited::dump(uiIndent, bvFlags);
 }
-
-/*-------------------------------------------------------------------------*/
-/*                             Static Draw Render                          */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE MaterialGroup::MatGroupDrawEnter(CNodePtr &cnode, 
-                                                      Action   *pAction)
-{
-    NodeCore      *pNC = cnode.getCPtr();
-    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE MaterialGroup::MatGroupDrawLeave(CNodePtr &cnode, 
-                                                      Action   *pAction)
-{
-    NodeCore      *pNC = cnode.getCPtr();
-    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-OSG::Action::ResultE MaterialGroup::MatGroupRenderEnter(CNodePtr &cnode, 
-                                                        Action   *pAction)
-{
-    NodeCore      *pNC = cnode.getCPtr();
-    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->renderEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE MaterialGroup::MatGroupRenderLeave(CNodePtr &cnode, 
-                                                        Action   *pAction)
-{
-    NodeCore      *pNC = cnode.getCPtr();
-    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->renderLeave(pAction);
-    }
-}
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -234,49 +162,37 @@ Action::ResultE MaterialGroup::renderLeave(Action * action)
  
 void MaterialGroup::initMethod(void)
 {
-#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  MaterialGroupPtr, 
-                                  Action *>(&MaterialGroup::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialGroupPtr  , 
+            CNodePtr          ,  
+            Action           *>(&MaterialGroup::drawEnter));
+
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  MaterialGroupPtr, 
-                                  Action *>(&MaterialGroup::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialGroupPtr  , 
+            CNodePtr          ,  
+            Action           *>(&MaterialGroup::drawLeave));
 
     RenderAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  MaterialGroupPtr, 
-                                  Action *>(&MaterialGroup::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialGroupPtr  , 
+            CNodePtr          ,  
+            Action           *>(&MaterialGroup::renderEnter));
+
     RenderAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  MaterialGroupPtr, 
-                                  Action *>(&MaterialGroup::renderLeave));
-#else
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(MaterialGroup::MatGroupDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(MaterialGroup::MatGroupDrawLeave));
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(MaterialGroup::MatGroupRenderEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(MaterialGroup::MatGroupRenderLeave));
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialGroupPtr  , 
+            CNodePtr          ,  
+            Action           *>(&MaterialGroup::renderLeave));
 }
 
 

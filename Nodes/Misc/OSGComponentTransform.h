@@ -80,19 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform :
 
     typedef ComponentTransformBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                ComponentTransform Draw                       */
-    /*! \{                                                                 */
-
-    static Action::ResultE ComponentTransformDrawEnter(CNodePtr &cnode,
-                                                       Action   *pAction);
-    static Action::ResultE ComponentTransformDrawLeave(CNodePtr &cnode,
-                                                       Action   *pAction);
-
-    /*! \}                                                                 */
-#endif
-     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -132,6 +119,6 @@ OSG_END_NAMESPACE
 #include <OSGComponentTransform.inl>
 #include <OSGComponentTransformBase.inl>
 
-#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.5 2001/11/09 08:32:08 neumannc Exp $"
+#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.6 2002/02/16 03:48:42 vossg Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORM_H_ */

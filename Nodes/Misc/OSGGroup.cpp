@@ -89,62 +89,6 @@ void Group::dump(      UInt32    uiIndent,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                       Static Action Callbacks                           */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE Group::GroupDrawEnter(CNodePtr &cnode, 
-                                           Action   *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Group    *pSC = dynamic_cast<Group *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE Group::GroupDrawLeave(CNodePtr &cnode, 
-                                           Action   *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Group    *pSC = dynamic_cast<Group *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-
-OSG::Action::ResultE Group::GroupIntEnter(CNodePtr &cnode,
-                                          Action   *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Group    *pSC = dynamic_cast<Group *>(pNC);
-    
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MDIE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->intersect(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 Group::Group(void) :
@@ -203,62 +147,39 @@ Action::ResultE Group::intersect(Action *action)
 
 void Group::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  GroupPtr, 
-                                  Action *>(&Group::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GroupPtr  , 
+                                          CNodePtr  ,  
+                                          Action   *>(&Group::drawEnter));
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  GroupPtr, 
-                                  Action *>(&Group::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GroupPtr  , 
+                                          CNodePtr  ,  
+                                          Action   *>(&Group::drawLeave));
 
     RenderAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  GroupPtr, 
-                                  Action *>(&Group::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GroupPtr  , 
+                                          CNodePtr  ,  
+                                          Action   *>(&Group::drawEnter));
+
     RenderAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  GroupPtr, 
-                                  Action *>(&Group::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GroupPtr  , 
+                                          CNodePtr  ,  
+                                          Action   *>(&Group::drawLeave));
     
     IntersectAction::registerEnterDefault( 
         getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,
-                                  GroupPtr,
-                                  Action *>(&Group::intersect));
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Group::GroupDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Group::GroupDrawLeave));
-
-    RenderAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Group::GroupDrawEnter));
-
-    RenderAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Group::GroupDrawLeave));
-
-    IntersectAction::registerEnterDefault(
-        getClassType(),
-        Action::osgFunctionFunctor2(Group::GroupIntEnter));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GroupPtr  ,
+                                          CNodePtr  ,
+                                          Action   *>(&Group::intersect));
 }
 
 

@@ -267,10 +267,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
     template <class ObjectPtrT>
     static void newPtr(      
-                       ObjectPtrT                &result, 
-        const typename ObjectPtrT::ObjectType *prototypeP)
+                       ObjectPtrT                   &result, 
+        const typename ObjectPtrT::StoredObjectType *prototypeP)
     {
-        typedef typename ObjectPtrT::ObjectType ObjectType;
+        typedef typename ObjectPtrT::StoredObjectType ObjectType;
 
         UInt8 *pTmp;
 
@@ -315,7 +315,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     template <class ObjectPtrT>
     static void newPtr(ObjectPtrT &result)
     {
-        typedef typename ObjectPtrT::ObjectType ObjectType;
+        typedef typename ObjectPtrT::StoredObjectType ObjectType;
 
         UInt8 *pTmp;
 

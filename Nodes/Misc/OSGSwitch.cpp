@@ -83,28 +83,6 @@ void Switch::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 /*-------------------------------------------------------------------------*/
-/*                              Switch Draw                                */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE Switch::SwitchDraw(CNodePtr &cnode, 
-                                        Action   *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Switch   *pSC = dynamic_cast<Switch *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "SWDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->draw(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 Switch::Switch(void) :
@@ -150,31 +128,17 @@ Action::ResultE Switch::draw(Action *action)
 
 void Switch::initMethod(void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault(
         getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr            ,
-                                  SwitchPtr           ,
-                                  Action *            >(&Switch::draw));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          SwitchPtr       ,
+                                          CNodePtr        ,
+                                          Action         *>(&Switch::draw));
 
     RenderAction::registerEnterDefault(
         getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr            ,
-                                  SwitchPtr           ,
-                                  Action *            >(&Switch::draw));
-
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Switch::SwitchDraw));
-
-    RenderAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Switch::SwitchDraw));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          SwitchPtr       ,
+                                          CNodePtr        ,
+                                          Action         *>(&Switch::draw));
 }

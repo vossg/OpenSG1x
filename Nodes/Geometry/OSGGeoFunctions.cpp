@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.39 2002/02/06 09:35:17 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.40 2002/02/16 03:48:41 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1323,8 +1323,8 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
 {
   GeoPTypesUI8Ptr geoTypePtr;
   GeoPLengthsUI32Ptr lensPtr;
-  GeoPTypesUI8Ptr::ObjectType::StoredFieldType::iterator typeI, endTypeI;
-  GeoPLengthsUI32Ptr::ObjectType::StoredFieldType::iterator lenI;
+  GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::iterator typeI, endTypeI;
+  GeoPLengthsUI32Ptr::StoredObjectType::StoredFieldType::iterator lenI;
   UInt32 lN, tN, len, type;
   // TODO; should we really reset the values ?
   triangle = line = point = 0;

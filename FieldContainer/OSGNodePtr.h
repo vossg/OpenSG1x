@@ -69,7 +69,8 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef Node                   ObjectType;
+    typedef Node                   StoredObjectType;
+//    typedef NodePtr                ObjectType;
 
     typedef AttachmentContainerPtr Inherited;
 
@@ -175,7 +176,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef Node                   ObjectType;
+    typedef NodeCore               StoredObjectType;
+//    typedef CNodePtr                   ObjectType;
 
     typedef AttachmentContainerPtr Inherited;
 

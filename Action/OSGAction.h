@@ -53,9 +53,7 @@
 #include <OSGFieldContainerType.h>
 #include <OSGNodePtr.h>
 
-#ifndef OSG_NOFUNCTORS
-#include <OSGFunctors.h>
-#endif
+#include <OSGTypedFunctors.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -94,32 +92,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
         Quit        // forget it, you're done
     };
 
-#ifdef OSG_NOFUNCTORS
-    typedef ResultE (*FunctorFunc)(CNodePtr &, Action *);
+    typedef ArgsCollector<Action *>                      FunctorArgs;
 
-    struct Functor
-    {
-       public:
-
-        FunctorFunc _func;
-
-        virtual ResultE call(CNodePtr &cnode, Action *action)
-        {
-            return _func(cnode, action);
-        }
-    };
-
-    static Functor osgFunctionFunctor2(FunctorFunc func)
-    {
-        Functor result;
-
-        result._func = func;
-
-        return result;
-    }
-#else
-    typedef Functor2Base<ResultE, CNodePtr &, Action *> Functor;
-#endif
+    typedef TypedFunctor2Base<ResultE, 
+                              CPtrRefCallArg<CNodePtr>, 
+                              FunctorArgs              > Functor;
 
     //-----------------------------------------------------------------------
     //   types                                                               
@@ -356,11 +333,13 @@ typedef Action *ActionP;
 /*! \name                    Traversal Functions                       */
 /*! \{                                                                 */
 
-#ifndef OSG_NOFUNCTORS
+typedef ArgsCollector<Action::ResultE> ArgsT;
 
-typedef Functor1Base<Action::ResultE, NodePtr &> TraverseEnterFunctor;
-typedef Functor2Base<Action::ResultE, NodePtr &, Action::ResultE> 
-                                                 TraverseLeaveFunctor;
+typedef TypedFunctor1Base<Action::ResultE, 
+                          CPtrRefCallArg<NodePtr> > TraverseEnterFunctor;
+typedef TypedFunctor2Base<Action::ResultE, 
+                          CPtrRefCallArg<NodePtr>, 
+                          ArgsT                   > TraverseLeaveFunctor;
 
 OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE traverse(NodePtr               root, 
@@ -377,7 +356,6 @@ OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE traverse(vector<NodePtr>      &list, 
                          TraverseEnterFunctor  enter, 
                          TraverseLeaveFunctor  leave);
-#endif
                             
 /*! \}                                                                 */
 

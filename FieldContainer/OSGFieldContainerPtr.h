@@ -266,7 +266,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 
     OSG_PROPERTY_DECL(Pointer);
 
-    typedef FieldContainer        ObjectType;
+    typedef FieldContainer        StoredObjectType;
+//    typedef FieldContainerPtr     ObjectType;
 
     typedef FieldContainerPtrBase Inherited;
 
@@ -372,7 +373,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
 
     OSG_PROPERTY_DECL(ConstPointer);
 
-    typedef FieldContainer        ObjectType;
+    typedef FieldContainer        StoredObjectType;
+//    typedef FieldContainerPtr     ObjectType;
 
     typedef FieldContainerPtrBase Inherited;
 
@@ -451,7 +453,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
 
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, Pointer);
 
-    typedef FieldContainerTypeT ObjectType;
+    typedef FieldContainerTypeT StoredObjectType;
+//    typedef FCPtr               ObjectType;
 
     typedef BasePtrTypeT        Inherited;
 
@@ -463,7 +466,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     static FCPtr dcast(const InTypeT oIn)
     {
         return FCPtr(
-            (dynamic_cast<const typename FCPtr::ObjectType *>(oIn.getCPtr())),
+            (dynamic_cast<const typename FCPtr::StoredObjectType *>(
+                oIn.getCPtr())),
             oIn.getContainerSize(),
             oIn.getParentFieldPos());
     }
@@ -553,9 +557,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
 
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, ConstPointer);
 
-    typedef FieldContainerTypeT                                 ObjectType;
+    typedef FieldContainerTypeT                               StoredObjectType;
+//    typedef ConstFCPtr                                        ObjectType;
 
-    typedef BasePtrTypeT                                        Inherited;
+    typedef BasePtrTypeT                                      Inherited;
 
     typedef FCPtr<typename FieldContainerTypeT::Ptr::Inherited,
                   FieldContainerTypeT                         > NCFCPtr;

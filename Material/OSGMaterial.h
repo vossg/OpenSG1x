@@ -44,7 +44,7 @@
 #endif
 
 #include <OSGConfig.h>
-#include <OSGFunctors.h>
+#include <OSGTypedFunctors.h>
 #include <OSGAction.h>
 #include <OSGMaterialBase.h>
 #include <OSGState.h>
@@ -92,7 +92,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
     // TODO: switch geo to functor too, remove makeState, replace by rebuild
     
-    typedef Functor1Base<Action::ResultE,DrawActionBase*> DrawFunctor;
+    typedef TypedFunctor1Base<Action::ResultE, 
+                              PtrCallArg<DrawActionBase> > DrawFunctor;
 
     virtual void       draw          (DrawFunctor& func,
                                       DrawActionBase * action )= 0;

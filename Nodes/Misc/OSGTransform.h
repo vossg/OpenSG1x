@@ -87,24 +87,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 
     typedef TransformBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Transform Draw                          */
-    /*! \{                                                                 */
-
-    static Action::ResultE TransformDrawEnter(CNodePtr &cnode,
-                                              Action   *pAction);
-    static Action::ResultE TransformDrawLeave(CNodePtr &cnode,
-                                              Action   *pAction);
-
-    static Action::ResultE TransformIntEnter (CNodePtr &cnode,
-                                              Action   *pAction);
-    static Action::ResultE TransformIntLeave (CNodePtr &cnode,
-                                              Action   *pAction);
-
-    /*! \}                                                                 */
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

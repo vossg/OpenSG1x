@@ -31,18 +31,20 @@ SUB_JOB := build
 endif
 endif
 
-ifneq ($(MAKECMDGOALS),)
+#ifneq ($(MAKECMDGOALS),)
 
 DBGCMDGOAL := $(strip $(filter $(OPT_TARGETS),$(MAKECMDGOALS)))
 
 ifneq ($(DBGCMDGOAL),)
+$(warning Detected OPT)
 DBG_BASE=opt
 DEBUG_VERSION=0
-$(warning Detected OPT)
+DEBUG_CHAR:=
 else
 $(warning Detected DBG)
 DBG_BASE=dbg
 DEBUG_VERSION=1
+DEBUG_CHAR:=D
 endif
 
 DBGLNKCMDGOAL := $(strip $(filter $(LNK_TARGETS),$(MAKECMDGOALS)))
@@ -57,11 +59,14 @@ LNK_SUFFIX=
 $(warning Detected Shared Lib)
 endif
 
-endif
+#endif
 
 DBG := $(DBG_BASE)$(LNK)
+
+ifeq ($(MAKECMDGOALS),depend)
+OSGNODEPSREBUILD=0
+endif
 
 ifeq ($(DEBUG_MAKE),1)
 $(warning DBG=$(DBG))
 endif
-

@@ -76,24 +76,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
 
     typedef MaterialGroupBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Mat Group Draw & Render                    */
-    /*! \{                                                                 */
-
-    static Action::ResultE MatGroupDrawEnter  (CNodePtr &cnode,
-                                               Action   *pAction);
-    static Action::ResultE MatGroupDrawLeave  (CNodePtr &cnode,
-                                               Action   *pAction);
-    
-    static Action::ResultE MatGroupRenderEnter(CNodePtr &cnode,
-                                               Action   *pAction);
-    static Action::ResultE MatGroupRenderLeave(CNodePtr &cnode,
-                                               Action   *pAction);
-
-    /*! \}                                                                 */
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -146,6 +128,6 @@ OSG_END_NAMESPACE
 #include <OSGMaterialGroup.inl>
 #include <OSGMaterialGroupBase.inl>
 
-#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.11 2001/11/05 11:15:31 vossg Exp $"
+#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.12 2002/02/16 03:48:42 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUP_H_ */

@@ -96,7 +96,10 @@ void Action::registerEnterDefault(  const FieldContainerType &type,
     while(type.getId() >= _defaultEnterFunctors->size())
     {
         _defaultEnterFunctors->push_back( 
-                osgFunctionFunctor2(&Action::_defaultEnterFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultEnterFunction));
     }
     
     (*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -111,7 +114,10 @@ void Action::registerLeaveDefault(  const FieldContainerType &type,
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
         _defaultLeaveFunctors->push_back( 
-                osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultLeaveFunction));
     }
     
     (*_defaultLeaveFunctors)[ type.getId() ] = func;
@@ -204,7 +210,10 @@ void Action::registerEnterFunction( const FieldContainerType &type,
     while ( type.getId() >= _enterFunctors.size() )
     {
         _enterFunctors.push_back(
-            osgFunctionFunctor2(&Action::_defaultEnterFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultEnterFunction));
     }
     
     _enterFunctors[ type.getId() ] = func;
@@ -216,7 +225,10 @@ void Action::registerLeaveFunction( const FieldContainerType &type,
     while ( type.getId() >= _leaveFunctors.size() )
     {
         _leaveFunctors.push_back(
-            osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultLeaveFunction));
     }
     
     _leaveFunctors[ type.getId() ] = func;

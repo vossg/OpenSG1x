@@ -46,7 +46,7 @@ getProjQTSourceFiles   = $(foreach dir,$(1),$(call getQTSourceFiles,$(dir)))
 
 getPrTestQTSourceFiles = $(foreach dir,$(1),$(call getTestQTSourceFiles,$(dir)))
 
-getLibDefHdrFiles      = $(wildcard $(1)/lib.def.hdr)
+getLibDefHdrFiles      = $(wildcard $(1)/lib.$(DBG).def.hdr)
 getProjLibDefHeader    = $(foreach dir,$(1),$(call getLibDefHdrFiles,$(dir)))
 
 getLibDefFiles         = $(wildcard $(1)/lib.def.sym)
@@ -355,7 +355,7 @@ ifneq ($(LIB_DEF_SRC),)
 
 ifneq ($(LIB_HEADER_SRC),)
 
-SUB_SO_DEF := lib.def
+SUB_SO_DEF := lib.$(DBG).def
 
 endif
 

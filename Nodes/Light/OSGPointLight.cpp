@@ -123,45 +123,6 @@ void PointLight::dump(      UInt32    uiIndent,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                            No Functor Stuff                             */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE PointLight::PLightDrawEnter(CNodePtr &cnode, 
-                                                 Action  *pAction)
-{
-    NodeCore   *pNC = cnode.getCPtr();
-    PointLight *pSC = dynamic_cast<PointLight *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "PLDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE PointLight::PLightDrawLeave(CNodePtr &cnode, 
-                                                 Action  *pAction)
-{
-    NodeCore   *pNC = cnode.getCPtr();
-    PointLight *pSC = dynamic_cast<PointLight *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "PLDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 PointLight::PointLight(void) :
@@ -238,45 +199,35 @@ Action::ResultE PointLight::renderLeave(Action *action)
 
 void PointLight::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  PointLightPtr, 
-                                  Action *>(&PointLight::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            PointLightPtr    , 
+            CNodePtr         ,  
+            Action          *>(&PointLight::drawEnter));
 
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  PointLightPtr, 
-                                  Action *>(&PointLight::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            PointLightPtr    , 
+            CNodePtr         ,  
+            Action          *>(&PointLight::drawLeave));
 
     RenderAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  PointLightPtr, 
-                                  Action *>(&PointLight::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            PointLightPtr    , 
+            CNodePtr         ,  
+            Action          *>(&PointLight::renderEnter));
 
     RenderAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  PointLightPtr, 
-                                  Action *>(&PointLight::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(PointLight::PLightDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(PointLight::PLightDrawLeave));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            PointLightPtr    , 
+            CNodePtr         ,  
+            Action          *>(&PointLight::renderLeave));
 }

@@ -78,21 +78,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     typedef GroupBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                Static Action Callbacks                       */
-    /*! \{                                                                 */
-
-    static Action::ResultE GroupDrawEnter(CNodePtr &cnode,
-                                          Action   *pAction);
-    static Action::ResultE GroupDrawLeave(CNodePtr &cnode,
-                                          Action   *pAction);
-    static Action::ResultE GroupIntEnter (CNodePtr &cnode,
-                                          Action   *pAction);
-
-    /*! \}                                                                 */
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

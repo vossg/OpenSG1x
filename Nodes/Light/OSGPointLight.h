@@ -97,13 +97,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 
     typedef PointLightBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE PLightDrawEnter(CNodePtr &cnode,
-                                           Action   *pAction);
-    static Action::ResultE PLightDrawLeave(CNodePtr &cnode,
-                                           Action   *pAction);
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

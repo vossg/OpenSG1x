@@ -104,79 +104,6 @@ void Transform::dump(      UInt32    uiIndent,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                         Transform Draw                                  */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE Transform::TransformDrawEnter(CNodePtr &cnode, 
-                                                   Action   *pAction)
-{
-    NodeCore  *pNC = cnode.getCPtr();
-    Transform *pSC = dynamic_cast<Transform *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "TRDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE Transform::TransformDrawLeave(CNodePtr &cnode, 
-                                                   Action   *pAction)
-{
-    NodeCore  *pNC = cnode.getCPtr();
-    Transform *pSC = dynamic_cast<Transform *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "TRDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-
-OSG::Action::ResultE Transform::TransformIntEnter(CNodePtr &cnode, 
-                                                  Action   *pAction)
-{
-    NodeCore  *pNC = cnode.getCPtr();
-    Transform *pSC = dynamic_cast<Transform *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "TRIE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->intersectEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE Transform::TransformIntLeave(CNodePtr &cnode, 
-                                                  Action   *pAction)
-{
-    NodeCore  *pNC = cnode.getCPtr();
-    Transform *pSC = dynamic_cast<Transform *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "TRIL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->intersectLeave(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 Transform::Transform(void) :
@@ -287,69 +214,53 @@ Action::ResultE Transform::renderLeave(Action *action)
 
 void Transform::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  TransformPtr, 
-                                  Action *>(&Transform::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            TransformPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Transform::drawEnter));
     
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  TransformPtr, 
-                                  Action *>(&Transform::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            TransformPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Transform::drawLeave));
 
 
     IntersectAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  TransformPtr, 
-                                  Action *>(&Transform::intersectEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            TransformPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Transform::intersectEnter));
 
     IntersectAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  TransformPtr, 
-                                  Action *>(&Transform::intersectLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            TransformPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Transform::intersectLeave));
 
 
     RenderAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  TransformPtr, 
-                                  Action *>(&Transform::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            TransformPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Transform::renderEnter));
 
     RenderAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  TransformPtr, 
-                                  Action *>(&Transform::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Transform::TransformDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Transform::TransformDrawLeave));
-
-    IntersectAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Transform::TransformIntEnter));
-
-    IntersectAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Transform::TransformIntLeave));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            TransformPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Transform::renderLeave));
 }

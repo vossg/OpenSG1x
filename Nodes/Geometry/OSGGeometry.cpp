@@ -148,95 +148,25 @@ const char *Geometry::mapType( UInt8 type )
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE Geometry::GeoDrawEnter(CNodePtr &cnode, 
-                                            Action  *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Geometry *pSC = dynamic_cast<Geometry *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "GEDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->doDraw(pAction);
-    }
-}
-
-OSG::Action::ResultE Geometry::GeoRenderEnter(CNodePtr &cnode, 
-                                            Action  *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Geometry *pSC = dynamic_cast<Geometry *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "GEDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->render(pAction);
-    }
-}
-
-OSG::Action::ResultE Geometry::GeoIntEnter(CNodePtr &cnode, 
-                                           Action  *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Geometry *pSC = dynamic_cast<Geometry *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "GEIE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->intersect(pAction);
-    }
-}
-#endif
-
 void Geometry::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GeometryPtr, 
-                                Action *>(&Geometry::doDraw));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GeometryPtr , 
+                                          CNodePtr    ,
+                                          Action     *>(&Geometry::doDraw));
 
     IntersectAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GeometryPtr, 
-                                Action *>(&Geometry::intersect));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GeometryPtr ,  
+                                          CNodePtr    , 
+                                          Action     *>(&Geometry::intersect));
 
     RenderAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GeometryPtr, 
-                                Action *>(&Geometry::render));
-#else
-
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Geometry::GeoDrawEnter));
-
-    RenderAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Geometry::GeoRenderEnter));
-
-
-    IntersectAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Geometry::GeoIntEnter));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          GeometryPtr  ,  
+                                          CNodePtr     , 
+                                          Action      *>(&Geometry::render));
 }
 
 
@@ -285,21 +215,15 @@ void Geometry::onCreate( const FieldContainer & )
     GeometryPtr tmpPtr(*this);
 
     beginEditCP( tmpPtr, Geometry::GLIdFieldMask );
-#ifndef OSG_NOFUNCTORS
-    setGLId( Window::registerGLObject( 
-                        osgMethodFunctor2CPtr<
-                                        void,
-                                        Window*,
-                                        UInt32,
-                                        GeometryPtr
-                                        >( tmpPtr, &Geometry::handleGL ), 1 
-    )                         );
-#else
-    setGLId(Window::registerGLObject( 
-                        osgMethodFunctor2CPtr(tmpPtr, 
-                                              &Geometry::handleGL), 
-                    1));
-#endif
+
+    setGLId(
+        Window::registerGLObject( 
+            osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr, 
+                                                 Window , 
+                                                 UInt32>(tmpPtr, 
+                                                         &Geometry::handleGL),
+            1));
+
     endEditCP( tmpPtr, Geometry::GLIdFieldMask );
 }
 

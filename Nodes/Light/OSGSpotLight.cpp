@@ -111,44 +111,6 @@ void SpotLight::dump(      UInt32    uiIndent,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                            No Functor Stuff                             */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE SpotLight::SLightDrawEnter(CNodePtr &cnode, 
-                                                Action  *pAction)
-{
-    NodeCore  *pNC = cnode.getCPtr();
-    SpotLight *pSC = dynamic_cast<SpotLight *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "PLDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-OSG::Action::ResultE SpotLight::SLightDrawLeave(CNodePtr &cnode, 
-                                                Action  *pAction)
-{
-    NodeCore  *pNC = cnode.getCPtr();
-    SpotLight *pSC = dynamic_cast<SpotLight *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "PLDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 SpotLight::SpotLight(void) :
@@ -235,46 +197,36 @@ Action::ResultE SpotLight::renderLeave(Action *action)
 
 void SpotLight::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  SpotLightPtr, 
-                                  Action *>(&SpotLight::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            SpotLightPtr    , 
+            CNodePtr        ,  
+            Action         *>(&SpotLight::drawEnter));
 
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  SpotLightPtr, 
-                                  Action *>(&SpotLight::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            SpotLightPtr    , 
+            CNodePtr        ,  
+            Action         *>(&SpotLight::drawLeave));
 
     RenderAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  SpotLightPtr, 
-                                  Action *>(&SpotLight::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            SpotLightPtr    , 
+            CNodePtr        ,  
+            Action         *>(&SpotLight::renderEnter));
 
     RenderAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  SpotLightPtr, 
-                                  Action *>(&SpotLight::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(SpotLight::SLightDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(SpotLight::SLightDrawLeave));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            SpotLightPtr    , 
+            CNodePtr        ,  
+            Action         *>(&SpotLight::renderLeave));
 }
 

@@ -58,7 +58,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     enum BuildInFieldType
     {
-        OSGsfbool     = TOK_SFBOOL,
+        OSGsfBool     = TOK_SFBOOL,
         OSGsfColor    = TOK_SFCOLOR,
         OSGsfFloat    = TOK_SFFLOAT,
         OSGsfImage    = TOK_SFIMAGE,

@@ -75,7 +75,7 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.12 2002/02/12 10:22:17 dirk Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.13 2002/02/16 03:48:39 vossg Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 
@@ -101,7 +101,10 @@ void IntersectAction::registerEnterDefault(     const FieldContainerType &type,
     while(type.getId() >= _defaultEnterFunctors->size())
     {
         _defaultEnterFunctors->push_back( 
-                osgFunctionFunctor2(&IntersectAction::_defaultEnterFunction));
+            osgTypedFunctionFunctor2CPtrRef<ResultE, 
+                                            CNodePtr,
+                                            Action *>(
+                    &IntersectAction::_defaultEnterFunction));
     }
     
     (*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -116,7 +119,10 @@ void IntersectAction::registerLeaveDefault(     const FieldContainerType &type,
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
         _defaultLeaveFunctors->push_back( 
-                osgFunctionFunctor2(&IntersectAction::_defaultLeaveFunction));
+            osgTypedFunctionFunctor2CPtrRef<ResultE, 
+                                            CNodePtr,
+                                            Action *>(
+                &IntersectAction::_defaultLeaveFunction));
     }
     
     (*_defaultLeaveFunctors)[ type.getId() ] = func;

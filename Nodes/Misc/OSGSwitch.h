@@ -75,17 +75,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
 
     typedef SwitchBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                Switch Draw                                   */
-    /*! \{                                                                 */
-
-    static Action::ResultE SwitchDraw(CNodePtr &cnode,
-                                      Action   *pAction);
-
-    /*! \}                                                                 */
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

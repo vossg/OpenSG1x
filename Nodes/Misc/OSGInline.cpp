@@ -81,45 +81,6 @@ void Inline::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 /*-------------------------------------------------------------------------*/
-/*                              Inline Draw                                */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE Inline::InlineDrawEnter(CNodePtr &cnode, 
-                                             Action   *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Inline   *pSC = dynamic_cast<Inline *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-
-OSG::Action::ResultE Inline::InlineDrawLeave(CNodePtr &cnode, 
-                                             Action  *pAction)
-{
-    NodeCore *pNC = cnode.getCPtr();
-    Inline   *pSC = dynamic_cast<Inline *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "MGDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 Inline::Inline(void) :
@@ -162,27 +123,17 @@ Action::ResultE Inline::drawLeave(Action *)
 
 void Inline::initMethod(void)
 {
-#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  InlinePtr, 
-                                  Action *>(&Inline::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          InlinePtr  , 
+                                          CNodePtr   ,  
+                                          Action    *>(&Inline::drawEnter));
 
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  InlinePtr, 
-                                  Action *>(&Inline::drawLeave));
-#else
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Inline::InlineDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(Inline::InlineDrawLeave));
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          InlinePtr  , 
+                                          CNodePtr   ,  
+                                          Action    *>(&Inline::drawLeave));
 }

@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.31 2002/02/11 18:30:47 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.32 2002/02/16 03:48:42 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -222,19 +222,16 @@ void TextureChunk::onCreate(const FieldContainer &)
     TextureChunkPtr tmpPtr(*this);
 
     beginEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
-#ifndef OSG_NOFUNCTORS
-    setGLId(Window::registerGLObject(
-                    osgMethodFunctor2CPtr<
-                                    void,
-                                    Window*,
-                                    UInt32,
-                                    TextureChunkPtr
-                                    >(tmpPtr, &TextureChunk::handleGL), 1)               );
-#else
-    setGLId(Window::registerGLObject(
-                        osgMethodFunctor2CPtr(tmpPtr,
-                                                &TextureChunk::handleGL), 1));
-#endif
+
+    setGLId(
+        Window::registerGLObject(
+            osgTypedMethodVoidFunctor2ObjCPtrPtr<TextureChunkPtr, 
+                                                 Window , 
+                                                 UInt32>(
+                                                     tmpPtr, 
+                                                     &TextureChunk::handleGL),
+            1));
+
     endEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
 }
 

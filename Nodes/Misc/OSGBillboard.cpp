@@ -105,53 +105,55 @@ Billboard::~Billboard(void)
 
 void Billboard::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  BillboardPtr, 
-                                  Action *>(&Billboard::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            BillboardPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Billboard::drawEnter));
     
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  BillboardPtr, 
-                                  Action *>(&Billboard::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            BillboardPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Billboard::drawLeave));
 
 
     IntersectAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  BillboardPtr, 
-                                  Action *>(&Billboard::intersectEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            BillboardPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Billboard::intersectEnter));
 
     IntersectAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  BillboardPtr, 
-                                  Action *>(&Billboard::intersectLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            BillboardPtr    , 
+            CNodePtr        ,   
+            Action         *>(&Billboard::intersectLeave));
 
 
     RenderAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  BillboardPtr, 
-                                  Action *>(&Billboard::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            BillboardPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Billboard::renderEnter));
 
     RenderAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  BillboardPtr, 
-                                  Action *>(&Billboard::renderLeave));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            BillboardPtr    , 
+            CNodePtr        ,  
+            Action         *>(&Billboard::renderLeave));
 }
 
 //! react to field changes

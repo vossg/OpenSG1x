@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <vector>
-#include <OSGFunctors.h>
+#include <OSGTypedFunctors.h>
 
 OSG_USING_NAMESPACE
 
@@ -16,7 +16,8 @@ class Pointer
 
   public :
 
-    typedef ObjectTypeT ObjectType;
+    typedef Pointer<ObjectTypeT> ObjectType;
+    typedef ObjectTypeT          StoredObjectType;
 
     Pointer(void);
 
@@ -99,6 +100,8 @@ class A
     int aid;
 
   public:
+
+    typedef A ObjectType;
 
     A(void) : aid(acount++) {}
     virtual ~A(void) {} 
@@ -216,6 +219,7 @@ class A1
 
     void fooP(void) { fprintf(stderr, "A::fooP %d\n", aid); }
     void barP(Pointer<A> &)  { fprintf(stderr, "A::barP %d\n", aid); }
+    void barOP(Pointer<A> )  { fprintf(stderr, "A::barP %d\n", aid); }
 
     Int32 fooIP(void) { fprintf(stderr, "A::fooIP %d\n", aid); return 0; }
     Int32 barIP(Pointer<A> &)  { fprintf(stderr, "A::barIP %d\n", aid); 
@@ -317,6 +321,8 @@ class B : public A
     static Int32 fooIO(A &) { fprintf(stderr, "B::fooIO\n"); return 0; };
 
     static void     fooP  (Pointer<A> &) { fprintf(stderr, "B::fooP\n"); };
+    static void     fooOP (Pointer<A>  ) { fprintf(stderr, "B::fooP\n"); };
+
     static Int32 fooIP (Pointer<A> &) { fprintf(stderr, "B::fooIP\n"); 
                                               return 0; };
 
@@ -377,6 +383,12 @@ void fooP(Pointer<A> &pA)
     pA->foo();
 }
 
+void fooOP(Pointer<A> pA)
+{
+    fprintf(stderr, "fooP\n");
+    pA->foo();
+}
+
 Int32 fooIP(Pointer<A> &pA)
 {
     fprintf(stderr, "fooIP\n");
@@ -429,32 +441,65 @@ void foobarP(Pointer<A> &, Int32 &uiArg2)
     fprintf(stderr, "foobarP : %d\n", uiArg2);
 }
 
+typedef ArgsCollector<Int32 &> ArgsT;
 
-typedef Functor1Base<void,     A &> Functor1O;
-typedef Functor1Base<Int32, A &> Functor1IO;
 
-typedef Functor1Base<void,     A *> Functor1;
-typedef Functor1Base<Int32, A *> Functor1I;
+typedef TypedVoidFunctor1Base<       RefCallArg<A> > Functor1O;
+typedef TypedFunctor1Base    <Int32, RefCallArg<A> > Functor1IO;
 
-typedef Functor2Base<void,     A &, Int32 &> Functor2O;
-typedef Functor2Base<Int32, A &, Int32 &> Functor2IO;
+typedef TypedVoidFunctor1Base<       PtrCallArg<A> > Functor1;
+typedef TypedFunctor1Base    <Int32, PtrCallArg<A> > Functor1I;
 
-typedef Functor2Base<void,     A *, Int32 &> Functor2;
-typedef Functor2Base<Int32, A *, Int32 &> Functor2I;
+typedef TypedVoidFunctor2Base<       RefCallArg<A>, ArgsT> Functor2O;
+typedef TypedFunctor2Base    <Int32, RefCallArg<A>, ArgsT> Functor2IO;
 
-typedef Functor1Base<void,     Pointer<A> &> Functor1P;
-typedef Functor1Base<Int32, Pointer<A> &> Functor1IP;
+typedef TypedVoidFunctor2Base<       PtrCallArg<A>, ArgsT> Functor2;
+typedef TypedFunctor2Base    <Int32, PtrCallArg<A>, ArgsT> Functor2I;
 
-typedef Functor2Base<void,     Pointer<A> &, Int32 &> Functor2P;
-typedef Functor2Base<Int32, Pointer<A> &, Int32 &> Functor2IP;
+typedef TypedVoidFunctor1Base<       CPtrRefCallArg<Pointer<A> > > Functor1P;
+typedef TypedFunctor1Base    <Int32, CPtrRefCallArg<Pointer<A> > > Functor1IP;
 
-typedef Functor2Base<void, Int32 , Int32 > Functor2TP;
+typedef TypedVoidFunctor1Base<       CPtrCallArg<Pointer<A> > > Functor1OP;
+typedef TypedFunctor1Base    <Int32, CPtrCallArg<Pointer<A> > > Functor1OIP;
+
+typedef TypedVoidFunctor2Base<      
+                              CPtrRefCallArg<Pointer<A> >,
+                              ArgsT                     > Functor2P;
+typedef TypedFunctor2Base    <Int32,
+                              CPtrRefCallArg<Pointer<A> >,
+                              ArgsT                     > Functor2IP;
+
+typedef TypedVoidFunctor2Base<       ObjCallArg<Int32>,      Int32> Functor2TP;
+
+/*
+
+typedef TypedVoidFunctor1Base<       A &> Functor1O;
+typedef TypedFunctor1Base    <Int32, A &> Functor1IO;
+
+typedef TypedVoidFunctor1Base<       A *> Functor1;
+typedef TypedFunctor1Base    <Int32, A *> Functor1I;
+
+typedef TypedVoidFunctor2Base<       A &, ArgsT> Functor2O;
+typedef TypedFunctor2Base    <Int32, A &, ArgsT> Functor2IO;
+
+typedef TypedVoidFunctor2Base<       A *, ArgsT> Functor2;
+typedef TypedFunctor2Base    <Int32, A *, ArgsT> Functor2I;
+
+typedef TypedVoidFunctor1Base<       Pointer<A> &> Functor1P;
+typedef TypedFunctor1Base    <Int32, Pointer<A> &> Functor1IP;
+
+typedef TypedVoidFunctor2Base<       Pointer<A> &, ArgsT> Functor2P;
+typedef TypedFunctor2Base    <Int32, Pointer<A> &, ArgsT> Functor2IP;
+
+typedef TypedVoidFunctor2Base<       Int32,        Int32> Functor2TP;
+
+*/
 
 void testfunctor1(void)
 {
     fprintf(stderr, "testfunctor1 started\n");
     
-    vector<Functor1> funcVec;
+    vector<Functor1>  funcVec;
     vector<Functor1I> funcVecI;
 
     A a1;
@@ -462,10 +507,10 @@ void testfunctor1(void)
 
     unsigned int i;
 
-    funcVec.push_back(osgFunctionFunctor1(foo));
-    funcVec.push_back(osgFunctionFunctor1(B::foo));
-    funcVec.push_back(osgMethodFunctor1Ptr(&A::foo));
-    funcVec.push_back(osgMethodFunctor1Ptr(&a2, &A1::bar));
+    funcVec.push_back(osgTypedFunctionVoidFunctor1Ptr <    A>(   foo));
+    funcVec.push_back(osgTypedFunctionVoidFunctor1Ptr <    A>(B::foo));
+    funcVec.push_back(osgTypedMethodVoidFunctor1Ptr   <    A>(&A::foo));
+    funcVec.push_back(osgTypedMethodVoidFunctor1ObjPtr<A1, A>(&a2, &A1::bar));
 
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -473,10 +518,14 @@ void testfunctor1(void)
         funcVec[i].call(&a1);
     }
 
-    funcVecI.push_back(osgFunctionFunctor1(fooI));
-    funcVecI.push_back(osgFunctionFunctor1(B::fooI));
-    funcVecI.push_back(osgMethodFunctor1Ptr(&A::fooI));
-    funcVecI.push_back(osgMethodFunctor1Ptr(&a2, &A1::barI));
+    funcVecI.push_back(
+        osgTypedFunctionFunctor1Ptr <Int32,     A>(fooI));
+    funcVecI.push_back(
+        osgTypedFunctionFunctor1Ptr <Int32,     A>(B::fooI));
+    funcVecI.push_back(
+        osgTypedMethodFunctor1Ptr   <Int32,     A>(&A::fooI));
+    funcVecI.push_back(
+        osgTypedMethodFunctor1ObjPtr<Int32, A1, A>(&a2, &A1::barI));
 
     for(i = 0; i < funcVecI.size(); i++)
     {
@@ -486,6 +535,7 @@ void testfunctor1(void)
 
     fprintf(stderr, "testfunctor1 end\n");
 }
+
 
 void testfunctor1a(void)
 {
@@ -499,10 +549,11 @@ void testfunctor1a(void)
 
     unsigned int i;
 
-    funcVec.push_back(osgFunctionFunctor1(fooO));
-    funcVec.push_back(osgFunctionFunctor1(B::fooO));
-    funcVec.push_back(osgMethodFunctor1Ref(&A::fooO));
-    funcVec.push_back(osgMethodFunctor1Ref(a2, &A1::barO));
+    funcVec.push_back(osgTypedFunctionVoidFunctor1Ref<A>(fooO));
+    funcVec.push_back(osgTypedFunctionVoidFunctor1Ref<A>(B::fooO));
+    funcVec.push_back(osgTypedMethodVoidFunctor1Ref  <A>(&A::fooO));
+
+//    funcVec.push_back(osgTypedMethodFunctor1Ref(a2, &A1::barO));
 
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -510,10 +561,11 @@ void testfunctor1a(void)
         funcVec[i].call(a1);
     }
 
-    funcVecI.push_back(osgFunctionFunctor1(fooIO));
-    funcVecI.push_back(osgFunctionFunctor1(B::fooIO));
-    funcVecI.push_back(osgMethodFunctor1Ref(&A::fooIO));
-    funcVecI.push_back(osgMethodFunctor1Ref(a2, &A1::barIO));
+    funcVecI.push_back(osgTypedFunctionFunctor1Ref<Int32, A>(fooIO));
+    funcVecI.push_back(osgTypedFunctionFunctor1Ref<Int32, A>(B::fooIO));
+    funcVecI.push_back(osgTypedMethodFunctor1Ref  <Int32, A>(&A::fooIO));
+
+//    funcVecI.push_back(osgTypedMethodFunctor1Ref(a2, &A1::barIO));
 
     for(i = 0; i < funcVecI.size(); i++)
     {
@@ -523,7 +575,6 @@ void testfunctor1a(void)
 
     fprintf(stderr, "testfunctor1a end\n");
 }
-
 
 void testfunctor2(void)
 {
@@ -538,10 +589,16 @@ void testfunctor2(void)
     Int32 j;
     unsigned int i;
 
-    funcVecI.push_back(osgMethodFunctor2Ptr(&A::foo2));
-    funcVecI.push_back(osgMethodFunctor2Ptr(&a2, &A1::bar2));
-    funcVecI.push_back(osgFunctionFunctor2(bar));
-    funcVecI.push_back(osgFunctionFunctor2(&B::bar));
+    funcVecI.push_back(
+        osgTypedFunctionFunctor2Ptr <Int32,     A, Int32 &    >(    bar));
+    funcVecI.push_back(
+        osgTypedFunctionFunctor2Ptr <Int32,     A, Int32 &    >(&B::bar));
+
+    funcVecI.push_back(
+        osgTypedMethodFunctor2Ptr   <Int32,     A, Int32 &    >(&A::foo2));
+
+    funcVecI.push_back(
+        osgTypedMethodFunctor2ObjPtr<Int32, A1, A, Int32 &>(&a2, &A1::bar2));
 
     for(i = 0; i < funcVecI.size(); i++)
     {
@@ -551,10 +608,14 @@ void testfunctor2(void)
     }
 
 
-    funcVec.push_back(osgMethodFunctor2Ptr(&A::foo1));
-    funcVec.push_back(osgMethodFunctor2Ptr(&a2, &A1::bar1));
-    funcVec.push_back(osgFunctionFunctor2(foobar));
-    funcVec.push_back(osgFunctionFunctor2(&B::foobar));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor2Ptr <    A, Int32 &>(    foobar));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor2Ptr <    A, Int32 &>(&B::foobar));
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor2Ptr   <    A, Int32 &>(&A::foo1  ));
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor2ObjPtr<A1, A, Int32 &>(&a2, &A1::bar1));
 
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -579,10 +640,16 @@ void testfunctor2a(void)
     Int32 j;
     unsigned int i;
 
-    funcVecI.push_back(osgMethodFunctor2Ref(&A::foo2O));
-    funcVecI.push_back(osgMethodFunctor2Ref(a2, &A1::bar2O));
-    funcVecI.push_back(osgFunctionFunctor2(barO));
-    funcVecI.push_back(osgFunctionFunctor2(&B::barO));
+    funcVecI.push_back(
+        osgTypedFunctionFunctor2Ref<Int32, A, Int32 &>(    barO ));
+    funcVecI.push_back(
+        osgTypedFunctionFunctor2Ref<Int32, A, Int32 &>(&B::barO ));
+
+    funcVecI.push_back(
+        osgTypedMethodFunctor2Ref  <Int32, A, Int32 &>(&A::foo2O));
+
+//    funcVecI.push_back(osgTypedMethodFunctor2Ref(a2, &A1::bar2O));
+
 
     for(i = 0; i < funcVecI.size(); i++)
     {
@@ -592,10 +659,16 @@ void testfunctor2a(void)
     }
 
 
-    funcVec.push_back(osgMethodFunctor2Ref(&A::foo1O));
-    funcVec.push_back(osgMethodFunctor2Ref(a2, &A1::bar1O));
-    funcVec.push_back(osgFunctionFunctor2(foobarO));
-    funcVec.push_back(osgFunctionFunctor2(&B::foobarO));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor2Ref<A, Int32 &>(    foobarO));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor2Ref<A, Int32 &>(&B::foobarO));
+
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor2Ref  <A, Int32 &>(&A::foo1O  ));
+
+//    funcVec.push_back(osgTypedMethodVoidFunctor2Ref(a2, &A1::bar1O));
+
 
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -606,7 +679,6 @@ void testfunctor2a(void)
 
     fprintf(stderr, "testfunctor2a end\n");    
 }
-
 
 
 void testpointer1(void)
@@ -626,13 +698,17 @@ void testpointer1(void)
 
     vector<Functor1P> funcVec;
 
-    funcVec.push_back(osgFunctionFunctor1(fooP));
-    funcVec.push_back(osgFunctionFunctor1(&B::fooP));
-    funcVec.push_back(osgMethodFunctor1CPtr<void, Pointer<A> >(&A::fooP));
-    funcVec.push_back(osgMethodFunctor1CPtr<void, 
-                                            Pointer<A> &,
-                                            Pointer<A1> >(pA1, &A1::barP));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor1CPtrRef < Pointer<A> >(fooP));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor1CPtrRef < Pointer<A> >(&B::fooP));
 
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor1CPtrRef   < Pointer<A> >(&A::fooP));
+
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor1ObjCPtrRef<Pointer<A1> ,
+                                             Pointer<A > >(pA1, &A1::barP));
 
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -643,6 +719,48 @@ void testpointer1(void)
 
     fprintf(stderr, "testpointer1 end\n");    
 }
+
+void testpointer1o(void)
+{
+    UInt32 i;
+
+    fprintf(stderr, "testpointer1 start\n");    
+    
+    A a;
+    A1 a1;
+
+    Pointer<A> pA;
+    Pointer<A1> pA1;
+
+    pA = &a;
+    pA1 = &a1;
+
+    vector<Functor1OP> funcVec;
+
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor1CPtr < Pointer<A> >(fooOP));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor1CPtr < Pointer<A> >(&B::fooOP));
+
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor1CPtr   < Pointer<A> >(&A::fooP));
+
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor1ObjCPtr<Pointer<A1> ,
+                                          Pointer<A > >(pA1, &A1::barOP));
+
+    for(i = 0; i < funcVec.size(); i++)
+    {
+        fprintf(stderr, "%d : \t", i);
+        funcVec[i].call(pA);
+    }
+    
+
+    fprintf(stderr, "testpointer1 end\n");    
+}
+
+
+#if 0
 
 void testpointer1a(void)
 {
@@ -661,14 +779,15 @@ void testpointer1a(void)
 
     vector<Functor1IP> funcVec;
 
-    funcVec.push_back(osgFunctionFunctor1(fooIP));
-    funcVec.push_back(osgFunctionFunctor1(&B::fooIP));
-    funcVec.push_back(osgMethodFunctor1CPtr<Int32, 
-                                            Pointer<A> >(&A::fooIP));
-    funcVec.push_back(osgMethodFunctor1CPtr<Int32, 
-                                            Pointer<A> &,
-                                            Pointer<A1> >(pA1, &A1::barIP));
+    funcVec.push_back(osgTypedFunctionFunctor1(fooIP));
+    funcVec.push_back(osgTypedFunctionFunctor1(&B::fooIP));
 
+    funcVec.push_back(osgTypedMethodFunctor1CPtr<Int32, 
+                                            Pointer<A> &>(&A::fooIP));
+
+    funcVec.push_back(osgTypedMethodFunctor1CPtr<Int32, 
+                                            Pointer<A1> &,
+                                            Pointer<A> &>(pA1, &A1::barIP));
     
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -679,7 +798,7 @@ void testpointer1a(void)
 
     fprintf(stderr, "testpointer1a end\n");    
 }
-
+#endif
 
 void testpointer2(void)
 {
@@ -701,16 +820,30 @@ void testpointer2(void)
     vector<Functor2P> funcVec;
     vector<Functor2IP> funcVecI;
 
-    funcVec.push_back(osgFunctionFunctor2(foobarP));
-    funcVec.push_back(osgFunctionFunctor2(&B::foobarP));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor2CPtrRef<Pointer<A>, 
+                                            Int32     &>(foobarP));
 
-    funcVec.push_back(osgMethodFunctor2CPtr<void, 
-                                           Pointer<A>,
-                                           Int32 &>(&A::foo1P));
+    funcVec.push_back(
+        osgTypedFunctionVoidFunctor2CPtrRef<Pointer<A>, 
+                                            Int32    &>(&B::foobarP));
+
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor2CPtrRef  <Pointer<A> ,
+                                            Int32    &>(&A::foo1P));
+
+    funcVec.push_back(
+        osgTypedMethodVoidFunctor2ObjCPtrRef<Pointer<A1>, 
+                                             Pointer<A >, 
+                                             Int32     &>(pA1, &A1::bar1P));
+
+
+/*
     funcVec.push_back(osgMethodFunctor2CPtr<void, 
                                             Pointer<A> &, 
                                             Int32      &, 
                                             Pointer<A1> >(pA1, &A1::bar1P));
+*/
 
     for(i = 0; i < funcVec.size(); i++)
     {
@@ -718,21 +851,34 @@ void testpointer2(void)
         j = i;
         funcVec[i].call(pA, j);
     }
+
+    funcVecI.push_back(
+        osgTypedMethodFunctor2BaseCPtrRef<Int32,
+                                          Pointer<B>,
+                                          Pointer<A>,
+                                          Int32     &>(&B::foo2P));
     
-    funcVecI.push_back(osgMethodFunctor2BaseCPtr<Int32, 
-                                                 Pointer<A>,
-                                                 Pointer<B>, 
-                                                 Int32 &>(&B::foo2P));
+/*
+    funcVecI.push_back(osgTypedMethodFunctor2CPtr<Int32, 
+                                                      Pointer<A>,
+                                                      Pointer<B>, 
+                                                      Int32 &>(&B::foo2P));
+*/
 
-    funcVecI.push_back(osgMethodFunctor2CPtr<Int32, 
-                                             Pointer<A> &, 
-                                             Int32      &,
-                                             Pointer<A1> >(pA1, 
+/*
+    funcVecI.push_back(osgTypedMethodFunctor2CPtr<Int32, 
+                                                  Pointer<A> &, 
+                                                  Int32      &,
+                                                  Pointer<A1> >(pA1, 
                                                               &A1::bar2P));
+*/
 
-
-    funcVecI.push_back(osgFunctionFunctor2(barP));
-    funcVecI.push_back(osgFunctionFunctor2(&B::barP));
+    funcVecI.push_back(osgTypedFunctionFunctor2CPtrRef<Int32, 
+                                                       Pointer<A>,
+                                                       Int32 &> (barP));
+    funcVecI.push_back(osgTypedFunctionFunctor2CPtrRef<Int32, 
+                                                       Pointer<A>,
+                                                       Int32    &>(&B::barP));
 
     for(i = 0; i < funcVecI.size(); i++)
     {
@@ -744,6 +890,7 @@ void testpointer2(void)
     fprintf(stderr, "testpointer2 end\n");    
 }
 
+#if 0
 
 void testpointer3(void)
 {
@@ -777,7 +924,7 @@ void testpointer3(void)
     fprintf(stderr, "testpointer3 end\n");    
 }
 
-
+#endif
 
 int main(void)
 {
@@ -787,9 +934,11 @@ int main(void)
 //    testfunctor2a();
 
 //    testpointer1();
+    testpointer1o();
 //    testpointer1a();
 
 //    testpointer2();
+//    testpointer3();
 
-    testpointer3();
+    return 0;
 }

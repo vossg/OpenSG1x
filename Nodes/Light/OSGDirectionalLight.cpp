@@ -109,44 +109,6 @@ void DirectionalLight::dump(      UInt32    uiIndent,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                            No Functor Stuff                             */
-
-#ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE DirectionalLight::DLightDrawEnter(CNodePtr &cnode, 
-                                                       Action   *pAction)
-{
-    NodeCore         *pNC = cnode.getCPtr();
-    DirectionalLight *pSC = dynamic_cast<DirectionalLight *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "DLDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawEnter(pAction);
-    }
-}
-OSG::Action::ResultE DirectionalLight::DLightDrawLeave(CNodePtr &cnode, 
-                                                       Action   *pAction)
-{
-    NodeCore         *pNC = cnode.getCPtr();
-    DirectionalLight *pSC = dynamic_cast<DirectionalLight *>(pNC);
-
-    if(pSC == NULL)
-    {
-        fprintf(stderr, "DLDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pSC->drawLeave(pAction);
-    }
-}
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 DirectionalLight::DirectionalLight(void) :
@@ -224,45 +186,35 @@ Action::ResultE DirectionalLight::renderLeave(Action *action)
 
 void DirectionalLight::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
-
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  DirectionalLightPtr, 
-                                  Action *>(&DirectionalLight::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            DirectionalLightPtr  , 
+            CNodePtr             ,  
+            Action              *>(&DirectionalLight::drawEnter));
 
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  DirectionalLightPtr, 
-                                  Action *>(&DirectionalLight::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            DirectionalLightPtr  , 
+            CNodePtr             ,  
+            Action              *>(&DirectionalLight::drawLeave));
 
     RenderAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  DirectionalLightPtr, 
-                                  Action *>(&DirectionalLight::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            DirectionalLightPtr  , 
+            CNodePtr             ,  
+            Action              *>(&DirectionalLight::renderEnter));
 
     RenderAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  DirectionalLightPtr, 
-                                  Action *>(&DirectionalLight::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(DirectionalLight::DLightDrawEnter));
-
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(DirectionalLight::DLightDrawLeave));
-
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            OSG::Action::ResultE,
+            DirectionalLightPtr  , 
+            CNodePtr             ,  
+            Action              *>(&DirectionalLight::renderLeave));
 }

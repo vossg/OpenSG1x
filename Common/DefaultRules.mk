@@ -460,16 +460,16 @@ ifneq ($(LIB_DEF_SRC),)
 
 ifneq ($(LIB_HEADER_SRC),)
 
-lib.def: $(LIB_DEF_SRC) $(LIB_HEADER_SRC)
-	cp  $(LIB_HEADER_SRC) ./lib.def
-	cat $(LIB_DEF_SRC) >> ./lib.def
+lib.$(DBG).def: $(LIB_DEF_SRC) $(LIB_HEADER_SRC)
+	cp  $(LIB_HEADER_SRC) ./lib.$(DBG).def
+	cat $(LIB_DEF_SRC) >> ./lib.$(DBG).def
 else
 $(error no lib.def.header given)
 endif
 
 else
 
-lib.def:
+lib.$(DBG).def:
 
 endif
 

@@ -100,13 +100,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 
     typedef SpotLightBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE SLightDrawEnter(CNodePtr &cnode,
-                                           Action   *pAction);
-    static Action::ResultE SLightDrawLeave(CNodePtr &cnode,
-                                           Action   *pAction);
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

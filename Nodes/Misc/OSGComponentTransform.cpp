@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.7 2001/11/09 08:32:08 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.8 2002/02/16 03:48:41 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
 }
@@ -98,48 +98,6 @@ void ComponentTransform::dump(      UInt32    uiIndent,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                                Draw                                     */
-
-#ifdef OSG_NOFUNCTORS
-Action::ResultE ComponentTransform::ComponentTransformDrawEnter(
-    CNodePtr &cnode, 
-    Action   *pAction)
-{
-    NodeCore           *pNC = cnode.getCPtr();
-    ComponentTransform *pTr = dynamic_cast<ComponentTransform *>(pNC);
-
-    if(pTr == NULL)
-    {
-        fprintf(stderr, "VTRDE: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pTr->drawEnter(pAction);
-    }
-}
-
-Action::ResultE ComponentTransform::ComponentTransformDrawLeave(
-    CNodePtr &cnode, 
-    Action   *pAction)
-{
-    NodeCore           *pNC = cnode.getCPtr();
-    ComponentTransform *pTr = dynamic_cast<ComponentTransform *>(pNC);
-
-    if(pTr == NULL)
-    {
-        fprintf(stderr, "VTRDL: core NULL\n");
-        return Action::Skip;
-    }
-    else
-    {
-        return pTr->drawLeave(pAction);
-    }
-}
-#endif
-
-
-/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 ComponentTransform::ComponentTransform(void) :
@@ -165,63 +123,55 @@ ComponentTransform::~ComponentTransform(void)
 
 void ComponentTransform::initMethod (void)
 {
-#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  ComponentTransformPtr, 
-                                  Action *>(&ComponentTransform::drawEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            ComponentTransformPtr  , 
+            CNodePtr               ,  
+            Action                *>(&ComponentTransform::drawEnter));
 
     DrawAction::registerLeaveDefault( 
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  ComponentTransformPtr, 
-                                  Action *>(&ComponentTransform::drawLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            ComponentTransformPtr  , 
+            CNodePtr               ,  
+            Action                *>(&ComponentTransform::drawLeave));
 
 
     RenderAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  ComponentTransformPtr, 
-                                  Action *>(&ComponentTransform::renderEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            ComponentTransformPtr  , 
+            CNodePtr               ,  
+            Action                *>(&ComponentTransform::renderEnter));
 
     RenderAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  ComponentTransformPtr, 
-                                  Action *>(&ComponentTransform::renderLeave));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            ComponentTransformPtr  , 
+            CNodePtr               ,  
+            Action                *>(&ComponentTransform::renderLeave));
 
 
     IntersectAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                 CNodePtr,  
-                                 ComponentTransformPtr, 
-                                 Action*>(&ComponentTransform::intersectEnter));
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            ComponentTransformPtr  , 
+            CNodePtr               ,  
+            Action                *>(&ComponentTransform::intersectEnter));
 
     IntersectAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                 CNodePtr,  
-                                 ComponentTransformPtr, 
-                                 Action*>(&ComponentTransform::intersectLeave));
-    
-#else
-
-    DrawAction::registerEnterDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(
-            ComponentTransform::ComponentTransformDrawEnter));
-    
-    DrawAction::registerLeaveDefault(
-        getClassType(), 
-        Action::osgFunctionFunctor2(
-            ComponentTransform::ComponentTransformDrawLeave));
-#endif
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            ComponentTransformPtr  , 
+            CNodePtr               ,  
+            Action                *>(&ComponentTransform::intersectLeave));
 }
 
 

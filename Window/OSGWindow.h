@@ -45,9 +45,7 @@
 
 #include <OSGConfig.h>
 
-#ifndef OSG_NOFUNCTORS
-#include <OSGFunctors.h>
-#endif
+#include <OSGTypedFunctors.h>
 
 #include <OSGWindowBase.h>
 
@@ -63,36 +61,21 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum GLObjectStatusE {
-        notused=1, initialize, reinitialize, initialized,
-        needrefresh, destroy, finaldestroy };
-
-#ifdef OSG_NOFUNCTORS
-    typedef void (*FunctorFunc)(Window*, UInt32);
-
-    struct GLObjectFunctor
+    enum GLObjectStatusE 
     {
-       public:
-
-        FunctorFunc _func;
-
-        virtual void call(Window *win, UInt32 uiOpt)
-        {
-            _func(win, uiOpt);
-        }
+        notused      = 1, 
+        initialize, 
+        reinitialize, 
+        initialized,
+        needrefresh, 
+        destroy, 
+        finaldestroy 
     };
 
-    static GLObjectFunctor osgFunctionFunctor2(FunctorFunc func)
-    {
-        GLObjectFunctor result;
+    typedef ArgsCollector<UInt32>                      GLObjectFunctorArgs;
 
-        result._func = func;
-
-        return result;
-    }
-#else
-    typedef Functor2Base<void,Window*,UInt32> GLObjectFunctor;
-#endif
+    typedef TypedVoidFunctor2Base<PtrCallArg<Window> , 
+                                  GLObjectFunctorArgs> GLObjectFunctor;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

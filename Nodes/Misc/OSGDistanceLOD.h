@@ -78,16 +78,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 
     typedef DistanceLODBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    /*---------------------------------------------------------------------*/
-    /*! \name                      DistLOD Draw                            */
-    /*! \{                                                                 */
-
-    static Action::ResultE DistLODDraw(CNodePtr &cnode,
-                                       Action   *pAction);
-    /*! \}                                                                 */
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -134,6 +124,6 @@ OSG_END_NAMESPACE
 #include <OSGDistanceLOD.inl>
 #include <OSGDistanceLODBase.inl>
 
-#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.6 2001/11/05 11:15:31 vossg Exp $"
+#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.7 2002/02/16 03:48:42 vossg Exp $"
 
 #endif /* _OSGDISTANCELOD_H_ */

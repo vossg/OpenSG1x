@@ -100,7 +100,10 @@ void DrawAction::registerEnterDefault(  const FieldContainerType &type,
     while(type.getId() >= _defaultEnterFunctors->size())
     {
         _defaultEnterFunctors->push_back( 
-                osgFunctionFunctor2(&Action::_defaultEnterFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultEnterFunction));
     }
     
     (*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -115,7 +118,10 @@ void DrawAction::registerLeaveDefault(  const FieldContainerType &type,
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
         _defaultLeaveFunctors->push_back( 
-                osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultLeaveFunction));
     }
     
     (*_defaultLeaveFunctors)[ type.getId() ] = func;

@@ -94,13 +94,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 
     typedef DirectionalLightBase Inherited;
 
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE DLightDrawEnter(CNodePtr &cnode,
-                                           Action   *pAction);
-    static Action::ResultE DLightDrawLeave(CNodePtr &cnode,
-                                           Action   *pAction);
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
