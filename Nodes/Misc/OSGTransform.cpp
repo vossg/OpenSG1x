@@ -63,7 +63,10 @@ OSG_USING_NAMESPACE
 
 void Transform::changed(BitVector whichField, UInt32 origin)
 {
-    invalidateVolume();
+    if(whichField & MatrixFieldMask)
+    {
+        invalidateVolume();
+    }
 
     Inherited::changed(whichField, origin);
 }

@@ -75,11 +75,8 @@ void ComponentTransform::changed(BitVector whichField, UInt32 origin)
         }
         endEditCP  (ptr, MatrixFieldMask);
     }
-    else
-    {
-        Inherited::changed(whichField, origin);
-    }
 
+    Inherited::changed(whichField, origin);
 }
 
 void ComponentTransform::dump(      UInt32    uiIndent, 
@@ -179,7 +176,7 @@ void ComponentTransform::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.11 2002/06/30 05:04:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.12 2002/07/02 17:48:05 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
 }
