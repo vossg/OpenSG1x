@@ -92,6 +92,12 @@
 #if defined(__sgi)
 #include <standards.h>
 #include <sys/endian.h>
+// Some systems (notably VRJuggler) screw up the environment, so kludge it
+#  ifndef BYTE_ORDER
+#    define LITTLE_ENDIAN  _LITTLE_ENDIAN
+#    define BIG_ENDIAN     _BIG_ENDIAN
+#    define BYTE_ORDER     _BYTE_ORDER
+#  endif
 #elif defined(__hpux)
 #include <arpa/nameser.h>
 #include <pthread.h>
@@ -808,7 +814,13 @@
 #ifndef OSG_WIN_TYPES
 #define OSG_APIENTRY
 #else
+#ifdef APIENTRY
 #define OSG_APIENTRY APIENTRY
+#elif defined(GLAPIENTRY)
+#define OSG_APIENTRY GLAPIENTRY
+#else
+#error "Neither APIENTRY nor GLAPIENTRY defined"
+#endif
 #endif
 
 #ifdef OSG_DEBUG

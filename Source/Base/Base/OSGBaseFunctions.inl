@@ -40,6 +40,7 @@
 
 #ifndef WIN32
 #include <unistd.h>
+#include <time.h>
 #endif
 
 OSG_BEGIN_NAMESPACE
@@ -1057,6 +1058,7 @@ void osgsleep(UInt32 millisecs)
     Sleep(millisecs);
 #else
 
+#if 0 // replaced by nanosleep to work around IRIX problems
     // Rough aproximation, have to find a better way soon (GV)
 
     if( (millisecs * 1000) > 1000000)
@@ -1067,6 +1069,25 @@ void osgsleep(UInt32 millisecs)
     {
         ::usleep(millisecs * 1000);
     }
+    
+#else
+
+    struct timespec req;
+    int ns;
+    
+    req.tv_sec = millisecs / 1000;
+    req.tv_nsec = (millisecs % 1000) * 1000;
+    
+    while((req.tv_sec > 0 || req.tv_nsec > 0) &&
+          (ns = nanosleep(&req, &req)) < 0)
+    {
+        if(ns < 0 && errno != EINTR)
+        {
+            break;
+        }
+    }
+        
+#endif
 #endif
 }
 
