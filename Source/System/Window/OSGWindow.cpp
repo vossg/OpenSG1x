@@ -1053,6 +1053,8 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
 #else
 
+    FWARNING(("Window::getFunctionByName: couldn't find implementation!\n"
+              "Please contact the developers at info@opensg.org.\n");
     retval = NULL;
 
 #endif
@@ -1064,7 +1066,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
     }
     else
     {
-        FNOTICE(("Window::getFunctionByName: got function '%s' for "
+        FDEBUG(("Window::getFunctionByName: got function '%s' for "
                  "Window %p at %p.\n", s, this, retval));
     }
 
