@@ -257,6 +257,8 @@ int main( int argc, char *argv[] )
     blchunk->setColor( Color4f( .5,.5,.5,0.1 ) );
     blchunk->setEquation(GL_FUNC_SUBTRACT);
 
+    std::cout << "BlendChunk is trans:" << blchunk->isTransparent() << std::endl;
+    
     // texture transform chunk
 
     txchunk = TextureTransformChunk::create();
