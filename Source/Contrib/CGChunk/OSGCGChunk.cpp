@@ -216,14 +216,21 @@ void CGChunk::handleGL(Window */*win*/, UInt32 idstatus)
         // set params
         for(UInt16 i = 0; i < getParamValues().size(); ++i)
         {
-            CGparameter vpparam = cgGetNamedParameter(_vProgram, getParamNames()[i].c_str());
-            CGparameter fpparam = cgGetNamedParameter(_fProgram, getParamNames()[i].c_str());
-            Vec4f &val = getParamValues()[i];
-            if(vpparam != 0)
-                cgGLSetParameter4fv(vpparam, val.getValues());
+            if(_vp_isvalid)
+            {
+                CGparameter vpparam = cgGetNamedParameter(_vProgram, getParamNames()[i].c_str());
+                Vec4f &val = getParamValues()[i];
+                if(vpparam != 0)
+                    cgGLSetParameter4fv(vpparam, val.getValues());
+            }
             
-            if(fpparam != 0)
-                cgGLSetParameter4fv(fpparam, val.getValues());
+            if(_fp_isvalid)
+            {
+                CGparameter fpparam = cgGetNamedParameter(_fProgram, getParamNames()[i].c_str());
+                Vec4f &val = getParamValues()[i];
+                if(fpparam != 0)
+                    cgGLSetParameter4fv(fpparam, val.getValues());
+            }
         }
     }
     else
