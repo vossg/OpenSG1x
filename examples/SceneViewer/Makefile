@@ -79,7 +79,7 @@ endif
 
 ### Retrieve osg-info ##########################################
 
-OSG_CONFIG := $(OSGROOT)/bin/osg-config
+OSG_CONFIG := $(OSGROOT)/bin/osg-config 
 
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)

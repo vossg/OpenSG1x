@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.36 2001/10/15 09:16:05 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.37 2002/01/04 18:29:39 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -750,25 +750,31 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
     primitiveTypeCount[pType] = 0;
 
   if (!pN) {
-    FWARNING (("No points in osg::setIndexFromVRMLData()"));
+    FWARNING (("No points in osg::setIndexFromVRMLData()\n"));
+		return 0;
   }
   else {
     piN = coordIndex.size();
-    for ( i = 0; i <= piN; i++) {
-      if ( ((i == piN) && vN && (coordIndex[i - 1] >= 0)) ||
-           ((index = coordIndex[i]) < 0 ) && vN && i < piN) {
-        primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
-        primitiveN++;
-        vN = 0;
-      }
-      else {
-        if (index >= pN && i != piN) {
-          FWARNING (("Point index (%d/%d) out of range", index, pN));
-          coordIndex[i] = 0;
-        }
-        vN++;
-      }
-    }
+		if (piN) 
+    	for ( i = 0; i <= piN; i++) {
+      	if ( ((i == piN) && vN && (coordIndex[i - 1] >= 0)) ||
+        	   ((index = coordIndex[i]) < 0 ) && vN && i < piN) {
+	        primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
+  	      primitiveN++;
+    	    vN = 0;
+      	}
+	      else {
+  	      if (index >= pN && i != piN) {
+    	      FWARNING (("Point index (%d/%d) out of range", index, pN));
+      	    coordIndex[i] = 0;
+        	}
+  	      vN++;
+    	  }
+    	}
+		else {
+			FWARNING (("No coordIndex in osg::setIndexFromVRMLData()\n"));
+			return 0;
+		}
   }
 
   //----------------------------------------------------------------------

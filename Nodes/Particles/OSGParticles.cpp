@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.1 2002/01/04 17:05:03 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.2 2002/01/04 18:29:39 jbehr Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -308,7 +308,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
 
     if(col != NullFC && col->getSize() == 1)
     {
-        glColor3fv( (GLfloat*) col->getValue(0).getValuesRGB() );
+        glColor3fv( (GLfloat*) col->getValue(0).getValueRef() );
     }
 
     for(UInt32 i = 0; i < pos->getSize(); i++)
@@ -316,7 +316,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
         if(col != NullFC && col->getSize() == pos->getSize())
         {
             col->getValue(c, i);
-            glColor3fv((GLfloat*) c.getValuesRGB());
+            glColor3fv((GLfloat*) c.getValueRef());
         }
 
         if(size->getSize() == pos->getSize())
