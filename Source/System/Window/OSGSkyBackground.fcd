@@ -9,6 +9,7 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
 A sky-sphere background showing a color gradient. The colors and angles correspond to each other, they should have the same number of elements.
 	<Field
@@ -126,5 +127,59 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 		access="public"
 	>
 	flag to draw the box inside or outside of the sphere
+	</Field>
+	<Field
+		name="topTexCoord"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Texture coordinates for the top face
+	</Field>
+	<Field
+		name="bottomTexCoord"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Bottom texture coordinates
+	</Field>
+	<Field
+		name="rightTexCoord"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	right texture coordinates
+	</Field>
+	<Field
+		name="leftTexCoord"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	left texture coordinates
+	</Field>
+	<Field
+		name="frontTexCoord"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	front texture coordinates
+	</Field>
+	<Field
+		name="backTexCoord"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	back texture coordinates
 	</Field>
 </FieldContainer>

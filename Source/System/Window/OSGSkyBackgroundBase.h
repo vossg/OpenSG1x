@@ -77,6 +77,12 @@
 #include <OSGTextureChunkFields.h> // RightTexture type
 #include <OSGTextureChunkFields.h> // TopTexture type
 #include <OSGBoolFields.h> // BoxInside type
+#include <OSGVec2fFields.h> // TopTexCoord type
+#include <OSGVec2fFields.h> // BottomTexCoord type
+#include <OSGVec2fFields.h> // RightTexCoord type
+#include <OSGVec2fFields.h> // LeftTexCoord type
+#include <OSGVec2fFields.h> // FrontTexCoord type
+#include <OSGVec2fFields.h> // BackTexCoord type
 
 #include <OSGSkyBackgroundFields.h>
 
@@ -100,19 +106,25 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 
     enum
     {
-        SkyColorFieldId      = Inherited::NextFieldId,
-        SkyAngleFieldId      = SkyColorFieldId      + 1,
-        GroundColorFieldId   = SkyAngleFieldId      + 1,
-        GroundAngleFieldId   = GroundColorFieldId   + 1,
-        SphereResFieldId     = GroundAngleFieldId   + 1,
-        BackTextureFieldId   = SphereResFieldId     + 1,
-        BottomTextureFieldId = BackTextureFieldId   + 1,
-        FrontTextureFieldId  = BottomTextureFieldId + 1,
-        LeftTextureFieldId   = FrontTextureFieldId  + 1,
-        RightTextureFieldId  = LeftTextureFieldId   + 1,
-        TopTextureFieldId    = RightTextureFieldId  + 1,
-        BoxInsideFieldId     = TopTextureFieldId    + 1,
-        NextFieldId          = BoxInsideFieldId     + 1
+        SkyColorFieldId       = Inherited::NextFieldId,
+        SkyAngleFieldId       = SkyColorFieldId       + 1,
+        GroundColorFieldId    = SkyAngleFieldId       + 1,
+        GroundAngleFieldId    = GroundColorFieldId    + 1,
+        SphereResFieldId      = GroundAngleFieldId    + 1,
+        BackTextureFieldId    = SphereResFieldId      + 1,
+        BottomTextureFieldId  = BackTextureFieldId    + 1,
+        FrontTextureFieldId   = BottomTextureFieldId  + 1,
+        LeftTextureFieldId    = FrontTextureFieldId   + 1,
+        RightTextureFieldId   = LeftTextureFieldId    + 1,
+        TopTextureFieldId     = RightTextureFieldId   + 1,
+        BoxInsideFieldId      = TopTextureFieldId     + 1,
+        TopTexCoordFieldId    = BoxInsideFieldId      + 1,
+        BottomTexCoordFieldId = TopTexCoordFieldId    + 1,
+        RightTexCoordFieldId  = BottomTexCoordFieldId + 1,
+        LeftTexCoordFieldId   = RightTexCoordFieldId  + 1,
+        FrontTexCoordFieldId  = LeftTexCoordFieldId   + 1,
+        BackTexCoordFieldId   = FrontTexCoordFieldId  + 1,
+        NextFieldId           = BackTexCoordFieldId   + 1
     };
 
     static const OSG::BitVector SkyColorFieldMask;
@@ -127,6 +139,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     static const OSG::BitVector RightTextureFieldMask;
     static const OSG::BitVector TopTextureFieldMask;
     static const OSG::BitVector BoxInsideFieldMask;
+    static const OSG::BitVector TopTexCoordFieldMask;
+    static const OSG::BitVector BottomTexCoordFieldMask;
+    static const OSG::BitVector RightTexCoordFieldMask;
+    static const OSG::BitVector LeftTexCoordFieldMask;
+    static const OSG::BitVector FrontTexCoordFieldMask;
+    static const OSG::BitVector BackTexCoordFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -165,6 +183,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            SFTextureChunkPtr   *getSFRightTexture   (void);
            SFTextureChunkPtr   *getSFTopTexture     (void);
            SFBool              *getSFBoxInside      (void);
+           MFVec2f             *getMFTopTexCoord    (void);
+           MFVec2f             *getMFBottomTexCoord (void);
+           MFVec2f             *getMFRightTexCoord  (void);
+           MFVec2f             *getMFLeftTexCoord   (void);
+           MFVec2f             *getMFFrontTexCoord  (void);
+           MFVec2f             *getMFBackTexCoord   (void);
 
            UInt32              &getSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
@@ -194,6 +218,24 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            Real32              &getGroundAngle    (const UInt32 index);
            MFReal32            &getGroundAngle    (void);
      const MFReal32            &getGroundAngle    (void) const;
+           Vec2f               &getTopTexCoord    (const UInt32 index);
+           MFVec2f             &getTopTexCoord    (void);
+     const MFVec2f             &getTopTexCoord    (void) const;
+           Vec2f               &getBottomTexCoord (const UInt32 index);
+           MFVec2f             &getBottomTexCoord (void);
+     const MFVec2f             &getBottomTexCoord (void) const;
+           Vec2f               &getRightTexCoord  (const UInt32 index);
+           MFVec2f             &getRightTexCoord  (void);
+     const MFVec2f             &getRightTexCoord  (void) const;
+           Vec2f               &getLeftTexCoord   (const UInt32 index);
+           MFVec2f             &getLeftTexCoord   (void);
+     const MFVec2f             &getLeftTexCoord   (void) const;
+           Vec2f               &getFrontTexCoord  (const UInt32 index);
+           MFVec2f             &getFrontTexCoord  (void);
+     const MFVec2f             &getFrontTexCoord  (void) const;
+           Vec2f               &getBackTexCoord   (const UInt32 index);
+           MFVec2f             &getBackTexCoord   (void);
+     const MFVec2f             &getBackTexCoord   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -265,6 +307,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     SFTextureChunkPtr   _sfRightTexture;
     SFTextureChunkPtr   _sfTopTexture;
     SFBool              _sfBoxInside;
+    MFVec2f             _mfTopTexCoord;
+    MFVec2f             _mfBottomTexCoord;
+    MFVec2f             _mfRightTexCoord;
+    MFVec2f             _mfLeftTexCoord;
+    MFVec2f             _mfFrontTexCoord;
+    MFVec2f             _mfBackTexCoord;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -312,6 +360,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

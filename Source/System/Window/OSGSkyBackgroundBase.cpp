@@ -100,6 +100,24 @@ const OSG::BitVector  SkyBackgroundBase::TopTextureFieldMask =
 const OSG::BitVector  SkyBackgroundBase::BoxInsideFieldMask = 
     (TypeTraits<BitVector>::One << SkyBackgroundBase::BoxInsideFieldId);
 
+const OSG::BitVector  SkyBackgroundBase::TopTexCoordFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::TopTexCoordFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::BottomTexCoordFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::BottomTexCoordFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::RightTexCoordFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::RightTexCoordFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::LeftTexCoordFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::LeftTexCoordFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::FrontTexCoordFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::FrontTexCoordFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::BackTexCoordFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::BackTexCoordFieldId);
+
 const OSG::BitVector SkyBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -142,6 +160,24 @@ const OSG::BitVector SkyBackgroundBase::MTInfluenceMask =
 */
 /*! \var bool            SkyBackgroundBase::_sfBoxInside
     flag to draw the box inside or outside of the sphere
+*/
+/*! \var Vec2f           SkyBackgroundBase::_mfTopTexCoord
+    Texture coordinates for the top face
+*/
+/*! \var Vec2f           SkyBackgroundBase::_mfBottomTexCoord
+    Bottom texture coordinates
+*/
+/*! \var Vec2f           SkyBackgroundBase::_mfRightTexCoord
+    right texture coordinates
+*/
+/*! \var Vec2f           SkyBackgroundBase::_mfLeftTexCoord
+    left texture coordinates
+*/
+/*! \var Vec2f           SkyBackgroundBase::_mfFrontTexCoord
+    front texture coordinates
+*/
+/*! \var Vec2f           SkyBackgroundBase::_mfBackTexCoord
+    back texture coordinates
 */
 
 //! SkyBackground description
@@ -207,7 +243,37 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      "boxInside", 
                      BoxInsideFieldId, BoxInsideFieldMask,
                      false,
-                     (FieldAccessMethod) &SkyBackgroundBase::getSFBoxInside)
+                     (FieldAccessMethod) &SkyBackgroundBase::getSFBoxInside),
+    new FieldDescription(MFVec2f::getClassType(), 
+                     "topTexCoord", 
+                     TopTexCoordFieldId, TopTexCoordFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFTopTexCoord),
+    new FieldDescription(MFVec2f::getClassType(), 
+                     "bottomTexCoord", 
+                     BottomTexCoordFieldId, BottomTexCoordFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFBottomTexCoord),
+    new FieldDescription(MFVec2f::getClassType(), 
+                     "rightTexCoord", 
+                     RightTexCoordFieldId, RightTexCoordFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFRightTexCoord),
+    new FieldDescription(MFVec2f::getClassType(), 
+                     "leftTexCoord", 
+                     LeftTexCoordFieldId, LeftTexCoordFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFLeftTexCoord),
+    new FieldDescription(MFVec2f::getClassType(), 
+                     "frontTexCoord", 
+                     FrontTexCoordFieldId, FrontTexCoordFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFFrontTexCoord),
+    new FieldDescription(MFVec2f::getClassType(), 
+                     "backTexCoord", 
+                     BackTexCoordFieldId, BackTexCoordFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFBackTexCoord)
 };
 
 
@@ -275,6 +341,12 @@ SkyBackgroundBase::SkyBackgroundBase(void) :
     _sfRightTexture           (TextureChunkPtr(NullFC)), 
     _sfTopTexture             (TextureChunkPtr(NullFC)), 
     _sfBoxInside              (bool(true)), 
+    _mfTopTexCoord            (), 
+    _mfBottomTexCoord         (), 
+    _mfRightTexCoord          (), 
+    _mfLeftTexCoord           (), 
+    _mfFrontTexCoord          (), 
+    _mfBackTexCoord           (), 
     Inherited() 
 {
 }
@@ -296,6 +368,12 @@ SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
     _sfRightTexture           (source._sfRightTexture           ), 
     _sfTopTexture             (source._sfTopTexture             ), 
     _sfBoxInside              (source._sfBoxInside              ), 
+    _mfTopTexCoord            (source._mfTopTexCoord            ), 
+    _mfBottomTexCoord         (source._mfBottomTexCoord         ), 
+    _mfRightTexCoord          (source._mfRightTexCoord          ), 
+    _mfLeftTexCoord           (source._mfLeftTexCoord           ), 
+    _mfFrontTexCoord          (source._mfFrontTexCoord          ), 
+    _mfBackTexCoord           (source._mfBackTexCoord           ), 
     Inherited                 (source)
 {
 }
@@ -372,6 +450,36 @@ UInt32 SkyBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBoxInside.getBinSize();
     }
 
+    if(FieldBits::NoField != (TopTexCoordFieldMask & whichField))
+    {
+        returnValue += _mfTopTexCoord.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BottomTexCoordFieldMask & whichField))
+    {
+        returnValue += _mfBottomTexCoord.getBinSize();
+    }
+
+    if(FieldBits::NoField != (RightTexCoordFieldMask & whichField))
+    {
+        returnValue += _mfRightTexCoord.getBinSize();
+    }
+
+    if(FieldBits::NoField != (LeftTexCoordFieldMask & whichField))
+    {
+        returnValue += _mfLeftTexCoord.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FrontTexCoordFieldMask & whichField))
+    {
+        returnValue += _mfFrontTexCoord.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
+    {
+        returnValue += _mfBackTexCoord.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -439,6 +547,36 @@ void SkyBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
     {
         _sfBoxInside.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TopTexCoordFieldMask & whichField))
+    {
+        _mfTopTexCoord.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BottomTexCoordFieldMask & whichField))
+    {
+        _mfBottomTexCoord.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RightTexCoordFieldMask & whichField))
+    {
+        _mfRightTexCoord.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LeftTexCoordFieldMask & whichField))
+    {
+        _mfLeftTexCoord.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrontTexCoordFieldMask & whichField))
+    {
+        _mfFrontTexCoord.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
+    {
+        _mfBackTexCoord.copyToBin(pMem);
     }
 
 
@@ -509,6 +647,36 @@ void SkyBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfBoxInside.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TopTexCoordFieldMask & whichField))
+    {
+        _mfTopTexCoord.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BottomTexCoordFieldMask & whichField))
+    {
+        _mfBottomTexCoord.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RightTexCoordFieldMask & whichField))
+    {
+        _mfRightTexCoord.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LeftTexCoordFieldMask & whichField))
+    {
+        _mfLeftTexCoord.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrontTexCoordFieldMask & whichField))
+    {
+        _mfFrontTexCoord.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
+    {
+        _mfBackTexCoord.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -554,6 +722,24 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
     if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
         _sfBoxInside.syncWith(pOther->_sfBoxInside);
 
+    if(FieldBits::NoField != (TopTexCoordFieldMask & whichField))
+        _mfTopTexCoord.syncWith(pOther->_mfTopTexCoord);
+
+    if(FieldBits::NoField != (BottomTexCoordFieldMask & whichField))
+        _mfBottomTexCoord.syncWith(pOther->_mfBottomTexCoord);
+
+    if(FieldBits::NoField != (RightTexCoordFieldMask & whichField))
+        _mfRightTexCoord.syncWith(pOther->_mfRightTexCoord);
+
+    if(FieldBits::NoField != (LeftTexCoordFieldMask & whichField))
+        _mfLeftTexCoord.syncWith(pOther->_mfLeftTexCoord);
+
+    if(FieldBits::NoField != (FrontTexCoordFieldMask & whichField))
+        _mfFrontTexCoord.syncWith(pOther->_mfFrontTexCoord);
+
+    if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
+        _mfBackTexCoord.syncWith(pOther->_mfBackTexCoord);
+
 
 }
 
@@ -585,7 +771,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 
