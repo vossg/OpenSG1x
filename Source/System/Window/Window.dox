@@ -22,7 +22,7 @@ Foregrounds are used to add information after the viewport is rendered.
 See \ref PageSystemWindowForegrounds for a description.
 */
 
-/*! \defgroup GrpSystemWindowForegrounds Statistics Foregrounds
+/*! \defgroup GrpSystemWindowStatisticsForegrounds Statistics Foregrounds
     \ingroup Foregrounds
     
 Statistics Foregrounds are used to add statistics information after the
@@ -102,18 +102,22 @@ systems.
 
 \section PageSystemWindowWindow Window
 
-A osg::Window is the connection between OpenSG and the window system used. There
-are variants for different supported window systems like X, WIN32, GLUT and
-QT. The OpenSG Window object handles OpenGL context creation and
+A osg::Window is the connection between OpenSG and the window system used.
+There are variants for different supported window systems like X, WIN32, GLUT
+and QT. The OpenSG Window object handles OpenGL context creation and
 activation/deactivation, and needs to be informed about resizes. It manages
 OpenGL objects like display lists and texture objects and is also responsible
 for OpenGL extension detection and functions.
 
 It doesn't do any input event handling or similar things, it's only for output
-and keeping the osg::Viewport instances that fill the window and keep all the rendering
-parameters. See \ref PageSystemWindowSimpleSceneManager for an easy-to-use wrapper for
-setting these up. 
+and keeping the osg::Viewport instances that fill the window and keep all the
+rendering parameters. See \ref PageSystemWindowSimpleSceneManager for an
+easy-to-use wrapper for setting these up. 
 
+There should be a 1:1 relation between an osg::Window and a window-system
+window. As such the osg::Window is responsible for handlng the OpenGL related
+tasks such as OpenGL object and extensions management (see \ref
+PageSystemOGLObjects for details on that). 
 
 \subsection PageSystemWindowWindowPassive Passive Window
 
@@ -121,7 +125,7 @@ The osg::PassiveWindow is a helper class for integration into other OpenGL
 programs. It does not manage its own OpenGL context, it expects the context to
 be active whenever it is called. It also ignores swap commands, as these are
 window system-specific. Thus the osg::PassiveWindow can be used in any window
-system and GUI system to simplify integration. If teh same OpenGL conetxt is
+system and GUI system to simplify integration. If the same OpenGL context is
 active whenever it is initialised/called it will work nicely.
 
 \section PageSystemWindowViewports Viewport
@@ -183,7 +187,7 @@ for it to work.
 \section PageSystemWindowCamera Camera
 
 A osg::Camera defines the parts of the scene that are actually being rendered. The
-definition can be split in two parts: position and direction, and internal
+definition can be split in two parts: position and orientation, and internal
 parameters.
 
 Position and orientation of the camera are defined by a node in the
@@ -218,7 +222,7 @@ Rendering for Multi-Screen Projection Systems" by Dirk Reiners, in Proceedings
 of the 3 rd International Immersive Projection Technology Workshop for a
 motivation of this additional coordinate system.
 
-The camera has a bunch of functions to access its parametrs and derived values
+The camera has a bunch of functions to access its parameters and derived values
 like its viewing frustum, and also to calculate rays through viewport pixel for
 picking etc.
 
@@ -297,7 +301,7 @@ coordinates and the width/height of the full image.
 \hint
 
 Pixel-based osg::Background instances like \ref
-PageSystemWindowBackgroundsGradient will not work with the
+PageSystemWindowBackgroundGradient will not work with the
 osg::TileCameraDecorator, as they directly access the physical viewport right
 now.
 
@@ -328,7 +332,7 @@ The osg::ShearedStereoCameraDecorator can be used to generate the left/right
 image pair needed for stereoscopic displays. It uses the sheared frustum stereo
 model, which is most appropriate for situations with a non-headtracked user or
 multiple users, for head-tracked users see \ref
-PageSystemWindowCameraDecoratorsProjection. 
+PageSystemWindowCameraDecoratorsStereoProjection. 
 
 The only parameters it needs is the zero parallax plane distance, which
 defines the distance to a plane where left and right eye images perfectly
@@ -578,14 +582,14 @@ should be used in applications.
 The default active navigator is the osg::TrackballNavigator. For this
 navigator the osg::Navigator will map a left mouse click with motion to a
 rotation, a left mouse click without motion will set the center of rotation to
-the hit point. A middle mouse click will translate in screen x/y, while
+the hit point. A middle mouse click or move will translate in screen x/y, while
 keeping the hit point under the mouse. A right mouse click with vertical
 motion as well as using a mouse wheel (if configured to generate button 4 & 5
 events) will move the viewer in the z direction.
 
-The osg::FlyNavigator is fly forward on left mouse button, backwards on right
+The osg::FlyNavigator uses fly forward on left mouse button, backwards on right
 mouse button and stay still on middle mouse button. In all modes mouse motion
-is mapped to x/y rotation.
+is mapped to rotation.
 
 \subsection PageSystemWindowNavigatorsTrackball Trackball Navigator
 
@@ -596,7 +600,12 @@ directions, it's an outside-in exploration.
 
 Rotation is done by dragging a point on the sphere, translation by focussing the 
 sphere on a different position in space or by dragging the whole sphere. The 
-size of the sphere can be changed, by default it is 80% of the screen size. The 
+size of the sphere can be changed, by default it is 80% of the screen size. It 
+is also possible to click and drag outside the sphere. A useful special case is 
+clicking and dragging at the extreme left and right edges of the screen, which 
+can be used to rotate the model around the screen z-axis.
+
+The
 distance between the center of rotation and the viewer can also be changed by 
 dragging, resulting in a changing zoom. 
 
@@ -619,7 +628,8 @@ distance from a specified ground. It can also prevent him from walking through
 walls and objects as well as preventing him from passing through too narrow 
 openings.
 
-The main application area are architecture walkthroughs, where the user walks on 
+The main application area are architecture walkthroughs, where the user walks 
+on 
 a ground through one or more buildings.
 
 

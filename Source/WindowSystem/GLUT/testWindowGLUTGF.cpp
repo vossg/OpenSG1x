@@ -326,7 +326,9 @@ int main (int argc, char **argv)
     GrabForegroundPtr fgnd = GrabForeground::create();
 
     image = Image::create();
-    image->set(Image::OSG_RGB_PF,1);
+    beginEditCP(image);
+    image->set(Image::OSG_RGB_PF, 1);
+    endEditCP(image);
 
     fgnd->setImage(image);
 

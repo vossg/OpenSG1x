@@ -53,7 +53,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Matrix Camera class. See \ref PageSystemCameraMatrix for 
+/*! \brief Matrix Camera class. See \ref PageSystemWindowCameraMatrix for 
     a description.
 */
 

@@ -138,7 +138,7 @@ int main(int argc, char **argv)
     // tell the manager what to manage
     mgr->setRoot  (scene);
     
-    // now crete the second vp for stereo
+    // now create the second vp for stereo
     ViewportPtr vp = pwin->getPort(0);
     
     PerspectiveCameraPtr cam = PerspectiveCameraPtr::dcast(vp->getCamera());

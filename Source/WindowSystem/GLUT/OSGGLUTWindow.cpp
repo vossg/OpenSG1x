@@ -62,7 +62,9 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::GLUTWindow
-The class for GLUT-based windows. 	
+
+The class for GLUT-based windows. See \ref PageWindowGlut for a description.
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
@@ -105,7 +107,7 @@ void GLUTWindow::changed(BitVector whichField, UInt32 origin)
 //! output the instance for debug purposes
 
 void GLUTWindow::dump(      UInt32    , 
-                         const BitVector ) const
+                      const BitVector ) const
 {
     SLOG << "Dump GLUTWindow NI" << std::endl;
 }
@@ -113,25 +115,26 @@ void GLUTWindow::dump(      UInt32    ,
 /* ------------- Window functions -----------------------*/    
     
 // init the window: create the context  
-void GLUTWindow::init( void )
+void GLUTWindow::init(void)
 {
+    activate();
     setupGL();
 }
     
 // activate the window: bind the OGL context    
-void GLUTWindow::activate( void )
+void GLUTWindow::activate(void)
 {
-    if ( glutGetWindow() != getId() )
-        glutSetWindow( getId() );
+    if(glutGetWindow() != getId())
+        glutSetWindow(getId());
 }
     
 // deactivate the window  
-void GLUTWindow::deactivate( void )
+void GLUTWindow::deactivate(void)
 {
 }
     
 // swap front and back buffers  
-void GLUTWindow::swap( void )
+void GLUTWindow::swap(void)
 {
     glutSwapBuffers();
 }
@@ -155,4 +158,6 @@ namespace
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGGLUTWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGGLUTWINDOW_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGGLUTWINDOWFIELDS_HEADER_CVSID;
 }

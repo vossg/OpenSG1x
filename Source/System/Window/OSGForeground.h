@@ -53,7 +53,7 @@ class DrawActionBase;
 class Viewport;
 
 /*! \brief Foreground base class. See \ref 
-    PageSystemWindowForeground for a description.
+    PageSystemWindowForegrounds for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase

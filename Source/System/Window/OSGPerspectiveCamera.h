@@ -51,8 +51,8 @@ OSG_BEGIN_NAMESPACE
 
 class DrawAction;
 
-/*! \brief Perspective Camera class. See \ref PageSystemCameraPerspective for 
-    a description.
+/*! \brief Perspective Camera class. See \ref PageSystemWindowCameraPerspective 
+    for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase

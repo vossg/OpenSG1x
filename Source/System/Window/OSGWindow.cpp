@@ -57,23 +57,13 @@
 
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
-
 #include "OSGViewport.h"
-// #include "OSGPipe.h"
 
 #include "OSGBackground.h"
 #include "OSGCamera.h"
 #include "OSGWindow.h"
 
-#if defined(__sgi) || defined(darwin) || defined(__hpux)   
-#include <dlfcn.h>
-#endif 
-
-#if !defined(WIN32) && !defined(darwin)   
-#include <GL/glx.h>   
-#endif
-
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable)
@@ -86,55 +76,152 @@ OSG_BEGIN_NAMESPACE
 /*! \class osg::Window
     \ingroup GrpSystemWindow
 
-The Window base class.
+Window is the base class for all window management classes.  See \ref
+PageSystemWindowWindow for a description.
+
+\ext
+
+To create a new Window the methods that have to be overridden are init(void), 
+activate(void), deactivate(void) and swap(void).
+
+\endext 
 
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+// Window-sytem specific virtual functions
+
+/*! \fn void osg::Window::init(void)
+
+    Initialize the Window and its OpenGL context. This method needs to be
+    called once after the Window has been created and its Window
+    System-specific parameters are set.  
+    
+    It leaves the OpenGL context current to simplify modifying the OpenGL
+    state. 
+*/
+
+/*! \fn void osg::Window::activate(void)
+
+    Activate the Window's OpenGL context, so that OpenGL can be called. 
+*/
+
+/*! \fn void osg::Window::deactivate(void)
+
+    Deativate the Window's OpenGL context. OpenGL calls are no longer possible
+    after this call.
+*/
+
+/*! \fn void osg::Window::swap(void)
+
+    Swap the back and front buffers. 
+    
+    \warning The correct OpenGL context needs to be active for this to work!
+*/
+
+// only needed in dev docs
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
+/*! \enum Window::GLObjectStatusE
+    Enumeration values for the status of the GL objects. This is primarily
+    used to signal the object's callback functions what to do. See \ref
+    PageSystemOGLObjects for a description.
+*/
+
+/*! \var Window::GLObjectStatusE Window::notused
+    Object is not used at all right now.
+*/
+
+/*! \var Window::GLObjectStatusE Window::initialize
+    The object is being initialized for the first time.
+*/
+
+/*! \var Window::GLObjectStatusE Window::reinitialize
+    The object is being re-initialized, i.e. it has changed significantly.
+*/
+
+/*! \var Window::GLObjectStatusE Window::initialized
+    The object is initialized and valid.
+*/
+
+/*! \var Window::GLObjectStatusE Window::needrefresh
+    The object is initialized but needs a refresh.
+*/
+
+/*! \var Window::GLObjectStatusE Window::destroy
+    The object is to be destroyed, i.e. removed from the current OpenGL context.
+*/
+
+/*! \var Window::GLObjectStatusE Window::finaldestroy
+    The object has been removed from all OpenGL contexts and used ressources
+    but be freed now.
+*/
+
+/*! \enum Window::invalidExtensionID
+*/
+
+/*! \enum Window::invalidFunctionID
+*/
+
+/*! \enum Window::statusShift
+    Shift value to transform object id and status into  asingle int.
+*/
+
+/*! \enum Window::statusMask
+    Mask value to transform object id and status into  asingle int.
+*/
+
+/*! \class osg::Window::GLObject
+    \ingroup GrpSystemWindow
+
+The GLObject class is used to keep track of the OpenGL objects registered with 
+the system. See \ref PageSystemOGLObjects for a description.
+
+*/
+
+#endif
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSG::Window::cvsid[] = "@(#)$Id: $";
-
-/** global window list, need by static refreshGLObject */
-/* I've had trouble with interferences with the X Window type, thus I'm using
-   the fully qualified name here. */
-   
+/*! The global window list, needed by Window::refreshGLObject. All Windows are 
+added here at creation time and removed at deletion. 
+*/
 std::vector<WindowPtr              >  OSG::Window::_allWindows;
 
 // GLobject handling
 
-Lock                                *OSG::Window::_GLObjectLock;
-std::vector<Window::GLObject      *>  OSG::Window::_glObjects;
+/*! The lock used to mutex access of the GLObjects' reference count. One should 
+be enough for all of them, as they are pretty rarely changed, only when they are 
+used for the first time.
+*/
+Lock                                 *OSG::Window::_GLObjectLock;
+
+/*! Global list of all GL Objects used in the system. See \ref
+PageSystemOGLObjects for a description.
+*/ 
+std::vector<OSG::Window::GLObject *>  OSG::Window::_glObjects; 
+
+/*! The objects currently being destroyed.
+*/
 std::list<std::pair<UInt32,UInt32> >  OSG::Window::_glObjectDestroyList;
 
 // GL extension handling
 
-std::vector<IDStringLink           >  OSG::Window::_registeredExtensions;
-std::vector<IDStringLink           >  OSG::Window::_registeredFunctions;
+std::vector<std::string            >  OSG::Window::_registeredExtensions;
+std::vector<std::string            >  OSG::Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*! initialize the static features of the class, e.g. action callbacks
+*/
 
 void OSG::Window::initMethod (void)
 {
@@ -145,14 +232,14 @@ void OSG::Window::initMethod (void)
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
+/*! Constructor
+*/
 
 OSG::Window::Window(void) :
     Inherited()
@@ -160,8 +247,8 @@ OSG::Window::Window(void) :
     // only called for prototypes, no need to init them
 }
 
-/** \brief Copy Constructor
- */
+/*! Copy Constructor
+*/
 
 OSG::Window::Window(const Window &source) :
     Inherited(source), 
@@ -174,8 +261,8 @@ OSG::Window::Window(const Window &source) :
     doInitRegisterGLObject(1, _glObjects.size() - 1);
 }
 
-/** \brief Destructor
- */
+/*! Destructor
+*/
 
 OSG::Window::~Window(void)
 {
@@ -183,20 +270,24 @@ OSG::Window::~Window(void)
 }
 
 
-/** \brief instance initialisation
- */
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*! Instance initialisation
+*/
 
 void OSG::Window::onCreate( const Window * )
 {
     // Don't add the prototype instances to the list
-    if (GlobalSystemState != Running)
+    if(GlobalSystemState != Running)
         return;
         
     _allWindows.push_back(WindowPtr(this)); 
 }
 
-/** \brief instance deletion
- */
+/*! instance deletion
+*/
 
 void OSG::Window::onDestroy(void)
 {
@@ -209,8 +300,12 @@ void OSG::Window::onDestroy(void)
         _allWindows.erase( it );
 }
 
-/** \brief react to field changes
- */
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*! react to field changes
+*/
 
 void OSG::Window::changed(BitVector whichField, UInt32 origin)
 {
@@ -218,7 +313,6 @@ void OSG::Window::changed(BitVector whichField, UInt32 origin)
 }
 
 /*------------------------------ access -----------------------------------*/
-
 
 void OSG::Window::addPort(const ViewportPtr &portP)
 {
@@ -310,7 +404,17 @@ void OSG::Window::subPort(UInt32  portIndex)
 }
 
 
-// GL object handling
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_EXT)
+
+/*------------------------ GL object handling -----------------------------*/
+
+/*! Register a number of OpenGL objects. By default the number is 1, but more
+    can be necessary for things like text. It returns the first id of the
+    contiguous reserved ID block.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
 
 UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
 {
@@ -393,7 +497,13 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
     return id;
 }
 
-void OSG::Window::validateGLObject ( UInt32 id )
+/*! Validate the given object, i.e. make sure it is up-to-date in the current
+    context.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
+void OSG::Window::validateGLObject(UInt32 id)
 {
     if ( id == 0 )
     {
@@ -447,6 +557,12 @@ void OSG::Window::validateGLObject ( UInt32 id )
     }
 }
 
+/*! Mark the given object for refresh. The next time it is validated the
+    registered callback function will be called for a refresh action.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
 void OSG::Window::refreshGLObject( UInt32 id )
 {
     if ( id == 0 )
@@ -474,6 +590,12 @@ void OSG::Window::refreshGLObject( UInt32 id )
     }
 }
 
+/*! Mark the given object for reinitialisation. The next time it is validated the
+    registered callback function will be called for a reinit action.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
 void OSG::Window::reinitializeGLObject(UInt32 id)
 {
     if ( id == 0 )
@@ -501,7 +623,12 @@ void OSG::Window::reinitializeGLObject(UInt32 id)
     }
 }
 
+/*! Initialize the GL object registration for the given objects in all
+    Windows.
 
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
 void OSG::Window::initRegisterGLObject(UInt32 id, UInt32 num)
 {
     if ( id == 0 )
@@ -518,6 +645,12 @@ void OSG::Window::initRegisterGLObject(UInt32 id, UInt32 num)
     }
 }
 
+/*! Initialize the GL object registration for the given objects in the given
+    Window.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
 void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 {
     WindowPtr win(this);
@@ -543,31 +676,194 @@ void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
                      GlObjectLastRefreshFieldMask);
 }
 
+/*! Mark the given objects for destruction. The actual destruction will happen
+    later.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
 void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 {
     _glObjectDestroyList.push_back(DestroyEntry(id,num));
 }
 
-void OSG::Window::dumpExtensions ( void )
+
+/*----------------------- GL extension handling ---------------------------*/
+
+
+/*! Register a new OpenGL extension. See \ref PageSystemOGLExt for details. 
+    Ignores NULL strings. 
+*/
+UInt32 OSG::Window::registerExtension(const Char8 *s)
+{
+    if(s == NULL)
+        return TypeTraits<UInt32>::getMax();
+    
+    std::vector<std::string>::iterator i;
+    
+    i = std::find(_registeredExtensions.begin(), _registeredExtensions.end(), 
+                  s);
+    
+    if(i < _registeredExtensions.end())
+        return i - _registeredExtensions.begin();
+        
+    UInt32 r = _registeredExtensions.size();
+    _registeredExtensions.push_back(s);
+    return r;
+}
+
+/*! Register a new OpenGL extension function. See \ref PageSystemOGLExt for 
+    details. Ignores NULL strings.
+*/
+UInt32 OSG::Window::registerFunction(const Char8 *s)
+{
+    if(s == NULL)
+        return TypeTraits<UInt32>::getMax();
+    
+    std::vector<std::string>::iterator i;
+    
+    i = std::find(_registeredFunctions.begin(), _registeredFunctions.end(), 
+                  s);
+    
+    if(i < _registeredFunctions.end())
+        return i - _registeredFunctions.begin();
+        
+    UInt32 r=_registeredFunctions.size();
+    _registeredFunctions.push_back(s);
+    return r;
+}
+
+#endif // remove the OpenGL object handling from user docs
+
+/*! Dump all the registered extensions to std::cout.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
+void OSG::Window::dumpExtensions(void)
 {   
-    std::vector<IDString>::iterator it;
+    std::vector<std::string>::iterator it;
     std::cout << "GL Extensions: ";
     for ( it = _extensions.begin(); it != _extensions.end(); it++ )
     {
-        std::cout << it->str() << ", ";
+        std::cout << it->c_str() << ", ";
     }
     std::cout << std::endl;       
 }
 
-void OSG::Window::frameInit( void )
+
+/*! Do everything that needs to be done before the Window is redrawn. This
+    function has to be called for every frame the Window is drawn. 
+    
+    The convenience functions render and draw take care of it, if they are
+    used.
+    
+    The main task currently is checking and updating OpenGL extensions.
+*/
+
+
+// String tokenizer, by Daniel Andersson
+// taken from http://www.codeproject.com/string/stringsplitter.asp
+
+#include <string>
+#include <iterator>
+
+struct string_token_iterator : 
+#if defined(__sgi)
+    public std::iterator<std::input_iterator_tag, std::string>
+#else
+    public std::input_iterator<std::string, std::ptrdiff_t>
+#endif
+{
+public:
+  string_token_iterator() : str(0), start(0), end(0) 
+  {
+  }
+  
+  string_token_iterator(const std::string & str_, 
+                        const char *separator_ = " ") :
+    separator(separator_),
+    str(&str_),
+    end(0)
+  {
+    find_next();
+  }
+  
+  string_token_iterator(const string_token_iterator & rhs) :
+    separator(rhs.separator),
+    str(rhs.str),
+    start(rhs.start),
+    end(rhs.end)
+  {
+  }
+
+  string_token_iterator & operator++()
+  {
+    find_next();
+    return *this;
+  }
+
+  string_token_iterator operator++(int)
+  {
+    string_token_iterator temp(*this);
+    ++(*this);
+    return temp;
+  }
+
+  std::string operator*() const
+  {
+    return std::string(*str, start, end - start);
+  }
+
+  bool operator==(const string_token_iterator & rhs) const
+  {
+    return (rhs.str == str && rhs.start == start && rhs.end == end);
+  }
+
+  bool operator!=(const string_token_iterator & rhs) const
+  {
+    return !(rhs == *this);
+  }
+
+private:
+
+  void find_next(void)
+  {
+    start = str->find_first_not_of(separator, end);
+    if(start == std::string::npos)
+    {
+      start = end = 0;
+      str = 0;
+      return;
+    }
+
+    end = str->find_first_of(separator, start);
+  }
+
+  const char * separator;
+  const std::string * str;
+  std::string::size_type start;
+  std::string::size_type end;
+};
+
+void OSG::Window::frameInit(void)
 {
     // get extensions and split them
     if(_extensions.empty())
     {
-        IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
-        s.tokenize( _extensions );
-        std::sort( _extensions.begin(), _extensions.end() );
+        FDEBUG(("Window %p: GL Extensions: %s\n", this, 
+                glGetString(GL_EXTENSIONS) ));
         
+        _extensions.insert(_extensions.begin(),
+                           string_token_iterator(
+                                std::string(reinterpret_cast<const char*>
+                                        (glGetString(GL_EXTENSIONS))),
+                                ",. "),
+                           string_token_iterator()
+                          );
+
+        std::sort(_extensions.begin(), _extensions.end());
+                 
         // if we don't have any extensions, add something anyway
         if(_extensions.empty())
             _availExtensions.resize(_registeredExtensions.size(), false);
@@ -583,22 +879,27 @@ void OSG::Window::frameInit( void )
             std::binary_search( 
                 _extensions.begin(),
                 _extensions.end(),
-                IDString(_registeredExtensions[_availExtensions.size()]) ) );
+                _registeredExtensions[_availExtensions.size()] ) );
     }
 
     // any new functions registered ? 
     while(_registeredFunctions.size() > _extFunctions.size())
     {   
-        const Char8 *s    = _registeredFunctions[_extFunctions.size()].str();
+        const Char8 *s    = _registeredFunctions[_extFunctions.size()].c_str();
         void        *func = (void*)getFunctionByName(s);
 
         _extFunctions.push_back(func);
     }
 }
 
-// NOTE: this is not quite threadsafe and doesn't work in a cluster environment
-// FIXME!!!
+/*! Do everything that needs to be done after the Window is redrawn. This
+    function has to be called for every frame the Window is drawn. 
+    
+    The convenience functions render and draw take care of it, if they are
+    used.
 
+    The main task currently is deleting OpenGL objects.
+*/
 void OSG::Window::frameExit(void)
 {   
     std::list<DestroyEntry>::iterator st,en,del;
@@ -670,7 +971,11 @@ void OSG::Window::frameExit(void)
 // making maintaining it unnecessarily hard
 // Note: the order of the cases is important, do not change it!
 
-void (*Window::getFunctionByName(const Char8 *s))(void)
+/*! Query OpenGL for the pointer to an extension function. 
+
+    This is called internally when extension functions are first cached. 
+*/
+void (*OSG::Window::getFunctionByName(const Char8 *s))(void)
 {
     void (*retval)(void);
     
@@ -698,7 +1003,11 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
 
 // UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
 // but they use __GLX_glx_h__ instead of GLX_H as an include guard.
-#elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
+// Grmbl. In the 40.x drivers the define is the standard now,
+// but they still don't define GLX_ARB_get_proc_address... Test for an 
+// NV-specific symbol instead...
+#elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__) || \
+      defined(GLX_FLOAT_COMPONENTS_NV)
 
     retval = glXGetProcAddressARB((const GLubyte *) s);
 
@@ -732,7 +1041,12 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
     return retval;
 }
 
-
+/*! Initialize the OpenGL state OpenSG expects. This should be called once
+    whenever a new Window is opened.
+    
+    Don't call it directly, call the Window System-specific init() method
+    instead.
+*/
 void OSG::Window::setupGL( void )
 {   
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
@@ -742,38 +1056,51 @@ void OSG::Window::setupGL( void )
     glEnable( GL_DEPTH_TEST );
     
     glEnable( GL_NORMALIZE );
+    
+    // switch off default light
+    GLfloat nul[4]={0,0,0,0};
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, nul);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, nul);
 }
-
-/*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
 
-    
-void OSG::Window::draw( DrawAction * action )
+/*! Draw the Window using the given DrawAction. 
+
+    It takes care of all initialisation and cleanup functions and contains just
+    6 lines of code. If you know that the correct context is active or you want
+    to delay swaps you can just copy and manipulate it.
+*/   
+void OSG::Window::draw(DrawAction * action)
 {
     activate();
     frameInit();    // query recently registered GL extensions
     
     resizeGL();
 
-    drawAllViewports( action );
+    drawAllViewports(action);
 
     swap();
     frameExit();    // after frame cleanup: delete GL objects, if needed
 }
 
-void OSG::Window::drawAllViewports( DrawAction * action )
+/*! Draw all the Viewports of the Window using the given DrawAction. 
+
+    A simple convenience function that loops all Viewports and call their draw
+    method.
+*/   
+void OSG::Window::drawAllViewports(DrawAction * action)
 {
     MFViewportPtr::iterator       portIt  = _mfPort.begin();
     MFViewportPtr::const_iterator portEnd = _mfPort.end();
 
     if(action != NULL)
     {
-        action->setWindow( this );
+        action->setWindow(this);
         
-        while ( portIt != portEnd )
+        while(portIt != portEnd)
         {
-            (*portIt)->draw( action );
+            (*portIt)->draw(action);
 
             ++portIt;
         }
@@ -784,6 +1111,12 @@ void OSG::Window::drawAllViewports( DrawAction * action )
     }
 }
     
+/*! Render the Window using the given RenderAction. 
+
+    It takes care of all initialisation and cleanup functions and contains just
+    5 lines of code. If you know that the correct context is active or you want
+    to delay swaps you can just copy and manipulate it.
+*/   
 void OSG::Window::render( RenderAction * action )
 {
     activate();
@@ -797,18 +1130,24 @@ void OSG::Window::render( RenderAction * action )
     frameExit();    // after frame cleanup: delete GL objects, if needed
 }
     
-void OSG::Window::renderAllViewports( RenderAction * action )
+
+/*! Render all the Viewports of the Window using the given RenderAction. 
+
+    A simple convenience function that loops all Viewports and call their draw
+    method.
+*/   
+void OSG::Window::renderAllViewports(RenderAction * action)
 {
     MFViewportPtr::iterator       portIt  = _mfPort.begin();
     MFViewportPtr::const_iterator portEnd = _mfPort.end();
 
     if(action != NULL)
     {
-        action->setWindow( this );
+        action->setWindow(this);
         
-        while ( portIt != portEnd )
+        while(portIt != portEnd)
         {
-            (*portIt)->render( action );
+            (*portIt)->render(action);
             ++portIt;
         }
     }
@@ -818,6 +1157,12 @@ void OSG::Window::renderAllViewports( RenderAction * action )
     }
 }
     
+
+/*! Resize notifier function. 
+
+    As OpenSG does not do Window System event management it needs to be
+    notified whenever the size of a Window changes. 
+*/   
 void OSG::Window::resize( int width, int height )
 {
     WindowPtr win(*this);
@@ -828,6 +1173,12 @@ void OSG::Window::resize( int width, int height )
     endEditCP  (win, WidthFieldMask|HeightFieldMask|ResizePendingFieldMask);
 }
     
+
+/*! Resize function. 
+
+    This function needs to be called before a Window's Viewports are rendered,
+    to ensure that eventual pending resizes are handled correctly. 
+*/   
 void OSG::Window::resizeGL( void )
 {
     if ( isResizePending () )
@@ -842,18 +1193,18 @@ void OSG::Window::resizeGL( void )
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
- */
+/*! Assignment
+*/
 
-OSG::Window& Window::operator = (const Window &source)
+OSG::Window& OSG::Window::operator = (const OSG::Window &source)
 {
-    if (this == &source)
+    if(this == &source)
         return *this;
 
     // copy 
 
-    setWidth( source.getWidth() );
-    setHeight( source.getHeight() );
+    setWidth(source.getWidth());
+    setHeight(source.getHeight());
     _mfPort.setValues( source._mfPort.getValues() );
     
     // mark all GL objects as not yet initialized
@@ -865,23 +1216,36 @@ OSG::Window& Window::operator = (const Window &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
+/*! output the instance for debug purposes
+*/
 void OSG::Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump Window NI" << std::endl;
 }
 
-    
-OSG_END_NAMESPACE
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGWINDOW_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGWINDOW_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGWINDOWFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

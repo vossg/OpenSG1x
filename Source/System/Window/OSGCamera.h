@@ -58,7 +58,7 @@ class DrawActionBase;
 class FrustumVolume;
 class Line;
 
-/*! \brief Camera base class. See \ref PageSystemCamera for a description.
+/*! \brief Camera base class. See \ref PageSystemWindowCamera for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase

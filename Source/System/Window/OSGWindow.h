@@ -57,7 +57,8 @@ OSG_BEGIN_NAMESPACE
 class DrawAction;
 class RenderAction;
 
-//! The abstract base for all windows
+/*! \brief Window base class. See \ref PageSystemWindowWindow 
+for a description. */
 
 class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 {
@@ -141,7 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name             GL object registration                           */
     /*! \{                                                                 */
 
-    static UInt32   registerGLObject  (GLObjectFunctor functor, UInt32 num);
+    static UInt32   registerGLObject  (GLObjectFunctor functor, 
+                                       UInt32 num = 1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -173,14 +175,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name                    Drawing                                   */
     /*! \{                                                                 */
 
-    virtual void    draw              ( DrawAction *action = NULL );
-    virtual void    drawAllViewports  ( DrawAction *action = NULL );
+    virtual void    frameInit        (void); 
+    virtual void    frameExit        (void);
+
+    virtual void    draw              ( DrawAction   *action = NULL );
+    virtual void    drawAllViewports  ( DrawAction   *action = NULL );
 
     virtual void    render            ( RenderAction *action = NULL );
     virtual void    renderAllViewports( RenderAction *action = NULL );
-
-    virtual void    frameInit        (void);
-    virtual void    frameExit        (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -204,89 +206,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     /*=========================  PROTECTED  ===============================*/
   protected:
-
-    static const WindowPtr NullWindow;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name           GL object handling helper class                    */
-    /*! \{     
-                                                                */
-    class GLObject {
-
-      public:
-        GLObject( GLObjectFunctor funct ) :
-            _functor(funct), _refCounter(0), _lastValidate(0)
-        {}
-
-        GLObjectFunctor& getFunctor ( void )
-        {
-            return _functor;
-        };
-
-        void setFunctor ( GLObjectFunctor funct )
-        {
-            _functor = funct;
-        };
-
-        UInt32 getLastValidate( void )
-        {
-            return _lastValidate;
-        }
-
-        void setLastValidate( UInt32 val )
-        {
-            _lastValidate = val;
-        }
-
-        UInt32 getRefCounter ( void )
-        {
-            return _refCounter;
-        }
-
-        UInt32 incRefCounter ( void )
-        {
-            UInt32 val;
-
-            if ( ! _GLObjectLock )
-            {
-                _GLObjectLock = ThreadManager::the()->getLock(NULL);
-            }
-
-            _GLObjectLock->aquire();
-            val = _refCounter = _refCounter + 1;
-            _GLObjectLock->release();
-
-            return val;
-        }
-
-        UInt32 decRefCounter ( void )
-        {
-            UInt32 val;
-
-            if ( ! _GLObjectLock )
-            {
-                _GLObjectLock = ThreadManager::the()->getLock(NULL);
-            }
-
-            _GLObjectLock->aquire();
-            if ( _refCounter )
-                val = _refCounter = _refCounter - 1;
-            else
-                val = 0;
-            _GLObjectLock->release();
-
-            return val;
-        }
-
-      protected:
-        GLObjectFunctor _functor;
-        volatile UInt32 _refCounter;
-                 UInt32 _lastValidate;
-    };
-
-    friend class GLObject;
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -306,7 +225,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name                GL setup handling                             */
     /*! \{                                                                 */
 
-    virtual void setupGL( void );
+    virtual void setupGL(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -322,6 +241,35 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     /*! \}                                                                 */
 
+    /*---------------------------------------------------------------------*/
+    /*! \name           GL object handling helper class                    */
+    /*! \{     
+                                                                */
+    class GLObject {
+
+      public:
+        GLObject(GLObjectFunctor funct);
+
+        GLObjectFunctor& getFunctor(void                 );
+        void             setFunctor(GLObjectFunctor funct);
+
+        UInt32 getLastValidate(void      );
+        void   setLastValidate(UInt32 val);
+
+        UInt32 getRefCounter(void);
+        UInt32 incRefCounter(void);
+        UInt32 decRefCounter(void);
+ 
+      protected:
+        GLObjectFunctor _functor;
+        volatile UInt32 _refCounter;
+                 UInt32 _lastValidate;
+    };
+
+    // is this really needed???    friend class GLObject;
+
+    /*! \}                                                                 */
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -330,48 +278,36 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     friend class FieldContainer;
     friend class WindowBase;
 
-    static char cvsid[];
-
-    /*! global window list, needed by static refreshGLObject */
     static std::vector<WindowPtr> _allWindows;
+
+    static void initMethod( void );
+
+    void onCreate ( const Window *source = NULL );
+    void onDestroy( void );
 
     /*---------------------------------------------------------------------*/
     /*! \name   Static GL Object / Extension variables                     */
     /*! \{                                                                 */
 
-    static std::vector<IDStringLink>  _registeredExtensions;
-    static std::vector<IDStringLink>  _registeredFunctions;
     static Lock                      *_GLObjectLock;
+    static std::vector<std::string>   _registeredExtensions;
+    static std::vector<std::string>   _registeredFunctions;
     static std::vector<GLObject   *>  _glObjects;
 
     typedef std::pair<UInt32,UInt32>   DestroyEntry;
-    static std::list<DestroyEntry>    _glObjectDestroyList;
+    static  std::list<DestroyEntry >  _glObjectDestroyList;
 
     /*! \}                                                                 */
-
-    static void initMethod( void );
 
     /*---------------------------------------------------------------------*/
     /*! \name        GL Object / Extension variables                       */
     /*! \{                                                                 */
 
-    //! contains the last validate counter for the object
-    std::vector<UInt32  > _lastValidate;
+    std::vector<UInt32     > _lastValidate;
   
-    //! contains the split glGetString(GL_EXTENSIONS)
-    std::vector<IDString> _extensions;
-
-    /*! contains a boolean for every registered extension which
-       indicates, whether an extensions is available for the Window's
-       context or not  */
-    std::vector<bool    > _availExtensions;
-
-    //! contains the GL extension functions registered by the application
-    std::vector<void   *> _extFunctions;
-
-    //! register/unregister the instance with the global list
-    void onCreate(  const Window *source = NULL );
-    void onDestroy( void );
+    std::vector<std::string> _extensions;
+    std::vector<bool       > _availExtensions;
+    std::vector<void      *> _extFunctions;
 
     /*! \}                                                                 */
 
@@ -390,5 +326,7 @@ OSG_END_NAMESPACE
 
 #include <OSGWindowBase.inl>
 #include <OSGWindow.inl>
+
+#define OSGWINDOW_HEADER_CVSID "@(#)$Id:$"
 
 #endif /* _OSGWINDOW_H_ */

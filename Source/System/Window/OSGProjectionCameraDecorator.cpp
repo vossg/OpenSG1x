@@ -100,8 +100,7 @@ void ProjectionCameraDecorator::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
     
-    if(whichField & UserFieldMask ||
-       whichField & SurfaceFieldMask)
+    if(whichField & SurfaceFieldMask)
         updateData();
 }
 

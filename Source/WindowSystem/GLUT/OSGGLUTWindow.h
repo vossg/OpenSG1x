@@ -50,8 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief GLUT Window class. See \ref PageWindowGlut for a description. */
 
 class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindow : public GLUTWindowBase
 {
@@ -82,21 +81,10 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindow : public GLUTWindowBase
     /*! \name                Window functions                              */
     /*! \{                                                                 */
     
-    // init the window: create the context  
-    // Nothing to do here for GLUT
-    virtual void init( void );
-    
-    // activate the window: bind the OGL context    
-    // set the active window, if needed
-    virtual void activate( void );
-    
-    // activate the window: bind the OGL context    
-    // set the active window, if needed      
-    virtual void deactivate ( void );
-    
-    // swap buffers for this window
-    // does not set the active window!
-    virtual void swap( void );
+    virtual void init       ( void );   
+    virtual void activate   ( void );   
+    virtual void deactivate ( void );    
+    virtual void swap       ( void );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
