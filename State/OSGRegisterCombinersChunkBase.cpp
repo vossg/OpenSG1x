@@ -148,6 +148,15 @@ const OSG::BitVector  RegisterCombinersChunkBase::VariableFFieldMask =
 const OSG::BitVector  RegisterCombinersChunkBase::VariableGFieldMask = 
     (1 << RegisterCombinersChunkBase::VariableGFieldId);
 
+const OSG::BitVector  RegisterCombinersChunkBase::CombinerColor0FieldMask = 
+    (1 << RegisterCombinersChunkBase::CombinerColor0FieldId);
+
+const OSG::BitVector  RegisterCombinersChunkBase::CombinerColor1FieldMask = 
+    (1 << RegisterCombinersChunkBase::CombinerColor1FieldId);
+
+const OSG::BitVector  RegisterCombinersChunkBase::PerStageConstantsFieldMask = 
+    (1 << RegisterCombinersChunkBase::PerStageConstantsFieldId);
+
 
 
 // Field descriptions
@@ -162,7 +171,7 @@ const OSG::BitVector  RegisterCombinersChunkBase::VariableGFieldMask =
     
 */
 /*! \var UInt32          RegisterCombinersChunkBase::_mfVariableArgb
-    input,mapping,componentUsage triples for variable A, RGB part
+    input,mapping,component Usage triples for variable A, RGB part
 */
 /*! \var UInt32          RegisterCombinersChunkBase::_mfVariableBrgb
     
@@ -234,6 +243,15 @@ const OSG::BitVector  RegisterCombinersChunkBase::VariableGFieldMask =
     
 */
 /*! \var UInt32          RegisterCombinersChunkBase::_mfVariableG
+    
+*/
+/*! \var Color4f         RegisterCombinersChunkBase::_mfCombinerColor0
+    
+*/
+/*! \var Color4f         RegisterCombinersChunkBase::_mfCombinerColor1
+    
+*/
+/*! \var UInt8           RegisterCombinersChunkBase::_sfPerStageConstants
     
 */
 
@@ -380,7 +398,22 @@ FieldDescription *RegisterCombinersChunkBase::_desc[] =
                      "variableG", 
                      VariableGFieldId, VariableGFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableG)
+                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableG),
+    new FieldDescription(MFColor4f::getClassType(), 
+                     "combinerColor0", 
+                     CombinerColor0FieldId, CombinerColor0FieldMask,
+                     false,
+                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFCombinerColor0),
+    new FieldDescription(MFColor4f::getClassType(), 
+                     "combinerColor1", 
+                     CombinerColor1FieldId, CombinerColor1FieldMask,
+                     false,
+                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFCombinerColor1),
+    new FieldDescription(SFUInt8::getClassType(), 
+                     "perStageConstants", 
+                     PerStageConstantsFieldId, PerStageConstantsFieldMask,
+                     true,
+                     (FieldAccessMethod) &RegisterCombinersChunkBase::getSFPerStageConstants)
 };
 
 //! RegisterCombinersChunk type
@@ -467,6 +500,9 @@ RegisterCombinersChunkBase::RegisterCombinersChunkBase(void) :
     _mfVariableE              (), 
     _mfVariableF              (), 
     _mfVariableG              (), 
+    _mfCombinerColor0         (), 
+    _mfCombinerColor1         (), 
+    _sfPerStageConstants      (), 
     Inherited() 
 {
 }
@@ -506,6 +542,9 @@ RegisterCombinersChunkBase::RegisterCombinersChunkBase(const RegisterCombinersCh
     _mfVariableE              (source._mfVariableE              ), 
     _mfVariableF              (source._mfVariableF              ), 
     _mfVariableG              (source._mfVariableG              ), 
+    _mfCombinerColor0         (source._mfCombinerColor0         ), 
+    _mfCombinerColor1         (source._mfCombinerColor1         ), 
+    _sfPerStageConstants      (source._sfPerStageConstants      ), 
     Inherited                 (source)
 {
 }
@@ -664,6 +703,21 @@ UInt32 RegisterCombinersChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _mfVariableG.getBinSize();
     }
 
+    if(FieldBits::NoField != (CombinerColor0FieldMask & whichField))
+    {
+        returnValue += _mfCombinerColor0.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CombinerColor1FieldMask & whichField))
+    {
+        returnValue += _mfCombinerColor1.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PerStageConstantsFieldMask & whichField))
+    {
+        returnValue += _sfPerStageConstants.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -811,6 +865,21 @@ void RegisterCombinersChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (VariableGFieldMask & whichField))
     {
         _mfVariableG.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CombinerColor0FieldMask & whichField))
+    {
+        _mfCombinerColor0.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CombinerColor1FieldMask & whichField))
+    {
+        _mfCombinerColor1.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PerStageConstantsFieldMask & whichField))
+    {
+        _sfPerStageConstants.copyToBin(pMem);
     }
 
 
@@ -961,6 +1030,21 @@ void RegisterCombinersChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfVariableG.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (CombinerColor0FieldMask & whichField))
+    {
+        _mfCombinerColor0.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CombinerColor1FieldMask & whichField))
+    {
+        _mfCombinerColor1.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PerStageConstantsFieldMask & whichField))
+    {
+        _sfPerStageConstants.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1054,6 +1138,15 @@ void RegisterCombinersChunkBase::executeSyncImpl(      RegisterCombinersChunkBas
     if(FieldBits::NoField != (VariableGFieldMask & whichField))
         _mfVariableG.syncWith(pOther->_mfVariableG);
 
+    if(FieldBits::NoField != (CombinerColor0FieldMask & whichField))
+        _mfCombinerColor0.syncWith(pOther->_mfCombinerColor0);
+
+    if(FieldBits::NoField != (CombinerColor1FieldMask & whichField))
+        _mfCombinerColor1.syncWith(pOther->_mfCombinerColor1);
+
+    if(FieldBits::NoField != (PerStageConstantsFieldMask & whichField))
+        _sfPerStageConstants.syncWith(pOther->_sfPerStageConstants);
+
 
 }
 
@@ -1086,7 +1179,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRegisterCombinersChunkBase.cpp,v 1.1 2002/06/10 22:10:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRegisterCombinersChunkBase.cpp,v 1.2 2002/08/29 16:09:11 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID;
 

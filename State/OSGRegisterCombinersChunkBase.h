@@ -93,6 +93,9 @@
 #include <OSGUInt32Fields.h> // VariableE type
 #include <OSGUInt32Fields.h> // VariableF type
 #include <OSGUInt32Fields.h> // VariableG type
+#include <OSGColor4fFields.h> // CombinerColor0 type
+#include <OSGColor4fFields.h> // CombinerColor1 type
+#include <OSGUInt8Fields.h> // PerStageConstants type
 
 #include <OSGRegisterCombinersChunkFields.h>
 
@@ -114,35 +117,38 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 
     enum
     {
-        Color0FieldId         = Inherited::NextFieldId,
-        Color1FieldId         = Color0FieldId         + 1,
-        ColorSumClampFieldId  = Color1FieldId         + 1,
-        VariableArgbFieldId   = ColorSumClampFieldId  + 1,
-        VariableBrgbFieldId   = VariableArgbFieldId   + 1,
-        VariableCrgbFieldId   = VariableBrgbFieldId   + 1,
-        VariableDrgbFieldId   = VariableCrgbFieldId   + 1,
-        VariableAalphaFieldId = VariableDrgbFieldId   + 1,
-        VariableBalphaFieldId = VariableAalphaFieldId + 1,
-        VariableCalphaFieldId = VariableBalphaFieldId + 1,
-        VariableDalphaFieldId = VariableCalphaFieldId + 1,
-        OutputABrgbFieldId    = VariableDalphaFieldId + 1,
-        OutputCDrgbFieldId    = OutputABrgbFieldId    + 1,
-        OutputSumrgbFieldId   = OutputCDrgbFieldId    + 1,
-        ScalergbFieldId       = OutputSumrgbFieldId   + 1,
-        BiasrgbFieldId        = ScalergbFieldId       + 1,
-        OutputABalphaFieldId  = BiasrgbFieldId        + 1,
-        OutputCDalphaFieldId  = OutputABalphaFieldId  + 1,
-        OutputSumalphaFieldId = OutputCDalphaFieldId  + 1,
-        DotABrgbFieldId       = OutputSumalphaFieldId + 1,
-        DotCDrgbFieldId       = DotABrgbFieldId       + 1,
-        MuxSumrgbFieldId      = DotCDrgbFieldId       + 1,
-        ScalealphaFieldId     = MuxSumrgbFieldId      + 1,
-        BiasalphaFieldId      = ScalealphaFieldId     + 1,
-        MuxSumalphaFieldId    = BiasalphaFieldId      + 1,
-        VariableEFieldId      = MuxSumalphaFieldId    + 1,
-        VariableFFieldId      = VariableEFieldId      + 1,
-        VariableGFieldId      = VariableFFieldId      + 1,
-        NextFieldId           = VariableGFieldId      + 1
+        Color0FieldId            = Inherited::NextFieldId,
+        Color1FieldId            = Color0FieldId            + 1,
+        ColorSumClampFieldId     = Color1FieldId            + 1,
+        VariableArgbFieldId      = ColorSumClampFieldId     + 1,
+        VariableBrgbFieldId      = VariableArgbFieldId      + 1,
+        VariableCrgbFieldId      = VariableBrgbFieldId      + 1,
+        VariableDrgbFieldId      = VariableCrgbFieldId      + 1,
+        VariableAalphaFieldId    = VariableDrgbFieldId      + 1,
+        VariableBalphaFieldId    = VariableAalphaFieldId    + 1,
+        VariableCalphaFieldId    = VariableBalphaFieldId    + 1,
+        VariableDalphaFieldId    = VariableCalphaFieldId    + 1,
+        OutputABrgbFieldId       = VariableDalphaFieldId    + 1,
+        OutputCDrgbFieldId       = OutputABrgbFieldId       + 1,
+        OutputSumrgbFieldId      = OutputCDrgbFieldId       + 1,
+        ScalergbFieldId          = OutputSumrgbFieldId      + 1,
+        BiasrgbFieldId           = ScalergbFieldId          + 1,
+        OutputABalphaFieldId     = BiasrgbFieldId           + 1,
+        OutputCDalphaFieldId     = OutputABalphaFieldId     + 1,
+        OutputSumalphaFieldId    = OutputCDalphaFieldId     + 1,
+        DotABrgbFieldId          = OutputSumalphaFieldId    + 1,
+        DotCDrgbFieldId          = DotABrgbFieldId          + 1,
+        MuxSumrgbFieldId         = DotCDrgbFieldId          + 1,
+        ScalealphaFieldId        = MuxSumrgbFieldId         + 1,
+        BiasalphaFieldId         = ScalealphaFieldId        + 1,
+        MuxSumalphaFieldId       = BiasalphaFieldId         + 1,
+        VariableEFieldId         = MuxSumalphaFieldId       + 1,
+        VariableFFieldId         = VariableEFieldId         + 1,
+        VariableGFieldId         = VariableFFieldId         + 1,
+        CombinerColor0FieldId    = VariableGFieldId         + 1,
+        CombinerColor1FieldId    = CombinerColor0FieldId    + 1,
+        PerStageConstantsFieldId = CombinerColor1FieldId    + 1,
+        NextFieldId              = PerStageConstantsFieldId + 1
     };
 
     static const osg::BitVector Color0FieldMask;
@@ -173,6 +179,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
     static const osg::BitVector VariableEFieldMask;
     static const osg::BitVector VariableFFieldMask;
     static const osg::BitVector VariableGFieldMask;
+    static const osg::BitVector CombinerColor0FieldMask;
+    static const osg::BitVector CombinerColor1FieldMask;
+    static const osg::BitVector PerStageConstantsFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -225,6 +234,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
            MFUInt32            *getMFVariableE      (void);
            MFUInt32            *getMFVariableF      (void);
            MFUInt32            *getMFVariableG      (void);
+           MFColor4f           *getMFCombinerColor0 (void);
+           MFColor4f           *getMFCombinerColor1 (void);
+           SFUInt8             *getSFPerStageConstants(void);
 
            Color4f             &getColor0         (void);
      const Color4f             &getColor0         (void) const;
@@ -232,6 +244,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
      const Color4f             &getColor1         (void) const;
            bool                &getColorSumClamp  (void);
      const bool                &getColorSumClamp  (void) const;
+           UInt8               &getPerStageConstants(void);
+     const UInt8               &getPerStageConstants(void) const;
            UInt32              &getVariableArgb   (const UInt32 index);
            MFUInt32            &getVariableArgb   (void);
      const MFUInt32            &getVariableArgb   (void) const;
@@ -307,6 +321,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
            UInt32              &getVariableG      (const UInt32 index);
            MFUInt32            &getVariableG      (void);
      const MFUInt32            &getVariableG      (void) const;
+           Color4f             &getCombinerColor0 (const UInt32 index);
+           MFColor4f           &getCombinerColor0 (void);
+     const MFColor4f           &getCombinerColor0 (void) const;
+           Color4f             &getCombinerColor1 (const UInt32 index);
+           MFColor4f           &getCombinerColor1 (void);
+     const MFColor4f           &getCombinerColor1 (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -316,6 +336,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
      void setColor0         ( const Color4f &value );
      void setColor1         ( const Color4f &value );
      void setColorSumClamp  ( const bool &value );
+     void setPerStageConstants( const UInt8 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -389,6 +410,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
     MFUInt32            _mfVariableE;
     MFUInt32            _mfVariableF;
     MFUInt32            _mfVariableG;
+    MFColor4f           _mfCombinerColor0;
+    MFColor4f           _mfCombinerColor1;
+    SFUInt8             _sfPerStageConstants;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -436,6 +460,6 @@ typedef RegisterCombinersChunkBase *RegisterCombinersChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.h,v 1.2 2002/06/18 08:17:54 vossg Exp $"
+#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.h,v 1.3 2002/08/29 16:09:11 dirk Exp $"
 
 #endif /* _OSGREGISTERCOMBINERSCHUNKBASE_H_ */

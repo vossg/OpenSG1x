@@ -42,7 +42,7 @@
 		visibility="external"
 		access="public"
 	>
-	input,mapping,componentUsage triples for variable A, RGB part
+	input,mapping,component Usage triples for variable A, RGB part
 	</Field>
 	<Field
 		name="variableBrgb"
@@ -233,6 +233,30 @@
 		type="UInt32"
 		cardinality="multi"
 		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="combinerColor0"
+		type="Color4f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="combinerColor1"
+		type="Color4f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="perStageConstants"
+		type="UInt8"
+		cardinality="single"
+		visibility="internal"
 		access="public"
 	>
 	</Field>

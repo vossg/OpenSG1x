@@ -122,6 +122,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombiners
 
     void clearCombiner(UInt16 which);
 
+    void setConstantColors(Color4f &color0, Color4f &color1);
+
+    void setCombinerColors(UInt16 which, 
+          Color4f &color0, Color4f &color1);
+
     void setCombinerRGB(UInt16 which, 
           GLenum ainput, GLenum amapping, GLenum acompusage, 
           GLenum binput, GLenum bmapping, GLenum bcompusage, 
@@ -180,9 +185,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombiners
 
     // extension indices for used extensions;
     static UInt32 _nvRegisterCombiners;
+    static UInt32 _nvRegisterCombiners2;
     
     // extension indices for used fucntions;
     static UInt32 _funcCombinerParameterfv;
+    static UInt32 _funcCombinerStageParameterfv;
     static UInt32 _funcCombinerInput;
     static UInt32 _funcCombinerOutput;
     static UInt32 _funcFinalCombinerInput;
@@ -210,6 +217,6 @@ OSG_END_NAMESPACE
 #include <OSGRegisterCombinersChunkBase.inl>
 #include <OSGRegisterCombinersChunk.inl>
 
-#define OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunk.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
+#define OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunk.h,v 1.2 2002/08/29 16:09:11 dirk Exp $"
 
 #endif /* _OSGREGISTERCOMBINERSCHUNK_H_ */

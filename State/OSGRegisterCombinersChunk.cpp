@@ -61,7 +61,10 @@ OSG_USING_NAMESPACE
 StateChunkClass RegisterCombinersChunk::_class("RegisterCombiners");
 
 UInt32 RegisterCombinersChunk::_nvRegisterCombiners;
+UInt32 RegisterCombinersChunk::_nvRegisterCombiners2;
 UInt32 RegisterCombinersChunk::_funcCombinerParameterfv 
+                                            = Window::invalidFunctionID; 
+UInt32 RegisterCombinersChunk::_funcCombinerStageParameterfv 
                                             = Window::invalidFunctionID; 
 UInt32 RegisterCombinersChunk::_funcCombinerInput
                                             = Window::invalidFunctionID; 
@@ -69,6 +72,9 @@ UInt32 RegisterCombinersChunk::_funcCombinerOutput
                                             = Window::invalidFunctionID; 
 UInt32 RegisterCombinersChunk::_funcFinalCombinerInput
                                             = Window::invalidFunctionID; 
+                                                
+// can't use GL_NONE as flag, as GL_ZERO is equal and valid
+static const UInt32 unused = 0xffff;
 
 // this should go somewhere central...
 
@@ -95,15 +101,19 @@ RegisterCombinersChunk::RegisterCombinersChunk(void) :
     Inherited()
 {
     _nvRegisterCombiners      = Window::registerExtension( 
-                                                "GL_NV_register_combiners" );
+                                "GL_NV_register_combiners" );
+    _nvRegisterCombiners2     = Window::registerExtension( 
+                                "GL_NV_register_combiners2" );
     _funcCombinerParameterfv  = Window::registerFunction (
-                                                OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV" );
+    _funcCombinerStageParameterfv  = Window::registerFunction (
+        OSG_DLSYM_UNDERSCORE"glCombinerStageParameterfvNV" );
     _funcCombinerInput        = Window::registerFunction (
-                                                OSG_DLSYM_UNDERSCORE"glCombinerInputNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerInputNV" );
     _funcCombinerOutput       = Window::registerFunction (
-                                                OSG_DLSYM_UNDERSCORE"glCombinerOutputNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerOutputNV" );
     _funcFinalCombinerInput   = Window::registerFunction (
-                                                OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV" );
+        OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV" );
 
     clearCombiners();
 }
@@ -175,6 +185,8 @@ void RegisterCombinersChunk::ensureSizes()
     getScalealpha    ().resize(OSG_NUM_COMBINERS);
     getBiasalpha     ().resize(OSG_NUM_COMBINERS);
     getMuxSumalpha   ().resize(OSG_NUM_COMBINERS);
+    getCombinerColor0().resize(OSG_NUM_COMBINERS);
+    getCombinerColor1().resize(OSG_NUM_COMBINERS);
     getVariableE     ().resize(3);
     getVariableF     ().resize(3);
     getVariableG     ().resize(3);
@@ -187,17 +199,19 @@ void RegisterCombinersChunk::clearCombiners(void)
     
     for(UInt16 i = 0; i < OSG_NUM_COMBINERS * 3; i += 3)
     {
-        getVariableArgb  ()[i] = GL_NONE;
-        getVariableAalpha()[i] = GL_NONE;
+        getVariableArgb  ()[i] = unused;
+        getVariableAalpha()[i] = unused;
     }
+    
+    setPerStageConstants(false);
 }
 
 void RegisterCombinersChunk::clearCombiner(UInt16 which)
 {
     ensureSizes();
     
-    getVariableArgb  ()[which * 3] = GL_NONE;
-    getVariableAalpha()[which * 3] = GL_NONE;
+    getVariableArgb  ()[which * 3] = unused;
+    getVariableAalpha()[which * 3] = unused;
 }
 
 void RegisterCombinersChunk::setCombinerRGB(UInt16 which, 
@@ -316,12 +330,40 @@ void RegisterCombinersChunk::setFinalCombiner(
     getVariableG()[2] = gcompusage;
 }
 
+void RegisterCombinersChunk::setConstantColors(
+    Color4f &color0, Color4f &color1)
+{
+    RegisterCombinersChunkPtr tmpPtr(*this);
+
+    beginEditCP(tmpPtr, PerStageConstantsFieldMask);
+    
+    getColor0() = color0;
+    getColor1() = color1;
+    
+    endEditCP(tmpPtr, PerStageConstantsFieldMask);
+}
+
+void RegisterCombinersChunk::setCombinerColors(UInt16 which, 
+          Color4f &color0, Color4f &color1)
+{
+    RegisterCombinersChunkPtr tmpPtr(*this);
+
+    beginEditCP(tmpPtr, PerStageConstantsFieldMask);
+
+    setPerStageConstants(true);
+    
+    getCombinerColor0().setValue(color0, which);
+    getCombinerColor1().setValue(color1, which);
+    
+    endEditCP(tmpPtr, PerStageConstantsFieldMask);
+}
+
 
 void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
 {
     Window *win = action->getWindow();
     
-    if ( ! win->hasExtension( _nvRegisterCombiners ) )
+    if(! win->hasExtension(_nvRegisterCombiners))
         return;
 
     // setup register combiners
@@ -331,6 +373,10 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
     void (OSG_APIENTRY*CombinerParameterfv)(GLenum pname, GLfloat *params) = 
             (void (OSG_APIENTRY*)(GLenum pname, GLfloat *params))
             win->getFunction(_funcCombinerParameterfv);
+  
+    void (OSG_APIENTRY*CombinerStageParameterfv)(GLenum stage, GLenum pname, GLfloat *params) = 
+            (void (OSG_APIENTRY*)(GLenum stage, GLenum pname, GLfloat *params))
+            win->getFunction(_funcCombinerStageParameterfv);
  
     void (OSG_APIENTRY*CombinerInput)(GLenum stage, GLenum portion, GLenum variable, 
                           GLenum input, GLenum mapping, GLenum component) = 
@@ -356,20 +402,13 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
                                GLenum component))
             win->getFunction(_funcFinalCombinerInput);
     
-    // constants first    
-    CombinerParameterfv( GL_CONSTANT_COLOR0_NV, 
-                            (GLfloat*)getColor0().getValuesRGBA() );
-    CombinerParameterfv( GL_CONSTANT_COLOR1_NV, 
-                            (GLfloat*)getColor1().getValuesRGBA() );
-    // color sum clamp here
-    
     // how many combiners do we need?
     
     Int32 ncomb;
  
     for(ncomb = OSG_NUM_COMBINERS - 1; ncomb >= 0; ncomb--)
     {
-        if(getVariableArgb()[ncomb * 3] != GL_NONE)
+        if(getVariableArgb()[ncomb * 3] != unused)
             break;
     }
 
@@ -384,13 +423,20 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
     ncomb++;
     
     GLfloat dummy = ncomb;
-    CombinerParameterfv( GL_CONSTANT_COLOR0_NV, &dummy );
+    CombinerParameterfv(GL_NUM_GENERAL_COMBINERS_NV, &dummy);
+    CombinerParameterfv(GL_CONSTANT_COLOR0_NV, (GLfloat*)&getColor0());
+    CombinerParameterfv(GL_CONSTANT_COLOR1_NV, (GLfloat*)&getColor1());
+    
+    dummy = getColorSumClamp();
+    CombinerParameterfv(GL_COLOR_SUM_CLAMP_NV, &dummy);
     
     // setup the general combiners
- 
+
+    bool hasRC2 = win->hasExtension(_nvRegisterCombiners2);
+     
     for(UInt16 i = 0; i < ncomb; i++)
     {
-        if(getVariableArgb()[i * 3] != GL_NONE)
+        if(getVariableArgb()[i * 3] != unused)
         {
             // RGB inputs
             CombinerInput(GL_COMBINER0_NV + i, GL_RGB, GL_VARIABLE_A_NV,
@@ -440,7 +486,7 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
                             
         }
         
-        if(getVariableAalpha()[i * 3] != GL_NONE)
+        if(getVariableAalpha()[i * 3] != unused)
         {
             // Alpha inputs
             CombinerInput(GL_COMBINER0_NV + i, GL_ALPHA, GL_VARIABLE_A_NV,
@@ -487,7 +533,39 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
                             GL_NONE, GL_NONE,
                             GL_FALSE, GL_FALSE, GL_FALSE );   
         }
+        
+        if(getPerStageConstants())
+        {
+            if(hasRC2)
+            {
+                CombinerStageParameterfv(GL_COMBINER0_NV + i, 
+                     GL_CONSTANT_COLOR0_NV, 
+                    (GLfloat*)getCombinerColor0().getValue(i).getValuesRGBA());
+                CombinerStageParameterfv(GL_COMBINER0_NV + i, 
+                    GL_CONSTANT_COLOR1_NV, 
+                    (GLfloat*)getCombinerColor1().getValue(i).getValuesRGBA());
+                
+            }
+            else
+            {
+                FWARNING(("RegisterCombinersChunk::register_combiners2 not"
+                           "supported, constant colors ignored!!\n"));
+            }
+        }
     }
+    
+    if(hasRC2)
+    {
+        if(getPerStageConstants())
+        {
+            glEnable(GL_PER_STAGE_CONSTANTS_NV);
+        }
+        else
+        {
+            glDisable(GL_PER_STAGE_CONSTANTS_NV);
+        }
+    }
+    
     glErr("RegisterCombinersChunk::general combiners setup");
  
     // setup the final combiner
@@ -624,7 +702,7 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.5 2002/07/02 15:07:00 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.6 2002/08/29 16:09:11 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }

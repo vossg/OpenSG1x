@@ -264,6 +264,24 @@ MFUInt32 *RegisterCombinersChunkBase::getMFVariableG(void)
     return &_mfVariableG;
 }
 
+inline
+MFColor4f *RegisterCombinersChunkBase::getMFCombinerColor0(void)
+{
+    return &_mfCombinerColor0;
+}
+
+inline
+MFColor4f *RegisterCombinersChunkBase::getMFCombinerColor1(void)
+{
+    return &_mfCombinerColor1;
+}
+
+inline
+SFUInt8 *RegisterCombinersChunkBase::getSFPerStageConstants(void)
+{
+    return &_sfPerStageConstants;
+}
+
 
 inline
 Color4f &RegisterCombinersChunkBase::getColor0(void)
@@ -317,6 +335,24 @@ inline
 void RegisterCombinersChunkBase::setColorSumClamp(const bool &value)
 {
     _sfColorSumClamp.setValue(value);
+}
+
+inline
+UInt8 &RegisterCombinersChunkBase::getPerStageConstants(void)
+{
+    return _sfPerStageConstants.getValue();
+}
+
+inline
+const UInt8 &RegisterCombinersChunkBase::getPerStageConstants(void) const
+{
+    return _sfPerStageConstants.getValue();
+}
+
+inline
+void RegisterCombinersChunkBase::setPerStageConstants(const UInt8 &value)
+{
+    _sfPerStageConstants.setValue(value);
 }
 
 
@@ -770,7 +806,43 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableG(void) const
     return _mfVariableG;
 }
 
+inline
+Color4f &RegisterCombinersChunkBase::getCombinerColor0(const UInt32 index)
+{
+    return _mfCombinerColor0[index];
+}
+
+inline
+MFColor4f &RegisterCombinersChunkBase::getCombinerColor0(void)
+{
+    return _mfCombinerColor0;
+}
+
+inline
+const MFColor4f &RegisterCombinersChunkBase::getCombinerColor0(void) const
+{
+    return _mfCombinerColor0;
+}
+
+inline
+Color4f &RegisterCombinersChunkBase::getCombinerColor1(const UInt32 index)
+{
+    return _mfCombinerColor1[index];
+}
+
+inline
+MFColor4f &RegisterCombinersChunkBase::getCombinerColor1(void)
+{
+    return _mfCombinerColor1;
+}
+
+inline
+const MFColor4f &RegisterCombinersChunkBase::getCombinerColor1(void) const
+{
+    return _mfCombinerColor1;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.inl,v 1.2 2002/06/20 13:02:20 vossg Exp $"
+#define OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.inl,v 1.3 2002/08/29 16:09:11 dirk Exp $"
 
