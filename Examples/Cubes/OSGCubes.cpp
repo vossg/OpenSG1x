@@ -118,17 +118,13 @@ char Cubes::cvsid[] = "@(#)$Id: $";
 
 void Cubes::initMethod (void)
 {
-  DrawAction::registerEnterDefault( getClassType(),
-                                    osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          MaterialDrawablePtr  ,
-                                    CNodePtr      ,
-                                    Action       *>(&MaterialDrawable::drawActionHandler));
+    DrawAction::registerEnterDefault( getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+              CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
   
-  RenderAction::registerEnterDefault( getClassType(),
-                                      osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                      MaterialDrawablePtr  ,
-                                      CNodePtr      ,
-                                      Action       *>(&MaterialDrawable::renderActionHandler));
+    RenderAction::registerEnterDefault( getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+              CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
 }
 
 /***************************************************************************\

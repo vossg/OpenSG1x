@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="NewFieldContainerLib"
+	parent="FieldContainer"
+	library="MyLibrary"
+	pointerfieldtypes="both"
+	systemcomponent="false"
+	parentsystemcomponent="true"
+	structure="concrete"
+>
+	<Field
+		name="foo"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The foos.
+	</Field>
+	<Field
+		name="bar"
+                header="OSGNewFieldType.h"
+		type="TripleInt"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	A Field containing the new TripleInt type.
+	</Field>
+</FieldContainer>

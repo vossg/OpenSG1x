@@ -1,0 +1,40 @@
+
+Example for adding new types to OpenSG
+======================================
+
+This directory contains example code for adding new types to OpenSG. See the
+online docs or the Starter Guide, pages/sections "Creating New Field Types"
+and "Creating New FieldContainer Types" for a description of the topics
+involved. Note that these sections are only included in the developer versions of
+the docs/Starter Guide.
+
+This example shows 4 different things:
+
+- how to create a new Field type to be used in an application
+   (OSGNewFieldType.*)
+   
+- how to create a new Field type to be used in a library
+   (OSGNewFieldTypeLib.*)
+
+- how to create a new FieldContainer type to be used in an application
+   (OSGNewFieldContainer.*)
+   
+- how to create a new FieldContainer type to be used in a library
+   (OSGNewFieldContainerLib.*)
+
+
+OSGMyLibraryDef.h is a helper file needed for the library variants.
+testTypes.cpp is a little program that creates instances of the new types and
+tests some of their capabilities.
+
+The Makefile is a standard minimal OpenSG makefile that uses the OSGROOT
+variable to define the place where OpenSG is installed and tries to run off a
+Builds/* install if it is not set.
+
+If you have problems take a look at the documentation, if there are still
+questions contact us at feedback@opensg.org.
+
+Enjoy!
+
+The OpenSG Team
+March 2003

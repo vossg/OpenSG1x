@@ -45,59 +45,56 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Cubes
+ **     class NewFieldContainerLib
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCUBESBASE_H_
-#define _OSGCUBESBASE_H_
+#ifndef _OSGNEWFIELDCONTAINERLIBBASE_H_
+#define _OSGNEWFIELDCONTAINERLIBBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 
 #include <OpenSG/OSGConfig.h>
-#include <OSGMyDef.h>
+#include <OSGMyLibraryDef.h>
 
 #include <OpenSG/OSGBaseTypes.h>
 
-#include <OpenSG/OSGMaterialDrawable.h> // Parent
+#include <OpenSG/OSGFieldContainer.h> // Parent
 
-#include <OpenSG/OSGPnt3fFields.h> // Position type
-#include <OpenSG/OSGReal32Fields.h> // Length type
-#include <OpenSG/OSGColor3fFields.h> // Color type
+#include <OpenSG/OSGUInt32Fields.h> // Foo type
+#include <OSGNewFieldType.h> // Bar type
 
-#include <OSGCubesFields.h>
+#include <OSGNewFieldContainerLibFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class Cubes;
+class NewFieldContainerLib;
 class BinaryDataHandler;
 
-//! \brief Cubes Base Class.
+//! \brief NewFieldContainerLib Base Class.
 
-class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
+class OSG_MYLIBRARY_DLLMAPPING NewFieldContainerLibBase : public FieldContainer
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef FieldContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        PositionFieldId = Inherited::NextFieldId,
-        LengthFieldId   = PositionFieldId + 1,
-        ColorFieldId    = LengthFieldId   + 1,
-        NextFieldId     = ColorFieldId    + 1
+        FooFieldId  = Inherited::NextFieldId,
+        BarFieldId  = FooFieldId  + 1,
+        NextFieldId = BarFieldId  + 1
     };
 
-    static const OSG::BitVector PositionFieldMask;
-    static const OSG::BitVector LengthFieldMask;
-    static const OSG::BitVector ColorFieldMask;
+    static const OSG::BitVector FooFieldMask;
+    static const OSG::BitVector BarFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -124,25 +121,21 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFPnt3f             *getMFPosition       (void);
-           MFReal32            *getMFLength         (void);
-           MFColor3f           *getMFColor          (void);
+           MFUInt32            *getMFFoo            (void);
+           SFTripleInt         *getSFBar            (void);
 
-           Pnt3f               &getPosition       (const UInt32 index);
-           MFPnt3f             &getPosition       (void);
-     const MFPnt3f             &getPosition       (void) const;
-           Real32              &getLength         (const UInt32 index);
-           MFReal32            &getLength         (void);
-     const MFReal32            &getLength         (void) const;
-           Color3f             &getColor          (const UInt32 index);
-           MFColor3f           &getColor          (void);
-     const MFColor3f           &getColor          (void) const;
+           TripleInt           &getBar            (void);
+     const TripleInt           &getBar            (void) const;
+           UInt32              &getFoo            (const UInt32 index);
+           MFUInt32            &getFoo            (void);
+     const MFUInt32            &getFoo            (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+     void setBar            ( const TripleInt &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,8 +162,8 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  CubesPtr      create          (void); 
-    static  CubesPtr      createEmpty     (void); 
+    static  NewFieldContainerLibPtr      create          (void); 
+    static  NewFieldContainerLibPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -188,31 +181,30 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFPnt3f             _mfPosition;
-    MFReal32            _mfLength;
-    MFColor3f           _mfColor;
+    MFUInt32            _mfFoo;
+    SFTripleInt         _sfBar;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CubesBase(void);
-    CubesBase(const CubesBase &source);
+    NewFieldContainerLibBase(void);
+    NewFieldContainerLibBase(const NewFieldContainerLibBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CubesBase(void); 
+    virtual ~NewFieldContainerLibBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CubesBase *pOther,
+    void executeSyncImpl(      NewFieldContainerLibBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -226,7 +218,7 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CubesBase &source);
+    void operator =(const NewFieldContainerLibBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -234,10 +226,10 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
 //---------------------------------------------------------------------------
 
 
-typedef CubesBase *CubesBaseP;
+typedef NewFieldContainerLibBase *NewFieldContainerLibBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGNEWFIELDCONTAINERLIBBASE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGCUBESBASE_H_ */
+#endif /* _OSGNEWFIELDCONTAINERLIBBASE_H_ */

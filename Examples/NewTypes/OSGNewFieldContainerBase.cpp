@@ -45,116 +45,105 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Cubes!
+ **     class NewFieldContainer!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#define OSG_COMPILECUBESINST
+#define OSG_COMPILENEWFIELDCONTAINERINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OpenSG/OSGConfig.h>
 
-#include "OSGCubesBase.h"
-#include "OSGCubes.h"
+#include "OSGNewFieldContainerBase.h"
+#include "OSGNewFieldContainer.h"
 
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  CubesBase::PositionFieldMask = 
-    (static_cast<OSG::BitVector>(1) << CubesBase::PositionFieldId);
+const OSG::BitVector  NewFieldContainerBase::FooFieldMask = 
+    (static_cast<OSG::BitVector>(1) << NewFieldContainerBase::FooFieldId);
 
-const OSG::BitVector  CubesBase::LengthFieldMask = 
-    (static_cast<OSG::BitVector>(1) << CubesBase::LengthFieldId);
+const OSG::BitVector  NewFieldContainerBase::BarFieldMask = 
+    (static_cast<OSG::BitVector>(1) << NewFieldContainerBase::BarFieldId);
 
-const OSG::BitVector  CubesBase::ColorFieldMask = 
-    (static_cast<OSG::BitVector>(1) << CubesBase::ColorFieldId);
-
-const OSG::BitVector CubesBase::MTInfluenceMask = 
+const OSG::BitVector NewFieldContainerBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
 
-/*! \var Pnt3f           CubesBase::_mfPosition
-    The cubes' positions.
+/*! \var UInt32          NewFieldContainerBase::_mfFoo
+    The foos.
 */
-/*! \var Real32          CubesBase::_mfLength
-    The cubes' sizes.
-*/
-/*! \var Color3f         CubesBase::_mfColor
-    The cubes' colors.
+/*! \var TripleInt       NewFieldContainerBase::_sfBar
+    A Field contains the new TripleInt type.
 */
 
-//! Cubes description
+//! NewFieldContainer description
 
-FieldDescription *CubesBase::_desc[] = 
+FieldDescription *NewFieldContainerBase::_desc[] = 
 {
-    new FieldDescription(MFPnt3f::getClassType(), 
-                     "position", 
-                     PositionFieldId, PositionFieldMask,
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "foo", 
+                     FooFieldId, FooFieldMask,
                      false,
-                     (FieldAccessMethod) &CubesBase::getMFPosition),
-    new FieldDescription(MFReal32::getClassType(), 
-                     "length", 
-                     LengthFieldId, LengthFieldMask,
+                     (FieldAccessMethod) &NewFieldContainerBase::getMFFoo),
+    new FieldDescription(SFTripleInt::getClassType(), 
+                     "bar", 
+                     BarFieldId, BarFieldMask,
                      false,
-                     (FieldAccessMethod) &CubesBase::getMFLength),
-    new FieldDescription(MFColor3f::getClassType(), 
-                     "color", 
-                     ColorFieldId, ColorFieldMask,
-                     false,
-                     (FieldAccessMethod) &CubesBase::getMFColor)
+                     (FieldAccessMethod) &NewFieldContainerBase::getSFBar)
 };
 
 
-FieldContainerType CubesBase::_type(
-    "Cubes",
-    "MaterialDrawable",
+FieldContainerType NewFieldContainerBase::_type(
+    "NewFieldContainer",
+    "FieldContainer",
     NULL,
-    (PrototypeCreateF) &CubesBase::createEmpty,
-    Cubes::initMethod,
+    (PrototypeCreateF) &NewFieldContainerBase::createEmpty,
+    NewFieldContainer::initMethod,
     _desc,
     sizeof(_desc));
 
-//OSG_FIELD_CONTAINER_DEF(CubesBase, CubesPtr)
+//OSG_FIELD_CONTAINER_DEF(NewFieldContainerBase, NewFieldContainerPtr)
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &CubesBase::getType(void) 
+FieldContainerType &NewFieldContainerBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &CubesBase::getType(void) const 
+const FieldContainerType &NewFieldContainerBase::getType(void) const 
 {
     return _type;
 } 
 
 
-FieldContainerPtr CubesBase::shallowCopy(void) const 
+FieldContainerPtr NewFieldContainerBase::shallowCopy(void) const 
 { 
-    CubesPtr returnValue; 
+    NewFieldContainerPtr returnValue; 
 
-    newPtr(returnValue, dynamic_cast<const Cubes *>(this)); 
+    newPtr(returnValue, dynamic_cast<const NewFieldContainer *>(this)); 
 
     return returnValue; 
 }
 
-UInt32 CubesBase::getContainerSize(void) const 
+UInt32 NewFieldContainerBase::getContainerSize(void) const 
 { 
-    return sizeof(Cubes); 
+    return sizeof(NewFieldContainer); 
 }
 
 
-void CubesBase::executeSync(      FieldContainer &other,
+void NewFieldContainerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CubesBase *) &other, whichField);
+    this->executeSyncImpl((NewFieldContainerBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
@@ -163,10 +152,9 @@ void CubesBase::executeSync(      FieldContainer &other,
 #pragma warning (disable : 383)
 #endif
 
-CubesBase::CubesBase(void) :
-    _mfPosition               (), 
-    _mfLength                 (), 
-    _mfColor                  (), 
+NewFieldContainerBase::NewFieldContainerBase(void) :
+    _mfFoo                    (), 
+    _sfBar                    (), 
     Inherited() 
 {
 }
@@ -175,105 +163,86 @@ CubesBase::CubesBase(void) :
 #pragma warning (default : 383)
 #endif
 
-CubesBase::CubesBase(const CubesBase &source) :
-    _mfPosition               (source._mfPosition               ), 
-    _mfLength                 (source._mfLength                 ), 
-    _mfColor                  (source._mfColor                  ), 
+NewFieldContainerBase::NewFieldContainerBase(const NewFieldContainerBase &source) :
+    _mfFoo                    (source._mfFoo                    ), 
+    _sfBar                    (source._sfBar                    ), 
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
 
-CubesBase::~CubesBase(void)
+NewFieldContainerBase::~NewFieldContainerBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 CubesBase::getBinSize(const BitVector &whichField)
+UInt32 NewFieldContainerBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    if(FieldBits::NoField != (FooFieldMask & whichField))
     {
-        returnValue += _mfPosition.getBinSize();
+        returnValue += _mfFoo.getBinSize();
     }
 
-    if(FieldBits::NoField != (LengthFieldMask & whichField))
+    if(FieldBits::NoField != (BarFieldMask & whichField))
     {
-        returnValue += _mfLength.getBinSize();
-    }
-
-    if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
-        returnValue += _mfColor.getBinSize();
+        returnValue += _sfBar.getBinSize();
     }
 
 
     return returnValue;
 }
 
-void CubesBase::copyToBin(      BinaryDataHandler &pMem,
+void NewFieldContainerBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    if(FieldBits::NoField != (FooFieldMask & whichField))
     {
-        _mfPosition.copyToBin(pMem);
+        _mfFoo.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (LengthFieldMask & whichField))
+    if(FieldBits::NoField != (BarFieldMask & whichField))
     {
-        _mfLength.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
-        _mfColor.copyToBin(pMem);
+        _sfBar.copyToBin(pMem);
     }
 
 
 }
 
-void CubesBase::copyFromBin(      BinaryDataHandler &pMem,
+void NewFieldContainerBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    if(FieldBits::NoField != (FooFieldMask & whichField))
     {
-        _mfPosition.copyFromBin(pMem);
+        _mfFoo.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (LengthFieldMask & whichField))
+    if(FieldBits::NoField != (BarFieldMask & whichField))
     {
-        _mfLength.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
-        _mfColor.copyFromBin(pMem);
+        _sfBar.copyFromBin(pMem);
     }
 
 
 }
 
-void CubesBase::executeSyncImpl(      CubesBase *pOther,
+void NewFieldContainerBase::executeSyncImpl(      NewFieldContainerBase *pOther,
                                         const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (PositionFieldMask & whichField))
-        _mfPosition.syncWith(pOther->_mfPosition);
+    if(FieldBits::NoField != (FooFieldMask & whichField))
+        _mfFoo.syncWith(pOther->_mfFoo);
 
-    if(FieldBits::NoField != (LengthFieldMask & whichField))
-        _mfLength.syncWith(pOther->_mfLength);
-
-    if(FieldBits::NoField != (ColorFieldMask & whichField))
-        _mfColor.syncWith(pOther->_mfColor);
+    if(FieldBits::NoField != (BarFieldMask & whichField))
+        _sfBar.syncWith(pOther->_sfBar);
 
 
 }
@@ -286,11 +255,8 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "MaterialDrawablePtr");
+DataType FieldDataTraits<NewFieldContainerPtr>::_type("NewFieldContainerPtr", "FieldContainerPtr");
 #endif
-
-OSG_DLLEXPORT_SFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -309,9 +275,9 @@ OSG_END_NAMESPACE
 namespace
 {
     static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_hpp       [] = OSGCUBESBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGCUBESBASE_INLINE_CVSID;
+    static Char8 cvsid_hpp       [] = OSGNEWFIELDCONTAINERBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGNEWFIELDCONTAINERBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGCUBESFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGNEWFIELDCONTAINERFIELDS_HEADER_CVSID;
 }
 

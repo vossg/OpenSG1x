@@ -110,24 +110,16 @@ GeoCubes::~GeoCubes(void)
 void GeoCubes::initMethod (void)
 {
     DrawAction::registerEnterDefault( getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          GeoCubesPtr,
-                                          CNodePtr,  
-                                          Action *>(&Geometry::doDraw));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr, 
+              CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
 
-    IntersectAction::registerEnterDefault( getClassType(),
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,   
-                                          GeoCubesPtr,
-                                          CNodePtr,  
-                                          Action *>(&Geometry::intersect));
+    IntersectAction::registerEnterDefault( getClassType(), 
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,  
+              CNodePtr, Action *>(&Geometry::intersect));
 
-    RenderAction::registerEnterDefault( getClassType(),
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          GeoCubesPtr,
-                                          CNodePtr,  
-                                          Action *>(&Geometry::render));
-
-
+    RenderAction::registerEnterDefault( getClassType(), 
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,  
+              CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
 }
 
 //! react to field changes
