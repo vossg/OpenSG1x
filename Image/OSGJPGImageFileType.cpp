@@ -110,7 +110,9 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //------------------------------
 bool JPGImageFileType::read (Image &image, const char *fileName )
 {
+
 #ifdef OSG_WITH_JPG
+
     bool retCode = false;
 
   struct my_error_mgr {
@@ -120,6 +122,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 
   unsigned char *destData;
 	Image::PixelFormat pixelFormat;
+
   typedef struct my_error_mgr * my_error_ptr;
   struct my_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
@@ -127,56 +130,55 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
   JSAMPARRAY buffer;
 
   int row_stride;
-  if ((infile = fopen(fileName, "rb")) == NULL) {
-    fprintf(stderr, "can't open %s\n", fileName);
-    return retCode;
-  }
 
-  cinfo.err = jpeg_std_error(&jerr.pub);
-  if (setjmp(jerr.setjmp_buffer)) {
-    jpeg_destroy_decompress(&cinfo);
-    fclose(infile);
-    return 0;
-  }
-  jpeg_create_decompress(&cinfo);
-  jpeg_stdio_src(&cinfo, infile);
-  jpeg_read_header(&cinfo, TRUE);
-  jpeg_start_decompress(&cinfo);
-	
-	switch (cinfo.output_components) {
-	case 1:
-		pixelFormat = Image::OSG_L_PF;
-		break;
-	case 2:
-		pixelFormat = Image::OSG_LA_PF;
-		break;
-	case 3:
+  if ((infile = fopen(fileName, "rb"))) {
+
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    if (setjmp(jerr.setjmp_buffer)) {
+      jpeg_destroy_decompress(&cinfo);
+      fclose(infile);
+      return 0;
+    }
+    jpeg_create_decompress(&cinfo);
+    jpeg_stdio_src(&cinfo, infile);
+    jpeg_read_header(&cinfo, TRUE);
+    jpeg_start_decompress(&cinfo);
+    
+    switch (cinfo.output_components) {
+    case 1:
+      pixelFormat = Image::OSG_L_PF;
+      break;
+    case 2:
+      pixelFormat = Image::OSG_LA_PF;
+      break;
+    case 3:
 		pixelFormat = Image::OSG_RGB_PF;
 		break;
-	case 4:
+    case 4:
 		pixelFormat = Image::OSG_RGBA_PF;
 		break;
-	};
-
-  if ( image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
-		destData = image.getData() + image.getSize();
-		row_stride = cinfo.output_width * cinfo.output_components;
-		buffer = (*cinfo.mem->alloc_sarray)
-			((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );
-		while (cinfo.output_scanline < cinfo.output_height) {
-			destData -= row_stride;
-			jpeg_read_scanlines(&cinfo, buffer,1);
-			memcpy(destData, *buffer, row_stride);
-		}
-		retCode = true;
-	}
-  else
-    retCode = false;
-
-  jpeg_finish_decompress(&cinfo);
-  jpeg_destroy_decompress(&cinfo);
-  fclose(infile);
-	
+    };
+    
+    if ( image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
+      destData = image.getData() + image.getSize();
+      row_stride = cinfo.output_width * cinfo.output_components;
+      buffer = (*cinfo.mem->alloc_sarray)
+        ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );
+      while (cinfo.output_scanline < cinfo.output_height) {
+        destData -= row_stride;
+        jpeg_read_scanlines(&cinfo, buffer,1);
+        memcpy(destData, *buffer, row_stride);
+      }
+      retCode = true;
+    }
+    else
+      retCode = false;
+    
+    jpeg_finish_decompress(&cinfo);
+    jpeg_destroy_decompress(&cinfo);
+    fclose(infile);
+  }
+    
   return retCode;
 
 #else

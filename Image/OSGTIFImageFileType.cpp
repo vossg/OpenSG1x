@@ -182,10 +182,21 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 			image.set( type, w, h );
 			dest = image.getData();
 			
-			red   = 3; 
-			green = 2; 
-			blue  = 1; 
-			alpha = 0;
+#if defined(__linux) || defined(_WIN32)
+
+   red   = 0;
+   green = 1;
+   blue  = 2;
+   alpha = 3;
+
+#elif
+
+   red   = 3;
+   green = 2;
+   blue  = 1;
+   alpha = 0;
+
+#endif
 
 			for (v = 0; v < h; v++) 
 			{

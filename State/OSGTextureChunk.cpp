@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.8 2001/07/03 14:16:32 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.9 2001/07/13 14:14:12 jbehr Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -456,6 +456,10 @@ void TextureChunk::activate ( DrawAction *action, UInt32 )
 
 	ImageP img = getImage();
 	GLenum target;		
+
+  if ( ! img ) // no image ?
+    return;
+
 	if ( img->getDepth() > 1 )			
 	{
 		SWARNING << "TextureChunk::activate: 3D textures not supported "
@@ -537,7 +541,10 @@ void TextureChunk::deactivate ( DrawAction *, UInt32 )
 {
 	ImageP img = getImage();
 	GLenum target;		
-	
+
+  if ( ! img ) // no image ?
+    return;
+
 	if ( img->getDepth() > 1 )			
 	{
 		SWARNING << "TextureChunk::deactivate: 3D textures not supported "
