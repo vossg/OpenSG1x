@@ -137,11 +137,11 @@ Field * FieldDescription::getField(FieldContainer &dataStore) const
 {
     Field *pField = NULL;
 
-    if(_fAccessMethod != NULL)
+    if(_fAccessMethod != 0)
     {
         pField = ( (&dataStore)->*_fAccessMethod) ();
     }
-    else if(_fIndexedAccessMethod != NULL)
+    else if(_fIndexedAccessMethod != 0)
     {
         pField = ( (&dataStore)->*_fIndexedAccessMethod)(_uiFieldId);
     }
