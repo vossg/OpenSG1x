@@ -36,257 +36,104 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_X_WINDOW_H_
-#define _OSG_X_WINDOW_H_
+#ifndef _OSGXWINDOW_H_
+#define _OSGXWINDOW_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
-// Forget everything if we're doing a windows compile
-#ifndef WIN32
-
-#include <GL/glx.h>
-#undef Bool
-
-#include <OSGXWindowDef.h>
-#include "OSGWindow.h"
+#include <OSGXWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-class XWindow;
-typedef FCPtr <WindowPtr, XWindow> XWindowPtr;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \brief X11 window class
+/*! \brief *put brief class description here* 
  */
 
-class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
+class OSG_WINDOWXLIB_DLLMAPPING XWindow : public XWindowBase
 {
+  private:
+
+    typedef XWindowBase Inherited;
+
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name            GL implementation functions                       */
+    /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "XWindow"; };
+    virtual void    (*getFunctionByName ( const Char8 *s ))();
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name      Window system implementation functions                  */
+    /*! \{                                                                 */
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual void init       ( void );
+    virtual void activate   ( void );
+    virtual void deactivate ( void );
+    virtual void swap       ( void );
 
-    OSG_FIELD_CONTAINER_DECL(XWindowPtr)
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
 
-    /*------------------------- your_category -------------------------------*/
-    
-    /** GL implementation dependent function **/
-    
-    // query the system for a GL function
-    virtual void (*getFunctionByName( const Char8 *s ))();
-    
-    /** Window-system dependent functions **/
-    
-    // init the window: create the context  
-    virtual void init( void );
-    
-    // activate the window: bind the OGL context    
-    // set the active window, if needed
-    virtual void activate( void );
-    
-    virtual void deactivate ( void ) {}
-    
-    // swap buffers     for this window
-    // does not set the active window!
-    virtual void swap( void );
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
 
-    
-    /*------------------------- your_operators ------------------------------*/
-
-    void        setDisplay   (Display *dpy)    { _dpy = dpy; };
-    Display     *getDisplay  (void)            { return _dpy; };
-
-    void        setWindow    (::Window hwin)   { _hwin = hwin; };
-    ::Window    getWindow    (void)            { return _hwin; };
-
-    void        setGlContext (GLXContext glcx) { _glcx = glcx; };
-    GLXContext  getGlContext (void)            { return _glcx; };
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    // Variables should all be in XWindowBase.
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
 
     XWindow(void);
     XWindow(const XWindow &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~XWindow(void); 
 
+    /*! \}                                                                 */
+    
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Window Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class XWindowBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    static FieldContainerType _type;
- 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // GLX stuff
-    Display      *_dpy;
-    ::Window     _hwin;
-    GLXContext   _glcx;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
+
     void operator =(const XWindow &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-/** \brief class pointer
- */
 typedef XWindow *XWindowP;
-
-/** \brief XWindowPtr
- */
-typedef FCPtr<WindowPtr, XWindow> XWindowPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief XWindowPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<XWindowPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFXWindowPtr"; }
-    static Char8 *getMName(void) { return "MFXWindowPtr"; }
-};
-
-/** \brief SFXWindowPtr
- */
-typedef SField<XWindowPtr>       SFXWindowPtr;
-
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<XWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_XWINDOWLIB_DLLTMPLMAPPING)
-
-#endif
-
-/** \brief MFXWindowPtr
- */
-typedef MField<XWindowPtr>       MFXWindowPtr;
-
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<XWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_XWINDOWLIB_DLLTMPLMAPPING)
-
-#endif
 
 OSG_END_NAMESPACE
 
 #include <OSGXWindow.inl>
+#include <OSGXWindowBase.inl>
 
-#endif // Windows compile ?
+#define OSGXWINDOW_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSG_X_WINDOW_H_ */
+#endif /* _OSGXWINDOW_H_ */

@@ -59,8 +59,7 @@ Thread        *drawThread[MAX_THREADS];
 
 UInt32        drawThreadID[MAX_THREADS];
 
-Bool          drawThreadStop[MAX_THREADS],
-              stopIt = false;
+Bool          stopIt = false;
         
 XWindowPtr    win[MAX_THREADS];
 
@@ -93,6 +92,20 @@ int            mouseb = 0,
                lastx[MAX_THREADS], 
                lasty[MAX_THREADS];
 
+
+ThreadBase *mainThread = NULL;
+Barrier *syncBarrier = NULL;
+
+volatile Bool exiting = false;
+
+#undef FLOG
+#if 1
+#define FLOG(var) FDEBUG(var)
+#else
+#define FLOG(var) 
+#endif
+
+
 double  basetime;
 #define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
@@ -106,7 +119,9 @@ void doCamTrans (UInt32 )
     m1.setRotate(q1);
     m2.setTranslate( tball.getPosition() );
     m1.mult( m2 );
+    beginEditCP(cam_trans);
     cam_trans->getSFMatrix()->setValue( m1 );
+    endEditCP(cam_trans);
 }
 
 
@@ -123,23 +138,34 @@ void *drawThreadProc (void *arg)
     
     my_win->activate();
        
-    while ( ! drawThreadStop[my_id] )
+    while ( ! stopIt )
     {
         // dpr << "draw" << endl;
+
+        FLOG(( "display::waitSync\n"));
+        // notify successful synchronisation
+        syncBarrier->enter( usedThreads+1 );
+        FLOG(( "display::synced\n"));
         
         my_win->frameInit();
-        my_win->resizeGL();
         
         doCamTrans( my_id );
         my_win->renderAllViewports( ract[my_id] );
         
         // dpr << "swap" << endl;
+
+        FLOG(( "display::waitSwap\n"));
+        // check for the mainThread to finish its part
+        syncBarrier->enter( usedThreads+1 );
         
         my_win->swap();
         my_win->frameExit();
+
+        FLOG(( "display::merge\n"));
+        // merge the changes into our aspect
+        mainThread->getChangeList()->applyToCurrent();
     }
     
-    // Destroy context
     return ( NULL );
 }
 
@@ -256,11 +282,12 @@ int main (int argc, char **argv)
 
     // Camera
     cam = PerspectiveCamera::create();
-
+    beginEditCP(cam);
     cam->setBeacon( cam_trans->getMFParents()->getValue(0) );
     cam->setFov( deg2rad( 60 ) );
     cam->setNear( 0.1 );
     cam->setFar( 10000 );
+    endEditCP  (cam);
 
     // X init
 
@@ -320,6 +347,9 @@ int main (int argc, char **argv)
         XIfEvent(dpy[i], &event, wait_for_map_notify, (char *)hwin[i]);
 
         win[i] = XWindow::create();
+        beginEditCP(win[i], XWindow::DisplayFieldMask|
+                            XWindow::WindowFieldMask|
+                            Window::PortFieldMask);
         win[i]->setDisplay ( dpy[i] );
         win[i]->setWindow ( hwin[i] );
         win[i]->init();
@@ -328,11 +358,16 @@ int main (int argc, char **argv)
         // Viewport
     
         ViewportPtr vp = Viewport::create();
+        beginEditCP(vp);
         vp->setCamera( cam );
         vp->setBackground( bkgnd );
         vp->setRoot( root );
         vp->setSize( 0,0, 1,1 );
+        endEditCP(vp);
         win[i]->addPort( vp );          
+        endEditCP  (win[i], XWindow::DisplayFieldMask|
+                            XWindow::WindowFieldMask|
+                            Window::PortFieldMask);
 
 
         lastx[i] = 0;
@@ -343,17 +378,23 @@ int main (int argc, char **argv)
         ract[i] = RenderAction::create();
     }
     
+    mainThread = Thread::getCurrent();
+    
+    // create the barrier
+    syncBarrier = Barrier::get(NULL);
+
+    // Populate the drawers' aspect
+    Thread::getCurrent()->getChangeList()->applyTo(1);
+    Thread::getCurrent()->getChangeList()->clearAll();
+     
     for (i = 0; i < usedThreads; i++)
     {               
-        // reset thread stop/resize notify variables
-        drawThreadStop[i] = false;
-
         // get new thread
         drawThread[i] = 
             dynamic_cast<Thread *>(gThreadManager->getThread(NULL));
         if ( drawThread[i] != NULL )   // and spin it ...
         {      
-            drawThread[i]->run( drawThreadProc, 0, (void *)i );
+            drawThread[i]->run( drawThreadProc, 1, (void *)i );
         }
     }
 
@@ -361,7 +402,13 @@ int main (int argc, char **argv)
     Real32 w,h,a,b,c,d;
     
     while ( !stopIt ) 
-    {
+    {          
+        FLOG(( "main::waitMerge\n"));
+        // wait for drawer to finish drawing
+        syncBarrier->enter(usedThreads + 1);
+        
+        mainThread->getChangeList()->clearAll();
+
         for (int i=0;i<usedThreads;i++)
         {
             while ( XPending(dpy[i]) )
@@ -370,12 +417,12 @@ int main (int argc, char **argv)
 
                 eventThread = i;
 
-                dpr << "for thread " << eventThread << " ... ";
+                // dpr << "for thread " << eventThread << " ... ";
 
                 switch (event.type) 
                 {
                     case KeyPress:           
-                        cout << "Key pressed: " << event.xkey.keycode << endl;
+                        //  << "Key pressed: " << event.xkey.keycode << endl;
                         switch ( event.xkey.keycode ) 
                         {
                             case 16: 
@@ -385,7 +432,7 @@ int main (int argc, char **argv)
                         break;
 
                     case ButtonPress:
-                        cout << "Button pressed: " << event.xbutton.button << endl;                 
+                        // cout << "Button pressed: " << event.xbutton.button << endl;                 
                         switch ( event.xbutton.button ) 
                         {                       
                             case 2:
@@ -399,7 +446,7 @@ int main (int argc, char **argv)
                         break;
 
                     case ButtonRelease:
-                        cout << "Button released: " << event.xbutton.button << endl;                    
+                        // cout << "Button released: " << event.xbutton.button << endl;                    
                         switch ( event.xbutton.button ) 
                         {                       
                             case 2:
@@ -413,7 +460,7 @@ int main (int argc, char **argv)
                         break;
 
                     case MotionNotify:
-                        cout << "MotionNotify" << endl;
+                        // cout << "MotionNotify" << endl;
 
                         w = win[eventThread]->getWidth();
                         h = win[eventThread]->getHeight();
@@ -439,22 +486,30 @@ int main (int argc, char **argv)
                         break;
 
                     case ConfigureNotify:
-                        cout << "ConfigureNotify" << endl;
-                        if ( ! win[eventThread]->isResizePending() )
+                        // cout << "ConfigureNotify" << endl;
+                        //if ( ! win[eventThread]->isResizePending() )
                         {
                             win[eventThread]->resize( event.xconfigure.width,
                                                       event.xconfigure.height );
                         }                
 
-                    default: cout << "unhandled" << endl;
-                  }
-            }
-         }
+                    default: //cout << "unhandled" << endl;
+                             break;
+                } // switch event.type
+            } // while pending
+        } // thread loop
+
+        FLOG(( "main::waitSwap\n"));
+        // wait for drawer to finish synchronization
+        syncBarrier->enter(usedThreads + 1);
+        FLOG(( "main::synced\n"));
+        
+        if(stopIt)
+            break;
     }
      
     for ( i=0; i<usedThreads; i++ )
     {
-        drawThreadStop[i] = 1;
         Thread::join( drawThread[i] );
     }
 

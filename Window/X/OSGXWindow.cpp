@@ -43,119 +43,112 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
-// Forget everything if we're doing a windows compile
-#ifndef WIN32
-
-#include <GL/glx.h>
-#undef Bool
 #ifdef sgi
 #include <dlfcn.h>
 #endif
 
-#include "OSGViewport.h"
-#include "OSGCamera.h"
-#include "OSGBackground.h"
+#define OSG_COMPILEWINDOWXINST
+
 #include "OSGXWindow.h"
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<DisplayP>  ::_type("DisplayP", NULL, true);
+DataType FieldDataTraits<X11Window> ::_type("X11Window", NULL, true);
+DataType FieldDataTraits<GLXContext>::_type("GLXContext", NULL, true);
+
+#if defined(__sgi)
+
+#pragma instantiate SField<DisplayP>  ::_fieldType
+#pragma instantiate MField<DisplayP>  ::_fieldType
+#pragma instantiate SField<X11Window> ::_fieldType
+#pragma instantiate MField<X11Window> ::_fieldType
+#pragma instantiate SField<GLXContext>::_fieldType
+#pragma instantiate MField<GLXContext>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGXWINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGXWINDOW_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGWINDOWXFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::XWindow
-    \ingroup Windows
-
-The XWindow class.
-
+The class windows on X.
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*----------------------- constructors & destructors ----------------------*/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+//! Constructor
 
-char XWindow::cvsid[] = "@(#)$Id: $";
-
-// Static Class Varible implementations: 
-
-FieldContainerType XWindow::_type(
-    "XWindow", 
-    "Window", 
-    0,
-    (PrototypeCreateF) &XWindow::createEmpty,
-    0,
-    NULL, 
-    0);
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-OSG_FIELD_CONTAINER_DEF(XWindow, XWindowPtr)
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-XWindow::XWindow( void ) :
-    Inherited(),
-    _dpy(), _hwin(), _glcx()
+XWindow::XWindow(void) :
+    Inherited()
 {
 }
 
-XWindow::XWindow( const XWindow& source ) :
+//! Copy Constructor
+
+XWindow::XWindow(const XWindow &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+//! Destructor
 
 XWindow::~XWindow(void)
 {
-    // delete the ports and the context
+}
+
+/*----------------------------- class specific ----------------------------*/
+
+//! initialize the static features of the class, e.g. action callbacks
+
+void XWindow::initMethod (void)
+{
+}
+
+//! react to field changes
+
+void XWindow::changed(BitVector, ChangeMode)
+{
+}
+
+//! output the instance for debug purposes
+
+void XWindow::dump(      UInt32    , 
+                         const BitVector ) const
+{
+    SLOG << "Dump XWindow NI" << endl;
 }
 
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
 
 // init the window: create the context  
 void XWindow::init( void )
@@ -163,22 +156,22 @@ void XWindow::init( void )
     XVisualInfo       *vi, visInfo;
     XWindowAttributes winAttr;
 
-    XGetWindowAttributes( _dpy, _hwin, &winAttr );
+    XGetWindowAttributes( getDisplay(), getWindow(), &winAttr );
 
     // get the existing glWidget's visual-id
     memset( &visInfo, 0, sizeof(XVisualInfo) );
     visInfo.visualid = XVisualIDFromVisual( winAttr.visual );
 
     // get new display-variable
-    _dpy = XOpenDisplay(NULL);  
+    setDisplay(XOpenDisplay(DisplayString(getDisplay())));  
 
     // get a visual for the glx context
     int nvis;
-    vi = XGetVisualInfo( _dpy, VisualIDMask, &visInfo, &nvis );
+    vi = XGetVisualInfo( getDisplay(), VisualIDMask, &visInfo, &nvis );
 
     // is the visual GL-capable ?
     int useGL;
-    glXGetConfig( _dpy, 
+    glXGetConfig( getDisplay(), 
                   vi, 
                   GLX_USE_GL, 
                   &useGL );
@@ -187,23 +180,32 @@ void XWindow::init( void )
         SFATAL << "Visual is not OpenGL-capable!" << endl;
     }    
   
+    XWindowPtr win(*this);
+    beginEditCP(win, ContextFieldMask);
     // create the new context
-    _glcx = glXCreateContext( _dpy, vi, None, GL_TRUE );
+    setContext(glXCreateContext( getDisplay(), vi, None, GL_TRUE ));
+    endEditCP  (win, ContextFieldMask);
 
-    glXMakeCurrent( _dpy, _hwin, _glcx );
+    glXMakeCurrent( getDisplay(), getWindow(), getContext() );
     setupGL();
 }
     
 // activate the window: bind the OGL context    
 void XWindow::activate( void )
 {
-    glXMakeCurrent( _dpy, _hwin, _glcx );
+    glXMakeCurrent( getDisplay(), getWindow(), getContext() );
+}
+    
+// activate the window: bind the OGL context    
+void XWindow::deactivate( void )
+{
+    glXMakeCurrent( getDisplay(), None, NULL );
 }
     
 // swap front and back buffers  
 void XWindow::swap( void )
 {
-    glXSwapBuffers( _dpy, _hwin );
+    glXSwapBuffers( getDisplay(), getWindow() );
 }
 
 // Query for a GL extension function
@@ -219,57 +221,4 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 #endif
 }
 
-
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void XWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                   const BitVector OSG_CHECK_ARG(bvFlags )) const
-{
-    SLOG << "Dump XWindow NI" << endl;
-}
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-#endif
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

@@ -35,7 +35,6 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGSolidBackground.h"
 
-#include "RAW/OSGRAWSceneFileType.h"
 #include "OSGTrackball.h"
 
 using namespace OSG;
@@ -45,8 +44,8 @@ using namespace OSG;
 static int    snglBuf[] = {GLX_RGBA, GLX_DEPTH_SIZE, 16, None};
 static int    dblBuf[] = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
 
-Display       *dpy;
-::Window      hwin;
+DisplayP      dpy;
+X11Window     hwin;
 GLboolean     doubleBuffer = GL_FALSE;
 
 XVisualInfo   *vi;
@@ -100,8 +99,6 @@ int main (int argc, char **argv)
     // OSG init
 
     osgInit(argc, argv);
-
-    SceneFileHandler::the().print();
 
     // create the graph
 

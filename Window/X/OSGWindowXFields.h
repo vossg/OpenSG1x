@@ -1,0 +1,185 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+
+#ifndef _OSGWINDOWXFIELDS_H_
+#define _OSGWINDOWXFIELDS_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+
+#include <GL/glx.h>
+
+
+#include <OSGConfig.h>
+#include <OSGWindowXDef.h>
+
+#include <OSGFieldDataType.h>
+
+
+/*! The field types for the local types needed by the XWindow class */
+
+OSG_BEGIN_NAMESPACE
+
+
+typedef Display *DisplayP;
+typedef ::Window X11Window;
+
+
+template <>
+struct FieldDataTraits<DisplayP> : public FieldTraitsRecurseBase<DisplayP>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = ToStringConvertable };
+    enum                        { bHasParent        = 0x00 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFDisplayP"; }
+    static char     *getMName(void) { return "MFDisplayP"; }
+
+    static void      putToString  (const DisplayP &,
+                                         string   &outVal)
+    {
+        outVal.assign("DisplayP");
+    }
+};
+
+template <>
+struct FieldDataTraits<X11Window> : public FieldTraitsRecurseBase<X11Window>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = ToStringConvertable };
+    enum                        { bHasParent        = 0x00 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFX11Window"; }
+    static char     *getMName(void) { return "MFX11Window"; }
+
+    static void      putToString  (const X11Window &,
+                                         string    &outVal)
+    {
+        outVal.assign("X11Window");
+    }
+};
+
+template <>
+struct FieldDataTraits<GLXContext> : public FieldTraitsRecurseBase<GLXContext>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = ToStringConvertable };
+    enum                        { bHasParent        = 0x00 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFGLXContext"; }
+    static char     *getMName(void) { return "MFGLXContext"; }
+
+    static void      putToString  (const GLXContext &,
+                                         string     &outVal)
+    {
+        outVal.assign("GLXContext");
+    }
+};
+
+//! SFDisplayP
+//! \ingroup SingleFields
+
+typedef SField<DisplayP> SFDisplayP;
+
+//! MFDisplayP
+//! \ingroup MultiFields
+
+typedef MField<DisplayP> MFDisplayP;
+
+//! SFX11Window
+//! \ingroup SingleFields
+
+typedef SField<X11Window> SFX11Window;
+
+//! MFX11Window
+//! \ingroup MultiFields
+
+typedef MField<X11Window> MFX11Window;
+
+//! SFGLXContext
+//! \ingroup SingleFields
+
+typedef SField<GLXContext> SFGLXContext;
+
+//! MFGLXContext
+//! \ingroup MultiFields
+
+typedef MField<GLXContext> MFGLXContext;
+
+// Instantiations
+
+#ifndef OSG_COMPILEWINDOWXINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<DisplayP>  ::_fieldType
+#pragma do_not_instantiate SField<X11Window> ::_fieldType
+#pragma do_not_instantiate SField<GLXContext>::_fieldType
+
+#pragma do_not_instantiate MField<DisplayP>  ::_fieldType
+#pragma do_not_instantiate MField<X11Window> ::_fieldType
+#pragma do_not_instantiate MField<GLXContext>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DECL1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+OSG_END_NAMESPACE
+
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGWindowXFields.h,v 1.1 2002/01/31 00:28:39 dirk Exp $"
+
+#endif /* _OSGWINDOWXFIELDS_H_ */
