@@ -13,14 +13,38 @@ DOCDIR     := $(DOCBASEDIR)/$(DOCCODEDIR)
 DOC_PROJECT_NAME = OpenSG
 DOC_PROJECT_NUMBER = $(shell cat VERSION)
 
-DOC_LIBS   ?= Base Field FieldContainer FieldContainer/Impl Image Loader 	\
-			  Log Material 													\
-              MultiThreading Nodes/OSGNodes.doxygen Nodes/Geometry 			\
-			  Nodes/Light Nodes/Particles									\
-              Nodes/Misc State Statistics									\
-			  Window Window/GLUT Window/X Window/QT Window/WIN32			\
-			  Network Network/Socket 										\
-			  Cluster Cluster/MultiDisplay Cluster/SortFirst
+DOCS_BASE  := Source/Base/Base Source/Base/Field Source/Base/Functors		\
+			  Source/Base/Network/Base Source/Base/Network/Socket			\
+			  Source/Base/StringConversion  
+
+DOCS_SYS   := Source/System/Cluster/Base Source/System/Cluster/Server		\
+			  Source/System/Cluster/Window/Base								\
+			  Source/System/Cluster/Window/MultiDisplay						\
+			  Source/System/Cluster/Window/SortFirst						\
+			  Source/System/FieldContainer  								\
+			  Source/System/FieldContainer/Impl								\
+			  Source/System/FileIO/Base										\
+			  Source/System/Image											\
+			  Source/System/Material										\
+			  Source/System/NodeCores/OSGNodeCores.doxygen 					\
+			  Source/System/NodeCores/Drawables/Base						\
+			  Source/System/NodeCores/Drawables/Geometry					\
+			  Source/System/NodeCores/Drawables/Misc						\
+			  Source/System/NodeCores/Drawables/Particles					\
+			  Source/System/NodeCores/Groups/Base							\
+			  Source/System/NodeCores/Groups/Light							\
+			  Source/System/NodeCores/Groups/Misc							\
+			  Source/System/State											\
+			  Source/System/Statistics										\
+			  Source/System/Window
+
+DOCS_X     := Source/WindowSystem/X
+DOCS_W32   := Source/WindowSystem/WIN32
+DOCS_GLUT  := Source/WindowSystem/GLUT
+DOCS_QT    := Source/WindowSystem/QT
+
+DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
+			  $(DOCS_X) $(DOCS_W32) $(DOCS_GLUT) $(DOCS_QT)
 
 DOC_LIBS   := $(DOC_LIBS) mainpage.doxygen Common/dummyClasses.doxygen
 
