@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SHLChunk
+ **     class ShaderParameterVec3f
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGSHLCHUNKBASE_H_
-#define _OSGSHLCHUNKBASE_H_
+#ifndef _OSGSHADERPARAMETERVEC3FBASE_H_
+#define _OSGSHADERPARAMETERVEC3FBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,46 +63,37 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGStateChunk.h> // Parent
+#include <OSGShaderParameter.h> // Parent
 
-#include <OSGStringFields.h> // VertexProgram type
-#include <OSGStringFields.h> // FragmentProgram type
-#include <OSGShaderParameterFields.h> // Parameters type
-#include <OSGUInt32Fields.h> // GLId type
+#include <OSGVec3fFields.h> // Value type
 
-#include <OSGSHLChunkFields.h>
+#include <OSGShaderParameterVec3fFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SHLChunk;
+class ShaderParameterVec3f;
 class BinaryDataHandler;
 
-//! \brief SHLChunk Base Class.
+//! \brief ShaderParameterVec3f Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterVec3fBase : public ShaderParameter
 {
   private:
 
-    typedef StateChunk    Inherited;
+    typedef ShaderParameter    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef SHLChunkPtr  Ptr;
+    typedef ShaderParameterVec3fPtr  Ptr;
 
     enum
     {
-        VertexProgramFieldId   = Inherited::NextFieldId,
-        FragmentProgramFieldId = VertexProgramFieldId   + 1,
-        ParametersFieldId      = FragmentProgramFieldId + 1,
-        GLIdFieldId            = ParametersFieldId      + 1,
-        NextFieldId            = GLIdFieldId            + 1
+        ValueFieldId = Inherited::NextFieldId,
+        NextFieldId  = ValueFieldId + 1
     };
 
-    static const OSG::BitVector VertexProgramFieldMask;
-    static const OSG::BitVector FragmentProgramFieldMask;
-    static const OSG::BitVector ParametersFieldMask;
-    static const OSG::BitVector GLIdFieldMask;
+    static const OSG::BitVector ValueFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -129,29 +120,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFVertexProgram  (void);
-           SFString            *getSFFragmentProgram(void);
-           MFShaderParameterPtr *getMFParameters     (void);
-           SFUInt32            *getSFGLId           (void);
+           SFVec3f             *getSFValue          (void);
 
-           std::string         &getVertexProgram  (void);
-     const std::string         &getVertexProgram  (void) const;
-           std::string         &getFragmentProgram(void);
-     const std::string         &getFragmentProgram(void) const;
-           UInt32              &getGLId           (void);
-     const UInt32              &getGLId           (void) const;
-           ShaderParameterPtr  &getParameters     (const UInt32 index);
-           MFShaderParameterPtr &getParameters     (void);
-     const MFShaderParameterPtr &getParameters     (void) const;
+           Vec3f               &getValue          (void);
+     const Vec3f               &getValue          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setVertexProgram  ( const std::string &value );
-     void setFragmentProgram( const std::string &value );
-     void setGLId           ( const UInt32 &value );
+     void setValue          ( const Vec3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -178,8 +157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public StateChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SHLChunkPtr      create          (void); 
-    static  SHLChunkPtr      createEmpty     (void); 
+    static  ShaderParameterVec3fPtr      create          (void); 
+    static  ShaderParameterVec3fPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -197,32 +176,29 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFString            _sfVertexProgram;
-    SFString            _sfFragmentProgram;
-    MFShaderParameterPtr   _mfParameters;
-    SFUInt32            _sfGLId;
+    SFVec3f             _sfValue;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SHLChunkBase(void);
-    SHLChunkBase(const SHLChunkBase &source);
+    ShaderParameterVec3fBase(void);
+    ShaderParameterVec3fBase(const ShaderParameterVec3fBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SHLChunkBase(void); 
+    virtual ~ShaderParameterVec3fBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      SHLChunkBase *pOther,
+    void executeSyncImpl(      ShaderParameterVec3fBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -236,7 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const SHLChunkBase &source);
+    void operator =(const ShaderParameterVec3fBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -244,10 +220,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-typedef SHLChunkBase *SHLChunkBaseP;
+typedef ShaderParameterVec3fBase *ShaderParameterVec3fBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.3 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERVEC3FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec3fBase.h,v 1.1 2004/06/05 18:16:44 a-m-z Exp $"
 
-#endif /* _OSGSHLCHUNKBASE_H_ */
+#endif /* _OSGSHADERPARAMETERVEC3FBASE_H_ */

@@ -4,8 +4,6 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
- *                            www.opensg.org                                 *
- *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -44,88 +42,121 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
+ **     Do not change this file, changes should be done in the derived      **
+ **     class ShaderParameter!
+ **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
-
-#ifndef _OSGSHLCHUNKFIELDS_H_
-#define _OSGSHLCHUNKFIELDS_H_
-#ifdef __sgi
-#pragma once
-#endif
-
 #include <OSGConfig.h>
-
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGSystemDef.h>
-
-#include <OSGStateChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SHLChunk;
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
-//! SHLChunkPtr
-
-typedef FCPtr<StateChunkPtr, SHLChunk> SHLChunkPtr;
-
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpSystemFieldTraits
- */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
-template <>
-struct FieldDataTraits<SHLChunkPtr> : 
-    public FieldTraitsRecurseMapper<SHLChunkPtr, true>
+//! access the type of the class
+inline
+OSG::FieldContainerType &ShaderParameterBase::getClassType(void)
 {
-    static DataType             _type;                       
+    return _type; 
+} 
 
-    enum                        { StringConvertable = 0x00 };
-    enum                        { bHasParent        = 0x01 };
-
-    static DataType &getType (void) { return _type;        }
-
-    static char     *getSName(void) { return "SFSHLChunkPtr"; }
-    static char     *getMName(void) { return "MFSHLChunkPtr"; }
-};
-
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<SHLChunkPtr, true>
-    \hideinhierarchy
- */
-#endif
-
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+//! access the numerical type of the class
+inline
+OSG::UInt32 ShaderParameterBase::getClassTypeId(void) 
+{
+    return _type.getId(); 
+} 
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldSingle */
+/*------------------------------ get -----------------------------------*/
 
-typedef SField<SHLChunkPtr> SFSHLChunkPtr;
-#endif
+//! Get the ShaderParameter::_sfName field.
+inline
+SFString *ShaderParameterBase::getSFName(void)
+{
+    return &_sfName;
+}
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(SField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
+//! Get the ShaderParameter::_sfChanged field.
+inline
+SFBool *ShaderParameterBase::getSFChanged(void)
+{
+    return &_sfChanged;
+}
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldMulti */
+//! Get the ShaderParameter::_sfTypeId field.
+inline
+SFUInt32 *ShaderParameterBase::getSFTypeId(void)
+{
+    return &_sfTypeId;
+}
 
-typedef MField<SHLChunkPtr> MFSHLChunkPtr;
-#endif
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(MField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
+//! Get the value of the ShaderParameter::_sfName field.
+inline
+std::string &ShaderParameterBase::getName(void)
+{
+    return _sfName.getValue();
+}
+
+//! Get the value of the ShaderParameter::_sfName field.
+inline
+const std::string &ShaderParameterBase::getName(void) const
+{
+    return _sfName.getValue();
+}
+
+//! Set the value of the ShaderParameter::_sfName field.
+inline
+void ShaderParameterBase::setName(const std::string &value)
+{
+    _sfName.setValue(value);
+}
+
+//! Get the value of the ShaderParameter::_sfChanged field.
+inline
+bool &ShaderParameterBase::getChanged(void)
+{
+    return _sfChanged.getValue();
+}
+
+//! Get the value of the ShaderParameter::_sfChanged field.
+inline
+const bool &ShaderParameterBase::getChanged(void) const
+{
+    return _sfChanged.getValue();
+}
+
+//! Set the value of the ShaderParameter::_sfChanged field.
+inline
+void ShaderParameterBase::setChanged(const bool &value)
+{
+    _sfChanged.setValue(value);
+}
+
+//! Get the value of the ShaderParameter::_sfTypeId field.
+inline
+UInt32 &ShaderParameterBase::getTypeId(void)
+{
+    return _sfTypeId.getValue();
+}
+
+//! Get the value of the ShaderParameter::_sfTypeId field.
+inline
+const UInt32 &ShaderParameterBase::getTypeId(void) const
+{
+    return _sfTypeId.getValue();
+}
+
+//! Set the value of the ShaderParameter::_sfTypeId field.
+inline
+void ShaderParameterBase::setTypeId(const UInt32 &value)
+{
+    _sfTypeId.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGSHLChunkFields.h,v 1.3 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBase.inl,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
 
-#endif /* _OSGSHLCHUNKFIELDS_H_ */

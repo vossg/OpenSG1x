@@ -1,49 +1,43 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-	name="SHLChunk"
-	parent="StateChunk"
+	name="ShaderParameter"
+	parent="FieldContainer"
 	library="System"
 	pointerfieldtypes="both"
-	structure="concrete"
+	structure="abstract"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
 	useLocalIncludes="false"
 >
 	<Field
-		name="vertexProgram"
+		name="name"
 		type="std::string"
 		cardinality="single"
 		visibility="external"
 		access="public"
 	>
-	vertex program source
+	parameter name
 	</Field>
 	<Field
-		name="fragmentProgram"
-		type="std::string"
+		name="changed"
+		type="bool"
 		cardinality="single"
-		visibility="external"
+		visibility="internal"
+		defaultValue="false"
 		access="public"
 	>
-	fragment program source
+	changed flag
 	</Field>
 	<Field
-		name="parameters"
-		type="ShaderParameterPtr"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	parameter list
-	</Field>
-	<Field
-		name="GLId"
+		name="typeId"
 		type="UInt32"
 		cardinality="single"
 		visibility="internal"
+		defaultValue="0"
 		access="public"
 	>
+	type id for faster parameter setting
 	</Field>
 </FieldContainer>

@@ -112,7 +112,7 @@ SFString *SHLChunkBase::getSFFragmentProgram(void)
 
 //! Get the SHLChunk::_mfParameters field.
 inline
-MFSHLUniformBasePtr *SHLChunkBase::getMFParameters(void)
+MFShaderParameterPtr *SHLChunkBase::getMFParameters(void)
 {
     return &_mfParameters;
 }
@@ -191,26 +191,26 @@ void SHLChunkBase::setGLId(const UInt32 &value)
 
 //! Get the value of the \a index element the SHLChunk::_mfParameters field.
 inline
-SHLUniformBasePtr &SHLChunkBase::getParameters(const UInt32 index)
+ShaderParameterPtr &SHLChunkBase::getParameters(const UInt32 index)
 {
     return _mfParameters[index];
 }
 
 //! Get the SHLChunk::_mfParameters field.
 inline
-MFSHLUniformBasePtr &SHLChunkBase::getParameters(void)
+MFShaderParameterPtr &SHLChunkBase::getParameters(void)
 {
     return _mfParameters;
 }
 
 //! Get the SHLChunk::_mfParameters field.
 inline
-const MFSHLUniformBasePtr &SHLChunkBase::getParameters(void) const
+const MFShaderParameterPtr &SHLChunkBase::getParameters(void) const
 {
     return _mfParameters;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.2 2004/06/04 19:59:26 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.3 2004/06/05 18:16:43 a-m-z Exp $"
 

@@ -48,8 +48,8 @@
 \*****************************************************************************/
 
 
-#ifndef _OSGSHLCHUNKFIELDS_H_
-#define _OSGSHLCHUNKFIELDS_H_
+#ifndef _OSGSHADERPARAMETERINTFIELDS_H_
+#define _OSGSHADERPARAMETERINTFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -60,16 +60,16 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGStateChunkFields.h>
+#include <OSGShaderParameterFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SHLChunk;
+class ShaderParameterInt;
 
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
-//! SHLChunkPtr
+//! ShaderParameterIntPtr
 
-typedef FCPtr<StateChunkPtr, SHLChunk> SHLChunkPtr;
+typedef FCPtr<ShaderParameterPtr, ShaderParameterInt> ShaderParameterIntPtr;
 
 #endif
 
@@ -81,8 +81,8 @@ typedef FCPtr<StateChunkPtr, SHLChunk> SHLChunkPtr;
 #endif
 
 template <>
-struct FieldDataTraits<SHLChunkPtr> : 
-    public FieldTraitsRecurseMapper<SHLChunkPtr, true>
+struct FieldDataTraits<ShaderParameterIntPtr> : 
+    public FieldTraitsRecurseMapper<ShaderParameterIntPtr, true>
 {
     static DataType             _type;                       
 
@@ -91,12 +91,12 @@ struct FieldDataTraits<SHLChunkPtr> :
 
     static DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFSHLChunkPtr"; }
-    static char     *getMName(void) { return "MFSHLChunkPtr"; }
+    static char     *getSName(void) { return "SFShaderParameterIntPtr"; }
+    static char     *getMName(void) { return "MFShaderParameterIntPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<SHLChunkPtr, true>
+/*! \class  FieldTraitsRecurseMapper<ShaderParameterIntPtr, true>
     \hideinhierarchy
  */
 #endif
@@ -107,25 +107,25 @@ struct FieldDataTraits<SHLChunkPtr> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpSystemFieldSingle */
 
-typedef SField<SHLChunkPtr> SFSHLChunkPtr;
+typedef SField<ShaderParameterIntPtr> SFShaderParameterIntPtr;
 #endif
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(SField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#ifndef OSG_COMPILESHADERPARAMETERINTINST
+OSG_DLLEXPORT_DECL1(SField, ShaderParameterIntPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpSystemFieldMulti */
 
-typedef MField<SHLChunkPtr> MFSHLChunkPtr;
+typedef MField<ShaderParameterIntPtr> MFShaderParameterIntPtr;
 #endif
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(MField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#ifndef OSG_COMPILESHADERPARAMETERINTINST
+OSG_DLLEXPORT_DECL1(MField, ShaderParameterIntPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGSHLChunkFields.h,v 1.3 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERINTFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterIntFields.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
 
-#endif /* _OSGSHLCHUNKFIELDS_H_ */
+#endif /* _OSGSHADERPARAMETERINTFIELDS_H_ */

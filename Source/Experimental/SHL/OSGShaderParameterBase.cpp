@@ -45,127 +45,107 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SHLChunk!
+ **     class ShaderParameter!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#define OSG_COMPILESHLCHUNKINST
+#define OSG_COMPILESHADERPARAMETERINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include "OSGSHLChunkBase.h"
-#include "OSGSHLChunk.h"
+#include "OSGShaderParameterBase.h"
+#include "OSGShaderParameter.h"
 
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  SHLChunkBase::VertexProgramFieldMask = 
-    (TypeTraits<BitVector>::One << SHLChunkBase::VertexProgramFieldId);
+const OSG::BitVector  ShaderParameterBase::NameFieldMask = 
+    (TypeTraits<BitVector>::One << ShaderParameterBase::NameFieldId);
 
-const OSG::BitVector  SHLChunkBase::FragmentProgramFieldMask = 
-    (TypeTraits<BitVector>::One << SHLChunkBase::FragmentProgramFieldId);
+const OSG::BitVector  ShaderParameterBase::ChangedFieldMask = 
+    (TypeTraits<BitVector>::One << ShaderParameterBase::ChangedFieldId);
 
-const OSG::BitVector  SHLChunkBase::ParametersFieldMask = 
-    (TypeTraits<BitVector>::One << SHLChunkBase::ParametersFieldId);
+const OSG::BitVector  ShaderParameterBase::TypeIdFieldMask = 
+    (TypeTraits<BitVector>::One << ShaderParameterBase::TypeIdFieldId);
 
-const OSG::BitVector  SHLChunkBase::GLIdFieldMask = 
-    (TypeTraits<BitVector>::One << SHLChunkBase::GLIdFieldId);
-
-const OSG::BitVector SHLChunkBase::MTInfluenceMask = 
+const OSG::BitVector ShaderParameterBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
 
-/*! \var std::string     SHLChunkBase::_sfVertexProgram
-    vertex program source
+/*! \var std::string     ShaderParameterBase::_sfName
+    parameter name
 */
-/*! \var std::string     SHLChunkBase::_sfFragmentProgram
-    fragment program source
+/*! \var bool            ShaderParameterBase::_sfChanged
+    changed flag
 */
-/*! \var ShaderParameterPtr SHLChunkBase::_mfParameters
-    parameter list
-*/
-/*! \var UInt32          SHLChunkBase::_sfGLId
-    
+/*! \var UInt32          ShaderParameterBase::_sfTypeId
+    type id for faster parameter setting
 */
 
-//! SHLChunk description
+//! ShaderParameter description
 
-FieldDescription *SHLChunkBase::_desc[] = 
+FieldDescription *ShaderParameterBase::_desc[] = 
 {
     new FieldDescription(SFString::getClassType(), 
-                     "vertexProgram", 
-                     VertexProgramFieldId, VertexProgramFieldMask,
+                     "name", 
+                     NameFieldId, NameFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getSFVertexProgram),
-    new FieldDescription(SFString::getClassType(), 
-                     "fragmentProgram", 
-                     FragmentProgramFieldId, FragmentProgramFieldMask,
-                     false,
-                     (FieldAccessMethod) &SHLChunkBase::getSFFragmentProgram),
-    new FieldDescription(MFShaderParameterPtr::getClassType(), 
-                     "parameters", 
-                     ParametersFieldId, ParametersFieldMask,
-                     false,
-                     (FieldAccessMethod) &SHLChunkBase::getMFParameters),
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "GLId", 
-                     GLIdFieldId, GLIdFieldMask,
+                     (FieldAccessMethod) &ShaderParameterBase::getSFName),
+    new FieldDescription(SFBool::getClassType(), 
+                     "changed", 
+                     ChangedFieldId, ChangedFieldMask,
                      true,
-                     (FieldAccessMethod) &SHLChunkBase::getSFGLId)
+                     (FieldAccessMethod) &ShaderParameterBase::getSFChanged),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "typeId", 
+                     TypeIdFieldId, TypeIdFieldMask,
+                     true,
+                     (FieldAccessMethod) &ShaderParameterBase::getSFTypeId)
 };
 
 
-FieldContainerType SHLChunkBase::_type(
-    "SHLChunk",
-    "StateChunk",
+FieldContainerType ShaderParameterBase::_type(
+    "ShaderParameter",
+    "FieldContainer",
     NULL,
-    (PrototypeCreateF) &SHLChunkBase::createEmpty,
-    SHLChunk::initMethod,
+    NULL, 
+    ShaderParameter::initMethod,
     _desc,
     sizeof(_desc));
 
-//OSG_FIELD_CONTAINER_DEF(SHLChunkBase, SHLChunkPtr)
+//OSG_FIELD_CONTAINER_DEF(ShaderParameterBase, ShaderParameterPtr)
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &SHLChunkBase::getType(void) 
+FieldContainerType &ShaderParameterBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &SHLChunkBase::getType(void) const 
+const FieldContainerType &ShaderParameterBase::getType(void) const 
 {
     return _type;
 } 
 
 
-FieldContainerPtr SHLChunkBase::shallowCopy(void) const 
+UInt32 ShaderParameterBase::getContainerSize(void) const 
 { 
-    SHLChunkPtr returnValue; 
-
-    newPtr(returnValue, dynamic_cast<const SHLChunk *>(this)); 
-
-    return returnValue; 
-}
-
-UInt32 SHLChunkBase::getContainerSize(void) const 
-{ 
-    return sizeof(SHLChunk); 
+    return sizeof(ShaderParameter); 
 }
 
 
-void SHLChunkBase::executeSync(      FieldContainer &other,
+void ShaderParameterBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SHLChunkBase *) &other, whichField);
+    this->executeSyncImpl((ShaderParameterBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
@@ -174,11 +154,10 @@ void SHLChunkBase::executeSync(      FieldContainer &other,
 #pragma warning (disable : 383)
 #endif
 
-SHLChunkBase::SHLChunkBase(void) :
-    _sfVertexProgram          (), 
-    _sfFragmentProgram        (), 
-    _mfParameters             (), 
-    _sfGLId                   (), 
+ShaderParameterBase::ShaderParameterBase(void) :
+    _sfName                   (), 
+    _sfChanged                (bool(false)), 
+    _sfTypeId                 (UInt32(0)), 
     Inherited() 
 {
 }
@@ -187,124 +166,105 @@ SHLChunkBase::SHLChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
-    _sfVertexProgram          (source._sfVertexProgram          ), 
-    _sfFragmentProgram        (source._sfFragmentProgram        ), 
-    _mfParameters             (source._mfParameters             ), 
-    _sfGLId                   (source._sfGLId                   ), 
+ShaderParameterBase::ShaderParameterBase(const ShaderParameterBase &source) :
+    _sfName                   (source._sfName                   ), 
+    _sfChanged                (source._sfChanged                ), 
+    _sfTypeId                 (source._sfTypeId                 ), 
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
 
-SHLChunkBase::~SHLChunkBase(void)
+ShaderParameterBase::~ShaderParameterBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
+UInt32 ShaderParameterBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+    if(FieldBits::NoField != (NameFieldMask & whichField))
     {
-        returnValue += _sfVertexProgram.getBinSize();
+        returnValue += _sfName.getBinSize();
     }
 
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
+    if(FieldBits::NoField != (ChangedFieldMask & whichField))
     {
-        returnValue += _sfFragmentProgram.getBinSize();
+        returnValue += _sfChanged.getBinSize();
     }
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
     {
-        returnValue += _mfParameters.getBinSize();
-    }
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
-        returnValue += _sfGLId.getBinSize();
+        returnValue += _sfTypeId.getBinSize();
     }
 
 
     return returnValue;
 }
 
-void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
+void ShaderParameterBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+    if(FieldBits::NoField != (NameFieldMask & whichField))
     {
-        _sfVertexProgram.copyToBin(pMem);
+        _sfName.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
+    if(FieldBits::NoField != (ChangedFieldMask & whichField))
     {
-        _sfFragmentProgram.copyToBin(pMem);
+        _sfChanged.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
     {
-        _mfParameters.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
-        _sfGLId.copyToBin(pMem);
+        _sfTypeId.copyToBin(pMem);
     }
 
 
 }
 
-void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+void ShaderParameterBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+    if(FieldBits::NoField != (NameFieldMask & whichField))
     {
-        _sfVertexProgram.copyFromBin(pMem);
+        _sfName.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
+    if(FieldBits::NoField != (ChangedFieldMask & whichField))
     {
-        _sfFragmentProgram.copyFromBin(pMem);
+        _sfChanged.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
     {
-        _mfParameters.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
-        _sfGLId.copyFromBin(pMem);
+        _sfTypeId.copyFromBin(pMem);
     }
 
 
 }
 
-void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
+void ShaderParameterBase::executeSyncImpl(      ShaderParameterBase *pOther,
                                         const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
-        _sfVertexProgram.syncWith(pOther->_sfVertexProgram);
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+        _sfName.syncWith(pOther->_sfName);
 
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
-        _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
+    if(FieldBits::NoField != (ChangedFieldMask & whichField))
+        _sfChanged.syncWith(pOther->_sfChanged);
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
-        _mfParameters.syncWith(pOther->_mfParameters);
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-        _sfGLId.syncWith(pOther->_sfGLId);
+    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
+        _sfTypeId.syncWith(pOther->_sfTypeId);
 
 
 }
@@ -317,11 +277,11 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<SHLChunkPtr>::_type("SHLChunkPtr", "StateChunkPtr");
+DataType FieldDataTraits<ShaderParameterPtr>::_type("ShaderParameterPtr", "FieldContainerPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -339,10 +299,10 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.3 2004/06/05 18:16:43 a-m-z Exp $";
-    static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.1 2004/06/05 18:16:43 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGSHLCHUNKFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERFIELDS_HEADER_CVSID;
 }
 
