@@ -212,7 +212,7 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
                 else
                   {
                     mfFieldPtr = (osg::MFFieldContainerPtr*)(fieldPtr);
-                    qval.setNum(mfFieldPtr->getSize());
+                    qval.setNum(mfFieldPtr->size());
                   }
               else
                 {
