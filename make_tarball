@@ -2,8 +2,9 @@
 
 # script to pack up a tarball of the current state
 
-TESTDIR=/igd/a4/scratch/reiners/opensg-0.1a
-BASEDIR=`pwd`
+VERSION=opensg-0.2b
+
+TESTDIR=`pwd`/$VERSION
 
 # create the test arena
 
@@ -16,74 +17,139 @@ then
 	exit
 fi
 
-# cleanup the mess here
+cd $TESTDIR
 
-make distclean
+# redirect all outputs to the log file
 
-# copy the stuff over
+MLOG=`pwd`/make.log
 
-cp -R * $TESTDIR
-cd $TESTDIR	
-rm -f Makefile
-mv Makefile.dist Makefile
+rm -f $MLOG
 
-# remove unwanted things
+# redirect output to logfile
+exec 3>&1 4>&2 1>$MLOG 2>&1 
 
-find . -name CVS -exec rm -rf {} \; 2>&1 1>/dev/null
+# get the stuff
 
-rm -rf Doc Stuff Templates 
-find . -name '*.dsw' -print -exec rm -f {} \;
-find . -name '*.dsp' -print -exec rm -f {} \;
+cvs -d:pserver:anonymous@cvs.OpenSG.sourceforge.net:/cvsroot/opensg co OpenSG
 
-mkdir Doc
-cp $BASEDIR/Doc/design/opensg_design.html Doc
+# do a test make using configure
 
-rm -f first_pic.wc issues make_tarball Readme
+cd OpenSG
 
-for i in Fhs Image Tools
-do
-	rm -rf $i
-	rm -f Common/common$i.mk
-done
+ln -s Experimental/Common         Common.new
+ln -s Experimental/CommonPackages CommonPackages.new
+ln -s Experimental/CommonConf     CommonConf
 
-# do a test make
+cd Experimental
+autoconf 
+./configure --with-compiler=CC -with-stl=/igd/a4/op2010/Software/SGI/stdlib \
+	--with-qt=/igd/a4/lib/qt-2.2 --with-glut=/igd/a4/lib/glut
 
-rm -f $TESTDIR/mlog
+cd Builds/*
+gmake -j6
 
-make init	>  $TESTDIR/mlog	2>&1 
-make		>> $TESTDIR/mlog	2>&1 
-
-# do some tests
-
-cd Action
-make testAction		>> $TESTDIR/mlog	2>&1 
-./testAction		>> $TESTDIR/mlog	2>&1 
-cd ..
-
-cd Nodes/Geometry
-make testGeometry	>> $TESTDIR/mlog	2>&1 
-./testGeometry		>> $TESTDIR/mlog	2>&1 
-cd ..
+# reset output
+exec 1>&3 2>&4
 
 fgrep -i error $TESTDIR/mlog > $TESTDIR/elog
 
 if [[ -s $TESTDIR/elog ]]
 then
 
-	echo 'ERROR during testmake!'
+	echo 'ERROR during system make!'
 	cat $TESTDIR/elog	
 	exit
 fi
 
+
+# make the tests
+
+rm $MLOG
+
+# redirect output to logfile
+exec 3>&1 4>&2 1>>$MLOG 2>&1 
+
+cd SystemTest
+
+ln -s .../SystemLib/obj-dbg/OSGScanParseSkel.tab.h .../SystemTest/obj-dbg
+ln -s .../Experimental/VRMLLoader/std.wrl .
+make 
+
+# reset output
+exec 1>&3 2>&4
+
+fgrep -i error $TESTDIR/mlog > $TESTDIR/elog
+
+if [[ -s $TESTDIR/elog ]]
+then
+
+	echo 'ERROR during test make!'
+	cat $TESTDIR/elog	
+	exit
+fi
+
+
+# do a testmake using standard configuration
+
+rm $MLOG
+
+# redirect output to logfile
+exec 3>&1 4>&2 1>>$MLOG 2>&1 
+
+cd ../../../..
+
+make init
+gmake -r -j6
+
+# reset output
+exec 1>&3 2>&4
+
+fgrep -i error $TESTDIR/mlog > $TESTDIR/elog
+
+if [[ -s $TESTDIR/elog ]]
+then
+
+	echo 'ERROR during standard make!'
+	cat $TESTDIR/elog	
+	exit
+fi
+
+
+# should run the tests here...
+
+
 # clean up
 
-make distclean
-find . -name 'test*.IRIX*' -print -exec rm {} \;
+gmake distclean
+
+cd Experimental/Builds/*
+gmake distclean
+
+cd ../..
+rm -rf Builds
+
+cd ..
 
 # make the doc. Everybody's gonna need it anyway
 
 make doc
 
+cd ..
+
 # ok, done. Pack it up and ship.
 
 echo "Make sucessful, pack 'er up."
+
+mv OpenSG $VERSION
+
+tar cf - $VERSION | gzip -9 > $VERSION.tgz
+
+# now the one without doc...
+
+rm -rf $VERSION/Doc/Code/html
+tar cf - $VERSION | gzip -9 > $VERSION-nodoc.tgz
+
+echo "Done:"
+pwd
+ls -l
+
