@@ -3,9 +3,10 @@
 <FieldContainer
 	name="ClipPlaneChunk"
 	parent="StateChunk"
+	library="System"
 	pointerfieldtypes="none"
 	structure="concrete"
-	systemcomponent="false"
+	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
 >

@@ -172,5 +172,5 @@ void ClipPlaneChunkBase::setBeacon(const NodePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGClipPlaneChunkBase.inl,v 1.1 2002/07/17 13:39:37 dirk Exp $"
+#define OSGCLIPPLANECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGClipPlaneChunkBase.inl,v 1.2 2002/08/12 06:49:48 dirk Exp $"
 

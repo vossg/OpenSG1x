@@ -59,6 +59,7 @@
 
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -77,7 +78,7 @@ class BinaryDataHandler;
 
 //! \brief ClipPlaneChunk Base Class.
 
-class /* OSG_LIB_DLLMAPPING */ ClipPlaneChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunkBase : public StateChunk
 {
   private:
 
@@ -235,6 +236,6 @@ typedef ClipPlaneChunkBase *ClipPlaneChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGClipPlaneChunkBase.h,v 1.1 2002/07/17 13:39:37 dirk Exp $"
+#define OSGCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGClipPlaneChunkBase.h,v 1.2 2002/08/12 06:49:48 dirk Exp $"
 
 #endif /* _OSGCLIPPLANECHUNKBASE_H_ */

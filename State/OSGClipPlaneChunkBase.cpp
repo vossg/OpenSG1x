@@ -299,7 +299,7 @@ void ClipPlaneChunkBase::executeSyncImpl(      ClipPlaneChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneChunkBase.cpp,v 1.1 2002/07/17 13:39:37 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneChunkBase.cpp,v 1.2 2002/08/12 06:49:48 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANECHUNKBASE_INLINE_CVSID;
 
