@@ -369,6 +369,13 @@ SFVec3f *TextureChunkBase::getSFShaderConstEye(void)
     return &_sfShaderConstEye;
 }
 
+//! Get the TextureChunk::_sfLodBias field.
+inline
+SFReal32 *TextureChunkBase::getSFLodBias(void)
+{
+    return &_sfLodBias;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1168,6 +1175,27 @@ void TextureChunkBase::setShaderConstEye(const Vec3f &value)
     _sfShaderConstEye.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfLodBias field.
+inline
+Real32 &TextureChunkBase::getLodBias(void)
+{
+    return _sfLodBias.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfLodBias field.
+inline
+const Real32 &TextureChunkBase::getLodBias(void) const
+{
+    return _sfLodBias.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfLodBias field.
+inline
+void TextureChunkBase::setLodBias(const Real32 &value)
+{
+    _sfLodBias.setValue(value);
+}
+
 
 //! Get the value of the \a index element the TextureChunk::_mfShaderOffsetMatrix field.
 inline
@@ -1192,5 +1220,5 @@ const MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

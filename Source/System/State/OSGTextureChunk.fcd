@@ -444,4 +444,15 @@
         The CONST_EYE_NV value, i.e. the constant eye position used by the 
         DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
 	</Field>
+	<Field
+		name="lodBias"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="0.0"
+		defaultHeader=""
+	>
+        Bias of LOD calculation for texture access.
+	</Field>
 </FieldContainer>

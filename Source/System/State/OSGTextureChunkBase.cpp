@@ -207,6 +207,9 @@ const OSG::BitVector  TextureChunkBase::ShaderCullModesFieldMask =
 const OSG::BitVector  TextureChunkBase::ShaderConstEyeFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::ShaderConstEyeFieldId);
 
+const OSG::BitVector  TextureChunkBase::LodBiasFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::LodBiasFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -330,6 +333,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var Vec3f           TextureChunkBase::_sfShaderConstEye
     The CONST_EYE_NV value, i.e. the constant eye position used by the          DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
+*/
+/*! \var Real32          TextureChunkBase::_sfLodBias
+    Bias of LOD calculation for texture access.
 */
 
 //! TextureChunk description
@@ -530,7 +536,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "shaderConstEye", 
                      ShaderConstEyeFieldId, ShaderConstEyeFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFShaderConstEye)
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderConstEye),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "lodBias", 
+                     LodBiasFieldId, LodBiasFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFLodBias)
 };
 
 
@@ -625,6 +636,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfShaderRGBADotProduct   (GLenum(GL_NONE)), 
     _sfShaderCullModes        (UInt8(0)), 
     _sfShaderConstEye         (), 
+    _sfLodBias                (Real32(0.0)), 
     Inherited() 
 {
 }
@@ -673,6 +685,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfShaderRGBADotProduct   (source._sfShaderRGBADotProduct   ), 
     _sfShaderCullModes        (source._sfShaderCullModes        ), 
     _sfShaderConstEye         (source._sfShaderConstEye         ), 
+    _sfLodBias                (source._sfLodBias                ), 
     Inherited                 (source)
 {
 }
@@ -884,6 +897,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShaderConstEye.getBinSize();
     }
 
+    if(FieldBits::NoField != (LodBiasFieldMask & whichField))
+    {
+        returnValue += _sfLodBias.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1086,6 +1104,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ShaderConstEyeFieldMask & whichField))
     {
         _sfShaderConstEye.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LodBiasFieldMask & whichField))
+    {
+        _sfLodBias.copyToBin(pMem);
     }
 
 
@@ -1291,6 +1314,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfShaderConstEye.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (LodBiasFieldMask & whichField))
+    {
+        _sfLodBias.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1417,6 +1445,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (ShaderConstEyeFieldMask & whichField))
         _sfShaderConstEye.syncWith(pOther->_sfShaderConstEye);
 
+    if(FieldBits::NoField != (LodBiasFieldMask & whichField))
+        _sfLodBias.syncWith(pOther->_sfLodBias);
+
 
 }
 
@@ -1450,7 +1481,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

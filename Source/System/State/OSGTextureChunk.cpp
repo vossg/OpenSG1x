@@ -109,6 +109,7 @@ UInt32 TextureChunk::_nvTextureShader;
 UInt32 TextureChunk::_nvTextureShader2;
 UInt32 TextureChunk::_nvTextureShader3;
 UInt32 TextureChunk::_sgisGenerateMipmap;
+UInt32 TextureChunk::_extTextureLodBias;
 UInt32 TextureChunk::_funcTexImage3D    = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
@@ -165,6 +166,8 @@ TextureChunk::TextureChunk(void) :
         Window::registerExtension("GL_NV_texture_shader3"  );
     _sgisGenerateMipmap  = 
         Window::registerExtension("GL_SGIS_generate_mipmap"  );
+    _extTextureLodBias  = 
+        Window::registerExtension("GL_EXT_texture_lod_bias"  );
     _funcTexImage3D    = 
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        , _extTex3D);
     _funcTexSubImage3D = 
@@ -1051,6 +1054,13 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_TRUE);
     }
 #endif
+
+    if(getLodBias() != 0.0f &&
+       action->getWindow()->hasExtension(_extTextureLodBias))
+    {
+        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	          getLodBias());
+    }
     
     if(getEnvMode() == GL_COMBINE_EXT)
     {
@@ -1193,6 +1203,13 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, getPointSprite());
     }
 #endif
+
+    if(oldp->getLodBias() != getLodBias() &&
+       action->getWindow()->hasExtension(_extTextureLodBias))
+    {
+        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	          getLodBias());
+    }
     
     if(getEnvMode() == GL_COMBINE_EXT)
     {
@@ -1292,6 +1309,13 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_FALSE);
     }
 #endif
+
+    if(getLodBias() != 0.0f &&
+       action->getWindow()->hasExtension(_extTextureLodBias))
+    {
+        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	          0.0f);
+    }
 
     glErr("TextureChunk::deactivate");
 }

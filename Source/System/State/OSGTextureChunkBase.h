@@ -104,6 +104,7 @@
 #include <OSGGLenumFields.h> // ShaderRGBADotProduct type
 #include <OSGUInt8Fields.h> // ShaderCullModes type
 #include <OSGVec3fFields.h> // ShaderConstEye type
+#include <OSGReal32Fields.h> // LodBias type
 
 #include <OSGTextureChunkFields.h>
 
@@ -166,7 +167,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         ShaderRGBADotProductFieldId = ShaderOffsetBiasFieldId     + 1,
         ShaderCullModesFieldId      = ShaderRGBADotProductFieldId + 1,
         ShaderConstEyeFieldId       = ShaderCullModesFieldId      + 1,
-        NextFieldId                 = ShaderConstEyeFieldId       + 1
+        LodBiasFieldId              = ShaderConstEyeFieldId       + 1,
+        NextFieldId                 = LodBiasFieldId              + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
@@ -208,6 +210,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector ShaderRGBADotProductFieldMask;
     static const OSG::BitVector ShaderCullModesFieldMask;
     static const OSG::BitVector ShaderConstEyeFieldMask;
+    static const OSG::BitVector LodBiasFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -273,6 +276,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFGLenum            *getSFShaderRGBADotProduct(void);
            SFUInt8             *getSFShaderCullModes(void);
            SFVec3f             *getSFShaderConstEye (void);
+           SFReal32            *getSFLodBias        (void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -350,6 +354,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const UInt8               &getShaderCullModes(void) const;
            Vec3f               &getShaderConstEye (void);
      const Vec3f               &getShaderConstEye (void) const;
+           Real32              &getLodBias        (void);
+     const Real32              &getLodBias        (void) const;
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
      const MFReal32            &getShaderOffsetMatrix(void) const;
@@ -397,6 +403,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setShaderRGBADotProduct( const GLenum &value );
      void setShaderCullModes( const UInt8 &value );
      void setShaderConstEye ( const Vec3f &value );
+     void setLodBias        ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -481,6 +488,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFGLenum            _sfShaderRGBADotProduct;
     SFUInt8             _sfShaderCullModes;
     SFVec3f             _sfShaderConstEye;
+    SFReal32            _sfLodBias;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -528,6 +536,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

@@ -247,6 +247,7 @@ int main( int argc, char *argv[] )
 
     beginEditCP(xchunk1);
     xchunk1->setImage( pImage );
+    xchunk1->setLodBias( 10 );
     endEditCP(xchunk1);
 
     UChar8 imgdata2[] =
@@ -263,6 +264,7 @@ int main( int argc, char *argv[] )
     xchunk2->setWrapS( GL_REPEAT );
     xchunk2->setWrapT( GL_REPEAT );
     xchunk2->setEnvMode( GL_MODULATE );
+    xchunk2->setLodBias( 10 );
     endEditCP(xchunk2);
     
     // Cube Texture chunk
@@ -301,6 +303,7 @@ int main( int argc, char *argv[] )
     cchunk1->setWrapS( GL_REPEAT );
     cchunk1->setWrapT( GL_REPEAT );
     cchunk1->setEnvMode( GL_MODULATE );
+    cchunk1->setLodBias( 10 );
     endEditCP(cchunk1);
     
     gchunk1 = TexGenChunk::create();
@@ -323,7 +326,7 @@ int main( int argc, char *argv[] )
 
     txchunk = TextureTransformChunk::create();
     beginEditCP(txchunk);
-    txchunk->setMatrix( Matrix(4,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1) );
+//    txchunk->setMatrix( Matrix(4,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1) );
     endEditCP(txchunk);
 
     glutMainLoop();

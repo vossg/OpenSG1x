@@ -283,6 +283,13 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_TRUE);
     }
 #endif
+
+    if(getLodBias() != 0.0f &&
+       action->getWindow()->hasExtension(_extTextureLodBias))
+    {
+        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	          getLodBias());
+    }
     
     if(getEnvMode() == GL_COMBINE_EXT)
     {
@@ -356,7 +363,14 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, getPointSprite());
     }
 #endif
-    
+ 
+    if(oldp->getLodBias() != getLodBias() &&
+       action->getWindow()->hasExtension(_extTextureLodBias))
+    {
+        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	          getLodBias());
+    }
+   
     if(getEnvMode() == GL_COMBINE_EXT)
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
@@ -399,6 +413,13 @@ void CubeTextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_FALSE);
     }
 #endif
+
+    if(getLodBias() != 0.0f &&
+       action->getWindow()->hasExtension(_extTextureLodBias))
+    {
+        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	          0.0f);
+    }
 
     glErr("CubeTextureChunk::deactivate");
 }
