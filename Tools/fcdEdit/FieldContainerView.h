@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Wed Apr 25 17:32:41 2001
+** Created: Wed May 23 19:53:37 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -14,6 +14,7 @@
 class QVBoxLayout; 
 class QHBoxLayout; 
 class QGridLayout; 
+class QCheckBox;
 class QComboBox;
 class QFrame;
 class QGroupBox;
@@ -34,6 +35,7 @@ public:
 
     QGroupBox* GroupBox1;
     QGroupBox* GroupBox17;
+    QCheckBox* parentSysComp;
     QLabel* TextLabel2;
     QLabel* TextLabel3;
     QLabel* TextLabel1;
@@ -41,9 +43,10 @@ public:
     QLineEdit* nodeNameInput;
     QLineEdit* nodeLibraryInput;
     QLabel* TextLabel1_4;
-    QLabel* TextLabel1_5;
     QComboBox* pointerFieldTypesCombo;
     QComboBox* structureCombo;
+    QLabel* TextLabel1_5;
+    QCheckBox* sysComp;
     QGroupBox* GroupBox7;
     QMultiLineEdit* nodeDescriptionInput;
     QGroupBox* GroupBox3;
@@ -98,10 +101,11 @@ public slots:
     virtual void nameChanged(const QString &);
     virtual void newPartSlot();
     virtual void newSlot();
-    virtual void partDefaultHeaderChanged(const QString &);
     virtual void parentChanged(const QString &);
+    virtual void parentSysCompChanged(int);
     virtual void partAccessChanged(int);
     virtual void partCardinalityChanged(int);
+    virtual void partDefaultHeaderChanged(const QString &);
     virtual void partDefaultValueChanged(const QString &);
     virtual void partDescriptionChanged(const QString &);
     virtual void partIncludeChanged(const QString &);
@@ -113,6 +117,7 @@ public slots:
     virtual void saveAsSlot();
     virtual void saveSlot();
     virtual void structureChanged(int);
+    virtual void sysCompChanged(int);
     virtual void upPartSlot();
     virtual void writeFieldContainerBaseSlot();
     virtual void writeFieldContainerSlot();

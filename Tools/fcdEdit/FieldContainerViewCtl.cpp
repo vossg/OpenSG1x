@@ -65,7 +65,7 @@ FieldContainerViewCtl::FieldContainerViewCtl( const char *file )
 
 	if (file && *file)
 		loadFieldContainer(file);
-
+	
 	if (_fieldContainer.numOfFields() == 0)
 		partFrame->setEnabled(FALSE);			 
 }
@@ -117,6 +117,8 @@ void FieldContainerViewCtl::updateFieldContainerView(void)
 	nodeDescriptionInput->setText(QString(_fieldContainer.description()));
 	pointerFieldTypesCombo->setCurrentItem(_fieldContainer.pointerFieldTypes());
 	structureCombo->setCurrentItem(_fieldContainer.abstract());
+	sysComp->setChecked(_fieldContainer.systemComponent());
+	parentSysComp->setChecked(_fieldContainer.parentSystemComponent());
 }
 
 void FieldContainerViewCtl::updateActivePartView(void)
@@ -639,6 +641,30 @@ void FieldContainerViewCtl::structureChanged(int index)
 	cerr << "set abstract: " << index << endl;
 
 	_fieldContainer.setAbstract(index);
+}
+
+void FieldContainerViewCtl::sysCompChanged(int index)
+{
+	cerr << "set system component: " << index << endl;
+
+	_fieldContainer.setSystemComponent(index);
+	
+	if ( index )
+	{
+		parentSysComp->setChecked( true );
+		parentSysComp->setDisabled( true );
+	}
+	else
+	{
+		parentSysComp->setDisabled( false );
+	}
+}
+
+void FieldContainerViewCtl::parentSysCompChanged(int index)
+{
+	cerr << "set parent system component: " << index << endl;
+
+	_fieldContainer.setParentSystemComponent(index);
 }
 
 void FieldContainerViewCtl::partAccessChanged(int index)

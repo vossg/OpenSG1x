@@ -1,13 +1,14 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Wed Apr 25 17:32:43 2001
+** Created: Wed May 23 20:01:45 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 #include "FieldContainerView.h"
 
+#include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qframe.h>
 #include <qgroupbox.h>
@@ -33,7 +34,7 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
 {
     if ( !name )
 	setName( "FieldContainerView" );
-    resize( 865, 671 ); 
+    resize( 856, 671 ); 
     setCaption( tr( "OpenSG Field Container editor" ) );
     FieldContainerViewLayout = new QVBoxLayout( this ); 
     FieldContainerViewLayout->setSpacing( 6 );
@@ -64,6 +65,12 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     GroupBox17Layout->setSpacing( 6 );
     GroupBox17Layout->setMargin( 11 );
 
+    parentSysComp = new QCheckBox( GroupBox17, "parentSysComp" );
+    parentSysComp->setText( tr( "Is Parent a System Component?" ) );
+    parentSysComp->setChecked( TRUE );
+
+    GroupBox17Layout->addMultiCellWidget( parentSysComp, 3, 3, 0, 1 );
+
     TextLabel2 = new QLabel( GroupBox17, "TextLabel2" );
     TextLabel2->setText( tr( "Name:" ) );
 
@@ -72,16 +79,16 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     TextLabel3 = new QLabel( GroupBox17, "TextLabel3" );
     TextLabel3->setText( tr( "Parent:" ) );
 
-    GroupBox17Layout->addWidget( TextLabel3, 1, 0 );
+    GroupBox17Layout->addWidget( TextLabel3, 2, 0 );
 
     TextLabel1 = new QLabel( GroupBox17, "TextLabel1" );
     TextLabel1->setText( tr( "Library:" ) );
 
-    GroupBox17Layout->addWidget( TextLabel1, 2, 0 );
+    GroupBox17Layout->addWidget( TextLabel1, 4, 0 );
 
     nodeParentInput = new QLineEdit( GroupBox17, "nodeParentInput" );
 
-    GroupBox17Layout->addWidget( nodeParentInput, 1, 1 );
+    GroupBox17Layout->addWidget( nodeParentInput, 2, 1 );
 
     nodeNameInput = new QLineEdit( GroupBox17, "nodeNameInput" );
 
@@ -89,26 +96,31 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
 
     nodeLibraryInput = new QLineEdit( GroupBox17, "nodeLibraryInput" );
 
-    GroupBox17Layout->addWidget( nodeLibraryInput, 2, 1 );
+    GroupBox17Layout->addWidget( nodeLibraryInput, 4, 1 );
 
     TextLabel1_4 = new QLabel( GroupBox17, "TextLabel1_4" );
     TextLabel1_4->setText( tr( "PFTypes:" ) );
 
-    GroupBox17Layout->addWidget( TextLabel1_4, 3, 0 );
-
-    TextLabel1_5 = new QLabel( GroupBox17, "TextLabel1_5" );
-    TextLabel1_5->setText( tr( "Structure:" ) );
-
-    GroupBox17Layout->addWidget( TextLabel1_5, 4, 0 );
+    GroupBox17Layout->addWidget( TextLabel1_4, 5, 0 );
 
     pointerFieldTypesCombo = new QComboBox( FALSE, GroupBox17, "pointerFieldTypesCombo" );
     QToolTip::add(  pointerFieldTypesCombo, tr( "Pointer Field Types" ) );
 
-    GroupBox17Layout->addWidget( pointerFieldTypesCombo, 3, 1 );
+    GroupBox17Layout->addWidget( pointerFieldTypesCombo, 5, 1 );
 
     structureCombo = new QComboBox( FALSE, GroupBox17, "structureCombo" );
 
-    GroupBox17Layout->addWidget( structureCombo, 4, 1 );
+    GroupBox17Layout->addWidget( structureCombo, 6, 1 );
+
+    TextLabel1_5 = new QLabel( GroupBox17, "TextLabel1_5" );
+    TextLabel1_5->setText( tr( "Structure:" ) );
+
+    GroupBox17Layout->addWidget( TextLabel1_5, 6, 0 );
+
+    sysComp = new QCheckBox( GroupBox17, "sysComp" );
+    sysComp->setText( tr( "System Component?" ) );
+
+    GroupBox17Layout->addMultiCellWidget( sysComp, 1, 1, 0, 1 );
     GroupBox1Layout->addWidget( GroupBox17 );
 
     GroupBox7 = new QGroupBox( GroupBox1, "GroupBox7" );
@@ -364,6 +376,8 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     connect( partAccessCombo, SIGNAL( activated(int) ), this, SLOT( partAccessChanged(int) ) );
     connect( partIncludeInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partIncludeChanged(const QString &) ) );
     connect( partDefaultHeaderInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultHeaderChanged(const QString &) ) );
+    connect( sysComp, SIGNAL( stateChanged(int) ), this, SLOT( sysCompChanged(int) ) );
+    connect( parentSysComp, SIGNAL( stateChanged(int) ), this, SLOT( parentSysCompChanged(int) ) );
 
     // tab order
     setTabOrder( nodeNameInput, nodeParentInput );
@@ -465,14 +479,14 @@ void FieldContainerView::newSlot()
     qWarning( "FieldContainerView::newSlot(): Not implemented yet!" );
 }
 
-void FieldContainerView::partDefaultHeaderChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partDefaultHeaderChanged(const QString &): Not implemented yet!" );
-}
-
 void FieldContainerView::parentChanged(const QString &)
 {
     qWarning( "FieldContainerView::parentChanged(const QString &): Not implemented yet!" );
+}
+
+void FieldContainerView::parentSysCompChanged(int)
+{
+    qWarning( "FieldContainerView::parentSysCompChanged(int): Not implemented yet!" );
 }
 
 void FieldContainerView::partAccessChanged(int)
@@ -483,6 +497,11 @@ void FieldContainerView::partAccessChanged(int)
 void FieldContainerView::partCardinalityChanged(int)
 {
     qWarning( "FieldContainerView::partCardinalityChanged(int): Not implemented yet!" );
+}
+
+void FieldContainerView::partDefaultHeaderChanged(const QString &)
+{
+    qWarning( "FieldContainerView::partDefaultHeaderChanged(const QString &): Not implemented yet!" );
 }
 
 void FieldContainerView::partDefaultValueChanged(const QString &)
@@ -538,6 +557,11 @@ void FieldContainerView::saveSlot()
 void FieldContainerView::structureChanged(int)
 {
     qWarning( "FieldContainerView::structureChanged(int): Not implemented yet!" );
+}
+
+void FieldContainerView::sysCompChanged(int)
+{
+    qWarning( "FieldContainerView::sysCompChanged(int): Not implemented yet!" );
 }
 
 void FieldContainerView::upPartSlot()

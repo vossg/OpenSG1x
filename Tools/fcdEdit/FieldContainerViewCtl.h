@@ -49,6 +49,8 @@ public slots:
     virtual void nameChanged(const QString &);
     virtual void newPartSlot();
     virtual void newSlot();
+    virtual void parentSysCompChanged(int);
+    virtual void sysCompChanged(int);
     virtual void partIncludeChanged(const QString &);
     virtual void parentChanged(const QString &);
     virtual void partAccessChanged(int);

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>865</width>
+            <width>856</width>
             <height>671</height>
         </rect>
     </property>
@@ -85,6 +85,21 @@
                                     <name>spacing</name>
                                     <number>6</number>
                                 </property>
+                                <widget row="3"  column="0"  rowspan="1"  colspan="2" >
+                                    <class>QCheckBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>parentSysComp</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Is Parent a System Component?</string>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>checked</name>
+                                        <bool>true</bool>
+                                    </property>
+                                </widget>
                                 <widget row="0"  column="0" >
                                     <class>QLabel</class>
                                     <property stdset="1">
@@ -96,7 +111,7 @@
                                         <string>Name:</string>
                                     </property>
                                 </widget>
-                                <widget row="1"  column="0" >
+                                <widget row="2"  column="0" >
                                     <class>QLabel</class>
                                     <property stdset="1">
                                         <name>name</name>
@@ -107,7 +122,7 @@
                                         <string>Parent:</string>
                                     </property>
                                 </widget>
-                                <widget row="2"  column="0" >
+                                <widget row="4"  column="0" >
                                     <class>QLabel</class>
                                     <property stdset="1">
                                         <name>name</name>
@@ -118,7 +133,7 @@
                                         <string>Library:</string>
                                     </property>
                                 </widget>
-                                <widget row="1"  column="1" >
+                                <widget row="2"  column="1" >
                                     <class>QLineEdit</class>
                                     <property stdset="1">
                                         <name>name</name>
@@ -132,14 +147,14 @@
                                         <cstring>nodeNameInput</cstring>
                                     </property>
                                 </widget>
-                                <widget row="2"  column="1" >
+                                <widget row="4"  column="1" >
                                     <class>QLineEdit</class>
                                     <property stdset="1">
                                         <name>name</name>
                                         <cstring>nodeLibraryInput</cstring>
                                     </property>
                                 </widget>
-                                <widget row="3"  column="0" >
+                                <widget row="5"  column="0" >
                                     <class>QLabel</class>
                                     <property stdset="1">
                                         <name>name</name>
@@ -150,18 +165,7 @@
                                         <string>PFTypes:</string>
                                     </property>
                                 </widget>
-                                <widget row="4"  column="0" >
-                                    <class>QLabel</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>TextLabel1_5</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Structure:</string>
-                                    </property>
-                                </widget>
-                                <widget row="3"  column="1" >
+                                <widget row="5"  column="1" >
                                     <class>QComboBox</class>
                                     <property stdset="1">
                                         <name>name</name>
@@ -172,11 +176,33 @@
                                         <string>Pointer Field Types</string>
                                     </property>
                                 </widget>
-                                <widget row="4"  column="1" >
+                                <widget row="6"  column="1" >
                                     <class>QComboBox</class>
                                     <property stdset="1">
                                         <name>name</name>
                                         <cstring>structureCombo</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="6"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1_5</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Structure:</string>
+                                    </property>
+                                </widget>
+                                <widget row="1"  column="0"  rowspan="1"  colspan="2" >
+                                    <class>QCheckBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>sysComp</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>System Component?</string>
                                     </property>
                                 </widget>
                             </grid>
@@ -910,6 +936,18 @@
         <receiver>FieldContainerView</receiver>
         <slot>partDefaultHeaderChanged(const QString &amp;)</slot>
     </connection>
+    <connection>
+        <sender>sysComp</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>sysCompChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>parentSysComp</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>parentSysCompChanged(int)</slot>
+    </connection>
     <slot access="public">aboutSlot()</slot>
     <slot access="public">activePartChanged(int)</slot>
     <slot access="public">clonePartSlot()</slot>
@@ -923,10 +961,11 @@
     <slot access="public">nameChanged(const QString &amp;)</slot>
     <slot access="public">newPartSlot()</slot>
     <slot access="public">newSlot()</slot>
-    <slot access="public">partDefaultHeaderChanged(const QString &amp;)</slot>
     <slot access="public">parentChanged(const QString &amp;)</slot>
+    <slot access="public">parentSysCompChanged(int)</slot>
     <slot access="public">partAccessChanged(int)</slot>
     <slot access="public">partCardinalityChanged(int)</slot>
+    <slot access="public">partDefaultHeaderChanged(const QString &amp;)</slot>
     <slot access="public">partDefaultValueChanged(const QString &amp;)</slot>
     <slot access="public">partDescriptionChanged(const QString &amp;)</slot>
     <slot access="public">partIncludeChanged(const QString &amp;)</slot>
@@ -938,6 +977,7 @@
     <slot access="public">saveAsSlot()</slot>
     <slot access="public">saveSlot()</slot>
     <slot access="public">structureChanged(int)</slot>
+    <slot access="public">sysCompChanged(int)</slot>
     <slot access="public">upPartSlot()</slot>
     <slot access="public">writeFieldContainerBaseSlot()</slot>
     <slot access="public">writeFieldContainerSlot()</slot>

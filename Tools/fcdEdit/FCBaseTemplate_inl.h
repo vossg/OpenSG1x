@@ -66,7 +66,7 @@ char *FCBaseTemplate_inl[]={
 "#include <stdlib.h>",
 "#include <stdio.h>",
 "",
-"#include \"OSGConfig.h\"",
+"#include <@!HeaderPrefix!@OSGConfig.h>",
 "",
 "#ifdef OSG_STREAM_IN_STD_NAMESPACE",
 "#include <iostream>",

@@ -52,7 +52,7 @@ int main( int argc, char **argv )
     		case 'f':
     			writeFC = true;
     			break;
-    		case 'h':
+     		case 'h':
     			cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
     			cerr << "  -d file.fcd: load the field container description" << endl;
     			cerr << "  -t file.ftd: load the field type description" << endl;
@@ -90,7 +90,7 @@ int main( int argc, char **argv )
 	else 
 	{
     	QApplication app( argc, argv );
-		FieldContainerViewCtl fCViewCtl(fcdFile.c_str());
+		FieldContainerViewCtl fCViewCtl( fcdFile.c_str() );
 		app.setMainWidget(&fCViewCtl);
 		fCViewCtl.show();
 		retCode = app.exec();

@@ -28,7 +28,9 @@ private:
 
 									TYPE_FIELD, CARDINALITY_FIELD, VISIBILITY_FIELD, 
 									DEFAULTVALUE_FIELD, ACCESS_FIELD, HEADER_FIELD, 
-									DEFAULTHEADER_FIELD, UNKNOWN_FIELD
+									DEFAULTHEADER_FIELD, SYSTEMCOMPONENT_FIELD,
+									PARENTSYSTEMCOMPONENT_FIELD,
+									UNKNOWN_FIELD
 	};
 
 	struct KeyDic {
@@ -80,6 +82,12 @@ private:
 
 	///
 	int _abstract;
+
+	///
+	bool _systemComponent;
+
+	///
+	bool _parentSystemComponent;
 
   ///
 	list<Field> _fieldList;
@@ -154,8 +162,28 @@ public:
   /// set method for attribute pointerFieldTypes
 	virtual void setPointerFieldTypes (const char *str);
 
-  /// set method for attribute pointerFieldTypes
+  /// set method for attribute abstract
 	virtual void setAbstract (const char *str);
+	
+  /// get method for attribute systemComponent
+  virtual bool systemComponent (void) { return _systemComponent; }
+
+  /// set method for attribute systemComponent
+	virtual void setSystemComponent (const char *str);
+
+  /// set method for attribute systemComponent
+  virtual void setSystemComponent (bool systemComponent) 
+		{ _systemComponent = systemComponent; }
+	
+  /// get method for attribute parentSystemComponent
+  virtual bool parentSystemComponent (void) { return _parentSystemComponent; }
+
+  /// set method for attribute systemComponent
+	virtual void setParentSystemComponent (const char *str);
+
+  /// set method for attribute systemComponent
+  virtual void setParentSystemComponent (bool parentSystemComponent) 
+		{ _parentSystemComponent = parentSystemComponent; }
 
   ///
   list<Field> &fieldList(void) { return _fieldList; }

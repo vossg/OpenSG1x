@@ -51,6 +51,8 @@ FieldContainer::KeyDic FieldContainer::_keyDic[] = {
 	{ FieldContainer::DEFAULTHEADER_FIELD,     "defaultHeader" },
 	{ FieldContainer::HEADER_FIELD,            "header" },
 	{ FieldContainer::ACCESS_FIELD,            "access" },
+	{ FieldContainer::SYSTEMCOMPONENT_FIELD,   "systemcomponent" },
+	{ FieldContainer::PARENTSYSTEMCOMPONENT_FIELD,   "parentsystemcomponent" },
 	{ FieldContainer::UNKNOWN_FIELD, 0}
 };
 
@@ -71,7 +73,8 @@ const char *FieldContainer::_abstractName[] = {
 //----------------------------------------------------------------------
 FieldContainer::FieldContainer (void )
 : _name(0), _parentFieldContainer(0), _description(0),
-	_library(0), _pointerFieldTypes(0), _abstract(0)
+	_library(0), _pointerFieldTypes(0), _abstract(0),
+	_systemComponent(false), _parentSystemComponent(true)
 {
 	return;
 }
@@ -85,7 +88,8 @@ FieldContainer::FieldContainer (void )
 //----------------------------------------------------------------------
 FieldContainer::FieldContainer (FieldContainer &obj )
 : _name(0), _parentFieldContainer(0), _description(0),
-	_library(0), _pointerFieldTypes(0), _abstract(0)
+	_library(0), _pointerFieldTypes(0), _abstract(0),
+	_systemComponent(false), _parentSystemComponent(true)
 {
 	return;
 }
@@ -117,6 +121,8 @@ void FieldContainer::clear (void)
 	setDescription(0);
 	_pointerFieldTypes = 0;
 	_abstract = 0;
+	_systemComponent = false;
+	_parentSystemComponent = true;
 	
 	_fieldList.clear();
 
@@ -323,6 +329,46 @@ void FieldContainer::setAbstract (const char* str )
 }
 
 //----------------------------------------------------------------------
+// Method: setSystemComponent
+// Author: dr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         set method for attribute systemComponent
+//----------------------------------------------------------------------
+void FieldContainer::setSystemComponent (const char* str )
+{
+	if ( ! strcasecmp(str, "true" ) )
+		_systemComponent = true;
+	else if ( ! strcasecmp(str, "false" ) )
+		_systemComponent = false;
+	else
+	{
+		cerr << "FieldContainer::setSystemComponent: string " << str 
+			 << " not recognized!" << endl;
+	}
+}
+
+//----------------------------------------------------------------------
+// Method: setParentSystemComponent
+// Author: dr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         set method for attribute systemComponent
+//----------------------------------------------------------------------
+void FieldContainer::setParentSystemComponent (const char* str )
+{
+	if ( ! strcasecmp(str, "true" ) )
+		_parentSystemComponent = true;
+	else if ( ! strcasecmp(str, "false" ) )
+		_parentSystemComponent = false;
+	else
+	{
+		cerr << "FieldContainer::setParentSystemComponent: string " << str 
+			 << " not recognized!" << endl;
+	}
+}
+
+//----------------------------------------------------------------------
 // Method: readDesc
 // Author: jbehr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -367,6 +413,12 @@ bool FieldContainer::readDesc (const char *fn)
 						break;
 					case STRUCTURE_FIELD:
 						setAbstract(aI->second.c_str());
+						break;
+					case SYSTEMCOMPONENT_FIELD:
+						setSystemComponent(aI->second.c_str());
+						break;
+					case PARENTSYSTEMCOMPONENT_FIELD:
+						setParentSystemComponent(aI->second.c_str());
 						break;
 					default:
 						break;
@@ -498,6 +550,10 @@ bool FieldContainer::writeDesc (const char *fN)
     putField(out, nprefix, POINTERFIELDTYPES_FIELD, 
 			 _pointerFieldTypesName[_pointerFieldTypes]);
     putField(out, nprefix, STRUCTURE_FIELD, _abstractName[_abstract]);
+    putField(out, nprefix, SYSTEMCOMPONENT_FIELD, 
+			 _systemComponent?"true":"false");
+    putField(out, nprefix, PARENTSYSTEMCOMPONENT_FIELD, 
+			 _parentSystemComponent?"true":"false");
     out << ">" << endl;
 		if (_description && *_description)
 	    out << _description << endl;
@@ -631,6 +687,9 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	char *parentname = _parentFieldContainer;
 	char *parentnameUpper = strdup( _parentFieldContainer );
 	char *description = _description ? _description : "";
+	char *headerPrefix = _systemComponent ? "" : "OpenSG/";
+	char *parentHeaderPrefix = 
+			( _parentSystemComponent == _systemComponent ) ? "" : "OpenSG/";
 
 	char *s;
 	for (  s = libnameUpper; s && *s; *s = toupper(*s), s++ ) {}
@@ -1009,6 +1068,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				"@!FieldTypedDefault!@","@!FieldtypeInclude!@",
 				"@!Description!@",		"@!Fielddescription!@", 
 				"@!FieldSeparator!@",	"@!FieldDefaultHeader!@",
+				"@!HeaderPrefix!@", 	"@!ParentHeaderPrefix!@",
 				NULL };
 			char *values[ sizeof(keys) / sizeof( char * ) ];
 			
@@ -1019,6 +1079,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			values[4] = parentname;
 			values[5] = parentnameUpper;
 			values[14] = description;
+			values[18] = headerPrefix;
+			values[19] = parentHeaderPrefix;
 
 			if ( inFieldLoop )
 			{
@@ -1052,8 +1114,11 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				// FieldtypeInclude
 				if ( ! fieldIt->header() || ! strcmp( fieldIt->header(), "auto" ) )
 				{
-					s = new char [ strlen(fieldtype) + 13];
-					strcpy( s, "OSG" );
+					s = new char [ strlen(fieldtype) + 20];
+					if ( _systemComponent )
+						strcpy( s, "OSG" );
+					else
+						strcpy( s, "OpenSG/OSG" );
 					strcat( s, fieldtype );
 					// remove the Ptr suffix
 					if ( !strcmp( &s[strlen(s) - 3], "Ptr" ) )
@@ -1112,7 +1177,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 							char *p;
 							for ( p = cs; p < ce; p++ )
 								out << *p;
-							out << values[i];
+							if ( strlen( values[i] ) )
+								out << values[i];
 						}
 						ce += strlen( keys[i] );	// get behind the !@-string
 						cs = ce;

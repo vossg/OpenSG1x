@@ -6,6 +6,7 @@
 	library="Hugo"
 	pointerfieldtypes="both"
 	structure="abstract"
+	systemcomponent="true"
 >
 This is the documentation for the VRMLTransform class.
 	<Field
