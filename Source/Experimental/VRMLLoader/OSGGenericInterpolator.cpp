@@ -36,98 +36,66 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGBINLoader_H_
-#define _OSGBINLoader_H_
-#ifdef __sgi
-#pragma once
-#endif
-#include <OSGConfig.h>
-#include <map>
-#include <vector>
-#include <OSGNode.h>
-#include <OSGBinaryDataHandler.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
-OSG_BEGIN_NAMESPACE
+#include "OSGGenericInterpolator.h"
 
-class OSG_SYSTEMLIB_DLLMAPPING BINLoader
+OSG_USING_NAMESPACE
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+InterpolatorBase::InterpolatorBase(InterpolType t) : 
+    _type      (t     ), 
+    _pTransform(NullFC),
+    _targetName(      ),
+    _name      (      ),
+    _keys      (      ),
+    _duration  (1.f   ),
+    _keyDelta  (1.f   ),
+    _loop      (true  ) 
 {
-    /*==========================  PUBLIC  =================================*/
+}
 
-  public:
-                void     read();
-                NodePtr  getRootNode();
-    std::vector<NodePtr> getRootNodes();
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-    BINLoader(FILE *file);
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-    virtual ~BINLoader();
-
-       
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Type information                            */
-    /*! \{                                                                 */
-
-    struct FCIdMapper;
-    friend class FCIdMapper;
-
-    struct FCInfoStruct
-    {
-        UInt32            newId;
-        FieldContainerPtr ptr;
-        bool              read; 
-        FCInfoStruct();
-    };
-    //          oldID	newId + FCPtr
-    typedef std::map<UInt32, FCInfoStruct> IDLookupMap;
-
-    struct FCIdMapper : public FieldContainerMapper
-    {                                              
-      public:
-        const IDLookupMap *ptrMap;
-        FCIdMapper(IDLookupMap *m);
-
-        virtual UInt32 map(UInt32 uiId);
-    };
-
-    class BinaryFileHandler : public BinaryDataHandler
-    {
-      public:
-        BinaryFileHandler(FILE *file);
-        virtual ~BinaryFileHandler();
-	    
-        void read (MemoryHandle mem, UInt32 size);
-        void write(MemoryHandle mem, UInt32 size);
-	
-      private:
-  
-        std::vector<UInt8>  _readMemory;
-        std::vector<UInt8>  _writeMemory;
-             FILE          *_file;
-    };
-
-         
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-         BinaryFileHandler _inFileHandler;
-         IDLookupMap       _fcInfoMap;
-         UInt32            _countContainers;
-    std::vector<NodePtr>   _vec_pRootNodes;
+InterpolatorBase::~InterpolatorBase(void) 
+{
+}
 
 
-    void createFieldContainers(void);
-    void chargeFieldContainers(void);
-};
 
-OSG_END_NAMESPACE
 
-#define OSGBINLOADER_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGBINLoader_H_ */

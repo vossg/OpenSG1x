@@ -1,0 +1,69 @@
+#VRML V2.0 utf8
+
+PROTO Anchor [
+  eventIn      MFNode   addChildren
+  eventIn      MFNode   removeChildren
+  exposedField MFNode   children        []
+  exposedField SFString description     "" 
+  exposedField MFString parameter       []
+  exposedField MFString url             []
+  field        SFVec3f  bboxCenter      0 0 0
+  field        SFVec3f  bboxSize        -1 -1 -1
+] { }
+
+PROTO Appearance [
+  exposedField SFNode material          NULL
+  exposedField SFNode texture           NULL
+  exposedField SFNode textureTransform  NULL
+] { }
+
+
+PROTO Coordinate [
+  exposedField MFVec3f point  []
+] { }
+
+PROTO Group [
+  eventIn      MFNode  addChildren
+  eventIn      MFNode  removeChildren
+  exposedField MFNode  children   []
+  field        SFVec3f bboxCenter 0 0 0
+  field        SFVec3f bboxSize   -1 -1 -1
+] { }
+
+PROTO IndexedFaceSet [ 
+  eventIn       MFInt32 set_colorIndex
+  eventIn       MFInt32 set_coordIndex
+  eventIn       MFInt32 set_normalIndex
+  eventIn       MFInt32 set_texCoordIndex
+  exposedField  SFNode  color             NULL
+  exposedField  SFNode  coord             NULL
+  exposedField  SFNode  normal            NULL
+  exposedField  SFNode  texCoord          NULL
+  field         SFBool  ccw               TRUE
+  field         MFInt32 colorIndex        []
+  field         SFBool  colorPerVertex    TRUE
+  field         SFBool  convex            TRUE
+  field         MFInt32 coordIndex        []
+  field         SFFloat creaseAngle       0
+  field         MFInt32 normalIndex       []
+  field         SFBool  normalPerVertex   TRUE
+  field         SFBool  solid             TRUE
+  field         MFInt32 texCoordIndex     []
+] { }
+
+PROTO Material [
+  exposedField SFFloat ambientIntensity  0.2
+  exposedField SFColor diffuseColor      0.8 0.8 0.8
+  exposedField SFColor emissiveColor     0 0 0
+  exposedField SFFloat shininess         0.2
+  exposedField SFColor specularColor     0 0 0
+  exposedField SFFloat transparency      0
+] { }
+
+PROTO Shape [
+  field SFNode appearance NULL
+  field SFNode geometry   NULL
+] { }
+
+
+

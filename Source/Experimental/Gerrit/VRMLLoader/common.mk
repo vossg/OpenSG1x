@@ -1,6 +1,6 @@
 
-SUB_DIR     := Experimental/BINWriter
-PACKAGENAME := BINWriter
+SUB_DIR     := Experimental/Gerrit/VRMLLoader
+PACKAGENAME := GerritVRMLLoader
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
