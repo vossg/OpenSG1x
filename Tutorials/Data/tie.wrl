@@ -2317,7 +2317,7 @@ coordIndex [
 
 # Object "TF_DETAIL" 
 
-Shape {
+DEF TF_DETAIL Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.647059 0.427451 0.168627
