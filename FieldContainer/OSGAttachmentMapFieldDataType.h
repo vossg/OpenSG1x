@@ -169,12 +169,25 @@ struct FieldDataTraits<AttachmentMap> :
 {
     static DataType                  _type;
 
-    enum                            { StringConvertable = 0x00  };
+    enum                            { StringConvertable = 0x01  };
     enum                            { bHasParent        = 0x00  };
 
     static DataType &getType (void) { return _type;             }
     static char     *getSName(void) { return "SFAttachmentMap"; }
     static char     *getMName(void) { return "MFAttachmentMap"; }
+
+    static Bool        getFromString(      AttachmentMap  &,
+                                     const Char8         *&)
+    {
+        return false;
+    }
+
+    static void      putToString    (const AttachmentMap &,
+                                           string        &outVal)
+    {
+        outVal.assign("[]");
+    }
+    
 };
 
 OSG_END_NAMESPACE
