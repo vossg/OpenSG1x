@@ -77,7 +77,7 @@ static void vrmlCoordinateInterpolatorDescInserter(ReflexiveContainerType *pType
     pType->addInitialDesc(pDesc);
 
     pDesc = new DataElementDesc(
-        MFVec3f::getClassType(),
+        MFPnt3f::getClassType(),
         "keyValue",
         OSG_RC_ELEM_IDM_DESC(VRMLCoordinateInterpolator::KeyValueField),
         false,
@@ -186,7 +186,7 @@ MFReal32 *VRMLCoordinateInterpolator::getMFKey(void)
     return &_mfKey;
 }
 
-MFVec3f *VRMLCoordinateInterpolator::getMFKeyValue(void)
+MFPnt3f *VRMLCoordinateInterpolator::getMFKeyValue(void)
 {
     return &_mfKeyValue;
 }
@@ -205,6 +205,6 @@ MFVec3f *VRMLCoordinateInterpolator::getMFKeyValue(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLCoordinateInterpolator.cpp,v 1.1 2004/03/07 17:43:09 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLCoordinateInterpolator.cpp,v 1.2 2004/03/07 21:01:27 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGVRMLCOORDINATEINTERPOLATOR_HEADER_CVSID;
 }

@@ -167,7 +167,7 @@ class OSG_VRML_DLLMAPPING VRMLCoordinateInterpolator : public VRMLUnlimitedNode
     //-----------------------------------------------------------------------
 
     MFReal32    _mfKey;
-    MFVec3f     _mfKeyValue;
+    MFPnt3f     _mfKeyValue;
 
     //-----------------------------------------------------------------------
     //   instance functions
@@ -197,12 +197,12 @@ class OSG_VRML_DLLMAPPING VRMLCoordinateInterpolator : public VRMLUnlimitedNode
     /*-------------------------- field access -------------------------------*/
 
     MFReal32    *getMFKey           (void);
-    MFVec3f     *getMFKeyValue      (void);
+    MFPnt3f     *getMFKeyValue      (void);
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLCOORDINATEINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLCoordinateInterpolator.h,v 1.1 2004/03/07 17:43:09 a-m-z Exp $"
+#define OSGVRMLCOORDINATEINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLCoordinateInterpolator.h,v 1.2 2004/03/07 21:01:33 a-m-z Exp $"
 
 #endif /* _OSGVRMLCOORDINATEINTERPOLATOR_HPP_ */
