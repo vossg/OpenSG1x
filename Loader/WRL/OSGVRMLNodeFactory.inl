@@ -80,11 +80,13 @@ VRMLNodeFactory<BaseT>::~VRMLNodeFactory(void)
 /*                            Skel Replacements                            */
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::beginProtoInterface(
+void VRMLNodeFactory<BaseT>::beginProto(
     const Char8 *szProtoname)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "Begin Proto " << szProtoname << endl;
+#endif
 
     Char8 *szName = NULL;
 
@@ -317,10 +319,12 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
     }
     else
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
         PINFO << "Could not add second proto named "
               << szProtoname
               << endl;
+#endif
 
         _bIgnoreProto = true;
     }
@@ -329,42 +333,48 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::endProtoInterface  (void)
+void VRMLNodeFactory<BaseT>::endProto  (void)
 {
     if(_pCurrentNodeDesc != NULL)
         _pCurrentNodeDesc->endProtoInterface();
 
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::decIndent();
+#endif
 
     _bIgnoreProto = false;
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::addProtoEventIn(
+void VRMLNodeFactory<BaseT>::addEventInDecl(
     const Char8 *szEventType,
     const Char8 *szEventName)
 {
     if(_bIgnoreProto == true)
         return;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "AddEventIn " << szEventType << " " << szEventName << endl;
+#endif
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::addProtoEventOut(
+void VRMLNodeFactory<BaseT>::addEventOutDecl(
     const Char8 *szEventType,
     const Char8 *szEventName)
 {
     if(_bIgnoreProto == true)
         return;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "AddEventOut " << szEventType << " " << szEventName << endl;
+#endif
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::beginProtoField(
+void VRMLNodeFactory<BaseT>::beginFieldDecl(
     const Char8  *szFieldType,
     const UInt32  uiFieldTypeId,
     const Char8  *szFieldName)
@@ -389,24 +399,24 @@ void VRMLNodeFactory<BaseT>::beginProtoField(
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::endProtoField(void)
+void VRMLNodeFactory<BaseT>::endFieldDecl(void)
 {
     _bInFieldProto = false;
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::beginProtoExposedField(
+void VRMLNodeFactory<BaseT>::beginExposedFieldDecl(
     const Char8  *szFieldType,
     const UInt32  uiFieldTypeId,
     const Char8  *szFieldName)
 {
-    beginProtoField(szFieldType, uiFieldTypeId, szFieldName);
+    beginFieldDecl(szFieldType, uiFieldTypeId, szFieldName);
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::endProtoExposedField(void)
+void VRMLNodeFactory<BaseT>::endExposedFieldDecl(void)
 {
-    endProtoField();
+    endFieldDecl();
 }
 
 #if 0
@@ -439,9 +449,11 @@ void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
 {
     if(_bInFieldProto == true)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
 
         PINFO << "Add proto field value : " << szFieldVal << endl;
+#endif
     }
 
     if(_pCurrentNodeDesc != NULL)
@@ -481,10 +493,12 @@ VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
 
     if(mNodeDescIt != _mNodeDescHash.end())
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
         PINFO << "Found Node "
               << mNodeDescIt->first << " ("
               << szNodeTypename     << ")" << endl;
+#endif
 
         returnValue = mNodeDescIt->second;
     }

@@ -67,6 +67,7 @@
 #include <OSGSFImageTypes.h>
 
 #include <OSGGeoProperty.h>
+#include <OSGTime.h>
 
 OSG_USING_NAMESPACE
 
@@ -91,6 +92,10 @@ namespace
 template OSG_SYSTEMLIB_DLLMAPPING
 VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
+
+OSG::Time startTime = 0.;
+OSG::Time useTime   = 0.;
+OSG::Time findTime  = 0.;
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -139,9 +144,13 @@ VRMLFile::~VRMLFile(void)
 
 void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 {
+    startTime = getSystemTime();
+
     _pRootNode = NullFC;
 
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
+#endif
 
     if(szFilename != NULL)
     {
@@ -157,15 +166,23 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
                                 uiOptions);
         }
     }
+
+    fprintf(stderr, "Full Time : %lf | Use Time %lf\n", 
+            getSystemTime() - startTime,
+            useTime);
 }
 
 void VRMLFile::scanFile(const Char8  *szFilename, 
                               UInt32  uiAddOptions,
                               UInt32  uiSubOptions)
 {
+    startTime = getSystemTime();
+
     _pRootNode = NullFC;
 
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
+#endif
 
     if(szFilename != NULL)
     {
@@ -182,6 +199,10 @@ void VRMLFile::scanFile(const Char8  *szFilename,
                                 uiSubOptions);
         }
     }
+
+    fprintf(stderr, "Full Time : %lf | Use Time %lf\n", 
+            getSystemTime() - startTime,
+            useTime);
 }
 
 void VRMLFile::beginNode(const Char8 *szNodeTypename,
@@ -205,10 +226,12 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
                                          szNodename,
                                          _pCurrentFC);
 
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "Begin Node " << szNodeTypename << endl;
 
     VRMLNodeDesc::incIndent();
+#endif
 
     if(szNodename != NULL)
     {
@@ -216,8 +239,10 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
         {
             if(pNewNode->getType().isNode() == true)
             {
+#ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
                 PINFO << "Node named : " << szNodename << endl;
+#endif
 
                 NodePtr pNode     = NodePtr::dcast(pNewNode);
                 NamePtr pNodename = Name::create();
@@ -230,12 +255,27 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 
                 endEditCP(pNode,Node::AttachmentsFieldMask);
                 endEditCP(pNodename);
+
+                NameContainerMap::iterator mIt = 
+                    _nameFCMap.find(IDStringLink(szNodename));
+                
+                if(mIt == _nameFCMap.end())
+                {
+                    _nameFCMap[IDString(szNodename)] = pNewNode;
+                    
+#ifdef OSG_DEBUG_VRML
+                    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+                    PINFO << "Fieldcontainer " << szNodename 
+                          << " added to map " << endl;
+#endif
+                }
             }
             else if(pNewNode->getType().isNodeCore() == true)
             {
+#ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
                 PINFO << "Nodecore named : " << szNodename << endl;
-
+#endif
                 NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
                 
@@ -247,13 +287,28 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 
                 endEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);
                 endEditCP(pNodename);
+
+                NameContainerMap::iterator mIt = 
+                    _nameFCMap.find(IDStringLink(szNodename));
+                
+                if(mIt == _nameFCMap.end())
+                {
+                    _nameFCMap[IDString(szNodename)] = pNewNode;
+                    
+#ifdef OSG_DEBUG_VRML
+                    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+                    PINFO << "Fieldcontainer " << szNodename 
+                          << " added to map " << endl;
+#endif
+                }
             }
             else
             {
+#ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
                 PINFO << "Fieldcontainer " << szNodeTypename 
                       << " is neither node nor nodecore " << endl;
-
+#endif
                 
                 NameContainerMap::iterator mIt = 
                     _nameFCMap.find(IDStringLink(szNodename));
@@ -262,33 +317,41 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
                     
+#ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
                     PINFO << "Fieldcontainer " << szNodename 
                           << " added to map " << endl;
+#endif
                 }
                 
             }
 
             _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
             
+#ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
             PINFO << "Desc for " << szNodename << " added to map " << endl;
+#endif
         }
         else
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
             PINFO << "Fieldcontainer " 
                   << szNodeTypename 
                   << "is empty, save on end " 
                   << endl;
-            
+#endif
+
             if(_pCurrNodeDesc != NULL)
                 _pCurrNodeDesc->setOnEndSave(szNodename);
             
             _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
             
+#ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
             PINFO << "Desc for " << szNodename << " added to map " << endl;
+#endif
         }
     }
 
@@ -322,11 +385,12 @@ void VRMLFile::endNode(void)
 {
     if(_pCurrNodeDesc == NULL)
     {
+#ifdef OSG_DEBUG_VRML
         VRMLNodeDesc::decIndent();
 
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
         PINFO << "End Node " << endl;
-
+#endif
         return;
     }
 
@@ -391,10 +455,22 @@ void VRMLFile::endNode(void)
         _pCurrentFC = NullFC;
     }
 
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::decIndent();
 
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "End Node " << endl;
+#endif
+}
+
+void VRMLFile::beginScript(const Char8 *szNodename)
+{
+    beginNode("Script", szNodename);
+}
+
+void VRMLFile::endScript(void)
+{
+    endNode();
 }
 
 void VRMLFile::beginField(const Char8  *szFieldname,
@@ -403,6 +479,7 @@ void VRMLFile::beginField(const Char8  *szFieldname,
     if(szFieldname == NULL)
         return;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "VRMLFile::beginField : looking for " 
           << szFieldname 
@@ -416,6 +493,7 @@ void VRMLFile::beginField(const Char8  *szFieldname,
           << endl;
 
     VRMLNodeDesc::incIndent();
+#endif
 
     if(_pCurrentFieldDesc != NULL)
     {
@@ -486,10 +564,12 @@ void VRMLFile::endField(void)
         _pCurrentFieldDesc = NULL;
     }
 
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::decIndent();
 
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "VRMLFile::endField " << endl;
+#endif
 }
 
 
@@ -524,6 +604,7 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
     if(_pCurrentField != NULL)
         returnValue = _pCurrentField->getType().getId();
 
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "VRMLFile::getFieldType : Got Field and type "
           << returnValue        << " " 
@@ -534,22 +615,29 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
         PINFO << _pCurrentField->getType().getName() << endl;
     else
         PINFO << endl;
+#endif
 
     return returnValue;
 }
 
 void VRMLFile::use(const Char8 *szName)
 {
+    Time beginUse = getSystemTime();
+
     FieldContainerPtr pUsedFC;
 
     // try to find a container with the given name attachment
 
+#ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "VRMLFile::use : looking for " 
           << szName 
           << endl;
 
     VRMLNodeDesc::incIndent();
+#endif
+
+    
 
     pUsedFC = findReference(szName);
 
@@ -593,7 +681,11 @@ void VRMLFile::use(const Char8 *szName)
         }
     }
 
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::decIndent();
+#endif
+
+    useTime += (getSystemTime() - beginUse);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -602,7 +694,9 @@ void VRMLFile::use(const Char8 *szName)
 void VRMLFile::scanStandardPrototypes(const Char8  *szFilename, 
                                             UInt32  uiOptions)
 {
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
+#endif
 
     preStandardProtos();
     scanFile(szFilename, uiOptions);
@@ -613,7 +707,9 @@ void VRMLFile::scanStandardPrototypes(const Char8  *szFilename,
 
 void VRMLFile::createStandardPrototypes(void)
 {
+#ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
+#endif
 
     preStandardProtos();
 
@@ -630,32 +726,32 @@ PROTO Anchor [
     ] { }
 #endif
  
- beginProtoInterface   ("Anchor"); 
+ beginProto   ("Anchor"); 
  {
-     addProtoEventIn       ("MFNode", "addChildren");
-     addProtoEventIn       ("MFNode", "removeChildren");
+     addEventInDecl       ("MFNode", "addChildren");
+     addEventInDecl       ("MFNode", "removeChildren");
      
-     beginProtoExposedField("MFNode",   OSGmfNode,   "children");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode",   OSGmfNode,   "children");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFString", OSGsfString, "description");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFString", OSGsfString, "description");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "parameter");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "parameter");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "url");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     endExposedFieldDecl  ();
      
-     beginProtoField       ("SFVec3f",  OSGsfVec3f, "bboxCenter");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f",  OSGsfVec3f, "bboxCenter");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFVec3f",  OSGsfVec3f, "bboxSize");
-     addFieldValue         ("-1 -1 -1");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f",  OSGsfVec3f, "bboxSize");
+     addFieldValue        ("-1 -1 -1");
+     endFieldDecl         ();
  }
- endProtoInterface     ();
+ endProto     ();
 
     
 #if 0
@@ -666,21 +762,21 @@ PROTO Appearance [
 ] { }
 #endif
 
- beginProtoInterface("Appearance");
+ beginProto("Appearance");
  {
-     beginProtoExposedField("SFNode", OSGsfNode, "material");
+     beginExposedFieldDecl("SFNode", OSGsfNode, "material");
 //     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "texture");
+     beginExposedFieldDecl("SFNode", OSGsfNode, "texture");
 //     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "textureTransform");
+     beginExposedFieldDecl("SFNode", OSGsfNode, "textureTransform");
 //     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO AudioClip [
@@ -695,35 +791,35 @@ PROTO AudioClip [
 ] { }
 #endif
 
- beginProtoInterface("AudioClip");
+ beginProto("AudioClip");
  {
-     beginProtoExposedField("SFString", OSGsfString, "description");
-     addFieldValue         ("");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFString", OSGsfString, "description");
+     addFieldValue        ("");
+     endExposedFieldDecl  ();
      
-     beginProtoExposedField("SFBool", OSGsfBool, "loop");
-     addFieldValue         ("FALSE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     addFieldValue        ("FALSE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "pitch");
-     addFieldValue         ("1.0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "pitch");
+     addFieldValue        ("1.0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFTime", OSGsfTime, "startTime");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "startTime");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFTime", OSGsfTime, "stopTime");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "stopTime");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "url");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFTime", "duration_changed");
-     addProtoEventOut      ("SFBool", "isActive");
+     addEventOutDecl      ("SFTime", "duration_changed");
+     addEventOutDecl      ("SFBool", "isActive");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Background [
@@ -742,44 +838,44 @@ PROTO Background [
 ] { }
 #endif
 
- beginProtoInterface("Background");
+ beginProto("Background");
  {
-     addProtoEventIn       ("SFBool", "set_bind");
+     addEventInDecl       ("SFBool", "set_bind");
      
-     beginProtoExposedField("MFFloat", OSGmfFloat, "groundAngle");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "groundAngle");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFColor", OSGmfColor, "groundColor");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFColor", OSGmfColor, "groundColor");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "backUrl");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "backUrl");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "bottomUrl");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "bottomUrl");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "frontUrl");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "frontUrl");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "leftUrl");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "leftUrl");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "rightUrl");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "rightUrl");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "topUrl");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "topUrl");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFFloat", OSGmfFloat, "skyAngle");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "skyAngle");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFColor", OSGmfColor, "skyColor");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFColor", OSGmfColor, "skyColor");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFBool", "isBound");
+     addEventOutDecl      ("SFBool", "isBound");
  }
- endProtoInterface  ();
+ endProto  ();
 
 
 #if 0
@@ -793,27 +889,27 @@ PROTO Billboard [
 ] { }
 #endif
 
- beginProtoInterface("Billboard");
+ beginProto("Billboard");
  {
-     addProtoEventIn       ("MFNode", "addChildren");
-     addProtoEventIn       ("MFNode", "removeChildren");
+     addEventInDecl       ("MFNode", "addChildren");
+     addEventInDecl       ("MFNode", "removeChildren");
      
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "axisOfRotation");
-     addFieldValue         ("0 1 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "axisOfRotation");
+     addFieldValue        ("0 1 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFNode", OSGmfNode, "children");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     endExposedFieldDecl  ();
      
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxCenter");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxSize");
-     addFieldValue         ("-1 -1 -1");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     addFieldValue        ("-1 -1 -1");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Box [
@@ -821,13 +917,13 @@ PROTO Box [
 ] { }
 #endif
 
- beginProtoInterface("Box");
+ beginProto("Box");
  {
-     beginProtoField("SFVec3f", OSGsfVec3f, "size");
-     addFieldValue  ("2 2 2");
-     endProtoField  ();
+     beginFieldDecl("SFVec3f", OSGsfVec3f, "size");
+     addFieldValue ("2 2 2");
+     endFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Collision [ 
@@ -842,32 +938,32 @@ PROTO Collision [
 ] { }
 #endif
 
- beginProtoInterface("Collision");
+ beginProto("Collision");
  {
-     addProtoEventIn      ("MFNode", "addChildren");
-     addProtoEventIn      ("MFNode", "removeChildren");
+     addEventInDecl      ("MFNode", "addChildren");
+     addEventInDecl      ("MFNode", "removeChildren");
 
-     beginProtoExposedField("MFNode", OSGmfNode, "children");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "collide");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "collide");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxCenter");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxSize");
-     addFieldValue         ("-1 -1 -1");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     addFieldValue        ("-1 -1 -1");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFNode", OSGsfNode, "proxy");
-     endProtoField         ();
+     beginFieldDecl       ("SFNode", OSGsfNode, "proxy");
+     endFieldDecl         ();
      
-     addProtoEventOut      ("SFTime", "collideTime");
+     addEventOutDecl      ("SFTime", "collideTime");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Color [
@@ -875,12 +971,12 @@ PROTO Color [
 ] { }
 #endif
 
- beginProtoInterface("Color");
+ beginProto("Color");
  {
-     beginProtoExposedField("MFColor", OSGmfColor, "color");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFColor", OSGmfColor, "color");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO ColorInterpolator [
@@ -891,19 +987,19 @@ PROTO ColorInterpolator [
 ] { }
 #endif
 
- beginProtoInterface("ColorInterpolator");
+ beginProto("ColorInterpolator");
  {
-     addProtoEventIn       ("SFFloat", "set_fraction");
+     addEventInDecl       ("SFFloat", "set_fraction");
 
-     beginProtoExposedField("MFFloat", OSGmfFloat, "key");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFColor", OSGmfColor, "keyValue");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFColor", OSGmfColor, "keyValue");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFColor", "value_changed");
+     addEventOutDecl      ("SFColor", "value_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Cone [
@@ -914,25 +1010,25 @@ PROTO Cone [
 ] { }
 #endif
 
- beginProtoInterface("Cone");
+ beginProto("Cone");
  {
-     beginProtoField("SFFloat", OSGsfFloat, "bottomRadius");
-     addFieldValue  ("1");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "bottomRadius");
+     addFieldValue ("1");
+     endFieldDecl  ();
 
-     beginProtoField("SFFloat", OSGsfFloat, "height");
-     addFieldValue  ("2");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "height");
+     addFieldValue ("2");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "side");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "side");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "bottom");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "bottom");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Coordinate [
@@ -940,12 +1036,12 @@ PROTO Coordinate [
 ] { }
 #endif
 
- beginProtoInterface("Coordinate");
+ beginProto("Coordinate");
  {
-     beginProtoExposedField("MFVec3f", OSGmfVec3f, "point");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "point");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO CoordinateInterpolator [
@@ -956,19 +1052,19 @@ PROTO CoordinateInterpolator [
 ] { }
 #endif
 
- beginProtoInterface("CoordinateInterpolator");
+ beginProto("CoordinateInterpolator");
  {
-     addProtoEventIn       ("SFFloat", "set_fraction");
+     addEventInDecl       ("SFFloat", "set_fraction");
      
-     beginProtoExposedField("MFFloat", OSGmfFloat, "key");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFVec3f", OSGmfVec3f, "keyValue");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "keyValue");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("MFVec3f", "value_changed");
+     addEventOutDecl      ("MFVec3f", "value_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Cylinder [
@@ -980,29 +1076,29 @@ PROTO Cylinder [
 ] { }
 #endif
 
- beginProtoInterface("Cylinder");
+ beginProto("Cylinder");
  {
-     beginProtoField("SFBool", OSGsfBool, "bottom");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "bottom");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFFloat", OSGsfFloat, "height");
-     addFieldValue  ("2");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "height");
+     addFieldValue ("2");
+     endFieldDecl  ();
 
-     beginProtoField("SFFloat", OSGsfFloat, "radius");
-     addFieldValue  ("1");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "radius");
+     addFieldValue ("1");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "side");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "side");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "top");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "top");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO CylinderSensor [
@@ -1018,37 +1114,37 @@ PROTO CylinderSensor [
 ] { }
 #endif
 
- beginProtoInterface("CylinderSensor");
+ beginProto("CylinderSensor");
  {
-     beginProtoExposedField("SFBool", OSGsfBool, "autoOffset");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "diskAngle");
-     addFieldValue         ("0.262");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "diskAngle");
+     addFieldValue        ("0.262");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "maxAngle");
-     addFieldValue         ("-1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "maxAngle");
+     addFieldValue        ("-1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "minAngle");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "minAngle");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "offset");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "offset");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
      
-     addProtoEventOut      ("SFBool", "isActive");
-     addProtoEventOut      ("SFRotation", "rotation_changed");
-     addProtoEventOut      ("SFVec3f", "trackPoint_changed");
+     addEventOutDecl      ("SFBool", "isActive");
+     addEventOutDecl      ("SFRotation", "rotation_changed");
+     addEventOutDecl      ("SFVec3f", "trackPoint_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO DirectionalLight [
@@ -1060,29 +1156,29 @@ PROTO DirectionalLight [
 ] { }
 #endif
 
- beginProtoInterface("DirectionalLight");
+ beginProto("DirectionalLight");
  {
-     beginProtoExposedField("SFFloat", OSGsfFloat, "ambientIntensity");
-     addFieldValue         ("0"); 
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     addFieldValue        ("0"); 
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFColor", OSGsfColor, "color");
-     addFieldValue         ("1 1 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     addFieldValue        ("1 1 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "direction");
-     addFieldValue         ("0 0 -1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "direction");
+     addFieldValue        ("0 0 -1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "intensity");
-     addFieldValue         ("1"); 
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     addFieldValue        ("1"); 
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "on");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO ElevationGrid [
@@ -1104,62 +1200,62 @@ PROTO ElevationGrid [
 ] { }
 #endif
 
- beginProtoInterface("ElevationGrid");
+ beginProto("ElevationGrid");
  {
-     addProtoEventIn       ("MFFloat", "set_height");
+     addEventInDecl       ("MFFloat", "set_height");
 
-     beginProtoExposedField("SFNode", OSGsfNode, "color");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "normal");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "normal");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "texCoord");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "texCoord");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "ccw");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "ccw");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "colorPerVertex");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFFloat", OSGsfFloat, "creaseAngle");
-     addFieldValue         ("0");
-     endProtoField         ();
+     beginFieldDecl       ("SFFloat", OSGsfFloat, "creaseAngle");
+     addFieldValue        ("0");
+     endFieldDecl         ();
 
-     beginProtoField       ("MFFloat", OSGsfFloat, "height");
-     endProtoField         ();
+     beginFieldDecl       ("MFFloat", OSGsfFloat, "height");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "normalPerVertex");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "normalPerVertex");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "solid");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "solid");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFInt32", OSGsfInt32, "xDimension");
-     addFieldValue         ("0");
-     endProtoField         ();
+     beginFieldDecl       ("SFInt32", OSGsfInt32, "xDimension");
+     addFieldValue        ("0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFFloat", OSGsfFloat, "xSpacing");
-     addFieldValue         ("0.0");
-     endProtoField         ();
+     beginFieldDecl       ("SFFloat", OSGsfFloat, "xSpacing");
+     addFieldValue        ("0.0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFInt32", OSGsfInt32, "zDimension");
-     addFieldValue         ("0");
-     endProtoField         ();
+     beginFieldDecl       ("SFInt32", OSGsfInt32, "zDimension");
+     addFieldValue        ("0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFFloat", OSGsfFloat, "zSpacing");
-     addFieldValue         ("0.0");
-     endProtoField         ();
+     beginFieldDecl       ("SFFloat", OSGsfFloat, "zSpacing");
+     addFieldValue        ("0.0");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Extrusion [
@@ -1180,59 +1276,59 @@ PROTO Extrusion [
 ] { }
 #endif
 
- beginProtoInterface("Extrusion");
+ beginProto("Extrusion");
  {
-     addProtoEventIn("MFVec2f", "set_crossSection");
-     addProtoEventIn("MFRotation", "set_orientation");
-     addProtoEventIn("MFVec2f", "set_scale");
-     addProtoEventIn("MFVec3f", "set_spine");
+     addEventInDecl("MFVec2f", "set_crossSection");
+     addEventInDecl("MFRotation", "set_orientation");
+     addEventInDecl("MFVec2f", "set_scale");
+     addEventInDecl("MFVec3f", "set_spine");
 
-     beginProtoField("SFBool", OSGsfBool, "beginCap");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "beginCap");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "ccw");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "ccw");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "convex");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "convex");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFFloat", OSGsfFloat, "creaseAngle");
-     addFieldValue  ("0");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "creaseAngle");
+     addFieldValue ("0");
+     endFieldDecl  ();
 
-     beginProtoField("MFVec2f", OSGmfVec2f, "crossSection");
-     addFieldValue  (" 1  1");
-     addFieldValue  (" 1 -1");
-     addFieldValue  ("-1 -1");
-     addFieldValue  ("-1  1");
-     addFieldValue  (" 1  1");
-     endProtoField  ();
+     beginFieldDecl("MFVec2f", OSGmfVec2f, "crossSection");
+     addFieldValue (" 1  1");
+     addFieldValue (" 1 -1");
+     addFieldValue ("-1 -1");
+     addFieldValue ("-1  1");
+     addFieldValue (" 1  1");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "endCap");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "endCap");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("MFRotation", OSGmfRotation, "orientation");
-     addFieldValue  ("0 0 1 0");
-     endProtoField  ();
+     beginFieldDecl("MFRotation", OSGmfRotation, "orientation");
+     addFieldValue ("0 0 1 0");
+     endFieldDecl  ();
 
-     beginProtoField("MFVec2f", OSGmfVec2f, "scale");
-     addFieldValue  ("1 1");
-     endProtoField  ();
+     beginFieldDecl("MFVec2f", OSGmfVec2f, "scale");
+     addFieldValue ("1 1");
+     endFieldDecl  ();
      
-     beginProtoField("SFBool", OSGsfBool, "solid");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "solid");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
      
-     beginProtoField("MFVec3f", OSGmfVec3f, "spine");
-     addFieldValue  ("0 0 0");
-     addFieldValue  ("0 1 0");
-     endProtoField  ();
+     beginFieldDecl("MFVec3f", OSGmfVec3f, "spine");
+     addFieldValue ("0 0 0");
+     addFieldValue ("0 1 0");
+     endFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Fog [
@@ -1244,24 +1340,24 @@ PROTO Fog [
 ] { }
 #endif
 
- beginProtoInterface("Fog");
+ beginProto("Fog");
  {
-     beginProtoExposedField("SFColor", OSGsfColor, "color");
-     addFieldValue         ("1 1 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     addFieldValue        ("1 1 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFString", OSGsfString, "fogType");
-     addFieldValue         ("LINEAR");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFString", OSGsfString, "fogType");
+     addFieldValue        ("LINEAR");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "visibilityRange");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "visibilityRange");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     addProtoEventIn       ("SFBool", "set_bind");
-     addProtoEventOut      ("SFBool", "isBound");
+     addEventInDecl       ("SFBool", "set_bind");
+     addEventOutDecl      ("SFBool", "isBound");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO FontStyle [
@@ -1277,45 +1373,45 @@ PROTO FontStyle [
 ] { }
 #endif
 
- beginProtoInterface("FontStyle");
+ beginProto("FontStyle");
  {
-     beginProtoField("SFString", OSGsfString, "family");
-     addFieldValue  ("SERIF");
-     endProtoField  ();
+     beginFieldDecl("SFString", OSGsfString, "family");
+     addFieldValue ("SERIF");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "horizontal");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "horizontal");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
      
-     beginProtoField("MFString", OSGmfString, "justify");
-     addFieldValue  ("BEGIN");
-     endProtoField  ();
+     beginFieldDecl("MFString", OSGmfString, "justify");
+     addFieldValue ("BEGIN");
+     endFieldDecl  ();
 
-     beginProtoField("SFString", OSGsfString, "language");
-     addFieldValue  ("");
-     endProtoField  ();
+     beginFieldDecl("SFString", OSGsfString, "language");
+     addFieldValue ("");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "leftToRight");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "leftToRight");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
 
-     beginProtoField("SFFloat", OSGsfFloat, "size");
-     addFieldValue  ("1.0");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "size");
+     addFieldValue ("1.0");
+     endFieldDecl  ();
 
-     beginProtoField("SFFloat", OSGsfFloat, "spacing");
-     addFieldValue  ("1.0");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "spacing");
+     addFieldValue ("1.0");
+     endFieldDecl  ();
 
-     beginProtoField("SFString", OSGsfString, "style");
-     addFieldValue  ("PLAIN");
-     endProtoField  ();
+     beginFieldDecl("SFString", OSGsfString, "style");
+     addFieldValue ("PLAIN");
+     endFieldDecl  ();
 
-     beginProtoField("SFBool", OSGsfBool, "topToBottom");
-     addFieldValue  ("TRUE");
-     endProtoField  ();
+     beginFieldDecl("SFBool", OSGsfBool, "topToBottom");
+     addFieldValue ("TRUE");
+     endFieldDecl  ();
  }
- endProtoInterface   ();
+ endProto   ();
 
 #if 0
 PROTO Group [
@@ -1327,23 +1423,23 @@ PROTO Group [
 ] { }
 #endif
 
- beginProtoInterface("Group");
+ beginProto("Group");
  {
-     addProtoEventIn    ("MFNode", "addChildren");
-     addProtoEventIn    ("MFNode", "removeChildren");
+     addEventInDecl    ("MFNode", "addChildren");
+     addEventInDecl    ("MFNode", "removeChildren");
  
-     beginProtoExposedField("MFNode", OSGmfNode, "children");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxCenter");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxSize");
-     addFieldValue         ("-1 -1 -1");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     addFieldValue        ("-1 -1 -1");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO ImageTexture [
@@ -1353,20 +1449,20 @@ PROTO ImageTexture [
 ] { }
 #endif
 
- beginProtoInterface("ImageTexture");
+ beginProto("ImageTexture");
  {
-     beginProtoExposedField("MFString", OSGmfString, "url");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "repeatS");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "repeatT");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO IndexedFaceSet [ 
@@ -1391,66 +1487,66 @@ PROTO IndexedFaceSet [
 ] { }
 #endif
 
- beginProtoInterface("IndexedFaceSet");
+ beginProto("IndexedFaceSet");
  { 
-     addProtoEventIn       ("MFInt32", "set_colorIndex");
-     addProtoEventIn       ("MFInt32", "set_coordIndex");
-     addProtoEventIn       ("MFInt32", "set_normalIndex");
-     addProtoEventIn       ("MFInt32", "set_texCoordIndex");
+     addEventInDecl       ("MFInt32", "set_colorIndex");
+     addEventInDecl       ("MFInt32", "set_coordIndex");
+     addEventInDecl       ("MFInt32", "set_normalIndex");
+     addEventInDecl       ("MFInt32", "set_texCoordIndex");
      
-     beginProtoExposedField("SFNode", OSGsfNode, "color");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
      
-     beginProtoExposedField("SFNode", OSGsfNode, "coord");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "coord");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "normal");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "normal");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "texCoord");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "texCoord");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "ccw");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "ccw");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("MFInt32", OSGmfInt32, "colorIndex");
-     endProtoField         ();
+     beginFieldDecl       ("MFInt32", OSGmfInt32, "colorIndex");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "colorPerVertex");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "convex");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "convex");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("MFInt32", OSGmfInt32, "coordIndex");
-     endProtoField         ();
+     beginFieldDecl       ("MFInt32", OSGmfInt32, "coordIndex");
+     endFieldDecl         ();
      
-     beginProtoField       ("SFFloat", OSGsfFloat, "creaseAngle");
-     addFieldValue         ("0");
-     endProtoField         ();
+     beginFieldDecl       ("SFFloat", OSGsfFloat, "creaseAngle");
+     addFieldValue        ("0");
+     endFieldDecl         ();
 
-     beginProtoField       ("MFInt32", OSGmfInt32, "normalIndex");
-     endProtoField         ();
+     beginFieldDecl       ("MFInt32", OSGmfInt32, "normalIndex");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool",  OSGsfBool, "normalPerVertex");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool",  OSGsfBool, "normalPerVertex");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool",  OSGsfBool, "solid");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool",  OSGsfBool, "solid");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
      
-     beginProtoField       ("MFInt32", OSGmfInt32, "texCoordIndex");
-     endProtoField();
+     beginFieldDecl       ("MFInt32", OSGmfInt32, "texCoordIndex");
+     endFieldDecl();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO IndexedLineSet [
@@ -1464,30 +1560,30 @@ PROTO IndexedLineSet [
 ] { }
 #endif
 
- beginProtoInterface("IndexedLineSet");
+ beginProto("IndexedLineSet");
  {
-     addProtoEventIn       ("MFInt32", "set_colorIndex");
-     addProtoEventIn       ("MFInt32", "set_coordIndex");
+     addEventInDecl       ("MFInt32", "set_colorIndex");
+     addEventInDecl       ("MFInt32", "set_coordIndex");
 
-     beginProtoExposedField("SFNode", OSGsfNode, "color");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "coord");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "coord");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("MFInt32", OSGmfInt32, "colorIndex");
-     endProtoField         ();
+     beginFieldDecl       ("MFInt32", OSGmfInt32, "colorIndex");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "colorPerVertex");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
      
-     beginProtoField       ("MFInt32", OSGmfInt32, "coordIndex");
-     endProtoField         ();
+     beginFieldDecl       ("MFInt32", OSGmfInt32, "coordIndex");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Inline [
@@ -1497,20 +1593,20 @@ PROTO Inline [
 ] { }
 #endif
 
- beginProtoInterface("Inline");
+ beginProto("Inline");
  {
-     beginProtoExposedField("MFString", OSGmfString, "url");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxCenter");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxSize");
-     addFieldValue         ("-1 -1 -1");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     addFieldValue        ("-1 -1 -1");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
    
 #if 0
 PROTO LOD [
@@ -1520,19 +1616,19 @@ PROTO LOD [
 ] { }
 #endif
 
- beginProtoInterface("LOD");
+ beginProto("LOD");
  {
-     beginProtoExposedField("MFNode", OSGmfNode, "level");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode", OSGmfNode, "level");
+     endExposedFieldDecl  ();
      
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "center");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "center");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("MFFloat", OSGmfFloat, "range");
-     endProtoField         ();
+     beginFieldDecl       ("MFFloat", OSGmfFloat, "range");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Material [
@@ -1545,33 +1641,33 @@ PROTO Material [
 ] { }
 #endif
 
- beginProtoInterface("Material");
+ beginProto("Material");
  {
-     beginProtoExposedField("SFFloat", OSGsfFloat, "ambientIntensity");
-     addFieldValue         ("0.2");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     addFieldValue        ("0.2");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFColor", OSGsfColor, "diffuseColor");
-     addFieldValue         ("0.8 0.8 0.8");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "diffuseColor");
+     addFieldValue        ("0.8 0.8 0.8");
+     endExposedFieldDecl  ();
      
-     beginProtoExposedField("SFColor", OSGsfColor, "emissiveColor");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "emissiveColor");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "shininess");
-     addFieldValue         ("0.2");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "shininess");
+     addFieldValue        ("0.2");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFColor", OSGsfColor, "specularColor");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "specularColor");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "transparency");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "transparency");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO MovieTexture [
@@ -1587,39 +1683,39 @@ PROTO MovieTexture [
 ] { }
 #endif
 
- beginProtoInterface("MovieTexture");
+ beginProto("MovieTexture");
  {
-     beginProtoExposedField("SFBool", OSGsfBool, "loop");
-     addFieldValue         ("FALSE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     addFieldValue        ("FALSE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "speed");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "speed");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFTime", OSGsfTime, "startTime");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "startTime");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFTime", OSGsfTime, "stopTime");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "stopTime");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "url");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "repeatS");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "repeatT");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     addProtoEventOut      ("SFFloat", "duration_changed");
-     addProtoEventOut      ("SFBool", "isActive");
+     addEventOutDecl      ("SFFloat", "duration_changed");
+     addEventOutDecl      ("SFBool", "isActive");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO NavigationInfo [
@@ -1633,35 +1729,35 @@ PROTO NavigationInfo [
 ] { }
 #endif
 
- beginProtoInterface("NavigationInfo");
+ beginProto("NavigationInfo");
  {
-     addProtoEventIn       ("SFBool", "set_bind");
+     addEventInDecl       ("SFBool", "set_bind");
      
-     beginProtoExposedField("MFFloat", OSGmfFloat, "avatarSize");
-     addFieldValue         ("0.25");
-     addFieldValue         ("1.6 ");
-     addFieldValue         ("0.75");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "avatarSize");
+     addFieldValue        ("0.25");
+     addFieldValue        ("1.6 ");
+     addFieldValue        ("0.75");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "headlight");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "headlight");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "speed");
-     addFieldValue         ("1.0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "speed");
+     addFieldValue        ("1.0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFString", OSGmfString, "type");
-     addFieldValue         ("WALK");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "type");
+     addFieldValue        ("WALK");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "visibilityLimit");
-     addFieldValue         ("0.0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "visibilityLimit");
+     addFieldValue        ("0.0");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFBool", "isBound");
+     addEventOutDecl      ("SFBool", "isBound");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Normal [
@@ -1669,12 +1765,12 @@ PROTO Normal [
 ] { }
 #endif
 
- beginProtoInterface("Normal");
+ beginProto("Normal");
  {
-     beginProtoExposedField("MFVec3f", OSGmfVec3f, "vector");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "vector");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO NormalInterpolator [
@@ -1685,19 +1781,19 @@ PROTO NormalInterpolator [
 ] { }
 #endif
 
- beginProtoInterface("NormalInterpolator");
+ beginProto("NormalInterpolator");
  {
-     addProtoEventIn       ("SFFloat", "set_fraction");
+     addEventInDecl       ("SFFloat", "set_fraction");
      
-     beginProtoExposedField("MFFloat", OSGmfFloat, "key");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFVec3f", OSGmfVec3f, "keyValue");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "keyValue");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("MFVec3f",  "value_changed");
+     addEventOutDecl      ("MFVec3f",  "value_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO OrientationInterpolator [
@@ -1708,19 +1804,19 @@ PROTO OrientationInterpolator [
 ] { }
 #endif
 
- beginProtoInterface("OrientationInterpolator");
+ beginProto("OrientationInterpolator");
  {
-     addProtoEventIn       ("SFFloat", "set_fraction");
+     addEventInDecl       ("SFFloat", "set_fraction");
 
-     beginProtoExposedField("MFFloat", OSGmfFloat, "key");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFRotation", OSGmfRotation, "keyValue");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFRotation", OSGmfRotation, "keyValue");
+     endExposedFieldDecl  ();
      
-     addProtoEventOut      ("SFRotation", "value_changed");
+     addEventOutDecl      ("SFRotation", "value_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO PixelTexture [
@@ -1730,21 +1826,21 @@ PROTO PixelTexture [
 ] { }
 #endif
 
- beginProtoInterface("PixelTexture");
+ beginProto("PixelTexture");
  {
-     beginProtoExposedField("SFImage", OSGsfImage, "image");
-//     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFImage", OSGsfImage, "image");
+//     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "repeatS");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "repeatT");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO PlaneSensor [
@@ -1759,33 +1855,33 @@ PROTO PlaneSensor [
 ] { }
 #endif
 
- beginProtoInterface("PlaneSensor");
+ beginProto("PlaneSensor");
  {
-     beginProtoExposedField("SFBool", OSGsfBool, "autoOffset");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec2f", OSGsfVec2f, "maxPosition");
-     addFieldValue         ("-1 -1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "maxPosition");
+     addFieldValue        ("-1 -1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec2f", OSGsfVec2f, "minPosition");
-     addFieldValue         ("0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "minPosition");
+     addFieldValue        ("0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "offset");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "offset");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFBool", "isActive");
-     addProtoEventOut      ("SFVec3f", "trackPoint_changed");
-     addProtoEventOut      ("SFVec3f", "translation_changed");
+     addEventOutDecl      ("SFBool", "isActive");
+     addEventOutDecl      ("SFVec3f", "trackPoint_changed");
+     addEventOutDecl      ("SFVec3f", "translation_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 
 #if 0
@@ -1800,37 +1896,37 @@ PROTO PointLight [
 ] { }
 #endif
 
- beginProtoInterface("PointLight");
+ beginProto("PointLight");
  {
-     beginProtoExposedField("SFFloat", OSGsfFloat, "ambientIntensity");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "attenuation");
-     addFieldValue         ("1 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "attenuation");
+     addFieldValue        ("1 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFColor", OSGsfColor, "color");
-     addFieldValue         ("1 1 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     addFieldValue        ("1 1 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "intensity");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "location");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "location");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "on");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "radius");
-     addFieldValue         ("100");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "radius");
+     addFieldValue        ("100");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO PointSet [
@@ -1839,17 +1935,17 @@ PROTO PointSet [
 ] { }
 #endif
 
- beginProtoInterface("PointSet");
+ beginProto("PointSet");
  {
-     beginProtoExposedField("SFNode", OSGsfNode, "color");
-//     addFieldValue         ("NULL");
-     endProtoField         ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+//     addFieldValue        ("NULL");
+     endFieldDecl         ();
 
-     beginProtoExposedField("SFNode", OSGsfNode, "coord");
-//     addFieldValue         ("NULL");
-     endProtoField         ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "coord");
+//     addFieldValue        ("NULL");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO PositionInterpolator [
@@ -1860,19 +1956,19 @@ PROTO PositionInterpolator [
 ] { }
 #endif
 
- beginProtoInterface("PositionInterpolator");
+ beginProto("PositionInterpolator");
  {
-     addProtoEventIn       ("SFFloat", "set_fraction");
+     addEventInDecl       ("SFFloat", "set_fraction");
      
-     beginProtoExposedField("MFFloat", OSGmfFloat, "key");
-     endProtoExposedField();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     endExposedFieldDecl();
 
-     beginProtoExposedField("MFVec3f", OSGmfVec3f, "keyValue");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "keyValue");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFVec3f", "value_changed");
+     addEventOutDecl      ("SFVec3f", "value_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO ProximitySensor [
@@ -1887,27 +1983,27 @@ PROTO ProximitySensor [
 ] { }
 #endif
 
- beginProtoInterface("ProximitySensor");
+ beginProto("ProximitySensor");
  {
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "center");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "center");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "size");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "size");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFBool", "isActive");
-     addProtoEventOut      ("SFVec3f", "position_changed");
-     addProtoEventOut      ("SFRotation", "orientation_changed");
-     addProtoEventOut      ("SFTime", "enterTime");
-     addProtoEventOut      ("SFTime", "exitTime");
+     addEventOutDecl      ("SFBool", "isActive");
+     addEventOutDecl      ("SFVec3f", "position_changed");
+     addEventOutDecl      ("SFRotation", "orientation_changed");
+     addEventOutDecl      ("SFTime", "enterTime");
+     addEventOutDecl      ("SFTime", "exitTime");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO ScalarInterpolator [
@@ -1918,19 +2014,19 @@ PROTO ScalarInterpolator [
 ] { }
 #endif
 
- beginProtoInterface("ScalarInterpolator");
+ beginProto("ScalarInterpolator");
  {
-     addProtoEventIn       ("SFFloat", "set_fraction");
+     addEventInDecl       ("SFFloat", "set_fraction");
 
-     beginProtoExposedField("MFFloat", OSGmfFloat, "key");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFFloat", OSGmfFloat, "keyValue");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFFloat", OSGmfFloat, "keyValue");
+     endExposedFieldDecl  ();
      
-     addProtoEventOut      ("SFFloat", "value_changed");
+     addEventOutDecl      ("SFFloat", "value_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Script [
@@ -1940,20 +2036,20 @@ PROTO Script [
 ] { }
 #endif
 
- beginProtoInterface("Script");
+ beginProto("Script");
  {
-     beginProtoExposedField("MFString", OSGmfString, "url");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "directOutput");
-     addFieldValue         ("FALSE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "directOutput");
+     addFieldValue        ("FALSE");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFBool", OSGsfBool, "mustEvaluate");
-     addFieldValue         ("FALSE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "mustEvaluate");
+     addFieldValue        ("FALSE");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Shape [
@@ -1962,17 +2058,17 @@ PROTO Shape [
 ] { }
 #endif
 
- beginProtoInterface("Shape");
+ beginProto("Shape");
  {
-     beginProtoField("SFNode", OSGsfNode, "appearance");
-//     addFieldValue  ("NULL");
-     endProtoField  ();
+     beginFieldDecl("SFNode", OSGsfNode, "appearance");
+//     addFieldValue ("NULL");
+     endFieldDecl  ();
 
-     beginProtoField("SFNode", OSGsfNode, "geometry");
-//     addFieldValue  ("NULL");
-     endProtoField  ();
+     beginFieldDecl("SFNode", OSGsfNode, "geometry");
+//     addFieldValue ("NULL");
+     endFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Sound [
@@ -1989,49 +2085,49 @@ PROTO Sound [
 ] { }
 #endif
 
- beginProtoInterface("Sound");
+ beginProto("Sound");
  {
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "direction");
-     addFieldValue         ("0 0 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "direction");
+     addFieldValue        ("0 0 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "intensity");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "location");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "location");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "maxBack");
-     addFieldValue         ("10");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "maxBack");
+     addFieldValue        ("10");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "maxFront");
-     addFieldValue         ("10");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "maxFront");
+     addFieldValue        ("10");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "minBack");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "minBack");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "minFront");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "minFront");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "priority");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "priority");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
      
-     beginProtoExposedField("SFNode", OSGsfNode, "source");
-//     addFieldValue         ("NULL");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFNode", OSGsfNode, "source");
+//     addFieldValue        ("NULL");
+     endExposedFieldDecl  ();
      
-     beginProtoField       ("SFBool", OSGsfBool, "spatialize");
-     addFieldValue         ("TRUE");
-     endProtoField         ();
+     beginFieldDecl       ("SFBool", OSGsfBool, "spatialize");
+     addFieldValue        ("TRUE");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Sphere [
@@ -2039,13 +2135,13 @@ PROTO Sphere [
 ] { }
 #endif
 
- beginProtoInterface("Sphere");
+ beginProto("Sphere");
  {
-     beginProtoField("SFFloat", OSGsfFloat, "radius");
-     addFieldValue  ("1");
-     endProtoField  ();
+     beginFieldDecl("SFFloat", OSGsfFloat, "radius");
+     addFieldValue ("1");
+     endFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO SphereSensor [
@@ -2058,25 +2154,25 @@ PROTO SphereSensor [
 ] { }
 #endif
 
- beginProtoInterface("SphereSensor");
+ beginProto("SphereSensor");
  {
-     beginProtoExposedField("SFBool", OSGsfBool, "autoOffset");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFRotation", OSGsfRotation, "offset");
-     addFieldValue         ("0 1 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFRotation", OSGsfRotation, "offset");
+     addFieldValue        ("0 1 0 0");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFBool", "isActive");
-     addProtoEventOut      ("SFRotation", "rotation_changed");
-     addProtoEventOut      ("SFVec3f", "trackPoint_changed");
+     addEventOutDecl      ("SFBool", "isActive");
+     addEventOutDecl      ("SFRotation", "rotation_changed");
+     addEventOutDecl      ("SFVec3f", "trackPoint_changed");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO SpotLight [
@@ -2093,49 +2189,49 @@ PROTO SpotLight [
 ] { }
 #endif
 
- beginProtoInterface("SpotLight");
+ beginProto("SpotLight");
  {
-     beginProtoExposedField("SFFloat", OSGsfFloat, "ambientIntensity");
-     addFieldValue         ("0"); 
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     addFieldValue        ("0"); 
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "attenuation");
-     addFieldValue         ("1 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "attenuation");
+     addFieldValue        ("1 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "beamWidth");
-     addFieldValue         ("1.570796");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "beamWidth");
+     addFieldValue        ("1.570796");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFColor", OSGsfColor, "color");
-     addFieldValue         ("1 1 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     addFieldValue        ("1 1 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "cutOffAngle");
-     addFieldValue         ("0.785398");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "cutOffAngle");
+     addFieldValue        ("0.785398");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "direction");
-     addFieldValue         ("0 0 -1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "direction");
+     addFieldValue        ("0 0 -1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "intensity");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "location");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "location");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "on");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFFloat", OSGsfFloat, "radius");
-     addFieldValue         ("100");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "radius");
+     addFieldValue        ("100");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Switch [
@@ -2144,16 +2240,16 @@ PROTO Switch [
 ] { }
 #endif
 
- beginProtoInterface("Switch");
+ beginProto("Switch");
  {
-     beginProtoExposedField("MFNode", OSGmfNode, "choice");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode", OSGmfNode, "choice");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFInt32", OSGsfInt32, "whichChoice");
-     addFieldValue         ("-1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFInt32", OSGsfInt32, "whichChoice");
+     addFieldValue        ("-1");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Text [
@@ -2164,23 +2260,23 @@ PROTO Text [
 ] { }
 #endif
 
- beginProtoInterface("Text");
+ beginProto("Text");
  {
-     beginProtoExposedField("MFString", OSGmfString, "string");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFString", OSGmfString, "string");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFNode", OSGsfNode, "fontStyle");
-     addFieldValue         ("NULL");
-     endProtoField         ();
+     beginFieldDecl       ("SFNode", OSGsfNode, "fontStyle");
+     addFieldValue        ("NULL");
+     endFieldDecl         ();
 
-     beginProtoField       ("MFFloat", OSGmfFloat, "length");
-     endProtoField         ();
+     beginFieldDecl       ("MFFloat", OSGmfFloat, "length");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFFloat", OSGsfFloat, "maxExtent");
-     addFieldValue         ("0.0");
-     endProtoField         ();
+     beginFieldDecl       ("SFFloat", OSGsfFloat, "maxExtent");
+     addFieldValue        ("0.0");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO TextureCoordinate [
@@ -2188,12 +2284,12 @@ PROTO TextureCoordinate [
 ] { }
 #endif
 
- beginProtoInterface("TextureCoordinate");
+ beginProto("TextureCoordinate");
  {
-     beginProtoExposedField("MFVec2f", OSGmfVec2f, "point");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFVec2f", OSGmfVec2f, "point");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO TextureTransform [
@@ -2204,25 +2300,25 @@ PROTO TextureTransform [
 ] { }
 #endif
 
- beginProtoInterface("TextureTransform");
+ beginProto("TextureTransform");
  {
-     beginProtoExposedField("SFVec2f", OSGsfVec2f, "center");
-     addFieldValue         ("0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "center");
+     addFieldValue        ("0 0");
+     endExposedFieldDecl  ();
      
-     beginProtoExposedField("SFFloat", OSGsfFloat, "rotation");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "rotation");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec2f", OSGsfVec2f, "scale");
-     addFieldValue         ("1 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "scale");
+     addFieldValue        ("1 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec2f", OSGsfVec2f, "translation");
-     addFieldValue         ("0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "translation");
+     addFieldValue        ("0 0");
+     endExposedFieldDecl  ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO TimeSensor [
@@ -2238,34 +2334,34 @@ PROTO TimeSensor [
 ] { }
 #endif
 
- beginProtoInterface("TimeSensor");
+ beginProto("TimeSensor");
  {
-     beginProtoExposedField("SFTime", OSGsfTime, "cycleInterval");
-     addFieldValue         ("1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "cycleInterval");
+     addFieldValue        ("1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "loop");
-     addFieldValue         ("FALSE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     addFieldValue        ("FALSE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFTime", OSGsfTime, "startTime");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "startTime");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFTime", OSGsfTime, "stopTime");
-     addFieldValue         ("0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFTime", OSGsfTime, "stopTime");
+     addFieldValue        ("0");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFTime", "cycleTime");
-     addProtoEventOut      ("SFFloat", "fraction_changed");
-     addProtoEventOut      ("SFBool", "isActive");
-     addProtoEventOut      ("SFTime", "time");
+     addEventOutDecl      ("SFTime", "cycleTime");
+     addEventOutDecl      ("SFFloat", "fraction_changed");
+     addEventOutDecl      ("SFBool", "isActive");
+     addEventOutDecl      ("SFTime", "time");
  }
- endProtoInterface  ();
+ endProto  ();
  
 #if 0
 PROTO TouchSensor [
@@ -2279,20 +2375,20 @@ PROTO TouchSensor [
 ] { }
 #endif
 
- beginProtoInterface("TouchSensor");
+ beginProto("TouchSensor");
  {
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFVec3f", "hitNormal_changed");
-     addProtoEventOut      ("SFVec3f", "hitPoint_changed");
-     addProtoEventOut      ("SFVec2f", "hitTexCoord_changed");
-     addProtoEventOut      ("SFBool", "isActive");
-     addProtoEventOut      ("SFBool", "isOver");
-     addProtoEventOut      ("SFTime", "touchTime");
+     addEventOutDecl      ("SFVec3f", "hitNormal_changed");
+     addEventOutDecl      ("SFVec3f", "hitPoint_changed");
+     addEventOutDecl      ("SFVec2f", "hitTexCoord_changed");
+     addEventOutDecl      ("SFBool", "isActive");
+     addEventOutDecl      ("SFBool", "isOver");
+     addEventOutDecl      ("SFTime", "touchTime");
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Transform [
@@ -2309,43 +2405,43 @@ PROTO Transform [
 ] { }
 #endif
 
- beginProtoInterface("Transform");
+ beginProto("Transform");
  {
-     addProtoEventIn       ("MFNode", "addChildren");
-     addProtoEventIn       ("MFNode", "removeChildren");
+     addEventInDecl       ("MFNode", "addChildren");
+     addEventInDecl       ("MFNode", "removeChildren");
      
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "center");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "center");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("MFNode", OSGmfNode, "children");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFRotation", OSGsfRotation, "rotation");
-     addFieldValue         ("0 0 1  0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFRotation", OSGsfRotation, "rotation");
+     addFieldValue        ("0 0 1  0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "scale");
-     addFieldValue         ("1 1 1");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "scale");
+     addFieldValue        ("1 1 1");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFRotation", OSGsfRotation, "scaleOrientation");
-     addFieldValue         ("0 0 1  0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFRotation", OSGsfRotation, "scaleOrientation");
+     addFieldValue        ("0 0 1  0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "translation");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "translation");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxCenter");
-     addFieldValue         ("0 0 0");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     addFieldValue        ("0 0 0");
+     endFieldDecl         ();
 
-     beginProtoField       ("SFVec3f", OSGsfVec3f, "bboxSize");
-     addFieldValue         ("-1 -1 -1");
-     endProtoField         ();
+     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     addFieldValue        ("-1 -1 -1");
+     endFieldDecl         ();
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO Viewpoint [
@@ -2360,34 +2456,34 @@ PROTO Viewpoint [
 ] { }
 #endif
 
- beginProtoInterface("Viewpoint");
+ beginProto("Viewpoint");
  {
-     addProtoEventIn       ("SFBool", "set_bind");
+     addEventInDecl       ("SFBool", "set_bind");
      
-     beginProtoExposedField("SFFloat", OSGsfFloat, "fieldOfView");
-     addFieldValue         ("0.785398");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFFloat", OSGsfFloat, "fieldOfView");
+     addFieldValue        ("0.785398");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "jump");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "jump");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFRotation", OSGsfRotation, "orientation");
-     addFieldValue         ("0 0 1  0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFRotation", OSGsfRotation, "orientation");
+     addFieldValue        ("0 0 1  0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "position");
-     addFieldValue         ("0 0 10");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "position");
+     addFieldValue        ("0 0 10");
+     endExposedFieldDecl  ();
 
-     beginProtoField       ("SFString", OSGsfString, "description");
-     addFieldValue         ("");
-     endProtoField         ();
+     beginFieldDecl       ("SFString", OSGsfString, "description");
+     addFieldValue        ("");
+     endFieldDecl         ();
 
-     addProtoEventOut      ("SFTime", "bindTime");
-     addProtoEventOut      ("SFBool", "isBound" );
+     addEventOutDecl      ("SFTime", "bindTime");
+     addEventOutDecl      ("SFBool", "isBound" );
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO VisibilitySensor [
@@ -2400,25 +2496,25 @@ PROTO VisibilitySensor [
 ] { }
 #endif
 
- beginProtoInterface("VisibilitySensor");
+ beginProto("VisibilitySensor");
  {
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "center");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "center");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFBool", OSGsfBool, "enabled");
-     addFieldValue         ("TRUE");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     addFieldValue        ("TRUE");
+     endExposedFieldDecl  ();
 
-     beginProtoExposedField("SFVec3f", OSGsfVec3f, "size");
-     addFieldValue         ("0 0 0");
-     endProtoExposedField  ();
+     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "size");
+     addFieldValue        ("0 0 0");
+     endExposedFieldDecl  ();
 
-     addProtoEventOut      ("SFTime", "enterTime");
-     addProtoEventOut      ("SFTime", "exitTime" );
-     addProtoEventOut      ("SFBool", "isActive" );
+     addEventOutDecl      ("SFTime", "enterTime");
+     addEventOutDecl      ("SFTime", "exitTime" );
+     addEventOutDecl      ("SFBool", "isActive" );
  }
- endProtoInterface  ();
+ endProto  ();
 
 #if 0
 PROTO WorldInfo [
@@ -2427,16 +2523,16 @@ PROTO WorldInfo [
 ] { }
 #endif
 
- beginProtoInterface("WorldInfo");
+ beginProto("WorldInfo");
  {
-     beginProtoField("MFString", OSGmfString, "info");
-     endProtoField  ();
+     beginFieldDecl("MFString", OSGmfString, "info");
+     endFieldDecl  ();
      
-     beginProtoField("SFString", OSGsfString, "title");
+     beginFieldDecl("SFString", OSGsfString, "title");
      addFieldValue("");
-     endProtoField();
+     endFieldDecl();
  }
- endProtoInterface  ();
+ endProto  ();
 
  postStandardProtos();
 }
@@ -2768,13 +2864,14 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         if(_pCurrentFC   !=   NullFC                        && 
            _pCurrentField == _pCurrentFC->getField("children"))
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
             PINFO << "Add Child "
                   << &(*_pCurrentFC)
                   << " "
                   << &(*pFC)
                   << endl;
-
+#endif
             NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
             NodePtr pChildNode = NodePtr::dcast(pFC);
             
@@ -2783,12 +2880,14 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         else if(_pCurrentFC   !=   NullFC && 
                 _pCurrentField == _pCurrentFC->getField("core"))
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
             PINFO << "Add Core "
                   << &(*_pCurrentFC)
                   << " "
                   << &(*pFC)
                   << endl;
+#endif
 
             NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
             NodeCorePtr pCore = NodeCorePtr::dcast(pFC);
@@ -2833,3 +2932,42 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

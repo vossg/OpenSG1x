@@ -267,22 +267,29 @@ void VRMLNodeDesc::getFieldAndDesc(
     if(pFC == NullFC)
         return;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLNodeDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
 
     incIndent();
+#endif
 
     pField = pFC->getField(szFieldname);
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Got this from fieldcontainer : " << pField << endl;
+#endif
 
     if(pField != NULL)
     {
         pDesc = pFC->getType().findFieldDescription(szFieldname);
+
+#ifdef OSG_DEBUG_VRML
         decIndent();
+#endif
 
         return;
     }
@@ -297,8 +304,10 @@ void VRMLNodeDesc::getFieldAndDesc(
         {
             pField    = pNodeCore->getField(szFieldname);
             
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "Got this from nodecore : " << pField << endl;
+#endif
         }
         
         if(pField != NULL)
@@ -315,9 +324,10 @@ void VRMLNodeDesc::getFieldAndDesc(
                 pField = pTmpFC->getField(szFieldname);
             }
 
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "Got this from node attachment : " << pField << endl;
-
+#endif
             if(pField == NULL)
             {
                 pTmpFC = 
@@ -329,9 +339,11 @@ void VRMLNodeDesc::getFieldAndDesc(
                     pField = pTmpFC->getField(szFieldname);
                 }
 
+#ifdef OSG_DEBUG_VRML
                 indentLog(getIndent(), PINFO);
                 PINFO << "Got this from nodecore attachment : " 
                       << pField << endl;
+#endif
             }
 
             if(pField != NULL)
@@ -357,13 +369,16 @@ void VRMLNodeDesc::getFieldAndDesc(
             pDesc = pTmpFC->getType().findFieldDescription(szFieldname);
         }        
 
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "Got this from nodecore attachment : " 
               << pField << endl;
-
+#endif
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
  
 /*-------------------------------------------------------------------------*/
@@ -382,12 +397,14 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
                               szFieldName);
 
     
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLNodeDesc::prototypeAddField | getField " 
           << szFieldName
           << "  returned : "
           << pField 
           << endl;
+#endif
 
     if(pField == NULL)
     {
@@ -403,6 +420,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
             return false;
         }
         
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLNodeDesc::prototypeAddField | got fieldtype : " 
               << uiFieldTypeId
@@ -411,6 +429,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
               << " " 
               << pType->getId()
               << endl;
+#endif
         
         pDesc = new FieldDescription(*pType, 
                                      szFieldName, 
@@ -428,6 +447,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
 
         delete pDesc;
     
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLNodeDesc::prototypeAddField | field added : " 
               << szFieldType 
@@ -438,6 +458,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
               << " " 
               << _pCurrField
               << endl;
+#endif
         
         if(_pCurrField != NULL)
             return true;
@@ -593,6 +614,7 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
         return returnValue;
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLNodeDesc::getField " << endl;
 
@@ -600,16 +622,19 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
 
     indentLog(getIndent(), PINFO);
     PINFO << "Trying to find field : " << szFieldname << endl;
+#endif
 
     if(pFC1 != NullFC)
     {
         returnValue = pFC1->getField(szFieldname);
     }
 
+#ifdef OSG_DEBUG_VRML
     incIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "Got this from node : " << returnValue << endl;
+#endif
 
     if(returnValue != NULL)
         return returnValue;
@@ -618,13 +643,17 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
     {
         returnValue = pFC2->getField(szFieldname);
 
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "Got this from nodecore : " << returnValue << endl;
+#endif
     }
     else
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "No core to check" << endl;
+#endif
     }
 
 
@@ -636,11 +665,13 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
         returnValue = pGenAtt->getField(szFieldname);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Got this from attachment : " << returnValue << endl;
 
     decIndent();
     decIndent();
+#endif
 
     return returnValue;
 }
@@ -677,8 +708,10 @@ VRMLShapeDesc::~VRMLShapeDesc(void)
 
 void VRMLShapeDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "ShapeDesc::init : " << szName << endl;
+#endif
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = MaterialGroup::create();
@@ -700,10 +733,12 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
 {
     Bool returnValue = false;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLShapeDesc::prototypeAddField | add request : " 
           << szFieldname
           << endl;
+#endif
 
     _pCurrField = NULL;
 
@@ -717,12 +752,14 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
         _pCurrField = _pNodeProto->getField("children");
         returnValue = true;
 
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLShapeDesc::prototypeAddField | request internal : " 
               << szFieldname 
               << " "
               << _pCurrField
               << endl;
+#endif
     }
 
     if(stringcasecmp("apperance", szFieldname) == 0)
@@ -730,6 +767,7 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
         _pCurrField = _pNodeCoreProto->getField("material");
         returnValue = true;
 
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
 
         PINFO << "VRMLShapeDesc::prototypeAddField | request internal : " 
@@ -737,6 +775,7 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
               << " "
               << _pCurrField
               << endl;
+#endif
     }
 
     if(_pCurrField == NULL)
@@ -746,7 +785,9 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
                                                     szFieldname);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 
     return returnValue;
 }
@@ -763,19 +804,23 @@ void VRMLShapeDesc::getFieldAndDesc(
     if(pFC == NullFC)
         return;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
 
     incIndent();
+#endif
 
     if(stringcasecmp("geometry", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLShapeDesc::getFieldAndDesc : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pFC->getField("children");
         
@@ -784,10 +829,12 @@ void VRMLShapeDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("appearance", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLShapeDesc::getFieldAndDesc : request internal "
               << szFieldname
               << endl;
+#endif
 
         NodePtr pNode = NodePtr::dcast(pFC);
 
@@ -821,7 +868,9 @@ void VRMLShapeDesc::getFieldAndDesc(
                                       pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -846,10 +895,12 @@ FieldContainerPtr VRMLShapeDesc::beginNode(const Char8            *,
         }
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Shape " << &(*pNode) << endl;
 
     incIndent();
+#endif
 
     return pNode;
 }
@@ -895,10 +946,12 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
         }
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Shape " << &(*pFC) << endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -946,8 +999,10 @@ VRMLGeometryDesc::~VRMLGeometryDesc(void)
 
 void VRMLGeometryDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "GeoDesc::init : " << szName << endl;
+#endif
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Geometry::create();
@@ -988,9 +1043,11 @@ Bool VRMLGeometryDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(bFound == true)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "GeoDesc::prototypeAddField : internal " 
               << szFieldname << endl;
+#endif
 
         return true;
     }
@@ -1009,10 +1066,12 @@ void VRMLGeometryDesc::getFieldAndDesc(
           Field             *&pField,
     const FieldDescription  *&pDesc)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "GeoDesc::getFieldAndDesc : request " 
           << szFieldname 
           << endl;
+#endif
 
     if(szFieldname == NULL)
         return;
@@ -1042,10 +1101,11 @@ void VRMLGeometryDesc::getFieldAndDesc(
 
     if(stringcasecmp("coord", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "GeoDesc::getFieldAndDesc : internal " 
               << szFieldname << endl;
-
+#endif
         pField = pGeo->getField("positions");
         
         if(pField != NULL)
@@ -1053,9 +1113,11 @@ void VRMLGeometryDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("normal", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "GeoDesc::getFieldAndDesc : internal " 
               << szFieldname << endl;
+#endif
 
         pField = pGeo->getField("normals");
         
@@ -1064,9 +1126,11 @@ void VRMLGeometryDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("color", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "GeoDesc::getFieldAndDesc : internal " 
               << szFieldname << endl;
+#endif
 
         pField = pGeo->getField("colors");
         
@@ -1075,9 +1139,11 @@ void VRMLGeometryDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("texCoord", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "GeoDesc::getFieldAndDesc : internal " 
               << szFieldname << endl;
+#endif
 
         pField = pGeo->getField("texCoords");
         
@@ -1124,10 +1190,12 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Geo " << &(*pNode) << endl;
 
     incIndent();
+#endif
 
     return pNode;
 }
@@ -1273,8 +1341,10 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pColorPerVertex  != NULL &&
            pCreaseAngle     != NULL)
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "Geo create faceset " << &(*pNode) << endl;
+#endif
 
             setIndexFromVRMLData(pGeo,
                                  pCoordIndex     ->getValues(),
@@ -1291,8 +1361,10 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
             if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
                (pGeo->getNormals() == NullFC))
             {
+#ifdef OSG_DEBUG_VRML
                 indentLog(getIndent(), PINFO);
                 PINFO << "Geo create normals " << &(*pNode) << endl;
+#endif
 
                 OSG::calcVertexNormals(pGeo, pCreaseAngle->getValue());
             }
@@ -1312,8 +1384,10 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pColorIndex      != NULL &&
            pColorPerVertex  != NULL)
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "Geo create lineset " << &(*pNode) << endl;
+#endif
  
             setIndexFromVRMLData(pGeo,
                                  pCoordIndex    ->getValues(),
@@ -1329,10 +1403,12 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         }
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Geo " << &(*pNode) << endl;
+#endif
 }
 
 void VRMLGeometryDesc::addFieldValue(      Field *pField,
@@ -1390,6 +1466,7 @@ VRMLGeometryPartDesc::~VRMLGeometryPartDesc(void)
 
 void VRMLGeometryPartDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "GeoPartDesc::init : " 
           << szName << " "
@@ -1397,6 +1474,7 @@ void VRMLGeometryPartDesc::init(const Char8 *szName)
           << _szOSGPartname << " "
           << _szOSGProtoname << " "
           << endl;
+#endif
 
     _pNodeProto =
        FieldContainerFactory::the()->createFieldContainer(_szOSGProtoname);
@@ -1424,10 +1502,12 @@ Bool VRMLGeometryPartDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(stringcasecmp(_szVRMLPartname, szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "GeoPartDesc::prototypeAddField : add part " 
               << szFieldname
               << endl;
+#endif
 
         bFound = true;
     }
@@ -1451,10 +1531,12 @@ void VRMLGeometryPartDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLGeometryPartDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(szFieldname == NULL)
         return;
@@ -1466,12 +1548,14 @@ void VRMLGeometryPartDesc::getFieldAndDesc(
 
     if(stringcasecmp(_szVRMLPartname, szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLGeometryPartDesc::getFieldAndDesc : request internal "
               << szFieldname 
               << " return "
               << _szOSGPartname
               << endl;
+#endif
 
         pField = pFC->getField(_szOSGPartname);
         
@@ -1496,7 +1580,9 @@ void VRMLGeometryPartDesc::getFieldAndDesc(
                                    pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1554,11 +1640,13 @@ VRMLGeometryObjectDesc::~VRMLGeometryObjectDesc(void)
 
 void VRMLGeometryObjectDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "GeoObjDesc::init : " 
           << szName << " "
           << _szVRMLObjectname 
           << endl;
+#endif
 
     _pNodeProto = Node::create();
 
@@ -1592,10 +1680,12 @@ void VRMLGeometryObjectDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLGeometryObjectDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(szFieldname == NULL)
         return;
@@ -1610,7 +1700,9 @@ void VRMLGeometryObjectDesc::getFieldAndDesc(
                                pField,
                                pDesc);
     
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1666,9 +1758,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
         {
             SFVec3f *pVec = static_cast<SFVec3f *>(pField);
 
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "VRMLGeometryObjectDesc::endNode : Create box"
                   << endl;
+#endif
 
             GeometryPtr pGeo = makeBoxGeo(pVec->getValue()[0],
                                           pVec->getValue()[1],
@@ -1730,9 +1824,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
            pSide   != NULL &&
            pBottom != NULL)
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "VRMLGeometryObjectDesc::endNode : Create cone"
                   << endl;
+#endif
 
             GeometryPtr pGeo = makeConeGeo(pHeight->getValue(),
                                            pBotRad->getValue(),
@@ -1808,9 +1904,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
            pSide   != NULL &&
            pTop    != NULL)
         {
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "VRMLGeometryObjectDesc::endNode : Create cylinder"
                   << endl;
+#endif
             
             GeometryPtr pGeo = makeCylinderGeo(pHeight->getValue(),
                                                pRadius->getValue(),
@@ -1833,9 +1931,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
         {
             SFReal32 *pValue = static_cast<SFReal32 *>(pField);
             
+#ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "VRMLGeometryObjectDesc::endNode : Create sphere"
                   << endl;
+#endif
 
             GeometryPtr pGeo = makeSphereGeo(3, pValue->getValue());
 
@@ -1884,8 +1984,10 @@ VRMLAppearanceDesc::~VRMLAppearanceDesc(void)
 
 void VRMLAppearanceDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "ApperanceDesc::init : " << szName << endl;
+#endif
 
     _pNodeProto = ChunkMaterial::create();
 
@@ -1937,10 +2039,12 @@ void VRMLAppearanceDesc::getFieldAndDesc(
     const FieldDescription *&pDesc)
 {
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLAppearanceDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(pFC == NullFC)
         return;
@@ -1952,10 +2056,12 @@ void VRMLAppearanceDesc::getFieldAndDesc(
 
     if(stringcasecmp("material", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
               << szFieldname
               << endl;
+#endif
         
         pField = pFC->getField("chunks");
         
@@ -1964,10 +2070,12 @@ void VRMLAppearanceDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("texture", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pFC->getField("chunks");
         
@@ -1982,7 +2090,9 @@ void VRMLAppearanceDesc::getFieldAndDesc(
                                    pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1997,10 +2107,12 @@ FieldContainerPtr VRMLAppearanceDesc::beginNode(
 
     returnValue = _pNodeProto->shallowCopy();
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Appearance " << &(*returnValue) << endl;
 
     incIndent();
+#endif
 
     return returnValue;
 }
@@ -2074,10 +2186,12 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 #endif
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Appearance " <<  endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -2141,8 +2255,10 @@ VRMLMaterialDesc::~VRMLMaterialDesc(void)
 
 void VRMLMaterialDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "MaterialDesc::init : " << szName << endl;
+#endif
 }
 
 void VRMLMaterialDesc::reset(void)
@@ -2212,10 +2328,12 @@ Bool VRMLMaterialDesc::prototypeAddField(const Char8  *,
 
     if(bFound == true)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "MaterialDesc::prototypeAddField : add part " 
               << szFieldname
               << endl;
+#endif
         return true;
     }
     else
@@ -2402,8 +2520,10 @@ VRMLImageTextureDesc::~VRMLImageTextureDesc(void)
 
 void VRMLImageTextureDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "ImageTextureDesc::init : " << szName << endl;
+#endif
 }
 
 void VRMLImageTextureDesc::reset(void)
@@ -2442,10 +2562,12 @@ Bool VRMLImageTextureDesc::prototypeAddField(const Char8  *,
 
     if(bFound == true)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "ImageTextureDesc::prototypeAddField : add part " 
               << szFieldname
               << endl;
+#endif
 
         return true;
     }
@@ -2491,10 +2613,12 @@ FieldContainerPtr VRMLImageTextureDesc::beginNode(
 {
     TextureChunkPtr returnValue = TextureChunk::create();
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin ImageTexture " << &(*returnValue) << endl;
 
     incIndent();
+#endif
 
     _url.clear();
 
@@ -2516,8 +2640,10 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 
     if(pTexture != NullFC)
     {
+#ifdef OSG_DEBUG_VRML
         PNOTICE << "VRMLImageTextureDesc::endNode : Reading texture " 
                 << _url.getValue(0).c_str() << endl;
+#endif
 
         if(_pPathHandler            != NULL && 
            _url.getValue(0).c_str() != NULL)
@@ -2579,6 +2705,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                  << endl;
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
@@ -2587,6 +2714,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
           << _repeatS.getValue()    << " "
           << _repeatT.getValue()    << " "
           << &(*pFC) << endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -2633,8 +2761,10 @@ VRMLPixelTextureDesc::~VRMLPixelTextureDesc(void)
 
 void VRMLPixelTextureDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "PixelTextureDesc::init : " << szName << endl;
+#endif
 }
 
 void VRMLPixelTextureDesc::reset(void)
@@ -2673,10 +2803,12 @@ Bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *,
 
     if(bFound == true)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "PixelTextureDesc::prototypeAddField : add part " 
               << szFieldname
               << endl;
+#endif
 
         return true;
     }
@@ -2727,10 +2859,12 @@ FieldContainerPtr VRMLPixelTextureDesc::beginNode(
     _repeatS = _defaultRepeatS;
     _repeatT = _defaultRepeatT;
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin PixelTexture " << &(*returnValue) << endl;
 
     incIndent();
+#endif
 
     return returnValue;
 }
@@ -2772,6 +2906,7 @@ void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
                  << endl;
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
@@ -2779,6 +2914,7 @@ void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
           << _repeatS.getValue()    << " "
           << _repeatT.getValue()    << " "
           << &(*pFC) << endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -2830,8 +2966,10 @@ VRMLLODDesc::~VRMLLODDesc(void)
 
 void VRMLLODDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "LODDesc::init : " << szName << endl;
+#endif
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = DistanceLOD::create();
@@ -2893,10 +3031,12 @@ void VRMLLODDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(pNode == NullFC)
     {
@@ -2918,10 +3058,12 @@ void VRMLLODDesc::getFieldAndDesc(
 
     if(stringcasecmp("level", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLLODDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pNode->getField("children");
         
@@ -2930,10 +3072,12 @@ void VRMLLODDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("center", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLLODDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pLOD->getField("center");
         
@@ -2942,10 +3086,12 @@ void VRMLLODDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("range", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLLODDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pLOD->getField("range");
         
@@ -2960,7 +3106,9 @@ void VRMLLODDesc::getFieldAndDesc(
                                       pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -2994,21 +3142,25 @@ FieldContainerPtr VRMLLODDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin LOD " << &(*pNode) << endl;
 
     incIndent();
+#endif
 
     return pNode;
 }
 
 void VRMLLODDesc::endNode(FieldContainerPtr pFC)
 {    
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End LOD " 
           << &(*pFC) << endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3047,8 +3199,10 @@ VRMLSwitchDesc::~VRMLSwitchDesc(void)
 
 void VRMLSwitchDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "SwitchDesc::init : " << szName << endl;
+#endif
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Switch::create();
@@ -3106,10 +3260,12 @@ void VRMLSwitchDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(pNode == NullFC)
     {
@@ -3131,10 +3287,12 @@ void VRMLSwitchDesc::getFieldAndDesc(
 
     if(stringcasecmp("choice", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLSwitchDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pNode->getField("children");
         
@@ -3143,10 +3301,12 @@ void VRMLSwitchDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("whichChoice", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLSwitchDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pSwitch->getField("choice");
         
@@ -3161,7 +3321,9 @@ void VRMLSwitchDesc::getFieldAndDesc(
                                       pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3195,21 +3357,25 @@ FieldContainerPtr VRMLSwitchDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Switch " << &(*pNode) << endl;
 
     incIndent();
+#endif
 
     return pNode;
 }
 
 void VRMLSwitchDesc::endNode(FieldContainerPtr pFC)
 {    
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Switch " 
           << &(*pFC) << endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3254,8 +3420,10 @@ VRMLGroupDesc::~VRMLGroupDesc(void)
 
 void VRMLGroupDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "GroupDesc::init : " << szName << endl;
+#endif
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Group::create();
@@ -3319,10 +3487,12 @@ void VRMLGroupDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLGroupDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(pNode == NullFC)
     {
@@ -3344,30 +3514,36 @@ void VRMLGroupDesc::getFieldAndDesc(
 
     if(stringcasecmp("bboxCenter", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = &_boxCenter;
         pDesc  = NULL;
     }
     else if(stringcasecmp("bboxSize", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = &_boxSize;
         pDesc  = NULL;
     }
     else if(stringcasecmp("children", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = pNode->getField("children");
         
@@ -3382,7 +3558,9 @@ void VRMLGroupDesc::getFieldAndDesc(
                                       pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3416,21 +3594,25 @@ FieldContainerPtr VRMLGroupDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Group " << &(*pNode) << endl;
 
     incIndent();
+#endif
 
     return pNode;
 }
 
 void VRMLGroupDesc::endNode(FieldContainerPtr pFC)
 {    
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Group " 
           << &(*pFC) << endl;    
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3475,8 +3657,10 @@ VRMLInlineDesc::~VRMLInlineDesc(void)
 
 void VRMLInlineDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "InlineDesc::init : " << szName << endl;
+#endif
     
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Inline::create();
@@ -3540,10 +3724,12 @@ void VRMLInlineDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "VRMLInlineDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
+#endif
 
     if(pNode == NullFC)
     {
@@ -3565,20 +3751,24 @@ void VRMLInlineDesc::getFieldAndDesc(
 
     if(stringcasecmp("bboxCenter", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLInlineDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = &_boxCenter;
         pDesc  = NULL;
     }
     else if(stringcasecmp("whichChoice", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLInlineDesc::getFieldAndDesc :  : request internal "
               << szFieldname
               << endl;
+#endif
 
         pField = &_boxSize;
         pDesc  = NULL;
@@ -3591,7 +3781,9 @@ void VRMLInlineDesc::getFieldAndDesc(
                                       pDesc);
     }
 
+#ifdef OSG_DEBUG_VRML
     decIndent();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3625,21 +3817,25 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Inline" << &(*pNode) << endl;
 
     incIndent();
+#endif
 
     return pNode;
 }
 
 void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 {    
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Inline " 
           << &(*pFC) << endl;   
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3678,7 +3874,9 @@ VRMLViewpointDesc::~VRMLViewpointDesc(void)
 
 void VRMLViewpointDesc::init(const Char8 *szName)
 {
+#ifdef OSG_DEBUG_VRML
     PINFO << "Viewpoint init : " << szName << endl;
+#endif
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = ComponentTransform::create();
@@ -3766,10 +3964,12 @@ void VRMLViewpointDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "ViewpointDesc::getFieldAndDesc : request " 
           << szFieldname 
           << endl;
+#endif
 
     if(szFieldname == NULL)
         return;
@@ -3797,9 +3997,11 @@ void VRMLViewpointDesc::getFieldAndDesc(
 
     if(stringcasecmp("orientation", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "ViewpointDesc::getFieldAndDesc : internal " 
               << szFieldname << endl;
+#endif
 
         pField = pTransform->getField("rotation");
         
@@ -3808,9 +4010,11 @@ void VRMLViewpointDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("position", szFieldname) == 0)
     {
+#ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
         PINFO << "ViewpointDesc::getFieldAndDesc : internal " 
               << szFieldname << endl;
+#endif
 
         pField = pTransform->getField("translation");
         
@@ -3857,20 +4061,24 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
+#ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Viewpoint " << &(*pNode) << endl;
 
     incIndent();
+#endif
     
     return pNode;
 }
 
 void VRMLViewpointDesc::endNode(FieldContainerPtr pFC)
 { 
+#ifdef OSG_DEBUG_VRML
     decIndent();
 
     indentLog(getIndent(), PINFO);
     PINFO << "End Viewpoint " << &(*pFC) << endl;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
