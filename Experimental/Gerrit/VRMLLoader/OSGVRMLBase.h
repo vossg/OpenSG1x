@@ -72,12 +72,15 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup BaseFunctions
  */
 
+//CHECKCHECK
+#ifndef __linux
 template <class T> inline
 void addRef(T &pObject)
 {
     if(pObject != T::VSCNullPtr)
         pObject.addRef();
 }
+#endif
 
 /*! \brief addRef
  *  \ingroup BaseFunctions
@@ -95,12 +98,15 @@ void addRef(T *pObject)
  *  \ingroup BaseFunctions
  */
 
+//CHECKCHECK
+#ifndef __linux
 template <class T> inline
 void subRef(T &pObject)
 {
     if(pObject != T::VSCNullPtr)
         pObject.subRef();
 }
+#endif
 
 /*! \brief subRef
  *  \ingroup BaseFunctions
@@ -114,11 +120,14 @@ void subRef(T *pObject)
 }
 
 
+//CHECKCHECK
+#ifndef __linux
 template <class T> inline
 void beginEdit(T &oT, const BitVector whichField)
 {
     ot.beginEdit(whichField);
 }
+#endif
 
 template <class T> inline
 void beginEdit(T *pT, const BitVector whichField)
@@ -126,11 +135,14 @@ void beginEdit(T *pT, const BitVector whichField)
     pT->beginEdit(whichField);
 }
 
+//CHECKCHECK
+#ifndef __linux
 template <class T> inline
 void endEditNoChanged(T &oT, const BitVector whichField)
 {
     ot.endEdit(whichField);
 }
+#endif
 
 template <class T> inline
 void endEditNoChanged(T *pT, const BitVector whichField)
@@ -138,12 +150,15 @@ void endEditNoChanged(T *pT, const BitVector whichField)
     pT->endEdit(whichField);
 }
 
+//CHECKCHECK
+#ifndef __linux
 template <class T> inline
 void endEdit(T &oT, const BitVector whichField)
 {
     endEditNoChanged(oT, whichField);
     oT.changed(whichField, VSCExternal);
 }
+#endif
 
 template <class T> inline
 void endEdit(T *pT, const BitVector whichField)
