@@ -129,6 +129,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     /*-------------------------------- core --------------------------------*/
 
     NodeCorePtr getCore(void);
+    NodeCorePtr getCore(void) const;
     void        setCore(const NodeCorePtr &core);
 
     /*------------------------------ parent --------------------------------*/

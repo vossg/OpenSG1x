@@ -221,11 +221,6 @@ AttachmentPtr Node::findAttachment(UInt32 typeID)
         NullAttachment : (*fcI).second;
 }
 
-NodeCorePtr Node::getCore(void)     
-{
-    return _core.getValue(); 
-}
-
 void Node::setCore(const NodeCorePtr &core)
 {
     NodePtr thisP = getPtr();
@@ -243,16 +238,6 @@ void Node::setCore(const NodeCorePtr &core)
     {
         _core.getValue()->addParent(thisP);
 	}
-}
-
-NodePtr Node::getParent(void)
-{
-    return _parent.getValue();
-}
-
-UInt32 Node::getNChildren(void) const 
-{
-    return _children.size(); 
 }
 
 void Node::addChild(const NodePtr &childP)

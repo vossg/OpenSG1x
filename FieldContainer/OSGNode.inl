@@ -99,6 +99,30 @@ const Volume &Node::getVolume(void) const
 	return _volume.getValue().getVolume();
 }
 
+inline
+NodeCorePtr Node::getCore(void)     
+{
+    return _core.getValue(); 
+}
+
+inline
+NodeCorePtr Node::getCore(void) const  
+{
+    return _core.getValue(); 
+}
+
+inline
+NodePtr Node::getParent(void)
+{
+    return _parent.getValue();
+}
+
+inline
+UInt32 Node::getNChildren(void) const 
+{
+    return _children.size(); 
+}
+
 /*------------------------------ access -----------------------------------*/
 
 /*------------------------------- size ----------------------------------*/
