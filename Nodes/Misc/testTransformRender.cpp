@@ -69,11 +69,11 @@
 OSG_USING_NAMESPACE
 
 
-OSGDrawAction * dact;
+DrawAction * dact;
 
-OSGNodePtr  root;
+NodePtr  root;
 
-OSGTransformPtr tr;
+TransformPtr tr;
 
 void 
 display(void)
@@ -87,7 +87,7 @@ display(void)
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    OSGMatrix m;
+    Matrix m;
 
     m.setTranslate( 0,0,sin(a/1500) * 2 );
 
@@ -130,41 +130,43 @@ int main (int argc, char **argv)
 
     // OSG
 
-    OSGNodePtr g1;
-    g1 = osgMakePlane( 2, 2, 2, 2 );
+    NodePtr g1;
+    g1 = makePlane( 2, 2, 2, 2 );
 
     
-    OSGNodePtr g2 = OSGNode::create();
+    NodePtr g2 = Node::create();
     osgBeginEditCP(g2);
     g2->setCore( g1->getCore() );
     osgEndEditCP(g2);
 
     // Transform
 
-    OSGNodePtr tnode = OSGNode::create();
-    tr = OSGTransform::create();
+    NodePtr tnode = Node::create();
+    tr = Transform::create();
     osgBeginEditCP(tnode);
     tnode->setCore( tr );
     tnode->addChild( g2 );
     osgEndEditCP(tnode);
 
-    OSGNodeCorePtr tcr = 
-        OSGFieldContainerFactory::the().createNodeCore("Group");
+/*
+    NodeCorePtr tcr = 
+        FieldContainerFactory::the().createNodeCore("Group");
 
-    OSGNodePtr pcr = 
-        OSGFieldContainerFactory::the().createNode("Node");
+    NodePtr pcr = 
+        FieldContainerFactory::the().createNode("Node");
+*/
 
     //
 
-    root = OSGNode::create();
-    OSGGroupPtr gr = OSGGroup::create();
+    root = Node::create();
+    GroupPtr gr = Group::create();
     osgBeginEditCP(root);
     root->setCore( gr );
     root->addChild( g1 );
     root->addChild( tnode );
     osgEndEditCP(root);
 
-    dact = new OSGDrawAction;
+    dact = new DrawAction;
     
     glutMainLoop();
     

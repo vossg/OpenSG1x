@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -37,6 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
+#include <OSGBaseFunctions.h>
 
 #include <vector>
 
@@ -63,11 +75,11 @@ OSG_BEGIN_NAMESPACE
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
- *  \brief Base class for all single fields, for example ::OSGSFMatrix.
+ *  \brief Base class for all single fields, for example ::SFMatrix.
  */
 
-template <class OSGFieldTypeT>
-class OSGSField : public OSGField 
+template <class FieldTypeT>
+class OSG_DLLEXPORT SField : public Field 
 {
   public:
 
@@ -75,7 +87,7 @@ class OSGSField : public OSGField
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-	static const OSGFieldType _fieldType;
+	static const FieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -89,43 +101,43 @@ class OSGSField : public OSGField
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char         *getClassname(void) { return "OSGSField"; };
-    static const OSGFieldType &getClassType(void);
+    static const Char8     *getClassname(void) { return "SField"; };
+    static const FieldType &getClassType(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGSField         (void);
-    OSGSField         (const OSGSField  &obj);
-    explicit OSGSField(const OSGFieldTypeT &value);
+    SField         (void);
+    SField         (const SField  &obj);
+    explicit SField(const FieldTypeT &value);
 
-    virtual ~OSGSField(void); 
+    virtual ~SField(void); 
 
     /*------------------------------ access ---------------------------------*/
 
-          OSGFieldTypeT &getValue(void);
-	const OSGFieldTypeT &getValue(void) const;
+          FieldTypeT &getValue(void);
+	const FieldTypeT &getValue(void) const;
 
-    void setAbstrValue(const OSGField &obj);
+    void setAbstrValue(const Field &obj);
 
-    void setValue(const OSGFieldTypeT            &value);
-	void setValue(const OSGSField<OSGFieldTypeT> &obj  );
+    void setValue(const        FieldTypeT  &value);
+	void setValue(const SField<FieldTypeT> &obj  );
 
     /*----------------------- field information -----------------------------*/
 
-	virtual       OSGCardinality getCardinality (void) const;
+	virtual Cardinality getCardinality (void) const;
 
-    virtual       OSGUInt32      size           (void) const;
+    virtual UInt32      size           (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const OSGFieldType  &getType        (void) const;
+	virtual const FieldType  &getType        (void) const;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void       setValueByStr(const char *str);
-    virtual OSGString &getStrValue  (OSGString &string) const;
+	virtual void    pushValueByStr(const Char8 *str);
+    virtual String &getValueByStr (String &string) const;
 
     /*------------------------------- dump ----------------------------------*/
 
@@ -153,13 +165,13 @@ class OSGSField : public OSGField
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldTypeT _value;
+    FieldTypeT _value;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual void doSync(OSGField *source);
+    virtual void doSync(Field *source);
 
     void beginEdit(void);
 
@@ -173,13 +185,13 @@ class OSGSField : public OSGField
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGField Inherited;
+    typedef Field Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -195,7 +207,7 @@ class OSGSField : public OSGField
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	static OSGField *create(void);
+	static Field *create(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -207,7 +219,7 @@ class OSGSField : public OSGField
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGSField &source);
+    void operator =(const SField &source);
 };
 
 //---------------------------------------------------------------------------

@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -57,23 +57,23 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *OSGTransform::getClassname(void)
+/** \fn const char *Transform::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGTransform::Inherited
+/** \typedef Transform::Inherited
  *  \brief Parent type
  */
 
-/** \var OSGSFMatrix OSGTransform::_matrix
+/** \var SFMatrix Transform::_matrix
  *  \brief Transformation matrix
  */
 
-/** \fn OSGTransform::OSGTransform(const OSGTransform &source)
+/** \fn Transform::Transform(const Transform &source)
  *  \brief Not implemented.
  */
 
-/** \fn void OSGTransform::operator =(const OSGTransform &source)
+/** \fn void Transform::operator =(const Transform &source)
  *  \brief Not implemented.
  */
 
@@ -85,31 +85,31 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGTransform, OSGMatrixField)
-OSG_FC_LAST_FIELD_IDM_DEF (OSGTransform, OSGMatrixField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Transform, MatrixField)
+OSG_FC_LAST_FIELD_IDM_DEF (Transform, MatrixField)
 
-char OSGTransform::cvsid[] = "@(#)$Id: $";
+char Transform::cvsid[] = "@(#)$Id: $";
 
 /** \brief Group field description
  */
 
-OSGFieldDescription OSGTransform::_desc[] = 
+FieldDescription Transform::_desc[] = 
 {
-    OSGFieldDescription(OSGSFMatrix::getClassType(), 
-                        "matrix", 
-                        OSG_FC_FIELD_IDM_DESC(OSGMatrixField),
-                        false,
-                        (OSGFieldAccessMethod) &OSGTransform::getSFMatrix)
+    FieldDescription(SFMatrix::getClassType(), 
+                     "matrix", 
+                     OSG_FC_FIELD_IDM_DESC(MatrixField),
+                     false,
+                     (FieldAccessMethod) &Transform::getSFMatrix)
 };
 
 /** \brief Transform type
  */
 
-OSGFieldContainerType OSGTransform::_type(
+FieldContainerType Transform::_type(
     "Transform",
     "NodeCore",
     NULL,
-    (OSGPrototypeCreateF) &OSGTransform::createEmpty,
+    (PrototypeCreateF) &Transform::createEmpty,
     initMethod,
     _desc,
     sizeof(_desc));
@@ -142,18 +142,18 @@ OSGFieldContainerType OSGTransform::_type(
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
-void OSGTransform::initMethod (void)
+void Transform::initMethod (void)
 {
-    OSGDrawAction::registerEnterDefault( getStaticType(), 
-        osgMethodFunctor2BaseCPtr<OSG::OSGAction::ResultE,
-                                OSGCNodePtr,  
-                                OSGTransformPtr, 
-                                OSGAction *>(&OSGTransform::drawEnter));
-    OSGDrawAction::registerLeaveDefault( getStaticType(), 
-        osgMethodFunctor2BaseCPtr<OSG::OSGAction::ResultE,
-                                OSGCNodePtr,  
-                                OSGTransformPtr, 
-                                OSGAction *>(&OSGTransform::drawLeave));
+    DrawAction::registerEnterDefault( getStaticType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                TransformPtr, 
+                                Action *>(&Transform::drawEnter));
+    DrawAction::registerLeaveDefault( getStaticType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                TransformPtr, 
+                                Action *>(&Transform::drawLeave));
 }
 
 /***************************************************************************\
@@ -164,14 +164,14 @@ void OSGTransform::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGTransform, OSGTransformPtr)
+OSG_FIELD_CONTAINER_DEF(Transform, TransformPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGTransform::OSGTransform(void) :
+Transform::Transform(void) :
     Inherited(),
     _matrix()
 {
@@ -180,7 +180,7 @@ OSGTransform::OSGTransform(void) :
 /** \brief Copy Constructor
  */
 
-OSGTransform::OSGTransform(const OSGTransform &source) :
+Transform::Transform(const Transform &source) :
     Inherited(source),
     _matrix(source._matrix)
 {
@@ -189,7 +189,7 @@ OSGTransform::OSGTransform(const OSGTransform &source) :
 /** \brief Destructor
  */
 
-OSGTransform::~OSGTransform(void)
+Transform::~Transform(void)
 {
 }
 
@@ -198,7 +198,7 @@ OSGTransform::~OSGTransform(void)
 /** Returns pointer to the stored matrix field.
  */
 
-OSGSFMatrix *OSGTransform::getSFMatrix(void)
+SFMatrix *Transform::getSFMatrix(void)
 {
     return &_matrix;
 }
@@ -206,7 +206,7 @@ OSGSFMatrix *OSGTransform::getSFMatrix(void)
 /** Returns a reference to the stored field.
  */
 
-OSGMatrix &OSGTransform::getMatrix(void)
+Matrix &Transform::getMatrix(void)
 {
     return _matrix.getValue();
 }
@@ -214,47 +214,47 @@ OSGMatrix &OSGTransform::getMatrix(void)
 /** Returns a reference to the stored field.
  */
 
-const OSGMatrix &OSGTransform::getMatrix(void) const
+const Matrix &Transform::getMatrix(void) const
 {
     return _matrix.getValue();
 }
 
 
-void OSGTransform::accumulateMatrix( OSGMatrix & result )
+void Transform::accumulateMatrix( Matrix & result )
 {
     result.mult( getMatrix() );
 }
 
-void OSGTransform::adjustVolume( OSGVolume & volume )
+void Transform::adjustVolume( Volume & volume )
 {
     volume.transform( _matrix.getValue() );
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGTransform::dump(void) const
+void Transform::dump(void) const
 {
-    SDEBUG << "Dump OSGTransform NI" << endl;
+    SDEBUG << "Dump Transform NI" << endl;
 }
 
     
 /** Actions */
 
 // execute the OpenGL commands directly 
-OSGAction::ResultE OSGTransform::drawEnter(OSGAction *  )
+Action::ResultE Transform::drawEnter(Action *  )
 {
     // should use the chunk, but it's not updated yet
     glPushMatrix();
     glMultMatrixf( getMatrix().getValues() );
 
-    return OSGAction::Continue;
+    return Action::Continue;
 }
 
-OSGAction::ResultE OSGTransform::drawLeave(OSGAction *  )
+Action::ResultE Transform::drawLeave(Action *  )
 {
     glPopMatrix();
 
-    return OSGAction::Continue;
+    return Action::Continue;
 }
 
 /*-------------------------------------------------------------------------*\

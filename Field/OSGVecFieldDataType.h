@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -37,165 +48,229 @@ OSG_BEGIN_NAMESPACE
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGVec2f field traits 
+ *  \brief Vec2f field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGVec2f> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Vec2f> : public Traits
 {
-    static char *getSName(void) { return "SFVec2f"; }
-    static char *getMName(void) { return "MFVec2f"; }
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
 
-    static OSGVec2f        getDefault(void)     { return OSGVec2f();   }
+    static Char8 *getSName(void)   { return "SFVec2f"; }
+    static Char8 *getMName(void)   { return "MFVec2f"; }
+    static Vec2f  getDefault(void) { return Vec2f();   }
+
+    static Bool   getFromString(      Vec2f  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+        
+        return true;
+    }
+
+    static void   putToString(const Vec2f  &,
+                                    String &)
+    {
+        // TO_BE_DONE
+    }
 };
 
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGVec3f field traits 
+ *  \brief Vec3f field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGVec3f> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Vec3f> : public Traits
 {
-    static char *getSName(void) { return "SFVec3f"; }
-    static char *getMName(void) { return "MFVec3f"; }
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
 
-    static OSGVec3f        getDefault(void)     { return OSGVec3f();   }
+    static Char8 *getSName(void)   { return "SFVec3f"; }
+    static Char8 *getMName(void)   { return "MFVec3f"; }
 
-    static bool             getFromString(OSGVec3f    &,
-                                          const char *&)
+    static Vec3f  getDefault(void) { return Vec3f();   }
+
+    static Bool   getFromString(      Vec3f  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void   putToString(const Vec3f  &,
+                                    String &)
     {
         // TO_BE_DONE
+    }
+};
+
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Vec4f field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Vec4f> : public Traits
+{
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
+
+    static Char8 *getSName(void)   { return "SFVec4f";    }
+
+    static Char8 *getMName(void)   { return "MFVec4f";    }
+
+    static Vec4f  getDefault(void) { return Vec4f();      }
+
+    static Bool   getFromString(      Vec4f  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void   putToString(const Vec4f  &,
+                                    String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Pnt2f field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Pnt2f> : public Traits
+{
+    enum                        { StringConvertable = ToStringConvertable | 
+                                                      FromStringConvertable };
+
+    static Char8 *getSName(void)   { return "SFPnt2f";    }
+
+    static Char8 *getMName(void)   { return "MFPnt2f";    }
+
+    static Pnt2f  getDefault(void) { return Pnt2f();      }
+
+    static Bool   getFromString(      Pnt2f  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void   putToString(const Pnt2f  &,
+                                    String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Vec4ub field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Vec4ub> : public Traits
+{
+    enum                        { StringConvertable = ToStringConvertable | 
+                                                      FromStringConvertable };
+
+    static Char8 *getSName(void)   { return "SFVec4ub";    }
+
+    static Char8 *getMName(void)   { return "MFVec4ub";    }
+
+    static Vec4ub getDefault(void) { return Vec4ub();      }
+
+    static Bool   getFromString(      Vec4ub  &outVal,
+                                const Char8  *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void   putToString(const Vec4ub &,
+                                    String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Pnt3f field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Pnt3f> : public Traits
+{
+    enum                        { StringConvertable = ToStringConvertable | 
+                                                      FromStringConvertable };
+
+    static Char8 *getSName(void)   { return "SFPnt3f";    }
+
+    static Char8 *getMName(void)   { return "MFPnt3f";    }
+
+    static Pnt3f  getDefault(void) { return Pnt3f();      }
+
+    static Bool   getFromString(      Pnt3f  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
         return false;
     }
 
-    static void             putToString(const OSGVec3f  &,
-                                              OSGString &)
+    static void   putToString(const Pnt3f  &,
+                                    String &)
     {
         // TO_BE_DONE
     }
 };
 
-
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGVec4f field traits 
+ *  \brief Pnt4f field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGVec4f> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Pnt4f> : public Traits
 {
-    static char            *getSName(void)      { return "SFVec4f";    }
+    enum                        { StringConvertable = ToStringConvertable | 
+                                                      FromStringConvertable };
 
-    static char            *getMName(void)      { return "MFVec4f";    }
+    static Char8 *getSName(void)   { return "SFPnt4f";    }
 
-    static OSGVec4f        getDefault(void)     { return OSGVec4f();   }
+    static Char8 *getMName(void)   { return "MFPnt4f";    }
 
-    static bool             getFromString(OSGVec4f    &,
-                                          const char *&)
+    static Pnt4f  getDefault(void) { return Pnt4f();      }
+
+    static Bool   getFromString(      Pnt4f  &outVal,
+                                const Char8 *&inVal)
     {
-        // TO_BE_DONE
+        outVal.setValue(inVal);
         return false;
     }
 
-    static void             putToString(const OSGVec4f  &,
-                                              OSGString &)
+    static void   putToString(const Pnt4f  &,
+                                    String &)
     {
         // TO_BE_DONE
     }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGPnt2f field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGPnt2f> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFPnt2f";    }
-
-    static char            *getMName(void)      { return "MFPnt2f";    }
-
-    static OSGPnt2f        getDefault(void)     { return OSGPnt2f();   }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGVec4ub field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGVec4ub> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFVec4ub";    }
-
-    static char            *getMName(void)      { return "MFVec4ub";    }
-
-    static OSGVec4ub        getDefault(void)     { return OSGVec4ub();   }
-
-    static bool             getFromString(OSGVec4ub   &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGVec4ub &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGPnt3f field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGPnt3f> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFPnt3f";    }
-
-    static char            *getMName(void)      { return "MFPnt3f";    }
-
-    static OSGPnt3f        getDefault(void)     { return OSGPnt3f();   }
-
-    static bool             getFromString(OSGPnt3f    &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGPnt3f  &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGPnt4f field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGPnt4f> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFPnt4f";    }
-
-    static char            *getMName(void)      { return "MFPnt4f";    }
-
-    static OSGPnt4f         getDefault(void)    { return OSGPnt4f();   }
 };
 
 OSG_END_NAMESPACE

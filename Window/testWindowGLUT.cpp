@@ -43,17 +43,17 @@
 
 using namespace OSG;
 
-OSGDrawAction * ract;
+DrawAction * ract;
 
-OSGNodePtr  root;
+NodePtr  root;
 
-OSGNodePtr  file;
+NodePtr  file;
 
-OSGWindowPtr win;
+WindowPtr win;
 
-OSGTransformPtr cam_trans;
+TransformPtr cam_trans;
 
-OSGTrackball tball;
+Trackball tball;
 
 int mouseb = 0;
 int lastx=0, lasty=0;
@@ -61,8 +61,8 @@ int lastx=0, lasty=0;
 void 
 display(void)
 {
-	OSGMatrix m1, m2, m3;
-    OSGQuaternion q1;
+	Matrix m1, m2, m3;
+    Quaternion q1;
 
     tball.getRotation().getValue(m3);
 
@@ -107,10 +107,10 @@ animate(void)
 void
 motion(int x, int y)
 {	
-	OSGReal32 w = win->getWidth(), h = win->getHeight();
+	Real32 w = win->getWidth(), h = win->getHeight();
 	
 
-	OSGReal32	a = -2. * ( lastx / w - .5 ),
+	Real32	a = -2. * ( lastx / w - .5 ),
 				b = -2. * ( .5 - lasty / h ),
 				c = -2. * ( x / w - .5 ),
 				d = -2. * ( .5 - y / h );
@@ -226,23 +226,23 @@ int main (int argc, char **argv)
 	// OSG
 
 #ifdef WIN32
-    OSGRAWSceneFileType *pR = &(OSGRAWSceneFileType::staticThe());
+    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 
-    OSGSceneFileHandler::the().print();
+    SceneFileHandler::the().print();
 
 	// create the graph
 
 	// beacon for camera and light	
-    OSGNodePtr b1n = OSGNode::create();
-    OSGGroupPtr b1 = OSGGroup::create();
+    NodePtr b1n = Node::create();
+    GroupPtr b1 = Group::create();
 	osgBeginEditCP(b1n);
 	b1n->setCore( b1 );
 	osgEndEditCP(b1n);
 
 	// transformation
-    OSGNodePtr t1n = OSGNode::create();
-    OSGTransformPtr t1 = OSGTransform::create();
+    NodePtr t1n = Node::create();
+    TransformPtr t1 = Transform::create();
 	osgBeginEditCP(t1n);
 	t1n->setCore( t1 );
 	t1n->addChild( b1n );
@@ -252,8 +252,8 @@ int main (int argc, char **argv)
 
 	// light
 	
-	OSGNodePtr dlight = OSGNode::create();
-	OSGDirectionalLightPtr dl = OSGDirectionalLight::create();
+	NodePtr dlight = Node::create();
+	DirectionalLightPtr dl = DirectionalLight::create();
 
 	osgBeginEditCP(dlight);
 	dlight->setCore( dl );
@@ -267,8 +267,8 @@ int main (int argc, char **argv)
 	osgEndEditCP(dl);
 
 	// root
-    root = OSGNode::create();
-    OSGGroupPtr gr1 = OSGGroup::create();
+    root = Node::create();
+    GroupPtr gr1 = Group::create();
 	osgBeginEditCP(root);
 	root->setCore( gr1 );
 	root->addChild( t1n );
@@ -277,14 +277,14 @@ int main (int argc, char **argv)
 
 	// Load the file
 
-	OSGNodePtr file = OSGSceneFileHandler::the().read(argv[1]);
+	NodePtr file = SceneFileHandler::the().read(argv[1]);
 
 	file->updateVolume();
 
 	// should check first. ok for now.
-	const OSGBoxVolume *vol = (OSGBoxVolume *)&file->getVolume();
+	const BoxVolume *vol = (BoxVolume *)&file->getVolume();
 
-	OSGVec3f min,max;
+	Vec3f min,max;
 	vol->getBounds( min, max );
 	
 	cout << "Volume: from " << min << " to " << max << endl;
@@ -297,7 +297,7 @@ int main (int argc, char **argv)
 	root->print();
 
 	// Camera
-	OSGPerspectiveCameraPtr cam = OSGPerspectiveCamera::create();
+	PerspectiveCameraPtr cam = PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
 	cam->setDegrees( 60 );
@@ -305,13 +305,13 @@ int main (int argc, char **argv)
 	cam->setFar( 10000 );
 
 	// Background
-	OSGBackgroundPtr bkgnd = OSGBackground::create();
+	BackgroundPtr bkgnd = Background::create();
 	
 	//bkgnd->setColor( 0,0,1 );
 
 	// Viewport
 
-	OSGViewportPtr vp = OSGViewport::create();
+	ViewportPtr vp = Viewport::create();
 	vp->setCamera( cam );
 	vp->setBackground( bkgnd );
 	vp->setRoot( root );
@@ -320,12 +320,12 @@ int main (int argc, char **argv)
 	// Window
 	cout << "GLUT winid: " << winid << endl;
 
-	OSGGLUTWindowPtr gwin;
+	GLUTWindowPtr gwin;
 
 	GLint glvp[4];
 	glGetIntegerv( GL_VIEWPORT, glvp );
 
-	gwin = OSGGLUTWindow::create();
+	gwin = GLUTWindow::create();
 	gwin->setWinID(winid);
 	gwin->setSize( glvp[2], glvp[3] );
 
@@ -335,24 +335,24 @@ int main (int argc, char **argv)
 
 	// Action
 	
-	ract = new OSGDrawAction;
+	ract = new DrawAction;
 
 	// tball
 
-	OSGVec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
+	Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
 
-	tball.setMode( OSGTrackball::OSGObject );
+	tball.setMode( Trackball::OSGObject );
 	tball.setStartPosition( pos, true );
 	tball.setSum( true );
-	tball.setTranslationMode( OSGTrackball::OSGFree );
+	tball.setTranslationMode( Trackball::OSGFree );
 
 	// run...
 
-    OSGFieldContainerPtr pc;
+    FieldContainerPtr pc;
 
     pc.dump();
 
-    pc = OSGFieldContainerFactory::the().createFieldContainer("Camera");
+    pc = FieldContainerFactory::the().createFieldContainer("Camera");
 
     pc.dump();
 	

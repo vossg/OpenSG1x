@@ -1,29 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 #ifndef OSGPNMIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGPNMIMAGEFILETYPE_CLASS_DECLARATION
@@ -58,7 +69,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSGPNMImageFileType : public OSGImageFileType 
+class OSG_DLLEXPORT PNMImageFileType : public ImageFileType 
 {
 
 public:
@@ -79,22 +90,22 @@ public:
 
 
   /** Destructor */
-	virtual ~OSGPNMImageFileType (void);
+	virtual ~PNMImageFileType (void);
 
   /** get method for attribute the */
-  virtual OSGPNMImageFileType & the (void) { return _the; }
+  virtual PNMImageFileType & the (void) { return _the; }
 
   /** get method for the attribute majorMagic */
-  virtual OSGInt16 getMajorMagic (void);
+  virtual Int16 getMajorMagic (void);
 
   /** get method for the attribute minorMagic */
-  virtual OSGInt16 getMinorMagic (void);
+  virtual Int16 getMinorMagic (void);
 
   /** read the image from the given file */
-  virtual bool read (OSGImage &image, const char *fileName);
+  virtual bool read (Image &image, const char *fileName);
 
   /** write the image to the given file */
-  virtual bool write (const OSGImage &image, const char *fileName);
+  virtual bool write (const Image &image, const char *fileName);
 
   /** get method for the type name */
   virtual const char *getName (void) { return "PNG IMAGE"; }
@@ -122,12 +133,12 @@ protected:
 
 
   /** Default Constructor */
-  OSGPNMImageFileType ( const char *suffixArray[], 
-												OSGUInt16 suffixByteCount, 
-												OSGInt16 majorMagic, OSGInt16 minorMagic);
+  PNMImageFileType ( const char *suffixArray[], 
+												UInt16 suffixByteCount, 
+												Int16 majorMagic, Int16 minorMagic);
 
   /** Copy Constructor */
-  OSGPNMImageFileType (const OSGPNMImageFileType &obj);
+  PNMImageFileType (const PNMImageFileType &obj);
 
 //-----------------------------
 //instance Variables  		     
@@ -151,11 +162,11 @@ private:
 //----------------------------------
 
 
-	typedef OSGImageFileType Inherited;
+	typedef ImageFileType Inherited;
 
 
   /**  */
-  static OSGPNMImageFileType _the;
+  static PNMImageFileType _the;
 
 //-------------------------------
 //friend Classes      	  	     
@@ -189,7 +200,7 @@ private:
 
 };
 
-typedef OSGPNMImageFileType* OSGPNMImageFileTypeP;
+typedef PNMImageFileType* PNMImageFileTypeP;
 
 OSG_END_NAMESPACE
 

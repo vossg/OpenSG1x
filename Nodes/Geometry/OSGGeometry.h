@@ -4,8 +4,8 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
- *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
@@ -68,8 +68,8 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-class OSGGeometry;
-typedef OSGFCPtr<OSGNodeCorePtr, OSGGeometry> OSGGeometryPtr;
+class Geometry;
+typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -83,7 +83,7 @@ typedef OSGFCPtr<OSGNodeCorePtr, OSGGeometry> OSGGeometryPtr;
  *  and minimal though, so don't expect them to be blindingly fast.
  */
 
-class OSGGeometry : public OSGNodeCore
+class OSG_DLLEXPORT Geometry : public NodeCore
 {
   public:
 
@@ -91,25 +91,25 @@ class OSGGeometry : public OSGNodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGTypesField          )
+    OSG_FC_FIRST_FIELD_IDM_DECL(TypesField          )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGLengthsField        )
-    OSG_FC_FIELD_IDM_DECL      (OSGPositionsField      )
+    OSG_FC_FIELD_IDM_DECL      (LengthsField        )
+    OSG_FC_FIELD_IDM_DECL      (PositionsField      )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGNormalsField        )
-    OSG_FC_FIELD_IDM_DECL      (OSGNormalPerVertexField)
+    OSG_FC_FIELD_IDM_DECL      (NormalsField        )
+    OSG_FC_FIELD_IDM_DECL      (NormalPerVertexField)
 
-    OSG_FC_FIELD_IDM_DECL      (OSGColorsField         )
-    OSG_FC_FIELD_IDM_DECL      (OSGColorPerVertexField )
+    OSG_FC_FIELD_IDM_DECL      (ColorsField         )
+    OSG_FC_FIELD_IDM_DECL      (ColorPerVertexField )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGGeoIndexField       )
+    OSG_FC_FIELD_IDM_DECL      (GeoIndexField       )
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
@@ -118,67 +118,67 @@ class OSGGeometry : public OSGNodeCore
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGGeometry"; };
+    static const char *getClassname(void) { return "Geometry"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSG_FIELD_CONTAINER_DECL(OSGGeometryPtr)
+    OSG_FIELD_CONTAINER_DECL(GeometryPtr)
 
     /*------------------------- your_category -------------------------------*/
 
-	/** property access. Returns OSGFCNULL if not set or available. */
+    /** property access. Returns FCNULL if not set or available. */
 
-	inline OSGGeoPTypePtr		getTypes( void );
-	inline void					setTypes( OSGGeoPTypePtr types );
+    inline GeoPTypePtr      getTypes( void );
+    inline void             setTypes( GeoPTypePtr types );
 
-	inline OSGGeoPLengthPtr		getLengths( void );
-	inline void					setLengths( OSGGeoPLengthPtr lengths );	
-	
-	inline OSGGeoPositionPtr	getPositions( void );
-	inline void					setPositions( OSGGeoPositionPtr positions );
-		
-	inline OSGGeoColorPtr		getColors( void );
-	inline void					setColors( OSGGeoColorPtr Colors );	
-	inline OSGBool				getColorPerVertex( void );
-	inline void					setColorPerVertex( OSGBool npv );
-		
-	inline OSGGeoNormalPtr		getNormals( void );
-	inline void					setNormals( OSGGeoNormalPtr normals );	
-	inline OSGBool				getNormalPerVertex( void );
-	inline void					setNormalPerVertex( OSGBool npv );
-	
-	// The single index for all attributes. 
-	// This will probably move out into a derived class
-	inline OSGGeoIndexPtr		getIndex( void );
-	inline void					setIndex( OSGGeoIndexPtr index );
-	
-	// TODO: separate indices, texcoords, ...
-	
-	/** field access */
+    inline GeoPLengthPtr    getLengths( void );
+    inline void             setLengths( GeoPLengthPtr lengths );    
+    
+    inline GeoPositionPtr   getPositions( void );
+    inline void             setPositions( GeoPositionPtr positions );
+        
+    inline GeoColorPtr      getColors( void );
+    inline void             setColors( GeoColorPtr Colors );    
+    inline Bool             getColorPerVertex( void );
+    inline void             setColorPerVertex( Bool npv );
+        
+    inline GeoNormalPtr     getNormals( void );
+    inline void             setNormals( GeoNormalPtr normals ); 
+    inline Bool             getNormalPerVertex( void );
+    inline void             setNormalPerVertex( Bool npv );
+    
+    // The single index for all attributes. 
+    // This will probably move out into a derived class
+    inline GeoIndexPtr      getIndex( void );
+    inline void             setIndex( GeoIndexPtr index );
+    
+    // TODO: separate indices, texcoords, ...
+    
+    /** field access */
 
-	OSGSFGeoPTypePtr		*getSFTypes( void );
-	OSGSFGeoPLengthPtr		*getSFLengths( void );
-	OSGSFGeoPositionPtr		*getSFPositions( void );
-	OSGSFGeoColorPtr		*getSFColors( void );
-	OSGSFBool				*getSFColorPerVertex( void );
-	OSGSFGeoNormalPtr		*getSFNormals( void );
-	OSGSFBool				*getSFNormalPerVertex( void );
-	OSGSFGeoIndexPtr		*getSFIndex( void );
+    SFGeoPTypePtr       *getSFTypes( void );
+    SFGeoPLengthPtr     *getSFLengths( void );
+    SFGeoPositionPtr    *getSFPositions( void );
+    SFGeoColorPtr       *getSFColors( void );
+    SFBool              *getSFColorPerVertex( void );
+    SFGeoNormalPtr      *getSFNormals( void );
+    SFBool              *getSFNormalPerVertex( void );
+    SFGeoIndexPtr       *getSFIndex( void );
 
     /** pointer */
 
-	OSGGeometryPtr getPtr(void);
-	
-	/** updates */
-	
-	void adjustVolume( OSGVolume & volume );
-	
-	/** Triangle iterator functions */
-	
-	
-	/** Primitive iterator functions */
+    GeometryPtr getPtr(void);
+    
+    /** updates */
+    
+    void adjustVolume( Volume & volume );
+    
+    /** Triangle iterator functions */
+    
+    
+    /** Primitive iterator functions */
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -210,17 +210,17 @@ class OSGGeometry : public OSGNodeCore
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGGeometry(void);
-    OSGGeometry(const OSGGeometry &source);
-    virtual ~OSGGeometry(void); 
+    Geometry(void);
+    Geometry(const Geometry &source);
+    virtual ~Geometry(void); 
 
-    virtual void changed(OSGBitVector whichField, OSGChangeMode from);
-	
+    virtual void changed(BitVector whichField, ChangeMode from);
+    
     /*------------------------------ Actions --------------------------------*/
-	
-	// execute the OpenGL commands to draw the geometry	
-	OSGAction::ResultE draw(OSGAction * action );
-	
+    
+    // execute the OpenGL commands to draw the geometry 
+    Action::ResultE draw(Action * action );
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -231,13 +231,13 @@ class OSGGeometry : public OSGNodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNodeCore Inherited;
+    typedef NodeCore Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -247,43 +247,43 @@ class OSGGeometry : public OSGNodeCore
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static OSGFieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-	static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	static void   initMethod (void);
+    static void   initMethod (void);
  
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	OSGSFGeoPTypePtr    _types;
-	
-	OSGSFGeoPLengthPtr  _lengths;
-	
-	OSGSFGeoPositionPtr _positions;
-	
-	OSGSFGeoNormalPtr   _normals;
-	OSGSFBool           _normalsPerVertex;
-	
-	OSGSFGeoColorPtr    _colors;
-	OSGSFBool           _colorsPerVertex;
-	
-	OSGSFGeoIndexPtr    _index;
-	
+    SFGeoPTypePtr    _types;
+    
+    SFGeoPLengthPtr  _lengths;
+    
+    SFGeoPositionPtr _positions;
+    
+    SFGeoNormalPtr   _normals;
+    SFBool           _normalsPerVertex;
+    
+    SFGeoColorPtr    _colors;
+    SFBool           _colorsPerVertex;
+    
+    SFGeoIndexPtr    _index;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGGeometry &source);
+    void operator =(const Geometry &source);
 };
 
 //---------------------------------------------------------------------------
@@ -292,7 +292,7 @@ class OSGGeometry : public OSGNodeCore
 
 // class pointer
 
-extern OSGGeometryPtr OSGNullGeo;
+extern GeometryPtr NullGeo;
 
 
 // Single index geometry  

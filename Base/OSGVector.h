@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGVECTOR_H_
 #define _OSGVECTOR_H_
@@ -54,11 +64,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-template<class OSGValueTypeT, class OSGStorageInterfaceT>
-class OSGVectorInterface;
+template<class ValueTypeT, class StorageInterfaceT>
+class VectorInterface;
 
-template<class OSGValueTypeT, class OSGStorageInterfaceT>
-class OSGPointInterface;
+template<class ValueTypeT, class StorageInterfaceT>
+class PointInterface;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -69,8 +79,8 @@ class OSGPointInterface;
  *         points and matrices are actually build see \ref vecpointmat.
  */
 
-template <class OSGValueTypeT>
-class OSGVecStorage2 
+template <class ValueTypeT>
+class OSG_DLLEXPORT VecStorage2 
 {
   public:
 
@@ -88,24 +98,24 @@ class OSGVecStorage2
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGVecStorage2"; };
+    static const char *getClassname(void) { return "VecStorage2"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGVecStorage2(void);
+    VecStorage2(void);
 
-    ~OSGVecStorage2(void); 
+    ~VecStorage2(void); 
 
     /*----------------------------- access ----------------------------------*/
 
-    void setValues(const OSGValueTypeT &rVal1, const OSGValueTypeT &rVal2);
+    void setValues(const ValueTypeT &rVal1, const ValueTypeT &rVal2);
 
-    void getValues(OSGValueTypeT &rVal1, OSGValueTypeT &rVal2) const;
+    void getValues(ValueTypeT &rVal1, ValueTypeT &rVal2) const;
 
-    OSGValueTypeT x(void) const;
-    OSGValueTypeT y(void) const;
+    ValueTypeT x(void) const;
+    ValueTypeT y(void) const;
 
   protected:
 
@@ -129,7 +139,7 @@ class OSGVecStorage2
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueTypeT _values[_iSize];
+    ValueTypeT _values[_iSize];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -173,8 +183,8 @@ class OSGVecStorage2
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGVecStorage2(const OSGVecStorage2 &source);
-    void operator =(const OSGVecStorage2 &source);
+    VecStorage2(const VecStorage2 &source);
+    void operator =(const VecStorage2 &source);
 };
 
 //---------------------------------------------------------------------------
@@ -186,8 +196,8 @@ class OSGVecStorage2
  *         points and matrices are actually build see \ref vecpointmat.
  */
 
-template <class OSGValueTypeT>
-class OSGVecStorage3
+template <class ValueTypeT>
+class OSG_DLLEXPORT VecStorage3
 {
   public:
 
@@ -205,29 +215,29 @@ class OSGVecStorage3
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGVecStorage3"; };
+    static const char *getClassname(void) { return "VecStorage3"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGVecStorage3(void);
+    VecStorage3(void);
 
-    ~OSGVecStorage3(void); 
+    ~VecStorage3(void); 
 
     /*----------------------------- access ---------------------------------*/
 
-    void setValues(const OSGValueTypeT &rVal1, 
-                   const OSGValueTypeT &rVal2, 
-                   const OSGValueTypeT &rVal3);
+    void setValues(const ValueTypeT &rVal1, 
+                   const ValueTypeT &rVal2, 
+                   const ValueTypeT &rVal3);
 
-    void getValues(OSGValueTypeT &rVal1, 
-                   OSGValueTypeT &rVal2, 
-                   OSGValueTypeT &rVal3) const;
+    void getValues(ValueTypeT &rVal1, 
+                   ValueTypeT &rVal2, 
+                   ValueTypeT &rVal3) const;
 
-    OSGValueTypeT x(void) const;
-    OSGValueTypeT y(void) const;
-    OSGValueTypeT z(void) const;
+    ValueTypeT x(void) const;
+    ValueTypeT y(void) const;
+    ValueTypeT z(void) const;
 
   protected:
 
@@ -251,7 +261,7 @@ class OSGVecStorage3
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueTypeT _values[_iSize];
+    ValueTypeT _values[_iSize];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -295,8 +305,8 @@ class OSGVecStorage3
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGVecStorage3(const OSGVecStorage3 &source);
-    void operator =(const OSGVecStorage3 &source);
+    VecStorage3(const VecStorage3 &source);
+    void operator =(const VecStorage3 &source);
 };
 
 //---------------------------------------------------------------------------
@@ -308,8 +318,8 @@ class OSGVecStorage3
  *         points and matrices are actually build see \ref vecpointmat.
  */
 
-template <class OSGValueTypeT>
-class OSGVecStorage4
+template <class ValueTypeT>
+class OSG_DLLEXPORT VecStorage4
 {
   public:
 
@@ -327,32 +337,32 @@ class OSGVecStorage4
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGVecStorage4"; };
+    static const char *getClassname(void) { return "VecStorage4"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGVecStorage4(void);
+    VecStorage4(void);
 
-    ~OSGVecStorage4(void); 
+    ~VecStorage4(void); 
 
     /*----------------------------- access ----------------------------------*/
 
-    void setValues(const OSGValueTypeT &rVal1, 
-                   const OSGValueTypeT &rVal2, 
-                   const OSGValueTypeT &rVal3, 
-                   const OSGValueTypeT &rVal4);
+    void setValues(const ValueTypeT &rVal1, 
+                   const ValueTypeT &rVal2, 
+                   const ValueTypeT &rVal3, 
+                   const ValueTypeT &rVal4);
 
-    void getValues(OSGValueTypeT &rVal1, 
-                   OSGValueTypeT &rVal2, 
-                   OSGValueTypeT &rVal3, 
-                   OSGValueTypeT &rVal4) const;
+    void getValues(ValueTypeT &rVal1, 
+                   ValueTypeT &rVal2, 
+                   ValueTypeT &rVal3, 
+                   ValueTypeT &rVal4) const;
 
-    OSGValueTypeT x(void) const;
-    OSGValueTypeT y(void) const;
-    OSGValueTypeT z(void) const;
-    OSGValueTypeT w(void) const;
+    ValueTypeT x(void) const;
+    ValueTypeT y(void) const;
+    ValueTypeT z(void) const;
+    ValueTypeT w(void) const;
 
   protected:
 
@@ -376,7 +386,7 @@ class OSGVecStorage4
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueTypeT _values[_iSize];
+    ValueTypeT _values[_iSize];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -420,8 +430,8 @@ class OSGVecStorage4
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGVecStorage4(const OSGVecStorage4 &source);
-    void operator =(const OSGVecStorage4 &source);
+    VecStorage4(const VecStorage4 &source);
+    void operator =(const VecStorage4 &source);
 };
 
 //---------------------------------------------------------------------------
@@ -437,8 +447,8 @@ class OSGVecStorage4
 #pragma set woff 1375
 #endif
 
-template<class OSGValueTypeT, class OSGStorageInterfaceT>
-class OSGPointInterface : public OSGStorageInterfaceT
+template<class ValueTypeT, class StorageInterfaceT>
+class OSG_DLLEXPORT PointInterface : public StorageInterfaceT
 {
   public:
 
@@ -450,16 +460,15 @@ class OSGPointInterface : public OSGStorageInterfaceT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename OSGTypeConstants<OSGValueTypeT>::OSGRealReturnType 
-        OSGRealReturnType;
+    typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
 
-    typedef          OSGValueTypeT OSGValueType;
+    typedef                        ValueTypeT                  ValueType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGPointInterface"; };
+    static const char *getClassname(void) { return "PointInterface"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -467,24 +476,24 @@ class OSGPointInterface : public OSGStorageInterfaceT
 
    /*------------ constructors & destructors -------------------------------*/
 
-    OSGPointInterface(void);
+    PointInterface(void);
 
-	explicit OSGPointInterface(const OSGValueTypeT *pVals);
-	explicit OSGPointInterface(      OSGValueTypeT *pVals);
+	explicit PointInterface(const ValueTypeT *pVals);
+	explicit PointInterface(      ValueTypeT *pVals);
 
 	/** \brief Constructor which take a lot of types as it's argument :-).
 	 *
 	 * The argument type must provide a _iSize enum entry, a *getValueRef(void)
 	 *  function and the value types must be convertable to the current one. 
 	 *  The main problem is that through the constructor 
-	 *  OSGVecBase(const OSGValueTypeT *pVals); and the following cast
-	 *  operator const OSGValueTypeT * (void); you are able to to the
+	 *  VecBase(const ValueTypeT *pVals); and the following cast
+	 *  operator const ValueTypeT * (void); you are able to to the
 	 *  following :
 	 *  \code
 	 *  void foo(void)
 	 *  {
-	 *      ClassWithOSGValueTypeT_*_Cast v2f;
-	 *      OSGVec4f v4f(v2f);
+	 *      ClassWithValueTypeT_*_Cast v2f;
+	 *      Vec4f v4f(v2f);
 	 *  }              
 	 *  \endcode
 	 *  This will at least give you some array read out of bounce erros;       
@@ -500,12 +509,12 @@ class OSGPointInterface : public OSGStorageInterfaceT
     #pragma set woff 1209
     #endif
 
-    template<class OSGVectorT> explicit OSGPointInterface(
-        const OSGVectorT &vec) : Inherited()
+    template<class VectorT> explicit PointInterface(
+        const VectorT &vec) : Inherited()
 	{
-        OSGUInt32 i;
+        UInt32 i;
 
-	    if(_iSize < OSGVectorT::_iSize)
+	    if(_iSize < VectorT::_iSize)
 		{
 	        for(i = 0; i < _iSize; i++)
 		    {
@@ -514,13 +523,13 @@ class OSGPointInterface : public OSGStorageInterfaceT
 		}
 		else	
 		{
-			for(i = 0; i < OSGVectorT::_iSize; i++)
+			for(i = 0; i < VectorT::_iSize; i++)
 			{
 	            _values[i] = vec.getValueRef()[i];
 			}
-			for(i = OSGVectorT::_iSize; i < _iSize; i++)
+			for(i = VectorT::_iSize; i < _iSize; i++)
 			{
-	            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+	            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
 			}
 		}
 	}
@@ -529,7 +538,7 @@ class OSGPointInterface : public OSGStorageInterfaceT
     #pragma reset woff 1209
     #endif
 
-    OSGPointInterface(const OSGPointInterface &source);    
+    PointInterface(const PointInterface &source);    
 
 #if 0
     /* Constructor which takes one value, remaining entries will be zero;
@@ -537,22 +546,22 @@ class OSGPointInterface : public OSGStorageInterfaceT
        so I do not implement this one, any problems with that (GV) 
     */
 
-    OSGPointInterface(const OSGValueTypeT rVal1);
+    PointInterface(const ValueTypeT rVal1);
 #endif
 
     /* Found so far no way to move these constructors to the memory
        interface :-(. I still find them a little bit wrong placed (GV)
     */
 
-    OSGPointInterface(const OSGValueTypeT rVal1, const OSGValueTypeT rVal2);
+    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2);
 
-    OSGPointInterface(const OSGValueTypeT rVal1, const OSGValueTypeT rVal2, 
-                      const OSGValueTypeT rVal3);
+    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+                   const ValueTypeT rVal3);
     
-    OSGPointInterface(const OSGValueTypeT rVal1, const OSGValueTypeT rVal2, 
-                      const OSGValueTypeT rVal3, const OSGValueTypeT rVal4);
+    PointInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+                   const ValueTypeT rVal3, const ValueTypeT rVal4);
 
-    ~OSGPointInterface(void); 
+    ~PointInterface(void); 
 
     /*------------------------- set values -------------------------------*/
     
@@ -564,24 +573,24 @@ class OSGPointInterface : public OSGStorageInterfaceT
        so I do not implement this one, any problems with that (GV) 
     */
 
-    void setValue(const OSGValueTypeT &rVal1);
+    void setValue(const ValueTypeT &rVal1);
 #endif
 
-    void setValue(const OSGPointInterface &vec);
+    void setValue(const PointInterface &vec);
 
 	/** \brief Set function which take a lot of types as it's argument :-).
 	 *
 	 * The argument type must provide a _iSize enum entry, a *getValueRef(void)
 	 *  function and the value types must be convertable to the current one. 
 	 *  The main problem is that through the set function
-	 *  void setValue(const OSGValueTypeT *pVals); and the following cast
-	 *  operator const OSGValueTypeT * (void); you are able to to the
+	 *  void setValue(const ValueTypeT *pVals); and the following cast
+	 *  operator const ValueTypeT * (void); you are able to to the
 	 * following :
 	 * \code
 	 *  void foo(void)
 	 *  {
-	 *      ClassWithOSGValueTypeT_*_Cast v2f;
-	 *      OSGVec4f v4f;
+	 *      ClassWithValueTypeT_*_Cast v2f;
+	 *      Vec4f v4f;
 	 *
 	 *      v4f.setValue(v2f);
 	 *  }              
@@ -599,13 +608,13 @@ class OSGPointInterface : public OSGStorageInterfaceT
     #pragma set woff 1209
     #endif
 
-    template<class OSGVectorT>
-    void setValue(const OSGVectorT &vec)
+    template<class VectorT>
+    void setValue(const VectorT &vec)
 	{
-		OSGUInt32 i;
+		UInt32 i;
 
 		for(i = 0; 
-			i < (_iSize < OSGVectorT::_iSize ? _iSize : OSGVectorT::_iSize); 
+			i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
 			i++)
 		{
 	        _values[i] = vec.getValueRef()[i];
@@ -616,61 +625,60 @@ class OSGPointInterface : public OSGStorageInterfaceT
     #pragma reset woff 1209
     #endif
 
-    void setValue(const OSGValueTypeT *pVals);
+    void setValue(const ValueTypeT *pVals);
 
     void setValue(const char *szString);
     void setValue(      char *szString);
 
     /*------------------------- get values -------------------------------*/
 
-          OSGValueTypeT *getValueRef(void);
-    const OSGValueTypeT *getValueRef(void) const;
+          ValueTypeT *getValueRef(void);
+    const ValueTypeT *getValueRef(void) const;
 
     /*--------------------------- common math -------------------------------*/
 
-    OSGBool            isZero   (void) const;
+    Bool            isZero   (void) const;
 
-    void               negate   (void);
+    void            negate   (void);
 
-    OSGBool            equals   (const OSGPointInterface &vec, 
-                                 const OSGValueTypeT       tolerance) const;
+    Bool            equals   (const PointInterface &vec, 
+                              const ValueTypeT       tolerance) const;
 
     /*------------------------------ math -----------------------------------*/
 
-    void       operator *=(const OSGValueTypeT  val);
-    void       operator /=(const OSGValueTypeT  val);
+    void       operator *=(const ValueTypeT  val);
+    void       operator /=(const ValueTypeT  val);
 
-    OSGVectorInterface<OSGValueTypeT, 
-                       OSGStorageInterfaceT> operator - (
-                           const OSGPointInterface &vec) const;
+    VectorInterface<ValueTypeT, StorageInterfaceT> operator - (
+        const PointInterface &vec) const;
 
-    OSGPointInterface operator * (const OSGValueTypeT rVal) const;
+    PointInterface operator * (const ValueTypeT rVal) const;
 
-    OSGPointInterface operator -  (void);
+    PointInterface operator -  (void);
 
     /*------------------------- element access ------------------------------*/
 
-           OSGValueTypeT &operator[](const OSGUInt32 uiVal);
-    const  OSGValueTypeT &operator[](const OSGUInt32 uiVal) const;   
+           ValueTypeT &operator[](const UInt32 uiVal);
+    const  ValueTypeT &operator[](const UInt32 uiVal) const;   
 
-    /* Cast operator, cast OSGVecBase to OSGValueTypeT *
+    /* Cast operator, cast VecBase to ValueTypeT *
        Bad Bad idea, in my opion to buggy to be used, use getValues
-       Const cast operator, cast OSGVecBase to OSGValueTypeT *
+       Const cast operator, cast VecBase to ValueTypeT *
 
-    operator       OSGValueTypeT *(void);
-    operator const OSGValueTypeT *(void);
+    operator       ValueTypeT *(void);
+    operator const ValueTypeT *(void);
     */
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGPointInterface &operator =(const OSGPointInterface &source);
+    PointInterface &operator =(const PointInterface &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGPointInterface &other)  const;
+    Bool operator < (const PointInterface &other)  const;
 
-	OSGBool operator == (const OSGPointInterface &other) const;
-	OSGBool operator != (const OSGPointInterface &other) const;
+	Bool operator == (const PointInterface &other) const;
+	Bool operator != (const PointInterface &other) const;
 
   protected:
 
@@ -708,7 +716,7 @@ class OSGPointInterface : public OSGStorageInterfaceT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGStorageInterfaceT Inherited;
+    typedef StorageInterfaceT Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -749,9 +757,9 @@ class OSGPointInterface : public OSGStorageInterfaceT
  *   are actually build see \ref vecpointmat. 
  */
 
-template<class OSGValueTypeT, class OSGStorageInterfaceT>
-class OSGVectorInterface : 
-    public OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>
+template<class ValueTypeT, class StorageInterfaceT>
+class OSG_DLLEXPORT VectorInterface : 
+    public PointInterface<ValueTypeT, StorageInterfaceT>
 {
   public:
 
@@ -763,16 +771,15 @@ class OSGVectorInterface :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename OSGTypeConstants<OSGValueTypeT>::OSGRealReturnType 
-        OSGRealReturnType;
+    typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
 
-    typedef          OSGValueTypeT OSGValueType;
+    typedef                        ValueTypeT                  ValueType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGVectorInterface"; };
+    static const char *getClassname(void) { return "VectorInterface"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -780,24 +787,24 @@ class OSGVectorInterface :
 
    /*------------ constructors & destructors -------------------------------*/
 
-    OSGVectorInterface(void);
+    VectorInterface(void);
 
-	explicit OSGVectorInterface(const OSGValueTypeT *pVals);
-	explicit OSGVectorInterface(      OSGValueTypeT *pVals);
+	explicit VectorInterface(const ValueTypeT *pVals);
+	explicit VectorInterface(      ValueTypeT *pVals);
 
 	/** \brief Constructor which take a lot of types as it's argument :-).
 	 *
 	 * The argument type must provide a _iSize enum entry, a *getValueRef(void)
 	 *  function and the value types must be convertable to the current one. 
 	 *  The main problem is that through the constructor 
-	 *  OSGVecBase(const OSGValueTypeT *pVals); and the following cast
-	 *  operator const OSGValueTypeT * (void); you are able to to the
+	 *  VecBase(const ValueTypeT *pVals); and the following cast
+	 *  operator const ValueTypeT * (void); you are able to to the
 	 *  following :
 	 *  \code
 	 *  void foo(void)
 	 *  {
-	 *      ClassWithOSGValueTypeT_*_Cast v2f;
-	 *      OSGVec4f v4f(v2f);
+	 *      ClassWithValueTypeT_*_Cast v2f;
+	 *      Vec4f v4f(v2f);
 	 *  }              
 	 *  \endcode
 	 *  This will at least give you some array read out of bounce erros;       
@@ -813,12 +820,12 @@ class OSGVectorInterface :
     #pragma set woff 1209
     #endif
 
-    template<class OSGVectorT> explicit OSGVectorInterface(
-        const OSGVectorT &vec) : Inherited()
+    template<class VectorT> explicit VectorInterface(
+        const VectorT &vec) : Inherited()
 	{
-        OSGUInt32 i;
+        UInt32 i;
 
-	    if(_iSize < OSGVectorT::_iSize)
+	    if(_iSize < VectorT::_iSize)
 		{
 	        for(i = 0; i < _iSize; i++)
 		    {
@@ -827,13 +834,13 @@ class OSGVectorInterface :
 		}
 		else	
 		{
-			for(i = 0; i < OSGVectorT::_iSize; i++)
+			for(i = 0; i < VectorT::_iSize; i++)
 			{
 	            _values[i] = vec.getValueRef()[i];
 			}
-			for(i = OSGVectorT::_iSize; i < _iSize; i++)
+			for(i = VectorT::_iSize; i < _iSize; i++)
 			{
-	            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+	            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
 			}
 		}
 	}
@@ -842,7 +849,7 @@ class OSGVectorInterface :
     #pragma reset woff 1209
     #endif
 
-    OSGVectorInterface(const OSGVectorInterface &source);    
+    VectorInterface(const VectorInterface &source);    
 
 #if 0
     /* Constructor which takes one value, remaining entries will be zero;
@@ -850,59 +857,59 @@ class OSGVectorInterface :
        so I do not implement this one, any problems with that (GV) 
     */
 
-    OSGVectorInterface(const OSGValueTypeT rVal1);
+    VectorInterface(const ValueTypeT rVal1);
 #endif
 
     /* Found so far no way to move these constructors to the memory
        interface :-(. I still find them a little bit wrong placed (GV)
     */
 
-    OSGVectorInterface(const OSGValueTypeT rVal1, const OSGValueTypeT rVal2);
+    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2);
 
-    OSGVectorInterface(const OSGValueTypeT rVal1, const OSGValueTypeT rVal2, 
-                       const OSGValueTypeT rVal3);
+    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+                    const ValueTypeT rVal3);
 
-    OSGVectorInterface(const OSGValueTypeT rVal1, const OSGValueTypeT rVal2, 
-                       const OSGValueTypeT rVal3, const OSGValueTypeT rVal4);
+    VectorInterface(const ValueTypeT rVal1, const ValueTypeT rVal2, 
+                    const ValueTypeT rVal3, const ValueTypeT rVal4);
 
-    ~OSGVectorInterface(void); 
+    ~VectorInterface(void); 
 
     /*--------------------------- common math -------------------------------*/
 
-    OSGRealReturnType  length   (void) const;
+    RealReturnType  length   (void) const;
 
-    void               normalize(void);
+    void            normalize(void);
 
-    OSGVectorInterface cross    (const OSGVectorInterface &vec) const;
+    VectorInterface cross    (const VectorInterface &vec) const;
 
-    void               crossThis(const OSGVectorInterface &vec);
+    void            crossThis(const VectorInterface &vec);
 
-    OSGValueTypeT      dot      (const OSGVectorInterface &vec) const;
+    ValueTypeT      dot      (const VectorInterface &vec) const;
 
-    OSGRealReturnType  enclosedAngle(const OSGVectorInterface &vec) const;
+    RealReturnType  enclosedAngle(const VectorInterface &vec) const;
 
     /*------------------------------ math -----------------------------------*/
 
-    void       operator +=(const OSGVectorInterface    &vec);
-    void       operator -=(const OSGVectorInterface    &vec);
+    void       operator +=(const VectorInterface    &vec);
+    void       operator -=(const VectorInterface    &vec);
 
-    OSGVectorInterface operator - (const OSGVectorInterface &vec) const;
-    OSGVectorInterface operator + (const OSGVectorInterface &vec) const;
+    VectorInterface operator - (const VectorInterface &vec) const;
+    VectorInterface operator + (const VectorInterface &vec) const;
 
-    OSGVectorInterface operator * (const OSGValueTypeT rVal) const;
+    VectorInterface operator * (const ValueTypeT rVal) const;
 
-    OSGVectorInterface operator -  (void);
+    VectorInterface operator -  (void);
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGVectorInterface &operator =(const OSGVectorInterface &source);
+    VectorInterface &operator =(const VectorInterface &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGVectorInterface &other)  const;
+    Bool operator < (const VectorInterface &other)  const;
 
-	OSGBool operator == (const OSGVectorInterface &other) const;
-	OSGBool operator != (const OSGVectorInterface &other) const;
+	Bool operator == (const VectorInterface &other) const;
+	Bool operator != (const VectorInterface &other) const;
 
   protected:
 
@@ -940,7 +947,7 @@ class OSGVectorInterface :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> Inherited;
+    typedef PointInterface<ValueTypeT, StorageInterfaceT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -980,124 +987,115 @@ class OSGVectorInterface :
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/** \var typedef OSGVectorInterface<OSGReal32, \
-                                    OSGVecStorage2<OSGReal32> > OSGVec2f;
- *  \brief OSGVec2f
+/** \var typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
+ *  \brief Vec2f
  *  \ingroup BaseMathVectors
  */
-typedef OSGVectorInterface<OSGReal32, OSGVecStorage2<OSGReal32> > OSGVec2f;
+typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
 
-/** \var typedef OSGVec2f *OSGVec2fP;
- *  \brief OSGVec2fP
+/** \var typedef Vec2f *Vec2fP;
+ *  \brief Vec2fP
  *  \ingroup BaseMathVectors
  */
-typedef OSGVec2f *OSGVec2fP;
+typedef Vec2f *Vec2fP;
 
-/** \var typedef OSGVectorInterface<OSGReal32, \
-                                    OSGVecStorage3<OSGReal32> > OSGVec3f;
- *  \brief OSGVec3f
+/** \var typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
+ *  \brief Vec3f
  *  \ingroup BaseMathVectors
  */
-typedef OSGVectorInterface<OSGReal32, OSGVecStorage3<OSGReal32> > OSGVec3f;
+typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
 
-/** \var typedef OSGVec3f *OSGVec3fP;
- *  \brief OSGVec3fP
+/** \var typedef Vec3f *Vec3fP;
+ *  \brief Vec3fP
  *  \ingroup BaseMathVectors
  */
-typedef OSGVec3f *OSGVec3fP;
+typedef Vec3f *Vec3fP;
 
-/** \var typedef OSGVectorInterface<OSGReal32, \
-                                    OSGVecStorage4<OSGReal32> > OSGVec4f;
- *  \brief OSGVec4f
+/** \var typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
+ *  \brief Vec4f
  *  \ingroup BaseMathVectors
  */
-typedef OSGVectorInterface<OSGReal32, OSGVecStorage4<OSGReal32> > OSGVec4f;
+typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
 
-/** \var typedef OSGVec4f *OSGVec4fP;
- *  \brief OSGVec4fP
+/** \var typedef Vec4f *Vec4fP;
+ *  \brief Vec4fP
  *  \ingroup BaseMathVectors
  */
-typedef OSGVec4f *OSGVec4fP;
+typedef Vec4f *Vec4fP;
 
-/** \var typedef OSGVectorInterface<OSGUInt16, \
-                                    OSGVecStorage2<OSGUInt16> > OSGVec2s;
- *  \brief OSGVec2s
+/** \var typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
+ *  \brief Vec2s
  *  \ingroup BaseMathVectors
  */
-typedef OSGVectorInterface<OSGUInt16, OSGVecStorage2<OSGUInt16> > OSGVec2s;
+typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
 
-/** \var typedef OSGVec2s *OSGVec2sP;
- *  \brief OSGVec2sP
+/** \var typedef Vec2s *Vec2sP;
+ *  \brief Vec2sP
  *  \ingroup BaseMathVectors
  */
-typedef OSGVec2s *OSGVec2sP;
+typedef Vec2s *Vec2sP;
 
-/** \var typedef OSGVectorInterface<OSGUInt8, \
-                                    OSGVecStorage4<OSGUInt8> > OSGVec4ub;
- *  \brief OSGVec4ub
+/** \var typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
+ *  \brief Vec4ub
  *  \ingroup BaseMathVectors
  */
-typedef OSGVectorInterface<OSGUInt8, OSGVecStorage4<OSGUInt8> > OSGVec4ub;
+typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
 
-/** \var typedef OSGVec4ub *OSGVec4ubP;
- *  \brief OSGVec4ubP
+/** \var typedef Vec4ub *Vec4ubP;
+ *  \brief Vec4ubP
  *  \ingroup BaseMathVectors
  */
-typedef OSGVec4ub *OSGVec4ubP;
+typedef Vec4ub *Vec4ubP;
 
 
-/** \var typedef OSGPointInterface<OSGReal32, \ 
-                                   OSGVecStorage2<OSGReal32> > OSGPnt2f;
- *  \brief OSGVec2f
+/** \var typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
+ *  \brief Vec2f
  *  \ingroup BaseMathVectors
  */
-typedef OSGPointInterface<OSGReal32, OSGVecStorage2<OSGReal32> > OSGPnt2f;
+typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
 
-/** \var typedef OSGPnt2f *OSGPnt2fP;
- *  \brief OSGVec2fP
+/** \var typedef Pnt2f *Pnt2fP;
+ *  \brief Vec2fP
  *  \ingroup BaseMathVectors
  */
-typedef OSGPnt2f *OSGPnt2fP;
+typedef Pnt2f *Pnt2fP;
 
-/** \var typedef OSGPointInterface<OSGReal32, \
-                                   OSGVecStorage3<OSGReal32> > OSGPnt3f;
- *  \brief OSGVec3f
+/** \var typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
+ *  \brief Vec3f
  *  \ingroup BaseMathVectors
  */
-typedef OSGPointInterface<OSGReal32, OSGVecStorage3<OSGReal32> > OSGPnt3f;
+typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
 
-/** \var typedef OSGPnt3f *OSGPnt3fP;
- *  \brief OSGVec3fP
+/** \var typedef Pnt3f *Pnt3fP;
+ *  \brief Vec3fP
  *  \ingroup BaseMathVectors
  */
-typedef OSGPnt3f *OSGPnt3fP;
+typedef Pnt3f *Pnt3fP;
 
-/** \var typedef OSGPointInterface<OSGReal32, \
-                                   OSGVecStorage4<OSGReal32> > OSGPnt4f;
- *  \brief OSGVec4f
+/** \var typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
+ *  \brief Vec4f
  *  \ingroup BaseMathVectors
  */
-typedef OSGPointInterface<OSGReal32, OSGVecStorage4<OSGReal32> > OSGPnt4f;
+typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
 
-/** \var typedef OSGPnt4f *OSGPnt4fP;
- *  \brief OSGVec4fP
+/** \var typedef Pnt4f *Pnt4fP;
+ *  \brief Vec4fP
  *  \ingroup BaseMathVectors
  */
-typedef OSGPnt4f *OSGPnt4fP;
+typedef Pnt4f *Pnt4fP;
 
-/** \var typedef OSGPointInterface<OSGUInt16, \
-                                   OSGVecStorage2<OSGUInt16> > OSGPnt2s;
- *  \brief OSGVec2s
+/** \var typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
+ *  \brief Vec2s
  *  \ingroup BaseMathVectors
  */
-typedef OSGPointInterface<OSGUInt16, OSGVecStorage2<OSGUInt16> > OSGPnt2s;
+typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
 
-/** \var typedef OSGVec2s *OSGVec2sP;
- *  \brief OSGVec2sP
+/** \var typedef Vec2s *Vec2sP;
+ *  \brief Vec2sP
  *  \ingroup BaseMathVectors
  */
 
-typedef OSGVec2s *OSGVec2sP;
+typedef Vec2s *Vec2sP;
 
 OSG_END_NAMESPACE
 

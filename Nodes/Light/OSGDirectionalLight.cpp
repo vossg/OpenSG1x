@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -61,8 +61,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::OSGDirectionalLight
- *  OSGDirectionalLight is an infinitely distant lightsource. Its only
+/*! \class osg::DirectionalLight
+ *  DirectionalLight is an infinitely distant lightsource. Its only
  *  attribute is the light's direction.
  */
 
@@ -74,27 +74,27 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGDirectionalLight, OSGDirectionField)
+OSG_FC_FIRST_FIELD_IDM_DEF(DirectionalLight, DirectionField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGDirectionalLight, OSGDirectionField)
+OSG_FC_LAST_FIELD_IDM_DEF (DirectionalLight, DirectionField)
 
-char OSGDirectionalLight::cvsid[] = "@(#)$Id: $";
+char DirectionalLight::cvsid[] = "@(#)$Id: $";
 
-OSGFieldDescription OSGDirectionalLight::_desc[] = 
+FieldDescription DirectionalLight::_desc[] = 
 {
-    OSGFieldDescription(
-        OSGSFVec3f::getClassType(),
+    FieldDescription(
+        SFVec3f::getClassType(),
         "direction", 
-        OSG_FC_FIELD_IDM_DESC(OSGDirectionField),
+        OSG_FC_FIELD_IDM_DESC(DirectionField),
         false,
-        (OSGFieldAccessMethod) &OSGDirectionalLight::getSFDirection)
+        (FieldAccessMethod) &DirectionalLight::getSFDirection)
 };
 
-OSGFieldContainerType OSGDirectionalLight::_type(
-    "OSGDirectionalLight",
-    "OSGLightBase",
+FieldContainerType DirectionalLight::_type(
+    "DirectionalLight",
+    "LightBase",
     NULL,
-    (OSGPrototypeCreateF) &OSGDirectionalLight::createEmpty,
+    (PrototypeCreateF) &DirectionalLight::createEmpty,
     initMethod,
     _desc,
     sizeof(_desc));
@@ -116,13 +116,13 @@ OSGFieldContainerType OSGDirectionalLight::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-void OSGDirectionalLight::initMethod (void)
+void DirectionalLight::initMethod (void)
 {
-    OSGDrawAction::registerEnterDefault( getStaticType(), 
-        osgMethodFunctor2BaseCPtr<OSG::OSGAction::ResultE,
-                                OSGCNodePtr,  
-                                OSGDirectionalLightPtr, 
-                                OSGAction *>(&OSGDirectionalLight::draw));
+    DrawAction::registerEnterDefault( getStaticType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                DirectionalLightPtr, 
+                                Action *>(&DirectionalLight::draw));
 }
 
 
@@ -134,14 +134,14 @@ void OSGDirectionalLight::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGDirectionalLight, OSGDirectionalLightPtr)
+OSG_FIELD_CONTAINER_DEF(DirectionalLight, DirectionalLightPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGDirectionalLight::OSGDirectionalLight(void) :
+DirectionalLight::DirectionalLight(void) :
     Inherited(),
     _direction()
 {
@@ -150,7 +150,7 @@ OSGDirectionalLight::OSGDirectionalLight(void) :
 /** \brief Copy Constructor
  */
 
-OSGDirectionalLight::OSGDirectionalLight(const OSGDirectionalLight & source) :
+DirectionalLight::DirectionalLight(const DirectionalLight & source) :
     Inherited(),
     _direction(source._direction)
 {
@@ -159,46 +159,46 @@ OSGDirectionalLight::OSGDirectionalLight(const OSGDirectionalLight & source) :
 /** \brief Destructor
  */
 
-OSGDirectionalLight::~OSGDirectionalLight(void)
+DirectionalLight::~DirectionalLight(void)
 {
 }
 
 /*------------------------------- set ---------------------------------------*/
 
-void OSGDirectionalLight::setDirection(OSGReal32 rX, 
-                                       OSGReal32 rY, 
-                                       OSGReal32 rZ)
+void DirectionalLight::setDirection(Real32 rX, 
+                                    Real32 rY, 
+                                    Real32 rZ)
 {
     _direction.getValue().setValues(rX, rY, rZ);
 }
 
-void OSGDirectionalLight::setDirection(const OSGVec3f &gDirection)
+void DirectionalLight::setDirection(const Vec3f &gDirection)
 {
     _direction.setValue(gDirection);
 }
 
 /*------------------------------- get ---------------------------------------*/
 
-OSGSFVec3f *OSGDirectionalLight::getSFDirection(void)
+SFVec3f *DirectionalLight::getSFDirection(void)
 {
     return &_direction;
 }
 
-OSGVec3f &OSGDirectionalLight::getDirection(void)
+Vec3f &DirectionalLight::getDirection(void)
 {
     return _direction.getValue();
 }
 
-const OSGVec3f &OSGDirectionalLight::getDirection(void) const
+const Vec3f &DirectionalLight::getDirection(void) const
 {
     return _direction.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGDirectionalLight::dump(void) const
+void DirectionalLight::dump(void) const
 {
-    SDEBUG << "Dump OSGDirectionalLight NI" << endl;
+    SDEBUG << "Dump DirectionalLight NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -209,11 +209,11 @@ void OSGDirectionalLight::dump(void) const
 /** \brief Actions
  */
     
-OSGAction::ResultE OSGDirectionalLight::draw(OSGAction * action )
+Action::ResultE DirectionalLight::draw(Action * action )
 {
-    OSGLightBase::draw( action );
+    LightBase::draw( action );
 
-    OSGVec4f dir( _direction.getValue() );
+    Vec4f dir( _direction.getValue() );
 
     dir[3] = 0;
     glLightfv( GL_LIGHT0, GL_POSITION, dir.getValueRef() );
@@ -221,7 +221,7 @@ OSGAction::ResultE OSGDirectionalLight::draw(OSGAction * action )
 
     glPopMatrix();
 
-    return OSGAction::Continue;
+    return Action::Continue;
 }
 
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -49,15 +60,15 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *OSGFieldFactory::getClassname(void)
+/** \fn const char *FieldFactory::getClassname(void)
  *  \brief Classname
  */
 
-/** \fn OSGFieldFactory::OSGFieldFactory(const OSGFieldFactory &source)
+/** \fn FieldFactory::FieldFactory(const FieldFactory &source)
  *  \brief Not implemented.
  */
 
-/** \fn void OSGFieldFactory::operator =(const OSGFieldFactory &source)
+/** \fn void FieldFactory::operator =(const FieldFactory &source)
  *  \brief Not implemented.
  */
 
@@ -69,17 +80,17 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGFieldFactory::cvsid[] = "@(#)$Id: $";
+char FieldFactory::cvsid[] = "@(#)$Id: $";
 
 /** \brief Factory instance
  */
 
-OSGFieldFactory   OSGFieldFactory::_the;
+FieldFactory   FieldFactory::_the;
 
 /** \brief Field type storage
  */
 
-vector<OSGFieldType *> *OSGFieldFactory::_fieldTypeV  = NULL;
+vector<FieldType *> *FieldFactory::_fieldTypeV  = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -110,9 +121,9 @@ vector<OSGFieldType *> *OSGFieldFactory::_fieldTypeV  = NULL;
 /** \brief Destructor
  */
 
-OSGFieldFactory::~OSGFieldFactory(void )
+FieldFactory::~FieldFactory(void )
 {
-	SINFO << "INFO: Destroy Singleton OSGFieldFactory" << endl;
+	SINFO << "INFO: Destroy Singleton FieldFactory" << endl;
 }
 
 /*------------------------------ create ------------------------------------*/
@@ -120,7 +131,7 @@ OSGFieldFactory::~OSGFieldFactory(void )
 /** \brief Create a field of the given type
  */
 
-OSGField * OSGFieldFactory::createField(OSGUInt32 typeId)
+Field * FieldFactory::createField(UInt32 typeId)
 {
 	if((  _fieldTypeV          != NULL) &&
        ((*_fieldTypeV)[typeId] != NULL) && 
@@ -137,9 +148,9 @@ OSGField * OSGFieldFactory::createField(OSGUInt32 typeId)
 /** \brief Create a field of the type given by the type name
  */
 
-OSGField * OSGFieldFactory::createField(const char *szName)
+Field * FieldFactory::createField(const char *szName)
 {
-	OSGFieldType *type = getFieldType(szName);
+	FieldType *type = getFieldType(szName);
 
 	return type ? type->_createMethod() : NULL;
 }
@@ -149,10 +160,10 @@ OSGField * OSGFieldFactory::createField(const char *szName)
 /** \Brief Get type by name
  */
 
-OSGFieldType * OSGFieldFactory::getFieldType (const char *szName)
+FieldType * FieldFactory::getFieldType (const char *szName)
 {
-	OSGFieldType *type = 0;
-	OSGUInt32 i;
+	FieldType *type = 0;
+	UInt32 i;
 	
 	if(_fieldTypeV != NULL) 
     {
@@ -173,7 +184,7 @@ OSGFieldType * OSGFieldFactory::getFieldType (const char *szName)
 /** \brief Get type by data type
  */
 
-OSGFieldType * OSGFieldFactory::getFieldType(OSGUInt32 typeId)
+FieldType * FieldFactory::getFieldType(UInt32 typeId)
 {
 	return _fieldTypeV ? (*_fieldTypeV)[typeId] : NULL;
 }
@@ -184,9 +195,9 @@ OSGFieldType * OSGFieldFactory::getFieldType(OSGUInt32 typeId)
 /** \brief Get the name of the given data type
  */
 
-const char *OSGFieldFactory::getFieldTypeName(OSGUInt32 typeId)
+const char *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
-	OSGFieldType *fieldType = 
+	FieldType *fieldType = 
         _fieldTypeV ? (*_fieldTypeV)[typeId] : NULL;
 
 	return fieldType ? fieldType->_szName : NULL;
@@ -197,7 +208,7 @@ const char *OSGFieldFactory::getFieldTypeName(OSGUInt32 typeId)
 /** \brief Returns a reference to the global factory
  */
 
-OSGFieldFactory &OSGFieldFactory::the(void)
+FieldFactory &FieldFactory::the(void)
 {
     return _the;
 }
@@ -209,7 +220,7 @@ OSGFieldFactory &OSGFieldFactory::the(void)
 /** \brief Constructor
  */
 
-OSGFieldFactory::OSGFieldFactory(void)
+FieldFactory::FieldFactory(void)
 {
 }
 

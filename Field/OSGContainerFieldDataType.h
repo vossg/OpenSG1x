@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -25,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSG_CONTAINERFIELDDATATYPE_H_
 #define _OSG_CONTAINERFIELDDATATYPE_H_
 
@@ -33,115 +43,71 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSGFieldContainer;
-class OSGNodePtr;
-class OSGNodeCorePtr;
+class FieldContainer;
+class NodePtr;
+class NodeCorePtr;
 
-class OSGAttachmentPtr;
-typedef map<OSGUInt32, OSGAttachmentPtr>  OSGAttachmentMap;
+class AttachmentPtr;
+typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGFieldContainerPtr field traits 
+ *  \brief FieldContainerPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGFieldContainerPtr> : public OSGTraits
+struct FieldDataTraits<FieldContainerPtr> : public Traits
 {
+    enum                        { StringConvertable = 0x00      };
+
     static char *getSName(void) { return "SFFieldContainerPtr"; }
     static char *getMName(void) { return "MFFieldContainerPtr"; }
-
-    static bool             getFromString(OSGFieldContainerPtr  &,
-                                          const char           *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGFieldContainerPtr &,
-                                              OSGString            &)
-    {
-        // TO_BE_DONE
-    }
 };
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGNodePtr field traits 
+ *  \brief NodePtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGNodePtr> : public OSGTraits
+struct FieldDataTraits<NodePtr> : public Traits
 {
+    enum                        { StringConvertable = 0x00      };
+
     static char *getSName(void) { return "SFNodePtr"; }
     static char *getMName(void) { return "MFNodePtr"; }
-
-    static bool             getFromString(OSGNodePtr  &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGNodePtr &,
-                                              OSGString  &)
-    {
-        // TO_BE_DONE
-    }
 };
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGNodeCorePtr field traits 
+ *  \brief NodeCorePtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGNodeCorePtr> : public OSGTraits
+struct FieldDataTraits<NodeCorePtr> : public Traits
 {
+    enum                        { StringConvertable = 0x00      };
+
     static char *getSName(void) { return "SFNodeCorePtr"; }
     static char *getMName(void) { return "MFNodeCorePtr"; }
-
-    static bool             getFromString(OSGNodeCorePtr  &,
-                                          const char     *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGNodeCorePtr &,
-                                              OSGString      &)
-    {
-        // TO_BE_DONE
-    }
 };
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGPropertyPtr field traits 
+ *  \brief PropertyPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGAttachmentMap> : public OSGTraits
+struct FieldDataTraits<AttachmentMap> : public Traits
 {
+    enum                        { StringConvertable = 0x00      };
+
     static char *getSName(void) { return "SFAttachmentMap"; }
     static char *getMName(void) { return "MFAttachmentMap"; }
-
-    static bool             getFromString(OSGAttachmentMap  &,
-                                          const char       *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGAttachmentMap &,
-                                              OSGString        &)
-    {
-        // TO_BE_DONE
-    }
 };
 
 OSG_END_NAMESPACE

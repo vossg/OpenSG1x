@@ -21,44 +21,44 @@ OSG_USING_NAMESPACE
 
 
 //----------------------------------------------------------------------
-// Method: OSGStringLink
+// Method: StringLink
 // Author: jbehr
 // Date:   Tue Jan 13 15:14:22 1998
 // Description:
 //         Class DefaultConstructor
 //----------------------------------------------------------------------
-OSGStringLink::OSGStringLink(const char *str)
-: OSGString(str, OSGString::LINK)
+StringLink::StringLink(const char *str)
+: String(str, String::LINK)
 {}
 
 //----------------------------------------------------------------------
-// Method: OSGStringLink
+// Method: StringLink
 // Author: jbehr
 // Date:   Tue Jan 13 15:14:22 1998
 // Description:
 //         Class Copy Constructor
 //----------------------------------------------------------------------
-OSGStringLink::OSGStringLink(const OSGStringLink &obj)
-: OSGString(obj.str(), OSGString::LINK)
+StringLink::StringLink(const StringLink &obj)
+: String(obj.str(), String::LINK)
 {}
 
 //----------------------------------------------------------------------
-// Method: OSGStringLink
+// Method: StringLink
 // Author: jbehr
 // Date:   Tue Jan 13 15:14:22 1998
 // Description:
 //         Class Copy Constructor
 //----------------------------------------------------------------------
-OSGStringLink::OSGStringLink(const OSGString &obj)
-: OSGString(obj.str(), OSGString::LINK)
+StringLink::StringLink(const String &obj)
+: String(obj.str(), String::LINK)
 {}
 
 //----------------------------------------------------------------------
-// Method: ~OSGStringLink
+// Method: ~StringLink
 // Author: jbehr
 // Date:   Tue Jan 13 15:14:22 1998
 // Description:
 //         Class Destructor
 //----------------------------------------------------------------------
-OSGStringLink::~OSGStringLink()
+StringLink::~StringLink()
 {}

@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -57,12 +57,12 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class   OSGPointLight;
+class   PointLight;
 
 //! \ingroup FieldContainerPtr
 /*! the point light pointer 
  */
-typedef OSGFCPtr<OSGLightPtr, OSGPointLight> OSGPointLightPtr;
+typedef FCPtr<LightPtr, PointLight> PointLightPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -76,7 +76,7 @@ typedef OSGFCPtr<OSGLightPtr, OSGPointLight> OSGPointLightPtr;
  *  \brief Point light
  */
 
-class OSGPointLight : public OSGLightBase
+class OSG_DLLEXPORT PointLight : public LightBase
 {
   public:
 
@@ -84,11 +84,11 @@ class OSGPointLight : public OSGLightBase
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGPositionField  )
+    OSG_FC_FIRST_FIELD_IDM_DECL(PositionField  )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGConstAttenField)  
-    OSG_FC_FIELD_IDM_DECL      (OSGLinAttenField  )  
-    OSG_FC_FIELD_IDM_DECL      (OSGQuadAttenField )  
+    OSG_FC_FIELD_IDM_DECL      (ConstAttenField)  
+    OSG_FC_FIELD_IDM_DECL      (LinAttenField  )  
+    OSG_FC_FIELD_IDM_DECL      (QuadAttenField )  
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -112,18 +112,18 @@ class OSGPointLight : public OSGLightBase
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGPointLightPtr)
+    OSG_FIELD_CONTAINER_DECL(PointLightPtr)
 
     /*------------------------------- set -----------------------------------*/
 
     //@{ 
     //! set the light's attributes
-    void setPosition(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ);
-    void setPosition(const OSGPnt3f &gPosition);
+    void setPosition(Real32 rX, Real32 rY, Real32 rZ);
+    void setPosition(const Pnt3f &gPosition);
 
-    void setAttenuation(OSGReal32 rConstant, 
-                        OSGReal32 rLinear, 
-                        OSGReal32 rQuadratic);
+    void setAttenuation(Real32 rConstant, 
+                        Real32 rLinear, 
+                        Real32 rQuadratic);
     //@}
 
 
@@ -131,26 +131,26 @@ class OSGPointLight : public OSGLightBase
 
     //@{ 
     //! get the light's fields
-    OSGSFPnt3f  *getSFPosition(void);
+    SFPnt3f  *getSFPosition(void);
 
-    OSGSFReal32 *getSFConstantAttenuation (void);
-    OSGSFReal32 *getSFLinearAttenuation   (void);
-    OSGSFReal32 *getSFQuadraticAttenuation(void);
+    SFReal32 *getSFConstantAttenuation (void);
+    SFReal32 *getSFLinearAttenuation   (void);
+    SFReal32 *getSFQuadraticAttenuation(void);
     //@}
  
     //@{ 
     //! get the light's attributes
-          OSGPnt3f &getPosition(void);
-    const OSGPnt3f &getPosition(void) const;
+          Pnt3f &getPosition(void);
+    const Pnt3f &getPosition(void) const;
 
-    OSGReal32 &getConstantAttenuation (void);
-    OSGReal32  getConstantAttenuation (void) const;
+    Real32 &getConstantAttenuation (void);
+    Real32  getConstantAttenuation (void) const;
 
-    OSGReal32 &getLinearAttenuation   (void);
-    OSGReal32  getLinearAttenuation   (void) const;
+    Real32 &getLinearAttenuation   (void);
+    Real32  getLinearAttenuation   (void) const;
 
-    OSGReal32 &getQuadraticAttenuation(void);
-    OSGReal32  getQuadraticAttenuation(void) const;
+    Real32 &getQuadraticAttenuation(void);
+    Real32  getQuadraticAttenuation(void) const;
     //@}
 
     /*------------------------------ dump -----------------------------------*/
@@ -181,24 +181,24 @@ class OSGPointLight : public OSGLightBase
 
     //@{ 
     //! the light's fields
-    OSGSFPnt3f  _position;
+    SFPnt3f  _position;
 
-    OSGSFReal32 _constantAttenuation;
-    OSGSFReal32 _linearAttenuation;
-    OSGSFReal32 _quadraticAttenuation;
+    SFReal32 _constantAttenuation;
+    SFReal32 _linearAttenuation;
+    SFReal32 _quadraticAttenuation;
     //@}
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGPointLight(void);
-    OSGPointLight(const OSGPointLight &source);
-    virtual ~OSGPointLight(void); 
+    PointLight(void);
+    PointLight(const PointLight &source);
+    virtual ~PointLight(void); 
     
     // ------------------------------ Actions ----------------------------
     
-     OSGAction::ResultE draw(OSGAction * action );
+     Action::ResultE draw(Action * action );
 
   private:
 
@@ -210,13 +210,13 @@ class OSGPointLight : public OSGLightBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGLightBase Inherited;
+    typedef LightBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -228,9 +228,9 @@ class OSGPointLight : public OSGLightBase
 
     static char cvsid[];
 
-    static OSGFieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-    static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -248,7 +248,7 @@ class OSGPointLight : public OSGLightBase
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGPointLight &source);
+    void operator =(const PointLight &source);
 };
 
 //---------------------------------------------------------------------------
@@ -259,4 +259,4 @@ OSG_END_NAMESPACE
 
 #include <OSGPointLight.inl>
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGPOINTLIGHT_H_ */

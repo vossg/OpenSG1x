@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -58,9 +69,9 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSGUInt32 OSGBarrierCommonBase::_barrierCount = 0;
+UInt32 BarrierCommonBase::_barrierCount = 0;
 
-char OSGBarrierCommonBase::cvsid[] = "@(#)$Id: $";
+char BarrierCommonBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -106,41 +117,41 @@ char OSGBarrierCommonBase::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGBarrierCommonBase::OSGBarrierCommonBase(const OSGChar8 *szName):
+BarrierCommonBase::BarrierCommonBase(const Char8 *szName):
     _szName(NULL),
     _barrierId(_barrierCount++),
     _refCount(0)
 {
     if(szName != NULL)
     {
-        stringDup(szName, _szName);
+        osgstringDup(szName, _szName);
     }
     else
     {
-        _szName = new OSGChar8[16];
-        sprintf(_szName, "OSGBarrier_%d", _barrierId);
+        _szName = new Char8[16];
+        sprintf(_szName, "Barrier_%d", _barrierId);
     }
 }
 
 /** \brief Destructor
  */
 
-OSGBarrierCommonBase::~OSGBarrierCommonBase(void)
+BarrierCommonBase::~BarrierCommonBase(void)
 {
     delete [] _szName;
 }
 
-void OSGBarrierCommonBase::addRef(void)
+void BarrierCommonBase::addRef(void)
 {
     _refCount++;
 }
 
-void OSGBarrierCommonBase::subRef(void)
+void BarrierCommonBase::subRef(void)
 {
     _refCount--;
 }
 
-OSGBool OSGBarrierCommonBase::inUse(void)
+Bool BarrierCommonBase::inUse(void)
 {
     return _refCount <= 0;
 }
@@ -160,7 +171,7 @@ OSGBool OSGBarrierCommonBase::inUse(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGPThreadBarrierBase::cvsid[] = "@(#)$Id: $";
+char PThreadBarrierBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -178,11 +189,11 @@ char OSGPThreadBarrierBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGPThreadBarrierBase *OSGPThreadBarrierBase::create(const OSGChar8 *szName)
+PThreadBarrierBase *PThreadBarrierBase::create(const Char8 *szName)
 {
-    OSGPThreadBarrierBase *returnValue = NULL;
+    PThreadBarrierBase *returnValue = NULL;
 
-    returnValue = new OSGPThreadBarrierBase(szName);
+    returnValue = new PThreadBarrierBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -193,7 +204,7 @@ OSGPThreadBarrierBase *OSGPThreadBarrierBase::create(const OSGChar8 *szName)
     return returnValue;
 }
 
-void OSGPThreadBarrierBase::destroy(OSGPThreadBarrierBase *barrierP)
+void PThreadBarrierBase::destroy(PThreadBarrierBase *barrierP)
 {
     if(barrierP != NULL)
     {
@@ -218,7 +229,7 @@ void OSGPThreadBarrierBase::destroy(OSGPThreadBarrierBase *barrierP)
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGPThreadBarrierBase::enter(OSGUInt32 numWaitFor)
+void PThreadBarrierBase::enter(UInt32 numWaitFor)
 {
     if (numWaitFor <= 1)
         return;
@@ -264,7 +275,7 @@ void OSGPThreadBarrierBase::enter(OSGUInt32 numWaitFor)
 \*-------------------------------------------------------------------------*/
 
     /// Constructor used by the create function
-OSGPThreadBarrierBase::OSGPThreadBarrierBase(const char *szName) :
+PThreadBarrierBase::PThreadBarrierBase(const char *szName) :
     Inherited(szName),
 
     _lockOne         (),
@@ -274,7 +285,7 @@ OSGPThreadBarrierBase::OSGPThreadBarrierBase(const char *szName) :
 {
 }
 
-OSGPThreadBarrierBase::~OSGPThreadBarrierBase(void)
+PThreadBarrierBase::~PThreadBarrierBase(void)
 {
 }
 
@@ -282,7 +293,7 @@ OSGPThreadBarrierBase::~OSGPThreadBarrierBase(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGBool OSGPThreadBarrierBase::init(void)
+Bool PThreadBarrierBase::init(void)
 {
     pthread_cond_init (&(_wakeupCondition), NULL);
     pthread_mutex_init(&(_lockOne),         NULL);
@@ -293,7 +304,7 @@ OSGBool OSGPThreadBarrierBase::init(void)
     return true;
 }
 
-void OSGPThreadBarrierBase::shutdown(void)
+void PThreadBarrierBase::shutdown(void)
 {
     pthread_cond_destroy (&(_wakeupCondition));
     pthread_mutex_destroy(&(_lockOne));
@@ -312,7 +323,7 @@ void OSGPThreadBarrierBase::shutdown(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGSprocBarrierBase::cvsid[] = "@(#)$Id: $";
+char SprocBarrierBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -330,11 +341,11 @@ char OSGSprocBarrierBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGSprocBarrierBase *OSGSprocBarrierBase::create(const OSGChar8  *szName)
+SprocBarrierBase *SprocBarrierBase::create(const Char8  *szName)
 {
-    OSGSprocBarrierBase *returnValue = NULL;
+    SprocBarrierBase *returnValue = NULL;
 
-    returnValue = new OSGSprocBarrierBase(szName);
+    returnValue = new SprocBarrierBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -345,7 +356,7 @@ OSGSprocBarrierBase *OSGSprocBarrierBase::create(const OSGChar8  *szName)
     return returnValue;
 }
 
-void OSGSprocBarrierBase::destroy(OSGSprocBarrierBase *barrierP)
+void SprocBarrierBase::destroy(SprocBarrierBase *barrierP)
 {
     if(barrierP != NULL)
     {
@@ -370,7 +381,7 @@ void OSGSprocBarrierBase::destroy(OSGSprocBarrierBase *barrierP)
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGSprocBarrierBase::enter(OSGUInt32 numWaitFor)
+void SprocBarrierBase::enter(UInt32 numWaitFor)
 {
     if(_barrierP != NULL)
         barrier(_barrierP, numWaitFor);
@@ -385,14 +396,14 @@ void OSGSprocBarrierBase::enter(OSGUInt32 numWaitFor)
 \*-------------------------------------------------------------------------*/
 
 /// Constructor used by the create function
-OSGSprocBarrierBase::OSGSprocBarrierBase(const OSGChar8  *szName) :
+SprocBarrierBase::SprocBarrierBase(const Char8  *szName) :
     Inherited(szName),
 
     _barrierP(NULL)
 {
 }
 
-OSGSprocBarrierBase::~OSGSprocBarrierBase(void)
+SprocBarrierBase::~SprocBarrierBase(void)
 {
 }
 
@@ -401,9 +412,9 @@ OSGSprocBarrierBase::~OSGSprocBarrierBase(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGBool OSGSprocBarrierBase::init(void)
+Bool SprocBarrierBase::init(void)
 {
-    OSGThreadManager *pThreadManager = OSGThreadManager::the();
+    ThreadManager *pThreadManager = ThreadManager::the();
 
     if(pThreadManager == NULL)
         return false;
@@ -422,7 +433,7 @@ OSGBool OSGSprocBarrierBase::init(void)
 
 }
 
-void OSGSprocBarrierBase::shutdown(void)
+void SprocBarrierBase::shutdown(void)
 {
     if(_barrierP != NULL)
         free_barrier(_barrierP);   
@@ -442,7 +453,7 @@ void OSGSprocBarrierBase::shutdown(void)
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGWinThreadBarrierBase::cvsid[] = "@(#)$Id: $";
+char WinThreadBarrierBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -460,12 +471,12 @@ char OSGWinThreadBarrierBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGWinThreadBarrierBase *OSGWinThreadBarrierBase::create(
-    const OSGChar8  *szName)
+WinThreadBarrierBase *WinThreadBarrierBase::create(
+    const Char8  *szName)
 {
-    OSGWinThreadBarrierBase *returnValue = NULL;
+    WinThreadBarrierBase *returnValue = NULL;
 
-    returnValue = new OSGWinThreadBarrierBase(szName);
+    returnValue = new WinThreadBarrierBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -476,7 +487,7 @@ OSGWinThreadBarrierBase *OSGWinThreadBarrierBase::create(
     return returnValue;
 }
 
-void OSGWinThreadBarrierBase::destroy(OSGWinThreadBarrierBase *barrierP)
+void WinThreadBarrierBase::destroy(WinThreadBarrierBase *barrierP)
 {
     if(barrierP != NULL)
     {
@@ -501,7 +512,7 @@ void OSGWinThreadBarrierBase::destroy(OSGWinThreadBarrierBase *barrierP)
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
+void WinThreadBarrierBase::enter(UInt32 numWaitFor)
 {
     if (numWaitFor <= 1)
         return;
@@ -548,7 +559,7 @@ void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
 \*-------------------------------------------------------------------------*/
 
 /// Constructor used by the create function
-OSGWinThreadBarrierBase::OSGWinThreadBarrierBase(const OSGChar8  *szName) :
+WinThreadBarrierBase::WinThreadBarrierBase(const Char8  *szName) :
     Inherited(szName),
 
 	_count(0),
@@ -559,7 +570,7 @@ OSGWinThreadBarrierBase::OSGWinThreadBarrierBase(const OSGChar8  *szName) :
 {
 }
 
-OSGWinThreadBarrierBase::~OSGWinThreadBarrierBase(void)
+WinThreadBarrierBase::~WinThreadBarrierBase(void)
 {
 }
 
@@ -567,11 +578,11 @@ OSGWinThreadBarrierBase::~OSGWinThreadBarrierBase(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGBool OSGWinThreadBarrierBase::init(void)
+Bool WinThreadBarrierBase::init(void)
 {
-    OSGChar8 *pTmp;
+    Char8 *pTmp;
 
-    pTmp = new OSGChar8[strlen(_szName) + 5];
+    pTmp = new Char8[strlen(_szName) + 5];
 
     sprintf(pTmp, "%sWE", _szName);
 
@@ -621,7 +632,7 @@ OSGBool OSGWinThreadBarrierBase::init(void)
     return true;
 }
 
-void OSGWinThreadBarrierBase::shutdown(void)
+void WinThreadBarrierBase::shutdown(void)
 {
     if(_conditionEvent != NULL)
         CloseHandle(_conditionEvent);

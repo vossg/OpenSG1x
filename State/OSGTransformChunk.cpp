@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -47,19 +58,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -71,30 +82,30 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGTransformChunk, OSGMatrixField)
-OSG_FC_LAST_FIELD_IDM_DEF (OSGTransformChunk, OSGMatrixField)
+OSG_FC_FIRST_FIELD_IDM_DEF(TransformChunk, MatrixField)
+OSG_FC_LAST_FIELD_IDM_DEF (TransformChunk, MatrixField)
 
-char OSGTransformChunk::cvsid[] = "@(#)$Id: $";
+char TransformChunk::cvsid[] = "@(#)$Id: $";
 
-OSGStateChunkClass OSGTransformChunk::_class(OSGString("Transform"));
+StateChunkClass TransformChunk::_class(String("Transform"));
 
 
-OSGFieldDescription OSGTransformChunk::_desc[] = 
+FieldDescription TransformChunk::_desc[] = 
 {
-        OSGFieldDescription(
-        OSGSFMatrix::getClassType(), 
+        FieldDescription(
+        SFMatrix::getClassType(), 
         "matrix", 
-        OSG_FC_FIELD_IDM_DESC(OSGMatrixField),
+        OSG_FC_FIELD_IDM_DESC(MatrixField),
         false,
-        (OSGFieldAccessMethod) &OSGTransformChunk::getSFMatrix,
+        (FieldAccessMethod) &TransformChunk::getSFMatrix,
         "")
 };
 
-OSGFieldContainerType OSGTransformChunk::_type(
+FieldContainerType TransformChunk::_type(
 	"TransformChunk", 
 	"StateChunk", 
 	NULL,
-	(OSGPrototypeCreateF) &OSGTransformChunk::createEmpty,
+	(PrototypeCreateF) &TransformChunk::createEmpty,
 	NULL,
 	_desc, 
 	sizeof(_desc));
@@ -123,21 +134,21 @@ OSGFieldContainerType OSGTransformChunk::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGTransformChunk, OSGTransformChunkPtr)
+OSG_FIELD_CONTAINER_DEF(TransformChunk, TransformChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGTransformChunk::OSGTransformChunk(void) :
+TransformChunk::TransformChunk(void) :
 	Inherited()
 {
 	_ownClass = _class.getID();
 }
 
 
-OSGTransformChunk::OSGTransformChunk( const OSGTransformChunk& source ) :
+TransformChunk::TransformChunk( const TransformChunk& source ) :
 	Inherited(source), _matrix( source.getMatrix() )
 {
 }
@@ -146,7 +157,7 @@ OSGTransformChunk::OSGTransformChunk( const OSGTransformChunk& source ) :
 /** \brief Destructor
  */
 
-OSGTransformChunk::~OSGTransformChunk(void)
+TransformChunk::~TransformChunk(void)
 {
 }
 
@@ -154,22 +165,22 @@ OSGTransformChunk::~OSGTransformChunk(void)
 
 /*---------------------------- properties ---------------------------------*/
 
-OSGSFMatrix *OSGTransformChunk::getSFMatrix(void)
+SFMatrix *TransformChunk::getSFMatrix(void)
 {
 	return &_matrix;
 }
 
-OSGMatrix &OSGTransformChunk::getMatrix(void)
+Matrix &TransformChunk::getMatrix(void)
 {
 	return _matrix.getValue();
 }
 
-const OSGMatrix &OSGTransformChunk::getMatrix(void) const
+const Matrix &TransformChunk::getMatrix(void) const
 {
 	return _matrix.getValue();
 }
 
-void OSGTransformChunk::setMatrix( const OSGMatrix & matrix )
+void TransformChunk::setMatrix( const Matrix & matrix )
 {
 	_matrix.setValue( matrix );
 }
@@ -177,13 +188,13 @@ void OSGTransformChunk::setMatrix( const OSGMatrix & matrix )
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGTransformChunk::activate ( OSGUInt32 )
+void TransformChunk::activate ( UInt32 )
 {
 	glPushMatrix();
 	glMultMatrixf( getMatrix().getValues() );
 }
 
-void OSGTransformChunk::changeFrom( OSGStateChunk * old, OSGUInt32 )
+void TransformChunk::changeFrom( StateChunk * old, UInt32 )
 {
 	// change from me to me?
 	// this assumes I haven't changed in the meantime. is that a valid assumption?
@@ -195,7 +206,7 @@ void OSGTransformChunk::changeFrom( OSGStateChunk * old, OSGUInt32 )
 	glMultMatrixf( getMatrix().getValues() );	
 }
 
-void OSGTransformChunk::deactivate ( OSGUInt32 )
+void TransformChunk::deactivate ( UInt32 )
 {
 	glPopMatrix();
 }
@@ -205,14 +216,14 @@ void OSGTransformChunk::deactivate ( OSGUInt32 )
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGTransformChunk::dump(void) const
+void TransformChunk::dump(void) const
 {
-    SDEBUG << "Dump OSGTransformChunk NI" << endl;
+    SDEBUG << "Dump TransformChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-OSGReal32 OSGTransformChunk::switchCost( OSGStateChunk * chunk )
+Real32 TransformChunk::switchCost( StateChunk * chunk )
 {
 	return 0;
 }
@@ -220,7 +231,7 @@ OSGReal32 OSGTransformChunk::switchCost( OSGStateChunk * chunk )
 /** \brief assignment
  */
 
-OSGBool OSGTransformChunk::operator < (const OSGStateChunk &other) const
+Bool TransformChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -228,20 +239,20 @@ OSGBool OSGTransformChunk::operator < (const OSGStateChunk &other) const
 /** \brief equal
  */
 
-OSGBool OSGTransformChunk::operator == (const OSGStateChunk &other) const
+Bool TransformChunk::operator == (const StateChunk &other) const
 {
-	OSGTransformChunk const *tother = dynamic_cast<OSGTransformChunk const*>(&other);
+	TransformChunk const *tother = dynamic_cast<TransformChunk const*>(&other);
 
 	if ( !tother )
 		return false;
 
-	return getMatrix().equals( tother->getMatrix(), osgEps );
+	return getMatrix().equals( tother->getMatrix(), Eps );
 }
 
 /** \brief unequal
  */
 
-OSGBool OSGTransformChunk::operator != (const OSGStateChunk &other) const
+Bool TransformChunk::operator != (const StateChunk &other) const
 {
 	return ! (*this == other);
 }

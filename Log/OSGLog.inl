@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *         contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de    *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -136,19 +136,19 @@
 
 OSG_BEGIN_NAMESPACE
 
-inline void initOSGLog(void)
+inline OSG_DLLEXPORT void initLog(void)
 {
 #ifdef OSG_HAS_NILBUF
-    if(OSGLog::_nilbufP == NULL)
-        OSGLog::_nilbufP = new OSGLog::nilbuf();
+    if(Log::_nilbufP == NULL)
+        Log::_nilbufP = new Log::nilbuf();
 #else
-    if(OSGLog::_nilStreamP == NULL)
-        OSGLog::_nilStreamP = new fstream("/dev/null", ios::out);
+    if(Log::_nilStreamP == NULL)
+        Log::_nilStreamP = new fstream("/dev/null", ios::out);
 #endif
 
 	if(osgLogP == NULL)
     {
-		osgLogP = new OSGLog();
+		osgLogP = new Log();
 
         osgLogP->setLogLevel(LOG_NOTICE);
         osgLogP->setLogFile (NULL);
@@ -157,10 +157,18 @@ inline void initOSGLog(void)
     }
 }
 
-inline OSGLog &osgLog() 
+inline OSG_DLLEXPORT Log &osgLog() 
 {
-	initOSGLog();
+	initLog();
 	return *osgLogP;
+}
+
+inline void indentLog(UInt32 indent, ostream &stream)
+{
+    for(UInt32 i = 0; i < indent; i++)
+    {
+        stream << " ";
+    }
 }
 
 OSG_END_NAMESPACE

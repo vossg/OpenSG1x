@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -47,19 +58,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -71,130 +82,130 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGLightChunk, OSGDiffuseField)
+OSG_FC_FIRST_FIELD_IDM_DEF(LightChunk, DiffuseField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGAmbientField,  
-                           OSGDiffuseField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGSpecularField,  
-                           OSGAmbientField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGPositionField,  
-                           OSGSpecularField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGDirectionField,  
-                           OSGPositionField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGExponentField,  
-                           OSGDirectionField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGCutoffField,  
-                           OSGExponentField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGConstantAttenuationField,  
-                           OSGCutoffField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGLinearAttenuationField,  
-                           OSGConstantAttenuationField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightChunk, 
-                           OSGQuadraticAttenuationField,  
-                           OSGLinearAttenuationField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           AmbientField,  
+                           DiffuseField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           SpecularField,  
+                           AmbientField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           PositionField,  
+                           SpecularField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           DirectionField,  
+                           PositionField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           ExponentField,  
+                           DirectionField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           CutoffField,  
+                           ExponentField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           ConstantAttenuationField,  
+                           CutoffField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           LinearAttenuationField,  
+                           ConstantAttenuationField)
+OSG_FC_FIELD_IDM_DEF      (LightChunk, 
+                           QuadraticAttenuationField,  
+                           LinearAttenuationField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGLightChunk, OSGQuadraticAttenuationField)
+OSG_FC_LAST_FIELD_IDM_DEF (LightChunk, QuadraticAttenuationField)
 
-char OSGLightChunk::cvsid[] = "@(#)$Id: $";
+char LightChunk::cvsid[] = "@(#)$Id: $";
 
-OSGStateChunkClass OSGLightChunk::_class(OSGString("Light"), 8);
+StateChunkClass LightChunk::_class(String("Light"), 8);
 
 
-OSGFieldDescription OSGLightChunk::_desc[] = 
+FieldDescription LightChunk::_desc[] = 
 {
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "diffuse", 
-        OSG_FC_FIELD_IDM_DESC(OSGDiffuseField),
+        OSG_FC_FIELD_IDM_DESC(DiffuseField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFDiffuse,
+        (FieldAccessMethod) &LightChunk::getSFDiffuse,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "ambient", 
-        OSG_FC_FIELD_IDM_DESC(OSGAmbientField),
+        OSG_FC_FIELD_IDM_DESC(AmbientField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFAmbient,
+        (FieldAccessMethod) &LightChunk::getSFAmbient,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "specular", 
-        OSG_FC_FIELD_IDM_DESC(OSGSpecularField),
+        OSG_FC_FIELD_IDM_DESC(SpecularField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFSpecular,
+        (FieldAccessMethod) &LightChunk::getSFSpecular,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "position", 
-        OSG_FC_FIELD_IDM_DESC(OSGPositionField),
+        OSG_FC_FIELD_IDM_DESC(PositionField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFPosition,
+        (FieldAccessMethod) &LightChunk::getSFPosition,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec3f::getClassType(), 
+        FieldDescription(
+        SFVec3f::getClassType(), 
         "direction", 
-        OSG_FC_FIELD_IDM_DESC(OSGDirectionField),
+        OSG_FC_FIELD_IDM_DESC(DirectionField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFDirection,
+        (FieldAccessMethod) &LightChunk::getSFDirection,
         ""),
 
-        OSGFieldDescription(
-        OSGSFReal32::getClassType(), 
+        FieldDescription(
+        SFReal32::getClassType(), 
         "exponent", 
-        OSG_FC_FIELD_IDM_DESC(OSGExponentField),
+        OSG_FC_FIELD_IDM_DESC(ExponentField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFExponent,
+        (FieldAccessMethod) &LightChunk::getSFExponent,
         ""),
 
-        OSGFieldDescription(
-        OSGSFReal32::getClassType(), 
+        FieldDescription(
+        SFReal32::getClassType(), 
         "cutoff", 
-        OSG_FC_FIELD_IDM_DESC(OSGCutoffField),
+        OSG_FC_FIELD_IDM_DESC(CutoffField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFCutoff,
+        (FieldAccessMethod) &LightChunk::getSFCutoff,
         ""),
 
-        OSGFieldDescription(
-        OSGSFReal32::getClassType(), 
+        FieldDescription(
+        SFReal32::getClassType(), 
         "constantAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(OSGConstantAttenuationField),
+        OSG_FC_FIELD_IDM_DESC(ConstantAttenuationField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFConstantAttenuation,
+        (FieldAccessMethod) &LightChunk::getSFConstantAttenuation,
         ""),
 
-        OSGFieldDescription(
-        OSGSFReal32::getClassType(), 
+        FieldDescription(
+        SFReal32::getClassType(), 
         "linearAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(OSGLinearAttenuationField),
+        OSG_FC_FIELD_IDM_DESC(LinearAttenuationField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFLinearAttenuation,
+        (FieldAccessMethod) &LightChunk::getSFLinearAttenuation,
         ""),
-        OSGFieldDescription(
-        OSGSFReal32::getClassType(), 
+        FieldDescription(
+        SFReal32::getClassType(), 
         "quadraticAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(OSGQuadraticAttenuationField),
+        OSG_FC_FIELD_IDM_DESC(QuadraticAttenuationField),
         false,
-        (OSGFieldAccessMethod) &OSGLightChunk::getSFQuadraticAttenuation,
+        (FieldAccessMethod) &LightChunk::getSFQuadraticAttenuation,
         "")
 };
 
-OSGFieldContainerType OSGLightChunk::_type(
+FieldContainerType LightChunk::_type(
 	"LightChunk", 
 	"StateChunk", 
 	NULL,
-	(OSGPrototypeCreateF) OSGLightChunk::createEmpty,
+	(PrototypeCreateF) LightChunk::createEmpty,
 	NULL,
 	_desc, 
 	sizeof(_desc));
@@ -223,18 +234,18 @@ OSGFieldContainerType OSGLightChunk::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGLightChunk, OSGLightChunkPtr)
+OSG_FIELD_CONTAINER_DEF(LightChunk, LightChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGLightChunk::OSGLightChunk(void) :
+LightChunk::LightChunk(void) :
 	Inherited(), 
-	_diffuse( OSGVec4f(1,1,1,0 ) ), _ambient( OSGVec4f(.1,.1,.1,0 ) ), 
-	_specular( OSGVec4f(1,1,1,0 ) ), 
-	_position( OSGVec4f(0,-1,0,0 ) ), _direction( OSGVec3f(0,0,1,0 ) ),
+	_diffuse( Vec4f(1,1,1,0 ) ), _ambient( Vec4f(.1,.1,.1,0 ) ), 
+	_specular( Vec4f(1,1,1,0 ) ), 
+	_position( Vec4f(0,-1,0,0 ) ), _direction( Vec3f(0,0,1,0 ) ),
 	_exponent( 2 ),_cutoff( 180 ),
 	_constantAttenuation( 1 ), _linearAttenuation( 0 ), _quadraticAttenuation( 0 )
 {
@@ -242,7 +253,7 @@ OSGLightChunk::OSGLightChunk(void) :
 }
 
 
-OSGLightChunk::OSGLightChunk( const OSGLightChunk& source ) :
+LightChunk::LightChunk( const LightChunk& source ) :
 	Inherited(source),
 	_diffuse( source._diffuse ), _ambient( source._ambient ), 
 	_specular( source._specular ), 
@@ -258,7 +269,7 @@ OSGLightChunk::OSGLightChunk( const OSGLightChunk& source ) :
 /** \brief Destructor
  */
 
-OSGLightChunk::~OSGLightChunk(void)
+LightChunk::~LightChunk(void)
 {
 }
 
@@ -266,22 +277,22 @@ OSGLightChunk::~OSGLightChunk(void)
 
 // Diffuse Color
 
-OSGSFVec4f *OSGLightChunk::getSFDiffuse(void)
+SFVec4f *LightChunk::getSFDiffuse(void)
 {
 	return &_diffuse;
 }
 
-OSGVec4f &OSGLightChunk::getDiffuse(void)
+Vec4f &LightChunk::getDiffuse(void)
 {
 	return _diffuse.getValue();
 }
 
-const OSGVec4f &OSGLightChunk::getDiffuse(void) const
+const Vec4f &LightChunk::getDiffuse(void) const
 {
 	return _diffuse.getValue();
 }
 
-void OSGLightChunk::setDiffuse( const OSGVec4f & color )
+void LightChunk::setDiffuse( const Vec4f & color )
 {
 	_diffuse.setValue( color );
 }
@@ -289,22 +300,22 @@ void OSGLightChunk::setDiffuse( const OSGVec4f & color )
 
 // Ambient Color
 
-OSGSFVec4f *OSGLightChunk::getSFAmbient(void)
+SFVec4f *LightChunk::getSFAmbient(void)
 {
 	return &_ambient;
 }
 
-OSGVec4f &OSGLightChunk::getAmbient(void)
+Vec4f &LightChunk::getAmbient(void)
 {
 	return _ambient.getValue();
 }
 
-const OSGVec4f &OSGLightChunk::getAmbient(void) const
+const Vec4f &LightChunk::getAmbient(void) const
 {
 	return _ambient.getValue();
 }
 
-void OSGLightChunk::setAmbient( const OSGVec4f & color )
+void LightChunk::setAmbient( const Vec4f & color )
 {
 	_ambient.setValue( color );
 }
@@ -312,41 +323,41 @@ void OSGLightChunk::setAmbient( const OSGVec4f & color )
 
 // Specular Color
 
-OSGSFVec4f *OSGLightChunk::getSFSpecular(void)
+SFVec4f *LightChunk::getSFSpecular(void)
 {
 	return &_specular;
 }
 
-OSGVec4f &OSGLightChunk::getSpecular(void)
+Vec4f &LightChunk::getSpecular(void)
 {
 	return _specular.getValue();
 }
 
-const OSGVec4f &OSGLightChunk::getSpecular(void) const
+const Vec4f &LightChunk::getSpecular(void) const
 {
 	return _specular.getValue();
 }
 
-void OSGLightChunk::setSpecular( const OSGVec4f & color )
+void LightChunk::setSpecular( const Vec4f & color )
 {
 	_specular.setValue( color );
 }
 
 // Position
 
-OSGSFVec4f   *OSGLightChunk::getSFPosition( void )
+SFVec4f   *LightChunk::getSFPosition( void )
 {
 	return &_position;
 }
-OSGVec4f   &OSGLightChunk::getPosition  ( void )
+Vec4f   &LightChunk::getPosition  ( void )
 {
 	return _position.getValue();
 }
-const OSGVec4f &OSGLightChunk::getPosition  ( void ) const
+const Vec4f &LightChunk::getPosition  ( void ) const
 {
 	return _position.getValue();
 }
-void OSGLightChunk::setPosition  ( const OSGVec4f & pos )
+void LightChunk::setPosition  ( const Vec4f & pos )
 {
 	_position.setValue( pos );
 }
@@ -354,57 +365,57 @@ void OSGLightChunk::setPosition  ( const OSGVec4f & pos )
 
 // Direction
 
-OSGSFVec3f *OSGLightChunk::getSFDirection( void )
+SFVec3f *LightChunk::getSFDirection( void )
 {
 	return &_direction;
 }
-OSGVec3f &OSGLightChunk::getDirection  ( void )
+Vec3f &LightChunk::getDirection  ( void )
 {
 	return _direction.getValue();
 }
-const OSGVec3f   &OSGLightChunk::getDirection  ( void ) const
+const Vec3f   &LightChunk::getDirection  ( void ) const
 {
 	return _direction.getValue();
 }
-void OSGLightChunk::setDirection  ( const OSGVec3f & dir )
+void LightChunk::setDirection  ( const Vec3f & dir )
 {
 	_direction.setValue( dir );
 }
 
 // Exponent
 
-OSGSFReal32 *OSGLightChunk::getSFExponent( void )
+SFReal32 *LightChunk::getSFExponent( void )
 {
 	return &_exponent;
 }
-OSGReal32 OSGLightChunk::getExponent( void )
+Real32 LightChunk::getExponent( void )
 {
 	return _exponent.getValue();
 }
-OSGReal32 OSGLightChunk::getExponent  ( void ) const
+Real32 LightChunk::getExponent  ( void ) const
 {
 	return _exponent.getValue();
 }
-void OSGLightChunk::setExponent( const OSGReal32 exponent )
+void LightChunk::setExponent( const Real32 exponent )
 {
 	_exponent.setValue( exponent );
 }
 
 // Cutoff
 
-OSGSFReal32 *OSGLightChunk::getSFCutoff( void )
+SFReal32 *LightChunk::getSFCutoff( void )
 {
 	return &_cutoff;
 }
-OSGReal32 OSGLightChunk::getCutoff( void )
+Real32 LightChunk::getCutoff( void )
 {
 	return _cutoff.getValue();
 }
-OSGReal32 OSGLightChunk::getCutoff( void ) const
+Real32 LightChunk::getCutoff( void ) const
 {
 	return _cutoff.getValue();
 }
-void OSGLightChunk::setCutoff( const OSGReal32 cutoff )
+void LightChunk::setCutoff( const Real32 cutoff )
 {
 	_cutoff.setValue( cutoff );
 }
@@ -412,57 +423,57 @@ void OSGLightChunk::setCutoff( const OSGReal32 cutoff )
 // Constant Attenuation
 
 
-OSGSFReal32 *OSGLightChunk::getSFConstantAttenuation( void )
+SFReal32 *LightChunk::getSFConstantAttenuation( void )
 {
 	return &_constantAttenuation;
 }
-OSGReal32 OSGLightChunk::getConstantAttenuation( void )
+Real32 LightChunk::getConstantAttenuation( void )
 {
 	return _constantAttenuation.getValue();
 }
-OSGReal32 OSGLightChunk::getConstantAttenuation( void ) const
+Real32 LightChunk::getConstantAttenuation( void ) const
 {
 	return _constantAttenuation.getValue();
 }
-void OSGLightChunk::setConstantAttenuation( const OSGReal32 constantAttenuation )
+void LightChunk::setConstantAttenuation( const Real32 constantAttenuation )
 {
 	_constantAttenuation.setValue( constantAttenuation );
 }
 
 // Linear Attenuation
 
-OSGSFReal32 *OSGLightChunk::getSFLinearAttenuation( void )
+SFReal32 *LightChunk::getSFLinearAttenuation( void )
 {
 	return &_linearAttenuation;
 }
-OSGReal32 OSGLightChunk::getLinearAttenuation( void )
+Real32 LightChunk::getLinearAttenuation( void )
 {
 	return _linearAttenuation.getValue();
 }
-OSGReal32 OSGLightChunk::getLinearAttenuation( void ) const
+Real32 LightChunk::getLinearAttenuation( void ) const
 {
 	return _linearAttenuation.getValue();
 }
-void OSGLightChunk::setLinearAttenuation( const OSGReal32 linearAttenuation )
+void LightChunk::setLinearAttenuation( const Real32 linearAttenuation )
 {
 	_linearAttenuation.setValue( linearAttenuation );
 }
 
 // Quadratic Attenuation
 
-OSGSFReal32 *OSGLightChunk::getSFQuadraticAttenuation( void )
+SFReal32 *LightChunk::getSFQuadraticAttenuation( void )
 {
 	return &_quadraticAttenuation;
 }
-OSGReal32 OSGLightChunk::getQuadraticAttenuation( void )
+Real32 LightChunk::getQuadraticAttenuation( void )
 {
 	return _quadraticAttenuation.getValue();
 }
-OSGReal32 OSGLightChunk::getQuadraticAttenuation( void ) const
+Real32 LightChunk::getQuadraticAttenuation( void ) const
 {
 	return _quadraticAttenuation.getValue();
 }
-void OSGLightChunk::setQuadraticAttenuation( const OSGReal32 quadraticAttenuation )
+void LightChunk::setQuadraticAttenuation( const Real32 quadraticAttenuation )
 {
 	_quadraticAttenuation.setValue( quadraticAttenuation );
 }
@@ -472,7 +483,7 @@ void OSGLightChunk::setQuadraticAttenuation( const OSGReal32 quadraticAttenuatio
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGLightChunk::activate( OSGUInt32 index )
+void LightChunk::activate( UInt32 index )
 {
 	glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,   
 										_diffuse.getValue().getValueRef() );
@@ -493,9 +504,9 @@ void OSGLightChunk::activate( OSGUInt32 index )
 	glEnable( GL_LIGHT0 + index );
 }
 
-void OSGLightChunk::changeFrom( OSGStateChunk * old_chunk, OSGUInt32 index )
+void LightChunk::changeFrom( StateChunk * old_chunk, UInt32 index )
 {
-	OSGLightChunk const *old = dynamic_cast<OSGLightChunk const*>(old_chunk);
+	LightChunk const *old = dynamic_cast<LightChunk const*>(old_chunk);
 
 	// change from me to me?
 	// this assumes I haven't changed in the meantime. is that a valid assumption?
@@ -522,7 +533,7 @@ void OSGLightChunk::changeFrom( OSGStateChunk * old_chunk, OSGUInt32 index )
 	}
 }
 
-void OSGLightChunk::deactivate( OSGUInt32 index )
+void LightChunk::deactivate( UInt32 index )
 {
 	glDisable( GL_LIGHT0 + index );
 }
@@ -532,14 +543,14 @@ void OSGLightChunk::deactivate( OSGUInt32 index )
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGLightChunk::dump(void) const
+void LightChunk::dump(void) const
 {
-    SDEBUG << "Dump OSGLightChunk NI" << endl;
+    SDEBUG << "Dump LightChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-OSGReal32 OSGLightChunk::switchCost( OSGStateChunk * chunk )
+Real32 LightChunk::switchCost( StateChunk * chunk )
 {
 	return 0;
 }
@@ -547,7 +558,7 @@ OSGReal32 OSGLightChunk::switchCost( OSGStateChunk * chunk )
 /** \brief assignment
  */
 
-OSGBool OSGLightChunk::operator < (const OSGStateChunk &other) const
+Bool LightChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -555,14 +566,14 @@ OSGBool OSGLightChunk::operator < (const OSGStateChunk &other) const
 /** \brief equal
  */
 
-OSGBool OSGLightChunk::operator == (const OSGStateChunk &other) const
+Bool LightChunk::operator == (const StateChunk &other) const
 {
-	OSGLightChunk const *tother = dynamic_cast<OSGLightChunk const*>(&other);
+	LightChunk const *tother = dynamic_cast<LightChunk const*>(&other);
 
 	if ( !tother )
 		return false;
 
-	if ( ! getDiffuse().equals( tother->getDiffuse(), osgEps )
+	if ( ! getDiffuse().equals( tother->getDiffuse(), Eps )
 	   )
 		return false;
 		
@@ -572,7 +583,7 @@ OSGBool OSGLightChunk::operator == (const OSGStateChunk &other) const
 /** \brief unequal
  */
 
-OSGBool OSGLightChunk::operator != (const OSGStateChunk &other) const
+Bool LightChunk::operator != (const StateChunk &other) const
 {
 	return ! (*this == other);
 }

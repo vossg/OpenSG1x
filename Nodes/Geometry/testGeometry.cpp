@@ -23,16 +23,16 @@ int main (int argc, char **argv)
 {
     osgInit(argc, argv);
     
-    OSGNodePtr  p1 = OSGNode::create();
-    OSGGeometryPtr g1 = OSGGeometry::create();
+    NodePtr  p1 = Node::create();
+    GeometryPtr g1 = Geometry::create();
 
-    OSGGeoPosition3f::getStaticType().getId();
+    GeoPosition3f::getStaticType().getId();
 
 	p1->setCore( g1 );
 
-	cerr << "Geometry Node: " << hex << (OSGGeometry*) g1 << endl;
+	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
-	OSGGeoPosition3f::OSGPtrType pnts = OSGGeoPosition3f::create();
+	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
 
 	cerr << "Positions: " << endl;
 	cerr << "Dim:" << pnts->getDimension() << ", Format:" << hex << pnts->getFormat() << dec
@@ -40,20 +40,20 @@ int main (int argc, char **argv)
 
 	g1->setPositions( pnts );
 
-	osgBeginEditCP(g1, OSGFieldBits::OSGAllFields);
+	osgBeginEditCP(g1, FieldBits::AllFields);
 
-	OSGMFPnt3f *p = pnts->getFieldPtr();		// The p pointer is not MT-safe!!
+	MFPnt3f *p = pnts->getFieldPtr();		// The p pointer is not MT-safe!!
 
-	pnts->getFieldPtr()->addValue( OSGPnt3f( -1, -1, -1) );
-	pnts->getFieldPtr()->addValue( OSGPnt3f(  1, -1, -1) );
-	p->addValue( OSGPnt3f( -1,  1, -1) );
-	p->addValue( OSGPnt3f(  1,  1, -1) );
-	p->addValue( OSGPnt3f( -1, -1,  1) );
-	p->addValue( OSGPnt3f(  1, -1,  1) );
-	p->addValue( OSGPnt3f( -1,  1,  1) );
-	p->addValue( OSGPnt3f(  1,  1,  1) );
+	pnts->getFieldPtr()->addValue( Pnt3f( -1, -1, -1) );
+	pnts->getFieldPtr()->addValue( Pnt3f(  1, -1, -1) );
+	p->addValue( Pnt3f( -1,  1, -1) );
+	p->addValue( Pnt3f(  1,  1, -1) );
+	p->addValue( Pnt3f( -1, -1,  1) );
+	p->addValue( Pnt3f(  1, -1,  1) );
+	p->addValue( Pnt3f( -1,  1,  1) );
+	p->addValue( Pnt3f(  1,  1,  1) );
 
-	osgEndEditCP(g1, OSGFieldBits::OSGAllFields);
+	osgEndEditCP(g1, FieldBits::AllFields);
     
 	cerr << "Positions: " << endl;
 	cerr << "Dim:" << pnts->getDimension() << ", Format:0x" << hex << pnts->getFormat() 
@@ -71,11 +71,11 @@ int main (int argc, char **argv)
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
 	
 	// invalidate manually, automatic not yet working
-	const_cast<OSGVolume&>(p1->getVolume()).setValid( false );
+	const_cast<Volume&>(p1->getVolume()).setValid( false );
 
 	p1->updateVolume();
 
-	OSGVec3f center;
+	Vec3f center;
 	p1->getVolume().getCenter(center);
 
 	cerr << "Volume: center " << center << ", volume "

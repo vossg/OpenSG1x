@@ -13,17 +13,17 @@
 #include <OSGAttachment.h>
 #include <OSGMFVecTypes.h>
 #include <OSGBaseFunctions.h>
-
+#include <OSGChangeList.h>
 
 using namespace OSG;
 
-void x(OSGNode *xa)
+void x(Node *xa)
 {
     fprintf(stderr, "x : \n");
     xa->print();
 }
 
-void y(const OSGNode *xa)
+void y(const Node *xa)
 {
     fprintf(stderr, "y : \n");
     xa->print();
@@ -34,41 +34,41 @@ void initGeos(void)
     fprintf(stderr, "Initialize Geo\n");
 }
 
-struct OSGSimpleAttDesc
+struct SimpleAttDesc
 {
-    typedef OSGMFVec3f OSGFieldTypeT;
+    typedef MFVec3f FieldTypeT;
 
     static const char *getTypeName (void) { return "GeoPoints"; }
     static const char *getFieldName(void) { return "points"; }
     static const char *getGroupName(void) { return "points"; }
     static const char *getClassName(void) { return "GeoPointsAttachment"; }
-    static OSGInitContainerF getInitMethod(void) { return initGeos;}
+    static InitContainerF getInitMethod(void) { return initGeos;}
 };
 
-typedef OSGSimpleAttachment<OSGSimpleAttDesc> OSGGeoPoints;
+typedef SimpleAttachment<SimpleAttDesc> GeoPoints;
 
-template class OSGSimpleAttachment<OSGSimpleAttDesc>;
+template class SimpleAttachment<SimpleAttDesc>;
 
-typedef OSGFCPtr<OSGAttachmentPtr,  OSGGeoPoints> OSGGeoPointsPtr;
+typedef FCPtr<AttachmentPtr,  GeoPoints> GeoPointsPtr;
 
 
 #if 0
-class OSGNewNode;
-typedef OSGFCPtr<OSGNodePtr,  OSGNewNode> OSGNewNodePtr;
+class NewNode;
+typedef FCPtr<NodePtr,  NewNode> NewNodePtr;
 
-class OSGNewNode : public OSGNode
+class NewNode : public Node
 {
   public :
     
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 
-    static OSGNewNodePtr create(void) 
+    static NewNodePtr create(void) 
         {
-            OSGNewNodePtr fc;
+            NewNodePtr fc;
 
 #ifdef OSG_HAS_TEMPLATE_RETURNVALUES
-            if(_type.getPrototype() != OSGNullFC)
-                fc = _type.getPrototype()->clone().dcast<OSGNewNodePtr>();
+            if(_type.getPrototype() != NullFC)
+                fc = _type.getPrototype()->clone().dcast<NewNodePtr>();
 #else
             if(_type.getPrototype() != NULL)
                 _type.getPrototype()->clone().dcast(fc);
@@ -77,24 +77,24 @@ class OSGNewNode : public OSGNode
             return fc;
         }
 
-    static OSGNewNodePtr createEmpty(void) 
+    static NewNodePtr createEmpty(void) 
         {
-            OSGNewNodePtr returnValue;
+            NewNodePtr returnValue;
 
             newPtr(returnValue);
 
             return returnValue;
         }
 
-    OSGNewNode(void) {} ;
-    ~OSGNewNode(void) {};
+    NewNode(void) {} ;
+    ~NewNode(void) {};
 
-    const OSGFieldContainerType &getType(void) const { return _type; }
-          OSGFieldContainerType &getType(void)       { return _type; }
+    const FieldContainerType &getType(void) const { return _type; }
+          FieldContainerType &getType(void)       { return _type; }
 
-    virtual OSGFieldContainerPtr clone(void) const
+    virtual FieldContainerPtr clone(void) const
     {
-            OSGNewNodePtr returnValue;
+            NewNodePtr returnValue;
 
             newPtr(returnValue, this);
             
@@ -103,21 +103,21 @@ class OSGNewNode : public OSGNode
 
 };
 
-OSGFieldContainerType OSGNewNode::_type("NewNode", 
+FieldContainerType NewNode::_type("NewNode", 
                                         "Node", 
                                         0,
-                                        (OSGPrototypeCreateF) &OSGNewNode::createEmpty,
+                                        (PrototypeCreateF) &NewNode::createEmpty,
                                         0,
                                         NULL, 
                                         0);
 
 #endif
 
-struct OSGDynDesc
+struct DynDesc
 {
-    typedef OSGAttachment OSGParent;
+    typedef Attachment Parent;
 
-    static const char *getTypeName(void) { return "OSGDynDesc"; }
+    static const char *getTypeName(void) { return "DynDesc"; }
 };
 
 int main (int argc, char **argv)
@@ -125,67 +125,67 @@ int main (int argc, char **argv)
     
     osgInit(argc, argv);
 
-	OSGField *pI;
+//	Field *pI;
 
 	cout << "TypeCounter: "
-         << " | " << sizeof(OSGFieldContainerPtr) << endl;
+         << " | " << sizeof(FieldContainerPtr) << endl;
 
-	OSGFieldContainerPtr pFC = 
-		OSGFieldContainerFactory::the().createNode("Node");
+	FieldContainerPtr pFC = 
+		FieldContainerFactory::the().createNode("Node");
 
-	OSGFieldContainerPtr qFC = OSGNullFC;
+	FieldContainerPtr qFC = NullFC;
 	
-	fprintf( stderr,"stderr output\n");
-    pFC.dump();
+//	fprintf( stderr,"stderr output\n");
+//    pFC.dump();
 
-    OSGNullFC.dump();
+    NullFC.dump();
 
-	cout << "Stream output" << endl;
+//	cout << "Stream output" << endl;
 
-	cout << "pFC: " ;
-	cout << pFC << endl;
+//	cout << "pFC: " ;
+//	cout << pFC << endl;
 
-	cout << "OSGNullFC: " << qFC << endl;
+//	cout << "NullFC: " << qFC << endl;
 
 
-    if(pFC != OSGNullFC)
+    if(pFC != NullFC)
     {
         pFC->getType().print();
 
-//        cerr << pFC.dcast<OSGNodePtr>()->getMFChildren() << endl;
+//        cerr << pFC.dcast<NodePtr>()->getMFChildren() << endl;
 
-        pI = pFC->getField("children");
+//        pI = pFC->getField("children");
 
-        cerr << pI << endl;
+//        cerr << pI << endl;
 
-//        cerr << pFC.dcast<OSGNodePtr>()->getSFName() << endl;
+//        cerr << pFC.dcast<NodePtr>()->getSFName() << endl;
 
-        pI = pFC->getField("name");
+//        pI = pFC->getField("name");
 
-        cerr << pI << endl;
+//        cerr << pI << endl;
     }
 
-    cerr << endl << endl;
+//    cerr << endl << endl;
 
-    OSGNodePtr  p1 = OSGNode::create();
+    NodePtr  p1 = Node::create();
 
-    p1->getType().print();
+//    p1->getType().print();
 
-    OSGFieldContainerPtr pb1 = p1;
+    FieldContainerPtr pb1 = p1;
 
-    cerr << " N : " << p1->getType().getId() 
-         << endl;
+//    cerr << " N : " << p1->getType().getId() 
+//         << endl;
 
-    cerr << " N : " << OSGNode::getStaticType().getId() 
-         << endl;
+//    cerr << " N : " << Node::getStaticType().getId() 
+//         << endl;
     
-    pb1->getType().print();
+//    pb1->getType().print();
 
 
-    OSGNodePtr p2 = OSGNode::create();
-    OSGNodePtr p3 = OSGNode::create();
-    OSGNodePtr p4 = OSGNode::create();
-    OSGNodePtr p5 = OSGNode::create();
+    NodePtr p2 = Node::create();
+    NodePtr p3 = Node::create();
+    NodePtr p4 = Node::create();
+    NodePtr p5 = Node::create();
 
     p1->getPtr();
     
@@ -247,11 +247,11 @@ int main (int argc, char **argv)
     p1->subChild(0);
     p1->print();
 
-    fprintf(stderr, "TCL : %x\n", OSGThread::getCurrentChangeList());
+    fprintf(stderr, "TCL : %x\n", Thread::getCurrentChangeList());
 
     osgEndEditCP(p1);   
     
-	OSGThread::getCurrentChangeList()->dump();
+	Thread::getCurrentChangeList()->dump();
 
 
     p1.dump();
@@ -259,14 +259,14 @@ int main (int argc, char **argv)
 
     cerr << endl << "Attachment test" << endl;
 
-    OSGGeoPointsPtr pPoint;
+    GeoPointsPtr pPoint;
 
-	cerr << "OSGGeoPoints::getClassname()=" << OSGGeoPoints::getClassname() << endl;
-	cerr << "OSGGeoPointsPtr::getClassname()=" << OSGGeoPointsPtr::getClassname() << endl;
+	cerr << "GeoPoints::getClassname()=" << GeoPoints::getClassname() << endl;
+	cerr << "GeoPointsPtr::getClassname()=" << GeoPointsPtr::getClassname() << endl;
 	cerr << "pPoint.getClassname()=" << pPoint.getClassname() << endl;
 	cerr << "(*pPoint).getClassname()=" << (*pPoint).getClassname() << endl;
 
-    pPoint = OSGGeoPoints::create();
+    pPoint = GeoPoints::create();
 
     pPoint->getType().print();
 
@@ -278,25 +278,25 @@ int main (int argc, char **argv)
     p1->print(0);
     pPoint->print(0);
 
-//    OSGNewNode *pNewProto = OSGNewNode::getStaticType().createPrototype();
+//    NewNode *pNewProto = NewNode::getStaticType().createPrototype();
 
     cerr << endl << "Proto test\n" << endl;
 
-//    OSGNewNodePtr newNodeP = OSGNewNode::create();
-    OSGNodePtr    nodeP    = OSGNode::create();
+//    NewNodePtr newNodeP = NewNode::create();
+    NodePtr    nodeP    = Node::create();
 
     nodeP->getType().print();
 //    newNodeP->getType().print();
 
-//    OSGNewNode *np = new OSGNewNode();
-//    OSGNode *np = &(*nodeP);
+//    NewNode *np = new NewNode();
+//    Node *np = &(*nodeP);
 
-//    OSGNode::getStaticType().setPrototype(newNodeP);
+//    Node::getStaticType().setPrototype(newNodeP);
 
-    OSGNodePtr    nodeP1    = OSGNode::create();
+    NodePtr    nodeP1    = Node::create();
     nodeP1->getType().print();
 
-    if(! OSGNullFC)
+    if(! NullFC)
     {
         fprintf(stderr, "NN\n");
     }
@@ -312,44 +312,44 @@ int main (int argc, char **argv)
         fprintf(stderr, "PIN\n");
     }
 
-    nodeP1 = OSGNullNode;
+    nodeP1 = NullNode;
 
     nodeP1.dump();
 
-    typedef OSGDynFieldAttachment<OSGDynDesc> OSGDynAtt;
-    typedef OSGFCPtr<OSGAttachmentPtr, OSGDynAtt> OSGDynAttPtr;
+    typedef DynFieldAttachment<DynDesc> DynAtt;
+    typedef FCPtr<AttachmentPtr, DynAtt> DynAttPtr;
 
-    OSGDynAttPtr da;
+    DynAttPtr da;
 
-    da = OSGDynAtt::create();
+    da = DynAtt::create();
 
     da->getType().print();
 
     fprintf(stderr, "%x\n", da->getType().getFieldDescription(1));
 
-	OSGFieldDescription *pDesc;
+	FieldDescription *pDesc;
 
-    pDesc = new OSGFieldDescription(
-        OSGSFString::getClassType(), 
+    pDesc = new FieldDescription(
+        SFString::getClassType(), 
         "name", 
         0, 0,
         false,
-        (OSGFieldIndexAccessMethod) &OSGDynAtt::getDynamicField);
+        (FieldIndexAccessMethod) &DynAtt::getDynamicField);
 
-    OSGUInt32 uiFI1 = da->addField(*pDesc);
+    UInt32 uiFI1 = da->addField(*pDesc);
 
     fprintf(stderr, "%d\n", uiFI1);
 
 
 
-    pDesc = new OSGFieldDescription(
-        OSGSFString::getClassType(), 
+    pDesc = new FieldDescription(
+        SFString::getClassType(), 
         "name1", 
         0, 0,
         false,
-        (OSGFieldIndexAccessMethod) &OSGDynAtt::getDynamicField);
+        (FieldIndexAccessMethod) &DynAtt::getDynamicField);
 
-    OSGUInt32 uiFI2 = da->addField(*pDesc);
+    UInt32 uiFI2 = da->addField(*pDesc);
 
     fprintf(stderr, "%d\n", uiFI2);
 
@@ -366,14 +366,14 @@ int main (int argc, char **argv)
     fprintf(stderr, "Retrieve Field 2 %d\n", da->getField(2));
     fprintf(stderr, "Retrieve Field 3 %d\n", da->getField(3));
 
-    pDesc = new OSGFieldDescription(
-        OSGSFString::getClassType(), 
+    pDesc = new FieldDescription(
+        SFString::getClassType(), 
         "name2", 
         0, 0,
         false,
-        (OSGFieldIndexAccessMethod) &OSGDynAtt::getDynamicField);
+        (FieldIndexAccessMethod) &DynAtt::getDynamicField);
 
-    OSGUInt32 uiFI3 = da->addField(*pDesc);
+    UInt32 uiFI3 = da->addField(*pDesc);
 
     fprintf(stderr, "%d\n", uiFI3);
 

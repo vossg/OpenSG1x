@@ -18,22 +18,22 @@ OSG_USING_NAMESPACE
 
 int main (int argc, char **argv)
 {
-	OSGNodePtr node;
+	NodePtr node;
 	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 	
 	osgInit(argc, argv);
 
 #ifdef WIN32
-    OSGRAWSceneFileType *pR = &(OSGRAWSceneFileType::staticThe());
+    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 
-	OSGSceneFileHandler::the().print();
+	SceneFileHandler::the().print();
 
-	node = OSGSceneFileHandler::the().read(argv[1]);
+	node = SceneFileHandler::the().read(fileName);
 
 	node->updateVolume();
 
-	OSGVec3f center;
+	Vec3f center;
 	node->getVolume().getCenter(center);
 
 	cerr << "Volume: center " << center << ", volume "

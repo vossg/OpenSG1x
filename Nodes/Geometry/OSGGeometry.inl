@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -43,15 +54,15 @@
 
 #include "OSGGeometry.h"
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
+/** \fn const char *SimpleAttachment::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGSimpleAttachment::Inherited
+/** \typedef SimpleAttachment::Inherited
  *  \brief Parent type
  */
 
-/** \typedef OSGSimpleAttachment::_field
+/** \typedef SimpleAttachment::_field
  *  \brief Data store
  */
 
@@ -91,7 +102,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(OSGGeometry, OSGGeometryPtr)
+OSG_FIELD_CONTAINER_INL_DEF(Geometry, GeometryPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -100,97 +111,97 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGGeometry, OSGGeometryPtr)
 /*------------------------------ access -----------------------------------*/
 
 inline
-OSGGeoPTypePtr		OSGGeometry::getTypes( void )
+GeoPTypePtr		Geometry::getTypes( void )
 {
     return _types.getValue();
 }
 
 inline
-void				OSGGeometry::setTypes( OSGGeoPTypePtr types )
+void				Geometry::setTypes( GeoPTypePtr types )
 {
     _types.setValue( types );
 }
 
 inline
-OSGGeoPLengthPtr	OSGGeometry::getLengths( void )
+GeoPLengthPtr	Geometry::getLengths( void )
 {
     return _lengths.getValue();
 }
 
 inline
-void				OSGGeometry::setLengths( OSGGeoPLengthPtr lengths )
+void				Geometry::setLengths( GeoPLengthPtr lengths )
 {
     _lengths.setValue( lengths );
 }
 	
 inline
-OSGGeoPositionPtr	OSGGeometry::getPositions( void )
+GeoPositionPtr	Geometry::getPositions( void )
 {
     return _positions.getValue();
 }
 
 inline
-void				OSGGeometry::setPositions( OSGGeoPositionPtr pos )
+void				Geometry::setPositions( GeoPositionPtr pos )
 {
     _positions.setValue( pos );
 }
 		
 inline
-OSGGeoNormalPtr		OSGGeometry::getNormals( void )
+GeoNormalPtr		Geometry::getNormals( void )
 {
     return _normals.getValue();
 }
 
 inline
-void				OSGGeometry::setNormals( OSGGeoNormalPtr normals )
+void				Geometry::setNormals( GeoNormalPtr normals )
 {
     _normals.setValue( normals );
 }
 
 inline
-OSGBool				OSGGeometry::getNormalPerVertex( void )
+Bool				Geometry::getNormalPerVertex( void )
 {
     return _normalsPerVertex.getValue();
 }
 
 inline
-void				OSGGeometry::setNormalPerVertex( OSGBool npv )
+void				Geometry::setNormalPerVertex( Bool npv )
 {
     _normalsPerVertex.setValue( npv );
 }
 		
 inline
-OSGGeoColorPtr		OSGGeometry::getColors( void )
+GeoColorPtr		Geometry::getColors( void )
 {
     return _colors.getValue();
 }
 
 inline
-void				OSGGeometry::setColors( OSGGeoColorPtr colors )
+void				Geometry::setColors( GeoColorPtr colors )
 {
     _colors.setValue( colors );
 }
 
 inline
-OSGBool				OSGGeometry::getColorPerVertex( void )
+Bool				Geometry::getColorPerVertex( void )
 {
     return _colorsPerVertex.getValue();
 }
 
 inline
-void				OSGGeometry::setColorPerVertex( OSGBool npv )
+void				Geometry::setColorPerVertex( Bool npv )
 {
     _colorsPerVertex.setValue( npv );
 }
 		
 inline
-OSGGeoIndexPtr		OSGGeometry::getIndex( void )
+GeoIndexPtr		Geometry::getIndex( void )
 {
     return _index.getValue();
 }
 
 inline
-void				OSGGeometry::setIndex( OSGGeoIndexPtr index )
+void				Geometry::setIndex( GeoIndexPtr index )
 {
     _index.setValue( index );
 }

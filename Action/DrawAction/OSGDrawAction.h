@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGRENDERACTION_H_
 #define _OSGRENDERACTION_H_
@@ -47,11 +57,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGCamera;
-class OSGBackground;
-class OSGWindow;
-class OSGNode;
-class OSGAction;
+class Camera;
+class Background;
+class Window;
+class Node;
+class Action;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -67,7 +77,7 @@ class OSGAction;
  *  detailed
  */
 
-class OSGDrawAction : public OSGAction
+class OSG_DLLEXPORT DrawAction : public Action
 {
   public:
 
@@ -83,37 +93,37 @@ class OSGDrawAction : public OSGAction
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGDrawAction"; };
+    static const char *getClassname(void) { return "DrawAction"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGDrawAction(void);
+    DrawAction(void);
 
-    virtual ~OSGDrawAction(void); 
+    virtual ~DrawAction(void); 
 
     /*------------------------- your_category -------------------------------*/
-	
-	// default registration. static, so it can be called during static init
-	
-	static void registerEnterDefault(	const OSGFieldContainerType &type, 
-										const Functor               &func);
-	
-	static void registerLeaveDefault(	const OSGFieldContainerType &type, 
-										const Functor               &func);
+    
+    // default registration. static, so it can be called during static init
+    
+    static void registerEnterDefault(   const FieldContainerType &type, 
+                                        const Functor            &func);
+    
+    static void registerLeaveDefault(   const FieldContainerType &type, 
+                                        const Functor            &func);
 
-	
-	// rendering state handling
-	
-	inline OSGCamera *		getCamera( void ) const;	
-	void					setCamera( OSGCamera * cam );
-	
-	inline OSGBackground *	getBackground( void ) const;
-	void					setBackground( OSGBackground * background );
-	
-	inline OSGWindow *		getWindow( void ) const;
-	void					setWindow( OSGWindow * window );
+    
+    // rendering state handling
+    
+    Camera     *getCamera( void ) const;    
+    void        setCamera( Camera * cam );
+    
+    Background *getBackground( void ) const;
+    void        setBackground( Background * background );
+    
+    Window     *getWindow( void ) const;
+    void        setWindow( Window * window );
 
 
     /*------------------------- your_operators ------------------------------*/
@@ -123,10 +133,10 @@ class OSGDrawAction : public OSGAction
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGDrawAction &other) const;
+    Bool operator < (const DrawAction &other) const;
     
-	OSGBool operator == (const OSGDrawAction &other) const;
-	OSGBool operator != (const OSGDrawAction &other) const;
+    Bool operator == (const DrawAction &other) const;
+    Bool operator != (const DrawAction &other) const;
 
   protected:
 
@@ -164,7 +174,7 @@ class OSGDrawAction : public OSGAction
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGAction Inherited;
+    typedef Action Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -178,12 +188,12 @@ class OSGDrawAction : public OSGAction
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	// default functors for instantiation
-	static vector<Functor> *_defaultEnterFunctors;
-	static vector<Functor> *_defaultLeaveFunctors;
-	
+    // default functors for instantiation
+    static vector<Functor> *_defaultEnterFunctors;
+    static vector<Functor> *_defaultLeaveFunctors;
+    
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -192,20 +202,20 @@ class OSGDrawAction : public OSGAction
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	OSGCamera * _camera;
-	
-	OSGBackground * _background;
-	
-	OSGWindow * _window;
-	
+    Camera * _camera;
+    
+    Background * _background;
+    
+    Window * _window;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    OSGDrawAction(const OSGDrawAction &source);
-    OSGDrawAction& operator =(const OSGDrawAction &source);
+    DrawAction(const DrawAction &source);
+    DrawAction& operator =(const DrawAction &source);
 };
 
 //---------------------------------------------------------------------------
@@ -214,7 +224,7 @@ class OSGDrawAction : public OSGAction
 
 // class pointer
 
-typedef OSGDrawAction *OSGDrawActionP;
+typedef DrawAction *DrawActionP;
 
 OSG_END_NAMESPACE
 

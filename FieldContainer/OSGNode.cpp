@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -71,60 +71,53 @@ OSG_USING_NAMESPACE
  * as pure virtual functions :-( (GV)
  */
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGNode, OSGNameField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Node, VolumeField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGVolumeField,      OSGNameField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGParentField,      OSGVolumeField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGChildrenField,    OSGParentField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGCoreField,        OSGChildrenField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGAttachmentsField, OSGCoreField)
+OSG_FC_FIELD_IDM_DEF      (Node, ParentField,      VolumeField)
+OSG_FC_FIELD_IDM_DEF      (Node, ChildrenField,    ParentField)
+OSG_FC_FIELD_IDM_DEF      (Node, CoreField,        ChildrenField)
+OSG_FC_FIELD_IDM_DEF      (Node, AttachmentsField, CoreField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGNode, OSGAttachmentsField)
+OSG_FC_LAST_FIELD_IDM_DEF (Node, AttachmentsField)
 
-OSGFieldDescription OSGNode::_desc[] = 
+FieldDescription Node::_desc[] = 
 {
-	OSGFieldDescription(OSGSFString::getClassType(), 
-                        "name", 
-                        OSG_FC_FIELD_IDM_DESC(OSGNameField),
-                        false,
-                        (OSGFieldAccessMethod) &OSGNode::getSFName),
-
-	OSGFieldDescription(OSGSFVolume::getClassType(), 
+	FieldDescription(SFVolume::getClassType(), 
                         "volume", 
-                        OSG_FC_FIELD_IDM_DESC(OSGVolumeField),
+                        OSG_FC_FIELD_IDM_DESC(VolumeField),
                         false,
-                        (OSGFieldAccessMethod) &OSGNode::getSFVolume),
+                        (FieldAccessMethod) &Node::getSFVolume),
 
-	OSGFieldDescription(OSGSFNodePtr::getClassType(),
+	FieldDescription(SFNodePtr::getClassType(),
                         "parent", 
-                        OSG_FC_FIELD_IDM_DESC(OSGParentField),
+                        OSG_FC_FIELD_IDM_DESC(ParentField),
                         false,
-                        (OSGFieldAccessMethod) &OSGNode::getSFParent),
+                        (FieldAccessMethod) &Node::getSFParent),
 
-	OSGFieldDescription(OSGMFNodePtr::getClassType(), 
+	FieldDescription(MFNodePtr::getClassType(), 
                         "children", 
-                        OSG_FC_FIELD_IDM_DESC(OSGChildrenField),
+                        OSG_FC_FIELD_IDM_DESC(ChildrenField),
                         false,
-                        (OSGFieldAccessMethod) &OSGNode::getMFChildren),
+                        (FieldAccessMethod) &Node::getMFChildren),
 
-    OSGFieldDescription(OSGSFNodeCorePtr::getClassType(),
+    FieldDescription(SFNodeCorePtr::getClassType(),
                         "core",
-                        OSG_FC_FIELD_IDM_DESC(OSGCoreField),
+                        OSG_FC_FIELD_IDM_DESC(CoreField),
                         false,	
-                        (OSGFieldAccessMethod) &OSGNode::getSFCore),
+                        (FieldAccessMethod) &Node::getSFCore),
 
-    OSGFieldDescription(OSGSFAttachmentMap::getClassType(),
+    FieldDescription(SFAttachmentMap::getClassType(),
                         "attachments",
-                        OSG_FC_FIELD_IDM_DESC(OSGAttachmentsField),
+                        OSG_FC_FIELD_IDM_DESC(AttachmentsField),
                         false,	
-                        (OSGFieldAccessMethod) &OSGNode::getSFAttachments)
+                        (FieldAccessMethod) &Node::getSFAttachments)
 };
 
-OSGFieldContainerType OSGNode::_type(
+FieldContainerType Node::_type(
     "Node", 
     "FieldContainer", 
     0,
-    (OSGPrototypeCreateF) &OSGNode::createEmpty,
+    (PrototypeCreateF) &Node::createEmpty,
     0,
     _desc, 
     sizeof(_desc));
@@ -166,11 +159,11 @@ OSGFieldContainerType OSGNode::_type(
 
 /*@{*/
 
-/*! \fn OSGFieldContainerType &OSGNode::getStaticType(void) 
+/*! \fn FieldContainerType &Node::getStaticType(void) 
  *  \brief returns node type
  */
 
-/*! \fn OSGUInt32 OSGNode::getStaticTypeId(void) 
+/*! \fn UInt32 Node::getStaticTypeId(void) 
  *  \brief returns node type id
  */
 
@@ -181,23 +174,23 @@ OSGFieldContainerType OSGNode::_type(
 
 /*@{*/
 
-/*! \fn OSGNodePtr osg::OSGNode::create(void) 
+/*! \fn NodePtr ::Node::create(void) 
  *  \brief creates a clone of the prototype
  */
 
-/*! \fn OSGNodePtr osg::OSGNode::createEmpty(void) 
+/*! \fn NodePtr ::Node::createEmpty(void) 
  *  \brief creates a empty node, does not clone the prototype
  */
 
 /*@}*/
 
-OSG_FIELD_CONTAINER_DEF(OSGNode, OSGNodePtr)
+OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-void OSGNode::addAttachment(const OSGAttachmentPtr &fieldContainerP)
+void Node::addAttachment(const AttachmentPtr &fieldContainerP)
 {
-    if(fieldContainerP == OSGNullAttachment)
+    if(fieldContainerP == NullAttachment)
         return;
 
     _attachmentMap.getValue()[fieldContainerP->getTypeId()] = fieldContainerP;
@@ -205,9 +198,9 @@ void OSGNode::addAttachment(const OSGAttachmentPtr &fieldContainerP)
         getPtr());
 }
 
-void OSGNode::subAttachment(const OSGAttachmentPtr &fieldContainerP)
+void Node::subAttachment(const AttachmentPtr &fieldContainerP)
 {
-    OSGAttachmentMap::iterator fcI;
+    AttachmentMap::iterator fcI;
 
     fcI = _attachmentMap.getValue().find(fieldContainerP->getTypeId());
 
@@ -218,66 +211,66 @@ void OSGNode::subAttachment(const OSGAttachmentPtr &fieldContainerP)
     }  
 }
 
-OSGAttachmentPtr OSGNode::findAttachment(OSGUInt32 typeID) 
+AttachmentPtr Node::findAttachment(UInt32 typeID) 
 {
-    OSGAttachmentMap::iterator fcI = _attachmentMap.getValue().find(typeID);
+    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(typeID);
     
     return (fcI == _attachmentMap.getValue().end()) ? 
-        OSGNullAttachment : (*fcI).second;
+        NullAttachment : (*fcI).second;
 }
 
-OSGNodeCorePtr OSGNode::getCore(void)     
+NodeCorePtr Node::getCore(void)     
 {
     return _core.getValue(); 
 }
 
-void OSGNode::setCore(const OSGNodeCorePtr &core)
+void Node::setCore(const NodeCorePtr &core)
 {
-    OSGNodePtr thisP = getPtr();
+    NodePtr thisP = getPtr();
 
-    thisP.setParentFieldPos(OSGCoreFieldMask);
+    thisP.setParentFieldPos(CoreFieldMask);
 
-	if(_core.getValue() != OSGNullFC)
+	if(_core.getValue() != NullFC)
     {
         _core.getValue()->subParent(thisP);
     }
 
 	_core.setValue(core);
 	
-	if(_core.getValue() != OSGNullFC) 
+	if(_core.getValue() != NullFC) 
     {
         _core.getValue()->addParent(thisP);
 	}
 }
 
-OSGNodePtr OSGNode::getParent(void)
+NodePtr Node::getParent(void)
 {
     return _parent.getValue();
 }
 
-OSGUInt32 OSGNode::getNChildren(void) const 
+UInt32 Node::getNChildren(void) const 
 {
     return _children.size(); 
 }
 
-void OSGNode::addChild(const OSGNodePtr &childP)
+void Node::addChild(const NodePtr &childP)
 {
-    if(childP != OSGNullFC)
+    if(childP != NullFC)
     {
-        beginEdit(OSGChildrenFieldMask, _children);
+        beginEdit(ChildrenFieldMask, _children);
 
         _children.addValue(childP);
         _children.back()->setParent(getPtr());
 
-        endEdit(OSGChildrenFieldMask, _children);
+        endEdit(ChildrenFieldMask, _children);
     }
 }
 
-void OSGNode::insertChild(OSGUInt32 childIndex, const OSGNodePtr &childP)
+void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 {    
-    OSGMFNodePtr::iterator childIt = _children.begin();
+    MFNodePtr::iterator childIt = _children.begin();
 
-    if(childP != OSGNullFC)
+    if(childP != NullFC)
     {
         childIt += childIndex;
         
@@ -286,117 +279,111 @@ void OSGNode::insertChild(OSGUInt32 childIndex, const OSGNodePtr &childP)
     }
 }
 
-void OSGNode::replaceChild(OSGUInt32 childIndex, const OSGNodePtr &childP)
+void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
-    if(childP != OSGNullFC)
+    if(childP != NullFC)
     {
-        _children.getValue(childIndex)->setParent(OSGNullNode);
+        _children.getValue(childIndex)->setParent(NullNode);
         _children.getValue(childIndex) = childP;
         _children.getValue(childIndex)->setParent(getPtr());
     }
 }
 
-void OSGNode::replaceChildBy(const OSGNodePtr &childP, 
-                             const OSGNodePtr &newChildP)
+void Node::replaceChildBy(const NodePtr &childP, 
+                          const NodePtr &newChildP)
 {
-    OSGMFNodePtr::iterator childIt = _children.find(childP);
+    MFNodePtr::iterator childIt = _children.find(childP);
 
-    if(newChildP != OSGNullFC)
+    if(newChildP != NullFC)
     {
         if(childIt != _children.end())
         {
-            (*childIt)->setParent(OSGNullNode);
+            (*childIt)->setParent(NullNode);
             (*childIt) = newChildP;
             (*childIt)->setParent(getPtr());
         }
     }
 }
 
-void OSGNode::subChild(const OSGNodePtr &childP)
+void Node::subChild(const NodePtr &childP)
 {
-    OSGMFNodePtr::iterator childIt = _children.find(childP);
+    MFNodePtr::iterator childIt = _children.find(childP);
 
     if(childIt != _children.end())
     {
-        (*childIt)->setParent(OSGNullNode);
+        (*childIt)->setParent(NullNode);
 
         _children.erase(childIt);
     }
 
 }
 
-void OSGNode::subChild(OSGUInt32  childIndex)
+void Node::subChild(UInt32  childIndex)
 {
-    OSGMFNodePtr::iterator childIt = _children.begin();
+    MFNodePtr::iterator childIt = _children.begin();
 
     childIt += childIndex;
 
     if(childIt != _children.end())
     {
-        (*childIt)->setParent(OSGNullNode);
+        (*childIt)->setParent(NullNode);
 
         _children.erase(childIt);
     }
 }
 
-OSGNodePtr OSGNode::getChild(OSGUInt32  childIndex)
+NodePtr Node::getChild(UInt32  childIndex)
 {
     return _children.getValue(childIndex);
 }
 
 /*---------------------------- properties ---------------------------------*/
 
-OSGSFString *OSGNode::getSFName(void) 
-{
-    return &_name; 
-}
-
-OSGSFVolume *OSGNode::getSFVolume(void) 
+SFVolume *Node::getSFVolume(void) 
 {
     return &_volume; 
 }
 
-OSGSFNodePtr *OSGNode::getSFParent(void)
+SFNodePtr *Node::getSFParent(void)
 {
     return &_parent;
 }
 
-OSGSFNodeCorePtr *OSGNode::getSFCore(void)
+SFNodeCorePtr *Node::getSFCore(void)
 {
     return &_core;
 }
 
-OSGMFNodePtr *OSGNode::getMFChildren(void)
+MFNodePtr *Node::getMFChildren(void)
 {
     return &_children;
 }
 
-OSGSFAttachmentMap *OSGNode::getSFAttachments(void)
+SFAttachmentMap *Node::getSFAttachments(void)
 {
     return &_attachmentMap;
 }
 
-
-OSGNodePtr OSGNode::getPtr(void)
+NodePtr Node::getPtr(void)
 {
-    return Inherited::getPtr<OSGNodePtr>(*this);
+    return Inherited::getPtr<NodePtr>(*this);
 }
 
 /*-------------------------- your_category---------------------------------*/
 
 
-OSGMatrix OSGNode::getToWorld(void)
+Matrix Node::getToWorld(void)
 {
-	OSGMatrix tmp;
+	Matrix tmp;
 	
 	getToWorld(tmp);
 	
 	return tmp;
 }
 	
-void OSGNode::getToWorld(OSGMatrix &result)
+void Node::getToWorld(Matrix &result)
 {
-	if(getParent() != OSGNullNode)
+	if(getParent() != NullNode)
     {
 		getParent()->getToWorld(result);
     }
@@ -410,11 +397,11 @@ void OSGNode::getToWorld(OSGMatrix &result)
 
 /*-------------------------- assignment -----------------------------------*/
 
-void OSGNode::getWorldVolume(OSGVolume &result)
+void Node::getWorldVolume(Volume &result)
 {	
-	OSGMatrix m;
+	Matrix m;
 	
-	if(getParent() != OSGNullFC)
+	if(getParent() != NullFC)
 		getParent()->getToWorld(m);
 	else
 		m.setIdentity();
@@ -424,14 +411,14 @@ void OSGNode::getWorldVolume(OSGVolume &result)
 	result.transform(m);
 }
 	
-void OSGNode::updateVolume(void)
+void Node::updateVolume(void)
 {
-	OSGVolume & vol = _volume.getValue().getVolume();
+	Volume & vol = _volume.getValue().getVolume();
 
 	if(vol.isValid())
 		return;				// still valid, nothing to do
 
-	OSGMFNodePtr::iterator it;
+	MFNodePtr::iterator it;
 
 	vol.setEmpty();
 
@@ -449,27 +436,27 @@ void OSGNode::updateVolume(void)
 	// don't know how to do that yet
 }
 
-void OSGNode::invalidateVolume(void)
+void Node::invalidateVolume(void)
 {
     if(_volume.getValue().getVolume().isValid() == true)
     {
-        beginEdit(OSGVolumeFieldMask, _volume);
+        beginEdit(VolumeFieldMask, _volume);
 
         _volume.getValue().getVolume().setValid(false);
 
-        endEdit(OSGVolumeFieldMask, _volume);
+        endEdit(VolumeFieldMask, _volume);
 
-        if(getParent() != OSGNullFC)
+        if(getParent() != NullFC)
         {
             getParent()->invalidateVolume();
         }
     }
 }
 
-void OSGNode::changed(OSGBitVector  whichField, 
-                      OSGChangeMode from)
+void Node::changed(BitVector  whichField, 
+                      ChangeMode from)
 {
-    if(whichField & (OSGCoreFieldMask | OSGChildrenFieldMask))
+    if(whichField & (CoreFieldMask | ChildrenFieldMask))
     {
         invalidateVolume();
     }
@@ -477,46 +464,74 @@ void OSGNode::changed(OSGBitVector  whichField,
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGNode::print(OSGUInt32 indent) const
+void Node::print(UInt32 indent) const
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < indent; i++)
+    indentLog(indent, PLOG);
+    
+    PLOG << "Node : " << _children.size() << " children | " 
+         << "Parent : ";
+
+    if(_parent.getValue() != NullNode)
+        PLOG << &(*(_parent.getValue())) << " | ";
+    else
+        PLOG << "NULL | ";
+
+    PLOG << this << endl;
+    
+    indentLog(indent, PLOG);
+
+    PLOG << "[" << endl;
+
+    indentLog(indent + 4, PLOG);
+
+    
+
+    if(_core.getValue() != NullNode)
+        _core.getValue()->print(indent + 4);
+    else
+        PLOG << "Core : " << "NULL" << endl;
+
+    indentLog(indent, PLOG);
+
+    PLOG << "]" << endl;
+
+    indentLog(indent, PLOG);
+
+    PLOG << "{" << endl;
+
+
+    for(i = 0; i < _children.size(); i++)
     {
-        cerr << " ";
+        _children[i]->print(indent + 4);
+        PLOG << endl;
     }
 
-    fprintf(stderr, "Node : %d children | %p\n", _children.size(), this);
-    
-    
+
+    indentLog(indent, PLOG);
+
+    PLOG << "}" << endl;
+
+/*
     for(i = 0; i < indent; i++)
     {
         cerr << " ";
     }
     cerr << "  Parent : ";
 
-    if(_parent.getValue() != OSGNullNode)
-        _parent.getValue().dump();
-    else
-        cerr << "NULL" << endl;
 
     for(i = 0; i < indent; i++)
     {
         cerr << " ";
     }
-    cerr << "  Core   : ";
-
-    if(_core.getValue() != OSGNullNode)
-        _core.getValue().dump();
-    else
-        cerr << "NULL" << endl;
 
     for(i = 0; i < indent; i++)
         fprintf(stderr, " ");
 
     fprintf(stderr, "NAttachments : \n");
 
-    map<OSGUInt32, OSGAttachmentPtr>::const_iterator fcI;
+    map<UInt32, AttachmentPtr>::const_iterator fcI;
 
     fcI = _attachmentMap.getValue().begin();
 
@@ -533,10 +548,6 @@ void OSGNode::print(OSGUInt32 indent) const
     
     cerr << "{" << endl;
 
-    for(i = 0; i < _children.size(); i++)
-    {
-        _children[i]->print(indent + 4);
-    }
 
     for(i = 0; i < indent; i++)
     {
@@ -544,11 +555,12 @@ void OSGNode::print(OSGUInt32 indent) const
     }
 
     cerr << "}" << endl;
+*/
 }
 
-void OSGNode::dump(void) const
+void Node::dump(void) const
 {
-    SDEBUG << "Dump OSGNode NI" << endl;
+    SDEBUG << "Dump Node NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -563,9 +575,8 @@ void OSGNode::dump(void) const
 /** \brief Constructor
  */
 
-OSGNode::OSGNode(void) :
+Node::Node(void) :
     Inherited     (),
-    _name         (),
     _parent       (),
     _children     (),
     _core         (),
@@ -576,9 +587,8 @@ OSGNode::OSGNode(void) :
 /** \brief CopyConstructor, used only by the protoype mechanism
  */
 
-OSGNode::OSGNode(const OSGNode &source) :
+Node::Node(const Node &source) :
     Inherited     (source),
-    _name         (source._name),
     _parent       (source._parent),
     _children     (source._children),
     _core         (source._core),
@@ -589,13 +599,13 @@ OSGNode::OSGNode(const OSGNode &source) :
 /** \brief Destructor
  */
 
-OSGNode::~OSGNode (void )
+Node::~Node (void )
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-void OSGNode::setParent(const OSGNodePtr &parent)
+void Node::setParent(const NodePtr &parent)
 {
     _parent.setValue(parent);
 }

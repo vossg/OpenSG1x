@@ -1,7 +1,7 @@
 
 include $(OSGPOOL)/$(OSGCOMMON)/commonLinux.mk
 
-LIBCIO = -lCio
+#LIBCIO = -lCio
 
 WARNINGS := -Wall -W   -Wpointer-arith 						\
 		    -Wcast-qual -Wcast-align   -Wconversion   		\

@@ -1,76 +1,231 @@
-#ifndef OSGFRUSTUMVOLUME_CLASS_DECLARATIONS
-#define OSGFRUSTUMVOLUME_CLASS_DECLARATIONS
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
+#ifndef _OSGFRUSTUMVOLUME_H_
+#define _OSGFRUSTUMVOLUME_H_
+#ifdef __sgi
+#pragma once
+#endif
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGBaseTypes.h>
 #include <OSGVolume.h>
 
 OSG_BEGIN_NAMESPACE
 
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
+
 class OSGLine;
 
-/** Frustum, defined by 6 half-spaces.
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-@author jbehr, Mon Dec 22 11:32:31 1997
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
+ */
 
-*/
+class OSG_DLLEXPORT FrustumVolume : public Volume
+{
+  public:
 
-class OSGFrustumVolume : public OSGVolume {
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
 
-public:
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
 
-	/// Default constructor
-	OSGFrustumVolume(void) 
-		: OSGVolume() {;}
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
 
-	/// Copy Constructor
-	OSGFrustumVolume(const OSGFrustumVolume &obj)
-		: OSGVolume(obj) {;}
-
-	/// Returns the center
-	inline const OSGVec3f &getCenter(void) const { return OSGVec3f(0, 0, 0); }
-
-	/// Returns the center
-	inline void getCenter(OSGVec3f &center) const { center = OSGVec3f(0, 0, 0);}
+    static const char *getClassname(void) { return "FrustumVolume"; }
  
-	/** Returns true if intersection of given point and Volume is not empty */
-    virtual OSGBool intersect (const OSGVec3f &point) const;
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
 
-    /** intersect the volume with another volume */
-    virtual OSGBool intersect (const OSGVolume &volume) const;
+	FrustumVolume(void) : Volume() {;}
+	FrustumVolume(const FrustumVolume &obj) : Volume(obj) {;}
 
-	/** intersect the volume with the given Line */
-	virtual OSGBool intersect (const OSGLine &line) const { return false; }
+    virtual ~FrustumVolume(void) {;} 
 
-	/** intersect the volume with the given Line */
-	virtual OSGBool intersect (const OSGLine &line, 
-                               OSGVec3f &min, OSGVec3f &max  ) const 
-        { return false; }
+    /*------------------------- your_category -------------------------------*/
 
-  /** extends (if necessary) to contain the given 3D point */
-  virtual void extendBy (const OSGPnt3f &pt);
+	const Vec3f &getCenter(void) const { return Vec3f(0, 0, 0); }
 
-  /** extend the volume by the given volume */
-  virtual void extendBy (const OSGVolume &volume);
+    void getCenter(Vec3f &center) const { center = Vec3f(0, 0, 0);}
+ 
+	virtual Bool intersect (const Vec3f &point) const;
 
-  /** set the volume to contain nothing */
-  virtual void makeEmpty (void) ;
+    virtual Bool intersect (const Volume &volume) const;
 
-  /**  Checks if the volume is empty */
-  virtual OSGBool isEmpty (void) const;
+	virtual Bool intersect (const Line &line) const { return false; }
 
-  /** ives the volume of the volume */
-  virtual float getVolume (void) const;
+	virtual Bool intersect (const Line &line, 
+                               Vec3f &min, Vec3f &max  ) const 
+    {
+        return false; 
+    }
 
-  /** scale the volume */
-  virtual void scale (float scaleValue);
+    virtual void extendBy (const Pnt3f &pt);
 
-  /** transform volume by the given matrix */
-  virtual void transform (const OSGMatrix &mat);
+    virtual void extendBy (const Volume &volume);
 
+    virtual void makeEmpty (void) ;
+
+    virtual Bool isEmpty (void) const;
+
+    virtual float getVolume (void) const;
+
+    virtual void scale (float scaleValue);
+
+    virtual void transform (const Matrix &mat);
+
+    /*------------------------- your_operators ------------------------------*/
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef Volume Inherited;
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	// prohibit default functions (move to 'public' if you need one)
+
+    void operator =(const FrustumVolume &source);
 };
+
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+// class pointer
+
+typedef FrustumVolume *FrustumVolumeP;
 
 OSG_END_NAMESPACE
 
-#endif // OSGFRUSTUMVOLUME_CLASS_DECLARATIONS
+#endif /* _OSGFRUSTUMVOLUME_H_ */
+
+
+
+
+
+
+
+
+

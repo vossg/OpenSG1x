@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -87,7 +87,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(OSGAttachment, OSGAttachmentPtr)
+OSG_FIELD_CONTAINER_INL_DEF(Attachment, AttachmentPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -120,37 +120,37 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGAttachment, OSGAttachmentPtr)
 \***************************************************************************/
 
 
-OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSGSimpleAttachment,
-                                    OSGAttachmentDescT, 
-                                    OSGSimpleField)
+OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(SimpleAttachment,
+                                    AttachmentDescT, 
+                                    SimpleField)
 
-OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(OSGSimpleAttachment,
-                                   OSGAttachmentDescT, 
-                                   OSGSimpleField)
+OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(SimpleAttachment,
+                                   AttachmentDescT, 
+                                   SimpleField)
                                   
 
-template <class OSGAttachmentDescT>
-char OSGSimpleAttachment<OSGAttachmentDescT>::cvsid[] = "@(#)$Id: $";
+template <class AttachmentDescT>
+char SimpleAttachment<AttachmentDescT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief NULL pointer
  */
 
-template <class OSGAttachmentDescT>
-const  OSGSimpleAttachment<OSGAttachmentDescT>::OSGPtrType 
-    OSGSimpleAttachment<OSGAttachmentDescT>::OSGNullPtr;
+template <class AttachmentDescT>
+const  SimpleAttachment<AttachmentDescT>::PtrType 
+    SimpleAttachment<AttachmentDescT>::NullPtr;
 
 /** \brief Attachment field description
  */
 
-template <class OSGAttachmentDescT>
-OSGFieldDescription OSGSimpleAttachment<OSGAttachmentDescT>::_desc[] = 
+template <class AttachmentDescT>
+FieldDescription SimpleAttachment<AttachmentDescT>::_desc[] = 
 {
-	OSGFieldDescription(
-        OSGFieldType::getClassType(), 
-        OSGAttachmentDescT::getFieldName(), 
-        OSG_FC_FIELD_IDM_DESC(OSGSimpleField),
+	FieldDescription(
+        FieldType::getClassType(), 
+        AttachmentDescT::getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(SimpleField),
         false,
-        (OSGFieldAccessMethod) &OSGSimpleAttachment::getFieldPtr,
+        (FieldAccessMethod) &SimpleAttachment::getFieldPtr,
         NULL)
 };
 
@@ -158,28 +158,28 @@ OSGFieldDescription OSGSimpleAttachment<OSGAttachmentDescT>::_desc[] =
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class OSGAttachmentDescT>
-OSGFieldContainerType OSGSimpleAttachment<OSGAttachmentDescT>::_type = 
-	OSGFieldContainerType(
-		OSGAttachmentDescT::getTypeName(),
+template <class AttachmentDescT>
+FieldContainerType SimpleAttachment<AttachmentDescT>::_type = 
+	FieldContainerType(
+		AttachmentDescT::getTypeName(),
 		"Attachment",
-		OSGAttachmentDescT::getGroupName(),
-		(OSGPrototypeCreateF) &OSGSimpleAttachment<
-                                              OSGAttachmentDescT>::createEmpty,
-		OSGAttachmentDescT::getInitMethod(),
+		AttachmentDescT::getGroupName(),
+		(PrototypeCreateF) &SimpleAttachment<
+                                              AttachmentDescT>::createEmpty,
+		AttachmentDescT::getInitMethod(),
 		_desc,
 		sizeof(_desc));
 #else
-template <class OSGAttachmentDescT>
-OSGFieldContainerType OSGSimpleAttachment<OSGAttachmentDescT>::_type(
-    OSGAttachmentDescT::getTypeName(),
+template <class AttachmentDescT>
+FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
+    AttachmentDescT::getTypeName(),
     "Attachment",
-    OSGAttachmentDescT::getGroupName(),
-    (OSGPrototypeCreateF) &OSGSimpleAttachment<
-                                              OSGAttachmentDescT>::createEmpty,
-    OSGAttachmentDescT::getInitMethod(),
+    AttachmentDescT::getGroupName(),
+    (PrototypeCreateF) &SimpleAttachment<
+                                              AttachmentDescT>::createEmpty,
+    AttachmentDescT::getInitMethod(),
     _desc,
-    sizeof(OSGFieldDescription));
+    sizeof(FieldDescription));
 #endif
 
 
@@ -188,9 +188,9 @@ OSGFieldContainerType OSGSimpleAttachment<OSGAttachmentDescT>::_type(
  *                           Class methods                                 *
 \***************************************************************************/
 
-OSG_FIELD_CONTAINER_INL_TMPL_DEF(OSGSimpleAttachment,
-                                 OSGAttachmentDescT,
-                                 OSGPtrType)
+OSG_FIELD_CONTAINER_INL_TMPL_DEF(SimpleAttachment,
+                                 AttachmentDescT,
+                                 PtrType)
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -218,9 +218,9 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(OSGSimpleAttachment,
 /** \brief Returns pointer to stored field
  */
 
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::OSGFieldType *
-    OSGSimpleAttachment<OSGAttachmentDescT>::getFieldPtr(void)
+template <class AttachmentDescT> inline
+SimpleAttachment<AttachmentDescT>::FieldType *
+    SimpleAttachment<AttachmentDescT>::getFieldPtr(void)
 {
     return &_field;
 }
@@ -228,9 +228,9 @@ OSGSimpleAttachment<OSGAttachmentDescT>::OSGFieldType *
 /** \brief Returns reference to the stored field
  */
 
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::OSGFieldType &
-    OSGSimpleAttachment<OSGAttachmentDescT>::getField(void)
+template <class AttachmentDescT> inline
+SimpleAttachment<AttachmentDescT>::FieldType &
+    SimpleAttachment<AttachmentDescT>::getField(void)
 {
     return _field;
 }
@@ -238,9 +238,9 @@ OSGSimpleAttachment<OSGAttachmentDescT>::OSGFieldType &
 /** \brief Returns const reference to the stored field
  */
 
-template <class OSGAttachmentDescT> inline
-const OSGSimpleAttachment<OSGAttachmentDescT>::OSGFieldType &
-    OSGSimpleAttachment<OSGAttachmentDescT>::getField(void) const
+template <class AttachmentDescT> inline
+const SimpleAttachment<AttachmentDescT>::FieldType &
+    SimpleAttachment<AttachmentDescT>::getField(void) const
 {
     return _field;
 }
@@ -248,11 +248,11 @@ const OSGSimpleAttachment<OSGAttachmentDescT>::OSGFieldType &
 
 /*------------------------------- dump ----------------------------------*/
 
-template <class OSGAttachmentDescT> inline
-void OSGSimpleAttachment<OSGAttachmentDescT>::dump(void) const
+template <class AttachmentDescT> inline
+void SimpleAttachment<AttachmentDescT>::dump(void) const
 {
-    SDEBUG << "Dump OSGSimpleAttachment<OSGFieldTypeT, " 
-           << "OSGAttachmentDescT> NI" << endl;
+    SDEBUG << "Dump SimpleAttachment<FieldTypeT, " 
+           << "AttachmentDescT> NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -264,8 +264,8 @@ void OSGSimpleAttachment<OSGAttachmentDescT>::dump(void) const
 /** \brief Constructor
  */
 
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(void) :
+template <class AttachmentDescT> inline
+SimpleAttachment<AttachmentDescT>::SimpleAttachment(void) :
 	Inherited(),
     _field()
 {
@@ -274,9 +274,9 @@ OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(void) :
 /** \brief Copy Constructor
  */
 
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(
-                      const OSGSimpleAttachment &source) :
+template <class AttachmentDescT> inline
+SimpleAttachment<AttachmentDescT>::SimpleAttachment(
+                      const SimpleAttachment &source) :
     Inherited(source),
     _field(source._field)
 {
@@ -285,8 +285,8 @@ OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(
 /** \brief Destructor
  */
 
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::~OSGSimpleAttachment(void)
+template <class AttachmentDescT> inline
+SimpleAttachment<AttachmentDescT>::~SimpleAttachment(void)
 {
 }
 
@@ -305,39 +305,39 @@ OSGSimpleAttachment<OSGAttachmentDescT>::~OSGSimpleAttachment(void)
 \***************************************************************************/
 
 
-template <class OSGAttachmentDescT> 
-char OSGDynFieldAttachment<OSGAttachmentDescT>::cvsid[] = "@(#)$Id: $";
+template <class AttachmentDescT> 
+char DynFieldAttachment<AttachmentDescT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief NULL pointer
  */
 
-template <class OSGAttachmentDescT> 
-const  OSGDynFieldAttachment<OSGAttachmentDescT>::OSGPtrType 
-    OSGDynFieldAttachment<OSGAttachmentDescT>::OSGNullPtr;
+template <class AttachmentDescT> 
+const  DynFieldAttachment<AttachmentDescT>::PtrType 
+    DynFieldAttachment<AttachmentDescT>::NullPtr;
 
 /** \brief Attachment type
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class OSGAttachmentDescT> 
-OSGFieldContainerType OSGSynFieldAttachment<OSGAttachmentDescT>::_type = 
-	OSGFieldContainerType(
-		OSGAttachmentDescT::getTypeName(),
+template <class AttachmentDescT> 
+FieldContainerType SynFieldAttachment<AttachmentDescT>::_type = 
+	FieldContainerType(
+		AttachmentDescT::getTypeName(),
 		"Attachment",
 		NULL,
-		(OSGPrototypeCreateF) &OSGDynFieldAttachment<
-                                              OSGAttachmentDescT>::createEmpty,
+		(PrototypeCreateF) &DynFieldAttachment<
+                                              AttachmentDescT>::createEmpty,
 		NULL,
 		NULL,
 		0);
 #else
-template <class OSGAttachmentDescT> 
-OSGFieldContainerType OSGDynFieldAttachment<OSGAttachmentDescT>::_type(
-    OSGAttachmentDescT::getTypeName(),
+template <class AttachmentDescT> 
+FieldContainerType DynFieldAttachment<AttachmentDescT>::_type(
+    AttachmentDescT::getTypeName(),
     "Attachment",
     NULL,
-    (OSGPrototypeCreateF) &OSGDynFieldAttachment<
-                                              OSGAttachmentDescT>::createEmpty,
+    (PrototypeCreateF) &DynFieldAttachment<
+                                              AttachmentDescT>::createEmpty,
     NULL,
     NULL,
     0);
@@ -348,9 +348,9 @@ OSGFieldContainerType OSGDynFieldAttachment<OSGAttachmentDescT>::_type(
  *                           Class methods                                 *
 \***************************************************************************/
 
-OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(OSGDynFieldAttachment,
-                                    OSGAttachmentDescT,
-                                    OSGPtrType)
+OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(DynFieldAttachment,
+                                    AttachmentDescT,
+                                    PtrType)
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -374,26 +374,26 @@ OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(OSGDynFieldAttachment,
 
 /*------------------------------ access -----------------------------------*/
 
-template <class OSGAttachmentDescT> inline
-OSGFieldContainerType& OSGDynFieldAttachment<OSGAttachmentDescT>::getType(void)
+template <class AttachmentDescT> inline
+FieldContainerType& DynFieldAttachment<AttachmentDescT>::getType(void)
 {
     return _localType;
 }
 
-template <class OSGAttachmentDescT> inline
-const OSGFieldContainerType& 
-    OSGDynFieldAttachment<OSGAttachmentDescT>::getType(void) const
+template <class AttachmentDescT> inline
+const FieldContainerType& 
+    DynFieldAttachment<AttachmentDescT>::getType(void) const
 {
     return _localType;
 }
 
-template <class OSGAttachmentDescT> inline
-OSGUInt32 OSGDynFieldAttachment<OSGAttachmentDescT>::addField(
-    const OSGFieldDescription &fieldDesc)
+template <class AttachmentDescT> inline
+UInt32 DynFieldAttachment<AttachmentDescT>::addField(
+    const FieldDescription &fieldDesc)
 {
-    OSGUInt32            returnValue = 0;
-    OSGField            *fieldP      = NULL;
-    OSGFieldDescription *descP       = NULL;
+    UInt32            returnValue = 0;
+    Field            *fieldP      = NULL;
+    FieldDescription *descP       = NULL;
 
     returnValue = _localType.addDescription(fieldDesc);
 
@@ -406,30 +406,30 @@ OSGUInt32 OSGDynFieldAttachment<OSGAttachmentDescT>::addField(
             descP->setFieldId  (returnValue);
             descP->setFieldMask(1 << (returnValue - 1));
 
-            fieldP = OSGFieldFactory::the().createField(fieldDesc.getTypeId());
+            fieldP = FieldFactory::the().createField(fieldDesc.getTypeId());
 
             if(_dynFieldsV.size() <=
-               returnValue - Inherited::OSGNextFieldId)
+               returnValue - Inherited::NextFieldId)
             {
                 _dynFieldsV.resize((returnValue - 
-                                    Inherited::OSGNextFieldId) + 1);
+                                    Inherited::NextFieldId) + 1);
             }
             
-            _dynFieldsV[returnValue - Inherited::OSGNextFieldId] = fieldP;
+            _dynFieldsV[returnValue - Inherited::NextFieldId] = fieldP;
         }
     }
 
     return returnValue;
 }
 
-template <class OSGAttachmentDescT> inline
-void OSGDynFieldAttachment<OSGAttachmentDescT>::subField(OSGUInt32 fieldId)
+template <class AttachmentDescT> inline
+void DynFieldAttachment<AttachmentDescT>::subField(UInt32 fieldId)
 {
     if(_localType.subDescription(fieldId) == true)
     {
-        vector<OSGField *>::iterator vIt = _dynFieldsV.begin();
+        vector<Field *>::iterator vIt = _dynFieldsV.begin();
 
-        vIt += fieldId - Inherited::OSGNextFieldId;
+        vIt += fieldId - Inherited::NextFieldId;
 
         if(vIt != _dynFieldsV.end())
         {
@@ -440,23 +440,23 @@ void OSGDynFieldAttachment<OSGAttachmentDescT>::subField(OSGUInt32 fieldId)
     }
 }
 
-template <class OSGAttachmentDescT> inline
-OSGField *OSGDynFieldAttachment<OSGAttachmentDescT>::getDynamicField(
-    OSGUInt32 index)
+template <class AttachmentDescT> inline
+Field *DynFieldAttachment<AttachmentDescT>::getDynamicField(
+    UInt32 index)
 {
-    return _dynFieldsV[index - Inherited::OSGNextFieldId];
+    return _dynFieldsV[index - Inherited::NextFieldId];
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-template <class OSGAttachmentDescT> inline
-void OSGDynFieldAttachment<OSGAttachmentDescT>::dump(void) const
+template <class AttachmentDescT> inline
+void DynFieldAttachment<AttachmentDescT>::dump(void) const
 {
-    SDEBUG << "Dump OSGDynFieldAttachment<> NI" << endl;
+    SDEBUG << "Dump DynFieldAttachment<> NI" << endl;
 
     _localType.print();
 
-    for(OSGUInt32 i = 0; i < _dynFieldsV.size(); i++)
+    for(UInt32 i = 0; i < _dynFieldsV.size(); i++)
     {
         fprintf(stderr, "%d\n", _dynFieldsV[i]);
     }
@@ -471,8 +471,8 @@ void OSGDynFieldAttachment<OSGAttachmentDescT>::dump(void) const
 /** \brief Constructor
  */
 
-template <class OSGAttachmentDescT> inline
-OSGDynFieldAttachment<OSGAttachmentDescT>::OSGDynFieldAttachment(void) :
+template <class AttachmentDescT> inline
+DynFieldAttachment<AttachmentDescT>::DynFieldAttachment(void) :
 	Inherited(),
     _localType(_type),
     _dynFieldsV()
@@ -482,9 +482,9 @@ OSGDynFieldAttachment<OSGAttachmentDescT>::OSGDynFieldAttachment(void) :
 /** \brief Copy Constructor
  */
 
-template <class OSGAttachmentDescT> inline
-OSGDynFieldAttachment<OSGAttachmentDescT>::OSGDynFieldAttachment(
-                      const OSGDynFieldAttachment &source) :
+template <class AttachmentDescT> inline
+DynFieldAttachment<AttachmentDescT>::DynFieldAttachment(
+                      const DynFieldAttachment &source) :
     Inherited(source),
     _localType(_type),
     _dynFieldsV(source._dynFieldsV) // Do a real copy soon ;-)
@@ -494,8 +494,8 @@ OSGDynFieldAttachment<OSGAttachmentDescT>::OSGDynFieldAttachment(
 /** \brief Destructor
  */
 
-template <class OSGAttachmentDescT> inline
-OSGDynFieldAttachment<OSGAttachmentDescT>::~OSGDynFieldAttachment(void)
+template <class AttachmentDescT> inline
+DynFieldAttachment<AttachmentDescT>::~DynFieldAttachment(void)
 {
 }
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -49,19 +60,19 @@
 #include "OSGAction.h"
 #include "OSGDrawAction.h"
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -75,11 +86,11 @@ using namespace OSG;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGDrawAction::cvsid[] = "@(#)$Id: $";
+char DrawAction::cvsid[] = "@(#)$Id: $";
 
-vector<OSGAction::Functor> *OSGDrawAction::_defaultEnterFunctors;
+vector<Action::Functor> *DrawAction::_defaultEnterFunctors;
 
-vector<OSGAction::Functor> *OSGDrawAction::_defaultLeaveFunctors;
+vector<Action::Functor> *DrawAction::_defaultLeaveFunctors;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -91,31 +102,31 @@ vector<OSGAction::Functor> *OSGDrawAction::_defaultLeaveFunctors;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void OSGDrawAction::registerEnterDefault(	const OSGFieldContainerType &type, 
-										const OSGAction::Functor &func )
+void DrawAction::registerEnterDefault(	const FieldContainerType &type, 
+										const Action::Functor &func )
 {
 	if ( ! _defaultEnterFunctors )
-		_defaultEnterFunctors = new vector<OSGAction::Functor>;
+		_defaultEnterFunctors = new vector<Action::Functor>;
 
 	while(type.getId() >= _defaultEnterFunctors->size())
 	{
 		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&OSGAction::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultFunction));
 	}
 	
 	(*_defaultEnterFunctors)[ type.getId() ] = func;
 }
 
-void OSGDrawAction::registerLeaveDefault(	const OSGFieldContainerType &type, 
-										const OSGAction::Functor &func )
+void DrawAction::registerLeaveDefault(	const FieldContainerType &type, 
+										const Action::Functor &func )
 {
 	if ( ! _defaultLeaveFunctors )
-		_defaultLeaveFunctors = new vector<OSGAction::Functor>;
+		_defaultLeaveFunctors = new vector<Action::Functor>;
 
 	while(type.getId() >= _defaultLeaveFunctors->size())
 	{
 		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&OSGAction::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultFunction));
 	}
 	
 	(*_defaultLeaveFunctors)[ type.getId() ] = func;
@@ -146,7 +157,7 @@ void OSGDrawAction::registerLeaveDefault(	const OSGFieldContainerType &type,
 /** \brief Constructor
  */
 
-OSGDrawAction::OSGDrawAction(void)
+DrawAction::DrawAction(void)
 {
 	if ( _defaultEnterFunctors )
 		_enterFunctors = *_defaultEnterFunctors;
@@ -159,7 +170,7 @@ OSGDrawAction::OSGDrawAction(void)
 /** \brief Destructor
  */
 
-OSGDrawAction::~OSGDrawAction(void)
+DrawAction::~DrawAction(void)
 {
 }
 
@@ -167,17 +178,17 @@ OSGDrawAction::~OSGDrawAction(void)
 
 /*---------------------------- properties ---------------------------------*/
 	
-void OSGDrawAction::setCamera( OSGCamera * cam )
+void DrawAction::setCamera( Camera * cam )
 {
 	_camera = cam;
 }
 		
-void OSGDrawAction::setBackground( OSGBackground * background )
+void DrawAction::setBackground( Background * background )
 {
 	_background = background;
 }
 		
-void OSGDrawAction::setWindow( OSGWindow * window )
+void DrawAction::setWindow( Window * window )
 {
 	_window = window;
 }
@@ -192,7 +203,7 @@ void OSGDrawAction::setWindow( OSGWindow * window )
 
 /*
 
-OSGDrawAction& OSGDrawAction::operator = (const OSGDrawAction &source)
+DrawAction& DrawAction::operator = (const DrawAction &source)
 {
 	if (this == &source)
 		return *this;
@@ -214,7 +225,7 @@ OSGDrawAction& OSGDrawAction::operator = (const OSGDrawAction &source)
 /** \brief assignment
  */
 
-OSGBool OSGDrawAction::operator < (const OSGDrawAction &other) const
+Bool DrawAction::operator < (const DrawAction &other) const
 {
     return this < &other;
 }
@@ -222,7 +233,7 @@ OSGBool OSGDrawAction::operator < (const OSGDrawAction &other) const
 /** \brief equal
  */
 
-OSGBool OSGDrawAction::operator == (const OSGDrawAction &other) const
+Bool DrawAction::operator == (const DrawAction &other) const
 {
     return false;
 }
@@ -230,7 +241,7 @@ OSGBool OSGDrawAction::operator == (const OSGDrawAction &other) const
 /** \brief unequal
  */
 
-OSGBool OSGDrawAction::operator != (const OSGDrawAction &other) const
+Bool DrawAction::operator != (const DrawAction &other) const
 {
 	return ! (*this == other);
 }

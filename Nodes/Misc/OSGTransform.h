@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -63,16 +63,16 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGTransform;
+class Transform;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-/** \brief OSGTransformPtr
+/** \brief TransformPtr
  */
 
-typedef OSGFCPtr<OSGNodeCorePtr, OSGTransform> OSGTransformPtr;
+typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -84,10 +84,10 @@ typedef OSGFCPtr<OSGNodeCorePtr, OSGTransform> OSGTransformPtr;
 /*! \ingroup FieldContainerLib Transform
  *  \brief A simple matrix transformation.
  *
- *  OSGTransform provides one matrix to transform objects.
+ *  Transform provides one matrix to transform objects.
  */
 
-class OSGTransform : public OSGNodeCore
+class OSG_DLLEXPORT Transform : public NodeCore
 {
   public:
 
@@ -95,7 +95,7 @@ class OSGTransform : public OSGNodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGMatrixField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(MatrixField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -111,7 +111,7 @@ class OSGTransform : public OSGNodeCore
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGTransform"; };
+    static const char *getClassname(void) { return "Transform"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -119,29 +119,29 @@ class OSGTransform : public OSGNodeCore
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGTransformPtr)
+    OSG_FIELD_CONTAINER_DECL(TransformPtr)
 
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the matrix field.
-          OSGSFMatrix *getSFMatrix(void);
+          SFMatrix *getSFMatrix(void);
 
     /*----------------------------- access ----------------------------------*/
 
     //!@{ Return the matrix value.
 
-          OSGMatrix   &getMatrix  (void);
-    const OSGMatrix   &getMatrix  (void) const;
+          Matrix   &getMatrix  (void);
+    const Matrix   &getMatrix  (void) const;
 
     //!@}
 
     /*-------------------------- transformation ----------------------------*/
 
-    virtual void accumulateMatrix( OSGMatrix & result );
+    virtual void accumulateMatrix( Matrix & result );
 
     /*------------------------------ volume -------------------------------*/
 
-    void adjustVolume( OSGVolume & volume );
+    void adjustVolume( Volume & volume );
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -170,21 +170,21 @@ class OSGTransform : public OSGNodeCore
     //-----------------------------------------------------------------------
 
     //! The field storing the transform matrix.
-    OSGSFMatrix _matrix;
+    SFMatrix _matrix;
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGTransform(void);
-    OSGTransform(const OSGTransform &source);
-    virtual ~OSGTransform(void); 
+    Transform(void);
+    Transform(const Transform &source);
+    virtual ~Transform(void); 
     
     /** Actions */
     
     //! DrawAction:  execute the OpenGL commands directly   
-    OSGAction::ResultE drawEnter(OSGAction * action );
-    OSGAction::ResultE drawLeave(OSGAction * action );
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   private:
 
@@ -196,13 +196,13 @@ class OSGTransform : public OSGNodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNodeCore Inherited;
+    typedef NodeCore Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -214,9 +214,9 @@ class OSGTransform : public OSGNodeCore
 
     static char cvsid[];
 
-    static OSGFieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-    static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -234,7 +234,7 @@ class OSGTransform : public OSGNodeCore
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGTransform &source);
+    void operator =(const Transform &source);
 };
 
 //---------------------------------------------------------------------------
@@ -244,28 +244,30 @@ class OSGTransform : public OSGNodeCore
 
 /** \brief class pointer
  */
-typedef OSGTransform *OSGTransformP;
+typedef Transform *TransformP;
 
 /** \ingroup FieldLib Transform
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGTransformPtr field traits 
+ *  \brief TransformPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGTransformPtr> : public OSGTraits
+struct FieldDataTraits<TransformPtr> : public Traits
 {
+    enum                        { StringConvertable = 0x00      };
+
     static char *getSName(void) { return "SFTransformPtr"; }
     static char *getMName(void) { return "MFTransformPtr"; }
 };
 
-/** \brief OSGSFTransformPtr
+/** \brief SFTransformPtr
  */
-typedef OSGSField<OSGTransformPtr> OSGSFTransformPtr;
+typedef SField<TransformPtr> SFTransformPtr;
 
-/** \brief OSGMFTransformPtr
+/** \brief MFTransformPtr
  */
-typedef OSGMField<OSGTransformPtr> OSGMFTransformPtr;
+typedef MField<TransformPtr> MFTransformPtr;
 
 OSG_END_NAMESPACE
 

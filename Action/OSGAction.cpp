@@ -48,19 +48,19 @@
 #include <OSGNodeCore.h>
 #include "OSGAction.h"
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -74,11 +74,11 @@ using namespace OSG;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGAction::cvsid[] = "@(#)$Id: $";
+char Action::cvsid[] = "@(#)$Id: $";
 
-vector<OSGAction::Functor> *OSGAction::_defaultEnterFunctors;
+vector<Action::Functor> *Action::_defaultEnterFunctors;
 
-vector<OSGAction::Functor> *OSGAction::_defaultLeaveFunctors;
+vector<Action::Functor> *Action::_defaultLeaveFunctors;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -90,31 +90,31 @@ vector<OSGAction::Functor> *OSGAction::_defaultLeaveFunctors;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void OSGAction::registerEnterDefault(	const OSGFieldContainerType &type, 
-										const OSGAction::Functor &func )
+void Action::registerEnterDefault(	const FieldContainerType &type, 
+										const Action::Functor &func )
 {
 	if ( ! _defaultEnterFunctors )
-		_defaultEnterFunctors = new vector<OSGAction::Functor>;
+		_defaultEnterFunctors = new vector<Action::Functor>;
 
 	while(type.getId() >= _defaultEnterFunctors->size())
 	{
 		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&OSGAction::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultFunction));
 	}
 	
 	(*_defaultEnterFunctors)[ type.getId() ] = func;
 }
 
-void OSGAction::registerLeaveDefault(	const OSGFieldContainerType &type, 
-										const OSGAction::Functor &func )
+void Action::registerLeaveDefault(	const FieldContainerType &type, 
+										const Action::Functor &func )
 {
 	if ( ! _defaultLeaveFunctors )
-		_defaultLeaveFunctors = new vector<OSGAction::Functor>;
+		_defaultLeaveFunctors = new vector<Action::Functor>;
 
 	while(type.getId() >= _defaultLeaveFunctors->size())
 	{
 		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&OSGAction::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultFunction));
 	}
 	
 	(*_defaultLeaveFunctors)[ type.getId() ] = func;
@@ -145,7 +145,7 @@ void OSGAction::registerLeaveDefault(	const OSGFieldContainerType &type,
 /** \brief Constructor
  */
 
-OSGAction::OSGAction(void)
+Action::Action(void)
 {
 	if ( _defaultEnterFunctors )
 		_enterFunctors = *_defaultEnterFunctors;
@@ -158,7 +158,7 @@ OSGAction::OSGAction(void)
 /** \brief Destructor
  */
 
-OSGAction::~OSGAction(void)
+Action::~Action(void)
 {
 }
 
@@ -196,25 +196,25 @@ OSGAction::~OSGAction(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGAction::registerEnterFunction( const OSGFieldContainerType &type, 
-		const OSGAction::Functor& func )
+void Action::registerEnterFunction( const FieldContainerType &type, 
+		const Action::Functor& func )
 {
 	while ( type.getId() >= _enterFunctors.size() )
 	{
 		_enterFunctors.push_back(
-            osgFunctionFunctor2(&OSGAction::_defaultFunction));
+            osgFunctionFunctor2(&Action::_defaultFunction));
 	}
 	
 	_enterFunctors[ type.getId() ] = func;
 }
 
-void OSGAction::registerLeaveFunction( const OSGFieldContainerType &type, 
-		const OSGAction::Functor& func )
+void Action::registerLeaveFunction( const FieldContainerType &type, 
+		const Action::Functor& func )
 {
 	while ( type.getId() >= _leaveFunctors.size() )
 	{
 		_leaveFunctors.push_back(
-            osgFunctionFunctor2(&OSGAction::_defaultFunction));
+            osgFunctionFunctor2(&Action::_defaultFunction));
 	}
 	
 	_leaveFunctors[ type.getId() ] = func;
@@ -224,10 +224,10 @@ void OSGAction::registerLeaveFunction( const OSGFieldContainerType &type,
 
 // application entry points
 
-OSGAction::ResultE OSGAction::apply( vector<OSGNodePtr>::iterator begin,
-	vector<OSGNodePtr>::iterator end  )
+Action::ResultE Action::apply( vector<NodePtr>::iterator begin,
+	vector<NodePtr>::iterator end  )
 {
-	OSGAction::ResultE res = Continue;
+	Action::ResultE res = Continue;
 	
 	if ( ! begin || ! end )
 	{
@@ -243,7 +243,7 @@ OSGAction::ResultE OSGAction::apply( vector<OSGNodePtr>::iterator begin,
 	
 	for ( ; begin != end; begin ++ )
 	{
-		if ( *begin == OSGNullNode )
+		if ( *begin == NullNode )
 		{
 			SWARNING << "apply: encountered NullNode!" << endl;
 			return Quit;			
@@ -263,15 +263,15 @@ OSGAction::ResultE OSGAction::apply( vector<OSGNodePtr>::iterator begin,
 	return res;
 }
 
-OSGAction::ResultE OSGAction::apply( OSGNodePtr node  )
+Action::ResultE Action::apply( NodePtr node  )
 {
-	if ( node == OSGNullNode )
+	if ( node == NullNode )
 	{
 		SWARNING << "apply: node is Null!" << endl;
 		return Quit;			
 	}
 
-	vector<OSGNodePtr> list;
+	vector<NodePtr> list;
 	list.push_back( node );
 
     return apply( list.begin(), list.end() );
@@ -282,21 +282,21 @@ OSGAction::ResultE OSGAction::apply( OSGNodePtr node  )
 
 // recursion calling
 
-OSGAction::ResultE OSGAction::recurse( OSGNodePtr node  )
+Action::ResultE Action::recurse( NodePtr node  )
 {
-    if ( node == OSGNullNode )
+    if ( node == NullNode )
         return Continue;
 
-	OSGNodeCorePtr core = node->getCore();
+	NodeCorePtr core = node->getCore();
 	
-	if ( core == OSGNullNodeCore )
+	if ( core == NullNodeCore )
 	{
 		SWARNING << "recurse: core is Null,  don't know what to do!" << endl;
 		return Quit;					
 	}
 	
-//	const OSGFieldContainerType &t = core->getType();	
-	OSGAction::ResultE result;
+//	const FieldContainerType &t = core->getType();	
+	Action::ResultE result;
 	
 	_actList = NULL;
 	_actNode = node;
@@ -318,7 +318,7 @@ OSGAction::ResultE OSGAction::recurse( OSGNodePtr node  )
 	}
 	else
 	{
-		vector<OSGNodePtr>::iterator it;
+		vector<NodePtr>::iterator it;
 
 		for ( it = node->getMFChildren()->begin(); it != node->getMFChildren()->end(); it ++ )
 		{
@@ -341,16 +341,16 @@ OSGAction::ResultE OSGAction::recurse( OSGNodePtr node  )
 }
 
 // call the _newList objects
-OSGAction::ResultE OSGAction::callNewList( void )
+Action::ResultE Action::callNewList( void )
 {
-	OSGAction::ResultE result = Continue;
+	Action::ResultE result = Continue;
 
 	if ( ! _newList.empty() )
 	{
 		// need to make a copy, because the one in the action is cleared
 		
-		vector<OSGNodePtr> list = _newList;
-		vector<OSGNodePtr>::iterator it;
+		vector<NodePtr> list = _newList;
+		vector<NodePtr>::iterator it;
 		_actList = &list;
 
 		for ( it = list.begin(); it != list.end(); it ++ )
@@ -368,9 +368,9 @@ OSGAction::ResultE OSGAction::callNewList( void )
 
 // call the start function and its results
 
-OSGAction::ResultE OSGAction::callStart( void )
+Action::ResultE Action::callStart( void )
 {
-	OSGAction::ResultE res = Continue;
+	Action::ResultE res = Continue;
 	
 	// call the start and see if it returns some nodes
 	
@@ -391,7 +391,7 @@ OSGAction::ResultE OSGAction::callStart( void )
 
 // call the stop function and its results
 
-OSGAction::ResultE OSGAction::callStop( ResultE res )
+Action::ResultE Action::callStop( ResultE res )
 {
 	// call the start and see if it returns some nodes
 	
@@ -409,12 +409,12 @@ OSGAction::ResultE OSGAction::callStop( ResultE res )
 // default start/stop, does nothing
 
 
-OSGAction::ResultE OSGAction::start( void )
+Action::ResultE Action::start( void )
 {
     return Continue;
 }
 
-OSGAction::ResultE OSGAction::stop( ResultE res )
+Action::ResultE Action::stop( ResultE res )
 {
     return res;
 }
@@ -424,7 +424,7 @@ OSGAction::ResultE OSGAction::stop( ResultE res )
 /** \brief assignment
  */
 
-OSGAction& OSGAction::operator = (const OSGAction &source)
+Action& Action::operator = (const Action &source)
 {
 	if (this == &source)
 		return *this;
@@ -444,7 +444,7 @@ OSGAction& OSGAction::operator = (const OSGAction &source)
 /** \brief assignment
  */
 
-OSGBool OSGAction::operator < (const OSGAction &other)
+Bool Action::operator < (const Action &other)
 {
     return this < &other;
 }
@@ -452,7 +452,7 @@ OSGBool OSGAction::operator < (const OSGAction &other)
 /** \brief equal
  */
 
-OSGBool OSGAction::operator == (const OSGAction &other)
+Bool Action::operator == (const Action &other)
 {
 	return false;
 }
@@ -460,7 +460,7 @@ OSGBool OSGAction::operator == (const OSGAction &other)
 /** \brief unequal
  */
 
-OSGBool OSGAction::operator != (const OSGAction &other)
+Bool Action::operator != (const Action &other)
 {
 	return ! (*this == other);
 }
@@ -476,7 +476,7 @@ OSGBool OSGAction::operator != (const OSGAction &other)
 \*-------------------------------------------------------------------------*/
 
 
-OSGAction::ResultE OSGAction::_defaultFunction(OSGCNodePtr& node, OSGAction * action)
+Action::ResultE Action::_defaultFunction(CNodePtr& node, Action * action)
 {
 	return Continue;
 }

@@ -16,7 +16,7 @@
 
 using OSG::osgLogP;
 using OSG::osgLog;
-using OSG::initOSGLog;
+using OSG::initLog;
 
 int main (int argc, char **argv)
 {

@@ -23,55 +23,55 @@ OSG_USING_NAMESPACE
 
 
 //----------------------------------------------------------------------
-// Method: OSGString
+// Method: String
 // Author: jbehr
 // Date:   Sat Dec 20 20:39:24 1997
 // Description:
 //         Class default Constructor
 //----------------------------------------------------------------------
-OSGString::OSGString(unsigned size)
+String::String(unsigned size)
 : _str(0), _memType(COPY)
 {
 	setLength(size);
 }
 
 //----------------------------------------------------------------------
-// Method: OSGString
+// Method: String
 // Author: jbehr
 // Date:   Sat Dec 20 20:39:24 1997
 // Description:
 //         Class Constructor
 //----------------------------------------------------------------------
-OSGString::OSGString(const char *str, MemType memType)
+String::String(const char *str, MemType memType)
 : _str(0), _memType(memType)
 {
 	set(str, memType);
 }
 
 //----------------------------------------------------------------------
-// Method: OSGString
+// Method: String
 // Author: jbehr
 // Date:   Sat Dec 20 20:39:24 1997
 // Description:
 //         Class Copy Constructor
 //----------------------------------------------------------------------
-OSGString::OSGString(const OSGString &obj, MemType memType)
+String::String(const String &obj, MemType memType)
 : _str(0), _memType(memType)
 {
 	set(obj._str, memType);
 }
 
 //----------------------------------------------------------------------
-// Method: ~OSGString
+// Method: ~String
 // Author: jbehr
 // Date:   Sat Dec 20 20:39:24 1997
 // Description:
 //         Class Destructor
 //----------------------------------------------------------------------
-OSGString::~OSGString()
+String::~String()
 {
 	/*
-	cerr << "In OSGString::~OSGString() for " << (_str ? _str : "NULL")
+	cerr << "In String::~String() for " << (_str ? _str : "NULL")
 			 << ", memType: " << (_memType == COPY ? "COPY" : "LINK")
 			 << endl;
 			 */
@@ -87,7 +87,7 @@ OSGString::~OSGString()
 // Description:
 //        
 //----------------------------------------------------------------------
-void OSGString::toupper(void) 
+void String::toupper(void) 
 {
 	int i, l = length();
 
@@ -103,7 +103,7 @@ void OSGString::toupper(void)
 // Description:
 //        
 //----------------------------------------------------------------------
-void OSGString::tolower(void) 
+void String::tolower(void) 
 {
 	int i, l = length();
 
@@ -119,7 +119,7 @@ void OSGString::tolower(void)
 // Description:
 //         get the str length
 //----------------------------------------------------------------------
-unsigned OSGString::length(void) const
+unsigned String::length(void) const
 {
 	return _str ? strlen(_str) : 0;
 }
@@ -131,7 +131,7 @@ unsigned OSGString::length(void) const
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-void OSGString::setLength(unsigned length)
+void String::setLength(unsigned length)
 {
 	if (_str && _memType == COPY)
 		delete [] _str;
@@ -153,7 +153,7 @@ void OSGString::setLength(unsigned length)
 // Description:
 //         set method for attribute str
 //----------------------------------------------------------------------
-void OSGString::set(const char *str, MemType memType)
+void String::set(const Char8 *str, MemType memType)
 {
 	if (_str && _memType == COPY)
 		delete [] _str;
@@ -184,7 +184,7 @@ void OSGString::set(const char *str, MemType memType)
 
 OSG_BEGIN_NAMESPACE
 
-ostream &operator <<(ostream &os, const OSGString &obj)
+ostream &operator <<(ostream &os, const String &obj)
 {
 	return os << (obj.str() ? obj.str() : "0 String");
 } 

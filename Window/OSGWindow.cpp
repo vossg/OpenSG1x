@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -58,38 +69,38 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGWindow::cvsid[] = "@(#)$Id: $";
+char Window::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGWindow, OSGWidthField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Window, WidthField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGWindow, OSGHeightField, OSGWidthField )
-OSG_FC_FIELD_IDM_DEF      (OSGWindow, OSGPortsField,  OSGHeightField)
+OSG_FC_FIELD_IDM_DEF      (Window, HeightField, WidthField )
+OSG_FC_FIELD_IDM_DEF      (Window, PortsField,  HeightField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGWindow, OSGPortsField)
+OSG_FC_LAST_FIELD_IDM_DEF (Window, PortsField)
 
 // Static Class Varible implementations: 
-OSGFieldDescription OSGWindow::_desc[] = 
+FieldDescription Window::_desc[] = 
 {
-        OSGFieldDescription(OSGSFUInt16::getClassType(), 
+        FieldDescription(SFUInt16::getClassType(), 
                             "width", 
-                            OSG_FC_FIELD_IDM_DESC(OSGWidthField),
+                            OSG_FC_FIELD_IDM_DESC(WidthField),
                             false,
-                            (OSGFieldAccessMethod) &OSGWindow::getSFWidth),
+                            (FieldAccessMethod) &Window::getSFWidth),
 
-        OSGFieldDescription(OSGSFUInt16::getClassType(),
+        FieldDescription(SFUInt16::getClassType(),
                             "height", 
-                            OSG_FC_FIELD_IDM_DESC(OSGHeightField),
+                            OSG_FC_FIELD_IDM_DESC(HeightField),
                             false,
-                            (OSGFieldAccessMethod) &OSGWindow::getSFHeight),
+                            (FieldAccessMethod) &Window::getSFHeight),
 
-        OSGFieldDescription(OSGMFViewportPtr::getClassType(), 
+        FieldDescription(MFViewportPtr::getClassType(), 
                             "ports", 
-                            OSG_FC_FIELD_IDM_DESC(OSGPortsField),
+                            OSG_FC_FIELD_IDM_DESC(PortsField),
                             false,
-                            (OSGFieldAccessMethod) &OSGWindow::getMFPorts),
+                            (FieldAccessMethod) &Window::getMFPorts),
 };
 
-OSGFieldContainerType OSGWindow::_type(
+FieldContainerType Window::_type(
     "Window", 
     "FieldContainer", 
     0,
@@ -124,14 +135,14 @@ OSGFieldContainerType OSGWindow::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(OSGWindow, OSGWindowPtr)
+OSG_ABSTR_FIELD_CONTAINER_DEF(Window, WindowPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGWindow::OSGWindow(void) :
+Window::Window(void) :
 	Inherited(), _ports(), _width(0), _height(0)
 {
 }
@@ -140,7 +151,7 @@ OSGWindow::OSGWindow(void) :
 /** \brief Destructor
  */
 
-OSGWindow::~OSGWindow(void)
+Window::~Window(void)
 {
 	// delete the ports and the context
 }
@@ -148,86 +159,86 @@ OSGWindow::~OSGWindow(void)
 /*------------------------------ access -----------------------------------*/
 
 
-void OSGWindow::addPort(const OSGViewportPtr &portP)
+void Window::addPort(const ViewportPtr &portP)
 {
-    if(portP != OSGNullFC)
+    if(portP != NullFC)
     {
         _ports.addValue(portP);
-        _ports.back()->setParent(getPtr<OSGWindowPtr>(*this));
+        _ports.back()->setParent(getPtr<WindowPtr>(*this));
     }
 }
 
-void OSGWindow::insertPort(OSGUInt32 portIndex, const OSGViewportPtr &portP)
+void Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
 {    
-    OSGMFViewportPtr::iterator portIt = _ports.begin();
+    MFViewportPtr::iterator portIt = _ports.begin();
 
-    if(portP != OSGNullFC)
+    if(portP != NullFC)
     {
         portIt += portIndex;
         
-        (*(_ports.insert(portIt, portP)))->setParent(getPtr<OSGWindowPtr>(*this));
+        (*(_ports.insert(portIt, portP)))->setParent(getPtr<WindowPtr>(*this));
     }
 }
 
-void OSGWindow::replacePort(OSGUInt32 portIndex, const OSGViewportPtr &portP)
+void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
-    if(portP != OSGNullFC)
+    if(portP != NullFC)
     {
-        _ports.getValue(portIndex)->setParent(OSGWindowPtr::NullPtr);
+        _ports.getValue(portIndex)->setParent(WindowPtr::NullPtr);
         _ports.getValue(portIndex) = portP;
-        _ports.getValue(portIndex)->setParent(getPtr<OSGWindowPtr>(*this));
+        _ports.getValue(portIndex)->setParent(getPtr<WindowPtr>(*this));
     }
 }
 
-void OSGWindow::replacePortBy(const OSGViewportPtr &portP, 
-                             const OSGViewportPtr &newportP)
+void Window::replacePortBy(const ViewportPtr &portP, 
+                             const ViewportPtr &newportP)
 {
-    OSGMFViewportPtr::iterator portIt = _ports.find(portP);
+    MFViewportPtr::iterator portIt = _ports.find(portP);
 
-    if(newportP != OSGNullFC)
+    if(newportP != NullFC)
     {
         if(portIt != _ports.end())
         {
-            (*portIt)->setParent(OSGWindowPtr::NullPtr);
+            (*portIt)->setParent(WindowPtr::NullPtr);
             (*portIt) = newportP;
-            (*portIt)->setParent(getPtr<OSGWindowPtr>(*this));
+            (*portIt)->setParent(getPtr<WindowPtr>(*this));
         }
     }
 }
 
-void OSGWindow::subPort(const OSGViewportPtr &portP)
+void Window::subPort(const ViewportPtr &portP)
 {
-    OSGMFViewportPtr::iterator portIt = _ports.find(portP);
+    MFViewportPtr::iterator portIt = _ports.find(portP);
 
     if(portIt != _ports.end())
     {
-        (*portIt)->setParent(OSGWindowPtr::NullPtr);
+        (*portIt)->setParent(WindowPtr::NullPtr);
 
         _ports.erase(portIt);
     }
 
 }
 
-void OSGWindow::subPort(OSGUInt32  portIndex)
+void Window::subPort(UInt32  portIndex)
 {
-    OSGMFViewportPtr::iterator portIt = _ports.begin();
+    MFViewportPtr::iterator portIt = _ports.begin();
 
     portIt += portIndex;
 
     if(portIt != _ports.end())
     {
-        (*portIt)->setParent(OSGWindowPtr::NullPtr);
+        (*portIt)->setParent(WindowPtr::NullPtr);
 
         _ports.erase(portIt);
     }
 }
 
-OSGViewportPtr OSGWindow::getPort(OSGUInt32  portIndex)
+ViewportPtr Window::getPort(UInt32  portIndex)
 {
     return _ports.getValue(portIndex);
 }
 
-OSGMFViewportPtr *OSGWindow::getMFPorts(void)
+MFViewportPtr *Window::getMFPorts(void)
 {
     return &_ports;
 }
@@ -237,9 +248,9 @@ OSGMFViewportPtr *OSGWindow::getMFPorts(void)
 /*-------------------------- your_category---------------------------------*/
 
 	
-void OSGWindow::draw( OSGDrawAction * action )
+void Window::draw( DrawAction * action )
 {
-	OSGMFViewportPtr::iterator portIt = _ports.begin();
+	MFViewportPtr::iterator portIt = _ports.begin();
 
 	activate();
 
@@ -252,7 +263,7 @@ void OSGWindow::draw( OSGDrawAction * action )
 	swap();
 }
 	
-void OSGWindow::resize( int width, int height )
+void Window::resize( int width, int height )
 {
 	setWidth( width );
 	setHeight( height );
@@ -263,7 +274,7 @@ void OSGWindow::resize( int width, int height )
 /** \brief assignment
  */
 
-OSGWindow& OSGWindow::operator = (const OSGWindow &source)
+Window& Window::operator = (const Window &source)
 {
 	if (this == &source)
 		return *this;
@@ -284,9 +295,9 @@ OSGWindow& OSGWindow::operator = (const OSGWindow &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGWindow::dump(void) const
+void Window::dump(void) const
 {
-    SDEBUG << "Dump OSGWindow NI" << endl;
+    SDEBUG << "Dump Window NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

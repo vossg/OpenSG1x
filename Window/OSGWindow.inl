@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -79,7 +90,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_INL_DEF(OSGWindow, OSGWindowPtr)
+OSG_ABSTR_FIELD_CONTAINER_INL_DEF(Window, WindowPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -95,38 +106,38 @@ OSG_ABSTR_FIELD_CONTAINER_INL_DEF(OSGWindow, OSGWindowPtr)
 /*------------------------------ access -----------------------------------*/
 
 
-inline OSGUInt16 OSGWindow::getWidth( void )
+inline UInt16 Window::getWidth( void )
 {
 	return _width.getValue();
 }
 
-inline OSGSFUInt16 *OSGWindow::getSFWidth( void )
+inline SFUInt16 *Window::getSFWidth( void )
 {
 	return &_width;
 }
 
-inline void OSGWindow::setWidth( OSGUInt16 width )
+inline void Window::setWidth( UInt16 width )
 {
 	_width.setValue( width );
 }
 
-inline OSGUInt16 OSGWindow::getHeight( void )
+inline UInt16 Window::getHeight( void )
 {
 	return _height.getValue();
 }
 
-inline OSGSFUInt16 *OSGWindow::getSFHeight( void )
+inline SFUInt16 *Window::getSFHeight( void )
 {
 	return &_height;
 }
 
-inline void OSGWindow::setHeight( OSGUInt16 height )
+inline void Window::setHeight( UInt16 height )
 {
 	_height.setValue( height );
 }
 
 
-inline void OSGWindow::setSize( OSGUInt16 width, OSGUInt16 height )
+inline void Window::setSize( UInt16 width, UInt16 height )
 {
 	setHeight( height );
 	setWidth( width );

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGMEMORYOBJECT_H_
 #define _OSGMEMORYOBJECT_H_
@@ -53,10 +63,10 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /** \ingroup BaseLib
-    \brief OSGMemory, simple not thread safe reference counted memory object.
+    \brief Memory, simple not thread safe reference counted memory object.
 */
 
-class OSGMemoryObject
+class OSG_DLLEXPORT MemoryObject
 {
   public:
 
@@ -72,7 +82,7 @@ class OSGMemoryObject
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGMemoryObject"; };
+    static const char *getClassname(void) { return "MemoryObject"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -107,10 +117,10 @@ class OSGMemoryObject
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGMemoryObject(void);
-    OSGMemoryObject(const OSGMemoryObject &source);
+    MemoryObject(void);
+    MemoryObject(const MemoryObject &source);
 
-    virtual ~OSGMemoryObject(void); 
+    virtual ~MemoryObject(void); 
 
   private:
 
@@ -144,7 +154,7 @@ class OSGMemoryObject
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGInt32  _refCount;
+    Int32  _refCount;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -152,7 +162,7 @@ class OSGMemoryObject
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGMemoryObject &source);
+    void operator =(const MemoryObject &source);
 };
 
 OSG_END_NAMESPACE

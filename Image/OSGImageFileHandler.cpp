@@ -1,29 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 //-------------------------------
 // 	Includes 					 			    
@@ -48,22 +59,22 @@
 
 OSG_USING_NAMESPACE
 
-/* enum OSGVecBase::VectorSizeE
+/* enum VecBase::VectorSizeE
  * brief 
 */
 
 
-/* var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/* var VecBase::VectorSizeE VecBase::_iSize
  *
 */
 
 
-/* const char *OSGVecBase::getClassName(void)
+/* const char *VecBase::getClassName(void)
  *  brief Classname
 */
 
 
-/* var OSGValueTypeT OSGVecBase:: _value[Size];
+/* var ValueTypeT VecBase:: _value[Size];
  * brief value store
 */
 
@@ -78,7 +89,7 @@ OSG_USING_NAMESPACE
  *****************************/
 
 
-OSGImageFileHandler * OSGImageFileHandler::_the = 0;
+ImageFileHandler * ImageFileHandler::_the = 0;
 
 
 /********************************
@@ -100,7 +111,7 @@ OSGImageFileHandler * OSGImageFileHandler::_the = 0;
 //GlobalVars:
 //g: 
 //Returns:
-//r:OSGImageFileType
+//r:ImageFileType
 // Caution
 //c: 
 //Assumations:
@@ -111,13 +122,13 @@ OSGImageFileHandler * OSGImageFileHandler::_the = 0;
 //s:
 //
 //------------------------------
-OSGImageFileType * OSGImageFileHandler::getFileType ( const char *fileName, 
+ImageFileType * ImageFileHandler::getFileType ( const char *fileName, 
 																											bool checkMagic )
 {
-	OSGUInt8 majorMagic, minorMagic;
-	OSGString suffix;
-	OSGImageFileType *type = 0;
-	map <OSGString, OSGImageFileType *>::iterator sI;
+	UInt8 majorMagic, minorMagic;
+	String suffix;
+	ImageFileType *type = 0;
+	map <String, ImageFileType *>::iterator sI;
 	const char separator = '.';
 	int i, l;
 	ifstream fin;
@@ -167,7 +178,7 @@ OSGImageFileType * OSGImageFileHandler::getFileType ( const char *fileName,
 //----------------------------
 //
 //Parameters:
-//p: OSGImage &image, const char *fileName
+//p: Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -182,9 +193,9 @@ OSGImageFileType * OSGImageFileHandler::getFileType ( const char *fileName,
 //s:
 //
 //------------------------------
-OSGImage * OSGImageFileHandler::read (const char *fileName )
+Image * ImageFileHandler::read (const char *fileName )
 {
-	OSGImage *image = new OSGImage;
+	Image *image = new Image;
 
 	if (read(*image,fileName) == false) {
 		delete image;
@@ -199,7 +210,7 @@ OSGImage * OSGImageFileHandler::read (const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: OSGImage &image, const char *fileName
+//p: Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -214,10 +225,10 @@ OSGImage * OSGImageFileHandler::read (const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGImageFileHandler::read (OSGImage &image, const char *fileName )
+bool ImageFileHandler::read (Image &image, const char *fileName )
 {
 	bool retCode = false;
-	OSGImageFileType *type = getFileType(fileName);
+	ImageFileType *type = getFileType(fileName);
 
 	if (type) {
 		SINFO << "try to read " << fileName << " as " << type->getName() << endl;
@@ -240,7 +251,7 @@ bool OSGImageFileHandler::read (OSGImage &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const OSGImage &image, const char *fileName
+//p: const Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -255,10 +266,10 @@ bool OSGImageFileHandler::read (OSGImage &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGImageFileHandler::write (const OSGImage &image, const char *fileName )
+bool ImageFileHandler::write (const Image &image, const char *fileName )
 {
 	bool retCode = false;
-	OSGImageFileType *type = getFileType(fileName,false);
+	ImageFileType *type = getFileType(fileName,false);
 
 	if (type) {
 		SINFO << "try to write " << fileName << " as " << type->getName() << endl;
@@ -290,9 +301,9 @@ bool OSGImageFileHandler::write (const OSGImage &image, const char *fileName )
 //s:
 //
 //------------------------------
-void OSGImageFileHandler::print (void )
+void ImageFileHandler::print (void )
 {
-	map <OSGString, OSGImageFileType *>::iterator sI;
+	map <String, ImageFileType *>::iterator sI;
 
 	for (sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
 		cerr << "suffix: " << sI->first.str() 
@@ -317,7 +328,7 @@ void OSGImageFileHandler::print (void )
 //----------------------------
 //
 //Parameters:
-//p: OSGImageFileType *fileType
+//p: ImageFileType *fileType
 //GlobalVars:
 //g: 
 //Returns:
@@ -332,16 +343,16 @@ void OSGImageFileHandler::print (void )
 //s:
 //
 //------------------------------
-bool OSGImageFileHandler::addImageFileType (OSGImageFileType &fileType )
+bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
 {
 	bool retCode = false;
-	list<OSGString>::iterator sI;
-	map <OSGString, OSGImageFileType *>::iterator smI;
-	OSGString suffix;
-	OSGInt16 major = fileType.getMajorMagic(), minor = fileType.getMinorMagic();
+	list<String>::iterator sI;
+	map <String, ImageFileType *>::iterator smI;
+	String suffix;
+	Int16 major = fileType.getMajorMagic(), minor = fileType.getMinorMagic();
 
 	if (!_the)
-		_the = new OSGImageFileHandler;
+		_the = new ImageFileHandler;
 
 	if (_the->getFileType(major,minor)) {
 		SINFO << "Can't add an image file type with magic "
@@ -373,11 +384,11 @@ bool OSGImageFileHandler::addImageFileType (OSGImageFileType &fileType )
 //----------------------------
 //
 //Parameters:
-//p: OSGInit16 majorMagic = -1, OSGInit16 minorMagic = -1,
+//p: Init16 majorMagic = -1, Init16 minorMagic = -1,
 //GlobalVars:
 //g: 
 //Returns:
-//r:OSGImageFileType
+//r:ImageFileType
 // Caution
 //c: 
 //Assumations:
@@ -388,11 +399,11 @@ bool OSGImageFileHandler::addImageFileType (OSGImageFileType &fileType )
 //s:
 //
 //------------------------------
-OSGImageFileType * OSGImageFileHandler::getFileType ( OSGInt16 majorMagic, 
-																											OSGInt16 minorMagic )
+ImageFileType * ImageFileHandler::getFileType ( Int16 majorMagic, 
+																											Int16 minorMagic )
 {
-	OSGImageFileType *type = 0;
-	map <OSGInt16, MinorMap>::iterator magicI;
+	ImageFileType *type = 0;
+	map <Int16, MinorMap>::iterator magicI;
 	MinorMap::iterator minorI;
 
 	magicI = _magicTypeMap.find(majorMagic);
@@ -418,7 +429,7 @@ OSGImageFileType * OSGImageFileHandler::getFileType ( OSGInt16 majorMagic,
 
 
 //----------------------------
-// Function name: OSGImageFileHandler
+// Function name: ImageFileHandler
 //----------------------------
 //
 //Parameters:
@@ -437,17 +448,17 @@ OSGImageFileType * OSGImageFileHandler::getFileType ( OSGInt16 majorMagic,
 //s:
 //
 //------------------------------
-OSGImageFileHandler::OSGImageFileHandler (void )
+ImageFileHandler::ImageFileHandler (void )
 {
 	return;
 }
 
 //----------------------------
-// Function name: OSGImageFileHandler
+// Function name: ImageFileHandler
 //----------------------------
 //
 //Parameters:
-//p: const OSGImageFileHandler &obj
+//p: const ImageFileHandler &obj
 //GlobalVars:
 //g: 
 //Returns:
@@ -462,13 +473,13 @@ OSGImageFileHandler::OSGImageFileHandler (void )
 //s:
 //
 //------------------------------
-OSGImageFileHandler::OSGImageFileHandler (const OSGImageFileHandler &obj )
+ImageFileHandler::ImageFileHandler (const ImageFileHandler &obj )
 {
 	SWARNING << "In copy constructor; I shouldn't be in this corner" << endl; 
 }
 
 //----------------------------
-// Function name: ~OSGImageFileHandler
+// Function name: ~ImageFileHandler
 //----------------------------
 //
 //Parameters:
@@ -487,7 +498,7 @@ OSGImageFileHandler::OSGImageFileHandler (const OSGImageFileHandler &obj )
 //s:
 //
 //------------------------------
-OSGImageFileHandler::~OSGImageFileHandler (void )
+ImageFileHandler::~ImageFileHandler (void )
 {
 	return;
 }

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGMATRIX_H_
 #define _OSGMATRIX_H_
@@ -48,19 +58,19 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-template <class OSGValueTypeT> class OSGQuaternionBase;
+template <class ValueTypeT> class QuaternionBase;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathMatrices
- *  \brief OSGTransformationMatrix, for details about the vector, point and
+ *  \brief TransformationMatrix, for details about the vector, point and
  *  matrix desing see \ref vecpointmat
  */
 
-template<class OSGValueTypeT>
-class OSGTransformationMatrix
+template<class ValueTypeT>
+class OSG_DLLEXPORT TransformationMatrix
 {
   public:
 
@@ -72,247 +82,246 @@ class OSGTransformationMatrix
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef            OSGValueTypeT                           OSGValueType;
-    typedef OSGVectorInterface<OSGValueTypeT, 
-                               OSGVecStorage4<OSGValueTypeT> > OSGVectorType;
+    typedef                 ValueTypeT                ValueType;
+    typedef VectorInterface<ValueTypeT, 
+                            VecStorage4<ValueTypeT> > VectorType;
 
-    typedef OSGQuaternionBase<OSGValueType>                OSGQuaternionType;
+    typedef QuaternionBase <ValueType>                QuaternionType;
 
-    typedef OSGVectorInterface<OSGValueTypeT, 
-                       OSGVecStorage3<OSGValueTypeT> >        OSGVectorType3f;
+    typedef VectorInterface<ValueTypeT, 
+                            VecStorage3<ValueTypeT> > VectorType3f;
 
-    typedef OSGPointInterface<OSGValueTypeT, 
-                       OSGVecStorage3<OSGValueTypeT> >        OSGPointType3f;
+    typedef PointInterface<ValueTypeT, 
+                           VecStorage3<ValueTypeT> > PointType3f;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGTransformationMatrix";};
+    static const char *getClassname(void) { return "TransformationMatrix";};
 
-	static const OSGTransformationMatrix &identity(void);
+	static const TransformationMatrix &identity(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGTransformationMatrix(void);
+    TransformationMatrix(void);
 
-    OSGTransformationMatrix(const OSGTransformationMatrix &source);
+    TransformationMatrix(const TransformationMatrix &source);
 
-    OSGTransformationMatrix(const OSGVectorType3f &vector1,
-                            const OSGVectorType3f &vector2,
-                            const OSGVectorType3f &vector3);
+    TransformationMatrix(const VectorType3f &vector1,
+                         const VectorType3f &vector2,
+                         const VectorType3f &vector3);
     
-    OSGTransformationMatrix(const OSGVectorType3f &vector1,
-                            const OSGVectorType3f &vector2,
-                            const OSGVectorType3f &vector3,
-                            const OSGVectorType3f &vector4);
-
-    OSGTransformationMatrix(const OSGValueTypeT rVal00,
-                            const OSGValueTypeT rVal10,
-                            const OSGValueTypeT rVal20,
-                            const OSGValueTypeT rVal30,
-                            
-                            const OSGValueTypeT rVal01,
-                            const OSGValueTypeT rVal11,
-                            const OSGValueTypeT rVal21,
-                            const OSGValueTypeT rVal31,
-                            
-                            const OSGValueTypeT rVal02,
-                            const OSGValueTypeT rVal12,
-                            const OSGValueTypeT rVal22,
-                            const OSGValueTypeT rVal32,
-                            
-                            const OSGValueTypeT rVal03,
-                            const OSGValueTypeT rVal13,
-                            const OSGValueTypeT rVal23,
-                            const OSGValueTypeT rVal33);
+    TransformationMatrix(const VectorType3f &vector1,
+                         const VectorType3f &vector2,
+                         const VectorType3f &vector3,
+                         const VectorType3f &vector4);
     
-    ~OSGTransformationMatrix(void); 
+    TransformationMatrix(const ValueTypeT rVal00,
+                         const ValueTypeT rVal10,
+                         const ValueTypeT rVal20,
+                         const ValueTypeT rVal30,
+                         
+                         const ValueTypeT rVal01,
+                         const ValueTypeT rVal11,
+                         const ValueTypeT rVal21,
+                         const ValueTypeT rVal31,
+                         
+                         const ValueTypeT rVal02,
+                         const ValueTypeT rVal12,
+                         const ValueTypeT rVal22,
+                         const ValueTypeT rVal32,
+                         
+                         const ValueTypeT rVal03,
+                         const ValueTypeT rVal13,
+                         const ValueTypeT rVal23,
+                         const ValueTypeT rVal33);
+    
+    ~TransformationMatrix(void); 
 
     /*------------------------- set functions -------------------------------*/
 
 	void setIdentity(void);
 
-    void setValue(const OSGTransformationMatrix &mat);
+    void setValue(const TransformationMatrix &mat);
 
-    void setValue(const OSGVectorType3f &vector1,
-                  const OSGVectorType3f &vector2,
-                  const OSGVectorType3f &vector3);
+    void setValue(const VectorType3f &vector1,
+                  const VectorType3f &vector2,
+                  const VectorType3f &vector3);
     
-    void setValue(const OSGVectorType3f &vector1,
-                  const OSGVectorType3f &vector2,
-                  const OSGVectorType3f &vector3,
-                  const OSGVectorType3f &vector4);
+    void setValue(const VectorType3f &vector1,
+                  const VectorType3f &vector2,
+                  const VectorType3f &vector3,
+                  const VectorType3f &vector4);
 
-    void setValue(const OSGValueTypeT rVal00,
-                  const OSGValueTypeT rVal10,
-                  const OSGValueTypeT rVal20,
-                  const OSGValueTypeT rVal30,
+    void setValue(const ValueTypeT rVal00,
+                  const ValueTypeT rVal10,
+                  const ValueTypeT rVal20,
+                  const ValueTypeT rVal30,
                   
-                  const OSGValueTypeT rVal01,
-                  const OSGValueTypeT rVal11,
-                  const OSGValueTypeT rVal21,
-                  const OSGValueTypeT rVal31,
+                  const ValueTypeT rVal01,
+                  const ValueTypeT rVal11,
+                  const ValueTypeT rVal21,
+                  const ValueTypeT rVal31,
                   
-                  const OSGValueTypeT rVal02,
-                  const OSGValueTypeT rVal12,
-                  const OSGValueTypeT rVal22,
-                  const OSGValueTypeT rVal32,
+                  const ValueTypeT rVal02,
+                  const ValueTypeT rVal12,
+                  const ValueTypeT rVal22,
+                  const ValueTypeT rVal32,
                   
-                  const OSGValueTypeT rVal03,
-                  const OSGValueTypeT rVal13,
-                  const OSGValueTypeT rVal23,
-                  const OSGValueTypeT rVal33);
+                  const ValueTypeT rVal03,
+                  const ValueTypeT rVal13,
+                  const ValueTypeT rVal23,
+                  const ValueTypeT rVal33);
 
 
-    void setValueTransposed(
-				  const OSGValueTypeT rVal00,
-                  const OSGValueTypeT rVal01,
-                  const OSGValueTypeT rVal02,
-                  const OSGValueTypeT rVal03,
-                  
-                  const OSGValueTypeT rVal10,
-                  const OSGValueTypeT rVal11,
-                  const OSGValueTypeT rVal12,
-                  const OSGValueTypeT rVal13,
-                  
-                  const OSGValueTypeT rVal20,
-                  const OSGValueTypeT rVal21,
-                  const OSGValueTypeT rVal22,
-                  const OSGValueTypeT rVal23,
-                  
-                  const OSGValueTypeT rVal30,
-                  const OSGValueTypeT rVal31,
-                  const OSGValueTypeT rVal32,
-                  const OSGValueTypeT rVal33);
-
-    void setValue(const OSGValueTypeT   *pMat, OSGBool bTransposed = true);
-    void setValue(const OSGVectorType   *pMat);
+    void setValueTransposed(const ValueTypeT rVal00,
+                            const ValueTypeT rVal01,
+                            const ValueTypeT rVal02,
+                            const ValueTypeT rVal03,
+                            
+                            const ValueTypeT rVal10,
+                            const ValueTypeT rVal11,
+                            const ValueTypeT rVal12,
+                            const ValueTypeT rVal13,
+                            
+                            const ValueTypeT rVal20,
+                            const ValueTypeT rVal21,
+                            const ValueTypeT rVal22,
+                            const ValueTypeT rVal23,
+                            
+                            const ValueTypeT rVal30,
+                            const ValueTypeT rVal31,
+                            const ValueTypeT rVal32,
+                            const ValueTypeT rVal33);
+    
+    void setValue(const ValueTypeT   *pMat, Bool bTransposed = true);
+    void setValue(const VectorType   *pMat);
 #ifndef WIN32
-    void setValue(const OSGVectorType3f *pMat);
+    void setValue(const VectorType3f *pMat);
 #endif
 
     /*------------------------- get functions -------------------------------*/
 
-    OSGValueTypeT *getValues(void);
+    ValueTypeT *getValues(void);
     
     /*---------------------- create transformation --------------------------*/
 
-	void setScale    (const OSGValueTypeT s);
-	void setScale    (const OSGValueTypeT sx, const OSGValueTypeT sy, 
-					  const OSGValueTypeT sz);
-	void setScale    (const OSGVectorType3f &s);
+	void setScale    (const ValueTypeT s);
+	void setScale    (const ValueTypeT sx, const ValueTypeT sy, 
+					  const ValueTypeT sz);
+	void setScale    (const VectorType3f &s);
 
-    void setTranslate(const OSGValueTypeT tx,
-                      const OSGValueTypeT ty,
-                      const OSGValueTypeT tz);
-	void setTranslate(const OSGVectorType3f &t);
-	void setTranslate(const OSGPointType3f &t);
+    void setTranslate(const ValueTypeT tx,
+                      const ValueTypeT ty,
+                      const ValueTypeT tz);
+	void setTranslate(const VectorType3f &t);
+	void setTranslate(const PointType3f &t);
 
-	void setRotate   (const OSGQuaternionType &q);
+	void setRotate   (const QuaternionType &q);
 
-	void setTransform(const OSGVectorType3f   &translation,
-	                  const OSGQuaternionType &rotation,
-	                  const OSGVectorType3f   &scaleFactor,
-	                  const OSGQuaternionType &scaleOrientation,
-	                  const OSGVectorType3f   &center);
+	void setTransform(const VectorType3f   &translation,
+	                  const QuaternionType &rotation,
+	                  const VectorType3f   &scaleFactor,
+	                  const QuaternionType &scaleOrientation,
+	                  const VectorType3f   &center);
 
-	void setTransform(const OSGVectorType3f   &t, 
-                      const OSGQuaternionType &r,
-	                  const OSGVectorType3f   &s);
+	void setTransform(const VectorType3f   &t, 
+                      const QuaternionType &r,
+	                  const VectorType3f   &s);
 
-	void setTransform(const OSGVectorType3f   &t, 
-                      const OSGQuaternionType &r,
-	                  const OSGVectorType3f   &s, 
-                      const OSGQuaternionType &so);
+	void setTransform(const VectorType3f   &t, 
+                      const QuaternionType &r,
+	                  const VectorType3f   &s, 
+                      const QuaternionType &so);
 
     /*---------------------- get transformation parts -----------------------*/
 
-	void getTransform(OSGVectorType3f   &translation, 
-                      OSGQuaternionType &rotation,
-	                  OSGVectorType3f   &scaleFactor, 
-                      OSGQuaternionType &scaleOrientation,
-	                  OSGVectorType3f   &center) const;
+	void getTransform(VectorType3f   &translation, 
+                      QuaternionType &rotation,
+	                  VectorType3f   &scaleFactor, 
+                      QuaternionType &scaleOrientation,
+	                  VectorType3f   &center) const;
 
-	void getTransform(OSGVectorType3f   &translation, 
-                      OSGQuaternionType &rotation,
-	                  OSGVectorType3f   &scaleFactor, 
-                      OSGQuaternionType &scaleOrientation) const;
+	void getTransform(VectorType3f   &translation, 
+                      QuaternionType &rotation,
+	                  VectorType3f   &scaleFactor, 
+                      QuaternionType &scaleOrientation) const;
 
-	OSGBool factor(OSGTransformationMatrix &r, 
-                   OSGVectorType3f         &s, 
-                   OSGTransformationMatrix &u,
-                   OSGVectorType3f         &t, 
-                   OSGTransformationMatrix &proj) const;
-
+	Bool factor(TransformationMatrix &r, 
+                VectorType3f         &s, 
+                TransformationMatrix &u,
+                VectorType3f         &t, 
+                TransformationMatrix &proj) const;
+    
     /*------------------------ transform objects ---------------------------*/
 
-	void multMatrixPnt(const OSGPointType3f &src, 
-                             OSGPointType3f &dst) const;
+	void multMatrixPnt(const PointType3f &src, 
+                             PointType3f &dst) const;
 
-	void multMatrixPnt(      OSGPointType3f &pnt) const;
+	void multMatrixPnt(      PointType3f &pnt) const;
 
 
-	void multFullMatrixPnt(const OSGPointType3f &src, 
-								 OSGPointType3f &dst) const;
+	void multFullMatrixPnt(const PointType3f &src, 
+								 PointType3f &dst) const;
 
-	void multFullMatrixPnt(      OSGPointType3f &pnt) const;
+	void multFullMatrixPnt(      PointType3f &pnt) const;
 
-	void multMatrixVec(const OSGVectorType3f &src, 
-                             OSGVectorType3f &dst) const;
+	void multMatrixVec(const VectorType3f &src, 
+                             VectorType3f &dst) const;
 
-	void multMatrixVec(      OSGVectorType3f &vec) const;
+	void multMatrixVec(      VectorType3f &vec) const;
 
-    void transform(const OSGPointType3f &src, 
-                         OSGPointType3f &dest) const;
+    void transform(const PointType3f &src, 
+                         PointType3f &dest) const;
 
-    void transform(OSGPointType3f &vec) const;
+    void transform(PointType3f &vec) const;
 
-    void transform(const OSGVectorType3f &src, 
-                         OSGVectorType3f &dest) const;
+    void transform(const VectorType3f &src, 
+                         VectorType3f &dest) const;
 
-    void transform(OSGVectorType3f &vec) const;
+    void transform(VectorType3f &vec) const;
 
 
     /*------------------------- simple math ---------------------------------*/
 
-    OSGBool       equals(const OSGTransformationMatrix &matrix, 
-                         const OSGValueType             tolerance) const;
+    Bool       equals(const TransformationMatrix &matrix, 
+                      const ValueType             tolerance) const;
 
-    OSGValueTypeT det3(void) const;
-    OSGValueTypeT det (void) const;
+    ValueTypeT det3(void) const;
+    ValueTypeT det (void) const;
 
-    OSGBool inverse   (OSGTransformationMatrix &result) const;
-    OSGBool invert    (void);
-    OSGBool invertFrom(const OSGTransformationMatrix &matrix);
+    Bool inverse   (TransformationMatrix &result) const;
+    Bool invert    (void);
+    Bool invertFrom(const TransformationMatrix &matrix);
 
-    OSGBool inverse3   (OSGTransformationMatrix &result) const;
-    OSGBool invert3    (void);
-    OSGBool invertFrom3(const OSGTransformationMatrix &matrix);
+    Bool inverse3   (TransformationMatrix &result) const;
+    Bool invert3    (void);
+    Bool invertFrom3(const TransformationMatrix &matrix);
 
-    void mult    (const OSGTransformationMatrix &matrix);
-    void multLeft(const OSGTransformationMatrix &matrix);
+    void mult    (const TransformationMatrix &matrix);
+    void multLeft(const TransformationMatrix &matrix);
 
-    OSGBool transposed   (OSGTransformationMatrix &result) const;
-    OSGBool transpose    (void);
-    OSGBool transposeFrom(const OSGTransformationMatrix &matrix);
+    Bool transposed   (TransformationMatrix &result) const;
+    Bool transpose    (void);
+    Bool transposeFrom(const TransformationMatrix &matrix);
 
     /*------------------------- elemen acess --------------------------------*/
 
-          OSGVectorType &operator [](OSGUInt32 uiIndex);
-    const OSGVectorType &operator [](OSGUInt32 uiIndex) const;
+          VectorType &operator [](UInt32 uiIndex);
+    const VectorType &operator [](UInt32 uiIndex) const;
 
     /*------------------------- assignment ----------------------------------*/
     
-    OSGTransformationMatrix<OSGValueTypeT> &operator =(
-        const OSGTransformationMatrix &source);
+    TransformationMatrix<ValueTypeT> &operator =(
+        const TransformationMatrix &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-	OSGBool operator == (const OSGTransformationMatrix &other);
-	OSGBool operator != (const OSGTransformationMatrix &other);
+	Bool operator == (const TransformationMatrix &other);
+	Bool operator != (const TransformationMatrix &other);
 
   protected:
 
@@ -336,31 +345,31 @@ class OSGTransformationMatrix
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGVectorType _matrix[4];
+    VectorType _matrix[4];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueTypeT rowMulCol4(const OSGTransformationMatrix &gRowMat, 
-                                   OSGUInt32                iRow, 
-                             const OSGTransformationMatrix &gColMat, 
-                                   OSGUInt32                iColumn) const;
+    ValueTypeT rowMulCol4(const TransformationMatrix &gRowMat, 
+                                 UInt32                iRow, 
+                          const TransformationMatrix &gColMat, 
+                                 UInt32                iColumn) const;
 
-    OSGValueTypeT det2(const OSGValueTypeT a1, 
-                       const OSGValueTypeT a2,
-                       const OSGValueTypeT b1, 
-                       const OSGValueTypeT b2) const;
+    ValueTypeT det2(const ValueTypeT a1, 
+                    const ValueTypeT a2,
+                    const ValueTypeT b1, 
+                    const ValueTypeT b2) const;
 
-    OSGValueTypeT det3(const OSGValueTypeT a1, 
-                       const OSGValueTypeT a2, 
-                       const OSGValueTypeT a3,
-                       const OSGValueTypeT b1, 
-                       const OSGValueTypeT b2, 
-                       const OSGValueTypeT b3,
-                       const OSGValueTypeT c1, 
-                       const OSGValueTypeT c2, 
-                       const OSGValueTypeT c3) const;
+    ValueTypeT det3(const ValueTypeT a1, 
+                    const ValueTypeT a2, 
+                    const ValueTypeT a3,
+                    const ValueTypeT b1, 
+                    const ValueTypeT b2, 
+                    const ValueTypeT b3,
+                    const ValueTypeT c1, 
+                    const ValueTypeT c2, 
+                    const ValueTypeT c3) const;
 
   private:
 
@@ -386,7 +395,7 @@ class OSGTransformationMatrix
 
 	static char cvsid[];
 
-    static OSGTransformationMatrix _identityMatrix;
+    static TransformationMatrix _identityMatrix;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -405,19 +414,19 @@ class OSGTransformationMatrix
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/** \var typedef OSGTransformationMatrix<OSGReal32> OSGMatrix;
- *  \brief OSGMatrix
+/** \var typedef TransformationMatrix<Real32> Matrix;
+ *  \brief Matrix
  *  \ingroup BaseMathMatrices
  */
 
-typedef OSGTransformationMatrix<OSGReal32> OSGMatrix;
+typedef TransformationMatrix<Real32> Matrix;
 
-/** \var typedef OSGTransformationMatrix<OSGReal32> OSGMatrix4f;
- *  \brief OSGMatrix4f
+/** \var typedef TransformationMatrix<Real32> Matrix4f;
+ *  \brief Matrix4f
  *  \ingroup BaseMathMatrices
  */
 
-typedef OSGTransformationMatrix<OSGReal32> OSGMatrix4f;
+typedef TransformationMatrix<Real32> Matrix4f;
 
 OSG_END_NAMESPACE
 

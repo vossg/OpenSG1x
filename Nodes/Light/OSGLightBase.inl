@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -50,15 +50,15 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
+/** \fn const char *SimpleAttachment::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGSimpleAttachment::Inherited
+/** \typedef SimpleAttachment::Inherited
  *  \brief Parent type
  */
 
-/** \typedef OSGSimpleAttachment::_field
+/** \typedef SimpleAttachment::_field
  *  \brief Data store
  */
 
@@ -97,7 +97,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_INL_DEF(OSGLightBase, OSGLightPtr)
+OSG_ABSTR_FIELD_CONTAINER_INL_DEF(LightBase, LightPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 

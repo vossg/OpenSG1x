@@ -4,7 +4,7 @@
  *                                                                           *
  *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -55,8 +55,8 @@ OSG_BEGIN_NAMESPACE
 //  Functions
 //---------------------------------------------------------------------------
 
-OSGNodePtr osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, 
-						OSGUInt16 vert );
+OSG_DLLEXPORT NodePtr makePlane(Real32 xsize, Real32 ysize, 
+                                UInt16 hor,   UInt16 vert);
 
 
 OSG_END_NAMESPACE

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGSTATE_H_
 #define _OSGSTATE_H_
@@ -48,13 +58,13 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGState;
+class State;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef OSGFCPtr<OSGStateChunkPtr, OSGState> OSGStatePtr;
+typedef FCPtr<StateChunkPtr, State> StatePtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -66,7 +76,7 @@ typedef OSGFCPtr<OSGStateChunkPtr, OSGState> OSGStatePtr;
  *  detailed
  */
 
-class OSGState : public OSGFieldContainer
+class OSG_DLLEXPORT State : public FieldContainer
 {
   public:
 
@@ -74,7 +84,7 @@ class OSGState : public OSGFieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGChunksField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(ChunksField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -86,14 +96,14 @@ class OSGState : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef OSGFieldContainer Inherited;
-    typedef OSGStateChunkPtr OSGPtr;
+	typedef FieldContainer Inherited;
+    typedef StateChunkPtr Ptr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGState"; }
+    static const char *getClassname(void) { return "State"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -101,7 +111,7 @@ class OSGState : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGStatePtr)
+    OSG_FIELD_CONTAINER_DECL(StatePtr)
 
     /*----------------------------- dump ----------------------------------*/
 
@@ -113,32 +123,32 @@ class OSGState : public OSGFieldContainer
 	void activate ( void );
 
 	// call commands to get from old to my state. 
-	void changeFrom( OSGState * old );
+	void changeFrom( State * old );
 
 	// reset my part of the state.
 	void deactivate ( void );
 
     /*----------------------------- access ----------------------------------*/
 
-	// get the chunk, returns OSGNullStateChunk if not present
+	// get the chunk, returns NullStateChunk if not present
 	
-	OSGStateChunkPtr getChunk( OSGUInt32 id );
+	StateChunkPtr getChunk( UInt32 id );
 	
 	// check if there's already a chunk of that type present
 	
-	OSGBool chunkPresent( OSGUInt32 id );
-	OSGBool chunkPresent( OSGStateChunkPtr chunk );
+	Bool chunkPresent( UInt32 id );
+	Bool chunkPresent( StateChunkPtr chunk );
 	
 	// add the chunk to the state
 	// index == -1: find an empty slot
-	void addChunk( OSGStateChunkPtr chunk, OSGInt32 index = 0 );
+	void addChunk( StateChunkPtr chunk, Int32 index = 0 );
 	
 	// remove the chunk from the state
 	// index == -1: find it in the classes slots	
-	void subChunk( OSGStateChunkPtr chunk, OSGInt32 index = -1 );
+	void subChunk( StateChunkPtr chunk, Int32 index = -1 );
 	
 	// remove the chunk of the given class from the state
-	void subChunk( OSGUInt32 classid, OSGInt32 index = -1 );
+	void subChunk( UInt32 classid, Int32 index = -1 );
 	
     /*------------------------- assignment ----------------------------------*/
 
@@ -147,13 +157,13 @@ class OSGState : public OSGFieldContainer
 	// estimate the cost to switch to the state 
 	// the unit is unclear, maybe musecs. It's not important anyway,
 	// it just has to be consistent over all types of chunks
-	virtual OSGReal32 switchCost( OSGState * state );
+	virtual Real32 switchCost( State * state );
 
 	// defines an ordering for states.
-    virtual OSGBool operator < (const OSGState &other) const;
+    virtual Bool operator < (const State &other) const;
     
-	virtual OSGBool operator == (const OSGState &other) const;
-	virtual OSGBool operator != (const OSGState &other) const;
+	virtual Bool operator == (const State &other) const;
+	virtual Bool operator != (const State &other) const;
 
     /*------------------------- debug ----------------------------------*/
 
@@ -181,13 +191,13 @@ class OSGState : public OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	OSGMFStateChunkPtr _chunks;
+	MFStateChunkPtr _chunks;
 	
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGMFStateChunkPtr *getMFChunks( void );
+	MFStateChunkPtr *getMFChunks( void );
 
   private:
 
@@ -203,7 +213,7 @@ class OSGState : public OSGFieldContainer
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainer;
+	friend class FieldContainer;
 	
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -215,8 +225,8 @@ class OSGState : public OSGFieldContainer
 
 	static char cvsid[];
 
-	static OSGFieldDescription   _desc[];
-	static OSGFieldContainerType _type;
+	static FieldDescription   _desc[];
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -232,11 +242,11 @@ class OSGState : public OSGFieldContainer
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGState(void);
-    virtual ~OSGState(void); 
+    State(void);
+    virtual ~State(void); 
 
-    OSGState(const OSGState &source);    
-	OSGState & operator =(const OSGState &source);
+    State(const State &source);    
+	State & operator =(const State &source);
 };
 
 //---------------------------------------------------------------------------
@@ -245,7 +255,7 @@ class OSGState : public OSGFieldContainer
 
 // class pointer
 
-typedef OSGState *OSGStateP;
+typedef State *StateP;
 
 OSG_END_NAMESPACE
 

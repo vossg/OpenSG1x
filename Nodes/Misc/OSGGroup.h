@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGGROUP_H_
 #define _OSGGROUP_H_
 #ifdef __sgi
@@ -58,16 +57,16 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGGroup;
+class Group;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-/** \brief OSGGroupPtr
+/** \brief GroupPtr
  */
 
-typedef OSGFCPtr<OSGNodeCorePtr, OSGGroup> OSGGroupPtr;
+typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -76,12 +75,12 @@ typedef OSGFCPtr<OSGNodeCorePtr, OSGGroup> OSGGroupPtr;
 /*! \ingroup Group
  *  Group is the basic NodeCore for inner nodes in the tree.
  *
- *  OSGGroup is the simplest form of a NodeCore. A group
+ *  Group is the simplest form of a NodeCore. A group
  *  carries no predefined data and most actions will only traverse the
  *  children list. So usually the group does nothing.
  */
 
-class OSGGroup : public OSGNodeCore
+class OSG_DLLEXPORT Group : public NodeCore
 {
   public:
 
@@ -101,7 +100,7 @@ class OSGGroup : public OSGNodeCore
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGGroup"; };
+    static const char *getClassname(void) { return "Group"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -109,7 +108,7 @@ class OSGGroup : public OSGNodeCore
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGGroupPtr)
+    OSG_FIELD_CONTAINER_DECL(GroupPtr)
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -141,9 +140,9 @@ class OSGGroup : public OSGNodeCore
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGGroup(void);
-    OSGGroup(const OSGGroup &source);
-    virtual ~OSGGroup(void); 
+    Group(void);
+    Group(const Group &source);
+    virtual ~Group(void); 
 
   private:
 
@@ -155,13 +154,13 @@ class OSGGroup : public OSGNodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNodeCore Inherited;
+    typedef NodeCore Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -173,7 +172,7 @@ class OSGGroup : public OSGNodeCore
 
     static char cvsid[];
 
-    static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -189,7 +188,7 @@ class OSGGroup : public OSGNodeCore
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGGroup &source);
+    void operator =(const Group &source);
 };
 
 //---------------------------------------------------------------------------
@@ -198,28 +197,30 @@ class OSGGroup : public OSGNodeCore
 
 /** \brief class pointer
  */
-typedef OSGGroup *OSGGroupP;
+typedef Group *GroupP;
 
 /** \ingroup FieldLib Group
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGGroupPtr field traits 
+ *  \brief GroupPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGGroupPtr> : public OSGTraits
+struct FieldDataTraits<GroupPtr> : public Traits
 {
+    enum                        { StringConvertable = 0x00      };
+
     static char *getSName(void) { return "SFGroupPtr"; }
     static char *getMName(void) { return "MFGroupPtr"; }
 };
 
-/** \brief OSGSFGroupPtr
+/** \brief SFGroupPtr
  */
-typedef OSGSField<OSGGroupPtr> OSGSFGroupPtr;
+typedef SField<GroupPtr> SFGroupPtr;
 
-/** \brief OSGMFGroupPtr
+/** \brief MFGroupPtr
  */
-typedef OSGMField<OSGGroupPtr> OSGMFGroupPtr;
+typedef MField<GroupPtr> MFGroupPtr;
 
 OSG_END_NAMESPACE
 

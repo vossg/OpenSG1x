@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -50,18 +61,18 @@ OSG_USING_NAMESPACE
 
 #ifdef OSG_NEED_EXPLICIT_INST_FOR_STATIC
 
-template class OSGAbstractGeoProperty<OSGGeoPositionPropertyDesc>;
-template class OSGGeoProperty<OSGGeoPosition3fPropertyDesc>;
+template class AbstractGeoProperty<GeoPositionPropertyDesc>;
+template class GeoProperty<GeoPosition3fPropertyDesc>;
 
-template class OSGAbstractGeoProperty<OSGGeoNormalPropertyDesc>;
-template class OSGGeoProperty<OSGGeoNormal3fPropertyDesc>;
+template class AbstractGeoProperty<GeoNormalPropertyDesc>;
+template class GeoProperty<GeoNormal3fPropertyDesc>;
 
-template class OSGAbstractGeoProperty<OSGGeoIndexPropertyDesc>;
-template class OSGGeoProperty<OSGGeoIndexUI32PropertyDesc>;
+template class AbstractGeoProperty<GeoIndexPropertyDesc>;
+template class GeoProperty<GeoIndexUI32PropertyDesc>;
 
-template class OSGGeoProperty<OSGGeoPTypePropertyDesc>;
+template class GeoProperty<GeoPTypePropertyDesc>;
 
-template class OSGGeoProperty<OSGGeoPLengthPropertyDesc>;
+template class GeoProperty<GeoPLengthPropertyDesc>;
 
 #endif
 

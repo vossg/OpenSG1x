@@ -1,3 +1,40 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 #ifndef _OSG_TRACKBALL_H_
 #define _OSG_TRACKBALL_H_
@@ -9,17 +46,17 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSGTrackball
+class OSG_DLLEXPORT Trackball
 {
   public:
 
-    enum OSGMode
+    enum Mode
     {
         OSGCamera = 0x01,
         OSGObject = 0x02
     };
 		
-    enum OSGTranslationMode
+    enum TranslationMode
     {
         OSGFixedX,
         OSGFixedY,
@@ -29,76 +66,76 @@ class OSGTrackball
     };
 		
   public:
-    const char *getClassname(void) { return "OSGTrackball"; }
+    const char *getClassname(void) { return "Trackball"; }
 
-	OSGTrackball(OSGReal32 rSize = 1.0);
-	~OSGTrackball(void);
+	Trackball(Real32 rSize = 1.0);
+	~Trackball(void);
 
-    void setSum(OSGBool bVal);
+    void setSum(Bool bVal);
 
-    void updateRotation(OSGReal32 rLastX,    OSGReal32 rLastY, 
-                        OSGReal32 rCurrentX, OSGReal32 rCurrentY);
-    void updatePosition(OSGReal32 rLastX,    OSGReal32 rLastY, 
-                        OSGReal32 rCurrentX, OSGReal32 rCurrentY);
-    void updatePositionNeg(OSGReal32 rLastX,    OSGReal32 rLastY, 
-                           OSGReal32 rCurrentX, OSGReal32 rCurrentY);
+    void updateRotation(Real32 rLastX,    Real32 rLastY, 
+                        Real32 rCurrentX, Real32 rCurrentY);
+    void updatePosition(Real32 rLastX,    Real32 rLastY, 
+                        Real32 rCurrentX, Real32 rCurrentY);
+    void updatePositionNeg(Real32 rLastX,    Real32 rLastY, 
+                           Real32 rCurrentX, Real32 rCurrentY);
 
 
-    void setAutoPositionIncrement(OSGReal32 rVal);
-    void setAutoPosition(OSGBool bVal);
-    void setAutoPositionNeg(OSGBool bVal);
+    void setAutoPositionIncrement(Real32 rVal);
+    void setAutoPosition(Bool bVal);
+    void setAutoPositionNeg(Bool bVal);
 	
-    void setMode(OSGMode gMode);
-	void setTranslationMode(OSGTranslationMode gMode);
-    void setTranslationScale(OSGReal32 rTranslationScale);
+    void setMode(Mode gMode);
+	void setTranslationMode(TranslationMode gMode);
+    void setTranslationScale(Real32 rTranslationScale);
 
 
     void reset(void);
 
-    void setStartPosition(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ, 
-                          OSGBool bUpdate = false);
-    void setStartPosition(OSGVec3f &gStartPos, OSGBool bUpdate = false);
+    void setStartPosition(Real32 rX, Real32 rY, Real32 rZ, 
+                          Bool bUpdate = false);
+    void setStartPosition(Vec3f &gStartPos, Bool bUpdate = false);
 
-    OSGVec3f &getPosition(void);
+    Vec3f &getPosition(void);
 
-    void setStartRotation(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ, OSGReal32 rW, 
-                          OSGBool bUpdate = false);
-    void setStartRotation(OSGQuaternion &gStartRot, OSGBool bUpdate = false);
+    void setStartRotation(Real32 rX, Real32 rY, Real32 rZ, Real32 rW, 
+                          Bool bUpdate = false);
+    void setStartRotation(Quaternion &gStartRot, Bool bUpdate = false);
 
-    OSGQuaternion &getRotation(void);		
+    Quaternion &getRotation(void);		
 
 		
-	void setSize( OSGReal32 s );
-	OSGReal32 getSize() const;
+	void setSize( Real32 s );
+	Real32 getSize() const;
 
 		
   private:
 
-    OSGBool   _bSum;
-    OSGBool   _bAutoPosition;
+    Bool   _bSum;
+    Bool   _bAutoPosition;
 
-    OSGMode _gMode;
-	OSGTranslationMode _gTransMode;
+    Mode _gMode;
+	TranslationMode _gTransMode;
 	
-    OSGReal32 _rAutoPositionStep;
-    OSGReal32 _rAutoPositionIncrement;
+    Real32 _rAutoPositionStep;
+    Real32 _rAutoPositionIncrement;
 
-    OSGReal32 _rTrackballSize;
-	OSGReal32 _rTranslationScale;
+    Real32 _rTrackballSize;
+	Real32 _rTranslationScale;
 	
-    OSGQuaternion _qVal;
-    OSGVec3f    _pVal;
+    Quaternion _qVal;
+    Vec3f    _pVal;
 
-    OSGQuaternion _qValStart;
-    OSGVec3f    _pValStart;
+    Quaternion _qValStart;
+    Vec3f    _pValStart;
 
-	OSGTrackball(const OSGTrackball &org);
-	void operator =(const OSGTrackball &org);
+	Trackball(const Trackball &org);
+	void operator =(const Trackball &org);
 
   protected:
 
 
-    float projectToSphere(OSGReal32 rRadius, OSGReal32 rX, OSGReal32 rY);
+    float projectToSphere(Real32 rRadius, Real32 rX, Real32 rY);
 
 };
 

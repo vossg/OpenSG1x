@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -55,7 +66,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGFieldDescription::cvsid[] = "@(#)$Id: $";
+char FieldDescription::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -86,14 +97,14 @@ char OSGFieldDescription::cvsid[] = "@(#)$Id: $";
 /*! \brief Default Constructor 
  */
 
-OSGFieldDescription::OSGFieldDescription(
-    const OSGFieldType         &fieldType, 
-    const OSGChar8             *name, 
-    const OSGUInt32             fieldId,
-    const OSGBitVector          fieldMask,
-    const OSGBool               internal,
-          OSGFieldAccessMethod  accessMethod,
-    const OSGChar8             *defaultValue) :
+FieldDescription::FieldDescription(
+    const FieldType         &fieldType, 
+    const Char8             *name, 
+    const UInt32             fieldId,
+    const BitVector          fieldMask,
+    const Bool               internal,
+          FieldAccessMethod  accessMethod,
+    const Char8             *defaultValue) :
     _fieldType(fieldType), 
     _name(name),
     _fieldId(fieldId),
@@ -108,14 +119,14 @@ OSGFieldDescription::OSGFieldDescription(
 /*! \brief Default Constructor 
  */
 
-OSGFieldDescription::OSGFieldDescription(
-    const OSGFieldType              &fieldType, 
-    const OSGChar8                  *name, 
-    const OSGUInt32                  fieldId,
-    const OSGBitVector               fieldMask,
-    const OSGBool                    internal,
-          OSGFieldIndexAccessMethod  indexAccessMethod,
-    const OSGChar8                  *defaultValue) :
+FieldDescription::FieldDescription(
+    const FieldType              &fieldType, 
+    const Char8                  *name, 
+    const UInt32                  fieldId,
+    const BitVector               fieldMask,
+    const Bool                    internal,
+          FieldIndexAccessMethod  indexAccessMethod,
+    const Char8                  *defaultValue) :
     _fieldType(fieldType), 
     _name(name),
     _fieldId(fieldId),
@@ -127,7 +138,7 @@ OSGFieldDescription::OSGFieldDescription(
 {
 }
 
-OSGFieldDescription::OSGFieldDescription(const OSGFieldDescription &source) :
+FieldDescription::FieldDescription(const FieldDescription &source) :
     _fieldType        (source._fieldType),
     _name             (source._name),
     _fieldId          (source._fieldId),
@@ -143,7 +154,7 @@ OSGFieldDescription::OSGFieldDescription(const OSGFieldDescription &source) :
 /*! \brief Destructor 
  */
 
-OSGFieldDescription::~OSGFieldDescription(void) 
+FieldDescription::~FieldDescription(void) 
 {
 }
 
@@ -154,7 +165,7 @@ OSGFieldDescription::~OSGFieldDescription(void)
 /*! \brief get method for attribute name 
  */
 
-const OSGChar8 *OSGFieldDescription::getName(void) const
+const Char8 *FieldDescription::getName(void) const
 {
     return _name.str(); 
 }
@@ -162,7 +173,7 @@ const OSGChar8 *OSGFieldDescription::getName(void) const
 /*! \brief get method for attribute defaultValue 
 */
 
-const OSGChar8 *OSGFieldDescription::getDefaultValue(void) const
+const Char8 *FieldDescription::getDefaultValue(void) const
 {
     return _defaultValue.str(); 
 }
@@ -170,44 +181,44 @@ const OSGChar8 *OSGFieldDescription::getDefaultValue(void) const
 /*! \brief get method for attribute dataType 
  */
 
-OSGUInt32 OSGFieldDescription::getTypeId(void) const
+UInt32 FieldDescription::getTypeId(void) const
 {
     return _fieldType.getTypeId(); 
 }
 
-OSGBitVector OSGFieldDescription::getFieldMask(void) const
+BitVector FieldDescription::getFieldMask(void) const
 {
     return _fieldMask;
 }
 
-void OSGFieldDescription::setFieldMask(OSGBitVector fieldMask)
+void FieldDescription::setFieldMask(BitVector fieldMask)
 {
     _fieldMask = fieldMask;
 }
 
-OSGUInt32 OSGFieldDescription::getFieldId(void) const
+UInt32 FieldDescription::getFieldId(void) const
 {
     return _fieldId;
 }
 
-void OSGFieldDescription::setFieldId(OSGUInt32 fieldId)
+void FieldDescription::setFieldId(UInt32 fieldId)
 {
     _fieldId = fieldId;
 }
 
-OSGBool OSGFieldDescription::isValid(void)  const
+Bool FieldDescription::isValid(void)  const
 {
     return (_name.length()) ? true : false; 
 } 
 
-void OSGFieldDescription::setAccessMethod(
-    OSGFieldAccessMethod accessMethod)
+void FieldDescription::setAccessMethod(
+    FieldAccessMethod accessMethod)
 {
     _accessMethod = accessMethod;
 }
 
-void OSGFieldDescription::setIndexAccessMethod(
-    OSGFieldIndexAccessMethod indexAccessMethod)
+void FieldDescription::setIndexAccessMethod(
+    FieldIndexAccessMethod indexAccessMethod)
 {
     _indexAccessMethod = indexAccessMethod;
 }
@@ -218,9 +229,9 @@ void OSGFieldDescription::setIndexAccessMethod(
 
 /*-------------------------- assignment -----------------------------------*/
 
-void OSGFieldDescription::print(void) const
+void FieldDescription::print(void) const
 {
-	cerr << "OSGFieldDescription: type: " << _fieldType.getName() << "("
+	cerr << "FieldDescription: type: " << _fieldType.getName() << "("
 		 << _fieldType.getTypeId() << "), name: " 
          << _name << ", " << _accessMethod
          << ", defaultValue: " 
@@ -237,9 +248,9 @@ void OSGFieldDescription::print(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGField *OSGFieldDescription::getField(OSGFieldContainer &fc) const
+Field *FieldDescription::getField(FieldContainer &fc) const
 {
-	OSGField *field = NULL;
+	Field *field = NULL;
 
 	if(_accessMethod != NULL)
     {

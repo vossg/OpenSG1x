@@ -12,35 +12,35 @@ int main( int argc, char *argv[] )
 {
 	osgInit(argc, argv);
 
-	OSGStateChunkClass::iterator it;
+	StateChunkClass::iterator it;
 	
 	cerr << "StateChunk classes:" << endl;
 	
-	for ( it = OSGStateChunkClass::begin(); it != OSGStateChunkClass::end(); it++ )
+	for ( it = StateChunkClass::begin(); it != StateChunkClass::end(); it++ )
 	{
 		cerr << *it << endl;
 	}
 
-	OSGTransformChunkPtr tchunk = OSGTransformChunk::create();
+	TransformChunkPtr tchunk = TransformChunk::create();
 
 	cerr << "Transform chunk class: " << tchunk->getClassID() << endl;
 
-	OSGMatrix m;
+	Matrix m;
 	
 	tchunk->setMatrix( m );
 
 
-	OSGLightChunkPtr lchunks[9];
+	LightChunkPtr lchunks[9];
 	
 	for ( int i = 0; i < 9; i++ )
-		lchunks[i] = OSGLightChunk::create();
+		lchunks[i] = LightChunk::create();
 
 	cerr << "Light chunk class: " << lchunks[0]->getClassID() << endl;
 
 
 	// State
 
-	OSGStatePtr state = OSGState::create();
+	StatePtr state = State::create();
 
 	state->print();
 

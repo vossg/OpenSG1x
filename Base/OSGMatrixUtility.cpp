@@ -1,3 +1,40 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 // System declarations
 
@@ -21,13 +58,13 @@
 OSG_BEGIN_NAMESPACE
 
 
-OSGBool OSGMatrixOrthogonal(OSGMatrix &result, 
-							OSGReal32 rLeft, 
-							OSGReal32 rRight, 
-							OSGReal32 rBottom, 
-							OSGReal32 rTop, 
-							OSGReal32 rNear, 
-							OSGReal32 rFar)
+Bool MatrixOrthogonal(Matrix &result, 
+                      Real32 rLeft, 
+                      Real32 rRight, 
+                      Real32 rBottom, 
+                      Real32 rTop, 
+                      Real32 rNear, 
+                      Real32 rFar)
 {
 	result.setValueTransposed( 
 		2. / ( rRight - rLeft ), 0., 0., 0.,
@@ -40,15 +77,15 @@ OSGBool OSGMatrixOrthogonal(OSGMatrix &result,
 }
 
 
-OSGBool OSGMatrixFrustum(OSGMatrix &result, 
-						 OSGReal32 rLeft, 
-						 OSGReal32 rRight, 
-						 OSGReal32 rBottom, 
-						 OSGReal32 rTop, 
-						 OSGReal32 rNear, 
-						 OSGReal32 rFar)
+Bool MatrixFrustum(Matrix &result, 
+                   Real32 rLeft, 
+                   Real32 rRight, 
+                   Real32 rBottom, 
+                   Real32 rTop, 
+                   Real32 rNear, 
+                   Real32 rFar)
 {
-	OSGReal32	dz = rFar - rNear,
+	Real32	dz = rFar - rNear,
 			dx = rRight - rLeft,
 			dy = rTop - rBottom,
 			n2 = 2 * rNear;
@@ -63,35 +100,35 @@ OSGBool OSGMatrixFrustum(OSGMatrix &result,
 }
 
 
-OSGBool OSGMatrixPerspective(OSGMatrix &result, 
-							 OSGReal32 rFovy, 
-							 OSGReal32 rAspect, 
-							 OSGReal32 rNear, 
-							 OSGReal32 rFar )
+Bool MatrixPerspective(Matrix &result, 
+                       Real32 rFovy, 
+                       Real32 rAspect, 
+                       Real32 rNear, 
+                       Real32 rFar )
 {
-	OSGReal32	ct = osgtan( osgdegree2rad(rFovy) );
+	Real32	ct = osgtan( osgdegree2rad(rFovy) );
 
 	if ( rNear > rFar )
 	{
-		SWARNING << "OSGMatrixPerspective: near " << rNear << " > far " << rFar 
+		SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar 
 				<< "!\n" << endl;
 	}
-	if(rFovy <= osgEps)
+	if(rFovy <= Eps)
 	{
-		SWARNING << "OSGMatrixPerspective: fovy " << rFovy << " very small!\n" << endl;
+		SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n" << endl;
 	}
-	if(osgabs(rNear - rFar) < osgEps)
+	if(osgabs(rNear - rFar) < Eps)
 	{
-		SWARNING << "OSGMatrixPerspective: near " << rNear << " ~= far " << rFar 
+		SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar 
 				<< "!\n" << endl;
 	}
-	if(rAspect < osgEps)
+	if(rAspect < Eps)
 	{
-		SWARNING << "OSGMatrixPerspective: aspect ratio " << rAspect 
+		SWARNING << "MatrixPerspective: aspect ratio " << rAspect 
 				<< " very small!\n" << endl;
 	}
 
-	OSGMatrixFrustum(result, - rNear * ct * rAspect, rNear * ct * rAspect, 
+	MatrixFrustum(result, - rNear * ct * rAspect, rNear * ct * rAspect, 
 							 - rNear * ct , rNear * ct, 
 							   rNear, rFar );
 
@@ -99,48 +136,48 @@ OSGBool OSGMatrixPerspective(OSGMatrix &result,
 }
 
 
-OSGBool OSGMatrixStereoPerspective(OSGMatrix &projection, 
-								   OSGMatrix &projtrans,
-								   OSGReal32 rFovy, 
-								   OSGReal32 rAspect, 
-								   OSGReal32 rNear, 
-								   OSGReal32 rFar, 
-								   OSGReal32 rZeroparallax, 
-								   OSGReal32 rEyedistance, 
-								   OSGReal32 rWhicheye, 
-								   OSGReal32 rOverlap )
+Bool MatrixStereoPerspective(Matrix &projection, 
+                             Matrix &projtrans,
+                             Real32 rFovy, 
+                             Real32 rAspect, 
+                             Real32 rNear, 
+                             Real32 rFar, 
+                             Real32 rZeroparallax, 
+                             Real32 rEyedistance, 
+                             Real32 rWhicheye, 
+                             Real32 rOverlap )
 {
-	OSGReal32	rLeft,
+	Real32	rLeft,
 			rRight,
 			rTop,
 			rBottom;
 	
-	OSGReal32	gltan,
+	Real32	gltan,
 			rEye = - rEyedistance * ( rWhicheye - .5 ), 
 			d;
 
 	if ( rNear > rFar )
 	{
-		SWARNING << "OSGMatrixPerspective: near " << rNear << " > far " << rFar 
+		SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar 
 				<< "!\n" << endl;
 	}
-	if ( rFovy <= osgEps )
+	if ( rFovy <= Eps )
 	{
-		SWARNING << "OSGMatrixPerspective: fovy " << rFovy << " very small!\n" << endl;
+		SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n" << endl;
 	}
-	if ( osgabs( rNear - rFar ) < osgEps )
+	if ( osgabs( rNear - rFar ) < Eps )
 	{
-		SWARNING << "OSGMatrixPerspective: near " << rNear << " ~= far " << rFar 
+		SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar 
 				<< "!\n" << endl;
 	}
-	if ( rAspect < osgEps )
+	if ( rAspect < Eps )
 	{
-		SWARNING << "OSGMatrixPerspective: aspect ratio " << rAspect 
+		SWARNING << "MatrixPerspective: aspect ratio " << rAspect 
 				<< " very small!\n" << endl;
 	}
-	if ( rZeroparallax < osgEps )
+	if ( rZeroparallax < Eps )
 	{
-		SWARNING << "OSGMatrixPerspective: zero parallax " << rZeroparallax 
+		SWARNING << "MatrixPerspective: zero parallax " << rZeroparallax 
 				<< " very small, setting to 1!\n" << endl;
 		rZeroparallax = 1;
 	}
@@ -158,7 +195,7 @@ OSGBool OSGMatrixStereoPerspective(OSGMatrix &projection,
 	rLeft += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
 	rRight += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
 
-	OSGMatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
+	MatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
 
 	projtrans.setIdentity();
 	projtrans[0][3] = rEye;
@@ -166,19 +203,19 @@ OSGBool OSGMatrixStereoPerspective(OSGMatrix &projection,
 	return false;
 }
 
-OSGBool OSGMatrixLookAt( OSGMatrix & result, 
-	OSGReal32 fromx, OSGReal32 fromy, OSGReal32 fromz, 
-	OSGReal32 atx, OSGReal32 aty, OSGReal32 atz, 
-	OSGReal32 upx, OSGReal32 upy, OSGReal32 upz )
+Bool MatrixLookAt( Matrix & result, 
+                   Real32 fromx, Real32 fromy, Real32 fromz, 
+                   Real32 atx, Real32 aty, Real32 atz, 
+                   Real32 upx, Real32 upy, Real32 upz )
 {
-	OSGVec3f view, right, newup,up;
+	Vec3f view, right, newup,up;
 
 	view.setValues( fromx - atx , fromy - aty, fromz - atz );
 	view.normalize();
 
 	up.setValues( upx, upy, upz );
 	right = up.cross( view );
-	if ( right.dot(right) < osgEps )
+	if ( right.dot(right) < Eps )
 	{
 		return true;
 	}
@@ -190,7 +227,7 @@ OSGBool OSGMatrixLookAt( OSGMatrix & result,
 	result.setIdentity();
 	result.setTranslate( fromx, fromy, fromz );
 
-	OSGMatrix tmpm;
+	Matrix tmpm;
 	tmpm.setValue( right, newup, view );
 
 	result.mult( tmpm );
@@ -198,16 +235,16 @@ OSGBool OSGMatrixLookAt( OSGMatrix & result,
 	return false;
 }
 
-OSGBool OSGMatrixLookAt( OSGMatrix & result, OSGPnt3f from, OSGPnt3f at, OSGVec3f up )
+Bool MatrixLookAt( Matrix & result, Pnt3f from, Pnt3f at, Vec3f up )
 {
-	OSGVec3f view, right, newup;
-	OSGVec3f tmp;
+	Vec3f view, right, newup;
+	Vec3f tmp;
 	
 	view = from - at;
 	view.normalize();
 
 	right = up.cross( view );
-	if ( right.dot(right) < osgEps )
+	if ( right.dot(right) < Eps )
 	{
 		return true;
 	}
@@ -219,7 +256,7 @@ OSGBool OSGMatrixLookAt( OSGMatrix & result, OSGPnt3f from, OSGPnt3f at, OSGVec3
 	result.setIdentity();
 	result.setTranslate( from[0], from[1], from[2] );
 
-	OSGMatrix tmpm;
+	Matrix tmpm;
 	tmpm.setValue( right, newup, view );
 
 	result.mult( tmpm );
@@ -229,15 +266,19 @@ OSGBool OSGMatrixLookAt( OSGMatrix & result, OSGPnt3f from, OSGPnt3f at, OSGVec3
 
 
 
-OSGBool OSGMatrixProjection(OSGMatrix &result, 
-                            OSGReal32  left,   OSGReal32 right, 
-                            OSGReal32  bottom, OSGReal32 top, 
-                            OSGReal32  near,   OSGReal32 far )
+Bool MatrixProjection(Matrix &result, 
+                      Real32  left,   Real32 right, 
+                      Real32  bottom, Real32 top, 
+                      Real32  near,   Real32 far )
 {
-	SFATAL << "OSGMatrixProjection: Not yet implemented!" << endl;
+	SFATAL << "MatrixProjection: Not yet implemented!" << endl;
 	abort();
 
     return false;
 }
 
 OSG_END_NAMESPACE
+
+
+
+

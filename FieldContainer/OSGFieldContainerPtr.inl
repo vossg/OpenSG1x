@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -46,11 +57,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \fn const char *OSGFCPtr::getClassname(void)
+/** \fn const char *FCPtr::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGFCPtr::Inherited
+/** \typedef FCPtr::Inherited
  *  \brief Parent type
  */
 
@@ -62,13 +73,13 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGBaseFieldContainerTypeT, class OSGFieldContainerTypeT>
-char OSGFCPtr<OSGBaseFieldContainerTypeT,
-              OSGFieldContainerTypeT    >::cvsid[] = "@(#)$Id: $";
+template <class BaseFieldContainerTypeT, class FieldContainerTypeT>
+char FCPtr<BaseFieldContainerTypeT,
+              FieldContainerTypeT    >::cvsid[] = "@(#)$Id: $";
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> 
-const OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>
-    OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::NullPtr;
+template <class BasePtrTypeT, class FieldContainerTypeT> 
+const FCPtr<BasePtrTypeT, FieldContainerTypeT>
+    FCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
 
 
 /***************************************************************************\
@@ -100,51 +111,41 @@ const OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>
 /** \brief Constructor
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::OSGFCPtr(void) :
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(void) :
 	Inherited()
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGObjectType *) _storeP;
-#endif
 }
 
 /** \brief Copy Constructor
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::OSGFCPtr(
-    const OSGFCPtr &source) :
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
+    const FCPtr &source) :
 	Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGObjectType *) _storeP;
-#endif
 }
 
 /** \brief Construct a pointer from a give node.
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::OSGFCPtr(
-    const OSGFieldContainerTypeT &source) :
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
+    const FieldContainerTypeT &source) :
 
     Inherited()
 {
     _containerSize = source.getSize();
-    _storeP        = (OSGUInt8 *) &source;
-    _storeP       -= getElemOff(OSGThread::getAspect());
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGObjectType *) _storeP;
-#endif
+    _storeP        = (UInt8 *) &source;
+    _storeP       -= getElemOff(Thread::getAspect());
 }
 
 /** \brief Destructor
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::~OSGFCPtr(void)
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::~FCPtr(void)
 {
 }
 
@@ -153,71 +154,70 @@ OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::~OSGFCPtr(void)
 /** \brief Arrow operator
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFieldContainerTypeT *OSGFCPtr<OSGBasePtrTypeT, 
-                                 OSGFieldContainerTypeT>::operator ->(void)
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FieldContainerTypeT *FCPtr<BasePtrTypeT, 
+                           FieldContainerTypeT>::operator ->(void)
 {
-    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
 /** \brief Const arrow operator
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-const OSGFieldContainerTypeT *OSGFCPtr<OSGBasePtrTypeT, 
-                                 OSGFieldContainerTypeT>::operator ->(
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *FCPtr<BasePtrTypeT, 
+                                 FieldContainerTypeT>::operator ->(
                                      void) const
 {
-    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
 /** \brief Dereference operator
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFieldContainerTypeT &OSGFCPtr<OSGBasePtrTypeT, 
-                                 OSGFieldContainerTypeT>::operator *(void)
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FieldContainerTypeT &FCPtr<BasePtrTypeT, 
+                           FieldContainerTypeT>::operator *(void)
 {
-    return *((OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect()));
+    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
 }
 
 /** \brief Const dereference operator
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-const OSGFieldContainerTypeT &OSGFCPtr<OSGBasePtrTypeT, 
-                                       OSGFieldContainerTypeT>::operator *(
-                                           void) const
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT &FCPtr<BasePtrTypeT, 
+                                 FieldContainerTypeT>::operator *(void) const
 {
-    return *((OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect()));
+    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
 }
 
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFieldContainerTypeT *OSGFCPtr<OSGBasePtrTypeT, 
-                                 OSGFieldContainerTypeT>::getCPtr(void)
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FieldContainerTypeT *FCPtr<BasePtrTypeT, 
+                           FieldContainerTypeT>::getCPtr(void)
 
 {
-    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-const OSGFieldContainerTypeT *
-    OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::getCPtr(void) const
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *
+    FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
-    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
 
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-/** \brief OSGFieldContainerTypeT * cast operator
+#ifdef _FCPTR_HAS_CAST_OPERATOR
+/** \brief FieldContainerTypeT * cast operator
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFCPtr<OSGBasePtrTypeT, 
-         OSGFieldContainerTypeT>::operator OSGFieldContainerTypeT *(void)
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, 
+         FieldContainerTypeT>::operator FieldContainerTypeT *(void)
 {
-    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 #endif
 
@@ -226,10 +226,10 @@ OSGFCPtr<OSGBasePtrTypeT,
 /** \brief assignment
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT> & 
-    OSGFCPtr<OSGBasePtrTypeT, 
-             OSGFieldContainerTypeT>::operator = (const OSGFCPtr &source)
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT> & 
+    FCPtr<BasePtrTypeT, 
+          FieldContainerTypeT>::operator = (const FCPtr &source)
 {
 	if (this == &source)
 		return *this;
@@ -237,16 +237,12 @@ OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT> &
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGObjectType *) _storeP;
-#endif
-
     return *this;
 }
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-void OSGFCPtr<OSGBasePtrTypeT, 
-              OSGFieldContainerTypeT>::dump(void) const
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void FCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::dump(void) const
 {
     if(_storeP != NULL)
     {
@@ -263,16 +259,6 @@ void OSGFCPtr<OSGBasePtrTypeT,
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
-void OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::updateTypedStore(void)
-{
-    _typedStoreP = (OSGObjectType *) _storeP;
-
-    Inherited::updateTypedStore();
-}
-#endif
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -1,29 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 //-------------------------------
 // 	Includes 					 			    
@@ -56,27 +67,27 @@ static const char *suffixArray[] = {
   "tif", "tiff"
 };
 
-OSGTIFImageFileType OSGTIFImageFileType::_the ( suffixArray,
+TIFImageFileType TIFImageFileType::_the ( suffixArray,
                                                 sizeof(suffixArray),
                                                 'T', 'T' );
 
 
-/* enum OSGVecBase::VectorSizeE
+/* enum VecBase::VectorSizeE
  * brief 
 */
 
 
-/* var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/* var VecBase::VectorSizeE VecBase::_iSize
  *
 */
 
 
-/* const char *OSGVecBase::getClassName(void)
+/* const char *VecBase::getClassName(void)
  *  brief Classname
 */
 
 
-/* var OSGValueTypeT OSGVecBase:: _value[Size];
+/* var ValueTypeT VecBase:: _value[Size];
  * brief value store
 */
 
@@ -105,7 +116,7 @@ OSGTIFImageFileType OSGTIFImageFileType::_the ( suffixArray,
 //----------------------------
 //
 //Parameters:
-//p: OSGImage &image, const char *fileName
+//p: Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -120,21 +131,21 @@ OSGTIFImageFileType OSGTIFImageFileType::_the ( suffixArray,
 //s:
 //
 //------------------------------
-bool OSGTIFImageFileType::read (OSGImage &image, const char *fileName )
+bool TIFImageFileType::read (Image &image, const char *fileName )
 {
 		bool valid = false;
 
 #ifdef TIFF_LIB
 
 	TIFF *in = TIFFOpen(fileName, "r");
-	OSGUChar *data = 0, *line = 0, *dest;
-	OSGUInt32 w, h, u, v;
+	UChar *data = 0, *line = 0, *dest;
+	UInt32 w, h, u, v;
 	ushort bpp;
-	OSGChar errorMessage[1024];
-	OSGUInt16* sampleinfo;
-	OSGUInt16 extrasamples;
-	OSGUInt16 si;
-	OSGUInt16 red,green,blue,alpha;
+	Char errorMessage[1024];
+	UInt16* sampleinfo;
+	UInt16 extrasamples;
+	UInt16 si;
+	UInt16 red,green,blue,alpha;
 
 	if (in) {
 
@@ -154,7 +165,7 @@ bool OSGTIFImageFileType::read (OSGImage &image, const char *fileName )
 			}
 		}
 
-		data = new OSGUChar [w*h*4];
+		data = new UChar [w*h*4];
 		if ( TIFFRGBAImageOK( in, errorMessage ) &&
 				 TIFFReadRGBAImage(in, w, h, (uint32*)data, 1)) 
 			valid = true;
@@ -207,7 +218,7 @@ bool OSGTIFImageFileType::read (OSGImage &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const OSGImage &image, const char *fileName
+//p: const Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -222,7 +233,7 @@ bool OSGTIFImageFileType::read (OSGImage &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGTIFImageFileType::write (const OSGImage &image, const char *fileName )
+bool TIFImageFileType::write (const Image &image, const char *fileName )
 {
 		bool retCode = false;
 
@@ -311,11 +322,11 @@ bool OSGTIFImageFileType::write (const OSGImage &image, const char *fileName )
 
 
 //----------------------------
-// Function name: OSGTIFImageFileType
+// Function name: TIFImageFileType
 //----------------------------
 //
 //Parameters:
-//p: cinst char *suffixArray[], OSGUInit16 suffixByteCount, OSGInit16 majorMagic, OSGInit minorMagic
+//p: cinst char *suffixArray[], UInit16 suffixByteCount, Init16 majorMagic, Init minorMagic
 //GlobalVars:
 //g: 
 //Returns:
@@ -330,21 +341,21 @@ bool OSGTIFImageFileType::write (const OSGImage &image, const char *fileName )
 //s:
 //
 //------------------------------
-OSGTIFImageFileType::OSGTIFImageFileType ( const char *suffixArray[], 
-																					 OSGUInt16 suffixByteCount, 
-																					 OSGInt16 majorMagic, 
-																					 OSGInt16 minorMagic )
-	: OSGImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
+TIFImageFileType::TIFImageFileType ( const char *suffixArray[], 
+																					 UInt16 suffixByteCount, 
+																					 Int16 majorMagic, 
+																					 Int16 minorMagic )
+	: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
 {
 	return;
 }
 
 //----------------------------
-// Function name: OSGTIFImageFileType
+// Function name: TIFImageFileType
 //----------------------------
 //
 //Parameters:
-//p: const OSGTIFImageFileType &obj
+//p: const TIFImageFileType &obj
 //GlobalVars:
 //g: 
 //Returns:
@@ -359,14 +370,14 @@ OSGTIFImageFileType::OSGTIFImageFileType ( const char *suffixArray[],
 //s:
 //
 //------------------------------
-OSGTIFImageFileType::OSGTIFImageFileType (const OSGTIFImageFileType &obj )
-: OSGImageFileType(obj)
+TIFImageFileType::TIFImageFileType (const TIFImageFileType &obj )
+: ImageFileType(obj)
 {
 	return;
 }
 
 //----------------------------
-// Function name: ~OSGTIFImageFileType
+// Function name: ~TIFImageFileType
 //----------------------------
 //
 //Parameters:
@@ -385,7 +396,7 @@ OSGTIFImageFileType::OSGTIFImageFileType (const OSGTIFImageFileType &obj )
 //s:
 //
 //------------------------------
-OSGTIFImageFileType::~OSGTIFImageFileType (void )
+TIFImageFileType::~TIFImageFileType (void )
 {
 	return;
 }

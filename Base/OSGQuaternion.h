@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGQUATERNION_H_
 #define _OSGQUATERNION_H_
@@ -57,11 +67,11 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseMathQuaternions
- *  \brief OSGQuaternionBase, that's the way how to define rotations.
+ *  \brief QuaternionBase, that's the way how to define rotations.
  */
 
-template <class OSGValueTypeT>
-class OSGQuaternionBase
+template <class ValueTypeT>
+class QuaternionBase
 {
   public:
 
@@ -73,143 +83,142 @@ class OSGQuaternionBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGVectorInterface     <OSGValueTypeT, 
-                                    OSGVecStorage3<OSGValueTypeT> > 
-        OSGVectorType;
+    typedef VectorInterface     <ValueTypeT, 
+                                 VecStorage3<ValueTypeT> > VectorType;
 
-    typedef OSGTransformationMatrix<OSGValueTypeT>    OSGMatrixType;
+    typedef TransformationMatrix<ValueTypeT>               MatrixType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGQuaternionBase"; };
+    static const char *getClassname(void) { return "QuaternionBase"; };
 
-	static const OSGQuaternionBase &identity(void);
+	static const QuaternionBase &identity(void);
 
-    static OSGQuaternionBase slerp(const OSGQuaternionBase &rot0,
-                                   const OSGQuaternionBase &rot1, 
-                                   const OSGValueTypeT      t);
+    static       QuaternionBase slerp    (const QuaternionBase &rot0,
+                                          const QuaternionBase &rot1, 
+                                          const ValueTypeT      t);
     
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGQuaternionBase(void);
+    QuaternionBase(void);
 
-    OSGQuaternionBase(const OSGQuaternionBase &source);
+    QuaternionBase(const QuaternionBase &source);
 
-    OSGQuaternionBase(OSGValueTypeT x, 
-                      OSGValueTypeT y, 
-                      OSGValueTypeT z,
-                      OSGValueTypeT w);
+    QuaternionBase(ValueTypeT x, 
+                   ValueTypeT y, 
+                   ValueTypeT z,
+                   ValueTypeT w);
 
-    explicit OSGQuaternionBase(const OSGMatrixType &matrix);
+    explicit QuaternionBase(const MatrixType &matrix);
 
-    OSGQuaternionBase(const OSGVectorType &axis, 
-                      const OSGValueTypeT  angle);
+    QuaternionBase(const VectorType &axis, 
+                   const ValueTypeT  angle);
+    
+    QuaternionBase(const VectorType &rotateFrom, 
+                   const VectorType &rotateTo);
 
-    OSGQuaternionBase(const OSGVectorType &rotateFrom, 
-                      const OSGVectorType &rotateTo);
-
-    virtual ~OSGQuaternionBase(void); 
+    virtual ~QuaternionBase(void); 
 
     /*------------------------- set functions -------------------------------*/
 
     void setIdentity(void);
 
-	void setValueAsAxis(const OSGValueTypeT *valsP);
-	void setValueAsQuat(const OSGValueTypeT *valsP);
+	void setValueAsAxis(const ValueTypeT *valsP);
+	void setValueAsQuat(const ValueTypeT *valsP);
 
-	void setValueAsAxis(const OSGValueTypeT x, 
-                        const OSGValueTypeT y, 
-                        const OSGValueTypeT z, 
-                        const OSGValueTypeT w);
+	void setValueAsAxis(const ValueTypeT x, 
+                        const ValueTypeT y, 
+                        const ValueTypeT z, 
+                        const ValueTypeT w);
 
-	void setValueAsQuat(const OSGValueTypeT x, 
-                        const OSGValueTypeT y, 
-                        const OSGValueTypeT z, 
-                        const OSGValueTypeT w);
+	void setValueAsQuat(const ValueTypeT x, 
+                        const ValueTypeT y, 
+                        const ValueTypeT z, 
+                        const ValueTypeT w);
 
-	void setValue(const OSGMatrixType &matrix);
+	void setValue(const MatrixType &matrix);
 
-	void setValue(const OSGVectorType &axis, OSGValueTypeT angle);
+	void setValue(const VectorType &axis, ValueTypeT angle);
 
-	void setValue(const OSGVectorType &rotateFrom, 
-                  const OSGVectorType &rotateTo);
+	void setValue(const VectorType &rotateFrom, 
+                  const VectorType &rotateTo);
 
 	void setValue(const char *str);
 
-	void setValue(const OSGValueTypeT alpha, 
-                  const OSGValueTypeT beta,
-                  const OSGValueTypeT gamma);
+	void setValue(const ValueTypeT alpha, 
+                  const ValueTypeT beta,
+                  const ValueTypeT gamma);
 
     /*------------------------- get functions -------------------------------*/
 
-	const OSGValueTypeT *getValues(void) const;
+	const ValueTypeT *getValues(void) const;
 
-	void getValueAsAxis(OSGValueTypeT &x, 
-                        OSGValueTypeT &y, 
-                        OSGValueTypeT &z,
-                        OSGValueTypeT &w) const;
+	void getValueAsAxis(ValueTypeT &x, 
+                        ValueTypeT &y, 
+                        ValueTypeT &z,
+                        ValueTypeT &w) const;
 
-    void getValueAsQuat(OSGValueTypeT &x, 
-                        OSGValueTypeT &y, 
-                        OSGValueTypeT &z,
-                        OSGValueTypeT &w) const;
+    void getValueAsQuat(ValueTypeT &x, 
+                        ValueTypeT &y, 
+                        ValueTypeT &z,
+                        ValueTypeT &w) const;
 
-	void getValue(OSGVectorType &axis, OSGValueTypeT &radians) const;
-	void getValue(OSGMatrixType &matrix) const;
+	void getValue(VectorType &axis, ValueTypeT &radians) const;
+	void getValue(MatrixType &matrix) const;
 
-	OSGValueTypeT x(void) const;
-	OSGValueTypeT y(void) const;
-	OSGValueTypeT z(void) const;
-	OSGValueTypeT w(void) const;
+	ValueTypeT x(void) const;
+	ValueTypeT y(void) const;
+	ValueTypeT z(void) const;
+	ValueTypeT w(void) const;
 
     /*------------------------- simple math -------------------------------*/
 
-    OSGValueTypeT length   (void);
-    void          normalize(void);
+    ValueTypeT length   (void);
+    void       normalize(void);
 
-    void                     invert (void);
-	const OSGQuaternionBase  inverse(void) const;
+    void                  invert (void);
+	const QuaternionBase  inverse(void) const;
 
-	void multVec   (const OSGVectorType &src, OSGVectorType &dst) const;
+	void multVec   (const VectorType &src, VectorType &dst) const;
 
-	void transform (const OSGVectorType &src, OSGVectorType &dst) const;
+	void transform (const VectorType &src, VectorType &dst) const;
 
-	void scaleAngle(OSGValueTypeT scaleFactor);
+	void scaleAngle(ValueTypeT scaleFactor);
 
-    void slerpThis (const OSGQuaternionBase &rot0,
-                    const OSGQuaternionBase &rot1, 
-                    const OSGValueTypeT      t);
+    void slerpThis (const QuaternionBase &rot0,
+                    const QuaternionBase &rot1, 
+                    const ValueTypeT      t);
 
-	void mult      (const OSGQuaternionBase &other);
-	void multLeft  (const OSGQuaternionBase &other);
+	void mult      (const QuaternionBase &other);
+	void multLeft  (const QuaternionBase &other);
 
-	OSGBool equals (const OSGQuaternionBase &rot, 
-                    const OSGValueTypeT tolerance) const;
+	Bool equals    (const QuaternionBase &rot, 
+                    const ValueTypeT tolerance) const;
 
     /*------------------------- element access ------------------------------*/
 
-	      OSGValueTypeT &operator [](const OSGUInt32 index);
-	const OSGValueTypeT &operator [](const OSGUInt32 index) const;
+	      ValueTypeT &operator [](const UInt32 index);
+	const ValueTypeT &operator [](const UInt32 index) const;
 
     /*------------------------- math operators ------------------------------*/
 
-	void operator *=(const OSGQuaternionBase &other);
+	void operator *=(const QuaternionBase &other);
 
     /*------------------------- assignment ----------------------------------*/
 
-    const OSGQuaternionBase& operator = (const OSGQuaternionBase &source);
+    const QuaternionBase& operator = (const QuaternionBase &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-    bool operator <  (const OSGQuaternionBase &other);
+    bool operator <  (const QuaternionBase &other);
     
-	bool operator == (const OSGQuaternionBase &other);
-	bool operator != (const OSGQuaternionBase &other);
+	bool operator == (const QuaternionBase &other);
+	bool operator != (const QuaternionBase &other);
 
   protected:
 
@@ -229,10 +238,10 @@ class OSGQuaternionBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void slerp(const OSGQuaternionBase &rot0,
-                      const OSGQuaternionBase &rot1, 
-                            OSGQuaternionBase &result,
-                      const OSGValueTypeT      t);
+    static void slerp(const QuaternionBase &rot0,
+                      const QuaternionBase &rot1, 
+                            QuaternionBase &result,
+                      const ValueTypeT      t);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -242,7 +251,7 @@ class OSGQuaternionBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void mult(const OSGValueTypeT rVal1[4], const OSGValueTypeT rVal2[4]);
+    void mult(const ValueTypeT rVal1[4], const ValueTypeT rVal2[4]);
 
   private:
 
@@ -250,7 +259,7 @@ class OSGQuaternionBase
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    enum OSGElementIndices
+    enum ElementIndices
     {
         Q_X = 0,
         Q_Y = 1,
@@ -276,7 +285,7 @@ class OSGQuaternionBase
 
 	static char cvsid[];
 
-    static OSGQuaternionBase _identity;
+    static QuaternionBase _identity;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -286,7 +295,7 @@ class OSGQuaternionBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueTypeT _quat[4];
+    ValueTypeT _quat[4];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -299,12 +308,12 @@ class OSGQuaternionBase
 
 // class pointer
 
-/** \var typedef OSGQuaternionBase<OSGReal32> OSGQuaternion;
- *  \brief OSGQuaternion
+/** \var typedef QuaternionBase<Real32> Quaternion;
+ *  \brief Quaternion
  *  \ingroup BaseMathQuaternions
  */
 
-typedef OSGQuaternionBase<OSGReal32> OSGQuaternion;
+typedef QuaternionBase<Real32> Quaternion;
 
 OSG_END_NAMESPACE
 

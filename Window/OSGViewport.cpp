@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -62,85 +73,85 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGViewport::cvsid[] = "@(#)$Id: $";
+char Viewport::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGViewport, OSGLeftField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Viewport, LeftField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGRightField,      OSGLeftField  )
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGBottomField,     OSGRightField )
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGTopField,        OSGBottomField)
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGParentField,     OSGTopField   )
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGCameraField,     OSGParentField)
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGRootField,       OSGCameraField)
-OSG_FC_FIELD_IDM_DEF      (OSGViewport, OSGBackgroundField, OSGRootField  )
+OSG_FC_FIELD_IDM_DEF      (Viewport, RightField,      LeftField  )
+OSG_FC_FIELD_IDM_DEF      (Viewport, BottomField,     RightField )
+OSG_FC_FIELD_IDM_DEF      (Viewport, TopField,        BottomField)
+OSG_FC_FIELD_IDM_DEF      (Viewport, ParentField,     TopField   )
+OSG_FC_FIELD_IDM_DEF      (Viewport, CameraField,     ParentField)
+OSG_FC_FIELD_IDM_DEF      (Viewport, RootField,       CameraField)
+OSG_FC_FIELD_IDM_DEF      (Viewport, BackgroundField, RootField  )
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGViewport, OSGBackgroundField)
+OSG_FC_LAST_FIELD_IDM_DEF (Viewport, BackgroundField)
 
 // Static Class Varible implementations: 
-OSGFieldDescription OSGViewport::_desc[] = 
+FieldDescription Viewport::_desc[] = 
 {
-        OSGFieldDescription(
-            OSGSFReal32::getClassType(), 
+        FieldDescription(
+            SFReal32::getClassType(), 
             "left", 
-            OSG_FC_FIELD_IDM_DESC(OSGLeftField),
+            OSG_FC_FIELD_IDM_DESC(LeftField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFLeft),
+            (FieldAccessMethod) &Viewport::getSFLeft),
 
-        OSGFieldDescription(
-            OSGSFReal32::getClassType(), 
+        FieldDescription(
+            SFReal32::getClassType(), 
             "right", 
-            OSG_FC_FIELD_IDM_DESC(OSGRightField),
+            OSG_FC_FIELD_IDM_DESC(RightField),
             false,           
-            (OSGFieldAccessMethod) &OSGViewport::getSFRight),
+            (FieldAccessMethod) &Viewport::getSFRight),
 
-        OSGFieldDescription(
-            OSGSFReal32::getClassType(), 
+        FieldDescription(
+            SFReal32::getClassType(), 
             "bottom", 
-            OSG_FC_FIELD_IDM_DESC(OSGBottomField),
+            OSG_FC_FIELD_IDM_DESC(BottomField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFBottom),
+            (FieldAccessMethod) &Viewport::getSFBottom),
 
-        OSGFieldDescription(
-            OSGSFReal32::getClassType(), 
+        FieldDescription(
+            SFReal32::getClassType(), 
             "top", 
-            OSG_FC_FIELD_IDM_DESC(OSGTopField),
+            OSG_FC_FIELD_IDM_DESC(TopField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFTop),
+            (FieldAccessMethod) &Viewport::getSFTop),
 
-        OSGFieldDescription(
-            OSGSFWindowPtr::getClassType(), 
+        FieldDescription(
+            SFWindowPtr::getClassType(), 
             "parent", 
-            OSG_FC_FIELD_IDM_DESC(OSGParentField),
+            OSG_FC_FIELD_IDM_DESC(ParentField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFParent),
+            (FieldAccessMethod) &Viewport::getSFParent),
 
-        OSGFieldDescription(
-            OSGSFCameraPtr::getClassType(), 
+        FieldDescription(
+            SFCameraPtr::getClassType(), 
             "camera", 
-            OSG_FC_FIELD_IDM_DESC(OSGCameraField),
+            OSG_FC_FIELD_IDM_DESC(CameraField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFCamera),
+            (FieldAccessMethod) &Viewport::getSFCamera),
 
-        OSGFieldDescription(
-            OSGSFNodePtr::getClassType(), 
+        FieldDescription(
+            SFNodePtr::getClassType(), 
             "root", 
-            OSG_FC_FIELD_IDM_DESC(OSGRootField),
+            OSG_FC_FIELD_IDM_DESC(RootField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFRoot),
+            (FieldAccessMethod) &Viewport::getSFRoot),
 
-        OSGFieldDescription(
-            OSGSFBackgroundPtr::getClassType(), 
+        FieldDescription(
+            SFBackgroundPtr::getClassType(), 
             "background", 
-            OSG_FC_FIELD_IDM_DESC(OSGBackgroundField),
+            OSG_FC_FIELD_IDM_DESC(BackgroundField),
             false,
-            (OSGFieldAccessMethod) &OSGViewport::getSFBackground),
+            (FieldAccessMethod) &Viewport::getSFBackground),
 };
 
-OSGFieldContainerType OSGViewport::_type(
+FieldContainerType Viewport::_type(
     "Viewport", 
     "FieldContainer", 
     0,
-    (OSGPrototypeCreateF) &OSGViewport::createEmpty,
+    (PrototypeCreateF) &Viewport::createEmpty,
     0,
     _desc, 
     sizeof(_desc));
@@ -170,20 +181,20 @@ OSGFieldContainerType OSGViewport::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGViewport, OSGViewportPtr)
+OSG_FIELD_CONTAINER_DEF(Viewport, ViewportPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGViewport::OSGViewport(void) :
+Viewport::Viewport(void) :
 	Inherited(), _left(0), _right(1), _bottom(0), _top(1), 
 	_camera(), _root(), _background(), _parent()
 {
 }
 
-OSGViewport::OSGViewport( const OSGViewport& source) :
+Viewport::Viewport( const Viewport& source) :
 	Inherited(), _left(source.getLeft()), _right(source.getRight()), 
 	_bottom(source.getBottom()), _top(source.getTop()), 
 	_camera(source.getCamera()), _root(source.getRoot()), 
@@ -194,7 +205,7 @@ OSGViewport::OSGViewport( const OSGViewport& source) :
 /** \brief Destructor
  */
 
-OSGViewport::~OSGViewport(void)
+Viewport::~Viewport(void)
 {
 }
 
@@ -203,7 +214,7 @@ OSGViewport::~OSGViewport(void)
 /*---------------------------- properties ---------------------------------*/
 
 
-OSGInt32 OSGViewport::getPixelLeft( void )
+Int32 Viewport::getPixelLeft( void )
 {
 	if ( getLeft() > 1 )
 		return getLeft();
@@ -211,7 +222,7 @@ OSGInt32 OSGViewport::getPixelLeft( void )
 	return getParent()->getWidth() * getLeft();
 }
 
-OSGInt32 OSGViewport::getPixelRight( void )
+Int32 Viewport::getPixelRight( void )
 {
 	if ( getRight() > 1 )
 		return getRight();
@@ -219,7 +230,7 @@ OSGInt32 OSGViewport::getPixelRight( void )
 	return getParent()->getWidth() * getRight() - 1;
 }
 
-OSGInt32 OSGViewport::getPixelBottom( void )
+Int32 Viewport::getPixelBottom( void )
 {
 	if ( getBottom() > 1 )
 		return getBottom();
@@ -227,7 +238,7 @@ OSGInt32 OSGViewport::getPixelBottom( void )
 	return getParent()->getHeight() * getBottom();
 }
 
-OSGInt32 OSGViewport::getPixelTop( void )
+Int32 Viewport::getPixelTop( void )
 {
 	if ( getTop() > 1 )
 		return getTop();
@@ -235,7 +246,7 @@ OSGInt32 OSGViewport::getPixelTop( void )
 	return getParent()->getHeight() * getTop() - 1;
 }
 
-OSGBool OSGViewport::isFullWindow( void )
+Bool Viewport::isFullWindow( void )
 {
 	return	getPixelBottom() == 0 &&
 			getPixelLeft()   == 0 &&
@@ -245,28 +256,28 @@ OSGBool OSGViewport::isFullWindow( void )
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGViewport::draw( OSGDrawAction * action )
+void Viewport::draw( DrawAction * action )
 {
-	if ( getCamera() == OSGNullNode )
+	if ( getCamera() == NullNode )
 	{
-		SWARNING << "OSGViewport::draw: no camera!" << endl;
+		SWARNING << "Viewport::draw: no camera!" << endl;
 		return;
 	}
-	if ( getBackground() == OSGNullNode )
+	if ( getBackground() == NullNode )
 	{
-		SWARNING << "OSGViewport::draw: no background!" << endl;
+		SWARNING << "Viewport::draw: no background!" << endl;
 		return;
 	}
-	if ( getRoot() == OSGNullNode )
+	if ( getRoot() == NullNode )
 	{
-		SWARNING << "OSGViewport::draw: no root!" << endl;
+		SWARNING << "Viewport::draw: no root!" << endl;
 		return;
 	}
 
 	GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
 		  pt=getPixelTop();
 	GLint pw=pr-pl,ph=pt-pb;
-	OSGBool full = isFullWindow();
+	Bool full = isFullWindow();
 
 	glViewport( pl, pb, pw, ph );
 	glScissor( pl, pb, pw, ph );
@@ -291,7 +302,7 @@ void OSGViewport::draw( OSGDrawAction * action )
 /** \brief assignment
  */
 
-OSGViewport& OSGViewport::operator = (const OSGViewport &source)
+Viewport& Viewport::operator = (const Viewport &source)
 {
 	if (this == &source)
 		return *this;
@@ -312,9 +323,9 @@ OSGViewport& OSGViewport::operator = (const OSGViewport &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGViewport::dump(void) const
+void Viewport::dump(void) const
 {
-    SDEBUG << "Dump OSGViewport NI" << endl;
+    SDEBUG << "Dump Viewport NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

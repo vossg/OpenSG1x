@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -45,11 +56,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGDrawAction;
-class OSGViewport;
+class DrawAction;
+class Viewport;
 
-class OSGBackground;
-typedef OSGFCPtr<OSGFieldContainerPtr, OSGBackground> OSGBackgroundPtr;
+class Background;
+typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -65,7 +76,7 @@ typedef OSGFCPtr<OSGFieldContainerPtr, OSGBackground> OSGBackgroundPtr;
  *  detailed
  */
 
-class OSGBackground : public OSGFieldContainer
+class OSG_DLLEXPORT Background : public FieldContainer
 {
   public:
 
@@ -81,7 +92,7 @@ class OSGBackground : public OSGFieldContainer
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGBackground"; };
+    static const char *getClassname(void) { return "Background"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -89,11 +100,11 @@ class OSGBackground : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGBackgroundPtr)
+    OSG_FIELD_CONTAINER_DECL(BackgroundPtr)
 
     /*------------------------- your_category -------------------------------*/
 
-	virtual void clear( OSGDrawAction * action, OSGViewport * port );
+	virtual void clear( DrawAction * action, Viewport * port );
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -101,10 +112,10 @@ class OSGBackground : public OSGFieldContainer
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGBackground &other) const;
+    Bool operator < (const Background &other) const;
     
-	//OSGBool operator == (const OSGBackground &other) const;
-	//OSGBool operator != (const OSGBackground &other) const;
+	//Bool operator == (const Background &other) const;
+	//Bool operator != (const Background &other) const;
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -136,8 +147,8 @@ class OSGBackground : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBackground(void);
-    virtual ~OSGBackground(void); 
+    Background(void);
+    virtual ~Background(void); 
 
   private:
 
@@ -149,14 +160,14 @@ class OSGBackground : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer Inherited;
+    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -168,7 +179,7 @@ class OSGBackground : public OSGFieldContainer
 
 	static char cvsid[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -184,8 +195,8 @@ class OSGBackground : public OSGFieldContainer
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGBackground(const OSGBackground &source);
-    OSGBackground & operator =(const OSGBackground &source);
+    Background(const Background &source);
+    Background & operator =(const Background &source);
 };
 
 //---------------------------------------------------------------------------
@@ -196,47 +207,36 @@ class OSGBackground : public OSGFieldContainer
 
 /** \brief class pointer
  */
-typedef OSGBackground *OSGBackgroundP;
+typedef Background *BackgroundP;
 
-/** \brief OSGBackgroundPtr
+/** \brief BackgroundPtr
  */
-typedef OSGFCPtr<OSGFieldContainerPtr, OSGBackground> OSGBackgroundPtr;
+typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGBackgroundPtr field traits 
+ *  \brief BackgroundPtr field traits 
  */
 template <>
-struct OSGFieldDataTraits<OSGBackgroundPtr> : public OSGTraits
+struct FieldDataTraits<BackgroundPtr> : public Traits
 {
-    static char *getSName(void) { return "SFBackgroundPtr"; }
-    static char *getMName(void) { return "MFBackgroundPtr"; }
+    enum                         { StringConvertable = 0x00  };
 
-    static bool             getFromString(OSGBackgroundPtr    &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGBackgroundPtr &,
-                                              OSGString        &)
-    {
-        // TO_BE_DONE
-    }
+    static Char8 *getSName(void) { return "SFBackgroundPtr"; }
+    static Char8 *getMName(void) { return "MFBackgroundPtr"; }
 };
 
-/** \brief OSGSFBackgroundPtr
+/** \brief SFBackgroundPtr
  */
-typedef OSGSField<OSGBackgroundPtr>       OSGSFBackgroundPtr;
+typedef SField<BackgroundPtr>       SFBackgroundPtr;
 
-/** \brief OSGMFBackgroundPtr
+/** \brief MFBackgroundPtr
  */
-typedef OSGMField<OSGBackgroundPtr>       OSGMFBackgroundPtr;
+typedef MField<BackgroundPtr>       MFBackgroundPtr;
 
 OSG_END_NAMESPACE
 
 #include <OSGBackground.inl>
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGBACKGROUND_H_ */

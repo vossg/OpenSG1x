@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, vossg@users.sourceforge.net, jbehr@zgdv.de    *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -57,9 +57,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGFieldContainer;
-class OSGFieldContainerType;
-class OSGLock;
+class FieldContainer;
+class FieldContainerType;
+class Lock;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -70,10 +70,10 @@ class OSGLock;
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGFieldContainerFactory
+ *  \brief FieldContainerFactory
  */
 
-class OSGFieldContainerFactory 
+class OSG_DLLEXPORT FieldContainerFactory 
 {
   public:
 
@@ -93,7 +93,7 @@ class OSGFieldContainerFactory
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGFieldContainerFactory &the(void);
+    static const FieldContainerFactory &the(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -101,27 +101,27 @@ class OSGFieldContainerFactory
 
    /*--------------------------- types -------------------------------------*/
         
-    OSGFieldContainerType *findType    (      OSGUInt32  Id)   const;
-    OSGFieldContainerType *findType    (const OSGChar8  *name) const;
-    OSGUInt32              getTypeCount(void)                  const;
+    FieldContainerType *findType    (      UInt32  Id)   const;
+    FieldContainerType *findType    (const Char8  *name) const;
+    UInt32              getTypeCount(void)                  const;
 
    /*--------------------------- groups ------------------------------------*/
 
-          OSGUInt16  findGroupId  (const OSGChar8  *name) const;
-    const OSGChar8  *findGroupName(      OSGUInt16  Id)   const;
+          UInt16  findGroupId  (const Char8  *name) const;
+    const Char8  *findGroupName(      UInt16  Id)   const;
         
-          OSGUInt16  getGroupCount(void)                  const;
+          UInt16  getGroupCount(void)                  const;
 
    /*---------------------------- create -----------------------------------*/
 
-    OSGFieldContainerPtr createFieldContainer(const OSGChar8 *name) const;
-    OSGNodePtr           createNode          (const OSGChar8 *name) const;
-    OSGNodeCorePtr       createNodeCore      (const OSGChar8 *name) const;
-    OSGAttachmentPtr     createAttachment    (const OSGChar8 *name) const;
+    FieldContainerPtr createFieldContainer(const Char8 *name) const;
+    NodePtr           createNode          (const Char8 *name) const;
+    NodeCorePtr       createNodeCore      (const Char8 *name) const;
+    AttachmentPtr     createAttachment    (const Char8 *name) const;
 
    /*------------------------------- get -----------------------------------*/
 
-    OSGFieldContainerPtr getContainer(OSGUInt32 uiContainerId) const;
+    FieldContainerPtr getContainer(UInt32 uiContainerId) const;
 
    /*---------------------------- dump -------------------------------------*/
 
@@ -137,20 +137,20 @@ class OSGFieldContainerFactory
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<OSGUInt32, OSGFieldContainerType *>  OSGTypeIdMap;
-    typedef map<OSGString, OSGFieldContainerType *>  OSGTypeNameMap;
-    typedef map<OSGString, OSGUInt16>                OSGGroupMap;
+    typedef map<UInt32, FieldContainerType *>  TypeIdMap;
+    typedef map<String, FieldContainerType *>  TypeNameMap;
+    typedef map<String, UInt16>                GroupMap;
 
-    typedef vector<OSGFieldContainerPtr>             OSGFieldContainerStore;
+    typedef vector<FieldContainerPtr>          FieldContainerStore;
 
-    typedef OSGTypeIdMap::iterator           OSGTypeIdMapIt;
-    typedef OSGTypeNameMap::iterator         OSGTypeNameMapIt;
-    typedef OSGGroupMap::iterator            OSGGroupMapIt;
-    typedef OSGFieldContainerStore::iterator OSGFieldContainerStoreIt;
+    typedef TypeIdMap::iterator           TypeIdMapIt;
+    typedef TypeNameMap::iterator         TypeNameMapIt;
+    typedef GroupMap::iterator            GroupMapIt;
+    typedef FieldContainerStore::iterator FieldContainerStoreIt;
 
-    typedef OSGTypeIdMap::const_iterator           OSGTypeIdMapConstIt;
-    typedef OSGTypeNameMap::const_iterator         OSGTypeNameMapCnstIt;
-    typedef OSGGroupMap::const_iterator            OSGGroupMapConstIt;
+    typedef TypeIdMap::const_iterator     TypeIdMapConstIt;
+    typedef TypeNameMap::const_iterator   TypeNameMapCnstIt;
+    typedef GroupMap::const_iterator      GroupMapConstIt;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -162,21 +162,21 @@ class OSGFieldContainerFactory
 
     static void      initTypeMap(void);
 
-    static OSGBool   initialize (int argc, char **argv);
-    static OSGBool   terminate  (void);
+    static Bool   initialize (int argc, char **argv);
+    static Bool   terminate  (void);
 
 
-    static OSGUInt32 registerFieldContainer(
-        const OSGFieldContainerPtr &fieldP);
+    static UInt32 registerFieldContainer(
+        const FieldContainerPtr &fieldP);
 
-    static const OSGFieldContainerStore *getFieldStore(void);
+    static const FieldContainerStore *getFieldStore(void);
 
-    static OSGFieldContainerType *findTypeStatic   (const OSGChar8  *name);
-    static OSGFieldContainerType *findTypeStatic   (      OSGUInt32 typeId);
-    static OSGUInt16              findGroupIdStatic(const OSGChar8  *name);
+    static FieldContainerType *findTypeStatic   (const Char8  *name);
+    static FieldContainerType *findTypeStatic   (      UInt32 typeId);
+    static UInt16              findGroupIdStatic(const Char8  *name);
 
-    static OSGUInt32 registerType (      OSGFieldContainerType *typeP);
-    static OSGUInt16 registerGroup(const OSGChar8              *name);
+    static UInt32 registerType (      FieldContainerType *typeP);
+    static UInt16 registerGroup(const Char8              *name);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -200,8 +200,8 @@ class OSGFieldContainerFactory
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -213,18 +213,18 @@ class OSGFieldContainerFactory
 
 	static char cvsid[];
 
-    static OSGFieldContainerFactory  _the;
+    static FieldContainerFactory  _the;
 
-    static OSGBool                   _initialized;
+    static Bool                   _initialized;
 
-    static OSGTypeIdMap             *_typeIdMap;
-    static OSGTypeNameMap           *_typeNameMap;
-    static OSGGroupMap              *_groupMap;
+    static TypeIdMap             *_typeIdMap;
+    static TypeNameMap           *_typeNameMap;
+    static GroupMap              *_groupMap;
 
-    static OSGFieldContainerStore   *_fieldcontainerStoreV;
+    static FieldContainerStore   *_fieldcontainerStoreV;
 
-    static OSGLock                  *_storeLock;
-    static OSGLock                  *_mapLock;
+    static Lock                  *_storeLock;
+    static Lock                  *_mapLock;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -238,12 +238,12 @@ class OSGFieldContainerFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldContainerFactory (void);
-    virtual ~OSGFieldContainerFactory (void);
+    FieldContainerFactory (void);
+    virtual ~FieldContainerFactory (void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    OSGFieldContainerFactory (const OSGFieldContainerFactory &obj);
+    FieldContainerFactory (const FieldContainerFactory &obj);
 };
 
 //---------------------------------------------------------------------------
@@ -252,8 +252,8 @@ class OSGFieldContainerFactory
 
 // class pointer
 
-typedef OSGFieldContainerFactory* OSGFieldContainerFactoryP;
+typedef FieldContainerFactory* FieldContainerFactoryP;
 
 OSG_END_NAMESPACE
 
-#endif // OSGFIELDCONTAINERFACTORY_CLASS_DECLARATION
+#endif /* _OSGFIELDCONTAINERFACTORY_H_ */

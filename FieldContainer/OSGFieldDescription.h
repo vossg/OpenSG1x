@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGFIELDDESCRIPTION_H_
 #define _OSGFIELDDESCRIPTION_H_
@@ -47,24 +57,24 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGField;
+class Field;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef OSGField * (OSGFieldContainer::* OSGFieldAccessMethod)     (void); 
-typedef OSGField * (OSGFieldContainer::* OSGFieldIndexAccessMethod)(OSGUInt32);
+typedef Field * (FieldContainer::* FieldAccessMethod)     (void); 
+typedef Field * (FieldContainer::* FieldIndexAccessMethod)(UInt32);
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGFieldDescription
+ *  \brief FieldDescription
  */
 
-class OSGFieldDescription 
+class OSG_DLLEXPORT FieldDescription 
 {
   public:
     
@@ -88,45 +98,45 @@ class OSGFieldDescription
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldDescription(const OSGFieldType         &fieldType, 
-                        const OSGChar8             *name, 
-                        const OSGUInt32             fieldId,
-                        const OSGBitVector          fieldMask,
-                        const OSGBool               internal,
-                              OSGFieldAccessMethod  accessMethod,
-                        const OSGChar8             *defaultValue = 0);
-
-    OSGFieldDescription(const OSGFieldType              &fieldType, 
-                        const OSGChar8                  *name, 
-                        const OSGUInt32                  fieldId,
-                        const OSGBitVector               fieldMask,
-                        const OSGBool                    internal,
-                              OSGFieldIndexAccessMethod  indexAccessMethod,
-                        const OSGChar8                  *defaultValue = 0);
-
-    OSGFieldDescription(const OSGFieldDescription &obj);
+    FieldDescription(const FieldType         &fieldType, 
+                     const Char8             *name, 
+                     const UInt32             fieldId,
+                     const BitVector          fieldMask,
+                     const Bool               internal,
+                           FieldAccessMethod  accessMethod,
+                     const Char8             *defaultValue = 0);
     
-    ~OSGFieldDescription (void);
+    FieldDescription(const FieldType              &fieldType, 
+                     const Char8                  *name, 
+                     const UInt32                  fieldId,
+                     const BitVector               fieldMask,
+                     const Bool                    internal,
+                           FieldIndexAccessMethod  indexAccessMethod,
+                     const Char8                  *defaultValue = 0);
+
+    FieldDescription(const FieldDescription &obj);
+    
+    ~FieldDescription (void);
     
     /*------------------------- your_category -------------------------------*/
 
-	const OSGChar8 *getName        (void) const;
-    const OSGChar8 *getDefaultValue(void) const;
+	const Char8 *getName        (void) const;
+    const Char8 *getDefaultValue(void) const;
 
-    OSGUInt32    getTypeId   (void)  const;  
+    UInt32    getTypeId   (void)  const;  
 
-    OSGBitVector getFieldMask(void                  )  const;
-    void         setFieldMask(OSGBitVector fieldMask);
+    BitVector getFieldMask(void                  )  const;
+    void      setFieldMask(BitVector fieldMask);
 
-    OSGUInt32    getFieldId  (void                  )  const;
-    void         setFieldId  (OSGUInt32    fieldId  );
+    UInt32    getFieldId  (void                  )  const;
+    void      setFieldId  (UInt32    fieldId  );
 
-	OSGBool      isValid     (void)  const;
+	Bool      isValid     (void)  const;
 
     /*-------------------------            ----------------------------------*/
 
-    void setAccessMethod     (OSGFieldAccessMethod      accessMethod     );
-    void setIndexAccessMethod(OSGFieldIndexAccessMethod indexAccessMethod);
+    void setAccessMethod     (FieldAccessMethod      accessMethod     );
+    void setIndexAccessMethod(FieldIndexAccessMethod indexAccessMethod);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -158,7 +168,7 @@ class OSGFieldDescription
     //   instance functions                                                  
     //-----------------------------------------------------------------------
      
-	OSGField *getField(OSGFieldContainer &fieldContainer) const;
+	Field *getField(FieldContainer &fieldContainer) const;
 
   private:
  
@@ -174,8 +184,8 @@ class OSGFieldDescription
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainer;
-    friend class OSGFieldContainerPtr;
+	friend class FieldContainer;
+    friend class FieldContainerPtr;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -195,31 +205,31 @@ class OSGFieldDescription
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    const OSGFieldType  &_fieldType;
+    const FieldType  &_fieldType;
 
-    OSGUInt32            _fieldId;
-    OSGUInt32            _fieldMask;
+    UInt32            _fieldId;
+    UInt32            _fieldMask;
     
-    OSGBool              _internal;
+    Bool              _internal;
 
-	OSGString            _name;
+	String            _name;
 
-	OSGFieldAccessMethod      _accessMethod;
-    OSGFieldIndexAccessMethod _indexAccessMethod;
+	FieldAccessMethod      _accessMethod;
+    FieldIndexAccessMethod _indexAccessMethod;
 
-	OSGString                 _defaultValue;
+	String                 _defaultValue;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //----------------------------------------------------------------------- 
 
-    OSGFieldDescription &operator = (const OSGFieldDescription &other);
+    FieldDescription &operator = (const FieldDescription &other);
 };
 
-struct OSGFieldDescriptionPLT
+struct FieldDescriptionPLT
 {
-    bool operator()(const OSGFieldDescription* fieldDesc1, 
-                    const OSGFieldDescription* fieldDesc2) const
+    bool operator()(const FieldDescription* fieldDesc1, 
+                    const FieldDescription* fieldDesc2) const
     {
         return (fieldDesc1->getFieldId() < fieldDesc2->getFieldId());
     }
@@ -231,7 +241,7 @@ struct OSGFieldDescriptionPLT
 
 // class pointer
 
-typedef OSGFieldDescription* OSGFieldDescriptionP;
+typedef FieldDescription* FieldDescriptionP;
 
 OSG_END_NAMESPACE
 

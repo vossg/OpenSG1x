@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -46,9 +57,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGFieldFactory;
-class OSGField;
-class OSGNode;
+class FieldFactory;
+class Field;
+class Node;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -61,10 +72,10 @@ class OSGNode;
 
 
 /*! \ingroup FieldLib
- *  \brief OSGFieldType
+ *  \brief FieldType
  */
 
-class OSGFieldType
+class OSG_DLLEXPORT FieldType
 {
   public:
 
@@ -76,22 +87,22 @@ class OSGFieldType
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGField * (*OSGCreateFieldMethod)(void);
+    typedef Field * (*CreateFieldMethod)(void);
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGField"; };
+    static const char *getClassname(void) { return "Field"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldType(const char           *szName, 
-                 OSGCreateFieldMethod  createMethod);
+    FieldType(const char              *szName, 
+                    CreateFieldMethod  createMethod);
 
-    virtual ~OSGFieldType (void);
+    virtual ~FieldType (void);
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 	/** Did I mentioned before that I love this ********* Microsoft Compiler.
@@ -100,20 +111,20 @@ class OSGFieldType
 		the field type. I simply cannot write
 		
 		\code
-		template <class OSGFieldTypeT>
-		OSGFieldType OSGSFSysTypes<OSGFieldTypeT>::_fieldType(
-			OSGSimpleFieldDataTraits<OSGFieldTypeT>::getFieldType(), 
-			OSGSimpleFieldDataTraits<OSGFieldTypeT>::getName(), 
+		template <class FieldTypeT>
+		FieldType SFSysTypes<FieldTypeT>::_fieldType(
+			SimpleFieldDataTraits<FieldTypeT>::getFieldType(), 
+			SimpleFieldDataTraits<FieldTypeT>::getName(), 
 			create);
 		\endcode
 
 		no, I have to code the following
 
 		\code
-		template <class OSGFieldTypeT>
-		OSGFieldType OSGSFSysTypes<OSGFieldTypeT>::_fieldType = OSGFieldType(
-			OSGSimpleFieldDataTraits<OSGFieldTypeT>::getFieldType(), 
-			OSGSimpleFieldDataTraits<OSGFieldTypeT>::getName(), 
+		template <class FieldTypeT>
+		FieldType SFSysTypes<FieldTypeT>::_fieldType = FieldType(
+			SimpleFieldDataTraits<FieldTypeT>::getFieldType(), 
+			SimpleFieldDataTraits<FieldTypeT>::getName(), 
 			create);
 		\endcode
 
@@ -121,20 +132,20 @@ class OSGFieldType
 		the compiler never generates code where these functions are called.(GV)
 	*/
 
-    OSGFieldType(const OSGFieldType &source);
-	OSGFieldType &operator =(const OSGFieldType &obj);
+    FieldType(const FieldType &source);
+	FieldType &operator =(const FieldType &obj);
 #endif
 
     /*------------------------------ access ---------------------------------*/
 
-	OSGUInt32   getTypeId(void) const;
+	UInt32      getTypeId(void) const;
     
     const char *getName  (void) const;
 
     /*----------------------------- comparision -----------------------------*/
 
-    OSGBool operator ==(const OSGFieldType &source) const;
-    OSGBool operator !=(const OSGFieldType &source) const;
+    Bool operator ==(const FieldType &source) const;
+    Bool operator !=(const FieldType &source) const;
 
     /*----------------------------- assignment ------------------------------*/
 
@@ -179,7 +190,7 @@ class OSGFieldType
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldFactory;
+    friend class FieldFactory;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -199,11 +210,11 @@ class OSGFieldType
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGUInt32  _typeId;
+    UInt32  _typeId;
 
     char      *_szName;
 
-    OSGCreateFieldMethod _createMethod;
+    CreateFieldMethod _createMethod;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -212,8 +223,8 @@ class OSGFieldType
 	// prohibit default functions (move to 'public' if you need one)
 
 #if !defined(OSG_MICROSOFT_COMPILER_ALERT)
-    OSGFieldType(const OSGFieldType &source);
-	OSGFieldType &operator =(const OSGFieldType &obj);
+    FieldType(const FieldType &source);
+	FieldType &operator =(const FieldType &obj);
 #endif
 };
 
@@ -221,14 +232,14 @@ class OSGFieldType
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/** \brief OSGFieldTypeP
+/** \brief FieldTypeP
  */
 
-typedef OSGFieldType* OSGFieldTypeP;
+typedef FieldType* FieldTypeP;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGFIELDTYPE_H_ */
 
 
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGACTION_H_
 #define _OSGACTION_H_
@@ -51,8 +61,8 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-class OSGNode;
-class OSGAction;
+class Node;
+class Action;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -73,7 +83,7 @@ class OSGAction;
  *  detailed
  */
 
-class OSGAction 
+class OSG_DLLEXPORT Action 
 {
   public:
 
@@ -87,7 +97,7 @@ class OSGAction
 					Quit		// forget it, you're done
 	} ResultE;
 
-	typedef OSGFunctor2Base<ResultE, OSGCNodePtr &, OSGAction *> Functor;
+	typedef Functor2Base<ResultE, CNodePtr &, Action *> Functor;
 
     //-----------------------------------------------------------------------
     //   types                                                               
@@ -97,60 +107,60 @@ class OSGAction
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGAction"; }
+    static const char *getClassname(void) { return "Action"; }
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGAction(void);
+    Action(void);
 
-    virtual ~OSGAction(void);
+    virtual ~Action(void);
 
     /*------------------------- your_category -------------------------------*/
 	
 	// default registration. static, so it can be called during static init
 	
-	static void registerEnterDefault(	const OSGFieldContainerType &type, 
+	static void registerEnterDefault(	const FieldContainerType &type, 
 										const Functor               &func);
 	
-	static void registerLeaveDefault(	const OSGFieldContainerType &type, 
+	static void registerLeaveDefault(	const FieldContainerType &type, 
 										const Functor               &func);
 
 	// instance registration
 	
-	void registerEnterFunction(	const OSGFieldContainerType &type, 
+	void registerEnterFunction(	const FieldContainerType &type, 
 								const Functor               &func);
 	
-	void registerLeaveFunction(	const OSGFieldContainerType &type, 
+	void registerLeaveFunction(	const FieldContainerType &type, 
 								const Functor               &func);
 
 	// application
 
-	virtual ResultE apply(vector<OSGNodePtr>::iterator begin, 
-                          vector<OSGNodePtr>::iterator end);
+	virtual ResultE apply(vector<NodePtr>::iterator begin, 
+                          vector<NodePtr>::iterator end);
 
-	virtual ResultE apply(OSGNodePtr node);
+	virtual ResultE apply(NodePtr node);
 
 	
 	// the node being traversed. Might be needed by the traversed core
 	
-	inline OSGNodePtr getActNode( void );
+	inline NodePtr getActNode( void );
 
 
 	// Node access: 
 	// the number of active nodes 
 	
-	OSGUInt32 getNNodes( void ) const;
+	UInt32 getNNodes( void ) const;
 	
 	// you can access a single node by getNode
 	
-	const OSGNodePtr getNode( int index );
+	const NodePtr getNode( int index );
 	
 	// per default all child nodes are traversed. If addNode is called, only the 
 	// added nodes will be traversed.
 	
-	void addNode( OSGNodePtr node );
+	void addNode( NodePtr node );
 
 	// Common case: going through the children list and picking up some of them,
 	// but it's not clear if any at all. Not clear how to do that nicely. 
@@ -168,10 +178,10 @@ class OSGAction
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGAction &other);
+    Bool operator < (const Action &other);
     
-	OSGBool operator == (const OSGAction &other);
-	OSGBool operator != (const OSGAction &other);
+	Bool operator == (const Action &other);
+	Bool operator != (const Action &other);
 
   protected:
 
@@ -201,8 +211,8 @@ class OSGAction
 
 	// call the single node. used for cascading actions
 	
-	inline ResultE callEnter( OSGNodePtr node );	
-	inline ResultE callLeave( OSGNodePtr node );
+	inline ResultE callEnter( NodePtr node );	
+	inline ResultE callLeave( NodePtr node );
 
 	// start/stop functions for the action.
 	// called at the very beginning/end, can return a list of nodes
@@ -214,7 +224,7 @@ class OSGAction
 	
 	// recurse through the node
 	
-	ResultE recurse( OSGNodePtr node );
+	ResultE recurse( NodePtr node );
 	
 	// call the _newList list of nodes
 	
@@ -222,7 +232,7 @@ class OSGAction
 
 	// default function
 	
-	static ResultE _defaultFunction( OSGCNodePtr &node, OSGAction *action);
+	static ResultE _defaultFunction( CNodePtr &node, Action *action);
 
 	// functors
 	// just protected, so that derived actions can access them
@@ -266,12 +276,12 @@ class OSGAction
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	OSGNodePtr _actNode;			// the node being traversed right now
+	NodePtr _actNode;			// the node being traversed right now
 	
-	vector<OSGNodePtr>* _actList;	// list of active objects for this level
+	vector<NodePtr>* _actList;	// list of active objects for this level
 									// if empty, use the actNode's children
 
-	vector<OSGNodePtr> _newList;	// list of active object for this level
+	vector<NodePtr> _newList;	// list of active object for this level
 	
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -284,8 +294,8 @@ class OSGAction
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGAction(const OSGAction &source);
-    OSGAction& operator =(const OSGAction &source);
+    Action(const Action &source);
+    Action& operator =(const Action &source);
 };
 
 //---------------------------------------------------------------------------
@@ -294,12 +304,12 @@ class OSGAction
 
 // class pointer
 
-typedef OSGAction *OSGActionP;
+typedef Action *ActionP;
 
 OSG_END_NAMESPACE
 
 #include "OSGAction.inl"
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGACTION_H_ */
 
 

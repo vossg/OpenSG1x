@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGFIELD_H_
 #define _OSGFIELD_H_
@@ -60,11 +70,29 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
+template <class T>
+struct ErrorFromToString
+{
+    static Bool              getFromString(      T      &,
+                                           const Char8 *&)
+    {
+        SLOG << "Error From String Conversion not available for " << endl;
+
+        return false;
+    }
+
+    static void             putToString(const T      &,
+                                              String &)
+    {
+        SLOG << "Error To String Conversion not available for " << endl;
+    }
+};
+
 /*! \ingroup FieldLib
  *  \brief Base class for all fields
  */
 
-class OSGField
+class OSG_DLLEXPORT Field
 {
   public:
 
@@ -72,10 +100,10 @@ class OSGField
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    enum OSGCardinality 
+    enum Cardinality 
     { 
-        OSGSINGLE_FIELD, 
-        OSGMULTI_FIELD 
+        SINGLE_FIELD, 
+        MULTI_FIELD 
     };
 
     //-----------------------------------------------------------------------
@@ -86,33 +114,32 @@ class OSGField
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGField"; };
+    static const char *getClassname(void) { return "Field"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGField(void); 
+    virtual ~Field(void); 
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const OSGFieldType &getType(void) const = 0;
+	virtual const FieldType &getType(void) const = 0;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void        setValueByStr (const char *str)         = 0;
-
-	virtual OSGString  &getStrValue   (OSGString &string) const = 0;
+	virtual void     pushValueByStr(const char *str   )       = 0;
+	virtual String  &getValueByStr (String     &string) const = 0;
 
     /*----------------------- field information -----------------------------*/
 
-	virtual OSGCardinality getCardinality (void) const = 0;
+	virtual Cardinality getCardinality (void) const = 0;
 
-	virtual OSGUInt32      size (void)           const = 0;
+	virtual UInt32      size (void)           const = 0;
 
     /*------------------------------ access ---------------------------------*/
 
-    virtual void setAbstrValue(const OSGField &obj) = 0;
+    virtual void setAbstrValue(const Field &obj) = 0;
 
     /*------------------------------- dump ----------------------------------*/
 
@@ -144,11 +171,11 @@ class OSGField
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGField(void);
+    Field(void);
 
-    OSGField(const OSGField &source);
+    Field(const Field &source);
 
-    virtual void doSync(OSGField *source) = 0;
+    virtual void doSync(Field *source) = 0;
 
   private:
 
@@ -164,7 +191,7 @@ class OSGField
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainerPtr;
+    friend class FieldContainerPtr;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -190,7 +217,7 @@ class OSGField
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGField &source);
+    void operator =(const Field &source);
 };
 
 //---------------------------------------------------------------------------
@@ -200,8 +227,8 @@ class OSGField
 /** \brief OSGFieldP
  */
 
-typedef OSGField* OSGFieldP;
+typedef Field* FieldP;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGFIELD_HPP_ */

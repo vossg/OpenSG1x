@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -56,12 +56,12 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class   OSGDirectionalLight;
+class   DirectionalLight;
 
 //! \ingroup FieldContainerPtr
 /*! the directional light pointer 
  */
-typedef OSGFCPtr<OSGLightPtr, OSGDirectionalLight> OSGDirectionalLightPtr;
+typedef FCPtr<LightPtr, DirectionalLight> DirectionalLightPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -75,7 +75,7 @@ typedef OSGFCPtr<OSGLightPtr, OSGDirectionalLight> OSGDirectionalLightPtr;
  *  \brief Directional light
  */
 
-class OSGDirectionalLight : public OSGLightBase
+class OSG_DLLEXPORT DirectionalLight : public LightBase
 {
   public:
 
@@ -83,7 +83,7 @@ class OSGDirectionalLight : public OSGLightBase
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGDirectionField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -107,25 +107,25 @@ class OSGDirectionalLight : public OSGLightBase
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGDirectionalLightPtr)
+    OSG_FIELD_CONTAINER_DECL(DirectionalLightPtr)
 
     /*------------------------------- set -----------------------------------*/
 
     //@{ 
     //! set the light's attribute
-    void setDirection(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ);
-    void setDirection(const OSGVec3f &gDirection);
+    void setDirection(Real32 rX, Real32 rY, Real32 rZ);
+    void setDirection(const Vec3f &gDirection);
     //@}
 
     /*------------------------------- get -----------------------------------*/
 
     //! get the light's field
-    OSGSFVec3f *getSFDirection(void);
+    SFVec3f *getSFDirection(void);
 
     //@{ 
     //! get the light's attribute
-          OSGVec3f &getDirection(void);
-    const OSGVec3f &getDirection(void) const;
+          Vec3f &getDirection(void);
+    const Vec3f &getDirection(void) const;
     //@}
 
     /*------------------------------ dump -----------------------------------*/
@@ -155,20 +155,20 @@ class OSGDirectionalLight : public OSGLightBase
     //-----------------------------------------------------------------------
 
     //! the light's field
-    OSGSFVec3f _direction;
+    SFVec3f _direction;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGDirectionalLight(void);
-    OSGDirectionalLight(const OSGDirectionalLight &source);
-    virtual ~OSGDirectionalLight(void); 
+    DirectionalLight(void);
+    DirectionalLight(const DirectionalLight &source);
+    virtual ~DirectionalLight(void); 
     
     // ----------------------------- Actions ---------------------------------
     
     // execute the OpenGL commands to draw the geometry 
-    OSGAction::ResultE draw(OSGAction * action );
+    Action::ResultE draw(Action * action );
 
   private:
 
@@ -180,13 +180,13 @@ class OSGDirectionalLight : public OSGLightBase
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    typedef OSGLightBase Inherited;
+    typedef LightBase Inherited;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -194,9 +194,9 @@ class OSGDirectionalLight : public OSGLightBase
 
     static char cvsid[];
 
-    static OSGFieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-    static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -214,7 +214,7 @@ class OSGDirectionalLight : public OSGLightBase
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGDirectionalLight &source);
+    void operator =(const DirectionalLight &source);
 };
 
 //---------------------------------------------------------------------------
@@ -225,4 +225,4 @@ OSG_END_NAMESPACE
 
 #include <OSGDirectionalLight.inl>
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGDIRECTIONALLIGHT_H_ */

@@ -27,9 +27,9 @@
 OSG_USING_NAMESPACE
 
 
-OSGDrawAction * dact;
+DrawAction * dact;
 
-OSGNodePtr  root;
+NodePtr  root;
 
 
 void 
@@ -57,14 +57,14 @@ int main (int argc, char **argv)
 	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
 #ifdef WIN32
-    OSGRAWSceneFileType *pR = &(OSGRAWSceneFileType::staticThe());
+    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 	
-	OSGSceneFileHandler::the().print();
+	SceneFileHandler::the().print();
 
-	root = OSGSceneFileHandler::the().read(fileName);
+	root = SceneFileHandler::the().read(fileName);
 
-	if ( root == OSGNullNode )
+	if ( root == NullNode )
 	{
 		cerr << "Error loading " << fileName << "!" << endl;
 		exit(1);
@@ -96,7 +96,7 @@ int main (int argc, char **argv)
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
 		
-	dact = new OSGDrawAction;
+	dact = new DrawAction;
 	
 	glutMainLoop();
 	

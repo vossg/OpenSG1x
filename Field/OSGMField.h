@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -25,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGMFIELD_H_
 #define _OSGMFIELD_H_
 #ifdef __sgi
@@ -37,6 +47,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
+#include <OSGBaseFunctions.h>
 #include <OSGField.h>
 
 #include <vector>
@@ -70,7 +81,7 @@ OSG_BEGIN_NAMESPACE
 #pragma set woff 1375
 
 template<class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
-class OSGMFieldVector : public vector<_Tp, _Alloc>
+class OSG_DLLEXPORT MFieldVector : public vector<_Tp, _Alloc>
 {
   public:
 
@@ -88,47 +99,47 @@ class OSGMFieldVector : public vector<_Tp, _Alloc>
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGMFieldVector"; };
+    static const char *getClassname(void) { return "MFieldVector"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit OSGMFieldVector(const typename Inherited::allocator_type &__a = 
+    explicit MFieldVector(const typename Inherited::allocator_type &__a = 
                                  allocator_type());
 
-             OSGMFieldVector(typename Inherited::size_type  __n, 
+             MFieldVector(typename Inherited::size_type  __n, 
                              _Tp                            __value,
                              const typename Inherited::allocator_type &__a = 
                                  allocator_type());
 
-    explicit OSGMFieldVector(typename Inherited::size_type __n);
+    explicit MFieldVector(typename Inherited::size_type __n);
 
-             OSGMFieldVector(const OSGMFieldVector &__x);
+             MFieldVector(const MFieldVector &__x);
     
 #ifdef __STL_MEMBER_TEMPLATES
     /** \brief Creates a vector with a copy of a range. 
      */
 
     template <class _InputIterator>
-             OSGMFieldVector(_InputIterator                            __first,
+             MFieldVector(_InputIterator                            __first,
                              _InputIterator                            __last,
                              const typename Inherited::allocator_type &__a =
                                  allocator_type()) :
                  Inherited(__first, __last, __a) {}
 #else
-             OSGMFieldVector(const _Tp                                *__first,
+             MFieldVector(const _Tp                                *__first,
                              const _Tp                                *__last,
                              const typename Inherited::allocator_type &__a = 
                                  allocator_type());
 #endif /* __STL_MEMBER_TEMPLATES */
 
-    ~OSGMFieldVector();
+    ~MFieldVector();
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGMFieldVector<_Tp, _Alloc> &operator =(
-        const OSGMFieldVector<_Tp, _Alloc> &__x);
+    MFieldVector<_Tp, _Alloc> &operator =(
+        const MFieldVector<_Tp, _Alloc> &__x);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -209,11 +220,11 @@ class OSGMFieldVector : public vector<_Tp, _Alloc>
 
 /** \ingroup FieldLib
  *  \ingroup MultiFields
- *  \brief Base class for all multi field, for example ::OSGMFMatrix
+ *  \brief Base class for all multi field, for example ::MFMatrix
  */
 
-template <class OSGFieldTypeT>
-class OSGMField : public OSGField
+template <class FieldTypeT>
+class MField : public Field
 {
   public:
 
@@ -226,68 +237,68 @@ class OSGMField : public OSGField
     //-----------------------------------------------------------------------
 
 #if !defined(__sun) && !defined(WIN32)  && !defined(__linux)
-    typedef OSGMFieldVector<OSGFieldTypeT>                  OSGStorageType;
+    typedef MFieldVector<FieldTypeT>                  StorageType;
 
-    typedef typename OSGMFieldVector<OSGFieldTypeT>::
+    typedef typename MFieldVector<FieldTypeT>::
         iterator        iterator;
-    typedef typename OSGMFieldVector<OSGFieldTypeT>::
+    typedef typename MFieldVector<FieldTypeT>::
         const_iterator  const_iterator;
 
-    typedef typename OSGMFieldVector<OSGFieldTypeT>::
+    typedef typename MFieldVector<FieldTypeT>::
         reference       reference;
-    typedef typename OSGMFieldVector<OSGFieldTypeT>::
+    typedef typename MFieldVector<FieldTypeT>::
         const_reference const_reference;
 #else
-    typedef          vector<OSGFieldTypeT>                  OSGStorageType;
+    typedef          vector<FieldTypeT>                  StorageType;
 
-    typedef typename vector<OSGFieldTypeT>::iterator        iterator;
-    typedef typename vector<OSGFieldTypeT>::const_iterator  const_iterator;
+    typedef typename vector<FieldTypeT>::iterator        iterator;
+    typedef typename vector<FieldTypeT>::const_iterator  const_iterator;
 
-    typedef typename vector<OSGFieldTypeT>::reference       reference;
-    typedef typename vector<OSGFieldTypeT>::const_reference const_reference;
+    typedef typename vector<FieldTypeT>::reference       reference;
+    typedef typename vector<FieldTypeT>::const_reference const_reference;
 #endif
     
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static const OSGFieldType _fieldType;
+	static const FieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char         *getClassname(void) { return "OSGMField"; };
-    static const OSGFieldType &getClassType(void);
+    static const Char8     *getClassname(void) { return "MField"; };
+    static const FieldType &getClassType(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGMField         (void);
-    OSGMField         (const OSGMField  &obj);
-    explicit OSGMField(const OSGUInt32   size);
+    MField         (void);
+    MField         (const MField  &obj);
+    explicit MField(const UInt32   size);
 
-    virtual ~OSGMField(void); 
+    virtual ~MField(void); 
 
     /*------------------------------ access ---------------------------------*/
 
-          OSGFieldTypeT  &getValue (const OSGUInt32 index);
-    const OSGFieldTypeT  &getValue (const OSGUInt32 index) const;
+          FieldTypeT  &getValue (const UInt32 index);
+    const FieldTypeT  &getValue (const UInt32 index) const;
 
-          OSGStorageType &getValues(void);
-	const OSGStorageType &getValues(void) const;
+          StorageType &getValues(void);
+	const StorageType &getValues(void) const;
 
-    void setAbstrValue(const OSGField &obj);
+    void setAbstrValue(const Field &obj);
 
-    void setValue (const OSGFieldTypeT            &value,
-                   const OSGUInt32                 index);
-    void setValues(const OSGStorageType           &value);
-	void setValues(const OSGMField<OSGFieldTypeT> &obj  );
+    void setValue (const FieldTypeT            &value,
+                   const UInt32                 index);
+    void setValues(const StorageType           &value);
+	void setValues(const MField<FieldTypeT> &obj  );
 
     /*------------------------- container interface -------------------------*/
 
-    void addValue (const OSGFieldTypeT            &value);
+    void addValue (const FieldTypeT            &value);
 
     iterator        begin (void);
     iterator        end   (void);
@@ -301,40 +312,40 @@ class OSGMField : public OSGField
     reference       back  (void);
     const_reference back  (void) const;
 
-    iterator        insert(iterator pos, const OSGFieldTypeT &value);
+    iterator        insert(iterator pos, const FieldTypeT &value);
     iterator        erase (iterator pos);
 
     void            clear (void);
 
-    iterator        find(const OSGFieldTypeT &value);
-    const_iterator  find(const OSGFieldTypeT &value) const;
+    iterator        find(const FieldTypeT &value);
+    const_iterator  find(const FieldTypeT &value) const;
 
     void            resize(size_t newsize);
 
-    void            push_back(const OSGFieldTypeT &value);
+    void            push_back(const FieldTypeT &value);
 
     /*----------------------- field information -----------------------------*/
     
-	OSGCardinality getCardinality (void) const;
+	Cardinality getCardinality (void) const;
 
-	// OSGMField has a vector<> interface and an OSG interface, so both are 
+	// MField has a vector<> interface and an  interface, so both are 
 	// sensible
-    virtual OSGUInt32     size    (void) const;
-            OSGUInt32     getSize (void) const;
+    virtual UInt32     size    (void) const;
+            UInt32     getSize (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const OSGFieldType &getType (void) const;
+	virtual const FieldType &getType (void) const;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void       setValueByStr(const char *str);
-    virtual OSGString &getStrValue  (OSGString &string) const;
+	virtual void    pushValueByStr(const Char8 *str);
+    virtual String &getValueByStr (String &string) const;
 
     /*-------------------------- index operator------------------------------*/
 
-          OSGFieldTypeT &operator [](OSGUInt32 index);
-    const OSGFieldTypeT &operator [](OSGUInt32 index) const;
+          FieldTypeT &operator [](UInt32 index);
+    const FieldTypeT &operator [](UInt32 index) const;
 
     /*------------------------------- dump ----------------------------------*/
 
@@ -362,13 +373,13 @@ class OSGMField : public OSGField
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGStorageType  _values;
+    StorageType  _values;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual void doSync(OSGField *source);
+    virtual void doSync(Field *source);
 
   private:
 
@@ -380,13 +391,13 @@ class OSGMField : public OSGField
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGField Inherited;
+    typedef Field Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
     
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -402,7 +413,7 @@ class OSGMField : public OSGField
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	static OSGField *create(void);
+	static Field *create(void);
 
     void beginEdit(void);
 
@@ -416,7 +427,7 @@ class OSGMField : public OSGField
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGMField &source);
+    void operator =(const MField &source);
 };
 
 //---------------------------------------------------------------------------

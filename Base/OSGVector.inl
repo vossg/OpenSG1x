@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -43,27 +54,27 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \enum OSGVecStorage2::VectorSizeE
+/** \enum VecStorage2::VectorSizeE
  *  \brief To be able to use the storage size
  */
 
-/** \var OSGVecStorage2::VectorSizeE OSGVecStorage2::_iSize
+/** \var VecStorage2::VectorSizeE VecStorage2::_iSize
  *  \brief Storage size.
  */
 
-/** \fn const char *OSGVecStorage2::getClassname(void)
+/** \fn const char *VecStorage2::getClassname(void)
  *  \brief Classname.
  */
 
-/** \var OSGValueTypeT OSGVecStorage2::_values[iSize];
+/** \var ValueTypeT VecStorage2::_values[iSize];
  *  \brief Value store
  */
 
-/** \fn OSGVecStorage2::OSGVecStorage2(const OSGVecStorage2 &source)
+/** \fn VecStorage2::VecStorage2(const VecStorage2 &source)
  *  \brief Not implemented.
  */
 
-/** \fn void OSGVecStorage2::operator =(const OSGVecStorage2 &source)
+/** \fn void VecStorage2::operator =(const VecStorage2 &source)
  *  \brief Not implemented.
  */
 
@@ -76,8 +87,8 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGValueTypeT>
-char OSGVecStorage2<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template <class ValueTypeT>
+char VecStorage2<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -108,16 +119,16 @@ char OSGVecStorage2<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGVecStorage2<OSGValueTypeT>::OSGVecStorage2(void)
+template <class ValueTypeT> inline
+VecStorage2<ValueTypeT>::VecStorage2(void)
 {
 }
 
 /** \brief Destructor
  */
 
-template <class OSGValueTypeT> inline
-OSGVecStorage2<OSGValueTypeT>::~OSGVecStorage2(void)
+template <class ValueTypeT> inline
+VecStorage2<ValueTypeT>::~VecStorage2(void)
 {
 }
 
@@ -126,9 +137,9 @@ OSGVecStorage2<OSGValueTypeT>::~OSGVecStorage2(void)
 /** \brief Set values
  */
 
-template <class OSGValueTypeT> inline
-void OSGVecStorage2<OSGValueTypeT>::setValues(const OSGValueTypeT &rVal1, 
-                                              const OSGValueTypeT &rVal2)
+template <class ValueTypeT> inline
+void VecStorage2<ValueTypeT>::setValues(const ValueTypeT &rVal1, 
+                                        const ValueTypeT &rVal2)
 {
     _values[0] = rVal1;
     _values[1] = rVal2;
@@ -137,9 +148,9 @@ void OSGVecStorage2<OSGValueTypeT>::setValues(const OSGValueTypeT &rVal1,
 /** \brief Get values
  */
 
-template <class OSGValueTypeT> inline
-void OSGVecStorage2<OSGValueTypeT>::getValues(OSGValueTypeT &rVal1, 
-                                              OSGValueTypeT &rVal2) const
+template <class ValueTypeT> inline
+void VecStorage2<ValueTypeT>::getValues(ValueTypeT &rVal1, 
+                                        ValueTypeT &rVal2) const
 {
     rVal1 = _values[0];
     rVal2 = _values[1];    
@@ -148,8 +159,8 @@ void OSGVecStorage2<OSGValueTypeT>::getValues(OSGValueTypeT &rVal1,
 /** \brief Get the first value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage2<OSGValueTypeT>::x(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage2<ValueTypeT>::x(void) const
 {
     return _values[0];
 }
@@ -157,8 +168,8 @@ OSGValueTypeT OSGVecStorage2<OSGValueTypeT>::x(void) const
 /** \brief Get the second value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage2<OSGValueTypeT>::y(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage2<ValueTypeT>::y(void) const
 {
     return _values[1];    
 }
@@ -173,27 +184,27 @@ OSGValueTypeT OSGVecStorage2<OSGValueTypeT>::y(void) const
 \*-------------------------------------------------------------------------*/
 
 
-/** \enum OSGVecStorage3::VectorSizeE
+/** \enum VecStorage3::VectorSizeE
  *  \brief To be able to use the storage size
  */
 
-/** \var OSGVecStorage3::VectorSizeE OSGVecStorage3::_iSize
+/** \var VecStorage3::VectorSizeE VecStorage3::_iSize
  *  \brief Storage size.
  */
 
-/** \fn const char *OSGVecStorage3::getClassname(void)
+/** \fn const char *VecStorage3::getClassname(void)
  *  \brief Classname.
  */
 
-/** \var OSGValueTypeT OSGVecStorage3::_values[iSize];
+/** \var ValueTypeT VecStorage3::_values[iSize];
  *  \brief Value store
  */
 
-/** \fn OSGVecStorage3::OSGVecStorage3(const OSGVecStorage3 &source)
+/** \fn VecStorage3::VecStorage3(const VecStorage3 &source)
  *  \brief Not implemented.
  */
 
-/** \fn void OSGVecStorage3::operator =(const OSGVecStorage3 &source)
+/** \fn void VecStorage3::operator =(const VecStorage3 &source)
  *  \brief Not implemented.
  */
 
@@ -206,8 +217,8 @@ OSGValueTypeT OSGVecStorage2<OSGValueTypeT>::y(void) const
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGValueTypeT>
-char OSGVecStorage3<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template <class ValueTypeT>
+char VecStorage3<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -238,16 +249,16 @@ char OSGVecStorage3<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGVecStorage3<OSGValueTypeT>::OSGVecStorage3(void)
+template <class ValueTypeT> inline
+VecStorage3<ValueTypeT>::VecStorage3(void)
 {
 }
 
 /** \brief Destructor
  */
 
-template <class OSGValueTypeT> inline
-OSGVecStorage3<OSGValueTypeT>::~OSGVecStorage3(void)
+template <class ValueTypeT> inline
+VecStorage3<ValueTypeT>::~VecStorage3(void)
 {
 }
 
@@ -256,10 +267,10 @@ OSGVecStorage3<OSGValueTypeT>::~OSGVecStorage3(void)
 /** \brief Set values
  */
 
-template <class OSGValueTypeT> inline
-void OSGVecStorage3<OSGValueTypeT>::setValues(const OSGValueTypeT &rVal1, 
-                                              const OSGValueTypeT &rVal2, 
-                                              const OSGValueTypeT &rVal3)
+template <class ValueTypeT> inline
+void VecStorage3<ValueTypeT>::setValues(const ValueTypeT &rVal1, 
+                                        const ValueTypeT &rVal2, 
+                                        const ValueTypeT &rVal3)
 {
     _values[0] = rVal1;
     _values[1] = rVal2;
@@ -269,10 +280,10 @@ void OSGVecStorage3<OSGValueTypeT>::setValues(const OSGValueTypeT &rVal1,
 /** \brief Get values
  */
 
-template <class OSGValueTypeT> inline
-void OSGVecStorage3<OSGValueTypeT>::getValues(OSGValueTypeT &rVal1, 
-                                              OSGValueTypeT &rVal2, 
-                                              OSGValueTypeT &rVal3) const
+template <class ValueTypeT> inline
+void VecStorage3<ValueTypeT>::getValues(ValueTypeT &rVal1, 
+                                        ValueTypeT &rVal2, 
+                                        ValueTypeT &rVal3) const
 {
     rVal1 = _values[0];
     rVal2 = _values[1];    
@@ -282,8 +293,8 @@ void OSGVecStorage3<OSGValueTypeT>::getValues(OSGValueTypeT &rVal1,
 /** \brief Get the first value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::x(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage3<ValueTypeT>::x(void) const
 {
     return _values[0];
 }
@@ -291,8 +302,8 @@ OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::x(void) const
 /** \brief Get the second value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::y(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage3<ValueTypeT>::y(void) const
 {
     return _values[1];    
 }
@@ -300,8 +311,8 @@ OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::y(void) const
 /** \brief Get the third value  
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::z(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage3<ValueTypeT>::z(void) const
 {
     return _values[2];    
 }
@@ -316,27 +327,27 @@ OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::z(void) const
 
 
 
-/** \enum OSGVecStorage4::VectorSizeE
+/** \enum VecStorage4::VectorSizeE
  *  \brief To be able to use the storage size
  */
 
-/** \var OSGVecStorage4::VectorSizeE OSGVecStorage4::_iSize
+/** \var VecStorage4::VectorSizeE VecStorage4::_iSize
  *  \brief Storage size.
  */
 
-/** \fn const char *OSGVecStorage4::getClassname(void)
+/** \fn const char *VecStorage4::getClassname(void)
  *  \brief Classname.
  */
 
-/** \var OSGValueTypeT OSGVecStorage4::_values[iSize];
+/** \var ValueTypeT VecStorage4::_values[iSize];
  *  \brief Value store
  */
 
-/** \fn OSGVecStorage4::OSGVecStorage4(const OSGVecStorage4 &source)
+/** \fn VecStorage4::VecStorage4(const VecStorage4 &source)
  *  \brief Not implemented.
  */
 
-/** \fn void OSGVecStorage4::operator =(const OSGVecStorage4 &source)
+/** \fn void VecStorage4::operator =(const VecStorage4 &source)
  *  \brief Not implemented.
  */
 
@@ -348,8 +359,8 @@ OSGValueTypeT OSGVecStorage3<OSGValueTypeT>::z(void) const
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGValueTypeT>
-char OSGVecStorage4<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template <class ValueTypeT>
+char VecStorage4<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -380,16 +391,16 @@ char OSGVecStorage4<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGVecStorage4<OSGValueTypeT>::OSGVecStorage4(void)
+template <class ValueTypeT> inline
+VecStorage4<ValueTypeT>::VecStorage4(void)
 {
 }
 
 /** \brief Destructor
  */
 
-template <class OSGValueTypeT> inline
-OSGVecStorage4<OSGValueTypeT>::~OSGVecStorage4(void)
+template <class ValueTypeT> inline
+VecStorage4<ValueTypeT>::~VecStorage4(void)
 {
 }
 
@@ -398,11 +409,11 @@ OSGVecStorage4<OSGValueTypeT>::~OSGVecStorage4(void)
 /** \brief Set values
  */
 
-template <class OSGValueTypeT> inline
-void OSGVecStorage4<OSGValueTypeT>::setValues(const OSGValueTypeT &rVal1, 
-                                              const OSGValueTypeT &rVal2, 
-                                              const OSGValueTypeT &rVal3, 
-                                              const OSGValueTypeT &rVal4)
+template <class ValueTypeT> inline
+void VecStorage4<ValueTypeT>::setValues(const ValueTypeT &rVal1, 
+                                        const ValueTypeT &rVal2, 
+                                        const ValueTypeT &rVal3, 
+                                        const ValueTypeT &rVal4)
 {
     _values[0] = rVal1;
     _values[1] = rVal2;
@@ -413,11 +424,11 @@ void OSGVecStorage4<OSGValueTypeT>::setValues(const OSGValueTypeT &rVal1,
 /** \brief Get values
  */
 
-template <class OSGValueTypeT> inline
-void OSGVecStorage4<OSGValueTypeT>::getValues(OSGValueTypeT &rVal1, 
-                                              OSGValueTypeT &rVal2, 
-                                              OSGValueTypeT &rVal3, 
-                                              OSGValueTypeT &rVal4) const
+template <class ValueTypeT> inline
+void VecStorage4<ValueTypeT>::getValues(ValueTypeT &rVal1, 
+                                        ValueTypeT &rVal2, 
+                                        ValueTypeT &rVal3, 
+                                        ValueTypeT &rVal4) const
 {
     rVal1 = _values[0];    
     rVal2 = _values[1];    
@@ -428,8 +439,8 @@ void OSGVecStorage4<OSGValueTypeT>::getValues(OSGValueTypeT &rVal1,
 /** \brief Get the first value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::x(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage4<ValueTypeT>::x(void) const
 {
     return _values[0];
 }
@@ -437,8 +448,8 @@ OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::x(void) const
 /** \brief Get the second value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::y(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage4<ValueTypeT>::y(void) const
 {
     return _values[1];    
 }
@@ -446,8 +457,8 @@ OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::y(void) const
 /** \brief Get the third value  
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::z(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage4<ValueTypeT>::z(void) const
 {
     return _values[2];    
 }
@@ -455,8 +466,8 @@ OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::z(void) const
 /** \brief Get the fourth value
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::w(void) const
+template <class ValueTypeT> inline
+ValueTypeT VecStorage4<ValueTypeT>::w(void) const
 {
     return _values[3];    
 }
@@ -470,19 +481,19 @@ OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::w(void) const
 \*-------------------------------------------------------------------------*/
 
 
-/** \typedef OSGPointInterface::OSGRealReturnType
+/** \typedef PointInterface::RealReturnType
  *  \brief Used type if the returnvalue must be a real value.
  */
 
-/** \typedef OSGPointInterface::OSGValueType
+/** \typedef PointInterface::ValueType
  *  \brief Value type
  */
 
-/** \typedef OSGPointInterface::Inherited
+/** \typedef PointInterface::Inherited
  *  \brief Parent type
  */
 
-/** \fn const char *OSGPointInterface::getClassname(void)
+/** \fn const char *PointInterface::getClassname(void)
  *  \brief Classname.
  */
 
@@ -494,8 +505,8 @@ OSGValueTypeT OSGVecStorage4<OSGValueTypeT>::w(void) const
  *                           Class variables                               *
 \***************************************************************************/
 
-template<class OSGValueTypeT, class OSGStorageInterfaceT>
-char OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::cvsid[] = 
+template<class ValueTypeT, class StorageInterfaceT>
+char PointInterface<ValueTypeT, StorageInterfaceT>::cvsid[] = 
     "@(#)$Id: $";
 
 /***************************************************************************\
@@ -530,28 +541,28 @@ char OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::cvsid[] =
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT, 
-          class OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
+template <class ValueTypeT, 
+          class StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
     void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
-        _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 
 /** \brief Copy Constructor
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    const OSGPointInterface &source)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    const PointInterface &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -564,18 +575,18 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
  *  Be shure the array size at least as large as the vector size.
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    const OSGValueTypeT *pVals)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    const ValueTypeT *pVals)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     if(pVals == NULL)
     {
         for(i = 0; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
@@ -592,18 +603,18 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
  *  Be shure the array size at least as large as the vector size.
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    OSGValueTypeT *pVals)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    ValueTypeT *pVals)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     if(pVals == NULL)
     {
         for(i = 0; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
@@ -616,18 +627,18 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
 }
 
 /*
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    const OSGValueTypeT rVal1)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    const ValueTypeT rVal1)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     _values[0] = rVal1;
 
     for(i = 1; i < _iSize; i++)
     {
-        _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }    
 }
 */
@@ -639,13 +650,13 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
 /** \brief Constructor which takes two values, remaining entries will be zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    const OSGValueTypeT rVal1, 
-    const OSGValueTypeT rVal2)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    const ValueTypeT rVal1, 
+    const ValueTypeT rVal2)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     _values[0] = rVal1;
 
@@ -659,7 +670,7 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
 
         for(i = 2; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }    
     }
 }
@@ -673,14 +684,14 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
 /** \brief Constructor which takes three values, remaining entries will be zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    const OSGValueTypeT rVal1, 
-    const OSGValueTypeT rVal2, 
-    const OSGValueTypeT rVal3)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    const ValueTypeT rVal1, 
+    const ValueTypeT rVal2, 
+    const ValueTypeT rVal3)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     _values[0] = rVal1;
 
@@ -700,7 +711,7 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
         
         for(i = 3; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }    
     }
 }
@@ -714,15 +725,15 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
 /** \brief Constructor which takes four values, remaining entries will be zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
-    const OSGValueTypeT rVal1, 
-    const OSGValueTypeT rVal2, 
-    const OSGValueTypeT rVal3, 
-    const OSGValueTypeT rVal4)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
+    const ValueTypeT rVal1, 
+    const ValueTypeT rVal2, 
+    const ValueTypeT rVal3, 
+    const ValueTypeT rVal4)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     _values[0] = rVal1;
 
@@ -749,7 +760,7 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
         
         for(i = 4; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }    
     }
 }
@@ -761,9 +772,9 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGPointInterface(
 /** \brief Destructor
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::~OSGPointInterface(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::~PointInterface(
     void)
 {
 }
@@ -773,23 +784,23 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::~OSGPointInterface(
 /** \brief Set all values to zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setNull(void)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::setNull(void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
-        _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 
 /*
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
-    const OSGValueTypeT &rVal1)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
+    const ValueTypeT &rVal1)
 {
     _values[0] = rVal1;
 }
@@ -798,12 +809,12 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
 /** \brief Set values from the given point
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
-    const OSGPointInterface &vec)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
+    const PointInterface &vec)
 {
-    OSGUInt32 i;
+    UInt32 i;
     
     for(i = 0; i < _iSize; i++)
     {
@@ -815,12 +826,12 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
 /** \brief Set value from a given array, be sure to match sizes
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
-    const OSGValueTypeT *pVals)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
+    const ValueTypeT *pVals)
 {
-    OSGUInt32 i;
+    UInt32 i;
     
     for(i = 0; i < _iSize; i++)
     {
@@ -832,13 +843,13 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
     must be present, otherwise \b the \b compiler \b strikes \b back :-) (GV)
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
     const char *szString)
 {
-    OSGUInt32 i;
-    OSGUInt32 numOfToken = _iSize;
+    UInt32 i;
+    UInt32 numOfToken = _iSize;
 
     char *c      = const_cast<char*>(szString);
     char *tokenC = 0;
@@ -848,7 +859,7 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
     if(szString == NULL || (*szString) == '\0') 
     {
         for(i = 0; i < _iSize; i++)
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
 
         return;
     }
@@ -862,13 +873,13 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
                 {
                     *tokenC = 0;
                     _values[i++] = 
-                        OSGTypeConstants<OSGValueTypeT>::getFromString(token);
+                        TypeConstants<ValueTypeT>::getFromString(token);
                 }
 
                 while (i < numOfToken) 
                 {
                     _values[i++] = 
-                        OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+                        TypeConstants<ValueTypeT>::getZeroElement();
                 }
                 break;
 
@@ -878,7 +889,7 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
                 {
                     *tokenC = 0;
                     _values[i++] = 
-                        OSGTypeConstants<OSGValueTypeT>::getFromString(token);
+                        TypeConstants<ValueTypeT>::getFromString(token);
                     tokenC = 0;
                 }
                 break;
@@ -897,9 +908,9 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
     must be present, otherwise \b the \b compiler \b strikes \b back :-) (GV)
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
     char *szString)
 {
     setValue(static_cast<const char *>(szString));
@@ -910,10 +921,10 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::setValue(
 /** \brief Get a pointer to the value storage
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGValueTypeT *OSGPointInterface<OSGValueTypeT, 
-                                  OSGStorageInterfaceT>::getValueRef(void)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+ValueTypeT *PointInterface<ValueTypeT, 
+                                  StorageInterfaceT>::getValueRef(void)
 {
     return _values;
 }
@@ -921,10 +932,10 @@ OSGValueTypeT *OSGPointInterface<OSGValueTypeT,
 /** \brief Get a const pointer to the value storage
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-const OSGValueTypeT *OSGPointInterface<OSGValueTypeT, 
-                                        OSGStorageInterfaceT>::getValueRef(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+const ValueTypeT *PointInterface<ValueTypeT, 
+                                        StorageInterfaceT>::getValueRef(
    void) const
 {
     return _values;
@@ -932,21 +943,21 @@ const OSGValueTypeT *OSGPointInterface<OSGValueTypeT,
 
 /*--------------------------- common math -------------------------------*/
 
-/** \brief Returns true iff the norm of each value is less than osgEps
+/** \brief Returns true iff the norm of each value is less than Eps
 */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::isZero(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+Bool PointInterface<ValueTypeT, StorageInterfaceT>::isZero(
     void) const
 {
-    OSGUInt32 i;
-    OSGBool returnValue = true;
+    UInt32 i;
+    Bool returnValue = true;
 
     for(i = 0; i < _iSize; i++)
     {
-        returnValue &= ((_values[i] <=  osgEps) && 
-                        (_values[i] >= -osgEps));
+        returnValue &= ((_values[i] <=  Eps) && 
+                        (_values[i] >= -Eps));
     }
 
     return returnValue;
@@ -955,11 +966,11 @@ OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::isZero(
 /** \brief Negates each value of the point in place
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::negate(void)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::negate(void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -970,14 +981,14 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::negate(void)
 /** \brief Returns true iff the two points are eual within a given tolerance
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::equals(
-    const OSGPointInterface &vec, 
-    const OSGValueTypeT       tolerance) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+Bool PointInterface<ValueTypeT, StorageInterfaceT>::equals(
+    const PointInterface &vec, 
+    const ValueTypeT       tolerance) const
 {
-    OSGUInt32 i; 
-    OSGBool   returnValue = true;
+    UInt32 i; 
+    Bool   returnValue = true;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -993,12 +1004,12 @@ OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::equals(
 /** \brief Component wise scalar multiplication
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator *=(
-    const OSGValueTypeT  val)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::operator *=(
+    const ValueTypeT  val)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1009,12 +1020,12 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator *=(
 /** \brief Component wise scalar division
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator /=(
-    const OSGValueTypeT  val)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::operator /=(
+    const ValueTypeT  val)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1025,15 +1036,15 @@ void OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator /=(
 /** \brief Point substraction, returns a new vector
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> 
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator -(
-        const OSGPointInterface &vec) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT> 
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator -(
+        const PointInterface &vec) const
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> 
+    VectorInterface<ValueTypeT, StorageInterfaceT> 
         returnValue(*this);
 
     for(i = 0; i < _iSize; i++)
@@ -1046,17 +1057,17 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>
 
 /** \brief Component wise binary scalar multiplication
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface <OSGValueTypeT, OSGStorageInterfaceT>
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator * (
-        const OSGValueTypeT rVal) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface <ValueTypeT, StorageInterfaceT>
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator * (
+        const ValueTypeT rVal) const
 {
-	OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+	PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = _values[i] * rVal;
 	}
@@ -1066,15 +1077,15 @@ OSGPointInterface <OSGValueTypeT, OSGStorageInterfaceT>
 
 /** \brief Nondestructive unary negation, returns new point
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> 
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator -(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT> 
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator -(
         void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+    PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1089,11 +1100,11 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>
 /** \brief Indexed element access
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGValueTypeT &
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator[](
-        const OSGUInt32 uiVal)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+ValueTypeT &
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator[](
+        const UInt32 uiVal)
 {
     return _values[uiVal];
 }
@@ -1101,28 +1112,28 @@ OSGValueTypeT &
 /** \brief Const indexed element access
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-const OSGValueTypeT &
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator[](
-        const OSGUInt32 uiVal) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+const ValueTypeT &
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator[](
+        const UInt32 uiVal) const
 {
     return _values[uiVal];
 }
 
 #if 0
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator 
-    OSGValueTypeT *(void)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::operator 
+    ValueTypeT *(void)
 {
     return _values;
 }
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator 
-    const OSGValueTypeT *(void)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>::operator 
+    const ValueTypeT *(void)
 {
     return _values;
 }
@@ -1133,13 +1144,13 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator
 /** \brief Assignment operator
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> &
-    OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator =(
-        const OSGPointInterface &source)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT> &
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator =(
+        const PointInterface &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
 	if(this == &source)
 		return *this;
@@ -1157,32 +1168,32 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> &
 /** \brief Less than, not implemented
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-bool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator < (
-    const OSGPointInterface &other) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
+    const PointInterface &other) const
 {
     missing;
 }
 
-/** \brief Equal operator, using osgEps as the tolerance
+/** \brief Equal operator, using Eps as the tolerance
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator == (
-    const OSGPointInterface &other) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator == (
+    const PointInterface &other) const
 {
-	return equals(other, osgEps);
+	return equals(other, Eps);
 }
 
-/** \brief Not equal operator, using osgEps as the tolerance
+/** \brief Not equal operator, using Eps as the tolerance
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator != (
-    const OSGPointInterface &other) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator != (
+    const PointInterface &other) const
 {
     return ! (*this == other);
 }
@@ -1201,18 +1212,18 @@ OSGBool OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator != (
 
 /** \brief Component wise binary scalar multiplication
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>
-    operator *(const OSGValueTypeT                             val, 
-               const OSGPointInterface<OSGValueTypeT, 
-                                        OSGStorageInterfaceT> &vec)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT>
+    operator *(const ValueTypeT                             val, 
+               const PointInterface<ValueTypeT, 
+                                        StorageInterfaceT> &vec)
 {
-	OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+	PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = vec[i] * val;
 	}
@@ -1222,20 +1233,20 @@ OSGPointInterface<OSGValueTypeT, OSGStorageInterfaceT>
 
 /** \brief Write point to the given stream
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
 ostream &operator <<(ostream                                          &os,
-                     const   OSGPointInterface<OSGValueTypeT, 
-                                                OSGStorageInterfaceT> &obj)
+                     const   PointInterface<ValueTypeT, 
+                                                StorageInterfaceT> &obj)
 {
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		os << obj[i];
 
-        if(i != OSGStorageInterfaceT::_iSize - 1)
+        if(i != StorageInterfaceT::_iSize - 1)
             os << ", ";
 	}
 
@@ -1243,19 +1254,19 @@ ostream &operator <<(ostream                                          &os,
 }
 
 
-/** \typedef OSGVectorInterface::OSGRealReturnType
+/** \typedef VectorInterface::RealReturnType
  *  \brief Used type if the returnvalue must be a real value.
  */
 
-/** \typedef OSGVectorInterface::OSGValueType
+/** \typedef VectorInterface::ValueType
  *  \brief Value type
  */
 
-/** \typedef OSGVectorInterface::Inherited
+/** \typedef VectorInterface::Inherited
  *  \brief Parent type
  */
 
-/** \fn const char *OSGVectorInterface::getClassname(void)
+/** \fn const char *VectorInterface::getClassname(void)
  *  \brief Classname.
  */
 
@@ -1267,8 +1278,8 @@ ostream &operator <<(ostream                                          &os,
  *                           Class variables                               *
 \***************************************************************************/
 
-template<class OSGValueTypeT, class OSGStorageInterfaceT>
-char OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::cvsid[] = 
+template<class ValueTypeT, class StorageInterfaceT>
+char VectorInterface<ValueTypeT, StorageInterfaceT>::cvsid[] = 
     "@(#)$Id: $";
 
 /***************************************************************************\
@@ -1302,28 +1313,28 @@ char OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::cvsid[] =
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT, 
-          class OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
+template <class ValueTypeT, 
+          class StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
     void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
-        _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 
 /** \brief Copy Constructor
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    const OSGVectorInterface &source)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    const VectorInterface &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1336,18 +1347,18 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
  *  Be shure the array size at least as large as the vector size.
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    const OSGValueTypeT *pVals)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    const ValueTypeT *pVals)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     if(pVals == NULL)
     {
         for(i = 0; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
@@ -1364,18 +1375,18 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
  *  Be shure the array size at least as large as the vector size.
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    OSGValueTypeT *pVals)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    ValueTypeT *pVals)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     if(pVals == NULL)
     {
         for(i = 0; i < _iSize; i++)
         {
-            _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
@@ -1388,18 +1399,18 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
 }
 
 /*
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    const OSGValueTypeT rVal1)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    const ValueTypeT rVal1)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     _values[0] = rVal1;
 
     for(i = 1; i < _iSize; i++)
     {
-        _values[i] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }    
 }
 */
@@ -1407,11 +1418,11 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
 /** \brief Constructor which takes two values, remaining entries will be zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    const OSGValueTypeT rVal1, 
-    const OSGValueTypeT rVal2) :
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    const ValueTypeT rVal1, 
+    const ValueTypeT rVal2) :
     
     Inherited(rVal1, rVal2)
 {
@@ -1420,12 +1431,12 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
 /** \brief Constructor which takes three values, remaining entries will be zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    const OSGValueTypeT rVal1, 
-    const OSGValueTypeT rVal2, 
-    const OSGValueTypeT rVal3) :
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    const ValueTypeT rVal1, 
+    const ValueTypeT rVal2, 
+    const ValueTypeT rVal3) :
     
     Inherited(rVal1, rVal2, rVal3)
 {
@@ -1434,13 +1445,13 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
 /** \brief Constructor which takes four values, remaining entries will be zero
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
-    const OSGValueTypeT rVal1, 
-    const OSGValueTypeT rVal2, 
-    const OSGValueTypeT rVal3, 
-    const OSGValueTypeT rVal4) :
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
+    const ValueTypeT rVal1, 
+    const ValueTypeT rVal2, 
+    const ValueTypeT rVal3, 
+    const ValueTypeT rVal4) :
 
     Inherited(rVal1, rVal2, rVal3, rVal4)
 {
@@ -1450,9 +1461,9 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGVectorInterface(
 /** \brief Destructor
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::~OSGVectorInterface(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::~VectorInterface(
     void)
 {
 }
@@ -1462,14 +1473,14 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::~OSGVectorInterface(
 /** \brief Euclidean length of the vector 
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGRealReturnType 
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::length(void) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType 
+    VectorInterface<ValueTypeT, StorageInterfaceT>::length(void) const
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    OSGRealReturnType rTmpVal = _values[0] * _values[0];
+    RealReturnType rTmpVal = _values[0] * _values[0];
 
     for(i = 1; i < _iSize; i++)
     {
@@ -1482,18 +1493,18 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGRealReturnType
 /** \brief Changes vector to be of unit length
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::normalize(void)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    OSGValueTypeT rLength = length();
+    ValueTypeT rLength = length();
 
-    if(osgabs(rLength) < osgEps)
-        rLength = OSGTypeConstants<OSGValueTypeT>::getOneElement();
+    if(abs(rLength) < Eps)
+        rLength = TypeConstants<ValueTypeT>::getOneElement();
     else
-        rLength = OSGTypeConstants<OSGValueTypeT>::getOneElement() / rLength;
+        rLength = TypeConstants<ValueTypeT>::getOneElement() / rLength;
      
     for(i = 0; i < _iSize; i++)
     {
@@ -1509,13 +1520,13 @@ void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::normalize(void)
  *  This function is implemented for size 3 vectors only.
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> 
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::cross(
-        const OSGVectorInterface &vec) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT> 
+    VectorInterface<ValueTypeT, StorageInterfaceT>::cross(
+        const VectorInterface &vec) const
 {
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+    VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
     if(_iSize >= 3)
     {
@@ -1539,14 +1550,14 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>
  *  This function is implemented for size 3 vectors only.
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::crossThis(
-    const OSGVectorInterface &vec)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void VectorInterface<ValueTypeT, StorageInterfaceT>::crossThis(
+    const VectorInterface &vec)
 {
     if(_iSize >= 3)
     {
-        OSGValueTypeT rTmp[2];
+        ValueTypeT rTmp[2];
     
         rTmp[0] = _values[1] * vec._values[2] - _values[2] * vec._values[1];
         rTmp[1] = _values[2] * vec._values[0] - _values[0] * vec._values[2];
@@ -1571,14 +1582,14 @@ void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::crossThis(
 /** \brief Return the dot (inner) product for a given vector
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGValueTypeT OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::dot(
-    const OSGVectorInterface &vec) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot(
+    const VectorInterface &vec) const
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    OSGValueTypeT rTmpVal = _values[0] * vec._values[0];
+    ValueTypeT rTmpVal = _values[0] * vec._values[0];
 
     for(i = 1; i < _iSize; i++)
     {
@@ -1591,25 +1602,25 @@ OSGValueTypeT OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::dot(
 /** \brief Returns the angle between this and another vector
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGRealReturnType
-     OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::enclosedAngle(
-         const OSGVectorInterface &vec) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
+     VectorInterface<ValueTypeT, StorageInterfaceT>::enclosedAngle(
+         const VectorInterface &vec) const
 {
-    OSGRealReturnType returnValue;
+    RealReturnType returnValue;
 
     if(isZero() || vec.isZero())
-        returnValue = OSGTypeConstants<OSGRealReturnType>::getZeroElement();
+        returnValue = TypeConstants<RealReturnType>::getZeroElement();
     else
     {
         returnValue  = dot(vec);
         returnValue /= (length() * vec.length());
 
-        if(osgabs(returnValue - 1.) < osgEps)
-           returnValue = OSGTypeConstants<OSGRealReturnType>::getZeroElement();
-        else if(osgabs(returnValue + 1.) < osgEps)
-            returnValue = osgPi;
+        if(osgabs(returnValue - 1.) < Eps)
+           returnValue = TypeConstants<RealReturnType>::getZeroElement();
+        else if(osgabs(returnValue + 1.) < Eps)
+            returnValue = Pi;
         else
         {
             returnValue = osgacos(returnValue);
@@ -1624,12 +1635,12 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::OSGRealReturnType
 /** \brief Component wise vector addition
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator +=(
-    const OSGVectorInterface    &vec)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void VectorInterface<ValueTypeT, StorageInterfaceT>::operator +=(
+    const VectorInterface    &vec)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1640,12 +1651,12 @@ void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator +=(
 /** \brief Component wise vector substraction
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator -=(
-    const OSGVectorInterface    &vec)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+void VectorInterface<ValueTypeT, StorageInterfaceT>::operator -=(
+    const VectorInterface    &vec)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1655,17 +1666,17 @@ void OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator -=(
 
 /** \brief Component wise binary vector addition operator
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface <OSGValueTypeT, OSGStorageInterfaceT>
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator + (
-        const OSGVectorInterface &vec) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface <ValueTypeT, StorageInterfaceT>
+    VectorInterface<ValueTypeT, StorageInterfaceT>::operator + (
+        const VectorInterface &vec) const
 {
-	OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+	VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = _values[i] + vec[i];
 	}
@@ -1675,18 +1686,18 @@ OSGVectorInterface <OSGValueTypeT, OSGStorageInterfaceT>
 
 /** \brief Component wise binary vector subtraction operator
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface <OSGValueTypeT, OSGStorageInterfaceT>
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator - (
-        const OSGVectorInterface &vec) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface <ValueTypeT, StorageInterfaceT>
+    VectorInterface<ValueTypeT, StorageInterfaceT>::operator - (
+        const VectorInterface &vec) const
 {
-	OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+	VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = _values[i] - vec[i];
 	}
@@ -1697,17 +1708,17 @@ OSGVectorInterface <OSGValueTypeT, OSGStorageInterfaceT>
 
 /** \brief Component wise binary scalar multiplication
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface <OSGValueTypeT, OSGStorageInterfaceT>
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator * (
-        const OSGValueTypeT rVal) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface <ValueTypeT, StorageInterfaceT>
+    VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
+        const ValueTypeT rVal) const
 {
-	OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+	VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = _values[i] * rVal;
 	}
@@ -1718,15 +1729,15 @@ OSGVectorInterface <OSGValueTypeT, OSGStorageInterfaceT>
 /** \brief Nondestructive unary negation, returns new vector
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> 
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator -(
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT> 
+    VectorInterface<ValueTypeT, StorageInterfaceT>::operator -(
         void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+    VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1741,11 +1752,11 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>
 /** \brief Assignment operator
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> &
-    OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator =(
-        const OSGVectorInterface &source)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT> &
+    VectorInterface<ValueTypeT, StorageInterfaceT>::operator =(
+        const VectorInterface &source)
 {
 	if(this == &source)
 		return *this;
@@ -1760,32 +1771,32 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> &
 /** \brief Less than, not implemented
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-bool OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator < (
-    const OSGVectorInterface &other) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
+    const VectorInterface &other) const
 {
     missing;
 }
 
-/** \brief Equal operator, using osgEps as the tolerance
+/** \brief Equal operator, using Eps as the tolerance
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGBool OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator == (
-    const OSGVectorInterface &other) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator == (
+    const VectorInterface &other) const
 {
-	return equals(other, osgEps);
+	return equals(other, Eps);
 }
 
-/** \brief Not eual operator, using osgEps as the tolerance
+/** \brief Not eual operator, using Eps as the tolerance
  */
 
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGBool OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator != (
-    const OSGVectorInterface &other) const
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
+    const VectorInterface &other) const
 {
     return ! (*this == other);
 }
@@ -1804,18 +1815,19 @@ OSGBool OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>::operator != (
 
 /** \brief Component wise binary scalar multiplication
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
-OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>
-    operator *(const OSGValueTypeT                             val, 
-               const OSGVectorInterface<OSGValueTypeT, 
-                                        OSGStorageInterfaceT> &vec)
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+OSG_DLLEXPORT
+VectorInterface<ValueTypeT, StorageInterfaceT>
+    operator *(const ValueTypeT                             val, 
+               const VectorInterface<ValueTypeT, 
+                                        StorageInterfaceT> &vec)
 {
-	OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT> returnValue;
+	VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = vec[i] * val;
 	}
@@ -1825,20 +1837,21 @@ OSGVectorInterface<OSGValueTypeT, OSGStorageInterfaceT>
 
 /** \brief Write vector to stream
  */
-template <class    OSGValueTypeT, 
-          class    OSGStorageInterfaceT> inline
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+OSG_DLLEXPORT
 ostream &operator <<(ostream                                  &os,
-                     const   OSGVectorInterface<OSGValueTypeT, 
-                                                OSGStorageInterfaceT> &obj)
+                     const   VectorInterface<ValueTypeT, 
+                                                StorageInterfaceT> &obj)
 {
 
-    OSGUInt32 i;
+    UInt32 i;
 
-    for(i = 0; i < OSGStorageInterfaceT::_iSize; i++)
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		os << obj[i];
 
-        if(i != OSGStorageInterfaceT::_iSize - 1)
+        if(i != StorageInterfaceT::_iSize - 1)
             os << ", ";
 	}
 

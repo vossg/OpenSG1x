@@ -1,3 +1,41 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #ifndef OSGIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGIMAGEFILETYPE_CLASS_DECLARATION
 
@@ -16,57 +54,57 @@ OSG_BEGIN_NAMESPACE
 */
 
 
-class OSGImageFileType {
+class OSG_DLLEXPORT ImageFileType {
 
 private:
 
   /**  */
-  list<OSGString> _suffixList;
+  list<String> _suffixList;
 
 	/**  */
-	OSGInt16 _majorMagic;
+	Int16 _majorMagic;
 
 	/**  */
-	OSGInt16 _minorMagic;
+	Int16 _minorMagic;
 
 protected:
 
   /** Default Constructor */
-  OSGImageFileType ( const char * suffixArray[], OSGUInt16 suffixByteCount, 
-										 OSGInt16 majorMagic, OSGInt16 minorMagic );
+  ImageFileType ( const char * suffixArray[], UInt16 suffixByteCount, 
+										 Int16 majorMagic, Int16 minorMagic );
 
   /** Copy Constructor */
-  OSGImageFileType (const OSGImageFileType &obj);
+  ImageFileType (const ImageFileType &obj);
 
 public:
 
   /** Destructor */
-  virtual ~OSGImageFileType (void);
+  virtual ~ImageFileType (void);
 
   /** get method for attribute majorMagic, -1 => no major magic code */
-  virtual OSGInt16 getMajorMagic (void) { return _majorMagic; }
+  virtual Int16 getMajorMagic (void) { return _majorMagic; }
 
   /** get method for attribute minorMagic, -1 => no minor magic code */
-  virtual OSGInt16 getMinorMagic (void) { return _minorMagic; }
+  virtual Int16 getMinorMagic (void) { return _minorMagic; }
 
 	/** get mathod for the type name */
 	virtual const char *getName (void) = 0;
 
   /** get method for attribute suffixList */
-  virtual list<OSGString> & suffixList (void) { return _suffixList; }
+  virtual list<String> & suffixList (void) { return _suffixList; }
 
   /** fill the given image with the content of the file 'fileName' */
-  virtual bool read (OSGImage &image, const char *fileName ) = 0;
+  virtual bool read (Image &image, const char *fileName ) = 0;
 
   /** write the given image to 'fileName' */
-  virtual bool write (const OSGImage &image, const char *fileName ) = 0;
+  virtual bool write (const Image &image, const char *fileName ) = 0;
 
 	/** print debug info to cerr */
 	void print(void);
 
 };
 
-typedef OSGImageFileType* OSGImageFileTypeP;
+typedef ImageFileType* ImageFileTypeP;
 
 OSG_END_NAMESPACE
 

@@ -1,18 +1,30 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +36,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGFIELDCONTAINERPTR_H_
 #define _OSGFIELDCONTAINERPTR_H_
@@ -45,11 +56,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGFieldContainer;
-class OSGNode;
-class OSGNodeCore;
-class OSGAttachment;
-class OSGLockPool;
+class FieldContainer;
+class Node;
+class NodeCore;
+class Attachment;
+class LockPool;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -60,12 +71,12 @@ class OSGLockPool;
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGFieldContainerPtr is the base class of all field container
+ *  \brief FieldContainerPtr is the base class of all field container
  *  pointer. This and the derived classes form the base for the thread safe
  *  data store used by OSG.
  */
 
-class OSGFieldContainerPtr
+class OSG_DLLEXPORT FieldContainerPtr
 {
   public:
 
@@ -73,28 +84,28 @@ class OSGFieldContainerPtr
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    static const OSGUInt16 OSGInvalidParentFPos;
+    static const UInt16 InvalidParentFPos;
 
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer OSGObjectType;
+    typedef FieldContainer ObjectType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     static const char *getClassname(void) 
-        { return "OSGFieldContainerPtr"; };
+        { return "FieldContainerPtr"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
     
-    OSGFieldContainerPtr(void);
-    OSGFieldContainerPtr(const OSGFieldContainerPtr &source);
-    virtual ~OSGFieldContainerPtr(void); 
+    FieldContainerPtr(void);
+    FieldContainerPtr(const FieldContainerPtr &source);
+    virtual ~FieldContainerPtr(void); 
 
     /*------------------------------ cast ----------------------------------*/
 
@@ -127,40 +138,40 @@ class OSGFieldContainerPtr
 
     /*----------------------------- parent field pos -----------------------*/
 
-    void      setParentFieldPos(OSGUInt16 parentFPos);
-    OSGUInt16 getParentFieldPos(void) const;
+    void      setParentFieldPos(UInt16 parentFPos);
+    UInt16 getParentFieldPos(void) const;
 
     /*------------------------------ information ---------------------------*/
 
-    OSGUInt32 getContainerId(void) const;
+    UInt32 getContainerId(void) const;
 
     /*------------------------- pointer operators --------------------------*/
 
-          OSGFieldContainer *operator->(void);
-    const OSGFieldContainer *operator->(void) const;
+          FieldContainer *operator->(void);
+    const FieldContainer *operator->(void) const;
 
-          OSGFieldContainer &operator *(void);
-    const OSGFieldContainer &operator *(void) const;
+          FieldContainer &operator *(void);
+    const FieldContainer &operator *(void) const;
 
-          OSGFieldContainer *getCPtr   (void);
-    const OSGFieldContainer *getCPtr   (void) const;
+          FieldContainer *getCPtr   (void);
+    const FieldContainer *getCPtr   (void) const;
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator OSGFieldContainer *(void);
+    operator FieldContainer *(void);
 #endif
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGFieldContainerPtr &operator =(const OSGFieldContainerPtr &source);
+    FieldContainerPtr &operator =(const FieldContainerPtr &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGFieldContainerPtr &other) const;
+    Bool operator < (const FieldContainerPtr &other) const;
     
-	OSGBool operator == (const OSGFieldContainerPtr &other) const;
-	OSGBool operator != (const OSGFieldContainerPtr &other) const;
+	Bool operator == (const FieldContainerPtr &other) const;
+	Bool operator != (const FieldContainerPtr &other) const;
 
-    OSGBool operator !(void) const;
+    Bool operator !(void) const;
 
     /*------------------------------ dump ----------------------------------*/
 
@@ -184,16 +195,16 @@ class OSGFieldContainerPtr
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	static OSGBool initialize(int argc, char **argv);
-    static OSGBool terminate(void);
+	static Bool initialize(int argc, char **argv);
+    static Bool terminate(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGUInt16  _containerSize;
-    OSGUInt16  _parentFPos;
-    OSGUInt8  *_storeP;
+    UInt16  _containerSize;
+    UInt16  _parentFPos;
+    UInt8  *_storeP;
 
 #ifdef OSG_DEBUG_TYPED_FCPTR
     const char        *_typename;
@@ -211,28 +222,28 @@ class OSGFieldContainerPtr
 
     /*-------------------------------- Sync --------------------------------*/
 
-    void executeSync(OSGUInt32    fromAspect,
-                     OSGUInt32    toAspect, 
-                     OSGBitVector whichField);
+    void executeSync(UInt32    fromAspect,
+                     UInt32    toAspect, 
+                     BitVector whichField);
 
     /*-------------------------------- Mem ---------------------------------*/
     
-          OSGInt32  *getRefCountP (void);
-    const OSGInt32  *getRefCountP (void) const;
+          Int32  *getRefCountP (void);
+    const Int32  *getRefCountP (void) const;
 
-          OSGUInt32 *getIdP       (void);    
-    const OSGUInt32 *getIdP       (void) const;    
+          UInt32 *getIdP       (void);    
+    const UInt32 *getIdP       (void) const;    
 
-          OSGUInt8  *getFirstElemP(void);
-    const OSGUInt8  *getFirstElemP(void) const;
+          UInt8  *getFirstElemP(void);
+    const UInt8  *getFirstElemP(void) const;
 
-          OSGUInt8  *getElemP     (OSGUInt32 elemNum);
-    const OSGUInt8  *getElemP     (OSGUInt32 elemNum) const;
+          UInt8  *getElemP     (UInt32 elemNum);
+    const UInt8  *getElemP     (UInt32 elemNum) const;
 
-    OSGInt32  getRefCountOff (void) const;
-    OSGInt32  getIdOff       (void) const;
-    OSGInt32  getFirstElemOff(void) const;
-    OSGInt32  getElemOff     (OSGUInt32 elemNum) const;
+    Int32  getRefCountOff (void) const;
+    Int32  getIdOff       (void) const;
+    Int32  getFirstElemOff(void) const;
+    Int32  getElemOff     (UInt32 elemNum) const;
 
     /*------------------------- ReferenceCounting --------------------------*/
 
@@ -241,10 +252,10 @@ class OSGFieldContainerPtr
 
     /*----------------------------- Edit -----------------------------------*/
 
-    void beginEdit        (OSGBitVector whichField);
-    void endEdit          (OSGBitVector whichField);
-    void changed          (OSGBitVector whichField);
-    void endEditNotChanged(OSGBitVector whichField);
+    void beginEdit        (BitVector whichField);
+    void endEdit          (BitVector whichField);
+    void changed          (BitVector whichField);
+    void endEditNotChanged(BitVector whichField);
 
     /*----------------------------- Dump -----------------------------------*/
 
@@ -264,30 +275,30 @@ class OSGFieldContainerPtr
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerFactory;
-    friend class OSGChangeList;
+    friend class FieldContainer;
+    friend class FieldContainerFactory;
+    friend class ChangeList;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	friend ostream &operator <<(ostream &os, const OSGFieldContainerPtr &fc);
+	friend ostream &operator <<(ostream &os, const FieldContainerPtr &fc);
 
-    friend void osgAddRefCP           (OSGFieldContainerPtr &pObject);
-    friend void osgSubRefCP           (OSGFieldContainerPtr &pObject);
-    friend void osgBeginEditCP        (OSGFieldContainerPtr &pObject, 
-                                       OSGBitVector          whichField);
-    friend void osgEndEditCP          (OSGFieldContainerPtr &pObject,
-                                       OSGBitVector          whichField);
-    friend void osgChangedCP          (OSGFieldContainerPtr &objectP, 
-                                       OSGBitVector          whichField);
+    friend void osgAddRefCP           (FieldContainerPtr &pObject);
+    friend void osgSubRefCP           (FieldContainerPtr &pObject);
+    friend void osgBeginEditCP        (FieldContainerPtr &pObject, 
+                                       BitVector          whichField);
+    friend void osgEndEditCP          (FieldContainerPtr &pObject,
+                                       BitVector          whichField);
+    friend void osgChangedCP          (FieldContainerPtr &objectP, 
+                                       BitVector          whichField);
 
-    friend void osgEndEditNotChangedCP(OSGFieldContainerPtr &objectP, 
-                                       OSGBitVector          whichField);
+    friend void osgEndEditNotChangedCP(FieldContainerPtr &objectP, 
+                                       BitVector          whichField);
         
-    friend void osgSetRefdCP          (OSGFieldContainerPtr &objectP,
-                                       OSGFieldContainerPtr &newObjectP);
+    friend void osgSetRefdCP          (FieldContainerPtr &objectP,
+                                       FieldContainerPtr &newObjectP);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -295,7 +306,7 @@ class OSGFieldContainerPtr
 
 	static char cvsid[];
 
-    static OSGLockPool *_refCountLockP;
+    static LockPool *_refCountLockP;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -309,11 +320,11 @@ class OSGFieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit OSGFieldContainerPtr(const OSGFieldContainer &source);
+    explicit FieldContainerPtr(const FieldContainer &source);
 };
 
-ostream &operator <<(ostream &outStream,
-                     const OSGFieldContainerPtr &color);
+OSG_DLLEXPORT ostream &operator <<(ostream &outStream,
+                                   const FieldContainerPtr &color);
 
 //---------------------------------------------------------------------------
 //  Class
@@ -323,11 +334,11 @@ ostream &operator <<(ostream &outStream,
  *  \brief Pointer to a node
  */
 
-class OSGNode;
-class OSGNodeCore;
-class OSGCNodePtr;
+class Node;
+class NodeCore;
+class CNodePtr;
 
-class OSGNodePtr : public OSGFieldContainerPtr
+class OSG_DLLEXPORT NodePtr : public FieldContainerPtr
 {
   public:
 
@@ -339,48 +350,48 @@ class OSGNodePtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNode OSGObjectType;
+    typedef Node ObjectType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     static const char *getClassname(void) 
-        { return "OSGNodePtr"; };
+        { return "NodePtr"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-             OSGNodePtr(void);
-             OSGNodePtr(const OSGNodePtr &source);
-    explicit OSGNodePtr(const OSGCNodePtr &source);
+             NodePtr(void);
+             NodePtr(const NodePtr &source);
+    explicit NodePtr(const CNodePtr &source);
 
-    virtual ~OSGNodePtr(void); 
+    virtual ~NodePtr(void); 
 
     /*--------------------------- core access ------------------------------*/
 
-    OSGNodeCore *getCore(void);
+    NodeCore *getCore(void);
 
     /*----------------------- pointer operators ----------------------------*/
 
-          OSGNode *operator->(void);
-    const OSGNode *operator->(void) const;
+          Node *operator->(void);
+    const Node *operator->(void) const;
 
-          OSGNode &operator *(void);
-    const OSGNode &operator *(void) const;
+          Node &operator *(void);
+    const Node &operator *(void) const;
 
-          OSGNode *getCPtr   (void);
-    const OSGNode *getCPtr   (void) const;
+          Node *getCPtr   (void);
+    const Node *getCPtr   (void) const;
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator OSGNode *(void);
+    operator Node *(void);
 #endif
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGNodePtr &operator =(const OSGCNodePtr &source);
-    OSGNodePtr &operator =(const OSGNodePtr  &source);
+    NodePtr &operator =(const CNodePtr &source);
+    NodePtr &operator =(const NodePtr  &source);
 
     /*------------------------------ dump ----------------------------------*/
 
@@ -408,17 +419,9 @@ class OSGNodePtr : public OSGFieldContainerPtr
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    OSGNode    *_typedStoreP;
-#endif
-    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    virtual void updateTypedStore(void);
-#endif
 
   private:
 
@@ -430,14 +433,14 @@ class OSGNodePtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainerPtr Inherited;
+    typedef FieldContainerPtr Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGNode;
-    friend class OSGFieldContainer;
+    friend class Node;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -461,7 +464,7 @@ class OSGNodePtr : public OSGFieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit OSGNodePtr(const OSGNode &source);
+    explicit NodePtr(const Node &source);
 };
 
 //---------------------------------------------------------------------------
@@ -472,7 +475,7 @@ class OSGNodePtr : public OSGFieldContainerPtr
  *  \brief Pointer to a node
  */
 
-class OSGCNodePtr : public OSGFieldContainerPtr
+class OSG_DLLEXPORT CNodePtr : public FieldContainerPtr
 {
   public:
 
@@ -484,48 +487,48 @@ class OSGCNodePtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNode OSGObjectType;
+    typedef Node ObjectType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     static const char *getClassname(void) 
-        { return "OSGCNodePtr"; };
+        { return "CNodePtr"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-             OSGCNodePtr(void);
-             OSGCNodePtr(const OSGCNodePtr &source);
-    explicit OSGCNodePtr(const OSGNodePtr &source);
+             CNodePtr(void);
+             CNodePtr(const CNodePtr &source);
+    explicit CNodePtr(const NodePtr &source);
 
-    virtual ~OSGCNodePtr(void); 
+    virtual ~CNodePtr(void); 
 
     /*--------------------------- node access ------------------------------*/
 
-    OSGNode *getNode(void);
+    Node *getNode(void);
 
     /*----------------------- pointer operators ----------------------------*/
 
-          OSGNodeCore *operator->(void);
-    const OSGNodeCore *operator->(void) const;
+          NodeCore *operator->(void);
+    const NodeCore *operator->(void) const;
 
-          OSGNodeCore &operator *(void);
-    const OSGNodeCore &operator *(void) const;
+          NodeCore &operator *(void);
+    const NodeCore &operator *(void) const;
 
-          OSGNodeCore *getCPtr   (void);
-    const OSGNodeCore *getCPtr   (void) const;
+          NodeCore *getCPtr   (void);
+    const NodeCore *getCPtr   (void) const;
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator OSGNodeCore *(void);
+    operator NodeCore *(void);
 #endif
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGCNodePtr &operator =(const OSGNodePtr  &source);
-    OSGCNodePtr &operator =(const OSGCNodePtr &source);
+    CNodePtr &operator =(const NodePtr  &source);
+    CNodePtr &operator =(const CNodePtr &source);
 
     /*------------------------------ dump ----------------------------------*/
 
@@ -553,17 +556,9 @@ class OSGCNodePtr : public OSGFieldContainerPtr
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    OSGNode    *_typedStoreP;
-#endif
-    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    virtual void updateTypedStore(void);
-#endif
 
   private:
 
@@ -575,14 +570,14 @@ class OSGCNodePtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainerPtr Inherited;
+    typedef FieldContainerPtr Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGNode;
-    friend class OSGFieldContainer;
+    friend class Node;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -606,7 +601,7 @@ class OSGCNodePtr : public OSGFieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit OSGCNodePtr(const OSGNode &source);
+    explicit CNodePtr(const Node &source);
 };
 
 
@@ -620,7 +615,7 @@ class OSGCNodePtr : public OSGFieldContainerPtr
  *  detailed
  */
 
-class OSGNodeCorePtr : public OSGFieldContainerPtr
+class OSG_DLLEXPORT NodeCorePtr : public FieldContainerPtr
 {
   public:
 
@@ -632,40 +627,40 @@ class OSGNodeCorePtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNodeCore OSGObjectType;
+    typedef NodeCore ObjectType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGNodeCorePtr"; };
+    static const char *getClassname(void) { return "NodeCorePtr"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGNodeCorePtr(void);
-    OSGNodeCorePtr(const OSGNodeCorePtr &source);
-    virtual ~OSGNodeCorePtr(void); 
+    NodeCorePtr(void);
+    NodeCorePtr(const NodeCorePtr &source);
+    virtual ~NodeCorePtr(void); 
 
     /*------------------------- pointer operators --------------------------*/
 
-          OSGNodeCore *operator->(void);
-    const OSGNodeCore *operator->(void) const;
+          NodeCore *operator->(void);
+    const NodeCore *operator->(void) const;
 
-          OSGNodeCore &operator *(void);
-    const OSGNodeCore &operator *(void) const;
+          NodeCore &operator *(void);
+    const NodeCore &operator *(void) const;
 
-          OSGNodeCore *getCPtr   (void);
-    const OSGNodeCore *getCPtr   (void) const;
+          NodeCore *getCPtr   (void);
+    const NodeCore *getCPtr   (void) const;
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator OSGNodeCore *(void);
+    operator NodeCore *(void);
 #endif
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGNodeCorePtr &operator =(const OSGNodeCorePtr &source);
+    NodeCorePtr &operator =(const NodeCorePtr &source);
 
     /*------------------------------ dump ----------------------------------*/
 
@@ -693,17 +688,9 @@ class OSGNodeCorePtr : public OSGFieldContainerPtr
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    OSGNodeCore *_typedStoreP;
-#endif
-    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    virtual void updateTypedStore(void);
-#endif
 
   private:
 
@@ -715,14 +702,14 @@ class OSGNodeCorePtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainerPtr Inherited;
+    typedef FieldContainerPtr Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGNodeCore;
-    friend class OSGFieldContainer;
+    friend class NodeCore;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -746,7 +733,7 @@ class OSGNodeCorePtr : public OSGFieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit OSGNodeCorePtr(const OSGNodeCore &source);
+    explicit NodeCorePtr(const NodeCore &source);
 };
 
 
@@ -758,7 +745,7 @@ class OSGNodeCorePtr : public OSGFieldContainerPtr
  *  \brief Pointer to attachment
  */
 
-class OSGAttachmentPtr : public OSGFieldContainerPtr
+class OSG_DLLEXPORT AttachmentPtr : public FieldContainerPtr
 {
   public:
 
@@ -770,40 +757,40 @@ class OSGAttachmentPtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGAttachment OSGObjectType;
+    typedef Attachment ObjectType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGAttachmentPtr"; };
+    static const char *getClassname(void) { return "AttachmentPtr"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGAttachmentPtr(void);
-    OSGAttachmentPtr(const OSGAttachmentPtr &source);
-    virtual ~OSGAttachmentPtr(void); 
+    AttachmentPtr(void);
+    AttachmentPtr(const AttachmentPtr &source);
+    virtual ~AttachmentPtr(void); 
 
     /*---------------------- pointer operators -----------------------------*/
 
-          OSGAttachment *operator->(void);
-    const OSGAttachment *operator->(void) const;
+          Attachment *operator->(void);
+    const Attachment *operator->(void) const;
 
-          OSGAttachment &operator *(void);
-    const OSGAttachment &operator *(void) const;
+          Attachment &operator *(void);
+    const Attachment &operator *(void) const;
 
-          OSGAttachment *getCPtr   (void);
-    const OSGAttachment *getCPtr   (void) const;
+          Attachment *getCPtr   (void);
+    const Attachment *getCPtr   (void) const;
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator OSGAttachment *(void);
+    operator Attachment *(void);
 #endif
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGAttachmentPtr &operator =(const OSGAttachmentPtr &source);
+    AttachmentPtr &operator =(const AttachmentPtr &source);
 
     /*------------------------------ dump ----------------------------------*/
 
@@ -831,17 +818,9 @@ class OSGAttachmentPtr : public OSGFieldContainerPtr
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    OSGAttachment *_typedStoreP;
-#endif
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    virtual void updateTypedStore(void);
-#endif
 
   private:
 
@@ -853,13 +832,13 @@ class OSGAttachmentPtr : public OSGFieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainerPtr Inherited;
+    typedef FieldContainerPtr Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -883,7 +862,7 @@ class OSGAttachmentPtr : public OSGFieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit OSGAttachmentPtr(const OSGAttachment &source);
+    explicit AttachmentPtr(const Attachment &source);
 };
 
 
@@ -897,12 +876,12 @@ class OSGAttachmentPtr : public OSGFieldContainerPtr
  *  pointer is created by instantiating the template with type and the parent
  *  pointer type. For example :
  *  \code
- *  typedef OSGFCPtr<OSGNodeCorePtr, OSGTransform> OSGTransformPtr;
+ *  typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
  *  \endcode
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> 
-class OSGFCPtr : public OSGBasePtrTypeT
+template <class BasePtrTypeT, class FieldContainerTypeT> 
+class OSG_DLLEXPORT FCPtr : public BasePtrTypeT
 {
   public:
 
@@ -914,44 +893,44 @@ class OSGFCPtr : public OSGBasePtrTypeT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainerTypeT OSGContainerType;
-	typedef OSGFieldContainerTypeT OSGObjectType;
+    typedef FieldContainerTypeT ContainerType;
+	typedef FieldContainerTypeT ObjectType;
 	
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGFCPtr"; };
+    static const char *getClassname(void) { return "FCPtr"; };
 
-    static const OSGFCPtr NullPtr;
+    static const FCPtr NullPtr;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFCPtr(void); 
-    OSGFCPtr(const OSGFCPtr &source);
-    explicit OSGFCPtr(const OSGFieldContainerTypeT &source);
-    virtual ~OSGFCPtr(void); 
+    FCPtr(void); 
+    FCPtr(const FCPtr &source);
+    explicit FCPtr(const FieldContainerTypeT &source);
+    virtual ~FCPtr(void); 
 
     /*------------------------- pointer operators ---------------------------*/
 
-          OSGFieldContainerTypeT *operator ->(void);
-    const OSGFieldContainerTypeT *operator ->(void) const;
+          FieldContainerTypeT *operator ->(void);
+    const FieldContainerTypeT *operator ->(void) const;
 
-          OSGFieldContainerTypeT &operator *(void);
-    const OSGFieldContainerTypeT &operator *(void) const;
+          FieldContainerTypeT &operator *(void);
+    const FieldContainerTypeT &operator *(void) const;
 
-          OSGFieldContainerTypeT *getCPtr   (void);
-    const OSGFieldContainerTypeT *getCPtr   (void) const;
+          FieldContainerTypeT *getCPtr   (void);
+    const FieldContainerTypeT *getCPtr   (void) const;
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator OSGFieldContainerTypeT *(void);
+    operator FieldContainerTypeT *(void);
 #endif
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGFCPtr &operator =(const OSGFCPtr &source);
+    FCPtr &operator =(const FCPtr &source);
 
     /*------------------------------ dump ----------------------------------*/
 
@@ -979,17 +958,9 @@ class OSGFCPtr : public OSGBasePtrTypeT
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    OSGObjectType *_typedStoreP;
-#endif
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    virtual void updateTypedStore(void);
-#endif
 
   private:
 
@@ -1001,13 +972,13 @@ class OSGFCPtr : public OSGBasePtrTypeT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGBasePtrTypeT Inherited;
+    typedef BasePtrTypeT Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -1015,7 +986,7 @@ class OSGFCPtr : public OSGBasePtrTypeT
 
 	template <class BasePtr, class ContainerType>
 	friend inline ostream &operator 
-			<<(ostream &os, const OSGFCPtr<BasePtr, ContainerType> &fc);
+			<<(ostream &os, const FCPtr<BasePtr, ContainerType> &fc);
 				
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -1040,10 +1011,10 @@ class OSGFCPtr : public OSGBasePtrTypeT
 //   Exported Types
 //---------------------------------------------------------------------------
 
-extern const OSGFieldContainerPtr   OSGNullFC;
-extern const OSGNodePtr             OSGNullNode;
-extern const OSGNodeCorePtr         OSGNullNodeCore;
-extern const OSGAttachmentPtr       OSGNullAttachment;
+extern const FieldContainerPtr   NullFC;
+extern const NodePtr             NullNode;
+extern const NodeCorePtr         NullNodeCore;
+extern const AttachmentPtr       NullAttachment;
 
 OSG_END_NAMESPACE
 

@@ -1,28 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 
 #ifndef OSGIMAGE_CLASS_DECLARATION
@@ -57,7 +69,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSGImage {
+class OSG_DLLEXPORT Image {
 
 public:
 
@@ -77,20 +89,20 @@ public:
 
 
   /** Default Constructor */
-  OSGImage (void);
+  Image (void);
 
   /** Copy Constructor */
-  OSGImage (const OSGImage &obj, bool copy);
+  Image (const Image &obj, bool copy);
 
   /** Destructor */
-  virtual ~OSGImage (void);
+  virtual ~Image (void);
 
   /** construktor */
-  OSGImage (int width, int height, int depth, const char *pixelFormat, 
+  Image (int width, int height, int depth, const char *pixelFormat, 
     	    	unsigned char *data = 0);
 
   /** construktor */
-  OSGImage (int width, int height, const char *pixelFormat, 
+  Image (int width, int height, const char *pixelFormat, 
     	    	  unsigned char *data = 0);
 
   /** set methode wich sets the image data */
@@ -102,10 +114,10 @@ public:
 						const char *pixelFormat, unsigned char *data = 0);
 
   /** reformate the image to the given pixelFormat */
-  bool reformat (const char *pixelFormat, OSGImage *destination = 0);
+  bool reformat (const char *pixelFormat, Image *destination = 0);
 
   /** scale the image to the given dimension */
-  bool scale (int width, int height, int depth =1, OSGImage *destination = 0);
+  bool scale (int width, int height, int depth =1, Image *destination = 0);
 
   /** methode to write the image data to the given File */
   bool write (const char *fileName);
@@ -114,10 +126,10 @@ public:
   bool read (const char *fileName);
 
   /** Equality comparison operator */
-  bool operator == (const OSGImage &image);
+  bool operator == (const Image &image);
 
   /** lower comparison operator */
-  bool operator < (const OSGImage &image);
+  bool operator < (const Image &image);
 
   /** get method for attribute dimension */
   int dimension (void) const { return _dimension; }
@@ -135,7 +147,7 @@ public:
   unsigned char pixelDepth (void) const { return _pixelDepth; }
 
   /** get method for attribute pixelFormat */
-  const OSGString & pixelFormat (void) const { return _pixelFormat; }
+  const String & pixelFormat (void) const { return _pixelFormat; }
 
  /// get the size of used mem
   inline unsigned long size(void) const
@@ -178,7 +190,7 @@ protected:
   unsigned char _pixelDepth;
 
   /** [RGBAL] [0-9] fprmat */
-  OSGString _pixelFormat;
+  String _pixelFormat;
 
   /** image data, can be NULL */
   unsigned char * _data;
@@ -249,7 +261,7 @@ private:
 
 };
 
-typedef OSGImage* OSGImageP;
+typedef Image* ImageP;
 
 OSG_END_NAMESPACE
 

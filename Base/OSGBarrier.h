@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGBARRIER_H_
 #define _OSGBARRIER_H_
@@ -63,10 +73,10 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseThreading
- *  \brief OSGBarrierCommonBase
+ *  \brief BarrierCommonBase
  */
 
-class OSGBarrierCommonBase 
+class OSG_DLLEXPORT BarrierCommonBase 
 {
   public:
 
@@ -86,7 +96,7 @@ class OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGBarrierCommonBase"; }
+    static const char *getClassname(void) { return "BarrierCommonBase"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -114,7 +124,7 @@ class OSGBarrierCommonBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static OSGUInt32 _barrierCount;
+    static UInt32 _barrierCount;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -124,22 +134,22 @@ class OSGBarrierCommonBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGChar8  *_szName;
-    OSGUInt32  _barrierId;
-    OSGInt32   _refCount;
+    Char8  *_szName;
+    UInt32  _barrierId;
+    Int32   _refCount;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBarrierCommonBase(void);
-	OSGBarrierCommonBase(const OSGChar8 *szName);
-    virtual ~OSGBarrierCommonBase(void); 
+    BarrierCommonBase(void);
+	BarrierCommonBase(const Char8 *szName);
+    virtual ~BarrierCommonBase(void); 
 
-    void    addRef(void);
-    void    subRef(void);
+    void addRef(void);
+    void subRef(void);
 
-    OSGBool inUse (void);
+    Bool inUse (void);
 
   private:
 
@@ -155,7 +165,7 @@ class OSGBarrierCommonBase
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -181,8 +191,8 @@ class OSGBarrierCommonBase
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGBarrierCommonBase(const OSGBarrierCommonBase &source);
-    void operator =(const OSGBarrierCommonBase &source);
+    BarrierCommonBase(const BarrierCommonBase &source);
+    void operator =(const BarrierCommonBase &source);
 };
 
 
@@ -194,10 +204,10 @@ class OSGBarrierCommonBase
 #if defined (OSG_USE_PTHREADS)
 
 /*! \ingroup BaseThreading
- *  \brief OSGPThreadBarrierBase
+ *  \brief PThreadBarrierBase
  */
 
-class OSGPThreadBarrierBase : public OSGBarrierCommonBase
+class PThreadBarrierBase : public BarrierCommonBase
 {
   public:
 
@@ -213,7 +223,7 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGPThreadBarrierBase"; };
+    static const char *getClassname(void) { return "PThreadBarrierBase"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -223,7 +233,7 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
 
     /*------------------------- your_operators ------------------------------*/
     
-    void enter(OSGUInt32 numWaitFor);
+    void enter(UInt32 numWaitFor);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -255,8 +265,8 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGPThreadBarrierBase(const OSGChar8 *szName);
-    virtual ~OSGPThreadBarrierBase(void); 
+	PThreadBarrierBase(const Char8 *szName);
+    virtual ~PThreadBarrierBase(void); 
 
   private:
 
@@ -268,13 +278,13 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGBarrierCommonBase Inherited;
+    typedef BarrierCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -290,9 +300,9 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGPThreadBarrierBase *create (const OSGChar8  *szName);
+    static PThreadBarrierBase *create (const Char8  *szName);
 
-    static void                   destroy(OSGPThreadBarrierBase *barrierP);
+    static void                destroy(PThreadBarrierBase *barrierP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -301,20 +311,20 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
     pthread_mutex_t _lockOne;
     pthread_mutex_t _lockTwo;
     pthread_cond_t  _wakeupCondition;
-    OSGUInt32       _count;    
+    UInt32          _count;    
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
 
-    OSGPThreadBarrierBase(const OSGPThreadBarrierBase &source);
-    void operator =(const OSGPThreadBarrierBase &source);
+    PThreadBarrierBase(const PThreadBarrierBase &source);
+    void operator =(const PThreadBarrierBase &source);
 };
 
-typedef OSGPThreadBarrierBase OSGBarrierBase;
+typedef PThreadBarrierBase BarrierBase;
 
 #endif /* OSG_USE_PTHREADS */
 
@@ -325,10 +335,10 @@ typedef OSGPThreadBarrierBase OSGBarrierBase;
 #if defined (OSG_USE_SPROC)
 
 /*! \ingroup BaseThreading
- *  \brief OSGSprocBarrierBase
+ *  \brief SprocBarrierBase
  */
 
-class OSGSprocBarrierBase : public OSGBarrierCommonBase
+class SprocBarrierBase : public BarrierCommonBase
 {
   public:
 
@@ -344,7 +354,7 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGSprocBarrierBase"; };
+    static const char *getClassname(void) { return "SprocBarrierBase"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -354,7 +364,7 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
 
     /*------------------------- your_operators ------------------------------*/
     
-    void enter(OSGUInt32 numWaitFor);
+    void enter(UInt32 numWaitFor);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -386,8 +396,8 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGSprocBarrierBase(const OSGChar8 *szName);
-    virtual ~OSGSprocBarrierBase(void); 
+	SprocBarrierBase(const Char8 *szName);
+    virtual ~SprocBarrierBase(void); 
 
   private:
 
@@ -399,13 +409,13 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGBarrierCommonBase Inherited;
+    typedef BarrierCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -421,9 +431,9 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGSprocBarrierBase *create (const OSGChar8  *szName);
+    static SprocBarrierBase *create (const Char8  *szName);
 
-    static void                 destroy(OSGSprocBarrierBase *barrierP);
+    static void              destroy(SprocBarrierBase *barrierP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -435,14 +445,14 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
 
-    OSGSprocBarrierBase(const OSGSprocBarrierBase &source);
-    void operator =(const OSGSprocBarrierBase &source);
+    SprocBarrierBase(const SprocBarrierBase &source);
+    void operator =(const SprocBarrierBase &source);
 };
 
-typedef OSGSprocBarrierBase OSGBarrierBase;
+typedef SprocBarrierBase BarrierBase;
 
 #endif /* OSG_USE_SPROC */
 
@@ -453,10 +463,10 @@ typedef OSGSprocBarrierBase OSGBarrierBase;
 #if defined (OSG_USE_WINTHREADS)
 
 /*! \ingroup BaseThreading
- *  \brief OSGWinThreadBarrierBase
+ *  \brief WinThreadBarrierBase
  */
 
-class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
+class OSG_DLLEXPORT WinThreadBarrierBase : public BarrierCommonBase
 {
   public:
 
@@ -472,7 +482,7 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGWinThreadBarrierBase";};
+    static const char *getClassname(void) { return "WinThreadBarrierBase";};
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -482,7 +492,7 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
 
     /*------------------------- your_operators ------------------------------*/
     
-    void enter(OSGUInt32 numWaitFor);
+    void enter(UInt32 numWaitFor);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -514,8 +524,8 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGWinThreadBarrierBase(const OSGChar8 *szName);
-    virtual ~OSGWinThreadBarrierBase(void); 
+	WinThreadBarrierBase(const Char8 *szName);
+    virtual ~WinThreadBarrierBase(void); 
 
   private:
 
@@ -527,13 +537,13 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGBarrierCommonBase Inherited;
+    typedef BarrierCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -549,31 +559,31 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGWinThreadBarrierBase *create (const OSGChar8  *szName);
+    static WinThreadBarrierBase *create (const Char8  *szName);
 
-    static void                     destroy(OSGWinThreadBarrierBase *barrierP);
+    static void                  destroy(WinThreadBarrierBase *barrierP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	OSGUInt32       _count;
-	OSGHandle       _mutex1;
-	OSGHandle       _mutex2;
-	OSGHandle       _conditionEvent;
+	UInt32       _count;
+	Handle       _mutex1;
+	Handle       _mutex2;
+	Handle       _conditionEvent;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
 
-    OSGWinThreadBarrierBase(const OSGWinThreadBarrierBase &source);
-    void operator =(const OSGWinThreadBarrierBase &source);
+    WinThreadBarrierBase(const WinThreadBarrierBase &source);
+    void operator =(const WinThreadBarrierBase &source);
 };
 
-typedef OSGWinThreadBarrierBase OSGBarrierBase;
+typedef WinThreadBarrierBase BarrierBase;
 
 #endif /* OSG_USE_WINTHREADS */
 
@@ -581,23 +591,23 @@ typedef OSGWinThreadBarrierBase OSGBarrierBase;
  *  \brief OSGBarrier
  */
 
-class OSGBarrier : public OSGBarrierBase
+class OSG_DLLEXPORT Barrier : public BarrierBase
 {
   protected:
 
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
-    virtual ~OSGBarrier(void) {};
+    virtual ~Barrier(void) {};
 
-    OSGBarrier(const OSGBarrier &source);
-    void operator =(const OSGBarrier &source);
+    Barrier(const Barrier &source);
+    void operator =(const Barrier &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-typedef OSGBarrier *OSGBarrierP;
+typedef Barrier *BarrierP;
 
 OSG_END_NAMESPACE
 

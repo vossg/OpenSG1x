@@ -1,28 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 
 //-------------------------------
@@ -52,22 +64,22 @@
 
 OSG_USING_NAMESPACE
 
-/* enum OSGVecBase::VectorSizeE
+/* enum VecBase::VectorSizeE
  * brief 
 */
 
 
-/* var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/* var VecBase::VectorSizeE VecBase::_iSize
  *
 */
 
 
-/* const char *OSGVecBase::getClassName(void)
+/* const char *VecBase::getClassName(void)
  *  brief Classname
 */
 
 
-/* var OSGValueTypeT OSGVecBase:: _value[Size];
+/* var ValueTypeT VecBase:: _value[Size];
  * brief value store
 */
 
@@ -112,7 +124,7 @@ OSG_USING_NAMESPACE
 //s:
 //
 //------------------------------
-bool OSGImage::set ( int width, int height, 
+bool Image::set ( int width, int height, 
 										 const char *pixelFormat, unsigned char *data  )
 {
 	_width = width;
@@ -143,7 +155,7 @@ bool OSGImage::set ( int width, int height,
 //s:
 //
 //------------------------------
-bool OSGImage::set ( int width, int height, int depth, 
+bool Image::set ( int width, int height, int depth, 
 										 const char *pixelFormat, unsigned char *data )
 {
 	_width = width;
@@ -160,7 +172,7 @@ bool OSGImage::set ( int width, int height, int depth,
 //----------------------------
 //
 //Parameters:
-//p: const char *pixelFormat, OSGImage *destination = 0
+//p: const char *pixelFormat, Image *destination = 0
 //GlobalVars:
 //g: 
 //Returns:
@@ -175,7 +187,7 @@ bool OSGImage::set ( int width, int height, int depth,
 //s:
 //
 //------------------------------
-bool OSGImage::reformat (const char *pixelFormat, OSGImage *destination )
+bool Image::reformat (const char *pixelFormat, Image *destination )
 {
 		/*
 	unsigned char *data;
@@ -283,7 +295,7 @@ bool OSGImage::reformat (const char *pixelFormat, OSGImage *destination )
 				break;
 			default:
 			  SWARNING << "Unvalid pixeldepth (" << pixelDepth
-				         << " ) in OSGImage::reformat() !\n" << endl;
+				         << " ) in Image::reformat() !\n" << endl;
 			}
 		if (valid) {
 			delete [] _data;
@@ -320,7 +332,7 @@ bool OSGImage::reformat (const char *pixelFormat, OSGImage *destination )
 //SeeAlso:
 //s:
 //----------------------------------------------------------------------
-void OSGImage::clear(unsigned char pixelValue)
+void Image::clear(unsigned char pixelValue)
 {
 	unsigned long n = size();
 	unsigned char *data = _data;
@@ -335,7 +347,7 @@ void OSGImage::clear(unsigned char pixelValue)
 //----------------------------
 //
 //Parameters:
-//p: int width, int height, int depth =1, OSGImage *destination = 0
+//p: int width, int height, int depth =1, Image *destination = 0
 //GlobalVars:
 //g: 
 //Returns:
@@ -350,8 +362,8 @@ void OSGImage::clear(unsigned char pixelValue)
 //s:
 //
 //------------------------------
-bool OSGImage::scale (int width, int height, int depth,
-											OSGImage *destination )
+bool Image::scale (int width, int height, int depth,
+											Image *destination )
 {
 	bool retCode = true;
 	unsigned char *data, *dest, *slice, *line, *pixel;
@@ -420,9 +432,9 @@ bool OSGImage::scale (int width, int height, int depth,
 //s:
 //
 //------------------------------
-bool OSGImage::write (const char *fileName )
+bool Image::write (const char *fileName )
 {
-  return OSGImageFileHandler::the().write(*this, fileName);
+  return ImageFileHandler::the().write(*this, fileName);
 }
 
 //----------------------------
@@ -445,9 +457,9 @@ bool OSGImage::write (const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGImage::read (const char *fileName )
+bool Image::read (const char *fileName )
 {
-	return OSGImageFileHandler::the().read(*this, fileName);
+	return ImageFileHandler::the().read(*this, fileName);
 }
 /******************************
 *protected
@@ -479,7 +491,7 @@ bool OSGImage::read (const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGImage::createData (const unsigned char *data )
+bool Image::createData (const unsigned char *data )
 {
 		int i, bitCount = 0, c;
 	unsigned long size;
@@ -507,7 +519,7 @@ bool OSGImage::createData (const unsigned char *data )
 	}
 
 	if (!bitCount || (bitCount & 7)) {
-		SWARNING << "Invalid pixelFormat string in OSGImage::createData()" << endl;
+		SWARNING << "Invalid pixelFormat string in Image::createData()" << endl;
 	}
 	else {
 		_pixelDepth = bitCount >> 3;
@@ -535,7 +547,7 @@ bool OSGImage::createData (const unsigned char *data )
 
 		}
 		else
-			SWARNING << "Couldn't alloc image data in OSGImage::createData()!\n";
+			SWARNING << "Couldn't alloc image data in Image::createData()!\n";
 	}
 	else
 		_data = 0;
@@ -557,7 +569,7 @@ bool OSGImage::createData (const unsigned char *data )
 
 
 //----------------------------
-// Function name: OSGImage
+// Function name: Image
 //----------------------------
 //
 //Parameters:
@@ -576,7 +588,7 @@ bool OSGImage::createData (const unsigned char *data )
 //s:
 //
 //------------------------------
-OSGImage::OSGImage (void )
+Image::Image (void )
 : _dimension(0), _width(0), _height(0), _depth(0), _pixelDepth(0),
 	_data(0)
 {
@@ -584,7 +596,7 @@ OSGImage::OSGImage (void )
 }
 
 //----------------------------
-// Function name: OSGImage
+// Function name: Image
 //----------------------------
 //
 //Parameters:
@@ -603,7 +615,7 @@ OSGImage::OSGImage (void )
 //s:
 //
 //------------------------------
-OSGImage::OSGImage (const OSGImage &obj, bool copy )
+Image::Image (const Image &obj, bool copy )
 : _dimension(0), _width(obj._width), _height(obj._height), _depth(obj._depth),
   _pixelDepth(0), _pixelFormat(obj._pixelFormat), _data(0)
 
@@ -612,7 +624,7 @@ OSGImage::OSGImage (const OSGImage &obj, bool copy )
 }
 
 //----------------------------
-// Function name: ~OSGImage
+// Function name: ~Image
 //----------------------------
 //
 //Parameters:
@@ -631,7 +643,7 @@ OSGImage::OSGImage (const OSGImage &obj, bool copy )
 //s:
 //
 //------------------------------
-OSGImage::~OSGImage (void )
+Image::~Image (void )
 {
 	if (_data) 
 	{
@@ -641,7 +653,7 @@ OSGImage::~OSGImage (void )
 }
 
 //----------------------------
-// Function name: OSGImage
+// Function name: Image
 //----------------------------
 //
 //Parameters:
@@ -660,7 +672,7 @@ OSGImage::~OSGImage (void )
 //s:
 //
 //------------------------------
-OSGImage::OSGImage ( int width, int height, int depth, 
+Image::Image ( int width, int height, int depth, 
 										 const char *pixelFormat, unsigned char *data )
 : _dimension(0), _width(width), _height(height), _depth(depth), 
 	_pixelDepth(0), _pixelFormat(pixelFormat), _data(0)
@@ -669,7 +681,7 @@ OSGImage::OSGImage ( int width, int height, int depth,
 }
 
 //----------------------------
-// Function name: OSGImage
+// Function name: Image
 //----------------------------
 //
 //Parameters:
@@ -688,7 +700,7 @@ OSGImage::OSGImage ( int width, int height, int depth,
 //s:
 //
 //------------------------------
-OSGImage::OSGImage ( int width, int height, const char *pixelFormat, 
+Image::Image ( int width, int height, const char *pixelFormat, 
 										 unsigned char *data )
 : _dimension(0),
   _width(width), _height(height), _depth(1),
@@ -712,7 +724,7 @@ OSGImage::OSGImage ( int width, int height, const char *pixelFormat,
 //----------------------------
 //
 //Parameters:
-//p: const OSGImage &image
+//p: const Image &image
 //GlobalVars:
 //g: 
 //Returns:
@@ -727,7 +739,7 @@ OSGImage::OSGImage ( int width, int height, const char *pixelFormat,
 //s:
 //
 //------------------------------
-bool OSGImage::operator == (const OSGImage &image )
+bool Image::operator == (const Image &image )
 {
  unsigned long i, size = _width * _height * _depth * _pixelDepth;
 
@@ -747,7 +759,7 @@ bool OSGImage::operator == (const OSGImage &image )
 //----------------------------
 //
 //Parameters:
-//p: const OSGImage &image
+//p: const Image &image
 //GlobalVars:
 //g: 
 //Returns:
@@ -762,7 +774,7 @@ bool OSGImage::operator == (const OSGImage &image )
 //s:
 //
 //------------------------------
-bool OSGImage::operator < (const OSGImage &image )
+bool Image::operator < (const Image &image )
 {
 	return (size() < image.size()) ? true : false;
 }

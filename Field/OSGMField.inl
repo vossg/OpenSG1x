@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -30,9 +41,6 @@
 //---------------------------------------------------------------------------
 
 #include <algorithm>
-
-#include <OSGThread.h>
-#include <OSGChangeList.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -55,7 +63,7 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 template<class _Tp, class _Alloc>
-char OSGMFieldVector<_Tp, _Alloc>::cvsid[] = "@(#)$Id: $";
+char MFieldVector<_Tp, _Alloc>::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -87,7 +95,7 @@ char OSGMFieldVector<_Tp, _Alloc>::cvsid[] = "@(#)$Id: $";
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
+MFieldVector<_Tp, _Alloc>::MFieldVector(
     const typename Inherited::allocator_type &__a) :
 
     Inherited(__a)
@@ -98,7 +106,7 @@ OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
+MFieldVector<_Tp, _Alloc>::MFieldVector(
     typename Inherited::size_type  __n, 
     _Tp                            __value,
     const typename Inherited::allocator_type &__a) :
@@ -111,7 +119,7 @@ OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
+MFieldVector<_Tp, _Alloc>::MFieldVector(
     typename Inherited::size_type __n) :
 
     Inherited(__n)
@@ -122,7 +130,7 @@ OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(const OSGMFieldVector &__x) :
+MFieldVector<_Tp, _Alloc>::MFieldVector(const MFieldVector &__x) :
     Inherited(__x)
 {
 }
@@ -133,7 +141,7 @@ OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(const OSGMFieldVector &__x) :
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
+MFieldVector<_Tp, _Alloc>::MFieldVector(
     const _Tp                                *__first,
     const _Tp                                *__last,
     const typename Inherited::allocator_type &__a) :
@@ -149,7 +157,7 @@ OSGMFieldVector<_Tp, _Alloc>::OSGMFieldVector(
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc>::~OSGMFieldVector()
+MFieldVector<_Tp, _Alloc>::~MFieldVector()
 {
 }
 
@@ -165,8 +173,8 @@ OSGMFieldVector<_Tp, _Alloc>::~OSGMFieldVector()
  */
 
 template<class _Tp, class _Alloc> inline
-OSGMFieldVector<_Tp, _Alloc> &OSGMFieldVector<_Tp, _Alloc>::operator =(
-    const OSGMFieldVector<_Tp, _Alloc> &__x)
+MFieldVector<_Tp, _Alloc> &MFieldVector<_Tp, _Alloc>::operator =(
+    const MFieldVector<_Tp, _Alloc> &__x)
 {
 	if (this == &__x)
 		return *this;
@@ -179,35 +187,35 @@ OSGMFieldVector<_Tp, _Alloc> &OSGMFieldVector<_Tp, _Alloc>::operator =(
 #endif
 
 
-/** \fn const char *OSGMField::getClassname(void)
+/** \fn const char *MField::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGMField::Inherited
+/** \typedef MField::Inherited
  *  \brief Parent type
  */
 
-/** \var OSGFieldTypeT OSGMField::_values
+/** \var FieldTypeT MField::_values
  *  \brief Value store
  */
 
-/** \typedef vector<OSGFieldTypeT> OSGMField::OSGStorageType
+/** \typedef vector<FieldTypeT> MField::StorageType
  *  \brief Storage type
  */
 
-/** \typedef vector<OSGFieldTypeT>::iterator OSGMField::iterator
+/** \typedef vector<FieldTypeT>::iterator MField::iterator
  *  \brief Storage iterator
  */
 
-/** \typedef vector<OSGFieldTypeT>::const_iterator OSGMField::const_iterator
+/** \typedef vector<FieldTypeT>::const_iterator MField::const_iterator
  *  \brief Const Storage iterator
  */
 
-/** \typedef vector<OSGFieldTypeT>::reference OSGMField::reference
+/** \typedef vector<FieldTypeT>::reference MField::reference
  *  \brief Value reference
  */
 
-/** \typedef vector<OSGFieldTypeT>::const_reference OSGMField::const_reference
+/** \typedef vector<FieldTypeT>::const_reference MField::const_reference
  *  \brief Const value reference
  */
 
@@ -219,21 +227,21 @@ OSGMFieldVector<_Tp, _Alloc> &OSGMFieldVector<_Tp, _Alloc>::operator =(
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGFieldTypeT>
-char OSGMField<OSGFieldTypeT>::cvsid[] = "@(#)$Id: $";
+template <class FieldTypeT>
+char MField<FieldTypeT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief Field type
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class OSGFieldTypeT>
-const OSGFieldType OSGMField<OSGFieldTypeT>::_fieldType = OSGFieldType(
-	OSGFieldDataTraits<OSGFieldTypeT>::getMName(), 
+template <class FieldTypeT>
+const FieldType MField<FieldTypeT>::_fieldType = FieldType(
+	FieldDataTraits<FieldTypeT>::getMName(), 
 	create);
 #else
-template <class OSGFieldTypeT>
-const OSGFieldType OSGMField<OSGFieldTypeT>::_fieldType(
-	OSGFieldDataTraits<OSGFieldTypeT>::getMName(), 
+template <class FieldTypeT>
+const FieldType MField<FieldTypeT>::_fieldType(
+	FieldDataTraits<FieldTypeT>::getMName(), 
 	create);
 #endif
 
@@ -248,8 +256,8 @@ const OSGFieldType OSGMField<OSGFieldTypeT>::_fieldType(
 /** \brief Get class type
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldType &OSGMField<OSGFieldTypeT>::getClassType(void)
+template <class FieldTypeT> inline
+const FieldType &MField<FieldTypeT>::getClassType(void)
 {
     return _fieldType;
 }
@@ -265,10 +273,10 @@ const OSGFieldType &OSGMField<OSGFieldTypeT>::getClassType(void)
 /** \brief Create method used by the factory to create an instance
  */
 
-template <class OSGFieldTypeT> inline
-OSGField *OSGMField<OSGFieldTypeT>::create(void) 
+template <class FieldTypeT> inline
+Field *MField<FieldTypeT>::create(void) 
 {
-    return new OSGMField<OSGFieldTypeT>(); 
+    return new MField<FieldTypeT>(); 
 }
 
 /***************************************************************************\
@@ -284,8 +292,8 @@ OSGField *OSGMField<OSGFieldTypeT>::create(void)
 /** \brief Constructor
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::OSGMField(void) :
+template <class FieldTypeT> inline
+MField<FieldTypeT>::MField(void) :
     Inherited(),
     _values()
 {
@@ -294,8 +302,8 @@ OSGMField<OSGFieldTypeT>::OSGMField(void) :
 /** \brief Constructor, reserves size elements
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::OSGMField(const OSGUInt32 size)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::MField(const UInt32 size)
 {
     _values.resize(size);
 }
@@ -303,8 +311,8 @@ OSGMField<OSGFieldTypeT>::OSGMField(const OSGUInt32 size)
 /** \brief Constructor from a given field
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::OSGMField(const OSGMField &obj) :
+template <class FieldTypeT> inline
+MField<FieldTypeT>::MField(const MField &obj) :
     Inherited(obj),
     _values(obj._values)
 {
@@ -313,8 +321,8 @@ OSGMField<OSGFieldTypeT>::OSGMField(const OSGMField &obj) :
 /** \brief Destructor
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::~OSGMField(void)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::~MField(void)
 {
 }
 
@@ -323,8 +331,8 @@ OSGMField<OSGFieldTypeT>::~OSGMField(void)
 /** \brief Return a reference to the stored value at index index
  */
 
-template <class OSGFieldTypeT> inline
-OSGFieldTypeT &OSGMField<OSGFieldTypeT>::getValue(const OSGUInt32 index)
+template <class FieldTypeT> inline
+FieldTypeT &MField<FieldTypeT>::getValue(const UInt32 index)
 {
     return _values[index];
 }
@@ -332,9 +340,9 @@ OSGFieldTypeT &OSGMField<OSGFieldTypeT>::getValue(const OSGUInt32 index)
 /** \brief Return a const reference to the stored value at index index
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldTypeT &OSGMField<OSGFieldTypeT>::getValue(
-    const OSGUInt32 index) const
+template <class FieldTypeT> inline
+const FieldTypeT &MField<FieldTypeT>::getValue(
+    const UInt32 index) const
 {
     return _values[index];
 }
@@ -342,8 +350,8 @@ const OSGFieldTypeT &OSGMField<OSGFieldTypeT>::getValue(
 /** \brief Return a reference to the value store 
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::OSGStorageType &OSGMField<OSGFieldTypeT>::getValues(
+template <class FieldTypeT> inline
+MField<FieldTypeT>::StorageType &MField<FieldTypeT>::getValues(
     void)
 {
     return _values;
@@ -352,9 +360,9 @@ OSGMField<OSGFieldTypeT>::OSGStorageType &OSGMField<OSGFieldTypeT>::getValues(
 /** \brief Return a const reference to the value store 
  */
 
-template <class OSGFieldTypeT> inline
-const OSGMField<OSGFieldTypeT>::OSGStorageType &
-    OSGMField<OSGFieldTypeT>::getValues(void) const
+template <class FieldTypeT> inline
+const MField<FieldTypeT>::StorageType &
+    MField<FieldTypeT>::getValues(void) const
 {
     return _values;
 }
@@ -363,21 +371,21 @@ const OSGMField<OSGFieldTypeT>::OSGStorageType &
  *  the same.
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::setAbstrValue(const OSGField &obj)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValues(*((OSGMField<OSGFieldTypeT> *) &obj));
+        setValues(*((MField<FieldTypeT> *) &obj));
     }
 }
 
 /** \brief Set the value at the given index to values
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::setValue(const OSGFieldTypeT &value,
-                                        const OSGUInt32      index)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::setValue(const FieldTypeT &value,
+                                        const UInt32      index)
 {
     _values[index] = value;
 }
@@ -385,8 +393,8 @@ void OSGMField<OSGFieldTypeT>::setValue(const OSGFieldTypeT &value,
 /** \brief Copies the values from a given value store
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::setValues(const OSGStorageType &value)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::setValues(const StorageType &value)
 {
     _values = value;
 }
@@ -394,8 +402,8 @@ void OSGMField<OSGFieldTypeT>::setValues(const OSGStorageType &value)
 /** \brief Copies the values from a given field
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::setValues(const OSGMField<OSGFieldTypeT> &obj)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::setValues(const MField<FieldTypeT> &obj)
 {
     _values = obj._values;
 }
@@ -405,8 +413,8 @@ void OSGMField<OSGFieldTypeT>::setValues(const OSGMField<OSGFieldTypeT> &obj)
 /** \brief Append the given value to the store
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::addValue(const OSGFieldTypeT &value)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::addValue(const FieldTypeT &value)
 {
     _values.push_back(value);
 }
@@ -414,8 +422,8 @@ void OSGMField<OSGFieldTypeT>::addValue(const OSGFieldTypeT &value)
 /** \brief Return an iterator to the first element
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::begin (void)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::iterator MField<FieldTypeT>::begin (void)
 {
     return _values.begin();
 }
@@ -423,8 +431,8 @@ OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::begin (void)
 /** \brief Return an iterator to the end of the store
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::end(void)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::iterator MField<FieldTypeT>::end(void)
 {
     return _values.end();
 }
@@ -433,8 +441,8 @@ OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::end(void)
 /** \brief Return a const iterator to the first element
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::const_iterator OSGMField<OSGFieldTypeT>::begin(
+template <class FieldTypeT> inline
+MField<FieldTypeT>::const_iterator MField<FieldTypeT>::begin(
     void) const
 {
     return _values.begin();
@@ -443,8 +451,8 @@ OSGMField<OSGFieldTypeT>::const_iterator OSGMField<OSGFieldTypeT>::begin(
 /** \brief Return a const iterator to the end of the store
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::const_iterator OSGMField<OSGFieldTypeT>::end(
+template <class FieldTypeT> inline
+MField<FieldTypeT>::const_iterator MField<FieldTypeT>::end(
     void) const
 {
     return _values.end();
@@ -453,8 +461,8 @@ OSGMField<OSGFieldTypeT>::const_iterator OSGMField<OSGFieldTypeT>::end(
 /** \brief Returns an interator to the first element
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::reference OSGMField<OSGFieldTypeT>::front(void)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::reference MField<FieldTypeT>::front(void)
 {
     return _values.front();
 }
@@ -462,8 +470,8 @@ OSGMField<OSGFieldTypeT>::reference OSGMField<OSGFieldTypeT>::front(void)
 /** \brief Returns a const interator to the first element
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::const_reference OSGMField<OSGFieldTypeT>::front(
+template <class FieldTypeT> inline
+MField<FieldTypeT>::const_reference MField<FieldTypeT>::front(
     void) const
 {
     return _values.front();
@@ -472,8 +480,8 @@ OSGMField<OSGFieldTypeT>::const_reference OSGMField<OSGFieldTypeT>::front(
 /** \brief Returns an interator to the last element
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::reference OSGMField<OSGFieldTypeT>::back(void)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::reference MField<FieldTypeT>::back(void)
 {
     return _values.back();
 }
@@ -481,8 +489,8 @@ OSGMField<OSGFieldTypeT>::reference OSGMField<OSGFieldTypeT>::back(void)
 /** \brief Returns a const interator to the last element
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::const_reference OSGMField<OSGFieldTypeT>::back(
+template <class FieldTypeT> inline
+MField<FieldTypeT>::const_reference MField<FieldTypeT>::back(
     void) const
 {
     return _values.back();
@@ -491,9 +499,9 @@ OSGMField<OSGFieldTypeT>::const_reference OSGMField<OSGFieldTypeT>::back(
 /** \brief Inserts value at the given pos
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::insert(
-    iterator pos, const OSGFieldTypeT &value)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::iterator MField<FieldTypeT>::insert(
+    iterator pos, const FieldTypeT &value)
 {
     return _values.insert(pos, value);
 }
@@ -501,8 +509,8 @@ OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::insert(
 /** \brief Removes values from the given pos
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::erase(
+template <class FieldTypeT> inline
+MField<FieldTypeT>::iterator MField<FieldTypeT>::erase(
     iterator pos)
 {
     return _values.erase(pos);
@@ -511,8 +519,8 @@ OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::erase(
 /** \brief Clears the value store
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::clear(void)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::clear(void)
 {
     _values.clear();
 }
@@ -520,9 +528,9 @@ void OSGMField<OSGFieldTypeT>::clear(void)
 /** \brief Returns an iterator to the given value if found otherwise end()
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::find(
-    const OSGFieldTypeT &value)
+template <class FieldTypeT> inline
+MField<FieldTypeT>::iterator MField<FieldTypeT>::find(
+    const FieldTypeT &value)
 {
     return std::find(_values.begin(), _values.end(), value);
 }
@@ -530,9 +538,9 @@ OSGMField<OSGFieldTypeT>::iterator OSGMField<OSGFieldTypeT>::find(
 /** \brief Returns a const iterator to the given value if found otherwise end()
  */
 
-template <class OSGFieldTypeT> inline
-OSGMField<OSGFieldTypeT>::const_iterator OSGMField<OSGFieldTypeT>::find(
-    const OSGFieldTypeT &value) const
+template <class FieldTypeT> inline
+MField<FieldTypeT>::const_iterator MField<FieldTypeT>::find(
+    const FieldTypeT &value) const
 {
     return std::find(_values.begin(), _values.end(), value);
 }
@@ -541,14 +549,14 @@ OSGMField<OSGFieldTypeT>::const_iterator OSGMField<OSGFieldTypeT>::find(
  *  stll container implementation
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::resize(size_t newsize)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::resize(size_t newsize)
 {
     _values.resize(newsize);
 }
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::push_back(const OSGFieldTypeT &value)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::push_back(const FieldTypeT &value)
 {
     _values.push_back(value);
 }
@@ -556,8 +564,8 @@ void OSGMField<OSGFieldTypeT>::push_back(const OSGFieldTypeT &value)
 /** \brief Returns a reference to the value at the given index 
  */
 
-template <class OSGFieldTypeT> inline
-OSGFieldTypeT &OSGMField<OSGFieldTypeT>::operator [](OSGUInt32 index)
+template <class FieldTypeT> inline
+FieldTypeT &MField<FieldTypeT>::operator [](UInt32 index)
 {
     return _values[index];
 }
@@ -565,29 +573,29 @@ OSGFieldTypeT &OSGMField<OSGFieldTypeT>::operator [](OSGUInt32 index)
 /** \brief Returns a const reference to the value at the given index 
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldTypeT &OSGMField<OSGFieldTypeT>::operator [](
-    OSGUInt32 index) const
+template <class FieldTypeT> inline
+const FieldTypeT &MField<FieldTypeT>::operator [](
+    UInt32 index) const
 {
     return _values[index];
 }
 
 /*-------------------------- field information ------------------------------*/
 
-/** \brief Return the cardinality of the field, allways OSGMULTI_FIELD
+/** \brief Return the cardinality of the field, allways MULTI_FIELD
  */
 
-template <class OSGFieldTypeT> inline
-OSGField::OSGCardinality OSGMField<OSGFieldTypeT>::getCardinality (void) const
+template <class FieldTypeT> inline
+Field::Cardinality MField<FieldTypeT>::getCardinality (void) const
 {
-    return OSGMULTI_FIELD;
+    return MULTI_FIELD;
 }
 
 /** \brief Returns the size of the field
  */
 
-template <class OSGFieldTypeT> inline
-OSGUInt32 OSGMField<OSGFieldTypeT>::size(void) const
+template <class FieldTypeT> inline
+UInt32 MField<FieldTypeT>::size(void) const
 {
     return _values.size();
 }
@@ -595,8 +603,8 @@ OSGUInt32 OSGMField<OSGFieldTypeT>::size(void) const
 /** \brief Returns the size of the field
  */
 
-template <class OSGFieldTypeT> inline
-OSGUInt32 OSGMField<OSGFieldTypeT>::getSize(void) const
+template <class FieldTypeT> inline
+UInt32 MField<FieldTypeT>::getSize(void) const
 {
 	return size();
 }
@@ -604,8 +612,8 @@ OSGUInt32 OSGMField<OSGFieldTypeT>::getSize(void) const
 /** \brief Returns the type of the field
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldType &OSGMField<OSGFieldTypeT>::getType(void) const
+template <class FieldTypeT> inline
+const FieldType &MField<FieldTypeT>::getType(void) const
 {
     return _fieldType;
 }
@@ -615,33 +623,27 @@ const OSGFieldType &OSGMField<OSGFieldTypeT>::getType(void) const
 /** \brief Sets the field value from a given string
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::setValueByStr(const char *str)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::pushValueByStr(const Char8 *str)
 {
-    const char    *szTmp = str;
-    OSGFieldTypeT  tmpVal;
+    FieldTypeT  tmpVal;
 
-    OSGBool bGotValid;
-
-    bGotValid = OSGFieldDataTraits<OSGFieldTypeT>::getFromString(tmpVal, 
-                                                                 szTmp);
-
-    while(bGotValid == true)
-    {
-        
-        bGotValid = OSGFieldDataTraits<OSGFieldTypeT>::getFromString(tmpVal, 
-                                                                     szTmp);
-
-        addValue(tmpVal);
-    }
+    typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
+                    Traits::FromStringConvertable), 
+                  FieldDataTraits<FieldTypeT>, 
+                  ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    
+    Converter::getFromString(tmpVal, str);
+    
+    addValue(tmpVal);
 }
 
 /** \brief Dump the field to a given string
  */
 
 
-template <class OSGFieldTypeT> inline
-OSGString &OSGMField<OSGFieldTypeT>::getStrValue(OSGString &string) const
+template <class FieldTypeT> inline
+String &MField<FieldTypeT>::getValueByStr(String &string) const
 {
 	SWARNING << "getStrValue: not implemented yet!" << endl;
 
@@ -654,12 +656,12 @@ OSGString &OSGMField<OSGFieldTypeT>::getStrValue(OSGString &string) const
  *  log stream instead
  */
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::dump(void) const
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::dump(void) const
 {
     cout << "STMFST : " << endl;
 
-    for(OSGUInt32 i = 0; i < _values.size(); i++)
+    for(UInt32 i = 0; i < _values.size(); i++)
     {
         cout << _values[i] << " , ";
     }
@@ -671,14 +673,14 @@ void OSGMField<OSGFieldTypeT>::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::doSync(OSGField *source)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::doSync(Field *source)
 {
-    setValues(*((OSGMField<OSGFieldTypeT> *) source));
+    setValues(*((MField<FieldTypeT> *) source));
 }
 
-template <class OSGFieldTypeT> inline
-void OSGMField<OSGFieldTypeT>::beginEdit(void)
+template <class FieldTypeT> inline
+void MField<FieldTypeT>::beginEdit(void)
 {
     
 }

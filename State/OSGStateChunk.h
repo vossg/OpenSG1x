@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGSTATECHUNK_H_
 #define _OSGSTATECHUNK_H_
@@ -50,13 +60,13 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGStateChunk;
+class StateChunk;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef OSGFCPtr<OSGFieldContainerPtr, OSGStateChunk> OSGStateChunkPtr;
+typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -66,32 +76,32 @@ typedef OSGFCPtr<OSGFieldContainerPtr, OSGStateChunk> OSGStateChunkPtr;
 // the id is a low int to index into the state's chunk vector
 // A static instance of this is part of every new chunk class
 
-class OSGStateChunkClass
+class OSG_DLLEXPORT StateChunkClass
 {
   public:
 
-	OSGStateChunkClass( OSGString name, OSGUInt32 numslots = 1 );
+	StateChunkClass( String name, UInt32 numslots = 1 );
 	
 	// get name and id of this class
-	OSGUInt32 getID( void ) const;	
-	const OSGString getName( void ) const;
-	OSGUInt32 getNumSlots( void ) const;
+	UInt32 getID( void ) const;	
+	const String getName( void ) const;
+	UInt32 getNumSlots( void ) const;
 	
 	// get name and id of indicated class
-	static const OSGString getName( OSGUInt32 index ) ;
-	static OSGUInt32 getNumSlots( OSGUInt32 index ) ;
+	static const String getName( UInt32 index ) ;
+	static UInt32 getNumSlots( UInt32 index ) ;
 	
 	// access to the class name list
-	typedef vector<OSGString>::const_iterator iterator;
+	typedef vector<String>::const_iterator iterator;
 	
     static iterator begin(); 
     static iterator end();
 	
   private:
   	
-	OSGUInt32 _classId;	
-	static vector<OSGString>* _classNames;
-	static vector<OSGUInt32>* _numslots;
+	UInt32 _classId;	
+	static vector<String>* _classNames;
+	static vector<UInt32>* _numslots;
 };
 
 /*! \ingroup baselib
@@ -100,7 +110,7 @@ class OSGStateChunkClass
  *  detailed
  */
 
-class OSGStateChunk : public OSGFieldContainer
+class OSG_DLLEXPORT StateChunk : public FieldContainer
 {
   public:
 
@@ -112,8 +122,8 @@ class OSGStateChunk : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef OSGFieldContainer Inherited;
-    typedef OSGStateChunkPtr OSGPtr;
+	typedef FieldContainer Inherited;
+    typedef StateChunkPtr Ptr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -127,7 +137,7 @@ class OSGStateChunk : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(OSGStateChunkPtr)
+    OSG_ABSTR_FIELD_CONTAINER_DECL(StateChunkPtr)
 
     /*----------------------------- dump ----------------------------------*/
 
@@ -136,19 +146,19 @@ class OSGStateChunk : public OSGFieldContainer
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( OSGUInt32 index = 0 );
+	virtual void activate ( UInt32 index = 0 );
 
 	// call commands to get from old to my state. Only meaningful for
 	// chunks of the same type
-	virtual void changeFrom( OSGStateChunk * old, OSGUInt32 index = 0 );
+	virtual void changeFrom( StateChunk * old, UInt32 index = 0 );
 
 	// reset my part of the state
-	virtual void deactivate ( OSGUInt32 index = 0 );
+	virtual void deactivate ( UInt32 index = 0 );
 
     /*----------------------------- access ----------------------------------*/
 
-	inline OSGUInt32 getClassID( void ) const;	
-	virtual const OSGStateChunkClass * getClass( void ) const;	
+	inline UInt32 getClassID( void ) const;	
+	virtual const StateChunkClass * getClass( void ) const;	
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -157,14 +167,14 @@ class OSGStateChunk : public OSGFieldContainer
 	// estimate the cost to switch to the chunk 
 	// the unit is unclear, maybe musecs. It's not important anyway,
 	// it just has to be consistent over all types of chunks
-	virtual OSGReal32 switchCost( OSGStateChunk * chunk );
+	virtual Real32 switchCost( StateChunk * chunk );
 
 	// defines an ordering for chunks. Only well defined for chunks of the
 	// same type.
-    virtual OSGBool operator < (const OSGStateChunk &other) const;
+    virtual Bool operator < (const StateChunk &other) const;
     
-	virtual OSGBool operator == (const OSGStateChunk &other) const;
-	virtual OSGBool operator != (const OSGStateChunk &other) const;
+	virtual Bool operator == (const StateChunk &other) const;
+	virtual Bool operator != (const StateChunk &other) const;
 
   protected:
 
@@ -190,15 +200,15 @@ class OSGStateChunk : public OSGFieldContainer
 
 	// chunks class
 	// set in constructor, never changed after that
-	OSGUInt32 _ownClass;
+	UInt32 _ownClass;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGStateChunk(void);
-	OSGStateChunk( const OSGStateChunk& source );
-    virtual ~OSGStateChunk(void); 
+    StateChunk(void);
+	StateChunk( const StateChunk& source );
+    virtual ~StateChunk(void); 
 
   private:
 
@@ -214,7 +224,7 @@ class OSGStateChunk : public OSGFieldContainer
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainer;
+	friend class FieldContainer;
 	
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -226,7 +236,7 @@ class OSGStateChunk : public OSGFieldContainer
 
 	static char cvsid[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -242,7 +252,7 @@ class OSGStateChunk : public OSGFieldContainer
 
 	// prohibit default functions (move to 'public' if you need one)
 
-	// OSGStateChunk & operator =(const OSGStateChunk &source);
+	// StateChunk & operator =(const StateChunk &source);
 };
 
 //---------------------------------------------------------------------------
@@ -251,38 +261,27 @@ class OSGStateChunk : public OSGFieldContainer
 
 // class pointer
 
-typedef OSGStateChunk *OSGStateChunkP;
+typedef StateChunk *StateChunkP;
 
 // pointer field
 
 template <>
-struct OSGFieldDataTraits<OSGStateChunkPtr> : public OSGTraits
+struct FieldDataTraits<StateChunkPtr> : public Traits
 {
-    static char *getSName(void) { return "SFStateChunkPtr"; }
-    static char *getMName(void) { return "MFStateChunkPtr"; }
+    enum                           { StringConvertable = 0x00  };
 
-    static OSGBool          getDefault(void)    { return false; }
+    static Char8 *getSName(void)   { return "SFStateChunkPtr"; }
+    static Char8 *getMName(void)   { return "MFStateChunkPtr"; }
 
-    static bool             getFromString(OSGStateChunkPtr &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGStateChunkPtr &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
+//  static Bool   getDefault(void) { return false;             }
 };
 
-typedef OSGSField<OSGStateChunkPtr> OSGSFStateChunkPtr;
-typedef OSGMField<OSGStateChunkPtr> OSGMFStateChunkPtr;
+typedef SField<StateChunkPtr> SFStateChunkPtr;
+typedef MField<StateChunkPtr> MFStateChunkPtr;
 
 // null pointer
 
-extern OSGStateChunkPtr OSGNullStateChunk;
+extern StateChunkPtr NullStateChunk;
 
 OSG_END_NAMESPACE
 

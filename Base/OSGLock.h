@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGLOCK_H_
 #define _OSGLOCK_H_
@@ -57,18 +67,18 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-static const OSGUInt32 uiLockPoolSize = 32;
-static const OSGUInt32 uiLockPoolMask = 0x0f80;
+static const UInt32 uiLockPoolSize = 32;
+static const UInt32 uiLockPoolMask = 0x0f80;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseThreading
- *  \brief OSGLockCommonBase
+ *  \brief LockCommonBase
  */
 
-class OSGLockCommonBase 
+class OSG_DLLEXPORT LockCommonBase 
 {
   public:
 
@@ -88,7 +98,7 @@ class OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGLockCommonBase"; }
+    static const char *getClassname(void) { return "LockCommonBase"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -116,7 +126,7 @@ class OSGLockCommonBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static OSGUInt32 _lockCount;
+    static UInt32 _lockCount;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -126,22 +136,22 @@ class OSGLockCommonBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGChar8  *_szName;
-    OSGUInt32  _lockId;
-    OSGInt32   _refCount;
+    Char8  *_szName;
+    UInt32  _lockId;
+    Int32   _refCount;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGLockCommonBase(void);
-	OSGLockCommonBase(const OSGChar8 *szName);
-    virtual ~OSGLockCommonBase(void); 
+    LockCommonBase(void);
+	LockCommonBase(const Char8 *szName);
+    virtual ~LockCommonBase(void); 
 
-    void    addRef(void);
-    void    subRef(void);
+    void addRef(void);
+    void subRef(void);
 
-    OSGBool inUse (void);
+    Bool inUse (void);
 
   private:
 
@@ -157,7 +167,7 @@ class OSGLockCommonBase
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -183,8 +193,8 @@ class OSGLockCommonBase
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGLockCommonBase(const OSGLockCommonBase &source);
-    void operator =(const OSGLockCommonBase &source);
+    LockCommonBase(const LockCommonBase &source);
+    void operator =(const LockCommonBase &source);
 };
 
 
@@ -197,10 +207,10 @@ class OSGLockCommonBase
 #if defined (OSG_USE_PTHREADS)
 
 /*! \ingroup BaseThreading
- *  \brief OSGPThreadLockBase
+ *  \brief PThreadLockBase
  */
 
-class OSGPThreadLockBase : public OSGLockCommonBase
+class PThreadLockBase : public LockCommonBase
 {
   public:
 
@@ -216,7 +226,7 @@ class OSGPThreadLockBase : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGChar8 *getClassname(void) { return "OSGPThreadLockBase"; };
+    static const Char8 *getClassname(void) { return "PThreadLockBase"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -224,10 +234,10 @@ class OSGPThreadLockBase : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void    aquire (void);
-    void    release(void);
+    void aquire (void);
+    void release(void);
 
-    OSGBool request(void);
+    Bool request(void);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -261,9 +271,9 @@ class OSGPThreadLockBase : public OSGLockCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGPThreadLockBase(void);
-	OSGPThreadLockBase(const OSGChar8 *szName);
-    virtual ~OSGPThreadLockBase(void); 
+    PThreadLockBase(void);
+	PThreadLockBase(const Char8 *szName);
+    virtual ~PThreadLockBase(void); 
 
   private:
 
@@ -275,14 +285,14 @@ class OSGPThreadLockBase : public OSGLockCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGLockCommonBase Inherited;
+    typedef LockCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
-    friend class OSGLockPool;
+    friend class ThreadManager;
+    friend class LockPool;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -298,9 +308,9 @@ class OSGPThreadLockBase : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGPThreadLockBase *create (const OSGChar8 *szName);
+    static PThreadLockBase *create (const Char8 *szName);
 
-    static void                destroy(OSGPThreadLockBase *lockP);
+    static void             destroy(PThreadLockBase *lockP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -312,14 +322,14 @@ class OSGPThreadLockBase : public OSGLockCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
 
-    OSGPThreadLockBase(const OSGPThreadLockBase &source);
-    void operator =(const OSGPThreadLockBase &source);
+    PThreadLockBase(const PThreadLockBase &source);
+    void operator =(const PThreadLockBase &source);
 };
 
-typedef OSGPThreadLockBase OSGLockBase;
+typedef PThreadLockBase LockBase;
 
 #endif /* OSG_USE_PTHREADS */
 
@@ -330,10 +340,10 @@ typedef OSGPThreadLockBase OSGLockBase;
 #if defined (OSG_USE_SPROC)
 
 /*! \ingroup BaseThreading
- *  \brief OSGSprocLockBase
+ *  \brief SprocLockBase
  */
 
-class OSGSprocLockBase : public OSGLockCommonBase
+class SprocLockBase : public LockCommonBase
 {
   public:
 
@@ -349,7 +359,7 @@ class OSGSprocLockBase : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGChar8 *getClassname(void) { return "OSGSprocLockBase"; };
+    static const Char8 *getClassname(void) { return "SprocLockBase"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -357,10 +367,10 @@ class OSGSprocLockBase : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void    aquire (void);
-    void    release(void);
+    void aquire (void);
+    void release(void);
 
-    OSGBool request(void);
+    Bool request(void);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -394,9 +404,9 @@ class OSGSprocLockBase : public OSGLockCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGSprocLockBase(void);
-	OSGSprocLockBase(const OSGChar8 *szName);
-    virtual ~OSGSprocLockBase(void); 
+    SprocLockBase(void);
+	SprocLockBase(const Char8 *szName);
+    virtual ~SprocLockBase(void); 
 
   private:
 
@@ -408,14 +418,14 @@ class OSGSprocLockBase : public OSGLockCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGLockCommonBase Inherited;
+    typedef LockCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
-    friend class OSGLockPool;
+    friend class ThreadManager;
+    friend class LockPool;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -431,9 +441,9 @@ class OSGSprocLockBase : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGSprocLockBase *create (const OSGChar8 *szName);
+    static SprocLockBase *create (const Char8 *szName);
 
-    static void              destroy(OSGSprocLockBase *lockP);
+    static void           destroy(SprocLockBase *lockP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -445,14 +455,14 @@ class OSGSprocLockBase : public OSGLockCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
         
-    OSGSprocLockBase(const OSGSprocLockBase &source);
-    void operator =(const OSGSprocLockBase &source);
+    SprocLockBase(const SprocLockBase &source);
+    void operator =(const SprocLockBase &source);
 };
 
-typedef OSGSprocLockBase OSGLockBase;
+typedef SprocLockBase LockBase;
 
 #endif /* OSG_USE_SPROC */
 
@@ -463,10 +473,10 @@ typedef OSGSprocLockBase OSGLockBase;
 #if defined (OSG_USE_WINTHREADS)
 
 /*! \ingroup BaseThreading
- *  \brief OSGWinThreadLockBase
+ *  \brief WinThreadLockBase
  */
 
-class OSGWinThreadLockBase : public OSGLockCommonBase
+class OSG_DLLEXPORT WinThreadLockBase : public LockCommonBase
 {
   public:
 
@@ -482,7 +492,7 @@ class OSGWinThreadLockBase : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGChar8 *getClassname(void) {return "OSGWinThreadLockBase";};
+    static const Char8 *getClassname(void) {return "WinThreadLockBase";};
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -490,10 +500,10 @@ class OSGWinThreadLockBase : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void    aquire (void);
-    void    release(void);
+    void aquire (void);
+    void release(void);
 
-    OSGBool request(void);
+    Bool request(void);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -528,9 +538,9 @@ class OSGWinThreadLockBase : public OSGLockCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGWinThreadLockBase(void);
-	OSGWinThreadLockBase(const OSGChar8 *szName);
-    virtual ~OSGWinThreadLockBase(void); 
+    WinThreadLockBase(void);
+	WinThreadLockBase(const Char8 *szName);
+    virtual ~WinThreadLockBase(void); 
 
   private:
 
@@ -542,14 +552,14 @@ class OSGWinThreadLockBase : public OSGLockCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGLockCommonBase Inherited;
+    typedef LockCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThreadManager;
-    friend class OSGLockPool;
+    friend class ThreadManager;
+    friend class LockPool;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -565,49 +575,49 @@ class OSGWinThreadLockBase : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGWinThreadLockBase *create (const OSGChar8 *szName);
+    static WinThreadLockBase *create (const Char8 *szName);
 
-    static void                  destroy(OSGWinThreadLockBase *lockP);
+    static void               destroy(WinThreadLockBase *lockP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	OSGHandle  _mutex;
+	Handle  _mutex;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
 
-    OSGWinThreadLockBase(const OSGWinThreadLockBase &source);
-    void operator =(const OSGWinThreadLockBase &source);
+    WinThreadLockBase(const WinThreadLockBase &source);
+    void operator =(const WinThreadLockBase &source);
 };
 
-typedef OSGWinThreadLockBase OSGLockBase;
+typedef WinThreadLockBase LockBase;
 
 #endif /* OSG_USE_WINTHREADS */
 
 /*! \ingroup BaseThreading
- *  \brief OSGLock
+ *  \brief Lock
  */
 
-class OSGLock : public OSGLockBase
+class Lock : public LockBase
 {
   public:
 
   protected:
 
-    friend class OSGThreadManager;
-    friend class OSGLockPool;
+    friend class ThreadManager;
+    friend class LockPool;
 
-    OSGLock(void) {};
-    virtual ~OSGLock(void) {};
+    Lock(void) {};
+    virtual ~Lock(void) {};
 
-    OSGLock(const OSGLock &source);
-    void operator =(const OSGLock &source);
+    Lock(const Lock &source);
+    void operator =(const Lock &source);
 };
 
 //---------------------------------------------------------------------------
@@ -615,10 +625,10 @@ class OSGLock : public OSGLockBase
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseThreading
- *  \brief OSGLockPool
+ *  \brief LockPool
  */
 
-class OSGLockPool : public OSGLockCommonBase
+class LockPool : public LockCommonBase
 {
   public:
 
@@ -638,7 +648,7 @@ class OSGLockPool : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGChar8 *getClassname(void) { return "OSGLockPool"; }
+    static const Char8 *getClassname(void) { return "LockPool"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -646,10 +656,10 @@ class OSGLockPool : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void    aquire (void *keyP);
-    void    release(void *keyP);
+    void aquire (void *keyP);
+    void release(void *keyP);
 
-    OSGBool request(void *keyP);
+    Bool request(void *keyP);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -679,18 +689,18 @@ class OSGLockPool : public OSGLockCommonBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGLock    _locksA   [uiLockPoolSize];
+    Lock    _locksA   [uiLockPoolSize];
 
 #ifdef OSG_DEBUG_LOCK_STAT
-    OSGUInt32  _lockStatA[uiLockPoolSize];
+    UInt32  _lockStatA[uiLockPoolSize];
 #endif
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGLockPool(const OSGChar8 *szName);
-    virtual ~OSGLockPool(void); 
+    LockPool(const Char8 *szName);
+    virtual ~LockPool(void); 
 
   private:
 
@@ -702,13 +712,13 @@ class OSGLockPool : public OSGLockCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGLockCommonBase Inherited;
+    typedef LockCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
     
-    friend class OSGThreadManager;
+    friend class ThreadManager;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -724,9 +734,9 @@ class OSGLockPool : public OSGLockCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGLockPool *create (const OSGChar8 *szName);
+    static LockPool *create (const Char8 *szName);
     
-    static void         destroy(OSGLockPool *lockP);
+    static void      destroy(LockPool *lockP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -736,21 +746,21 @@ class OSGLockPool : public OSGLockCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGBool init    (void);
-    void    shutdown(void);
+    Bool init    (void);
+    void shutdown(void);
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGLockPool(const OSGLockPool &source);
-    void operator =(const OSGLockPool &source);
+    LockPool(const LockPool &source);
+    void operator =(const LockPool &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-typedef OSGLock     *OSGLockP;
-typedef OSGLockPool *OSGLockPoolP;
+typedef Lock     *LockP;
+typedef LockPool *LockPoolP;
 
 OSG_END_NAMESPACE
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSG_GLUT_WINDOW_H_
 #define _OSG_GLUT_WINDOW_H_
@@ -44,9 +54,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGGLUTWindow;
-typedef OSGFCPtr <OSGWindowPtr, OSGGLUTWindow> OSGGLUTWindowPtr;
-typedef OSGSField<OSGGLUTWindowPtr           > OSGSFGLUTWindowPtr;
+class GLUTWindow;
+typedef FCPtr <WindowPtr, GLUTWindow> GLUTWindowPtr;
+typedef SField<GLUTWindowPtr        > SFGLUTWindowPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -62,7 +72,7 @@ typedef OSGSField<OSGGLUTWindowPtr           > OSGSFGLUTWindowPtr;
  *  detailed
  */
 
-class OSGGLUTWindow : public OSGWindow
+class OSG_DLLEXPORT GLUTWindow : public Window
 {
   public:
 
@@ -78,7 +88,7 @@ class OSGGLUTWindow : public OSGWindow
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGGLUTWindow"; };
+    static const char *getClassname(void) { return "GLUTWindow"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -86,7 +96,7 @@ class OSGGLUTWindow : public OSGWindow
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGGLUTWindowPtr)
+    OSG_FIELD_CONTAINER_DECL(GLUTWindowPtr)
 
     /*------------------------- your_category -------------------------------*/
 	
@@ -107,7 +117,7 @@ class OSGGLUTWindow : public OSGWindow
     /*------------------------- your_operators ------------------------------*/
 
 	void     setWinID(int id) { _winid = id;   };
-	OSGInt32 setWinID(void)   { return _winid; };
+	Int32 setWinID(void)   { return _winid; };
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -143,8 +153,8 @@ class OSGGLUTWindow : public OSGWindow
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGGLUTWindow(void);
-    virtual ~OSGGLUTWindow(void); 
+    GLUTWindow(void);
+    virtual ~GLUTWindow(void); 
 
   private:
 
@@ -156,14 +166,14 @@ class OSGGLUTWindow : public OSGWindow
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGWindow Inherited;
+    typedef Window Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -175,7 +185,7 @@ class OSGGLUTWindow : public OSGWindow
 
 	static char cvsid[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
  
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -186,7 +196,7 @@ class OSGGLUTWindow : public OSGWindow
     //-----------------------------------------------------------------------
 
 	/// window id
-	OSGInt32 _winid;
+	Int32 _winid;
 	
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -194,8 +204,8 @@ class OSGGLUTWindow : public OSGWindow
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGGLUTWindow(const OSGGLUTWindow &source);
-    void operator =(const OSGGLUTWindow &source);
+    GLUTWindow(const GLUTWindow &source);
+    void operator =(const GLUTWindow &source);
 };
 
 //---------------------------------------------------------------------------
@@ -204,32 +214,34 @@ class OSGGLUTWindow : public OSGWindow
 
 /** \brief class pointer
  */
-typedef OSGGLUTWindow *OSGGLUTWindowP;
+typedef GLUTWindow *GLUTWindowP;
 
-/** \brief OSGGLUTWindowPtr
+/** \brief GLUTWindowPtr
  */
-typedef OSGFCPtr<OSGWindowPtr, OSGGLUTWindow> OSGGLUTWindowPtr;
+typedef FCPtr<WindowPtr, GLUTWindow> GLUTWindowPtr;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGGLUTWindowPtr field traits 
+ *  \brief GLUTWindowPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGGLUTWindowPtr> : public OSGTraits
+struct FieldDataTraits<GLUTWindowPtr> : public Traits
 {
-    static char *getSName(void) { return "SFGLUTWindowPtr"; }
-    static char *getMName(void) { return "MFGLUTWindowPtr"; }
+    enum                         { StringConvertable = 0x00  };
+
+    static Char8 *getSName(void) { return "SFGLUTWindowPtr"; }
+    static Char8 *getMName(void) { return "MFGLUTWindowPtr"; }
 };
 
-/** \brief OSGSFGLUTWindowPtr
+/** \brief SFGLUTWindowPtr
  */
-typedef OSGSField<OSGGLUTWindowPtr>       OSGSFGLUTWindowPtr;
+typedef SField<GLUTWindowPtr>       SFGLUTWindowPtr;
 
-/** \brief OSGMFGLUTWindowPtr
+/** \brief MFGLUTWindowPtr
  */
-typedef OSGMField<OSGGLUTWindowPtr>       OSGMFGLUTWindowPtr;
+typedef MField<GLUTWindowPtr>       MFGLUTWindowPtr;
 
 OSG_END_NAMESPACE
 

@@ -25,12 +25,12 @@
 
 using namespace OSG;
 
-OSGDrawAction * dact;
+DrawAction * dact;
 
-OSGNodePtr  root;
+NodePtr  root;
 
-OSGMatrix accumM;
-OSGMatrix stepM;
+Matrix accumM;
+Matrix stepM;
 
 void 
 display(void)
@@ -82,54 +82,54 @@ int main (int argc, char **argv)
 
 	// OSG
 
-    OSGQuaternion stepQ(0., 1., 0., 1.);
+    Quaternion stepQ(0., 1., 0., 1.);
 
     stepM.setRotate(stepQ);
 
-    root = OSGNode::create();
-    OSGGeometryPtr g1 = OSGGeometry::create();
+    root = Node::create();
+    GeometryPtr g1 = Geometry::create();
 
 	root->setCore( g1 );
 
-	cerr << "Geometry Node: " << hex << (OSGGeometry*) g1.getCPtr() << endl;
+	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
-	OSGGeoPosition3f::OSGPtrType pnts = OSGGeoPosition3f::create();
+	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
 	g1->setPositions( pnts );
 
 	cerr << "Points property: " << hex << pnts << endl;
 
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
 
-	OSGMFPnt3f* p = pnts->getFieldPtr();
+	MFPnt3f* p = pnts->getFieldPtr();
 
 	osgBeginEditCP(pnts);
-	p->addValue( OSGPnt3f( -1, -1, -1) );
-	p->addValue( OSGPnt3f(  1, -1, -1) );
-	p->addValue( OSGPnt3f(  1,  1, -1) );
-	p->addValue( OSGPnt3f( -1,  1, -1) );
-	p->addValue( OSGPnt3f( -1, -1,  1) );
-	p->addValue( OSGPnt3f(  1, -1,  1) );
-	p->addValue( OSGPnt3f(  1,  1,  1) );
-	p->addValue( OSGPnt3f( -1,  1,  1) );
+	p->addValue( Pnt3f( -1, -1, -1) );
+	p->addValue( Pnt3f(  1, -1, -1) );
+	p->addValue( Pnt3f(  1,  1, -1) );
+	p->addValue( Pnt3f( -1,  1, -1) );
+	p->addValue( Pnt3f( -1, -1,  1) );
+	p->addValue( Pnt3f(  1, -1,  1) );
+	p->addValue( Pnt3f(  1,  1,  1) );
+	p->addValue( Pnt3f( -1,  1,  1) );
 	osgEndEditCP(pnts);
 
 
-	OSGGeoColor4ub::OSGPtrType cols = OSGGeoColor4ub::create();
+	GeoColor4ub::PtrType cols = GeoColor4ub::create();
 	g1->setColors( cols );
 	g1->setColorPerVertex( true );
 	osgBeginEditCP(cols);
-	cols->getFieldPtr()->addValue( OSGVec4ub( 255, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub( 255, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub(   0, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub(   0, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub( 255,   0, 255, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub( 255, 255,   0, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub( 255,   0,   0, 255) );
-	cols->getFieldPtr()->addValue( OSGVec4ub(   0, 255,   0, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub( 255, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub( 255, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub(   0, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub(   0, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub( 255,   0, 255, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub( 255, 255,   0, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub( 255,   0,   0, 255) );
+	cols->getFieldPtr()->addValue( Vec4ub(   0, 255,   0, 255) );
 	osgEndEditCP(cols);
 
 
-	OSGGeoIndexUI32Ptr index = OSGGeoIndexUI32::create();	
+	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	g1->setIndex( index );
 	osgBeginEditCP(index);
 	index->getFieldPtr()->addValue( 0 );
@@ -143,7 +143,7 @@ int main (int argc, char **argv)
 	osgEndEditCP(index);
 
 
-	OSGGeoPLengthPtr lens = OSGGeoPLength::create();	
+	GeoPLengthPtr lens = GeoPLength::create();	
 	g1->setLengths( lens );
 	osgBeginEditCP(lens);
 	lens->getFieldPtr()->addValue( 4 );
@@ -151,7 +151,7 @@ int main (int argc, char **argv)
 	osgEndEditCP(lens);
 
 
-	OSGGeoPTypePtr type = OSGGeoPType::create();	
+	GeoPTypePtr type = GeoPType::create();	
 	g1->setTypes( type );
 	osgBeginEditCP(type);
 	type->getFieldPtr()->addValue( GL_POLYGON );
@@ -160,7 +160,7 @@ int main (int argc, char **argv)
 
 	cerr << "Geometry type " << g1->getType().getId() << endl;
 	
-	dact = new OSGDrawAction;
+	dact = new DrawAction;
 	
 	glutMainLoop();
 	

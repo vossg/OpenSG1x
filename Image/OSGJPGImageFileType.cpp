@@ -1,29 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 //-------------------------------
 // 	Includes 					 			    
@@ -71,7 +82,7 @@ static const char *suffixArray[] = {
   "jpg", "jpeg"
 };
 
-OSGJPGImageFileType OSGJPGImageFileType::_the ( suffixArray,
+JPGImageFileType JPGImageFileType::_the ( suffixArray,
                                                 sizeof(suffixArray),
                                                 'J', 'J' );
 
@@ -90,7 +101,7 @@ OSGJPGImageFileType OSGJPGImageFileType::_the ( suffixArray,
 //----------------------------
 //
 //Parameters:
-//p: OSGImage &image, const char *fileName
+//p: Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -105,7 +116,7 @@ OSGJPGImageFileType OSGJPGImageFileType::_the ( suffixArray,
 //s:
 //
 //------------------------------
-bool OSGJPGImageFileType::read (OSGImage &image, const char *fileName )
+bool JPGImageFileType::read (Image &image, const char *fileName )
 {
 #ifdef JPEG_LIB
     bool retCode = false;
@@ -194,7 +205,7 @@ bool OSGJPGImageFileType::read (OSGImage &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const OSGImage &image, const char *fileName
+//p: const Image &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -209,7 +220,7 @@ bool OSGJPGImageFileType::read (OSGImage &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGJPGImageFileType::write (const OSGImage &image, const char *fileName )
+bool JPGImageFileType::write (const Image &image, const char *fileName )
 {
 	SWARNING << getName() << " write is not implemented" << endl;
 
@@ -240,11 +251,11 @@ bool OSGJPGImageFileType::write (const OSGImage &image, const char *fileName )
 
 
 //----------------------------
-// Function name: OSGJPGImageFileType
+// Function name: JPGImageFileType
 //----------------------------
 //
 //Parameters:
-//p: cinst char *suffixArray[], OSGUInit16 suffixByteCount, OSGInit16 majorMagic, OSGInit16 minorMagic
+//p: cinst char *suffixArray[], UInit16 suffixByteCount, Init16 majorMagic, Init16 minorMagic
 //GlobalVars:
 //g: 
 //Returns:
@@ -259,21 +270,21 @@ bool OSGJPGImageFileType::write (const OSGImage &image, const char *fileName )
 //s:
 //
 //------------------------------
-OSGJPGImageFileType::OSGJPGImageFileType ( const char *suffixArray[], 
-																					 OSGUInt16 suffixByteCount, 
-																					 OSGInt16 majorMagic, 
-																					 OSGInt16 minorMagic )
-: OSGImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
+JPGImageFileType::JPGImageFileType ( const char *suffixArray[], 
+																					 UInt16 suffixByteCount, 
+																					 Int16 majorMagic, 
+																					 Int16 minorMagic )
+: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
 {
 	return;
 }
 
 //----------------------------
-// Function name: OSGJPGImageFileType
+// Function name: JPGImageFileType
 //----------------------------
 //
 //Parameters:
-//p: const OSGJPGImageFileType &obj
+//p: const JPGImageFileType &obj
 //GlobalVars:
 //g: 
 //Returns:
@@ -288,14 +299,14 @@ OSGJPGImageFileType::OSGJPGImageFileType ( const char *suffixArray[],
 //s:
 //
 //------------------------------
-OSGJPGImageFileType::OSGJPGImageFileType (const OSGJPGImageFileType &obj )
-	: OSGImageFileType(obj)
+JPGImageFileType::JPGImageFileType (const JPGImageFileType &obj )
+	: ImageFileType(obj)
 {
 	return;
 }
 
 //----------------------------
-// Function name: ~OSGJPGImageFileType
+// Function name: ~JPGImageFileType
 //----------------------------
 //
 //Parameters:
@@ -314,7 +325,7 @@ OSGJPGImageFileType::OSGJPGImageFileType (const OSGJPGImageFileType &obj )
 //s:
 //
 //------------------------------
-OSGJPGImageFileType::~OSGJPGImageFileType (void )
+JPGImageFileType::~JPGImageFileType (void )
 {
 	return;
 }

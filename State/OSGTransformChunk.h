@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGTRANSFORMCHUNK_H_
 #define _OSGTRANSFORMCHUNK_H_
@@ -48,13 +58,13 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGTransformChunk;
+class TransformChunk;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef OSGFCPtr<OSGStateChunkPtr, OSGTransformChunk> OSGTransformChunkPtr;
+typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -66,7 +76,7 @@ typedef OSGFCPtr<OSGStateChunkPtr, OSGTransformChunk> OSGTransformChunkPtr;
  *  detailed
  */
 
-class OSGTransformChunk : public OSGStateChunk
+class OSG_DLLEXPORT TransformChunk : public StateChunk
 {
   public:
 
@@ -76,7 +86,7 @@ class OSGTransformChunk : public OSGStateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGMatrixField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(MatrixField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -88,8 +98,8 @@ class OSGTransformChunk : public OSGStateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef OSGStateChunk Inherited;
-    typedef OSGTransformChunkPtr OSGPtr;
+	typedef StateChunk Inherited;
+    typedef TransformChunkPtr Ptr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -103,9 +113,9 @@ class OSGTransformChunk : public OSGStateChunk
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGTransformChunkPtr)
+    OSG_FIELD_CONTAINER_DECL(TransformChunkPtr)
 
-	virtual const OSGStateChunkClass *  getClass( void ) const;
+	virtual const StateChunkClass *  getClass( void ) const;
 
     /*----------------------------- dump ----------------------------------*/
 
@@ -114,23 +124,23 @@ class OSGTransformChunk : public OSGStateChunk
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( OSGUInt32 index = 0 );
+	virtual void activate ( UInt32 index = 0 );
 
 	// call commands to get from old to my state. Only meaningful for
 	// chunks of the same type
-	virtual void changeFrom( OSGStateChunk * old, OSGUInt32 index = 0 );
+	virtual void changeFrom( StateChunk * old, UInt32 index = 0 );
 
 	// reset my part of the state
-	virtual void deactivate ( OSGUInt32 index = 0 );
+	virtual void deactivate ( UInt32 index = 0 );
 
     /*----------------------------- access ----------------------------------*/
 
-    OSGSFMatrix *getSFMatrix(void);
+        SFMatrix *getSFMatrix(void);
 
-          OSGMatrix   &getMatrix  (void);
-    const OSGMatrix   &getMatrix  (void) const;
+          Matrix   &getMatrix(void);
+    const Matrix   &getMatrix(void) const;
 
-	void               setMatrix  ( const OSGMatrix & matrix );
+	void            setMatrix(const Matrix & matrix);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -139,14 +149,14 @@ class OSGTransformChunk : public OSGStateChunk
 	// estimate the cost to switch to the chunk 
 	// the unit is unclear, maybe musecs. It's not important anyway,
 	// it just has to be consistent over all types of chunks
-	virtual OSGReal32 switchCost( OSGStateChunk * chunk );
+	virtual Real32 switchCost( StateChunk * chunk );
 
 	// defines an ordering for chunks. Only well defined for chunks of the
 	// same type.
-    virtual OSGBool operator < (const OSGStateChunk &other) const;
+    virtual Bool operator < (const StateChunk &other) const;
     
-	virtual OSGBool operator == (const OSGStateChunk &other) const;
-	virtual OSGBool operator != (const OSGStateChunk &other) const;
+	virtual Bool operator == (const StateChunk &other) const;
+	virtual Bool operator != (const StateChunk &other) const;
 
   protected:
 
@@ -190,7 +200,7 @@ class OSGTransformChunk : public OSGStateChunk
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainer;
+	friend class FieldContainer;
 	
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -202,11 +212,11 @@ class OSGTransformChunk : public OSGStateChunk
 
 	static char cvsid[];
 
-	static OSGFieldDescription   _desc[];
-	static OSGFieldContainerType _type;
+	static FieldDescription   _desc[];
+	static FieldContainerType _type;
 
 	// class. Used for indexing in State
-	static OSGStateChunkClass _class;
+	static StateChunkClass _class;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -216,7 +226,7 @@ class OSGTransformChunk : public OSGStateChunk
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 	
-	OSGSFMatrix _matrix;
+	SFMatrix _matrix;
 	
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -224,11 +234,11 @@ class OSGTransformChunk : public OSGStateChunk
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGTransformChunk(void);
-    OSGTransformChunk(const OSGTransformChunk &source);    
-    virtual ~OSGTransformChunk(void); 
+    TransformChunk(void);
+    TransformChunk(const TransformChunk &source);    
+    virtual ~TransformChunk(void); 
 
-	OSGTransformChunk & operator =(const OSGTransformChunk &source);
+	TransformChunk & operator =(const TransformChunk &source);
 };
 
 //---------------------------------------------------------------------------
@@ -237,7 +247,7 @@ class OSGTransformChunk : public OSGStateChunk
 
 // class pointer
 
-typedef OSGTransformChunk *OSGTransformChunkP;
+typedef TransformChunk *TransformChunkP;
 
 OSG_END_NAMESPACE
 

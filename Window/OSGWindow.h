@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSG_WINDOW_H_
 #define _OSG_WINDOW_H_
@@ -50,19 +60,19 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGViewport;
-typedef OSGFCPtr <OSGFieldContainerPtr, OSGViewport> OSGViewportPtr;
-typedef OSGMField<OSGViewportPtr                   > OSGMFViewportPtr;
+class Viewport;
+typedef FCPtr <FieldContainerPtr, Viewport> ViewportPtr;
+typedef MField<ViewportPtr                > MFViewportPtr;
 
-class OSGPipe;
-typedef OSGFCPtr <OSGFieldContainerPtr, OSGPipe> OSGPipePtr;
-typedef OSGSField<OSGPipePtr                   > OSGSFPipePtr;
+class Pipe;
+typedef FCPtr <FieldContainerPtr, Pipe> PipePtr;
+typedef SField<PipePtr                > SFPipePtr;
 
-class OSGWindow;
-typedef OSGFCPtr <OSGFieldContainerPtr, OSGWindow> OSGWindowPtr;
-typedef OSGSField<OSGWindowPtr                   > OSGSFWindowPtr;
+class Window;
+typedef FCPtr <FieldContainerPtr, Window> WindowPtr;
+typedef SField<WindowPtr                > SFWindowPtr;
 
-class OSGDrawAction;
+class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -78,7 +88,7 @@ class OSGDrawAction;
  *  detailed
  */
 
-class OSGWindow : public OSGFieldContainer
+class OSG_DLLEXPORT Window : public FieldContainer
 {
   public:
 
@@ -86,10 +96,10 @@ class OSGWindow : public OSGFieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGWidthField )
+    OSG_FC_FIRST_FIELD_IDM_DECL(WidthField )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGHeightField)
-    OSG_FC_FIELD_IDM_DECL      (OSGPortsField )
+    OSG_FC_FIELD_IDM_DECL      (HeightField)
+    OSG_FC_FIELD_IDM_DECL      (PortsField )
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -105,7 +115,7 @@ class OSGWindow : public OSGFieldContainer
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGWindow"; };
+    static const char *getClassname(void) { return "Window"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -113,41 +123,41 @@ class OSGWindow : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(OSGWindowPtr)
+    OSG_ABSTR_FIELD_CONTAINER_DECL(WindowPtr)
 
     /*------------------------- your_category -------------------------------*/
 
-    void addPort      (const OSGViewportPtr &portP);
-    void insertPort   (      OSGUInt32       portIndex, 
-                       const OSGViewportPtr &portP);
+    void addPort      (const ViewportPtr &portP);
+    void insertPort   (      UInt32       portIndex, 
+                       const ViewportPtr &portP);
 
-    void replacePort  (      OSGUInt32       portIndex, 
-                       const OSGViewportPtr &portP);
-    void replacePortBy(const OSGViewportPtr &portP, 
-                       const OSGViewportPtr &newPortP);
+    void replacePort  (      UInt32       portIndex, 
+                       const ViewportPtr &portP);
+    void replacePortBy(const ViewportPtr &portP, 
+                       const ViewportPtr &newPortP);
 
-    void subPort      (const OSGViewportPtr &portP);
-    void subPort      (      OSGUInt32       portIndex);
+    void subPort      (const ViewportPtr &portP);
+    void subPort      (      UInt32       portIndex);
 
 
-    OSGViewportPtr    getPort   (OSGUInt32  portIndex);
-    OSGMFViewportPtr *getMFPorts(void);
+    ViewportPtr    getPort   (UInt32  portIndex);
+    MFViewportPtr *getMFPorts(void);
     
     
-    void         setWidth  (OSGUInt16 width);
-    OSGUInt16    getWidth  (void);
-    OSGSFUInt16 *getSFWidth(void);
+    void      setWidth  (UInt16 width);
+    UInt16    getWidth  (void);
+    SFUInt16 *getSFWidth(void);
     
 
-    void         setHeight  (OSGUInt16 height);
-    OSGUInt16    getHeight  (void);
-    OSGSFUInt16 *getSFHeight(void);
+    void      setHeight  (UInt16 height);
+    UInt16    getHeight  (void);
+    SFUInt16 *getSFHeight(void);
    
 
-    void setSize(OSGUInt16 width, OSGUInt16 height);
+    void setSize(UInt16 width, UInt16 height);
 
     
-    virtual void draw  (OSGDrawAction *action);
+    virtual void draw  (DrawAction *action);
     virtual void resize(int width, int height);
     
     // Window-system dependent functions
@@ -194,16 +204,16 @@ class OSGWindow : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     /** The width of the window. */
-    OSGSFUInt16      _width;
+    SFUInt16      _width;
 
     /** The height of the window. */
-    OSGSFUInt16      _height;
+    SFUInt16      _height;
 
     /** The viewports used by the window. */
-    OSGMFViewportPtr _ports;
+    MFViewportPtr _ports;
 
     /** The pipe this window is on. */
-    // OSGSFPipePtr _parent;
+    // SFPipePtr _parent;
 
     /** NYI: dlist sharing brothers */
     
@@ -211,8 +221,8 @@ class OSGWindow : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGWindow(void);
-    virtual ~OSGWindow(void); 
+    Window(void);
+    virtual ~Window(void); 
 
   private:
 
@@ -224,14 +234,14 @@ class OSGWindow : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer Inherited;
+    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -243,8 +253,8 @@ class OSGWindow : public OSGFieldContainer
 
     static char cvsid[];
 
-    static OSGFieldContainerType _type;
-    static OSGFieldDescription   _desc[];
+    static FieldContainerType _type;
+    static FieldDescription   _desc[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -260,8 +270,8 @@ class OSGWindow : public OSGFieldContainer
 
     // prohibit default functions (move to 'public' if you need one)
 
-    OSGWindow(const OSGWindow &source);
-    OSGWindow& operator =(const OSGWindow &source);
+    Window(const Window &source);
+    Window& operator =(const Window &source);
 };
 
 //---------------------------------------------------------------------------
@@ -270,45 +280,34 @@ class OSGWindow : public OSGFieldContainer
 
 /** \brief class pointer
  */
-typedef OSGWindow *OSGWindowP;
+typedef Window *WindowP;
 
-/** \brief OSGWindowPtr
+/** \brief WindowPtr
  */
-typedef OSGFCPtr<OSGFieldContainerPtr, OSGWindow> OSGWindowPtr;
+typedef FCPtr<FieldContainerPtr, Window> WindowPtr;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGWindowPtr field traits 
+ *  \brief WindowPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGWindowPtr> : public OSGTraits
+struct FieldDataTraits<WindowPtr> : public Traits
 {
-    static char    *getSName(void) { return "SFWindowPtr"; }
-    static char    *getMName(void) { return "MFWindowPtr"; }
+    enum                         { StringConvertable = 0x00  };
 
-    static OSGBool  getFromString(OSGWindowPtr &,
-                                  const char  *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void     putToString(const OSGWindowPtr &,
-                                      OSGString    &)
-    {
-        // TO_BE_DONE
-    }
+    static Char8 *getSName(void) { return "SFWindowPtr"; }
+    static Char8 *getMName(void) { return "MFWindowPtr"; }
 };
 
-/** \brief OSGSFWindowPtr
+/** \brief SFWindowPtr
  */
-typedef OSGSField<OSGWindowPtr>       OSGSFWindowPtr;
+typedef SField<WindowPtr>       SFWindowPtr;
 
-/** \brief OSGMFWindowPtr
+/** \brief MFWindowPtr
  */
-typedef OSGMField<OSGWindowPtr>       OSGMFWindowPtr;
+typedef MField<WindowPtr>       MFWindowPtr;
 
 OSG_END_NAMESPACE
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -64,27 +75,27 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGPerspectiveCamera::cvsid[] = "@(#)$Id: $";
+char PerspectiveCamera::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGPerspectiveCamera, OSGDegreeField)
-OSG_FC_LAST_FIELD_IDM_DEF (OSGPerspectiveCamera, OSGDegreeField)
+OSG_FC_FIRST_FIELD_IDM_DEF(PerspectiveCamera, DegreeField)
+OSG_FC_LAST_FIELD_IDM_DEF (PerspectiveCamera, DegreeField)
 
 // Static Class Varible implementations: 
-OSGFieldDescription OSGPerspectiveCamera::_desc[] = 
+FieldDescription PerspectiveCamera::_desc[] = 
 {
-       OSGFieldDescription(
-           OSGSFReal32::getClassType(),
+       FieldDescription(
+           SFReal32::getClassType(),
            "degrees", 
-           OSG_FC_FIELD_IDM_DESC(OSGDegreeField),
+           OSG_FC_FIELD_IDM_DESC(DegreeField),
            false,
-           (OSGFieldAccessMethod) &OSGPerspectiveCamera::getSFDegrees),
+           (FieldAccessMethod) &PerspectiveCamera::getSFDegrees),
 };
 
-OSGFieldContainerType OSGPerspectiveCamera::_type(
+FieldContainerType PerspectiveCamera::_type(
     "PerspectiveCamera", 
     "Camera", 
     0,
-    (OSGPrototypeCreateF) &OSGPerspectiveCamera::createEmpty,
+    (PrototypeCreateF) &PerspectiveCamera::createEmpty,
     0,
     _desc, 
     sizeof(_desc));
@@ -114,19 +125,19 @@ OSGFieldContainerType OSGPerspectiveCamera::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGPerspectiveCamera, OSGPerspectiveCameraPtr)
+OSG_FIELD_CONTAINER_DEF(PerspectiveCamera, PerspectiveCameraPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGPerspectiveCamera::OSGPerspectiveCamera(void) :
+PerspectiveCamera::PerspectiveCamera(void) :
 	Inherited(), _degrees( 60 )
 {
 }
 
-OSGPerspectiveCamera::OSGPerspectiveCamera( const OSGPerspectiveCamera& source) :
+PerspectiveCamera::PerspectiveCamera( const PerspectiveCamera& source) :
 	Inherited(), _degrees( source.getDegrees() )
 {
 }
@@ -134,7 +145,7 @@ OSGPerspectiveCamera::OSGPerspectiveCamera( const OSGPerspectiveCamera& source) 
 /** \brief Destructor
  */
 
-OSGPerspectiveCamera::~OSGPerspectiveCamera(void)
+PerspectiveCamera::~PerspectiveCamera(void)
 {
 }
 
@@ -144,14 +155,14 @@ OSGPerspectiveCamera::~OSGPerspectiveCamera(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGPerspectiveCamera::draw( OSGDrawAction * action, OSGViewport * port )
+void PerspectiveCamera::draw( DrawAction * action, Viewport * port )
 {
 }
 
-void OSGPerspectiveCamera::getProjection( OSGMatrix& result, 
-	OSGViewport * port )
+void PerspectiveCamera::getProjection( Matrix& result, 
+	Viewport * port )
 {
-	OSGMatrixPerspective( result, getDegrees() / 2, 
+	MatrixPerspective( result, getDegrees() / 2, 
 			port->getPixelWidth() / (float) port->getPixelHeight(), 
 			getNear(), getFar() );
 }
@@ -166,9 +177,9 @@ void OSGPerspectiveCamera::getProjection( OSGMatrix& result,
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGPerspectiveCamera::dump(void) const
+void PerspectiveCamera::dump(void) const
 {
-    SDEBUG << "Dump OSGPerspectiveCamera NI" << endl;
+    SDEBUG << "Dump PerspectiveCamera NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

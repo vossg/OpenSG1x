@@ -23,72 +23,72 @@ class GroupAction
 public:
 	GroupAction() {}
 
-	OSGAction::ResultE enter(OSGCNodePtr &node, OSGAction * action)
+	Action::ResultE enter(CNodePtr &node, Action * action)
 	{ 
 		cerr << "Group enter: " << node << " action " 
 			 << action << " for group " << this << endl;
-		return OSGAction::Continue; 
+		return Action::Continue; 
 	}
 
-	OSGAction::ResultE leave(OSGCNodePtr &node, OSGAction * action)
+	Action::ResultE leave(CNodePtr &node, Action * action)
 	{ 
 		cerr << "Group leave: " << node << " action " 
 			 << action << " for group " << this << endl;
-		return OSGAction::Continue; 
+		return Action::Continue; 
 	}
 };
 
 
 // Transform: use simple functions
 
-OSGAction::ResultE transEnter(OSGCNodePtr& node, OSGAction * action) 
+Action::ResultE transEnter(CNodePtr& node, Action * action) 
 { 
 	cerr << "Transform enter: " << node 
          << " action " << action << endl;
 
-	return OSGAction::Continue; 
+	return Action::Continue; 
 }
 
-OSGAction::ResultE transLeave(OSGCNodePtr& node, OSGAction * action) 
+Action::ResultE transLeave(CNodePtr& node, Action * action) 
 { 
 	cerr << "Transform leave: " << node 
          << " action " << action << endl;
 
-	return OSGAction::Continue; 
+	return Action::Continue; 
 }
 
 
 // traverse only the first node
 
-OSGAction::ResultE firstOnly(OSGCNodePtr& node, OSGAction * action) 
+Action::ResultE firstOnly(CNodePtr& node, Action * action) 
 { 
 	cerr << "Group (first only) enter: " << node << " action " << action 
 		 << endl;
 
-	const OSGNodePtr p = action->getNode( 0 );
+	const NodePtr p = action->getNode( 0 );
 
-	if ( p != OSGNullNode )
+	if ( p != NullNode )
 		action->addNode( p );
 
-	return OSGAction::Continue; 
+	return Action::Continue; 
 }
 
 // default function
 
-OSGAction::ResultE defenter(OSGCNodePtr& node, OSGAction * action) 
+Action::ResultE defenter(CNodePtr& node, Action * action) 
 { 
 	cerr << "Default enter called: " << node 
          << " action " << action << endl;
 
-	return OSGAction::Continue; 
+	return Action::Continue; 
 }
 
-OSGAction::ResultE defleave(OSGCNodePtr& node, OSGAction * action) 
+Action::ResultE defleave(CNodePtr& node, Action * action) 
 { 
 	cerr << "Default leave called: " << node 
          << " action " << action << endl;
 
-	return OSGAction::Continue; 
+	return Action::Continue; 
 }
 
 // call a node method on the traversed node
@@ -101,29 +101,29 @@ int main( int argc, char *argv[] )
 	// register a default function. Should be copied at 
 	// instantiation time
 
-	OSGAction::registerEnterDefault(OSGGroup::getStaticType(), 
+	Action::registerEnterDefault(Group::getStaticType(), 
                                osgFunctionFunctor2(defenter));
-	OSGAction::registerLeaveDefault(OSGGroup::getStaticType(), 
+	Action::registerLeaveDefault(Group::getStaticType(), 
                                osgFunctionFunctor2(defleave));
-	OSGAction::registerEnterDefault(OSGTransform::getStaticType(), 
+	Action::registerEnterDefault(Transform::getStaticType(), 
                                osgFunctionFunctor2(defenter));
-	OSGAction::registerLeaveDefault(OSGTransform::getStaticType(), 
+	Action::registerLeaveDefault(Transform::getStaticType(), 
                                osgFunctionFunctor2(defleave));
 
 
 	// build simple tree: g1|((g2|t2),t1)
 
-    OSGNodePtr g1 = OSGNode::create();
-    OSGGroupPtr g1c = OSGGroup::create();
+    NodePtr g1 = Node::create();
+    GroupPtr g1c = Group::create();
 	g1->setCore( g1c );
-    OSGNodePtr g2 = OSGNode::create();
-    OSGGroupPtr g2c = OSGGroup::create();
+    NodePtr g2 = Node::create();
+    GroupPtr g2c = Group::create();
 	g2->setCore( g2c );
-    OSGNodePtr t1 = OSGNode::create();
-    OSGTransformPtr t1c = OSGTransform::create();
+    NodePtr t1 = Node::create();
+    TransformPtr t1c = Transform::create();
 	t1->setCore( t1c );
-    OSGNodePtr t2 = OSGNode::create();
-    OSGTransformPtr t2c = OSGTransform::create();
+    NodePtr t2 = Node::create();
+    TransformPtr t2c = Transform::create();
 	t2->setCore( t2c );
 
 	g2->addChild( t2 );
@@ -136,7 +136,7 @@ int main( int argc, char *argv[] )
 	cerr << hex;
 
 	// the actions to use
-	OSGAction act1,act2;
+	Action act1,act2;
 
 	// two instances
 	GroupAction gf1,gf2;
@@ -149,14 +149,14 @@ int main( int argc, char *argv[] )
 
 
 	// assign functors
-    act1.registerEnterFunction(OSGGroup::getStaticType(), 
+    act1.registerEnterFunction(Group::getStaticType(), 
                          osgMethodFunctor2Ptr(&gf1, &GroupAction::enter));
-    act1.registerLeaveFunction(OSGGroup::getStaticType(), 
+    act1.registerLeaveFunction(Group::getStaticType(), 
                          osgMethodFunctor2Ptr(&gf2, &GroupAction::leave));
 
-	act1.registerEnterFunction(OSGTransform::getStaticType(), 
+	act1.registerEnterFunction(Transform::getStaticType(), 
                                osgFunctionFunctor2(transEnter));
-	act1.registerLeaveFunction(OSGTransform::getStaticType(), 
+	act1.registerLeaveFunction(Transform::getStaticType(), 
                                osgFunctionFunctor2(transLeave));
 
 	// call on single node
@@ -180,7 +180,7 @@ int main( int argc, char *argv[] )
 	act1.apply( g1 );
 
 	//use a function that only traverses the first node (if any)
-	act1.registerEnterFunction(OSGGroup::getStaticType(), 
+	act1.registerEnterFunction(Group::getStaticType(), 
                          osgFunctionFunctor2(firstOnly));
 
 	cerr << "Apply(single child traversal):" << endl;
@@ -196,16 +196,16 @@ int main( int argc, char *argv[] )
 
 	// NULL nodes
 
-	vector<OSGNodePtr> nullvec;
-	nullvec.push_back( OSGNullNode );
+	vector<NodePtr> nullvec;
+	nullvec.push_back( NullNode );
 
 	cerr << "Apply(list) Null:" << endl;
 	act1.apply( nullvec.begin(), nullvec.end() );
 
 	cerr << "Apply(node) Null:" << endl;
-	act1.apply( OSGNullNode );
+	act1.apply( NullNode );
 
-	OSGNodePtr g3 = OSGNode::create();
+	NodePtr g3 = Node::create();
 	cerr << "Apply(node) without core:" << endl;
 	act1.apply( g3 );
 

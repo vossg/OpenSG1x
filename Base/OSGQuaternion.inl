@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -43,19 +54,19 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \typedef OSGVectorInterface <OSGValueTypeT,                   \
-                                 OSGVecStorage3<OSGValueTypeT> >  \
-     OSGQuaternionBase::OSGVectorType
+/** \typedef VectorInterface <ValueTypeT,                   \
+                                 VecStorage3<ValueTypeT> >  \
+     QuaternionBase::VectorType
   * \brief Quaternion vector type
   */
 
-/** \typedef OSGTransformationMatrix<OSGValueTypeT>               \
-     OSGQuaternionBase::OSGMatrixType;
+/** \typedef TransformationMatrix<ValueTypeT>               \
+     QuaternionBase::MatrixType;
   * \brief Quaternion matrix type
   */
 
 
-/** \fn const char *OSGQuaternionBase::getClassname(void)
+/** \fn const char *QuaternionBase::getClassname(void)
  *  \brief Classname
  */
 
@@ -67,14 +78,14 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGValueTypeT>
-char OSGQuaternionBase<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template <class ValueTypeT>
+char QuaternionBase<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief Identity quaternion
  */
 
-template <class OSGValueTypeT>
-OSGQuaternionBase<OSGValueTypeT> OSGQuaternionBase<OSGValueTypeT>::_identity;
+template <class ValueTypeT>
+QuaternionBase<ValueTypeT> QuaternionBase<ValueTypeT>::_identity;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -88,9 +99,9 @@ OSGQuaternionBase<OSGValueTypeT> OSGQuaternionBase<OSGValueTypeT>::_identity;
 /** \brief Returns identity quaternion
  */
 
-template <class OSGValueTypeT> inline
-const OSGQuaternionBase<OSGValueTypeT> &
-    OSGQuaternionBase<OSGValueTypeT>::identity(void)
+template <class ValueTypeT> inline
+const QuaternionBase<ValueTypeT> &
+    QuaternionBase<ValueTypeT>::identity(void)
 {
     return _identity;
 }
@@ -98,13 +109,13 @@ const OSGQuaternionBase<OSGValueTypeT> &
 /** \brief Returns the slerp betweet rot0 and rot1 at t
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT> 
-    OSGQuaternionBase<OSGValueTypeT>::slerp(const OSGQuaternionBase &rot0,
-                                            const OSGQuaternionBase &rot1, 
-                                            const OSGValueTypeT      t)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT> 
+    QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
+                                      const QuaternionBase &rot1, 
+                                      const ValueTypeT      t)
 {
-    OSGQuaternionBase returnValue;
+    QuaternionBase returnValue;
 
     slerp(rot0, rot1, returnValue, t);
 
@@ -118,22 +129,22 @@ OSGQuaternionBase<OSGValueTypeT>
 /** \brief The actual internal slerp code
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::slerp(const OSGQuaternionBase &rot0,
-                                             const OSGQuaternionBase &rot1, 
-                                                   OSGQuaternionBase &result,
-                                             const OSGValueTypeT      t)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
+                                       const QuaternionBase &rot1, 
+                                             QuaternionBase &result,
+                                       const ValueTypeT      t)
 {
-	OSGValueTypeT rot1q[4];
+	ValueTypeT rot1q[4];
 
-	OSGReal64     omega;
-    OSGReal64     cosom;
-    OSGReal64     sinom;
-	OSGReal64     scalerot0;
-    OSGReal64     scalerot1;
+	Real64     omega;
+    Real64     cosom;
+    Real64     sinom;
+	Real64     scalerot0;
+    Real64     scalerot1;
 
-	OSGUInt32 i;
-    OSGUInt32 j;
+	UInt32 i;
+    UInt32 j;
 
 	// Calculate the cosine
 	cosom = 
@@ -178,7 +189,7 @@ void OSGQuaternionBase<OSGValueTypeT>::slerp(const OSGQuaternionBase &rot0,
 	
 	// build the new quarternion
 	for (i = 0; i < 4; i++)
-		result[i] = (OSGValueTypeT) (scalerot0 * rot0._quat[i] + 
+		result[i] = (ValueTypeT) (scalerot0 * rot0._quat[i] + 
                                      scalerot1 * rot1q[i]);
 }
 
@@ -203,24 +214,24 @@ void OSGQuaternionBase<OSGValueTypeT>::slerp(const OSGQuaternionBase &rot0,
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(void)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::QuaternionBase(void)
 {
     _quat[0] =
         _quat[1] =
-        _quat[2] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _quat[2] = TypeConstants<ValueTypeT>::getZeroElement();
 
-    _quat[3] = OSGTypeConstants<OSGValueTypeT>::getOneElement();
+    _quat[3] = TypeConstants<ValueTypeT>::getOneElement();
 }
 
 /** \brief Copy Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
-    const OSGQuaternionBase &source)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::QuaternionBase(
+    const QuaternionBase &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < 4; i++)
     {
@@ -231,11 +242,11 @@ OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
 /** \brief Construtor from axis and angle in degrees
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(OSGValueTypeT x, 
-                                                    OSGValueTypeT y, 
-                                                    OSGValueTypeT z,
-                                                    OSGValueTypeT w)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::QuaternionBase(ValueTypeT x, 
+                                           ValueTypeT y, 
+                                           ValueTypeT z,
+                                           ValueTypeT w)
 {
     setValueAsAxis(x, y, z, w);
 }
@@ -243,9 +254,9 @@ OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(OSGValueTypeT x,
 /** \brief Constructor from matrix
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
-    const OSGMatrixType &matrix)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::QuaternionBase(
+    const MatrixType &matrix)
 {
     setValue(matrix);
 }
@@ -253,10 +264,10 @@ OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
 /** \brief Constructor from 3D rotation axis vector and angle in degrees
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
-    const OSGVectorType &axis, 
-    const OSGValueTypeT  angle)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::QuaternionBase(
+    const VectorType &axis, 
+    const ValueTypeT  angle)
 {
     setValue(axis, angle);
 }
@@ -264,10 +275,10 @@ OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
 /** \brief Constructor defined by the from and to vector
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
-    const OSGVectorType &rotateFrom, 
-    const OSGVectorType &rotateTo)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::QuaternionBase(
+    const VectorType &rotateFrom, 
+    const VectorType &rotateTo)
 {
     setValue(rotateFrom, rotateTo);
 }
@@ -276,8 +287,8 @@ OSGQuaternionBase<OSGValueTypeT>::OSGQuaternionBase(
 /** \brief Destructor
  */
 
-template <class OSGValueTypeT> inline
-OSGQuaternionBase<OSGValueTypeT>::~OSGQuaternionBase(void)
+template <class ValueTypeT> inline
+QuaternionBase<ValueTypeT>::~QuaternionBase(void)
 {
 }
 
@@ -291,23 +302,23 @@ OSGQuaternionBase<OSGValueTypeT>::~OSGQuaternionBase(void)
 /** \brief Resets the quaternion to be the identity (0., 0., 0., 1.)
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setIdentity(void)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setIdentity(void)
 {
     _quat[0] =
         _quat[1] =
-        _quat[2] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        _quat[2] = TypeConstants<ValueTypeT>::getZeroElement();
 
-    _quat[3] = OSGTypeConstants<OSGValueTypeT>::getOneElement();
+    _quat[3] = TypeConstants<ValueTypeT>::getOneElement();
 }
 
 /** \brief Sets value of rotation from array interpreted as axis and angle
  *  given in degrees
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValueAsAxis(
-    const OSGValueTypeT *valsP)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxis(
+    const ValueTypeT *valsP)
 {
     setValueAsAxis(valsP[0], valsP[1], valsP[2], valsP[3]);
 }
@@ -315,11 +326,11 @@ void OSGQuaternionBase<OSGValueTypeT>::setValueAsAxis(
 /** \brief Sets value of rotation from array of 4 components of a quaternion
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValueAsQuat(
-    const OSGValueTypeT *valsP)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsQuat(
+    const ValueTypeT *valsP)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < 4; i++)
     {
@@ -331,15 +342,15 @@ void OSGQuaternionBase<OSGValueTypeT>::setValueAsQuat(
  *  axis and angle in degrees
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValueAsAxis(const OSGValueTypeT x, 
-                                                      const OSGValueTypeT y, 
-                                                      const OSGValueTypeT z, 
-                                                      const OSGValueTypeT w)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxis(const ValueTypeT x, 
+                                                const ValueTypeT y, 
+                                                const ValueTypeT z, 
+                                                const ValueTypeT w)
 {
-    OSGValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
+    ValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
 
-    if(rTmp > osgEps)
+    if(rTmp > Eps)
     {
         rTmp = osgsin(osgdegree2rad(w) / 2.0f) / rTmp;
 
@@ -358,11 +369,11 @@ void OSGQuaternionBase<OSGValueTypeT>::setValueAsAxis(const OSGValueTypeT x,
  *  a quaternion
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValueAsQuat(const OSGValueTypeT x, 
-                                                      const OSGValueTypeT y, 
-                                                      const OSGValueTypeT z, 
-                                                      const OSGValueTypeT w)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsQuat(const ValueTypeT x, 
+                                                const ValueTypeT y, 
+                                                const ValueTypeT z, 
+                                                const ValueTypeT w)
 {
     _quat[0] = x;
     _quat[1] = y;
@@ -373,18 +384,18 @@ void OSGQuaternionBase<OSGValueTypeT>::setValueAsQuat(const OSGValueTypeT x,
 /** \brief Sets value of rotation from a rotation matrix
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGMatrixType &matrix)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
 {
-    OSGReal64 tr;
-    OSGReal64 s;
-    OSGReal64 qt[3];
+    Real64 tr;
+    Real64 s;
+    Real64 qt[3];
 
-    OSGUInt32 i;
-    OSGUInt32 j;
-    OSGUInt32 k;
+    UInt32 i;
+    UInt32 j;
+    UInt32 k;
 
-    OSGUInt32 nxt[3] = { 1, 2, 0};
+    UInt32 nxt[3] = { 1, 2, 0};
      
     tr = matrix[0][0] + matrix[1][1] + matrix[2][2];
 
@@ -429,7 +440,7 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGMatrixType &matrix)
     
     if(_quat[3] > 1.0 || _quat[3] < -1.0)
     {
-        if(_quat[3] > 1.0 + osgEps || _quat[3] < -1.0 - osgEps)
+        if(_quat[3] > 1.0 + Eps || _quat[3] < -1.0 - Eps)
         {
             fprintf(stderr,
                     "\nMatToQuat: BUG: |quat[4]| (%lf) >> 1.0 !\n\n",
@@ -451,13 +462,13 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGMatrixType &matrix)
  *  degrees
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGVectorType &axis, 
-                                                      OSGValueTypeT  angle)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValue(const VectorType &axis, 
+                                                ValueTypeT  angle)
 {
-    OSGValueTypeT rTmp = axis.length();
+    ValueTypeT rTmp = axis.length();
 
-    if(rTmp > osgEps)
+    if(rTmp > Eps)
     {
         rTmp = osgsin(osgdegree2rad(angle) / 2.0f) / rTmp;
 
@@ -475,15 +486,15 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGVectorType &axis,
 /** \brief Sets rotation to rotate one direction vector to another
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValue(
-    const OSGVectorType &rotateFrom, 
-    const OSGVectorType &rotateTo)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValue(
+    const VectorType &rotateFrom, 
+    const VectorType &rotateTo)
 {
-	OSGVectorType from = rotateFrom;
-	OSGVectorType to   = rotateTo;
-	OSGVectorType axis;
-	OSGValueTypeT cost;
+	VectorType from = rotateFrom;
+	VectorType to   = rotateTo;
+	VectorType axis;
+	ValueTypeT cost;
 
 	from.normalize();
 	to.normalize();
@@ -504,9 +515,9 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(
 		// Try cross product with (1,0,0) first, if that's one of our
 		// original vectors then try  (0,1,0).
 		
-        OSGVectorType cAxis(1.0, 0.0, 0.0);
+        VectorType cAxis(1.0, 0.0, 0.0);
 
-        OSGVectorType tmp = from.cross(cAxis);
+        VectorType tmp = from.cross(cAxis);
 
 		if(tmp.length() < 0.00001)
         {
@@ -517,7 +528,7 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(
 
 		tmp.normalize();
 
-		setValueAsAxis(tmp[0], tmp[1], tmp[2], osgrad2degree(osgPi));
+		setValueAsAxis(tmp[0], tmp[1], tmp[2], osgrad2degree(Pi));
 
 		return;
 	}
@@ -547,18 +558,18 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(
     that these values are interpreted as axis, angle in degrees    
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValue(const char *str)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValue(const char *str)
 {
-	OSGUInt32 i;
-    OSGUInt32 numOfToken = 4;
+	UInt32 i;
+    UInt32 numOfToken = 4;
 
 	char *c = const_cast<char*>(str);
 
 	char *tokenC = 0;
 	char  token[256];
 
-	OSGValueTypeT vec[4];
+	ValueTypeT vec[4];
 
 	if( (str  == NULL) || 
         (*str == '\0') )
@@ -576,13 +587,13 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const char *str)
                 {
                     *tokenC = 0;
                     vec[i++] = 
-                        OSGTypeConstants<OSGValueTypeT>::getFromString(token);
+                        TypeConstants<ValueTypeT>::getFromString(token);
     
                 }
                 
                 while (i < numOfToken) 
                     vec[i++] = 
-                        OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+                        TypeConstants<ValueTypeT>::getZeroElement();
 
                 break;
             case ' ':
@@ -591,7 +602,7 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const char *str)
                 {
                     *tokenC = 0;
                     vec[i++] = 
-                        OSGTypeConstants<OSGValueTypeT>::getFromString(token);
+                        TypeConstants<ValueTypeT>::getFromString(token);
                     tokenC = 0;
                 }
                 break;
@@ -611,19 +622,19 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const char *str)
 /** \brief Sets rotation by three given euler angles
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGValueTypeT alpha, 
-                                                const OSGValueTypeT beta,
-                                                const OSGValueTypeT gamma)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValue(const ValueTypeT alpha, 
+                                                const ValueTypeT beta,
+                                                const ValueTypeT gamma)
 {
-    OSGValueTypeT sx = osgsin(alpha * 0.5);
-    OSGValueTypeT cx = osgcos(alpha * 0.5);
+    ValueTypeT sx = osgsin(alpha * 0.5);
+    ValueTypeT cx = osgcos(alpha * 0.5);
 
-    OSGValueTypeT sy = osgsin(beta  * 0.5);
-    OSGValueTypeT cy = osgcos(beta  * 0.5);
+    ValueTypeT sy = osgsin(beta  * 0.5);
+    ValueTypeT cy = osgcos(beta  * 0.5);
 
-    OSGValueTypeT sz = osgsin(gamma * 0.5);
-    OSGValueTypeT cz = osgcos(gamma * 0.5);
+    ValueTypeT sz = osgsin(gamma * 0.5);
+    ValueTypeT cz = osgcos(gamma * 0.5);
 
 	_quat[0] = (sx * cy * cz) - (cx * sy * sz);
 	_quat[1] = (cx * sy * cz) + (sx * cy * sz);
@@ -641,8 +652,8 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGValueTypeT alpha,
 /** \brief  Returns pointer to array of 4 components defining quaternion
  */
 
-template <class OSGValueTypeT> inline
-const OSGValueTypeT *OSGQuaternionBase<OSGValueTypeT>::getValues(void) const
+template <class ValueTypeT> inline
+const ValueTypeT *QuaternionBase<ValueTypeT>::getValues(void) const
 {
     return _quat;
 }
@@ -651,21 +662,21 @@ const OSGValueTypeT *OSGQuaternionBase<OSGValueTypeT>::getValues(void) const
  *  angle in degrees
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::getValueAsAxis(OSGValueTypeT &x, 
-                                                      OSGValueTypeT &y, 
-                                                      OSGValueTypeT &z,
-                                                      OSGValueTypeT &w) const
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::getValueAsAxis(ValueTypeT &x, 
+                                                      ValueTypeT &y, 
+                                                      ValueTypeT &z,
+                                                      ValueTypeT &w) const
 {
-	OSGValueTypeT len;
+	ValueTypeT len;
 
-	OSGVectorType q(_quat[0], _quat[1], _quat[2]);
+	VectorType q(_quat[0], _quat[1], _quat[2]);
 	 
     len = q.length();
 
-	if(len > osgEps) 
+	if(len > Eps) 
     {
-		q *= (OSGTypeConstants<OSGValueTypeT>::getOneElement() / len);
+		q *= (TypeConstants<ValueTypeT>::getOneElement() / len);
 
         x = q[0];
         y = q[1];
@@ -675,22 +686,22 @@ void OSGQuaternionBase<OSGValueTypeT>::getValueAsAxis(OSGValueTypeT &x,
 	}
 	else 
     {
-        x = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-        y = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-        z = OSGTypeConstants<OSGValueTypeT>::getOneElement();
+        x = TypeConstants<ValueTypeT>::getZeroElement();
+        y = TypeConstants<ValueTypeT>::getZeroElement();
+        z = TypeConstants<ValueTypeT>::getOneElement();
 
-        w = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+        w = TypeConstants<ValueTypeT>::getZeroElement();
 	}          
 }
 
 /** \brief Returns 4 individual components of rotation quaternion
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::getValueAsQuat(OSGValueTypeT &x, 
-                                                      OSGValueTypeT &y, 
-                                                      OSGValueTypeT &z,
-                                                      OSGValueTypeT &w) const
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::getValueAsQuat(ValueTypeT &x, 
+                                                      ValueTypeT &y, 
+                                                      ValueTypeT &z,
+                                                      ValueTypeT &w) const
 {
     x = _quat[0];
     y = _quat[1];
@@ -699,34 +710,34 @@ void OSGQuaternionBase<OSGValueTypeT>::getValueAsQuat(OSGValueTypeT &x,
 }
 
 /// Returns corresponding 3D rotation axis vector and angle in degrees
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::getValue(OSGVectorType &axis, 
-                                                OSGValueTypeT &radians) const
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::getValue(VectorType &axis, 
+                                                ValueTypeT &radians) const
 {
-	OSGValueTypeT len;
+	ValueTypeT len;
 
-	OSGVectorType q(_quat[0], _quat[1], _quat[2]);
+	VectorType q(_quat[0], _quat[1], _quat[2]);
 	 
     len = q.length();
 
-	if(len > osgEps) 
+	if(len > Eps) 
     {
-		axis  = q * (OSGTypeConstants<OSGValueTypeT>::getOneElement() / len);
+		axis  = q * (TypeConstants<ValueTypeT>::getOneElement() / len);
 
 		radians = osgrad2degree(2.0 * osgacos(_quat[3]));
 	}
 	else 
     {
-		axis.setValues(OSGTypeConstants<OSGValueTypeT>::getZeroElement(), 
-                       OSGTypeConstants<OSGValueTypeT>::getZeroElement(),
-                       OSGTypeConstants<OSGValueTypeT>::getOneElement());
-		radians = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+		axis.setValues(TypeConstants<ValueTypeT>::getZeroElement(), 
+                       TypeConstants<ValueTypeT>::getZeroElement(),
+                       TypeConstants<ValueTypeT>::getOneElement());
+		radians = TypeConstants<ValueTypeT>::getZeroElement();
 	}          
 }
 
 /// Returns corresponding 4x4 rotation matrix
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::getValue(OSGMatrixType &matrix) const
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::getValue(MatrixType &matrix) const
 {
     matrix[0][0] = 1.0f - 2.0f * (_quat[Q_Y] * _quat[Q_Y] + 
                                   _quat[Q_Z] * _quat[Q_Z]);
@@ -762,8 +773,8 @@ void OSGQuaternionBase<OSGValueTypeT>::getValue(OSGMatrixType &matrix) const
 /** \brief Return the first component of the store quaternion
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::x(void) const
+template <class ValueTypeT> inline
+ValueTypeT QuaternionBase<ValueTypeT>::x(void) const
 {
     return _quat[0];
 }
@@ -771,8 +782,8 @@ OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::x(void) const
 /** \brief Return the seond component of the store quaternion
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::y(void) const
+template <class ValueTypeT> inline
+ValueTypeT QuaternionBase<ValueTypeT>::y(void) const
 {
     return _quat[1];
 }
@@ -780,8 +791,8 @@ OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::y(void) const
 /** \brief Return the third component of the store quaternion
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::z(void) const
+template <class ValueTypeT> inline
+ValueTypeT QuaternionBase<ValueTypeT>::z(void) const
 {
     return _quat[2];
 }
@@ -789,8 +800,8 @@ OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::z(void) const
 /** \brief Return the fourth component of the store quaternion
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::w(void) const
+template <class ValueTypeT> inline
+ValueTypeT QuaternionBase<ValueTypeT>::w(void) const
 {
     return _quat[3];
 }
@@ -805,8 +816,8 @@ OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::w(void) const
 /** \brief Returns the 4 dimensional euclidian length of the quaternion
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::length(void)
+template <class ValueTypeT> inline
+ValueTypeT QuaternionBase<ValueTypeT>::length(void)
 {
     return osgsqrt(_quat[0] * _quat[0] +
                    _quat[1] * _quat[1] +
@@ -817,17 +828,17 @@ OSGValueTypeT OSGQuaternionBase<OSGValueTypeT>::length(void)
 /** \brief Norm the quaternion to be of unit length
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::normalize(void)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::normalize(void)
 {
-    OSGUInt32     i;
+    UInt32     i;
 
-    OSGValueTypeT rLength = length();
+    ValueTypeT rLength = length();
 
-    if(osgabs(rLength) < osgEps)
-        rLength =  OSGTypeConstants<OSGValueTypeT>::getOneElement();
+    if(osgabs(rLength) < Eps)
+        rLength =  TypeConstants<ValueTypeT>::getOneElement();
     else
-        rLength =  OSGTypeConstants<OSGValueTypeT>::getOneElement() / rLength;
+        rLength =  TypeConstants<ValueTypeT>::getOneElement() / rLength;
 
     for(i = 0; i < 4; i++)
     {
@@ -838,8 +849,8 @@ void OSGQuaternionBase<OSGValueTypeT>::normalize(void)
 /** \brief Changes a rotation to be its inverse
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::invert(void)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::invert(void)
 {
     _quat[0] = -_quat[0];
 	_quat[1] = -_quat[1];
@@ -850,11 +861,11 @@ void OSGQuaternionBase<OSGValueTypeT>::invert(void)
 /** \brief Returns the inverse of a rotation
  */
 
-template <class OSGValueTypeT> inline
-const OSGQuaternionBase<OSGValueTypeT> 
-    OSGQuaternionBase<OSGValueTypeT>::inverse(void) const
+template <class ValueTypeT> inline
+const QuaternionBase<ValueTypeT> 
+    QuaternionBase<ValueTypeT>::inverse(void) const
 {
-    OSGQuaternionBase returnValue(*this);
+    QuaternionBase returnValue(*this);
 
     returnValue.invert();
 
@@ -864,11 +875,11 @@ const OSGQuaternionBase<OSGValueTypeT>
 /** \brief Puts the given vector through this rotation
 */
 // this one should be optimized a little bit too (GV)
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::multVec(const OSGVectorType &src, 
-                                                     OSGVectorType &dst) const
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::multVec(const VectorType &src, 
+                                                     VectorType &dst) const
 {
-	OSGMatrix mat;
+	Matrix mat;
 	getValue(mat);
 	mat.transform(src, dst);
 }
@@ -876,10 +887,10 @@ void OSGQuaternionBase<OSGValueTypeT>::multVec(const OSGVectorType &src,
 /** \brief Puts the given vector through this rotation
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::transform(
-    const OSGVectorType &src, 
-          OSGVectorType &dst) const
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::transform(
+    const VectorType &src, 
+          VectorType &dst) const
 {
     multVec(src, dst);
 }
@@ -888,45 +899,45 @@ void OSGQuaternionBase<OSGValueTypeT>::transform(
  *   the amount 'scaleFactor'
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::scaleAngle(OSGValueTypeT scaleFactor)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::scaleAngle(ValueTypeT scaleFactor)
 {
-	OSGVectorType axis;
-	OSGValueTypeT radians;
+	VectorType axis;
+	ValueTypeT radians;
 
 	getValue(axis, radians);
 	setValue(axis, radians * scaleFactor);
 }
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::slerpThis(
-    const OSGQuaternionBase &rot0,
-    const OSGQuaternionBase &rot1, 
-    const OSGValueTypeT      t)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::slerpThis(
+    const QuaternionBase &rot0,
+    const QuaternionBase &rot1, 
+    const ValueTypeT      t)
 {
     slerp(rot0, rot1, *this, t);
 }
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::mult(const OSGQuaternionBase &other)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::mult(const QuaternionBase &other)
 {
     mult(_quat, other._quat);
 }
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::multLeft(
-    const OSGQuaternionBase &other)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::multLeft(
+    const QuaternionBase &other)
 {
     mult(other._quat, _quat);
 }
 
-template <class OSGValueTypeT> inline
-OSGBool OSGQuaternionBase<OSGValueTypeT>::equals(
-    const OSGQuaternionBase &rot, 
-    const OSGValueTypeT tolerance) const
+template <class ValueTypeT> inline
+Bool QuaternionBase<ValueTypeT>::equals(
+    const QuaternionBase &rot, 
+    const ValueTypeT tolerance) const
 {
-    OSGUInt32 i; 
-    OSGBool   returnValue = true;
+    UInt32 i; 
+    Bool   returnValue = true;
 
     for(i = 0; i < 4; i++)
     {
@@ -947,9 +958,9 @@ OSGBool OSGQuaternionBase<OSGValueTypeT>::equals(
 /** \brief Return a reference to the element at index index
  */
 
-template <class OSGValueTypeT> inline
-OSGValueTypeT &OSGQuaternionBase<OSGValueTypeT>::operator [](
-    const OSGUInt32 index)
+template <class ValueTypeT> inline
+ValueTypeT &QuaternionBase<ValueTypeT>::operator [](
+    const UInt32 index)
 {
     return _quat[index];
 }
@@ -957,9 +968,9 @@ OSGValueTypeT &OSGQuaternionBase<OSGValueTypeT>::operator [](
 /** \brief Return a const reference to the element at index index
  */
 
-template <class OSGValueTypeT> inline
-const OSGValueTypeT &OSGQuaternionBase<OSGValueTypeT>::operator [](
-    const OSGUInt32 index) const
+template <class ValueTypeT> inline
+const ValueTypeT &QuaternionBase<ValueTypeT>::operator [](
+    const UInt32 index) const
 {
     return _quat[index];
 }
@@ -974,9 +985,9 @@ const OSGValueTypeT &OSGQuaternionBase<OSGValueTypeT>::operator [](
 /** \brief Multiplies by another rotation; results in product of rotations
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::operator *=(
-    const OSGQuaternionBase &other)
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::operator *=(
+    const QuaternionBase &other)
 {
     mult(_quat, other._quat);
 }
@@ -991,12 +1002,12 @@ void OSGQuaternionBase<OSGValueTypeT>::operator *=(
 /** \brief assignment
  */
 
-template <class OSGValueTypeT> inline
-const OSGQuaternionBase<OSGValueTypeT> &
-    OSGQuaternionBase<OSGValueTypeT>::operator =(
-        const OSGQuaternionBase &source)
+template <class ValueTypeT> inline
+const QuaternionBase<ValueTypeT> &
+    QuaternionBase<ValueTypeT>::operator =(
+        const QuaternionBase &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
 	if (this == &source)
 		return *this;
@@ -1019,9 +1030,9 @@ const OSGQuaternionBase<OSGValueTypeT> &
 /** \brief less than, compares memory adresses
  */
 
-template <class OSGValueTypeT> inline
-bool OSGQuaternionBase<OSGValueTypeT>::operator <(
-    const OSGQuaternionBase &other)
+template <class ValueTypeT> inline
+bool QuaternionBase<ValueTypeT>::operator <(
+    const QuaternionBase &other)
 {
     return this < &other;
 }
@@ -1029,19 +1040,19 @@ bool OSGQuaternionBase<OSGValueTypeT>::operator <(
 /** \brief equal
  */
 
-template <class OSGValueTypeT> inline
-OSGBool OSGQuaternionBase<OSGValueTypeT>::operator ==(
-    const OSGQuaternionBase &other)
+template <class ValueTypeT> inline
+Bool QuaternionBase<ValueTypeT>::operator ==(
+    const QuaternionBase &other)
 {
-    return equals(other, osgEps);
+    return equals(other, Eps);
 }
 
 /** \brief unequal
  */
 
-template <class OSGValueTypeT> inline
-OSGBool OSGQuaternionBase<OSGValueTypeT>::operator != (
-    const OSGQuaternionBase &other)
+template <class ValueTypeT> inline
+Bool QuaternionBase<ValueTypeT>::operator != (
+    const QuaternionBase &other)
 {
 	return ! (*this == other);
 }
@@ -1056,11 +1067,11 @@ OSGBool OSGQuaternionBase<OSGValueTypeT>::operator != (
  *  result to the current.
  */
 
-template <class OSGValueTypeT> inline
-void OSGQuaternionBase<OSGValueTypeT>::mult(const OSGValueTypeT rVal1[4],
-                                            const OSGValueTypeT rVal2[4])
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::mult(const ValueTypeT rVal1[4],
+                                            const ValueTypeT rVal2[4])
 {
-    OSGValueTypeT s1, s2, s3, s4, s5, s6, s7, s8, s9, t;
+    ValueTypeT s1, s2, s3, s4, s5, s6, s7, s8, s9, t;
     
     s1 = (rVal1[2] - rVal1[1]) * (rVal2[1] - rVal2[2]);
     s2 = (rVal1[3] + rVal1[0]) * (rVal2[3] + rVal2[0]);
@@ -1087,8 +1098,8 @@ void OSGQuaternionBase<OSGValueTypeT>::mult(const OSGValueTypeT rVal1[4],
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-template <class OSGValueTypeT> inline
-ostream &operator <<(ostream &os, const OSGQuaternionBase<OSGValueTypeT> &obj)
+template <class ValueTypeT> inline
+ostream &operator <<(ostream &os, const QuaternionBase<ValueTypeT> &obj)
 {
     os << fixed << showpoint << setprecision(3) << setfill(' ');
 

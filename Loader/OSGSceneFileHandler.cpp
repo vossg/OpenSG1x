@@ -1,29 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 //-------------------------------
 // 	Includes 					 			    
@@ -48,22 +59,22 @@
 
 OSG_USING_NAMESPACE
 
-/* enum OSGVecBase::VectorSizeE
+/* enum VecBase::VectorSizeE
  * brief 
 */
 
 
-/* var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/* var VecBase::VectorSizeE VecBase::_iSize
  *
 */
 
 
-/* const char *OSGVecBase::getClassName(void)
+/* const char *VecBase::getClassName(void)
  *  brief Classname
 */
 
 
-/* var OSGValueTypeT OSGVecBase:: _value[Size];
+/* var ValueTypeT VecBase:: _value[Size];
  * brief value store
 */
 
@@ -78,7 +89,7 @@ OSG_USING_NAMESPACE
  *****************************/
 
 
-OSGSceneFileHandler * OSGSceneFileHandler::_the = 0;
+SceneFileHandler * SceneFileHandler::_the = 0;
 
 
 /********************************
@@ -100,7 +111,7 @@ OSGSceneFileHandler * OSGSceneFileHandler::_the = 0;
 //GlobalVars:
 //g: 
 //Returns:
-//r:OSGSceneFileType
+//r:SceneFileType
 // Caution
 //c: 
 //Assumations:
@@ -111,11 +122,11 @@ OSGSceneFileHandler * OSGSceneFileHandler::_the = 0;
 //s:
 //
 //------------------------------
-OSGSceneFileType * OSGSceneFileHandler::getFileType ( const char *fileName )
+SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
 {
-	OSGString suffix;
-	OSGSceneFileType *type = 0;
-	map <OSGString, OSGSceneFileType *>::iterator sI;
+	String suffix;
+	SceneFileType *type = 0;
+	map <String, SceneFileType *>::iterator sI;
 	const char separator = '.';
 	int i, l;
 	ifstream fin;
@@ -147,7 +158,7 @@ OSGSceneFileType * OSGSceneFileHandler::getFileType ( const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: OSGScene &image, const char *fileName
+//p: Scene &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -162,15 +173,15 @@ OSGSceneFileType * OSGSceneFileHandler::getFileType ( const char *fileName )
 //s:
 //
 //------------------------------
-OSGNodePtr OSGSceneFileHandler::read (const char *fileName )
+NodePtr SceneFileHandler::read (const char *fileName )
 {
-	OSGSceneFileType *type = getFileType(fileName);
-	OSGNodePtr node;
+	SceneFileType *type = getFileType(fileName);
+	NodePtr node;
 
 	if (type) {
 		SINFO << "try to read " << fileName << " as " << type->getName() << endl;
 		node = type->read(fileName);
-		if (node != OSGNullNode)
+		if (node != NullNode)
 			SINFO << "read ok:" << endl;
 		else
 			SWARNING << "could not read " << endl;
@@ -187,7 +198,7 @@ OSGNodePtr OSGSceneFileHandler::read (const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const OSGScene &image, const char *fileName
+//p: const Scene &image, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -202,10 +213,10 @@ OSGNodePtr OSGSceneFileHandler::read (const char *fileName )
 //s:
 //
 //------------------------------
-bool OSGSceneFileHandler::write ( const OSGNodePtr node, const char *fileName )
+bool SceneFileHandler::write ( const NodePtr node, const char *fileName )
 {
 	bool retCode = false;
-	OSGSceneFileType *type = getFileType(fileName);
+	SceneFileType *type = getFileType(fileName);
 
 	if (type) {
 		SINFO << "try to write " << fileName << " as " << type->getName() << endl;
@@ -238,9 +249,9 @@ bool OSGSceneFileHandler::write ( const OSGNodePtr node, const char *fileName )
 //s:
 //
 //------------------------------
-void OSGSceneFileHandler::print (void )
+void SceneFileHandler::print (void )
 {
-	map <OSGString, OSGSceneFileType *>::iterator sI;
+	map <String, SceneFileType *>::iterator sI;
 
 	for (sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
 		cerr << "suffix: " << sI->first.str() 
@@ -263,7 +274,7 @@ void OSGSceneFileHandler::print (void )
 //----------------------------
 //
 //Parameters:
-//p: OSGSceneFileType *fileType
+//p: SceneFileType *fileType
 //GlobalVars:
 //g: 
 //Returns:
@@ -278,15 +289,15 @@ void OSGSceneFileHandler::print (void )
 //s:
 //
 //------------------------------
-bool OSGSceneFileHandler::addSceneFileType (OSGSceneFileType &fileType )
+bool SceneFileHandler::addSceneFileType (SceneFileType &fileType )
 {
 	bool retCode = false;
-	list<OSGString>::iterator sI;
-	map <OSGString, OSGSceneFileType *>::iterator smI;
-	OSGString suffix;
+	list<String>::iterator sI;
+	map <String, SceneFileType *>::iterator smI;
+	String suffix;
 
 	if (!_the)
-		_the = new OSGSceneFileHandler;
+		_the = new SceneFileHandler;
 
 	for ( sI = fileType.suffixList().begin();
 				sI != fileType.suffixList().end(); ++sI) {
@@ -320,7 +331,7 @@ bool OSGSceneFileHandler::addSceneFileType (OSGSceneFileType &fileType )
 
 
 //----------------------------
-// Function name: OSGSceneFileHandler
+// Function name: SceneFileHandler
 //----------------------------
 //
 //Parameters:
@@ -339,17 +350,17 @@ bool OSGSceneFileHandler::addSceneFileType (OSGSceneFileType &fileType )
 //s:
 //
 //------------------------------
-OSGSceneFileHandler::OSGSceneFileHandler (void )
+SceneFileHandler::SceneFileHandler (void )
 {
 	return;
 }
 
 //----------------------------
-// Function name: OSGSceneFileHandler
+// Function name: SceneFileHandler
 //----------------------------
 //
 //Parameters:
-//p: const OSGSceneFileHandler &obj
+//p: const SceneFileHandler &obj
 //GlobalVars:
 //g: 
 //Returns:
@@ -364,13 +375,13 @@ OSGSceneFileHandler::OSGSceneFileHandler (void )
 //s:
 //
 //------------------------------
-OSGSceneFileHandler::OSGSceneFileHandler (const OSGSceneFileHandler & )
+SceneFileHandler::SceneFileHandler (const SceneFileHandler & )
 {
 	SWARNING << "In copy constructor; I shouldn't be in this corner" << endl; 
 }
 
 //----------------------------
-// Function name: ~OSGSceneFileHandler
+// Function name: ~SceneFileHandler
 //----------------------------
 //
 //Parameters:
@@ -389,7 +400,7 @@ OSGSceneFileHandler::OSGSceneFileHandler (const OSGSceneFileHandler & )
 //s:
 //
 //------------------------------
-OSGSceneFileHandler::~OSGSceneFileHandler (void )
+SceneFileHandler::~SceneFileHandler (void )
 {
 	return;
 }

@@ -25,9 +25,9 @@
 OSG_USING_NAMESPACE
 
 
-OSGDrawAction * dact;
+DrawAction * dact;
 
-OSGNodePtr  root;
+NodePtr  root;
 
 void 
 display(void)
@@ -80,18 +80,18 @@ int main (int argc, char **argv)
 
 	// OSG
 
-    root = OSGNode::create();
-    OSGGroupPtr gr = OSGGroup::create();
+    root = Node::create();
+    GroupPtr gr = Group::create();
 	root->setCore( gr );
 
-	OSGNodePtr plane;
-	plane = osgMakePlane( 2, 2, 2, 2 );
+	NodePtr plane;
+	plane = makePlane( 2, 2, 2, 2 );
 
 	root->addChild( plane );
 
 	cerr << "Plane Node: " << hex << plane << endl;
 	
-	dact = new OSGDrawAction;
+	dact = new DrawAction;
 	
 	glutMainLoop();
 	

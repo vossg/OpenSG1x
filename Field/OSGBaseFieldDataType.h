@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSG_BASEFIELDDATATYPE_H_
 #define _OSG_BASEFIELDDATATYPE_H_
@@ -40,20 +50,75 @@ OSG_BEGIN_NAMESPACE
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSG base field traits 
+ *  \brief  base field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGString> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Color3f> : public Traits
 {
-    static char            *getSName(void)      { return "SFString";    }
+    enum                     { StringConvertable = ToStringConvertable | 
+                                                   FromStringConvertable };
 
-    static char            *getMName(void)      { return "MFString";    }
+    static Char8            *getSName(void)      { return "SFColor3f";    }
 
-    static OSGString        getDefault(void)    { return OSGString();   }
+    static Char8            *getMName(void)      { return "MFColor3f";    }
 
-    static bool             getFromString(OSGString   &target,
-                                          const char *&source)
+    static Color3f           getDefault(void)    { return Color3f();      }
+
+    static Bool              getFromString(      Color3f  &,
+                                           const Char8   *&)
+    {
+        // TO_BE_DONE
+        return false;
+    }
+
+    static void             putToString(const Color3f &,
+                                              String  &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Color4f> : public Traits
+{
+    enum                     { StringConvertable = ToStringConvertable | 
+                                                   FromStringConvertable };
+
+    static Char8            *getSName(void)      { return "SFColor4f";    }
+
+    static Char8            *getMName(void)      { return "MFColor4f";    }
+
+    static Color4f           getDefault(void)    { return Color4f();      }
+ 
+    static Bool              getFromString(      Color4f  &,
+                                           const Char8   *&)
+    {
+        // TO_BE_DONE
+        return false;
+    }
+
+    static void             putToString(const Color4f &,
+                                              String  &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<String> : public Traits
+{
+    enum                     { StringConvertable = ToStringConvertable | 
+                                                   FromStringConvertable };
+
+    static Char8            *getSName(void)      { return "SFString";    }
+
+    static Char8            *getMName(void)      { return "MFString";    }
+
+    static String            getDefault(void)    { return String();      }
+
+    static Bool              getFromString(     String  &target,
+                                          const Char8  *&source)
     {
         target.set(source);
 
@@ -65,77 +130,63 @@ struct OSGFieldDataTraits<OSGString> : public OSGTraits
         return true;
     }
 
-    static void             putToString(const OSGString &source,
-                                              OSGString &target)
+    static void             putToString(const String &source,
+                                              String &target)
     {
         target = source;
     }
 };
 
+#if 0
 template <>
-struct OSGFieldDataTraits<OSGColor3f> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Time> : public Traits
 {
-    static char            *getSName(void)      { return "SFColor3f";    }
+    enum                     { StringConvertable = ToStringConvertable | 
+                                                   FromStringConvertable };
 
-    static char            *getMName(void)      { return "MFColor3f";    }
+    static Char8            *getSName(void)      { return "SFTime";    }
 
-    static OSGColor3f       getDefault(void)    { return OSGColor3f();   }
+    static Char8            *getMName(void)      { return "MFTime";    }
 
-    static bool             getFromString(OSGColor3f    &,
-                                          const char *&)
+    static Time              getDefault(void)    { return Time();      }
+
+    static Bool              getFromString(      Time   &outVal,
+                                           const Char8 *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal = TypeConstants<Time>::getFromString(inVal);
+
+        return true;
     }
 
-    static void             putToString(const OSGColor3f &,
-                                              OSGString  &)
+    static void             putToString(const Time   &,
+                                              String &)
     {
         // TO_BE_DONE
     }
 };
+#endif
 
 template <>
-struct OSGFieldDataTraits<OSGColor4f> : public OSGTraits
+struct FieldDataTraits<DynamicVolume> : public Traits
 {
-    static char            *getSName(void)      { return "SFColor4f";    }
+    enum                     { StringConvertable = ToStringConvertable | 
+                                                   FromStringConvertable };
 
-    static char            *getMName(void)      { return "MFColor4f";    }
+    static Char8            *getSName(void)      { return "SFVolume";      }
 
-    static OSGColor4f       getDefault(void)    { return OSGColor4f();   }
+    static Char8            *getMName(void)      { return "MFVolume";      }
 
-    static bool             getFromString(OSGColor4f    &,
-                                          const char *&)
+    static DynamicVolume     getDefault(void)    { return DynamicVolume(); }
+
+    static Bool             getFromString(      DynamicVolume  &,
+                                          const Char8         *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void             putToString(const OSGColor4f &,
-                                              OSGString  &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-template <>
-struct OSGFieldDataTraits<OSGDynamicVolume> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFVolume";    }
-
-    static char            *getMName(void)      { return "MFVolume";    }
-
-    static OSGDynamicVolume getDefault(void)    { return OSGDynamicVolume();}
-
-    static bool             getFromString(OSGDynamicVolume  &,
-                                          const char       *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGDynamicVolume &,
-                                              OSGString        &)
+    static void             putToString(const DynamicVolume &,
+                                              String        &)
     {
         // TO_BE_DONE
     }
@@ -144,5 +195,7 @@ struct OSGFieldDataTraits<OSGDynamicVolume> : public OSGTraits
 OSG_END_NAMESPACE
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */
+
+
 
 

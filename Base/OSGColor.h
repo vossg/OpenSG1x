@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -52,11 +63,11 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseColors
- *  \brief OSGColor3
+ *  \brief Color3
  */
 
-template <class OSGValueTypeT>
-class OSGColor3
+template <class ValueTypeT>
+class OSG_DLLEXPORT Color3
 {
   public:
 
@@ -68,72 +79,72 @@ class OSGColor3
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGValueTypeT OSGValueType;
+    typedef ValueTypeT ValueType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGColor3"; };
+    static const char *getClassname(void) { return "Color3"; };
 
-    static void convertFromHSV(OSGValueType *rgbP, 
-                               OSGReal32 h,
-                               OSGReal32 s,
-                               OSGReal32 v);
+    static void convertFromHSV(ValueType *rgbP, 
+                               Real32 h,
+                               Real32 s,
+                               Real32 v);
 
 
-    static void convertToHSV(const OSGValueType *rgbP, 
-                             OSGReal32 &h,
-                             OSGReal32 &s,
-                             OSGReal32 &v);
+    static void convertToHSV(const ValueType *rgbP, 
+                             Real32 &h,
+                             Real32 &s,
+                             Real32 &v);
 
-    static OSGUInt32 minPart(const OSGValueType *rgbP);
-    static OSGUInt32 maxPart(const OSGValueType *rgbP);
+    static UInt32 minPart(const ValueType *rgbP);
+    static UInt32 maxPart(const ValueType *rgbP);
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGColor3(void);
-    OSGColor3(const OSGColor3 &source);
-    OSGColor3(OSGValueType red,
-              OSGValueType green,
-              OSGValueType blue);
-    virtual ~OSGColor3(void); 
+    Color3(void);
+    Color3(const Color3 &source);
+    Color3(ValueType red,
+           ValueType green,
+           ValueType blue);
+    virtual ~Color3(void); 
 
     /*------------------------- your_category -------------------------------*/
 
     void clear(void);
 
-    void setValuesRGB(OSGValueType red,
-                      OSGValueType green,
-                      OSGValueType blue);
+    void setValuesRGB(ValueType red,
+                      ValueType green,
+                      ValueType blue);
 
-    void setValuesHSV(OSGReal32 h,
-                      OSGReal32 s,
-                      OSGReal32 v);
+    void setValuesHSV(Real32 h,
+                      Real32 s,
+                      Real32 v);
 
     void setRandom(void);
 
-    OSGUInt32 getRGB(void) const;
+    UInt32 getRGB(void) const;
 
-    void setRGB(OSGUInt32 rgbPack);
+    void setRGB(UInt32 rgbPack);
 
 
-    void getValuesRGB(OSGValueType &red,
-                      OSGValueType &green,
-                      OSGValueType &blue);
+    void getValuesRGB(ValueType &red,
+                      ValueType &green,
+                      ValueType &blue);
 
-    void getValuesHSV(OSGReal32 &h,
-                      OSGReal32 &s,
-                      OSGReal32 &v);
+    void getValuesHSV(Real32 &h,
+                      Real32 &s,
+                      Real32 &v);
 
-    OSGValueType red  (void) const;
-    OSGValueType green(void) const;
-    OSGValueType blue (void) const;        
+    ValueType red  (void) const;
+    ValueType green(void) const;
+    ValueType blue (void) const;        
 
-          OSGValueType *getValueRef(void);
-    const OSGValueType *getValueRef(void) const;
+          ValueType *getValueRef(void);
+    const ValueType *getValueRef(void) const;
 
 
     /*------------------------- your_operators ------------------------------*/
@@ -141,12 +152,12 @@ class OSGColor3
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGColor3 &operator =(const OSGColor3 &source);
+    Color3 &operator =(const Color3 &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-	OSGBool operator == (const OSGColor3 &other) const;
-	OSGBool operator != (const OSGColor3 &other) const;
+	Bool operator == (const Color3 &other) const;
+	Bool operator != (const Color3 &other) const;
 
   protected:
 
@@ -170,7 +181,7 @@ class OSGColor3
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueType _rgb[3];
+    ValueType _rgb[3];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -219,11 +230,11 @@ class OSGColor3
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseColors
- *  \brief OSGColor4
+ *  \brief Color4
  */
 
-template <class OSGValueTypeT>
-class OSGColor4
+template <class ValueTypeT>
+class OSG_DLLEXPORT Color4
 {
   public:
 
@@ -235,64 +246,64 @@ class OSGColor4
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGValueTypeT OSGValueType;
+    typedef ValueTypeT ValueType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGColor4"; };
+    static const char *getClassname(void) { return "Color4"; };
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGColor4(void);
-    OSGColor4(const OSGColor4 &source);
-    OSGColor4(OSGValueType red,
-              OSGValueType green,
-              OSGValueType blue,
-              OSGValueType alpha);
-    virtual ~OSGColor4(void); 
+    Color4(void);
+    Color4(const Color4 &source);
+    Color4(ValueType red,
+           ValueType green,
+           ValueType blue,
+           ValueType alpha);
+    virtual ~Color4(void); 
 
     /*------------------------- your_category -------------------------------*/
 
     void clear(void);
 
-    void setValuesRGBA(OSGValueType red,
-                       OSGValueType green,
-                       OSGValueType blue,
-                       OSGValueType alpha);
+    void setValuesRGBA(ValueType red,
+                       ValueType green,
+                       ValueType blue,
+                       ValueType alpha);
 
-    void setValuesHSV(OSGReal32 h,
-                      OSGReal32 s,
-                      OSGReal32 v);
+    void setValuesHSV(Real32 h,
+                      Real32 s,
+                      Real32 v);
 
     void setRandom(void);
 
     /// method to get a packed rgb value (AABBGGRR)
-    OSGUInt32 getRGBA(void) const;
+    UInt32 getRGBA(void) const;
 
     /// method to set the rgb values (AABBGGRR)
-    void setRGBA(OSGUInt32 rgbPack);
+    void setRGBA(UInt32 rgbPack);
 
 
-    void getValuesRGBA(OSGValueType &red,
-                       OSGValueType &green,
-                       OSGValueType &blue,
-                       OSGValueType &alpha);
+    void getValuesRGBA(ValueType &red,
+                       ValueType &green,
+                       ValueType &blue,
+                       ValueType &alpha);
 
-    void getValuesHSV(OSGReal32 &h,
-                      OSGReal32 &s,
-                      OSGReal32 &v);
+    void getValuesHSV(Real32 &h,
+                      Real32 &s,
+                      Real32 &v);
 
-    OSGValueType red  (void) const;
-    OSGValueType green(void) const;
-    OSGValueType blue (void) const;        
-    OSGValueType alpha(void) const;
+    ValueType red  (void) const;
+    ValueType green(void) const;
+    ValueType blue (void) const;        
+    ValueType alpha(void) const;
 
-          OSGValueType *getValueRef(void);
-    const OSGValueType *getValueRef(void) const;
+          ValueType *getValueRef(void);
+    const ValueType *getValueRef(void) const;
 
 
     /*------------------------- your_operators ------------------------------*/
@@ -300,12 +311,12 @@ class OSGColor4
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGColor4 &operator =(const OSGColor4 &source);
+    Color4 &operator =(const Color4 &source);
 
     /*------------------------- comparison ----------------------------------*/
     
-	OSGBool operator == (const OSGColor4 &other) const;
-	OSGBool operator != (const OSGColor4 &other) const;
+	Bool operator == (const Color4 &other) const;
+	Bool operator != (const Color4 &other) const;
 
   protected:
 
@@ -330,7 +341,7 @@ class OSGColor4
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGValueType _rgba[4];
+    ValueType _rgba[4];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -374,41 +385,41 @@ class OSGColor4
 };
 
 
-template <class OSGValueTypeT>
-ostream &operator <<(ostream                        &outStream,
-                     const OSGColor3<OSGValueTypeT> &color);
+template <class ValueTypeT>
+OSG_DLLEXPORT ostream &operator <<(      ostream            &outStream,
+                                   const Color3<ValueTypeT> &color);
 
-template <class OSGValueTypeT>
-ostream &operator <<(ostream                        &outStream,
-                     const OSGColor4<OSGValueTypeT> &color);
+template <class ValueTypeT>
+OSG_DLLEXPORT ostream &operator <<(      ostream            &outStream,
+                                   const Color4<ValueTypeT> &color);
 
-/*! \var OSGColor3<OSGReal32> OSGColor3f;
+/*! \var Color3<Real32> Color3f;
  *  \ingroup BaseColors
- *  \brief OSGColor3f
+ *  \brief Color3f
  */
 
-typedef OSGColor3<OSGReal32> OSGColor3f;
+typedef Color3<Real32> Color3f;
 
-/*! \var OSGColor4<OSGReal32> OSGColor4f;
+/*! \var Color4<Real32> Color4f;
  *  \ingroup BaseColors
- *  \brief OSGColor4f
+ *  \brief Color4f
  */
 
-typedef OSGColor4<OSGReal32> OSGColor4f;
+typedef Color4<Real32> Color4f;
 
-/*! \var OSGColor3<OSGUInt8> OSGColor3ub;
+/*! \var Color3<UInt8> Color3ub;
  *  \ingroup BaseColors
- *  \brief OSGColor3ub
+ *  \brief Color3ub
  */
 
-typedef OSGColor3<OSGUInt8> OSGColor3ub;
+typedef Color3<UInt8> Color3ub;
 
-/*! \var OSGColor4<OSGUInt8> OSGColor4ub;
+/*! \var Color4<UInt8> Color4ub;
  *  \ingroup BaseColors
- *  \brief OSGColor4ub
+ *  \brief Color4ub
  */
 
-typedef OSGColor4<OSGUInt8> OSGColor4ub;
+typedef Color4<UInt8> Color4ub;
 
 OSG_END_NAMESPACE
 

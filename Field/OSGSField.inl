@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -44,15 +55,15 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \fn const char *OSGSField::getClassname(void)
+/** \fn const char *SField::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGSField::Inherited
+/** \typedef SField::Inherited
  *  \brief Parent type
  */
 
-/** \var OSGFieldTypeT OSGSField::_value
+/** \var FieldTypeT SField::_value
  *  \brief Value store
  */
 
@@ -65,21 +76,21 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGFieldTypeT>
-char OSGSField<OSGFieldTypeT>::cvsid[] = "@(#)$Id: $";
+template <class FieldTypeT>
+char SField<FieldTypeT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief Field type
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class OSGFieldTypeT>
-const OSGFieldType OSGSField<OSGFieldTypeT>::_fieldType = OSGFieldType(
-	OSGFieldDataTraits<OSGFieldTypeT>::getSName(), 
+template <class FieldTypeT>
+const FieldType SField<FieldTypeT>::_fieldType = FieldType(
+	FieldDataTraits<FieldTypeT>::getSName(), 
 	create);
 #else
-template <class OSGFieldTypeT>
-const OSGFieldType OSGSField<OSGFieldTypeT>::_fieldType(
-	OSGFieldDataTraits<OSGFieldTypeT>::getSName(), 
+template <class FieldTypeT>
+const FieldType SField<FieldTypeT>::_fieldType(
+	FieldDataTraits<FieldTypeT>::getSName(), 
 	create);
 #endif
 
@@ -94,8 +105,8 @@ const OSGFieldType OSGSField<OSGFieldTypeT>::_fieldType(
 /** \brief Get class type
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldType &OSGSField<OSGFieldTypeT>::getClassType(void)
+template <class FieldTypeT> inline
+const FieldType &SField<FieldTypeT>::getClassType(void)
 {
     return _fieldType;
 }
@@ -111,10 +122,10 @@ const OSGFieldType &OSGSField<OSGFieldTypeT>::getClassType(void)
 /** \brief Create method used by the factory to create an instance
  */
 
-template <class OSGFieldTypeT> inline
-OSGField *OSGSField<OSGFieldTypeT>::create(void) 
+template <class FieldTypeT> inline
+Field *SField<FieldTypeT>::create(void) 
 {
-    return new OSGSField<OSGFieldTypeT>(); 
+    return new SField<FieldTypeT>(); 
 }
 
 /***************************************************************************\
@@ -130,8 +141,8 @@ OSGField *OSGSField<OSGFieldTypeT>::create(void)
 /** \brief Constructor
  */
 
-template <class OSGFieldTypeT> inline
-OSGSField<OSGFieldTypeT>::OSGSField(void) :
+template <class FieldTypeT> inline
+SField<FieldTypeT>::SField(void) :
     Inherited(),
     _value()
 {
@@ -141,8 +152,8 @@ OSGSField<OSGFieldTypeT>::OSGSField(void) :
 /** \brief Constructor from a give value
  */
 
-template <class OSGFieldTypeT> inline
-OSGSField<OSGFieldTypeT>::OSGSField(const OSGFieldTypeT &value) :
+template <class FieldTypeT> inline
+SField<FieldTypeT>::SField(const FieldTypeT &value) :
     Inherited(),
     _value(value)
 {
@@ -151,8 +162,8 @@ OSGSField<OSGFieldTypeT>::OSGSField(const OSGFieldTypeT &value) :
 /** \brief Constructor from a given field
  */
 
-template <class OSGFieldTypeT> inline
-OSGSField<OSGFieldTypeT>::OSGSField(const OSGSField &obj) :
+template <class FieldTypeT> inline
+SField<FieldTypeT>::SField(const SField &obj) :
     Inherited(obj),
     _value(obj._value)
 {
@@ -161,8 +172,8 @@ OSGSField<OSGFieldTypeT>::OSGSField(const OSGSField &obj) :
 /** \brief Destructor
  */
 
-template <class OSGFieldTypeT> inline
-OSGSField<OSGFieldTypeT>::~OSGSField(void)
+template <class FieldTypeT> inline
+SField<FieldTypeT>::~SField(void)
 {
 }
 
@@ -171,8 +182,8 @@ OSGSField<OSGFieldTypeT>::~OSGSField(void)
 /** \brief Return a reference to the stored value
  */
 
-template <class OSGFieldTypeT> inline
-OSGFieldTypeT &OSGSField<OSGFieldTypeT>::getValue(void)
+template <class FieldTypeT> inline
+FieldTypeT &SField<FieldTypeT>::getValue(void)
 {
     return _value;
 }
@@ -180,8 +191,8 @@ OSGFieldTypeT &OSGSField<OSGFieldTypeT>::getValue(void)
 /** \brief Return a const reference to the stored value
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldTypeT &OSGSField<OSGFieldTypeT>::getValue(void) const
+template <class FieldTypeT> inline
+const FieldTypeT &SField<FieldTypeT>::getValue(void) const
 {
     return _value;
 }
@@ -189,20 +200,20 @@ const OSGFieldTypeT &OSGSField<OSGFieldTypeT>::getValue(void) const
 /** \brief Copies the values from a given field iff the two fieldtypes match 
  */
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::setAbstrValue(const OSGField &obj)
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValue(*((OSGSField<OSGFieldTypeT> *) &obj));
+        setValue(*((SField<FieldTypeT> *) &obj));
     }
 }
 
 /** \brief Sets the stored value from a given one
  */
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::setValue(const OSGFieldTypeT &value)
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::setValue(const FieldTypeT &value)
 {
     _value = value;
 }
@@ -210,28 +221,28 @@ void OSGSField<OSGFieldTypeT>::setValue(const OSGFieldTypeT &value)
 /** \brief Sets the stored value from a given field
  */
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::setValue(const OSGSField<OSGFieldTypeT> &obj)
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::setValue(const SField<FieldTypeT> &obj)
 {
     _value = obj._value;
 }
 
 /*------------------------- field information -------------------------------*/
 
-/** \brief Returns the field cardinality, allways OSGField::OSGSINGLE_FIELD
+/** \brief Returns the field cardinality, allways Field::SINGLE_FIELD
  */
 
-template <class OSGFieldTypeT> inline
-OSGField::OSGCardinality OSGSField<OSGFieldTypeT>::getCardinality (void) const
+template <class FieldTypeT> inline
+Field::Cardinality SField<FieldTypeT>::getCardinality (void) const
 {
-    return OSGSINGLE_FIELD;
+    return SINGLE_FIELD;
 }
 
 /** \brief Returns the size of the field, allway 1
  */
 
-template <class OSGFieldTypeT> inline
-OSGUInt32 OSGSField<OSGFieldTypeT>::size(void) const
+template <class FieldTypeT> inline
+UInt32 SField<FieldTypeT>::size(void) const
 {
     return 1;
 }
@@ -241,8 +252,8 @@ OSGUInt32 OSGSField<OSGFieldTypeT>::size(void) const
 /** \brief Returns the type of the field
  */
 
-template <class OSGFieldTypeT> inline
-const OSGFieldType &OSGSField<OSGFieldTypeT>::getType(void) const
+template <class FieldTypeT> inline
+const FieldType &SField<FieldTypeT>::getType(void) const
 {
     return _fieldType;
 }
@@ -252,21 +263,29 @@ const OSGFieldType &OSGSField<OSGFieldTypeT>::getType(void) const
 /** \brief Sets the field value from a given string
  */
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::setValueByStr(const char *str)
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::pushValueByStr(const Char8 *str)
 {
-    const char *szTmp = str;
-
-    OSGFieldDataTraits<OSGFieldTypeT>::getFromString(_value, szTmp);
+    typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
+                    Traits::FromStringConvertable), 
+                  FieldDataTraits<FieldTypeT>, 
+                  ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    
+    Converter::getFromString(_value, str);
 }
 
 /** \brief Dump the field to a given string
  */
 
-template <class OSGFieldTypeT> inline
-OSGString &OSGSField<OSGFieldTypeT>::getStrValue(OSGString &string) const
+template <class FieldTypeT> inline
+String &SField<FieldTypeT>::getValueByStr(String &string) const
 {
-    OSGFieldDataTraits<OSGFieldTypeT>::putToString(_value, string);
+    typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
+                    Traits::ToStringConvertable), 
+                  FieldDataTraits<FieldTypeT>, 
+                  ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    
+    Converter::putToString(_value, string);
     
 	return string;
 }
@@ -277,8 +296,8 @@ OSGString &OSGSField<OSGFieldTypeT>::getStrValue(OSGString &string) const
  *  log stream instead
  */
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::dump(void) const
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::dump(void) const
 {
     cerr << "Dump Field : " << _value << endl;
 }
@@ -287,14 +306,14 @@ void OSGSField<OSGFieldTypeT>::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::doSync(OSGField *source)
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::doSync(Field *source)
 {
-    setValue(*((OSGSField<OSGFieldTypeT> *) source));
+    setValue(*((SField<FieldTypeT> *) source));
 }
 
-template <class OSGFieldTypeT> inline
-void OSGSField<OSGFieldTypeT>::beginEdit(void)
+template <class FieldTypeT> inline
+void SField<FieldTypeT>::beginEdit(void)
 {
     
 }

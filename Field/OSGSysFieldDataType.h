@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -36,26 +47,274 @@ OSG_BEGIN_NAMESPACE
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGBool field traits 
+ *  \brief Bool field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGBool> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Bool> : public Traits
 {
-    static char            *getSName(void)      { return "SFBool";    }
-    static char            *getMName(void)      { return "MFBool";    }
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
 
-    static OSGBool          getDefault(void)    { return false; }
+    static Char8           *getSName(void)      { return "SFBool";    }
+    static Char8           *getMName(void)      { return "MFBool";    }
 
-    static bool             getFromString(OSGBool     &,
-                                          const char *&)
+    static Bool             getDefault(void)    { return false; }
+
+    static Bool             getFromString(Bool         &outVal,
+                                          const Char8 *&inVal)
+    {
+        if(inVal == NULL)
+            return false;
+
+        if(inVal[0] == 'T' || inVal[0] == 't')
+        {
+            if(inVal[1] != 'R' && inVal[1] != 'r' )
+            {
+                return false;
+            }
+
+            if(inVal[2] != 'U' && inVal[2] != 'u' )
+            {
+                return false;
+            }
+
+            if(inVal[3] != 'E' && inVal[3] != 'e' )
+            {
+                return false;
+            }
+
+            outVal = true;
+        }
+        else if(inVal[0] == 'F' || inVal[0] == 'f')
+        {
+            if(inVal[1] != 'A' && inVal[1] != 'a' )
+            {
+                return false;
+            }
+
+            if(inVal[2] != 'L' && inVal[2] != 'l' )
+            {
+                return false;
+            }
+
+            if(inVal[3] != 'S' && inVal[3] != 's' )
+            {
+                return false;
+            }
+
+            if(inVal[4] != 'E' && inVal[4] != 'e' )
+            {
+                return false;
+            }
+
+            outVal = false;
+        }
+        else
+        {
+            return false;
+        }
+        
+        return true;
+    }
+
+    static void             putToString(const Bool   &,
+                                              String &)
     {
         // TO_BE_DONE
+    }
+};
+
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Int8 field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Int8> : public Traits
+{
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
+
+    static Char8           *getSName(void)      { return "SFInt8";    }
+    static Char8           *getMName(void)      { return "MFInt8";    }
+
+    static Int8             getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      Int8   &outVal,
+                                          const Char8 *&inVal)
+    {
+        outVal = TypeConstants<Int8>::getFromString(inVal);
+
+        return true;
+    }
+
+    static void             putToString(const Int8   &,
+                                              String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief UInt8 field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<UInt8> : public Traits
+{
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
+
+    static Char8           *getSName(void)      { return "SFUInt8";    }
+    static Char8           *getMName(void)      { return "MFUInt8";    }
+
+    static UInt8            getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      UInt8   &outVal,
+                                          const Char8  *&inVal)
+    {
+        outVal = TypeConstants<UInt8>::getFromString(inVal);
+
+        return true;
+    }
+
+    static void             putToString(const UInt8  &,
+                                              String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Int16 field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Int16> : public Traits
+{
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
+
+    static Char8           *getSName(void)      { return "SFInt16";    }
+    static Char8           *getMName(void)      { return "MFInt16";    }
+
+    static Int16            getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      Int16  &outVal,
+                                          const Char8 *&inVal)
+    {
+        outVal = TypeConstants<Int16>::getFromString(inVal);
+
+        return true;
+    }
+
+    static void             putToString(const Int16  &,
+                                              String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief UInt16 field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<UInt16> : public Traits
+{
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
+
+    static Char8           *getSName(void)      { return "SFUInt16";    }
+    static Char8           *getMName(void)      { return "MFUInt16";    }
+
+    static UInt16           getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      UInt16  &outVal,
+                                          const Char8  *&inVal)
+    {
+        outVal = TypeConstants<UInt16>::getFromString(inVal);
+
+        return true;
+    }
+
+    static void             putToString(const UInt16  &,
+                                              String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Int32 field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<Int32> : public Traits
+{
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
+
+    static Char8           *getSName(void)      { return "SFInt32";    }
+    static Char8           *getMName(void)      { return "MFInt32";    }
+
+    static Int32            getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      Int32  &outVal,
+                                          const Char8 *&inVal)
+    {
+        outVal = TypeConstants<Int32>::getFromString(inVal);
+
+        return true;
+    }
+
+    static void             putToString(const Int32  &,
+                                              String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief UInt32 field traits 
+ */
+
+template <>
+struct OSG_DLLEXPORT FieldDataTraits<UInt32> : public Traits
+{
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
+
+    static Char8           *getSName(void)      { return "SFUInt32";    }
+    static Char8           *getMName(void)      { return "MFUInt32";    }
+
+    static UInt32           getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      UInt32  &outVal,
+                                          const Char8  *&inVal)
+    {
+        outVal = TypeConstants<UInt32>::getFromString(inVal);
+
         return false;
     }
 
-    static void             putToString(const OSGBool   &,
-                                              OSGString &)
+    static void             putToString(const UInt32  &,
+                                              String &)
     {
         // TO_BE_DONE
     }
@@ -65,26 +324,30 @@ struct OSGFieldDataTraits<OSGBool> : public OSGTraits
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGInt8 field traits 
+ *  \brief Int64 field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGInt8> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Int64> : public Traits
 {
-    static char            *getSName(void)      { return "SFInt8";    }
-    static char            *getMName(void)      { return "MFInt8";    }
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
 
-    static OSGInt8          getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFInt64";    }
+    static Char8           *getMName(void)      { return "MFInt64";    }
 
-    static bool             getFromString(OSGInt8     &,
-                                          const char *&)
+    static Int64            getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      Int64   &outVal,
+                                          const Char8  *&inVal)
     {
-        // TO_BE_DONE
+        outVal = TypeConstants<Int64>::getFromString(inVal);
+
         return false;
     }
 
-    static void             putToString(const OSGInt8   &,
-                                              OSGString &)
+    static void             putToString(const Int64  &,
+                                              String &)
     {
         // TO_BE_DONE
     }
@@ -93,26 +356,30 @@ struct OSGFieldDataTraits<OSGInt8> : public OSGTraits
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGUInt8 field traits 
+ *  \brief UInt64 field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGUInt8> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<UInt64> : public Traits
 {
-    static char            *getSName(void)      { return "SFUInt8";    }
-    static char            *getMName(void)      { return "MFUInt8";    }
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
 
-    static OSGUInt8         getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFUInt64";    }
+    static Char8           *getMName(void)      { return "MFUInt64";    }
 
-    static bool             getFromString(OSGUInt8    &,
-                                          const char *&)
+    static UInt64           getDefault(void)    { return 0; }
+
+    static Bool             getFromString(      UInt64  &outVal,
+                                          const Char8  *&inVal)
     {
-        // TO_BE_DONE
+        outVal = TypeConstants<UInt64>::getFromString(inVal);
+
         return false;
     }
 
-    static void             putToString(const OSGUInt8  &,
-                                              OSGString &)
+    static void             putToString(const UInt64 &,
+                                              String &)
     {
         // TO_BE_DONE
     }
@@ -122,54 +389,30 @@ struct OSGFieldDataTraits<OSGUInt8> : public OSGTraits
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGInt16 field traits 
+ *  \brief Real32 field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGInt16> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Real32> : public Traits
 {
-    static char            *getSName(void)      { return "SFInt16";    }
-    static char            *getMName(void)      { return "MFInt16";    }
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
 
-    static OSGInt16         getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFReal32";    }
+    static Char8           *getMName(void)      { return "MFReal32";    }
 
-    static bool             getFromString(OSGInt16    &,
-                                          const char *&)
+    static Real32           getDefault(void)    { return 0.f; }
+
+    static Bool             getFromString(      Real32  &outVal,
+                                          const Char8  *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal = TypeConstants<Real32>::getFromString(inVal);
+
+        return true;
     }
 
-    static void             putToString(const OSGInt16  &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGUInt16 field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGUInt16> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFUInt16";    }
-    static char            *getMName(void)      { return "MFUInt16";    }
-
-    static OSGUInt16        getDefault(void)    { return 0; }
-
-    static bool             getFromString(OSGUInt16    &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGUInt16  &,
-                                              OSGString &)
+    static void             putToString(const Real32 &,
+                                              String &)
     {
         // TO_BE_DONE
     }
@@ -179,143 +422,30 @@ struct OSGFieldDataTraits<OSGUInt16> : public OSGTraits
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGInt32 field traits 
+ *  \brief Real64 field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGInt32> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<Real64> : public Traits
 {
-    static char            *getSName(void)      { return "SFInt32";    }
-    static char            *getMName(void)      { return "MFInt32";    }
+    enum                    { StringConvertable = ToStringConvertable | 
+                                                  FromStringConvertable };
 
-    static OSGInt32         getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFReal64";    }
+    static Char8           *getMName(void)      { return "MFReal64";    }
 
-    static bool             getFromString(OSGInt32    &,
-                                          const char *&)
+    static Real64           getDefault(void)    { return 0.; }
+
+    static Bool             getFromString(      Real64  &outVal,
+                                          const Char8  *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal = TypeConstants<Real64>::getFromString(inVal);
+
+        return true;
     }
 
-    static void             putToString(const OSGInt32  &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGUInt32 field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGUInt32> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFUInt32";    }
-    static char            *getMName(void)      { return "MFUInt32";    }
-
-    static OSGUInt32        getDefault(void)    { return 0; }
-
-    static bool             getFromString(OSGUInt32    &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGUInt32  &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGInt64 field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGInt64> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFInt64";    }
-    static char            *getMName(void)      { return "MFInt64";    }
-
-    static OSGInt64         getDefault(void)    { return 0; }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGUInt64 field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGUInt64> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFUInt64";    }
-    static char            *getMName(void)      { return "MFUInt64";    }
-
-    static OSGUInt64        getDefault(void)    { return 0; }
-};
-
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGReal32 field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGReal32> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFReal32";    }
-    static char            *getMName(void)      { return "MFReal32";    }
-
-    static OSGReal32        getDefault(void)    { return 0.f; }
-
-    static bool             getFromString(OSGReal32   &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGReal32 &,
-                                              OSGString &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OSGReal64 field traits 
- */
-
-template <>
-struct OSGFieldDataTraits<OSGReal64> : public OSGTraits
-{
-    static char            *getSName(void)      { return "SFReal64";    }
-    static char            *getMName(void)      { return "MFReal64";    }
-
-    static OSGReal64        getDefault(void)    { return 0.; }
-
-    static bool             getFromString(OSGReal64   &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGReal64 &,
-                                              OSGString &)
+    static void             putToString(const Real64 &,
+                                              String &)
     {
         // TO_BE_DONE
     }
@@ -324,3 +454,4 @@ struct OSGFieldDataTraits<OSGReal64> : public OSGTraits
 OSG_END_NAMESPACE
 
 #endif /* _OSG_SYSFIELDDATATYPE_H_ */
+

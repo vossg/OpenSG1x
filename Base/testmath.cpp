@@ -9,32 +9,32 @@
 #include <OSGMatrixUtility.h>
 #include <OSGQuaternion.h>
 
-using OSG::OSGVec2f;
-using OSG::OSGVec3f;
-using OSG::OSGVec4f;
+using OSG::Vec2f;
+using OSG::Vec3f;
+using OSG::Vec4f;
 
-using OSG::OSGVec2s;
+using OSG::Vec2s;
 
-using OSG::OSGPnt3f;
+using OSG::Pnt3f;
  
-using OSG::OSGMatrix4f;
-using OSG::OSGMatrix;
-using OSG::OSGQuaternion;
+using OSG::Matrix4f;
+using OSG::Matrix;
+using OSG::Quaternion;
 
-using OSG::OSGUInt32;
+using OSG::UInt32;
 
-using OSG::OSGReal32;
+using OSG::Real32;
 
 using OSG::osgcos;
 using OSG::osgsin;
-using OSG::osgPi;
+using OSG::Pi;
 
-using OSG::OSGMatrixOrthogonal;
-using OSG::OSGMatrixFrustum;
-using OSG::OSGMatrixPerspective;
-using OSG::OSGMatrixStereoPerspective;
-using OSG::OSGMatrixLookAt;
-using OSG::OSGMatrixProjection;
+using OSG::MatrixOrthogonal;
+using OSG::MatrixFrustum;
+using OSG::MatrixPerspective;
+using OSG::MatrixStereoPerspective;
+using OSG::MatrixLookAt;
+using OSG::MatrixProjection;
 
 using OSG::osgInit;
 
@@ -44,29 +44,29 @@ void printVec(VecT &vec)
     cerr << vec << "\n";
 }
 
-OSGReal32 pValsI[] = { 10., 11., 12., 13., 14 };
+Real32 pValsI[] = { 10., 11., 12., 13., 14 };
 
 void vectorTestConstructAndSetTest(void)
 {
-    OSGReal32 *pVals = pValsI;
+    Real32 *pVals = pValsI;
 
     cerr << "vectorTestConstructAndSetTest\n";
 
-    OSGVec2f v2f;
-    OSGVec3f v3f;
-    OSGVec4f v4f;
+    Vec2f v2f;
+    Vec3f v3f;
+    Vec4f v4f;
 
-    OSGVec2f v2f2(2., 1.);
-    OSGVec2f v2f3(3., 2., 1.);
-    OSGVec2f v2f4(4., 3., 2., 1.);
+    Vec2f v2f2(2., 1.);
+    Vec2f v2f3(3., 2., 1.);
+    Vec2f v2f4(4., 3., 2., 1.);
 
-    OSGVec3f v3f2(2., 1.);
-    OSGVec3f v3f3(3., 2., 1.);
-    OSGVec3f v3f4(4., 3., 2., 1.);
+    Vec3f v3f2(2., 1.);
+    Vec3f v3f3(3., 2., 1.);
+    Vec3f v3f4(4., 3., 2., 1.);
 
-    OSGVec4f v4f2(2., 1.);
-    OSGVec4f v4f3(3., 2., 1.);
-    OSGVec4f v4f4(4., 3., 2., 1.);
+    Vec4f v4f2(2., 1.);
+    Vec4f v4f3(3., 2., 1.);
+    Vec4f v4f4(4., 3., 2., 1.);
 
     cerr << "construct (void);\n";
 
@@ -93,17 +93,17 @@ void vectorTestConstructAndSetTest(void)
     printVec(v4f4);
 
 
-    OSGVec2f v2f5(v2f4);
-    OSGVec2f v2f6(v3f4);
-    OSGVec2f v2f7(v4f4);
+    Vec2f v2f5(v2f4);
+    Vec2f v2f6(v3f4);
+    Vec2f v2f7(v4f4);
 
-    OSGVec3f v3f5(v2f4);
-    OSGVec3f v3f6(v3f4);
-    OSGVec3f v3f7(v4f4);
+    Vec3f v3f5(v2f4);
+    Vec3f v3f6(v3f4);
+    Vec3f v3f7(v4f4);
 
-    OSGVec4f v4f5(v2f4);
-    OSGVec4f v4f6(v3f4);
-    OSGVec4f v4f7(v4f4);
+    Vec4f v4f5(v2f4);
+    Vec4f v4f6(v3f4);
+    Vec4f v4f7(v4f4);
 
     cerr << "construct (cp size 2) " << v2f4 << "\n";
     printVec(v2f5);
@@ -120,9 +120,9 @@ void vectorTestConstructAndSetTest(void)
     printVec(v3f7);
     printVec(v4f7);
 
-    OSGVec2f v2f8(pVals);
-    OSGVec3f v3f8(pVals);
-    OSGVec4f v4f8(pVals);
+    Vec2f v2f8(pVals);
+    Vec3f v3f8(pVals);
+    Vec4f v4f8(pVals);
 
     cerr << "construct (array)\n";
     printVec(v2f8);
@@ -318,14 +318,14 @@ void vectorTestConstructAndSetTest(void)
 
 void vectorMathTests(void) 
 {
-    OSGVec2f v2f1;
-    OSGVec2f v2f2(1., 0.);
+    Vec2f v2f1;
+    Vec2f v2f2(1., 0.);
 
-    OSGVec3f v3f1;
-    OSGVec3f v3f2(1., 0., 0.5);
+    Vec3f v3f1;
+    Vec3f v3f2(1., 0., 0.5);
 
-    OSGVec4f v4f1;
-    OSGVec4f v4f2(1., 0., 0., 0.5);
+    Vec4f v4f1;
+    Vec4f v4f2(1., 0., 0., 0.5);
 
     cout << v2f1 << " : iz : " << v2f1.isZero() << "\n";
     cout << v3f1 << " : iz : " << v3f1.isZero() << "\n";
@@ -523,62 +523,62 @@ void vectorMathTests(void)
 
 void matrixTest(void)
 {
-    OSGVec3f pVec3Array[4];
+    Vec3f pVec3Array[4];
 
     pVec3Array[0].setValues(11., 12., 13.);
     pVec3Array[1].setValues(21., 22., 23.);
     pVec3Array[2].setValues(31., 32., 33.);
     pVec3Array[3].setValues(41., 42., 43.);
 
-    OSGVec4f pVec4Array[4];
+    Vec4f pVec4Array[4];
 
     pVec4Array[0].setValues(11., 12., 13., 14.);
     pVec4Array[1].setValues(21., 22., 23., 24.);
     pVec4Array[2].setValues(31., 32., 33., 34.);
     pVec4Array[3].setValues(41., 42., 43., 44.);
 
-    OSGReal32 pValArray[16] = { 11., 21., 31., 41.,
+    Real32 pValArray[16] = { 11., 21., 31., 41.,
                                 12., 22., 32., 42.,
                                 13., 23., 33., 43.,
                                 14., 24., 34., 44.};
 
-    OSGReal32 pValArrayT[16] = { 11., 12., 13., 14.,
+    Real32 pValArrayT[16] = { 11., 12., 13., 14.,
                                  21., 22., 23., 24.,
                                  31., 32., 33., 34.,
                                  41., 42., 34., 44.};
 
-    OSGVec3f v1(11., 12., 13.);
-    OSGVec3f v2(21., 22., 23.);
-    OSGVec3f v3(31., 32., 33.);
-    OSGVec3f v4(41., 42., 43.);
+    Vec3f v1(11., 12., 13.);
+    Vec3f v2(21., 22., 23.);
+    Vec3f v3(31., 32., 33.);
+    Vec3f v4(41., 42., 43.);
 
-    OSGQuaternion q1;
-    OSGQuaternion q2;
-    OSGQuaternion q3;
+    Quaternion q1;
+    Quaternion q2;
+    Quaternion q3;
 
-    OSGMatrix m1;
-    OSGMatrix m2(v1, v2, v3);
-    OSGMatrix m3(v1, v2, v3, v4);
-    OSGMatrix m4(m3);
+    Matrix m1;
+    Matrix m2(v1, v2, v3);
+    Matrix m3(v1, v2, v3, v4);
+    Matrix m4(m3);
 
-    OSGMatrix m5(11., 21., 31., 41.,
+    Matrix m5(11., 21., 31., 41.,
                  12., 22., 32., 42,
                  13., 23., 33., 43.,
                  14., 24., 34., 44.);
 
-    OSGPnt3f p1(1., 0., 0.);
-    OSGPnt3f p2;
+    Pnt3f p1(1., 0., 0.);
+    Pnt3f p2;
 
-    OSGMatrix m6;
-    OSGMatrix m7;
-    OSGMatrix m8;
-    OSGMatrix m9;
+    Matrix m6;
+    Matrix m7;
+    Matrix m8;
+    Matrix m9;
 
     cout << endl << "Matrix math test " << endl;
     cout << endl << "========================================" << endl << endl;
 
     cout << "Identity               : " << endl 
-         << OSGMatrix::identity()   << endl;
+         << Matrix::identity()   << endl;
 
     cout << endl << "========================================" << endl << endl;
 
@@ -623,9 +623,9 @@ void matrixTest(void)
 
     cout << "Get Values : " << endl;
 
-    for(OSGUInt32 i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
-        for(OSGUInt32 j = 0; j < 4; j++)
+        for(UInt32 j = 0; j < 4; j++)
         {
             fprintf(stderr, "% 5.3f ", (m5.getValues())[j * 4 + i]);
         }
@@ -888,57 +888,57 @@ void matrixTest(void)
 
 void quattest(void)
 {
-    OSGVec3f v1;
-    OSGVec3f v2;
-    OSGVec3f v3;
-    OSGVec3f v4;
+    Vec3f v1;
+    Vec3f v2;
+    Vec3f v3;
+    Vec3f v4;
 
-    OSGReal32 quatArray[4] = { 0.707, 0., 0., 0.707 };
-    OSGReal32 axisArray[4] = { 1., 0., 0., 90. };
+    Real32 quatArray[4] = { 0.707, 0., 0., 0.707 };
+    Real32 axisArray[4] = { 1., 0., 0., 90. };
 
-    OSGMatrix rotmatInX(
+    Matrix rotmatInX(
         1.000,    0.000,    0.000,    0.000, 
         0.000,    0.500,   -0.866,    0.000, 
         0.000,    0.866,    0.500,    0.000, 
         0.000,    0.000,    0.000,    1.000);
 
-    OSGMatrix rotmatInY(
+    Matrix rotmatInY(
         0.500,    0.000,    0.866,    0.000, 
         0.000,    1.000,    0.000,    0.000, 
        -0.866,    0.000,    0.500,    0.000, 
         0.000,    0.000,    0.000,    1.000);
 
-    OSGMatrix rotmatInZ(
+    Matrix rotmatInZ(
         0.500,   -0.866,    0.000,    0.000,   
         0.866,    0.500,    0.000,    0.000,   
         0.000,    0.000,    1.000,    0.000,
         0.000,    0.000,    0.000,    1.000);
 
-    OSGMatrix rotmatOutX;
-    OSGMatrix rotmatOutY;
-    OSGMatrix rotmatOutZ;
+    Matrix rotmatOutX;
+    Matrix rotmatOutY;
+    Matrix rotmatOutZ;
 
-    OSGReal32 x;
-    OSGReal32 y;
-    OSGReal32 z;
-    OSGReal32 w;
+    Real32 x;
+    Real32 y;
+    Real32 z;
+    Real32 w;
 
     v1.setValues(1., 0., 0.);
 
     v2.setValues(1., 0., 0.);
     v3.setValues(0., 1., 0.);
 
-    OSGQuaternion q1;
-    OSGQuaternion q2(0., 0., 1., 90.);
-    OSGQuaternion q3(q2);
+    Quaternion q1;
+    Quaternion q2(0., 0., 1., 90.);
+    Quaternion q3(q2);
 
-    OSGQuaternion q4(v1, 90.);
-    OSGQuaternion q5(v2, v3);
+    Quaternion q4(v1, 90.);
+    Quaternion q5(v2, v3);
 
-    OSGQuaternion q6;
-    OSGQuaternion q7;
-    OSGQuaternion q8;
-    OSGQuaternion q9;
+    Quaternion q6;
+    Quaternion q7;
+    Quaternion q8;
+    Quaternion q9;
     
 
     cout << endl << "Quaternion math test " << endl;
@@ -1021,7 +1021,7 @@ void quattest(void)
 
     printf("Get val pointer\n");
 
-    for(OSGUInt32 i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         fprintf(stderr, "%5.3f ", q1.getValues()[i]);
     }
@@ -1049,7 +1049,7 @@ void quattest(void)
 
     cout << endl << "========================================" << endl << endl;
 
-    printf("Get val as single OSGReal32 vals\n");
+    printf("Get val as single Real32 vals\n");
     printf("%5.3f %5.3f %5.3f %5.3f\n", q1.x(), q1.y(), q1.z(), q1.w());
 
     cout << endl << "========================================" << endl << endl;
@@ -1071,9 +1071,9 @@ void quattest(void)
     q1.setValueAsAxis(1., 0., 0., 60.);
     q2.setValueAsAxis(0., 1., 0., 60.);
 
-    OSGMatrix m1;
-    OSGMatrix m2;
-    OSGMatrix m3;
+    Matrix m1;
+    Matrix m2;
+    Matrix m3;
 
     q1.getValue(m1);
     q2.getValue(m2);
@@ -1091,19 +1091,19 @@ void quattest(void)
 
 #if 0
     q1.setValue(v1, 0.);
-    q2.setValue(v1, osgPi);
+    q2.setValue(v1, Pi);
 
     cout << "\n" << q2 << "\n";
 
-    q1 = OSGQuaternion::slerp(q1, q2, 0.5);
+    q1 = Quaternion::slerp(q1, q2, 0.5);
 
     cout <<  "\n" << q1 << "\n";
 
-    q1.setValue(osgPi/2., 0., 0.);
+    q1.setValue(Pi/2., 0., 0.);
 
     cout <<  "\n" << q1 << "\n";
 
-    OSGMatrix m;
+    Matrix m;
 
     q1.getValue(m);
 
@@ -1124,14 +1124,14 @@ void quattest(void)
     cout << q3 << "\n";
 
 
-    q1.setValue(1., 0., 0., osgPi);
+    q1.setValue(1., 0., 0., Pi);
     q1.normalize();
 
     cout << q1 << "\n";
 
     v1.setValues(1., 0., 0.);
     
-    q1.setValue(0., 1., 0., osgPi/2.);
+    q1.setValue(0., 1., 0., Pi/2.);
 
     q1.multVec(v1, v2);
 
@@ -1143,8 +1143,8 @@ void quattest(void)
     
     cout << v1 << "\n" << v2 << "\n";
 
-    q1.setValue(0., 1., 0., osgPi/2.);
-    q2.setValue(0., 0., 1., osgPi/2.);
+    q1.setValue(0., 1., 0., Pi/2.);
+    q2.setValue(0., 0., 1., Pi/2.);
 
     q3 = q1;
     q3.mult(q2);
@@ -1157,8 +1157,8 @@ void quattest(void)
 
     cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
 
-    q1.setValue(0., 1., 0., osgPi/2.);
-    q2.setValue(0., 0., 1., osgPi/2.);
+    q1.setValue(0., 1., 0., Pi/2.);
+    q2.setValue(0., 0., 1., Pi/2.);
 
     q3 = q1;
     q3.multLeft(q2);
@@ -1173,9 +1173,9 @@ void quattest(void)
 #endif
 }
 
-void matcheck( OSGMatrix & mat, OSGPnt3f * vec, int nelem )
+void matcheck( Matrix & mat, Pnt3f * vec, int nelem )
 {
-	OSGPnt3f p1,p2;
+	Pnt3f p1,p2;
 	int i;
 	
 	for ( i = 0; i < nelem; i++ )
@@ -1190,87 +1190,87 @@ void matcheck( OSGMatrix & mat, OSGPnt3f * vec, int nelem )
 
 void matutilitytest( void )
 {
-	OSGMatrix res;
+	Matrix res;
 
-	OSGPnt3f p1,p2;
-	OSGVec3f v;
+	Pnt3f p1,p2;
+	Vec3f v;
 
-	OSGPnt3f testvec1[] = { OSGPnt3f( 0,0,0 ), OSGPnt3f( 1,0,0 ), OSGPnt3f( 2,0,0 ), 
-		OSGPnt3f( 0,1,0 ), OSGPnt3f( 0,0,1 ), OSGPnt3f( 1,1,1 )  };
+	Pnt3f testvec1[] = { Pnt3f( 0,0,0 ), Pnt3f( 1,0,0 ), Pnt3f( 2,0,0 ), 
+		Pnt3f( 0,1,0 ), Pnt3f( 0,0,1 ), Pnt3f( 1,1,1 )  };
 	
 	// check the lookat matrix 
 
-	OSGMatrixLookAt( res,  0.f,0.f,0.f, 0.f,0.f,-1.f, 0.f,1.f,0.f );	
+	MatrixLookAt( res,  0.f,0.f,0.f, 0.f,0.f,-1.f, 0.f,1.f,0.f );	
     cout << "Lookat (0,0,0)-(0,0,-1)-(0,1,0): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
 	p1.setValues( 0,0,0);
 	p2.setValues( 0,0,-1);
 	v.setValues( 0,1,0);
-	OSGMatrixLookAt( res,  p1, p2, v );	
+	MatrixLookAt( res,  p1, p2, v );	
     cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	OSGMatrixLookAt( res,  0.f,0.f,2.f, 0.f,0.f,0.f, 0.f,1.f,0.f );	
+	MatrixLookAt( res,  0.f,0.f,2.f, 0.f,0.f,0.f, 0.f,1.f,0.f );	
     cout << "Lookat (0,0,2)-(0,0,0)-(0,1,0): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	OSGMatrixLookAt( res,  2.f,0.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f );	
+	MatrixLookAt( res,  2.f,0.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f );	
     cout << "Lookat (2,0,0)-(0,0,0)-(0,1,0): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	if ( OSGMatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f ) )
+	if ( MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f ) )
 	{
-		cout << "OSGMatrixLookAt failed: illegal conf correctly detected." << endl;
+		cout << "MatrixLookAt failed: illegal conf correctly detected." << endl;
 	}
 	else	
 	{
-		cout << "OSGMatrixLookAt succeeded: illegal conf not detected!!!" << endl;
+		cout << "MatrixLookAt succeeded: illegal conf not detected!!!" << endl;
 	}
-	OSGMatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,0.f,1.f );
+	MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,0.f,1.f );
     cout << "Lookat (0,3,0)-(0,1,0)-(0,0,1): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
 	p1.setValues( 1,1,1);
 	p2.setValues( 0,0,0);
 	v.setValues( 0,2,0);
-	OSGMatrixLookAt( res,  p1,p2,v );	
+	MatrixLookAt( res,  p1,p2,v );	
     cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
 	// check window
 
-	OSGPnt3f testvec2[] = { OSGPnt3f( 0,0,0 ), OSGPnt3f( 0,0,.5 ), 
-		OSGPnt3f( 0,0,1 ), OSGPnt3f( 0,0,-.5 ), OSGPnt3f( 0,0,-1 ), OSGPnt3f( 0,0,-1.5 ), 
-		OSGPnt3f( 0,0,-2 ), OSGPnt3f( .5,.5,-.5 ), OSGPnt3f( 1,1,-1 )  };
+	Pnt3f testvec2[] = { Pnt3f( 0,0,0 ), Pnt3f( 0,0,.5 ), 
+		Pnt3f( 0,0,1 ), Pnt3f( 0,0,-.5 ), Pnt3f( 0,0,-1 ), Pnt3f( 0,0,-1.5 ), 
+		Pnt3f( 0,0,-2 ), Pnt3f( .5,.5,-.5 ), Pnt3f( 1,1,-1 )  };
 
-	OSGMatrixFrustum( res, -1, 1, -1, 1, .1, 1 );
+	MatrixFrustum( res, -1, 1, -1, 1, .1, 1 );
     cout << "Frustum (-1, 1, -1, 1, .1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	OSGMatrixFrustum( res, 0, 1, 0, 1, 0.1, 1 );
+	MatrixFrustum( res, 0, 1, 0, 1, 0.1, 1 );
     cout << "Frustum (0, 1, 0, 1, 0.1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 	
 	// check orthogonal projection
 
-	OSGMatrixOrthogonal( res, -1, 1, -1, 1, -1, 1 );
+	MatrixOrthogonal( res, -1, 1, -1, 1, -1, 1 );
     cout << "Orthogonal (-1, 1, -1, 1, -1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	OSGMatrixOrthogonal( res, -4, -1, 1, 3, -2, 2 );
+	MatrixOrthogonal( res, -4, -1, 1, 3, -2, 2 );
     cout << "Orthogonal (-4, -1, 1, 3, -2, 2): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
 	// check perspective projection
 
-	OSGMatrixPerspective( res, 45, 1, 0.1, 1 );
+	MatrixPerspective( res, 45, 1, 0.1, 1 );
     cout << "Perspective (45, 1, 0.1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	OSGMatrixPerspective( res, 45, 2, 0.1, 1 );
+	MatrixPerspective( res, 45, 2, 0.1, 1 );
     cout << "Perspective (45, 2, 0.1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(OSGPnt3f) );
+	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 	
 
 	// TODO: check stereo projection

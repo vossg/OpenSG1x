@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGSFBASETYPES_H_
 #define _OSGSFBASETYPES_H_
@@ -45,40 +55,40 @@
  *  \brief OpenSG base single fields
  *
  * <UL>
- * <LI> osg::OSGSFString
- * <LI> osg::OSGSFTime
- * <LI> osg::OSGSFColor3f
- * <LI> osg::OSGSFColor4f
- * <LI> osg::OSGSFVolume
+ * <LI> osg::SFString
+ * <LI> osg::SFTime
+ * <LI> osg::SFColor3f
+ * <LI> osg::SFColor4f
+ * <LI> osg::SFVolume
  * </UL>
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief OSGSFString
+/** \brief SFString
  */
 
-typedef OSGSField<OSGString>        OSGSFString;
+typedef SField<String>        SFString;
 
-/** \brief OSGSFTime
+/** \brief SFTime
  */
 
-typedef OSGSField<OSGTime>          OSGSFTime;
+typedef SField<Time>          SFTime;
 
-/** \brief OSGSFColor3f
+/** \brief SFColor3f
  */
 
-typedef OSGSField<OSGColor3f>       OSGSFColor3f;
+typedef SField<Color3f>       SFColor3f;
 
-/** \brief OSGSFColor4f
+/** \brief SFColor4f
  */
 
-typedef OSGSField<OSGColor4f>       OSGSFColor4f;
+typedef SField<Color4f>       SFColor4f;
 
-/** \brief OSGSFVolume
+/** \brief SFVolume
  */
 
-typedef OSGSField<OSGDynamicVolume> OSGSFVolume;
+typedef SField<DynamicVolume> SFVolume;
 
 OSG_END_NAMESPACE
 

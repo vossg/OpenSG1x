@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -46,22 +57,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -70,9 +65,9 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGAspect::cvsid[] = "@(#)$Id: $";
+char Aspect::cvsid[] = "@(#)$Id: $";
 
-vector<OSGAspect *> OSGAspect::_aspectV(OSGThreadManager::getNumAspects());
+vector<Aspect *> Aspect::_aspectV(ThreadManager::getNumAspects());
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -89,19 +84,19 @@ vector<OSGAspect *> OSGAspect::_aspectV(OSGThreadManager::getNumAspects());
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-bool OSGAspect::init(void)
+bool Aspect::init(void)
 {
-    for(OSGUInt32 i = 0; i < OSGThreadManager::getNumAspects(); i++)
+    for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
-        _aspectV[i] = new OSGAspect(i);
+        _aspectV[i] = new Aspect(i);
     }
 
     return true;
 }
 
-bool OSGAspect::exit(void)
+bool Aspect::exit(void)
 {
-    for(OSGUInt32 i = 0; i < OSGThreadManager::getNumAspects(); i++)
+    for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
         delete _aspectV[i];
     }
@@ -109,9 +104,9 @@ bool OSGAspect::exit(void)
     return true;
 }
 
-void OSGAspect::moveList(OSGChangeList *listP, 
-                         OSGUInt32      fromAspect,
-                         OSGUInt32      toAspect)
+void Aspect::moveList(ChangeList *listP, 
+                      UInt32      fromAspect,
+                      UInt32      toAspect)
 {
     if(listP != NULL)
     {
@@ -121,8 +116,8 @@ void OSGAspect::moveList(OSGChangeList *listP,
 
 }
 
-void OSGAspect::addList(OSGChangeList *listP,
-                        OSGUInt32      aspectId)
+void Aspect::addList(ChangeList *listP,
+                     UInt32      aspectId)
 {
     if(listP != NULL)
     {
@@ -176,7 +171,7 @@ CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
 /** \brief assignment
  */
 
-OSGBool CLASSNAME::operator < (const CLASSNAME &other) const
+Bool CLASSNAME::operator < (const CLASSNAME &other) const
 {
     return this < &other;
 }
@@ -184,14 +179,14 @@ OSGBool CLASSNAME::operator < (const CLASSNAME &other) const
 /** \brief equal
  */
 
-OSGBool CLASSNAME::operator == (const CLASSNAME &other) const
+Bool CLASSNAME::operator == (const CLASSNAME &other) const
 {
 }
 
 /** \brief unequal
  */
 
-OSGBool CLASSNAME::operator != (const CLASSNAME &other) const
+Bool CLASSNAME::operator != (const CLASSNAME &other) const
 {
 	return ! (*this == other);
 }
@@ -212,7 +207,7 @@ OSGBool CLASSNAME::operator != (const CLASSNAME &other) const
 /** \brief Constructor
  */
 
-OSGAspect::OSGAspect(OSGUInt32 aspectId) :
+Aspect::Aspect(UInt32 aspectId) :
     _aspectId(aspectId),
     _changeListS()
 {
@@ -221,7 +216,7 @@ OSGAspect::OSGAspect(OSGUInt32 aspectId) :
 /** \brief Destructor
  */
 
-OSGAspect::~OSGAspect(void)
+Aspect::~Aspect(void)
 {
 }
 

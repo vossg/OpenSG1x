@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -79,7 +90,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(OSGViewport, OSGViewportPtr)
+OSG_FIELD_CONTAINER_INL_DEF(Viewport, ViewportPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -94,136 +105,136 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGViewport, OSGViewportPtr)
 
 /*------------------------------ access -----------------------------------*/
 
-inline OSGBackgroundPtr OSGViewport::getBackground( void ) const
+inline BackgroundPtr Viewport::getBackground( void ) const
 {
 	return _background.getValue();
 }
 
-inline OSGSFBackgroundPtr *OSGViewport::getSFBackground( void )
+inline SFBackgroundPtr *Viewport::getSFBackground( void )
 {
 	return &_background;
 }
 
-inline OSGNodePtr OSGViewport::getRoot( void ) const
+inline NodePtr Viewport::getRoot( void ) const
 {
 	return _root.getValue();
 }
 
-inline OSGSFNodePtr *OSGViewport::getSFRoot( void )
+inline SFNodePtr *Viewport::getSFRoot( void )
 {
 	return &_root;
 }
 
-inline OSGCameraPtr OSGViewport::getCamera( void ) const
+inline CameraPtr Viewport::getCamera( void ) const
 {
 	return _camera.getValue();
 }
 
-inline OSGSFCameraPtr *OSGViewport::getSFCamera( void )
+inline SFCameraPtr *Viewport::getSFCamera( void )
 {
 	return &_camera;
 }
 
-inline OSGWindowPtr OSGViewport::getParent( void ) const
+inline WindowPtr Viewport::getParent( void ) const
 {
 	return _parent.getValue();
 }
 
-inline OSGSFWindowPtr *OSGViewport::getSFParent( void )
+inline SFWindowPtr *Viewport::getSFParent( void )
 {
 	return &_parent;
 }
 	
-inline void OSGViewport::setParent( const OSGWindowPtr parent )
+inline void Viewport::setParent( const WindowPtr parent )
 {
 	_parent.setValue( parent );
 }
 	
-inline void OSGViewport::setBackground( const OSGBackgroundPtr bkgnd )
+inline void Viewport::setBackground( const BackgroundPtr bkgnd )
 {
 	_background.setValue( bkgnd );
 }
 	
-inline void OSGViewport::setRoot( const OSGNodePtr root )
+inline void Viewport::setRoot( const NodePtr root )
 {
 	_root.setValue( root );
 }
 	
-inline void OSGViewport::setCamera( const OSGCameraPtr cam )
+inline void Viewport::setCamera( const CameraPtr cam )
 {
 	_camera.setValue( cam );
 }
 
 
 
-inline OSGReal32 OSGViewport::getLeft( void ) const
+inline Real32 Viewport::getLeft( void ) const
 {
 	return _left.getValue();
 }
 
-inline OSGSFReal32 *OSGViewport::getSFLeft( void )
+inline SFReal32 *Viewport::getSFLeft( void )
 {
 	return &_left;
 }
 
-inline void OSGViewport::setLeft( OSGReal32 left )
+inline void Viewport::setLeft( Real32 left )
 {
 	_left.setValue( left );
 }
 
-inline OSGReal32 OSGViewport::getRight( void ) const
+inline Real32 Viewport::getRight( void ) const
 {
 	return _right.getValue();
 }
 
-inline OSGSFReal32 *OSGViewport::getSFRight( void )
+inline SFReal32 *Viewport::getSFRight( void )
 {
 	return &_right;
 }
 
-inline void OSGViewport::setRight( OSGReal32 right )
+inline void Viewport::setRight( Real32 right )
 {
 	_right.setValue( right );
 }
 
-inline OSGReal32 OSGViewport::getBottom( void ) const
+inline Real32 Viewport::getBottom( void ) const
 {
 	return _bottom.getValue();
 }
 
-inline OSGSFReal32 *OSGViewport::getSFBottom( void )
+inline SFReal32 *Viewport::getSFBottom( void )
 {
 	return &_bottom;
 }
 
-inline void OSGViewport::setBottom( OSGReal32 bottom )
+inline void Viewport::setBottom( Real32 bottom )
 {
 	_bottom.setValue( bottom );
 }
 
-inline OSGReal32 OSGViewport::getTop( void ) const
+inline Real32 Viewport::getTop( void ) const
 {
 	return _top.getValue();
 }
 
-inline OSGSFReal32 *OSGViewport::getSFTop( void )
+inline SFReal32 *Viewport::getSFTop( void )
 {
 	return &_top;
 }
 
-inline void OSGViewport::setTop( OSGReal32 top )
+inline void Viewport::setTop( Real32 top )
 {
 	_top.setValue( top );
 }
 
 
 
-inline OSGInt32 OSGViewport::getPixelWidth( void )
+inline Int32 Viewport::getPixelWidth( void )
 {
 	return getPixelRight() - getPixelLeft() + 1;
 }
 
-inline OSGInt32 OSGViewport::getPixelHeight( void )
+inline Int32 Viewport::getPixelHeight( void )
 {
 	return getPixelTop() - getPixelBottom() + 1;
 }
@@ -233,8 +244,8 @@ inline OSGInt32 OSGViewport::getPixelHeight( void )
 /*-------------------------- your_category---------------------------------*/
 
 
-inline void OSGViewport::setSize( OSGReal32 left, OSGReal32 bottom, OSGReal32 right, 
-						OSGReal32 top )
+inline void Viewport::setSize( Real32 left, Real32 bottom, Real32 right, 
+						Real32 top )
 {
 	_left.setValue( left );
 	_right.setValue( right );

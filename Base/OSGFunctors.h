@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGFUNCTORS_H_
 #define _OSGFUNCTORS_H_
@@ -55,61 +65,60 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseLib
- *  \brief OSGFunctorBase
+ *  \brief FunctorBase
  */
 
-struct OSGDefaultFunctorSizeTraits
+struct DefaultFunctorSizeTraits
 {
     typedef 
-        void (                             *OSGFuncPointerT        )(void *);
+        void (                             *FuncPointerT        )(void *);
     typedef 
-        void (OSGDefaultFunctorSizeTraits::*OSGInstanceFuncPointerT)(void *);
+        void (DefaultFunctorSizeTraits::*InstanceFuncPointerT)(void *);
 
-    enum OSGSizesE
+    enum SizesE
     { 
-        _uiFuncPointerSize = OSGMax<sizeof(OSGFuncPointerT),
-                                    sizeof(OSGInstanceFuncPointerT) >::iMax,
+        _uiFuncPointerSize = osgMax<sizeof(FuncPointerT),
+                                    sizeof(InstanceFuncPointerT) >::iMax,
 
         _uiObjectSize      = 64
     };
 };
 
-enum OSGFunctorMethodCallTypeE
+enum FunctorMethodCallTypeE
 {
-    OSGOnArgument,
-    OSGOnStoredObject,
+    OnArgument,
+    OnStoredObject,
     
-    OSGOnStoredCPtr,
-    OSGOnCPtrArgument
+    OnStoredCPtr,
+    OnCPtrArgument
 };
 
-template <class OSGRetT, class OSGObjectTypeT>
-struct OSGFunctorBuildFuncType1
+template <class RetT, class ObjectTypeT>
+struct FunctorBuildFuncType1
 {
-    typedef typename OSGObjectTypeT::OSGObjectType OSGObjectType;
+    typedef typename ObjectTypeT::ObjectType ObjectType;
 
-    typedef OSGRetT (OSGObjectType::*OSGFunctionType)();
+    typedef RetT (ObjectType::*FunctionType)();
 };
 
-template <class OSGRetT, class OSGArg1T, class OSGObjectTypeT>
-struct OSGFunctorBuildFuncType2
+template <class RetT, class Arg1T, class ObjectTypeT>
+struct FunctorBuildFuncType2
 {
-    typedef typename OSGObjectTypeT::OSGObjectType OSGObjectType;
+    typedef typename ObjectTypeT::ObjectType ObjectType;
 
-    typedef          OSGRetT (OSGObjectType::*OSGFunctionType)(OSGArg1T);
+    typedef          RetT (ObjectType::*FunctionType)(Arg1T);
 };
 
-template <class OSGRetT, class OSGArg1T, class OSGArg2T, class OSGObjectTypeT>
-struct OSGFunctorBuildFuncType3
+template <class RetT, class Arg1T, class Arg2T, class ObjectTypeT>
+struct FunctorBuildFuncType3
 {
-    typedef typename OSGObjectTypeT::OSGObjectType OSGObjectType;
+    typedef typename ObjectTypeT::ObjectType ObjectType;
 
-    typedef          OSGRetT (OSGObjectType::*OSGFunctionType)(OSGArg1T,
-                                                               OSGArg2T);
+    typedef          RetT (ObjectType::*FunctionType)(Arg1T, Arg2T);
 };
 
-template <class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGFunctorBase 
+template <class SizeTraitsT = DefaultFunctorSizeTraits>
+class FunctorBase 
 {     
   public:
 
@@ -171,10 +180,10 @@ class OSGFunctorBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGUInt8 OSGObjectValid;
-    static const OSGUInt8 OSGFuncPtrValid;
+    static const UInt8 ObjectValid;
+    static const UInt8 FuncPtrValid;
 
-    static const OSGUInt8 OSGFunctorActive;
+    static const UInt8 FunctorActive;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -186,18 +195,18 @@ class OSGFunctorBase
 
     // for testing
 
-    char     _data1[OSGSizeTraitsT::_uiObjectSize];
-    char     _data2[OSGSizeTraitsT::_uiFuncPointerSize];
-    OSGUInt8 _flags;
+    char     _data1[SizeTraitsT::_uiObjectSize];
+    char     _data2[SizeTraitsT::_uiFuncPointerSize];
+    UInt8 _flags;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctorBase(void);
-    OSGFunctorBase(const OSGFunctorBase &source);
+    FunctorBase(void);
+    FunctorBase(const FunctorBase &source);
 
-    void operator =(const OSGFunctorBase &source);
+    void operator =(const FunctorBase &source);
 
   public :
 
@@ -209,7 +218,7 @@ class OSGFunctorBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGFunctorBase(void); 
+    virtual ~FunctorBase(void); 
 };
 
 //---------------------------------------------------------------------------
@@ -220,10 +229,10 @@ class OSGFunctorBase
  *  \brief Brief
  */
 
-template <class OSGRetT, 
-          class OSGArg1T, 
-          class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGFunctor1Base : public OSGFunctorBase<OSGSizeTraitsT>
+template <class RetT, 
+          class Arg1T, 
+          class SizeTraitsT = DefaultFunctorSizeTraits>
+class Functor1Base : public FunctorBase<SizeTraitsT>
 {
   public:
 
@@ -245,7 +254,7 @@ class OSGFunctor1Base : public OSGFunctorBase<OSGSizeTraitsT>
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctorBase<OSGSizeTraitsT> Inherited;
+    typedef FunctorBase<SizeTraitsT> Inherited;
 
 
     //-----------------------------------------------------------------------
@@ -310,16 +319,16 @@ class OSGFunctor1Base : public OSGFunctorBase<OSGSizeTraitsT>
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctor1Base(void);
-    OSGFunctor1Base(const OSGFunctor1Base &source);
+    Functor1Base(void);
+    Functor1Base(const Functor1Base &source);
     
-    virtual ~OSGFunctor1Base(void); 
+    virtual ~Functor1Base(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual OSGRetT call(OSGArg1T arg1);
+    virtual RetT call(Arg1T arg1);
 
-    void operator =(const OSGFunctor1Base &source);
+    void operator =(const Functor1Base &source);
 };
 
 
@@ -331,10 +340,10 @@ class OSGFunctor1Base : public OSGFunctorBase<OSGSizeTraitsT>
  *  \brief Brief
  */
 
-template <class OSGArg1T, 
-          class OSGSizeTraitsT>
-class OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT> : 
-    public OSGFunctorBase<OSGSizeTraitsT>
+template <class Arg1T, 
+          class SizeTraitsT>
+class Functor1Base<void, Arg1T, SizeTraitsT> : 
+    public FunctorBase<SizeTraitsT>
 {
   public:
 
@@ -356,7 +365,7 @@ class OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT> :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctorBase<OSGSizeTraitsT> Inherited;
+    typedef FunctorBase<SizeTraitsT> Inherited;
 
 
     //-----------------------------------------------------------------------
@@ -421,16 +430,16 @@ class OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT> :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctor1Base(void);
-    OSGFunctor1Base(const OSGFunctor1Base &source);
+    Functor1Base(void);
+    Functor1Base(const Functor1Base &source);
     
-    virtual ~OSGFunctor1Base(void); 
+    virtual ~Functor1Base(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual void call(OSGArg1T arg1);
+    virtual void call(Arg1T arg1);
 
-    void operator =(const OSGFunctor1Base &source);
+    void operator =(const Functor1Base &source);
 };
 
 
@@ -442,11 +451,11 @@ class OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT> :
  *  \brief Brief
  */
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGFunctionFunctor1 : 
-    public OSGFunctor1Base<OSGRetT, OSGArg1T, OSGSizeTraitsT>
+template <class RetT, 
+          class Arg1T,
+          class SizeTraitsT = DefaultFunctorSizeTraits>
+class FunctionFunctor1 : 
+    public Functor1Base<RetT, Arg1T, SizeTraitsT>
 {
   public:
 
@@ -458,7 +467,7 @@ class OSGFunctionFunctor1 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGRetT (*OSGFunctionP)(OSGArg1T);
+    typedef RetT (*FunctionP)(Arg1T);
 
   private:
 
@@ -470,7 +479,7 @@ class OSGFunctionFunctor1 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor1Base<OSGRetT, OSGArg1T, OSGSizeTraitsT> Inherited;
+    typedef Functor1Base<RetT, Arg1T, SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -524,7 +533,7 @@ class OSGFunctionFunctor1 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGFunctionFunctor1 &source);
+    void operator =(const FunctionFunctor1 &source);
 
   public :
 
@@ -536,18 +545,18 @@ class OSGFunctionFunctor1 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctionFunctor1(void);
-    OSGFunctionFunctor1(const OSGFunctionFunctor1 &source);
+    FunctionFunctor1(void);
+    FunctionFunctor1(const FunctionFunctor1 &source);
     
-    virtual ~OSGFunctionFunctor1(void); 
+    virtual ~FunctionFunctor1(void); 
 
     /*----------------------------- access ----------------------------------*/
 
-    void setFunction(OSGFunctionP pFunc);
+    void setFunction(FunctionP pFunc);
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual OSGRetT call(OSGArg1T arg1);
+    virtual RetT call(Arg1T arg1);
 };
 
 
@@ -561,10 +570,10 @@ class OSGFunctionFunctor1 :
  *  \brief Brief
  */
 
-template <class OSGArg1T,
-          class OSGSizeTraitsT>
-class OSGFunctionFunctor1<void, OSGArg1T, OSGSizeTraitsT> : 
-    public OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT>
+template <class Arg1T,
+          class SizeTraitsT>
+class FunctionFunctor1<void, Arg1T, SizeTraitsT> : 
+    public Functor1Base<void, Arg1T, SizeTraitsT>
 {
   public:
 
@@ -576,7 +585,7 @@ class OSGFunctionFunctor1<void, OSGArg1T, OSGSizeTraitsT> :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef void (*OSGFunctionP)(OSGArg1T);
+    typedef void (*FunctionP)(Arg1T);
 
   private:
 
@@ -588,7 +597,7 @@ class OSGFunctionFunctor1<void, OSGArg1T, OSGSizeTraitsT> :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT> Inherited;
+    typedef Functor1Base<void, Arg1T, SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -642,7 +651,7 @@ class OSGFunctionFunctor1<void, OSGArg1T, OSGSizeTraitsT> :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGFunctionFunctor1 &source);
+    void operator =(const FunctionFunctor1 &source);
 
   public :
 
@@ -654,51 +663,51 @@ class OSGFunctionFunctor1<void, OSGArg1T, OSGSizeTraitsT> :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctionFunctor1(void);
-    OSGFunctionFunctor1(const OSGFunctionFunctor1 &source);
+    FunctionFunctor1(void);
+    FunctionFunctor1(const FunctionFunctor1 &source);
     
-    virtual ~OSGFunctionFunctor1(void); 
+    virtual ~FunctionFunctor1(void); 
 
     /*----------------------------- access ----------------------------------*/
 
-    void setFunction(OSGFunctionP pFunc);
+    void setFunction(FunctionP pFunc);
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual void call(OSGArg1T arg1);
+    virtual void call(Arg1T arg1);
 };
 
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT, 
-          enum  OSGFunctorMethodCallTypeE osgMethodCallType>
-struct OSGFunctorTraits1
+template <class RetT, 
+          class Arg1T,
+          class ObjectT, 
+          enum  FunctorMethodCallTypeE MethodCallType>
+struct FunctorTraits1
 {
 };
 
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT,
-                         OSGArg1T *, 
-                         OSGObjectT, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT,
+                      Arg1T *, 
+                      ObjectT, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T *arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T *arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         return ((arg1)->*pFunc)();
     }
@@ -707,11 +716,11 @@ struct OSGFunctorTraits1<OSGRetT,
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, char *, OSGArg1T *)
+    static RetT callObjectMethod(char *, char *, Arg1T *)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -722,44 +731,44 @@ struct OSGFunctorTraits1<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T *arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T *arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         ((arg1)->*pFunc)();
     }
 
     static void callObjectMethodVoid(char     *, 
                                      char     *, 
-                                     OSGArg1T *)
+                                     Arg1T *)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT,
-                         OSGArg1T &, 
-                         OSGObjectT, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT,
+                      Arg1T &, 
+                      ObjectT, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T &arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T &arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         return ((&arg1)->*pFunc)();
     }
@@ -768,11 +777,11 @@ struct OSGFunctorTraits1<OSGRetT,
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, char *, OSGArg1T &)
+    static RetT callObjectMethod(char *, char *, Arg1T &)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -783,44 +792,44 @@ struct OSGFunctorTraits1<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T &arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T &arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         ((&arg1)->*pFunc)();
     }
 
     static void callObjectMethodVoid(char     *, 
                                      char     *, 
-                                     OSGArg1T &)
+                                     Arg1T &)
     {
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T &, OSGObjectT, OSGOnCPtrArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T &, ObjectT, OnCPtrArgument>
 {
-    typedef typename OSGObjectT::OSGObjectType OSGObjectType;
+    typedef typename ObjectT::ObjectType ObjectType;
 
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodT   )(void);
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef          RetT (ObjectType::*ObjectMethodT   )(void);
+    typedef          RetT (ObjectType::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T &arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T &arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         return ((&(*arg1))->*pFunc)();
     }
@@ -829,11 +838,11 @@ struct OSGFunctorTraits1<OSGRetT, OSGArg1T &, OSGObjectT, OSGOnCPtrArgument>
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, char *, OSGArg1T &)
+    static RetT callObjectMethod(char *, char *, Arg1T &)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -844,49 +853,49 @@ struct OSGFunctorTraits1<OSGRetT, OSGArg1T &, OSGObjectT, OSGOnCPtrArgument>
 #pragma reset woff 1551 
 #endif
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T &arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T &arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         ((&(*arg1))->*pFunc)();
     }
 
     static void callObjectMethodVoid(char     *,
                                      char     *, 
-                                     OSGArg1T &)
+                                     Arg1T &)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT &, OSGOnStoredCPtr>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T, ObjectT &, OnStoredCPtr>
 {
-    typedef typename OSGObjectT::OSGObjectType OSGObjectType;
+    typedef typename ObjectT::ObjectType ObjectType;
 
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodT   )(void);
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef          RetT (ObjectType::*ObjectMethodT   )(void);
+    typedef          RetT (ObjectType::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, OSGArg1T)
+    static RetT callObjectMethod(char *, Arg1T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -897,152 +906,152 @@ struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT &, OSGOnStoredCPtr>
 #pragma reset woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
         
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
         
         return (&(**pObj)->*pFunc)(arg1);
     }
 
-    static void callObjectMethodVoid(char *, OSGArg1T)
+    static void callObjectMethodVoid(char *, Arg1T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
         
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
         
         (&(**pObj)->*pFunc)(arg1);
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T &, OSGObjectT *, OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T &, ObjectT *, OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT *OSGSetObjectT;
+    typedef ObjectT *SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT **) pData) = obj;
+        *((ObjectT **) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((&arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
         return returnValue;
     }
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((&arg1)->*pFunc)();
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T *, OSGObjectT *, OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T *, ObjectT *, OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT *OSGSetObjectT;
+    typedef ObjectT *SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT **) pData) = obj;
+        *((ObjectT **) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
         return returnValue;
     }
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((arg1)->*pFunc)();
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT *, OSGOnStoredObject>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T, ObjectT *, OnStoredObject>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT *OSGSetObjectT;
+    typedef ObjectT *SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT **) pData) = obj;
+        *((ObjectT **) pData) = obj;
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, OSGArg1T)
+    static RetT callObjectMethod(char *, Arg1T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -1053,153 +1062,153 @@ struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT *, OSGOnStoredObject>
 #pragma reset woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGObjectT *pObj = *((OSGObjectT **) pData1);
+        ObjectT *pObj = *((ObjectT **) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
             
         return (pObj->*pFunc)(arg1);
     }
 
 
-    static void callObjectMethodVoid(char *, OSGArg1T)
+    static void callObjectMethodVoid(char *, Arg1T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGObjectT *pObj = *((OSGObjectT **) pData1);
+        ObjectT *pObj = *((ObjectT **) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
             
         (pObj->*pFunc)(arg1);
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T &, OSGObjectT &, OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T &, ObjectT &, OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((&arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
         return returnValue;
     }
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((&arg1)->*pFunc)();
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T *, OSGObjectT &, OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T *, ObjectT &, OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
         return returnValue;
     }
 
-    static void callObjectMethodVoid(char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData2, Arg1T arg1)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((arg1)->*pFunc)();
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT>
-struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT &, OSGOnStoredObject>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT>
+struct FunctorTraits1<RetT, Arg1T, ObjectT &, OnStoredObject>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(void);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(void);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, OSGArg1T)
+    static RetT callObjectMethod(char *, Arg1T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -1210,27 +1219,27 @@ struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT &, OSGOnStoredObject>
 #pragma reset woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *pData1, char *pData2, OSGArg1T arg1)
+    static RetT callObjectMethod(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
             
         return (pObj->*pFunc)(arg1);
     }
 
-    static void callObjectMethodVoid(char *, OSGArg1T)
+    static void callObjectMethodVoid(char *, Arg1T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 
-    static void callObjectMethodVoid(char *pData1, char *pData2, OSGArg1T arg1)
+    static void callObjectMethodVoid(char *pData1, char *pData2, Arg1T arg1)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
         
         (pObj->*pFunc)(arg1);
     }
@@ -1245,13 +1254,13 @@ struct OSGFunctorTraits1<OSGRetT, OSGArg1T, OSGObjectT &, OSGOnStoredObject>
  *  \brief Brief
  */
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGObjectT, 
-          enum  OSGFunctorMethodCallTypeE osgMethodCallType,
-          class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGObjectFunctor1 : 
-    public OSGFunctor1Base<OSGRetT, OSGArg1T, OSGSizeTraitsT>
+template <class RetT, 
+          class Arg1T,
+          class ObjectT, 
+          enum  FunctorMethodCallTypeE MethodCallType,
+          class SizeTraitsT = DefaultFunctorSizeTraits>
+class ObjectFunctor1 : 
+    public Functor1Base<RetT, Arg1T, SizeTraitsT>
 {
   public:
 
@@ -1264,14 +1273,14 @@ class OSGObjectFunctor1 :
     //-----------------------------------------------------------------------
 
     typedef
-        OSGFunctorTraits1<OSGRetT,
-                          OSGArg1T, 
-                          OSGObjectT, 
-                          osgMethodCallType> OSGFunctorTrait;
+        FunctorTraits1<RetT,
+                       Arg1T, 
+                       ObjectT, 
+                       MethodCallType> FunctorTrait;
 
-    typedef typename OSGFunctorTrait::OSGObjectMethodT    OSGObjectMethodT;
-    typedef typename OSGFunctorTrait::OSGObjectMethodPtrT OSGObjectMethodPtrT;
-    typedef typename OSGFunctorTrait::OSGSetObjectT       OSGSetObjectT;
+    typedef typename FunctorTrait::ObjectMethodT    ObjectMethodT;
+    typedef typename FunctorTrait::ObjectMethodPtrT ObjectMethodPtrT;
+    typedef typename FunctorTrait::SetObjectT       SetObjectT;
 
 
   private:
@@ -1284,7 +1293,7 @@ class OSGObjectFunctor1 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor1Base<OSGRetT, OSGArg1T, OSGSizeTraitsT> Inherited;
+    typedef Functor1Base<RetT, Arg1T, SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -1338,7 +1347,7 @@ class OSGObjectFunctor1 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGObjectFunctor1 &source);
+    void operator =(const ObjectFunctor1 &source);
 
   public :
 
@@ -1350,23 +1359,23 @@ class OSGObjectFunctor1 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGObjectFunctor1(void);
-    OSGObjectFunctor1(const OSGObjectFunctor1 &source);
+    ObjectFunctor1(void);
+    ObjectFunctor1(const ObjectFunctor1 &source);
     
-    virtual ~OSGObjectFunctor1(void); 
+    virtual ~ObjectFunctor1(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    void setMethod         (OSGObjectMethodT     pFunc);
+    void setMethod         (ObjectMethodT     pFunc);
 
-    void setMethod         (OSGObjectMethodPtrT  pFunc);
+    void setMethod         (ObjectMethodPtrT  pFunc);
 
-    void setCalledObject   (OSGSetObjectT        pObj);
+    void setCalledObject   (SetObjectT        pObj);
 
-    void setObjectAndMethod(OSGSetObjectT        pObj, 
-                            OSGObjectMethodPtrT  pFunc);
+    void setObjectAndMethod(SetObjectT        pObj, 
+                            ObjectMethodPtrT  pFunc);
 
-    virtual OSGRetT    call(OSGArg1T             arg1);
+    virtual RetT    call(Arg1T             arg1);
 
 };
 
@@ -1383,16 +1392,16 @@ class OSGObjectFunctor1 :
  *  \brief Brief
  */
 
-template <class OSGArg1T,
-          class OSGObjectT, 
-          enum  OSGFunctorMethodCallTypeE osgMethodCallType,
-          class OSGSizeTraitsT>
-class OSGObjectFunctor1<void, 
-                        OSGArg1T, 
-                        OSGObjectT, 
-                        osgMethodCallType,
-                        OSGSizeTraitsT> : 
-    public OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT>
+template <class Arg1T,
+          class ObjectT, 
+          enum  FunctorMethodCallTypeE MethodCallType,
+          class SizeTraitsT>
+class ObjectFunctor1<void, 
+                     Arg1T, 
+                     ObjectT, 
+                     MethodCallType,
+                      SizeTraitsT> : 
+    public Functor1Base<void, Arg1T, SizeTraitsT>
 {
   public:
 
@@ -1405,14 +1414,14 @@ class OSGObjectFunctor1<void,
     //-----------------------------------------------------------------------
 
     typedef
-        OSGFunctorTraits1<void,
-                          OSGArg1T, 
-                          OSGObjectT, 
-                          osgMethodCallType> OSGFunctorTrait;
+        FunctorTraits1<void,
+                       Arg1T, 
+                       ObjectT, 
+                       MethodCallType> FunctorTrait;
 
-    typedef typename OSGFunctorTrait::OSGObjectMethodT    OSGObjectMethodT;
-    typedef typename OSGFunctorTrait::OSGObjectMethodPtrT OSGObjectMethodPtrT;
-    typedef typename OSGFunctorTrait::OSGSetObjectT       OSGSetObjectT;
+    typedef typename FunctorTrait::ObjectMethodT    ObjectMethodT;
+    typedef typename FunctorTrait::ObjectMethodPtrT ObjectMethodPtrT;
+    typedef typename FunctorTrait::SetObjectT       SetObjectT;
 
   private:
 
@@ -1424,7 +1433,7 @@ class OSGObjectFunctor1<void,
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor1Base<void, OSGArg1T, OSGSizeTraitsT> Inherited;
+    typedef Functor1Base<void, Arg1T, SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -1478,7 +1487,7 @@ class OSGObjectFunctor1<void,
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGObjectFunctor1 &source);
+    void operator =(const ObjectFunctor1 &source);
 
   public :
 
@@ -1490,78 +1499,78 @@ class OSGObjectFunctor1<void,
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGObjectFunctor1(void);
-    OSGObjectFunctor1(const OSGObjectFunctor1 &source);
+    ObjectFunctor1(void);
+    ObjectFunctor1(const ObjectFunctor1 &source);
     
-    virtual ~OSGObjectFunctor1(void); 
+    virtual ~ObjectFunctor1(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    void setMethod         (OSGObjectMethodT     pFunc);
+    void setMethod         (ObjectMethodT     pFunc);
 
-    void setMethod         (OSGObjectMethodPtrT  pFunc);
+    void setMethod         (ObjectMethodPtrT  pFunc);
 
-    void setCalledObject   (OSGSetObjectT        pObj);
+    void setCalledObject   (SetObjectT        pObj);
 
-    void setObjectAndMethod(OSGSetObjectT        pObj, 
-                            OSGObjectMethodPtrT  pFunc);
+    void setObjectAndMethod(SetObjectT        pObj, 
+                            ObjectMethodPtrT  pFunc);
 
-    virtual void    call(OSGArg1T             arg1);
+    virtual void    call(Arg1T             arg1);
 };
 
 
-template <class OSGRetT, class OSGArg1T> inline
-OSGFunctionFunctor1<OSGRetT, OSGArg1T> osgFunctionFunctor1( 
-    OSGRetT (*pFunc)(OSGArg1T));
+template <class RetT, class Arg1T> inline
+FunctionFunctor1<RetT, Arg1T> osgFunctionFunctor1( 
+    RetT (*pFunc)(Arg1T));
 
-template <class OSGRetT, class OSGArg1T> inline
-OSGObjectFunctor1<OSGRetT, 
-                  OSGArg1T &, 
-                  OSGArg1T,
-                  OSGOnArgument> osgMethodFunctor1Ref(
-    OSGRetT (OSGArg1T::*pFunc)());
-
-
-template <class OSGRetT, class OSGArg1T, class OSGObjectT> inline
-OSGObjectFunctor1<OSGRetT, 
-                  OSGArg1T, 
-                  OSGObjectT &,
-                  OSGOnStoredObject> osgMethodFunctorRef(
-    OSGObjectT &obj, OSGRetT (OSGObjectT::*pFunc)(OSGArg1T));
+template <class RetT, class Arg1T> inline
+ObjectFunctor1<RetT, 
+               Arg1T &, 
+               Arg1T,
+               OnArgument> osgMethodFunctor1Ref(
+    RetT (Arg1T::*pFunc)());
 
 
-template <class OSGRetT, class OSGArg1T> inline
-OSGObjectFunctor1<OSGRetT, 
-                  OSGArg1T *, 
-                  OSGArg1T,
-                  OSGOnArgument> osgMethodFunctor1Ptr(
-    OSGRetT (OSGArg1T::*pFunc)());
+template <class RetT, class Arg1T, class ObjectT> inline
+ObjectFunctor1<RetT, 
+               Arg1T, 
+               ObjectT &,
+               OnStoredObject> osgMethodFunctorRef(
+    ObjectT &obj, RetT (ObjectT::*pFunc)(Arg1T));
 
 
-template <class OSGRetT, class OSGArg1T, class OSGObjectT> inline
-OSGObjectFunctor1<OSGRetT, 
-                  OSGArg1T, 
-                  OSGObjectT *,
-                  OSGOnStoredObject> osgMethodFunctor1Ptr(
-    OSGObjectT *pObj, OSGRetT (OSGObjectT::*pFunc)(OSGArg1T));
+template <class RetT, class Arg1T> inline
+ObjectFunctor1<RetT, 
+               Arg1T *, 
+               Arg1T,
+               OnArgument> osgMethodFunctor1Ptr(
+    RetT (Arg1T::*pFunc)());
 
-template <class OSGRetT, class OSGArg1T> inline
-OSGObjectFunctor1<OSGRetT, 
-                  OSGArg1T &, 
-                  OSGArg1T,
-                  OSGOnCPtrArgument> osgMethodFunctor1CPtr(
-   typename OSGFunctorBuildFuncType1<OSGRetT, 
-                                     OSGArg1T>::OSGFunctionType pFunc);
 
-template <class OSGRetT, class OSGArg1T, class OSGObjectT> inline
-OSGObjectFunctor1<OSGRetT, 
-                  OSGArg1T, 
-                  OSGObjectT &,
-                  OSGOnStoredCPtr> osgMethodFunctor1CPtr(
-    OSGObjectT &obj, 
-    typename OSGFunctorBuildFuncType2<OSGRetT, 
-                                      OSGArg1T, 
-                                      OSGObjectT>::OSGFunctionType pFunc);
+template <class RetT, class Arg1T, class ObjectT> inline
+ObjectFunctor1<RetT, 
+               Arg1T, 
+               ObjectT *,
+               OnStoredObject> osgMethodFunctor1Ptr(
+    ObjectT *pObj, RetT (ObjectT::*pFunc)(Arg1T));
+
+template <class RetT, class Arg1T> inline
+ObjectFunctor1<RetT, 
+               Arg1T &, 
+               Arg1T,
+               OnCPtrArgument> osgMethodFunctor1CPtr(
+   typename FunctorBuildFuncType1<RetT, 
+                                  Arg1T>::FunctionType pFunc);
+
+template <class RetT, class Arg1T, class ObjectT> inline
+ObjectFunctor1<RetT, 
+               Arg1T, 
+               ObjectT &,
+               OnStoredCPtr> osgMethodFunctor1CPtr(
+    ObjectT &obj, 
+    typename FunctorBuildFuncType2<RetT, 
+                                   Arg1T, 
+                                   ObjectT>::FunctionType pFunc);
 
 
 
@@ -1574,11 +1583,11 @@ OSGObjectFunctor1<OSGRetT,
  *  \brief Brief
  */
 
-template <class OSGRetT, 
-          class OSGArg1T, 
-          class OSGArg2T,
-          class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGFunctor2Base : public OSGFunctorBase<OSGSizeTraitsT>
+template <class RetT, 
+          class Arg1T, 
+          class Arg2T,
+          class SizeTraitsT = DefaultFunctorSizeTraits>
+class Functor2Base : public FunctorBase<SizeTraitsT>
 {
   public:
 
@@ -1600,7 +1609,7 @@ class OSGFunctor2Base : public OSGFunctorBase<OSGSizeTraitsT>
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctorBase<OSGSizeTraitsT> Inherited;
+    typedef FunctorBase<SizeTraitsT> Inherited;
 
 
     //-----------------------------------------------------------------------
@@ -1665,16 +1674,16 @@ class OSGFunctor2Base : public OSGFunctorBase<OSGSizeTraitsT>
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctor2Base(void);
-    OSGFunctor2Base(const OSGFunctor2Base &source);
+    Functor2Base(void);
+    Functor2Base(const Functor2Base &source);
     
-    virtual ~OSGFunctor2Base(void); 
+    virtual ~Functor2Base(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual OSGRetT call(OSGArg1T arg1, OSGArg2T arg2);
+    virtual RetT call(Arg1T arg1, Arg2T arg2);
 
-    void operator =(const OSGFunctor2Base &source);
+    void operator =(const Functor2Base &source);
 };
 
 
@@ -1686,11 +1695,11 @@ class OSGFunctor2Base : public OSGFunctorBase<OSGSizeTraitsT>
  *  \brief Brief
  */
 
-template <class OSGArg1T, 
-          class OSGArg2T,
-          class OSGSizeTraitsT>
-class OSGFunctor2Base<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> : 
-    public OSGFunctorBase<OSGSizeTraitsT>
+template <class Arg1T, 
+          class Arg2T,
+          class SizeTraitsT>
+class Functor2Base<void, Arg1T, Arg2T, SizeTraitsT> : 
+    public FunctorBase<SizeTraitsT>
 {
   public:
 
@@ -1712,7 +1721,7 @@ class OSGFunctor2Base<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctorBase<OSGSizeTraitsT> Inherited;
+    typedef FunctorBase<SizeTraitsT> Inherited;
 
 
     //-----------------------------------------------------------------------
@@ -1777,16 +1786,16 @@ class OSGFunctor2Base<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctor2Base(void);
-    OSGFunctor2Base(const OSGFunctor2Base &source);
+    Functor2Base(void);
+    Functor2Base(const Functor2Base &source);
     
-    virtual ~OSGFunctor2Base(void); 
+    virtual ~Functor2Base(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual void call(OSGArg1T arg1, OSGArg2T);
+    virtual void call(Arg1T arg1, Arg2T);
 
-    void operator =(const OSGFunctor2Base &source);
+    void operator =(const Functor2Base &source);
 };
 
 
@@ -1798,12 +1807,12 @@ class OSGFunctor2Base<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
  *  \brief Brief
  */
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGFunctionFunctor2 : 
-    public OSGFunctor2Base<OSGRetT, OSGArg1T, OSGArg2T, OSGSizeTraitsT>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class SizeTraitsT = DefaultFunctorSizeTraits>
+class FunctionFunctor2 : 
+    public Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>
 {
   public:
 
@@ -1815,7 +1824,7 @@ class OSGFunctionFunctor2 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGRetT (*OSGFunctionP)(OSGArg1T, OSGArg2T);
+    typedef RetT (*FunctionP)(Arg1T, Arg2T);
 
   private:
 
@@ -1827,10 +1836,10 @@ class OSGFunctionFunctor2 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor2Base<OSGRetT, 
-                            OSGArg1T, 
-                            OSGArg2T,
-                            OSGSizeTraitsT> Inherited;
+    typedef Functor2Base<RetT, 
+                         Arg1T, 
+                         Arg2T,
+                         SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -1884,7 +1893,7 @@ class OSGFunctionFunctor2 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGFunctionFunctor2 &source);
+    void operator =(const FunctionFunctor2 &source);
 
   public :
 
@@ -1896,18 +1905,18 @@ class OSGFunctionFunctor2 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctionFunctor2(void);
-    OSGFunctionFunctor2(const OSGFunctionFunctor2 &source);
+    FunctionFunctor2(void);
+    FunctionFunctor2(const FunctionFunctor2 &source);
     
-    virtual ~OSGFunctionFunctor2(void); 
+    virtual ~FunctionFunctor2(void); 
 
     /*----------------------------- access ----------------------------------*/
 
-    void setFunction(OSGFunctionP pFunc);
+    void setFunction(FunctionP pFunc);
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual OSGRetT call(OSGArg1T arg1, OSGArg2T arg2);
+    virtual RetT call(Arg1T arg1, Arg2T arg2);
 };
 
 
@@ -1921,11 +1930,11 @@ class OSGFunctionFunctor2 :
  *  \brief Brief
  */
 
-template <class OSGArg1T,
-          class OSGArg2T,
-          class OSGSizeTraitsT>
-class OSGFunctionFunctor2<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> : 
-    public OSGFunctor2Base<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT>
+template <class Arg1T,
+          class Arg2T,
+          class SizeTraitsT>
+class FunctionFunctor2<void, Arg1T, Arg2T, SizeTraitsT> : 
+    public Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>
 {
   public:
 
@@ -1937,7 +1946,7 @@ class OSGFunctionFunctor2<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef void (*OSGFunctionP)(OSGArg1T, OSGArg2T);
+    typedef void (*FunctionP)(Arg1T, Arg2T);
 
   private:
 
@@ -1949,10 +1958,10 @@ class OSGFunctionFunctor2<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor2Base<void, 
-                            OSGArg1T, 
-                            OSGArg2T, 
-                            OSGSizeTraitsT> Inherited;
+    typedef Functor2Base<void, 
+                         Arg1T, 
+                         Arg2T, 
+                         SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -2006,7 +2015,7 @@ class OSGFunctionFunctor2<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGFunctionFunctor2 &source);
+    void operator =(const FunctionFunctor2 &source);
 
   public :
 
@@ -2018,56 +2027,56 @@ class OSGFunctionFunctor2<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT> :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFunctionFunctor2(void);
-    OSGFunctionFunctor2(const OSGFunctionFunctor2 &source);
+    FunctionFunctor2(void);
+    FunctionFunctor2(const FunctionFunctor2 &source);
     
-    virtual ~OSGFunctionFunctor2(void); 
+    virtual ~FunctionFunctor2(void); 
 
     /*----------------------------- access ----------------------------------*/
 
-    void setFunction(OSGFunctionP pFunc);
+    void setFunction(FunctionP pFunc);
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual void call(OSGArg1T arg1, OSGArg2T arg2);
+    virtual void call(Arg1T arg1, Arg2T arg2);
 };
 
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT, 
-          enum  OSGFunctorMethodCallTypeE osgMethodCallType>
-struct OSGFunctorTraits2
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT, 
+          enum  FunctorMethodCallTypeE MethodCallType>
+struct FunctorTraits2
 {
 };
 
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT,
-                         OSGArg1T *, 
-                         OSGArg2T,
-                         OSGObjectT, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT,
+                      Arg1T *, 
+                      Arg2T,
+                      ObjectT, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, 
-                                    OSGArg1T *arg1, 
-                                    OSGArg2T  arg2)
+    static RetT callObjectMethod(char *pData2, 
+                                 Arg1T *arg1, 
+                                 Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         return ((arg1)->*pFunc)(arg2);
     }
@@ -2076,14 +2085,14 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    char     *, 
-                                    OSGArg1T *,
-                                    OSGArg2T  )
+    static RetT callObjectMethod(char     *, 
+                                 char     *, 
+                                 Arg1T *,
+                                 Arg2T  )
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2095,50 +2104,50 @@ struct OSGFunctorTraits2<OSGRetT,
 #endif
 
     static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T *arg1,
-                                     OSGArg2T  arg2)
+                                     Arg1T *arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         ((arg1)->*pFunc)(arg2);
     }
 
     static void callObjectMethodVoid(char     *, 
                                      char     *, 
-                                     OSGArg1T *,
-                                     OSGArg2T)
+                                     Arg1T *,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT,
-                        OSGArg1T &, 
-                        OSGArg2T,
-                        OSGObjectT, 
-                        OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT,
+                      Arg1T &, 
+                      Arg2T,
+                      ObjectT, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char     *pData2, 
-                                    OSGArg1T &arg1,
-                                    OSGArg2T  arg2)
+    static RetT callObjectMethod(char     *pData2, 
+                                    Arg1T &arg1,
+                                    Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         return ((&arg1)->*pFunc)(arg2);
     }
@@ -2147,14 +2156,14 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    char     *, 
-                                    OSGArg1T &,
-                                    OSGArg2T)
+    static RetT callObjectMethod(char     *, 
+                                 char     *, 
+                                 Arg1T &,
+                                 Arg2T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2165,72 +2174,72 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T &arg1,
-                                     OSGArg2T  arg2)
+    static void callObjectMethodVoid(char  *pData2, 
+                                     Arg1T &arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         ((&arg1)->*pFunc)(arg2);
     }
 
-    static void callObjectMethodVoid(char     *, 
-                                     char     *, 
-                                     OSGArg1T &,
-                                     OSGArg2T)
+    static void callObjectMethodVoid(char  *, 
+                                     char  *, 
+                                     Arg1T &,
+                                     Arg2T)
     {
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT,    
-                         OSGArg1T &,      
-                         OSGArg2T,
-                         OSGObjectT, 
-                         OSGOnCPtrArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT,    
+                      Arg1T &,      
+                      Arg2T,
+                      ObjectT, 
+                      OnCPtrArgument>
 {
-    typedef typename OSGObjectT::OSGObjectType OSGObjectType;
+    typedef typename ObjectT::ObjectType ObjectType;
 
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodT   )(OSGArg2T);
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodPtrT)(OSGArg1T,
-                                                                   OSGArg2T);
+    typedef          RetT (ObjectType::*ObjectMethodT   )(Arg2T);
+    typedef          RetT (ObjectType::*ObjectMethodPtrT)(Arg1T,
+                                                          Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char     *pData2, 
-                                    OSGArg1T &arg1,
-                                    OSGArg2T  arg2)
+    static RetT callObjectMethod(char     *pData2, 
+                                 Arg1T &arg1,
+                                 Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
-        typedef typename OSGObjectT::OSGObjectType OSGObjectType;
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
+        typedef typename ObjectT::ObjectType ObjectType;
 
-        return (((OSGObjectType *)(&(*arg1)))->*pFunc)(arg2);
+        return (((ObjectType *)(&(*arg1)))->*pFunc)(arg2);
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    char     *, 
-                                    OSGArg1T &,
-                                    OSGArg2T)
+    static RetT callObjectMethod(char  *, 
+                                 char  *, 
+                                 Arg1T &,
+                                 Arg2T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2241,59 +2250,59 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T &arg1,
-                                     OSGArg2T  arg2)
+    static void callObjectMethodVoid(char  *pData2, 
+                                     Arg1T &arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) pData2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) pData2);
 
         ((&(*arg1))->*pFunc)(arg2);
     }
 
     static void callObjectMethodVoid(char     *,
                                      char     *, 
-                                     OSGArg1T &,
-                                     OSGArg2T)
+                                     Arg1T &,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T, 
-                         OSGArg2T,  
-                         OSGObjectT &, 
-                         OSGOnStoredCPtr>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T, 
+                      Arg2T,  
+                      ObjectT &, 
+                      OnStoredCPtr>
 {
-    typedef typename OSGObjectT::OSGObjectType OSGObjectType;
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodT   )(OSGArg2T);
-    typedef          OSGRetT (OSGObjectType::*OSGObjectMethodPtrT)(OSGArg1T,
-                                                                  OSGArg2T);
+    typedef typename ObjectT::ObjectType ObjectType;
+    typedef          RetT (ObjectType::*ObjectMethodT   )(Arg2T);
+    typedef          RetT (ObjectType::*ObjectMethodPtrT)(Arg1T,
+                                                          Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    OSGArg1T  ,
-                                    OSGArg2T  )
+    static RetT callObjectMethod(char  *, 
+                                 Arg1T  ,
+                                 Arg2T  )
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2304,75 +2313,75 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *pData1, 
-                                    char     *pData2, 
-                                    OSGArg1T  arg1,
-                                    OSGArg2T  arg2)
+    static RetT callObjectMethod(char  *pData1, 
+                                 char  *pData2, 
+                                 Arg1T  arg1,
+                                 Arg2T  arg2)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
         
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
         
         return (&(**pObj)->*pFunc)(arg1, arg2);
     }
 
     static void callObjectMethodVoid(char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T)
+                                     Arg1T  ,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 
     static void callObjectMethodVoid(char *pData1, 
                                      char *pData2, 
-                                     OSGArg1T arg1,
-                                     OSGArg2T arg2)
+                                     Arg1T arg1,
+                                     Arg2T arg2)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
         
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
         
         (&(**pObj)->*pFunc)(arg1, arg2);
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T, 
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T &, 
-                         OSGArg2T, 
-                         OSGObjectT *, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T, 
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T &, 
+                      Arg2T, 
+                      ObjectT *, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT *OSGSetObjectT;
+    typedef ObjectT *SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT **) pData) = obj;
+        *((ObjectT **) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1, OSGArg2T arg2)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1, Arg2T arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((&arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    char     *, 
-                                    OSGArg1T  ,
-                                    OSGArg2T )
+    static RetT callObjectMethod(char  *, 
+                                 char  *, 
+                                 Arg1T  ,
+                                 Arg2T )
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2380,115 +2389,115 @@ struct OSGFunctorTraits2<OSGRetT,
     }
 
     static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T  arg1,
-                                     OSGArg2T  arg2)
+                                     Arg1T  arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((&arg1)->*pFunc)(arg2);
     }
 
     static void callObjectMethodVoid(char     *, 
                                      char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T)
+                                     Arg1T  ,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T *, 
-                         OSGArg2T, 
-                         OSGObjectT *, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T *, 
+                      Arg2T, 
+                      ObjectT *, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT *OSGSetObjectT;
+    typedef ObjectT *SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT **) pData) = obj;
+        *((ObjectT **) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1, OSGArg2T arg2)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1, Arg2T arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((arg1)->*pFunc)(arg2);
     }
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    char     *, 
-                                    OSGArg1T  ,
-                                    OSGArg2T )
+    static RetT callObjectMethod(char  *, 
+                                 char  *, 
+                                 Arg1T  ,
+                                 Arg2T )
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
         return returnValue;
     }
 
-    static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T  arg1,
-                                     OSGArg2T  arg2)
+    static void callObjectMethodVoid(char  *pData2, 
+                                     Arg1T  arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((arg1)->*pFunc)(arg2);
     }
 
-    static void callObjectMethodVoid(char     *, 
-                                     char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T)
+    static void callObjectMethodVoid(char  *, 
+                                     char  *, 
+                                     Arg1T  ,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T, 
-                         OSGArg2T, 
-                         OSGObjectT *, 
-                         OSGOnStoredObject>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T, 
+                      Arg2T, 
+                      ObjectT *, 
+                      OnStoredObject>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT *OSGSetObjectT;
+    typedef ObjectT *SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT **) pData) = obj;
+        *((ObjectT **) pData) = obj;
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, OSGArg1T , OSGArg2T)
+    static RetT callObjectMethod(char *, Arg1T , Arg2T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2499,76 +2508,76 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *pData1, 
-                                    char     *pData2, 
-                                    OSGArg1T  arg1,
-                                    OSGArg2T  arg2)
+    static RetT callObjectMethod(char  *pData1, 
+                                 char  *pData2, 
+                                 Arg1T  arg1,
+                                 Arg2T  arg2)
     {
-        OSGObjectT *pObj = *((OSGObjectT **) pData1);
+        ObjectT *pObj = *((ObjectT **) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
             
         return (pObj->*pFunc)(arg1, arg2);
     }
 
 
-    static void callObjectMethodVoid(char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T)
+    static void callObjectMethodVoid(char  *, 
+                                     Arg1T  ,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 
     static void callObjectMethodVoid(char     *pData1, 
                                      char     *pData2, 
-                                     OSGArg1T  arg1,
-                                     OSGArg2T  arg2)
+                                     Arg1T  arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectT *pObj = *((OSGObjectT **) pData1);
+        ObjectT *pObj = *((ObjectT **) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
             
         (pObj->*pFunc)(arg1, arg2);
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T &, 
-                         OSGArg2T,
-                         OSGObjectT &, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T &, 
+                      Arg2T,
+                      ObjectT &, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1, OSGArg2T arg2)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1, Arg2T arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((&arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char     *, 
-                                    char     *, 
-                                    OSGArg1T  ,
-                                    OSGArg2T)
+    static RetT callObjectMethod(char  *, 
+                                 char  *, 
+                                 Arg1T  ,
+                                 Arg2T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2576,115 +2585,115 @@ struct OSGFunctorTraits2<OSGRetT,
     }
 
     static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T  arg1,
-                                     OSGArg2T  arg2)
+                                     Arg1T  arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((&arg1)->*pFunc)();
     }
 
-    static void callObjectMethodVoid(char     *, 
-                                     char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T)
+    static void callObjectMethodVoid(char  *, 
+                                     char  *, 
+                                     Arg1T  ,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T *, 
-                         OSGArg2T,
-                         OSGObjectT &, 
-                         OSGOnArgument>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T *, 
+                      Arg2T,
+                      ObjectT &, 
+                      OnArgument>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
-    static OSGRetT callObjectMethod(char *pData2, OSGArg1T arg1, OSGArg2T arg2)
+    static RetT callObjectMethod(char *pData2, Arg1T arg1, Arg2T arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         return ((arg1)->*pFunc)();
     }
 
-    static OSGRetT callObjectMethod(char     *, 
+    static RetT callObjectMethod(char     *, 
                                     char     *, 
-                                    OSGArg1T  ,
-                                    OSGArg2T  )
+                                    Arg1T  ,
+                                    Arg2T  )
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
         return returnValue;
     }
 
-    static void callObjectMethodVoid(char     *pData2, 
-                                     OSGArg1T  arg1,
-                                     OSGArg2T  arg2)
+    static void callObjectMethodVoid(char  *pData2, 
+                                     Arg1T  arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectMethodT pFunc = *((OSGObjectMethodT *) _data2);
+        ObjectMethodT pFunc = *((ObjectMethodT *) _data2);
 
         ((arg1)->*pFunc)();
     }
 
-    static void callObjectMethodVoid(char     *, 
-                                     char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T  )
+    static void callObjectMethodVoid(char  *, 
+                                     char  *, 
+                                     Arg1T  ,
+                                     Arg2T  )
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 };
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT>
-struct OSGFunctorTraits2<OSGRetT, 
-                         OSGArg1T, 
-                         OSGArg2T,
-                         OSGObjectT &, 
-                         OSGOnStoredObject>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT>
+struct FunctorTraits2<RetT, 
+                      Arg1T, 
+                      Arg2T,
+                      ObjectT &, 
+                      OnStoredObject>
 {
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodT   )(OSGArg2T);
-    typedef OSGRetT (OSGObjectT::*OSGObjectMethodPtrT)(OSGArg1T, OSGArg2T);
+    typedef RetT (ObjectT::*ObjectMethodT   )(Arg2T);
+    typedef RetT (ObjectT::*ObjectMethodPtrT)(Arg1T, Arg2T);
 
-    typedef OSGObjectT &OSGSetObjectT;
+    typedef ObjectT &SetObjectT;
 
-    static void setCalledObject(char *pData, OSGSetObjectT obj)
+    static void setCalledObject(char *pData, SetObjectT obj)
     {
-        *((OSGObjectT *) pData) = obj;
+        *((ObjectT *) pData) = obj;
     }
 
 #ifdef __sgi
 #pragma set woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char *, OSGArg1T , OSGArg2T)
+    static RetT callObjectMethod(char *, Arg1T , Arg2T)
     {
-        OSGRetT returnValue;
+        RetT returnValue;
 
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
 
@@ -2695,35 +2704,35 @@ struct OSGFunctorTraits2<OSGRetT,
 #pragma reset woff 1551 
 #endif
 
-    static OSGRetT callObjectMethod(char     *pData1, 
-                                    char     *pData2, 
-                                    OSGArg1T  arg1,
-                                    OSGArg2T  arg2)
+    static RetT callObjectMethod(char  *pData1, 
+                                 char  *pData2, 
+                                 Arg1T  arg1,
+                                 Arg2T  arg2)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
             
         return (pObj->*pFunc)(arg1, arg2);
     }
 
-    static void callObjectMethodVoid(char     *, 
-                                     OSGArg1T  ,
-                                     OSGArg2T)
+    static void callObjectMethodVoid(char  *, 
+                                     Arg1T  ,
+                                     Arg2T)
     {
-        SWARNING << "OSGFunctorTraits::call called, "
+        SWARNING << "FunctorTraits::call called, "
                  << "undefined behaviour might " 
                  << "be the consequence\n" << endl;
     }
 
-    static void callObjectMethodVoid(char     *pData1, 
-                                     char     *pData2, 
-                                     OSGArg1T  arg1,
-                                     OSGArg2T  arg2)
+    static void callObjectMethodVoid(char  *pData1, 
+                                     char  *pData2, 
+                                     Arg1T  arg1,
+                                     Arg2T  arg2)
     {
-        OSGObjectT *pObj = ((OSGObjectT *) pData1);
+        ObjectT *pObj = ((ObjectT *) pData1);
 
-        OSGObjectMethodPtrT pFunc = *((OSGObjectMethodPtrT *) pData2);
+        ObjectMethodPtrT pFunc = *((ObjectMethodPtrT *) pData2);
         
         (pObj->*pFunc)(arg1, arg2);
     }
@@ -2738,14 +2747,14 @@ struct OSGFunctorTraits2<OSGRetT,
  *  \brief Brief
  */
 
-template <class OSGRetT, 
-          class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT, 
-          enum  OSGFunctorMethodCallTypeE osgMethodCallType,
-          class OSGSizeTraitsT = OSGDefaultFunctorSizeTraits>
-class OSGObjectFunctor2 : 
-    public OSGFunctor2Base<OSGRetT, OSGArg1T, OSGArg2T, OSGSizeTraitsT>
+template <class RetT, 
+          class Arg1T,
+          class Arg2T,
+          class ObjectT, 
+          enum  FunctorMethodCallTypeE MethodCallType,
+          class SizeTraitsT = DefaultFunctorSizeTraits>
+class ObjectFunctor2 : 
+    public Functor2Base<RetT, Arg1T, Arg2T, SizeTraitsT>
 {
   public:
 
@@ -2758,15 +2767,15 @@ class OSGObjectFunctor2 :
     //-----------------------------------------------------------------------
 
     typedef
-        OSGFunctorTraits2<OSGRetT,
-                          OSGArg1T, 
-                          OSGArg2T,
-                          OSGObjectT, 
-                          osgMethodCallType> OSGFunctorTrait;
+        FunctorTraits2<RetT,
+                       Arg1T, 
+                       Arg2T,
+                       ObjectT, 
+                       MethodCallType> FunctorTrait;
 
-    typedef typename OSGFunctorTrait::OSGObjectMethodT    OSGObjectMethodT;
-    typedef typename OSGFunctorTrait::OSGObjectMethodPtrT OSGObjectMethodPtrT;
-    typedef typename OSGFunctorTrait::OSGSetObjectT       OSGSetObjectT;
+    typedef typename FunctorTrait::ObjectMethodT    ObjectMethodT;
+    typedef typename FunctorTrait::ObjectMethodPtrT ObjectMethodPtrT;
+    typedef typename FunctorTrait::SetObjectT       SetObjectT;
 
 
   private:
@@ -2779,10 +2788,10 @@ class OSGObjectFunctor2 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor2Base<OSGRetT, 
-                            OSGArg1T, 
-                            OSGArg2T, 
-                            OSGSizeTraitsT> Inherited;
+    typedef Functor2Base<RetT, 
+                         Arg1T, 
+                         Arg2T, 
+                         SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -2836,7 +2845,7 @@ class OSGObjectFunctor2 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGObjectFunctor2 &source);
+    void operator =(const ObjectFunctor2 &source);
 
   public :
 
@@ -2848,24 +2857,24 @@ class OSGObjectFunctor2 :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGObjectFunctor2(void);
-    OSGObjectFunctor2(const OSGObjectFunctor2 &source);
+    ObjectFunctor2(void);
+    ObjectFunctor2(const ObjectFunctor2 &source);
     
-    virtual ~OSGObjectFunctor2(void); 
+    virtual ~ObjectFunctor2(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    void setMethod         (OSGObjectMethodT     pFunc);
+    void setMethod         (ObjectMethodT     pFunc);
 
-    void setMethod         (OSGObjectMethodPtrT  pFunc);
+    void setMethod         (ObjectMethodPtrT  pFunc);
 
-    void setCalledObject   (OSGSetObjectT        pObj);
+    void setCalledObject   (SetObjectT        pObj);
 
-    void setObjectAndMethod(OSGSetObjectT        pObj, 
-                            OSGObjectMethodPtrT  pFunc);
+    void setObjectAndMethod(SetObjectT        pObj, 
+                            ObjectMethodPtrT  pFunc);
 
-    virtual OSGRetT    call(OSGArg1T             arg1,
-                            OSGArg2T             arg2);
+    virtual RetT       call(Arg1T             arg1,
+                            Arg2T             arg2);
 
 };
 
@@ -2882,18 +2891,18 @@ class OSGObjectFunctor2 :
  *  \brief Brief
  */
 
-template <class OSGArg1T,
-          class OSGArg2T,
-          class OSGObjectT, 
-          enum  OSGFunctorMethodCallTypeE osgMethodCallType,
-          class OSGSizeTraitsT>
-class OSGObjectFunctor2<void, 
-                        OSGArg1T, 
-                        OSGArg2T,
-                        OSGObjectT, 
-                        osgMethodCallType,
-                        OSGSizeTraitsT> : 
-    public OSGFunctor2Base<void, OSGArg1T, OSGArg2T, OSGSizeTraitsT>
+template <class Arg1T,
+          class Arg2T,
+          class ObjectT, 
+          enum  FunctorMethodCallTypeE MethodCallType,
+          class SizeTraitsT>
+class ObjectFunctor2<void, 
+                     Arg1T, 
+                     Arg2T,
+                     ObjectT, 
+                     MethodCallType,
+                     SizeTraitsT> : 
+    public Functor2Base<void, Arg1T, Arg2T, SizeTraitsT>
 {
   public:
 
@@ -2906,15 +2915,15 @@ class OSGObjectFunctor2<void,
     //-----------------------------------------------------------------------
 
     typedef
-        OSGFunctorTraits2<void,
-                          OSGArg1T, 
-                          OSGArg2T,
-                          OSGObjectT, 
-                          osgMethodCallType> OSGFunctorTrait;
+        FunctorTraits2<void,
+                       Arg1T, 
+                       Arg2T,
+                       ObjectT, 
+                       MethodCallType> FunctorTrait;
 
-    typedef typename OSGFunctorTrait::OSGObjectMethodT    OSGObjectMethodT;
-    typedef typename OSGFunctorTrait::OSGObjectMethodPtrT OSGObjectMethodPtrT;
-    typedef typename OSGFunctorTrait::OSGSetObjectT       OSGSetObjectT;
+    typedef typename FunctorTrait::ObjectMethodT    ObjectMethodT;
+    typedef typename FunctorTrait::ObjectMethodPtrT ObjectMethodPtrT;
+    typedef typename FunctorTrait::SetObjectT       SetObjectT;
 
   private:
 
@@ -2926,10 +2935,10 @@ class OSGObjectFunctor2<void,
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFunctor2Base<void, 
-                            OSGArg1T, 
-                            OSGArg2T, 
-                            OSGSizeTraitsT> Inherited;
+    typedef Functor2Base<void, 
+                         Arg1T, 
+                         Arg2T, 
+                         SizeTraitsT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -2983,7 +2992,7 @@ class OSGObjectFunctor2<void,
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void operator =(const OSGObjectFunctor2 &source);
+    void operator =(const ObjectFunctor2 &source);
 
   public :
 
@@ -2995,111 +3004,111 @@ class OSGObjectFunctor2<void,
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGObjectFunctor2(void);
-    OSGObjectFunctor2(const OSGObjectFunctor2 &source);
+    ObjectFunctor2(void);
+    ObjectFunctor2(const ObjectFunctor2 &source);
     
-    virtual ~OSGObjectFunctor2(void); 
+    virtual ~ObjectFunctor2(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    void setMethod         (OSGObjectMethodT     pFunc);
+    void setMethod         (ObjectMethodT     pFunc);
 
-    void setMethod         (OSGObjectMethodPtrT  pFunc);
+    void setMethod         (ObjectMethodPtrT  pFunc);
 
-    void setCalledObject   (OSGSetObjectT        pObj);
+    void setCalledObject   (SetObjectT        pObj);
 
-    void setObjectAndMethod(OSGSetObjectT        pObj, 
-                            OSGObjectMethodPtrT  pFunc);
+    void setObjectAndMethod(SetObjectT        pObj, 
+                            ObjectMethodPtrT  pFunc);
 
-    virtual void    call(OSGArg1T             arg1,
-                         OSGArg2T             arg2);
+    virtual void    call(Arg1T             arg1,
+                         Arg2T             arg2);
 };
 
-template <class OSGRetT, class OSGArg1T, class OSGArg2T> inline
-OSGFunctionFunctor2<OSGRetT, OSGArg1T, OSGArg2T> osgFunctionFunctor2( 
-    OSGRetT (*pFunc)(OSGArg1T, OSGArg2T));
+template <class RetT, class Arg1T, class Arg2T> inline
+FunctionFunctor2<RetT, Arg1T, Arg2T> osgFunctionFunctor2( 
+    RetT (*pFunc)(Arg1T, Arg2T));
 
-template <class OSGRetT, class OSGArg1T, class OSGArg2T> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T &, 
-                  OSGArg2T,
-                  OSGArg1T,
-                  OSGOnArgument> osgMethodFunctor2Ref(
-    OSGRetT (OSGArg1T::*pFunc)(OSGArg2T));
-
-
-template <class OSGRetT, class OSGArg1T, 
-          class OSGArg2T, class OSGObjectT> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T, 
-                  OSGArg2T,
-                  OSGObjectT &,
-                  OSGOnStoredObject> osgMethodFunctor2Ref(
-    OSGObjectT &obj, OSGRetT (OSGObjectT::*pFunc)(OSGArg1T, OSGArg2T));
+template <class RetT, class Arg1T, class Arg2T> inline
+ObjectFunctor2<RetT, 
+               Arg1T &, 
+               Arg2T,
+               Arg1T,
+               OnArgument> osgMethodFunctor2Ref(
+    RetT (Arg1T::*pFunc)(Arg2T));
 
 
-template <class OSGRetT, class OSGArg1T, class OSGArg2T> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T *, 
-                  OSGArg2T,
-                  OSGArg1T,
-                  OSGOnArgument> osgMethodFunctor2Ptr(
-    OSGRetT (OSGArg1T::*pFunc)(OSGArg2T));
+template <class RetT, class Arg1T, 
+          class Arg2T, class ObjectT> inline
+ObjectFunctor2<RetT, 
+               Arg1T, 
+               Arg2T,
+               ObjectT &,
+               OnStoredObject> osgMethodFunctor2Ref(
+    ObjectT &obj, RetT (ObjectT::*pFunc)(Arg1T, Arg2T));
 
 
-template <class OSGRetT,  class OSGArg1T, 
-          class OSGArg2T, class OSGObjectT> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T, 
-                  OSGArg2T,
-                  OSGObjectT *,
-                  OSGOnStoredObject> osgMethodFunctor2Ptr(
-    OSGObjectT *pObj, OSGRetT (OSGObjectT::*pFunc)(OSGArg1T, OSGArg2T));
+template <class RetT, class Arg1T, class Arg2T> inline
+ObjectFunctor2<RetT, 
+               Arg1T *, 
+               Arg2T,
+               Arg1T,
+               OnArgument> osgMethodFunctor2Ptr(
+    RetT (Arg1T::*pFunc)(Arg2T));
 
-template <class OSGRetT, class OSGArg1T, class OSGArg2T> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T &, 
-                  OSGArg2T, 
-                  OSGArg1T,
-                  OSGOnCPtrArgument> osgMethodFunctor2CPtr(
-    typename OSGFunctorBuildFuncType2<OSGRetT, 
-                                      OSGArg2T,
-                                      OSGArg1T>::OSGFunctionType pFunc);
+
+template <class RetT,  class Arg1T, 
+          class Arg2T, class ObjectT> inline
+ObjectFunctor2<RetT, 
+               Arg1T, 
+               Arg2T,
+               ObjectT *,
+               OnStoredObject> osgMethodFunctor2Ptr(
+    ObjectT *pObj, RetT (ObjectT::*pFunc)(Arg1T, Arg2T));
+
+template <class RetT, class Arg1T, class Arg2T> inline
+ObjectFunctor2<RetT, 
+               Arg1T &, 
+               Arg2T, 
+               Arg1T,
+               OnCPtrArgument> osgMethodFunctor2CPtr(
+    typename FunctorBuildFuncType2<RetT, 
+                                   Arg2T,
+                                   Arg1T>::FunctionType pFunc);
 
 #ifdef __sgi
 #pragma set woff 1424
 #endif
 
-template <class OSGRetT,    class OSGArg1T, 
-          class OSGObjectT, class OSGArg2T> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T &, 
-                  OSGArg2T, 
-                  OSGObjectT,
-                  OSGOnCPtrArgument> osgMethodFunctor2BaseCPtr(
-    typename OSGFunctorBuildFuncType2<OSGRetT, 
-                                      OSGArg2T,
-                                      OSGObjectT>::OSGFunctionType pFunc);
+template <class RetT,    class Arg1T, 
+          class ObjectT, class Arg2T> inline
+ObjectFunctor2<RetT, 
+               Arg1T &, 
+               Arg2T, 
+               ObjectT,
+               OnCPtrArgument> osgMethodFunctor2BaseCPtr(
+    typename FunctorBuildFuncType2<RetT, 
+                                   Arg2T,
+                                   ObjectT>::FunctionType pFunc);
 
 #ifdef __sgi
 #pragma reset woff 1424
 #endif
 
-template <class OSGRetT,  class OSGArg1T, 
-          class OSGArg2T, class OSGObjectT> inline
-OSGObjectFunctor2<OSGRetT, 
-                  OSGArg1T, 
-                  OSGArg2T,
-                  OSGObjectT &,
-                  OSGOnStoredCPtr> osgMethodFunctor2CPtr(
-    OSGObjectT &obj,
-    typename OSGFunctorBuildFuncType3<OSGRetT, 
-                                      OSGArg1T, 
-                                      OSGArg2T, 
-                                      OSGObjectT>::OSGFunctionType pFunc);
+template <class RetT,  class Arg1T, 
+          class Arg2T, class ObjectT> inline
+ObjectFunctor2<RetT, 
+               Arg1T, 
+               Arg2T,
+               ObjectT &,
+               OnStoredCPtr> osgMethodFunctor2CPtr(
+    ObjectT &obj,
+    typename FunctorBuildFuncType3<RetT, 
+                                   Arg1T, 
+                                   Arg2T, 
+                                   ObjectT>::FunctionType pFunc);
 
 OSG_END_NAMESPACE
 
 #include <OSGFunctors.inl>
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGFUNCTORS_H_ */

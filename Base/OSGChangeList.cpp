@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -59,7 +70,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGChangeList::cvsid[] = "@(#)$Id: $";
+char ChangeList::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -90,16 +101,16 @@ char OSGChangeList::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGChangeList::OSGChangeList(void) :
+ChangeList::ChangeList(void) :
     Inherited(),
     _bReadOnly(false),
-    _aspectId(OSGThread::getAspect()),
-    _listMode(OSGPublic),
+    _aspectId(Thread::getAspect()),
+    _listMode(Public),
     _changedFieldContainerV(),
     _addRefdFieldContainerV(),
     _subRefdFieldContainerV()
 {
-    OSGAspect::addList(this, _aspectId);
+    Aspect::addList(this, _aspectId);
 }
 
 
@@ -112,61 +123,61 @@ OSGChangeList::OSGChangeList(void) :
 /** \brief Destructor
  */
 
-OSGChangeList::~OSGChangeList(void)
+ChangeList::~ChangeList(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-OSGChangeList::changed_size_type OSGChangeList::sizeChanged(void)
+ChangeList::changed_size_type ChangeList::sizeChanged(void)
 {    
     return _changedFieldContainerV.size();
 }
 
-OSGChangeList::changed_const_iterator OSGChangeList::beginChanged(void) const
+ChangeList::changed_const_iterator ChangeList::beginChanged(void) const
 {
     return _changedFieldContainerV.begin();
 }
 
-OSGChangeList::changed_const_iterator OSGChangeList::endChanged(void) const
+ChangeList::changed_const_iterator ChangeList::endChanged(void) const
 {
     return _changedFieldContainerV.end();
 }
 
-OSGChangeList::refd_size_type OSGChangeList::sizeAddRefd(void)
+ChangeList::refd_size_type ChangeList::sizeAddRefd(void)
 {
     return _addRefdFieldContainerV.size();
 }
 
-OSGChangeList::refd_const_iterator OSGChangeList::beginAddRefd(void) const
+ChangeList::refd_const_iterator ChangeList::beginAddRefd(void) const
 {
     return _addRefdFieldContainerV.begin();
 }
 
-OSGChangeList::refd_const_iterator OSGChangeList::endAddRefd(void) const
+ChangeList::refd_const_iterator ChangeList::endAddRefd(void) const
 {
     return _addRefdFieldContainerV.end();
 }
 
-OSGChangeList::refd_size_type OSGChangeList::sizeSubRefd(void)
+ChangeList::refd_size_type ChangeList::sizeSubRefd(void)
 {
     return _subRefdFieldContainerV.size();
 }
 
-OSGChangeList::refd_const_iterator OSGChangeList::beginSubRefd(void) const
+ChangeList::refd_const_iterator ChangeList::beginSubRefd(void) const
 {
     return _subRefdFieldContainerV.begin();
 }
 
-OSGChangeList::refd_const_iterator OSGChangeList::endSubRefd(void) const
+ChangeList::refd_const_iterator ChangeList::endSubRefd(void) const
 {
     return _subRefdFieldContainerV.end();
 }
 
-void OSGChangeList::addChanged(const OSGFieldContainerPtr &fieldP, 
-                                     OSGBitVector          whichField)
+void ChangeList::addChanged(const FieldContainerPtr &fieldP, 
+                                  BitVector          whichField)
 {
-    OSGChangeEntry tmpEntry;
+    ChangeEntry tmpEntry;
 
     if(_bReadOnly == true)
         return;
@@ -177,7 +188,7 @@ void OSGChangeList::addChanged(const OSGFieldContainerPtr &fieldP,
     _changedFieldContainerV.push_back(tmpEntry);
 }
 
-void OSGChangeList::addAddRefd(const OSGFieldContainerPtr &fieldP)
+void ChangeList::addAddRefd(const FieldContainerPtr &fieldP)
 {
     if(_bReadOnly == true)
         return;
@@ -185,7 +196,7 @@ void OSGChangeList::addAddRefd(const OSGFieldContainerPtr &fieldP)
     _addRefdFieldContainerV.push_back(fieldP);
 }
 
-void OSGChangeList::addSubRefd(const OSGFieldContainerPtr &fieldP)
+void ChangeList::addSubRefd(const FieldContainerPtr &fieldP)
 {
     if(_bReadOnly == true)
         return;
@@ -193,16 +204,16 @@ void OSGChangeList::addSubRefd(const OSGFieldContainerPtr &fieldP)
     _subRefdFieldContainerV.push_back(fieldP);
 }
 
-void OSGChangeList::clearAll(void)
+void ChangeList::clearAll(void)
 {
     _changedFieldContainerV.clear();
     _addRefdFieldContainerV.clear();
     _subRefdFieldContainerV.clear();
 }
 
-OSGBool OSGChangeList::merge(const OSGChangeList &list)
+Bool ChangeList::merge(const ChangeList &list)
 {
-    OSGBool returnValue = true;
+    Bool returnValue = true;
  
     _changedFieldContainerV.insert(_changedFieldContainerV.end(),
                                    list.beginChanged(), 
@@ -223,9 +234,9 @@ OSGBool OSGChangeList::merge(const OSGChangeList &list)
     return returnValue;
 }
 
-void OSGChangeList::applyTo(OSGUInt32 aspectId)
+void ChangeList::applyTo(UInt32 aspectId)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     if(aspectId == _aspectId)
     {
@@ -233,7 +244,7 @@ void OSGChangeList::applyTo(OSGUInt32 aspectId)
         return;
     }
 
-    if(aspectId >= OSGThreadManager::getNumAspects())
+    if(aspectId >= ThreadManager::getNumAspects())
     {
         SWARNING << "Invalid AspectId" << endl;
     }
@@ -265,12 +276,12 @@ void OSGChangeList::applyTo(OSGUInt32 aspectId)
     _bReadOnly = false;
 }
 
-void OSGChangeList::applyToCurrent(void)
+void ChangeList::applyToCurrent(void)
 {
-    applyTo(OSGThread::getAspect());
+    applyTo(Thread::getAspect());
 }
 
-void OSGChangeList::setAspect(OSGUInt32 aspectId)
+void ChangeList::setAspect(UInt32 aspectId)
 {
     if(_changedFieldContainerV.size() != 0 ||
        _addRefdFieldContainerV.size() != 0 ||
@@ -282,19 +293,19 @@ void OSGChangeList::setAspect(OSGUInt32 aspectId)
 
     clearAll();
 
-    OSGAspect::moveList(this, _aspectId, aspectId);
+    Aspect::moveList(this, _aspectId, aspectId);
 
     _aspectId = aspectId;
 }
 
-void OSGChangeList::setReadOnly(OSGBool readOnly)
+void ChangeList::setReadOnly(Bool readOnly)
 {
     _bReadOnly = readOnly;
 }
 
-void OSGChangeList::dump(void)
+void ChangeList::dump(void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     fprintf(stderr, "CL: %d\n", _aspectId);
     fprintf(stderr, "CLChanged:\n");
@@ -331,7 +342,7 @@ void OSGChangeList::dump(void)
 /** \brief assignment
  */
 
-OSGChangeList& OSGChangeList::operator = (const OSGChangeList &source)
+ChangeList& ChangeList::operator = (const ChangeList &source)
 {
 	if (this == &source)
 		return *this;
@@ -351,7 +362,7 @@ OSGChangeList& OSGChangeList::operator = (const OSGChangeList &source)
 /** \brief assignment
  */
 
-OSGBool OSGChangeList::operator < (const OSGChangeList &other) const
+Bool ChangeList::operator < (const ChangeList &other) const
 {
     return this < &other;
 }
@@ -360,14 +371,14 @@ OSGBool OSGChangeList::operator < (const OSGChangeList &other) const
 /** \brief equal
  */
 
-OSGBool OSGChangeList::operator == (const OSGChangeList &other) const
+Bool ChangeList::operator == (const ChangeList &other) const
 {
 }
 
 /** \brief unequal
  */
 
-OSGBool OSGChangeList::operator != (const OSGChangeList &other) const
+Bool ChangeList::operator != (const ChangeList &other) const
 {
 	return ! (*this == other);
 }

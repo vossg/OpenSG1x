@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -81,7 +92,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(OSGCamera, OSGCameraPtr)
+OSG_FIELD_CONTAINER_INL_DEF(Camera, CameraPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -97,49 +108,49 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGCamera, OSGCameraPtr)
 /*------------------------------ access -----------------------------------*/
 
 	
-inline void OSGCamera::setBeacon( OSGNodePtr beacon )
+inline void Camera::setBeacon( NodePtr beacon )
 {
 	_beacon.setValue( beacon );
 }
 	
-inline OSGNodePtr OSGCamera::getBeacon( void ) const
+inline NodePtr Camera::getBeacon( void ) const
 {
 	return _beacon.getValue();
 }
 	
-inline OSGSFNodePtr *OSGCamera::getSFBeacon( void ) 
+inline SFNodePtr *Camera::getSFBeacon( void ) 
 {
 	return &_beacon;
 }
 		
 	
-inline void OSGCamera::setNear( OSGReal32 rNear )
+inline void Camera::setNear( Real32 rNear )
 {
 	_near.setValue( rNear );
 }
 	
-inline OSGReal32 OSGCamera::getNear( void ) const
+inline Real32 Camera::getNear( void ) const
 {
 	return _near.getValue();
 }	
 	
-inline OSGSFReal32 *OSGCamera::getSFNear( void ) 
+inline SFReal32 *Camera::getSFNear( void ) 
 {
 	return &_near;
 }	
 
 
-inline void OSGCamera::setFar( OSGReal32 rFar )
+inline void Camera::setFar( Real32 rFar )
 {
 	_far.setValue( rFar );
 }
 	
-inline OSGReal32 OSGCamera::getFar( void ) const
+inline Real32 Camera::getFar( void ) const
 {
 	return _far.getValue();
 }	
 	
-inline OSGSFReal32 *OSGCamera::getSFFar( void ) 
+inline SFReal32 *Camera::getSFFar( void ) 
 {
 	return &_far;
 }	

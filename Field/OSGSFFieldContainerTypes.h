@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGSFFIELDCONTAINERTYPES_H_
 #define _OSGSFFIELDCONTAINERTYPES_H_
@@ -45,35 +55,35 @@
  *  \brief OpenSG field container single fields
  *
  * <UL>
- * <LI> osg::OSGSFFieldContainerPtr
- * <LI> osg::OSGSFNodePtr
- * <LI> osg::OSGSFNodeCorePtr
- * <LI> osg::OSGSFPropertyPtr
- * <LI> osg::OSGSFAttachmentMap;
+ * <LI> osg::SFFieldContainerPtr
+ * <LI> osg::SFNodePtr
+ * <LI> osg::SFNodeCorePtr
+ * <LI> osg::SFPropertyPtr
+ * <LI> osg::SFAttachmentMap;
  * </UL>
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief OSGSFFieldContainerPtr
+/** \brief SFFieldContainerPtr
  */
 
-typedef OSGSField<OSGFieldContainerPtr> OSGSFFieldContainerPtr;
+typedef SField<FieldContainerPtr> SFFieldContainerPtr;
 
-/** \brief OSGSFNodePtr
+/** \brief SFNodePtr
  */
 
-typedef OSGSField<OSGNodePtr>           OSGSFNodePtr;
+typedef SField<NodePtr>           SFNodePtr;
 
-/** \brief OSGSFNodeCorePtr
+/** \brief SFNodeCorePtr
  */
 
-typedef OSGSField<OSGNodeCorePtr>       OSGSFNodeCorePtr;
+typedef SField<NodeCorePtr>       SFNodeCorePtr;
 
-/** \brief OSGSFAttachmentMap
+/** \brief SFAttachmentMap
  */
 
-typedef OSGSField<OSGAttachmentMap>     OSGSFAttachmentMap;
+typedef SField<AttachmentMap>     SFAttachmentMap;
 
 
 OSG_END_NAMESPACE

@@ -1,3 +1,40 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 #include "math.h"
 
@@ -17,12 +54,12 @@
 OSG_USING_NAMESPACE
 
 /// Default Constructor
-OSGPlane::OSGPlane(void)
+Plane::Plane(void)
 : _normalVec(0, 0, 0), _distance(0)
 {}
 
 /// Copy Constructor
-OSGPlane::OSGPlane(const OSGPlane &obj)
+Plane::Plane(const Plane &obj)
 : _normalVec(obj._normalVec), _distance(obj._distance)
 {}
 
@@ -31,9 +68,9 @@ OSGPlane::OSGPlane(const OSGPlane &obj)
   Orientation is computed by taking (p1 - p0) x (p2 - p0) and
   pointing the normal in that direction.
 */
-OSGPlane::OSGPlane(const OSGVec3f &p0, const OSGVec3f &p1, const OSGVec3f &p2)
+Plane::Plane(const Vec3f &p0, const Vec3f &p1, const Vec3f &p2)
 {
-	OSGVec3f vec1(p1 - p0), vec2(p2 - p0);
+	Vec3f vec1(p1 - p0), vec2(p2 - p0);
 
 	vec1.cross(vec2);
 	_distance = fabs(vec1.dot(p0));
@@ -45,7 +82,7 @@ OSGPlane::OSGPlane(const OSGVec3f &p0, const OSGVec3f &p1, const OSGVec3f &p2)
   Construct a plane given normal and distance from origin along normal.
   Orientation is given by the normal vector n.
 */
-OSGPlane::OSGPlane(const OSGVec3f &normal, float distance)
+Plane::Plane(const Vec3f &normal, float distance)
 : _normalVec(normal), _distance(distance)
 {}
 
@@ -53,14 +90,14 @@ OSGPlane::OSGPlane(const OSGVec3f &normal, float distance)
   Construct a plane given normal and a point to pass through
   Orientation is given by the normal vector n.
 */
-OSGPlane::OSGPlane(const OSGVec3f &normal, const OSGVec3f &point)
+Plane::Plane(const Vec3f &normal, const Vec3f &point)
 : _normalVec(normal)
 {
 	_distance = fabs(normal.dot(point));
 }
 
 /// Offset a plane by a given distance.
-void OSGPlane::offset(float d)
+void Plane::offset(float d)
 {
 	_distance += d;
 }
@@ -69,7 +106,7 @@ void OSGPlane::offset(float d)
   Intersect line and plane, returning true if there is an intersection
   false if line is parallel to plane
 */
-OSGBool OSGPlane::intersect(const OSGLine &line, OSGVec3f &point) const
+Bool Plane::intersect(const Line &line, Vec3f &point) const
 {
 	bool retCode = false;
 	
@@ -93,14 +130,14 @@ OSGBool OSGPlane::intersect(const OSGLine &line, OSGVec3f &point) const
 }
 
 /// Transforms the plane by the given matrix
-void OSGPlane::transform(const OSGMatrix &/*matrix*/)
+void Plane::transform(const Matrix &/*matrix*/)
 {
 	// TODO
 	assert(false);
 }
 
 /// set the plane param
-void OSGPlane::set(const OSGVec3f &normal, float distance)
+void Plane::set(const Vec3f &normal, float distance)
 {
 	_normalVec = normal;
 	_distance = distance;
@@ -114,7 +151,7 @@ void OSGPlane::set(const OSGVec3f &normal, float distance)
   Returns true if the given point is within the half-space
   defined by the plane
 */
-OSGBool OSGPlane::isInHalfSpace( const OSGVec3f &point ) const
+Bool Plane::isInHalfSpace( const Vec3f &point ) const
 {
 	float scalar = _normalVec.dot(point - _normalVec * _distance);
 
@@ -124,7 +161,7 @@ OSGBool OSGPlane::isInHalfSpace( const OSGVec3f &point ) const
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparison operators
-bool operator ==(const OSGPlane &p1, const OSGPlane &p2)
+bool operator ==(const Plane &p1, const Plane &p2)
 {
 	return ((p1._distance == p2._distance) &&
 	        (p1._normalVec == p2._normalVec));

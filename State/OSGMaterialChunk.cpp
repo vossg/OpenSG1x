@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -47,19 +58,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -71,77 +82,77 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGMaterialChunk, OSGDiffuseField)
+OSG_FC_FIRST_FIELD_IDM_DEF(MaterialChunk, DiffuseField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGMaterialChunk, 
-                           OSGAmbientField,  
-                           OSGDiffuseField)
-OSG_FC_FIELD_IDM_DEF      (OSGMaterialChunk, 
-                           OSGSpecularField,  
-                           OSGAmbientField)
-OSG_FC_FIELD_IDM_DEF      (OSGMaterialChunk, 
-                           OSGEmissionField,  
-                           OSGSpecularField)
-OSG_FC_FIELD_IDM_DEF      (OSGMaterialChunk, 
-                           OSGShininessField,  
-                           OSGEmissionField)
+OSG_FC_FIELD_IDM_DEF      (MaterialChunk, 
+                           AmbientField,  
+                           DiffuseField)
+OSG_FC_FIELD_IDM_DEF      (MaterialChunk, 
+                           SpecularField,  
+                           AmbientField)
+OSG_FC_FIELD_IDM_DEF      (MaterialChunk, 
+                           EmissionField,  
+                           SpecularField)
+OSG_FC_FIELD_IDM_DEF      (MaterialChunk, 
+                           ShininessField,  
+                           EmissionField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGMaterialChunk, OSGShininessField)
-
-
-char OSGMaterialChunk::cvsid[] = "@(#)$Id: $";
-
-OSGStateChunkClass OSGMaterialChunk::_class(OSGString("Material"));
+OSG_FC_LAST_FIELD_IDM_DEF (MaterialChunk, ShininessField)
 
 
-OSGFieldDescription OSGMaterialChunk::_desc[] = 
+char MaterialChunk::cvsid[] = "@(#)$Id: $";
+
+StateChunkClass MaterialChunk::_class(String("Material"));
+
+
+FieldDescription MaterialChunk::_desc[] = 
 {
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "diffuse", 
-        OSG_FC_FIELD_IDM_DESC(OSGDiffuseField),
+        OSG_FC_FIELD_IDM_DESC(DiffuseField),
         false,
-        (OSGFieldAccessMethod) &OSGMaterialChunk::getSFDiffuse,
+        (FieldAccessMethod) &MaterialChunk::getSFDiffuse,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "ambient", 
-        OSG_FC_FIELD_IDM_DESC(OSGAmbientField),
+        OSG_FC_FIELD_IDM_DESC(AmbientField),
         false,
-        (OSGFieldAccessMethod) &OSGMaterialChunk::getSFAmbient,
+        (FieldAccessMethod) &MaterialChunk::getSFAmbient,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "specular", 
-        OSG_FC_FIELD_IDM_DESC(OSGSpecularField),
+        OSG_FC_FIELD_IDM_DESC(SpecularField),
         false,
-        (OSGFieldAccessMethod) &OSGMaterialChunk::getSFSpecular,
+        (FieldAccessMethod) &MaterialChunk::getSFSpecular,
         ""),
 
-        OSGFieldDescription(
-        OSGSFVec4f::getClassType(), 
+        FieldDescription(
+        SFVec4f::getClassType(), 
         "emission", 
-        OSG_FC_FIELD_IDM_DESC(OSGEmissionField),
+        OSG_FC_FIELD_IDM_DESC(EmissionField),
         false,
-        (OSGFieldAccessMethod) &OSGMaterialChunk::getSFEmission,
+        (FieldAccessMethod) &MaterialChunk::getSFEmission,
         ""),
 
-        OSGFieldDescription(
-        OSGSFReal32::getClassType(), 
+        FieldDescription(
+        SFReal32::getClassType(), 
         "shininess", 
-        OSG_FC_FIELD_IDM_DESC(OSGShininessField),
+        OSG_FC_FIELD_IDM_DESC(ShininessField),
         false,
-        (OSGFieldAccessMethod) &OSGMaterialChunk::getSFShininess,
+        (FieldAccessMethod) &MaterialChunk::getSFShininess,
         "")
 };
 
-OSGFieldContainerType OSGMaterialChunk::_type(
+FieldContainerType MaterialChunk::_type(
 	"MaterialChunk", 
 	"StateChunk", 
 	NULL,
-	(OSGPrototypeCreateF) &OSGMaterialChunk::createEmpty,
+	(PrototypeCreateF) &MaterialChunk::createEmpty,
 	NULL,
 	_desc, 
 	sizeof(_desc));
@@ -170,24 +181,24 @@ OSGFieldContainerType OSGMaterialChunk::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGMaterialChunk, OSGMaterialChunkPtr)
+OSG_FIELD_CONTAINER_DEF(MaterialChunk, MaterialChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGMaterialChunk::OSGMaterialChunk(void) :
+MaterialChunk::MaterialChunk(void) :
 	Inherited(), 
-	_diffuse( OSGVec4f(1,1,1,0 ) ), _ambient( OSGVec4f(.2,.2,.2,0 ) ), 
-	_specular( OSGVec4f(.5,.5,.5,0 ) ), _emission( OSGVec4f(0,0,0,0 ) ), 
+	_diffuse( Vec4f(1,1,1,0 ) ), _ambient( Vec4f(.2,.2,.2,0 ) ), 
+	_specular( Vec4f(.5,.5,.5,0 ) ), _emission( Vec4f(0,0,0,0 ) ), 
 	_shininess( 10 )
 {
 	_ownClass = _class.getID();
 }
 
 
-OSGMaterialChunk::OSGMaterialChunk( const OSGMaterialChunk& source ) :
+MaterialChunk::MaterialChunk( const MaterialChunk& source ) :
 	Inherited(source),
 	_diffuse( source._diffuse ), _ambient( source._ambient ), 
 	_specular( source._specular ), _emission( source._emission ), 
@@ -199,7 +210,7 @@ OSGMaterialChunk::OSGMaterialChunk( const OSGMaterialChunk& source ) :
 /** \brief Destructor
  */
 
-OSGMaterialChunk::~OSGMaterialChunk(void)
+MaterialChunk::~MaterialChunk(void)
 {
 }
 
@@ -207,22 +218,22 @@ OSGMaterialChunk::~OSGMaterialChunk(void)
 
 // Diffuse Color
 
-OSGSFVec4f *OSGMaterialChunk::getSFDiffuse(void)
+SFVec4f *MaterialChunk::getSFDiffuse(void)
 {
 	return &_diffuse;
 }
 
-OSGVec4f &OSGMaterialChunk::getDiffuse(void)
+Vec4f &MaterialChunk::getDiffuse(void)
 {
 	return _diffuse.getValue();
 }
 
-const OSGVec4f &OSGMaterialChunk::getDiffuse(void) const
+const Vec4f &MaterialChunk::getDiffuse(void) const
 {
 	return _diffuse.getValue();
 }
 
-void OSGMaterialChunk::setDiffuse( const OSGVec4f & color )
+void MaterialChunk::setDiffuse( const Vec4f & color )
 {
 	_diffuse.setValue( color );
 }
@@ -230,22 +241,22 @@ void OSGMaterialChunk::setDiffuse( const OSGVec4f & color )
 
 // Ambient Color
 
-OSGSFVec4f *OSGMaterialChunk::getSFAmbient(void)
+SFVec4f *MaterialChunk::getSFAmbient(void)
 {
 	return &_ambient;
 }
 
-OSGVec4f &OSGMaterialChunk::getAmbient(void)
+Vec4f &MaterialChunk::getAmbient(void)
 {
 	return _ambient.getValue();
 }
 
-const OSGVec4f &OSGMaterialChunk::getAmbient(void) const
+const Vec4f &MaterialChunk::getAmbient(void) const
 {
 	return _ambient.getValue();
 }
 
-void OSGMaterialChunk::setAmbient( const OSGVec4f & color )
+void MaterialChunk::setAmbient( const Vec4f & color )
 {
 	_ambient.setValue( color );
 }
@@ -253,22 +264,22 @@ void OSGMaterialChunk::setAmbient( const OSGVec4f & color )
 
 // Specular Color
 
-OSGSFVec4f *OSGMaterialChunk::getSFSpecular(void)
+SFVec4f *MaterialChunk::getSFSpecular(void)
 {
 	return &_specular;
 }
 
-OSGVec4f &OSGMaterialChunk::getSpecular(void)
+Vec4f &MaterialChunk::getSpecular(void)
 {
 	return _specular.getValue();
 }
 
-const OSGVec4f &OSGMaterialChunk::getSpecular(void) const
+const Vec4f &MaterialChunk::getSpecular(void) const
 {
 	return _specular.getValue();
 }
 
-void OSGMaterialChunk::setSpecular( const OSGVec4f & color )
+void MaterialChunk::setSpecular( const Vec4f & color )
 {
 	_specular.setValue( color );
 }
@@ -276,22 +287,22 @@ void OSGMaterialChunk::setSpecular( const OSGVec4f & color )
 
 // Emission Color
 
-OSGSFVec4f *OSGMaterialChunk::getSFEmission(void)
+SFVec4f *MaterialChunk::getSFEmission(void)
 {
 	return &_emission;
 }
 
-OSGVec4f &OSGMaterialChunk::getEmission(void)
+Vec4f &MaterialChunk::getEmission(void)
 {
 	return _emission.getValue();
 }
 
-const OSGVec4f &OSGMaterialChunk::getEmission(void) const
+const Vec4f &MaterialChunk::getEmission(void) const
 {
 	return _emission.getValue();
 }
 
-void OSGMaterialChunk::setEmission( const OSGVec4f & color )
+void MaterialChunk::setEmission( const Vec4f & color )
 {
 	_emission.setValue( color );
 }
@@ -299,22 +310,22 @@ void OSGMaterialChunk::setEmission( const OSGVec4f & color )
 
 // Shininess Color
 
-OSGSFReal32 *OSGMaterialChunk::getSFShininess(void)
+SFReal32 *MaterialChunk::getSFShininess(void)
 {
 	return &_shininess;
 }
 
-OSGReal32 OSGMaterialChunk::getShininess(void)
+Real32 MaterialChunk::getShininess(void)
 {
 	return _shininess.getValue();
 }
 
-OSGReal32 OSGMaterialChunk::getShininess(void) const
+Real32 MaterialChunk::getShininess(void) const
 {
 	return _shininess.getValue();
 }
 
-void OSGMaterialChunk::setShininess( const OSGReal32 color )
+void MaterialChunk::setShininess( const Real32 color )
 {
 	_shininess.setValue( color );
 }
@@ -324,7 +335,7 @@ void OSGMaterialChunk::setShininess( const OSGReal32 color )
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGMaterialChunk::activate ( OSGUInt32 index )
+void MaterialChunk::activate ( UInt32 index )
 {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
 										_diffuse.getValue().getValueRef() );
@@ -337,9 +348,9 @@ void OSGMaterialChunk::activate ( OSGUInt32 index )
 	glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
 }
 
-void OSGMaterialChunk::changeFrom( OSGStateChunk * old_chunk, OSGUInt32 index )
+void MaterialChunk::changeFrom( StateChunk * old_chunk, UInt32 index )
 {
-	OSGMaterialChunk const *old = dynamic_cast<OSGMaterialChunk const*>(old_chunk);
+	MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
 
 	// change from me to me?
 	// this assumes I haven't changed in the meantime. is that a valid assumption?
@@ -355,11 +366,11 @@ void OSGMaterialChunk::changeFrom( OSGStateChunk * old_chunk, OSGUInt32 index )
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
 										_emission.getValue().getValueRef() );
 	// adjust shininess only if it differs enough
-	if ( osgabs( _shininess.getValue() - old->getShininess() ) > 1e-4 )
+	if ( abs( _shininess.getValue() - old->getShininess() ) > 1e-4 )
 		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
 }
 
-void OSGMaterialChunk::deactivate ( OSGUInt32 index )
+void MaterialChunk::deactivate ( UInt32 index )
 {
 }
 
@@ -368,14 +379,14 @@ void OSGMaterialChunk::deactivate ( OSGUInt32 index )
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGMaterialChunk::dump(void) const
+void MaterialChunk::dump(void) const
 {
-    SDEBUG << "Dump OSGMaterialChunk NI" << endl;
+    SDEBUG << "Dump MaterialChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-OSGReal32 OSGMaterialChunk::switchCost( OSGStateChunk * chunk )
+Real32 MaterialChunk::switchCost( StateChunk * chunk )
 {
 	return 0;
 }
@@ -383,7 +394,7 @@ OSGReal32 OSGMaterialChunk::switchCost( OSGStateChunk * chunk )
 /** \brief assignment
  */
 
-OSGBool OSGMaterialChunk::operator < (const OSGStateChunk &other) const
+Bool MaterialChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -391,14 +402,14 @@ OSGBool OSGMaterialChunk::operator < (const OSGStateChunk &other) const
 /** \brief equal
  */
 
-OSGBool OSGMaterialChunk::operator == (const OSGStateChunk &other) const
+Bool MaterialChunk::operator == (const StateChunk &other) const
 {
-	OSGMaterialChunk const *tother = dynamic_cast<OSGMaterialChunk const*>(&other);
+	MaterialChunk const *tother = dynamic_cast<MaterialChunk const*>(&other);
 
 	if ( !tother )
 		return false;
 
-	if ( ! getDiffuse().equals( tother->getDiffuse(), osgEps )
+	if ( ! getDiffuse().equals( tother->getDiffuse(), Eps )
 	   )
 		return false;
 		
@@ -408,7 +419,7 @@ OSGBool OSGMaterialChunk::operator == (const OSGStateChunk &other) const
 /** \brief unequal
  */
 
-OSGBool OSGMaterialChunk::operator != (const OSGStateChunk &other) const
+Bool MaterialChunk::operator != (const StateChunk &other) const
 {
 	return ! (*this == other);
 }

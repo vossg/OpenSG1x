@@ -1,3 +1,41 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 
 // System declarations
 
@@ -31,7 +69,7 @@ OSG_USING_NAMESPACE
 // Description:
 //         Change the axis and radius
 //----------------------------------------------------------------------
-void OSGCylinderVolume::getCenter(OSGVec3f &center) const 
+void CylinderVolume::getCenter(Vec3f &center) const 
 { 
 	assert(false);
 }
@@ -43,7 +81,7 @@ void OSGCylinderVolume::getCenter(OSGVec3f &center) const
 // Description:
 //         Change the axis and radius
 //----------------------------------------------------------------------
-float OSGCylinderVolume::getVolume(void) const
+float CylinderVolume::getVolume(void) const
 { 
 	assert(false);
     return 0.;
@@ -55,7 +93,7 @@ float OSGCylinderVolume::getVolume(void) const
 // Date:   Mon Dec 5 14:20:20 1999
 // Description:
 //----------------------------------------------------------------------
-void OSGCylinderVolume::initEnclose (const OSGVolume &volume)
+void CylinderVolume::initEnclose (const Volume &volume)
 {
 	assert(false);
 }
@@ -66,7 +104,7 @@ void OSGCylinderVolume::initEnclose (const OSGVolume &volume)
 // Date:   Mon Dec 5 14:20:20 1999
 // Description:
 //----------------------------------------------------------------------
-void OSGCylinderVolume::initInside (const OSGVolume &volume)
+void CylinderVolume::initInside (const Volume &volume)
 {
 	assert(false);
 }
@@ -78,7 +116,7 @@ void OSGCylinderVolume::initInside (const OSGVolume &volume)
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-OSGBool OSGCylinderVolume::intersect (const OSGVec3f &point) const
+Bool CylinderVolume::intersect (const Vec3f &point) const
 {
 	assert(false);
 	return false;
@@ -92,7 +130,7 @@ OSGBool OSGCylinderVolume::intersect (const OSGVec3f &point) const
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-OSGBool OSGCylinderVolume::intersect ( const OSGLine &line ) const
+Bool CylinderVolume::intersect ( const Line &line ) const
 {
   // TODO
   assert(false);
@@ -106,8 +144,8 @@ OSGBool OSGCylinderVolume::intersect ( const OSGLine &line ) const
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-OSGBool OSGCylinderVolume::intersect ( const OSGLine &line,
-																			 OSGVec3f &min, OSGVec3f &max ) const
+Bool CylinderVolume::intersect ( const Line &line,
+																			 Vec3f &min, Vec3f &max ) const
 {
   // TODO
   assert(false);
@@ -121,7 +159,7 @@ OSGBool OSGCylinderVolume::intersect ( const OSGLine &line,
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-OSGBool OSGCylinderVolume::intersect (const OSGVolume &volume) const
+Bool CylinderVolume::intersect (const Volume &volume) const
 {
 	// TODO; not impl.
 	assert(false);
@@ -135,7 +173,7 @@ OSGBool OSGCylinderVolume::intersect (const OSGVolume &volume) const
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-OSGBool OSGCylinderVolume::intersect (const OSGCylinderVolume &volume) const
+Bool CylinderVolume::intersect (const CylinderVolume &volume) const
 {
 	// TODO; not impl.
 	assert(false);
@@ -150,7 +188,7 @@ OSGBool OSGCylinderVolume::intersect (const OSGCylinderVolume &volume) const
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-void OSGCylinderVolume::extendBy (const OSGPnt3f &pt)
+void CylinderVolume::extendBy (const Pnt3f &pt)
 {
 }
 
@@ -161,7 +199,7 @@ void OSGCylinderVolume::extendBy (const OSGPnt3f &pt)
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-void OSGCylinderVolume::extendBy (const OSGVolume &volume)
+void CylinderVolume::extendBy (const Volume &volume)
 {
 }
 
@@ -173,7 +211,7 @@ void OSGCylinderVolume::extendBy (const OSGVolume &volume)
 // Description:
 //         TODOC
 //----------------------------------------------------------------------
-void OSGCylinderVolume::transform (const OSGMatrix &mat)
+void CylinderVolume::transform (const Matrix &mat)
 {
 	;
 }

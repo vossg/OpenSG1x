@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -52,19 +63,19 @@
 #include "OSGWindow.h"
 #include "OSGBackground.h"
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getOSGBackground(void)
- *  \brief OSGBackground
+/** \fn const char *VecBase::getBackground(void)
+ *  \brief Background
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -78,15 +89,15 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGBackground::cvsid[] = "@(#)$Id: $";
+char Background::cvsid[] = "@(#)$Id: $";
 
 // Static Class Varible implementations: 
 
-OSGFieldContainerType OSGBackground::_type(
+FieldContainerType Background::_type(
     "Background", 
     "FieldContainer", 
     0,
-    (OSGPrototypeCreateF) &OSGBackground::createEmpty,
+    (PrototypeCreateF) &Background::createEmpty,
     0,
     NULL, 
     0);
@@ -116,20 +127,20 @@ OSGFieldContainerType OSGBackground::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGBackground, OSGBackgroundPtr)
+OSG_FIELD_CONTAINER_DEF(Background, BackgroundPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGBackground::OSGBackground(void) :
+Background::Background(void) :
 	Inherited()
 	  // TODO: initialize members
 {
 }
 
-OSGBackground::OSGBackground(const OSGBackground &source) :
+Background::Background(const Background &source) :
 	Inherited()
 	  // TODO: initialize members
 {
@@ -138,7 +149,7 @@ OSGBackground::OSGBackground(const OSGBackground &source) :
 /** \brief Destructor
  */
 
-OSGBackground::~OSGBackground(void)
+Background::~Background(void)
 {
 }
 
@@ -148,7 +159,7 @@ OSGBackground::~OSGBackground(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGBackground::clear(OSGDrawAction *, OSGViewportP)
+void Background::clear(DrawAction *, ViewportP)
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
@@ -158,7 +169,7 @@ void OSGBackground::clear(OSGDrawAction *, OSGViewportP)
 /** \brief assignment
  */
 
-OSGBackground &OSGBackground::operator = (const OSGBackground &source)
+Background &Background::operator = (const Background &source)
 {
 	if (this == &source)
 		return *this;
@@ -179,9 +190,9 @@ OSGBackground &OSGBackground::operator = (const OSGBackground &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGBackground::dump(void) const
+void Background::dump(void) const
 {
-    SDEBUG << "Dump OSGBackground NI" << endl;
+    SDEBUG << "Dump Background NI" << endl;
 }
 
 

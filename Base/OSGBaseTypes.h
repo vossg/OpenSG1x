@@ -1,18 +1,30 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +36,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGBASETYPES_H_
 #define _OSGBASETYPES_H_
@@ -55,473 +66,473 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(OSG_SGI_TYPES)
 
-/*! \var typedef bool OSGBool;
- *  \brief OSGBool
+/*! \var typedef bool Bool;
+ *  \brief Bool
  *  \ingroup BaseTypes
  */
 
-typedef bool          OSGBool;
+typedef bool          Bool;
 
-/*! \var typedef char OSGChar8;
- *  \brief OSGChar8
+/*! \var typedef char Char8;
+ *  \brief Char8
  *  \ingroup BaseTypes
  */
 
-typedef char          OSGChar8;
+typedef char          Char8;
 
-/*! \var typedef unsigned char OSGUChar8;
- *  \brief OSGUChar8
+/*! \var typedef unsigned char UChar8;
+ *  \brief UChar8
  *  \ingroup BaseTypes
  */
 
-typedef unsigned char OSGUChar8;
+typedef unsigned char UChar8;
 
-/*! \var typedef int8_t OSGInt8;
- *  \brief OSGInt8
+/*! \var typedef int8_t Int8;
+ *  \brief Int8
  *  \ingroup BaseTypes
  */
 
-typedef int8_t    OSGInt8;
+typedef int8_t    Int8;
 
-/*! \var typedef uint8_t OSGUInt8;
- *  \brief OSGUInt8
+/*! \var typedef uint8_t UInt8;
+ *  \brief UInt8
  *  \ingroup BaseTypes
  */
 
-typedef uint8_t   OSGUInt8;
+typedef uint8_t   UInt8;
 
-/*! \var typedef int16_t OSGInt16;
- *  \brief OSGInt16
+/*! \var typedef int16_t Int16;
+ *  \brief Int16
  *  \ingroup BaseTypes
  */
 
-typedef int16_t   OSGInt16;
+typedef int16_t   Int16;
 
-/*! \var typedef uint16_t OSGUInt16;
- *  \brief OSGUInt16
+/*! \var typedef uint16_t UInt16;
+ *  \brief UInt16
  *  \ingroup BaseTypes
  */
 
-typedef uint16_t  OSGUInt16;
+typedef uint16_t  UInt16;
 
-/*! \var typedef int32_t OSGInt32;
- *  \brief OSGInt32
+/*! \var typedef int32_t Int32;
+ *  \brief Int32
  *  \ingroup BaseTypes
  */
 
-typedef int32_t   OSGInt32;
+typedef int32_t   Int32;
 
-/*! \var typedef uint32_t OSGUInt32;
- *  \brief OSGUInt32
+/*! \var typedef uint32_t UInt32;
+ *  \brief UInt32
  *  \ingroup BaseTypes
  */
 
-typedef uint32_t  OSGUInt32;
+typedef uint32_t  UInt32;
 
-/*! \var typedef int64_t OSGInt64;
- *  \brief OSGInt64
+/*! \var typedef int64_t Int64;
+ *  \brief Int64
  *  \ingroup BaseTypes
  */
 
-typedef int64_t   OSGInt64;
+typedef int64_t   Int64;
 
-/*! \var typedef uint64_t OSGUInt64;
- *  \brief OSGUInt64
+/*! \var typedef uint64_t UInt64;
+ *  \brief UInt64
  *  \ingroup BaseTypes
  */
 
-typedef uint64_t  OSGUInt64;
+typedef uint64_t  UInt64;
 
-/*! \var typedef float OSGReal32;
- *  \brief OSGReal32
+/*! \var typedef float Real32;
+ *  \brief Real32
  *  \ingroup BaseTypes
  */
 
-typedef float     OSGReal32;
+typedef float     Real32;
 
-/*! \var typedef double OSGReal64;
- *  \brief OSGReal64
+/*! \var typedef double Real64;
+ *  \brief Real64
  *  \ingroup BaseTypes
  */
 
-typedef double    OSGReal64;
+typedef double    Real64;
 
 #elif defined(OSG_LINUX_TYPES)
 
-/*! \var typedef bool OSGBool;
- *  \brief OSGBool
+/*! \var typedef bool Bool;
+ *  \brief Bool
  *  \ingroup BaseTypes
  */
 
-typedef bool          OSGBool;
+typedef bool          Bool;
 
-/*! \var typedef char OSGChar8;
- *  \brief OSGChar8
+/*! \var typedef char Char8;
+ *  \brief Char8
  *  \ingroup BaseTypes
  */
 
-typedef char          OSGChar8;
+typedef char          Char8;
 
-/*! \var typedef unsigned char OSGUChar8;
- *  \brief OSGUChar8
+/*! \var typedef unsigned char UChar8;
+ *  \brief UChar8
  *  \ingroup BaseTypes
  */
 
-typedef unsigned char OSGUChar8;
+typedef unsigned char UChar8;
 
-/*! \var typedef int8_t OSGInt8;
- *  \brief OSGInt8
+/*! \var typedef int8_t Int8;
+ *  \brief Int8
  *  \ingroup BaseTypes
  */
 
-typedef int8_t     OSGInt8;
+typedef int8_t     Int8;
 
-/*! \var typedef u_int8_t OSGUInt8;
- *  \brief OSGUInt8
+/*! \var typedef u_int8_t UInt8;
+ *  \brief UInt8
  *  \ingroup BaseTypes
  */
 
-typedef u_int8_t   OSGUInt8;
+typedef u_int8_t   UInt8;
 
-/*! \var typedef int16_t OSGInt16;
- *  \brief OSGInt16
+/*! \var typedef int16_t Int16;
+ *  \brief Int16
  *  \ingroup BaseTypes
  */
 
-typedef int16_t    OSGInt16;
+typedef int16_t    Int16;
 
-/*! \var typedef u_int16_t OSGUInt16;
- *  \brief OSGUInt16
+/*! \var typedef u_int16_t UInt16;
+ *  \brief UInt16
  *  \ingroup BaseTypes
  */
 
-typedef u_int16_t  OSGUInt16;
+typedef u_int16_t  UInt16;
 
-/*! \var typedef int32_t OSGInt32;
- *  \brief OSGInt32
+/*! \var typedef int32_t Int32;
+ *  \brief Int32
  *  \ingroup BaseTypes
  */
 
-typedef int32_t    OSGInt32;
+typedef int32_t    Int32;
 
-/*! \var typedef u_int32_t OSGUInt32;
- *  \brief OSGUInt32
+/*! \var typedef u_int32_t UInt32;
+ *  \brief UInt32
  *  \ingroup BaseTypes
  */
 
-typedef u_int32_t  OSGUInt32;
+typedef u_int32_t  UInt32;
 
-/*! \var typedef int64_t OSGInt64;
- *  \brief OSGInt64
+/*! \var typedef int64_t Int64;
+ *  \brief Int64
  *  \ingroup BaseTypes
  */
 
-typedef int64_t    OSGInt64;
+typedef int64_t    Int64;
 
-/*! \var typedef u_int64_t OSGUInt64;
- *  \brief OSGUInt64
+/*! \var typedef u_int64_t UInt64;
+ *  \brief UInt64
  *  \ingroup BaseTypes
  */
 
-typedef u_int64_t  OSGUInt64;
+typedef u_int64_t  UInt64;
 
-/*! \var typedef float OSGReal32;
- *  \brief OSGReal32
+/*! \var typedef float Real32;
+ *  \brief Real32
  *  \ingroup BaseTypes
  */
 
-typedef float      OSGReal32;
+typedef float      Real32;
 
-/*! \var typedef double OSGReal64;
- *  \brief OSGReal64
+/*! \var typedef double Real64;
+ *  \brief Real64
  *  \ingroup BaseTypes
  */
 
-typedef double     OSGReal64;
+typedef double     Real64;
 
 #elif defined(OSG_WIN_TYPES)
 
-/*! \var typedef bool OSGBool;
- *  \brief OSGBool
+/*! \var typedef bool Bool;
+ *  \brief Bool
  *  \ingroup BaseTypes
  */
 
-typedef bool          OSGBool;
+typedef bool          Bool;
 
-/*! \var typedef char OSGChar8;
- *  \brief OSGChar8
+/*! \var typedef char Char8;
+ *  \brief Char8
  *  \ingroup BaseTypes
  */
 
-typedef char          OSGChar8;
+typedef char          Char8;
 
-/*! \var typedef unsigned char OSGUChar8;
- *  \brief OSGUChar8
+/*! \var typedef unsigned char UChar8;
+ *  \brief UChar8
  *  \ingroup BaseTypes
  */
 
-typedef unsigned char OSGUChar8;
+typedef unsigned char UChar8;
 
-/*! \var typedef CHAR OSGInt8;
- *  \brief OSGInt8
+/*! \var typedef CHAR Int8;
+ *  \brief Int8
  *  \ingroup BaseTypes
  */
 
-typedef CHAR    OSGInt8;
+typedef CHAR    Int8;
 
-/*! \var typedef UCHAR OSGUInt8;
- *  \brief OSGUInt8
+/*! \var typedef UCHAR UInt8;
+ *  \brief UInt8
  *  \ingroup BaseTypes
  */
 
-typedef UCHAR   OSGUInt8;
+typedef UCHAR   UInt8;
 
-/*! \var typedef SHORT OSGInt16;
- *  \brief OSGInt16
+/*! \var typedef SHORT Int16;
+ *  \brief Int16
  *  \ingroup BaseTypes
  */
 
-typedef SHORT   OSGInt16;
+typedef SHORT   Int16;
 
-/*! \var typedef USHORT OSGUInt16;
- *  \brief OSGUInt16
+/*! \var typedef USHORT UInt16;
+ *  \brief UInt16
  *  \ingroup BaseTypes
  */
 
-typedef USHORT  OSGUInt16;
+typedef USHORT  UInt16;
 
-/*! \var typedef INT32 OSGInt32;
- *  \brief OSGInt32
+/*! \var typedef INT32 Int32;
+ *  \brief Int32
  *  \ingroup BaseTypes
  */
 
-typedef INT32   OSGInt32;
+typedef INT32   Int32;
 
-/*! \var typedef UINT32 OSGUInt32;
- *  \brief OSGUInt32
+/*! \var typedef UINT32 UInt32;
+ *  \brief UInt32
  *  \ingroup BaseTypes
  */
 
-typedef UINT32  OSGUInt32;
+typedef UINT32  UInt32;
 
-/*! \var typedef INT64 OSGInt64;
- *  \brief OSGInt64
+/*! \var typedef INT64 Int64;
+ *  \brief Int64
  *  \ingroup BaseTypes
  */
 
-typedef INT64   OSGInt64;
+typedef INT64   Int64;
 
-/*! \var typedef UINT64 OSGUInt64;
- *  \brief OSGUInt64
+/*! \var typedef UINT64 UInt64;
+ *  \brief UInt64
  *  \ingroup BaseTypes
  */
 
-typedef UINT64  OSGUInt64;
+typedef UINT64  UInt64;
 
-/*! \var typedef DWORD OSGDWord;
- *  \brief OSGDWord
+/*! \var typedef DWORD DWord;
+ *  \brief DWord
  *  \ingroup BaseTypes
  */
 
-typedef DWORD   OSGDWord;
+typedef DWORD   DWord;
 
-/*! \var typedef HANDLE OSGHandle;
- *  \brief OSGHandle
+/*! \var typedef HANDLE Handle;
+ *  \brief Handle
  *  \ingroup BaseTypes
  */
 
-typedef HANDLE  OSGHandle;
+typedef HANDLE  Handle;
 
-/*! \var typedef float OSGReal32;
- *  \brief OSGReal32
+/*! \var typedef float Real32;
+ *  \brief Real32
  *  \ingroup BaseTypes
  */
 
-typedef float     OSGReal32;
+typedef float     Real32;
 
-/*! \var typedef double OSGReal64;
- *  \brief OSGReal64
+/*! \var typedef double Real64;
+ *  \brief Real64
  *  \ingroup BaseTypes
  */
 
-typedef double    OSGReal64;
+typedef double    Real64;
 
 #elif defined(OSG_SUNOS_TYPES)
 
-/*! \var typedef bool OSGBool;
- *  \brief OSGBool
+/*! \var typedef bool Bool;
+ *  \brief Bool
  *  \ingroup BaseTypes
  */
 
-typedef bool          OSGBool;
+typedef bool          Bool;
 
-/*! \var typedef charOSGChar8;
- *  \brief OSGChar8
+/*! \var typedef charChar8;
+ *  \brief Char8
  *  \ingroup BaseTypes
  */
 
-typedef char          OSGChar8;
+typedef char          Char8;
 
-/*! \var typedef unsigned char OSGUChar8;
- *  \brief OSGUChar8
+/*! \var typedef unsigned char UChar8;
+ *  \brief UChar8
  *  \ingroup BaseTypes
  */
 
-typedef unsigned char OSGUChar8;
+typedef unsigned char UChar8;
 
-/*! \var typedef int8_t OSGInt8;
- *  \brief OSGInt8
+/*! \var typedef int8_t Int8;
+ *  \brief Int8
  *  \ingroup BaseTypes
  */
 
-typedef int8_t     OSGInt8;
+typedef int8_t     Int8;
 
-/*! \var typedef uint8_t OSGUInt8;
- *  \brief OSGUInt8
+/*! \var typedef uint8_t UInt8;
+ *  \brief UInt8
  *  \ingroup BaseTypes
  */
 
-typedef uint8_t   OSGUInt8;
+typedef uint8_t   UInt8;
 
-/*! \var typedef int16_t OSGInt16;
- *  \brief OSGInt16
+/*! \var typedef int16_t Int16;
+ *  \brief Int16
  *  \ingroup BaseTypes
  */
 
-typedef int16_t    OSGInt16;
+typedef int16_t    Int16;
 
-/*! \var typedef uint16_t OSGUInt16;
- *  \brief OSGUInt16
+/*! \var typedef uint16_t UInt16;
+ *  \brief UInt16
  *  \ingroup BaseTypes
  */
 
-typedef uint16_t  OSGUInt16;
+typedef uint16_t  UInt16;
 
-/*! \var typedef int32_t OSGInt32;
- *  \brief OSGInt32
+/*! \var typedef int32_t Int32;
+ *  \brief Int32
  *  \ingroup BaseTypes
  */
 
-typedef int32_t    OSGInt32;
+typedef int32_t    Int32;
 
-/*! \var typedef uint32_t OSGUInt32;
- *  \brief OSGUInt32
+/*! \var typedef uint32_t UInt32;
+ *  \brief UInt32
  *  \ingroup BaseTypes
  */
 
-typedef uint32_t  OSGUInt32;
+typedef uint32_t  UInt32;
 
-/*! \var typedef long long OSGInt64;
- *  \brief OSGInt64
+/*! \var typedef long long Int64;
+ *  \brief Int64
  *  \ingroup BaseTypes
  */
 
-typedef long long    OSGInt64;
+typedef long long    Int64;
 
-/*! \var typedef unsigned long long OSGUInt64;
- *  \brief OSGUInt64
+/*! \var typedef unsigned long long UInt64;
+ *  \brief UInt64
  *  \ingroup BaseTypes
  */
 
-typedef unsigned long long  OSGUInt64;
+typedef unsigned long long  UInt64;
 
-/*! \var typedef float OSGReal32;
- *  \brief OSGReal32
+/*! \var typedef float Real32;
+ *  \brief Real32
  *  \ingroup BaseTypes
  */
 
-typedef float      OSGReal32;
+typedef float      Real32;
 
-/*! \var typedef double OSGReal64;
- *  \brief OSGReal64
+/*! \var typedef double Real64;
+ *  \brief Real64
  *  \ingroup BaseTypes
  */
 
-typedef double     OSGReal64;
+typedef double     Real64;
 
 #else
 #error "Could not define base types, check your system/compiler combination"
 #endif
 
-/*! \var OSGUInt32 OSGBitVector;
- *  \brief OSGBitVector
+/*! \var UInt32 BitVector;
+ *  \brief BitVector
  *  \ingroup BaseTypes
  */
 
-typedef OSGUInt32 OSGBitVector;
+typedef UInt32 BitVector;
 
-/*! \brief osgEps
+/*! \brief Eps
  *  \ingroup BaseConstants
  */
 
-const OSGReal32 osgEps = 1E-7f;
+const Real32 Eps = 1E-7f;
 
-/*! \brief osgEps
+/*! \brief Eps
  *  \ingroup BaseConstants
  */
 
-const OSGReal32 osgPi  = (OSGReal32) 3.141592653589797;
+const Real32 Pi  = (Real32) 3.141592653589797;
 
-/*! \brief OSGMathTypeProperties
+/*! \brief MathTypeProperties
  *  \ingroup BaseConstants
  */
 
-enum OSGMathTypeProperties
+enum MathTypeProperties
 {
-    OSGRealValue,
-    OSGIntValue
+    RealValue,
+    IntValue
 };
 
-/*! \brief OSGTypeConstantsBase, documentation dummy
+/*! \brief TypeConstantsBase, documentation dummy
  *  \ingroup BaseConstants
  */
 
-struct OSGTypeConstantsBase
-{
-};
-
-/*! \brief OSGTypeConstants
- *  \ingroup BaseConstants
- */
-
-template <class OSGLookupTypeT>
-struct OSGTypeConstants : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstantsBase
 {
 };
 
-/*! \brief OSGTypeConstants<OSGUInt8>
+/*! \brief TypeConstants
+ *  \ingroup BaseConstants
+ */
+
+template <class LookupTypeT>
+struct OSG_DLLEXPORT TypeConstants : public TypeConstantsBase
+{
+};
+
+/*! \brief TypeConstants<UInt8>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGUInt8> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<UInt8> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGUInt8 getZeroElement(void) { return 0; };
-    static inline OSGUInt8 getOneElement (void) { return 1; };
+    static inline UInt8 getZeroElement(void) { return 0; };
+    static inline UInt8 getOneElement (void) { return 1; };
 
-    static inline OSGUInt8 getAllSet     (void) { return 0xFF; };
-    static inline OSGUInt8 getAllClear   (void) { return 0x00; };
+    static inline UInt8 getAllSet     (void) { return 0xFF; };
+    static inline UInt8 getAllClear   (void) { return 0x00; };
 
-    static inline OSGUInt8 getMax        (void) { return 0xFF; }; 
-    static inline OSGUInt8 getMin        (void) { return 0x00; }; 
+    static inline UInt8 getMax        (void) { return 0xFF; }; 
+    static inline UInt8 getMin        (void) { return 0x00; }; 
 
 
-    static inline OSGReal32 getFraction   (OSGUInt8 val) 
+    static inline Real32 getFraction   (UInt8 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGUInt8 getPortion    (OSGReal32 val) 
+    static inline UInt8 getPortion    (Real32 val) 
     {
-        return (OSGUInt8) (val * OSGReal32(getMax())); 
+        return (UInt8) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGUInt8 getFromString (const char *szString)
+    static inline UInt8 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -530,39 +541,39 @@ struct OSGTypeConstants<OSGUInt8> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGInt8>
+/*! \brief TypeConstants<Int8>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGInt8> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<Int8> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGInt8 getZeroElement(void) { return 0; };
-    static inline OSGInt8 getOneElement (void) { return 1; };
+    static inline Int8 getZeroElement(void) { return 0; };
+    static inline Int8 getOneElement (void) { return 1; };
 
-    static inline OSGInt8 getAllSet     (void) { return 0xFF; };
-    static inline OSGInt8 getAllClear   (void) { return 0x00; };
+    static inline Int8 getAllSet     (void) { return 0xFF; };
+    static inline Int8 getAllClear   (void) { return 0x00; };
 
-    static inline OSGInt8 getMax        (void) { return  0x7F; }; 
-    static inline OSGInt8 getMin        (void) { return -0x7F; }; 
+    static inline Int8 getMax        (void) { return  0x7F; }; 
+    static inline Int8 getMin        (void) { return -0x7F; }; 
 
 
-    static inline OSGReal32 getFraction   (OSGInt8 val) 
+    static inline Real32 getFraction   (Int8 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGInt8 getPortion    (OSGReal32 val) 
+    static inline Int8 getPortion    (Real32 val) 
     {
-        return (OSGInt8) (val * OSGReal32(getMax())); 
+        return (Int8) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGInt8 getFromString (const char *szString)
+    static inline Int8 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -571,39 +582,39 @@ struct OSGTypeConstants<OSGInt8> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGUInt16>
+/*! \brief TypeConstants<UInt16>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGUInt16> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<UInt16> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGUInt16 getZeroElement(void) { return 0; };
-    static inline OSGUInt16 getOneElement (void) { return 1; };
+    static inline UInt16 getZeroElement(void) { return 0; };
+    static inline UInt16 getOneElement (void) { return 1; };
 
-    static inline OSGUInt16 getAllSet     (void) { return 0xFFFF; };
-    static inline OSGUInt16 getAllClear   (void) { return 0x0000; };
+    static inline UInt16 getAllSet     (void) { return 0xFFFF; };
+    static inline UInt16 getAllClear   (void) { return 0x0000; };
 
-    static inline OSGUInt16 getMax        (void) { return 0xFFFF; };
-    static inline OSGUInt16 getMin        (void) { return 0x0000; };
+    static inline UInt16 getMax        (void) { return 0xFFFF; };
+    static inline UInt16 getMin        (void) { return 0x0000; };
 
 
-    static inline OSGReal32 getFraction   (OSGUInt16 val) 
+    static inline Real32 getFraction   (UInt16 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGUInt16 getPortion    (OSGReal32 val) 
+    static inline UInt16 getPortion    (Real32 val) 
     {
-        return (OSGUInt16) (val * OSGReal32(getMax())); 
+        return (UInt16) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGUInt16 getFromString (const char *szString)
+    static inline UInt16 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -612,39 +623,39 @@ struct OSGTypeConstants<OSGUInt16> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGInt16>
+/*! \brief TypeConstants<Int16>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGInt16> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<Int16> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGInt16 getZeroElement(void) { return 0; };
-    static inline OSGInt16 getOneElement (void) { return 1; };
+    static inline Int16 getZeroElement(void) { return 0; };
+    static inline Int16 getOneElement (void) { return 1; };
 
-    static inline OSGInt16 getAllSet(void)      { return 0xFFFF; };
-    static inline OSGInt16 getAllClear(void)    { return 0x0000; };
+    static inline Int16 getAllSet(void)      { return 0xFFFF; };
+    static inline Int16 getAllClear(void)    { return 0x0000; };
 
-    static inline OSGInt16 getMax(void)         { return  0x7FFF; };
-    static inline OSGInt16 getMin(void)         { return -0x7FFF; };
+    static inline Int16 getMax(void)         { return  0x7FFF; };
+    static inline Int16 getMin(void)         { return -0x7FFF; };
 
 
-    static inline OSGReal32 getFraction   (OSGInt16 val) 
+    static inline Real32 getFraction   (Int16 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGInt16 getPortion    (OSGReal32 val) 
+    static inline Int16 getPortion    (Real32 val) 
     {
-        return (OSGInt16) (val * OSGReal32(getMax())); 
+        return (Int16) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGInt16 getFromString (const char *szString)
+    static inline Int16 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -653,39 +664,39 @@ struct OSGTypeConstants<OSGInt16> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGUInt32>
+/*! \brief TypeConstants<UInt32>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGUInt32> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<UInt32> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGUInt32 getZeroElement(void) { return 0; };
-    static inline OSGUInt32 getOneElement (void) { return 1; };
+    static inline UInt32 getZeroElement(void) { return 0; };
+    static inline UInt32 getOneElement (void) { return 1; };
 
-    static inline OSGUInt32 getAllSet(void)      { return 0xFFFFFFFF; };
-    static inline OSGUInt32 getAllClear(void)    { return 0x00000000; };
+    static inline UInt32 getAllSet(void)      { return 0xFFFFFFFF; };
+    static inline UInt32 getAllClear(void)    { return 0x00000000; };
 
-    static inline OSGUInt32 getMax(void)         { return 0xFFFFFFFF; };
-    static inline OSGUInt32 getMin(void)         { return 0x00000000; };
+    static inline UInt32 getMax(void)         { return 0xFFFFFFFF; };
+    static inline UInt32 getMin(void)         { return 0x00000000; };
 
 
-    static inline OSGReal32 getFraction   (OSGUInt32 val) 
+    static inline Real32 getFraction   (UInt32 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGUInt32 getPortion    (OSGReal32 val) 
+    static inline UInt32 getPortion    (Real32 val) 
     {
-        return (OSGUInt32) (val * OSGReal32(getMax())); 
+        return (UInt32) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGUInt32 getFromString (const char *szString)
+    static inline UInt32 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atol(szString);
@@ -694,39 +705,39 @@ struct OSGTypeConstants<OSGUInt32> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGInt32>
+/*! \brief TypeConstants<Int32>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGInt32> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<Int32> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGInt32 getZeroElement(void) { return 0; };
-    static inline OSGInt32 getOneElement (void) { return 1; };
+    static inline Int32 getZeroElement(void) { return 0; };
+    static inline Int32 getOneElement (void) { return 1; };
 
-    static inline OSGInt32 getAllSet     (void) { return 0xFFFFFFFF; };
-    static inline OSGInt32 getAllClear   (void) { return 0x00000000; };
+    static inline Int32 getAllSet     (void) { return 0xFFFFFFFF; };
+    static inline Int32 getAllClear   (void) { return 0x00000000; };
 
-    static inline OSGInt32 getMax        (void) { return  0x7FFFFFFF; };
-    static inline OSGInt32 getMin        (void) { return -0x7FFFFFFF; };
+    static inline Int32 getMax        (void) { return  0x7FFFFFFF; };
+    static inline Int32 getMin        (void) { return -0x7FFFFFFF; };
 
 
-    static inline OSGReal32 getFraction   (OSGInt32 val) 
+    static inline Real32 getFraction   (Int32 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGInt32 getPortion    (OSGReal32 val) 
+    static inline Int32 getPortion    (Real32 val) 
     {
-        return (OSGInt32) (val * OSGReal32(getMax())); 
+        return (Int32) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGInt32 getFromString (const char *szString)
+    static inline Int32 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atol(szString);
@@ -735,46 +746,46 @@ struct OSGTypeConstants<OSGInt32> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGUInt64>
+/*! \brief TypeConstants<UInt64>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGUInt64> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<UInt64> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGUInt64 getZeroElement(void) { return 0; };
-    static inline OSGUInt64 getOneElement (void) { return 1; };
+    static inline UInt64 getZeroElement(void) { return 0; };
+    static inline UInt64 getOneElement (void) { return 1; };
 
 #ifdef OSG_LONGLONG_HAS_LL
-    static inline OSGUInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFFLL; };
-    static inline OSGUInt64 getAllClear(void) { return 0x0000000000000000LL; };
+    static inline UInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFFLL; };
+    static inline UInt64 getAllClear(void) { return 0x0000000000000000LL; };
 
-    static inline OSGUInt64 getMin     (void) { return 0xFFFFFFFFFFFFFFFFLL; };
-    static inline OSGUInt64 getMax     (void) { return 0x0000000000000000LL; };
+    static inline UInt64 getMin     (void) { return 0xFFFFFFFFFFFFFFFFLL; };
+    static inline UInt64 getMax     (void) { return 0x0000000000000000LL; };
 #else
-    static inline OSGUInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFF; };
-    static inline OSGUInt64 getAllClear(void) { return 0x0000000000000000; };
+    static inline UInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFF; };
+    static inline UInt64 getAllClear(void) { return 0x0000000000000000; };
 
-    static inline OSGUInt64 getMin     (void) { return 0xFFFFFFFFFFFFFFFF; };
-    static inline OSGUInt64 getMax     (void) { return 0x0000000000000000; };
+    static inline UInt64 getMin     (void) { return 0xFFFFFFFFFFFFFFFF; };
+    static inline UInt64 getMax     (void) { return 0x0000000000000000; };
 #endif
 
-    static inline OSGReal32 getFraction   (OSGUInt64 val) 
+    static inline Real32 getFraction   (UInt64 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGUInt64 getPortion    (OSGReal32 val) 
+    static inline UInt64 getPortion    (Real32 val) 
     {
-        return (OSGUInt64) (val * OSGReal32(getMax())); 
+        return (UInt64) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGUInt64 getFromString (const char *szString)
+    static inline UInt64 getFromString (const Char8 *szString)
     {
 #ifndef __sun
         if(szString != NULL)
@@ -789,47 +800,47 @@ struct OSGTypeConstants<OSGUInt64> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGInt64>
+/*! \brief TypeConstants<Int64>
  *  \ingroup BaseConstants
  */
 
 template <> 
-struct OSGTypeConstants<OSGInt64> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<Int64> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGInt64 getZeroElement(void) { return 0; };
-    static inline OSGInt64 getOneElement (void) { return 1; };
+    static inline Int64 getZeroElement(void) { return 0; };
+    static inline Int64 getOneElement (void) { return 1; };
 
 #ifdef OSG_LONGLONG_HAS_LL
-    static inline OSGInt64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFFLL; };
-    static inline OSGInt64 getAllClear(void) { return 0x0000000000000000LL; };
+    static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFFLL; };
+    static inline Int64 getAllClear(void) { return 0x0000000000000000LL; };
 
-    static inline OSGInt64 getMax(void)      { return -0x7FFFFFFFFFFFFFFFLL; };
-    static inline OSGInt64 getMin(void)      { return  0x7FFFFFFFFFFFFFFFLL; };
+    static inline Int64 getMax(void)      { return -0x7FFFFFFFFFFFFFFFLL; };
+    static inline Int64 getMin(void)      { return  0x7FFFFFFFFFFFFFFFLL; };
 #else
-    static inline OSGInt64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFF; };
-    static inline OSGInt64 getAllClear(void) { return 0x0000000000000000; };
+    static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFF; };
+    static inline Int64 getAllClear(void) { return 0x0000000000000000; };
 
-    static inline OSGInt64 getMax(void)      { return -0x7FFFFFFFFFFFFFFF; };
-    static inline OSGInt64 getMin(void)      { return  0x7FFFFFFFFFFFFFFF; };
+    static inline Int64 getMax(void)      { return -0x7FFFFFFFFFFFFFFF; };
+    static inline Int64 getMin(void)      { return  0x7FFFFFFFFFFFFFFF; };
 #endif
 
 
-    static inline OSGReal32 getFraction   (OSGInt64 val) 
+    static inline Real32 getFraction   (Int64 val) 
     {
-        return (OSGReal32(val) / OSGReal32(getMax())); 
+        return (Real32(val) / Real32(getMax())); 
     };
-    static inline OSGInt64 getPortion    (OSGReal32 val) 
+    static inline Int64 getPortion    (Real32 val) 
     {
-        return (OSGInt64) (val * OSGReal32(getMax())); 
+        return (Int64) (val * Real32(getMax())); 
     };
 
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGIntValue; };
+    static inline MathTypeProperties getProp(void) { return IntValue; };
 
 
-    static inline OSGInt64 getFromString (const char *szString)
+    static inline Int64 getFromString (const Char8 *szString)
     {
 #ifndef __sun
         if(szString != NULL)
@@ -844,24 +855,24 @@ struct OSGTypeConstants<OSGInt64> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGReal64>
+/*! \brief TypeConstants<Real64>
  *  \ingroup BaseConstants
  */
 
 template <>
-struct OSGTypeConstants<OSGReal64> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<Real64> : public TypeConstantsBase
 {
-    typedef       OSGReal64 OSGRealReturnType;
+    typedef       Real64 RealReturnType;
 
-    static inline OSGReal64 getZeroElement(void)           { return 0.; };
-    static inline OSGReal64 getOneElement (void)           { return 1.; };
+    static inline Real64 getZeroElement(void)           { return 0.; };
+    static inline Real64 getOneElement (void)           { return 1.; };
 
-    static inline OSGReal64 getFraction   (OSGReal64 rVal) { return rVal; };
-    static inline OSGReal64 getPortion    (OSGReal64 rVal) { return rVal; };
+    static inline Real64 getFraction   (Real64 rVal) { return rVal; };
+    static inline Real64 getPortion    (Real64 rVal) { return rVal; };
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGRealValue; };
+    static inline MathTypeProperties getProp(void) { return RealValue; };
 
-    static inline OSGReal64 getFromString (const char *szString)
+    static inline Real64 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atof(szString);
@@ -870,24 +881,24 @@ struct OSGTypeConstants<OSGReal64> : public OSGTypeConstantsBase
     }
 };
 
-/*! \brief OSGTypeConstants<OSGReal32>
+/*! \brief TypeConstants<Real32>
  *  \ingroup BaseConstants
  */
 
 template <>
-struct OSGTypeConstants<OSGReal32> : public OSGTypeConstantsBase
+struct OSG_DLLEXPORT TypeConstants<Real32> : public TypeConstantsBase
 {
-    typedef       OSGReal32 OSGRealReturnType;
+    typedef       Real32 RealReturnType;
 
-    static inline OSGReal32 getZeroElement(void) { return 0.; };
-    static inline OSGReal32 getOneElement (void) { return 1.; };
+    static inline Real32 getZeroElement(void) { return 0.; };
+    static inline Real32 getOneElement (void) { return 1.; };
 
-    static inline OSGReal32 getFraction   (OSGReal32 rVal) { return rVal; };
-    static inline OSGReal32 getPortion    (OSGReal32 rVal) { return rVal; };
+    static inline Real32 getFraction   (Real32 rVal) { return rVal; };
+    static inline Real32 getPortion    (Real32 rVal) { return rVal; };
 
-    static inline OSGMathTypeProperties getProp(void) { return OSGRealValue; };
+    static inline MathTypeProperties getProp(void) { return RealValue; };
 
-    static inline OSGReal32 getFromString (const char *szString)
+    static inline Real32 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atof(szString);

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -52,8 +63,8 @@
 #include "OSGAspect.h"
 
 OSG_BEGIN_NAMESPACE
-static vector<OSGInitFuncF> *osgInitFunctions = NULL;
-static vector<OSGExitFuncF> *osgExitFunctions = NULL;
+static vector<InitFuncF> *osgInitFunctions = NULL;
+static vector<ExitFuncF> *osgExitFunctions = NULL;
 OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
@@ -86,37 +97,37 @@ OSG_USING_NAMESPACE
 //s: 
 ///---------------------------------------------------------------------------
 
-void OSG::osgAddInitFunction(OSGInitFuncF initFunc)
+void OSG::osgAddInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
     {
-        osgInitFunctions = new vector<OSGInitFuncF>;
+        osgInitFunctions = new vector<InitFuncF>;
     }
 
     osgInitFunctions->push_back(initFunc);
 }
 
-void OSG::osgAddExitFunction(OSGExitFuncF exitFunc)
+void OSG::osgAddExitFunction(ExitFuncF exitFunc)
 {
     if(osgExitFunctions == NULL)
     {
-        osgExitFunctions = new vector<OSGExitFuncF>;
+        osgExitFunctions = new vector<ExitFuncF>;
     }
     
     osgExitFunctions->push_back(exitFunc);
 }
 
-OSGBool OSG::osgInit(int argc, char **argv)
+Bool OSG::osgInit(int argc, char **argv)
 {
-    OSGBool returnValue = true;
+    Bool returnValue = true;
 
-    returnValue &= OSGAspect::init();
-    returnValue &= OSGThreadManager::the()->init();
+    returnValue &= Aspect::init();
+    returnValue &= ThreadManager::the()->init();
 
     if(osgInitFunctions == NULL)
         return returnValue;
 
-    for(OSGUInt32 i = 0; i < osgInitFunctions->size(); i++)
+    for(UInt32 i = 0; i < osgInitFunctions->size(); i++)
     {
         returnValue &= (*osgInitFunctions)[i](argc, argv);
 
@@ -127,15 +138,15 @@ OSGBool OSG::osgInit(int argc, char **argv)
     return returnValue;
 }
 
-OSGBool OSG::osgExit(void)
+Bool OSG::osgExit(void)
 {
-    OSGBool returnValue = true;
+    Bool returnValue = true;
 
-    OSGThread::getCurrentChangeList()->setReadOnly(true);
+    Thread::getCurrentChangeList()->setReadOnly(true);
 
     if(osgExitFunctions != NULL)
     {
-        for(OSGInt32 i = osgExitFunctions->size() - 1; i >= 0; i--)
+        for(Int32 i = osgExitFunctions->size() - 1; i >= 0; i--)
         {
             returnValue &= (*osgExitFunctions)[i]();
             
@@ -144,8 +155,8 @@ OSGBool OSG::osgExit(void)
         }
     }
 
-    OSGThreadManager::the()->shutdown();
-    OSGAspect::exit();
+    ThreadManager::the()->shutdown();
+    Aspect::exit();
 
     return returnValue;
 }

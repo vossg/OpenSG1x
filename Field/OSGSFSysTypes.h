@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -45,80 +56,80 @@
  *  \brief OpenSG system single fields
  *
  *  <UL>
- *  <LI> osg::OSGSFBool
- *  <LI> osg::OSGSFInt8
- *  <LI> osg::OSGSFUInt8
- *  <LI> osg::OSGSFInt16
- *  <LI> osg::OSGSFUInt16
- *  <LI> osg::OSGSFInt32
- *  <LI> osg::OSGSFUInt32
- *  <LI> osg::OSGSFInt64
- *  <LI> osg::OSGSFUInt64
- *  <LI> osg::OSGSFReal32
- *  <LI> osg::OSGSFReal64
+ *  <LI> osg::SFBool
+ *  <LI> osg::SFInt8
+ *  <LI> osg::SFUInt8
+ *  <LI> osg::SFInt16
+ *  <LI> osg::SFUInt16
+ *  <LI> osg::SFInt32
+ *  <LI> osg::SFUInt32
+ *  <LI> osg::SFInt64
+ *  <LI> osg::SFUInt64
+ *  <LI> osg::SFReal32
+ *  <LI> osg::SFReal64
  *  </UL>
  */
 
 OSG_BEGIN_NAMESPACE
 
 
-/** \brief OSGSFBool
+/** \brief SFBool
  */
 
-typedef OSGSField<OSGBool>   OSGSFBool;
+typedef SField<Bool>   SFBool;
 
 
-/** \brief OSGSFInt8
+/** \brief SFInt8
  */
 
-typedef OSGSField<OSGInt8>   OSGSFInt8;
+typedef SField<Int8>   SFInt8;
 
-/** \brief OSGSFUInt8
+/** \brief SFUInt8
  */
 
-typedef OSGSField<OSGUInt8>  OSGSFUInt8;
+typedef SField<UInt8>  SFUInt8;
 
 
-/** \brief OSGSFInt16
+/** \brief SFInt16
  */
 
-typedef OSGSField<OSGInt16>  OSGSFInt16;
+typedef SField<Int16>  SFInt16;
 
-/** \brief OSGSFUInt16
+/** \brief SFUInt16
  */
 
-typedef OSGSField<OSGUInt16> OSGSFUInt16;
+typedef SField<UInt16> SFUInt16;
 
 
-/** \brief OSGSFInt32
+/** \brief SFInt32
  */
-typedef OSGSField<OSGInt32>  OSGSFInt32;
+typedef SField<Int32>  SFInt32;
 
-/** \brief OSGSFUInt32
- */
-
-typedef OSGSField<OSGUInt32> OSGSFUInt32;
-
-
-/** \brief OSGSFInt64
- */
-typedef OSGSField<OSGInt64>  OSGSFInt64;
-
-/** \brief OSGSFUInt64
+/** \brief SFUInt32
  */
 
-typedef OSGSField<OSGUInt64> OSGSFUInt64;
+typedef SField<UInt32> SFUInt32;
 
 
-/** \brief OSGSFReal32
+/** \brief SFInt64
+ */
+typedef SField<Int64>  SFInt64;
+
+/** \brief SFUInt64
  */
 
-typedef OSGSField<OSGReal32> OSGSFReal32;
+typedef SField<UInt64> SFUInt64;
 
-/** \brief OSGSFReal64
+
+/** \brief SFReal32
  */
 
-typedef OSGSField<OSGReal64> OSGSFReal64;
+typedef SField<Real32> SFReal32;
+
+/** \brief SFReal64
+ */
+
+typedef SField<Real64> SFReal64;
 
 OSG_END_NAMESPACE
 

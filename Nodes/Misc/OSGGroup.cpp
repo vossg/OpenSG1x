@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -62,16 +62,16 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGGroup::cvsid[] = "@(#)$Id: $";
+char Group::cvsid[] = "@(#)$Id: $";
 
 /** \brief Group type
  */
 
-OSGFieldContainerType OSGGroup::_type(
+FieldContainerType Group::_type(
     "Group",
     "NodeCore",
     0,
-    (OSGPrototypeCreateF) &OSGGroup::createEmpty);
+    (PrototypeCreateF) &Group::createEmpty);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -93,7 +93,7 @@ OSGFieldContainerType OSGGroup::_type(
  *                           Instance methods                              *
 \***************************************************************************/
 
-OSG_FIELD_CONTAINER_DEF(OSGGroup, OSGGroupPtr)
+OSG_FIELD_CONTAINER_DEF(Group, GroupPtr)
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -104,7 +104,7 @@ OSG_FIELD_CONTAINER_DEF(OSGGroup, OSGGroupPtr)
 /** \brief Constructor
  */
 
-OSGGroup::OSGGroup(void) :
+Group::Group(void) :
     Inherited()
 {
 }
@@ -112,7 +112,7 @@ OSGGroup::OSGGroup(void) :
 /** \brief Copy Constructor
  */
 
-OSGGroup::OSGGroup(const OSGGroup &source) :
+Group::Group(const Group &source) :
     Inherited(source)
 {
 }
@@ -120,15 +120,15 @@ OSGGroup::OSGGroup(const OSGGroup &source) :
 /** \brief Destructor
  */
 
-OSGGroup::~OSGGroup(void)
+Group::~Group(void)
 {
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGGroup::dump(void) const
+void Group::dump(void) const
 {
-    SDEBUG << "Dump OSGGroup NI" << endl;
+    SDEBUG << "Dump Group NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

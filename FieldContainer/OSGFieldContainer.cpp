@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -58,9 +69,9 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGFieldContainer::cvsid[] = "@(#)$Id: $";
+char FieldContainer::cvsid[] = "@(#)$Id: $";
 
-OSGFieldContainerType OSGFieldContainer::_type("FieldContainer");
+FieldContainerType FieldContainer::_type("FieldContainer");
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -86,42 +97,42 @@ OSGFieldContainerType OSGFieldContainer::_type("FieldContainer");
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSGFieldContainerType &OSGFieldContainer::getType(void)
+FieldContainerType &FieldContainer::getType(void)
 { 
     return _type; 
 }
 
-const OSGFieldContainerType &OSGFieldContainer::getType(void) const
+const FieldContainerType &FieldContainer::getType(void) const
 { 
     return _type; 
 }
 
-OSGUInt32 OSGFieldContainer::getTypeId(void) const 
+UInt32 FieldContainer::getTypeId(void) const 
 {
     return getType().getId(); 
 }
 
-OSGUInt16 OSGFieldContainer::getGroupId(void) const
+UInt16 FieldContainer::getGroupId(void) const
 {
     return getType().getGroupId(); 
 }
 
-const OSGChar8 *OSGFieldContainer::getTypeName(void) const 
+const Char8 *FieldContainer::getTypeName(void) const 
 {
     return getType().getName(); 
 }
 
 
-OSGField *OSGFieldContainer::getField(OSGUInt32 fieldId)
+Field *FieldContainer::getField(UInt32 fieldId)
 {
-	const OSGFieldDescription *desc = getType().getFieldDescription(fieldId);
+	const FieldDescription *desc = getType().getFieldDescription(fieldId);
 
     return desc ? desc->getField(*this) : NULL;
 }
 
-OSGField *OSGFieldContainer::getField(const OSGChar8 *fieldName)
+Field *FieldContainer::getField(const Char8 *fieldName)
 {
-	const OSGFieldDescription *desc =getType().findFieldDescription(fieldName);
+	const FieldDescription *desc =getType().findFieldDescription(fieldName);
 
 	return desc ? desc->getField(*this) : NULL;
 }
@@ -146,7 +157,7 @@ OSGField *OSGFieldContainer::getField(const OSGChar8 *fieldName)
 /** \brief Constructor
  */
 
-OSGFieldContainer::OSGFieldContainer(void) :
+FieldContainer::FieldContainer(void) :
     _shares(0)
 {
 }
@@ -154,7 +165,7 @@ OSGFieldContainer::OSGFieldContainer(void) :
 /** \brief Copy Constructor
  */
 
-OSGFieldContainer::OSGFieldContainer(const OSGFieldContainer &) :
+FieldContainer::FieldContainer(const FieldContainer &) :
     _shares(0)
                    
 {
@@ -163,11 +174,11 @@ OSGFieldContainer::OSGFieldContainer(const OSGFieldContainer &) :
 /** \brief Destructor
  */
 
-OSGFieldContainer::~OSGFieldContainer(void)
+FieldContainer::~FieldContainer(void)
 {
 }
 
-void OSGFieldContainer::changed(OSGBitVector whichField, OSGChangeMode from)
+void FieldContainer::changed(BitVector whichField, ChangeMode from)
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
@@ -208,60 +219,60 @@ void OSGFieldContainer::changed(OSGBitVector whichField, OSGChangeMode from)
 
 OSG_BEGIN_NAMESPACE
 
-void osgAddRefCP(OSGFieldContainerPtr &objectP)
+void osgAddRefCP(FieldContainerPtr &objectP)
 {
-    if(objectP != OSGNullFC)
+    if(objectP != NullFC)
         objectP.addRef();
 }
 
 /*! osgSubRefP */
-void osgSubRefCP(OSGFieldContainerPtr &objectP)
+void osgSubRefCP(FieldContainerPtr &objectP)
 {
-    if(objectP != OSGNullFC)
+    if(objectP != NullFC)
         objectP.subRef();
 }
 
 /*! osgBeginEditCP */
-void osgBeginEditCP(OSGFieldContainerPtr &objectP, 
-                    OSGBitVector          whichField)
+void osgBeginEditCP(FieldContainerPtr &objectP, 
+                    BitVector          whichField)
 {
-    if(objectP != OSGNullFC)
+    if(objectP != NullFC)
         objectP.beginEdit(whichField);
 }
 
 /*! osgEndEditCP */
-void osgEndEditCP(OSGFieldContainerPtr &objectP, 
-                  OSGBitVector          whichField)
+void osgEndEditCP(FieldContainerPtr &objectP, 
+                  BitVector          whichField)
 {
-    if(objectP != OSGNullFC)
+    if(objectP != NullFC)
         objectP.endEdit(whichField);
 }
 
-void osgChangedCP(OSGFieldContainerPtr &objectP, 
-                  OSGBitVector          whichField)
+void osgChangedCP(FieldContainerPtr &objectP, 
+                  BitVector          whichField)
 {
-    if(objectP != OSGNullFC)
+    if(objectP != NullFC)
         objectP.changed(whichField);
 }
 
-void osgEndEditNotChangedCP(OSGFieldContainerPtr &objectP, 
-                            OSGBitVector          whichField)
+void osgEndEditNotChangedCP(FieldContainerPtr &objectP, 
+                            BitVector          whichField)
 {
-    if(objectP != OSGNullFC)
+    if(objectP != NullFC)
         objectP.endEditNotChanged(whichField);
 }
 
-void osgSetRefdCP(OSGFieldContainerPtr &objectP,
-                  OSGFieldContainerPtr &newObjectP)
+void osgSetRefdCP(FieldContainerPtr &objectP,
+                  FieldContainerPtr &newObjectP)
 {
     if(objectP != newObjectP)
     {
-        if(objectP != OSGNullFC)
+        if(objectP != NullFC)
             objectP.subRef();
 
         objectP = newObjectP;
 
-        if(objectP != OSGNullFC)
+        if(objectP != NullFC)
             objectP.addRef();        
     }
 }

@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, vossg@users.sourceforge.net, jbehr@zgdv.de    *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -69,7 +69,7 @@ OSG_BEGIN_NAMESPACE
  *  detailed
  */
 
-class CLASSNAME //: public PARENTCLASS
+class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 {
   public:
 

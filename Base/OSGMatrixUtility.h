@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -25,9 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSG_MATRIX_UTILITY_H_
-#define _OSG_MATRIX_UTILITY_H_
+#ifndef _OSGMATRIXUTILITY_H_
+#define _OSGMATRIXUTILITY_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -48,8 +58,8 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-template<class OSGValueTypeT>class OSGTransformationMatrix;
-typedef OSGTransformationMatrix<OSGReal32> OSGMatrix;
+template<class ValueTypeT>class TransformationMatrix;
+typedef TransformationMatrix<Real32> Matrix;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -60,62 +70,63 @@ typedef OSGTransformationMatrix<OSGReal32> OSGMatrix;
  */
 
 
-OSGBool OSGMatrixOrthogonal(OSGMatrix &result, 
-							OSGReal32  rLeft, 
-							OSGReal32  rRight, 
-							OSGReal32  rBottom, 
-							OSGReal32  rTop, 
-							OSGReal32  rNear, 
-							OSGReal32  rFar);
+Bool MatrixOrthogonal(Matrix &result, 
+                      Real32  rLeft, 
+                      Real32  rRight, 
+                      Real32  rBottom, 
+                      Real32  rTop, 
+                      Real32  rNear, 
+                      Real32  rFar);
 
 
-OSGBool OSGMatrixFrustum(OSGMatrix &result, 
-						 OSGReal32  rLeft, 
-						 OSGReal32  rRight,
-						 OSGReal32  rBottom, 
-						 OSGReal32  rTop, 
-						 OSGReal32  rNear, 
-						 OSGReal32  rFar);
+Bool MatrixFrustum(Matrix &result, 
+                   Real32  rLeft, 
+                   Real32  rRight,
+                   Real32  rBottom, 
+                   Real32  rTop, 
+                   Real32  rNear, 
+                   Real32  rFar);
 
 
 /** fovy is vertical fov/2 in degrees, aspect is width/height */
 
-OSGBool OSGMatrixPerspective(OSGMatrix &result, 
-							 OSGReal32  rFovy, 
-							 OSGReal32  rAspect,
-							 OSGReal32  rNear, 
-							 OSGReal32  rFar);
+Bool MatrixPerspective(Matrix &result, 
+                       Real32  rFovy, 
+                       Real32  rAspect,
+                       Real32  rNear, 
+                       Real32  rFar);
 
 
 /** fovy is vertical fov/2 in degrees, aspect is width/height, ... */
 
-OSGBool OSGMatrixStereoPerspective(OSGMatrix &projection, 
-								   OSGMatrix &projtrans, 
-								   OSGReal32  rFovy, 
-								   OSGReal32  rAspect, 
-								   OSGReal32  rNear, 
-								   OSGReal32  rFfar, 
-								   OSGReal32  rZeroparallax, 
-								   OSGReal32  rEyedistance, 
-								   OSGReal32  rWhicheye, 
-								   OSGReal32  rOverlap );
+Bool MatrixStereoPerspective(Matrix &projection, 
+                             Matrix &projtrans, 
+                             Real32  rFovy, 
+                             Real32  rAspect, 
+                             Real32  rNear, 
+                             Real32  rFfar, 
+                             Real32  rZeroparallax, 
+                             Real32  rEyedistance, 
+                             Real32  rWhicheye, 
+                             Real32  rOverlap );
 
 
 /** creates a matrix that transforms the given pos/ori into the origin */
 
-OSGBool OSGMatrixLookAt( OSGMatrix & result, 
-	OSGReal32 fromx, OSGReal32 fromy, OSGReal32 fromz, 
-	OSGReal32 atx, OSGReal32 aty, OSGReal32 atz, 
-	OSGReal32 upx, OSGReal32 upy, OSGReal32 upz );
+Bool MatrixLookAt( Matrix & result, 
+                   Real32 fromx, Real32 fromy, Real32 fromz, 
+                   Real32 atx,   Real32 aty,   Real32 atz, 
+                   Real32 upx,   Real32 upy,   Real32 upz );
 
-OSGBool OSGMatrixLookAt( OSGMatrix & result, OSGPnt3f from, OSGPnt3f at, OSGVec3f up );
+Bool MatrixLookAt( Matrix & result, Pnt3f from, Pnt3f at, Vec3f up );
 
 
-OSGBool OSGMatrixProjection( OSGMatrix & result, OSGReal32 left, OSGReal32 right, OSGReal32 bottom, 
-	OSGReal32 top, OSGReal32 near, OSGReal32 dar );
+Bool MatrixProjection(Matrix & result, 
+                      Real32 left, Real32 right, Real32 bottom, 
+                      Real32 top,  Real32 near,  Real32 dar );
 
 OSG_END_NAMESPACE
 
-#endif /* _OSG_MATRIX_UTILITY_H_ */
+#endif /* _OSGMATRIXUTILITY_H_ */
 
 

@@ -1,90 +1,232 @@
-#ifndef OSGSTRING_CLASS_DECLARATION
-#define OSGSTRING_CLASS_DECLARATION
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
-#include "string.h"
+#ifndef _OSGSTRING_H_
+#define _OSGSTRING_H_
+#ifdef __sgi
+#pragma once
+#endif
 
-#include <OSGConfig.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
-class OSGString;
-ostream& operator<< (ostream & os, const OSGString &obj);
-#endif
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
 
-/** Basic ASCII string container.
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-@author jbehr, Sat Dec 20 20:39:23 1997
+/*! \ingroup BaseTypes
+ *  \brief OSGString
+ *
+ *  detailed
+ */
 
-*/
+class OSG_DLLEXPORT String
+{
+  public:
 
-class OSGString {
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
-public:
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
 
-	/// TODOC
-	enum MemType { COPY, LINK };
+	enum MemType 
+    { 
+        COPY,
+        LINK 
+    };
 
-private:
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
 
-	/// TODOC
-	char *_str;
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
 
-	/// TODOC
-	MemType _memType;
+    static const char *getClassname(void) { return "OSGString"; }
+ 
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
 
-public:
+	explicit String(UInt32 size = 0);
 
-	/// Default Constructor
-	explicit OSGString(unsigned size = 0);
+	explicit String(const Char8 *str,  MemType memType = COPY);
+             String(const String &obj, MemType memType = COPY);
 
-	/// Constructor
-	explicit OSGString(const char *str, MemType memType = COPY);
+	virtual ~String(void);
 
-	/// Copy Constructor
-	OSGString (const OSGString &obj, MemType memType = COPY);
+    /*------------------------- your_category -------------------------------*/
 
-	/// Destructor
-	virtual ~OSGString();
+	inline const Char8  *str  (void) const { return _str; }
 
-	/// get method for attribute str
-	inline const char * str(void) const { return _str; }
-
-	/// 
-  bool empty(void) const { return (_str && *_str) ? false : true; }
+    inline Bool          empty(void) const { return (_str && *_str) ? 
+                                                 false : true; }
 	
-	/// set method for attribute str
-	void set(const char *str, MemType memType  = COPY);
+	void   set       (const Char8 *str, MemType memType = COPY);
 
-	/// change all char to upper
-	void toupper (void);
+	void   toupper   (void);
+	void   tolower   (void);
 
-	/// change all char to lower
-	void tolower (void);
+	UInt32 length    (void) const;
 
-	/// get the str length
-	unsigned length (void) const;
+	void    setLength(UInt32 length);
 
-	/// TODOC
-	void setLength(unsigned length);
 
-	/// TODOC
-	inline bool operator <(const OSGString &obj) const
-  	{ return (_str && obj._str && (strcmp(_str, obj._str) < 0)); }
+    /*------------------------- your_operators ------------------------------*/
 
-	/// TODOC
-	inline bool operator ==(const OSGString &o) const
-	{ return ((_str == o._str) ? 1 : (_str && o._str && !strcmp(_str, o._str))); }
+    /*------------------------- assignment ----------------------------------*/
 
-	/// write str value in stream
-	friend ostream &operator <<(ostream &os, 
-                                const OSGString &obj);
+    /*------------------------- comparison ----------------------------------*/
 
+	inline Bool operator <(const String &obj) const
+  	{ 
+        return (_str && obj._str && (strcmp(_str, obj._str) < 0)); 
+    }
+
+	inline Bool operator ==(const String &o) const
+	{ 
+        return ((_str == o._str) ? 
+                1 : (_str && o._str && !strcmp(_str, o._str))); 
+    }
+
+	inline Bool operator !=(const String &o) const
+    {
+        return ! (*this == o);
+    }
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+	friend ostream &operator <<(      ostream &os, 
+                                const String  &obj);
+
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+	Char8   *_str;
+	MemType  _memType;
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
 };
 
-typedef OSGString* OSGStringP;
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+// class pointer
+
+typedef String *StringP;
 
 OSG_END_NAMESPACE
 
-#endif // OSGSTRING_CLASS_DECLARATION
+#endif /* _OSGSTRING_H_ */
+
+
+

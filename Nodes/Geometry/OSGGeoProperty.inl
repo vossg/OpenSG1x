@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -50,15 +50,15 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
+/** \fn const char *SimpleAttachment::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGSimpleAttachment::Inherited
+/** \typedef SimpleAttachment::Inherited
  *  \brief Parent type
  */
 
-/** \typedef OSGSimpleAttachment::_field
+/** \typedef SimpleAttachment::_field
  *  \brief Data store
  */
 
@@ -73,19 +73,19 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 template <class GeoPropertyDesc>
-char OSGAbstractGeoProperty<GeoPropertyDesc>::cvsid[] = 
+char AbstractGeoProperty<GeoPropertyDesc>::cvsid[] = 
     "@(#)$Id: $";
 
 #ifndef __linux
 template <class GeoPropertyDesc>
-const  OSGAbstractGeoProperty<GeoPropertyDesc>::OSGPtrType
-    OSGAbstractGeoProperty<GeoPropertyDesc>::OSGNullPtr;
+const  AbstractGeoProperty<GeoPropertyDesc>::PtrType
+    AbstractGeoProperty<GeoPropertyDesc>::NullPtr;
 #endif
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
-OSGFieldContainerType OSGAbstractGeoProperty<GeoPropertyDesc>::_type = 
-    OSGFieldContainerType(
+FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type = 
+    FieldContainerType(
         GeoPropertyDesc::getTypeName(),
         InheritDesc::getTypeName(),
         GeoPropertyDesc::getGroupName(),
@@ -96,7 +96,7 @@ OSGFieldContainerType OSGAbstractGeoProperty<GeoPropertyDesc>::_type =
 #else
 
 template <class GeoPropertyDesc>
-OSGFieldContainerType OSGAbstractGeoProperty<GeoPropertyDesc>::_type(
+FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type(
         GeoPropertyDesc::getTypeName(),
         InheritDesc::getTypeName(),
         GeoPropertyDesc::getGroupName(),
@@ -131,30 +131,30 @@ OSGFieldContainerType OSGAbstractGeoProperty<GeoPropertyDesc>::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_INL_TMPL_DEF(OSGAbstractGeoProperty,
+OSG_ABSTR_FIELD_CONTAINER_INL_TMPL_DEF(AbstractGeoProperty,
                                        GeoPropertyDesc,
-                                       OSGPtrType)
+                                       PtrType)
 
 
 /*------------- constructors & destructors --------------------------------*/
 
 template <class GeoPropertyDesc> inline
-OSGAbstractGeoProperty<GeoPropertyDesc>::OSGAbstractGeoProperty(void) :
+AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(void) :
     Inherited()
 {
 }
 
 
 template <class GeoPropertyDesc> inline
-OSGAbstractGeoProperty<GeoPropertyDesc>::OSGAbstractGeoProperty(
-    const OSGAbstractGeoProperty &source) :
+AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(
+    const AbstractGeoProperty &source) :
         Inherited(source)
 {
 }
 
 
 template <class GeoPropertyDesc> inline
-OSGAbstractGeoProperty<GeoPropertyDesc>::~OSGAbstractGeoProperty(void)
+AbstractGeoProperty<GeoPropertyDesc>::~AbstractGeoProperty(void)
 {
 }
 
@@ -170,9 +170,9 @@ OSGAbstractGeoProperty<GeoPropertyDesc>::~OSGAbstractGeoProperty(void)
 /*------------------------------- dump ----------------------------------*/
 
 template <class GeoPropertyDesc> inline
-void OSGAbstractGeoProperty<GeoPropertyDesc>::dump(void) const
+void AbstractGeoProperty<GeoPropertyDesc>::dump(void) const
 {
-    SDEBUG << "Dump OSGAbstractGeoProperty<GeoPropertyDesc> NI" << endl;
+    SDEBUG << "Dump AbstractGeoProperty<GeoPropertyDesc> NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -195,16 +195,16 @@ void OSGAbstractGeoProperty<GeoPropertyDesc>::dump(void) const
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSGGeoProperty,
+OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(GeoProperty,
                                     GeoPropertyDesc,
-                                    OSGGeoPropDataField)
+                                    GeoPropDataField)
 
-OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(OSGGeoProperty,
+OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(GeoProperty,
                                    GeoPropertyDesc,
-                                   OSGGeoPropDataField)
+                                   GeoPropDataField)
 
 template <class GeoPropertyDesc>
-char OSGGeoProperty<GeoPropertyDesc>::cvsid[] = 
+char GeoProperty<GeoPropertyDesc>::cvsid[] = 
     "@(#)$Id: $";
 
 
@@ -213,22 +213,22 @@ char OSGGeoProperty<GeoPropertyDesc>::cvsid[] =
 
 
 template <class GeoPropertyDesc>
-const  OSGGeoProperty<GeoPropertyDesc>::OSGPtrType 
-    OSGGeoProperty<GeoPropertyDesc>::OSGNullPtr;
+const  GeoProperty<GeoPropertyDesc>::PtrType 
+    GeoProperty<GeoPropertyDesc>::NullPtr;
 
 
 /** \brief Property field description
  */
 
 template <class GeoPropertyDesc>
-OSGFieldDescription OSGGeoProperty<GeoPropertyDesc>::_desc[] = 
+FieldDescription GeoProperty<GeoPropertyDesc>::_desc[] = 
 {
-    OSGFieldDescription(
+    FieldDescription(
         FieldType::getClassType(), 
         GeoPropertyDesc::getFieldName(), 
-        OSG_FC_FIELD_IDM_DESC(OSGGeoPropDataField),
+        OSG_FC_FIELD_IDM_DESC(GeoPropDataField),
         false,
-        (OSGFieldAccessMethod) &OSGGeoProperty::getFieldPtr)
+        (FieldAccessMethod) &GeoProperty::getFieldPtr)
 };
 
 /** \brief Attachment type
@@ -236,25 +236,25 @@ OSGFieldDescription OSGGeoProperty<GeoPropertyDesc>::_desc[] =
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
-OSGFieldContainerType OSGGeoProperty<GeoPropertyDesc>::_type = 
-    OSGFieldContainerType(
+FieldContainerType GeoProperty<GeoPropertyDesc>::_type = 
+    FieldContainerType(
         GeoPropertyDesc::getTypeName(),
         InheritDesc::getTypeName(),
         GeoPropertyDesc::getGroupName(),
-        (OSGPrototypeCreateF) &OSGGeoProperty<GeoPropertyDesc>::createEmpty,
+        (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
         GeoPropertyDesc::getInitMethod(),
         _desc,
         sizeof(_desc));
 #else
 template <class GeoPropertyDesc>
-OSGFieldContainerType OSGGeoProperty<GeoPropertyDesc>::_type(
+FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
         GeoPropertyDesc::getTypeName(),
         InheritDesc::getTypeName(),
         GeoPropertyDesc::getGroupName(),
-        (OSGPrototypeCreateF) &OSGGeoProperty<GeoPropertyDesc>::createEmpty,
+        (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
         GeoPropertyDesc::getInitMethod(),
         _desc,
-        sizeof(OSGFieldDescription));
+        sizeof(FieldDescription));
 #endif
 
 
@@ -284,9 +284,9 @@ OSGFieldContainerType OSGGeoProperty<GeoPropertyDesc>::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_TMPL_DEF(OSGGeoProperty,
+OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,
                                  GeoPropertyDesc,
-                                 OSGPtrType)
+                                 PtrType)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -294,7 +294,7 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(OSGGeoProperty,
  */
 
 template <class GeoPropertyDesc> 
-inline OSGGeoProperty<GeoPropertyDesc>::OSGGeoProperty(void) :
+inline GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
     Inherited(),
     _field()
 {
@@ -305,8 +305,8 @@ inline OSGGeoProperty<GeoPropertyDesc>::OSGGeoProperty(void) :
  */
 
 template <class GeoPropertyDesc> 
-inline OSGGeoProperty<GeoPropertyDesc>::OSGGeoProperty(
-    const OSGGeoProperty &source ) :
+inline GeoProperty<GeoPropertyDesc>::GeoProperty(
+    const GeoProperty &source ) :
          Inherited(source),
         _field(source._field)
 {
@@ -317,7 +317,7 @@ inline OSGGeoProperty<GeoPropertyDesc>::OSGGeoProperty(
  */
 
 template <class GeoPropertyDesc> 
-inline OSGGeoProperty<GeoPropertyDesc>::~OSGGeoProperty(void)
+inline GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
 {
 }
 
@@ -328,7 +328,7 @@ inline OSGGeoProperty<GeoPropertyDesc>::~OSGGeoProperty(void)
 
 template <class GeoPropertyDesc> 
 inline typename GeoPropertyDesc::FieldType * 
-    OSGGeoProperty<GeoPropertyDesc>::getFieldPtr(void)
+    GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
 {
     return &_field;
 }
@@ -338,7 +338,7 @@ inline typename GeoPropertyDesc::FieldType *
 
 template <class GeoPropertyDesc> 
 inline typename GeoPropertyDesc::FieldType & 
-    OSGGeoProperty<GeoPropertyDesc>::getField(void)
+    GeoProperty<GeoPropertyDesc>::getField(void)
 {
     return _field;
 }
@@ -348,7 +348,7 @@ inline typename GeoPropertyDesc::FieldType &
 
 template <class GeoPropertyDesc> 
 inline const typename GeoPropertyDesc::FieldType & 
-    OSGGeoProperty<GeoPropertyDesc>::getField(void) const
+    GeoProperty<GeoPropertyDesc>::getField(void) const
 {
     return _field;
 }
@@ -358,52 +358,52 @@ inline const typename GeoPropertyDesc::FieldType &
  */
 
 template <class GeoPropertyDesc> 
-inline OSGUInt32 OSGGeoProperty<GeoPropertyDesc>::getFormat(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void)
 {
     return GeoPropertyDesc::getFormat();
 }
 
 
 template <class GeoPropertyDesc> 
-inline OSGUInt32 OSGGeoProperty<GeoPropertyDesc>::getFormatSize(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void)
 {
     return GeoPropertyDesc::getFormatSize();
 }
 
 
 template <class GeoPropertyDesc> 
-inline OSGUInt32 OSGGeoProperty<GeoPropertyDesc>::getStride(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getStride(void)
 {
     return GeoPropertyDesc::getStride();
 }
 
 
 template <class GeoPropertyDesc> 
-inline OSGUInt32 OSGGeoProperty<GeoPropertyDesc>::getDimension(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getDimension(void)
 {
     return GeoPropertyDesc::getDimension();
 }
 
 template <class GeoPropertyDesc> 
-inline OSGUInt32 OSGGeoProperty<GeoPropertyDesc>::getSize(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getSize(void)
 {
     return _field.size();
 }
 
 
 template <class GeoPropertyDesc> 
-inline OSGUInt8 *OSGGeoProperty<GeoPropertyDesc>::getData(void)
+inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void)
 {
-    return (OSGUInt8 *)_field.begin();
+    return (UInt8 *)_field.begin();
 }
 
 
 /*------------------------------- dump ----------------------------------*/
 
 template <class GeoPropertyDesc> inline
-void OSGGeoProperty<GeoPropertyDesc>::dump(void) const
+void GeoProperty<GeoPropertyDesc>::dump(void) const
 {
-    SDEBUG << "Dump OSGGeoProperty<GeoPropertyDesc> NI" << endl;
+    SDEBUG << "Dump GeoProperty<GeoPropertyDesc> NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -53,19 +64,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -77,9 +88,9 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGGeoPumpFactory::cvsid[] = "@(#)$Id: $";
+char GeoPumpFactory::cvsid[] = "@(#)$Id: $";
 
-OSGGeoPumpFactory OSGGeoPumpFactory::_the;
+GeoPumpFactory GeoPumpFactory::_the;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -116,14 +127,14 @@ OSGGeoPumpFactory OSGGeoPumpFactory::_the;
 /** \brief Constructor
  */
 
-OSGGeoPumpFactory::OSGGeoPumpFactory(void)
+GeoPumpFactory::GeoPumpFactory(void)
 {
 }
 
 /** \brief Destructor
  */
 
-OSGGeoPumpFactory::~OSGGeoPumpFactory(void)
+GeoPumpFactory::~GeoPumpFactory(void)
 {
 }
 
@@ -135,15 +146,15 @@ OSGGeoPumpFactory::~OSGGeoPumpFactory(void)
 /*-------------------------- your_category---------------------------------*/
 
 
-OSGGeoPumpFactory::Index OSGGeoPumpFactory::getIndex( OSGGeometry * geo )
+GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * geo )
 {
 	return 0;
 }
 	
 
-OSGGeoPumpFactory::Pump OSGGeoPumpFactory::getPump( 
-				OSGDrawAction * act, 
-				OSGGeoPumpFactory::Index index )
+GeoPumpFactory::Pump GeoPumpFactory::getPump( 
+				DrawAction * act, 
+				GeoPumpFactory::Index index )
 {
 	return &masterPump;
 }
@@ -158,7 +169,7 @@ OSGGeoPumpFactory::Pump OSGGeoPumpFactory::getPump(
 \*-------------------------------------------------------------------------*/
 
 	
-OSGGeoPumpFactory::Index OSGGeoPumpFactory::numIndices( void )
+GeoPumpFactory::Index GeoPumpFactory::numIndices( void )
 {
 	return 1;
 }
@@ -272,18 +283,18 @@ static pumpFunc TexCoordFuncs[numFormats][4] = {
 
 #define pumpInternalSetup( name, typename, getmethod, mandatory )			\
 	GLubyte * name##Data;													\
-	OSGUInt32 name##Stride;													\
-	OSGUInt32 name##Ind = 0;												\
+	UInt32 name##Stride;													\
+	UInt32 name##Ind = 0;												\
 	typename name##Ptr;														\
 																			\
 	name##Ptr = geo->getmethod();											\
-	if ( mandatory && name##Ptr == OSGNullFC )								\
+	if ( mandatory && name##Ptr == NullFC )								\
 	{																		\
 		SWARNING << "masterPump: Geometry " << geo << " has no " 			\
 				 << #name << "s!" << endl;									\
 		return;																\
 	}																		\
-	else if ( name##Ptr != OSGNullFC )										\
+	else if ( name##Ptr != NullFC )										\
 	{																		\
 		name##Data = name##Ptr->getData();									\
 		if ( ! ( name##Stride = name##Ptr->getStride() ) )					\
@@ -298,13 +309,13 @@ static pumpFunc TexCoordFuncs[numFormats][4] = {
 
 #define pumpGLSetup( name, typename, getmethod )							\
 	GLubyte * name##Data;													\
-	OSGUInt32 name##Stride;													\
-	OSGUInt32 name##Ind = 0;												\
+	UInt32 name##Stride;													\
+	UInt32 name##Ind = 0;												\
 	typename name##Ptr;														\
 	pumpFunc name##Func;													\
 																			\
 	name##Ptr = geo->getmethod();											\
-	if ( name##Ptr != OSGNullFC )											\
+	if ( name##Ptr != NullFC )											\
 	{																		\
 		name##Data = name##Ptr->getData();									\
 		if ( ! ( name##Stride = name##Ptr->getStride() ) )					\
@@ -332,19 +343,19 @@ static pumpFunc TexCoordFuncs[numFormats][4] = {
 
 // the master pump function
 
-void OSGGeoPumpFactory::masterPump( 
-		OSGDrawAction * act, 
-		OSGGeometry * geo )
+void GeoPumpFactory::masterPump( 
+		DrawAction * act, 
+		Geometry * geo )
 {
 	// Setup: get all the data
 	
-	pumpInternalSetup( Type, OSGGeoPTypePtr, getTypes, true );
-	pumpInternalSetup( Length, OSGGeoPLengthPtr, getLengths, true );
-	pumpInternalSetup( Index, OSGGeoIndexPtr, getIndex, false );
+	pumpInternalSetup( Type, GeoPTypePtr, getTypes, true );
+	pumpInternalSetup( Length, GeoPLengthPtr, getLengths, true );
+	pumpInternalSetup( Index, GeoIndexPtr, getIndex, false );
 
-	pumpGLSetup( Position, OSGGeoPositionPtr, getPositions );
-	pumpGLSetup( Color, OSGGeoColorPtr, getColors );
-	pumpGLSetup( Normal, OSGGeoNormalPtr, getNormals );
+	pumpGLSetup( Position, GeoPositionPtr, getPositions );
+	pumpGLSetup( Color, GeoColorPtr, getColors );
+	pumpGLSetup( Normal, GeoNormalPtr, getNormals );
 	// pumpGLSetup( texcoord );	// NIY
 	
 	if ( ! PositionData )
@@ -356,14 +367,14 @@ void OSGGeoPumpFactory::masterPump(
 
 	// per face / per vertex bindings?
 	
-	OSGBool colorPerVertex = geo->getColorPerVertex();
-	OSGBool normalPerVertex = geo->getNormalPerVertex();
+	Bool colorPerVertex = geo->getColorPerVertex();
+	Bool normalPerVertex = geo->getNormalPerVertex();
 
 	// overall color?
 	if ( ColorData && ColorPtr->getSize() == 1 )
 		ColorFunc( ColorData );
 
-	OSGUInt32 LengthSize = LengthPtr->getSize();
+	UInt32 LengthSize = LengthPtr->getSize();
 
 	for ( LengthInd = 0; LengthInd < LengthSize; LengthInd++ )
 	{
@@ -379,14 +390,14 @@ void OSGGeoPumpFactory::masterPump(
 		
 		glBegin( *(TypeData + TypeInd++ * TypeStride) );
 		
-		for ( OSGUInt32 l = *(OSGUInt32*)(LengthData + LengthInd * LengthStride); 
+		for ( UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride); 
 					   l > 0; l-- )
 		{
 			if ( IndexData )
 			{
-				OSGUInt32 vind;
+				UInt32 vind;
 			
-				vind = *(OSGUInt32*)(IndexData + IndexStride * IndexInd++);
+				vind = *(UInt32*)(IndexData + IndexStride * IndexInd++);
 					
 				if ( ColorData && colorPerVertex )
 				{

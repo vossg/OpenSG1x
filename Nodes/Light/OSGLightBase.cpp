@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -61,8 +61,8 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::OSGLightBase
- *  OSGLightBase is the base class for all the light source nodes.
+/*! \class osg::LightBase
+ *  LightBase is the base class for all the light source nodes.
  *  It contains the field for the general light source attributes 
  *  (AmbientColor, DiffuseColor, SpecularColor, Beacon). The Beacon 
  *  defines the reference coordinate system for the lightsource, while 
@@ -78,54 +78,54 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGLightBase, OSGAmbientField)
+OSG_FC_FIRST_FIELD_IDM_DEF(LightBase, AmbientField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGLightBase, OSGDiffuseField,  OSGAmbientField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightBase, OSGSpecularField, OSGDiffuseField)
-OSG_FC_FIELD_IDM_DEF      (OSGLightBase, OSGBeaconField,   OSGSpecularField)
+OSG_FC_FIELD_IDM_DEF      (LightBase, DiffuseField,  AmbientField)
+OSG_FC_FIELD_IDM_DEF      (LightBase, SpecularField, DiffuseField)
+OSG_FC_FIELD_IDM_DEF      (LightBase, BeaconField,   SpecularField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGLightBase, OSGBeaconField)
+OSG_FC_LAST_FIELD_IDM_DEF (LightBase, BeaconField)
 
-char OSGLightBase::cvsid[] = "@(#)$Id: $";
+char LightBase::cvsid[] = "@(#)$Id: $";
 
-OSGFieldDescription OSGLightBase::_desc[] = 
+FieldDescription LightBase::_desc[] = 
 {
-    OSGFieldDescription(
-        OSGSFColor4f::getClassType(),
+    FieldDescription(
+        SFColor4f::getClassType(),
         "ambient", 
-        OSG_FC_FIELD_IDM_DESC(OSGAmbientField),
+        OSG_FC_FIELD_IDM_DESC(AmbientField),
         false,
-        (OSGFieldAccessMethod) &OSGLightBase::getSFAmbientColor), 
+        (FieldAccessMethod) &LightBase::getSFAmbientColor), 
 
-    OSGFieldDescription(
-        OSGSFColor4f::getClassType(),
+    FieldDescription(
+        SFColor4f::getClassType(),
         "diffuse", 
-        OSG_FC_FIELD_IDM_DESC(OSGDiffuseField),
+        OSG_FC_FIELD_IDM_DESC(DiffuseField),
         false,
-        (OSGFieldAccessMethod) &OSGLightBase::getSFDiffuseColor), 
+        (FieldAccessMethod) &LightBase::getSFDiffuseColor), 
 
-    OSGFieldDescription(
-        OSGSFColor4f::getClassType(),
+    FieldDescription(
+        SFColor4f::getClassType(),
         "specular", 
-        OSG_FC_FIELD_IDM_DESC(OSGSpecularField),
+        OSG_FC_FIELD_IDM_DESC(SpecularField),
         false,
-        (OSGFieldAccessMethod) &OSGLightBase::getSFSpecularColor),
+        (FieldAccessMethod) &LightBase::getSFSpecularColor),
 
-    OSGFieldDescription(
-        OSGSFNodePtr::getClassType(),
+    FieldDescription(
+        SFNodePtr::getClassType(),
         "beacon", 
-        OSG_FC_FIELD_IDM_DESC(OSGBeaconField),
+        OSG_FC_FIELD_IDM_DESC(BeaconField),
         false,
-        (OSGFieldAccessMethod) &OSGLightBase::getSFBeacon)
+        (FieldAccessMethod) &LightBase::getSFBeacon)
 };
 
-OSGFieldContainerType OSGLightBase::_type("OSGLightBase",
-                                          "NodeCore",
-                                          NULL,
-                                          NULL,
-                                          NULL, //initMethod,
-                                          _desc,
-                                          sizeof(_desc));
+FieldContainerType LightBase::_type("LightBase",
+                                    "NodeCore",
+                                    NULL,
+                                    NULL,
+                                    NULL, //initMethod,
+                                    _desc,
+                                    sizeof(_desc));
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -147,7 +147,7 @@ OSGFieldContainerType OSGLightBase::_type("OSGLightBase",
  *                           Instance methods                              *
 \***************************************************************************/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(OSGLightBase, OSGLightPtr)
+OSG_ABSTR_FIELD_CONTAINER_DEF(LightBase, LightPtr)
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -158,7 +158,7 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(OSGLightBase, OSGLightPtr)
 /** \brief Constructor
  */
 
-OSGLightBase::OSGLightBase(void) :
+LightBase::LightBase(void) :
     Inherited(),
     _ambientTerm(),
     _diffuseTerm(),
@@ -171,125 +171,125 @@ OSGLightBase::OSGLightBase(void) :
 /** \brief Destructor
  */
 
-OSGLightBase::~OSGLightBase(void)
+LightBase::~LightBase(void)
 {
 }
 
 /*--------------------------- set color terms ------------------------------*/
 
-void OSGLightBase::setAmbientColor(OSGReal32 rRed, 
-                                   OSGReal32 rGreen, 
-                                   OSGReal32 rBlue, 
-                                   OSGReal32 rAlpha)
+void LightBase::setAmbientColor(Real32 rRed, 
+                                Real32 rGreen, 
+                                Real32 rBlue, 
+                                Real32 rAlpha)
 {
     _ambientTerm.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
-void OSGLightBase::setAmbientColor(const OSGColor4f &color)
+void LightBase::setAmbientColor(const Color4f &color)
 {
     _ambientTerm.setValue(color);
 }
 
-void OSGLightBase::setDiffuseColor(OSGReal32 rRed, 
-                                   OSGReal32 rGreen, 
-                                   OSGReal32 rBlue, 
-                                   OSGReal32 rAlpha)
+void LightBase::setDiffuseColor(Real32 rRed, 
+                                Real32 rGreen, 
+                                Real32 rBlue, 
+                                Real32 rAlpha)
 {
     _diffuseTerm.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
-void OSGLightBase::setDiffuseColor(const OSGColor4f &color)
+void LightBase::setDiffuseColor(const Color4f &color)
 {
     _diffuseTerm.setValue(color);
 }
 
-void OSGLightBase::setSpecularColor(OSGReal32 rRed, 
-                                    OSGReal32 rGreen, 
-                                    OSGReal32 rBlue, 
-                                    OSGReal32 rAlpha)
+void LightBase::setSpecularColor(Real32 rRed, 
+                                 Real32 rGreen, 
+                                 Real32 rBlue, 
+                                 Real32 rAlpha)
 {
     _specularTerm.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
-void OSGLightBase::setSpecularColor(const OSGColor4f &color)
+void LightBase::setSpecularColor(const Color4f &color)
 {
     _specularTerm.setValue(color);
 }
 
-void OSGLightBase::setBeacon(const OSGNodePtr & beacon)
+void LightBase::setBeacon(const NodePtr & beacon)
 {
     _beacon.setValue(beacon);
 }
 
 /*------------------------- get color terms fields --------------------------*/
 
-OSGSFColor4f *OSGLightBase::getSFAmbientColor (void)
+SFColor4f *LightBase::getSFAmbientColor (void)
 {
     return &_ambientTerm;
 }
 
-OSGSFColor4f *OSGLightBase::getSFDiffuseColor (void)
+SFColor4f *LightBase::getSFDiffuseColor (void)
 {
     return &_diffuseTerm;
 }
 
-OSGSFColor4f *OSGLightBase::getSFSpecularColor(void)
+SFColor4f *LightBase::getSFSpecularColor(void)
 {
     return &_specularTerm;
 }
 
-OSGSFNodePtr *OSGLightBase::getSFBeacon(void)
+SFNodePtr *LightBase::getSFBeacon(void)
 {
     return &_beacon;
 }
 
 /*------------------------- get color terms ---------------------------------*/
 
-OSGColor4f &OSGLightBase::getAmbientColor(void)
+Color4f &LightBase::getAmbientColor(void)
 {
     return _ambientTerm.getValue();
 }
 
-const OSGColor4f &OSGLightBase::getAmbientColor(void) const
+const Color4f &LightBase::getAmbientColor(void) const
 {
     return _ambientTerm.getValue();
 }
 
-OSGColor4f &OSGLightBase::getDiffuseColor(void)
+Color4f &LightBase::getDiffuseColor(void)
 {
     return _diffuseTerm.getValue();
 }
 
-const OSGColor4f &OSGLightBase::getDiffuseColor(void) const
+const Color4f &LightBase::getDiffuseColor(void) const
 {
     return _diffuseTerm.getValue();
 }
 
-OSGColor4f &OSGLightBase::getSpecularColor(void)
+Color4f &LightBase::getSpecularColor(void)
 {
     return _specularTerm.getValue();
 }
 
-const OSGColor4f &OSGLightBase::getSpecularColor(void) const
+const Color4f &LightBase::getSpecularColor(void) const
 {
     return _specularTerm.getValue();
 }
 
-OSGNodePtr &OSGLightBase::getBeacon(void)
+NodePtr &LightBase::getBeacon(void)
 {
     return _beacon.getValue();
 }
 
-const OSGNodePtr &OSGLightBase::getBeacon(void) const
+const NodePtr &LightBase::getBeacon(void) const
 {
     return _beacon.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGLightBase::dump(void) const
+void LightBase::dump(void) const
 {
-    SDEBUG << "Dump OSGLightBase NI" << endl;
+    SDEBUG << "Dump LightBase NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -300,7 +300,7 @@ void OSGLightBase::dump(void) const
 /** \brief Actions
  */
     
-OSGAction::ResultE OSGLightBase::draw(OSGAction * action )
+Action::ResultE LightBase::draw(Action * action )
 {
     glLightfv( GL_LIGHT0, GL_DIFFUSE,   
                                     _diffuseTerm.getValue().getValueRef() );
@@ -312,14 +312,14 @@ OSGAction::ResultE OSGLightBase::draw(OSGAction * action )
 
     // add the matrix to get into the beacpon's coordinate system onto the stack
 
-    OSGMatrix fromworld,tobeacon;
+    Matrix fromworld,tobeacon;
 
     action->getActNode()->getToWorld( fromworld );
     fromworld.invert();
 
-    OSGNodePtr beacon = getBeacon();
+    NodePtr beacon = getBeacon();
 
-    if ( beacon == OSGNullNode )
+    if ( beacon == NullNode )
     {
         SINFO << "draw: no beacon set!" << endl;
 
@@ -335,7 +335,7 @@ OSGAction::ResultE OSGLightBase::draw(OSGAction * action )
         glMultMatrixf( tobeacon.getValues() );
     }
     
-    return OSGAction::Continue;
+    return Action::Continue;
 }
 
 /*-------------------------------------------------------------------------*\

@@ -64,48 +64,48 @@ int main (int argc, char **argv)
 
 //    osgLog().setLogLevel(OSG::LOG_DEBUG);
 
-    OSGNodePtr  p1 = OSGNode::create();
-    OSGGroupPtr g1 = OSGGroup::create();
-    OSGTransformPtr t1 = OSGTransform::create();
+    NodePtr  p1 = Node::create();
+    GroupPtr g1 = Group::create();
+    TransformPtr t1 = Transform::create();
 
-    OSGFieldContainerPtr pb1 = p1;
-    OSGFieldContainerPtr gb1 = g1;
-    OSGFieldContainerPtr tb1 = t1;
+    FieldContainerPtr pb1 = p1;
+    FieldContainerPtr gb1 = g1;
+    FieldContainerPtr tb1 = t1;
 
     cout << "Types:" << endl;
 
-    cout << "Node (OSGNodePtr):           " << p1->getType().getId() << endl
-         << "(OSGNode::getStaticType()) : " << OSGNode::getStaticType().getId() << endl
-         << "(OSGFieldContainerPtr)     : " << pb1->getType().getId() << endl
+    cout << "Node (NodePtr):           " << p1->getType().getId() << endl
+         << "(Node::getStaticType()) : " << Node::getStaticType().getId() << endl
+         << "(FieldContainerPtr)     : " << pb1->getType().getId() << endl
          << "Fields: " << endl;
     p1->getType().print();
     cout << endl;
 
     cout << "Nodes:" << endl;
 
-    cout << "Group (OSGGroupPtr):           " << g1->getType().getId() << endl
-         << "(OSGGroupPtr::getStaticType()):" << OSGGroup::getStaticType().getId() << endl
-         << "(OSGFieldContainerPtr):        " << gb1->getType().getId() << endl
+    cout << "Group (GroupPtr):           " << g1->getType().getId() << endl
+         << "(GroupPtr::getStaticType()):" << Group::getStaticType().getId() << endl
+         << "(FieldContainerPtr):        " << gb1->getType().getId() << endl
          << "Fields: " << endl;
     g1->getType().print();
     cout << endl;
 
-    cout << "Transform (OSGTransformPtr):       " << t1->getType().getId() << endl
-         << "(OSGTransformPtr::getStaticType()):" << OSGTransform::getStaticType().getId() << endl
-         << "(OSGFieldContainerPtr):            " << tb1->getType().getId() << endl
+    cout << "Transform (TransformPtr):       " << t1->getType().getId() << endl
+         << "(TransformPtr::getStaticType()):" << Transform::getStaticType().getId() << endl
+         << "(FieldContainerPtr):            " << tb1->getType().getId() << endl
          << "Fields: " << endl;
     t1->getType().print();
     cout << endl;
 
     // create a test tree
 
-    OSGNodePtr  p2 = OSGNode::create();
-    OSGNodePtr  p3 = OSGNode::create();
-    OSGNodePtr  p4 = OSGNode::create();
-    OSGNodePtr  p5 = OSGNode::create();
+    NodePtr  p2 = Node::create();
+    NodePtr  p3 = Node::create();
+    NodePtr  p4 = Node::create();
+    NodePtr  p5 = Node::create();
 
-    OSGTransformPtr t2 = OSGTransform::create();
-    OSGGroupPtr g2 = OSGGroup::create();
+    TransformPtr t2 = Transform::create();
+    GroupPtr g2 = Group::create();
     
     p1->setCore( g1 );
     p2->setCore( t1 );
@@ -118,7 +118,7 @@ int main (int argc, char **argv)
     p2->addChild( p4 );
     p4->addChild( p5 );
 
-    OSGMatrix m1,m2;
+    Matrix m1,m2;
 
     m1.setIdentity();
     m1.setScale( 2,2,2 );
@@ -140,23 +140,23 @@ int main (int argc, char **argv)
     cout << "p4:" << endl << p4->getToWorld() << endl;
     cout << "p5:" << endl << p5->getToWorld() << endl;
 
-    p1 = OSGNullNode;
+    p1 = NullNode;
 
     p1.dump();
 
-    p1 = OSGFieldContainerFactory::the().createNode("Node");
+    p1 = FieldContainerFactory::the().createNode("Node");
 
     p1.dump();
 
-    p1 = OSGFieldContainerFactory::the().createNode("Transform");
+    p1 = FieldContainerFactory::the().createNode("Transform");
 
     p1.dump();
 
-    OSGNodeCorePtr nc1 = OSGNullNodeCore;
+    NodeCorePtr nc1 = NullNodeCore;
 
     nc1.dump();
 
-    nc1 = OSGFieldContainerFactory::the().createNodeCore("Transform");
+    nc1 = FieldContainerFactory::the().createNodeCore("Transform");
 
     nc1.dump();
 

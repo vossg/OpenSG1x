@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -85,7 +85,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(OSGNode, OSGNodePtr)
+OSG_FIELD_CONTAINER_INL_DEF(Node, NodePtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -94,7 +94,7 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGNode, OSGNodePtr)
 /*------------------------------ access -----------------------------------*/
 
 inline
-const OSGVolume &OSGNode::getVolume(void) const
+const Volume &Node::getVolume(void) const
 {
 	return _volume.getValue().getVolume();
 }

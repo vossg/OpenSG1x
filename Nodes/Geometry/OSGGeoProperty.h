@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -66,14 +66,14 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup GeometryLib
- *  \brief OSGGeoProperty is a specialized form of OSGAttachment, used to 
+ *  \brief GeoProperty is a specialized form of Attachment, used to 
  *  define the properties of the geometry node. This is the abstract base 
  *  class for all 
  *  properties.
  */
 
 template <class GeoPropertyDesc>
-class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
+class OSG_DLLEXPORT AbstractGeoProperty : public GeoPropertyDesc::Inherit
 {
   public:
 
@@ -89,16 +89,16 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGAbstractGeoProperty<GeoPropertyDesc>        OSGPropertyType;
+    typedef AbstractGeoProperty<GeoPropertyDesc>        PropertyType;
 
-    typedef OSGFCPtr<typename GeoPropertyDesc::InheritPtr, 
-                              OSGPropertyType            > OSGPtrType;
+    typedef FCPtr<typename GeoPropertyDesc::InheritPtr, 
+                           PropertyType               > PtrType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGPtrType OSGNullPtr;
+    static const PtrType NullPtr;
 
     static const char *getClassname(void) 
         { return GeoPropertyDesc::getClassName(); }
@@ -107,17 +107,17 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
+    OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*----------------------------- access ----------------------------------*/
 	
-	virtual OSGUInt32	getFormat    (void) = 0;
+	virtual UInt32	getFormat    (void) = 0;
     // number of bytes per format element
-	virtual OSGUInt32	getFormatSize(void) = 0;	
-	virtual OSGUInt32	getStride    (void) = 0;
-	virtual OSGUInt32	getDimension (void) = 0;
-	virtual OSGUInt32	getSize      (void) = 0;
-	virtual OSGUInt8	*getData     (void) = 0;
+	virtual UInt32	getFormatSize(void) = 0;	
+	virtual UInt32	getStride    (void) = 0;
+	virtual UInt32	getDimension (void) = 0;
+	virtual UInt32	getSize      (void) = 0;
+	virtual UInt8	*getData     (void) = 0;
 	
     /*------------------------------ dump -----------------------------------*/
 
@@ -137,7 +137,7 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -151,9 +151,9 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGAbstractGeoProperty(void);
-    OSGAbstractGeoProperty(const OSGAbstractGeoProperty &source);
-    virtual ~OSGAbstractGeoProperty(void); 
+    AbstractGeoProperty(void);
+    AbstractGeoProperty(const AbstractGeoProperty &source);
+    virtual ~AbstractGeoProperty(void); 
 
   private:
 
@@ -182,7 +182,7 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
 
 	static char cvsid[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -204,7 +204,7 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
 //---------------------------------------------------------------------------
 
 template <class GeoPropertyDesc>
-class OSGGeoProperty : public GeoPropertyDesc::Inherit
+class OSG_DLLEXPORT GeoProperty : public GeoPropertyDesc::Inherit
 {
   public:
 
@@ -212,7 +212,7 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGGeoPropDataField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(GeoPropDataField)
     
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -224,18 +224,18 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGGeoProperty<GeoPropertyDesc>                OSGPropertyType;
+    typedef GeoProperty<GeoPropertyDesc>                PropertyType;
 
-    typedef OSGFCPtr<typename GeoPropertyDesc::InheritPtr, 
-                              OSGPropertyType            > OSGPtrType;
+    typedef FCPtr<typename GeoPropertyDesc::InheritPtr, 
+                           PropertyType               > PtrType;
 
-	typedef typename GeoPropertyDesc::FieldType OSGFieldType;
+	typedef typename GeoPropertyDesc::FieldType FieldType;
 	
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static const OSGPtrType OSGNullPtr;
+    static const PtrType NullPtr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -248,7 +248,7 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSG_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
+    OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*----------------------------- access ----------------------------------*/
 
@@ -258,20 +258,20 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
     const typename GeoPropertyDesc::FieldType &getField(void) const;
 	
 	
-	virtual OSGUInt32	getFormat    (void);
+	virtual UInt32	getFormat    (void);
     // number of bytes per format element
-	virtual OSGUInt32	getFormatSize(void);	
-	virtual OSGUInt32	getStride    (void);
-	virtual OSGUInt32	getDimension (void);
+	virtual UInt32	getFormatSize(void);	
+	virtual UInt32	getStride    (void);
+	virtual UInt32	getDimension (void);
     // number of elements
-	virtual OSGUInt32	getSize      (void);		
-	virtual OSGUInt8	*getData     (void);
+	virtual UInt32	getSize      (void);		
+	virtual UInt8	*getData     (void);
 
 	typename GeoPropertyDesc::FieldType& operator->() { return _field; }
 
     /*------------------------- assignment ----------------------------------*/
 
-    OSGGeoProperty &operator =(const OSGGeoProperty &source);
+    GeoProperty &operator =(const GeoProperty &source);
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -287,14 +287,13 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename GeoPropertyDesc::FieldType   FieldType;
     typedef typename GeoPropertyDesc::InheritDesc InheritDesc;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -310,9 +309,9 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGGeoProperty(void);
-    OSGGeoProperty(const OSGGeoProperty &source);
-    virtual ~OSGGeoProperty(void); 
+    GeoProperty(void);
+    GeoProperty(const GeoProperty &source);
+    virtual ~GeoProperty(void); 
 
   private:
 
@@ -340,9 +339,9 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
 
 	static char cvsid[];
 
-	static OSGFieldDescription   _desc[];
+	static FieldDescription   _desc[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -370,7 +369,7 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
 
 // For the properties not group together like type or length
 
-struct OSGAttachmentPropertyDesc
+struct OSG_DLLEXPORT AttachmentPropertyDesc
 {
 	static const char *getTypeName (void)  { return "Attachment"; }
 };
@@ -378,315 +377,273 @@ struct OSGAttachmentPropertyDesc
 
 // Position
 
-struct OSGGeoPositionPropertyDesc
+struct OSG_DLLEXPORT GeoPositionPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoPosition";         }
-	static const char *getGroupName(void) { return "GeoPosition";         }
-	static const char *getClassName(void) { return "GeoPositionProperty"; }
+	static const Char8 *getTypeName (void) { return "GeoPosition";         }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static const Char8 *getGroupName(void) { return "GeoPosition";         }
+	static const Char8 *getClassName(void) { return "GeoPositionProperty"; }
 
-	typedef OSGAttachment             Inherit;
-	typedef OSGAttachmentPropertyDesc InheritDesc;
-	typedef OSGAttachmentPtr          InheritPtr;
+	static InitContainerF getInitMethod(void) { return NULL; }
+
+	typedef Attachment             Inherit;
+	typedef AttachmentPropertyDesc InheritDesc;
+	typedef AttachmentPtr          InheritPtr;
 };
 
-typedef OSGAbstractGeoProperty<OSGGeoPositionPropertyDesc> OSGGeoPosition;
+typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
 
-typedef OSGGeoPosition::OSGPtrType OSGGeoPositionPtr;
+typedef GeoPosition::PtrType GeoPositionPtr;
 
 
 template <>
-struct OSGFieldDataTraits<OSGGeoPositionPtr> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<GeoPositionPtr> : public Traits
 {
-    static char            *getSName (void)  { return "SFGeoPositionPtr"; }
-    static char            *getMName (void)  { return "MFGeoPositionPtr"; }
+    enum                           { StringConvertable = 0x00   };
 
-    static OSGString        getDefault(void) { return OSGString();        }
+    static Char8 *getSName (void)  { return "SFGeoPositionPtr"; }
+    static Char8 *getMName (void)  { return "MFGeoPositionPtr"; }
 
-    static bool             getFromString(OSGGeoPositionPtr  &,
-                                          const char        *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGGeoPositionPtr &,
-                                              OSGString         &)
-    {
-        // TO_BE_DONE
-    }
+//  static String getDefault(void) { return OSGString();        }
 };
 
-typedef OSGSField<OSGGeoPositionPtr> OSGSFGeoPositionPtr;
+typedef SField<GeoPositionPtr> SFGeoPositionPtr;
 
 
 // Position 3f
 
-struct OSGGeoPosition3fPropertyDesc
+struct OSG_DLLEXPORT GeoPosition3fPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoPosition3f";         }
-	static const char *getClassName(void) { return "GeoPosition3fProperty"; }
-	static const char *getFieldName(void) { return "positions";             }
-	static const char *getGroupName(void) { return "GeoPosition";           }
+	static const Char8 *getTypeName (void) { return "GeoPosition3f";         }
+	static const Char8 *getClassName(void) { return "GeoPosition3fProperty"; }
+	static const Char8 *getFieldName(void) { return "positions";             }
+	static const Char8 *getGroupName(void) { return "GeoPosition";           }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void)  { return GL_FLOAT;        }
-	static OSGUInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-	static OSGUInt32 getDimension (void)  { return 3;               }
-	static OSGUInt32 getStride    (void)  { return 0;               }
+	static UInt32 getFormat    (void)  { return GL_FLOAT;        }
+	static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
+	static UInt32 getDimension (void)  { return 3;               }
+	static UInt32 getStride    (void)  { return 0;               }
 
-	typedef OSGGeoPosition             Inherit;
-	typedef OSGGeoPositionPtr          InheritPtr;
-    typedef OSGGeoPositionPropertyDesc InheritDesc;
-	typedef OSGMFPnt3f                 FieldType;
+	typedef GeoPosition             Inherit;
+	typedef GeoPositionPtr          InheritPtr;
+    typedef GeoPositionPropertyDesc InheritDesc;
+	typedef MFPnt3f                 FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoPosition3fPropertyDesc> OSGGeoPosition3f;
+typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;
 
-typedef OSGGeoPosition3f::OSGPtrType OSGGeoPosition3fPtr;
+typedef GeoPosition3f::PtrType GeoPosition3fPtr;
 
 
 // Normal
 
-struct OSGGeoNormalPropertyDesc
+struct OSG_DLLEXPORT GeoNormalPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoNormal";         }
-	static const char *getGroupName(void) { return "GeoNormal";         }
-	static const char *getClassName(void) { return "GeoNormalProperty"; }
+	static const Char8 *getTypeName (void) { return "GeoNormal";         }
+	static const Char8 *getGroupName(void) { return "GeoNormal";         }
+	static const Char8 *getClassName(void) { return "GeoNormalProperty"; }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef OSGAttachment             Inherit;
-	typedef OSGAttachmentPropertyDesc InheritDesc;
-	typedef OSGAttachmentPtr          InheritPtr;
+	typedef Attachment             Inherit;
+	typedef AttachmentPropertyDesc InheritDesc;
+	typedef AttachmentPtr          InheritPtr;
 };
 
-typedef OSGAbstractGeoProperty<OSGGeoNormalPropertyDesc> OSGGeoNormal;
+typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
 
-typedef OSGGeoNormal::OSGPtrType OSGGeoNormalPtr;
+typedef GeoNormal::PtrType GeoNormalPtr;
 
 
 template <>
-struct OSGFieldDataTraits<OSGGeoNormalPtr> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<GeoNormalPtr> : public Traits
 {
-    static char            *getSName  (void) { return "SFGeoNormalPtr"; }
-    static char            *getMName  (void) { return "MFGeoNormalPtr"; }
-    static OSGString        getDefault(void) { return OSGString();      }
+    enum                            { StringConvertable = 0x00 };
 
-    static bool             getFromString(      OSGGeoNormalPtr  &,
-                                          const char            *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
+    static Char8  *getSName  (void) { return "SFGeoNormalPtr"; }
+    static Char8  *getMName  (void) { return "MFGeoNormalPtr"; }
 
-    static void             putToString(const OSGGeoNormalPtr &,
-                                              OSGString       &)
-    {
-        // TO_BE_DONE
-    }
+//  static String  getDefault(void) { return OSGString();      }
 };
 
-typedef OSGSField<OSGGeoNormalPtr> OSGSFGeoNormalPtr;
+typedef SField<GeoNormalPtr> SFGeoNormalPtr;
 
 
 // Normal 3f
 
-struct OSGGeoNormal3fPropertyDesc
+struct OSG_DLLEXPORT GeoNormal3fPropertyDesc
 {
-	static const char *getTypeName  (void) { return "GeoNormal3f";         }
-	static const char *getClassName (void) { return "GeoNormal3fProperty"; }
-	static const char *getFieldName (void) { return "Normals";             }
-	static const char *getGroupName (void) { return "GeoNormal";           }
+	static const Char8 *getTypeName  (void) { return "GeoNormal3f";         }
+	static const Char8 *getClassName (void) { return "GeoNormal3fProperty"; }
+	static const Char8 *getFieldName (void) { return "Normals";             }
+	static const Char8 *getGroupName (void) { return "GeoNormal";           }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void) { return GL_FLOAT;        }
-	static OSGUInt32 getFormatSize(void) { return sizeof(GLfloat); }
-	static OSGUInt32 getDimension (void) { return 3;               }
-	static OSGUInt32 getStride    (void) { return 0;               }
+	static UInt32 getFormat    (void) { return GL_FLOAT;        }
+	static UInt32 getFormatSize(void) { return sizeof(GLfloat); }
+	static UInt32 getDimension (void) { return 3;               }
+	static UInt32 getStride    (void) { return 0;               }
 
-	typedef OSGGeoNormal             Inherit;
-	typedef OSGGeoNormalPtr          InheritPtr;
-    typedef OSGGeoNormalPropertyDesc InheritDesc;
-	typedef OSGMFVec3f               FieldType;
+	typedef GeoNormal             Inherit;
+	typedef GeoNormalPtr          InheritPtr;
+    typedef GeoNormalPropertyDesc InheritDesc;
+	typedef MFVec3f               FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoNormal3fPropertyDesc> OSGGeoNormal3f;
+typedef GeoProperty<GeoNormal3fPropertyDesc> GeoNormal3f;
 
-typedef OSGGeoNormal3f::OSGPtrType OSGGeoNormal3fPtr;
+typedef GeoNormal3f::PtrType GeoNormal3fPtr;
 
 
 // Color
 
-struct OSGGeoColorPropertyDesc
+struct OSG_DLLEXPORT GeoColorPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoColor";         }
-	static const char *getGroupName(void) { return "GeoColor";         }
-	static const char *getClassName(void) { return "GeoColorProperty"; }
+	static const Char8 *getTypeName (void) { return "GeoColor";         }
+	static const Char8 *getGroupName(void) { return "GeoColor";         }
+	static const Char8 *getClassName(void) { return "GeoColorProperty"; }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef OSGAttachment             Inherit;
-	typedef OSGAttachmentPropertyDesc InheritDesc;
-	typedef OSGAttachmentPtr          InheritPtr;
+	typedef Attachment             Inherit;
+	typedef AttachmentPropertyDesc InheritDesc;
+	typedef AttachmentPtr          InheritPtr;
 };
 
-typedef OSGAbstractGeoProperty<OSGGeoColorPropertyDesc> OSGGeoColor;
+typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
 
-typedef OSGGeoColor::OSGPtrType OSGGeoColorPtr;
+typedef GeoColor::PtrType GeoColorPtr;
 
 
 template <>
-struct OSGFieldDataTraits<OSGGeoColorPtr> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<GeoColorPtr> : public Traits
 {
-    static char            *getSName  (void) { return "SFGeoColorPtr";    }
-    static char            *getMName  (void) { return "MFGeoColorPtr";    }
-    static OSGString        getDefault(void) { return OSGString();        }
+    enum                            { StringConvertable = 0x00   };
 
-    static bool             getFromString(      OSGGeoColorPtr  &,
-                                          const char           *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGGeoColorPtr &,
-                                              OSGString      &)
-    {
-        // TO_BE_DONE
-    }
+    static Char8  *getSName  (void) { return "SFGeoColorPtr";    }
+    static Char8  *getMName  (void) { return "MFGeoColorPtr";    }
+//  static String  getDefault(void) { return String();           }
 };
 
-typedef OSGSField<OSGGeoColorPtr> OSGSFGeoColorPtr;
+typedef SField<GeoColorPtr> SFGeoColorPtr;
 
 
 // Color 3f
 
-struct OSGGeoColor3fPropertyDesc
+struct OSG_DLLEXPORT GeoColor3fPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoColor3f";         }
-	static const char *getClassName(void) { return "GeoColor3fProperty"; }
-	static const char *getFieldName(void) { return "Colors";             }
-	static const char *getGroupName(void) { return "GeoColor";           }
+	static const Char8 *getTypeName (void) { return "GeoColor3f";         }
+	static const Char8 *getClassName(void) { return "GeoColor3fProperty"; }
+	static const Char8 *getFieldName(void) { return "Colors";             }
+	static const Char8 *getGroupName(void) { return "GeoColor";           }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void)  { return GL_FLOAT;        }
-	static OSGUInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-	static OSGUInt32 getDimension (void)  { return 3;               }
-	static OSGUInt32 getStride    (void)  { return 0;               }
+	static UInt32 getFormat    (void)  { return GL_FLOAT;        }
+	static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
+	static UInt32 getDimension (void)  { return 3;               }
+	static UInt32 getStride    (void)  { return 0;               }
 
-	typedef OSGGeoColor             Inherit;
-	typedef OSGGeoColorPtr          InheritPtr;
-    typedef OSGGeoColorPropertyDesc InheritDesc;
-	typedef OSGMFVec3f              FieldType;
+	typedef GeoColor             Inherit;
+	typedef GeoColorPtr          InheritPtr;
+    typedef GeoColorPropertyDesc InheritDesc;
+	typedef MFVec3f              FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoColor3fPropertyDesc> OSGGeoColor3f;
+typedef GeoProperty<GeoColor3fPropertyDesc> GeoColor3f;
 
-typedef OSGGeoColor3f::OSGPtrType OSGGeoColor3fPtr;
+typedef GeoColor3f::PtrType GeoColor3fPtr;
 
 
 // Color 4ub
 
 
-struct OSGGeoColor4ubPropertyDesc
+struct OSG_DLLEXPORT GeoColor4ubPropertyDesc
 {
-	static const char *getTypeName  (void) { return "GeoColor4ub";         }
-	static const char *getClassName (void) { return "GeoColor4ubProperty"; }
-	static const char *getFieldName (void) { return "Colors";              }
-	static const char *getGroupName (void) { return "GeoColor";            }
+	static const Char8 *getTypeName  (void) { return "GeoColor4ub";         }
+	static const Char8 *getClassName (void) { return "GeoColor4ubProperty"; }
+	static const Char8 *getFieldName (void) { return "Colors";              }
+	static const Char8 *getGroupName (void) { return "GeoColor";            }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void)   { return GL_UNSIGNED_BYTE; }
-	static OSGUInt32 getFormatSize(void)   { return sizeof(GLubyte);  }
-	static OSGUInt32 getDimension (void)   { return 4;                }
-	static OSGUInt32 getStride    (void)   { return 0;                }
+	static UInt32 getFormat    (void)   { return GL_UNSIGNED_BYTE; }
+	static UInt32 getFormatSize(void)   { return sizeof(GLubyte);  }
+	static UInt32 getDimension (void)   { return 4;                }
+	static UInt32 getStride    (void)   { return 0;                }
 
-	typedef OSGGeoColor             Inherit;
-	typedef OSGGeoColorPtr          InheritPtr;
-    typedef OSGGeoColorPropertyDesc InheritDesc;
-	typedef OSGMFVec4ub             FieldType;
+	typedef GeoColor             Inherit;
+	typedef GeoColorPtr          InheritPtr;
+    typedef GeoColorPropertyDesc InheritDesc;
+	typedef MFVec4ub             FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoColor4ubPropertyDesc> OSGGeoColor4ub;
+typedef GeoProperty<GeoColor4ubPropertyDesc> GeoColor4ub;
 
-typedef OSGGeoColor4ub::OSGPtrType OSGGeoColor4ubPtr;
+typedef GeoColor4ub::PtrType GeoColor4ubPtr;
 
 
 // Index
 
-struct OSGGeoIndexPropertyDesc
+struct OSG_DLLEXPORT GeoIndexPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoIndex";         }
-	static const char *getGroupName(void) { return "GeoIndex";         }
-	static const char *getClassName(void) { return "GeoIndexProperty"; }
+	static const Char8 *getTypeName (void) { return "GeoIndex";         }
+	static const Char8 *getGroupName(void) { return "GeoIndex";         }
+	static const Char8 *getClassName(void) { return "GeoIndexProperty"; }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef OSGAttachment             Inherit;
-	typedef OSGAttachmentPropertyDesc InheritDesc;
-	typedef OSGAttachmentPtr          InheritPtr;
+	typedef Attachment             Inherit;
+	typedef AttachmentPropertyDesc InheritDesc;
+	typedef AttachmentPtr          InheritPtr;
 };
 
-typedef OSGAbstractGeoProperty<OSGGeoIndexPropertyDesc> OSGGeoIndex;
+typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
 
-typedef OSGGeoIndex::OSGPtrType OSGGeoIndexPtr;
+typedef GeoIndex::PtrType GeoIndexPtr;
 
 
 template <>
-struct OSGFieldDataTraits<OSGGeoIndexPtr> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<GeoIndexPtr> : public Traits
 {
-    static char            *getSName  (void) { return "SFGeoIndexPtr"; }
-    static char            *getMName  (void) { return "MFGeoIndexPtr"; }
-    static OSGString        getDefault(void) { return OSGString();     }
+    enum                            { StringConvertable = 0x00 };
 
-    static bool             getFromString(      OSGGeoIndexPtr   &,
-                                          const char            *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGGeoIndexPtr &,
-                                              OSGString      &)
-    {
-        // TO_BE_DONE
-    }
+    static Char8  *getSName  (void) { return "SFGeoIndexPtr";  }
+    static Char8  *getMName  (void) { return "MFGeoIndexPtr";  }
+//  static String  getDefault(void) { return String();         }
 };
 
-typedef OSGSField<OSGGeoIndexPtr> OSGSFGeoIndexPtr;
+typedef SField<GeoIndexPtr> SFGeoIndexPtr;
 
 
 // Index uint32
 
-struct OSGGeoIndexUI32PropertyDesc
+struct OSG_DLLEXPORT GeoIndexUI32PropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoIndexUI32";         }
-	static const char *getClassName(void) { return "GeoIndexUI32Property"; }
-	static const char *getFieldName(void) { return "Indices";              }
-	static const char *getGroupName(void) { return "GeoIndex";             }
+	static const Char8 *getTypeName (void) { return "GeoIndexUI32";         }
+	static const Char8 *getClassName(void) { return "GeoIndexUI32Property"; }
+	static const Char8 *getFieldName(void) { return "Indices";              }
+	static const Char8 *getGroupName(void) { return "GeoIndex";             }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-	static OSGUInt32 getFormatSize(void) { return sizeof(GLuint);  }
-	static OSGUInt32 getDimension (void) { return 1;               }
-	static OSGUInt32 getStride    (void) { return 0;               }
+	static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
+	static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
+	static UInt32 getDimension (void) { return 1;               }
+	static UInt32 getStride    (void) { return 0;               }
 
-	typedef OSGGeoIndex             Inherit;
-	typedef OSGGeoIndexPtr          InheritPtr;
-    typedef OSGGeoIndexPropertyDesc InheritDesc;
-	typedef OSGMFUInt32             FieldType;
+	typedef GeoIndex             Inherit;
+	typedef GeoIndexPtr          InheritPtr;
+    typedef GeoIndexPropertyDesc InheritDesc;
+	typedef MFUInt32             FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoIndexUI32PropertyDesc> OSGGeoIndexUI32;
+typedef GeoProperty<GeoIndexUI32PropertyDesc> GeoIndexUI32;
 
-typedef OSGGeoIndexUI32::OSGPtrType OSGGeoIndexUI32Ptr;
+typedef GeoIndexUI32::PtrType GeoIndexUI32Ptr;
 
 
 // Primitive Type
@@ -698,53 +655,43 @@ typedef OSGGeoIndexUI32::OSGPtrType OSGGeoIndexUI32Ptr;
 
 // PType
 
-struct OSGGeoPTypePropertyDesc
+struct OSG_DLLEXPORT GeoPTypePropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoPType"; }
-	static const char *getClassName(void) { return "GeoPTypeProperty"; }
-	static const char *getFieldName(void) { return "Types"; }
-	static const char *getGroupName(void) { return "GeoPType"; }
+	static const Char8 *getTypeName (void) { return "GeoPType"; }
+	static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
+	static const Char8 *getFieldName(void) { return "Types"; }
+	static const Char8 *getGroupName(void) { return "GeoPType"; }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
-	static OSGUInt32 getFormatSize(void) { return sizeof(GLubyte);   }
-	static OSGUInt32 getDimension (void) { return 1;                 }
-	static OSGUInt32 getStride    (void) { return 0;                 }
+	static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
+	static UInt32 getFormatSize(void) { return sizeof(GLubyte);   }
+	static UInt32 getDimension (void) { return 1;                 }
+	static UInt32 getStride    (void) { return 0;                 }
 
-	typedef OSGAttachment             Inherit;
-	typedef OSGAttachmentPtr          InheritPtr;
-	typedef OSGAttachmentPropertyDesc InheritDesc;
-	typedef OSGMFUInt8                FieldType;
+	typedef Attachment             Inherit;
+	typedef AttachmentPtr          InheritPtr;
+	typedef AttachmentPropertyDesc InheritDesc;
+	typedef MFUInt8                FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoPTypePropertyDesc> OSGGeoPType;
+typedef GeoProperty<GeoPTypePropertyDesc> GeoPType;
 
-typedef OSGGeoPType::OSGPtrType OSGGeoPTypePtr;
+typedef GeoPType::PtrType GeoPTypePtr;
 
 
 template <>
-struct OSGFieldDataTraits<OSGGeoPTypePtr> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<GeoPTypePtr> : public Traits
 {
-    static char            *getSName  (void) { return "SFGeoPTypePtr"; }
-    static char            *getMName  (void) { return "MFGeoPTypePtr"; }
-    static OSGString        getDefault(void) { return OSGString();     }
+    enum                            { StringConvertable = 0x00 };
 
-    static bool             getFromString(OSGGeoPTypePtr  &,
-                                          const char     *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
+    static Char8  *getSName  (void) { return "SFGeoPTypePtr";  }
+    static Char8  *getMName  (void) { return "MFGeoPTypePtr";  }
 
-    static void             putToString(const OSGGeoPTypePtr &,
-                                              OSGString      &)
-    {
-        // TO_BE_DONE
-    }
+//  static String  getDefault(void) { return String();         }
 };
 
-typedef OSGSField<OSGGeoPTypePtr> OSGSFGeoPTypePtr;
+typedef SField<GeoPTypePtr> SFGeoPTypePtr;
 
 
 // Primitive Lengths
@@ -754,53 +701,42 @@ typedef OSGSField<OSGGeoPTypePtr> OSGSFGeoPTypePtr;
 // have to expand it later 
 
 
-struct OSGGeoPLengthPropertyDesc
+struct OSG_DLLEXPORT GeoPLengthPropertyDesc
 {
-	static const char *getTypeName (void) { return "GeoPLength";         }
-	static const char *getClassName(void) { return "GeoPLengthProperty"; }
-	static const char *getFieldName(void) { return "Lengths";            }
-	static const char *getGroupName(void) { return "GeoPLength";         }
+	static const Char8 *getTypeName (void) { return "GeoPLength";         }
+	static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
+	static const Char8 *getFieldName(void) { return "Lengths";            }
+	static const Char8 *getGroupName(void) { return "GeoPLength";         }
 
-	static OSGInitContainerF getInitMethod(void) { return NULL; }
+	static InitContainerF getInitMethod(void) { return NULL; }
 
-	static OSGUInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-	static OSGUInt32 getFormatSize(void) { return sizeof(GLuint);  }
-	static OSGUInt32 getDimension (void) { return 1;               }
-	static OSGUInt32 getStride    (void) { return 0;               }
+	static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
+	static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
+	static UInt32 getDimension (void) { return 1;               }
+	static UInt32 getStride    (void) { return 0;               }
 
-	typedef OSGAttachment             Inherit;
-	typedef OSGAttachmentPtr          InheritPtr;
-	typedef OSGAttachmentPropertyDesc InheritDesc;
-	typedef OSGMFUInt32               FieldType;
+	typedef Attachment             Inherit;
+	typedef AttachmentPtr          InheritPtr;
+	typedef AttachmentPropertyDesc InheritDesc;
+	typedef MFUInt32               FieldType;
 };
 
-typedef OSGGeoProperty<OSGGeoPLengthPropertyDesc> OSGGeoPLength;
+typedef GeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 
-typedef OSGGeoPLength::OSGPtrType OSGGeoPLengthPtr;
+typedef GeoPLength::PtrType GeoPLengthPtr;
 
 
 template <>
-struct OSGFieldDataTraits<OSGGeoPLengthPtr> : public OSGTraits
+struct OSG_DLLEXPORT FieldDataTraits<GeoPLengthPtr> : public Traits
 {
-    static char            *getSName  (void) { return "SFGeoPLengthPtr"; }
-    static char            *getMName  (void) { return "MFGeoPLengthPtr"; }
-    static OSGString        getDefault(void) { return OSGString();       }
+    enum                            { StringConvertable = 0x00  };
 
-    static bool             getFromString(      OSGGeoPLengthPtr  &,
-                                          const char             *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const OSGGeoPLengthPtr &,
-                                              OSGString        &)
-    {
-        // TO_BE_DONE
-    }
+    static char   *getSName  (void) { return "SFGeoPLengthPtr"; }
+    static char   *getMName  (void) { return "MFGeoPLengthPtr"; }
+//  static String  getDefault(void) { return String();          }
 };
 
-typedef OSGSField<OSGGeoPLengthPtr> OSGSFGeoPLengthPtr;
+typedef SField<GeoPLengthPtr> SFGeoPLengthPtr;
 
 OSG_END_NAMESPACE
 

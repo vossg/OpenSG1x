@@ -111,7 +111,13 @@ else
 	LINK_DEBUG       = -g 
 endif
 
-LD_FLAGS = -L$(LINK_STL) $(LINK_OPTIMIZE) $(LINK_DEBUG)
+ifneq ($(LINK_STL),)
+LD_FLAGS := -L$(LINK_STL)
+else
+LD_FLAGS := 
+endif
+
+LD_FLAGS += -L/usr/X11R6/lib $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
 ### ii files ######################################################

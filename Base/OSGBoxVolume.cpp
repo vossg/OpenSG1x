@@ -1,3 +1,40 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 // System declarations
 
@@ -44,7 +81,7 @@ OSG_USING_NAMESPACE
 
 
 /// Returns the center of a box
-void OSGBoxVolume::getCenter(OSGVec3f &center) const
+void BoxVolume::getCenter(Vec3f &center) const
 {
 	if (isEmpty())
 		center.setValues(0.0, 0.0, 0.0);
@@ -56,7 +93,7 @@ void OSGBoxVolume::getCenter(OSGVec3f &center) const
 }
 
 /// Gives the volume of the box (0 for an empty box)
-float OSGBoxVolume::getVolume() const
+float BoxVolume::getVolume() const
 {
 	return isEmpty() ? 0.0 : (_max[0] - _min[0]) *
 	                         (_max[1] - _min[1]) *
@@ -64,8 +101,8 @@ float OSGBoxVolume::getVolume() const
 }
 
 /// set method
-void OSGBoxVolume::setBoundsByCenterAndSize(const OSGVec3f &center,
-                                            const OSGVec3f &size)
+void BoxVolume::setBoundsByCenterAndSize(const Vec3f &center,
+                                            const Vec3f &size)
 {
 	_min.setValues(center.x() - size.x() / 2.0,
                    center.y() - size.y() / 2.0,
@@ -74,9 +111,9 @@ void OSGBoxVolume::setBoundsByCenterAndSize(const OSGVec3f &center,
                    center.y() + size.y() / 2.0,
                    center.z() + size.z() / 2.0);
 
-	OSGVolume::setValid(true);
-	OSGVolume::setEmpty(false);
-	OSGVolume::setInfinite(true);
+	Volume::setValid(true);
+	Volume::setEmpty(false);
+	Volume::setInfinite(true);
 }                                          
 
 /****************/
@@ -84,25 +121,25 @@ void OSGBoxVolume::setBoundsByCenterAndSize(const OSGVec3f &center,
 /****************/
 
 /// init the object by enclosing the given volume 
-void OSGBoxVolume::initEnclose (const OSGVolume &volume) 
+void BoxVolume::initEnclose (const Volume &volume) 
 {
-	const OSGBoxVolume *box = dynamic_cast<const OSGBoxVolume *>(&volume);
+	const BoxVolume *box = dynamic_cast<const BoxVolume *>(&volume);
 
 	if (box)
 		*this = *box;
 	else
-		cerr << "OSGBoxVolume::initEnclose NOT IMPLEMENTED" << endl;
+		cerr << "BoxVolume::initEnclose NOT IMPLEMENTED" << endl;
 }
 
 /// init the object by fitting into the given volume 
-void OSGBoxVolume::initInside (const OSGVolume &volume)
+void BoxVolume::initInside (const Volume &volume)
 {
-	const OSGBoxVolume *box = dynamic_cast<const OSGBoxVolume *>(&volume);
+	const BoxVolume *box = dynamic_cast<const BoxVolume *>(&volume);
 
 	if (box)
 		*this = *box;
 	else
-		cerr << "OSGBoxVolume::initInside NOT IMPLEMENTED" << endl;
+		cerr << "BoxVolume::initInside NOT IMPLEMENTED" << endl;
 }
 
 /***************/
@@ -110,7 +147,7 @@ void OSGBoxVolume::initInside (const OSGVolume &volume)
 /***************/
 
 /// Extends Box3f (if necessary) to contain given 3D point
-void OSGBoxVolume::extendBy(const OSGPnt3f &pt)
+void BoxVolume::extendBy(const Pnt3f &pt)
 {
 	if ( ! isValid() || isInfinite() || isStatic() )
 		return;
@@ -145,19 +182,19 @@ void OSGBoxVolume::extendBy(const OSGPnt3f &pt)
 }
 
 /** extend the volume by the given volume */
-void OSGBoxVolume::extendBy (const OSGVolume &volume)
+void BoxVolume::extendBy (const Volume &volume)
 {
-	OSGBoxVolume const *box = dynamic_cast<const OSGBoxVolume *>(&volume);
+	BoxVolume const *box = dynamic_cast<const BoxVolume *>(&volume);
 
 	if (box)
 		extendBy(*box);
 	else
-		cerr << "OSGBoxVolume::extendBy NOT IMPLEMENTED" << endl;
+		cerr << "BoxVolume::extendBy NOT IMPLEMENTED" << endl;
 }
 	
 
 /// Extends Box3f (if necessary) to contain given Box3f
-void OSGBoxVolume::extendBy(const OSGBoxVolume &bb)
+void BoxVolume::extendBy(const BoxVolume &bb)
 {
 	if ( (! isValid() && ! isEmpty()) || isInfinite() || isStatic() )
 		return;
@@ -201,7 +238,7 @@ void OSGBoxVolume::extendBy(const OSGBoxVolume &bb)
 /*******************/	
 
 /// Returns true if intersection of given point and Box3f is not empty
-OSGBool OSGBoxVolume::intersect(const OSGVec3f &pt) const
+Bool BoxVolume::intersect(const Vec3f &pt) const
 {
 	return (!isEmpty() &&
 		(_min[0] < pt[0] && _max[0] > pt[0]) &&
@@ -211,26 +248,26 @@ OSGBool OSGBoxVolume::intersect(const OSGVec3f &pt) const
 
 
 /** intersect the volume with the given Line */
-OSGBool OSGBoxVolume::intersect (const OSGLine &line) const 
+Bool BoxVolume::intersect (const Line &line) const 
 { 
 	return false; 
 }
 
 /** intersect the volume with the given Line */
-OSGBool OSGBoxVolume::intersect ( const OSGLine &line, 
-																	OSGVec3f &min, OSGVec3f &max  ) const
+Bool BoxVolume::intersect ( const Line &line, 
+																	Vec3f &min, Vec3f &max  ) const
 {
 	return false;
 }
 
   /// intersect the volume with another volume 
-OSGBool OSGBoxVolume::intersect (const OSGVolume &volume) const
+Bool BoxVolume::intersect (const Volume &volume) const
 {
 	return false;
 }
 
 /// Returns true if intersection of given Box3f and Box3f is not empty
-OSGBool OSGBoxVolume::intersect(const OSGBoxVolume &bb) const
+Bool BoxVolume::intersect(const BoxVolume &bb) const
 {
 	return (!isEmpty() &&
 		(_min[0] < bb._max[0] && _max[0] > bb._min[0]) &&
@@ -239,7 +276,7 @@ OSGBool OSGBoxVolume::intersect(const OSGBoxVolume &bb) const
 }
 
 /// Transforms Box3f by matrix, enlarging Box3f to contain result
-void OSGBoxVolume::transform(const OSGMatrix &m)
+void BoxVolume::transform(const Matrix &m)
 {
 	float xmin, ymin, zmin, xmax, ymax, zmax;
 	float a, b;
@@ -373,7 +410,7 @@ void OSGBoxVolume::transform(const OSGMatrix &m)
 }
 
 /// Assignment operator
-const OSGBoxVolume &OSGBoxVolume::operator =(const OSGBoxVolume &b1)
+const BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
 {
 	_min = b1._min;
 	_max = b1._max;
@@ -385,7 +422,7 @@ const OSGBoxVolume &OSGBoxVolume::operator =(const OSGBoxVolume &b1)
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparisons
-bool operator ==(const OSGBoxVolume &b1, const OSGBoxVolume &b2)
+bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
 {
 	return ((b1._min[0] == b2._min[0]) &&
 	        (b1._min[1] == b2._min[1]) &&
@@ -397,9 +434,9 @@ bool operator ==(const OSGBoxVolume &b1, const OSGBoxVolume &b2)
 
 
 /// write values in stream
-ostream &operator <<(ostream &os, const OSGBoxVolume &obj)
+ostream &operator <<(ostream &os, const BoxVolume &obj)
 {
-	OSGVec3f xx;
+	Vec3f xx;
 
 	return os << obj._min << ", " << obj._max;
 }

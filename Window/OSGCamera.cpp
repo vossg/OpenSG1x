@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -48,19 +59,19 @@
 #include "OSGFieldContainerPtr.h"
 #include "OSGCamera.h"
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -74,42 +85,42 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGCamera::cvsid[] = "@(#)$Id: $";
+char Camera::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGCamera, OSGBeaconField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Camera, BeaconField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGCamera, OSGNearField, OSGBeaconField)
-OSG_FC_FIELD_IDM_DEF      (OSGCamera, OSGFarField,  OSGNearField)
+OSG_FC_FIELD_IDM_DEF      (Camera, NearField, BeaconField)
+OSG_FC_FIELD_IDM_DEF      (Camera, FarField,  NearField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGCamera, OSGFarField)
+OSG_FC_LAST_FIELD_IDM_DEF (Camera, FarField)
 
 // Static Class Varible implementations: 
-OSGFieldDescription OSGCamera::_desc[] = 
+FieldDescription Camera::_desc[] = 
 {
-        OSGFieldDescription(OSGSFNodePtr::getClassType(), 
+        FieldDescription(SFNodePtr::getClassType(), 
                             "beacon", 
-                            OSG_FC_FIELD_IDM_DESC(OSGBeaconField),
+                            OSG_FC_FIELD_IDM_DESC(BeaconField),
                             false,
-                            (OSGFieldAccessMethod) &OSGCamera::getSFBeacon),
+                            (FieldAccessMethod) &Camera::getSFBeacon),
         
-        OSGFieldDescription(OSGSFReal32::getClassType(),
+        FieldDescription(SFReal32::getClassType(),
                             "near", 
-                            OSG_FC_FIELD_IDM_DESC(OSGNearField),
+                            OSG_FC_FIELD_IDM_DESC(NearField),
                             false,
-                            (OSGFieldAccessMethod) &OSGCamera::getSFNear),
+                            (FieldAccessMethod) &Camera::getSFNear),
         
-        OSGFieldDescription(OSGSFReal32::getClassType(),
+        FieldDescription(SFReal32::getClassType(),
                             "far", 
-                            OSG_FC_FIELD_IDM_DESC(OSGFarField),
+                            OSG_FC_FIELD_IDM_DESC(FarField),
                             false,
-                            (OSGFieldAccessMethod) &OSGCamera::getSFFar),
+                            (FieldAccessMethod) &Camera::getSFFar),
 };
 
-OSGFieldContainerType OSGCamera::_type(
+FieldContainerType Camera::_type(
     "Camera", 
     "FieldContainer", 
     0,
-    (OSGPrototypeCreateF) &OSGCamera::createEmpty,
+    (PrototypeCreateF) &Camera::createEmpty,
     0,
     _desc, 
     sizeof(_desc));
@@ -139,19 +150,19 @@ OSGFieldContainerType OSGCamera::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGCamera, OSGCameraPtr)
+OSG_FIELD_CONTAINER_DEF(Camera, CameraPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGCamera::OSGCamera(void) :
+Camera::Camera(void) :
 	Inherited(), _beacon(), _near(0), _far(0)
 {
 }
 
-OSGCamera::OSGCamera(const OSGCamera &source) :
+Camera::Camera(const Camera &source) :
 	Inherited(), _beacon(source.getBeacon()), _near(source.getNear()), 
 	_far(source.getFar())
 {
@@ -160,7 +171,7 @@ OSGCamera::OSGCamera(const OSGCamera &source) :
 /** \brief Destructor
  */
 
-OSGCamera::~OSGCamera(void)
+Camera::~Camera(void)
 {
 }
 
@@ -173,9 +184,9 @@ OSGCamera::~OSGCamera(void)
 
 /** setup the GL for rendering and tell the Action what it needs to know */
 
-void OSGCamera::setup( OSGDrawAction * action, OSGViewport * port )
+void Camera::setup( DrawAction * action, Viewport * port )
 {
-	OSGMatrix m;
+	Matrix m;
 
 	// set the projection
 
@@ -199,28 +210,28 @@ void OSGCamera::setup( OSGDrawAction * action, OSGViewport * port )
 }
 
 /** draw the camera's geometry (if any). Usually there is none. */
-void OSGCamera::draw( OSGDrawAction * action, OSGViewport * port )
+void Camera::draw( DrawAction * action, Viewport * port )
 {
 }
 
 /** get the separate elements needed for rendering */
 
-void OSGCamera::getProjection( OSGMatrix& result, OSGViewport * port )
+void Camera::getProjection( Matrix& result, Viewport * port )
 {
-	SFATAL << "OSGCamera::getProjection: NIY" << endl;
+	SFATAL << "Camera::getProjection: NIY" << endl;
 	abort();
 }
 
-void OSGCamera::getProjectionTranslation( OSGMatrix& result, OSGViewport * port )
+void Camera::getProjectionTranslation( Matrix& result, Viewport * port )
 {
 	result.setIdentity();
 }
 
-void OSGCamera::getViewing( OSGMatrix& result, OSGViewport * port )
+void Camera::getViewing( Matrix& result, Viewport * port )
 {
-	if ( getBeacon() == OSGNullNode )
+	if ( getBeacon() == NullNode )
 	{
-		SWARNING << "OSGCamera::setup: no beacon!" << endl;
+		SWARNING << "Camera::setup: no beacon!" << endl;
 		return;
 	}	
 
@@ -228,9 +239,9 @@ void OSGCamera::getViewing( OSGMatrix& result, OSGViewport * port )
 	result.invert();
 }
 
-void OSGCamera::getFrustum( OSGFrustumVolume& result, OSGViewport * port )
+void Camera::getFrustum( FrustumVolume& result, Viewport * port )
 {
-	SFATAL << "OSGCamera::getFrustum: NIY" << endl;
+	SFATAL << "Camera::getFrustum: NIY" << endl;
 	abort();
 }
 
@@ -239,7 +250,7 @@ void OSGCamera::getFrustum( OSGFrustumVolume& result, OSGViewport * port )
 /** \brief assignment
  */
 
-OSGCamera& OSGCamera::operator = (const OSGCamera &source)
+Camera& Camera::operator = (const Camera &source)
 {
 	if (this == &source)
 		return *this;
@@ -260,9 +271,9 @@ OSGCamera& OSGCamera::operator = (const OSGCamera &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGCamera::dump(void) const
+void Camera::dump(void) const
 {
-    SDEBUG << "Dump OSGCamera NI" << endl;
+    SDEBUG << "Dump Camera NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef OSGDATE_CLASS_DECLARATION
 #define OSGDATE_CLASS_DECLARATION
@@ -49,11 +59,11 @@ OSG_BEGIN_NAMESPACE
 
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
-class OSGDate;
-bool operator==(const OSGDate &v1, const OSGDate &v2);
-bool operator< (const OSGDate &v1, const OSGDate &v2);
-ostream& operator<< (ostream & os, const OSGDate &obj);
-istream& operator>> (istream & is, OSGDate &obj);
+class Date;
+bool operator==(const Date &v1, const Date &v2);
+bool operator< (const Date &v1, const Date &v2);
+ostream& operator<< (ostream & os, const Date &obj);
+istream& operator>> (istream & is, Date &obj);
 #endif
 
 
@@ -72,7 +82,7 @@ istream& operator>> (istream & is, OSGDate &obj);
 * @autor jBehr, Wed Oct 27 13:16:07
 */
 
-class OSGDate 
+class OSG_DLLEXPORT Date 
 {
 
 public:
@@ -93,13 +103,13 @@ public:
 
 
   /** Default Constructor */
-  OSGDate (void);
+  Date (void);
 
   /** Copy Constructor */
-  OSGDate (const OSGDate &obj);
+  Date (const Date &obj);
 
   /** Destructor */
-  virtual ~OSGDate (void);
+  virtual ~Date (void);
 
   /** set method for attribute second */
   inline void setSecond (unsigned int second)
@@ -237,16 +247,16 @@ private:
  public:
 
   /** equal comparison operator */
-  friend bool operator == (const OSGDate &v1,const OSGDate &v2);
+  friend bool operator == (const Date &v1,const Date &v2);
   
   /** lower comparison operator */
-  friend bool operator < (const OSGDate &v1,const OSGDate &v2);
+  friend bool operator < (const Date &v1,const Date &v2);
   
   /** write values from stream */
-  friend ostream &operator << (ostream &os, const OSGDate &obj);
+  friend ostream &operator << (ostream &os, const Date &obj);
   
   /** read value from stream */
-  friend istream &operator >> (istream &is, OSGDate &obj);
+  friend istream &operator >> (istream &is, Date &obj);
 
 //-------------------------------------------------------
 //class Variables 
@@ -270,10 +280,10 @@ private:
 
 };
 
-typedef OSGDate* OSGDateP;
+typedef Date* DateP;
 
-ostream &operator << (ostream &outStream, const OSGDate &obj);
-istream &operator >> (istream &inStream,        OSGDate &obj);
+ostream &operator << (ostream &outStream, const Date &obj);
+istream &operator >> (istream &inStream,        Date &obj);
 
 OSG_END_NAMESPACE
 

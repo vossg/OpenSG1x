@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -72,10 +72,10 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGNodeCore
+ *  \brief NodeCore
  */
 
-class OSGNodeCore : public OSGFieldContainer 
+class OSG_DLLEXPORT NodeCore : public FieldContainer 
 {
   public:
 
@@ -83,9 +83,9 @@ class OSGNodeCore : public OSGFieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGParentsField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(ParentsField)
     
-    OSG_FC_FIELD_IDM_DECL      (OSGAttachmentsField)
+    OSG_FC_FIELD_IDM_DECL      (AttachmentsField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -107,39 +107,39 @@ class OSGNodeCore : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(OSGNodeCorePtr)
+    OSG_ABSTR_FIELD_CONTAINER_DECL(NodeCorePtr)
 
     /*------------------------------ parents -------------------------------*/
 
-    OSGMFNodePtr       *getMFParents    (void);
-    OSGSFAttachmentMap *getSFAttachments(void);
+    MFNodePtr       *getMFParents    (void);
+    SFAttachmentMap *getSFAttachments(void);
 
     /*------------------------------ attachments ---------------------------*/
 
-    void             addAttachment (OSGAttachmentPtr &fieldContainerP, 
-                                    OSGUInt16         binding = 0);
+    void          addAttachment (AttachmentPtr &fieldContainerP, 
+                                 UInt16         binding = 0);
 
-    void             subAttachment (OSGAttachmentPtr &fieldContainerP,
-                                    OSGUInt16         binding = 0);
+    void          subAttachment (AttachmentPtr &fieldContainerP,
+                                 UInt16         binding = 0);
 
-    OSGAttachmentPtr findAttachment(OSGUInt16 groupId, 
-                                    OSGUInt16 binding = 0);
+    AttachmentPtr findAttachment(UInt16 groupId, 
+                                 UInt16 binding = 0);
 
     /*------------------------------ pointer -------------------------------*/
 
-    OSGNodeCorePtr getPtr(void);
+    NodeCorePtr getPtr(void);
 
     /*-------------------------- transformation ----------------------------*/
 
-    virtual void accumulateMatrix(OSGMatrix &result);
+    virtual void accumulateMatrix(Matrix &result);
 
     /*------------------------------ volume -------------------------------*/
 
-    virtual void adjustVolume    (OSGVolume &volume);
+    virtual void adjustVolume    (Volume &volume);
     
     /*------------------------------ dump -----------------------------------*/
 
-            void print(OSGUInt32 indent);
+            void print(UInt32 indent) const;
     virtual void dump (void) const;
 
   protected:
@@ -164,19 +164,19 @@ class OSGNodeCore : public OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGMFNodePtr       _parents;
-    OSGSFAttachmentMap _attachmentMap;
+    MFNodePtr       _parents;
+    SFAttachmentMap _attachmentMap;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGNodeCore(void);
-    OSGNodeCore(const OSGNodeCore &obj);
-    virtual ~OSGNodeCore(void);
+    NodeCore(void);
+    NodeCore(const NodeCore &obj);
+    virtual ~NodeCore(void);
 
-    void addParent(const OSGNodePtr &parent);
-    void subParent(const OSGNodePtr &parent);
+    void addParent(const NodePtr &parent);
+    void subParent(const NodePtr &parent);
 
   private:
 
@@ -188,15 +188,15 @@ class OSGNodeCore : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer Inherited;
+    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGNode;
-    friend class OSGAttachment;
-    friend class OSGFieldContainer;
+    friend class Node;
+    friend class Attachment;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -206,8 +206,8 @@ class OSGNodeCore : public OSGFieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static OSGFieldDescription   _desc[];
-    static OSGFieldContainerType _type;
+    static FieldDescription   _desc[];
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -228,7 +228,7 @@ class OSGNodeCore : public OSGFieldContainer
 
 // class pointer
 
-typedef OSGNodeCore *OSGNodeCoreP;
+typedef NodeCore *NodeCoreP;
 
 OSG_END_NAMESPACE
 

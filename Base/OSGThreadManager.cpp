@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -59,14 +70,14 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGThreadManager::cvsid[] = "@(#)$Id: $";
+char ThreadManager::cvsid[] = "@(#)$Id: $";
 
-OSGThreadManager OSGThreadManager::_threadManagerP;
+ThreadManager ThreadManager::_threadManagerP;
 
-OSGUInt32        OSGThreadManager::_numAspects   = OSG_NUM_ASPECTS;
+UInt32        ThreadManager::_numAspects   = OSG_NUM_ASPECTS;
 
 #ifdef OSG_RUNTIME_NUM_ASPECTS 
-OSGBool          OSGThreadManager::_numAspectSet = false;
+Bool          ThreadManager::_numAspectSet = false;
 #endif
 
 /***************************************************************************\
@@ -79,30 +90,30 @@ OSGBool          OSGThreadManager::_numAspectSet = false;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSGThreadManager *OSGThreadManager::the(void)
+ThreadManager *ThreadManager::the(void)
 {
     return &_threadManagerP;
 }
 
-void OSGThreadManager::setNumAspects(OSGUInt32 numAspects)
+void ThreadManager::setNumAspects(UInt32 numAspects)
 {
 #if defined(OSG_RUNTIME_NUM_ASPECTS)    
     if(_numAspectSet == false && numAspects > 1)
     {
 #if defined(OSG_ASPECT_USE_PTHREADSELF) || \
     defined(OSG_ASPECT_USE_CUSTOMSELF)
-        OSGUInt32  i;
-        OSGUInt16 *aspectA = new OSGUInt16[numAspects];
+        UInt32  i;
+        UInt16 *aspectA = new UInt16[numAspects];
 
         for(i = 0; i < _numAspects; i++)
-            aspectA[i] = OSGThread::_aspectsA[i];
+            aspectA[i] = Thread::_aspectsA[i];
 
         for(i = _numAspects; i < numAspects; i++)
-            OSGThread::_aspectsA[i] = 0;
+            Thread::_aspectsA[i] = 0;
 
-        delete [] OSGThread::_aspectsA;
+        delete [] Thread::_aspectsA;
 
-        OSGThread::_aspectsA = aspectA;
+        Thread::_aspectsA = aspectA;
 #endif
         _numAspects   = numAspects;
         _numAspectSet = true;        
@@ -110,14 +121,14 @@ void OSGThreadManager::setNumAspects(OSGUInt32 numAspects)
 #endif
 }
 
-OSGUInt32 OSGThreadManager::getNumAspects(void)
+UInt32 ThreadManager::getNumAspects(void)
 {
     return _numAspects;
 }
 
-OSGChangeList *OSGThreadManager::getChangeList(OSGUInt32 aspectId)
+ChangeList *ThreadManager::getChangeList(UInt32 aspectId)
 {
-    OSGChangeList *returnValue = NULL;
+    ChangeList *returnValue = NULL;
 
     if(aspectId < _numAspects)
     {
@@ -146,42 +157,42 @@ OSGChangeList *OSGThreadManager::getChangeList(OSGUInt32 aspectId)
 
 /*------------------------------ access -----------------------------------*/
 
-void OSGThreadManager::setThreadCreateFunc(OSGCreateThreadF create)
+void ThreadManager::setThreadCreateFunc(CreateThreadF create)
 {
     _createThreadF = create; 
 }
 
-void OSGThreadManager::setBarrierCreateFunc(OSGCreateBarrierF create)
+void ThreadManager::setBarrierCreateFunc(CreateBarrierF create)
 {
     _createBarrierF = create;
 }
 
-void OSGThreadManager::setLockCreateFunc(OSGCreateLockF create)
+void ThreadManager::setLockCreateFunc(CreateLockF create)
 {
     _createLockF = create;
 }
 
-void OSGThreadManager::setLockPoolCreateFunc(OSGCreateLockPoolF create)
+void ThreadManager::setLockPoolCreateFunc(CreateLockPoolF create)
 {
     _createLockPoolF = create;
 }
 
-void OSGThreadManager::setThreadDestroyFunc(OSGDestroyThreadF destroy)
+void ThreadManager::setThreadDestroyFunc(DestroyThreadF destroy)
 {
     _destroyThreadF = destroy;
 }
 
-void OSGThreadManager::setBarrierDestroyFunc(OSGDestroyBarrierF destroy)
+void ThreadManager::setBarrierDestroyFunc(DestroyBarrierF destroy)
 {
     _destroyBarrierF = destroy;
 }
 
-void OSGThreadManager::setLockDestroyFunc(OSGDestroyLockF destroy)
+void ThreadManager::setLockDestroyFunc(DestroyLockF destroy)
 {
     _destroyLockF = destroy;
 }
 
-void OSGThreadManager::setLockPoolDestroyFunc(OSGDestroyLockPoolF destroy)
+void ThreadManager::setLockPoolDestroyFunc(DestroyLockPoolF destroy)
 {
     _destroyLockPoolF = destroy;
 }
@@ -191,9 +202,9 @@ void OSGThreadManager::setLockPoolDestroyFunc(OSGDestroyLockPoolF destroy)
 
 /*-------------------------- your_category---------------------------------*/
 
-OSGThread *OSGThreadManager::getThread(const OSGChar8 *szName)
+Thread *ThreadManager::getThread(const Char8 *szName)
 {
-    OSGThread *returnValue = NULL;
+    Thread *returnValue = NULL;
 
     if(_createThreadF != NULL)
     {
@@ -214,7 +225,7 @@ OSGThread *OSGThreadManager::getThread(const OSGChar8 *szName)
         {
             _tableLockP->aquire();
 
-            OSGThreadMapIt gIt = _threadMapM.find(szName);
+            ThreadMapIt gIt = _threadMapM.find(szName);
         
             if(gIt == _threadMapM.end())
             {
@@ -240,9 +251,9 @@ OSGThread *OSGThreadManager::getThread(const OSGChar8 *szName)
     return returnValue;
 }
 
-OSGBarrier *OSGThreadManager::getBarrier(const OSGChar8 *szName)
+Barrier *ThreadManager::getBarrier(const Char8 *szName)
 {
-    OSGBarrier *returnValue = NULL;
+    Barrier *returnValue = NULL;
 
     if(_createBarrierF != NULL)
     {
@@ -263,7 +274,7 @@ OSGBarrier *OSGThreadManager::getBarrier(const OSGChar8 *szName)
         {
             _tableLockP->aquire();
 
-            OSGBarrierMapIt gIt = _barrierMapM.find(szName);
+            BarrierMapIt gIt = _barrierMapM.find(szName);
         
             if(gIt == _barrierMapM.end())
             {
@@ -289,9 +300,9 @@ OSGBarrier *OSGThreadManager::getBarrier(const OSGChar8 *szName)
     return returnValue;
 }
 
-OSGLock *OSGThreadManager::getLock(const OSGChar8 *szName)
+Lock *ThreadManager::getLock(const Char8 *szName)
 {
-    OSGLock *returnValue = NULL;
+    Lock *returnValue = NULL;
 
     if(_createLockF != NULL)
     {
@@ -312,7 +323,7 @@ OSGLock *OSGThreadManager::getLock(const OSGChar8 *szName)
         {
             _tableLockP->aquire();
 
-            OSGLockMapIt gIt = _lockMapM.find(szName);           
+            LockMapIt gIt = _lockMapM.find(szName);           
         
             if(gIt == _lockMapM.end())
             {
@@ -338,9 +349,9 @@ OSGLock *OSGThreadManager::getLock(const OSGChar8 *szName)
     return returnValue;
 }
 
-OSGLockPool *OSGThreadManager::getLockPool(const OSGChar8 *szName)
+LockPool *ThreadManager::getLockPool(const Char8 *szName)
 {
-    OSGLockPool *returnValue = NULL;
+    LockPool *returnValue = NULL;
 
     if(_createLockPoolF != NULL)
     {
@@ -361,7 +372,7 @@ OSGLockPool *OSGThreadManager::getLockPool(const OSGChar8 *szName)
         {
             _tableLockP->aquire();
 
-            OSGLockPoolMapIt gIt = _lockPoolMapM.find(szName);
+            LockPoolMapIt gIt = _lockPoolMapM.find(szName);
         
             if(gIt == _lockPoolMapM.end())
             {
@@ -387,7 +398,7 @@ OSGLockPool *OSGThreadManager::getLockPool(const OSGChar8 *szName)
     return returnValue;
 }
 
-void OSGThreadManager::freeBarrier(OSGBarrier *barrierP)
+void ThreadManager::freeBarrier(Barrier *barrierP)
 {
     if(barrierP != NULL)
     {
@@ -402,7 +413,7 @@ void OSGThreadManager::freeBarrier(OSGBarrier *barrierP)
     }
 }
 
-void OSGThreadManager::freeLock(OSGLock *lockP)
+void ThreadManager::freeLock(Lock *lockP)
 {
     if(lockP != NULL)
     {
@@ -417,7 +428,7 @@ void OSGThreadManager::freeLock(OSGLock *lockP)
     }
 }
 
-void OSGThreadManager::freeLockPool(OSGLockPool *lockPoolP)
+void ThreadManager::freeLockPool(LockPool *lockPoolP)
 {
     if(lockPoolP != NULL)
     {
@@ -432,13 +443,13 @@ void OSGThreadManager::freeLockPool(OSGLockPool *lockPoolP)
     }
 }
 
-OSGThread  *OSGThreadManager::findThread (const OSGChar8 *szName)
+Thread  *ThreadManager::findThread (const Char8 *szName)
 {
-    OSGThread *returnValue = NULL;
+    Thread *returnValue = NULL;
 
     if(szName != NULL)
     {
-        OSGThreadMapIt gIt;
+        ThreadMapIt gIt;
 
         _tableLockP->aquire();
     
@@ -453,13 +464,13 @@ OSGThread  *OSGThreadManager::findThread (const OSGChar8 *szName)
     return returnValue;
 }
 
-OSGBarrier *OSGThreadManager::findBarrier(const OSGChar8 *szName)
+Barrier *ThreadManager::findBarrier(const Char8 *szName)
 {
-    OSGBarrier *returnValue = NULL;
+    Barrier *returnValue = NULL;
 
     if(szName != NULL)
     {
-        OSGBarrierMapIt gIt;
+        BarrierMapIt gIt;
 
         _tableLockP->aquire();
     
@@ -474,13 +485,13 @@ OSGBarrier *OSGThreadManager::findBarrier(const OSGChar8 *szName)
     return returnValue;
 }
 
-OSGLock *OSGThreadManager::findLock(const OSGChar8 *szName)
+Lock *ThreadManager::findLock(const Char8 *szName)
 {
-    OSGLock *returnValue = NULL;
+    Lock *returnValue = NULL;
 
     if(szName != NULL)
     {
-        OSGLockMapIt gIt;
+        LockMapIt gIt;
 
         _tableLockP->aquire();
 
@@ -495,13 +506,13 @@ OSGLock *OSGThreadManager::findLock(const OSGChar8 *szName)
     return returnValue;
 }
 
-OSGLockPool *OSGThreadManager::findLockPool(const OSGChar8 *szName)
+LockPool *ThreadManager::findLockPool(const Char8 *szName)
 {
-    OSGLockPool *returnValue = NULL;
+    LockPool *returnValue = NULL;
 
     if(szName != NULL)
     {
-        OSGLockPoolMapIt gIt;
+        LockPoolMapIt gIt;
 
         _tableLockP->aquire();
     
@@ -517,7 +528,7 @@ OSGLockPool *OSGThreadManager::findLockPool(const OSGChar8 *szName)
 }
 
 #if defined(OSG_USE_SPROC)
-usptr_t *OSGThreadManager::getArena(void)
+usptr_t *ThreadManager::getArena(void)
 {
     return _arenaP;
 }
@@ -533,9 +544,9 @@ usptr_t *OSGThreadManager::getArena(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void OSGThreadManager::removeBarrier(OSGBarrier *barrierP)
+void ThreadManager::removeBarrier(Barrier *barrierP)
 {
-    OSGBarrierMapIt gIt = _barrierMapM.find(barrierP->_szName);
+    BarrierMapIt gIt = _barrierMapM.find(barrierP->_szName);
 
     if(gIt != _barrierMapM.end())
     {
@@ -553,9 +564,9 @@ void OSGThreadManager::removeBarrier(OSGBarrier *barrierP)
         
 }
 
-void OSGThreadManager::removeLock(OSGLock *lockP)
+void ThreadManager::removeLock(Lock *lockP)
 {
-    OSGLockMapIt gIt = _lockMapM.find(lockP->_szName);
+    LockMapIt gIt = _lockMapM.find(lockP->_szName);
     
     if(gIt != _lockMapM.end())
     {
@@ -572,9 +583,9 @@ void OSGThreadManager::removeLock(OSGLock *lockP)
     }    
 }
 
-void OSGThreadManager::removeLockPool(OSGLockPool *lockPoolP)
+void ThreadManager::removeLockPool(LockPool *lockPoolP)
 {
-    OSGLockPoolMapIt gIt = _lockPoolMapM.find(lockPoolP->_szName);
+    LockPoolMapIt gIt = _lockPoolMapM.find(lockPoolP->_szName);
     
     if(gIt != _lockPoolMapM.end())
     {
@@ -592,52 +603,52 @@ void OSGThreadManager::removeLockPool(OSGLockPool *lockPoolP)
         
 }
 
-OSGBool OSGThreadManager::init(void)
+Bool ThreadManager::init(void)
 {
-    OSGBool returnValue = true;
+    Bool returnValue = true;
 
     SINFO << "ThreadManager init" << endl;
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     int rc; 
 
-    rc = pthread_key_create(&(OSGThread::_aspectKey), 
-                            OSGThread::freeAspect);
+    rc = pthread_key_create(&(Thread::_aspectKey), 
+                            Thread::freeAspect);
 
-    rc = pthread_key_create(&(OSGThread::_threadKey), 
-                            OSGThread::freeThreadP);
+    rc = pthread_key_create(&(Thread::_threadKey), 
+                            Thread::freeThreadP);
 
-    rc = pthread_key_create(&(OSGThread::_changeListKey), 
-                            OSGThread::freeChangeListP);
+    rc = pthread_key_create(&(Thread::_changeListKey), 
+                            Thread::freeChangeListP);
 #endif
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF
 #ifdef OSG_RUNTIME_NUM_ASPECTS
-    OSGThread::_aspectsA     = new OSGUInt16      [_numAspects];
-    OSGThread::_threadsA     = new OSGThread     *[_numAspects];
-    OSGThread::_changelistsA = new OSGChangeList *[_numAspects];
+    Thread::_aspectsA     = new UInt16      [_numAspects];
+    Thread::_threadsA     = new Thread     *[_numAspects];
+    Thread::_changelistsA = new ChangeList *[_numAspects];
 #endif
 
-   for(OSGUInt32 i = 0; i < _numAspects; i++)
+   for(UInt32 i = 0; i < _numAspects; i++)
     {
-        OSGThread::_aspectsA[i]     = 0;
-        OSGThread::_threadsA[i]     = NULL;
-        OSGThread::_changelistsA[i] = NULL;
+        Thread::_aspectsA[i]     = 0;
+        Thread::_threadsA[i]     = NULL;
+        Thread::_changelistsA[i] = NULL;
     }
 #endif
 
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
-	OSGThread::_aspectKey     = TlsAlloc();
-	OSGThread::_threadKey     = TlsAlloc();
-	OSGThread::_changeListKey = TlsAlloc();
+	Thread::_aspectKey     = TlsAlloc();
+	Thread::_threadKey     = TlsAlloc();
+	Thread::_changeListKey = TlsAlloc();
 
-	if (OSGThread::_aspectKey == 0xFFFFFFFF) 
+	if (Thread::_aspectKey == 0xFFFFFFFF) 
 		fprintf(stderr, "Local alloc failed\n");
 
-	if (OSGThread::_threadKey == 0xFFFFFFFF) 
+	if (Thread::_threadKey == 0xFFFFFFFF) 
 		fprintf(stderr, "Local alloc failed\n");
 
-	if (OSGThread::_changeListKey == 0xFFFFFFFF) 
+	if (Thread::_changeListKey == 0xFFFFFFFF) 
 		fprintf(stderr, "Local alloc failed\n");
 #endif
 
@@ -651,40 +662,40 @@ OSGBool OSGThreadManager::init(void)
 
     if(_arenaP == NULL)
     {
-        SFATAL << "OSGTM : could not initialize arena " << errno << endl;
+        SFATAL << "TM : could not initialize arena " << errno << endl;
         returnValue = false;
     }
     else
     {
-        SINFO << "OSGTM : got arena " << _arenaP << endl;
+        SINFO << "TM : got arena " << _arenaP << endl;
     }
 #endif
 
-    _tableLockP = _createLockF("OSGTMTableLock");
+    _tableLockP = _createLockF("TMTableLock");
     
     if(_tableLockP == NULL)
     {
-        SFATAL << "OSGTM : could not get table lock" << endl;
+        SFATAL << "TM : could not get table lock" << endl;
 
         returnValue = false;
     }
     else
     {
-        SINFO << "OSGTM : got table lock " << _tableLockP << endl;
+        SINFO << "TM : got table lock " << _tableLockP << endl;
     }
 
-    OSGThread *pApp = getThread("OSGApp");
-    OSGThread::init(pApp);
+    Thread *pApp = getThread("App");
+    Thread::init(pApp);
 
     if(pApp == NULL)
     {
-        SFATAL << "OSGTM : could not get application thread " << endl;
+        SFATAL << "TM : could not get application thread " << endl;
 
         returnValue = false;
     }
     else
     {
-        SINFO << "OSGTM : got application thread " << pApp << endl;
+        SINFO << "TM : got application thread " << pApp << endl;
     }
 
     return returnValue;
@@ -694,14 +705,14 @@ OSGBool OSGThreadManager::init(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-void OSGThreadManager::shutdown(void)
+void ThreadManager::shutdown(void)
 {
     _tableLockP->aquire();
 
-    OSGThreadMapIt   gTIt  = _threadMapM.begin();
-    OSGLockMapIt     gLIt  = _lockMapM.begin();
-    OSGLockPoolMapIt gLPIt = _lockPoolMapM.begin();
-    OSGBarrierMapIt  gBIt  = _barrierMapM.begin();
+    ThreadMapIt   gTIt  = _threadMapM.begin();
+    LockMapIt     gLIt  = _lockMapM.begin();
+    LockPoolMapIt gLPIt = _lockPoolMapM.begin();
+    BarrierMapIt  gBIt  = _barrierMapM.begin();
 
     while(gTIt != _threadMapM.end())
     {
@@ -779,22 +790,22 @@ void OSGThreadManager::shutdown(void)
     }
 
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
-    OSGThread::freeAspect();
-    OSGThread::freeThreadP();
-    OSGThread::freeChangeListP();
+    Thread::freeAspect();
+    Thread::freeThreadP();
+    Thread::freeChangeListP();
 #endif
 }
 
-OSGThreadManager::OSGThreadManager(void) :
-    _createThreadF   ((OSGCreateThreadF)   OSGThread::create),
-    _createBarrierF  ((OSGCreateBarrierF)  OSGBarrier::create),
-    _createLockF     ((OSGCreateLockF)     OSGLock::create),
-    _createLockPoolF ((OSGCreateLockPoolF) OSGLockPool::create),
+ThreadManager::ThreadManager(void) :
+    _createThreadF   ((CreateThreadF)   Thread::create),
+    _createBarrierF  ((CreateBarrierF)  Barrier::create),
+    _createLockF     ((CreateLockF)     Lock::create),
+    _createLockPoolF ((CreateLockPoolF) LockPool::create),
 
-    _destroyThreadF  ((OSGDestroyThreadF)   OSGThread::destroy),
-    _destroyBarrierF ((OSGDestroyBarrierF)  OSGBarrier::destroy),
-    _destroyLockF    ((OSGDestroyLockF)     OSGLock::destroy),
-    _destroyLockPoolF((OSGDestroyLockPoolF) OSGLockPool::destroy),
+    _destroyThreadF  ((DestroyThreadF)   Thread::destroy),
+    _destroyBarrierF ((DestroyBarrierF)  Barrier::destroy),
+    _destroyLockF    ((DestroyLockF)     Lock::destroy),
+    _destroyLockPoolF((DestroyLockPoolF) LockPool::destroy),
 
     _threadMapM    (),
 
@@ -811,7 +822,7 @@ OSGThreadManager::OSGThreadManager(void) :
 #endif
 }
 
-OSGThreadManager::~OSGThreadManager(void)
+ThreadManager::~ThreadManager(void)
 {
 }
 

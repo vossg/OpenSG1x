@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -54,15 +54,15 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *OSGAttachment::getClassname(void)
+/** \fn const char *Attachment::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGMFFieldContainerPtr OSGAttachment::_parents
+/** \var MFFieldContainerPtr Attachment::_parents
  *  \brief Parents multifield
  */
 
-/** \typedef OSGAttachment::Inherited
+/** \typedef Attachment::Inherited
  *  \brief Parent type
  */
 
@@ -74,37 +74,37 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGAttachment, OSGParentsField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Attachment, ParentsField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGAttachment, OSGParentsField)
+OSG_FC_LAST_FIELD_IDM_DEF (Attachment, ParentsField)
 
 
-char OSGAttachment::cvsid[] = "@(#)$Id: $";
+char Attachment::cvsid[] = "@(#)$Id: $";
 
 /** \brief Attachment field description
  */
 
-OSGFieldDescription OSGAttachment::_desc[] = 
+FieldDescription Attachment::_desc[] = 
 {
-	OSGFieldDescription(
-        OSGMFNodePtr::getClassType(), 
+	FieldDescription(
+        MFNodePtr::getClassType(), 
         "parents", 
-        OSG_FC_FIELD_IDM_DESC(OSGParentsField),
+        OSG_FC_FIELD_IDM_DESC(ParentsField),
         false,
-        (OSGFieldAccessMethod) &OSGAttachment::getMFParents,
+        (FieldAccessMethod) &Attachment::getMFParents,
         "test")
 };
 
 /** \brief Attachment type
  */
 
-OSGFieldContainerType OSGAttachment::_type("Attachment",
-                                           "FieldContainer",
-                                           NULL,
-                                           NULL,
-                                           NULL,
-                                           _desc,
-                                           sizeof(_desc));
+FieldContainerType Attachment::_type("Attachment",
+                                     "FieldContainer",
+                                     NULL,
+                                     NULL,
+                                     NULL,
+                                     _desc,
+                                     sizeof(_desc));
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -130,14 +130,14 @@ OSGFieldContainerType OSGAttachment::_type("Attachment",
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGAttachment, OSGAttachmentPtr)
+OSG_FIELD_CONTAINER_DEF(Attachment, AttachmentPtr)
 
 /*------------------------------ access -----------------------------------*/
 
 /** \brief Returns pointer to parent field
  */
 
-OSGMFFieldContainerPtr *OSGAttachment::getMFParents(void)
+MFFieldContainerPtr *Attachment::getMFParents(void)
 {
     return &_parents;
 }
@@ -145,7 +145,7 @@ OSGMFFieldContainerPtr *OSGAttachment::getMFParents(void)
 /** \brief Add given pointer to parent list
  */
 
-void OSGAttachment::addParent(OSGFieldContainerPtr parent)
+void Attachment::addParent(FieldContainerPtr parent)
 {
     _parents.addValue(parent);
 }
@@ -153,9 +153,9 @@ void OSGAttachment::addParent(OSGFieldContainerPtr parent)
 /**  \brief Sub given pointer from parent list
  */
 
-void OSGAttachment::subParent(OSGFieldContainerPtr parent)
+void Attachment::subParent(FieldContainerPtr parent)
 {
-    OSGMFFieldContainerPtr::iterator parentIt = _parents.find(parent);
+    MFFieldContainerPtr::iterator parentIt = _parents.find(parent);
 
     if(parentIt != _parents.end())
     {
@@ -169,10 +169,10 @@ void OSGAttachment::subParent(OSGFieldContainerPtr parent)
  *  log stream instead
  */
 
-void OSGAttachment::print(OSGUInt32 indent) const
+void Attachment::print(UInt32 indent) const
 {
-    OSGUInt32 i;
-    OSGUInt32 j;
+    UInt32 i;
+    UInt32 j;
 
     for(i = 0; i < indent; i++)
         fprintf(stderr, " ");
@@ -193,9 +193,9 @@ void OSGAttachment::print(OSGUInt32 indent) const
     }
 }
 
-void OSGAttachment::dump(void) const
+void Attachment::dump(void) const
 {
-    SDEBUG << "Dump OSGAttachment NI" << endl;
+    SDEBUG << "Dump Attachment NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -207,7 +207,7 @@ void OSGAttachment::dump(void) const
 /** \brief Constructor
  */
 
-OSGAttachment::OSGAttachment(void) :
+Attachment::Attachment(void) :
     Inherited(),
     _parents()
 {
@@ -216,7 +216,7 @@ OSGAttachment::OSGAttachment(void) :
 /** \brief Copy Constructor 
  */
 
-OSGAttachment::OSGAttachment(const OSGAttachment &obj) :
+Attachment::Attachment(const Attachment &obj) :
     Inherited(obj),
     _parents()
 {
@@ -225,7 +225,7 @@ OSGAttachment::OSGAttachment(const OSGAttachment &obj) :
 /** \brief Destructor
  */
 
-OSGAttachment::~OSGAttachment(void)
+Attachment::~Attachment(void)
 {
 }
 
@@ -261,10 +261,11 @@ OSGAttachment::~OSGAttachment(void)
 //s: 
 ///---------------------------------------------------------------------------
 
+OSG_DLLEXPORT
 ostream &OSG::operator <<(ostream                &stream,
-                          const OSGAttachmentMap &map)
+                          const AttachmentMap &map)
 {
-    stream << "OSGAttachment << NI" << endl;
+    stream << "Attachment << NI" << endl;
 
     return stream;
 }

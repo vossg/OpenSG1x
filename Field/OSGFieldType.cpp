@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -29,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -41,7 +51,6 @@
 #include <iostream.h>
 #endif
 
-
 #include "OSGFieldType.h"
 #include "OSGBaseFunctions.h"
 #include "OSGFieldFactory.h"
@@ -50,31 +59,31 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *OSGFieldType::getClassname(void)
+/** \fn const char *FieldType::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGField * (*OSGFieldType::OSGCreateFieldMethod)(void)
+/** \typedef Field * (*FieldType::CreateFieldMethod)(void)
  *  Field create method
  */
 
-/** \var OSGFieldDataType OSGFieldType::_typeId
+/** \var FieldDataType FieldType::_typeId
  *  \brief Field data type
  */
 
-/** \var char *OSGFieldType::_szName
+/** \var char *FieldType::_szName
  *  \brief Field type name
  */
 
-/** \var OSGFieldType::_createMethod
+/** \var FieldType::_createMethod
  *  \brief Field create method
  */
 
-/** \fn OSGFieldType::OSGFieldType(const OSGFieldType &source)
+/** \fn FieldType::FieldType(const FieldType &source)
  *  \brief Not implemented.
  */
 
-/** \fn void OSGFieldType::operator =(const OSGFieldType &source)
+/** \fn void FieldType::operator =(const FieldType &source)
  *  \brief Not implemented.
  */
 
@@ -86,7 +95,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGFieldType::cvsid[] = "@(#)$Id: $";
+char FieldType::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -117,8 +126,8 @@ char OSGFieldType::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGFieldType::OSGFieldType(const char           *szName,
-                           OSGCreateFieldMethod  createMethod) :
+FieldType::FieldType(const char           *szName,
+                           CreateFieldMethod  createMethod) :
     _typeId(0), 
     _szName(NULL), 
     _createMethod(createMethod)
@@ -127,18 +136,18 @@ OSGFieldType::OSGFieldType(const char           *szName,
        (*szName      != '\0'        ) && 
        (createMethod != NULL))
     {
-		if(OSGFieldFactory::_fieldTypeV == NULL) 
+		if(FieldFactory::_fieldTypeV == NULL) 
         {
-			OSGFieldFactory::_fieldTypeV = new vector<OSGFieldType *>;
+			FieldFactory::_fieldTypeV = new vector<FieldType *>;
 		}
         
-		OSGFieldFactory::_fieldTypeV->push_back(this);
-		_typeId = OSGFieldFactory::_fieldTypeV->size();
+		FieldFactory::_fieldTypeV->push_back(this);
+		_typeId = FieldFactory::_fieldTypeV->size();
 
-        stringDup(szName, _szName);		
+        osgstringDup(szName, _szName);		
 	}
 	else
-		cerr << "ERROR: Invalid OSGField::OSGField() parameter" << endl;
+		cerr << "ERROR: Invalid Field::Field() parameter" << endl;
 
     SLOG << "Initialized FieldType : " << _szName << endl;
 }
@@ -147,19 +156,19 @@ OSGFieldType::OSGFieldType(const char           *szName,
 /** \brief Destructor
  */
 
-OSGFieldType::~OSGFieldType(void)
+FieldType::~FieldType(void)
 {
-	(*OSGFieldFactory::_fieldTypeV)[_typeId] = 0;
+	(*FieldFactory::_fieldTypeV)[_typeId] = 0;
 
 	delete [] _szName;
 }
 
 /*--------------------------------- access ----------------------------------*/
 
-/** \brief Get field data type. \sa OSGFieldDataType
+/** \brief Get field data type. \sa FieldDataType
  */
 
-OSGUInt32 OSGFieldType::getTypeId(void) const
+UInt32 FieldType::getTypeId(void) const
 {
     return _typeId;
 }
@@ -167,19 +176,19 @@ OSGUInt32 OSGFieldType::getTypeId(void) const
 /** \brief Get type name
  */
 
-const char *OSGFieldType::getName(void) const
+const char *FieldType::getName(void) const
 {
     return _szName;
 }
 
 /*-------------------------------- comparision ------------------------------*/
 
-OSGBool OSGFieldType::operator ==(const OSGFieldType &source) const
+Bool FieldType::operator ==(const FieldType &source) const
 {
     return _typeId == source._typeId;
 }
 
-OSGBool OSGFieldType::operator !=(const OSGFieldType &source) const
+Bool FieldType::operator !=(const FieldType &source) const
 {
     return ! (*this == source);
 }

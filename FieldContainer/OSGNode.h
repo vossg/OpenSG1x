@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -61,8 +61,8 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGNodeCore;
-class OSGNodePtr;
+class NodeCore;
+class NodePtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -73,10 +73,10 @@ class OSGNodePtr;
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGNode
+ *  \brief Node
  */
 
-class OSGNode : public OSGFieldContainer 
+class OSG_DLLEXPORT Node : public FieldContainer 
 {
   public:
 
@@ -84,16 +84,14 @@ class OSGNode : public OSGFieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGNameField       )
+    OSG_FC_FIRST_FIELD_IDM_DECL(VolumeField     )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGVolumeField     )
+    OSG_FC_FIELD_IDM_DECL      (ParentField     )
+    OSG_FC_FIELD_IDM_DECL      (ChildrenField   )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGParentField     )
-    OSG_FC_FIELD_IDM_DECL      (OSGChildrenField   )
+    OSG_FC_FIELD_IDM_DECL      (CoreField       )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGCoreField       )
-
-    OSG_FC_FIELD_IDM_DECL      (OSGAttachmentsField)
+    OSG_FC_FIELD_IDM_DECL      (AttachmentsField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -105,7 +103,7 @@ class OSGNode : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNodePtr OSGPtr;
+    typedef NodePtr Ptr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -117,84 +115,83 @@ class OSGNode : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGNodePtr)
+    OSG_FIELD_CONTAINER_DECL(NodePtr)
 
     /*------------------------------ attachments ---------------------------*/
 
-    virtual void addAttachment(const OSGAttachmentPtr &fieldContainerP);
+    virtual void addAttachment(const AttachmentPtr &fieldContainerP);
 
-    virtual void subAttachment(const OSGAttachmentPtr &fieldContainerP);
+    virtual void subAttachment(const AttachmentPtr &fieldContainerP);
 
-    virtual OSGAttachmentPtr findAttachment(OSGUInt32 typeID);
+    virtual AttachmentPtr findAttachment(UInt32 typeID);
 
     /*-------------------------------- core --------------------------------*/
 
-    OSGNodeCorePtr getCore(void);
-    void           setCore(const OSGNodeCorePtr &core);
+    NodeCorePtr getCore(void);
+    void        setCore(const NodeCorePtr &core);
 
     /*------------------------------ parent --------------------------------*/
 
-    OSGNodePtr    getParent  (void);
+    NodePtr    getParent  (void);
 
     /*------------------------------ children ------------------------------*/
 
-    OSGUInt32  getNChildren  (void) const;
+    UInt32  getNChildren  (void) const;
     
-    void       addChild      (const OSGNodePtr &childP);
+    void    addChild      (const NodePtr &childP);
 
-    void       insertChild   (      OSGUInt32   childIndex, 
-                              const OSGNodePtr &childP);
+    void    insertChild   (      UInt32   childIndex, 
+                           const NodePtr &childP);
 
-    void       replaceChild  (      OSGUInt32   childIndex,    
-                              const OSGNodePtr &childP);
+    void    replaceChild  (      UInt32   childIndex,    
+                           const NodePtr &childP);
 
-    void       replaceChildBy(const OSGNodePtr &childP, 
-                              const OSGNodePtr &newChildP);
+    void    replaceChildBy(const NodePtr &childP, 
+                           const NodePtr &newChildP);
 
-    void       subChild      (const OSGNodePtr &childP);
-    void       subChild      (      OSGUInt32   childIndex);
+    void    subChild      (const NodePtr &childP);
+    void    subChild      (      UInt32   childIndex);
 
-    OSGNodePtr getChild      (      OSGUInt32   childIndex);
+    NodePtr getChild      (      UInt32   childIndex);
 
     /*--------------------------- access fields ----------------------------*/
 
-    OSGSFString        *getSFName       (void);
-    OSGSFVolume        *getSFVolume     (void);
+    SFVolume        *getSFVolume     (void);
 
-    OSGSFNodePtr       *getSFParent     (void);
-    OSGSFNodeCorePtr   *getSFCore       (void);
-    OSGMFNodePtr       *getMFChildren   (void);
+    SFNodePtr       *getSFParent     (void);
+    SFNodeCorePtr   *getSFCore       (void);
+    MFNodePtr       *getMFChildren   (void);
 
-    OSGSFAttachmentMap *getSFAttachments(void);
+    SFAttachmentMap *getSFAttachments(void);
 
     /*------------------------------ pointer -------------------------------*/
 
-    OSGNodePtr        getPtr       (void);
+    NodePtr        getPtr       (void);
 
     /*-------------------------- transformation ----------------------------*/
 
-    OSGMatrix getToWorld(void);
+    Matrix getToWorld(void);
     
-    void      getToWorld(OSGMatrix & result);
+    void   getToWorld(Matrix & result);
     
     /*------------------------------ volume -------------------------------*/
     
-    const OSGVolume &getVolume       (void)             const;
+    const Volume &getVolume       (void)             const;
     
-          void       getWorldVolume  (OSGVolume &result);
+          void    getWorldVolume  (Volume &result);
     
-          void       updateVolume    (void);
+          void    updateVolume    (void);
 
-          void       invalidateVolume(void);
+          void    invalidateVolume(void);
 
     /*------------------------------ changed -------------------------------*/
 
-    virtual void changed(OSGBitVector  whichField, 
-                         OSGChangeMode from);
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
     
     /*------------------------------ dump ----------------------------------*/
 
-            void print(OSGUInt32 indent = 0) const;
+            void print(UInt32 indent = 0) const;
 
     virtual void dump (void)                 const;
 
@@ -212,8 +209,8 @@ class OSGNode : public OSGFieldContainer
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -223,8 +220,8 @@ class OSGNode : public OSGFieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static OSGFieldDescription   _desc[];
-    static OSGFieldContainerType _type;
+    static FieldDescription   _desc[];
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -238,11 +235,11 @@ class OSGNode : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGNode(void);
-    OSGNode(const OSGNode &source);
-    virtual ~OSGNode (void);
+    Node(void);
+    Node(const Node &source);
+    virtual ~Node (void);
 
-    void setParent(const OSGNodePtr &_parent);
+    void setParent(const NodePtr &_parent);
 
   private:
 
@@ -254,7 +251,7 @@ class OSGNode : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer Inherited;
+    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -278,23 +275,21 @@ class OSGNode : public OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGSFString        _name;
+    SFVolume        _volume;
 
-    OSGSFVolume        _volume;
+    SFNodePtr       _parent;
+    MFNodePtr       _children;
 
-    OSGSFNodePtr       _parent;
-    OSGMFNodePtr       _children;
+    SFNodeCorePtr   _core;
 
-    OSGSFNodeCorePtr   _core;
-
-    OSGSFAttachmentMap _attachmentMap;
+    SFAttachmentMap _attachmentMap;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 };
 
-typedef OSGNode *OSGNodeP;
+typedef Node *NodeP;
 
 OSG_END_NAMESPACE
 

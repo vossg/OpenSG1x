@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGLightBase;
+class LightBase;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -68,7 +68,7 @@ class OSGLightBase;
 
 //! \ingroup FieldContainerPtr
 
-typedef OSGFCPtr<OSGNodeCorePtr, OSGLightBase> OSGLightPtr;
+typedef FCPtr<NodeCorePtr, LightBase> LightPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -82,7 +82,7 @@ typedef OSGFCPtr<OSGNodeCorePtr, OSGLightBase> OSGLightPtr;
  *  \brief Base for the different OGL lights.
  */
 
-class OSGLightBase : public OSGNodeCore
+class OSG_DLLEXPORT LightBase : public NodeCore
 {
   private:
 
@@ -92,11 +92,11 @@ class OSGLightBase : public OSGNodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGAmbientField )
+    OSG_FC_FIRST_FIELD_IDM_DECL(AmbientField )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGDiffuseField )  
-    OSG_FC_FIELD_IDM_DECL      (OSGSpecularField)  
-    OSG_FC_FIELD_IDM_DECL      (OSGBeaconField  )
+    OSG_FC_FIELD_IDM_DECL      (DiffuseField )  
+    OSG_FC_FIELD_IDM_DECL      (SpecularField)  
+    OSG_FC_FIELD_IDM_DECL      (BeaconField  )
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -120,52 +120,52 @@ class OSGLightBase : public OSGNodeCore
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(OSGLightPtr)
+    OSG_ABSTR_FIELD_CONTAINER_DECL(LightPtr)
 
     /*------------------------- set color terms -----------------------------*/
 
     //@{ 
     //! set the light's attributes
-    void setAmbientColor(OSGReal32 rRed, OSGReal32 rGreen, OSGReal32 rBlue, 
-                         OSGReal32 rAlpha);
-    void setAmbientColor(const OSGColor4f &color);
+    void setAmbientColor(Real32 rRed, Real32 rGreen, Real32 rBlue, 
+                         Real32 rAlpha);
+    void setAmbientColor(const Color4f &color);
 
-    void setDiffuseColor(OSGReal32 rRed, OSGReal32 rGreen, OSGReal32 rBlue, 
-                         OSGReal32 rAlpha);
-    void setDiffuseColor(const OSGColor4f &color);
+    void setDiffuseColor(Real32 rRed, Real32 rGreen, Real32 rBlue, 
+                         Real32 rAlpha);
+    void setDiffuseColor(const Color4f &color);
 
-    void setSpecularColor(OSGReal32 rRed, OSGReal32 rGreen, OSGReal32 rBlue, 
-                          OSGReal32 rAlpha);
-    void setSpecularColor(const OSGColor4f &color);
+    void setSpecularColor(Real32 rRed, Real32 rGreen, Real32 rBlue, 
+                          Real32 rAlpha);
+    void setSpecularColor(const Color4f &color);
 
-    void setBeacon(const OSGNodePtr &beacon);
+    void setBeacon(const NodePtr &beacon);
     //@}
 
     /*------------------------- get color terms fields ----------------------*/
 
     //@{ 
     //! get the light's fields
-    OSGSFColor4f *getSFAmbientColor (void);
-    OSGSFColor4f *getSFDiffuseColor (void);
-    OSGSFColor4f *getSFSpecularColor(void);
-    OSGSFNodePtr *getSFBeacon       (void);
+    SFColor4f *getSFAmbientColor (void);
+    SFColor4f *getSFDiffuseColor (void);
+    SFColor4f *getSFSpecularColor(void);
+    SFNodePtr *getSFBeacon       (void);
     //@}
    
     /*------------------------- get color terms -----------------------------*/
 
     //@{ 
     //! get the light's attributes
-          OSGColor4f &getAmbientColor(void);
-    const OSGColor4f &getAmbientColor(void) const;
+          Color4f &getAmbientColor(void);
+    const Color4f &getAmbientColor(void) const;
 
-          OSGColor4f &getDiffuseColor(void);
-    const OSGColor4f &getDiffuseColor(void) const;
+          Color4f &getDiffuseColor(void);
+    const Color4f &getDiffuseColor(void) const;
 
-          OSGColor4f &getSpecularColor(void);
-    const OSGColor4f &getSpecularColor(void) const;
+          Color4f &getSpecularColor(void);
+    const Color4f &getSpecularColor(void) const;
 
-          OSGNodePtr &getBeacon(void);
-    const OSGNodePtr &getBeacon(void) const;
+          NodePtr &getBeacon(void);
+    const NodePtr &getBeacon(void) const;
     //@}
 
     /*------------------------------ dump -----------------------------------*/
@@ -196,19 +196,19 @@ class OSGLightBase : public OSGNodeCore
 
     //@{ 
     //! the light's fields
-    OSGSFColor4f _ambientTerm;
-    OSGSFColor4f _diffuseTerm;
-    OSGSFColor4f _specularTerm;
-    OSGSFNodePtr _beacon;
+    SFColor4f _ambientTerm;
+    SFColor4f _diffuseTerm;
+    SFColor4f _specularTerm;
+    SFNodePtr _beacon;
     //@}
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGLightBase(void);
-    OSGLightBase(const OSGLightBase &source);
-    virtual ~OSGLightBase(void); 
+    LightBase(void);
+    LightBase(const LightBase &source);
+    virtual ~LightBase(void); 
     
     // ------------------------------ Actions ------------------------------
     
@@ -216,7 +216,7 @@ class OSGLightBase : public OSGNodeCore
      *  Draw action: execute the OpenGL commands to set the light's
      *  parameters. Right now only into \c GL_LIGHT0!
      */
-    OSGAction::ResultE draw(OSGAction * action );
+    Action::ResultE draw(Action * action );
 
   private:
 
@@ -228,13 +228,13 @@ class OSGLightBase : public OSGNodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGNodeCore Inherited;
+    typedef NodeCore Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -246,9 +246,9 @@ class OSGLightBase : public OSGNodeCore
 
     static char cvsid[];
 
-    static OSGFieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-    static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -264,7 +264,7 @@ class OSGLightBase : public OSGNodeCore
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGNodeCore &source);
+    void operator =(const NodeCore &source);
 };
 
 //---------------------------------------------------------------------------

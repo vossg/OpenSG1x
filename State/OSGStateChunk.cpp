@@ -45,19 +45,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -65,17 +65,17 @@ OSG_USING_NAMESPACE
  *                               Types                                     *
 \***************************************************************************/
 
-// OSGStateChunkClass code
+// StateChunkClass code
 
-vector<OSGString>* OSGStateChunkClass::_classNames = NULL;
-vector<OSGUInt32>* OSGStateChunkClass::_numslots = NULL;
+vector<String>* StateChunkClass::_classNames = NULL;
+vector<UInt32>* StateChunkClass::_numslots = NULL;
 
-OSGStateChunkClass::OSGStateChunkClass( OSGString name, OSGUInt32 numslots )
+StateChunkClass::StateChunkClass( String name, UInt32 numslots )
 {
 	if ( ! _classNames )
 	{
-		_classNames = new vector<OSGString>;
-		_numslots = new vector<OSGUInt32>;
+		_classNames = new vector<String>;
+		_numslots = new vector<UInt32>;
 	}
 
 	_classId = _classNames->size();
@@ -87,36 +87,36 @@ OSGStateChunkClass::OSGStateChunkClass( OSGString name, OSGUInt32 numslots )
 	}
 }
 
-OSGStateChunkClass::iterator OSGStateChunkClass::begin( void )
+StateChunkClass::iterator StateChunkClass::begin( void )
 {
 	return _classNames->begin();
 }
 
-OSGStateChunkClass::iterator OSGStateChunkClass::end( void )
+StateChunkClass::iterator StateChunkClass::end( void )
 {
 	return _classNames->end();
 }
 
 // instance access
 
-OSGUInt32 OSGStateChunkClass::getID( void ) const
+UInt32 StateChunkClass::getID( void ) const
 {
 	return _classId;
 }
 
-OSGUInt32 OSGStateChunkClass::getNumSlots( void ) const
+UInt32 StateChunkClass::getNumSlots( void ) const
 {
 	return (*_numslots)[_classId];
 }
 
-const OSGString OSGStateChunkClass::getName( void ) const
+const String StateChunkClass::getName( void ) const
 {
 	return (*_classNames)[_classId];
 }
 
 // static access
 
-OSGUInt32 OSGStateChunkClass::getNumSlots( OSGUInt32 index ) 
+UInt32 StateChunkClass::getNumSlots( UInt32 index ) 
 {
 	if ( index >= (*_numslots).size() )
 		return -1;
@@ -124,10 +124,10 @@ OSGUInt32 OSGStateChunkClass::getNumSlots( OSGUInt32 index )
 	return (*_numslots)[index];
 }
 
-const OSGString OSGStateChunkClass::getName( OSGUInt32 index ) 
+const String StateChunkClass::getName( UInt32 index ) 
 {
 	if ( index >= (*_classNames).size() )
-			return OSGString();
+			return String();
 
 	return (*_classNames)[index];
 }
@@ -137,12 +137,12 @@ const OSGString OSGStateChunkClass::getName( OSGUInt32 index )
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGStateChunk::cvsid[] = "@(#)$Id: $";
+char StateChunk::cvsid[] = "@(#)$Id: $";
 
-OSGFieldContainerType OSGStateChunk::_type("StateChunk", 
+FieldContainerType StateChunk::_type("StateChunk", 
                                      "FieldContainer");
 
-OSGStateChunkPtr OSG::OSGNullStateChunk;
+StateChunkPtr OSG::NullStateChunk;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -168,20 +168,20 @@ OSGStateChunkPtr OSG::OSGNullStateChunk;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(OSGStateChunk, OSGStateChunkPtr)
+OSG_ABSTR_FIELD_CONTAINER_DEF(StateChunk, StateChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGStateChunk::OSGStateChunk(void) :
+StateChunk::StateChunk(void) :
 	Inherited(), _ownClass()
 {
 }
 
 
-OSGStateChunk::OSGStateChunk( const OSGStateChunk & source ) :
+StateChunk::StateChunk( const StateChunk & source ) :
 	Inherited(source), _ownClass(source._ownClass)
 {
 }
@@ -189,7 +189,7 @@ OSGStateChunk::OSGStateChunk( const OSGStateChunk & source ) :
 /** \brief Destructor
  */
 
-OSGStateChunk::~OSGStateChunk(void)
+StateChunk::~StateChunk(void)
 {
 }
 
@@ -197,22 +197,22 @@ OSGStateChunk::~OSGStateChunk(void)
 
 /*---------------------------- properties ---------------------------------*/
 
-const OSGStateChunkClass *  OSGStateChunk::getClass( void ) const
+const StateChunkClass *  StateChunk::getClass( void ) const
 {
 	return NULL;
 }
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGStateChunk::activate ( OSGUInt32 index )
+void StateChunk::activate ( UInt32 index )
 {
 }
 
-void OSGStateChunk::changeFrom( OSGStateChunk * old, OSGUInt32 index )
+void StateChunk::changeFrom( StateChunk * old, UInt32 index )
 {
 }
 
-void OSGStateChunk::deactivate ( OSGUInt32 index )
+void StateChunk::deactivate ( UInt32 index )
 {
 }
 
@@ -220,15 +220,15 @@ void OSGStateChunk::deactivate ( OSGUInt32 index )
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGStateChunk::dump(void) const
+void StateChunk::dump(void) const
 {
-    SDEBUG << "Dump OSGStateChunk NI" << endl;
+    SDEBUG << "Dump StateChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
 
-OSGReal32 OSGStateChunk::switchCost( OSGStateChunk * chunk )
+Real32 StateChunk::switchCost( StateChunk * chunk )
 {
 	return 0;
 }
@@ -236,7 +236,7 @@ OSGReal32 OSGStateChunk::switchCost( OSGStateChunk * chunk )
 /** \brief assignment
  */
 
-OSGBool OSGStateChunk::operator < (const OSGStateChunk &other) const
+Bool StateChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -244,7 +244,7 @@ OSGBool OSGStateChunk::operator < (const OSGStateChunk &other) const
 /** \brief equal
  */
 
-OSGBool OSGStateChunk::operator == (const OSGStateChunk &other) const
+Bool StateChunk::operator == (const StateChunk &other) const
 {
 	return false;
 }
@@ -252,7 +252,7 @@ OSGBool OSGStateChunk::operator == (const OSGStateChunk &other) const
 /** \brief unequal
  */
 
-OSGBool OSGStateChunk::operator != (const OSGStateChunk &other) const
+Bool StateChunk::operator != (const StateChunk &other) const
 {
 	return ! (*this == other);
 }

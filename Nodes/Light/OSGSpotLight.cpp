@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -57,8 +57,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::OSGSpotLight
- * OSGSpotLight is a located lightsource. The position of the light source
+/*! \class osg::SpotLight
+ * SpotLight is a located lightsource. The position of the light source
  * (in the beacon's coordinate system) is defined by the \c position 
  * attribute, its direction by the \c direction attribute. The spot has an 
  * exponential fallof, controlled by the \c spotExponent attribute and a 
@@ -76,49 +76,49 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGSpotLight, OSGDirectionField)
+OSG_FC_FIRST_FIELD_IDM_DEF(SpotLight, DirectionField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGSpotLight, 
-                          OSGSpotExpField, 
-                          OSGDirectionField)
+OSG_FC_FIELD_IDM_DEF      (SpotLight, 
+                           SpotExpField, 
+                           DirectionField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGSpotLight, 
-                          OSGSpotCutOffField,   
-                          OSGSpotExpField)
+OSG_FC_FIELD_IDM_DEF      (SpotLight, 
+                           SpotCutOffField,   
+                           SpotExpField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGSpotLight, OSGSpotCutOffField)
+OSG_FC_LAST_FIELD_IDM_DEF (SpotLight, SpotCutOffField)
 
-char OSGSpotLight::cvsid[] = "@(#)$Id: $";
+char SpotLight::cvsid[] = "@(#)$Id: $";
 
-OSGFieldDescription OSGSpotLight::_desc[] = 
+FieldDescription SpotLight::_desc[] = 
 {
-    OSGFieldDescription(
-        OSGSFVec3f::getClassType(),
+    FieldDescription(
+        SFVec3f::getClassType(),
         "direction", 
-        OSG_FC_FIELD_IDM_DESC(OSGDirectionField),
+        OSG_FC_FIELD_IDM_DESC(DirectionField),
         false,
-        (OSGFieldAccessMethod) &OSGSpotLight::getSFDirection), 
+        (FieldAccessMethod) &SpotLight::getSFDirection), 
 
-    OSGFieldDescription(
-        OSGSFReal32::getClassType(),
+    FieldDescription(
+        SFReal32::getClassType(),
         "spotExponent", 
-        OSG_FC_FIELD_IDM_DESC(OSGSpotExpField),
+        OSG_FC_FIELD_IDM_DESC(SpotExpField),
         false,
-        (OSGFieldAccessMethod) &OSGSpotLight::getSFSpotExponent), 
+        (FieldAccessMethod) &SpotLight::getSFSpotExponent), 
 
-    OSGFieldDescription(
-        OSGSFReal32::getClassType(),
+    FieldDescription(
+        SFReal32::getClassType(),
         "spotCutOff", 
-        OSG_FC_FIELD_IDM_DESC(OSGSpotCutOffField),
+        OSG_FC_FIELD_IDM_DESC(SpotCutOffField),
         false,
-        (OSGFieldAccessMethod) &OSGSpotLight::getSFSpotCutOff)
+        (FieldAccessMethod) &SpotLight::getSFSpotCutOff)
 };
 
-OSGFieldContainerType OSGSpotLight::_type(
-    "OSGSpotLight",
-    "OSGPointLight",
+FieldContainerType SpotLight::_type(
+    "SpotLight",
+    "PointLight",
     NULL,
-    (OSGPrototypeCreateF) &OSGSpotLight::createEmpty,
+    (PrototypeCreateF) &SpotLight::createEmpty,
     initMethod,
     _desc,
     sizeof(_desc));
@@ -139,13 +139,13 @@ OSGFieldContainerType OSGSpotLight::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-void OSGSpotLight::initMethod (void)
+void SpotLight::initMethod (void)
 {
-    OSGDrawAction::registerEnterDefault( getStaticType(), 
-        osgMethodFunctor2BaseCPtr<OSG::OSGAction::ResultE,
-                                OSGCNodePtr,  
-                                OSGSpotLightPtr, 
-                                OSGAction *>(&OSGSpotLight::draw));
+    DrawAction::registerEnterDefault( getStaticType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                SpotLightPtr, 
+                                Action *>(&SpotLight::draw));
 }
 
 /***************************************************************************\
@@ -156,14 +156,14 @@ void OSGSpotLight::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGSpotLight, OSGSpotLightPtr)
+OSG_FIELD_CONTAINER_DEF(SpotLight, SpotLightPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGSpotLight::OSGSpotLight(void) :
+SpotLight::SpotLight(void) :
     Inherited(),
     _direction(),
     _spotExponent(),
@@ -174,7 +174,7 @@ OSGSpotLight::OSGSpotLight(void) :
 /** \brief Copy Constructor
  */
 
-OSGSpotLight::OSGSpotLight( const OSGSpotLight & source ) :
+SpotLight::SpotLight( const SpotLight & source ) :
     Inherited(),
     _direction( source._direction ),
     _spotExponent( source._spotExponent ),
@@ -185,84 +185,84 @@ OSGSpotLight::OSGSpotLight( const OSGSpotLight & source ) :
 /** \brief Destructor
  */
 
-OSGSpotLight::~OSGSpotLight(void)
+SpotLight::~SpotLight(void)
 {
 }
 
 /*------------------------------- set -----------------------------------*/
 
-void OSGSpotLight::setSpotDirection(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ)
+void SpotLight::setSpotDirection(Real32 rX, Real32 rY, Real32 rZ)
 {
     _direction.getValue().setValues(rX, rY, rZ);
 }
 
-void OSGSpotLight::setSpotDirection(const OSGVec3f &gDirection)
+void SpotLight::setSpotDirection(const Vec3f &gDirection)
 {
     _direction.setValue(gDirection);
 }
 
-void OSGSpotLight::setSpotExponent(OSGReal32 rSpotExponent)
+void SpotLight::setSpotExponent(Real32 rSpotExponent)
 {
     _spotExponent.setValue(rSpotExponent);
 }
 
-void OSGSpotLight::setSpotCutOff(OSGReal32 rSpotCutOff)
+void SpotLight::setSpotCutOff(Real32 rSpotCutOff)
 {
     _spotCutOff.setValue(rSpotCutOff);
 }
 
 /*------------------------------- get -----------------------------------*/
 
-OSGSFVec3f  *OSGSpotLight::getSFDirection(void)
+SFVec3f  *SpotLight::getSFDirection(void)
 {
     return &_direction;
 }
 
-OSGSFReal32 *OSGSpotLight::getSFSpotExponent(void)
+SFReal32 *SpotLight::getSFSpotExponent(void)
 {
     return &_spotExponent;
 }
 
-OSGSFReal32 *OSGSpotLight::getSFSpotCutOff  (void)
+SFReal32 *SpotLight::getSFSpotCutOff  (void)
 {
     return &_spotCutOff;
 }
 
-OSGVec3f &OSGSpotLight::getDirection  (void)
+Vec3f &SpotLight::getDirection  (void)
 {
     return _direction.getValue();
 }
 
-const OSGVec3f &OSGSpotLight::getDirection  (void) const
+const Vec3f &SpotLight::getDirection  (void) const
 {
     return _direction.getValue();
 }
 
-OSGReal32 &OSGSpotLight::getSpotExponent    (void)
+Real32 &SpotLight::getSpotExponent    (void)
 {
     return _spotExponent.getValue();
 }
 
-OSGReal32  OSGSpotLight::getSpotExponent    (void) const
+Real32  SpotLight::getSpotExponent    (void) const
 {
     return _spotExponent.getValue();
 }
 
-OSGReal32 &OSGSpotLight::getSpotCutOff      (void)
+Real32 &SpotLight::getSpotCutOff      (void)
 {
     return _spotCutOff.getValue();
 }
 
-OSGReal32  OSGSpotLight::getSpotCutOff      (void) const
+Real32  SpotLight::getSpotCutOff      (void) const
 {
     return _spotCutOff.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGSpotLight::dump(void) const
+void SpotLight::dump(void) const
 {
-    SDEBUG << "Dump OSGSpotLight NI" << endl;
+    SDEBUG << "Dump SpotLight NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -273,11 +273,11 @@ void OSGSpotLight::dump(void) const
 /** \brief Actions
  */
     
-OSGAction::ResultE OSGSpotLight::draw(OSGAction * action )
+Action::ResultE SpotLight::draw(Action * action )
 {
-    OSGPointLight::draw( action );
+    PointLight::draw( action );
 
-    OSGVec4f dir( _direction.getValue() );
+    Vec4f dir( _direction.getValue() );
 
     dir[3] = 0;
 
@@ -287,7 +287,7 @@ OSGAction::ResultE OSGSpotLight::draw(OSGAction * action )
 
     glPopMatrix();
 
-    return OSGAction::Continue;
+    return Action::Continue;
 }
 
 

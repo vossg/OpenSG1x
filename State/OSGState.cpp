@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -56,28 +67,28 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGState, OSGChunksField)
-OSG_FC_LAST_FIELD_IDM_DEF (OSGState, OSGChunksField)
+OSG_FC_FIRST_FIELD_IDM_DEF(State, ChunksField)
+OSG_FC_LAST_FIELD_IDM_DEF (State, ChunksField)
 
-char OSGState::cvsid[] = "@(#)$Id: $";
+char State::cvsid[] = "@(#)$Id: $";
 
 
-OSGFieldDescription OSGState::_desc[] = 
+FieldDescription State::_desc[] = 
 {
-        OSGFieldDescription(
-        OSGMFStateChunkPtr::getClassType(), 
+        FieldDescription(
+        MFStateChunkPtr::getClassType(), 
         "chunks", 
-        OSG_FC_FIELD_IDM_DESC(OSGChunksField),
+        OSG_FC_FIELD_IDM_DESC(ChunksField),
         false,
-        (OSGFieldAccessMethod) &OSGState::getMFChunks,
+        (FieldAccessMethod) &State::getMFChunks,
         "")
 };
 
-OSGFieldContainerType OSGState::_type(
+FieldContainerType State::_type(
 	"State", 
 	"FieldContainer", 
 	NULL,
-	(OSGPrototypeCreateF) &OSGState::createEmpty,
+	(PrototypeCreateF) &State::createEmpty,
 	NULL,
 	_desc, 
 	sizeof(_desc));
@@ -106,19 +117,19 @@ OSGFieldContainerType OSGState::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGState, OSGStatePtr)
+OSG_FIELD_CONTAINER_DEF(State, StatePtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGState::OSGState(void) :
+State::State(void) :
 	Inherited()
 {
 }
 
-OSGState::OSGState( const OSGState& source ) :
+State::State( const State& source ) :
 	Inherited(source)
 {
 }
@@ -126,13 +137,13 @@ OSGState::OSGState( const OSGState& source ) :
 /** \brief Destructor
  */
 
-OSGState::~OSGState(void)
+State::~State(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-OSGMFStateChunkPtr *OSGState::getMFChunks( void )
+MFStateChunkPtr *State::getMFChunks( void )
 {
 	return &_chunks;
 }
@@ -142,7 +153,7 @@ OSGMFStateChunkPtr *OSGState::getMFChunks( void )
 
 /*-------------------------- your_category---------------------------------*/
 	
-void OSGState::addChunk( OSGStateChunkPtr chunk, OSGInt32 index )
+void State::addChunk( StateChunkPtr chunk, Int32 index )
 {
 	if ( index > 0 && index > chunk->getClass()->getNumSlots() )
 	{
@@ -151,17 +162,17 @@ void OSGState::addChunk( OSGStateChunkPtr chunk, OSGInt32 index )
 		return;
 	}
 	
-	OSGUInt32 cindex = chunk->getClassID();
-	OSGUInt32 csize = _chunks.size();
+	UInt32 cindex = chunk->getClassID();
+	UInt32 csize = _chunks.size();
 	
 	// special case: find empty slot automatically
 	if ( index < 0 )
 	{
-		OSGUInt8 nslots = chunk->getClass()->getNumSlots();
-		OSGUInt8 ci;
+		UInt8 nslots = chunk->getClass()->getNumSlots();
+		UInt8 ci;
 
 		for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ ) 
-			if ( _chunks.getValue( ci ) == OSGNullStateChunk )
+			if ( _chunks.getValue( ci ) == NullStateChunk )
 				break;
 		
 		if ( ci >= cindex + nslots )	// no free slot found
@@ -178,20 +189,20 @@ void OSGState::addChunk( OSGStateChunkPtr chunk, OSGInt32 index )
 	// add the chunk to the state at cindex
 	if ( cindex >= csize )
 	{
-		OSGUInt32 oldsize = csize, 
+		UInt32 oldsize = csize, 
 				  newsize = cindex + 1;
 
 		_chunks.resize( newsize );
 	
-		for ( OSGUInt32 i = oldsize; i < newsize; i++ )
-			_chunks.setValue( OSGNullStateChunk, i );
+		for ( UInt32 i = oldsize; i < newsize; i++ )
+			_chunks.setValue( NullStateChunk, i );
 	}
 
 	_chunks.setValue( chunk, cindex );
 }
 
 	
-void OSGState::subChunk( OSGStateChunkPtr chunk, OSGInt32 index )
+void State::subChunk( StateChunkPtr chunk, Int32 index )
 {
 	if ( index > 0 && index > chunk->getClass()->getNumSlots() )
 	{
@@ -200,14 +211,14 @@ void OSGState::subChunk( OSGStateChunkPtr chunk, OSGInt32 index )
 		return;
 	}
 	
-	OSGUInt32 cindex = chunk->getClassID();
-	OSGUInt32 csize = _chunks.size();
+	UInt32 cindex = chunk->getClassID();
+	UInt32 csize = _chunks.size();
 	
 	// special case: find it in the slots
 	if ( index < 0 )
 	{
-		OSGUInt8 nslots = chunk->getClass()->getNumSlots();
-		OSGUInt8 ci;
+		UInt8 nslots = chunk->getClass()->getNumSlots();
+		UInt8 ci;
 
 		for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ ) 
 			if ( _chunks.getValue( ci ) == chunk )
@@ -224,83 +235,83 @@ void OSGState::subChunk( OSGStateChunkPtr chunk, OSGInt32 index )
 
 	// remove the chunk from the state 
 
-	_chunks.setValue( OSGNullStateChunk, cindex );
+	_chunks.setValue( NullStateChunk, cindex );
 }
 	
-void OSGState::subChunk( OSGUInt32 classid, OSGInt32 index )
+void State::subChunk( UInt32 classid, Int32 index )
 {
-	if ( index > 0 && index > OSGStateChunkClass::getNumSlots(classid) )
+	if ( index > 0 && index > StateChunkClass::getNumSlots(classid) )
 	{
 		SWARNING << "subChunk: index " << index << " > Numslots "
-				 << OSGStateChunkClass::getNumSlots(classid) 
+				 << StateChunkClass::getNumSlots(classid) 
 				 << ",  ignored!" << endl;
 		return;
 	}
 
 	// remove the chunk from the state 
 
-	_chunks.setValue( OSGNullStateChunk, classid + index );	
+	_chunks.setValue( NullStateChunk, classid + index );	
 }
 
 // call the OpenGL commands to set my part of the state.
-void OSGState::activate ( void )
+void State::activate ( void )
 {
-	OSGMFStateChunkPtr::iterator it;
-	OSGUInt32 ind = 0;
-	OSGUInt32 cind;
+	MFStateChunkPtr::iterator it;
+	UInt32 ind = 0;
+	UInt32 cind;
 
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
 		  it++, cind++,  ind++ )
 	{
-		if ( *it != OSGNullStateChunk )
+		if ( *it != NullStateChunk )
 			(*it)->activate( ind );
-		if ( ind >= OSGStateChunkClass::getNumSlots( cind ) )
+		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
 }
 
 // call commands to get from old to my state. 
-void OSGState::changeFrom( OSGState * old )
+void State::changeFrom( State * old )
 {
-	OSGMFStateChunkPtr::iterator it;
-	OSGUInt32 ind = 0;
-	OSGUInt32 cind;
+	MFStateChunkPtr::iterator it;
+	UInt32 ind = 0;
+	UInt32 cind;
 
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
 		  it++, cind++, ind++ )
 	{
-		OSGStateChunkPtr o = old->getChunk( cind );
-		OSGStateChunkPtr n = *it;
+		StateChunkPtr o = old->getChunk( cind );
+		StateChunkPtr n = *it;
 
-		if ( n != OSGNullStateChunk )
+		if ( n != NullStateChunk )
 		{			
-			if ( o != OSGNullStateChunk )
+			if ( o != NullStateChunk )
 				n->changeFrom( o.getCPtr(), ind );
 			else
 				n->activate( ind );
 		}
-		else if ( o != OSGNullStateChunk )
+		else if ( o != NullStateChunk )
 			o->deactivate( ind );
 			
-		if ( ind >= OSGStateChunkClass::getNumSlots( cind ) )
+		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
 }
 
 
 // reset my part of the state.
-void OSGState::deactivate ( void )
+void State::deactivate ( void )
 {
-	OSGMFStateChunkPtr::iterator it;
-	OSGUInt32 ind = 0;
-	OSGUInt32 cind;
+	MFStateChunkPtr::iterator it;
+	UInt32 ind = 0;
+	UInt32 cind;
 
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
 		  it++, cind++,  ind++ )
 	{
-		if ( *it != OSGNullStateChunk )
+		if ( *it != NullStateChunk )
 			(*it)->deactivate( ind );
-		if ( ind >= OSGStateChunkClass::getNumSlots( cind ) )
+		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
 }
@@ -309,14 +320,14 @@ void OSGState::deactivate ( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGState::dump(void) const
+void State::dump(void) const
 {
-    SDEBUG << "Dump OSGState NI" << endl;
+    SDEBUG << "Dump State NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-OSGReal32 OSGState::switchCost( OSGState * state )
+Real32 State::switchCost( State * state )
 {
 	return 0;
 }
@@ -324,7 +335,7 @@ OSGReal32 OSGState::switchCost( OSGState * state )
 /** \brief assignment
  */
 
-OSGBool OSGState::operator < (const OSGState &other) const
+Bool State::operator < (const State &other) const
 {
     return this < &other;
 }
@@ -332,7 +343,7 @@ OSGBool OSGState::operator < (const OSGState &other) const
 /** \brief equal
  */
 
-OSGBool OSGState::operator == (const OSGState &other) const
+Bool State::operator == (const State &other) const
 {
 	return false;
 }
@@ -340,24 +351,24 @@ OSGBool OSGState::operator == (const OSGState &other) const
 /** \brief unequal
  */
 
-OSGBool OSGState::operator != (const OSGState &other) const
+Bool State::operator != (const State &other) const
 {
 	return ! (*this == other);
 }
 
 /*------------------------- debug ----------------------------------*/
 
-void OSGState::print( void )
+void State::print( void )
 {
 	cerr << "State at " << this << endl;
 
-	OSGMFStateChunkPtr::iterator it;
-	OSGUInt32 cind;
+	MFStateChunkPtr::iterator it;
+	UInt32 cind;
 	
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); it++, cind++ )
 	{
-		cerr << OSGStateChunkClass::getName(cind) << "\t";
-		if ( *it == OSGNullStateChunk )
+		cerr << StateChunkClass::getName(cind) << "\t";
+		if ( *it == NullStateChunk )
 			cerr << "NullChunk" << endl;
 		else
 			cerr << *it << endl;

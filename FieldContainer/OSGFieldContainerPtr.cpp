@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -46,8 +57,10 @@
 #include "OSGNodeCore.h"
 #include "OSGAttachment.h"
 #include "OSGThreadManager.h"
+#include "OSGThread.h"
 #include "OSGLog.h"
 #include "OSGLock.h"
+#include "OSGChangeList.h"
 
 OSG_USING_NAMESPACE
 
@@ -59,11 +72,11 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSGUInt16 OSGFieldContainerPtr::OSGInvalidParentFPos = 0xFFFF;
+const UInt16 FieldContainerPtr::InvalidParentFPos = 0xFFFF;
 
-char OSGFieldContainerPtr::cvsid[] = "@(#)$Id: $";
+char FieldContainerPtr::cvsid[] = "@(#)$Id: $";
 
-OSGLockPool *OSGFieldContainerPtr::_refCountLockP = NULL;
+LockPool *FieldContainerPtr::_refCountLockP = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -77,12 +90,12 @@ OSGLockPool *OSGFieldContainerPtr::_refCountLockP = NULL;
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGBool OSGFieldContainerPtr::initialize(int , char **)
+Bool FieldContainerPtr::initialize(int , char **)
 {
-    OSGBool           returnValue = false;
-    OSGThreadManager *pManager    = OSGThreadManager::the();
+    Bool           returnValue = false;
+    ThreadManager *pManager    = ThreadManager::the();
 
-    SINFO << "OSGFieldContainerPtr init" << endl;
+    SINFO << "FieldContainerPtr init" << endl;
 
     if(pManager != NULL)
     {
@@ -95,11 +108,11 @@ OSGBool OSGFieldContainerPtr::initialize(int , char **)
     return returnValue;
 }
 
-OSGBool OSGFieldContainerPtr::terminate(void)
+Bool FieldContainerPtr::terminate(void)
 {
-    OSGThreadManager *pManager = OSGThreadManager::the();
+    ThreadManager *pManager = ThreadManager::the();
 
-    SINFO << "OSGFieldContainerPtr terminate" << endl;
+    SINFO << "FieldContainerPtr terminate" << endl;
 
     if(pManager == NULL)
         return false;
@@ -126,9 +139,9 @@ OSGBool OSGFieldContainerPtr::terminate(void)
 /** \brief Constructor
  */
 
-OSGFieldContainerPtr::OSGFieldContainerPtr(void) :
+FieldContainerPtr::FieldContainerPtr(void) :
     _containerSize(0),
-    _parentFPos(OSGInvalidParentFPos),
+    _parentFPos(InvalidParentFPos),
 	_storeP(NULL)
 {
 #ifdef OSG_DEBUG_TYPED_FCPTR
@@ -139,8 +152,8 @@ OSGFieldContainerPtr::OSGFieldContainerPtr(void) :
 /** \brief Copy Constructor
  */
 
-OSGFieldContainerPtr::OSGFieldContainerPtr(
-    const OSGFieldContainerPtr &source) :
+FieldContainerPtr::FieldContainerPtr(
+    const FieldContainerPtr &source) :
     _containerSize(source._containerSize),
     _parentFPos   (source._parentFPos),
 	_storeP       (source._storeP)
@@ -149,32 +162,32 @@ OSGFieldContainerPtr::OSGFieldContainerPtr(
     if(_storeP == NULL)
         _typename = NULL;
     else
-        _typename = ((OSGFieldContainer *) _storeP)->getType().getName();
+        _typename = ((FieldContainer *) _storeP)->getType().getName();
 #endif
 }
 
 /** \brief Destructor
  */
 
-OSGFieldContainerPtr::~OSGFieldContainerPtr(void)
+FieldContainerPtr::~FieldContainerPtr(void)
 {
 }
 
 /*----------------------------- parent field pos -----------------------*/
 
-void OSGFieldContainerPtr::setParentFieldPos(OSGUInt16 parentFPos)
+void FieldContainerPtr::setParentFieldPos(UInt16 parentFPos)
 {
     _parentFPos = parentFPos;
 }
 
-OSGUInt16 OSGFieldContainerPtr::getParentFieldPos(void) const
+UInt16 FieldContainerPtr::getParentFieldPos(void) const
 {
     return _parentFPos;
 }
 
 /*---------------------------- container id ---------------------------------*/
 
-OSGUInt32 OSGFieldContainerPtr::getContainerId(void) const
+UInt32 FieldContainerPtr::getContainerId(void) const
 {
     return (*getIdP());
 }
@@ -184,58 +197,58 @@ OSGUInt32 OSGFieldContainerPtr::getContainerId(void) const
 /** \brief Arrow operator
  */
 
-OSGFieldContainer *OSGFieldContainerPtr::operator->(void)
+FieldContainer *FieldContainerPtr::operator->(void)
 {
-    return (OSGFieldContainer *) (getElemP(OSGThread::getAspect()));
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
 }
 
 /** \brief Const arrow operator
  */
 
-const OSGFieldContainer *OSGFieldContainerPtr::operator->(void) const
+const FieldContainer *FieldContainerPtr::operator->(void) const
 {
-    return (OSGFieldContainer *) (getElemP(OSGThread::getAspect()));
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
 }
 
 /** \brief Dereference operator
  */
 
-OSGFieldContainer &OSGFieldContainerPtr::operator *(void)
+FieldContainer &FieldContainerPtr::operator *(void)
 {
-    return *((OSGFieldContainer *) (getElemP(OSGThread::getAspect())));
+    return *((FieldContainer *) (getElemP(Thread::getAspect())));
 }
 
 /** \brief Const dereference operator
  */
 
-const OSGFieldContainer &OSGFieldContainerPtr::operator *(void) const
+const FieldContainer &FieldContainerPtr::operator *(void) const
 {
-    return *((OSGFieldContainer *) (getElemP(OSGThread::getAspect())));
+    return *((FieldContainer *) (getElemP(Thread::getAspect())));
 }
 
-/** \brief get OSGFieldContainer * 
+/** \brief get FieldContainer * 
  */
 
-OSGFieldContainer *OSGFieldContainerPtr::getCPtr(void)
+FieldContainer *FieldContainerPtr::getCPtr(void)
 {
-    return (OSGFieldContainer *) (getElemP(OSGThread::getAspect()));
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
 }
 
-/** \brief get const OSGFieldContainer *
+/** \brief get const FieldContainer *
  */
 
-const OSGFieldContainer *OSGFieldContainerPtr::getCPtr(void) const
+const FieldContainer *FieldContainerPtr::getCPtr(void) const
 {
-    return (OSGFieldContainer *) (getElemP(OSGThread::getAspect()));
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
 }
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-/** \brief OSGFieldContainer * cast operator
+/** \brief FieldContainer * cast operator
  */
 
-OSGFieldContainerPtr::operator OSGFieldContainer *(void)
+FieldContainerPtr::operator FieldContainer *(void)
 {
-    return (OSGFieldContainer *) (getElemP(OSGThread::getAspect()));
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
 }
 #endif
 
@@ -244,8 +257,8 @@ OSGFieldContainerPtr::operator OSGFieldContainer *(void)
 /** \brief assignment
  */
 
-OSGFieldContainerPtr &OSGFieldContainerPtr::operator = (
-    const OSGFieldContainerPtr &source)
+FieldContainerPtr &FieldContainerPtr::operator = (
+    const FieldContainerPtr &source)
 {
 	if (this == &source)
 		return *this;
@@ -258,7 +271,7 @@ OSGFieldContainerPtr &OSGFieldContainerPtr::operator = (
     if(_storeP == NULL)
         _typename = NULL;
     else
-        _typename = ((OSGFieldContainer *) _storeP)->getType().getName();
+        _typename = ((FieldContainer *) _storeP)->getType().getName();
 #endif
 
     return *this;
@@ -270,8 +283,8 @@ OSGFieldContainerPtr &OSGFieldContainerPtr::operator = (
 /** \brief less than
  */
 
-OSGBool OSGFieldContainerPtr::operator < (
-    const OSGFieldContainerPtr &other) const
+Bool FieldContainerPtr::operator < (
+    const FieldContainerPtr &other) const
 {
     return _storeP < other._storeP;
 }
@@ -279,8 +292,8 @@ OSGBool OSGFieldContainerPtr::operator < (
 /** \brief equal
  */
 
-OSGBool OSGFieldContainerPtr::operator == (
-    const OSGFieldContainerPtr &other) const
+Bool FieldContainerPtr::operator == (
+    const FieldContainerPtr &other) const
 {
     return _storeP == other._storeP;
 }
@@ -288,8 +301,8 @@ OSGBool OSGFieldContainerPtr::operator == (
 /** \brief not equal
  */
 
-OSGBool OSGFieldContainerPtr::operator != (
-    const OSGFieldContainerPtr &other) const
+Bool FieldContainerPtr::operator != (
+    const FieldContainerPtr &other) const
 {
 	return ! (*this == other);
 }
@@ -297,7 +310,7 @@ OSGBool OSGFieldContainerPtr::operator != (
 /** \brief not
  */
 
-OSGBool OSGFieldContainerPtr::operator !(void) const
+Bool FieldContainerPtr::operator !(void) const
 {
     return _storeP == NULL;
 }
@@ -307,17 +320,17 @@ OSGBool OSGFieldContainerPtr::operator !(void) const
 /** Dump pointer contents to stderr, should be changed to use a log stream
  */
 
-void OSGFieldContainerPtr::dump(void) const
+void FieldContainerPtr::dump(void) const
 {
     if(_storeP != NULL)
     {
-        SDEBUG << "FC Dump : %d " << (*(getIdP())) << endl;
+        PDEBUG << "FC Dump : %d " << (*(getIdP())) << endl;
 
         dumpContent();
     }
     else
     {
-        SDEBUG << "FC Dump : (NULL)" << endl;
+        PDEBUG << "FC Dump : (NULL)" << endl;
     }
 }
 
@@ -327,40 +340,40 @@ void OSGFieldContainerPtr::dump(void) const
 \*-------------------------------------------------------------------------*/
 
 #ifdef OSG_DEBUG_TYPED_FCPTR
-void OSGFieldContainerPtr::updateTypedStore(void)
+void FieldContainerPtr::updateTypedStore(void)
 {
     if(_storeP == NULL)
         _typename = NULL;
     else
-        _typename = ((OSGFieldContainer *) _storeP)->getType().getName();
+        _typename = ((FieldContainer *) _storeP)->getType().getName();
 }
 #endif
 
-void OSGFieldContainerPtr::executeSync(OSGUInt32    fromAspect,
-                                       OSGUInt32    toAspect, 
-                                       OSGBitVector whichField)
+void FieldContainerPtr::executeSync(UInt32    fromAspect,
+                                    UInt32    toAspect, 
+                                    BitVector whichField)
 {
-    OSGBool syncHappened = false;
+    Bool syncHappened = false;
 
     fprintf(stderr, "Do Sync %d %d %08x\n", fromAspect, toAspect, whichField);
 
-    OSGFieldContainer *pFrom   = ((OSGFieldContainer *)
+    FieldContainer *pFrom   = ((FieldContainer *)
                                   (_storeP + (_containerSize  *  fromAspect)));
 
-    OSGFieldContainer *pTo     = ((OSGFieldContainer *)
+    FieldContainer *pTo     = ((FieldContainer *)
                                   (_storeP + (_containerSize  *  toAspect)));
 
-    OSGBitVector currentField = OSGFieldBits::OSGField0;
+    BitVector currentField = FieldBits::Field0;
 
-    for(OSGUInt32 i = 0; i < pTo->getType().getNumFieldDescriptions(); i++)
+    for(UInt32 i = 0; i < pTo->getType().getNumFieldDescriptions(); i++)
     {
         if(currentField & whichField)
         {
-            const OSGFieldDescription *pDesc = 
+            const FieldDescription *pDesc = 
                 pTo->getType().getFieldDescription(i);
 
-            OSGField *pFromField;
-            OSGField *pToField;
+            Field *pFromField;
+            Field *pToField;
             
             if(pDesc != NULL)
             {
@@ -384,75 +397,75 @@ void OSGFieldContainerPtr::executeSync(OSGUInt32    fromAspect,
 
     if(syncHappened == true)
     {
-        pTo->changed(whichField, OSGFieldContainer::OSGSync);
+        pTo->changed(whichField, FieldContainer::Sync);
     }
 }
 
-OSGInt32 *OSGFieldContainerPtr::getRefCountP(void)
+Int32 *FieldContainerPtr::getRefCountP(void)
 {
-    return (OSGInt32 *) (_storeP -  
-                         sizeof(OSGInt32)  -
-                         sizeof(OSGUInt32));
+    return (Int32 *) (_storeP -  
+                         sizeof(Int32)  -
+                         sizeof(UInt32));
 }
 
-const OSGInt32 *OSGFieldContainerPtr::getRefCountP(void) const
+const Int32 *FieldContainerPtr::getRefCountP(void) const
 {
-    return (OSGInt32 *) (_storeP -  
-                         sizeof(OSGInt32)  -
-                         sizeof(OSGUInt32));
+    return (Int32 *) (_storeP -  
+                         sizeof(Int32)  -
+                         sizeof(UInt32));
 }
 
-OSGUInt32 *OSGFieldContainerPtr::getIdP(void)
+UInt32 *FieldContainerPtr::getIdP(void)
 {
-    return (OSGUInt32 *) (_storeP - sizeof(OSGUInt32));
+    return (UInt32 *) (_storeP - sizeof(UInt32));
 }
 
-const OSGUInt32 *OSGFieldContainerPtr::getIdP(void) const
+const UInt32 *FieldContainerPtr::getIdP(void) const
 {
-    return (OSGUInt32 *) (_storeP - sizeof(OSGUInt32));
+    return (UInt32 *) (_storeP - sizeof(UInt32));
 }
 
-OSGUInt8 *OSGFieldContainerPtr::getElemP(OSGUInt32 elemNum)
-{
-    return (_storeP + (_containerSize * elemNum));
-}
-
-const OSGUInt8 *OSGFieldContainerPtr::getElemP(OSGUInt32 elemNum) const
+UInt8 *FieldContainerPtr::getElemP(UInt32 elemNum)
 {
     return (_storeP + (_containerSize * elemNum));
 }
 
-OSGUInt8 *OSGFieldContainerPtr::getFirstElemP(void)
+const UInt8 *FieldContainerPtr::getElemP(UInt32 elemNum) const
+{
+    return (_storeP + (_containerSize * elemNum));
+}
+
+UInt8 *FieldContainerPtr::getFirstElemP(void)
 {
     return _storeP;
 }
 
-const OSGUInt8 *OSGFieldContainerPtr::getFirstElemP(void) const
+const UInt8 *FieldContainerPtr::getFirstElemP(void) const
 {
     return _storeP;
 }
 
-OSGInt32  OSGFieldContainerPtr::getRefCountOff(void) const
+Int32  FieldContainerPtr::getRefCountOff(void) const
 {
-    return - sizeof(OSGInt32) - sizeof(OSGUInt32);
+    return - sizeof(Int32) - sizeof(UInt32);
 }
 
-OSGInt32  OSGFieldContainerPtr::getIdOff(void) const
+Int32  FieldContainerPtr::getIdOff(void) const
 {
-    return - sizeof(OSGUInt32);
+    return - sizeof(UInt32);
 }
 
-OSGInt32  OSGFieldContainerPtr::getFirstElemOff(void) const
+Int32  FieldContainerPtr::getFirstElemOff(void) const
 {
     return 0;
 }
 
-OSGInt32  OSGFieldContainerPtr::getElemOff(OSGUInt32 elemNum) const
+Int32  FieldContainerPtr::getElemOff(UInt32 elemNum) const
 {
     return (_containerSize * elemNum);
 }
 
-void OSGFieldContainerPtr::addRef(void)
+void FieldContainerPtr::addRef(void)
 {
     _refCountLockP->aquire(_storeP);
 
@@ -460,10 +473,10 @@ void OSGFieldContainerPtr::addRef(void)
     
     _refCountLockP->release(_storeP);
 
-    OSGThread::getCurrentChangeList()->addAddRefd(*this);
+    Thread::getCurrentChangeList()->addAddRefd(*this);
 }
 
-void OSGFieldContainerPtr::subRef(void)
+void FieldContainerPtr::subRef(void)
 {
     _refCountLockP->aquire(_storeP);
 
@@ -471,15 +484,15 @@ void OSGFieldContainerPtr::subRef(void)
 
     _refCountLockP->release(_storeP);
 
-    OSGThread::getCurrentChangeList()->addSubRefd(*this);
+    Thread::getCurrentChangeList()->addSubRefd(*this);
 
     if((*getRefCountP()) <= 0)
     {
-        OSGUInt8 *pTmp = getFirstElemP();
+        UInt8 *pTmp = getFirstElemP();
 
-        for(OSGUInt32 i = 0; i < OSGThreadManager::getNumAspects(); i++)
+        for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
-            ( (OSGFieldContainer *) pTmp)->~OSGFieldContainer();
+            ( (FieldContainer *) pTmp)->~FieldContainer();
             
             pTmp += _containerSize;
         }
@@ -488,48 +501,48 @@ void OSGFieldContainerPtr::subRef(void)
 
         _storeP        = NULL;        
         _containerSize = 0;   
-        _parentFPos    = OSGInvalidParentFPos;
+        _parentFPos    = InvalidParentFPos;
     }
 }
 
-void OSGFieldContainerPtr::beginEdit(OSGBitVector whichField)
+void FieldContainerPtr::beginEdit(BitVector whichField)
 {
 }
 
-void OSGFieldContainerPtr::endEdit(OSGBitVector whichField)
+void FieldContainerPtr::endEdit(BitVector whichField)
 {
     endEditNotChanged(whichField);
     changed(whichField);
 }
 
-void OSGFieldContainerPtr::changed(OSGBitVector whichField)
+void FieldContainerPtr::changed(BitVector whichField)
 {
-    (*this)->changed(whichField, OSGFieldContainer::OSGExternal);
+    (*this)->changed(whichField, FieldContainer::External);
 }
 
-void OSGFieldContainerPtr::endEditNotChanged(OSGBitVector whichField)
+void FieldContainerPtr::endEditNotChanged(BitVector whichField)
 {
-    OSGThread::getCurrentChangeList()->addChanged(*this, whichField);
+    Thread::getCurrentChangeList()->addChanged(*this, whichField);
 }
 
-void OSGFieldContainerPtr::dumpContent(void) const
+void FieldContainerPtr::dumpContent(void) const
 {
-    OSGUInt8 *pTmp = _storeP + getRefCountOff();    
+    UInt8 *pTmp = _storeP + getRefCountOff();    
 
     if(_storeP != NULL)
     {
-        SDEBUG << "\tRefCount : " <<  (*((OSGInt32 *) pTmp)) << endl;
+        PDEBUG << "\tRefCount : " <<  (*((Int32 *) pTmp)) << endl;
 
-        pTmp += sizeof(OSGInt32);
+        pTmp += sizeof(Int32);
         
-        SDEBUG << "\tId : " << (*((OSGUInt32 *) pTmp)) << endl;
+        PDEBUG << "\tId : " << (*((UInt32 *) pTmp)) << endl;
         
-        pTmp += sizeof(OSGUInt32);
+        pTmp += sizeof(UInt32);
         
-        for(OSGUInt32 i = 0; i < OSGThreadManager::getNumAspects(); i++)
+        for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
-            SDEBUG << "\tDumpAspect : " << i << endl;
-            ((OSGFieldContainer *) pTmp)->dump();
+            PDEBUG << "\tDumpAspect : " << i << endl;
+            ((FieldContainer *) pTmp)->dump();
             
             pTmp += _containerSize;
         }
@@ -543,18 +556,18 @@ void OSGFieldContainerPtr::dumpContent(void) const
 /** \brief Construct a pointer from a give fieldcontainer.
  */
 
-OSGFieldContainerPtr::OSGFieldContainerPtr(const OSGFieldContainer &source)
+FieldContainerPtr::FieldContainerPtr(const FieldContainer &source)
 {
     _containerSize = source.getSize();
-    _parentFPos    = OSGInvalidParentFPos;
-    _storeP        = (OSGUInt8 *) &source;
-    _storeP       -= getElemOff(OSGThread::getAspect());
+    _parentFPos    = InvalidParentFPos;
+    _storeP        = (UInt8 *) &source;
+    _storeP       -= getElemOff(Thread::getAspect());
 
 #ifdef OSG_DEBUG_TYPED_FCPTR
     if(_storeP == NULL)
         _typename = NULL;
     else
-        _typename = ((OSGFieldContainer *) _storeP)->getType().getName();
+        _typename = ((FieldContainer *) _storeP)->getType().getName();
 #endif
 }
 
@@ -562,11 +575,11 @@ OSGFieldContainerPtr::OSGFieldContainerPtr(const OSGFieldContainer &source)
  */
 
 ostream &OSG::operator <<(ostream &outStream,
-                          const OSGFieldContainerPtr &fcPtr)
+                          const FieldContainerPtr &fcPtr)
 {
-	if(fcPtr == OSGNullFC)
+	if(fcPtr == NullFC)
     {
-		outStream << hex << "0x" << &fcPtr << dec << ":OSGNullFC";
+		outStream << hex << "0x" << &fcPtr << dec << ":NullFC";
     }
 	else
     {
@@ -579,11 +592,11 @@ ostream &OSG::operator <<(ostream &outStream,
 }
 
 
-/** \fn const char *OSGNodePtr::getClassname(void)
+/** \fn const char *NodePtr::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGNodePtr::Inherited
+/** \typedef NodePtr::Inherited
  *  \brief Parent type
  */
 
@@ -591,7 +604,7 @@ ostream &OSG::operator <<(ostream &outStream,
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGNodePtr::cvsid[] = "@(#)$Id: $";
+char NodePtr::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -622,49 +635,40 @@ char OSGNodePtr::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGNodePtr::OSGNodePtr(void) :
+NodePtr::NodePtr(void) :
     Inherited()
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 }
 
 /** \brief Copy Constructor
  */
 
-OSGNodePtr::OSGNodePtr(const OSGNodePtr &source) :
+NodePtr::NodePtr(const NodePtr &source) :
     Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 }
 
-/** \brief Constructor from OSGCNodePtr
+/** \brief Constructor from CNodePtr
  */
 
-OSGNodePtr::OSGNodePtr(const OSGCNodePtr &source) :
+NodePtr::NodePtr(const CNodePtr &source) :
     Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 }
 
 /** \brief Destructor
  */
 
-OSGNodePtr::~OSGNodePtr(void)
+NodePtr::~NodePtr(void)
 {
 }
 
 /*------------------------------- core access -------------------------------*/
 
-OSGNodeCore *OSGNodePtr::getCore(void)
+NodeCore *NodePtr::getCore(void)
 {
     return 
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr();
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 /*-------------------------- pointer operators ------------------------------*/
@@ -672,68 +676,64 @@ OSGNodeCore *OSGNodePtr::getCore(void)
 /** \brief Arrow operator
  */
 
-OSGNode *OSGNodePtr::operator->(void)
+Node *NodePtr::operator->(void)
 {
-    return (OSGNode *) getElemP(OSGThread::getAspect());
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 /** \brief Const arrow operator
  */
 
-const OSGNode *OSGNodePtr::operator->(void) const
+const Node *NodePtr::operator->(void) const
 {
-    return (OSGNode *) getElemP(OSGThread::getAspect());
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 /** \brief Dereference operator
  */
 
-OSGNode &OSGNodePtr::operator *(void)
+Node &NodePtr::operator *(void)
 {
-    return *((OSGNode *) getElemP(OSGThread::getAspect()));
+    return *((Node *) getElemP(Thread::getAspect()));
 }
 
 /** \brief Const dereference operator
  */
 
-const OSGNode &OSGNodePtr::operator *(void) const
+const Node &NodePtr::operator *(void) const
 {
-    return *((OSGNode *) getElemP(OSGThread::getAspect()));
+    return *((Node *) getElemP(Thread::getAspect()));
 }
 
-OSGNode *OSGNodePtr::getCPtr(void)
+Node *NodePtr::getCPtr(void)
 {
-    return (OSGNode *) getElemP(OSGThread::getAspect());   
+    return (Node *) getElemP(Thread::getAspect());   
 }
 
-const OSGNode *OSGNodePtr::getCPtr(void) const
+const Node *NodePtr::getCPtr(void) const
 {
-    return (OSGNode *) getElemP(OSGThread::getAspect());
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-/** \brief OSGNode * cast operator
+/** \brief Node * cast operator
  */
 
-OSGNodePtr::operator OSGNode *(void)
+NodePtr::operator Node *(void)
 {
-    return (OSGNode *) getElemP(OSGThread::getAspect());
+    return (Node *) getElemP(Thread::getAspect());
 }
 #endif
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment from OSGCNodePtr
+/** \brief assignment from CNodePtr
  */
 
-OSGNodePtr &OSGNodePtr::operator = (const OSGCNodePtr &source)
+NodePtr &NodePtr::operator = (const CNodePtr &source)
 {
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 
     return *this;
 }
@@ -741,7 +741,7 @@ OSGNodePtr &OSGNodePtr::operator = (const OSGCNodePtr &source)
 /** \brief assignment
  */
 
-OSGNodePtr &OSGNodePtr::operator = (const OSGNodePtr &source)
+NodePtr &NodePtr::operator = (const NodePtr &source)
 {
 	if (this == &source)
 		return *this;
@@ -749,14 +749,10 @@ OSGNodePtr &OSGNodePtr::operator = (const OSGNodePtr &source)
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
-
     return *this;
 }
 
-void OSGNodePtr::dump(void) const
+void NodePtr::dump(void) const
 {
     if(_storeP != NULL)
     {
@@ -774,15 +770,6 @@ void OSGNodePtr::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-void OSGNodePtr::updateTypedStore(void)
-{
-    _typedStoreP = (OSGNode *) _storeP;
-    
-    Inherited::updateTypedStore();
-}
-#endif
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -790,28 +777,24 @@ void OSGNodePtr::updateTypedStore(void)
 /** \brief Construct a pointer from a give node.
  */
 
-OSGNodePtr::OSGNodePtr(const OSGNode &source) :
+NodePtr::NodePtr(const Node &source) :
     Inherited()
 {
     _containerSize = source.getSize();
-    _parentFPos    = OSGInvalidParentFPos;
-    _storeP        = (OSGUInt8 *) &source;
-    _storeP       -= getElemOff(OSGThread::getAspect());
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
+    _parentFPos    = InvalidParentFPos;
+    _storeP        = (UInt8 *) &source;
+    _storeP       -= getElemOff(Thread::getAspect());
 }
 
 
 
 
 
-/** \fn const char *OSGCNodePtr::getClassname(void)
+/** \fn const char *CNodePtr::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGCNodePtr::Inherited
+/** \typedef CNodePtr::Inherited
  *  \brief Parent type
  */
 
@@ -819,7 +802,7 @@ OSGNodePtr::OSGNodePtr(const OSGNode &source) :
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGCNodePtr::cvsid[] = "@(#)$Id: $";
+char CNodePtr::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -850,48 +833,39 @@ char OSGCNodePtr::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGCNodePtr::OSGCNodePtr(void) :
+CNodePtr::CNodePtr(void) :
     Inherited()
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 }
 
 /** \brief Copy Constructor
  */
 
-OSGCNodePtr::OSGCNodePtr(const OSGCNodePtr &source) :
+CNodePtr::CNodePtr(const CNodePtr &source) :
     Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 }
 
-/** \brief Constructor from OSGNodePtr
+/** \brief Constructor from NodePtr
  */
 
-OSGCNodePtr::OSGCNodePtr(const OSGNodePtr &source) :
+CNodePtr::CNodePtr(const NodePtr &source) :
     Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 }
 
 /** \brief Destructor
  */
 
-OSGCNodePtr::~OSGCNodePtr(void)
+CNodePtr::~CNodePtr(void)
 {
 }
 
 /*-------------------------------- node access ------------------------------*/
 
-OSGNode *OSGCNodePtr::getNode(void)
+Node *CNodePtr::getNode(void)
 {
-    return (OSGNode *) getElemP(OSGThread::getAspect());
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 /*-------------------------- pointer operators ------------------------------*/
@@ -899,75 +873,71 @@ OSGNode *OSGCNodePtr::getNode(void)
 /** \brief Arrow operator
  */
 
-OSGNodeCore *OSGCNodePtr::operator->(void)
+NodeCore *CNodePtr::operator->(void)
 {
     return
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr();
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 /** \brief Const arrow operator
  */
 
-const OSGNodeCore *OSGCNodePtr::operator->(void) const
+const NodeCore *CNodePtr::operator->(void) const
 {
     return 
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr();
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 /** \brief Dereference operator
  */
 
-OSGNodeCore &OSGCNodePtr::operator *(void)
+NodeCore &CNodePtr::operator *(void)
 {
     return *(
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr());
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
 }
 
 /** \brief Const dereference operator
  */
 
-const OSGNodeCore &OSGCNodePtr::operator *(void) const
+const NodeCore &CNodePtr::operator *(void) const
 {
     return *(
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr());
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
 }
 
-OSGNodeCore *OSGCNodePtr::getCPtr(void)
+NodeCore *CNodePtr::getCPtr(void)
 {
     return 
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr();
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
-const OSGNodeCore *OSGCNodePtr::getCPtr(void) const
+const NodeCore *CNodePtr::getCPtr(void) const
 {
     return 
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore().getCPtr();
+        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-/** \brief OSGNodeCore * cast operator
+/** \brief NodeCore * cast operator
  */
 
-OSGCNodePtr::operator OSGNodeCore *(void)
+CNodePtr::operator NodeCore *(void)
 {
-    return (OSGNodeCore *) 
-        ((OSGNode *) getElemP(OSGThread::getAspect()))->getCore();
+    return (NodeCore *) 
+        ((Node *) getElemP(Thread::getAspect()))->getCore();
 }
 #endif
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment from OSGNodePtr
+/** \brief assignment from NodePtr
  */
 
-OSGCNodePtr &OSGCNodePtr::operator = (const OSGNodePtr &source)
+CNodePtr &CNodePtr::operator = (const NodePtr &source)
 {
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
 
     return *this;
 }
@@ -975,7 +945,7 @@ OSGCNodePtr &OSGCNodePtr::operator = (const OSGNodePtr &source)
 /** \brief assignment
  */
 
-OSGCNodePtr &OSGCNodePtr::operator = (const OSGCNodePtr &source)
+CNodePtr &CNodePtr::operator = (const CNodePtr &source)
 {
 	if (this == &source)
 		return *this;
@@ -983,14 +953,10 @@ OSGCNodePtr &OSGCNodePtr::operator = (const OSGCNodePtr &source)
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
-
     return *this;
 }
 
-void OSGCNodePtr::dump(void) const
+void CNodePtr::dump(void) const
 {
     if(_storeP != NULL)
     {
@@ -1008,15 +974,6 @@ void OSGCNodePtr::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-void OSGCNodePtr::updateTypedStore(void)
-{
-    _typedStoreP = (OSGNode *) _storeP;
-
-    Inherited::updateTypedStore();
-}
-#endif
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -1024,27 +981,23 @@ void OSGCNodePtr::updateTypedStore(void)
 /** \brief Construct a pointer from a give node.
  */
 
-OSGCNodePtr::OSGCNodePtr(const OSGNode &source) :
+CNodePtr::CNodePtr(const Node &source) :
     Inherited()
 {
     _containerSize = source.getSize();
-    _parentFPos    = OSGInvalidParentFPos;
-    _storeP        = (OSGUInt8 *) &source;
-    _storeP       -= getElemOff(OSGThread::getAspect());
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNode *) _storeP;
-#endif
+    _parentFPos    = InvalidParentFPos;
+    _storeP        = (UInt8 *) &source;
+    _storeP       -= getElemOff(Thread::getAspect());
 }
 
 
 
 
-/** \fn const char *OSGNodeCorePtr::getClassname(void)
+/** \fn const char *NodeCorePtr::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGNodeCorePtr::Inherited
+/** \typedef NodeCorePtr::Inherited
  *  \brief Parent type
  */
 
@@ -1053,7 +1006,7 @@ OSGCNodePtr::OSGCNodePtr(const OSGNode &source) :
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGNodeCorePtr::cvsid[] = "@(#)$Id: $";
+char NodeCorePtr::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -1084,29 +1037,23 @@ char OSGNodeCorePtr::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGNodeCorePtr::OSGNodeCorePtr(void) :
+NodeCorePtr::NodeCorePtr(void) :
     Inherited()
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNodeCore *) _storeP;
-#endif
 }
 
 /** \brief Copy Constructor
  */
 
-OSGNodeCorePtr::OSGNodeCorePtr(const OSGNodeCorePtr &source) :
+NodeCorePtr::NodeCorePtr(const NodeCorePtr &source) :
     Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNodeCore *) _storeP;
-#endif
 }
 
 /** \brief Destructor
  */
 
-OSGNodeCorePtr::~OSGNodeCorePtr(void)
+NodeCorePtr::~NodeCorePtr(void)
 {
 }
 
@@ -1115,52 +1062,52 @@ OSGNodeCorePtr::~OSGNodeCorePtr(void)
 /** \brief Arrow operator
  */
 
-OSGNodeCore *OSGNodeCorePtr::operator->(void)
+NodeCore *NodeCorePtr::operator->(void)
 {
-    return (OSGNodeCore *) getElemP(OSGThread::getAspect());
+    return (NodeCore *) getElemP(Thread::getAspect());
 }
 
 /** \brief Const arrow operator
  */
 
-const OSGNodeCore *OSGNodeCorePtr::operator->(void) const
+const NodeCore *NodeCorePtr::operator->(void) const
 {
-    return (OSGNodeCore *) getElemP(OSGThread::getAspect());
+    return (NodeCore *) getElemP(Thread::getAspect());
 }
 
 /** \brief Dereference operator
  */
 
-OSGNodeCore &OSGNodeCorePtr::operator *(void)
+NodeCore &NodeCorePtr::operator *(void)
 {
-    return *((OSGNodeCore *) getElemP(OSGThread::getAspect()));
+    return *((NodeCore *) getElemP(Thread::getAspect()));
 }
 
 /** \brief Const dereference operator
  */
 
-const OSGNodeCore &OSGNodeCorePtr::operator *(void) const
+const NodeCore &NodeCorePtr::operator *(void) const
 {
-    return *((OSGNodeCore *) getElemP(OSGThread::getAspect()));
+    return *((NodeCore *) getElemP(Thread::getAspect()));
 }
 
-OSGNodeCore *OSGNodeCorePtr::getCPtr(void)
+NodeCore *NodeCorePtr::getCPtr(void)
 {
-    return (OSGNodeCore *) getElemP(OSGThread::getAspect());
+    return (NodeCore *) getElemP(Thread::getAspect());
 }
 
-const OSGNodeCore *OSGNodeCorePtr::getCPtr(void) const
+const NodeCore *NodeCorePtr::getCPtr(void) const
 {
-    return (OSGNodeCore *) getElemP(OSGThread::getAspect());
+    return (NodeCore *) getElemP(Thread::getAspect());
 }
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-/** \brief OSGNode * cast operator
+/** \brief Node * cast operator
  */
 
-OSGNodeCorePtr::operator OSGNodeCore *(void)
+NodeCorePtr::operator NodeCore *(void)
 {
-    return (OSGNodeCore *) getElemP(OSGThread::getAspect());
+    return (NodeCore *) getElemP(Thread::getAspect());
 }
 #endif
 
@@ -1169,7 +1116,7 @@ OSGNodeCorePtr::operator OSGNodeCore *(void)
 /** \brief assignment
  */
 
-OSGNodeCorePtr &OSGNodeCorePtr::operator = (const OSGNodeCorePtr &source)
+NodeCorePtr &NodeCorePtr::operator = (const NodeCorePtr &source)
 {
 	if (this == &source)
 		return *this;
@@ -1177,14 +1124,10 @@ OSGNodeCorePtr &OSGNodeCorePtr::operator = (const OSGNodeCorePtr &source)
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNodeCore *) _storeP;
-#endif
-
     return *this;
 }
 
-void OSGNodeCorePtr::dump(void) const
+void NodeCorePtr::dump(void) const
 {
     if(_storeP != NULL)
     {
@@ -1202,15 +1145,6 @@ void OSGNodeCorePtr::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-void OSGNodeCorePtr::updateTypedStore(void)
-{
-    _typedStoreP = (OSGNodeCore *) _storeP;
-
-    Inherited::updateTypedStore();
-}
-#endif
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -1218,27 +1152,23 @@ void OSGNodeCorePtr::updateTypedStore(void)
 /** \brief Construct a pointer from a give node core.
  */
 
-OSGNodeCorePtr::OSGNodeCorePtr(const OSGNodeCore &source) :
+NodeCorePtr::NodeCorePtr(const NodeCore &source) :
     Inherited()
 {
     _containerSize = source.getSize();
-    _parentFPos    = OSGInvalidParentFPos;
-    _storeP        = (OSGUInt8 *) &source;
-    _storeP       -= getElemOff(OSGThread::getAspect());
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGNodeCore *) _storeP;
-#endif
+    _parentFPos    = InvalidParentFPos;
+    _storeP        = (UInt8 *) &source;
+    _storeP       -= getElemOff(Thread::getAspect());
 }
 
 
 
 
-/** \fn const char *OSGAttachmentPtr::getClassname(void)
+/** \fn const char *AttachmentPtr::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGAttachmentPtr::Inherited
+/** \typedef AttachmentPtr::Inherited
  *  \brief Parent type
  */
 
@@ -1246,7 +1176,7 @@ OSGNodeCorePtr::OSGNodeCorePtr(const OSGNodeCore &source) :
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGAttachmentPtr::cvsid[] = "@(#)$Id: $";
+char AttachmentPtr::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -1277,29 +1207,23 @@ char OSGAttachmentPtr::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGAttachmentPtr::OSGAttachmentPtr(void) :
+AttachmentPtr::AttachmentPtr(void) :
 	Inherited()
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGAttachment *) _storeP;
-#endif
 }
 
 /** \brief Copy Constructor
  */
 
-OSGAttachmentPtr::OSGAttachmentPtr(const OSGAttachmentPtr &source) :
+AttachmentPtr::AttachmentPtr(const AttachmentPtr &source) :
 	Inherited(source)
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGAttachment *) _storeP;
-#endif
 }
 
 /** \brief Destructor
  */
 
-OSGAttachmentPtr::~OSGAttachmentPtr(void)
+AttachmentPtr::~AttachmentPtr(void)
 {
 }
 
@@ -1308,52 +1232,52 @@ OSGAttachmentPtr::~OSGAttachmentPtr(void)
 /** \brief Arrow operator
  */
 
-OSGAttachment *OSGAttachmentPtr::operator->(void)
+Attachment *AttachmentPtr::operator->(void)
 {
-    return (OSGAttachment *) getElemP(OSGThread::getAspect());
+    return (Attachment *) getElemP(Thread::getAspect());
 }
 
 /** \brief Const arrow operator
  */
 
-const OSGAttachment *OSGAttachmentPtr::operator->(void) const
+const Attachment *AttachmentPtr::operator->(void) const
 {
-    return (OSGAttachment *) getElemP(OSGThread::getAspect());
+    return (Attachment *) getElemP(Thread::getAspect());
 }
 
 /** \brief Dereference operator
  */
 
-OSGAttachment &OSGAttachmentPtr::operator *(void)
+Attachment &AttachmentPtr::operator *(void)
 {
-    return *((OSGAttachment *) getElemP(OSGThread::getAspect()));
+    return *((Attachment *) getElemP(Thread::getAspect()));
 }
 
 /** \brief Const dereference operator
  */
 
-const OSGAttachment &OSGAttachmentPtr::operator *(void) const
+const Attachment &AttachmentPtr::operator *(void) const
 {
-    return *((OSGAttachment *) getElemP(OSGThread::getAspect()));
+    return *((Attachment *) getElemP(Thread::getAspect()));
 }
 
-OSGAttachment *OSGAttachmentPtr::getCPtr(void)
+Attachment *AttachmentPtr::getCPtr(void)
 {
-    return (OSGAttachment *) getElemP(OSGThread::getAspect());
+    return (Attachment *) getElemP(Thread::getAspect());
 }
 
-const OSGAttachment *OSGAttachmentPtr::getCPtr(void) const
+const Attachment *AttachmentPtr::getCPtr(void) const
 {
-    return (OSGAttachment *) getElemP(OSGThread::getAspect());
+    return (Attachment *) getElemP(Thread::getAspect());
 }
 
 #ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-/** \brief OSGAttachment * cast operator
+/** \brief Attachment * cast operator
  */
 
-OSGAttachmentPtr::operator OSGAttachment *(void)
+AttachmentPtr::operator Attachment *(void)
 {
-    return (OSGAttachment *) getElemP(OSGThread::getAspect());
+    return (Attachment *) getElemP(Thread::getAspect());
 }
 #endif
 
@@ -1362,7 +1286,7 @@ OSGAttachmentPtr::operator OSGAttachment *(void)
 /** \brief assignment
  */
 
-OSGAttachmentPtr& OSGAttachmentPtr::operator =(const OSGAttachmentPtr &source)
+AttachmentPtr& AttachmentPtr::operator =(const AttachmentPtr &source)
 {
 	if (this == &source)
 		return *this;
@@ -1370,24 +1294,20 @@ OSGAttachmentPtr& OSGAttachmentPtr::operator =(const OSGAttachmentPtr &source)
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGAttachment *) _storeP;
-#endif
-
     return *this;
 }
 
-void OSGAttachmentPtr::dump(void) const
+void AttachmentPtr::dump(void) const
 {
     if(_storeP != NULL)
     {
-        SDEBUG << "OSGAttachment Dump" << endl;
+        SDEBUG << "Attachment Dump" << endl;
         
         dumpContent();
     }
     else
     {
-        SDEBUG << "OSGAttachment Dump : (NULL)" << endl;
+        SDEBUG << "Attachment Dump : (NULL)" << endl;
     }
 }
 
@@ -1395,29 +1315,16 @@ void OSGAttachmentPtr::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-void OSGAttachmentPtr::updateTypedStore(void)
-{
-    _typedStoreP = (OSGAttachment *) _storeP;
-
-    Inherited::updateTypedStore();
-}
-#endif
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGAttachmentPtr::OSGAttachmentPtr(const OSGAttachment &source)
+AttachmentPtr::AttachmentPtr(const Attachment &source)
 {
     _containerSize = source.getSize();
-    _parentFPos    = OSGInvalidParentFPos;
-    _storeP        = (OSGUInt8 *) &source;
-    _storeP       -= getElemOff(OSGThread::getAspect());
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _typedStoreP = (OSGAttachment *) _storeP;
-#endif
+    _parentFPos    = InvalidParentFPos;
+    _storeP        = (UInt8 *) &source;
+    _storeP       -= getElemOff(Thread::getAspect());
 }
 
 
@@ -1453,20 +1360,20 @@ OSGAttachmentPtr::OSGAttachmentPtr(const OSGAttachment &source)
 /** \brief NULL field container pointer
  */
 
-const OSGFieldContainerPtr   OSG::OSGNullFC;
+OSG_DLLEXPORT const FieldContainerPtr   OSG::NullFC;
 
 /** \brief NULL node pointer
  */
 
-const OSGNodePtr             OSG::OSGNullNode;
+OSG_DLLEXPORT const NodePtr             OSG::NullNode;
 
 /** \brief NULL node core pointer
  */
 
-const OSGNodeCorePtr         OSG::OSGNullNodeCore;
+OSG_DLLEXPORT const NodeCorePtr         OSG::NullNodeCore;
 
 /** \brief NULL attachment pointer
  */
 
-const OSGAttachmentPtr         OSG::OSGNullAttachment;
+OSG_DLLEXPORT const AttachmentPtr       OSG::NullAttachment;
 

@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -64,34 +64,34 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGNodeCore, OSGParentsField)
+OSG_FC_FIRST_FIELD_IDM_DEF(NodeCore, ParentsField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGNodeCore, OSGAttachmentsField, OSGParentsField)
+OSG_FC_FIELD_IDM_DEF      (NodeCore, AttachmentsField, ParentsField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGNodeCore, OSGAttachmentsField)
+OSG_FC_LAST_FIELD_IDM_DEF (NodeCore, AttachmentsField)
 
-OSGFieldDescription OSGNodeCore::_desc[] = 
+FieldDescription NodeCore::_desc[] = 
 {
-	OSGFieldDescription(OSGMFNodePtr::getClassType(), 
-                        "parents", 
-                        OSG_FC_FIELD_IDM_DESC(OSGParentsField),
-                        false,
-                        (OSGFieldAccessMethod) &OSGNodeCore::getMFParents),
-
-    OSGFieldDescription(OSGSFAttachmentMap::getClassType(),
-                        "attachments", 
-                        OSG_FC_FIELD_IDM_DESC(OSGAttachmentsField),
-                        false,
-                        (OSGFieldAccessMethod) &OSGNodeCore::getSFAttachments)
+	FieldDescription(MFNodePtr::getClassType(), 
+                     "parents", 
+                     OSG_FC_FIELD_IDM_DESC(ParentsField),
+                     false,
+                     (FieldAccessMethod) &NodeCore::getMFParents),
+    
+    FieldDescription(SFAttachmentMap::getClassType(),
+                     "attachments", 
+                     OSG_FC_FIELD_IDM_DESC(AttachmentsField),
+                     false,
+                     (FieldAccessMethod) &NodeCore::getSFAttachments)
 };
 
-OSGFieldContainerType OSGNodeCore::_type("NodeCore",
-                                         "FieldContainer",
-                                         NULL,
-                                         NULL,
-                                         NULL,
-                                         _desc,
-                                         sizeof(_desc));
+FieldContainerType NodeCore::_type("NodeCore",
+                                   "FieldContainer",
+                                   NULL,
+                                   NULL,
+                                   NULL,
+                                   _desc,
+                                   sizeof(_desc));
 
 
 /***************************************************************************\
@@ -118,45 +118,45 @@ OSGFieldContainerType OSGNodeCore::_type("NodeCore",
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(OSGNodeCore, OSGNodeCorePtr)
+OSG_ABSTR_FIELD_CONTAINER_DEF(NodeCore, NodeCorePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-OSGMFNodePtr *OSGNodeCore::getMFParents(void)
+MFNodePtr *NodeCore::getMFParents(void)
 {
     return &_parents;
 }
 
-OSGSFAttachmentMap *OSGNodeCore::getSFAttachments(void)
+SFAttachmentMap *NodeCore::getSFAttachments(void)
 {
     return &_attachmentMap;
 }
 
-void OSGNodeCore::addAttachment(OSGAttachmentPtr &fieldContainerP,
-                                OSGUInt16         binding)
+void NodeCore::addAttachment(AttachmentPtr &fieldContainerP,
+                                UInt16         binding)
 {
-	OSGUInt32 key;
+	UInt32 key;
 
-	if(fieldContainerP == OSGNullAttachment)
+	if(fieldContainerP == NullAttachment)
         return;
 
-	key = (OSGUInt32 (fieldContainerP->getGroupId()) << 16) | binding;
+	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
 	
 	fieldContainerP->addParent(getPtr());
 
 	_attachmentMap.getValue()[key] = fieldContainerP;
 }
 
-void OSGNodeCore::subAttachment(OSGAttachmentPtr &fieldContainerP,
-                                OSGUInt16         binding)
+void NodeCore::subAttachment(AttachmentPtr &fieldContainerP,
+                                UInt16         binding)
 {
-    OSGUInt32 key;
-    OSGAttachmentMap::iterator fcI;
+    UInt32 key;
+    AttachmentMap::iterator fcI;
 
-    if(fieldContainerP == OSGNullAttachment)
+    if(fieldContainerP == NullAttachment)
         return;
 
-    key = (OSGUInt32(fieldContainerP->getGroupId()) << 16) | binding;
+    key = (UInt32(fieldContainerP->getGroupId()) << 16) | binding;
 
     fcI = _attachmentMap.getValue().find(key);
 
@@ -167,44 +167,44 @@ void OSGNodeCore::subAttachment(OSGAttachmentPtr &fieldContainerP,
     }  
 }
 
-OSGAttachmentPtr OSGNodeCore::findAttachment(OSGUInt16 groupId, 
-                                             OSGUInt16 binding)
+AttachmentPtr NodeCore::findAttachment(UInt16 groupId, 
+                                             UInt16 binding)
 {
-	OSGUInt32 key = (OSGUInt32(groupId) << 16) | binding;
+	UInt32 key = (UInt32(groupId) << 16) | binding;
 
-	OSGAttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
+	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
 	
 	return (fcI == _attachmentMap.getValue().end()) ? 
-        OSGNullAttachment : fcI->second;
+        NullAttachment : fcI->second;
 }
 
 
 
 /*---------------------------- properties ---------------------------------*/
 
-OSGNodeCorePtr OSGNodeCore::getPtr(void)
+NodeCorePtr NodeCore::getPtr(void)
 {
-    OSGNodeCorePtr returnValue(*this);
+    NodeCorePtr returnValue(*this);
 
     return returnValue;
 }
 
 /*-------------------------- your_category---------------------------------*/
 
-void OSGNodeCore::accumulateMatrix(OSGMatrix &)
+void NodeCore::accumulateMatrix(Matrix &)
 {
 }
 
-void OSGNodeCore::adjustVolume(OSGVolume &)
+void NodeCore::adjustVolume(Volume &)
 {
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-void OSGNodeCore::print(OSGUInt32 indent)
+void NodeCore::print(UInt32 indent) const
 {
-    OSGUInt32 i;
-    OSGUInt32 j;
+    UInt32 i;
+    UInt32 j;
 
     for(i = 0; i < indent; i++)
         fprintf(stderr, " ");
@@ -224,7 +224,7 @@ void OSGNodeCore::print(OSGUInt32 indent)
 
     fprintf(stderr, "NCAttachments : \n");
 
-    OSGAttachmentMap::iterator fcI;
+    AttachmentMap::const_iterator fcI;
 
     fcI = _attachmentMap.getValue().begin();
 
@@ -237,9 +237,9 @@ void OSGNodeCore::print(OSGUInt32 indent)
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGNodeCore::dump(void) const
+void NodeCore::dump(void) const
 {
-    SDEBUG << "Dump OSGNodeCore NI" << endl;
+    SDEBUG << "Dump NodeCore NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -254,7 +254,7 @@ void OSGNodeCore::dump(void) const
 /** \brief Constructor
  */
 
-OSGNodeCore::OSGNodeCore(void) :
+NodeCore::NodeCore(void) :
     Inherited     (),
     _parents      (),
     _attachmentMap()
@@ -265,7 +265,7 @@ OSGNodeCore::OSGNodeCore(void) :
 /** \brief Copy Constructor
  */
 
-OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
+NodeCore::NodeCore(const NodeCore &obj) :
     Inherited     (obj),
     _parents      (),
     _attachmentMap(obj._attachmentMap)
@@ -275,18 +275,18 @@ OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
 /** \brief Destructor
  */
 
-OSGNodeCore::~OSGNodeCore (void )
+NodeCore::~NodeCore (void )
 {
 }
 
-void OSGNodeCore::addParent(const OSGNodePtr &parent)
+void NodeCore::addParent(const NodePtr &parent)
 {
     _parents.addValue(parent);
 }
 
-void OSGNodeCore::subParent(const OSGNodePtr &parent)
+void NodeCore::subParent(const NodePtr &parent)
 {
-    OSGMFNodePtr::iterator parentIt = _parents.find(parent);
+    MFNodePtr::iterator parentIt = _parents.find(parent);
 
     if(parentIt != _parents.end())
     {

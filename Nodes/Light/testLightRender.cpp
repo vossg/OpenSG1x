@@ -31,11 +31,11 @@
 OSG_USING_NAMESPACE
 
 
-OSGDrawAction * dact;
+DrawAction * dact;
 
-OSGNodePtr  root, dlight, plight, slight;
+NodePtr  root, dlight, plight, slight;
 
-OSGTransformPtr tr;
+TransformPtr tr;
 
 void 
 display(void)
@@ -44,7 +44,7 @@ display(void)
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	OSGMatrix m;
+	Matrix m;
 
 	m.setTranslate( sin(a/1500), cos(a/1500), 1 );
 
@@ -111,17 +111,17 @@ int main (int argc, char **argv)
 
 	// Geometry
 
-	OSGNodePtr g1;
-	g1 = osgMakePlane( 3, 3, 20, 20 );
+	NodePtr g1;
+	g1 = makePlane( 3, 3, 20, 20 );
 
 	// Light Position Inidcator
-	OSGNodePtr g2;
-	g2 = osgMakePlane( .2, .2, 1, 1 );
+	NodePtr g2;
+	g2 = makePlane( .2, .2, 1, 1 );
 
 	// Transform
 
-    OSGNodePtr tnode = OSGNode::create();
-	tr = OSGTransform::create();
+    NodePtr tnode = Node::create();
+	tr = Transform::create();
 	osgBeginEditCP(tnode);
 	tnode->setCore( tr );
 	tnode->addChild( g2 );
@@ -129,8 +129,8 @@ int main (int argc, char **argv)
 
 	// Create Lights
 
-	dlight = OSGNode::create();
-	OSGDirectionalLightPtr dl = OSGDirectionalLight::create();
+	dlight = Node::create();
+	DirectionalLightPtr dl = DirectionalLight::create();
 
 	osgBeginEditCP(dlight);
 	dlight->setCore( dl );
@@ -145,8 +145,8 @@ int main (int argc, char **argv)
 	osgEndEditCP(dl);
 
 
-	plight = OSGNode::create();
-	OSGPointLightPtr pl = OSGPointLight::create();
+	plight = Node::create();
+	PointLightPtr pl = PointLight::create();
 
 	osgBeginEditCP(plight);
 	plight->setCore( pl );
@@ -161,8 +161,8 @@ int main (int argc, char **argv)
 	osgEndEditCP(pl);
 
 
-	slight = OSGNode::create();
-	OSGSpotLightPtr sl = OSGSpotLight::create();
+	slight = Node::create();
+	SpotLightPtr sl = SpotLight::create();
 
 	osgBeginEditCP(slight);
 	slight->setCore( sl );
@@ -182,8 +182,8 @@ int main (int argc, char **argv)
 
 	//
 
-    root = OSGNode::create();
-    OSGGroupPtr gr = OSGGroup::create();
+    root = Node::create();
+    GroupPtr gr = Group::create();
 	osgBeginEditCP(root);
 	root->setCore( gr );
 	root->addChild( tnode );
@@ -194,7 +194,7 @@ int main (int argc, char **argv)
 	
 
 
-	dact = new OSGDrawAction;
+	dact = new DrawAction;
 	
 	glutMainLoop();
 	

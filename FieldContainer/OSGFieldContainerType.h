@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGFIELDCONTAINERTYPE_H_
 #define _OSGFIELDCONTAINERTYPE_H_
@@ -49,18 +59,18 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGFieldContainer;
-class OSGFieldDescription;
+class FieldContainer;
+class FieldDescription;
 
-class OSGFieldContainer;
+class FieldContainer;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef void                 (*OSGInitContainerF)  (void);
+typedef void                 (*InitContainerF)  (void);
 
-typedef OSGFieldContainerPtr (*OSGPrototypeCreateF)(void);
+typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
 //---------------------------------------------------------------------------
 //  Class
@@ -70,7 +80,7 @@ typedef OSGFieldContainerPtr (*OSGPrototypeCreateF)(void);
  *  \brief FieldContainer type
  */
 
-class OSGFieldContainerType 
+class OSG_DLLEXPORT FieldContainerType 
 {
   public:
 
@@ -90,71 +100,71 @@ class OSGFieldContainerType
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGFieldContainerType"; };
+    static const char *getClassname(void) { return "FieldContainerType"; };
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGFieldContainerType(const OSGChar8      *name,  
-                          const OSGChar8      *parentName       = NULL,
-                          const OSGChar8      *group            = NULL,
-                          OSGPrototypeCreateF  prototypeCreateF = NULL,
-                          OSGInitContainerF    initMethod       = NULL,
-                          OSGFieldDescription *desc             = NULL,
-                          OSGUInt32            descByteCounter  = 0);
-    OSGFieldContainerType(const OSGFieldContainerType &obj);
+	FieldContainerType(const Char8      *name,  
+                       const Char8      *parentName       = NULL,
+                       const Char8      *group            = NULL,
+                       PrototypeCreateF  prototypeCreateF = NULL,
+                       InitContainerF    initMethod       = NULL,
+                       FieldDescription *desc             = NULL,
+                       UInt32            descByteCounter  = 0,
+                       Bool              descsAddable     = false);
+    FieldContainerType(const FieldContainerType &obj);
 
-    virtual ~OSGFieldContainerType (void);
+    virtual ~FieldContainerType (void);
 
     /*----------------------------- id --------------------------------------*/
 
-    OSGUInt32 getId      (void) const;
-    OSGUInt16 getGroupId (void) const;
+    UInt32 getId      (void) const;
+    UInt16 getGroupId (void) const;
 
     /*------------------------ general info ---------------------------------*/
 
-    OSGFieldContainerType *getParent(void) const;
+    FieldContainerType *getParent(void) const;
 
-    const OSGChar8        *getName  (void) const;
+    const Char8        *getName  (void) const;
 
     /*------------------------- prototye ------------------------------------*/
 
-    OSGFieldContainerPtr getPrototype(void) const;
-    OSGBool              setPrototype(OSGFieldContainerPtr prototype);
+    FieldContainerPtr getPrototype(void) const;
+    Bool              setPrototype(FieldContainerPtr prototype);
 
     /*----------------------------- create ----------------------------------*/
 
-    OSGFieldContainerPtr createFieldContainer(void) const;
-    OSGNodePtr           createNode          (void) const;
-	OSGNodeCorePtr       createNodeCore      (void) const;
-	OSGAttachmentPtr     createAttachment    (void) const;
+    FieldContainerPtr createFieldContainer(void) const;
+    NodePtr           createNode          (void) const;
+	NodeCorePtr       createNodeCore      (void) const;
+	AttachmentPtr     createAttachment    (void) const;
 
     /*-------------------------- properties ---------------------------------*/
 
-	OSGBool isAbstract      (void) const;
+	Bool isAbstract      (void) const;
 
-    OSGBool isFieldContainer(void) const;
-    OSGBool isNode          (void) const;
-    OSGBool isNodeCore      (void) const;
-    OSGBool isAttachment    (void) const;
+    Bool isNode          (void) const;
+    Bool isNodeCore      (void) const;
+    Bool isAttachment    (void) const;
 
-    OSGBool isDerivedFrom(const OSGFieldContainerType &other) const;
+    Bool isDerivedFrom(const FieldContainerType &other) const;
         
     /*------------------------- description ---------------------------------*/
 
-	const OSGFieldDescription *findFieldDescription(
-        const OSGChar8 *fieldName) const;
+	const FieldDescription *findFieldDescription(
+        const Char8 *fieldName) const;
 
-          OSGFieldDescription *getFieldDescription (
-              OSGUInt32 index) ;
-    const OSGFieldDescription *getFieldDescription (
-              OSGUInt32 index) const;
+          FieldDescription *getFieldDescription (
+              UInt32 index) ;
+    const FieldDescription *getFieldDescription (
+              UInt32 index) const;
 
-    OSGUInt32            getNumFieldDescriptions(void) const;
+    UInt32            getNumFieldDescriptions(void) const;
 
-    OSGUInt32            addDescription(const OSGFieldDescription &desc);
-    OSGBool              subDescription(      OSGUInt32            fieldId);
+    UInt32            addDescription(const FieldDescription &desc);
+    Bool              subDescription(      UInt32            fieldId);
 
     /*----------------------------- dump ------------------------------------*/
 
@@ -164,8 +174,8 @@ class OSGFieldContainerType
 
     /*------------------------- your_operators ------------------------------*/
 
-    OSGBool operator ==(const OSGFieldContainerType &other);
-    OSGBool operator !=(const OSGFieldContainerType &other);
+    Bool operator ==(const FieldContainerType &other);
+    Bool operator !=(const FieldContainerType &other);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -177,12 +187,12 @@ class OSGFieldContainerType
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    enum OSGBaseType
+    enum BaseType
     {
-        OSGIsFieldContainer,
-        OSGIsNode,
-        OSGIsNodeCore,
-        OSGIsAttachment
+        IsFieldContainer,
+        IsNode,
+        IsNodeCore,
+        IsAttachment
     };
 
     //-----------------------------------------------------------------------
@@ -215,20 +225,20 @@ class OSGFieldContainerType
     //   types                                                               
     //-----------------------------------------------------------------------
     
-    typedef map   <OSGStringLink,       OSGFieldDescription *> OSGDescMap;
-    typedef vector<OSGFieldDescription *>                      OSGDescVec;
+    typedef map   <StringLink,       FieldDescription *> DescMap;
+    typedef vector<FieldDescription *>                   DescVec;
 
-    typedef OSGDescMap::iterator OSGDescMapIt;
-    typedef OSGDescVec::iterator OSGDescVecIt;
+    typedef DescMap::iterator DescMapIt;
+    typedef DescVec::iterator DescVecIt;
 
-    typedef OSGDescMap::const_iterator OSGDescMapConstIt;
-    typedef OSGDescVec::const_iterator OSGDescVecConstIt;
+    typedef DescMap::const_iterator DescMapConstIt;
+    typedef DescVec::const_iterator DescVecConstIt;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainerFactory;
+	friend class FieldContainerFactory;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -248,33 +258,34 @@ class OSGFieldContainerType
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	const OSGString        _name;
-          OSGString        _parentName;
+	const String        _name;
+          String        _parentName;
 
-    OSGBool                _initialized;
+    Bool                _initialized;
+    Bool                _descsAddable;
 
-	OSGUInt32              _Id;
-	OSGUInt16              _groupId;
+	UInt32              _Id;
+	UInt16              _groupId;
 
-    OSGFieldContainerPtr   _prototypeP;
+    FieldContainerPtr   _prototypeP;
 
-    OSGPrototypeCreateF    _prototypeCreateF;
+    PrototypeCreateF    _prototypeCreateF;
 
-	OSGFieldContainerType *_parentP;
+	FieldContainerType *_parentP;
 
-    OSGBaseType            _baseType;
+    BaseType            _baseType;
 
-	OSGDescMap             _descriptionMap;
-    OSGDescVec             _descriptionVec;
+	DescMap             _descriptionMap;
+    DescVec             _descriptionVec;
 
-    OSGFieldDescription   *_descA;
-    OSGUInt32              _byteSizeOfDescA;
+    FieldDescription   *_descA;
+    UInt32              _byteSizeOfDescA;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	void registerType(const OSGChar8 *group);
+	void registerType(const Char8 *group);
 
     void initPrototype   (void);
     void initBaseType    (void);
@@ -286,10 +297,10 @@ class OSGFieldContainerType
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGFieldContainerType &source);
+    void operator =(const FieldContainerType &source);
 };
 
-typedef OSGFieldContainerType* OSGFieldContainerTypeP;
+typedef FieldContainerType* FieldContainerTypeP;
 
 OSG_END_NAMESPACE
 

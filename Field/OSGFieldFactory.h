@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGFIELDFACTORY_H_
 #define _OSGFIELDFACTORY_H_
@@ -48,8 +58,8 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGField;
-class OSGFieldType;
+class Field;
+class FieldType;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -63,7 +73,7 @@ class OSGFieldType;
  *  \brief Factory for field
  */
 
-class OSGFieldFactory 
+class OSG_DLLEXPORT FieldFactory 
 {
   public:
 
@@ -79,31 +89,31 @@ class OSGFieldFactory
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname (void) { return "OSGFieldFactory"; };
+    static const char *getClassname (void) { return "FieldFactory"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGFieldFactory (void);
+    virtual ~FieldFactory (void);
 
     /*------------------------------ create ---------------------------------*/
 
-    OSGField *createField(OSGUInt32   typeId);
-	OSGField *createField(const char *szName);
+    Field *createField(UInt32   typeId);
+	Field *createField(const char *szName);
 
     /*------------------------------ type -----------------------------------*/
 
-	OSGFieldType *getFieldType(OSGUInt32   typeId);
-	OSGFieldType *getFieldType(const char *szName);
+	FieldType *getFieldType(UInt32   typeId);
+	FieldType *getFieldType(const char *szName);
 
     /*------------------------------ name -----------------------------------*/
 
-	const char *getFieldTypeName(OSGUInt32 typeId);
+	const char *getFieldTypeName(UInt32 typeId);
 	
     /*------------------------------ instance -------------------------------*/
 
-	static OSGFieldFactory &the(void);
+	static FieldFactory &the(void);
 
   protected:
 
@@ -131,7 +141,7 @@ class OSGFieldFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldFactory (void);
+    FieldFactory (void);
 
   private:
 
@@ -147,8 +157,8 @@ class OSGFieldFactory
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldType;
-    friend class OSGField;
+	friend class FieldType;
+    friend class Field;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -160,9 +170,9 @@ class OSGFieldFactory
 
 	static char cvsid[];
     
-    static OSGFieldFactory         _the;
+    static FieldFactory         _the;
     
-    static vector<OSGFieldType *> *_fieldTypeV;
+    static vector<FieldType *> *_fieldTypeV;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -178,21 +188,21 @@ class OSGFieldFactory
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGFieldFactory(const OSGFieldFactory &source);
-    void operator =(const OSGFieldFactory &source);
+    FieldFactory(const FieldFactory &source);
+    void operator =(const FieldFactory &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/** \brief OSGFieldFactoryP
+/** \brief FieldFactoryP
  */
 
 
-typedef OSGFieldFactory* OSGFieldFactoryP;
+typedef FieldFactory* FieldFactoryP;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGFIELDFACTORY_H_ */
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -51,19 +62,19 @@
 
 OSG_USING_NAMESPACE
 
-/* enum OSGVecBase::VectorSizeE
+/* enum VecBase::VectorSizeE
  * brief 
 */
 
-/* var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/* var VecBase::VectorSizeE VecBase::_iSize
  *
 */
 
-/* const char *OSGVecBase::getClassName(void)
+/* const char *VecBase::getClassName(void)
  *  brief Classname
 */
 
-/* var OSGValueTypeT OSGVecBase:: _value[Size];
+/* var ValueTypeT VecBase:: _value[Size];
  * brief value store
 */
 
@@ -103,7 +114,7 @@ OSG_USING_NAMESPACE
 //s:
 //
 //--------------------------------------------------------
-void OSGDate::set (unsigned int day, unsigned int month, int year, 
+void Date::set (unsigned int day, unsigned int month, int year, 
 									 unsigned int hour, unsigned int minute, unsigned int sec  )
 {
 	_day = day;
@@ -134,7 +145,7 @@ void OSGDate::set (unsigned int day, unsigned int month, int year,
 //s:
 //
 //--------------------------------------------------------
-void OSGDate::set (const char *string )
+void Date::set (const char *string )
 {
 	if (string && *string) {
     istrstream is(string);
@@ -162,7 +173,7 @@ void OSGDate::set (const char *string )
 //s:
 //
 //--------------------------------------------------------
-bool OSGDate::isLeapYear (void )
+bool Date::isLeapYear (void )
 {
   if (_year & 3)
     return false;
@@ -191,7 +202,7 @@ bool OSGDate::isLeapYear (void )
 //s:
 //
 //--------------------------------------------------------
-bool OSGDate::valid (void )
+bool Date::valid (void )
 {
  static const unsigned int daysPerMonth[12] =
   { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
@@ -232,7 +243,7 @@ bool OSGDate::valid (void )
 //s:
 //
 //--------------------------------------------------------
-void OSGDate::setSystemDate (void )
+void Date::setSystemDate (void )
 {
 	time_t clock;
   struct tm *tm_time;
@@ -249,7 +260,7 @@ void OSGDate::setSystemDate (void )
 }
 
 //--------------------------------------------------------
-// Function name: OSGDate
+// Function name: Date
 //--------------------------------------------------------
 //
 //Parameters:
@@ -268,18 +279,18 @@ void OSGDate::setSystemDate (void )
 //s:
 //
 //---------------------------------------------------------
-OSGDate::OSGDate (void )
+Date::Date (void )
 : _second(0), _minute(0), _hour(0), _day(0), _month(0), _year(0)
 {
 	return;
 }
 
 //--------------------------------------------------------
-// Function name: OSGDate
+// Function name: Date
 //--------------------------------------------------------
 //
 //Parameters:
-//p: const OSGDate &obj
+//p: const Date &obj
 //GlobalVars:
 //g: 
 //Returns:
@@ -294,7 +305,7 @@ OSGDate::OSGDate (void )
 //s:
 //
 //---------------------------------------------------------
-OSGDate::OSGDate (const OSGDate &obj )
+Date::Date (const Date &obj )
 : _second(obj._second), _minute(obj._minute), _hour(obj._hour),
   _day(obj._day), _month(obj._month), _year(obj._year)    
 {
@@ -302,7 +313,7 @@ OSGDate::OSGDate (const OSGDate &obj )
 }
 
 //--------------------------------------------------------
-// Function name: ~OSGDate
+// Function name: ~Date
 //--------------------------------------------------------
 //
 //Parameters:
@@ -321,12 +332,12 @@ OSGDate::OSGDate (const OSGDate &obj )
 //s:
 //
 //---------------------------------------------------------
-OSGDate::~OSGDate (void )
+Date::~Date (void )
 {
 	return;
 }
 
-ostream &OSG::operator << (ostream &outStream, const OSGDate &obj)
+ostream &OSG::operator << (ostream &outStream, const Date &obj)
 {
   return  outStream << setfill('0')
                     << setw(2) << obj._day << '.'
@@ -337,7 +348,7 @@ ostream &OSG::operator << (ostream &outStream, const OSGDate &obj)
                     << setw(2) << obj._second;
 }
 
-istream &OSG::operator >>(istream &inStream, OSGDate &obj)
+istream &OSG::operator >>(istream &inStream, Date &obj)
 {
   char c;
 
@@ -356,7 +367,7 @@ istream &OSG::operator >>(istream &inStream, OSGDate &obj)
 /*
 
 //--------------------------------------------------------
-// Function name: ~OSGDate
+// Function name: ~Date
 //--------------------------------------------------------
 //
 //Parameters:
@@ -375,7 +386,7 @@ istream &OSG::operator >>(istream &inStream, OSGDate &obj)
 //s:
 //
 //---------------------------------------------------------
-bool operator ==(const OSGDate &v1, const OSGDate &v2)
+bool operator ==(const Date &v1, const Date &v2)
 {
   return ((v1._day == v2._day) &&
           (v1._month == v2._month) &&
@@ -386,7 +397,7 @@ bool operator ==(const OSGDate &v1, const OSGDate &v2)
 }
 
 //--------------------------------------------------------
-// Function name: ~OSGDate
+// Function name: ~Date
 //--------------------------------------------------------
 //
 //Parameters:
@@ -405,7 +416,7 @@ bool operator ==(const OSGDate &v1, const OSGDate &v2)
 //s:
 //
 //---------------------------------------------------------
-bool operator <(const OSGDate &v1, const OSGDate &v2)
+bool operator <(const Date &v1, const Date &v2)
 {
 	if (v1._year < v2._year)
 		return true;
@@ -448,7 +459,7 @@ bool operator <(const OSGDate &v1, const OSGDate &v2)
 }
 
 //--------------------------------------------------------
-// Function name: ~OSGDate
+// Function name: ~Date
 //--------------------------------------------------------
 //
 //Parameters:
@@ -469,7 +480,7 @@ bool operator <(const OSGDate &v1, const OSGDate &v2)
 //---------------------------------------------------------
 
 //--------------------------------------------------------
-// Function name: ~OSGDate
+// Function name: ~Date
 //--------------------------------------------------------
 //
 //Parameters:

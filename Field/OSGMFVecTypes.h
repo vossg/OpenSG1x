@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGMFVECTYPES_H_
 #define _OSGMFVECTYPES_H_
@@ -45,52 +55,52 @@
  *  \brief OpenSG vector and point multi fields
  * 
  *  <UL>
- *  <LI> osg::OSGMFVec2f
- *  <LI> osg::OSGMFVec3f
- *  <LI> osg::OSGMFVec4f
- *  <LI> osg::OSGMFVec4ub
- *  <LI> osg::OSGMFPnt2f
- *  <LI> osg::OSGMFPnt3f
- *  <LI> osg::OSGMFPnt4f
+ *  <LI> osg::MFVec2f
+ *  <LI> osg::MFVec3f
+ *  <LI> osg::MFVec4f
+ *  <LI> osg::MFVec4ub
+ *  <LI> osg::MFPnt2f
+ *  <LI> osg::MFPnt3f
+ *  <LI> osg::MFPnt4f
  *  </UL>
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief OSGMFVec2f
+/** \brief MFVec2f
  */
 
-typedef OSGMField<OSGVec2f> OSGMFVec2f;
+typedef MField<Vec2f> MFVec2f;
 
-/** \brief OSGMFVec3f
+/** \brief MFVec3f
  */
 
-typedef OSGMField<OSGVec3f> OSGMFVec3f;
+typedef MField<Vec3f> MFVec3f;
 
-/** \brief OSGMFVec4f
+/** \brief MFVec4f
  */
 
-typedef OSGMField<OSGVec4f> OSGMFVec4f;
+typedef MField<Vec4f> MFVec4f;
 
-/** \brief OSGMFVec4ub
+/** \brief MFVec4ub
  */
 
-typedef OSGMField<OSGVec4ub> OSGMFVec4ub;
+typedef MField<Vec4ub> MFVec4ub;
 
-/** \brief OSGMFPnt3f
+/** \brief MFPnt3f
  */
 
-typedef OSGMField<OSGPnt2f> OSGMFPnt2f;
+typedef MField<Pnt2f> MFPnt2f;
 
-/** \brief OSGMFPnt3f
+/** \brief MFPnt3f
  */
 
-typedef OSGMField<OSGPnt3f> OSGMFPnt3f;
+typedef MField<Pnt3f> MFPnt3f;
 
-/** \brief OSGMFPnt3f
+/** \brief MFPnt3f
  */
 
-typedef OSGMField<OSGPnt4f> OSGMFPnt4f;
+typedef MField<Pnt4f> MFPnt4f;
 
 OSG_END_NAMESPACE
 

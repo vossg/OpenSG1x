@@ -8,8 +8,8 @@
 
 OSG_USING_NAMESPACE
 
-OSGTransformChunkPtr tchunk1, tchunk2;
-OSGMaterialChunkPtr mchunk1, mchunk2;
+TransformChunkPtr tchunk1, tchunk2;
+MaterialChunkPtr mchunk1, mchunk2;
 
 GLint dlid;
 
@@ -21,8 +21,8 @@ display(void)
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	OSGMatrix m;
-	OSGQuaternion q;
+	Matrix m;
+	Quaternion q;
 	q.setValueAsAxis( 0,1,0, -t/20 );
 	m.setRotate( q );
 	tchunk1->setMatrix( m );
@@ -36,8 +36,8 @@ display(void)
 	m.setTranslate( cos(t/1000), 0, sin(t/1000) );
 	tchunk2->setMatrix( m );
 
-	tchunk2->changeFrom( tchunk1 );
-	mchunk2->changeFrom( mchunk1 );
+	tchunk2->changeFrom( tchunk1.getCPtr() );
+	mchunk2->changeFrom( mchunk1.getCPtr() );
 
 	glCallList( dlid );
 
@@ -80,24 +80,24 @@ int main( int argc, char *argv[] )
 	glutSolidSphere( .8, 8, 8 );
 	glEndList();
 	
-	OSGMatrix m;
+	Matrix m;
 
-	tchunk1 = OSGTransformChunk::create();
+	tchunk1 = TransformChunk::create();
 	m.setTranslate( 0, 1, 0 );
 	tchunk1->setMatrix( m );
 
-	tchunk2 = OSGTransformChunk::create();
-	tchunk2->setMatrix( OSGMatrix::identity() );
+	tchunk2 = TransformChunk::create();
+	tchunk2->setMatrix( Matrix::identity() );
 
 
-	mchunk1 = OSGMaterialChunk::create();
-	mchunk1->setDiffuse( OSGVec4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( OSGVec4f( 1,0,0,0 ) );
+	mchunk1 = MaterialChunk::create();
+	mchunk1->setDiffuse( Vec4f( 1,0,0,0 ) );
+	mchunk1->setAmbient( Vec4f( 1,0,0,0 ) );
 	mchunk1->setShininess( 20 );
 
-	mchunk2 = OSGMaterialChunk::create();
-	mchunk2->setDiffuse( OSGVec4f( 0,1,0,0 ) );
-	mchunk2->setAmbient( OSGVec4f( 0,1,0,0 ) );
+	mchunk2 = MaterialChunk::create();
+	mchunk2->setDiffuse( Vec4f( 0,1,0,0 ) );
+	mchunk2->setAmbient( Vec4f( 0,1,0,0 ) );
 	mchunk2->setShininess( 50 );
 
 	glutMainLoop();

@@ -4,7 +4,7 @@
  *                                                                           *
  *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -57,19 +57,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
@@ -83,23 +83,23 @@ static char cvsid[] = "@(#)$Id: $";
 #pragma reset woff 1174
 #endif
 
-OSGNodePtr OSG::osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, OSGUInt16 vert )
+NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 {
-	OSGGeoPosition3fPtr		pnts  = OSGGeoPosition3f::create();
-	OSGGeoNormal3fPtr		norms = OSGGeoNormal3f::create();
-	OSGGeoIndexUI32Ptr		index = OSGGeoIndexUI32::create();	
-	OSGGeoPLengthPtr		lens  = OSGGeoPLength::create();	
-	OSGGeoPTypePtr			types = OSGGeoPType::create();	
+	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
+	GeoNormal3fPtr		norms = GeoNormal3f::create();
+	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
+	GeoPLengthPtr		lens  = GeoPLength::create();	
+	GeoPTypePtr			types = GeoPType::create();	
 	
-	OSGUInt16 x,y;
-	OSGReal32 xstep,ystep;
+	UInt16 x,y;
+	Real32 xstep,ystep;
 	xstep = xsize / hor;
 	ystep = ysize / vert;
 
 	// calc the vertices
 
-	OSGGeoPosition3f::OSGFieldType * p = pnts->getFieldPtr();
-	OSGGeoNormal3f::OSGFieldType   * n = norms->getFieldPtr();
+	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
+	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
 
 	osgBeginEditCP(pnts);
 	osgBeginEditCP(norms);
@@ -108,8 +108,8 @@ OSGNodePtr OSG::osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, O
 	{
 		for ( x = 0; x <= hor; x++ )
 		{
-			p->addValue( OSGPnt3f( x * xstep - xsize / 2, y * ystep - ysize / 2, 0 ) );
-			n->addValue( OSGVec3f( 0, 0, 1) );
+			p->addValue( Pnt3f( x * xstep - xsize / 2, y * ystep - ysize / 2, 0 ) );
+			n->addValue( Vec3f( 0, 0, 1) );
 		}
 	}
 
@@ -118,9 +118,9 @@ OSGNodePtr OSG::osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, O
 
 	// create the faces
 	
-	OSGGeoIndexUI32::OSGFieldType * i = index->getFieldPtr();
-	OSGGeoPLength::OSGFieldType   * l = lens->getFieldPtr();
-	OSGGeoPType::OSGFieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::FieldType * i = index->getFieldPtr();
+	GeoPLength::FieldType   * l = lens->getFieldPtr();
+	GeoPType::FieldType     * t = types->getFieldPtr();
 
 	osgBeginEditCP(index);
 	osgBeginEditCP(lens);
@@ -144,7 +144,7 @@ OSGNodePtr OSG::osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, O
 	
 	// create the geometry
 	
-    OSGGeometryPtr geo = OSGGeometry::create();
+    GeometryPtr geo = Geometry::create();
 
  	osgBeginEditCP(geo);
 	geo->setPositions( pnts );
@@ -155,7 +155,7 @@ OSGNodePtr OSG::osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, O
 	geo->setLengths( lens );
 	osgEndEditCP(geo);
 		
-    OSGNodePtr node = OSGNode::create();
+    NodePtr node = Node::create();
 	osgBeginEditCP(node);
 	node->setCore( geo );
 	osgEndEditCP(node);

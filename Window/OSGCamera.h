@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSG_CAMERA_H_
 #define _OSG_CAMERA_H_
@@ -53,13 +63,13 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGCamera;
+class Camera;
 
-typedef OSGFCPtr <OSGFieldContainerPtr, OSGCamera> OSGCameraPtr;
-typedef OSGMField<OSGCameraPtr                   > OSGMFCameraPtr;
+typedef FCPtr <FieldContainerPtr, Camera> CameraPtr;
+typedef MField<CameraPtr                > MFCameraPtr;
 
-class OSGViewport;
-class OSGDrawAction;
+class Viewport;
+class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -75,7 +85,7 @@ class OSGDrawAction;
  *  detailed
  */
 
-class OSGCamera : public OSGFieldContainer
+class OSG_DLLEXPORT Camera : public FieldContainer
 {
   public:
 
@@ -83,10 +93,10 @@ class OSGCamera : public OSGFieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGBeaconField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(BeaconField)
 
-    OSG_FC_FIELD_IDM_DECL      (OSGNearField  )
-    OSG_FC_FIELD_IDM_DECL      (OSGFarField   )
+    OSG_FC_FIELD_IDM_DECL      (NearField  )
+    OSG_FC_FIELD_IDM_DECL      (FarField   )
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -103,7 +113,7 @@ class OSGCamera : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     /** */
-    static const char *getClassname(void) { return "OSGCamera"; };
+    static const char *getClassname(void) { return "Camera"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -111,44 +121,44 @@ class OSGCamera : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGCameraPtr)
+    OSG_FIELD_CONTAINER_DECL(CameraPtr)
 
     /*------------------------- your_category -------------------------------*/
 
     /** setup the GL for rendering and tell the Action what it needs to know */
-    virtual void setup(OSGDrawAction *action, OSGViewport *port);
+    virtual void setup(DrawAction *action, Viewport *port);
 
     /** draw the camera's geometry (if any). Usually there is none. */
-    virtual void draw (OSGDrawAction *action, OSGViewport *port);
+    virtual void draw (DrawAction *action, Viewport *port);
 
     /** get the separate elements needed for rendering */
 
-    virtual void getProjection           (OSGMatrix        &result, 
-                                          OSGViewport      *port);
+    virtual void getProjection           (Matrix        &result, 
+                                          Viewport      *port);
 
-    virtual void getProjectionTranslation(OSGMatrix        &result, 
-                                          OSGViewport      *port);
+    virtual void getProjectionTranslation(Matrix        &result, 
+                                          Viewport      *port);
 
-    virtual void getViewing              (OSGMatrix        &result, 
-                                          OSGViewport      *port);
+    virtual void getViewing              (Matrix        &result, 
+                                          Viewport      *port);
 
-    virtual void getFrustum              (OSGFrustumVolume &result,
-                                          OSGViewport      *port);
+    virtual void getFrustum              (FrustumVolume &result,
+                                          Viewport      *port);
     
    
-    void          setBeacon  (OSGNodePtr beacon);
-    OSGNodePtr    getBeacon  (void) const;
-    OSGSFNodePtr *getSFBeacon(void);
+    void       setBeacon  (NodePtr beacon);
+    NodePtr    getBeacon  (void) const;
+    SFNodePtr *getSFBeacon(void);
     
     
-    void         setNear  (OSGReal32 rNear);
-    OSGReal32    getNear  (void) const;
-    OSGSFReal32 *getSFNear(void);
+    void      setNear  (Real32 rNear);
+    Real32    getNear  (void) const;
+    SFReal32 *getSFNear(void);
     
     
-    void         setFar  (OSGReal32 rFar);
-    OSGReal32    getFar  (void) const;
-    OSGSFReal32 *getSFFar(void);
+    void      setFar  (Real32 rFar);
+    Real32    getFar  (void) const;
+    SFReal32 *getSFFar(void);
     
     /*------------------------- your_operators ------------------------------*/
 
@@ -156,10 +166,10 @@ class OSGCamera : public OSGFieldContainer
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGCamera &other) const;
+    Bool operator < (const Camera &other) const;
     
-    //OSGBool operator == (const OSGCamera &other) const;
-    //OSGBool operator != (const OSGCamera &other) const;
+    //Bool operator == (const Camera &other) const;
+    //Bool operator != (const Camera &other) const;
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -188,20 +198,20 @@ class OSGCamera : public OSGFieldContainer
     //-----------------------------------------------------------------------
     
     /** The beacon to define the position/orientation. */
-    OSGSFNodePtr _beacon;
+    SFNodePtr _beacon;
     
     /** The near distance. */
-    OSGSFReal32  _near;
+    SFReal32  _near;
     
     /** The far distance. */
-    OSGSFReal32  _far;
+    SFReal32  _far;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGCamera(void);
-    virtual ~OSGCamera(void); 
+    Camera(void);
+    virtual ~Camera(void); 
 
   private:
 
@@ -213,14 +223,14 @@ class OSGCamera : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer Inherited;
+    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
-    friend class OSGFieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -232,8 +242,8 @@ class OSGCamera : public OSGFieldContainer
 
     static char cvsid[];
 
-    static OSGFieldContainerType _type;
-    static OSGFieldDescription   _desc[];
+    static FieldContainerType _type;
+    static FieldDescription   _desc[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -249,8 +259,8 @@ class OSGCamera : public OSGFieldContainer
 
     // prohibit default functions (move to 'public' if you need one)
 
-    OSGCamera(const OSGCamera &source);
-    OSGCamera& operator =(const OSGCamera &source);
+    Camera(const Camera &source);
+    Camera& operator =(const Camera &source);
 };
 
 //---------------------------------------------------------------------------
@@ -261,45 +271,34 @@ class OSGCamera : public OSGFieldContainer
 
 /** \brief class pointer
  */
-typedef OSGCamera *OSGCameraP;
+typedef Camera *CameraP;
 
-/** \brief OSGCameraPtr
+/** \brief CameraPtr
  */
-typedef OSGFCPtr<OSGFieldContainerPtr, OSGCamera> OSGCameraPtr;
+typedef FCPtr<FieldContainerPtr, Camera> CameraPtr;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGCameraPtr field traits 
+ *  \brief CameraPtr field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGCameraPtr> : public OSGTraits
+struct FieldDataTraits<CameraPtr> : public Traits
 {
-    static char    *getSName(void) { return "SFCameraPtr"; }
-    static char    *getMName(void) { return "MFCameraPtr"; }
+    enum                         { StringConvertable = 0x00  };
 
-    static OSGBool  getFromString(OSGCameraPtr &,
-                                  const char  *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void     putToString(const OSGCameraPtr &,
-                                      OSGString    &)
-    {
-        // TO_BE_DONE
-    }
+    static Char8 *getSName(void) { return "SFCameraPtr"; }
+    static Char8 *getMName(void) { return "MFCameraPtr"; }
 };
 
-/** \brief OSGSFCameraPtr
+/** \brief SFCameraPtr
  */
-typedef OSGSField<OSGCameraPtr>       OSGSFCameraPtr;
+typedef SField<CameraPtr>       SFCameraPtr;
 
-/** \brief OSGMFCameraPtr
+/** \brief MFCameraPtr
  */
-typedef OSGMField<OSGCameraPtr>       OSGMFCameraPtr;
+typedef MField<CameraPtr>       MFCameraPtr;
 
 OSG_END_NAMESPACE
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -58,33 +69,33 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGFieldContainerFactory::cvsid[] = "@(#)$Id: $";
+char FieldContainerFactory::cvsid[] = "@(#)$Id: $";
 
-OSGFieldContainerFactory OSGFieldContainerFactory::_the;
-OSGBool                  OSGFieldContainerFactory::_initialized = false;
+FieldContainerFactory FieldContainerFactory::_the;
+Bool                  FieldContainerFactory::_initialized = false;
 
 
-OSGFieldContainerFactory::OSGTypeIdMap   *
-    OSGFieldContainerFactory::_typeIdMap   = NULL;
+FieldContainerFactory::TypeIdMap   *
+    FieldContainerFactory::_typeIdMap   = NULL;
 
-OSGFieldContainerFactory::OSGTypeNameMap *
-    OSGFieldContainerFactory::_typeNameMap = NULL;
+FieldContainerFactory::TypeNameMap *
+    FieldContainerFactory::_typeNameMap = NULL;
 
-OSGFieldContainerFactory::OSGGroupMap    *
-    OSGFieldContainerFactory::_groupMap    = NULL;
+FieldContainerFactory::GroupMap    *
+    FieldContainerFactory::_groupMap    = NULL;
 
 
 /** \brief FieldContainer storage
  */
 
-OSGFieldContainerFactory::OSGFieldContainerStore *
-    OSGFieldContainerFactory::_fieldcontainerStoreV = NULL;
+FieldContainerFactory::FieldContainerStore *
+    FieldContainerFactory::_fieldcontainerStoreV = NULL;
 
 /** \brief FieldContainer store lock
  */
 
-OSGLock *OSGFieldContainerFactory::_storeLock = NULL;
-OSGLock *OSGFieldContainerFactory::_mapLock   = NULL;
+Lock *FieldContainerFactory::_storeLock = NULL;
+Lock *FieldContainerFactory::_mapLock   = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -94,7 +105,7 @@ OSGLock *OSGFieldContainerFactory::_mapLock   = NULL;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-const OSGFieldContainerFactory &OSGFieldContainerFactory::the(void)
+const FieldContainerFactory &FieldContainerFactory::the(void)
 {
     return _the; 
 }
@@ -103,25 +114,25 @@ const OSGFieldContainerFactory &OSGFieldContainerFactory::the(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void OSGFieldContainerFactory::initTypeMap(void)
+void FieldContainerFactory::initTypeMap(void)
 {
 	if(_typeIdMap   == NULL && 
        _typeNameMap == NULL) 
     {
-		_typeIdMap   = new OSGTypeIdMap;
-		_typeNameMap = new OSGTypeNameMap;
-		_groupMap    = new OSGGroupMap;
+		_typeIdMap   = new TypeIdMap;
+		_typeNameMap = new TypeNameMap;
+		_groupMap    = new GroupMap;
 	}
 }
 
-OSGBool OSGFieldContainerFactory::initialize(int argc, char **argv)
+Bool FieldContainerFactory::initialize(int argc, char **argv)
 {
-	OSGTypeIdMapIt typeIt;
+	TypeIdMapIt typeIt;
 
     if(_initialized == true)
         return true;
 
-    SINFO << "init singleton OSGFieldContainerFactory" << endl;
+    SINFO << "init singleton FieldContainerFactory" << endl;
 
 	if(_typeIdMap != NULL) 
     {
@@ -133,11 +144,11 @@ OSGBool OSGFieldContainerFactory::initialize(int argc, char **argv)
         }
 	}
 
-    _storeLock = OSGThreadManager::the()->getLock(
-        "OSGFieldContainerFactory::_storeLock");
+    _storeLock = ThreadManager::the()->getLock(
+        "FieldContainerFactory::_storeLock");
 
-    _mapLock = OSGThreadManager::the()->getLock(
-        "OSGFieldContainerFactory::_maoLock");
+    _mapLock = ThreadManager::the()->getLock(
+        "FieldContainerFactory::_maoLock");
 
     SDEBUG << "Got store lock " << _storeLock << endl;    
     SDEBUG << "Got mao   lock " << _mapLock   << endl;    
@@ -147,11 +158,11 @@ OSGBool OSGFieldContainerFactory::initialize(int argc, char **argv)
 	return _storeLock != NULL && _mapLock != NULL;
 }
 
-OSGBool OSGFieldContainerFactory::terminate(void)
+Bool FieldContainerFactory::terminate(void)
 {
-	OSGTypeIdMapIt typeIt;
+	TypeIdMapIt typeIt;
 
-    SINFO << "terminate singleton OSGFieldContainerFactory" << endl;
+    SINFO << "terminate singleton FieldContainerFactory" << endl;
 
     if(_initialized == false)
         return true;
@@ -166,24 +177,24 @@ OSGBool OSGFieldContainerFactory::terminate(void)
         }
 	}
 
-    OSGThreadManager::the()->freeLock(_storeLock);
-    OSGThreadManager::the()->freeLock(_mapLock);
+    ThreadManager::the()->freeLock(_storeLock);
+    ThreadManager::the()->freeLock(_mapLock);
 
     _initialized = false;
 
     return true;
 }
 
-OSGUInt32 OSGFieldContainerFactory::registerFieldContainer(
-    const OSGFieldContainerPtr &fieldP)
+UInt32 FieldContainerFactory::registerFieldContainer(
+    const FieldContainerPtr &fieldP)
 {
-    OSGUInt32 returnValue = 0;
+    UInt32 returnValue = 0;
 
     if(_storeLock != NULL)
         _storeLock->aquire();
 
     if(_fieldcontainerStoreV == NULL)
-        _fieldcontainerStoreV = new OSGFieldContainerStore;
+        _fieldcontainerStoreV = new FieldContainerStore;
 
     _fieldcontainerStoreV->push_back(fieldP);
     
@@ -195,8 +206,8 @@ OSGUInt32 OSGFieldContainerFactory::registerFieldContainer(
     return returnValue;
 }
 
-const OSGFieldContainerFactory::OSGFieldContainerStore *
-    OSGFieldContainerFactory::getFieldStore(void)
+const FieldContainerFactory::FieldContainerStore *
+    FieldContainerFactory::getFieldStore(void)
 {
     return _fieldcontainerStoreV;
 }
@@ -204,12 +215,12 @@ const OSGFieldContainerFactory::OSGFieldContainerStore *
 /*! \brief method to add a group, retuns the group Id 
  */
 #if 0
-OSGUInt16 OSGFieldContainerFactory::addGroup(const OSGChar8 *groupName)
+UInt16 FieldContainerFactory::addGroup(const Char8 *groupName)
 {
-	map<OSGString, OSGUInt16>::iterator gI;
+	map<String, UInt16>::iterator gI;
 
-	OSGUInt16 Id = 0;
-	OSGString str(groupName);
+	UInt16 Id = 0;
+	String str(groupName);
 
 	initTypeMap();
 
@@ -226,26 +237,26 @@ OSGUInt16 OSGFieldContainerFactory::addGroup(const OSGChar8 *groupName)
 }
 #endif
 
-OSGFieldContainerType *OSGFieldContainerFactory::findTypeStatic(
-    const OSGChar8  *name)
+FieldContainerType *FieldContainerFactory::findTypeStatic(
+    const Char8  *name)
 {
-	OSGTypeNameMapCnstIt   typeIt;
-	OSGFieldContainerType *typeP = NULL;
+	TypeNameMapCnstIt   typeIt;
+	FieldContainerType *typeP = NULL;
 
 	if(_typeIdMap) 
     {
-		typeIt = _typeNameMap->find(OSGStringLink(name));
+		typeIt = _typeNameMap->find(StringLink(name));
 		typeP   = (typeIt == _typeNameMap->end()) ? NULL : (*typeIt).second;
 	}
 
 	return typeP;
 }
 
-OSGFieldContainerType *OSGFieldContainerFactory::findTypeStatic(
-    OSGUInt32 typeId)
+FieldContainerType *FieldContainerFactory::findTypeStatic(
+    UInt32 typeId)
 {
-	OSGTypeIdMapConstIt    typeIt;
-	OSGFieldContainerType *typeP = NULL;
+	TypeIdMapConstIt    typeIt;
+	FieldContainerType *typeP = NULL;
 
 	if(_typeIdMap) 
     {
@@ -256,22 +267,22 @@ OSGFieldContainerType *OSGFieldContainerFactory::findTypeStatic(
 	return typeP;
 }
 
-OSGUInt16 OSGFieldContainerFactory::findGroupIdStatic(const OSGChar8 *name)
+UInt16 FieldContainerFactory::findGroupIdStatic(const Char8 *name)
 {
-	OSGGroupMapConstIt gIt;
+	GroupMapConstIt gIt;
 
 	if (_groupMap) 
     {
-		gIt = _groupMap->find(OSGStringLink(name));
+		gIt = _groupMap->find(StringLink(name));
 		return ((gIt == _groupMap->end()) ? 0 : (*gIt).second);
 	}
 
 	return 0;
 }
 
-OSGUInt32 OSGFieldContainerFactory::registerType(OSGFieldContainerType *typeP)
+UInt32 FieldContainerFactory::registerType(FieldContainerType *typeP)
 {
-    OSGUInt32 returnValue = 0;
+    UInt32 returnValue = 0;
 
     initTypeMap();
 
@@ -308,14 +319,14 @@ OSGUInt32 OSGFieldContainerFactory::registerType(OSGFieldContainerType *typeP)
     }
 
     (*_typeIdMap  )[returnValue                    ] = typeP;
-    (*_typeNameMap)[OSGStringLink(typeP->getName())] = typeP;
+    (*_typeNameMap)[StringLink(typeP->getName())] = typeP;
 
     return returnValue;
 }
 
-OSGUInt16 OSGFieldContainerFactory::registerGroup(const OSGChar8 *name)
+UInt16 FieldContainerFactory::registerGroup(const Char8 *name)
 {
-    OSGUInt16 returnValue;
+    UInt16 returnValue;
 
     initTypeMap();
 
@@ -331,7 +342,7 @@ OSGUInt16 OSGFieldContainerFactory::registerGroup(const OSGChar8 *name)
     {
         returnValue        = _groupMap->size() + 1;
 
-		(*_groupMap)[OSGStringLink(name)] = returnValue;
+		(*_groupMap)[StringLink(name)] = returnValue;
     }
 
     return returnValue;
@@ -351,34 +362,34 @@ OSGUInt16 OSGFieldContainerFactory::registerGroup(const OSGChar8 *name)
 
 /*----------------------------- types -------------------------------------*/
 
-OSGFieldContainerType * OSGFieldContainerFactory::findType(OSGUInt32 Id) const
+FieldContainerType * FieldContainerFactory::findType(UInt32 Id) const
 {
 	return findTypeStatic(Id);
 }
 
 
-OSGFieldContainerType * OSGFieldContainerFactory::findType(
-    const OSGChar8 *name) const
+FieldContainerType * FieldContainerFactory::findType(
+    const Char8 *name) const
 {
     return findTypeStatic(name);
 }
 
-OSGUInt32 OSGFieldContainerFactory::getTypeCount(void) const
+UInt32 FieldContainerFactory::getTypeCount(void) const
 { 
     return _typeNameMap ? _typeNameMap->size() : 0; 
 }
 
 /*----------------------------- groups ------------------------------------*/
 
-OSGUInt16 OSGFieldContainerFactory::findGroupId(
-    const OSGChar8 *groupName) const
+UInt16 FieldContainerFactory::findGroupId(
+    const Char8 *groupName) const
 {
     return findGroupIdStatic(groupName);
 }
 
-const OSGChar8 * OSGFieldContainerFactory::findGroupName(OSGUInt16 Id) const
+const Char8 * FieldContainerFactory::findGroupName(UInt16 Id) const
 {
-	OSGGroupMapIt gIt;
+	GroupMapIt gIt;
 
 	for(gIt = _groupMap->begin(); gIt != _groupMap->end(); gIt++) 
     {
@@ -389,19 +400,19 @@ const OSGChar8 * OSGFieldContainerFactory::findGroupName(OSGUInt16 Id) const
 	return NULL;
 }
 
-OSGUInt16 OSGFieldContainerFactory::getGroupCount(void) const
+UInt16 FieldContainerFactory::getGroupCount(void) const
 {
     return _groupMap ? _groupMap->size() : 0;
 }
 
 /*----------------------------- create ------------------------------------*/
 
-OSGFieldContainerPtr OSGFieldContainerFactory::createFieldContainer(
-    const OSGChar8 *name) const
+FieldContainerPtr FieldContainerFactory::createFieldContainer(
+    const Char8 *name) const
 {
-    OSGFieldContainerPtr returnValue;
+    FieldContainerPtr returnValue;
 
-	const OSGFieldContainerType *type = findType(name);
+	const FieldContainerType *type = findType(name);
 
     if(type != NULL)
         returnValue = type->createFieldContainer();
@@ -409,11 +420,11 @@ OSGFieldContainerPtr OSGFieldContainerFactory::createFieldContainer(
     return returnValue;
 }
 
-OSGNodePtr OSGFieldContainerFactory::createNode(const OSGChar8 *name) const
+NodePtr FieldContainerFactory::createNode(const Char8 *name) const
 {
-    OSGNodePtr returnValue;
+    NodePtr returnValue;
 
-	const OSGFieldContainerType *type = findType(name);
+	const FieldContainerType *type = findType(name);
 
     if(type != NULL)
         returnValue = type->createNode();
@@ -421,12 +432,12 @@ OSGNodePtr OSGFieldContainerFactory::createNode(const OSGChar8 *name) const
     return returnValue;
 }
 
-OSGNodeCorePtr OSGFieldContainerFactory::createNodeCore(
-    const OSGChar8 *name) const
+NodeCorePtr FieldContainerFactory::createNodeCore(
+    const Char8 *name) const
 {
-    OSGNodeCorePtr returnValue;
+    NodeCorePtr returnValue;
 
-	const OSGFieldContainerType *type = findType(name);
+	const FieldContainerType *type = findType(name);
 
     if(type != NULL)
         returnValue = type->createNodeCore();
@@ -434,12 +445,12 @@ OSGNodeCorePtr OSGFieldContainerFactory::createNodeCore(
     return returnValue;
 }
 
-OSGAttachmentPtr OSGFieldContainerFactory::createAttachment(
-    const OSGChar8 *name) const
+AttachmentPtr FieldContainerFactory::createAttachment(
+    const Char8 *name) const
 {
-    OSGAttachmentPtr returnValue;
+    AttachmentPtr returnValue;
 
-	const OSGFieldContainerType *type = findType(name);
+	const FieldContainerType *type = findType(name);
 
     if(type != NULL)
         returnValue = type->createAttachment();
@@ -449,10 +460,10 @@ OSGAttachmentPtr OSGFieldContainerFactory::createAttachment(
 
 /*------------------------------ get --------------------------------------*/
 
-OSGFieldContainerPtr OSGFieldContainerFactory::getContainer(
-    OSGUInt32 uiContainerId) const
+FieldContainerPtr FieldContainerFactory::getContainer(
+    UInt32 uiContainerId) const
 {
-    OSGFieldContainerPtr returnValue = OSGNullFC;
+    FieldContainerPtr returnValue = NullFC;
 
     _storeLock->aquire();
 
@@ -468,11 +479,11 @@ OSGFieldContainerPtr OSGFieldContainerFactory::getContainer(
 
 /*----------------------------- dump --------------------------------------*/
 
-void OSGFieldContainerFactory::dump(void) const
+void FieldContainerFactory::dump(void) const
 {
     if(_fieldcontainerStoreV != NULL)
     {
-        for(OSGUInt32 i = 0; i < _fieldcontainerStoreV->size(); i++)
+        for(UInt32 i = 0; i < _fieldcontainerStoreV->size(); i++)
         {
             (*_fieldcontainerStoreV)[i].dump();
         }
@@ -494,21 +505,21 @@ void OSGFieldContainerFactory::dump(void) const
 /** \brief Constructor
  */
 
-OSGFieldContainerFactory::OSGFieldContainerFactory(void)
+FieldContainerFactory::FieldContainerFactory(void)
 {
 	initTypeMap();
 
-    osgAddInitFunction(&OSGFieldContainerPtr::initialize);
-    osgAddInitFunction(&OSGFieldContainerFactory::initialize);
+    osgAddInitFunction(&FieldContainerPtr::initialize);
+    osgAddInitFunction(&FieldContainerFactory::initialize);
 
-    osgAddExitFunction(&OSGFieldContainerFactory::terminate);
-    osgAddExitFunction(&OSGFieldContainerPtr::terminate);
+    osgAddExitFunction(&FieldContainerFactory::terminate);
+    osgAddExitFunction(&FieldContainerPtr::terminate);
 }
 
 /** \brief Destructor
  */
 
-OSGFieldContainerFactory::~OSGFieldContainerFactory(void)
+FieldContainerFactory::~FieldContainerFactory(void)
 {
 }
 

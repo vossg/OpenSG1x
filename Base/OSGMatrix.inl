@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -49,36 +60,36 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/** \typedef OSGTransformationMatrix::OSGValueType
- *  \brief Value type, eg OSGReal32 
+/** \typedef TransformationMatrix::ValueType
+ *  \brief Value type, eg Real32 
  */
 
-/** \typedef OSGVectorInterface<OSGValueTypeT, OSGVecStorage4<OSGValueTypeT> >\
-     OSGTransformationMatrix::OSGVectorType; 
- *   \brief Matrix vector type, eg OSGVec4f
+/** \typedef VectorInterface<ValueTypeT, VecStorage4<ValueTypeT> >\
+     TransformationMatrix::VectorType; 
+ *   \brief Matrix vector type, eg Vec4f
  */
 
 
-/** \typedef OSGQuaternionBase<OSGValueType> \
-    OSGTransformationMatrix::OSGQuaternionType;
+/** \typedef QuaternionBase<ValueType> \
+    TransformationMatrix::QuaternionType;
  *  \brief Matrix quaternion type
  */
 
-/** \typedef OSGVectorInterface<OSGValueTypeT, OSGVecStorage3<OSGValueTypeT> >\
-    OSGTransformationMatrix::OSGVectorType3f;
+/** \typedef VectorInterface<ValueTypeT, VecStorage3<ValueTypeT> >\
+    TransformationMatrix::VectorType3f;
  *  \brief Matrix vec3f type
  */
 
-/** \typedef OSGPointInterface<OSGValueTypeT, OSGVecStorage3<OSGValueTypeT> >\
-    OSGTransformationMatrix::OSGPointType3f;
+/** \typedef PointInterface<ValueTypeT, VecStorage3<ValueTypeT> >\
+    TransformationMatrix::PointType3f;
  *  \brief Matrix pnt3f type
  */
 
-/** \fn const char *OSGTransformationMatrix::getClassname(void)
+/** \fn const char *TransformationMatrix::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGVectorType OSGTransformationMatrix::_matrix[4];
+/** \var VectorType TransformationMatrix::_matrix[4];
  *  \brief Value store
  */
 
@@ -90,14 +101,14 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template<class OSGValueTypeT>
-char OSGTransformationMatrix<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template<class ValueTypeT>
+char TransformationMatrix<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief Identity matrix
  */
-template<class OSGValueTypeT>
-OSGTransformationMatrix<OSGValueTypeT>
-    OSGTransformationMatrix<OSGValueTypeT>::_identityMatrix;
+template<class ValueTypeT>
+TransformationMatrix<ValueTypeT>
+    TransformationMatrix<ValueTypeT>::_identityMatrix;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -110,9 +121,9 @@ OSGTransformationMatrix<OSGValueTypeT>
 /** \brief Returns identity matrix
  */
 
-template<class OSGValueTypeT> inline
-const OSGTransformationMatrix<OSGValueTypeT> &
-    OSGTransformationMatrix<OSGValueTypeT>::identity(void)
+template<class ValueTypeT> inline
+const TransformationMatrix<ValueTypeT> &
+    TransformationMatrix<ValueTypeT>::identity(void)
 {
     return _identityMatrix;
 }
@@ -141,25 +152,25 @@ const OSGTransformationMatrix<OSGValueTypeT> &
 /** \brief Constructor
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(void)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::TransformationMatrix(void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < 4; i++)
     {
-        _matrix[i][i] = OSGTypeConstants<OSGValueType>::getOneElement();
+        _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
     }
 }
 
 /** \brief Copy Constructor
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
-    const OSGTransformationMatrix &source)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::TransformationMatrix(
+    const TransformationMatrix &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < 4; i++)
     {
@@ -167,29 +178,29 @@ OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
     }
 }
 
-/** \brief Construtor using 3 OSGVec3f values
+/** \brief Construtor using 3 Vec3f values
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
-    const OSGVectorType3f &vector1,
-    const OSGVectorType3f &vector2,
-    const OSGVectorType3f &vector3)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::TransformationMatrix(
+    const VectorType3f &vector1,
+    const VectorType3f &vector2,
+    const VectorType3f &vector3)
 {
     _matrix[0].setValue(vector1);
     _matrix[1].setValue(vector2);
     _matrix[2].setValue(vector3);
 }
 
-/** \brief Constructor using 4 OSGVec3f values 
+/** \brief Constructor using 4 Vec3f values 
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
-    const OSGVectorType3f &vector1,
-    const OSGVectorType3f &vector2,
-    const OSGVectorType3f &vector3,
-    const OSGVectorType3f &vector4)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::TransformationMatrix(
+    const VectorType3f &vector1,
+    const VectorType3f &vector2,
+    const VectorType3f &vector3,
+    const VectorType3f &vector4)
 {
     _matrix[0].setValue(vector1);
     _matrix[1].setValue(vector2);
@@ -197,30 +208,30 @@ OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
     _matrix[3].setValue(vector4);
 }
 
-/** \brief Construtor using 16 OSGValueTypeT values
+/** \brief Construtor using 16 ValueTypeT values
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
-    const OSGValueTypeT rVal00,
-    const OSGValueTypeT rVal10,
-    const OSGValueTypeT rVal20,
-    const OSGValueTypeT rVal30,
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::TransformationMatrix(
+    const ValueTypeT rVal00,
+    const ValueTypeT rVal10,
+    const ValueTypeT rVal20,
+    const ValueTypeT rVal30,
     
-    const OSGValueTypeT rVal01,
-    const OSGValueTypeT rVal11,
-    const OSGValueTypeT rVal21,
-    const OSGValueTypeT rVal31,
+    const ValueTypeT rVal01,
+    const ValueTypeT rVal11,
+    const ValueTypeT rVal21,
+    const ValueTypeT rVal31,
     
-    const OSGValueTypeT rVal02,
-    const OSGValueTypeT rVal12,
-    const OSGValueTypeT rVal22,
-    const OSGValueTypeT rVal32,
+    const ValueTypeT rVal02,
+    const ValueTypeT rVal12,
+    const ValueTypeT rVal22,
+    const ValueTypeT rVal32,
     
-    const OSGValueTypeT rVal03,
-    const OSGValueTypeT rVal13,
-    const OSGValueTypeT rVal23,
-    const OSGValueTypeT rVal33)
+    const ValueTypeT rVal03,
+    const ValueTypeT rVal13,
+    const ValueTypeT rVal23,
+    const ValueTypeT rVal33)
 {
     _matrix[0].setValues(rVal00, rVal01, rVal02, rVal03);
     _matrix[1].setValues(rVal10, rVal11, rVal12, rVal13);
@@ -231,8 +242,8 @@ OSGTransformationMatrix<OSGValueTypeT>::OSGTransformationMatrix(
 /** \brief Destructor
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::~OSGTransformationMatrix(void)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::~TransformationMatrix(void)
 {
 }
 
@@ -246,15 +257,15 @@ OSGTransformationMatrix<OSGValueTypeT>::~OSGTransformationMatrix(void)
 /** \brief Resets the matrix to identity
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setIdentity(void)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setIdentity(void)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
     for(i = 0; i < 4; i++)
     {
         _matrix[i].setNull();
-        _matrix[i][i] = OSGTypeConstants<OSGValueType>::getOneElement();
+        _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
     }
 }
 
@@ -262,39 +273,39 @@ void OSGTransformationMatrix<OSGValueTypeT>::setIdentity(void)
 /** \brief Set values from a given matrix
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGTransformationMatrix &mat)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const TransformationMatrix &mat)
 {
-    for(OSGUInt32 i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i] = mat._matrix[i];
     }
 }
 
-/** \brief Set values from 3 OSGVec3f vectors
+/** \brief Set values from 3 Vec3f vectors
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGVectorType3f &vector1,
-    const OSGVectorType3f &vector2,
-    const OSGVectorType3f &vector3)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const VectorType3f &vector1,
+    const VectorType3f &vector2,
+    const VectorType3f &vector3)
 {
     _matrix[0].setValue(vector1);
     _matrix[1].setValue(vector2);
     _matrix[2].setValue(vector3);
 }
 
-/** \brief Set values from 4 OSGVec3f vectors
+/** \brief Set values from 4 Vec3f vectors
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGVectorType3f &vector1,
-    const OSGVectorType3f &vector2,
-    const OSGVectorType3f &vector3,
-    const OSGVectorType3f &vector4)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const VectorType3f &vector1,
+    const VectorType3f &vector2,
+    const VectorType3f &vector3,
+    const VectorType3f &vector4)
 {
     _matrix[0].setValue(vector1);
     _matrix[1].setValue(vector2);
@@ -302,30 +313,30 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValue(
     _matrix[3].setValue(vector4);
 }
 
-/** \brief Set values from 16 OSGValueTypeT values
+/** \brief Set values from 16 ValueTypeT values
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGValueTypeT rVal00,
-    const OSGValueTypeT rVal10,
-    const OSGValueTypeT rVal20,
-    const OSGValueTypeT rVal30,
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const ValueTypeT rVal00,
+    const ValueTypeT rVal10,
+    const ValueTypeT rVal20,
+    const ValueTypeT rVal30,
     
-    const OSGValueTypeT rVal01,
-    const OSGValueTypeT rVal11,
-    const OSGValueTypeT rVal21,
-    const OSGValueTypeT rVal31,
+    const ValueTypeT rVal01,
+    const ValueTypeT rVal11,
+    const ValueTypeT rVal21,
+    const ValueTypeT rVal31,
     
-    const OSGValueTypeT rVal02,
-    const OSGValueTypeT rVal12,
-    const OSGValueTypeT rVal22,
-    const OSGValueTypeT rVal32,
+    const ValueTypeT rVal02,
+    const ValueTypeT rVal12,
+    const ValueTypeT rVal22,
+    const ValueTypeT rVal32,
     
-    const OSGValueTypeT rVal03,
-    const OSGValueTypeT rVal13,
-    const OSGValueTypeT rVal23,
-    const OSGValueTypeT rVal33)
+    const ValueTypeT rVal03,
+    const ValueTypeT rVal13,
+    const ValueTypeT rVal23,
+    const ValueTypeT rVal33)
 {
     _matrix[0].setValues(rVal00, rVal01, rVal02, rVal03);
     _matrix[1].setValues(rVal10, rVal11, rVal12, rVal13);
@@ -333,30 +344,30 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValue(
     _matrix[3].setValues(rVal30, rVal31, rVal32, rVal33);
 }
 
-/** \brief Set values from 16 OSGValueTypeT values, the matrix is transposed
+/** \brief Set values from 16 ValueTypeT values, the matrix is transposed
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValueTransposed(
-    const OSGValueTypeT rVal00,
-    const OSGValueTypeT rVal01,
-    const OSGValueTypeT rVal02,
-    const OSGValueTypeT rVal03,
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValueTransposed(
+    const ValueTypeT rVal00,
+    const ValueTypeT rVal01,
+    const ValueTypeT rVal02,
+    const ValueTypeT rVal03,
     
-    const OSGValueTypeT rVal10,
-    const OSGValueTypeT rVal11,
-    const OSGValueTypeT rVal12,
-    const OSGValueTypeT rVal13,
+    const ValueTypeT rVal10,
+    const ValueTypeT rVal11,
+    const ValueTypeT rVal12,
+    const ValueTypeT rVal13,
     
-    const OSGValueTypeT rVal20,
-    const OSGValueTypeT rVal21,
-    const OSGValueTypeT rVal22,
-    const OSGValueTypeT rVal23,
+    const ValueTypeT rVal20,
+    const ValueTypeT rVal21,
+    const ValueTypeT rVal22,
+    const ValueTypeT rVal23,
     
-    const OSGValueTypeT rVal30,
-    const OSGValueTypeT rVal31,
-    const OSGValueTypeT rVal32,
-    const OSGValueTypeT rVal33)
+    const ValueTypeT rVal30,
+    const ValueTypeT rVal31,
+    const ValueTypeT rVal32,
+    const ValueTypeT rVal33)
 {
     _matrix[0].setValues(rVal00, rVal01, rVal02, rVal03);
     _matrix[1].setValues(rVal10, rVal11, rVal12, rVal13);
@@ -364,18 +375,18 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValueTransposed(
     _matrix[3].setValues(rVal30, rVal31, rVal32, rVal33);
 }
 
-/** \brief Set value from an OSGValueTypeT array, be shure the sizes match
+/** \brief Set value from an ValueTypeT array, be shure the sizes match
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGValueTypeT *pMat, OSGBool bTransposed)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const ValueTypeT *pMat, Bool bTransposed)
 {
-    const OSGValueTypeT *pTmpMat = pMat;
+    const ValueTypeT *pTmpMat = pMat;
 
     if(bTransposed == true)
     {
-        for(OSGUInt32 i = 0; i < 4; i++)
+        for(UInt32 i = 0; i < 4; i++)
         {
             _matrix[i].setValue(pTmpMat);
             pTmpMat += 4;
@@ -383,9 +394,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValue(
     }
     else
     {
-        for(OSGUInt32 i = 0; i < 4; i++)
+        for(UInt32 i = 0; i < 4; i++)
         {
-            for(OSGUInt32 j = 0; j < 4; j++)
+            for(UInt32 j = 0; j < 4; j++)
             {
                 _matrix[i][j] = pTmpMat[j * 4 + i];
             }
@@ -393,14 +404,14 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValue(
     }
 }
 
-/** \brief Set value from an OSGVectorTypeT array, be shure the sizes match
+/** \brief Set value from an VectorTypeT array, be shure the sizes match
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGVectorType *pMat)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const VectorType *pMat)
 {
-    for(OSGUInt32 i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i] = pMat[i];
     }
@@ -408,14 +419,14 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValue(
 
 #ifndef WIN32
 
-/** \brief Set value from an OSGVectorType3f array, be shure the sizes match
+/** \brief Set value from an VectorType3f array, be shure the sizes match
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setValue(
-    const OSGVectorType3f *pMat)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setValue(
+    const VectorType3f *pMat)
 {
-    for(OSGUInt32 i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i].setValue(pMat[i]);
     }
@@ -433,8 +444,8 @@ void OSGTransformationMatrix<OSGValueTypeT>::setValue(
 /** Returns an C++ pointer to the value store
  */
 
-template<class OSGValueTypeT> inline
-OSGValueTypeT *OSGTransformationMatrix<OSGValueTypeT>::getValues(void)
+template<class ValueTypeT> inline
+ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
 {
     return _matrix[0].getValueRef();
 }
@@ -448,8 +459,8 @@ OSGValueTypeT *OSGTransformationMatrix<OSGValueTypeT>::getValues(void)
 
 /** \brief Sets matrix to scale by given uniform factor
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setScale(const OSGValueTypeT s)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT s)
 {
     _matrix[0][0] = s;
     _matrix[1][1] = s;
@@ -458,9 +469,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::setScale(const OSGValueTypeT s)
 
 /** \brief Sets matrix to scale by given uniform factor
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setScale(const OSGValueTypeT sx, 
-			const OSGValueTypeT sy, const OSGValueTypeT sz)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT sx, 
+			const ValueTypeT sy, const ValueTypeT sz)
 {
     _matrix[0][0] = sx;
     _matrix[1][1] = sy;
@@ -469,9 +480,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::setScale(const OSGValueTypeT sx,
 
 /** \brief Sets matrix to scale by given vector
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setScale(
-    const OSGVectorType3f &s)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setScale(
+    const VectorType3f &s)
 {
     _matrix[0][0] = s[0];
     _matrix[1][1] = s[1];
@@ -481,11 +492,11 @@ void OSGTransformationMatrix<OSGValueTypeT>::setScale(
 /** \brief Sets matrix to translate by given values
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setTranslate(
-    const OSGValueTypeT tx,
-    const OSGValueTypeT ty,
-    const OSGValueTypeT tz)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTranslate(
+    const ValueTypeT tx,
+    const ValueTypeT ty,
+    const ValueTypeT tz)
 {
     _matrix[3][0] = tx;
     _matrix[3][1] = ty;
@@ -495,27 +506,27 @@ void OSGTransformationMatrix<OSGValueTypeT>::setTranslate(
 
 /** \brief Sets matrix to translate by given vector
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setTranslate(
-    const OSGVectorType3f &t)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTranslate(
+    const VectorType3f &t)
 {
     _matrix[3].setValue(t);   
 }
 
 /** \brief Sets matrix to translate by given point
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setTranslate(
-    const OSGPointType3f &t)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTranslate(
+    const PointType3f &t)
 {
     _matrix[3].setValue(t);   
 }
 
 /** \brief Sets matrix to rotate by given rotation
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setRotate(
-    const OSGQuaternionType &q)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setRotate(
+    const QuaternionType &q)
 {
     q.getValue(*this);
 }
@@ -526,27 +537,27 @@ void OSGTransformationMatrix<OSGValueTypeT>::setRotate(
    center point for scaling and rotation.  The "scaleOrientation"
    chooses the primary axes for the scale.
 */ 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setTransform(
-    const OSGVectorType3f   &translation,
-    const OSGQuaternionType &rotation,
-    const OSGVectorType3f   &scaleFactor,
-    const OSGQuaternionType &scaleOrientation,
-    const OSGVectorType3f   &center)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(
+    const VectorType3f   &translation,
+    const QuaternionType &rotation,
+    const VectorType3f   &scaleFactor,
+    const QuaternionType &scaleOrientation,
+    const VectorType3f   &center)
 {
-    OSGMatrix tmpMat1;
-    OSGMatrix tmpMat2;
+    Matrix tmpMat1;
+    Matrix tmpMat2;
 
 	// Concatenate the translations t and c
-	OSGVectorType3f tg(translation);
+	VectorType3f tg(translation);
 	tg += center;
 
 	// Concatenate the rotations r and so
-	OSGQuaternionType rg(rotation);
+	QuaternionType rg(rotation);
 	rg *= scaleOrientation;
 
 	// Calculate the inverse of so
-	OSGQuaternionType soi(scaleOrientation);
+	QuaternionType soi(scaleOrientation);
 	soi.invert();
 
 	// Calculate the 3x3 rotation matrix
@@ -642,13 +653,13 @@ void OSGTransformationMatrix<OSGValueTypeT>::setTransform(
 
 /** \brief Composes the matrix based on a translation, rotation and scale
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setTransform(
-    const OSGVectorType3f   &t, 
-    const OSGQuaternionType &r,
-    const OSGVectorType3f   &s)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(
+    const VectorType3f   &t, 
+    const QuaternionType &r,
+    const VectorType3f   &s)
 {
-//    OSGMatrix tmpMat;
+//    Matrix tmpMat;
 
 	// Calculate the 3x3 rotation matrix
     r.getValue(*this);
@@ -671,22 +682,22 @@ void OSGTransformationMatrix<OSGValueTypeT>::setTransform(
 /** \brief Composes the matrix based on a translation, rotation, scale and
    orientation
 */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::setTransform(
-    const OSGVectorType3f   &t, 
-    const OSGQuaternionType &r,
-    const OSGVectorType3f   &s, 
-    const OSGQuaternionType &so)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(
+    const VectorType3f   &t, 
+    const QuaternionType &r,
+    const VectorType3f   &s, 
+    const QuaternionType &so)
 {
-    OSGMatrix tmpMat1;
-    OSGMatrix tmpMat2;
+    Matrix tmpMat1;
+    Matrix tmpMat2;
 
 	// Concatenate the rotations r and so
-	OSGQuaternionType rg(r);
+	QuaternionType rg(r);
 	rg.mult(so);
 
 	// Calculate the inverse of so
-	OSGQuaternionType soi(so);
+	QuaternionType soi(so);
 	soi.invert();
 
 	// Calculate the 3x3 rotation matrix
@@ -765,27 +776,27 @@ void OSGTransformationMatrix<OSGValueTypeT>::setTransform(
    factor() where "t" is translation, "u" is rotation, "s" is
    scaleFactor, and "r" is ScaleOrientattion.
 */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::getTransform(
-    OSGVectorType3f   &translation, 
-    OSGQuaternionType &rotation,
-    OSGVectorType3f   &scaleFactor, 
-    OSGQuaternionType &scaleOrientation,
-    OSGVectorType3f   &center) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::getTransform(
+    VectorType3f   &translation, 
+    QuaternionType &rotation,
+    VectorType3f   &scaleFactor, 
+    QuaternionType &scaleOrientation,
+    VectorType3f   &center) const
 {
-    cerr << "OSGMatrix::getTransform not implemented yet\n";
+    cerr << "Matrix::getTransform not implemented yet\n";
 }
 
 /** \brief Decomposes the matrix into a translation, rotation  and scale
  */
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::getTransform(
-    OSGVectorType3f   &translation, 
-    OSGQuaternionType &rotation,
-    OSGVectorType3f   &scaleFactor, 
-    OSGQuaternionType &scaleOrientation) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::getTransform(
+    VectorType3f   &translation, 
+    QuaternionType &rotation,
+    VectorType3f   &scaleFactor, 
+    QuaternionType &scaleOrientation) const
 {
-    cerr << "OSGMatrix::getTransform not implemented yet\n";
+    cerr << "Matrix::getTransform not implemented yet\n";
 }
 
 /** \brief Factors a matrix m into 5 pieces: m = r s rt u t, where rt
@@ -793,15 +804,15 @@ void OSGTransformationMatrix<OSGValueTypeT>::getTransform(
     and t is a translation. Any projection information is returned
     in proj.
 */
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::factor(
-    OSGTransformationMatrix &r, 
-    OSGVectorType3f         &s, 
-    OSGTransformationMatrix &u,
-    OSGVectorType3f         &t, 
-    OSGTransformationMatrix &proj) const
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::factor(
+    TransformationMatrix &r, 
+    VectorType3f         &s, 
+    TransformationMatrix &u,
+    VectorType3f         &t, 
+    TransformationMatrix &proj) const
 {
-    cerr << "OSGMatrix::getTransform not implemented yet\n";
+    cerr << "Matrix::getTransform not implemented yet\n";
 }
 
 //@}
@@ -815,10 +826,10 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::factor(
  *  is given
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multMatrixPnt(
-    const OSGPointType3f &src, 
-          OSGPointType3f &dst) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multMatrixPnt(
+    const PointType3f &src, 
+          PointType3f &dst) const
 {
 	dst.setValues((src[0] * _matrix[0][0] + 
                    src[1] * _matrix[1][0] +
@@ -837,9 +848,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::multMatrixPnt(
 /** \brief Multiplies matrix by given column point
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multMatrixPnt(
-    OSGPointType3f &pnt) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multMatrixPnt(
+    PointType3f &pnt) const
 {
     multMatrixPnt(pnt, pnt);
 }
@@ -848,19 +859,19 @@ void OSGTransformationMatrix<OSGValueTypeT>::multMatrixPnt(
  *  is given. The full (4x4) matrix is used.
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multFullMatrixPnt(
-    const OSGPointType3f &src, 
-          OSGPointType3f &dst) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
+    const PointType3f &src, 
+          PointType3f &dst) const
 {
-	OSGValueTypeT w =	src[0] * _matrix[0][3] +
+	ValueTypeT w =	src[0] * _matrix[0][3] +
 						src[1] * _matrix[1][3] +
 						src[2] * _matrix[2][3] + 
 								 _matrix[3][3];
 	
-	if ( w < osgEps && w > -osgEps )
+	if ( w < Eps && w > -Eps )
 	{
-		SINFO << "multFullMatrixPnt: w < osgEps!" << endl;
+		SINFO << "multFullMatrixPnt: w < Eps!" << endl;
 		dst.setValues(0, 0, 0);
 		return;		
 	}
@@ -883,9 +894,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::multFullMatrixPnt(
 /** \brief Multiplies matrix by given column point. The full (4x4) matrix is used.
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multFullMatrixPnt(
-    OSGPointType3f &pnt) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
+    PointType3f &pnt) const
 {
     multFullMatrixPnt(pnt, pnt);
 }
@@ -894,10 +905,10 @@ void OSGTransformationMatrix<OSGValueTypeT>::multFullMatrixPnt(
  *  vector is given
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multMatrixVec(
-    const OSGVectorType3f &src, 
-          OSGVectorType3f &dst) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multMatrixVec(
+    const VectorType3f &src, 
+          VectorType3f &dst) const
 {
 	dst.setValues((src[0] * _matrix[0][0] + 
                    src[1] * _matrix[1][0] +
@@ -913,9 +924,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::multMatrixVec(
 /** \brief Multiplies matrix by given column vector
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multMatrixVec(
-    OSGVectorType3f &vec) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multMatrixVec(
+    VectorType3f &vec) const
 {
     multMatrixVec(vec, vec);
 }
@@ -924,10 +935,10 @@ void OSGTransformationMatrix<OSGValueTypeT>::multMatrixVec(
  *  dest
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::transform(
-    const OSGPointType3f &src, 
-          OSGPointType3f &dest) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::transform(
+    const PointType3f &src, 
+          PointType3f &dest) const
 {
     multMatrixPnt(src, dest);
 }
@@ -935,9 +946,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::transform(
 /** \brief Transforms the given point by the matrix
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::transform(
-    OSGPointType3f &pnt) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::transform(
+    PointType3f &pnt) const
 {
     multMatrixPnt(pnt, pnt);
 }
@@ -946,10 +957,10 @@ void OSGTransformationMatrix<OSGValueTypeT>::transform(
  *  dest
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::transform(
-    const OSGVectorType3f &src, 
-          OSGVectorType3f &dest) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::transform(
+    const VectorType3f &src, 
+          VectorType3f &dest) const
 {
     multMatrixVec(src, dest);
 }
@@ -957,9 +968,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::transform(
 /** \brief Transforms the given vector by the matrix
  */
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::transform(
-    OSGVectorType3f &vec) const
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::transform(
+    VectorType3f &vec) const
 {
     multMatrixVec(vec, vec);
 }
@@ -975,13 +986,13 @@ void OSGTransformationMatrix<OSGValueTypeT>::transform(
  *  tolerance
  */
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::equals(
-    const OSGTransformationMatrix &matrix, 
-    const OSGValueType             tolerance) const
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::equals(
+    const TransformationMatrix &matrix, 
+    const ValueType             tolerance) const
 {
-    OSGUInt32 i;
-    OSGBool returnValue = true;
+    UInt32 i;
+    Bool returnValue = true;
 
     for(i = 0; i < 4; i++)
     {
@@ -997,8 +1008,8 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::equals(
 /** \brief Returns the determinat of the upper 3x3 submatrix
  */
 
-template<class OSGValueTypeT> inline
-OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det3(void) const
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::det3(void) const
 {
     return (_matrix[0][0] * _matrix[1][1] * _matrix[2][2] + 
             _matrix[0][1] * _matrix[1][2] * _matrix[2][0] + 
@@ -1011,10 +1022,10 @@ OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det3(void) const
 /** \brief Returns the determinat of the whole 4x4 matrix
  */
 
-template<class OSGValueTypeT> inline
-OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det (void) const
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::det (void) const
 {
-    OSGValueTypeT 
+    ValueTypeT 
         a1, a2, a3, a4, 
         b1, b2, b3, b4, 
         c1, c2, c3, c4, 
@@ -1054,13 +1065,13 @@ OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det (void) const
  *   matrix is not singular 
  */
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::inverse(
-    OSGTransformationMatrix &result) const
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::inverse(
+    TransformationMatrix &result) const
 {
-    OSGValueTypeT rDet; 
+    ValueTypeT rDet; 
 
-    OSGValueTypeT
+    ValueTypeT
         a1, a2, a3, a4, 
         b1, b2, b3, b4, 
         c1, c2, c3, c4, 
@@ -1143,13 +1154,13 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::inverse(
  *   matrix is not singular 
  */
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::invert(void)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::invert(void)
 {
-    OSGValueTypeT           rDet; 
-    OSGTransformationMatrix result;
+    ValueTypeT           rDet; 
+    TransformationMatrix result;
 
-    OSGValueTypeT
+    ValueTypeT
         a1, a2, a3, a4, 
         b1, b2, b3, b4, 
         c1, c2, c3, c4, 
@@ -1234,13 +1245,13 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::invert(void)
  *   the matrix is not singular 
  */
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::invertFrom(
-    const OSGTransformationMatrix &matrix)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::invertFrom(
+    const TransformationMatrix &matrix)
 {
-    OSGValueTypeT rDet; 
+    ValueTypeT rDet; 
 
-    OSGValueTypeT
+    ValueTypeT
         a1, a2, a3, a4, 
         b1, b2, b3, b4, 
         c1, c2, c3, c4, 
@@ -1319,11 +1330,11 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::invertFrom(
     return true;
 }
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::inverse3(
-    OSGTransformationMatrix &result) const
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::inverse3(
+    TransformationMatrix &result) const
 {
-    OSGValueTypeT rDet = det3(); 
+    ValueTypeT rDet = det3(); 
     
     if(osgabs(rDet) < 1E-20)
     {
@@ -1379,18 +1390,18 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::inverse3(
 
     result[3][0] =
         result[3][1] =
-        result[3][2] = OSGTypeConstants<OSGValueType>::getZeroElement();
+        result[3][2] = TypeConstants<ValueType>::getZeroElement();
 
-    result[3][3] = OSGTypeConstants<OSGValueType>::getOneElement();
+    result[3][3] = TypeConstants<ValueType>::getOneElement();
     
     return true;
 }
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::invert3(void)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::invert3(void)
 {
-    OSGValueTypeT           rDet    = det3(); 
-    OSGTransformationMatrix result;
+    ValueTypeT           rDet    = det3(); 
+    TransformationMatrix result;
 
     if(osgabs(rDet) < 1E-20)
     {
@@ -1445,20 +1456,20 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::invert3(void)
 
     result[3][0] =
         result[3][1] =
-        result[3][2] = OSGTypeConstants<OSGValueType>::getZeroElement();
+        result[3][2] = TypeConstants<ValueType>::getZeroElement();
 
-    result[3][3] = OSGTypeConstants<OSGValueType>::getOneElement();
+    result[3][3] = TypeConstants<ValueType>::getOneElement();
 
     *this = result;
     
     return true;
 }
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::invertFrom3(
-    const OSGTransformationMatrix &matrix)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::invertFrom3(
+    const TransformationMatrix &matrix)
 {
-    OSGValueTypeT rDet = det3(); 
+    ValueTypeT rDet = det3(); 
     
     if(osgabs(rDet) < 1E-20)
     {
@@ -1514,16 +1525,16 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::invertFrom3(
 
     _matrix[3][0] =
         _matrix[3][1] =
-        _matrix[3][2] = OSGTypeConstants<OSGValueType>::getZeroElement();
+        _matrix[3][2] = TypeConstants<ValueType>::getZeroElement();
 
-    _matrix[3][3] = OSGTypeConstants<OSGValueType>::getOneElement();
+    _matrix[3][3] = TypeConstants<ValueType>::getOneElement();
     
     return true;
 }
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::transposed(
-		OSGTransformationMatrix &result) const
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::transposed(
+		TransformationMatrix &result) const
 {
 	result.setValues(	(*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0], 
 						(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1], 
@@ -1531,10 +1542,10 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::transposed(
 						(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] );
 }
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::transpose(void)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::transpose(void)
 {
-	OSGValueTypeT tmp;
+	ValueTypeT tmp;
 	tmp = (*this)[1][0]; (*this)[1][0] = (*this)[0][1]; (*this)[0][1] = tmp;
 	tmp = (*this)[2][0]; (*this)[2][0] = (*this)[0][2]; (*this)[0][2] = tmp;
 	tmp = (*this)[3][0]; (*this)[3][0] = (*this)[0][3]; (*this)[0][3] = tmp;
@@ -1543,9 +1554,9 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::transpose(void)
 	tmp = (*this)[3][2]; (*this)[3][2] = (*this)[2][3]; (*this)[2][3] = tmp;
 }
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::transposeFrom(
-	const OSGTransformationMatrix &matrix)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::transposeFrom(
+	const TransformationMatrix &matrix)
 {
 	this->setValues(	result[0][0], result[1][0], result[2][0], result[3][0], 
 						result[0][1], result[1][1], result[2][1], result[3][1], 
@@ -1553,11 +1564,11 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::transposeFrom(
 						result[0][3], result[1][3], result[2][3], result[3][3] );
 }
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::mult(
-    const OSGTransformationMatrix &matrix)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::mult(
+    const TransformationMatrix &matrix)
 {
-    OSGValueTypeT rTmpMat[4][4];
+    ValueTypeT rTmpMat[4][4];
 
     (rTmpMat)[0][0] = rowMulCol4((*this),0,(matrix),0);
     (rTmpMat)[0][1] = rowMulCol4((*this),1,(matrix),0);
@@ -1600,11 +1611,11 @@ void OSGTransformationMatrix<OSGValueTypeT>::mult(
     _matrix[3][3] = rTmpMat[3][3];
 }
 
-template<class OSGValueTypeT> inline
-void OSGTransformationMatrix<OSGValueTypeT>::multLeft(
-    const OSGTransformationMatrix &matrix)
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multLeft(
+    const TransformationMatrix &matrix)
 {
-    OSGValueTypeT rTmpMat[4][4];
+    ValueTypeT rTmpMat[4][4];
 
     (rTmpMat)[0][0] = rowMulCol4((matrix),0,(*this),0);
     (rTmpMat)[0][1] = rowMulCol4((matrix),1,(*this),0);
@@ -1658,9 +1669,9 @@ void OSGTransformationMatrix<OSGValueTypeT>::multLeft(
 /** \brief Returns a reference to the element stored at the given index
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT>::OSGVectorType &
-    OSGTransformationMatrix<OSGValueTypeT>::operator [](OSGUInt32 uiIndex)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT>::VectorType &
+    TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex)
 {
     return _matrix[uiIndex]; 
 }
@@ -1668,9 +1679,9 @@ OSGTransformationMatrix<OSGValueTypeT>::OSGVectorType &
 /** \brief Returns a const reference to the element stored at the given index
  */
 
-template<class OSGValueTypeT> inline
-const OSGTransformationMatrix<OSGValueTypeT>::OSGVectorType &
-   OSGTransformationMatrix<OSGValueTypeT>::operator [](OSGUInt32 uiIndex) const
+template<class ValueTypeT> inline
+const TransformationMatrix<ValueTypeT>::VectorType &
+   TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex) const
 {
     return _matrix[uiIndex]; 
 }
@@ -1685,12 +1696,12 @@ const OSGTransformationMatrix<OSGValueTypeT>::OSGVectorType &
 /** \brief assignment
  */
 
-template<class OSGValueTypeT> inline
-OSGTransformationMatrix<OSGValueTypeT> & 
-    OSGTransformationMatrix<OSGValueTypeT>::operator = (
-        const OSGTransformationMatrix &source)
+template<class ValueTypeT> inline
+TransformationMatrix<ValueTypeT> & 
+    TransformationMatrix<ValueTypeT>::operator = (
+        const TransformationMatrix &source)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
 	if (this == &source)
 		return *this;
@@ -1711,20 +1722,20 @@ OSGTransformationMatrix<OSGValueTypeT> &
 /** \brief equal
  */
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::operator == (
-    const OSGTransformationMatrix &other)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::operator == (
+    const TransformationMatrix &other)
 {
-    return equals(other, osgEps);
+    return equals(other, Eps);
 }
 
 /** \brief not equal, returns true if all matrix elements are equal with
- *  the tolerance of osgEps
+ *  the tolerance of Eps
  */
 
-template<class OSGValueTypeT> inline
-OSGBool OSGTransformationMatrix<OSGValueTypeT>::operator != (
-    const OSGTransformationMatrix &other)
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::operator != (
+    const TransformationMatrix &other)
 {
 	return ! (*this == other);
 }
@@ -1735,10 +1746,10 @@ OSGBool OSGTransformationMatrix<OSGValueTypeT>::operator != (
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-template<class OSGValueTypeT> inline
-OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::rowMulCol4(
-    const OSGTransformationMatrix &gRowMat, OSGUInt32 iRow, 
-    const OSGTransformationMatrix &gColMat, OSGUInt32 iColumn) const
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::rowMulCol4(
+    const TransformationMatrix &gRowMat, UInt32 iRow, 
+    const TransformationMatrix &gColMat, UInt32 iColumn) const
 {
 	return 
         gRowMat[0][iRow] * gColMat[iColumn][0] +
@@ -1748,25 +1759,25 @@ OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::rowMulCol4(
 }
 
 
-template<class OSGValueTypeT> inline
-OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det2(
-    const OSGValueTypeT a1, const OSGValueTypeT a2,
-    const OSGValueTypeT b1, const OSGValueTypeT b2) const
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::det2(
+    const ValueTypeT a1, const ValueTypeT a2,
+    const ValueTypeT b1, const ValueTypeT b2) const
 {
     return (a1 * b2) - (a2 * b1);
 }
 
-template<class OSGValueTypeT> inline
-OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det3(
-    const OSGValueTypeT a1, 
-    const OSGValueTypeT a2, 
-    const OSGValueTypeT a3,
-    const OSGValueTypeT b1, 
-    const OSGValueTypeT b2, 
-    const OSGValueTypeT b3,
-    const OSGValueTypeT c1, 
-    const OSGValueTypeT c2, 
-    const OSGValueTypeT c3) const
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::det3(
+    const ValueTypeT a1, 
+    const ValueTypeT a2, 
+    const ValueTypeT a3,
+    const ValueTypeT b1, 
+    const ValueTypeT b2, 
+    const ValueTypeT b3,
+    const ValueTypeT c1, 
+    const ValueTypeT c2, 
+    const ValueTypeT c3) const
 {    
     return 
         (a1 * b2 * c3) + (a2 * b3 * c1) + (a3 * b1 * c2) -
@@ -1779,12 +1790,13 @@ OSGValueTypeT OSGTransformationMatrix<OSGValueTypeT>::det3(
 
 /** \brief write vector to stream
  */
-template<class OSGValueTypeT> inline
-ostream &operator <<(ostream                                        &os,
-                     const   OSGTransformationMatrix<OSGValueTypeT> &obj)
+template<class ValueTypeT> inline 
+OSG_DLLEXPORT 
+ostream &operator <<(ostream                                  &os,
+                     const   TransformationMatrix<ValueTypeT> &obj)
 {
-    OSGUInt32 i;
-    OSGUInt32 j;
+    UInt32 i;
+    UInt32 j;
 
 #ifdef OSG_SGI_STL
     os << fixed << showpoint << setprecision(3) << setfill(' ');

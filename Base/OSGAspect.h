@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGASPECT_H_
 #define _OSGASPECT_H_
@@ -48,8 +58,6 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGChangeList;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -64,7 +72,7 @@ class OSGChangeList;
  *  detailed
  */
 
-class OSGAspect 
+class OSG_DLLEXPORT Aspect 
 {
   public:
 
@@ -80,7 +88,7 @@ class OSGAspect
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGAspect"; };
+    static const char *getClassname(void) { return "Aspect"; };
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -96,7 +104,7 @@ class OSGAspect
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGAspect &other) const;
+    Bool operator < (const Aspect &other) const;
     
 	//OSGBool operator == (const CLASSNAME &other) const;
 	//OSGBool operator != (const CLASSNAME &other) const;
@@ -115,7 +123,7 @@ class OSGAspect
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static vector<OSGAspect *> _aspectV;
+    static vector<Aspect *> _aspectV;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -124,19 +132,19 @@ class OSGAspect
     static bool init(void);
     static bool exit(void);
 
-    static void moveList(OSGChangeList *listP, 
-                         OSGUInt32      fromAspect,
-                         OSGUInt32      toAspect);
+    static void moveList(ChangeList *listP, 
+                         UInt32      fromAspect,
+                         UInt32      toAspect);
 
-    static void addList(OSGChangeList *listP,
-                        OSGUInt32      aspectId);
+    static void addList(ChangeList *listP,
+                        UInt32      aspectId);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGUInt32            _aspectId;
-    set<OSGChangeList *> _changeListS;
+    UInt32            _aspectId;
+    set<ChangeList *> _changeListS;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -160,10 +168,10 @@ class OSGAspect
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend void    OSGChangeList::setAspect    (OSGUInt32 aspectId);
-    friend         OSGChangeList::OSGChangeList(void);
-    friend OSGBool                osgInit      (int argc, char **argv);
-    friend OSGBool                osgExit      (void);
+    friend void    ChangeList::setAspect    (UInt32 aspectId);
+    friend         ChangeList::ChangeList(void);
+    friend Bool                osgInit      (int argc, char **argv);
+    friend Bool                osgExit      (void);
         
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -185,12 +193,12 @@ class OSGAspect
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGAspect(OSGUInt32 aspectId);
-    OSGAspect(const OSGAspect &source);
+    Aspect(UInt32 aspectId);
+    Aspect(const Aspect &source);
 
-    virtual ~OSGAspect(void); 
+    virtual ~Aspect(void); 
 
-    void operator =(const OSGAspect &source);
+    void operator =(const Aspect &source);
 };
 
 //---------------------------------------------------------------------------
@@ -199,7 +207,7 @@ class OSGAspect
 
 // class pointer
 
-typedef OSGAspect *OSGAspectP;
+typedef Aspect *AspectP;
 
 OSG_END_NAMESPACE
 

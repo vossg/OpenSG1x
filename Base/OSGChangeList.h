@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGCHANGELIST_H_
 #define _OSGCHANGELIST_H_
@@ -47,8 +57,8 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGThread;
-class OSGField;
+class Thread;
+class Field;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -59,10 +69,10 @@ class OSGField;
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseThreading
- *  \brief OSGChangeList
+ *  \brief ChangeList
  */
 
-class OSGChangeList : public OSGMemoryObject
+class ChangeList : public MemoryObject
 {
   public:
 
@@ -70,38 +80,38 @@ class OSGChangeList : public OSGMemoryObject
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    enum OSGMode
+    enum Mode
     {
-        OSGPrivate,
-        OSGPublic
+        Private,
+        Public
     };
 
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef pair<OSGFieldContainerPtr, OSGBitVector> OSGChangeEntry;
-    typedef OSGFieldContainerPtr                     OSGRefEntry;
+    typedef pair<FieldContainerPtr, BitVector> ChangeEntry;
+    typedef FieldContainerPtr                     RefEntry;
 
-    typedef vector<OSGChangeEntry>::size_type      changed_size_type;
-    typedef vector<OSGChangeEntry>::const_iterator changed_const_iterator;
+    typedef vector<ChangeEntry>::size_type      changed_size_type;
+    typedef vector<ChangeEntry>::const_iterator changed_const_iterator;
 
-    typedef vector<OSGRefEntry>::size_type         refd_size_type;
-    typedef vector<OSGRefEntry>::const_iterator    refd_const_iterator;
+    typedef vector<RefEntry>::size_type         refd_size_type;
+    typedef vector<RefEntry>::const_iterator    refd_const_iterator;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGChangeList"; };
+    static const char *getClassname(void) { return "ChangeList"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGChangeList(void);
+    ChangeList(void);
 
-    virtual ~OSGChangeList(void); 
+    virtual ~ChangeList(void); 
 
     /*------------------------- your_category -------------------------------*/
 
@@ -120,20 +130,20 @@ class OSGChangeList : public OSGMemoryObject
     refd_const_iterator    beginSubRefd(void) const;
     refd_const_iterator    endSubRefd  (void) const;
 
-    void    addChanged  (const OSGFieldContainerPtr &fieldP, 
-                               OSGBitVector          whichField);
-    void    addAddRefd  (const OSGFieldContainerPtr &fieldP);
-    void    addSubRefd  (const OSGFieldContainerPtr &fieldP);
+    void    addChanged  (const FieldContainerPtr &fieldP, 
+                               BitVector          whichField);
+    void    addAddRefd  (const FieldContainerPtr &fieldP);
+    void    addSubRefd  (const FieldContainerPtr &fieldP);
 
     void    clearAll(void);
-    OSGBool merge   (const OSGChangeList &list);
+    Bool    merge   (const ChangeList &list);
 
-    void    applyTo       (OSGUInt32 aspectId);
+    void    applyTo       (UInt32 aspectId);
     void    applyToCurrent(void);
 
-    void    setAspect  (OSGUInt32 aspectId);
+    void    setAspect  (UInt32 aspectId);
 
-    void    setReadOnly(OSGBool readOnly);
+    void    setReadOnly(Bool readOnly);
 
     void    dump(void);
 
@@ -144,10 +154,10 @@ class OSGChangeList : public OSGMemoryObject
 
     /*------------------------- comparison ----------------------------------*/
 
-    OSGBool operator < (const OSGChangeList &other) const;
+    Bool operator < (const ChangeList &other) const;
     
-	//OSGBool operator == (const OSGChangeList &other) const;
-	//OSGBool operator != (const OSGChangeList &other) const;
+	//Bool operator == (const ChangeList &other) const;
+	//Bool operator != (const ChangeList &other) const;
 
   protected:
 
@@ -185,13 +195,13 @@ class OSGChangeList : public OSGMemoryObject
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGMemoryObject Inherited;
+    typedef MemoryObject Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGThread;
+    friend class Thread;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -211,14 +221,14 @@ class OSGChangeList : public OSGMemoryObject
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    bool              _bReadOnly;
+    Bool                _bReadOnly;
 
-    OSGUInt32         _aspectId;
-    OSGMode           _listMode;
+    UInt32              _aspectId;
+    Mode                _listMode;
 
-    vector<OSGChangeEntry> _changedFieldContainerV;
-    vector<OSGRefEntry>    _addRefdFieldContainerV;
-    vector<OSGRefEntry>    _subRefdFieldContainerV;
+    vector<ChangeEntry> _changedFieldContainerV;
+    vector<RefEntry>    _addRefdFieldContainerV;
+    vector<RefEntry>    _subRefdFieldContainerV;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -226,8 +236,8 @@ class OSGChangeList : public OSGMemoryObject
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGChangeList(const OSGChangeList &source);
-    void operator =(const OSGChangeList &source);
+    ChangeList(const ChangeList &source);
+    void operator =(const ChangeList &source);
 };
 
 //---------------------------------------------------------------------------
@@ -236,8 +246,9 @@ class OSGChangeList : public OSGMemoryObject
 
 // class pointer
 
-typedef OSGChangeList *OSGChangeListP;
+typedef ChangeList *ChangeListP;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGCHANGELIST_H_ */
+

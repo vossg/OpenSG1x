@@ -1,3 +1,40 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 // System declarations
 
@@ -25,87 +62,87 @@ OSG_USING_NAMESPACE
 
 // Static Class Varible implementations: 
 
-OSGDynamicVolume::OSGDynamicVolume ( Type type) 
+DynamicVolume::DynamicVolume ( Type type) 
 {
 	setVolumeType(type);
 }
 
-OSGDynamicVolume::OSGDynamicVolume(const OSGDynamicVolume &obj) :
+DynamicVolume::DynamicVolume(const DynamicVolume &obj) :
     _type(obj._type)
 {
 	switch ( _type ) 
 	{
         case BOX_VOLUME:
             new (_volumeMem) 
-               OSGBoxVolume(*((OSG::OSGBoxVolume*)(obj._volumeMem)));
+               BoxVolume(*((OSG::BoxVolume*)(obj._volumeMem)));
 		break;
         
         case SPHERE_VOLUME:
             new (_volumeMem) 
-               OSGSphereVolume(*((OSG::OSGSphereVolume*)(obj._volumeMem)));
+               SphereVolume(*((OSG::SphereVolume*)(obj._volumeMem)));
 		break;
 
         case CYLINDER_VOLUME:
             new (_volumeMem)
-               OSGCylinderVolume(*((OSG::OSGCylinderVolume*)(obj._volumeMem)));
+               CylinderVolume(*((OSG::CylinderVolume*)(obj._volumeMem)));
 		break;
 	}	
 }
 
-void OSGDynamicVolume::setVolumeType ( Type type )
+void DynamicVolume::setVolumeType ( Type type )
 {
 	_type = type;
 
 	switch (type) {
 	case BOX_VOLUME:
-		new (_volumeMem) OSGBoxVolume;
+		new (_volumeMem) BoxVolume;
 		break;
 	case SPHERE_VOLUME:
-		new (_volumeMem) OSGSphereVolume;
+		new (_volumeMem) SphereVolume;
 		break;
 	case CYLINDER_VOLUME:
-		new (_volumeMem) OSGCylinderVolume;
+		new (_volumeMem) CylinderVolume;
 		break;
 	}
 }
 
-void OSGDynamicVolume::morphToType ( Type type )
+void DynamicVolume::morphToType ( Type type )
 {
 	// TODO optimize;
 
 	switch (getType()) {
 	case BOX_VOLUME:
-		new (_volumeMem) OSGBoxVolume;
+		new (_volumeMem) BoxVolume;
 		break;
 	case SPHERE_VOLUME:
-		new (_volumeMem) OSGSphereVolume;
+		new (_volumeMem) SphereVolume;
 		break;
 	case CYLINDER_VOLUME:
-		new (_volumeMem) OSGCylinderVolume;
+		new (_volumeMem) CylinderVolume;
 		break;
 	}
 }
 		
 ostream &OSG::operator <<(ostream &outStream,
-                          const OSGDynamicVolume &vol)
+                          const DynamicVolume &vol)
 {
     return outStream << "DynVol << NI ";
 }
 
-OSGDynamicVolume & OSGDynamicVolume::operator = (const OSGDynamicVolume &source)
+DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
 {
 	_type = source._type;
 
 	switch ( _type ) 
 	{
 	case BOX_VOLUME:
-		new (_volumeMem) OSGBoxVolume( *((OSG::OSGBoxVolume*)(source._volumeMem)) );
+		new (_volumeMem) BoxVolume( *((OSG::BoxVolume*)(source._volumeMem)) );
 		break;
 	case SPHERE_VOLUME:
-		new (_volumeMem) OSGSphereVolume( *((OSG::OSGSphereVolume*)(source._volumeMem)) );
+		new (_volumeMem) SphereVolume( *((OSG::SphereVolume*)(source._volumeMem)) );
 		break;
 	case CYLINDER_VOLUME:
-		new (_volumeMem) OSGCylinderVolume( *((OSG::OSGCylinderVolume*)(source._volumeMem)) );
+		new (_volumeMem) CylinderVolume( *((OSG::CylinderVolume*)(source._volumeMem)) );
 		break;
 	}	
 	

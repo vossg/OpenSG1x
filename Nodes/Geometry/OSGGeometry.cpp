@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -65,23 +65,23 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
+/** \enum VecBase::VectorSizeE
  *  \brief 
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+/** \var VecBase::VectorSizeE VecBase::_iSize
  * 
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
+/** \fn const char *VecBase::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+/** \var ValueTypeT VecBase::_values[iSize];
  *  \brief Value store
  */
 
-OSGGeometryPtr OSG::OSGNullGeo;
+GeometryPtr OSG::NullGeo;
 
 /***************************************************************************\
  *                               Types                                     *
@@ -91,108 +91,108 @@ OSGGeometryPtr OSG::OSGNullGeo;
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGGeometry, OSGTypesField)
+OSG_FC_FIRST_FIELD_IDM_DEF(Geometry, TypesField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGLengthsField, 
-                           OSGTypesField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           LengthsField, 
+                           TypesField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGPositionsField, 
-                           OSGLengthsField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           PositionsField, 
+                           LengthsField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGNormalsField, 
-                           OSGPositionsField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           NormalsField, 
+                           PositionsField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGNormalPerVertexField, 
-                           OSGNormalsField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           NormalPerVertexField, 
+                           NormalsField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGColorsField, 
-                           OSGNormalPerVertexField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           ColorsField, 
+                           NormalPerVertexField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGColorPerVertexField, 
-                           OSGColorsField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           ColorPerVertexField, 
+                           ColorsField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGGeometry, 
-                           OSGGeoIndexField, 
-                           OSGColorPerVertexField)
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           GeoIndexField, 
+                           ColorPerVertexField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGGeometry, 
-                           OSGGeoIndexField)
+OSG_FC_LAST_FIELD_IDM_DEF (Geometry, 
+                           GeoIndexField)
 
-char OSGGeometry::cvsid[] = "@(#)$Id: $";
+char Geometry::cvsid[] = "@(#)$Id: $";
 
-OSGFieldDescription OSGGeometry::_desc[] = 
+FieldDescription Geometry::_desc[] = 
 {
-	OSGFieldDescription(
-        OSGSFGeoPTypePtr::getClassType(),
+	FieldDescription(
+        SFGeoPTypePtr::getClassType(),
         "types", 
-        OSG_FC_FIELD_IDM_DESC(OSGTypesField),
+        OSG_FC_FIELD_IDM_DESC(TypesField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFTypes), 
+        (FieldAccessMethod) &Geometry::getSFTypes), 
 
-	OSGFieldDescription(
-        OSGSFGeoPLengthPtr::getClassType(),
+	FieldDescription(
+        SFGeoPLengthPtr::getClassType(),
         "lengths", 
-        OSG_FC_FIELD_IDM_DESC(OSGLengthsField),
+        OSG_FC_FIELD_IDM_DESC(LengthsField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFLengths), 
+        (FieldAccessMethod) &Geometry::getSFLengths), 
     
-	OSGFieldDescription(
-        OSGSFGeoPositionPtr::getClassType(),
+	FieldDescription(
+        SFGeoPositionPtr::getClassType(),
         "positions", 
-        OSG_FC_FIELD_IDM_DESC(OSGPositionsField),
+        OSG_FC_FIELD_IDM_DESC(PositionsField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFPositions), 
+        (FieldAccessMethod) &Geometry::getSFPositions), 
     
 
-	OSGFieldDescription(
-        OSGSFGeoNormalPtr::getClassType(),
+	FieldDescription(
+        SFGeoNormalPtr::getClassType(),
         "normals", 
-        OSG_FC_FIELD_IDM_DESC(OSGNormalsField),
+        OSG_FC_FIELD_IDM_DESC(NormalsField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFNormals), 
+        (FieldAccessMethod) &Geometry::getSFNormals), 
 
-	OSGFieldDescription(
-        OSGSFBool::getClassType(),
+	FieldDescription(
+        SFBool::getClassType(),
         "normalPerVertex", 
-        OSG_FC_FIELD_IDM_DESC(OSGNormalPerVertexField),
+        OSG_FC_FIELD_IDM_DESC(NormalPerVertexField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFNormalPerVertex), 
+        (FieldAccessMethod) &Geometry::getSFNormalPerVertex), 
     
 
-	OSGFieldDescription(
-        OSGSFGeoColorPtr::getClassType(),
+	FieldDescription(
+        SFGeoColorPtr::getClassType(),
         "colors", 
-        OSG_FC_FIELD_IDM_DESC(OSGColorsField),
+        OSG_FC_FIELD_IDM_DESC(ColorsField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFColors), 
+        (FieldAccessMethod) &Geometry::getSFColors), 
 
-	OSGFieldDescription(
-        OSGSFBool::getClassType(),
+	FieldDescription(
+        SFBool::getClassType(),
         "colorPerVertex", 
-        OSG_FC_FIELD_IDM_DESC(OSGColorPerVertexField),
+        OSG_FC_FIELD_IDM_DESC(ColorPerVertexField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFColorPerVertex), 
+        (FieldAccessMethod) &Geometry::getSFColorPerVertex), 
 
 
-	OSGFieldDescription(
-        OSGSFGeoIndexPtr::getClassType(),
+	FieldDescription(
+        SFGeoIndexPtr::getClassType(),
         "index", 
-        OSG_FC_FIELD_IDM_DESC(OSGGeoIndexField),
+        OSG_FC_FIELD_IDM_DESC(GeoIndexField),
         false,
-        (OSGFieldAccessMethod) &OSGGeometry::getSFIndex), 
+        (FieldAccessMethod) &Geometry::getSFIndex), 
 };
 
-OSGFieldContainerType OSGGeometry::_type(
+FieldContainerType Geometry::_type(
     "Geometry",
     "NodeCore",
     NULL,
-    (OSGPrototypeCreateF) &OSGGeometry::createEmpty,
+    (PrototypeCreateF) &Geometry::createEmpty,
     initMethod,
     _desc,
     sizeof(_desc));
@@ -217,13 +217,13 @@ OSGFieldContainerType OSGGeometry::_type(
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
-void OSGGeometry::initMethod (void)
+void Geometry::initMethod (void)
 {
-	OSGDrawAction::registerEnterDefault( getStaticType(), 
-		osgMethodFunctor2BaseCPtr<OSG::OSGAction::ResultE,
-								OSGCNodePtr,  
-								OSGGeometryPtr, 
-								OSGAction *>(&OSGGeometry::draw));
+	DrawAction::registerEnterDefault( getStaticType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								GeometryPtr, 
+								Action *>(&Geometry::draw));
 }
 
 
@@ -235,21 +235,21 @@ void OSGGeometry::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGGeometry, OSGGeometryPtr)
+OSG_FIELD_CONTAINER_DEF(Geometry, GeometryPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGGeometry::OSGGeometry(void) :
+Geometry::Geometry(void) :
 	Inherited(),
     _types(), _lengths(), _positions(), _normals(), _colors(),
 	_normalsPerVertex(), _colorsPerVertex(), _index()
 {
 }
 
-OSGGeometry::OSGGeometry(const OSGGeometry &source) :
+Geometry::Geometry(const Geometry &source) :
     Inherited(source),
     _types(source._types), _lengths(source._lengths), 
 	_positions(source._positions), _normals(source._normals), 
@@ -262,36 +262,36 @@ OSGGeometry::OSGGeometry(const OSGGeometry &source) :
 /** \brief Destructor
  */
 
-OSGGeometry::~OSGGeometry(void)
+Geometry::~Geometry(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-void OSGGeometry::adjustVolume( OSGVolume & volume )
+void Geometry::adjustVolume( Volume & volume )
 {
-	if ( getPositions()->getTypeId() != OSGGeoPosition3f::getStaticTypeId() )
+	if ( getPositions()->getTypeId() != GeoPosition3f::getStaticTypeId() )
 	{
 		SWARNING << "adjustVolume: only supporting 3f positions right now!" << endl;
 		return;
 	}	
 
-    OSGGeoPosition3fPtr pos;
+    GeoPosition3fPtr pos;
 
 #ifdef 	OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    pos = getPositions().dcast<OSGGeoPosition3fPtr>();
+    pos = getPositions().dcast<GeoPosition3fPtr>();
 #else
     getPositions().dcast(pos);
 #endif
 
-	if ( pos == OSGNullFC )
+	if ( pos == NullFC )
 		return;				// Node has no points, no volume
 	
-	OSGMFPnt3f *p = pos->getFieldPtr();
+	MFPnt3f *p = pos->getFieldPtr();
 	
 	volume.setValid();
 	
-	for ( OSGMFPnt3f::iterator it = p->begin(); it != p->end(); it++ )
+	for ( MFPnt3f::iterator it = p->begin(); it != p->end(); it++ )
 	{
 		volume.extendBy( *it );
 	}
@@ -299,51 +299,51 @@ void OSGGeometry::adjustVolume( OSGVolume & volume )
 
 /*---------------------------- pointer ------------------------------------*/
 
-OSGGeometryPtr OSGGeometry::getPtr(void)
+GeometryPtr Geometry::getPtr(void)
 {
-    OSGGeometryPtr returnValue(*this);
+    GeometryPtr returnValue(*this);
 
     return returnValue;
 }
 
 /*---------------------------- properties ---------------------------------*/
 
-OSGSFGeoPTypePtr		*OSGGeometry::getSFTypes( void )
+SFGeoPTypePtr		*Geometry::getSFTypes( void )
 {
 	return &_types;
 }
 
-OSGSFGeoPLengthPtr		*OSGGeometry::getSFLengths( void )
+SFGeoPLengthPtr		*Geometry::getSFLengths( void )
 {
 	return &_lengths;
 }
 
-OSGSFGeoPositionPtr		*OSGGeometry::getSFPositions( void )
+SFGeoPositionPtr		*Geometry::getSFPositions( void )
 {
 	return &_positions;
 }
 
-OSGSFGeoColorPtr		*OSGGeometry::getSFColors( void )
+SFGeoColorPtr		*Geometry::getSFColors( void )
 {
 	return &_colors;
 }
 
-OSGSFBool				*OSGGeometry::getSFColorPerVertex( void )
+SFBool				*Geometry::getSFColorPerVertex( void )
 {
 	return &_colorsPerVertex;
 }
 
-OSGSFGeoNormalPtr		*OSGGeometry::getSFNormals( void )
+SFGeoNormalPtr		*Geometry::getSFNormals( void )
 {
 	return &_normals;
 }
 
-OSGSFBool				*OSGGeometry::getSFNormalPerVertex( void )
+SFBool				*Geometry::getSFNormalPerVertex( void )
 {
 	return &_normalsPerVertex;
 }
 
-OSGSFGeoIndexPtr		*OSGGeometry::getSFIndex( void )
+SFGeoIndexPtr		*Geometry::getSFIndex( void )
 {
 	return &_index;
 }
@@ -355,7 +355,7 @@ OSGSFGeoIndexPtr		*OSGGeometry::getSFIndex( void )
 /** \brief assignment
  */
 #if 0
-OSGGeometry& OSGGeometry::operator = (const OSGGeometry &source)
+Geometry& Geometry::operator = (const Geometry &source)
 {
 	if (this == &source)
 		return *this;
@@ -377,7 +377,7 @@ OSGGeometry& OSGGeometry::operator = (const OSGGeometry &source)
 /** \brief assignment
  */
 #if 0
-OSGBool CLASSNAME::operator < (const CLASSNAME &other) const
+Bool CLASSNAME::operator < (const CLASSNAME &other) const
 {
     return this < &other;
 }
@@ -385,14 +385,14 @@ OSGBool CLASSNAME::operator < (const CLASSNAME &other) const
 /** \brief equal
  */
 
-OSGBool CLASSNAME::operator == (const CLASSNAME &other) const
+Bool CLASSNAME::operator == (const CLASSNAME &other) const
 {
 }
 
 /** \brief unequal
  */
 
-OSGBool CLASSNAME::operator != (const CLASSNAME &other) const
+Bool CLASSNAME::operator != (const CLASSNAME &other) const
 {
 	return ! (*this == other);
 }
@@ -400,9 +400,9 @@ OSGBool CLASSNAME::operator != (const CLASSNAME &other) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGGeometry::dump(void) const
+void Geometry::dump(void) const
 {
-    SDEBUG << "Dump OSGGeometry NI" << endl;
+    SDEBUG << "Dump Geometry NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -413,13 +413,13 @@ void OSGGeometry::dump(void) const
 /** \brief Actions
  */
 	
-OSGAction::ResultE OSGGeometry::draw(OSGAction * action )
+Action::ResultE Geometry::draw(Action * action )
 {
 	// find the pump
-	OSGDrawAction *a = dynamic_cast<OSGDrawAction*>(action);
+	DrawAction *a = dynamic_cast<DrawAction*>(action);
 
-	OSGGeoPumpFactory::Index ind = OSGGeoPumpFactory::the().getIndex( this );
-	OSGGeoPumpFactory::Pump p = OSGGeoPumpFactory::the().getPump( a, ind );
+	GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
+	GeoPumpFactory::Pump p = GeoPumpFactory::the().getPump( a, ind );
 
 	// call the pump
 
@@ -430,14 +430,14 @@ OSGAction::ResultE OSGGeometry::draw(OSGAction * action )
 		SWARNING << "draw: no Pump found for geometry " << this << endl;
 	}
 	
-	return OSGAction::Continue;
+	return Action::Continue;
 }
 
-void OSGGeometry::changed(OSGBitVector whichField, OSGChangeMode from)
+void Geometry::changed(BitVector whichField, ChangeMode from)
 {
-    OSGUInt32 i;
+    UInt32 i;
 
-    if(whichField & OSGPositionsFieldMask)
+    if(whichField & PositionsFieldMask)
     {
         for(i = 0; i < _parents.size(); i++)
         {

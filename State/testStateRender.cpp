@@ -10,11 +10,11 @@
 
 OSG_USING_NAMESPACE
 
-OSGTransformChunkPtr tchunk1, tchunk2;
+TransformChunkPtr tchunk1, tchunk2;
 
 GLint dlid;
 
-OSGStatePtr state1, state2;
+StatePtr state1, state2;
 
 void 
 display(void)
@@ -27,11 +27,11 @@ display(void)
 
 	glCallList( dlid );
 
-	OSGMatrix m;
+	Matrix m;
 	m.setTranslate( cos(t/1000), 0, sin(t/1000) );
 	tchunk2->setMatrix( m );
 
-	state2->changeFrom( state1 );
+	state2->changeFrom( state1.getCPtr() );
 
 	glCallList( dlid );
 
@@ -73,45 +73,45 @@ int main( int argc, char *argv[] )
 	glutSolidSphere( .8, 8, 8 );
 	glEndList();
 
-	OSGMatrix m;
+	Matrix m;
 
-	tchunk1 = OSGTransformChunk::create();
+	tchunk1 = TransformChunk::create();
 	m.setTranslate( 0, 1, 0 );
 	tchunk1->setMatrix( m );
 
-	state1 = OSGState::create();
+	state1 = State::create();
 	state1->addChunk( tchunk1 );
 
-	tchunk2 = OSGTransformChunk::create();
-	tchunk2->setMatrix( OSGMatrix::identity() );
+	tchunk2 = TransformChunk::create();
+	tchunk2->setMatrix( Matrix::identity() );
 
-	state2 = OSGState::create();
+	state2 = State::create();
 	state2->addChunk( tchunk2 );
 
-	OSGMaterialChunkPtr mchunk1, mchunk2;
+	MaterialChunkPtr mchunk1, mchunk2;
 
-	mchunk1 = OSGMaterialChunk::create();
-	mchunk1->setDiffuse( OSGVec4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( OSGVec4f( 1,0,0,0 ) );
+	mchunk1 = MaterialChunk::create();
+	mchunk1->setDiffuse( Vec4f( 1,0,0,0 ) );
+	mchunk1->setAmbient( Vec4f( 1,0,0,0 ) );
 	mchunk1->setShininess( 20 );
 	state1->addChunk( mchunk1 );
 
-	mchunk2 = OSGMaterialChunk::create();
-	mchunk2->setDiffuse( OSGVec4f( 0,1,0,0 ) );
-	mchunk2->setAmbient( OSGVec4f( 0,1,0,0 ) );
+	mchunk2 = MaterialChunk::create();
+	mchunk2->setDiffuse( Vec4f( 0,1,0,0 ) );
+	mchunk2->setAmbient( Vec4f( 0,1,0,0 ) );
 	mchunk2->setShininess( 50 );
 	state2->addChunk( mchunk2 );
 
-	OSGLightChunkPtr lchunk1, lchunk2;
+	LightChunkPtr lchunk1, lchunk2;
 
-	lchunk1 = OSGLightChunk::create();
-	lchunk1->setDiffuse( OSGVec4f( 1,1,1,1 ) );
-	lchunk1->setPosition( OSGVec4f( 0,1,0,0 ) );
+	lchunk1 = LightChunk::create();
+	lchunk1->setDiffuse( Vec4f( 1,1,1,1 ) );
+	lchunk1->setPosition( Vec4f( 0,1,0,0 ) );
 	state1->addChunk( lchunk1 );
 
-	lchunk2 = OSGLightChunk::create();
-	lchunk2->setDiffuse( OSGVec4f( 1,0,0,1 ) );
-	lchunk2->setPosition( OSGVec4f( 0,0,-2,1 ) );
+	lchunk2 = LightChunk::create();
+	lchunk2->setDiffuse( Vec4f( 1,0,0,1 ) );
+	lchunk2->setPosition( Vec4f( 0,0,-2,1 ) );
 	state2->addChunk( lchunk2 );
 
 	cerr << "State1:" << endl;

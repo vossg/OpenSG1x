@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -58,15 +69,15 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGGLUTWindow::cvsid[] = "@(#)$Id: $";
+char GLUTWindow::cvsid[] = "@(#)$Id: $";
 
 // Static Class Varible implementations: 
 
-OSGFieldContainerType OSGGLUTWindow::_type(
+FieldContainerType GLUTWindow::_type(
     "GLUTWindow", 
     "Window", 
     0,
-    (OSGPrototypeCreateF) &OSGGLUTWindow::createEmpty,
+    (PrototypeCreateF) &GLUTWindow::createEmpty,
     0,
     NULL, 
     0);
@@ -101,19 +112,19 @@ OSGFieldContainerType OSGGLUTWindow::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGGLUTWindow, OSGGLUTWindowPtr)
+OSG_FIELD_CONTAINER_DEF(GLUTWindow, GLUTWindowPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGGLUTWindow::OSGGLUTWindow( void ) :
+GLUTWindow::GLUTWindow( void ) :
 	Inherited(), _winid( 0 )
 {
 }
 
-OSGGLUTWindow::OSGGLUTWindow( const OSGGLUTWindow& source ) :
+GLUTWindow::GLUTWindow( const GLUTWindow& source ) :
 	Inherited(), _winid( 0 )
 {
 }
@@ -121,7 +132,7 @@ OSGGLUTWindow::OSGGLUTWindow( const OSGGLUTWindow& source ) :
 /** \brief Destructor
  */
 
-OSGGLUTWindow::~OSGGLUTWindow(void)
+GLUTWindow::~GLUTWindow(void)
 {
 	// delete the ports and the context
 }
@@ -134,19 +145,19 @@ OSGGLUTWindow::~OSGGLUTWindow(void)
 
 	
 // init the window: create the context	
-void OSGGLUTWindow::init( void )
+void GLUTWindow::init( void )
 {
 }
 	
 // activate the window: bind the OGL context	
-void OSGGLUTWindow::activate( void )
+void GLUTWindow::activate( void )
 {
 	if ( glutGetWindow() != _winid )
 		glutSetWindow( _winid );
 }
 	
 // swap front and back buffers	
-void OSGGLUTWindow::swap( void )
+void GLUTWindow::swap( void )
 {
 	glutSwapBuffers();
 }
@@ -158,9 +169,9 @@ void OSGGLUTWindow::swap( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGGLUTWindow::dump(void) const
+void GLUTWindow::dump(void) const
 {
-    SDEBUG << "Dump OSGGLUTWindow NI" << endl;
+    SDEBUG << "Dump GLUTWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

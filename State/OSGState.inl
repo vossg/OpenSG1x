@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -43,15 +54,15 @@
 
 #include "OSGState.h"
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
+/** \fn const char *SimpleAttachment::getClassname(void)
  *  \brief Classname
  */
 
-/** \typedef OSGSimpleAttachment::Inherited
+/** \typedef SimpleAttachment::Inherited
  *  \brief Parent type
  */
 
-/** \typedef OSGSimpleAttachment::_field
+/** \typedef SimpleAttachment::_field
  *  \brief Data store
  */
 
@@ -91,7 +102,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(OSGState, OSGStatePtr)
+OSG_FIELD_CONTAINER_INL_DEF(State, StatePtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -100,21 +111,21 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGState, OSGStatePtr)
 /*------------------------------ access -----------------------------------*/
 
 	
-OSGStateChunkPtr OSGState::getChunk( OSGUInt32 id )
+StateChunkPtr State::getChunk( UInt32 id )
 {
 	if ( id < _chunks.size() )
 		return _chunks.getValue( id );
 	
-	return OSGNullStateChunk;
+	return NullStateChunk;
 }
 
-OSGBool OSGState::chunkPresent( OSGUInt32 id )
+Bool State::chunkPresent( UInt32 id )
 {
 	return	id < _chunks.size() && 
-			_chunks.getValue( id ) != OSGNullStateChunk ;
+			_chunks.getValue( id ) != NullStateChunk ;
 }
 
-OSGBool OSGState::chunkPresent( OSGStateChunkPtr chunk )
+Bool State::chunkPresent( StateChunkPtr chunk )
 {
 	return chunkPresent( chunk->getClassID() );
 }

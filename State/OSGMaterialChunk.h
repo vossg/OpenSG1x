@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGMATERIALCHUNK_H_
 #define _OSGMATERIALCHUNK_H_
@@ -50,13 +60,13 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGMaterialChunk;
+class OSG_DLLEXPORT MaterialChunk;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef OSGFCPtr<OSGStateChunkPtr, OSGMaterialChunk> OSGMaterialChunkPtr;
+typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -68,7 +78,7 @@ typedef OSGFCPtr<OSGStateChunkPtr, OSGMaterialChunk> OSGMaterialChunkPtr;
  *  detailed
  */
 
-class OSGMaterialChunk : public OSGStateChunk
+class MaterialChunk : public StateChunk
 {
   public:
 
@@ -76,12 +86,12 @@ class OSGMaterialChunk : public OSGStateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGDiffuseField             )
+    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField             )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGAmbientField             )  
-    OSG_FC_FIELD_IDM_DECL      (OSGSpecularField            )  
-    OSG_FC_FIELD_IDM_DECL      (OSGEmissionField            )  
-    OSG_FC_FIELD_IDM_DECL      (OSGShininessField           )   
+    OSG_FC_FIELD_IDM_DECL      (AmbientField             )  
+    OSG_FC_FIELD_IDM_DECL      (SpecularField            )  
+    OSG_FC_FIELD_IDM_DECL      (EmissionField            )  
+    OSG_FC_FIELD_IDM_DECL      (ShininessField           )   
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -93,8 +103,8 @@ class OSGMaterialChunk : public OSGStateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef OSGStateChunk Inherited;
-    typedef OSGMaterialChunkPtr OSGPtr;
+	typedef StateChunk Inherited;
+    typedef MaterialChunkPtr Ptr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -108,9 +118,9 @@ class OSGMaterialChunk : public OSGStateChunk
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGMaterialChunkPtr)
+    OSG_FIELD_CONTAINER_DECL(MaterialChunkPtr)
 
-	virtual const OSGStateChunkClass *  getClass( void ) const;
+	virtual const StateChunkClass *  getClass( void ) const;
 
     /*----------------------------- dump ----------------------------------*/
 
@@ -119,51 +129,51 @@ class OSGMaterialChunk : public OSGStateChunk
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( OSGUInt32 index = 0 );
+	virtual void activate ( UInt32 index = 0 );
 
 	// call commands to get from old to my state. Only meaningful for
 	// chunks of the same type
-	virtual void changeFrom( OSGStateChunk * old, OSGUInt32 index = 0 );
+	virtual void changeFrom( StateChunk * old, UInt32 index = 0 );
 
 	// reset my part of the state
-	virtual void deactivate ( OSGUInt32 index = 0 );
+	virtual void deactivate ( UInt32 index = 0 );
 
     /*----------------------------- access ----------------------------------*/
 
 	// Diffuse Color
 	
-        OSGSFVec4f   *getSFDiffuse( void );
-          OSGVec4f   &getDiffuse  ( void );
-    const OSGVec4f   &getDiffuse  ( void ) const;
-	void              setDiffuse  ( const OSGVec4f & color );
+        SFVec4f   *getSFDiffuse( void );
+          Vec4f   &getDiffuse  ( void );
+    const Vec4f   &getDiffuse  ( void ) const;
+	void           setDiffuse  ( const Vec4f & color );
 
 	// Ambient Color
 	
-        OSGSFVec4f   *getSFAmbient( void );
-          OSGVec4f   &getAmbient  ( void );
-    const OSGVec4f   &getAmbient  ( void ) const;
-	void              setAmbient  ( const OSGVec4f & color );
+        SFVec4f   *getSFAmbient( void );
+          Vec4f   &getAmbient  ( void );
+    const Vec4f   &getAmbient  ( void ) const;
+	void           setAmbient  ( const Vec4f & color );
 
 	// Specular Color
 	
-        OSGSFVec4f   *getSFSpecular( void );
-          OSGVec4f   &getSpecular  ( void );
-    const OSGVec4f   &getSpecular  ( void ) const;
-	void              setSpecular  ( const OSGVec4f & color );
+        SFVec4f   *getSFSpecular( void );
+          Vec4f   &getSpecular  ( void );
+    const Vec4f   &getSpecular  ( void ) const;
+	void           setSpecular  ( const Vec4f & color );
 
 	// Emission Color
 	
-        OSGSFVec4f   *getSFEmission( void );
-          OSGVec4f   &getEmission  ( void );
-    const OSGVec4f   &getEmission  ( void ) const;
-	void              setEmission  ( const OSGVec4f & color );
+        SFVec4f   *getSFEmission( void );
+          Vec4f   &getEmission  ( void );
+    const Vec4f   &getEmission  ( void ) const;
+	void           setEmission  ( const Vec4f & color );
 
 	// Shininess
 	
-        OSGSFReal32   *getSFShininess( void );
-          OSGReal32    getShininess  ( void );
-          OSGReal32    getShininess  ( void ) const;
-	void               setShininess  ( const OSGReal32 shininess );
+        SFReal32   *getSFShininess( void );
+          Real32    getShininess  ( void );
+          Real32    getShininess  ( void ) const;
+	void            setShininess  ( const Real32 shininess );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -172,14 +182,14 @@ class OSGMaterialChunk : public OSGStateChunk
 	// estimate the cost to switch to the chunk 
 	// the unit is unclear, maybe musecs. It's not important anyway,
 	// it just has to be consistent over all types of chunks
-	virtual OSGReal32 switchCost( OSGStateChunk * chunk );
+	virtual Real32 switchCost( StateChunk * chunk );
 
 	// defines an ordering for chunks. Only well defined for chunks of the
 	// same type.
-    virtual OSGBool operator < (const OSGStateChunk &other) const;
+    virtual Bool operator < (const StateChunk &other) const;
     
-	virtual OSGBool operator == (const OSGStateChunk &other) const;
-	virtual OSGBool operator != (const OSGStateChunk &other) const;
+	virtual Bool operator == (const StateChunk &other) const;
+	virtual Bool operator != (const StateChunk &other) const;
 
   protected:
 
@@ -223,7 +233,7 @@ class OSGMaterialChunk : public OSGStateChunk
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainer;
+	friend class FieldContainer;
 	
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -235,11 +245,11 @@ class OSGMaterialChunk : public OSGStateChunk
 
 	static char cvsid[];
 
-	static OSGFieldDescription   _desc[];
-	static OSGFieldContainerType _type;
+	static FieldDescription   _desc[];
+	static FieldContainerType _type;
 
 	// class. Used for indexing in State
-	static OSGStateChunkClass _class;
+	static StateChunkClass _class;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -249,11 +259,11 @@ class OSGMaterialChunk : public OSGStateChunk
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 	
-	OSGSFVec4f _diffuse;
-	OSGSFVec4f _ambient;
-	OSGSFVec4f _specular;
-	OSGSFVec4f _emission;
-	OSGSFReal32 _shininess;
+	SFVec4f _diffuse;
+	SFVec4f _ambient;
+	SFVec4f _specular;
+	SFVec4f _emission;
+	SFReal32 _shininess;
 	
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -261,11 +271,11 @@ class OSGMaterialChunk : public OSGStateChunk
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGMaterialChunk(void);
-    OSGMaterialChunk(const OSGMaterialChunk &source);    
-    virtual ~OSGMaterialChunk(void); 
+    MaterialChunk(void);
+    MaterialChunk(const MaterialChunk &source);    
+    virtual ~MaterialChunk(void); 
 
-	OSGMaterialChunk & operator =(const OSGMaterialChunk &source);
+	MaterialChunk & operator =(const MaterialChunk &source);
 };
 
 //---------------------------------------------------------------------------
@@ -274,7 +284,7 @@ class OSGMaterialChunk : public OSGStateChunk
 
 // class pointer
 
-typedef OSGMaterialChunk *OSGMaterialChunkP;
+typedef MaterialChunk *MaterialChunkP;
 
 OSG_END_NAMESPACE
 

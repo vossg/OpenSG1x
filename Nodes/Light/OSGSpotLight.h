@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -55,12 +55,12 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class   OSGSpotLight;
+class   SpotLight;
 
 //! \ingroup FieldContainerPtr
 /*! the spot light pointer 
  */
-typedef OSGFCPtr<OSGPointLightPtr, OSGSpotLight> OSGSpotLightPtr;
+typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -74,7 +74,7 @@ typedef OSGFCPtr<OSGPointLightPtr, OSGSpotLight> OSGSpotLightPtr;
  *  \brief Spot light
  */
 
-class OSGSpotLight : public OSGPointLight
+class OSG_DLLEXPORT SpotLight : public PointLight
 {
   public:
 
@@ -82,10 +82,10 @@ class OSGSpotLight : public OSGPointLight
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGDirectionField )
+    OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGSpotExpField   )  
-    OSG_FC_FIELD_IDM_DECL      (OSGSpotCutOffField)  
+    OSG_FC_FIELD_IDM_DECL      (SpotExpField   )  
+    OSG_FC_FIELD_IDM_DECL      (SpotCutOffField)  
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -109,39 +109,39 @@ class OSGSpotLight : public OSGPointLight
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGSpotLightPtr)
+    OSG_FIELD_CONTAINER_DECL(SpotLightPtr)
 
     /*------------------------------- set -----------------------------------*/
 
     //@{ 
     //! set the light's attributes
-    void setSpotDirection(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ);
-    void setSpotDirection(const OSGVec3f &gDirection);
+    void setSpotDirection(Real32 rX, Real32 rY, Real32 rZ);
+    void setSpotDirection(const Vec3f &gDirection);
 
-    void setSpotExponent(OSGReal32 rSpotExponent);
-    void setSpotCutOff  (OSGReal32 rSpotCutOff);
+    void setSpotExponent(Real32 rSpotExponent);
+    void setSpotCutOff  (Real32 rSpotCutOff);
     //@}
 
     /*------------------------------- get -----------------------------------*/
 
     //@{ 
     //! get the light's fields
-    OSGSFVec3f  *getSFDirection(void);
+    SFVec3f  *getSFDirection(void);
 
-    OSGSFReal32 *getSFSpotExponent(void);
-    OSGSFReal32 *getSFSpotCutOff  (void);
+    SFReal32 *getSFSpotExponent(void);
+    SFReal32 *getSFSpotCutOff  (void);
     //@}
  
     //@{ 
     //! get the light's attributes
-          OSGVec3f &getDirection  (void);
-    const OSGVec3f &getDirection  (void) const;
+          Vec3f &getDirection  (void);
+    const Vec3f &getDirection  (void) const;
 
-    OSGReal32 &getSpotExponent    (void);
-    OSGReal32  getSpotExponent    (void) const;
+    Real32 &getSpotExponent    (void);
+    Real32  getSpotExponent    (void) const;
 
-    OSGReal32 &getSpotCutOff      (void);
-    OSGReal32  getSpotCutOff      (void) const;
+    Real32 &getSpotCutOff      (void);
+    Real32  getSpotCutOff      (void) const;
     //@}
 
     /*------------------------------ dump -----------------------------------*/
@@ -172,23 +172,23 @@ class OSGSpotLight : public OSGPointLight
 
     //@{ 
     //! the light's fields
-    OSGSFVec3f  _direction;
+    SFVec3f  _direction;
 
-    OSGSFReal32 _spotExponent;
-    OSGSFReal32 _spotCutOff;
+    SFReal32 _spotExponent;
+    SFReal32 _spotCutOff;
     //@}
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGSpotLight(void);
-    OSGSpotLight(const OSGSpotLight &source);
-    virtual ~OSGSpotLight(void); 
+    SpotLight(void);
+    SpotLight(const SpotLight &source);
+    virtual ~SpotLight(void); 
     
     // ----------------------------- Actions --------------------------------
     
-    OSGAction::ResultE draw(OSGAction * action );
+    Action::ResultE draw(Action * action );
 
   private:
 
@@ -200,13 +200,13 @@ class OSGSpotLight : public OSGPointLight
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGPointLight Inherited;
+    typedef PointLight Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -218,9 +218,9 @@ class OSGSpotLight : public OSGPointLight
 
     static char cvsid[];
 
-    static OSGFieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-    static OSGFieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -238,7 +238,7 @@ class OSGSpotLight : public OSGPointLight
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGSpotLight &source);
+    void operator =(const SpotLight &source);
 };
 
 //---------------------------------------------------------------------------
@@ -249,4 +249,4 @@ OSG_END_NAMESPACE
 
 #include <OSGSpotLight.inl>
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGSPOTLIGHT_H_ */

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -59,8 +70,8 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGValueTypeT>
-char OSGColor3<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template <class ValueTypeT>
+char Color3<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -73,15 +84,15 @@ char OSGColor3<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
 \*-------------------------------------------------------------------------*/
 
 
-template <class OSGValueTypeT>
-void OSGColor3<OSGValueTypeT>::convertFromHSV(OSGValueType *rgbP, 
-                                              OSGReal32 h,
-                                              OSGReal32 s,
-                                              OSGReal32 v)
+template <class ValueTypeT>
+void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP, 
+                                        Real32 h,
+                                        Real32 s,
+                                        Real32 v)
 {
-	OSGInt32  i;
-	OSGReal32 f;
-	OSGReal32 p, q, t;
+	Int32  i;
+	Real32 f;
+	Real32 p, q, t;
 
 	if(s) 
     {
@@ -94,66 +105,66 @@ void OSGColor3<OSGValueTypeT>::convertFromHSV(OSGValueType *rgbP,
 		switch (i) 
         {
             case 0:
-                rgbP[0] = OSGTypeConstants<OSGValueTypeT>::getPortion(v); 
-                rgbP[1] = OSGTypeConstants<OSGValueTypeT>::getPortion(t); 
-                rgbP[2] = OSGTypeConstants<OSGValueTypeT>::getPortion(p);
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v); 
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(t); 
+                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(p);
                 break;
             case 1:
-                rgbP[0] = OSGTypeConstants<OSGValueTypeT>::getPortion(q); 
-                rgbP[1] = OSGTypeConstants<OSGValueTypeT>::getPortion(v); 
-                rgbP[2] = OSGTypeConstants<OSGValueTypeT>::getPortion(p);
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(q); 
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v); 
+                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(p);
                 break;
             case 2:
-                rgbP[0] = OSGTypeConstants<OSGValueTypeT>::getPortion(p); 
-                rgbP[1] = OSGTypeConstants<OSGValueTypeT>::getPortion(v); 
-                rgbP[2] = OSGTypeConstants<OSGValueTypeT>::getPortion(t);
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p); 
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v); 
+                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(t);
                 break;
             case 3:
-                rgbP[0] = OSGTypeConstants<OSGValueTypeT>::getPortion(p); 
-                rgbP[1] = OSGTypeConstants<OSGValueTypeT>::getPortion(q); 
-                rgbP[2] = OSGTypeConstants<OSGValueTypeT>::getPortion(v);
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p); 
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(q); 
+                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(v);
                 break;
             case 4:
-                rgbP[0] = OSGTypeConstants<OSGValueTypeT>::getPortion(t); 
-                rgbP[1] = OSGTypeConstants<OSGValueTypeT>::getPortion(p); 
-                rgbP[2] = OSGTypeConstants<OSGValueTypeT>::getPortion(v);
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(t); 
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p); 
+                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(v);
                 break;
             case 5:
-                rgbP[0] = OSGTypeConstants<OSGValueTypeT>::getPortion(v); 
-                rgbP[1] = OSGTypeConstants<OSGValueTypeT>::getPortion(p); 
-                rgbP[2] = OSGTypeConstants<OSGValueTypeT>::getPortion(q);
+                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v); 
+                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p); 
+                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(q);
                 break;
             default:
-                cerr << "ERROR i not in [0, 5] in OSGColor::setHSV()!"
+                cerr << "ERROR i not in [0, 5] in Color::setHSV()!"
                      << endl;
 		}
 	}
 	else
     {
 		rgbP[0] = rgbP[1] = rgbP[2] = 
-            OSGTypeConstants<OSGValueTypeT>::getPortion(v);
+            TypeConstants<ValueTypeT>::getPortion(v);
     }
 }
 
-template <class OSGValueTypeT>
-void OSGColor3<OSGValueTypeT>::convertToHSV(const OSGValueType *rgbP, 
-                                            OSGReal32 &h,
-                                            OSGReal32 &s,
-                                            OSGReal32 &v)
+template <class ValueTypeT>
+void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP, 
+                                      Real32 &h,
+                                      Real32 &s,
+                                      Real32 &v)
 {
-	const OSGReal32 r = OSGTypeConstants<OSGValueTypeT>::getFraction(rgbP[0]);
-	const OSGReal32 g = OSGTypeConstants<OSGValueTypeT>::getFraction(rgbP[1]);
-	const OSGReal32 b = OSGTypeConstants<OSGValueTypeT>::getFraction(rgbP[2]);
+	const Real32 r = TypeConstants<ValueTypeT>::getFraction(rgbP[0]);
+	const Real32 g = TypeConstants<ValueTypeT>::getFraction(rgbP[1]);
+	const Real32 b = TypeConstants<ValueTypeT>::getFraction(rgbP[2]);
 
-	const OSGInt32 maxIndex = maxPart(rgbP);
-	const OSGInt32 minIndex = minPart(rgbP);
+	const Int32 maxIndex = maxPart(rgbP);
+	const Int32 minIndex = minPart(rgbP);
 
-	const OSGReal32 max = OSGTypeConstants<OSGValueTypeT>::getFraction(
+	const Real32 max = TypeConstants<ValueTypeT>::getFraction(
         rgbP[maxIndex]);
-	const OSGReal32 min = OSGTypeConstants<OSGValueTypeT>::getFraction(
+	const Real32 min = TypeConstants<ValueTypeT>::getFraction(
         rgbP[minIndex]);
 
-	const OSGReal32 delta = max - min;
+	const Real32 delta = max - min;
 
 	v = max;
 	s = max ? (max - min) / max : 0.0;
@@ -182,8 +193,8 @@ void OSGColor3<OSGValueTypeT>::convertToHSV(const OSGValueType *rgbP,
     }
 }
 
-template <class OSGValueTypeT>
-OSGUInt32 OSGColor3<OSGValueTypeT>::maxPart(const OSGValueType *rgbP)
+template <class ValueTypeT>
+UInt32 Color3<ValueTypeT>::maxPart(const ValueType *rgbP)
 {
 	if(rgbP[0] > rgbP[1])
     {
@@ -210,8 +221,8 @@ OSGUInt32 OSGColor3<OSGValueTypeT>::maxPart(const OSGValueType *rgbP)
 }
 
 
-template <class OSGValueTypeT>
-OSGUInt32 OSGColor3<OSGValueTypeT>::minPart(const OSGValueType *rgbP)
+template <class ValueTypeT>
+UInt32 Color3<ValueTypeT>::minPart(const ValueType *rgbP)
 {
 	if(rgbP[0] < rgbP[1])
     {
@@ -260,29 +271,29 @@ OSGUInt32 OSGColor3<OSGValueTypeT>::minPart(const OSGValueType *rgbP)
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGColor3(void)
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::Color3(void)
 {
-    _rgb[0] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgb[1] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgb[2] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+    _rgb[0] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgb[1] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgb[2] = TypeConstants<ValueTypeT>::getZeroElement();
 }
 
 /** \brief Copy Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGColor3(const OSGColor3 &source)
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::Color3(const Color3 &source)
 {
     _rgb[0] = source._rgb[0];
     _rgb[1] = source._rgb[1];
     _rgb[2] = source._rgb[2];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGColor3(OSGValueType red,
-                                    OSGValueType green,
-                                    OSGValueType blue)
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::Color3(ValueType red,
+                           ValueType green,
+                           ValueType blue)
 {
     _rgb[0] = red;
     _rgb[1] = green;
@@ -292,63 +303,63 @@ OSGColor3<OSGValueTypeT>::OSGColor3(OSGValueType red,
 /** \brief Destructor
  */
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::~OSGColor3(void)
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::~Color3(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::clear(void)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::clear(void)
 {
-    _rgb[0] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgb[1] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgb[2] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+    _rgb[0] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgb[1] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgb[2] = TypeConstants<ValueTypeT>::getZeroElement();
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::setValuesRGB(OSGValueType red,
-                                            OSGValueType green,
-                                            OSGValueType blue)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::setValuesRGB(ValueType red,
+                                      ValueType green,
+                                      ValueType blue)
 {
     _rgb[0] = red;
     _rgb[1] = green;
     _rgb[2] = blue;    
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::setValuesHSV(OSGReal32 h,
-                                            OSGReal32 s,
-                                            OSGReal32 v)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::setValuesHSV(Real32 h,
+                                      Real32 s,
+                                      Real32 v)
 {
     convertFromHSV(_rgb, h, s, v);
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::setRandom(void)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::setRandom(void)
 {
  	float rf = 1.0 / float(RAND_MAX);
 
-	setValuesRGB(OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()),
-                 OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()),
-                 OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()));
+	setValuesRGB(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+                 TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+                 TypeConstants<ValueTypeT>::getPortion(rf * rand()));
 }
 
 /** \brief method to get a packed rgb value (AABBGGRR)
  */
 
-template <class OSGValueTypeT> inline
-OSGUInt32 OSGColor3<OSGValueTypeT>::getRGB(void) const
+template <class ValueTypeT> inline
+UInt32 Color3<ValueTypeT>::getRGB(void) const
 {
-	OSGInt32  i;
-	OSGUInt32 pack = 0;
+	Int32  i;
+	UInt32 pack = 0;
 
 	for(i = 2; i >= 0; --i)
     {
 		pack = 
             (pack << 8) | int(
-                OSGTypeConstants<OSGValueTypeT>::getFraction(_rgb[i]) * 
+                TypeConstants<ValueTypeT>::getFraction(_rgb[i]) * 
                 255.0                                                 + 
                 0.5);
     }
@@ -358,72 +369,72 @@ OSGUInt32 OSGColor3<OSGValueTypeT>::getRGB(void) const
 
 /** \brief method to set the rgb values (AABBGGRR)
  */
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::setRGB(OSGUInt32 rgbPack)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::setRGB(UInt32 rgbPack)
 {
-	OSGInt32  i;
+	Int32  i;
 
 	for(i = 0; i < 3; ++i) 
     {
-        OSGReal32 rTmp = float(rgbPack & 255) / 255.0;
+        Real32 rTmp = float(rgbPack & 255) / 255.0;
 
-		_rgb[i] = OSGTypeConstants<OSGValueTypeT>::getPortion(rTmp);
+		_rgb[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
 
 		rgbPack >>= 8;
 	}
 }
 
 
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::getValuesRGB(OSGValueType &red,
-                                            OSGValueType &green,
-                                            OSGValueType &blue)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::getValuesRGB(ValueType &red,
+                                      ValueType &green,
+                                      ValueType &blue)
 {
     red   = _rgb[0];
     green = _rgb[1];
     blue  = _rgb[2];    
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor3<OSGValueTypeT>::getValuesHSV(OSGReal32 &h,
-                                            OSGReal32 &s,
-                                            OSGReal32 &v)
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::getValuesHSV(Real32 &h,
+                                      Real32 &s,
+                                      Real32 &v)
 {
     convertToHSV(_rgb, h, s, v);
 }
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGValueType 
-    OSGColor3<OSGValueTypeT>::red  (void) const
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::ValueType 
+    Color3<ValueTypeT>::red  (void) const
 {
     return _rgb[0];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGValueType 
-    OSGColor3<OSGValueTypeT>::green(void) const
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::ValueType 
+    Color3<ValueTypeT>::green(void) const
 {
     return _rgb[1];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGValueType 
-    OSGColor3<OSGValueTypeT>::blue (void) const
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::ValueType 
+    Color3<ValueTypeT>::blue (void) const
 {
     return _rgb[2];
 }
 
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT>::OSGValueType *
-    OSGColor3<OSGValueTypeT>::getValueRef(void)
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::ValueType *
+    Color3<ValueTypeT>::getValueRef(void)
 {
     return _rgb;
 }
 
-template <class OSGValueTypeT> inline
-const OSGColor3<OSGValueTypeT>::OSGValueType *
-    OSGColor3<OSGValueTypeT>::getValueRef(void) const
+template <class ValueTypeT> inline
+const Color3<ValueTypeT>::ValueType *
+    Color3<ValueTypeT>::getValueRef(void) const
 {
     return _rgb;
 }
@@ -439,9 +450,9 @@ const OSGColor3<OSGValueTypeT>::OSGValueType *
 /** \brief assignment
  */
 
-template <class OSGValueTypeT> inline
-OSGColor3<OSGValueTypeT> &OSGColor3<OSGValueTypeT>::operator = (
-     const OSGColor3 &other)
+template <class ValueTypeT> inline
+Color3<ValueTypeT> &Color3<ValueTypeT>::operator = (
+     const Color3 &other)
 {
 	if (this == &other)
 		return *this;
@@ -458,15 +469,15 @@ OSGColor3<OSGValueTypeT> &OSGColor3<OSGValueTypeT>::operator = (
 /** \brief equal
  */
 
-template <class OSGValueTypeT> inline
-OSGBool OSGColor3<OSGValueTypeT>::operator == (const OSGColor3 &other) const
+template <class ValueTypeT> inline
+Bool Color3<ValueTypeT>::operator == (const Color3 &other) const
 {
-    OSGBool returnValue = true;
+    Bool returnValue = true;
 
-    for(OSGUInt32 i = 0; i < 3; i++)
+    for(UInt32 i = 0; i < 3; i++)
     {
-        returnValue &= ( (      _rgb[i] - other._rgb[i] <= osgEps) && 
-                         (other._rgb[i] -       _rgb[i] <= osgEps));
+        returnValue &= ( (      _rgb[i] - other._rgb[i] <= Eps) && 
+                         (other._rgb[i] -       _rgb[i] <= Eps));
     }
 
     return returnValue;
@@ -475,8 +486,8 @@ OSGBool OSGColor3<OSGValueTypeT>::operator == (const OSGColor3 &other) const
 /** \brief unequal
  */
 
-template <class OSGValueTypeT> inline
-OSGBool OSGColor3<OSGValueTypeT>::operator != (const OSGColor3 &other) const
+template <class ValueTypeT> inline
+Bool Color3<ValueTypeT>::operator != (const Color3 &other) const
 {
 	return ! (*this == other);
 }
@@ -504,8 +515,8 @@ OSGBool OSGColor3<OSGValueTypeT>::operator != (const OSGColor3 &other) const
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGValueTypeT>
-char OSGColor4<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
+template <class ValueTypeT>
+char Color4<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -542,20 +553,20 @@ char OSGColor4<OSGValueTypeT>::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGColor4(void)
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::Color4(void)
 {
-    _rgba[0] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgba[1] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgba[2] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgba[3] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+    _rgba[0] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[1] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[2] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[3] = TypeConstants<ValueTypeT>::getZeroElement();
 }
 
 /** \brief Copy Constructor
  */
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGColor4(const OSGColor4 &source)
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::Color4(const Color4 &source)
 {
     _rgba[0] = source._rgba[0];
     _rgba[1] = source._rgba[1];
@@ -563,11 +574,11 @@ OSGColor4<OSGValueTypeT>::OSGColor4(const OSGColor4 &source)
     _rgba[3] = source._rgba[3];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGColor4(OSGValueType red,
-                                    OSGValueType green,
-                                    OSGValueType blue,
-                                    OSGValueType alpha)
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::Color4(ValueType red,
+                           ValueType green,
+                           ValueType blue,
+                           ValueType alpha)
 {
     _rgba[0] = red;
     _rgba[1] = green;
@@ -578,27 +589,27 @@ OSGColor4<OSGValueTypeT>::OSGColor4(OSGValueType red,
 /** \brief Destructor
  */
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::~OSGColor4(void)
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::~Color4(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::clear(void)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::clear(void)
 {
-    _rgba[0] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgba[1] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgba[2] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
-    _rgba[3] = OSGTypeConstants<OSGValueTypeT>::getZeroElement();
+    _rgba[0] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[1] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[2] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[3] = TypeConstants<ValueTypeT>::getZeroElement();
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::setValuesRGBA(OSGValueType red,
-                                             OSGValueType green,
-                                             OSGValueType blue,
-                                             OSGValueType alpha)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::setValuesRGBA(ValueType red,
+                                       ValueType green,
+                                       ValueType blue,
+                                       ValueType alpha)
 {
     _rgba[0] = red;
     _rgba[1] = green;
@@ -606,39 +617,39 @@ void OSGColor4<OSGValueTypeT>::setValuesRGBA(OSGValueType red,
     _rgba[3] = alpha;    
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::setValuesHSV(OSGReal32 h,
-                                            OSGReal32 s,
-                                            OSGReal32 v)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::setValuesHSV(Real32 h,
+                                      Real32 s,
+                                      Real32 v)
 {
-    OSGColor3<OSGValueType>::convertFromHSV(_rgba, h, s, v);
-    _rgba[3] = OSGTypeConstants<OSGValueTypeT>::getOneElement();
+    Color3<ValueType>::convertFromHSV(_rgba, h, s, v);
+    _rgba[3] = TypeConstants<ValueTypeT>::getOneElement();
 }
 
 
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::setRandom(void)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::setRandom(void)
 {
  	float rf = 1.0 / float(RAND_MAX);
 
-	setValuesRGBA(OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()),
-                  OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()),
-                  OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()),
-                  OSGTypeConstants<OSGValueTypeT>::getPortion(rf * rand()));
+	setValuesRGBA(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+                  TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+                  TypeConstants<ValueTypeT>::getPortion(rf * rand()),
+                  TypeConstants<ValueTypeT>::getPortion(rf * rand()));
 }
 
-    /// method to get a packed rgb value (AOSGBGGRR)
-template <class OSGValueTypeT> inline
-OSGUInt32 OSGColor4<OSGValueTypeT>::getRGBA(void) const
+    /// method to get a packed rgb value (ABGGRR)
+template <class ValueTypeT> inline
+UInt32 Color4<ValueTypeT>::getRGBA(void) const
 {
-	OSGInt32  i;
-	OSGUInt32 pack = 0;
+	Int32  i;
+	UInt32 pack = 0;
 
 	for(i = 3; i >= 0; --i)
     {
 		pack = 
             (pack << 8) | int(
-                OSGTypeConstants<OSGValueTypeT>::getFraction(_rgba[i]) * 
+                TypeConstants<ValueTypeT>::getFraction(_rgba[i]) * 
                 255.0                                                  + 
                 0.5);
     }
@@ -646,28 +657,28 @@ OSGUInt32 OSGColor4<OSGValueTypeT>::getRGBA(void) const
 	return pack;
 }
 
-    /// method to set the rgb values (AOSGBGGRR)
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::setRGBA(OSGUInt32 rgbPack)
+    /// method to set the rgb values (ABGGRR)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::setRGBA(UInt32 rgbPack)
 {
-	OSGInt32 i;
+	Int32 i;
 
 	for(i = 0; i < 4; ++i) 
     {
-        OSGReal32 rTmp = float(rgbPack & 255) / 255.0;
+        Real32 rTmp = float(rgbPack & 255) / 255.0;
 
-		_rgba[i] = OSGTypeConstants<OSGValueTypeT>::getPortion(rTmp);
+		_rgba[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
 
 		rgbPack >>= 8;
 	}
 }
 
 
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::getValuesRGBA(OSGValueType &red,
-                                             OSGValueType &green,
-                                             OSGValueType &blue,
-                                             OSGValueType &alpha)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::getValuesRGBA(ValueType &red,
+                                       ValueType &green,
+                                       ValueType &blue,
+                                       ValueType &alpha)
 {
     red   = _rgba[0];
     green = _rgba[1];
@@ -675,53 +686,53 @@ void OSGColor4<OSGValueTypeT>::getValuesRGBA(OSGValueType &red,
     alpha = _rgba[3];    
 }
 
-template <class OSGValueTypeT> inline
-void OSGColor4<OSGValueTypeT>::getValuesHSV(OSGReal32 &h,
-                                            OSGReal32 &s,
-                                            OSGReal32 &v)
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::getValuesHSV(Real32 &h,
+                                      Real32 &s,
+                                      Real32 &v)
 {
-    OSGColor3<OSGValueType>::convertToHSV(_rgba, h, s, v);
+    Color3<ValueType>::convertToHSV(_rgba, h, s, v);
 }
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGValueType 
-    OSGColor4<OSGValueTypeT>::red  (void) const
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::ValueType 
+    Color4<ValueTypeT>::red  (void) const
 {
     return _rgba[0];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGValueType 
-    OSGColor4<OSGValueTypeT>::green(void) const
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::ValueType 
+    Color4<ValueTypeT>::green(void) const
 {
     return _rgba[1];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGValueType 
-    OSGColor4<OSGValueTypeT>::blue (void) const
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::ValueType 
+    Color4<ValueTypeT>::blue (void) const
 {
     return _rgba[2];
 }
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGValueType 
-    OSGColor4<OSGValueTypeT>::alpha (void) const
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::ValueType 
+    Color4<ValueTypeT>::alpha (void) const
 {
     return _rgba[3];
 }
 
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT>::OSGValueType *
-    OSGColor4<OSGValueTypeT>::getValueRef(void)
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::ValueType *
+    Color4<ValueTypeT>::getValueRef(void)
 {
     return _rgba;
 }
 
-template <class OSGValueTypeT> inline
-const OSGColor4<OSGValueTypeT>::OSGValueType *
-    OSGColor4<OSGValueTypeT>::getValueRef(void) const
+template <class ValueTypeT> inline
+const Color4<ValueTypeT>::ValueType *
+    Color4<ValueTypeT>::getValueRef(void) const
 {
     return _rgba;
 }
@@ -737,9 +748,9 @@ const OSGColor4<OSGValueTypeT>::OSGValueType *
 /** \brief assignment
  */
 
-template <class OSGValueTypeT> inline
-OSGColor4<OSGValueTypeT> &OSGColor4<OSGValueTypeT>::operator = (
-     const OSGColor4 &other)
+template <class ValueTypeT> inline
+Color4<ValueTypeT> &Color4<ValueTypeT>::operator = (
+     const Color4 &other)
 {
 	if (this == &other)
 		return *this;
@@ -757,15 +768,15 @@ OSGColor4<OSGValueTypeT> &OSGColor4<OSGValueTypeT>::operator = (
 /** \brief equal
  */
 
-template <class OSGValueTypeT> inline
-OSGBool OSGColor4<OSGValueTypeT>::operator == (const OSGColor4 &other) const
+template <class ValueTypeT> inline
+Bool Color4<ValueTypeT>::operator == (const Color4 &other) const
 {
-    OSGBool returnValue = true;
+    Bool returnValue = true;
 
-    for(OSGUInt32 i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
-        returnValue &= ( (      _rgba[i] - other._rgba[i] <= osgEps) && 
-                         (other._rgba[i] -       _rgba[i] <= osgEps));
+        returnValue &= ( (      _rgba[i] - other._rgba[i] <= Eps) && 
+                         (other._rgba[i] -       _rgba[i] <= Eps));
     }
 
     return returnValue;
@@ -774,8 +785,8 @@ OSGBool OSGColor4<OSGValueTypeT>::operator == (const OSGColor4 &other) const
 /** \brief unequal
  */
 
-template <class OSGValueTypeT> inline
-OSGBool OSGColor4<OSGValueTypeT>::operator != (const OSGColor4 &other) const
+template <class ValueTypeT> inline
+Bool Color4<ValueTypeT>::operator != (const Color4 &other) const
 {
 	return ! (*this == other);
 }
@@ -827,18 +838,18 @@ OSGBool OSGColor4<OSGValueTypeT>::operator != (const OSGColor4 &other) const
 //s: 
 ///---------------------------------------------------------------------------
 
-template <class OSGValueTypeT> inline
-ostream &operator <<(ostream                        &outStream,
-                     const OSGColor3<OSGValueTypeT> &color)
+template <class ValueTypeT> inline
+ostream &operator <<(      ostream            &outStream,
+                     const Color3<ValueTypeT> &color)
 {
     return outStream << color.red()   << ' ' 
                      << color.green() << ' ' 
                      << color.blue();
 }
 
-template <class OSGValueTypeT> inline
-ostream &operator <<(ostream                        &outStream,
-                     const OSGColor4<OSGValueTypeT> &color)
+template <class ValueTypeT> inline
+ostream &operator <<(      ostream            &outStream,
+                     const Color4<ValueTypeT> &color)
 {
     return outStream << color.red()   << ' ' 
                      << color.green() << ' ' 

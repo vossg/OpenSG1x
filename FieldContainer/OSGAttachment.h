@@ -4,7 +4,7 @@
  *                                                                           *
  *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -70,16 +70,16 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGAttachment is the base class for sharable thread safe data 
+ *  \brief Attachment is the base class for sharable thread safe data 
  *  stores,
- *  which could be attached to other fieldcontainers than OSGAttachments.
+ *  which could be attached to other fieldcontainers than Attachments.
  */
 
-class OSGAttachment : public OSGFieldContainer 
+class OSG_DLLEXPORT Attachment : public FieldContainer 
 {
   public:
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGParentsField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(ParentsField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -103,18 +103,18 @@ class OSGAttachment : public OSGFieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(OSGAttachmentPtr)
+    OSG_FIELD_CONTAINER_DECL(AttachmentPtr)
 
     /*------------------------------ parents -------------------------------*/
 
-    OSGMFFieldContainerPtr *getMFParents(void);
+    MFFieldContainerPtr *getMFParents(void);
 
-	void                    addParent   (OSGFieldContainerPtr parent);
-	void                    subParent   (OSGFieldContainerPtr parent);
+	void                 addParent   (FieldContainerPtr parent);
+	void                 subParent   (FieldContainerPtr parent);
 
     /*------------------------------ dump -----------------------------------*/
 
-            void print(OSGUInt32 indent) const;
+            void print(UInt32 indent) const;
     virtual void dump (void) const;
 
   protected:
@@ -131,8 +131,8 @@ class OSGAttachment : public OSGFieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static OSGFieldDescription   _desc[];
-	static OSGFieldContainerType _type;
+	static FieldDescription   _desc[];
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -142,16 +142,16 @@ class OSGAttachment : public OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGMFFieldContainerPtr _parents;
+    MFFieldContainerPtr _parents;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGAttachment(void);
-    OSGAttachment(const OSGAttachment &obj);
+    Attachment(void);
+    Attachment(const Attachment &obj);
 
-    virtual ~OSGAttachment(void);
+    virtual ~Attachment(void);
 
   private:
 
@@ -163,13 +163,13 @@ class OSGAttachment : public OSGFieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGFieldContainer Inherited;
+    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainer;
+	friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -195,7 +195,7 @@ class OSGAttachment : public OSGFieldContainer
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const OSGAttachment &source);
+    void operator =(const Attachment &source);
 };
 
 
@@ -208,8 +208,8 @@ class OSGAttachment : public OSGFieldContainer
  *  field.
  */
 
-template <class OSGAttachmentDescT>
-class OSGSimpleAttachment : public OSGAttachment
+template <class AttachmentDescT>
+class OSG_DLLEXPORT SimpleAttachment : public Attachment
 {
   public:
 
@@ -221,41 +221,41 @@ class OSGSimpleAttachment : public OSGAttachment
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename OSGAttachmentDescT::OSGFieldTypeT    OSGFieldType;
+    typedef typename AttachmentDescT::FieldTypeT  FieldType;
 
-    typedef OSGSimpleAttachment<OSGAttachmentDescT>       OSGSimpleAttType;
+    typedef SimpleAttachment<AttachmentDescT>     SimpleAttType;
 
-    typedef OSGFCPtr<OSGAttachmentPtr,  OSGSimpleAttType> OSGPtrType;
+    typedef FCPtr<AttachmentPtr,  SimpleAttType>  PtrType;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGSimpleField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(SimpleField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
-    static const OSGPtrType OSGNullPtr;
+    static const PtrType NullPtr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     static const char *getClassname(void) 
-        { return OSGAttachmentDescT::getClassName(); }
+        { return AttachmentDescT::getClassName(); }
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSG_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
+    OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*----------------------------- access ----------------------------------*/
 
-          OSGFieldType *getFieldPtr(void);
+          FieldType *getFieldPtr(void);
 
-          OSGFieldType &getField   (void);
-    const OSGFieldType &getField   (void) const;
+          FieldType &getField   (void);
+    const FieldType &getField   (void) const;
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -278,7 +278,7 @@ class OSGSimpleAttachment : public OSGAttachment
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -288,15 +288,15 @@ class OSGSimpleAttachment : public OSGAttachment
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldType _field;
+    FieldType _field;
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGSimpleAttachment(void);
-    OSGSimpleAttachment(const OSGSimpleAttachment &source);
-    virtual ~OSGSimpleAttachment(void); 
+    SimpleAttachment(void);
+    SimpleAttachment(const SimpleAttachment &source);
+    virtual ~SimpleAttachment(void); 
 
   private:
 
@@ -308,7 +308,7 @@ class OSGSimpleAttachment : public OSGAttachment
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGAttachment Inherited;
+    typedef Attachment Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -324,9 +324,9 @@ class OSGSimpleAttachment : public OSGAttachment
 
 	static char cvsid[];
 
-	static OSGFieldDescription   _desc[];
+	static FieldDescription   _desc[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -342,7 +342,7 @@ class OSGSimpleAttachment : public OSGAttachment
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGSimpleAttachment &operator =(const OSGSimpleAttachment &source);
+    SimpleAttachment &operator =(const SimpleAttachment &source);
 };
 
 //---------------------------------------------------------------------------
@@ -355,8 +355,8 @@ class OSGSimpleAttachment : public OSGAttachment
  *  detailed
  */
 
-template <class OSGAttachmentDescT>
-class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
+template <class AttachmentDescT>
+class OSG_DLLEXPORT DynFieldAttachment : public AttachmentDescT::Parent
 {
   public:
 
@@ -368,34 +368,34 @@ class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGDynFieldAttachment<OSGAttachmentDescT      > OSGDynFieldAttType;
+    typedef DynFieldAttachment<AttachmentDescT   > DynFieldAttType;
 
-    typedef OSGFCPtr<OSGAttachmentPtr,  OSGDynFieldAttType> OSGPtrType;
+    typedef FCPtr<AttachmentPtr,  DynFieldAttType> PtrType;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    static const OSGPtrType OSGNullPtr;
+    static const PtrType NullPtr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGDynFieldAttachment"; }
+    static const char *getClassname(void) { return "DynFieldAttachment"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSG_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
+    OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*------------------------- your_category -------------------------------*/
 
-    OSGUInt32 addField       (const OSGFieldDescription &fieldDesc);
-    void      subField       (      OSGUInt32            fieldId);
+    UInt32 addField       (const FieldDescription &fieldDesc);
+    void   subField       (      UInt32            fieldId);
 
-    OSGField *getDynamicField(OSGUInt32 index);
+    Field *getDynamicField(UInt32 index);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -433,9 +433,9 @@ class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGDynFieldAttachment(void);
+    DynFieldAttachment(void);
 
-    virtual ~OSGDynFieldAttachment(void); 
+    virtual ~DynFieldAttachment(void); 
 
   private:
 
@@ -447,13 +447,13 @@ class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename OSGAttachmentDescT::OSGParent Inherited;
+    typedef typename AttachmentDescT::Parent Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainer;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -465,7 +465,7 @@ class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
 
 	static char cvsid[];
 
-	static OSGFieldContainerType _type;
+	static FieldContainerType _type;
 	
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -475,9 +475,9 @@ class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldContainerType _localType;
+    FieldContainerType _localType;
 
-    vector<OSGField *>    _dynFieldsV;
+    vector<Field *>    _dynFieldsV;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -485,23 +485,23 @@ class OSGDynFieldAttachment : public OSGAttachmentDescT::OSGParent
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGDynFieldAttachment(const OSGDynFieldAttachment &source);
-    void operator =(const OSGDynFieldAttachment &source);
+    DynFieldAttachment(const DynFieldAttachment &source);
+    void operator =(const DynFieldAttachment &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/** \brief OSGAttachmentP
+/** \brief AttachmentP
  */
 
-typedef OSGAttachment                    *OSGAttachmentP;
+typedef Attachment                    *AttachmentP;
 
-typedef map<OSGUInt32, OSGAttachmentPtr>  OSGAttachmentMap;
+typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
 ostream &operator <<(ostream                &stream,
-                     const OSGAttachmentMap &map);
+                     const AttachmentMap &map);
 
 OSG_END_NAMESPACE
 

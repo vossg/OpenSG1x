@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -61,8 +61,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::OSGPointLight
- * OSGPointLight is a located lightsource. The position of the light source
+/*! \class osg::PointLight
+ * PointLight is a located lightsource. The position of the light source
  * (in the beacon's coordinate system) is defined by the \c position 
  * attribute. The influence of the light diminishes with distance, controlled
  * by the \c constantAttenuation, \c linearAttenuation and \c
@@ -77,60 +77,60 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(OSGPointLight, OSGPositionField)
+OSG_FC_FIRST_FIELD_IDM_DEF(PointLight, PositionField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGPointLight, 
-                          OSGConstAttenField, 
-                          OSGPositionField)
+OSG_FC_FIELD_IDM_DEF      (PointLight, 
+                           ConstAttenField, 
+                           PositionField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGPointLight, 
-                          OSGLinAttenField,   
-                          OSGConstAttenField)
+OSG_FC_FIELD_IDM_DEF      (PointLight, 
+                           LinAttenField,   
+                           ConstAttenField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGPointLight, 
-                          OSGQuadAttenField, 
-                          OSGLinAttenField)
+OSG_FC_FIELD_IDM_DEF      (PointLight, 
+                           QuadAttenField, 
+                           LinAttenField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGPointLight, OSGQuadAttenField)
+OSG_FC_LAST_FIELD_IDM_DEF (PointLight, QuadAttenField)
 
-char OSGPointLight::cvsid[] = "@(#)$Id: $";
+char PointLight::cvsid[] = "@(#)$Id: $";
 
-OSGFieldDescription OSGPointLight::_desc[] = 
+FieldDescription PointLight::_desc[] = 
 {
-	OSGFieldDescription(
-        OSGSFPnt3f::getClassType(),
+	FieldDescription(
+        SFPnt3f::getClassType(),
         "position", 
-        OSG_FC_FIELD_IDM_DESC(OSGPositionField),
+        OSG_FC_FIELD_IDM_DESC(PositionField),
         false,
-        (OSGFieldAccessMethod) &OSGPointLight::getSFPosition), 
+        (FieldAccessMethod) &PointLight::getSFPosition), 
 
-	OSGFieldDescription(
-        OSGSFReal32::getClassType(),
+	FieldDescription(
+        SFReal32::getClassType(),
         "constantAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(OSGConstAttenField),
+        OSG_FC_FIELD_IDM_DESC(ConstAttenField),
         false,
-        (OSGFieldAccessMethod) &OSGPointLight::getSFConstantAttenuation), 
+        (FieldAccessMethod) &PointLight::getSFConstantAttenuation), 
 
-	OSGFieldDescription(
-        OSGSFReal32::getClassType(),
+	FieldDescription(
+        SFReal32::getClassType(),
         "linearAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(OSGLinAttenField),
+        OSG_FC_FIELD_IDM_DESC(LinAttenField),
         false,
-        (OSGFieldAccessMethod) &OSGPointLight::getSFLinearAttenuation), 
+        (FieldAccessMethod) &PointLight::getSFLinearAttenuation), 
 
-	OSGFieldDescription(
-        OSGSFReal32::getClassType(),
+	FieldDescription(
+        SFReal32::getClassType(),
         "quadraticAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(OSGQuadAttenField),
+        OSG_FC_FIELD_IDM_DESC(QuadAttenField),
         false,
-        (OSGFieldAccessMethod) &OSGPointLight::getSFQuadraticAttenuation)
+        (FieldAccessMethod) &PointLight::getSFQuadraticAttenuation)
 };
 
-OSGFieldContainerType OSGPointLight::_type(
-    "OSGPointLight",
-    "OSGLightBase",
+FieldContainerType PointLight::_type(
+    "PointLight",
+    "LightBase",
     NULL,
-    (OSGPrototypeCreateF) &OSGPointLight::createEmpty,
+    (PrototypeCreateF) &PointLight::createEmpty,
     initMethod,
     _desc,
     sizeof(_desc));
@@ -152,13 +152,13 @@ OSGFieldContainerType OSGPointLight::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-void OSGPointLight::initMethod (void)
+void PointLight::initMethod (void)
 {
-	OSGDrawAction::registerEnterDefault( getStaticType(), 
-		osgMethodFunctor2BaseCPtr<OSG::OSGAction::ResultE,
-								OSGCNodePtr,  
-								OSGPointLightPtr, 
-								OSGAction *>(&OSGPointLight::draw));
+	DrawAction::registerEnterDefault( getStaticType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								PointLightPtr, 
+								Action *>(&PointLight::draw));
 }
 
 /***************************************************************************\
@@ -169,14 +169,14 @@ void OSGPointLight::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(OSGPointLight, OSGPointLightPtr)
+OSG_FIELD_CONTAINER_DEF(PointLight, PointLightPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-OSGPointLight::OSGPointLight(void) :
+PointLight::PointLight(void) :
     Inherited(),
     _position(),
     _constantAttenuation(),
@@ -188,37 +188,37 @@ OSGPointLight::OSGPointLight(void) :
 /** \brief Copy Constructor
  */
 
-OSGPointLight::OSGPointLight(const OSGPointLight &source) :
+PointLight::PointLight(const PointLight &source) :
     Inherited(),
-    _position( source._position ),
-    _constantAttenuation( source._constantAttenuation ),
-    _linearAttenuation( source._linearAttenuation ),
-    _quadraticAttenuation( source._quadraticAttenuation )
+    _position            (source._position            ),
+    _constantAttenuation (source._constantAttenuation ),
+    _linearAttenuation   (source._linearAttenuation   ),
+    _quadraticAttenuation(source._quadraticAttenuation)
 {
 }
 
 /** \brief Destructor
  */
 
-OSGPointLight::~OSGPointLight(void)
+PointLight::~PointLight(void)
 {
 }
 
 /*------------------------------- set ---------------------------------------*/
 
-void OSGPointLight::setPosition(OSGReal32 rX, OSGReal32 rY, OSGReal32 rZ)
+void PointLight::setPosition(Real32 rX, Real32 rY, Real32 rZ)
 {
     _position.getValue().setValues(rX, rY, rZ);
 }
 
-void OSGPointLight::setPosition(const OSGPnt3f &gPosition)
+void PointLight::setPosition(const Pnt3f &gPosition)
 {
     _position.setValue(gPosition);
 }
 
-void OSGPointLight::setAttenuation(OSGReal32 rConstant, 
-                                   OSGReal32 rLinear, 
-                                   OSGReal32 rQuadratic)
+void PointLight::setAttenuation(Real32 rConstant, 
+                                Real32 rLinear, 
+                                Real32 rQuadratic)
 {
     _constantAttenuation.setValue(rConstant);
     _linearAttenuation.setValue(rLinear);
@@ -228,73 +228,73 @@ void OSGPointLight::setAttenuation(OSGReal32 rConstant,
 
 /*------------------------------- get ---------------------------------------*/
 
-OSGSFPnt3f  *OSGPointLight::getSFPosition(void)
+SFPnt3f  *PointLight::getSFPosition(void)
 {
     return &_position;
 }
 
-OSGSFReal32 *OSGPointLight::getSFConstantAttenuation (void)
+SFReal32 *PointLight::getSFConstantAttenuation (void)
 {
     return &_constantAttenuation;
 }
 
-OSGSFReal32 *OSGPointLight::getSFLinearAttenuation   (void)
+SFReal32 *PointLight::getSFLinearAttenuation   (void)
 {
     return &_linearAttenuation;
 }
 
-OSGSFReal32 *OSGPointLight::getSFQuadraticAttenuation(void)
+SFReal32 *PointLight::getSFQuadraticAttenuation(void)
 {
     return &_quadraticAttenuation;
 }
     
-OSGPnt3f &OSGPointLight::getPosition(void)
+Pnt3f &PointLight::getPosition(void)
 {
     return _position.getValue();
 }
 
-const OSGPnt3f &OSGPointLight::getPosition(void) const
+const Pnt3f &PointLight::getPosition(void) const
 {
     return _position.getValue();
 }
 
-OSGReal32 &OSGPointLight::getConstantAttenuation (void)
+Real32 &PointLight::getConstantAttenuation (void)
 {
     return _constantAttenuation.getValue();
 }
 
-OSGReal32  OSGPointLight::getConstantAttenuation (void) const
+Real32  PointLight::getConstantAttenuation (void) const
 {
     return _constantAttenuation.getValue();
 }
 
 
-OSGReal32 &OSGPointLight::getLinearAttenuation   (void)
+Real32 &PointLight::getLinearAttenuation   (void)
 {
     return _linearAttenuation.getValue();
 }
 
-OSGReal32  OSGPointLight::getLinearAttenuation   (void) const
+Real32  PointLight::getLinearAttenuation   (void) const
 {
     return _linearAttenuation.getValue();
 }
 
 
-OSGReal32 &OSGPointLight::getQuadraticAttenuation(void)
+Real32 &PointLight::getQuadraticAttenuation(void)
 {
     return _quadraticAttenuation.getValue();
 }
 
-OSGReal32  OSGPointLight::getQuadraticAttenuation(void) const
+Real32  PointLight::getQuadraticAttenuation(void) const
 {
     return _quadraticAttenuation.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void OSGPointLight::dump(void) const
+void PointLight::dump(void) const
 {
-    SDEBUG << "Dump OSGPointLight NI" << endl;
+    SDEBUG << "Dump PointLight NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -309,11 +309,11 @@ void OSGPointLight::dump(void) const
 /** \brief Actions
  */
 	
-OSGAction::ResultE OSGPointLight::draw(OSGAction * action )
+Action::ResultE PointLight::draw(Action * action )
 {
-	OSGLightBase::draw( action );
+	LightBase::draw( action );
 
-	OSGVec4f pos( _position.getValue() );
+	Vec4f pos( _position.getValue() );
 
 	pos[3] = 1;
 	glLightfv( GL_LIGHT0, GL_POSITION, pos.getValueRef() );
@@ -321,7 +321,7 @@ OSGAction::ResultE OSGPointLight::draw(OSGAction * action )
 
 	glPopMatrix();
 
-	return OSGAction::Continue;
+	return Action::Continue;
 }
 
 ///---------------------------------------------------------------------------

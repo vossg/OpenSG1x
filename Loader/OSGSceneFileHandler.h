@@ -1,29 +1,40 @@
-/*------------------------------------------*
-*              OpenSG                       *
-*                                           *
-*                                           *
-*     Copyright 2000 by OpenSG Forum        *
-*                                           *
-* contact: {reiners|vossg}@igd.fhg.de,      *
-*           jbehr@zgdv.de                   *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Licence                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-/*------------------------------------------*
-*              Changes                      *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*                                           *
-*-------------------------------------------*/
-
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 #ifndef _OSGSCENEFILEHANDLER_H_
 #define _OSGSCENEFILEHANDLER_H_
@@ -61,9 +72,9 @@
 OSG_BEGIN_NAMESPACE
 
 
-class OSGSceneFileHandler {
+class OSG_DLLEXPORT SceneFileHandler {
 
-	friend class OSGSceneFileType;
+	friend class SceneFileType;
 		
 public:
 
@@ -83,22 +94,22 @@ public:
 
 
   /** Destructor */
-  virtual ~OSGSceneFileHandler (void);
+  virtual ~SceneFileHandler (void);
 
   /** get file type */
-  virtual OSGSceneFileType * getFileType ( const char *fileName );
+  virtual SceneFileType * getFileType ( const char *fileName );
 
   /**  read image*/
-  virtual OSGNodePtr read (const char *fileName);
+  virtual NodePtr read (const char *fileName);
 
   /** write image  */
-  virtual bool write (const OSGNodePtr node, const char *fileName);
+  virtual bool write (const NodePtr node, const char *fileName);
 
   /** print debug info to cerr */
   void print (void);
 
   /** get method for attribute the */
-  static OSGSceneFileHandler & the (void) { return *_the; }
+  static SceneFileHandler & the (void) { return *_the; }
 
 protected:
 
@@ -123,10 +134,10 @@ protected:
 
 
   /** Default Constructor */
-  OSGSceneFileHandler (void);
+  SceneFileHandler (void);
 
   /** Copy Constructor */
-  OSGSceneFileHandler (const OSGSceneFileHandler &obj);
+  SceneFileHandler (const SceneFileHandler &obj);
 
 //-----------------------------
 //instance Variables  		     
@@ -151,10 +162,10 @@ private:
 
 
   /**  */
-  static OSGSceneFileHandler * _the;
+  static SceneFileHandler * _the;
 
   /**  */
-  map < OSGString, OSGSceneFileType *>  _suffixTypeMap;
+  map < String, SceneFileType *>  _suffixTypeMap;
 
 //-------------------------------
 //friend Classes      	  	     
@@ -180,7 +191,7 @@ private:
 //------------------------------
 
   /**  */
-  static bool addSceneFileType (OSGSceneFileType &fileType);
+  static bool addSceneFileType (SceneFileType &fileType);
 
 
 //------------------------------
@@ -190,7 +201,7 @@ private:
 
 };
 
-typedef OSGSceneFileHandler* OSGSceneFileHandlerP;
+typedef SceneFileHandler* SceneFileHandlerP;
 
 OSG_END_NAMESPACE
 

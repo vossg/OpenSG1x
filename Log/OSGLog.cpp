@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *         contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de    *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -60,19 +60,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \var OSGLogType OSGLog::_logType;
+/** \var LogType Log::_logType;
  *  \brief  holds the log type
  */
 
-/** \var OSGLogLevel OSGLog::_logLevel;
+/** \var LogLevel Log::_logLevel;
  *  \brief holds the log level
  */
 
-/** \var fstream OSGLog::_fileStream;
+/** \var fstream Log::_fileStream;
  *  \brief file stream 
  */
 
-/** \var OSGLogOStream *OSGLog::_streamVec[6];
+/** \var LogOStream *Log::_streamVec[6];
  *  \brief stream vector
  */
 
@@ -84,19 +84,20 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSGLogP OSG::osgLogP = NULL;
+OSG_DLLEXPORT LogP OSG::osgLogP = NULL;
 
 #ifdef OSG_HAS_NILBUF
 
 /*! \brief holds the nil buffer 
  */
 
-OSGLog::nilbuf *OSGLog::_nilbufP    = NULL;
+
+Log::nilbuf *Log::_nilbufP    = NULL;
 #else
-fstream        *OSGLog::_nilStreamP = NULL;
+fstream        *Log::_nilStreamP = NULL;
 #endif
 
-char OSGLog::cvsid[] = "@(#)$Id: $";
+char Log::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -127,7 +128,7 @@ char OSGLog::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-OSGLog::OSGLog(OSGLogType logType, OSGLogLevel logLevel) :
+Log::Log(LogType logType, LogLevel logLevel) :
 #ifdef OSG_HAS_NILBUF
 	ostream(_nilbufP), 
 #else
@@ -137,12 +138,12 @@ OSGLog::OSGLog(OSGLogType logType, OSGLogLevel logLevel) :
     _logLevel  (logLevel), 
     _fileStream()
 {	
-	for(OSGUInt32 i = 0; i < sizeof(_streamVec)/sizeof(OSGLogOStream *); i++)
+	for(UInt32 i = 0; i < sizeof(_streamVec)/sizeof(LogOStream *); i++)
     {
 #ifdef OSG_HAS_NILBUF
-		_streamVec[i] = new OSGLogOStream(_nilbufP);
+		_streamVec[i] = new LogOStream(_nilbufP);
 #else
-		_streamVec[i] = new OSGLogOStream(_nilStreamP->rdbuf());
+		_streamVec[i] = new LogOStream(_nilStreamP->rdbuf());
 #endif
     }
 
@@ -152,7 +153,7 @@ OSGLog::OSGLog(OSGLogType logType, OSGLogLevel logLevel) :
 /*! \brief Constructor which takes a log file name
  */
 
-OSGLog::OSGLog(const char *fileName, OSGLogLevel logLevel) :
+Log::Log(const char *fileName, LogLevel logLevel) :
 #ifdef OSG_HAS_NILBUF
 	ostream(_nilbufP), 
 #else
@@ -162,12 +163,12 @@ OSGLog::OSGLog(const char *fileName, OSGLogLevel logLevel) :
     _logLevel  (logLevel), 
     _fileStream()
 {
-	for(OSGUInt32 i = 0; i < sizeof(_streamVec)/sizeof(OSGLogOStream *); i++)
+	for(UInt32 i = 0; i < sizeof(_streamVec)/sizeof(LogOStream *); i++)
     {
 #ifdef OSG_HAS_NILBUF
-		_streamVec[i] = new OSGLogOStream(_nilbufP);
+		_streamVec[i] = new LogOStream(_nilbufP);
 #else
-		_streamVec[i] = new OSGLogOStream(_nilStreamP->rdbuf());
+		_streamVec[i] = new LogOStream(_nilStreamP->rdbuf());
 #endif
     }
 
@@ -178,7 +179,7 @@ OSGLog::OSGLog(const char *fileName, OSGLogLevel logLevel) :
 /** \brief Destructor
  */
 
-OSGLog::~OSGLog(void)
+Log::~Log(void)
 {
 	setLogFile(0);
 }
@@ -188,7 +189,7 @@ OSGLog::~OSGLog(void)
 /*! \brief set method for attribute logType 
  */
 
-void OSGLog::setLogType(OSGLogType logType) 
+void Log::setLogType(LogType logType) 
 {
 	char * et;
 	static char *typenames[]    = 
@@ -201,7 +202,7 @@ void OSGLog::setLogType(OSGLogType logType)
         NULL
     };
 
-	static OSGLogType types[] = 
+	static LogType types[] = 
     {
         LOG_NONE, 
         LOG_STDOUT, 
@@ -210,12 +211,12 @@ void OSGLog::setLogType(OSGLogType logType)
         LOG_FILE 
     };
 
-	static int typeCount = sizeof(types)/sizeof(OSGLogType);
+	static int typeCount = sizeof(types)/sizeof(LogType);
 	int lt,i;				   				
 
 	if((this == osgLogP) && (et = getenv( "OSG_LOG_TYPE" ) ) )
 	{
-		osgLog() << "OSGLog::setLogType: overriden by envvar OSG_LOG_TYPE '" 
+		osgLog() << "Log::setLogType: overriden by envvar OSG_LOG_TYPE '" 
                  << et << "'." << endl;	
 
 		if(sscanf(et, "%d", &lt) != 1)
@@ -232,7 +233,7 @@ void OSGLog::setLogType(OSGLogType logType)
 			if(! typenames[i])
 			{
 				_logType = LOG_STDERR;
-				osgLog() << "OSGLog::setLogType: couldn't interpret envvar, "
+				osgLog() << "Log::setLogType: couldn't interpret envvar, "
                          << "set to LOG_STDERR!" << endl;					   
 			}
 		}
@@ -262,7 +263,7 @@ void OSGLog::setLogType(OSGLogType logType)
 /*! \brief get method for attribute logType 
  */
 
-OSGLogType OSGLog::getLogType(void)
+LogType Log::getLogType(void)
 { 
     return _logType; 
 }
@@ -270,14 +271,14 @@ OSGLogType OSGLog::getLogType(void)
 /*! \brief set method for attribute logLevel 
  */
 
-void OSGLog::setLogLevel(OSGLogLevel logLevel)
+void Log::setLogLevel(LogLevel logLevel)
 { 
 	char * el;
 	static char *levelnames[] = { "log", "fatal", "warning", "notice", 
                                   "info", "debug", NULL };
-	static OSGLogLevel levels[] = { LOG_LOG, LOG_FATAL, LOG_WARNING, 
+	static LogLevel levels[] = { LOG_LOG, LOG_FATAL, LOG_WARNING, 
                                     LOG_NOTICE, LOG_INFO, LOG_DEBUG };
-	static int levelCount = sizeof(levels)/sizeof(OSGLogLevel);
+	static int levelCount = sizeof(levels)/sizeof(LogLevel);
 	int ll,i;				   				
 
 	if((this == osgLogP) && (el = getenv( "OSG_LOG_LEVEL" ) ) )
@@ -300,7 +301,7 @@ void OSGLog::setLogLevel(OSGLogLevel logLevel)
 			if(! levelnames[i])
 			{
 				_logLevel = LOG_DEBUG;
-				osgLog() << "OSGLog::setLogLevel: couldn't interpret envvar, "
+				osgLog() << "Log::setLogLevel: couldn't interpret envvar, "
                          << "set to LOG_DEBUG!" << endl;					   
 			}
 		}
@@ -331,7 +332,7 @@ void OSGLog::setLogLevel(OSGLogLevel logLevel)
 /*! \brief get method for attribute logLevel 
  */
 
-OSGLogLevel OSGLog::getLogLevel(void) 
+LogLevel Log::getLogLevel(void) 
 {
     return _logLevel; 
 }
@@ -339,7 +340,7 @@ OSGLogLevel OSGLog::getLogLevel(void)
 /*! \brief method to set and activate the log file 
  */
 
-void OSGLog::setLogFile(const OSGChar8 *fileName)
+void Log::setLogFile(const Char8 *fileName)
 {
 	const char *name;
 
@@ -354,7 +355,7 @@ void OSGLog::setLogFile(const OSGChar8 *fileName)
 
 	if( (this == osgLogP) && (name = getenv( "OSG_LOG_FILE" ))) 
     {
-		osgLog() << "OSGLog::setLogFile: overriden by envvar OSG_LOG_FILE '" 
+		osgLog() << "Log::setLogFile: overriden by envvar OSG_LOG_FILE '" 
                  << name << "'." << endl;					   				
 	}
 	else
@@ -381,7 +382,7 @@ void OSGLog::setLogFile(const OSGChar8 *fileName)
 /*! \brief returns the error stream 
  */
 
-ostream &OSGLog::stream(OSGLogLevel level)
+ostream &Log::stream(LogLevel level)
 {
     return *(_streamVec[level]); 
 }
@@ -389,7 +390,7 @@ ostream &OSGLog::stream(OSGLogLevel level)
 /*! \brief print for C-interface helper method 
  */
 
-void OSGLog::doLog(char * format, ...)
+void Log::doLog(char * format, ...)
 {
 	char buffer[1000];
 	va_list args;
@@ -422,7 +423,7 @@ void OSGLog::doLog(char * format, ...)
 /*! \brief reconnects the streams for the current settings 
  */
 
-void OSGLog::connect(void)
+void Log::connect(void)
 {
 	int i;
 

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSG_MATHFIELDDATATYPE_H_
 #define _OSG_MATHFIELDDATATYPE_H_
@@ -38,26 +48,29 @@ OSG_BEGIN_NAMESPACE
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGMatrix field traits 
+ *  \brief Matrix field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGMatrix> : public OSGTraits
+struct FieldDataTraits<Matrix> : public Traits
 {
-    static char *getSName(void) { return "SFMatrix"; }
-    static char *getMName(void) { return "MFMatrix"; }
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
 
-//    static OSGMatrix        getDefault(void)    { return OSGMatrix; }
+    static Char8 *getSName(void) { return "SFMatrix"; }
+    static Char8 *getMName(void) { return "MFMatrix"; }
 
-    static bool             getFromString(OSGMatrix   &,
-                                          const char *&)
+//    static Matrix        getDefault(void)    { return Matrix; }
+
+    static Bool             getFromString(      Matrix   &,
+                                          const Char8   *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void             putToString(const OSGMatrix &,
-                                              OSGString &)
+    static void             putToString(const Matrix &,
+                                              String &)
     {
         // TO_BE_DONE
     }
@@ -66,26 +79,29 @@ struct OSGFieldDataTraits<OSGMatrix> : public OSGTraits
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
- *  \brief OSGQuaternion field traits 
+ *  \brief Quaternion field traits 
  */
 
 template <>
-struct OSGFieldDataTraits<OSGQuaternion> : public OSGTraits
+struct FieldDataTraits<Quaternion> : public Traits
 {
-    static char *getSName(void) { return "SFQuaternion"; }
-    static char *getMName(void) { return "MFQuaternion"; }
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
 
-//    static OSGQuaternion    getDefault(void)    { return OSGQuaternion; }
+    static Char8 *getSName(void) { return "SFQuaternion"; }
+    static Char8 *getMName(void) { return "MFQuaternion"; }
 
-    static bool             getFromString(OSGQuaternion  &,
-                                          const char    *&)
+//    static Quaternion    getDefault(void)    { return Quaternion; }
+
+    static bool             getFromString(      Quaternion  &,
+                                          const Char8      *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void             putToString(const OSGQuaternion &,
-                                              OSGString &)
+    static void             putToString(const Quaternion &,
+                                              String     &)
     {
         // TO_BE_DONE
     }

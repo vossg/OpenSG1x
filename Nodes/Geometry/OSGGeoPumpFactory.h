@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGGEOPUMPFACTORY_H_
 #define _OSGGEOPUMPFACTORY_H_
@@ -44,9 +54,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGGeometry;
-typedef OSGFCPtr<OSGNodeCorePtr, OSGGeometry> OSGGeometryPtr;
-class OSGDrawAction;
+class Geometry;
+typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
+class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -62,7 +72,7 @@ class OSGDrawAction;
  *  It's not really a factory, as it doesn't create objects, but it's close.
  */
 
-class OSGGeoPumpFactory
+class OSG_DLLEXPORT GeoPumpFactory
 {
   public:
 
@@ -78,20 +88,20 @@ class OSGGeoPumpFactory
 	// but that would a LOT of parameters, which is not a good idea for Intel
 	// systems, AFAIK.
 	
-	typedef void (*Pump)( OSGDrawAction * act, OSGGeometry * geo );	
+	typedef void (*Pump)( DrawAction * act, Geometry * geo );	
 	
 	// The pump selection is a two-part process. In the first step the Geometry is 
 	// analyzed for its attribute bindings etc. In the second step the actual
 	// pump is returned, depending on the capabilities of the Window/Context and 
 	// the bindings as represented by a selection.
 	
-	typedef OSGUInt32 Index;
+	typedef UInt32 Index;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGGeoPumpFactory"; }
+    static const char *getClassname(void) { return "GeoPumpFactory"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -99,9 +109,9 @@ class OSGGeoPumpFactory
 
     /*------------------------- your_category -------------------------------*/
 
-	Index getIndex( OSGGeometry * geo );	
+	Index getIndex( Geometry * geo );	
 
-	Pump getPump( OSGDrawAction * act, Index index );
+	Pump getPump( DrawAction * act, Index index );
 	
 
     /*------------------------- your_operators ------------------------------*/
@@ -113,7 +123,7 @@ class OSGGeoPumpFactory
 
     /*--------------------------- access ------------------------------------*/
 	
-	static OSGGeoPumpFactory& the( void );
+	static GeoPumpFactory& the( void );
 	
   protected:
 
@@ -171,7 +181,7 @@ class OSGGeoPumpFactory
 
 	static char cvsid[];
 
-	static OSGGeoPumpFactory _the;
+	static GeoPumpFactory _the;
 	
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -180,7 +190,7 @@ class OSGGeoPumpFactory
 	// The pumps, in all their glory.
 	
 	// The master pump. Can render everything, but takes ages to do so.	
-	static void masterPump( OSGDrawAction * act, OSGGeometry * geo );
+	static void masterPump( DrawAction * act, Geometry * geo );
 	
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -192,10 +202,10 @@ class OSGGeoPumpFactory
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGGeoPumpFactory(void);
-    virtual ~OSGGeoPumpFactory(void); 
-    OSGGeoPumpFactory(const OSGGeoPumpFactory &source);
-    void operator =(const OSGGeoPumpFactory &source);
+    GeoPumpFactory(void);
+    virtual ~GeoPumpFactory(void); 
+    GeoPumpFactory(const GeoPumpFactory &source);
+    void operator =(const GeoPumpFactory &source);
 	
 };
 

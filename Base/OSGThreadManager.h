@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSGTHREADMANAGER_H_
 #define _OSGTHREADMANAGER_H_
@@ -58,21 +68,21 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSGThread;
-class OSGBarrier;
-class OSGLock;
-class OSGLockPool;
-class OSGChangeList;
+class Thread;
+class Barrier;
+class Lock;
+class LockPool;
+class ChangeList;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseThreading
- *  \brief OSGThreadManager
+ *  \brief ThreadManager
  */
 
-class OSGThreadManager 
+class OSG_DLLEXPORT ThreadManager 
 {
   public:
 
@@ -84,40 +94,40 @@ class OSGThreadManager
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef OSGThread   *(*OSGCreateThreadF)   (const OSGChar8  *szName);
-    typedef OSGBarrier  *(*OSGCreateBarrierF)  (const OSGChar8  *szName);
-    typedef OSGLock     *(*OSGCreateLockF)     (const OSGChar8  *szName);
-    typedef OSGLockPool *(*OSGCreateLockPoolF) (const OSGChar8  *szName);
+    typedef Thread   *(*CreateThreadF)   (const Char8  *szName);
+    typedef Barrier  *(*CreateBarrierF)  (const Char8  *szName);
+    typedef Lock     *(*CreateLockF)     (const Char8  *szName);
+    typedef LockPool *(*CreateLockPoolF) (const Char8  *szName);
 
-    typedef void         (*OSGDestroyThreadF)  (      OSGThread   *threadP);
-    typedef void         (*OSGDestroyBarrierF) (      OSGBarrier  *barrierP);
-    typedef void         (*OSGDestroyLockF)    (      OSGLock     *lockP);
-    typedef void         (*OSGDestroyLockPoolF)(      OSGLockPool *lockPoolP);
+    typedef void      (*DestroyThreadF)  (      Thread   *threadP);
+    typedef void      (*DestroyBarrierF) (      Barrier  *barrierP);
+    typedef void      (*DestroyLockF)    (      Lock     *lockP);
+    typedef void      (*DestroyLockPoolF)(      LockPool *lockPoolP);
 
-    typedef map<const OSGChar8 *, OSGThread *, OSGLTString >  OSGThreadMap;
-    typedef OSGThreadMap::iterator                            OSGThreadMapIt;
+    typedef map<const Char8 *, Thread *, LTString >  ThreadMap;
+    typedef ThreadMap::iterator                      ThreadMapIt;
 
-    typedef map<const OSGChar8 *, OSGLock *, OSGLTString >    OSGLockMap;
-    typedef OSGLockMap::iterator                              OSGLockMapIt;
+    typedef map<const Char8 *, Lock *, LTString >    LockMap;
+    typedef LockMap::iterator                        LockMapIt;
 
-    typedef map<const OSGChar8 *, OSGLockPool *, OSGLTString> OSGLockPoolMap;
-    typedef OSGLockPoolMap::iterator                          OSGLockPoolMapIt;
+    typedef map<const Char8 *, LockPool *, LTString> LockPoolMap;
+    typedef LockPoolMap::iterator                    LockPoolMapIt;
 
-    typedef map<const OSGChar8 *, OSGBarrier *, OSGLTString>  OSGBarrierMap;
-    typedef OSGBarrierMap::iterator                           OSGBarrierMapIt;
+    typedef map<const Char8 *, Barrier *, LTString>  BarrierMap;
+    typedef BarrierMap::iterator                     BarrierMapIt;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGThreadManager"; };
+    static const char *getClassname(void) { return "ThreadManager"; };
 
-    static OSGThreadManager *the(void);
+    static ThreadManager *the(void);
 
-    static void      setNumAspects(OSGUInt32 numApects);
-    static OSGUInt32 getNumAspects(void);
+    static void   setNumAspects(UInt32 numApects);
+    static UInt32 getNumAspects(void);
 
-    static OSGChangeList *getChangeList(OSGUInt32 aspectId);
+    static ChangeList *getChangeList(UInt32 aspectId);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -125,29 +135,29 @@ class OSGThreadManager
 
     /*--------------------- create threading element ----------------------*/
 
-    void setThreadCreateFunc    (OSGCreateThreadF    create);
-    void setBarrierCreateFunc   (OSGCreateBarrierF   create);
-    void setLockCreateFunc      (OSGCreateLockF      create);
-    void setLockPoolCreateFunc  (OSGCreateLockPoolF  create);
+    void setThreadCreateFunc    (CreateThreadF    create);
+    void setBarrierCreateFunc   (CreateBarrierF   create);
+    void setLockCreateFunc      (CreateLockF      create);
+    void setLockPoolCreateFunc  (CreateLockPoolF  create);
 
-    void setThreadDestroyFunc   (OSGDestroyThreadF   destroy);
-    void setBarrierDestroyFunc  (OSGDestroyBarrierF  destroy);
-    void setLockDestroyFunc     (OSGDestroyLockF     destroy);
-    void setLockPoolDestroyFunc (OSGDestroyLockPoolF destroy);
+    void setThreadDestroyFunc   (DestroyThreadF   destroy);
+    void setBarrierDestroyFunc  (DestroyBarrierF  destroy);
+    void setLockDestroyFunc     (DestroyLockF     destroy);
+    void setLockPoolDestroyFunc (DestroyLockPoolF destroy);
 
-    OSGThread   *getThread   (const OSGChar8     *szName);
-    OSGBarrier  *getBarrier  (const OSGChar8     *szName);
-    OSGLock     *getLock     (const OSGChar8     *szName);
-    OSGLockPool *getLockPool (const OSGChar8     *szName);
+    Thread   *getThread         (const Char8     *szName);
+    Barrier  *getBarrier        (const Char8     *szName);
+    Lock     *getLock           (const Char8     *szName);
+    LockPool *getLockPool       (const Char8     *szName);
 
-    void         freeBarrier (OSGBarrier  *barrierP);
-    void         freeLock    (OSGLock     *lockP);
-    void         freeLockPool(OSGLockPool *lockPoolP);
+    void         freeBarrier (Barrier  *barrierP);
+    void         freeLock    (Lock     *lockP);
+    void         freeLockPool(LockPool *lockPoolP);
 
-    OSGThread   *findThread  (const OSGChar8 *szName);
-    OSGBarrier  *findBarrier (const OSGChar8 *szName);
-    OSGLock     *findLock    (const OSGChar8 *szName);    
-    OSGLockPool *findLockPool(const OSGChar8 *szName);    
+    Thread   *findThread  (const Char8 *szName);
+    Barrier  *findBarrier (const Char8 *szName);
+    Lock     *findLock    (const Char8 *szName);    
+    LockPool *findLockPool(const Char8 *szName);    
 
 #if defined(OSG_USE_SPROC)
     usptr_t *getArena(void);
@@ -179,11 +189,11 @@ class OSGThreadManager
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void removeBarrier (OSGBarrier  *barrierP);
-    void removeLock    (OSGLock     *lockP);
-    void removeLockPool(OSGLockPool *lockPoolP);
+    void removeBarrier (Barrier  *barrierP);
+    void removeLock    (Lock     *lockP);
+    void removeLockPool(LockPool *lockPoolP);
 
-    OSGBool init    (void);
+    Bool init    (void);
     void    shutdown(void);
 
   private:
@@ -200,14 +210,14 @@ class OSGThreadManager
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldType;
+    friend class FieldType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend OSGBool OSG::osgInit(int argc, char **argv);
-    friend OSGBool OSG::osgExit(void);
+    friend Bool OSG::osgInit(int argc, char **argv);
+    friend Bool OSG::osgExit(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -215,12 +225,12 @@ class OSGThreadManager
 
 	static char cvsid[];
 
-    static OSGThreadManager   _threadManagerP;
+    static ThreadManager   _threadManagerP;
 
-    static OSGUInt32          _numAspects;
+    static UInt32          _numAspects;
 
 #ifdef OSG_RUNTIME_NUM_ASPECTS 
-    static OSGBool            _numAspectSet;
+    static Bool            _numAspectSet;
 #endif
 
     //-----------------------------------------------------------------------
@@ -231,22 +241,22 @@ class OSGThreadManager
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGCreateThreadF    _createThreadF;
-    OSGCreateBarrierF   _createBarrierF;
-    OSGCreateLockF      _createLockF;
-    OSGCreateLockPoolF  _createLockPoolF;
+    CreateThreadF    _createThreadF;
+    CreateBarrierF   _createBarrierF;
+    CreateLockF      _createLockF;
+    CreateLockPoolF  _createLockPoolF;
 
-    OSGDestroyThreadF   _destroyThreadF;
-    OSGDestroyBarrierF  _destroyBarrierF;
-    OSGDestroyLockF     _destroyLockF;
-    OSGDestroyLockPoolF _destroyLockPoolF;
+    DestroyThreadF   _destroyThreadF;
+    DestroyBarrierF  _destroyBarrierF;
+    DestroyLockF     _destroyLockF;
+    DestroyLockPoolF _destroyLockPoolF;
 
-    OSGThreadMap        _threadMapM;
-    OSGLockMap          _lockMapM;
-    OSGLockPoolMap      _lockPoolMapM;
-    OSGBarrierMap       _barrierMapM;
+    ThreadMap        _threadMapM;
+    LockMap          _lockMapM;
+    LockPoolMap      _lockPoolMapM;
+    BarrierMap       _barrierMapM;
 
-    OSGLock            *_tableLockP;
+    Lock            *_tableLockP;
 
 #if defined(OSG_USE_SPROC)
     usptr_t *_arenaP;
@@ -256,18 +266,18 @@ class OSGThreadManager
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGThreadManager(void);
-    virtual ~OSGThreadManager(void); 
+    ThreadManager(void);
+    virtual ~ThreadManager(void); 
 
-    OSGThreadManager(const OSGThreadManager &source);
-    void operator =(const OSGThreadManager &source);
+    ThreadManager(const ThreadManager &source);
+    void operator =(const ThreadManager &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-typedef OSGThreadManager *OSGThreadManagerP;
+typedef ThreadManager *ThreadManagerP;
 
 OSG_END_NAMESPACE
 

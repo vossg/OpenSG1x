@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -90,13 +101,13 @@ OSG_BEGIN_NAMESPACE
 /*---------------------------- properties ---------------------------------*/
 
 	
-inline OSGNodePtr OSGAction::getActNode( void )
+inline NodePtr Action::getActNode( void )
 {
 	return _actNode;
 }
 
 inline
-const OSGNodePtr OSGAction::getNode( int index )
+const NodePtr Action::getNode( int index )
 {
 	if ( ! _actList )
 	{
@@ -109,13 +120,13 @@ const OSGNodePtr OSGAction::getNode( int index )
 }
 
 inline
-void OSGAction::addNode( OSGNodePtr node )
+void Action::addNode( NodePtr node )
 {
 	_newList.push_back( node );
 }
 
 inline	
-OSGUInt32 OSGAction::getNNodes( void ) const
+UInt32 Action::getNNodes( void ) const
 {
 	if ( ! _actList )
 	{
@@ -130,12 +141,12 @@ OSGUInt32 OSGAction::getNNodes( void ) const
 /*-------------------------- your_category---------------------------------*/
 
 inline
-OSGAction::ResultE OSGAction::callEnter( OSGNodePtr node )
+Action::ResultE Action::callEnter( NodePtr node )
 {
 	ResultE result;
 
-    OSGUInt32 uiFunctorIndex = node->getCore()->getType().getId();
-	OSGCNodePtr cnode(node);
+    UInt32 uiFunctorIndex = node->getCore()->getType().getId();
+	CNodePtr cnode(node);
 
     if ( uiFunctorIndex < _enterFunctors.size() )
         result = _enterFunctors[uiFunctorIndex].call(cnode,this);
@@ -146,12 +157,12 @@ OSGAction::ResultE OSGAction::callEnter( OSGNodePtr node )
 }
 
 inline
-OSGAction::ResultE OSGAction::callLeave( OSGNodePtr node )
+Action::ResultE Action::callLeave( NodePtr node )
 {
 	ResultE result;
 
-    OSGUInt32 uiFunctorIndex = node->getCore()->getType().getId();
-	OSGCNodePtr cnode(node);
+    UInt32 uiFunctorIndex = node->getCore()->getType().getId();
+	CNodePtr cnode(node);
 	
     if ( uiFunctorIndex < _leaveFunctors.size() )
         result = _leaveFunctors[uiFunctorIndex].call(cnode,this);

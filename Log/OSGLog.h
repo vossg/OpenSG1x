@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *         contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de    *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGLog_H_
-#define _OSGLog_H_
+#ifndef _OSGLOG_H_
+#define _OSGLOG_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -77,7 +77,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Log types
  */
 
-enum OSGLogType  
+enum LogType  
 { 
     LOG_NONE = 0, 
     LOG_STDOUT, 
@@ -89,7 +89,7 @@ enum OSGLogType
  *  \brief Log Levels
  */
 
-enum OSGLogLevel 
+enum LogLevel 
 {
     LOG_LOG  = 0, 
     LOG_FATAL, 
@@ -108,12 +108,12 @@ enum OSGLogLevel
  *         plattforms
  */
 
-class OSGLogOStream : public ostream
+class OSG_DLLEXPORT LogOStream : public ostream
 {
   public:
 
-    OSGLogOStream(streambuf *buf) : ostream(buf) {};
-    virtual ~OSGLogOStream(void) {};
+    LogOStream(streambuf *buf) : ostream(buf) {};
+    virtual ~LogOStream(void) {};
 
 #ifdef OSG_STREAM_RDBUF_HAS_PARAM
     void setrdbuf(streambuf *buf) { rdbuf(buf); };
@@ -130,7 +130,7 @@ class OSGLogOStream : public ostream
  *  \brief Message logger class, handles info,warning and error messages
  */
 
-class OSGLog : public ostream 
+class OSG_DLLEXPORT Log : public ostream 
 {
   public:
 
@@ -150,30 +150,30 @@ class OSGLog : public ostream
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGLog"; }
+    static const char *getClassname(void) { return "Log"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGLog(OSGLogType  logType  = LOG_STDERR, 
-           OSGLogLevel logLevel = LOG_NOTICE);
+    Log(LogType  logType  = LOG_STDERR, 
+           LogLevel logLevel = LOG_NOTICE);
 
-    OSGLog(const char *fileName, OSGLogLevel logLevel = LOG_NOTICE );
+    Log(const char *fileName, LogLevel logLevel = LOG_NOTICE );
 
-    virtual ~OSGLog(void); 
+    virtual ~Log(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual OSGLogType getLogType(void);
-    virtual void       setLogType(OSGLogType logType);
+    virtual LogType getLogType(void);
+    virtual void       setLogType(LogType logType);
 
-    virtual OSGLogLevel getLogLevel(void);
-    virtual void        setLogLevel(OSGLogLevel logLevel); 
+    virtual LogLevel getLogLevel(void);
+    virtual void        setLogLevel(LogLevel logLevel); 
 
-	virtual void        setLogFile (const OSGChar8 *fileName);
+	virtual void        setLogFile (const Char8 *fileName);
 
-	ostream &stream(OSGLogLevel level);
+	ostream &stream(LogLevel level);
 
 	void     doLog (char * format, ...);
 
@@ -231,7 +231,7 @@ class OSGLog : public ostream
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend inline void initOSGLog(void);
+    friend inline void initLog(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -256,12 +256,12 @@ class OSGLog : public ostream
     static fstream *_nilstreamP;
 #endif
 
-	OSGLogType     _logType;
-	OSGLogLevel    _logLevel;
+	LogType     _logType;
+	LogLevel    _logLevel;
 
 	fstream        _fileStream;
 
-	OSGLogOStream *_streamVec[6];
+	LogOStream *_streamVec[6];
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -269,8 +269,8 @@ class OSGLog : public ostream
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGLog(const OSGLog &source);
-    void operator =(const OSGLog &source);
+    Log(const Log &source);
+    void operator =(const Log &source);
 };
 
 //---------------------------------------------------------------------------
@@ -279,14 +279,14 @@ class OSGLog : public ostream
 
 // class pointer
 
-typedef OSGLog *OSGLogP;
+typedef Log *LogP;
 
-/** appOSGLog */
-extern OSGLogP osgLogP;
+/** appLog */
+extern LogP osgLogP;
 
-inline void    initOSGLog(void);
-inline OSGLog &osgLog    (void); 
-
+inline OSG_DLLEXPORT void  initLog(void);
+inline OSG_DLLEXPORT Log  &osgLog    (void); 
+inline OSG_DLLEXPORT void  indentLog (UInt32 indent, ostream &stream);
 
 #define SLOG \
 osgLog() << __FILE__ << ':' << __LINE__ \
@@ -327,14 +327,14 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 #define FLOG( par )												\
 {				                            \
-   initOSGLog();										\
+   initLog();										\
    osgLogP->doLog( "%s:%d: log:\n  ",  __FILE__,  __LINE__ );		\
    osgLogP->doLog par;												\
 }
 
 #define FFATAL( par )											\
 {																	\
-  initOSGLog();    \
+  initLog();    \
 	if ( osgLogP->getLogLevel() >= OSG::LOG_FATAL )					\
 	{																\
     osgLogP->doLog( "%s:%d: fatal:\n  ",  __FILE__,  __LINE__ );	\
@@ -344,7 +344,7 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 #define FWARNING( par )											\
 {																	\
-  initOSGLog();         \
+  initLog();         \
 	if ( osgLogP->getLogLevel() >= OSG::LOG_WARNING )					\
 	{																\
     osgLogP->doLog( "%s:%d: warning:\n  ",  __FILE__,  __LINE__ );\
@@ -354,7 +354,7 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 #define FNOTICE( par )											\
 {																	\
-  initOSGLog();         \
+  initLog();         \
 	if ( osgLogP->getLogLevel() >= OSG::LOG_NOTICE )					\
 	{																\
 		osgLogP->doLog( "%s:%d: notice:\n  ",  __FILE__,  __LINE__ );	\
@@ -364,7 +364,7 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 #define FINFO( par )												\
 {																	\
-  initOSGLog();         \
+  initLog();         \
 	if ( osgLogP->getLogLevel() >= OSG::LOG_INFO )					\
 	{																\
 		osgLogP->doLog( "%s:%d: info:\n  ",  __FILE__,  __LINE__ );	\
@@ -374,7 +374,7 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 #define FDEBUG( par )											\
 {																	\
-  initOSGLog();         \
+  initLog();         \
 	if ( osgLogP->getLogLevel() >= OSG::LOG_DEBUG )					\
 	{																\
 		osgLogP->doLog( "%s:%d: debug:\n  ",  __FILE__,  __LINE__ );	\

@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, vossg@users.sourceforge.net, jbehr@zgdv.de    *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -71,13 +71,13 @@ OSG_BEGIN_NAMESPACE
 \*-------------------------------------------------------------------------*/
 
 inline
-const OSGFieldContainerType &OSGFieldContainer::getStaticType(void)
+const FieldContainerType &FieldContainer::getStaticType(void)
 { 
     return _type; 
 }
 
 inline
-OSGUInt32 OSGFieldContainer::getStaticTypeId(void)
+UInt32 FieldContainer::getStaticTypeId(void)
 { 
     return _type.getId();
 }
@@ -151,18 +151,19 @@ OSGUInt32 OSGFieldContainer::getStaticTypeId(void)
 /** \brief Write FC to the given stream
  */
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+OSG_DLLEXPORT
 ostream &operator <<(
     ostream                                                 &os,
-    const OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT> &fc)
+    const FCPtr<BasePtrTypeT, FieldContainerTypeT> &fc)
 {
-	if(fc == OSGNullFC)
+	if(fc == NullFC)
     {
-		os << hex << "OSGFCPtr 0x" << &fc << dec << ":OSGNullFC";
+		os << hex << "FCPtr 0x" << &fc << dec << ":NullFC";
     }
 	else
     {
-		os << hex << "OSGFCPtr 0x" 
+		os << hex << "FCPtr 0x" 
            << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x" 
 		   << hex << (int)fc._storeP << dec << ")";
     }
