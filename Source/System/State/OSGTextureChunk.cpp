@@ -189,6 +189,8 @@ TextureChunk::TextureChunk(const TextureChunk &source) :
 TextureChunk::~TextureChunk(void)
 {
     subRefP(_sfImage.getValue());
+    if(getGLId() > 0)
+        Window::destroyGLObject(getGLId(), 1);
 }
 
 
@@ -259,6 +261,9 @@ bool TextureChunk::isTransparent(void) const
 
 void TextureChunk::onCreate(const TextureChunk *)
 {
+    if(GlobalSystemState == Startup)
+        return;
+        
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);

@@ -618,19 +618,30 @@ void OSG::Window::frameInit( void )
 
 void OSG::Window::frameExit(void)
 {   
-    if(_glObjectDestroyList.size() > 0)
+    while(_glObjectDestroyList.size() > 0)
     {
         UInt32 i, n;
         i = _glObjectDestroyList[ _glObjectDestroyList.size()-2 ] ;
         n = _glObjectDestroyList[ _glObjectDestroyList.size()-1 ] ;
 
-        UInt32 rc = _glObjects[ i ]->getRefCounter();
+        GLObject *obj = _glObjects[ i ];
+        
+        if(obj == NULL)
+        {
+            FDEBUG(("Window::frameExit: objects %d (%d) already destroyed?!?\n",
+                    i, n));
+            _glObjectDestroyList.pop_back(); 
+            _glObjectDestroyList.pop_back();
+            continue;
+        }
+           
+        UInt32 rc = obj->getRefCounter();
 
         if(getGlObjectLastReinitialize()[i] != 0) 
         {                  
             _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
 
-            if ( ! ( rc = _glObjects[ i ]->decRefCounter() )  )
+            if((rc = _glObjects[ i ]->decRefCounter()) <= 0)
             {           
                 // call functor with the final-flag
                 _glObjects[i]->getFunctor().call( this, 
@@ -640,7 +651,7 @@ void OSG::Window::frameExit(void)
 
         // if the GLObject is removed from each GL-Context, free GLObject-IDs.
 
-        if ( ! rc )
+        if(rc <= 0)
         {
             delete _glObjects[ i ];
             for ( UInt32 j = 0; j < n ; j++)

@@ -340,6 +340,9 @@ Geometry::~Geometry(void)
     }
 
     subRefCP(_sfMaterial.getValue());
+
+    if(getGLId() > 0)
+        Window::destroyGLObject(getGLId(), 1);
 }
 
 /** \brief instance initialization
@@ -347,6 +350,10 @@ Geometry::~Geometry(void)
 
 void Geometry::onCreate( const Geometry * )
 {
+    // if we're in startup this is the prototype, which shouldn't have an id
+    if(GlobalSystemState == Startup)
+        return;
+
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
@@ -1264,9 +1271,18 @@ void Geometry::changed(BitVector whichField,
     }
 
     // invalidate the dlist cache
-    if (getDlistCache())
-        Window::refreshGLObject( getGLId() );
-
+    if(getDlistCache())
+    {
+        Window::refreshGLObject(getGLId());
+    }
+    else 
+    {
+        if(getGLId() != 0)
+            Window::destroyGLObject(getGLId(), 1);
+        
+        setGLId(0);
+    }
+    
     Inherited::changed(whichField, origin);
 }
 
