@@ -42,6 +42,7 @@
 
 #include <OSGFieldDataType.h>
 #include <string>
+#include <OSGLog.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -631,17 +632,39 @@ struct FieldDataTraits<void *> :
     static void     *getDefault   (void) { return NULL;                }
 
     static bool      getFromString(      FieldTypeT &voidP,
-                                   const Char8      *)
+                                   const Char8      *inStr)
     {
-        voidP = NULL;
+        if(inStr[0] == '0' && tolower(inStr[1]) == 'x')
+        {
+            if(sscanf(inStr + 2, "%p", &voidP) != 1)
+            {
+                voidP = NULL;
+                FWARNING(("FieldDataTraits<void *>::getFromString: '%s' "
+                          "not understood!\n", inStr));
+                return false;
+            }
+        }
+        else
+        {
+            if(sscanf(inStr, "%lu", 
+                        reinterpret_cast<unsigned long *>(&voidP)) != 1)
+            {
+                voidP = NULL;
+                FWARNING(("FieldDataTraits<void *>::getFromString: '%s' "
+                          "not understood!\n", inStr));
+                return false;
+            }
+        }
 
         return true;
     }
 
-    static void      putToString  (const FieldTypeT  &,
+    static void      putToString  (const FieldTypeT  &voidP,
                                          std::string &outStr)
     {
-        outStr.assign("void *");
+        char buf[32];
+        sprintf(buf, "%p", voidP);
+        outStr = buf;
     }
 };
 

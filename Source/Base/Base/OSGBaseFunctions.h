@@ -62,6 +62,8 @@
 #include <OSGBaseTypes.h>
 
 #include <vector>
+#include <string>
+#include <iterator>
 
 OSG_BEGIN_NAMESPACE
 
@@ -393,6 +395,44 @@ struct EQString
     {
         return ::strcmp(s1, s2) == 0;
     }
+};
+
+
+// String Tokenizer
+
+struct string_token_iterator : 
+#if defined(__GNUC__) && __GNUC__ < 3
+    public std::input_iterator<std::string, std::ptrdiff_t>
+#else
+    public std::iterator<std::input_iterator_tag, std::string>
+#endif
+{
+  public:   
+    string_token_iterator();
+  
+    string_token_iterator(const std::string & str_, 
+                          const char        * separator_ = " ");
+  
+    string_token_iterator(const string_token_iterator & rhs);
+
+    string_token_iterator & operator++();
+
+    string_token_iterator operator++(int);
+
+    std::string operator*() const;
+
+    bool operator==(const string_token_iterator & rhs) const;
+
+    bool operator!=(const string_token_iterator & rhs) const;
+
+  private:
+
+    void find_next(void);
+
+    const char                   * _separator;
+    const std::string            * _str;
+          std::string::size_type   _start;
+          std::string::size_type   _end;
 };
 
 /*---------------------------------------------------------------------*/

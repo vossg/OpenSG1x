@@ -164,8 +164,10 @@ bool osgInit(Int32, Char8 **)
             if(returnValue == false)
                 break;         
         }
+    
+        osgPreMPInitFunctions->clear();
     }
-
+        
     if(returnValue == false)
         return returnValue;
 
@@ -186,7 +188,7 @@ bool osgInit(Int32, Char8 **)
 
         osgInitFunctions->clear();
     }
-
+    
     if(returnValue == false)
         return returnValue;
 
@@ -259,6 +261,80 @@ StaticInitFuncWrapper::StaticInitFuncWrapper(const InitFuncF func)
     func();
 }
 
+
+/*! String tokenizer
+    \ingroup GrpBaseSTLHelpers
+    \ingroup GrpBaseBaseStringFn 
+    
+    Based on code by Daniel Andersson
+    from http://www.codeproject.com/string/stringsplitter.asp
+
+    Useable to iterate over tokens in a std::string, separated by a specifiable
+    separator character.
+ */
+
+string_token_iterator::string_token_iterator() : _str(0), _start(0), _end(0) 
+{
+}
+  
+string_token_iterator::string_token_iterator(const std::string &str, 
+                                             const char        *separator) :
+        _separator(separator),
+        _str(&str),
+        _end(0)
+{
+    find_next();
+}
+  
+string_token_iterator::string_token_iterator(const string_token_iterator & rhs) :
+        _separator(rhs._separator),
+        _str(rhs._str),
+        _start(rhs._start),
+        _end(rhs._end)
+{
+}
+
+string_token_iterator & string_token_iterator::operator++()
+{
+    find_next();
+    return *this;
+}
+
+string_token_iterator string_token_iterator::operator++(int)
+{
+    string_token_iterator temp(*this);
+    ++(*this);
+    return temp;
+}
+
+std::string string_token_iterator::operator*() const
+{
+    return std::string(*_str, _start, _end - _start);
+}
+
+bool string_token_iterator::operator==(const string_token_iterator & rhs) const
+{
+    return (rhs._str == _str && rhs._start == _start && rhs._end == _end);
+}
+
+bool string_token_iterator::operator!=(const string_token_iterator & rhs) const
+{
+    return !(rhs == *this);
+}
+
+void string_token_iterator::find_next(void)
+{
+    _start = _str->find_first_not_of(_separator, _end);
+    // Apparently some STL implementations don't do npos !?!
+    if(_start == std::string::npos || _start >= _str->length())
+    {
+        _start = _end = 0;
+        _str = 0;
+        return;
+    }
+
+    _end = _str->find_first_of(_separator, _start);
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -663,6 +663,122 @@ inline              void          indentLog   (     UInt32        indent,
     }                                                           \
 }
 
+// C interface without line start outputs
+
+/*! \brief FPLOG
+    \ingroup GrpBaseLog
+*/
+
+#define FPLOG(par)                                               \
+{                                                               \
+   OSG::initLog();                                              \
+   OSG::osgStartLog(false,                                       \
+                    OSG::LOG_LOG,                               \
+                    OSG_LOG_MODULE,                             \
+                    __FILE__,                                   \
+                    __LINE__);                                  \
+   OSG::osgLogP->doLog par;                                     \
+   OSG::osgLogP->unlock();                                      \
+}
+
+/*! \brief FPFPATAL
+    \ingroup GrpBaseLog
+*/
+
+#define FPFPATAL(par)                                             \
+{                                                               \
+    OSG::initLog();                                             \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_FPATAL))                \
+    {                                                           \
+        OSG::osgStartLog(false,                                  \
+                         OSG::LOG_FPATAL,                        \
+                         OSG_LOG_MODULE,                        \
+                         __FILE__,                              \
+                         __LINE__);                             \
+        OSG::osgLogP->doLog par;                                \
+        OSG::osgLogP->unlock();                                 \
+    }                                                           \
+}
+
+/*! \brief FPWARNING
+    \ingroup GrpBaseLog
+*/
+
+#define FPWARNING(par)                                           \
+{                                                               \
+    OSG::initLog();                                             \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_WARNING))              \
+    {                                                           \
+        OSG::osgStartLog(false,                                  \
+                         OSG::LOG_WARNING,                      \
+                         OSG_LOG_MODULE,                        \
+                         __FILE__,                              \
+                         __LINE__);                             \
+        OSG::osgLogP->doLog par;                                \
+        OSG::osgLogP->unlock();                                 \
+    }                                                           \
+}
+
+/*! \brief FPNOTICE
+    \ingroup GrpBaseLog
+*/
+
+#define FPNOTICE(par)                                            \
+{                                                               \
+    OSG::initLog();                                             \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_NOTICE))               \
+    {                                                           \
+        OSG::osgStartLog(false,                                  \
+                         OSG::LOG_NOTICE,                       \
+                         OSG_LOG_MODULE,                        \
+                         __FILE__,                              \
+                         __LINE__);                             \
+        OSG::osgLogP->doLog par;                                \
+        OSG::osgLogP->unlock();                                 \
+    }                                                           \
+}
+
+/*! \brief FPINFPO
+    \ingroup GrpBaseLog
+*/
+
+#define FPINFPO(par)                                              \
+{                                                               \
+    OSG::initLog();                                             \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_INFPO))                 \
+    {                                                           \
+        OSG::osgStartLog(false,                                  \
+                         OSG::LOG_INFPO,                         \
+                         OSG_LOG_MODULE,                        \
+                         __FILE__,                              \
+                         __LINE__);                             \
+        OSG::osgLogP->doLog par;                                \
+        OSG::osgLogP->unlock();                                 \
+    }                                                           \
+}
+
+/*! \brief FPDEBUG
+    \ingroup GrpBaseLog
+*/
+
+#ifdef OSG_DEBUG
+#define FPDEBUG(par)                                             \
+{                                                               \
+    OSG::initLog();                                             \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_DEBUG))                \
+    {                                                           \
+        OSG::osgStartLog(false,                                  \
+                         OSG::LOG_DEBUG,OSG_LOG_MODULE,         \
+                         __FILE__,                              \
+                         __LINE__);                             \
+        OSG::osgLogP->doLog par;                                \
+        OSG::osgLogP->unlock();                                 \
+    }                                                           \
+}
+#else
+#define FPDEBUG(par)
+#endif
+
 OSG_END_NAMESPACE
 
 #include <OSGLog.inl>
