@@ -7,7 +7,7 @@
 OSG_USING_NAMESPACE
 
 Font::Font(void) :
-    _fontPath     (NULL ),
+    _fontPath     (     ),
     _fontName     (NULL ),
     _valid        (false),
     _fontInstances(     )
@@ -15,7 +15,7 @@ Font::Font(void) :
 }
 
 Font::Font(const Char8 *name) :
-    _fontPath     (NULL ),
+    _fontPath     (     ),
     _fontName     (name ),
     _valid        (false),
     _fontInstances(     )
