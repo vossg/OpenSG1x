@@ -692,9 +692,9 @@ void matrixTest(void)
 
     cout << endl << "========================================" << endl << endl;
 
-    q1.setValueAsAxis(1., 0., 0., 60.);
-    q2.setValueAsAxis(0., 1., 0., 60.);
-    q3.setValueAsAxis(0., 0., 1., 60.);
+    q1.setValueAsAxisDeg(1., 0., 0., 60.);
+    q2.setValueAsAxisDeg(0., 1., 0., 60.);
+    q3.setValueAsAxisDeg(0., 0., 1., 60.);
 
 
     m1.setRotate(q1);
@@ -818,7 +818,7 @@ void matrixTest(void)
     m3.setIdentity();
 
     v1.setValues(41., 42., 43);
-    q1.setValueAsAxis(1., 0., 1., 60.);
+    q1.setValueAsAxisDeg(1., 0., 1., 60.);
     v2.setValues(5., 6., 7.);
 
     m1.setTranslate(v1);
@@ -847,9 +847,9 @@ void matrixTest(void)
     m7.setIdentity();
 
     v1.setValues(41., 42., 43);
-    q1.setValueAsAxis(1., 0., 1., 60.);
+    q1.setValueAsAxisDeg(1., 0., 1., 60.);
     v2.setValues(10., 10., 10.);
-    q2.setValueAsAxis(0., 1., 0., 90.);
+    q2.setValueAsAxisDeg(0., 1., 0., 90.);
     v3.setValues(11., 12., 13.);
 
     m1.setTranslate(v1);
@@ -890,9 +890,9 @@ void matrixTest(void)
     m7.setIdentity();
 
     v1.setValues(41., 42., 43);
-    q1.setValueAsAxis(1., 0., 1., 60.);
+    q1.setValueAsAxisDeg(1., 0., 1., 60.);
     v2.setValues(11., 12., 13.);
-    q2.setValueAsAxis(0., 1., 0., 90.);
+    q2.setValueAsAxisDeg(0., 1., 0., 90.);
     v3.setValues(11., 12., 13.);
 
     m1.setTranslate(v1);
@@ -996,25 +996,25 @@ void quattest(void)
     q1.setIdentity();
 
     q2.setIdentity();
-    q2.setValueAsAxis(axisArray);
+    q2.setValueAsAxisDeg(axisArray);
 
     q3.setIdentity();
     q3.setValueAsQuat(quatArray);
 
     q4.setIdentity();
-    q4.setValueAsAxis(0., 1., 0., 180.);
+    q4.setValueAsAxisDeg(0., 1., 0., 180.);
 
     q5.setIdentity();
     q5.setValueAsQuat(0., 0.707, 0., 0.707);
     
     q6.setIdentity();
-    q6.setValue(v1, 60.);
+    q6.setValueAsAxisDeg(v1, 60.);
 
     q7.setIdentity();
     q7.setValue(v2, v3);
 
     q8.setIdentity();
-    q8.setValue("0.0 1.0 0.0 90.");
+    q8.setValueAsAxisDeg("0.0 1.0 0.0 90.");
 
     cout << "Set Identity                : " << endl << q1 << endl;
     cout << "Set from axis array         : " << endl << q2 << endl;
@@ -1028,9 +1028,9 @@ void quattest(void)
     cout << endl << "========================================" << endl << endl;
 
 
-    q1.setValueAsAxis(1., 0., 0., 60.);
-    q2.setValueAsAxis(0., 1., 0., 60.);
-    q3.setValueAsAxis(0., 0., 1., 60.);
+    q1.setValueAsAxisDeg(1., 0., 0., 60.);
+    q2.setValueAsAxisDeg(0., 1., 0., 60.);
+    q3.setValueAsAxisDeg(0., 0., 1., 60.);
 
     cout << "Set from axis X/60          : " << endl << q1 << endl;
     cout << "Set from axis Y/60          : " << endl << q2 << endl;
@@ -1069,7 +1069,7 @@ void quattest(void)
 
     cout << endl << "========================================" << endl << endl;
 
-    q2.getValueAsAxis(x, y, z, w);
+    q2.getValueAsAxisDeg(x, y, z, w);
     
     printf("Get val as axis\n");
     printf("%5.3f %5.3f %5.3f %5.3f\n", x, y, z, w);
@@ -1081,7 +1081,7 @@ void quattest(void)
 
     cout << endl << "========================================" << endl << endl;
 
-    q2.getValue(v1, w);
+    q2.getValueAsAxisDeg(v1, w);
 
     printf("Get val as vec/angle\n");
     cout << v1;
@@ -1108,8 +1108,8 @@ void quattest(void)
     cout << "Inverse :" << endl << q3 << endl;
 
 
-    q1.setValueAsAxis(1., 0., 0., 60.);
-    q2.setValueAsAxis(0., 1., 0., 60.);
+    q1.setValueAsAxisDeg(1., 0., 0., 60.);
+    q2.setValueAsAxisDeg(0., 1., 0., 60.);
 
     Matrix m1;
     Matrix m2;

@@ -174,11 +174,11 @@ void Trackball::updateRotation(Real32 rLastX,    Real32 rLastY,
 
     if(_bSum == false)
     {
-        _qVal.setValue(gAxis, osgrad2degree(rPhi));
+        _qVal.setValueAsAxisRad(gAxis, rPhi);
     }
     else
     {
-        qCurrVal.setValue(gAxis, osgrad2degree(rPhi));
+        qCurrVal.setValueAsAxisRad(gAxis, rPhi);
         _qVal *= qCurrVal;
 //        _qVal.multLeft(qCurrVal);
     }
@@ -294,7 +294,7 @@ Vec3f &Trackball::getPosition(void)
 void Trackball::setStartRotation(Real32 rX, Real32 rY, Real32 rZ, Real32 rW, 
                                   Bool bUpdate)
 {
-    _qValStart.setValueAsAxis(rX, rY, rZ, rW);
+    _qValStart.setValueAsAxisDeg(rX, rY, rZ, rW);
 
     if(bUpdate == true)
         _qVal = _qValStart;

@@ -487,7 +487,7 @@ template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const VectorType &axis, 
                                                     ValueTypeT  angle)
 {
-  setValuesAsAxisRad(axis[0],axis[1],axis[2],angle); 
+  setValueAsAxisRad(axis[0],axis[1],axis[2],angle); 
 }
 
 /** \brief Sets value of quaternion from 3D rotation axis vector and angle in 
@@ -546,7 +546,7 @@ void QuaternionBase<ValueTypeT>::setValue(
 
 		tmp.normalize();
 
-		setValueAsAxis(tmp[0], tmp[1], tmp[2], osgrad2degree(Pi));
+		setValueAsAxisRad(tmp[0], tmp[1], tmp[2], Pi);
 
 		return;
 	}
@@ -773,7 +773,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisRad(VectorType &axis,
 {
   Real32 x,y,z,w;
 
-  getValuesAsAxisRad(x,y,z,w);
+  getValueAsAxisRad(x,y,z,w);
   
   axis.setValues(x,y,z);
   radians = w;
@@ -786,7 +786,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis,
 {
   Real32 x,y,z,w;
 
-  getValuesAsAxisDeg(x,y,z,w);
+  getValueAsAxisDeg(x,y,z,w);
   
   axis.setValues(x,y,z);
   radians = w;

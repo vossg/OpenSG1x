@@ -38,7 +38,7 @@ display(void)
 
 	Matrix m;
 	Quaternion q;
-	q.setValueAsAxis( 0,1,0, -t/20 );
+	q.setValueAsAxisDeg( 0,1,0, -t/20 );
 	m.setRotate( q );
 	tchunk1->setMatrix( m );
 
