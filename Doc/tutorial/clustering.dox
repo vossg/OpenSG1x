@@ -1,0 +1,371 @@
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGNavigator.h>
+#include <OpenSG/OSGPerspectiveCamera.h>
+
+OSG_USING_NAMESPACE;
+
+/*! 
+\page Clustering Clustering
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+	\ref TutorialClusteringGeneral <BR>
+    \ref TutorialClusteringeExample <BR>
+	\ref TutorialClusteringConnection <BR>
+	\ref TutorialClusteringRemoteAspects <BR>
+	\ref TutorialClusteringClusterWindow <BR>
+	\ref ClusteringTutorial
+<HR>
+
+At the very beginning I told you that OpenSG is really powerful when it comes to clustering. Now it is time we have a deeper look at that topic. Altough 
+clustering with OpenSG is easy and safe compared to other sytems, it is still a bit more advanced than the other tutorials I presented so far.
+
+\section TutorialClusteringGeneral Clustering in General and with OpenSG
+
+The demand of computational power an application can have is near endless - either it is because of bad programming or of high quality and many features. Cutting
+edge applications need often the power of a supercomputer or a cluster of machines. Because supercomputers are in general a lot more expensive, clusters have
+become more and more interesting in the past years for industry as well as for universities. 
+
+<I>
+You may have noticed that I like computer manufractured by a company with an apple as it's logo. Here is one interesting thing about them and clusters: The
+fastest computer on earth is a supercomputer from NEC with a performance peak of 40 tera flops whereas the third fastest machiene is a cluster of 1000
+Apple G5's that score a peak of about 17 tera flops. Well, you might say that the NEC is more than twice as fast... yes, but it is also more than 10 times
+more expansive! That is why clusters get more and more interesting!
+</I>
+
+The following image shows an usual setup for a passive stero application.
+
+\image html stereo_cluster.png "A simple cluster of three machines"
+\image latex stereo_cluster.eps "A simple cluster of three machines" width = 6cm
+
+<I>
+If you want to drive a passive stereo applcation for example, you need three machines: the client is running the application (i.e. modifies the scenegraph, 
+loading of files, handels user input, performs simulation etc.) and the two server will render only. Each server would have a slightly different position of
+the camera to simulate human eyes and thus each server would render a differnt, yet similar, image. 
+</I>
+
+The words "Client" and "Server" might be a bit misleading, so keep in mind, that the server does only rendering! One could say he serves the screen... or so. 
+However, the X windowing system uses these word in a similar way. 
+
+Of course this example was just one out of several possibilities on how to use a cluster with OpenSG. Another possibility is to drive a wall of screens (I 
+mentioned the HEyeWall earlier) or to render just on output image, but by doing it with 48 machines for example. 
+
+We will start with a more simple example at the beginning - and don't worry if your cluster at home is out of order for the moment, all cluster-able applications
+can also be run on a single machine. In fact, OpenSG doesn't matter about where the servers run, as long as they can be found in the local network.
+
+\image html dual_window.png "One scene rendered in two independant windows"
+\image latex dual_window.eps "One scene rendered in two independant windows" width=6cm
+
+This image shows three windows: the small one is only for navigation interaction (i.e mouse movement) and is not necesarily required. Both other windows display
+one scene as if it were rendered into one window only. In this case both windows run on the same computer, but this must not be the case as we can see very 
+soon.
+
+\section TutorialClusteringeExample Example - A Multi Window Application
+
+As you might have guessed we need two differnet programs (client & server) and therefore we will need two .cpp files, too.  This time I will present the whole
+program at once, because most of the code is quite not new at all. Here is the full code for the client application - I tried to make it as short as possible
+
+\subsection TutorialClusteringeExampleClient The Client
+
+Here is the full code fot the client application
+
+\code
+// all needed include files
+#include <OpenSG/OSGGLUT.h>
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGSimpleGeometry.h>
+#include <OpenSG/OSGGLUTWindow.h>
+#include <OpenSG/OSGSimpleSceneManager.h>
+
+#include <OpenSG/OSGMultiDisplayWindow.h>
+#include <OpenSG/OSGSceneFileHandler.h>
+
+OSG_USING_NAMESPACE
+using namespace std;
+
+SimpleSceneManager *mgr;
+NodePtr scene;
+
+int setupGLUT( int *argc, char *argv[] );
+
+int main(int argc, char **argv)
+{
+    osgInit(argc,argv);
+
+    int winid = setupGLUT(&argc, argv);
+	
+	//this time we'll have not a GLUTWindow here, but this one
+    MultiDisplayWindowPtr multiWindow = MultiDisplayWindow::create();
+
+	//set some necessary values
+    beginEditCP(multiWindow);
+		// we connect via multicast
+		multiWindow->setConnectionType("Multicast");
+		// we want to rendering servers... 
+		multiWindow->getServers().push_back("Server1");
+		multiWindow->getServers().push_back("Server2");	
+    endEditCP(multiWindow);
+
+	//any scene here
+    scene = makeTorus(.5, 2, 16, 16);
+	
+	// and the ssm as always
+    mgr = new SimpleSceneManager;
+
+    mgr->setWindow(multiWindow);
+    mgr->setRoot  (scene);
+    mgr->showAll();
+    
+    multiWindow->init();
+    
+    glutMainLoop();
+
+    return 0;
+}
+
+void display(void)
+{
+    //redrawing as usual
+	mgr->redraw();
+	
+	//the changelist should be cleared - else things
+	//could be copied multiple times
+	OSG::Thread::getCurrentChangeList()->clearAll();
+	
+	// to ensure a black navigation window
+	glClear(GL_COLOR_BUFFER_BIT);
+    glutSwapBuffers();
+}
+
+void reshape(int w, int h)
+{
+    glutPostRedisplay();
+}
+
+void mouse(int button, int state, int x, int y)
+{
+    if (state)
+        mgr->mouseButtonRelease(button, x, y);
+    else
+        mgr->mouseButtonPress(button, x, y);
+    glutPostRedisplay();
+}
+
+void motion(int x, int y)
+{
+    mgr->mouseMove(x, y);
+    glutPostRedisplay();
+}
+
+int setupGLUT(int *argc, char *argv[])
+{
+    glutInit(argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    
+    int winid = glutCreateWindow("OpenSG");
+    
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(display);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
+	
+    return winid;
+}
+\endcode
+
+Let us first have a closer look at the client application. Actually only the part of window creation is different. The rest is pretty much the same, we have
+the simple scene manager, we set up some callbacks and we create a scenegraph (which is only a torus in this example).
+
+Instead of an osg::GLUTWindow we now have a osg::MultiDisplayWindow which enables us to connect several independant windows. Let us have a look at the code
+
+\code
+	MultiDisplayWindowPtr multiWindow = MultiDisplayWindow::create();
+
+	beginEditCP(multiWindow);
+		multiWindow->setConnectionType("Multicast");
+		multiWindow->getServers().push_back("Server1");
+		multiWindow->getServers().push_back("Server2");	
+	endEditCP(multiWindow);
+\endcode
+
+A multiwindow needs to know about how it should connect to the servers (have a look at Chapter(xxx)) and it needs to know the "name" of every server that should
+be used. Servers are simply identiefied by a string. Not very creative at all, but I choose the names "Server1" and "Server2" for the example. 
+
+That's all? Yes, at least for the client. Of course the servers are still missing. If you would run this application you won't see any window, because it will be
+waiting for a connenction to the servers that will never come...
+
+One word about the display() function. Maybe you wonder why we have to clear the change list. We encountered change list last chaper when I was talking about 
+multithreading. The data exchange between the client and the servers works pretty much the same way as with multithreading. However, synchronizazion is handeled
+automatically, but you still have to tell the system when to clear the change list. 
+
+\subsection TutorialClusteringeExampleServer The Server
+
+Here is the full code of the server application
+
+\code
+#include <OpenSG/OSGGLUT.h>
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGClusterServer.h>
+#include <OpenSG/OSGGLUTWindow.h>
+#include <OpenSG/OSGRenderAction.h>
+
+OSG_USING_NAMESPACE
+using namespace std;
+
+GLUTWindowPtr   window;
+RenderAction   *ract;
+ClusterServer  *server;
+
+void display();
+void reshape( int width, int height );
+
+int main(int argc,char **argv)
+{
+    int             winid;
+
+    // initialize Glut
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB |GLUT_DEPTH | GLUT_DOUBLE);
+
+	if (!argv[1]){
+		cout << "No name was given!" << endl;
+		return -1;
+	}
+	    
+	// init OpenSG
+	osgInit(argc, argv);
+
+	winid = glutCreateWindow(argv[1]);
+	glutDisplayFunc(display);       
+	glutIdleFunc(display);
+	glutReshapeFunc(reshape);       
+	glutSetCursor(GLUT_CURSOR_NONE);
+
+	ract=RenderAction::create();
+
+	window     = GLUTWindow::create();
+	window->setId(winid);
+	window->init();
+
+	//create a new server that will be connected via multicast
+	//argv[1] is the name of the server (at least it should be...)
+	server     = new ClusterServer(window,argv[1],"Multicast","");
+	server->start();
+
+	glutMainLoop();
+
+	return 0;
+}
+
+void display()
+{
+	//simply execute the render action
+	server->render(ract);
+	//and delete the change list
+	OSG::Thread::getCurrentChangeList()->clearAll();
+}
+
+void reshape( int width, int height )
+{
+	window->resize( width, height );
+}
+\endcode
+
+The server is also quite similar to previous applications, although there are more differences compared to the client. First of all, it is very short - there 
+are only three functions: main(), display() and reshape(). Well, the last one is obvious and the same as always, whereas the display() function differs 
+slightly. Instead of calling the redraw() function of the simple scene manager we call the render command and passing a render action as argument. The reason
+for that is also very simple: there is no simple scene manager! Why should there. As the name suggest it's task is to manager a (simple) scene, but that is
+already done by the client application. As the servers job is to render we only need a simple render call.
+
+Finally the main() function now features the registrtion of the callbacks and most important the creation of the server object
+
+\code
+	server     = new ClusterServer(window,argv[1],"Multicast","");
+	server->start();
+\endcode
+
+These two lines will start the server, which will take care of the connection to the client application. Multicast again is the connection type and argv[1] is
+the first argument from the command line that should specify the name of the server. The client is looking for "Server1" and "Server2" so these should be used as
+names
+
+\subsection TutorialClusteringExampleLaunching  Launching
+
+The code can also be found in progs/14clustering_Client.cpp and progs/14clustering_Server.cpp. 
+
+This time the application is not started by a single executable, but by three. Open a terminal and if you are using Linux enter:
+<PRE>
+	./14clustering_Server Server1 & ./14clustering_Server Server2 & ./14clustering_Client
+</PRE>
+
+If you are using Windows you have to open three command line shells and start one of the three programs in each shell. The order is not important.
+
+After a very short connection time, you should see three overlapping windows - you have to rearrange them to see anything. If all windows are black then you have
+to move the camera a bit, because the servers might have not started rendering.
+
+<I>
+Notice:
+
+You should pay special attention to the names of the servers. If you make a typing error at that point the client will wait for an server that does not exist and
+your application will not start at all. Before you try to find any error deep within your application, you should check that first!
+</I>
+
+\section TutorialClusteringConnection Connection Type
+
+There are two different ways how servers can connect to the client, wether via multicast or via a point to point connection. In the example above I used multicast
+as connection type. Have a look at these lines in the client
+
+\code
+	multiWindow->setConnectionType("Multicast");
+\endcode
+
+an in the server
+
+\code
+	server = new ClusterServer(window,argv[1],"Multicast","");
+\endcode
+
+which are responsible for setting up the connection. Multicast is straight forward to use, but if used in a lage network (such as universties have, fo example)
+you might get an administrator out of his cave, because network connection speed may suffer. In this case it is better to use StreamSock, which will establish
+a point to point connection, rather than scanning the whole network for potential servers.
+
+<I>
+When we developed the VR application, I mentioned previously, we had several people testing modells and developing simultaneously and thus often started a client 
+and two servers - but when more than one person started the client and servers at about the same time, it happend that one sever connected to the correct client,
+but the other to some other client... well, needless to say, that the immersion of the simulation was not that good ;) 
+
+After an angry administrator visted us (he finally found out why the network was so slow...) we finally switched from multicast to a point to point conection.
+</I>
+
+\section TutorialClusteringRemoteAspects Remote Aspects
+
+From the last chapter you now roughly what aspects are. Remote aspects work in a very similar way. In a cluster environment remote aspects are used to propagate
+changes of field containers. The synconization can take place automatically, but it can also be done manually with sendSync() and receiveSync(). Wether the
+synconization is manually or automatically driven, it is important not to apply changes twice, so the change list has to be cleared always and also always
+manually (like in the example). Under certain circumstances it is good to know when a field container is created or destroyed - the problem is that the change
+list carries only changes of existing field containers by default. When a new container is created, there is a bit of extra work to do. In this case it might come
+in very practical to have the possibility to define some callbacks for these events: registerCreated(), registerChanged() and registerDestroyed() will do
+what you are looking for.
+
+\section TutorialClusteringClusterWindow Cluster Window
+
+Before we begin with a more advanced tutorial, some more words about the clustering window.  You have a window for rendering with GLUT, you have von for X and QT
+and so you also have a cluster window to render in a cluster. However, the cluster window is usually not used for rendering at all. You have to define a list
+of named servers, which will finally render - this is similar to the example
+
+\code
+	ClusterWindow clusterWindow = ClusterWindow::create();
+	clusterWindow->getServers().push_back("Server1_Name");
+	clusterWindow->getServers().push_back("Server2_Name");
+	//and so on
+\endcode
+
+You can add any number of servers, but every one defined here must be available in the network (with exactly that name) in order to launch the application. If you
+have a look at the class diagramm of osg::ClientWindow you will discover that two other windows are derived from cluster window, of which one we already know: the
+multi window from the example above. These two are special implementations which are adding more features. 
+
+\section ClusteringTutorial Tutorial - A stereo application
+
+We are no going to develop an application that will be less hard coded than the example from above. Our goal is to write an application that can render a scene
+(loaded from disk) in passive stereo. 
+*/
