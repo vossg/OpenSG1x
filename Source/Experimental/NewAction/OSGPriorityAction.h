@@ -42,9 +42,15 @@
 #pragma once
 #endif
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
-#include "OSGNewAction.h"
+
+#include "OSGNewActionBase.h"
+#include "OSGActorBase.h"
 
 #include <list>
 #include <vector>
@@ -52,183 +58,214 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
+class ExtendActorBase;
+class BasicActorBase;
+
+class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewActionBase
 {
-    /*==========================  PUBLIC  =================================*/
+    /*==== PUBLIC ===========================================================*/
   public:
-    /*---------------------------------------------------------------------*/
-    /*! \name    Create                                                    */
-    /*! \{                                                                 */
+#ifdef OSG_NEWACTION_STATISTICS
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Statistics                                                  */
+    /*! \{                                                                   */
 
-    static  PriorityAction *create(void);
+    static StatElemDesc<StatIntElem> statStateClones;
+    static StatElemDesc<StatIntElem> statStateRestores;
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Destructor                                                */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+#endif /* OSG_NEWACTION_STATISTICS */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Destructor                                                  */
+    /*! \{                                                                   */
 
-    virtual ~PriorityAction  (void);
+    virtual ~PriorityAction(void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Apply                                                     */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Create                                                      */
+    /*! \{                                                                   */
 
-    virtual ResultE apply(const NodePtr         &pRootNode,
-                                PriorityType     priority  );
-    virtual ResultE apply(      NodeListConstIt  begin,
-                                NodeListConstIt  end       );
+    static PriorityAction *create(void);
 
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Apply                                                       */
+    /*! \{                                                                   */
+
+    virtual ResultE apply(NodePtr pRoot);
+
+    /*! \}                                                                   */
+    /*==== PROTECTED ========================================================*/
   protected:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name    Constructors                                              */
-    /*! \{                                                                 */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Constructors                                                */
+    /*! \{                                                                   */
 
     PriorityAction(void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Events (Incoming)                                         */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Events                                                      */
+    /*! \{                                                                   */
 
-    virtual void attachEvent        (ActorBase *pActor, UInt32 uiActorId);
-    virtual void detachEvent        (ActorBase *pActor, UInt32 uiActorId);
+    virtual void addExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex);
+    virtual void subExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex);
 
-    virtual void beginEditStateEvent(ActorBase *pActor, UInt32 uiActorId);
-    virtual void endEditStateEvent  (ActorBase *pActor, UInt32 uiActorId);
+    virtual void addBasicEvent (BasicActorBase  *pActor, UInt32 actorIndex);
+    virtual void subBasicEvent (BasicActorBase  *pActor, UInt32 actorIndex);
 
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
+    virtual void startEvent    (void                                      );
+    virtual void stopEvent     (void                                      );
+
+    virtual void beginEditStateEvent(ActorBase *pActor, UInt32 actorId);
+    virtual void endEditStateEvent  (ActorBase *pActor, UInt32 actorId);
+
+    /*! \}                                                                   */
+    /*==== PRIVATE ==========================================================*/
   private:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Types                                                       */
+    /*! \{                                                                   */
 
-    /*---------------------------------------------------------------------*/
-    /*! \name    Types                                                     */
-    /*! \{                                                                 */
+    typedef NewActionBase             Inherited;
+    typedef ActorBase::ActorBaseState ActorBaseState;
 
-    class StateUseCounter;
+#ifdef OSG_NEWACTION_STATESLOTINTERFACE
 
-    friend class StateUseCounter;
-
-    typedef NewAction                    Inherited;
-    typedef ActorBase::ActorBaseState    ActorBaseState;
-
-    class StateUseCounter
+    class StateRefCount
     {
       public:
-        typedef std::list<ActorBaseState *>::iterator StateStoreIt;
+        inline          StateRefCount(const StateRefCount &source    );
 
-        inline StateUseCounter(      StateStoreIt     itState,
-                                     Int32            iUseCount);
-        inline StateUseCounter(const StateUseCounter &source   );
+        inline explicit StateRefCount(      UInt32         stateSlot );
+        inline explicit StateRefCount(      UInt32         stateSlot,
+                                            Int32          refCount  );
 
-        inline StateStoreIt getState   (void                 ) const;
-        inline void         setState   (StateStoreIt itState );
+        inline UInt32 getStateSlot(void            ) const;
+        inline void   setStateSlot(UInt32 stateSlot);
 
-        inline Int32        getUseCount(void                 ) const;
-        inline void         addUse     (Int32        iUse = 1);
-        inline void         subUse     (Int32        iUse = 1);
+        inline Int32  getRefCount (void            ) const;
+        inline void   incRefCount (Int32  inc      );
+        inline void   decRefCount (Int32  dec      );
+
+      private:
+        UInt32 _stateSlot;
+        Int32  _refCount;
+    };
+
+#else /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+    typedef std::list<ActorBaseState *> StateStore;
+    typedef StateStore::iterator        StateStoreIt;
+    typedef StateStore::const_iterator  StateStoreConstIt;
+
+    class StateRefCount
+    {
+      public:
+        inline          StateRefCount(const StateRefCount &source  );
+
+        inline explicit StateRefCount(const StateStoreIt  &itState );
+        inline explicit StateRefCount(const StateStoreIt  &itState,
+                                            Int32          refCount);
+
+        inline StateStoreIt getState(      void                 ) const;
+        inline void         setState(const StateStoreIt &itState);
+
+        inline Int32        getRefCount(void         ) const;
+        inline void         incRefCount(Int32 inc = 1);
+        inline void         decRefCount(Int32 dec = 1);
 
       private:
         StateStoreIt _itState;
-        Int32        _iUseCount;
+        Int32        _refCount;
     };
 
-    class NodeQueueEntry;
-    friend class NodeQueueEntry;
+#endif /* OSG_NEWACTION_STATESLOTINTERFACE */
 
-    typedef std::list<ActorBaseState *>   StateStore;
-    typedef StateStore::iterator          StateStoreIt;
-    typedef StateStore::const_iterator    StateStoreConstIt;
-
-    typedef std::list<StateUseCounter>    StateUseStore;
-    typedef StateUseStore::iterator       StateUseStoreIt;
-    typedef StateUseStore::const_iterator StateUseStoreConstIt;
+    typedef std::list<StateRefCount>           StateRefCountStore;
+    typedef StateRefCountStore::iterator       StateRefCountStoreIt;
+    typedef StateRefCountStore::const_iterator StateRefCountStoreConstIt;
 
     class NodeQueueEntry
     {
       public:
-        inline NodeQueueEntry(const NodePtr         &pNode,
-                                    PriorityType     priority,
-                                    StateUseStoreIt  itState  );
+        inline NodeQueueEntry(const NodeQueueEntry       &source         );
 
-        inline NodeQueueEntry(const NodePtr         &pNode,
-                                    PriorityType     priority );
+        inline NodeQueueEntry(const NodePtr              &pNode,
+                                    PriorityType          priority,
+                              const StateRefCountStoreIt &itStateRefCount);
 
-        inline NodePtr         getNode    (void                     ) const;
-        inline void            setNode    (const NodePtr   &pNode   );
-
-        inline PriorityType    getPriority(void                     ) const;
-        inline void            setPriority(PriorityType     priority);
-
-        inline StateUseStoreIt getState   (void                     ) const;
-        inline void            setState   (StateUseStoreIt  itState );
+        inline NodePtr              getNode         (void) const;
+        inline PriorityType         getPriority     (void) const;
+        inline StateRefCountStoreIt getStateRefCount(void) const;
 
         struct LessCompare
         {
-            inline bool operator()(const NodeQueueEntry &lhs,
-                                   const NodeQueueEntry &rhs );
+            inline bool operator()(const NodeQueueEntry &leftArg,
+                                   const NodeQueueEntry &rightArg);
         };
 
       private:
-        NodePtr         _pNode;
-        PriorityType    _priority;
-        StateUseStoreIt _itState;
+        NodePtr              _pNode;
+        PriorityType         _priority;
+        StateRefCountStoreIt _itStateRefCount;
     };
 
-    typedef std::priority_queue<NodeQueueEntry,
-                                std::vector<NodeQueueEntry>,
-                                NodeQueueEntry::LessCompare > PriorityNodeQueue;
+    // std::priority_queue<...> does not have clear(), for some reason...
+    // so we use a vector and the pqFOO helper methods below  -cneumann
+    typedef std::vector<NodeQueueEntry> NodePriorityQueue;
+    typedef NodeQueueEntry::LessCompare NodePriorityQueueComp;
 
-    /*!\brief prohibit default function (move to 'public' of needed) */
-    PriorityAction (const PriorityAction &source);
-    /*!\brief prohibit default function (move to 'public' of needed) */
-    void operator =(const PriorityAction &source);
+           ResultE traverseEnter  (      void                          );
+           void    enqueueChildren(const NodePtr &pNode, ResultE result);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Helper Methods                                            */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Helper Methods                                              */
+    /*! \{                                                                   */
 
-           ResultE applyEnter          (void                            );
-    inline ResultE callEnter           (const NodePtr         &pNode    );
+    inline ResultE enterNode      (const NodePtr &pNode                );
 
-    inline void         deleteState    (      StateStore      *pStore,
-                                              StateUseStoreIt  itState  );
-    inline void         addStateUse    (      StateUseStoreIt  itState,
-                                              Int32            iUse = 1 );
-    inline void         subStateUse    (      StateUseStoreIt  itState,
-                                              Int32            iUse = 1 );
+    inline StateRefCountStoreIt cloneState(void                                );
+    inline StateRefCountStoreIt getState  (void                                );
+    inline void                 setState  (StateRefCountStoreIt itStateRefCount);
 
-    inline StateStoreIt cloneState     (      StateStore      *pStore,
-                                              StateStoreIt     itPos    );
-    inline StateStoreIt getState       (      StateStore      *pStore,
-                                              StateStoreIt     itPos    );
-    inline void         setState       (      StateStoreIt     itPos    );
+    inline void incRefCount(StateRefCountStoreIt itStateRefCount, Int32 inc = 1);
+    inline void decRefCount(StateRefCountStoreIt itStateRefCount, Int32 dec = 1);
 
-    inline void         enqueueChildren(const NodePtr         &pNode,
-                                              ResultE          result   );
+    inline const NodeQueueEntry &pqTop  (      void                 ) const;
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
+    inline       void            pqPush (const NodeQueueEntry &entry);
+    inline       void            pqPop  (      void                 );
 
-    PriorityNodeQueue  _nodePrioQueue;
+    inline       bool            pqEmpty(      void                 ) const;
+    inline       void            pqClear(      void                 );
 
-    bool               _bStateCloned;
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
 
-    StateUseStore      _stateUseStore;
-    StateStore         _stateStore;
+    ExtendActorStore      _extendEnterActors;
+    BasicActorStore       _basicEnterActors;
 
-    StateUseStoreIt    _itCurrentState;
-    StateStoreIt       _itInitialState;
+    NodePriorityQueue     _nodePrioQueue;
+    NodePriorityQueueComp _nodePrioQueueComp;
+
+    bool                  _stateClonedFlag;
+
+#ifndef OSG_NEWACTION_STATESLOTINTERFACE
+    StateStore           _stateStore;
+#endif
+
+    StateRefCountStore   _stateRefCountStore;
+    StateRefCountStoreIt _itInitialState;
+    StateRefCountStoreIt _itActiveState;
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGPriorityAction.inl"
 
-#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.4 2004/05/08 08:25:40 vossg Exp $"
+#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.5 2004/09/10 15:00:46 neumannc Exp $"
 
 #endif /* _OSGPRIORITYACTION_H_ */

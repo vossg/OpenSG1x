@@ -36,58 +36,72 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifndef _OSGPRINTNAMEACTOR_H_
+#define _OSGPRINTNAMEACTOR_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
+#include <OSGConfig.h>
+
+#include <OSGPrintNameActorBase.h>
+
 OSG_BEGIN_NAMESPACE
 
-namespace NewActionTypes
+class OSG_SYSTEMLIB_DLLMAPPING PrintNameActor : public PrintNameActorBase
 {
+    /*====  PUBLIC  =========================================================*/
+  public:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Types                                                       */
+    /*! \{                                                                   */
 
-inline
-NodePriorityPair::NodePriorityPair(const NodePtr &pNode)
-    : _pNode   (pNode                                     ),
-      _priority(TypeTraits<PriorityType>::getZeroElement())
-{
-}
+    typedef BasicActorBase::ResultE ResultE;
+    typedef BasicActorBase::Functor Functor;
 
-inline
-NodePriorityPair::NodePriorityPair(const NodePtr &pNode, PriorityType priority)
-    : _pNode   (pNode   ),
-      _priority(priority)
-{
-}
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Create                                                      */
+    /*! \{                                                                   */
 
-inline NodePtr
-NodePriorityPair::getNode(void) const
-{
-    return _pNode;
-}
+    static PrintNameActor *create(void);
 
-inline void
-NodePriorityPair::setNode(const NodePtr &pNode)
-{
-    _pNode = pNode;
-}
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Destructor                                                  */
+    /*! \{                                                                   */
 
-inline PriorityType
-NodePriorityPair::getPriority(void) const
-{
-    return _priority;
-}
+    virtual ~PrintNameActor(void);
 
-inline void
-NodePriorityPair::setPriority(PriorityType priority)
-{
-    _priority = priority;
-}
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Enter/Leave                                                 */
+    /*! \{                                                                   */
 
-inline bool
-NodePriorityPair::LessCompare::operator ()(const NodePriorityPair &lhs,
-                                           const NodePriorityPair &rhs )
-{
-    return (lhs.getPriority() < rhs.getPriority());
-}
 
-} /* namespace NewActionTypes */
+    /*! \}                                                                   */
+    /*==== PROTECTED ========================================================*/
+  protected:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Constructor                                                 */
+    /*! \{                                                                   */
+
+    PrintNameActor(void);
+
+    /*! \}                                                                   */
+    /*==== PRIVATE ==========================================================*/
+  private:
+    typedef PrintNameActorBase Inherited;
+};
 
 OSG_END_NAMESPACE
 
-#define OSGNEWACTIONTYPES_INLINE_CVSID "@(#)$Id: OSGNewActionTypes.inl,v 1.2 2004/04/21 14:54:33 a-m-z Exp $"
+#include <OSGPrintNameActor.inl>
+
+#define OSGPRINTNAMEACTOR_HEADER_CVSID "@(#)$Id:"
+
+#endif /* _OSGPRINTNAMEACTOR_H_ */

@@ -36,29 +36,20 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDEPTHFIRSTACTION_H_
-#define _OSGDEPTHFIRSTACTION_H_
+#ifndef _OSGBASICACTORBASE_H_
+#define _OSGBASICACTORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//----------------------------------------------------------------------------
-//    Includes
-//----------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 
-#include "OSGNewActionBase.h"
-
-#include <deque>
+#include "OSGActorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
-class ExtendActorBase;
-class BasicActorBase;
-
-class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
+class OSG_SYSTEMLIB_DLLMAPPING BasicActorBase : public ActorBase
 {
     /*==== PUBLIC ===========================================================*/
   public:
@@ -66,108 +57,94 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
     /*! \name    Destructor                                                  */
     /*! \{                                                                   */
 
-    virtual ~DepthFirstAction(void);
+    virtual ~BasicActorBase(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Create                                                      */
+    /*! \name    Start/Stop                                                  */
     /*! \{                                                                   */
 
-    static DepthFirstAction *create(void);
+    virtual ResultE start(void) = 0;
+    virtual ResultE stop (void) = 0;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Apply                                                       */
+    /*! \name    Enter/Leave                                                 */
     /*! \{                                                                   */
 
-    virtual ResultE apply(NodePtr pRoot);
+    virtual ResultE enterNode(const NodePtr &pNode) = 0;
+    virtual ResultE leaveNode(const NodePtr &pNode) = 0;
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Children Managment                                          */
+    /*! \{                                                                   */
+
+    inline bool getChildrenListEnabled(void) const;
+    inline void setChildrenListEnabled(bool enabled);
+
+    inline NodePtr      getNode         (void                    ) const;
+
+    inline UInt32       getNumChildren  (void                    ) const;
+    inline NodePtr      getChild        (UInt32       childIndex ) const;
+
+    inline bool         getChildActive  (UInt32       childIndex ) const;
+    inline void         setChildActive  (UInt32       childIndex,
+                                         bool         active     );
+
+    inline PriorityType getChildPriority(UInt32       childIndex ) const;
+    inline void         setChildPriority(UInt32       childIndex,
+                                         PriorityType prio       );
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Extra Children Managment                                    */
+    /*! \{                                                                   */
+
+    inline UInt32       getNumExtraChildren  (void                    ) const;
+    inline NodePtr      getExtraChild        (UInt32       childIndex ) const;
+
+    inline bool         getExtraChildActive  (UInt32       childIndex ) const;
+    inline void         setExtraChildActive  (UInt32       childIndex,
+                                              bool         active     );
+
+    inline PriorityType getExtraChildPriority(UInt32       childIndex ) const;
+    inline void         setExtraChildPriority(UInt32       childIndex,
+                                              PriorityType prio       );
 
     /*! \}                                                                   */
     /*==== PROTECTED ========================================================*/
   protected:
     /*-----------------------------------------------------------------------*/
-    /*! \name    Constructors                                                */
-    /*! \{                                                                   */
-
-    DepthFirstAction(void);
-
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Events                                                      */
-    /*! \{                                                                   */
-
-    virtual void addExtendEvent     (ExtendActorBase *pActor,
-                                     UInt32           actorIndex);
-    virtual void subExtendEvent     (ExtendActorBase *pActor,
-                                     UInt32           actorIndex);
-
-    virtual void addBasicEvent      (BasicActorBase  *pActor,
-                                     UInt32           actorIndex);
-    virtual void subBasicEvent      (BasicActorBase  *pActor,
-                                     UInt32           actorIndex);
-
-    virtual void beginEditStateEvent(ActorBase       *pActor,
-                                     UInt32           actorId   );
-    virtual void endEditStateEvent  (ActorBase       *pActor,
-                                     UInt32           actorId   );
-
-    /*! \}                                                                   */
-    /*==== PRIVATE ==========================================================*/
-  private:
-    /*-----------------------------------------------------------------------*/
     /*! \name    Types                                                       */
     /*! \{                                                                   */
 
-    typedef NewActionBase Inherited;
-
-    class NodeStackEntry
-    {
-      public:
-        inline explicit NodeStackEntry(const NodePtr &pNode                );
-        inline explicit NodeStackEntry(const NodePtr &pNode, bool enterFlag);
-
-        inline NodePtr getNode     (      void              ) const;
-        inline void    setNode     (const NodePtr &pNode    );
-
-        inline bool    getEnterFlag(      void              ) const;
-        inline void    setEnterFlag(      bool     enterFlag);
-
-      private:
-        NodePtr _pNode;
-        bool    _enterFlag;
-    };
-
-    typedef std::deque<NodeStackEntry> NodeStack;
+    typedef ActorBase            Inherited;
+    typedef Inherited::StateType StateType;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Helper Methods                                              */
+    /*! \name    Constructor                                                 */
     /*! \{                                                                   */
 
-           ResultE traverseEnter     (      void                          );
-           ResultE traverseEnterLeave(      void                          );
-
-           void    pushChildren      (const NodePtr &pNode, ResultE result);
-
-    inline ResultE enterNode         (const NodePtr &pNode                );
-    inline ResultE leaveNode         (const NodePtr &pNode                );
+    BasicActorBase(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
+    /*! \name    Add, Sub and Find Helper                                    */
+    /*! \{                                                                   */
 
-    NodeStack        _nodeStack;
+    virtual UInt32 addHelper (      NewActionBase *pAction);
+    virtual void   subHelper (      NewActionBase *pAction);
+    virtual UInt32 findHelper(const NewActionBase *pAction);
 
-    ExtendActorStore _extendEnterActors;
-    ExtendActorStore _extendLeaveActors;
-
-    BasicActorStore  _basicEnterActors;
-    BasicActorStore  _basicLeaveActors;
+    /*! \}                                                                   */
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGDepthFirstAction.inl"
+#include "OSGBasicActorBase.inl"
 
-#define OSGDEPTHFIRSTACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstAction.h,v 1.2 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
 
-#endif /* _OSGDEPTHFIRSTACTION_H_ */
+#endif /* _OSGBASICACTORBASE_H_ */

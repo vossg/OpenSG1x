@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGACTIVECHILDRENLIST_H_
-#define _OSGACTIVECHILDRENLIST_H_
+#ifndef _OSGCHILDRENLIST_H_
+#define _OSGCHILDRENLIST_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,9 +46,11 @@
 #include <OSGSystemDef.h>
 #include "OSGNewActionTypes.h"
 
+#include <vector>
+
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING ActiveChildrenList
+class OSG_SYSTEMLIB_DLLMAPPING ChildrenList
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -57,70 +59,62 @@ class OSG_SYSTEMLIB_DLLMAPPING ActiveChildrenList
     /*! \{                                                                 */
 
     typedef NewActionTypes::PriorityType PriorityType;
-    typedef MFNodePtr::iterator          MFNodePtrIt;
-    typedef MFNodePtr::const_iterator    MFNodePtrConstIt;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name    Constructors                                              */
     /*! \{                                                                 */
 
-    inline  ActiveChildrenList(void                      );
-    inline  ActiveChildrenList(const NodePtr &pParentNode);
+    inline  ChildrenList(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name    Destructor                                                */
     /*! \{                                                                 */
 
-    inline ~ActiveChildrenList(void                      );
+    inline ~ChildrenList(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name    Parent Access                                             */
+    /*! \name    Parent                                                    */
     /*! \{                                                                 */
 
-    inline void    buildList    (void                      );
+    inline void    reset        (void                      );
 
     inline NodePtr getParentNode(void                      ) const;
     inline void    setParentNode(const NodePtr &pParentNode);
 
-    inline UInt32  getNumActive (void                      ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name    Child                                                     */
+    /*! \{                                                                 */
+
+    inline NodePtr      getChild   (UInt32       childIndex ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name    Children Active Access                                   */
+    /*! \name    Active                                                    */
     /*! \{                                                                 */
 
-    inline bool         getActive  (MFNodePtrConstIt itChild ) const;
-    inline bool         getActive  (UInt32           uiIndex ) const;
-    inline void         setActive  (MFNodePtrConstIt itChild,
-                                    bool             bActive );
-    inline void         setActive  (UInt32           uiIndex,
-                                    bool             bActive );
+    inline bool         getActive  (UInt32       childIndex ) const;
+    inline void         setActive  (UInt32       childIndex,
+                                    bool         active     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name    Children Priority Access                                  */
+    /*! \name    Priority                                                  */
     /*! \{                                                                 */
 
-    inline PriorityType getPriority(MFNodePtrConstIt itChild ) const;
-    inline PriorityType getPriority(UInt32           uiIndex ) const;
-    inline void         setPriority(MFNodePtrConstIt itChild,
-                                    PriorityType     priority);
-    inline void         setPriority(UInt32           uiIndex,
-                                    PriorityType     priority);
+    inline PriorityType getPriority(UInt32       childIndex ) const;
+    inline void         setPriority(UInt32       childIndex,
+                                    PriorityType prio       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name    Children Iterator Access                                  */
+    /*! \name    Misc                                                      */
     /*! \{                                                                 */
 
-    inline MFNodePtrConstIt beginChildren(void) const;
-    inline MFNodePtrIt      beginChildren(void);
-
-    inline MFNodePtrConstIt endChildren  (void) const;
-    inline MFNodePtrIt      endChildren  (void);
+    inline UInt32 getSize(void) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -132,36 +126,35 @@ class OSG_SYSTEMLIB_DLLMAPPING ActiveChildrenList
     class ChildrenListEntry
     {
       public:
-        inline ChildrenListEntry(void                               );
-        inline ChildrenListEntry(bool bActive, PriorityType priority);
+        inline ChildrenListEntry(void                          );
+        inline ChildrenListEntry(bool active, PriorityType prio);
 
-        inline bool         getActive  (void                 ) const;
-        inline void         setActive  (bool         bActive );
+        inline bool         getActive  (void               ) const;
+        inline void         setActive  (bool         active);
 
-        inline PriorityType getPriority(void                 ) const;
-        inline void         setPriority(PriorityType priority);
+        inline PriorityType getPriority(void               ) const;
+        inline void         setPriority(PriorityType prio  );
 
       private:
-        bool         _bActive;
+        bool         _active;
         PriorityType _priority;
     };
 
-    typedef std::vector<ChildrenListEntry> ChildrenList;
-    typedef ChildrenList::iterator         ChildrenListIt;
-    typedef ChildrenList::const_iterator   ChildrenListConstIt;
+    typedef std::vector<ChildrenListEntry>       InternalChildrenList;
+    typedef InternalChildrenList::iterator       InternalChildrenListIt;
+    typedef InternalChildrenList::const_iterator InternalChildrenListConstIt;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 
-    NodePtr      _pParentNode;
-    UInt32       _uiNumActive;
-    ChildrenList _children;
+    NodePtr              _pParentNode;
+    InternalChildrenList _childrenList;
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGActiveChildrenList.inl"
+#include "OSGChildrenList.inl"
 
-#define OSGACTIVECHILDRENLIST_HEADER_CVSID "@(#)$Id: OSGActiveChildrenList.h,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGCHILDRENLIST_HEADER_CVSID "@(#)$Id: OSGChildrenList.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
 
-#endif /* _OSGACTIVECHILDRENLIST_H_ */
+#endif /* _OSGCHILDRENLIST_H_ */

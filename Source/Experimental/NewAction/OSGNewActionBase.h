@@ -36,26 +36,31 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGACTORBASE_H_
-#define _OSGACTORBASE_H_
+#ifndef _OSGNEWACTIONBASE_H_
+#define _OSGNEWACTIONBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
+#include <OSGStatCollector.h>
+#include <OSGStatElemTypes.h>
 
-#include "OSGNewActionTypes.h"
+#include "OSGChildrenList.h"
+#include "OSGExtraChildrenList.h"
 
 OSG_BEGIN_NAMESPACE
 
-class NewActionBase;
+class ActorBase;
+class ExtendActorBase;
+class BasicActorBase;
 
-/*! \brief Actor base class. See \ref PageExperimentalNewActionActorBase
- *  for a description.
- */
-
-class OSG_SYSTEMLIB_DLLMAPPING ActorBase
+class OSG_SYSTEMLIB_DLLMAPPING NewActionBase
 {
     /*==== PUBLIC ===========================================================*/
   public:
@@ -65,84 +70,77 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
 
     typedef NewActionTypes::ResultE      ResultE;
     typedef NewActionTypes::PriorityType PriorityType;
-    typedef NewActionTypes::Functor      Functor;
 
-    class ActorBaseState
-    {
-      public:
-        inline ActorBaseState(void                        );
-        inline ActorBaseState(const ActorBaseState &source);
+#ifdef OSG_NEWACTION_STATISTICS
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Statistics                                                  */
+    /*! \{                                                                   */
 
-        virtual ~ActorBaseState(void) = 0;
-    };
+    static StatElemDesc<StatIntElem> statNodesEnter;
+    static StatElemDesc<StatIntElem> statNodesLeave;
+
+    inline const StatCollector *getStatistics(void                      ) const;
+    inline       StatCollector *getStatistics(void                      );
+    inline       void           setStatistics(StatCollector *pStatistics);
+
+#endif /* OSG_NEWACTION_STATISTICS */
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Destructor                                                  */
     /*! \{                                                                   */
 
-    virtual ~ActorBase(void) = 0;
+    virtual ~NewActionBase(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Start/Stop                                                  */
+    /*! \name    Apply                                                       */
     /*! \{                                                                   */
 
-    virtual ResultE start(void) = 0;
-    virtual ResultE stop (void) = 0;
+    virtual ResultE apply(NodePtr pRoot) = 0;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Enter/Leave                                                 */
+    /*! \name    Generic Actor Management                                    */
     /*! \{                                                                   */
 
-    virtual ResultE enterNode(const NodePtr &pNode) = 0;
-    virtual ResultE leaveNode(const NodePtr &pNode) = 0;
+    UInt32 addActor          (ActorBase       *pActor );
+    void   subActor          (ActorBase       *pActor );
+    UInt32 findActor         (ActorBase       *pActor ) const;
+    UInt32 getNumActors      (void                    ) const;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Config                                                      */
+    /*! \name    Extend Actor Management                                     */
     /*! \{                                                                   */
 
-    inline bool getEnterNodeFlag(void) const;
-    inline bool getLeaveNodeFlag(void) const;
-
-    inline void setEnterNodeFlag(bool enter);
-    inline void setLeaveNodeFlag(bool leave);
+    UInt32 addExtendActor    (ExtendActorBase *pActor );
+    UInt32 addExtendActor    (ExtendActorBase *pActor,
+                              UInt32            pos   );
+    void   subExtendActor    (UInt32            pos   );
+    UInt32 findExtendActor   (ExtendActorBase *pActor ) const;
+    UInt32 getNumExtendActors(void                    ) const;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Action Access                                               */
+    /*! \name    Basic Actor Management                                      */
     /*! \{                                                                   */
 
-    inline const NewActionBase *getAction (void) const;
-    inline       NewActionBase *getAction (void);
-
-    inline       UInt32         getActorId(void) const;
+    UInt32 addBasicActor     (BasicActorBase  *pActor );
+    UInt32 addBasicActor     (BasicActorBase  *pActor,
+                              UInt32           pos    );
+    void   subBasicActor     (UInt32           pos    );
+    UInt32 findBasicActor    (BasicActorBase  *pActor ) const;
+    UInt32 getNumBasicActors (void                    ) const;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    State Managment                                             */
+    /*! \name    Traversal Mask                                              */
     /*! \{                                                                   */
 
-#ifdef OSG_NEWACTION_STATESLOTINTERFACE
-    virtual UInt32          createStateClone  (void                       ) = 0;
-    virtual void            destroyStateClone (UInt32          slotId     ) = 0;
-#else
-    virtual ActorBaseState *createStateClone  (void                       ) = 0;
-    virtual void            destroyStateClone (ActorBaseState *pStateClone) = 0;
-#endif
-
-    virtual void            createInitialState(void                       ) = 0;
-    virtual void            deleteInitialState(void                       ) = 0;
-
-    inline        void            beginEditState(void                  );
-    inline        void            endEditState  (void                  );
-
-    inline  const ActorBaseState *getState      (void                  ) const;
-    inline        ActorBaseState *getState      (void                  );
-
-    inline        void            setState      (ActorBaseState *pState);
+    inline UInt32 getTravMask (void           ) const;
+    inline void   setTravMask (UInt32 travMask);
 
     /*! \}                                                                   */
     /*==== PROTECTED ========================================================*/
@@ -151,66 +149,108 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
     /*! \name    Types                                                       */
     /*! \{                                                                   */
 
-    typedef ActorBaseState                StateType;
+    typedef std::vector<ExtendActorBase *>   ExtendActorStore;
+    typedef ExtendActorStore::iterator       ExtendActorStoreIt;
+    typedef ExtendActorStore::const_iterator ExtendActorStoreConstIt;
 
-#ifdef OSG_NEWACTION_STATESLOTINTERFACE
-    typedef std::vector<ActorBaseState *> StateSlotMap;
-
-    inline const StateSlotMap &getSlotMap(void) const;
-    inline       StateSlotMap &getSlotMap(void);
-#endif
+    typedef std::vector<BasicActorBase  *>   BasicActorStore;
+    typedef BasicActorStore::iterator        BasicActorStoreIt;
+    typedef BasicActorStore::const_iterator  BasicActorStoreConstIt;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Friends                                                     */
     /*! \{                                                                   */
 
-    friend class OSG::NewActionBase;
+    friend class OSG::ActorBase;
+    friend class OSG::ExtendActorBase;
+    friend class OSG::BasicActorBase;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Constructor                                                 */
     /*! \{                                                                   */
 
-    ActorBase(void);
+    NewActionBase(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Add, Sub and Find Helper                                    */
+    /*! \name    Events                                                      */
     /*! \{                                                                   */
 
-    virtual UInt32 addHelper (      NewActionBase *pAction) = 0;
-    virtual void   subHelper (      NewActionBase *pAction) = 0;
-    virtual UInt32 findHelper(const NewActionBase *pAction) = 0;
+    virtual void addExtendEvent    (ExtendActorBase   *pActor,
+                                    UInt32             actorIndex) = 0;
+    virtual void subExtendEvent    (ExtendActorBase   *pActor,
+                                    UInt32             actorIndex) = 0;
+
+    virtual void addBasicEvent     (BasicActorBase    *pActor,
+                                    UInt32             actorIndex) = 0;
+    virtual void subBasicEvent     (BasicActorBase    *pActor,
+                                    UInt32             actorIndex) = 0;
+
+    virtual void startEvent         (void                        );
+    virtual void stopEvent          (void                        );
+
+    virtual void beginEditStateEvent(ActorBase        *pActor,
+                                     UInt32            actorId   ) = 0;
+    virtual void endEditStateEvent  (ActorBase        *pActor,
+                                     UInt32            actorId   ) = 0;
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    Event Notification                                          */
+    /*! \name    ChildrenList/ExtraChildrenList Access                       */
     /*! \{                                                                   */
 
-    virtual void addEvent(NewActionBase *pAction, UInt32 actorId);
-    virtual void subEvent(NewActionBase *pAction, UInt32 actorId);
+    inline       bool               getChildrenListEnabled(void        ) const;
+    inline       void               setChildrenListEnabled(bool enabled);
+
+    inline const ChildrenList      &getChildrenList       (void        ) const;
+    inline       ChildrenList      &getChildrenList       (void        );
+
+    inline const ExtraChildrenList &getExtraChildrenList  (void        ) const;
+    inline       ExtraChildrenList &getExtraChildrenList  (void        );
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Actor Access                                                */
+    /*! \{                                                                   */
+
+    inline ExtendActorStoreConstIt beginExtend(void) const;
+    inline ExtendActorStoreIt      beginExtend(void);
+    inline ExtendActorStoreConstIt endExtend  (void) const;
+    inline ExtendActorStoreIt      endExtend  (void);
+
+    inline BasicActorStoreConstIt  beginBasic (void) const;
+    inline BasicActorStoreIt       beginBasic (void);
+    inline BasicActorStoreConstIt  endBasic   (void) const;
+    inline BasicActorStoreIt       endBasic   (void);
+
+           ResultE                 startActors(void);
+           ResultE                 stopActors (void);
 
     /*! \}                                                                   */
     /*==== PRIVATE ==========================================================*/
   private:
-    NewActionBase  *_pAction;
-    UInt32          _actorId;
+    ExtendActorStore   _extendActors;
+    BasicActorStore    _basicActors;
 
-    bool            _enterNodeFlag;
-    bool            _leaveNodeFlag;
+#ifdef OSG_NEWACTION_STATISTICS
+    StatCollector     *_pStatistics;
+    bool               _ownStatistics;
+#endif /* OSG_NEWACTION_STATISTICS */
 
-#ifdef OSG_NEWACTION_STATESLOTINTERFACE
-    StateSlotMap    _stateSlotMap;
-#endif
+    UInt32             _travMask;
 
-    ActorBaseState *_pState;
+    bool               _childrenListEnabled;
+    ChildrenList       _childrenList;
+
+    ExtraChildrenList  _extraChildrenList;
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGActorBase.inl"
+#include "OSGNewActionBase.inl"
 
-#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.4 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGNEWACTIONBASE_HEADER_CVSID "@(#)$Id: OSGNewActionBase.h,v 1.4 2004/09/10 15:00:46 neumannc Exp $"
 
-#endif /* _OSGACTORBASE_H_ */
+#endif /* _OSGNEWACTIONBASE_H_ */

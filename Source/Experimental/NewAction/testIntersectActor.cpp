@@ -6,6 +6,7 @@
 
 // New Action Stuff
 #include <OSGDepthFirstAction.h>
+#include <OSGDepthFirstStateAction.h>
 #include <OSGPriorityAction.h>
 
 #include <OSGIntersectActor.h>
@@ -17,6 +18,7 @@
 
 // Scenegraph components
 #include <OSGGroup.h>
+#include <OSGSwitch.h>
 #include <OSGTransform.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGSimpleMaterial.h>
@@ -28,54 +30,52 @@
 #include <OSGSimpleSceneManager.h>
 
 // Misc
+#include <OSGStatCollector.h>
 #include <OSGTime.h>
 
 // STL
 #include <vector>
 
+#define SCENE_DEPTH 6
+#define RAY_COUNT   5000
+#define X_SIZE      20.0
+#define Y_SIZE      20.0
+#define Z_SIZE      20.0
+
+
 OSG_USING_NAMESPACE
 
-struct RayData
+struct IntersectResult
 {
-    Line    _ray;
     bool    _hit;
     NodePtr _pObj;
     Int32   _tri;
     Real32  _dist;
+
+    Time    _time;
 };
 
 SimpleSceneManager   *mgr;
 GeoPositions3fPtr     pPoints;
-std::vector<RayData>  testRaysNew;
-std::vector<RayData>  testRaysOld;
-UInt32                uiCurrentRay = 0;
-Real32                rayLength    = 10.0;
 
-UInt32                uiVisitedNodes;
-std::vector<UInt32>   visitedNodesHistory;
+std::vector<Line>            testRays;
 
-int     setupGLUT(int *argc, char *argv[]);
+std::vector<IntersectResult> resultsDF;
+std::vector<IntersectResult> resultsDFS;
+std::vector<IntersectResult> resultsP;
+std::vector<IntersectResult> resultsO;
 
-void buildScene(Real32 xSize, Real32 ySize, Real32 zSize, NodePtr pRoot,
-                UInt32 depth                                            );
+UInt32 uiNumRays    = RAY_COUNT;
+UInt32 uiCurrentRay = 0;
+Real32 rayLength    = 10.0;
 
-void createRays(Real32 xSize, Real32 ySize, Real32 zSize,
-                UInt32 uiNumRays,
-                std::vector<RayData> *newRays,
-                std::vector<RayData> *oldRays            );
+
+int  setupGLUT(int *argc, char *argv[]);
+
+NodePtr buildGraph(void                                     );
+void    createRays(UInt32 uiNumRays, std::vector<Line> &rays);
 
 // Intersect callbacks
-
-#if 0 // Moved these to the respective cores.
-NewActionTypes::ResultE
-enterTransform(NodeCorePtr pNodeCore, ActorBase *pActor);
-
-NewActionTypes::ResultE
-leaveTransform(NodeCorePtr pNodeCore, ActorBase *pActor);
-
-NewActionTypes::ResultE
-enterGeometry(NodeCorePtr pNodeCore, ActorBase *pActor);
-#endif
 
 NewActionTypes::ResultE
 enterDefault(NodeCorePtr pNodeCore, ActorBase *pActor);
@@ -101,34 +101,27 @@ int main(int argc, char *argv[])
     NodePtr  pRoot      = Node ::create();
     GroupPtr pRootCore  = Group::create();
     NodePtr  pRayGeo    = Node ::create();
-    NodePtr  pScene     = Node ::create();
+    NodePtr  pScene     = buildGraph();
     GroupPtr pSceneCore = Group::create();
-
-    UInt32   uiDepth    = 3;
-    UInt32   uiNumRays  = 2000;
-    UInt32   uiProgress = uiNumRays / 10;
-
-    Real32   xSize      = 10.0;
-    Real32   ySize      = 10.0;
-    Real32   zSize      = 15.0;
 
     Time     tStart;
     Time     tStop;
-    Time     tNewActionTotal = 0.0;
-    Time     tOldActionTotal = 0.0;
+    Time     tDFTotal  = 0.0;
+    Time     tDFSTotal = 0.0;
+    Time     tPTotal   = 0.0;
+    Time     tOTotal   = 0.0;
+
+    StatCollector statP;
+    StatCollector statDF;
+    StatCollector statDFS;
 
     beginEditCP(pRoot, Node::CoreFieldId | Node::ChildrenFieldId);
-    pRoot->setCore (pRootCore);
-    pRoot->addChild(pScene   );
-    pRoot->addChild(pRayGeo  );
+    pRoot->setCore (pRootCore   );
+    pRoot->addChild(pScene      );
+    pRoot->addChild(pRayGeo     );
     endEditCP  (pRoot, Node::CoreFieldId | Node::ChildrenFieldId);
 
-    beginEditCP(pScene, Node::CoreFieldId);
-    pScene->setCore(pSceneCore);
-    endEditCP  (pScene, Node::CoreFieldId);
-
-    buildScene(xSize, ySize, zSize, pScene,     uiDepth                  );
-    createRays(xSize, ySize, zSize, uiNumRays, &testRaysNew, &testRaysOld);
+    createRays(uiNumRays, testRays);
 
     // build the geometry to visualize the rays
     pPoints = GeoPositions3f::create();
@@ -189,42 +182,29 @@ int main(int argc, char *argv[])
     pRayGeo->setCore(pRayGeoCore);
     endEditCP  (pRayGeo, Node::CoreFieldId);
 
-#if 0 // Moved these to the respective cores.
-    // NewAction setup
-    IntersectActor::regClassEnter(
-        osgTypedFunctionFunctor2CPtr<NewActionTypes::ResultE,
-                                     NodeCorePtr,
-                                     ActorBase *             >(enterTransform),
-        Transform::getClassType());
-
-    IntersectActor::regClassLeave(
-        osgTypedFunctionFunctor2CPtr<NewActionTypes::ResultE,
-                                     NodeCorePtr,
-                                     ActorBase *             >(leaveTransform),
-        Transform::getClassType());
-
-    IntersectActor::regClassEnter(
-        osgTypedFunctionFunctor2CPtr<NewActionTypes::ResultE,
-                                     NodeCorePtr,
-                                     ActorBase *             >(enterGeometry),
-        Geometry::getClassType());
-#endif
-
     IntersectActor::regDefaultClassEnter(
         osgTypedFunctionFunctor2CPtr<NewActionTypes::ResultE,
                                      NodeCorePtr,
                                      ActorBase *             >(enterDefault));
 
 
-    NewAction      *pDFAction = DepthFirstAction::create();
-    NewAction      *pPAction  = PriorityAction  ::create();
-    IntersectActor *pIActor   = IntersectActor  ::create();
+    NewActionBase  *pDFAction  = DepthFirstAction     ::create();
+    NewActionBase  *pDFSAction = DepthFirstStateAction::create();
+    NewActionBase  *pPAction   = PriorityAction       ::create();
+    IntersectActor *pIActorDF  = IntersectActor       ::create();
+    IntersectActor *pIActorDFS = IntersectActor       ::create();
+    IntersectActor *pIActorP   = IntersectActor       ::create();
 
-    pIActor->setApplyEnter(true);
-    pIActor->setApplyLeave(true);
+    pDFAction ->setStatistics(&statDF );
+    pDFSAction->setStatistics(&statDFS);
+    pPAction  ->setStatistics(&statP  );
 
-    //pDFAction->attachActor(pIActor);
-    pPAction->attachActor(pIActor);
+    // IntersectActor with DFS-Action does not need leave calls
+    pIActorDFS->setLeaveNodeFlag(false);
+
+    pDFAction ->addActor(pIActorDF );
+    pDFSAction->addActor(pIActorDFS);
+    pPAction  ->addActor(pIActorP  );
 
     // create old action
     IntersectAction *pIntAction = IntersectAction ::create();
@@ -232,158 +212,307 @@ int main(int argc, char *argv[])
     // make sure bv are up to date
     pScene->updateVolume();
 
-    //
-    // New Action
-    //
 
-    SINFO << "Running New Action ";
+    SINFO << "-=< Intersect >=-" << endLog;
 
-    std::vector<RayData>::iterator itTestRays  = testRaysNew.begin();
-    std::vector<RayData>::iterator endTestRays = testRaysNew.end  ();
+    std::vector<Line>::iterator itRays  = testRays.begin();
+    std::vector<Line>::iterator endRays = testRays.end  ();
 
-    for(UInt32 i = 0; itTestRays != endTestRays; ++itTestRays, ++i)
+    for(; itRays != endRays; ++itRays)
     {
-        uiVisitedNodes = 0;
+        // DepthFirst
 
         tStart = getSystemTime();
 
-        pIActor->setRay        (itTestRays->_ray);
-        pIActor->setMaxDistance(100000.0        );
-        pIActor->reset         (                );
+        pIActorDF->setRay        (*itRays);
+        pIActorDF->setMaxDistance(10000.0);
+        pIActorDF->reset         (       );
 
-        //pDFAction->apply(pScene);
+        pDFAction->apply(pScene);
+
+        tStop            =  getSystemTime();
+        tDFTotal += (tStop - tStart);
+
+        if(pIActorDF->getHit() == true)
+        {
+            IntersectResult result;
+
+            result._hit  = true;
+            result._pObj = pIActorDF->getHitObject       ();
+            result._tri  = pIActorDF->getHitTriangleIndex();
+            result._dist = pIActorDF->getHitDistance     ();
+            result._time = (tStop - tStart);
+
+            resultsDF.push_back(result);
+        }
+        else
+        {
+            IntersectResult result;
+
+            result._hit  = false;
+            result._pObj = NullFC;
+            result._tri  = -1;
+            result._dist = 0.0;
+            result._time = (tStop - tStart);
+
+            resultsDF.push_back(result);
+        }
+
+        std::string strStatDF;
+        statDF.putToString(strStatDF);
+
+        //SINFO << "stat DF:  " << strStatDF << endLog;
+
+        // Depth First State
+
+        tStart = getSystemTime();
+
+        pIActorDFS->setRay        (*itRays);
+        pIActorDFS->setMaxDistance(10000.0);
+        pIActorDFS->reset         (       );
+
+        pDFSAction->apply(pScene);
+
+        tStop     =  getSystemTime();
+        tDFSTotal += (tStop - tStart);
+
+        if(pIActorDFS->getHit() == true)
+        {
+            IntersectResult result;
+
+            result._hit  = true;
+            result._pObj = pIActorDFS->getHitObject       ();
+            result._tri  = pIActorDFS->getHitTriangleIndex();
+            result._dist = pIActorDFS->getHitDistance     ();
+            result._time = (tStop - tStart);
+
+            resultsDFS.push_back(result);
+        }
+        else
+        {
+            IntersectResult result;
+
+            result._hit  = false;
+            result._pObj = NullFC;
+            result._tri  = -1;
+            result._dist = 0.0;
+            result._time = (tStop - tStart);
+
+            resultsDFS.push_back(result);
+        }
+
+        std::string strStatDFS;
+        statDFS.putToString(strStatDFS);
+
+        //SINFO << "stat DFS: " << strStatDFS << endLog;
+
+        // Priority
+
+        tStart = getSystemTime();
+
+        pIActorP->setRay        (*itRays);
+        pIActorP->setMaxDistance(10000.0);
+        pIActorP->reset         (       );
+
         pPAction->apply(pScene);
 
-        tStop = getSystemTime();
+        tStop          =  getSystemTime();
+        tPTotal += (tStop - tStart);
 
-        tNewActionTotal += (tStop - tStart);
-
-        if(pIActor->getHit() == true)
+        if(pIActorP->getHit() == true)
         {
-            itTestRays->_hit  = true;
-            itTestRays->_pObj = pIActor->getHitObject       ();
-            itTestRays->_tri  = pIActor->getHitTriangleIndex();
-            itTestRays->_dist = pIActor->getHitDistance     ();
+            IntersectResult result;
+
+            result._hit  = true;
+            result._pObj = pIActorP->getHitObject       ();
+            result._tri  = pIActorP->getHitTriangleIndex();
+            result._dist = pIActorP->getHitDistance     ();
+            result._time = (tStop - tStart);
+
+            resultsP.push_back(result);
         }
         else
         {
-            itTestRays->_hit  = false;
-            itTestRays->_pObj = NullFC;
-            itTestRays->_tri  = -1;
-            itTestRays->_dist =  0;
+            IntersectResult result;
+
+            result._hit  = false;
+            result._pObj = NullFC;
+            result._tri  = -1;
+            result._dist = 0.0;
+            result._time = (tStop - tStart);
+
+            resultsP.push_back(result);
         }
 
-        visitedNodesHistory.push_back(uiVisitedNodes);
+        std::string strStatP;
+        statP.putToString(strStatP);
 
-        if((i % uiProgress) == 0)
-        {
-            PINFO << ".";
-        }
-    }
+        //SINFO << "stat P:   " << strStatP << endLog;
 
-    SINFO << "done." << endLog;
+        // Old
 
-    itTestRays  = testRaysNew.begin();
-    endTestRays = testRaysNew.end  ();
-
-    SINFO << "\n"                            << endLog;
-    SINFO << " <<-- New Action Results -->>" << endLog;
-
-    for(UInt32 i = 0; itTestRays != endTestRays; ++itTestRays, ++i)
-    {
-        if(itTestRays->_hit == true)
-        {
-            SINFO << "HIT  (" << i                 << ") "
-                  << "vis Nodes: " << visitedNodesHistory[i] << " "
-                  << "dist: " << itTestRays->_dist << "  "
-                  << "tri: "  << itTestRays->_tri  << " NAME: ";
-
-            if(getName(itTestRays->_pObj->getCore()) != NULL)
-                PINFO << getName(itTestRays->_pObj->getCore());
-
-            PINFO << endLog;
-        }
-        else
-        {
-            SINFO << "MISS (" << i << ")"
-                  << " vis Nodes " << visitedNodesHistory[i] << endLog;
-        }
-    }
-
-    //
-    // Old Action
-    //
-
-    SINFO << "Running Old Action ";
-
-    itTestRays  = testRaysOld.begin();
-    endTestRays = testRaysOld.end  ();
-
-    for(UInt32 i = 0; itTestRays != endTestRays; ++itTestRays, ++i)
-    {
         tStart = getSystemTime();
 
-        pIntAction->setLine(itTestRays->_ray, 100000);
+        pIntAction->setLine(*itRays, 100000);
+        pIntAction->apply  (pScene         );
 
-        pIntAction->apply(pScene);
-
-        tStop = getSystemTime();
-
-        tOldActionTotal += (tStop - tStart);
+        tStop     =  getSystemTime();
+        tOTotal += (tStop - tStart);
 
         if(pIntAction->didHit() == true)
         {
-            itTestRays->_hit  = true;
-            itTestRays->_pObj = pIntAction->getHitObject  ();
-            itTestRays->_tri  = pIntAction->getHitTriangle();
-            itTestRays->_dist = pIntAction->getHitT       ();
+            IntersectResult result;
+
+            result._hit  = true;
+            result._pObj = pIntAction->getHitObject  ();
+            result._tri  = pIntAction->getHitTriangle();
+            result._dist = pIntAction->getHitT       ();
+            result._time = (tStop - tStart);
+
+            resultsO.push_back(result);
         }
         else
         {
-            itTestRays->_hit  = false;
-            itTestRays->_pObj = NullFC;
-            itTestRays->_tri  = -1;
-            itTestRays->_dist =  0;
-        }
+            IntersectResult result;
 
-        if((i % uiProgress) == 0)
-        {
-            PINFO << ".";
+            result._hit  = false;
+            result._pObj = NullFC;
+            result._tri  = -1;
+            result._dist = 0.0;
+            result._time = (tStop - tStart);
+
+            resultsO.push_back(result);
         }
     }
 
-    SINFO << "done." << endLog;
+    UInt32 DFwins      = 0;
+    UInt32 DFwinsHit   = 0;
+    UInt32 DFwinsMiss  = 0;
 
-    itTestRays  = testRaysOld.begin();
-    endTestRays = testRaysOld.end  ();
+    UInt32 DFSwins     = 0;
+    UInt32 DFSwinsHit  = 0;
+    UInt32 DFSwinsMiss = 0;
 
-    SINFO << "\n"                            << endLog;
-    SINFO << " <<-- Old Action Results -->>" << endLog;
+    UInt32 Pwins       = 0;
+    UInt32 PwinsHit    = 0;
+    UInt32 PwinsMiss   = 0;
 
-    for(UInt32 i = 0; itTestRays != endTestRays; ++itTestRays, ++i)
+    UInt32 Owins       = 0;
+    UInt32 OwinsHit    = 0;
+    UInt32 OwinsMiss   = 0;
+
+    UInt32 failCount   = 0;
+    UInt32 passCount   = 0;
+    UInt32 hitCount    = 0;
+    UInt32 missCount   = 0;
+
+    for(UInt32 i = 0; i < uiNumRays; ++i)
     {
-        if(itTestRays->_hit == true)
+        bool DFfastest  = ((resultsDF [i]._time <= resultsDFS[i]._time) &&
+                           (resultsDF [i]._time <= resultsP  [i]._time) &&
+                           (resultsDF [i]._time <= resultsO  [i]._time)   );
+        bool DFSfastest = ((resultsDFS[i]._time <= resultsDF [i]._time) &&
+                           (resultsDFS[i]._time <= resultsP  [i]._time) &&
+                           (resultsDFS[i]._time <= resultsO  [i]._time)   );
+        bool Pfastest   = ((resultsP  [i]._time <= resultsDF [i]._time) &&
+                           (resultsP  [i]._time <= resultsDFS[i]._time) &&
+                           (resultsP  [i]._time <= resultsO  [i]._time)   );
+        bool Ofastest   = ((resultsO  [i]._time <= resultsDF [i]._time) &&
+                           (resultsO  [i]._time <= resultsDFS[i]._time) &&
+                           (resultsO  [i]._time <= resultsP  [i]._time)   );
+
+        if((resultsDF [i]._hit == resultsDFS[i]._hit) &&
+           (resultsDFS[i]._hit == resultsP  [i]._hit) &&
+           (resultsP  [i]._hit == resultsO  [i]._hit)    )
         {
-            SINFO << "HIT  (" << i                 << ") "
-                  << "dist: " << itTestRays->_dist << "  "
-                  << "tri: "  << itTestRays->_tri  << " NAME: ";
+            if((osgabs(resultsDF [i]._dist - resultsDFS[i]._dist) >= 0.001) ||
+               (osgabs(resultsDFS[i]._dist - resultsP  [i]._dist) >= 0.001) ||
+               (osgabs(resultsP  [i]._dist - resultsO  [i]._dist) >= 0.001) ||
+               (osgabs(resultsO  [i]._dist - resultsDF [i]._dist) >= 0.001)   )
+            {
+                ++failCount;
 
-            if(getName(itTestRays->_pObj->getCore()) != NULL)
-                PINFO << getName(itTestRays->_pObj->getCore());
+                SINFO << "FAIL: df: " << resultsDF [i]._dist
+                      << " dfs: "     << resultsDFS[i]._dist
+                      << " p: "       << resultsP  [i]._dist
+                      << " o: "       << resultsO  [i]._dist
+                      << endLog;
+                SINFO << "FAIL: df: " << resultsDF [i]._tri
+                      << " dfs: "     << resultsDFS[i]._tri
+                      << " p: "       << resultsP  [i]._tri
+                      << " o: "       << resultsO  [i]._tri
+                      << endLog;
+            }
+            else
+            {
+                ++passCount;
+            }
 
-            PINFO << endLog;
+            if(resultsDF[i]._hit == true)
+            {
+                ++hitCount;
+
+                DFwinsHit  = DFfastest  ? DFwinsHit  + 1 : DFwinsHit;
+                DFSwinsHit = DFSfastest ? DFSwinsHit + 1 : DFSwinsHit;
+                PwinsHit   = Pfastest   ? PwinsHit   + 1 : PwinsHit;
+                OwinsHit   = Ofastest   ? OwinsHit   + 1 : OwinsHit;
+            }
+            else
+            {
+                ++missCount;
+
+                DFwinsMiss  = DFfastest  ? DFwinsMiss  + 1 : DFwinsMiss;
+                DFSwinsMiss = DFSfastest ? DFSwinsMiss + 1 : DFSwinsMiss;
+                PwinsMiss   = Pfastest   ? PwinsMiss   + 1 : PwinsMiss;
+                OwinsMiss   = Ofastest   ? OwinsMiss   + 1 : OwinsMiss;
+            }
+
+            DFwins  = DFfastest  ? DFwins  + 1 : DFwins;
+            DFSwins = DFSfastest ? DFSwins + 1 : DFSwins;
+            Pwins   = Pfastest   ? Pwins   + 1 : Pwins;
+            Owins   = Ofastest   ? Owins   + 1 : Owins;
         }
         else
         {
-            SINFO << "MISS (" << i << ")" << endLog;
+            ++failCount;
         }
+
+        //SINFO << i << " \t" << (DFfastest  ? "D ->" : "    ") << " hit: " << resultsDF [i]._hit << " time: " << resultsDF [i]._time << endLog;
+        //SINFO << "  \t"     << (DFSfastest ? "S ->" : "    ") << " hit: " << resultsDFS[i]._hit << " time: " << resultsDFS[i]._time << endLog;
+        //SINFO << "  \t"     << (Pfastest   ? "P ->" : "    ") << " hit: " << resultsP  [i]._hit << " time: " << resultsP  [i]._time << endLog;
+        //SINFO << "  \t"     << (Ofastest   ? "O ->" : "    ") << " hit: " << resultsO  [i]._hit << " time: " << resultsO  [i]._time << endLog;
     }
 
-    SINFO << "Total Time New: " << tNewActionTotal << endLog;
-    SINFO << "Total Time Old: " << tOldActionTotal << endLog;
+    SINFO << " df total:  " << tDFTotal
+          << " wins: "         << DFwins     << " (" << (static_cast<Real32>(DFwins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
+          << " wins on hit: "  << DFwinsHit  << " (" << (static_cast<Real32>(DFwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
+          << " wins on miss: " << DFwinsMiss << " (" << (static_cast<Real32>(DFwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
+          << endLog;
+
+    SINFO << " dfs total: " << tDFSTotal
+          << " wins: "         << DFSwins     << " (" << (static_cast<Real32>(DFSwins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
+          << " wins on hit: "  << DFSwinsHit  << " (" << (static_cast<Real32>(DFSwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
+          << " wins on miss: " << DFSwinsMiss << " (" << (static_cast<Real32>(DFSwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
+          << endLog;
+
+    SINFO << " p total:   " << tPTotal
+          << " wins: "         << Pwins     << " (" << (static_cast<Real32>(Pwins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
+          << " wins on hit: "  << PwinsHit  << " (" << (static_cast<Real32>(PwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
+          << " wins on miss: " << PwinsMiss << " (" << (static_cast<Real32>(PwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
+          << endLog;
+
+    SINFO << " o total:   " << tOTotal
+          << " wins: "         << Owins     << " (" << (static_cast<Real32>(Owins)     / static_cast<Real32>(passCount)) * 100.0 << "%)\t"
+          << " wins on hit: "  << OwinsHit  << " (" << (static_cast<Real32>(OwinsHit)  / static_cast<Real32>(hitCount )) * 100.0 << "%)\t"
+          << " wins on miss: " << OwinsMiss << " (" << (static_cast<Real32>(OwinsMiss) / static_cast<Real32>(missCount)) * 100.0 << "%)"
+          << endLog;
+
+    SINFO << "pass: " << passCount << " fail: " << failCount
+          << " hit: " << hitCount  << " miss: " << missCount << endLog;
 
     osgLogP->setLogLevel(LOG_NOTICE);
 
+#if 0
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
@@ -396,209 +525,124 @@ int main(int argc, char *argv[])
 
     // GLUT main loop
     glutMainLoop();
+#endif
+
 
     return 0;
 }
 
+NodePtr
+buildGraphRecurse(UInt32 depth, UInt32 maxDepth, GeometryPtr pGeo);
 
-void buildScene(Real32 xSize, Real32 ySize, Real32 zSize, NodePtr pRoot,
-                UInt32 depth                                            )
+NodePtr
+buildGraph(void)
 {
-    SINFO << "buildScene( " << xSize << ", " << ySize << ", " << zSize
-          << ", "
-          << ((getName(pRoot->getCore()) != NULL) ?
-                        getName(pRoot->getCore()) :
-                        "(unnamed)")
-          << ", " << depth << ")" << endLog;
+    GeometryPtr pGeo = makeBoxGeo(0.08 * X_SIZE * (1.0 / (SCENE_DEPTH + 1.0)),
+                                  0.08 * Y_SIZE * (1.0 / (SCENE_DEPTH + 1.0)),
+                                  0.08 * Z_SIZE * (1.0 / (SCENE_DEPTH + 1.0)),
+                                  1, 1, 1                                    );
 
-    NodePtr     pGroup     = Node ::create();
-    GroupPtr    pGroupCore = Group::create();
-    std::string strGroupName;
-    Pnt3f       geoPos[12];
+    return buildGraphRecurse(0, SCENE_DEPTH, pGeo);
+}
 
-    geoPos[ 0][0] =  0.0         + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 0][1] = -0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 0][2] = -0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 1][0] =  0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 1][1] =  0.0         + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 1][2] = -0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 2][0] =  0.0         + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 2][1] = +0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 2][2] = -0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 3][0] = -0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 3][1] =  0.0         + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 3][2] = -0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 4][0] = -0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 4][1] = -0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 4][2] =  0.0         + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 5][0] =  0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 5][1] = -0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 5][2] =  0.0         + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 6][0] =  0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 6][1] =  0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 6][2] =  0.0         + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 7][0] = -0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 7][1] =  0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 7][2] =  0.0         + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 8][0] =  0.0         + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 8][1] = -0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 8][2] =  0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[ 9][0] =  0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[ 9][1] =  0.0         + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[ 9][2] =  0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[10][0] =  0.0         + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[10][1] = +0.5 * ySize + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[10][2] =  0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    geoPos[11][0] = -0.5 * xSize + 0.25 * xSize * (osgrand() - 0.5);
-    geoPos[11][1] =  0.0         + 0.25 * ySize * (osgrand() - 0.5);
-    geoPos[11][2] =  0.5 * zSize + 0.25 * zSize * (osgrand() - 0.5);
-
-    if(getName(pRoot->getCore()) != NULL)
+NodePtr
+buildGraphRecurse(UInt32 depth, UInt32 maxDepth, GeometryPtr pGeo)
+{
+    if(depth == maxDepth)
     {
-        strGroupName += getName(pRoot->getCore());
+        NodePtr pNodeGeo = Node::create();
+
+        beginEditCP(pNodeGeo, Node::CoreFieldId);
+        pNodeGeo->setCore(pGeo);
+        endEditCP  (pNodeGeo, Node::CoreFieldId);
+
+        return pNodeGeo;
     }
-
-    strGroupName += " -> Group ";
-
-    beginEditCP(pGroup, Node::CoreFieldId | Node::ChildrenFieldId);
-    pGroup->setCore(pGroupCore);
-
-    for(UInt32 i = 0; i < 12; ++i)
+    else
     {
-        NodePtr      pTrans     = Node     ::create();
-        TransformPtr pTransCore = Transform::create();
-        NodePtr      pGeo       = makeBox(xSize/10.0, ySize/10.0, zSize/10.0,
-                                          1,          1,          1          );
+        NodePtr   pNodeGroup  = Node  ::create();
+        GroupPtr  pGroup      = Group ::create();
 
-        std::string  strTransName("");
-        std::string  strGeoName  ("");
+        NodePtr   pNodeSwitch = Node  ::create();
+        SwitchPtr pSwitch     = Switch::create();
 
-        beginEditCP(pTransCore, Transform::MatrixFieldId);
-        pTransCore->getMatrix().setTranslate(geoPos[i]);
-        endEditCP  (pTransCore, Transform::MatrixFieldId);
+        beginEditCP(pNodeGroup, Node::CoreFieldId | Node::ChildrenFieldId);
+        pNodeGroup->setCore (pGroup     );
+        pNodeGroup->addChild(pNodeSwitch);
+        endEditCP  (pNodeGroup, Node::CoreFieldId | Node::ChildrenFieldId);
 
-        strTransName += strGroupName;
-        strTransName += " -> Geo-Trans <";
-        strTransName += TypeTraits<UInt32>::putToString(i);
-        strTransName += "> ";
-        setName(pTransCore, strTransName);
+        beginEditCP(pSwitch, Switch::ChoiceFieldId);
+        pSwitch->getChoice() = Switch::ALL;
+        endEditCP  (pSwitch, Switch::ChoiceFieldId);
 
-        beginEditCP(pTrans, Node::CoreFieldId | Node::ChildrenFieldId);
-        pTrans->setCore (pTransCore);
-        pTrans->addChild(pGeo      );
-        endEditCP  (pTrans, Node::CoreFieldId | Node::ChildrenFieldId);
-
-        strGeoName += strTransName;
-        strGeoName += " -> Geo <";
-        strGeoName += TypeTraits<UInt32>::putToString(i);
-        strGeoName += "> ";
-        setName(pGeo->getCore(), strGeoName);
-
-        pGroup->addChild(pTrans);
-    }
-    endEditCP(pGroup, Node::CoreFieldId | Node::ChildrenFieldId);
-
-    beginEditCP(pRoot, Node::ChildrenFieldId);
-    pRoot->addChild(pGroup);
-    endEditCP  (pRoot, Node::ChildrenFieldId);
-
-    if(depth > 0)
-    {
-        Pnt3f center[8];
-
-        center[0][0] =  0.25 * xSize;
-        center[0][1] =  0.25 * ySize;
-        center[0][2] =  0.25 * zSize;
-
-        center[1][0] = -0.25 * xSize;
-        center[1][1] =  0.25 * ySize;
-        center[1][2] =  0.25 * zSize;
-
-        center[2][0] = -0.25 * xSize;
-        center[2][1] =  0.25 * ySize;
-        center[2][2] = -0.25 * zSize;
-
-        center[3][0] =  0.25 * xSize;
-        center[3][1] =  0.25 * ySize;
-        center[3][2] = -0.25 * zSize;
-
-        center[4][0] =  0.25 * xSize;
-        center[4][1] = -0.25 * ySize;
-        center[4][2] =  0.25 * zSize;
-
-        center[5][0] = -0.25 * xSize;
-        center[5][1] = -0.25 * ySize;
-        center[5][2] =  0.25 * zSize;
-
-        center[6][0] = -0.25 * xSize;
-        center[6][1] = -0.25 * ySize;
-        center[6][2] = -0.25 * zSize;
-
-        center[7][0] =  0.25 * xSize;
-        center[7][1] = -0.25 * ySize;
-        center[7][2] = -0.25 * zSize;
+        beginEditCP(pNodeSwitch, Node::CoreFieldId | Node::ChildrenFieldId);
+        pNodeSwitch->setCore(pSwitch);
 
         for(UInt32 i = 0; i < 8; ++i)
         {
-            NodePtr      pTrans     = Node     ::create();
-            TransformPtr pTransCore = Transform::create();
-            std::string  strTransName("");
+            NodePtr      pNodeTrans  = Node     ::create();
+            TransformPtr pTrans      = Transform::create();
 
-            if(getName(pRoot->getCore()) != NULL)
+            Vec3f       vecTrans;
+
+            if(i & 0x01)
             {
-                strTransName += getName(pRoot->getCore());
+                vecTrans[0] =  0.25 * X_SIZE * (1.0 / (depth + 1.0)) + 0.2 * (osgrand() - 0.5);
+            }
+            else
+            {
+                vecTrans[0] = -0.25 * X_SIZE * (1.0 / (depth + 1.0)) + 0.2 * (osgrand() - 0.5);
             }
 
-            strTransName += " -> Subtree-Trans <";
-            strTransName += TypeTraits<UInt32>::putToString(i);
-            strTransName += "> ";
-            setName(pTransCore, strTransName);
+            if(i & 0x02)
+            {
+                vecTrans[1] =  0.25 * Y_SIZE * (1.0 / (depth + 1.0)) + 0.2 * (osgrand() - 0.5);
+            }
+            else
+            {
+                vecTrans[1] = -0.25 * Y_SIZE * (1.0 / (depth + 1.0)) + 0.2 * (osgrand() - 0.5);
+            }
 
-            beginEditCP(pTransCore, Transform::MatrixFieldId);
-            pTransCore->getMatrix().setTranslate(center[i]);
-            endEditCP  (pTransCore, Transform::MatrixFieldId);
+            if(i & 0x04)
+            {
+                vecTrans[2] =  0.25 * Z_SIZE * (1.0 / (depth + 1.0)) + 0.2 * (osgrand() - 0.5);
+            }
+            else
+            {
+                vecTrans[2] = -0.25 * Z_SIZE * (1.0 / (depth + 1.0)) + 0.2 * (osgrand() - 0.5);
+            }
 
-            beginEditCP(pTrans, Node::CoreFieldId);
-            pTrans->setCore(pTransCore);
-            endEditCP  (pTrans, Node::CoreFieldId);
+            beginEditCP(pTrans, Transform::MatrixFieldId);
+            pTrans->getMatrix().setTranslate(vecTrans);
+            endEditCP  (pTrans, Transform::MatrixFieldId);
 
-            buildScene(0.5 * xSize, 0.5 * ySize, 0.5 * zSize,
-                       pTrans, depth - 1                     );
+            beginEditCP(pNodeTrans, Node::CoreFieldId | Node::ChildrenFieldId);
+            pNodeTrans->setCore (pTrans                                      );
+            pNodeTrans->addChild(buildGraphRecurse(depth + 1, maxDepth, pGeo));
+            endEditCP  (pNodeTrans, Node::CoreFieldId | Node::ChildrenFieldId);
 
-            beginEditCP(pRoot, Node::ChildrenFieldId);
-            pRoot->addChild(pTrans);
-            endEditCP  (pRoot, Node::ChildrenFieldId);
+            pNodeSwitch->addChild(pNodeTrans);
         }
+
+        endEditCP  (pNodeSwitch, Node::CoreFieldId | Node::ChildrenFieldId);
+
+        return pNodeGroup;
     }
 }
 
 void
-createRays(Real32 xSize, Real32 ySize, Real32 zSize, UInt32 uiNumRays,
-           std::vector<RayData> *newRays, std::vector<RayData> *oldRays)
+createRays(UInt32 uiNumRays, std::vector<Line> &rays)
 {
     SINFO << "Creating " << uiNumRays << " rays...";
 
-    newRays->clear  (         );
-    newRays->reserve(uiNumRays);
-    oldRays->clear  (         );
-    oldRays->reserve(uiNumRays);
+    rays.clear  (         );
+    rays.reserve(uiNumRays);
 
     for(UInt32 i = 0; i < uiNumRays; ++i)
     {
-        Real32 xPos = (osgrand() - 0.5) * xSize * 2.5;
-        Real32 yPos = (osgrand() - 0.5) * ySize * 2.5;
-        Real32 zPos = (osgrand() - 0.5) * zSize * 2.5;
+        Real32 xPos = (osgrand() - 0.5) * X_SIZE * 2.5;
+        Real32 yPos = (osgrand() - 0.5) * Y_SIZE * 2.5;
+        Real32 zPos = (osgrand() - 0.5) * Z_SIZE * 2.5;
 
         Real32 xDir = (osgrand() - 0.5);
         Real32 yDir = (osgrand() - 0.5);
@@ -613,119 +657,20 @@ createRays(Real32 xSize, Real32 ySize, Real32 zSize, UInt32 uiNumRays,
         if((zPos * zDir) > 0)
             zDir *= -1.0;
 
-        RayData raydata;
-
-        raydata._ray  = Line(Pnt3f(xPos, yPos, zPos), Vec3f(xDir, yDir, zDir));
-        raydata._hit  = false;
-        raydata._pObj = NullFC;
-        raydata._tri  = -1;
-        raydata._dist = 0;
-
-        newRays->push_back(raydata);
-        oldRays->push_back(raydata);
+        rays.push_back(Line(Pnt3f(xPos, yPos, zPos),
+                            Vec3f(xDir, yDir, zDir) ));
     }
 
     PINFO << "done." << endLog;
 }
 
-NewActionTypes::ResultE
-enterTransform(NodeCorePtr pNodeCore, ActorBase *pActor)
-{
-    IntersectActor *pIA    = dynamic_cast<IntersectActor *>(pActor);
-    TransformPtr    pTrans = TransformPtr::dcast(pNodeCore);
-
-    Matrix          matrix = pTrans->getMatrix  ();
-    Line            transLine;
-    Pnt3f           pos;
-    Vec3f           dir;
-
-    matrix.invert();
-
-    matrix.multFullMatrixPnt(pIA->getRay().getPosition (), pos);
-    matrix.multMatrixVec    (pIA->getRay().getDirection(), dir);
-
-    transLine.setValue(pos, dir);
-
-    pIA->beginEditState();
-    {
-        pIA->setRay        (transLine                           );
-        pIA->setScaleFactor(pIA->getScaleFactor() / dir.length());
-    }
-    pIA->endEditState  ();
-
-    pIA->prioritizeChildren();
-
-    // DEBUG
-    ++uiVisitedNodes;
-
-    return NewActionTypes::Continue;
-}
-
-NewActionTypes::ResultE
-leaveTransform(NodeCorePtr pNodeCore, ActorBase *pActor)
-{
-    IntersectActor *pIA    = dynamic_cast<IntersectActor *>(pActor);
-    TransformPtr    pTrans = TransformPtr::dcast(pNodeCore);
-
-    const Matrix   &matrix = pTrans->getMatrix();
-          Pnt3f     pos;
-          Vec3f     dir;
-
-    matrix.multFullMatrixPnt(pIA->getRay().getPosition (), pos);
-    matrix.multMatrixVec    (pIA->getRay().getDirection(), dir);
-
-    pIA->beginEditState();
-    {
-        pIA->setRay        (Line(pos, dir)                      );
-        pIA->setScaleFactor(pIA->getScaleFactor() / dir.length());
-    }
-    pIA->endEditState  ();
-
-    return NewActionTypes::Continue;
-}
-
-NewActionTypes::ResultE
-enterGeometry(NodeCorePtr pNodeCore, ActorBase *pActor)
-{
-    IntersectActor   *pIA         = dynamic_cast<IntersectActor *>(pActor);
-    GeometryPtr       pGeo        = GeometryPtr::dcast(pNodeCore);
-    Real32            scaleFactor = pIA->getScaleFactor();
-
-    TriangleIterator  itTris      = pGeo->beginTriangles();
-    TriangleIterator  endTris     = pGeo->endTriangles  ();
-
-    Real32            hitDist;
-    Vec3f             hitNormal;
-
-    for(; itTris != endTris; ++itTris)
-    {
-        if(pIA->getRay().intersect(itTris.getPosition(0),
-                                   itTris.getPosition(1),
-                                   itTris.getPosition(2),
-                                   hitDist,                &hitNormal) == true)
-        {
-            pIA->setHit(hitDist * scaleFactor, pIA->getCurrNode(),
-                        itTris.getIndex(),     hitNormal          );
-        }
-    }
-
-    pIA->prioritizeChildren();
-
-    // DEBUG
-    ++uiVisitedNodes;
-
-    return NewActionTypes::Continue;
-}
-
+// This is the default operation of the IntersectActor
 NewActionTypes::ResultE
 enterDefault(NodeCorePtr pNodeCore, ActorBase *pActor)
 {
     IntersectActor *pIA = dynamic_cast<IntersectActor *>(pActor);
 
-    pIA->prioritizeChildren();
-
-    // DEBUG
-    ++uiVisitedNodes;
+    pIA->setupChildrenPriorities();
 
     return NewActionTypes::Continue;
 }
@@ -733,23 +678,24 @@ enterDefault(NodeCorePtr pNodeCore, ActorBase *pActor)
 void
 updateRayGeo(void)
 {
-    RayData &raydata = testRaysNew[uiCurrentRay];
+    Line            &ray = testRays[uiCurrentRay];
+    IntersectResult &res = resultsP[uiCurrentRay];
 
-    Pnt3f startPnt = raydata._ray.getPosition();
-    Pnt3f endPnt   = startPnt + (rayLength * raydata._ray.getDirection());
+    Pnt3f startPnt = ray.getPosition();
+    Pnt3f endPnt   = startPnt + (rayLength * ray.getDirection());
 
     beginEditCP(pPoints);
     pPoints->setValue(startPnt, 0);
     pPoints->setValue(endPnt,   1);
 
-    if(raydata._hit == true)
+    if(res._hit == true)
     {
-        TriangleIterator triIt(raydata._pObj);
+        TriangleIterator triIt(res._pObj);
         Matrix           matrix;
         Pnt3f            point;
 
-        triIt.seek(raydata._tri);
-        raydata._pObj->getToWorld(matrix);
+        triIt.seek(res._tri);
+        res._pObj->getToWorld(matrix);
 
         point = triIt.getPosition(0);
         matrix.multMatrixPnt(point);
@@ -820,7 +766,7 @@ void keyboard(unsigned char key, int x, int y)
         break;
 
     case 's':
-        if(uiCurrentRay + 1 < testRaysNew.size())
+        if(uiCurrentRay + 1 < uiNumRays)
             ++uiCurrentRay;
 
         updateRayGeo();

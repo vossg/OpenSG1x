@@ -36,77 +36,77 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGINTERSECTACTOR_H_
-#define _OSGINTERSECTACTOR_H_
+#ifndef _OSGEXTENDACTORBASE_H_
+#define _OSGEXTENDACTORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//----------------------------------------------------------------------------
-//    Includes
-//----------------------------------------------------------------------------
-
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
-#include <OSGIntersectActorBase.h>
+#include "OSGActorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING IntersectActor : public IntersectActorBase
+class OSG_SYSTEMLIB_DLLMAPPING ExtendActorBase : public ActorBase
 {
-    /*====  PUBLIC  =========================================================*/
   public:
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Types                                                       */
-    /*! \{                                                                   */
 
-    typedef BasicActorBase::ResultE ResultE;
-    typedef BasicActorBase::Functor Functor;
+    virtual ~ExtendActorBase(void);
 
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Create                                                      */
-    /*! \{                                                                   */
+    virtual ResultE start    (      void          ) = 0;
+    virtual ResultE stop     (      void          ) = 0;
 
-    static IntersectActor *create(void);
+    virtual ResultE enterNode(const NodePtr &pNode) = 0;
+    virtual ResultE leaveNode(const NodePtr &pNode) = 0;
 
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Destructor                                                  */
-    /*! \{                                                                   */
 
-    virtual ~IntersectActor(void);
+    inline bool getChildrenListEnabled(void        ) const;
+    inline void setChildrenListEnabled(bool enabled);
 
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Misc                                                        */
-    /*! \{                                                                   */
+    inline NodePtr      getNode         (void                    ) const;
 
-    void reset                  (void                              );
-    void setHit                 (Real32 hitDist,  NodePtr pHitObj,
-                                 Int32  triIndex, Vec3f   hitNormal);
+    inline UInt32       getNumChildren  (void                    ) const;
+    inline NodePtr      getChild        (UInt32       childIndex ) const;
 
-    void setupChildrenPriorities(void                              );
+    inline bool         getChildActive  (UInt32       childIndex ) const;
+    inline void         setChildActive  (UInt32       childIndex,
+                                         bool         active     );
 
-    /*! \}                                                                   */
-    /*==== PROTECTED ========================================================*/
+    inline PriorityType getChildPriority(UInt32       childIndex ) const;
+    inline void         setChildPriority(UInt32       childIndex,
+                                         PriorityType prio       );
+
+    inline UInt32 addExtraChild(const NodePtr &pNode                   );
+    inline UInt32 addExtraChild(const NodePtr &pNode, PriorityType prio);
+
+    inline UInt32       getNumExtraChildren  (void                    ) const;
+    inline NodePtr      getExtraChild        (UInt32       childIndex ) const;
+
+    inline bool         getExtraChildActive  (UInt32       childIndex ) const;
+    inline void         setExtraChildActive  (UInt32       childIndex,
+                                              bool         active     );
+
+    inline PriorityType getExtraChildPriority(UInt32       childIndex ) const;
+    inline void         setExtraChildPriority(UInt32       childIndex,
+                                              PriorityType prio       );
+
   protected:
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Constructor                                                 */
-    /*! \{                                                                   */
+    typedef ActorBase            Inherited;
+    typedef Inherited::StateType StateType;
 
-    IntersectActor(void);
+    ExtendActorBase(void);
 
-    /*! \}                                                                   */
-    /*==== PRIVATE ==========================================================*/
-  private:
-    typedef IntersectActorBase Inherited;
+    virtual UInt32 addHelper (      NewActionBase *pAction);
+    virtual void   subHelper (      NewActionBase *pAction);
+    virtual UInt32 findHelper(const NewActionBase *pAction);
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGIntersectActor.inl>
+#include "OSGExtendActorBase.inl"
 
-#define OSGINTERSECTACTOR_HEADER_CVSID "@(#)$Id:"
+#define OSGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id: OSGExtendActorBase.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
 
-#endif /* _OSGINTERSECTACTOR_H_ */
+#endif /* _OSGEXTENDACTORBASE_H_ */

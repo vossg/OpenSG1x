@@ -40,7 +40,7 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include "OSGPriorityAction.h"
+#include "OSGDepthFirstStateAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -53,11 +53,11 @@ OSG_USING_NAMESPACE
 //----------------------------------------------------------------------------
 
 StatElemDesc<StatIntElem>
-PriorityAction::statStateClones  ("PriorityAction::stateClones",
-                                  "Number of state clones created");
+DepthFirstStateAction::statStateClones  ("DepthFirstState::stateClones",
+                                         "Number of state clones created"     );
 StatElemDesc<StatIntElem>
-PriorityAction::statStateRestores("PriorityAction::statStateRestores",
-                                  "Number of state restores"          );
+DepthFirstStateAction::statStateRestores("DepthFirstState::statStateRestores",
+                                         "Number of state restores"           );
 
 #endif /* OSG_NEWACTION_STATISTICS */
 
@@ -65,7 +65,10 @@ PriorityAction::statStateRestores("PriorityAction::statStateRestores",
 //    Destructor
 //----------------------------------------------------------------------------
 
-PriorityAction::~PriorityAction(void)
+/*! Destructor.
+ */
+
+DepthFirstStateAction::~DepthFirstStateAction(void)
 {
 }
 
@@ -76,21 +79,18 @@ PriorityAction::~PriorityAction(void)
 /*! Create new instance.
  */
 
-PriorityAction *
-PriorityAction::create(void)
+DepthFirstStateAction *
+DepthFirstStateAction::create(void)
 {
-    return new PriorityAction();
+    return new DepthFirstStateAction();
 }
 
 //----------------------------------------------------------------------------
 //    Apply
 //----------------------------------------------------------------------------
 
-/*! Apply the action to the node pRoot, i.e. traverse the graph below it.
- */
-
-PriorityAction::ResultE
-PriorityAction::apply(NodePtr pRoot)
+DepthFirstStateAction::ResultE
+DepthFirstStateAction::apply(NodePtr pRoot)
 {
     ResultE result = NewActionTypes::Continue;
 
@@ -107,16 +107,17 @@ PriorityAction::apply(NodePtr pRoot)
     // gained refs: active, root
     incRefCount(_itActiveState, 2);
 
-    //~ _nodePrioQueue.push(
-        //~ NodeQueueEntry(pRoot,
-                       //~ TypeTraits<PriorityType>::getZeroElement(),
-                       //~ _itActiveState                             ));
+    _nodeStack.push_back(NodeStackEntry(pRoot, _itActiveState));
 
-    pqPush(NodeQueueEntry(pRoot,
-                          TypeTraits<PriorityType>::getZeroElement(),
-                          _itActiveState                             ));
-
-    result = traverseEnter();
+    if((_extendLeaveActors.empty() == true) &&
+       (_basicLeaveActors .empty() == true)    )
+    {
+        result = traverseEnter();
+    }
+    else
+    {
+        result = traverseEnterLeave();
+    }
 
     setState(_itInitialState);
 
@@ -126,7 +127,7 @@ PriorityAction::apply(NodePtr pRoot)
     _itActiveState   = _itInitialState;
     _stateClonedFlag = true;
 
-    pqClear();
+    _nodeStack         .clear();
 #ifndef OSG_NEWACTION_STATESLOTINTERFACE
     _stateStore        .clear();
 #endif
@@ -147,19 +148,23 @@ PriorityAction::apply(NodePtr pRoot)
 //    Constructors
 //----------------------------------------------------------------------------
 
-PriorityAction::PriorityAction(void)
+/*! Default constructor.
+ */
+
+DepthFirstStateAction::DepthFirstStateAction(void)
     : Inherited          (     ),
-      _extendEnterActors (     ),
-      _basicEnterActors  (     ),
-      _nodePrioQueue     (     ),
-      _nodePrioQueueComp (     ),
-      _stateClonedFlag   (false),
+      _nodeStack         (     ),
+      _stateRefCountStore(     ),
 #ifndef OSG_NEWACTION_STATESLOTINTERFACE
       _stateStore        (     ),
 #endif
-      _stateRefCountStore(     ),
       _itInitialState    (     ),
-      _itActiveState     (     )
+      _itActiveState     (     ),
+      _stateClonedFlag   (false),
+      _extendEnterActors (     ),
+      _extendLeaveActors (     ),
+      _basicEnterActors  (     ),
+      _basicLeaveActors  (     )
 {
 }
 
@@ -168,38 +173,46 @@ PriorityAction::PriorityAction(void)
 //----------------------------------------------------------------------------
 
 /*! Inserts the extend actor into an internal data structure, depending on
-    whether the enter node flag is set.
+    whether the enter node flag and leave node flag are set.
     This avoids making the destinction everytime the actors are called.
  */
 
 void
-PriorityAction::addExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
+DepthFirstStateAction::addExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
 {
     ExtendActorStoreIt itActors  = beginExtend();
     ExtendActorStoreIt endActors = beginExtend() + actorIndex;
 
     ExtendActorStoreIt itEnter   = _extendEnterActors.begin();
+    ExtendActorStoreIt itLeave   = _extendLeaveActors.begin();
+
+    for(; itActors != endActors; ++itActors)
+    {
+        if((*itActors)->getEnterNodeFlag() == true)
+            ++itEnter;
+
+        if((*itActors)->getLeaveNodeFlag() == true)
+            ++itLeave;
+    }
 
     if(pActor->getEnterNodeFlag() == true)
-    {
-        for(; itActors != endActors; ++itActors)
-        {
-            if((*itActors)->getEnterNodeFlag() == true)
-                ++itEnter;
-        }
-
         _extendEnterActors.insert(itEnter, pActor);
-    }
+
+    if(pActor->getLeaveNodeFlag() == true)
+        _extendLeaveActors.insert(itLeave, pActor);
 }
 
 /*! Removes the extend actor from the internal data structures.
  */
 
 void
-PriorityAction::subExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
+DepthFirstStateAction::subExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
 {
     ExtendActorStoreIt itEnter  = _extendEnterActors.begin();
     ExtendActorStoreIt endEnter = _extendEnterActors.end  ();
+
+    ExtendActorStoreIt itLeave  = _extendLeaveActors.begin();
+    ExtendActorStoreIt endLeave = _extendLeaveActors.end  ();
 
     for(; itEnter != endEnter; ++itEnter)
     {
@@ -210,41 +223,59 @@ PriorityAction::subExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
             break;
         }
     }
+
+    for(; itLeave != endLeave; ++itLeave)
+    {
+        if(*itLeave == pActor)
+        {
+            _extendLeaveActors.erase(itLeave);
+
+            break;
+        }
+    }
 }
 
 /*! Inserts the basic actor into an internal data structure, depending on
-    whether the enter node flag is set.
+    whether the enter node flag and leave node flag are set.
     This avoids making the destinction everytime the actors are called.
  */
 
 void
-PriorityAction::addBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
+DepthFirstStateAction::addBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
 {
     BasicActorStoreIt itActors  = beginBasic();
     BasicActorStoreIt endActors = beginBasic() + actorIndex;
 
     BasicActorStoreIt itEnter   = _basicEnterActors.begin();
+    BasicActorStoreIt itLeave   = _basicLeaveActors.begin();
+
+    for(; itActors != endActors; ++itActors)
+    {
+        if((*itActors)->getEnterNodeFlag() == true)
+            ++itEnter;
+
+        if((*itActors)->getLeaveNodeFlag() == true)
+            ++itLeave;
+    }
 
     if(pActor->getEnterNodeFlag() == true)
-    {
-        for(; itActors != endActors; ++itActors)
-        {
-            if((*itActors)->getEnterNodeFlag() == true)
-                ++itEnter;
-        }
-
         _basicEnterActors.insert(itEnter, pActor);
-    }
+
+    if(pActor->getLeaveNodeFlag() == true)
+        _basicLeaveActors.insert(itLeave, pActor);
 }
 
 /*! Removes the extend actor from the internal data structures.
  */
 
 void
-PriorityAction::subBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
+DepthFirstStateAction::subBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
 {
     BasicActorStoreIt itEnter  = _basicEnterActors.begin();
     BasicActorStoreIt endEnter = _basicEnterActors.end  ();
+
+    BasicActorStoreIt itLeave  = _basicLeaveActors.begin();
+    BasicActorStoreIt endLeave = _basicLeaveActors.end  ();
 
     for(; itEnter != endEnter; ++itEnter)
     {
@@ -255,10 +286,20 @@ PriorityAction::subBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
             break;
         }
     }
+
+    for(; itLeave != endLeave; ++itLeave)
+    {
+        if(*itLeave == pActor)
+        {
+            _basicLeaveActors.erase(itLeave);
+
+            break;
+        }
+    }
 }
 
 void
-PriorityAction::startEvent(void)
+DepthFirstStateAction::startEvent(void)
 {
     Inherited::startEvent();
 
@@ -269,16 +310,17 @@ PriorityAction::startEvent(void)
 }
 
 void
-PriorityAction::stopEvent(void)
+DepthFirstStateAction::stopEvent(void)
 {
     Inherited::stopEvent();
 }
+
 
 /*! Creates a copy of the state of the attached actors and activates the copy.
  */
 
 void
-PriorityAction::beginEditStateEvent(ActorBase *pActor, UInt32 actorId)
+DepthFirstStateAction::beginEditStateEvent(ActorBase *pActor, UInt32 actorId)
 {
     if(_stateClonedFlag == false)
     {
@@ -296,6 +338,8 @@ PriorityAction::beginEditStateEvent(ActorBase *pActor, UInt32 actorId)
         // lost refs: active and current node
         decRefCount(_itActiveState, 2);
 
+        _nodeStack.back().setStateRefCount(itClonedState);
+
         _itActiveState = itClonedState;
     }
 }
@@ -304,30 +348,26 @@ PriorityAction::beginEditStateEvent(ActorBase *pActor, UInt32 actorId)
  */
 
 void
-PriorityAction::endEditStateEvent(ActorBase *pActor, UInt32 actorId)
+DepthFirstStateAction::endEditStateEvent(ActorBase *pActor, UInt32 actorId)
 {
 }
 
 //==== PRIVATE ===============================================================
 //----------------------------------------------------------------------------
-//    Helper Methods.
+//    Helper Methods
 //----------------------------------------------------------------------------
 
-/*! Drives the traversal of the graph by activating the proper state for the
-    nodes and calling the enterNode method of the actors.
- */
-
-PriorityAction::ResultE
-PriorityAction::traverseEnter(void)
+DepthFirstStateAction::ResultE
+DepthFirstStateAction::traverseEnter(void)
 {
     ResultE              result          = NewActionTypes::Continue;
     NodePtr              pNode;
     StateRefCountStoreIt itStateRefCount;
 
-    while((pqEmpty() == false) && !(result & NewActionTypes::Quit))
+    while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
     {
-        pNode           = pqTop().getNode         ();
-        itStateRefCount = pqTop().getStateRefCount();
+        pNode           = _nodeStack.back().getNode         ();
+        itStateRefCount = _nodeStack.back().getStateRefCount();
 
         if(itStateRefCount != _itActiveState)
         {
@@ -350,26 +390,78 @@ PriorityAction::traverseEnter(void)
 
         getChildrenList().setParentNode(pNode);
 
-#ifdef OSG_NEWACTION_STATISTICS
-        getStatistics()->getElem(statNodesEnter)->inc();
-#endif /* OSG_NEWACTION_STATISTICS */
-
         result = enterNode(pNode);
 
-        pqPop();
+        _nodeStack.pop_back();
 
-        enqueueChildren(pNode, result);
+        pushChildren(pNode, result);
+
+        // lost refs: current node
+        decRefCount(_itActiveState);
     }
 
     return result;
 }
 
-/*! Inserts the active children and extra children into the internal
-    priority queue.
- */
+DepthFirstStateAction::ResultE
+DepthFirstStateAction::traverseEnterLeave(void)
+{
+    ResultE              result          = NewActionTypes::Continue;
+    NodePtr              pNode;
+    StateRefCountStoreIt itStateRefCount;
+
+    while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
+    {
+        pNode           = _nodeStack.back().getNode         ();
+        itStateRefCount = _nodeStack.back().getStateRefCount();
+
+        if(itStateRefCount != _itActiveState)
+        {
+#ifdef OSG_NEWACTION_STATISTICS
+            getStatistics()->getElem(statStateRestores)->inc();
+#endif /* OSG_NEWACTION_STATISTICS */
+
+            setState(itStateRefCount);
+
+            // gained refs: active
+            incRefCount(itStateRefCount);
+
+            // lost refs: active
+            decRefCount(_itActiveState);
+
+            _itActiveState = itStateRefCount;
+        }
+
+        getChildrenList().setParentNode(pNode);
+
+        if(_nodeStack.back().getEnterFlag() == true)
+        {
+            _nodeStack.back().setEnterFlag(false);
+
+            _stateClonedFlag = false;
+
+            result = enterNode(pNode);
+
+            pushChildren(pNode, result);
+        }
+        else
+        {
+            _stateClonedFlag = true;
+
+            result = leaveNode(pNode);
+
+            _nodeStack.pop_back();
+
+            // lost refs: current node
+            decRefCount(_itActiveState);
+        }
+    }
+
+    return result;
+}
 
 void
-PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
+DepthFirstStateAction::pushChildren(const NodePtr &pNode, ResultE result)
 {
     if(result & (NewActionTypes::Skip  |
                  NewActionTypes::Break |
@@ -379,8 +471,8 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
 
         getExtraChildrenList().clear();
 
-        // lost refs: current node
-        decRefCount(_itActiveState);
+        // lost refs: current node - do not do this here for enter leave case
+        // decRefCount(_itActiveState);
 
         return;
     }
@@ -399,14 +491,8 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
                 // gained refs: child
                 incRefCount(_itActiveState);
 
-                //~ _nodePrioQueue.push(
-                    //~ NodeQueueEntry(cl.getChild   (i),
-                                   //~ cl.getPriority(i),
-                                   //~ _itActiveState    ));
-
-                pqPush(NodeQueueEntry(cl.getChild   (i),
-                                      cl.getPriority(i),
-                                      _itActiveState    ));
+                _nodeStack.push_back(
+                    NodeStackEntry(cl.getChild(i), _itActiveState));
             }
         }
     }
@@ -423,15 +509,8 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
                 // gained refs: child
                 incRefCount(_itActiveState);
 
-                //~ _nodePrioQueue.push(
-                    //~ NodeQueueEntry(*itChildren,
-                                   //~ TypeTraits<PriorityType>::getZeroElement(),
-                                   //~ _itActiveState                            ));
-
-                pqPush(
-                    NodeQueueEntry(*itChildren,
-                                   TypeTraits<PriorityType>::getZeroElement(),
-                                   _itActiveState                            ));
+                _nodeStack.push_back(
+                    NodeStackEntry(*itChildren, _itActiveState));
             }
         }
     }
@@ -445,22 +524,16 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
             // gained refs: extra child
             incRefCount(_itActiveState);
 
-            //~ _nodePrioQueue.push(
-                //~ NodeQueueEntry(ecl.getChild   (i),
-                               //~ ecl.getPriority(i),
-                               //~ _itActiveState      ));
-
-            pqPush(NodeQueueEntry(ecl.getChild   (i),
-                                  ecl.getPriority(i),
-                                  _itActiveState      ));
+            _nodeStack.push_back(
+                NodeStackEntry(ecl.getChild(i), _itActiveState));
         }
     }
 
     setChildrenListEnabled(false);
     ecl.clear             (     );
 
-    // lost refs: current node
-    decRefCount(_itActiveState);
+    // lost refs: current node - do not do this here for enter leave case
+    // decRefCount(_itActiveState);
 }
 
 /*------------------------------------------------------------------------*/
@@ -476,9 +549,9 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPriorityAction.cpp,v 1.2 2004/09/10 15:00:46 neumannc Exp $";
-    static Char8 cvsid_hpp       [] = OSGPRIORITYACTION_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGPRIORITYACTION_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstStateAction.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_hpp       [] = OSGDEPTHFIRSTSTATEACTION_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGDEPTHFIRSTSTATEACTION_INLINE_CVSID;
 }
 
 #ifdef OSG_LINUX_ICC

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Actor>
     <Name>IntersectActor</Name>
-    <ParentName>ActorBase</ParentName>
+    <ParentName>BasicActorBase</ParentName>
     <EnterFunctorStore>Multi</EnterFunctorStore>
     <LeaveFunctorStore>Multi</LeaveFunctorStore>
     <UseLocalIncludes>false</UseLocalIncludes>

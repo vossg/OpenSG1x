@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,8 +36,84 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-OSG_BEGIN_NAMESPACE
+#include "OSGExtendActorBase.h"
 
-OSG_END_NAMESPACE
+OSG_USING_NAMESPACE
 
-#define OSGINTERSECTACTOR_INLINE_CVSID "@(#)$Id:"
+ExtendActorBase::ResultE
+ExtendActorBase::start(void)
+{
+    return Inherited::start();
+}
+
+ExtendActorBase::ResultE
+ExtendActorBase::stop(void)
+{
+    return Inherited::stop();
+}
+
+ExtendActorBase::ResultE
+ExtendActorBase::enterNode(const NodePtr &pNode)
+{
+    return NewActionTypes::Continue;
+}
+
+ExtendActorBase::ResultE
+ExtendActorBase::leaveNode(const NodePtr &pNode)
+{
+    return NewActionTypes::Continue;
+}
+
+UInt32
+ExtendActorBase::addHelper(NewActionBase *pAction)
+{
+    return pAction->addExtendActor(this);
+}
+
+void
+ExtendActorBase::subHelper(NewActionBase *pAction)
+{
+    UInt32 actorIndex = pAction->findExtendActor(this);
+
+    if(actorIndex == TypeTraits<UInt32>::getMax())
+    {
+        SWARNING << "ExtendActorBase::subHelper: Illegal actor index."
+                 << endLog;
+
+        return;
+    }
+
+    pAction->subExtendActor(actorIndex);
+}
+
+UInt32
+ExtendActorBase::findHelper(const NewActionBase *pAction)
+{
+    return pAction->findExtendActor(this);
+}
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGExtendActorBase.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_hpp       [] = OSGEXTENDACTORBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGEXTENDACTORBASE_INLINE_CVSID;
+}
+
+#ifdef OSG_LINUX_ICC
+#pragma warning(enable : 177)
+#endif
+
+#ifdef OSG_SGI_CC
+#pragma reset woff 1174
+#endif

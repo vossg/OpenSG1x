@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDEPTHFIRSTACTION_H_
-#define _OSGDEPTHFIRSTACTION_H_
+#ifndef _OSGDEPTHFIRSTSTATEACTION_H_
+#define _OSGDEPTHFIRSTSTATEACTION_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -50,30 +50,42 @@
 #include <OSGSystemDef.h>
 
 #include "OSGNewActionBase.h"
+#include "OSGActorBase.h"
 
 #include <deque>
+#include <list>
 
 OSG_BEGIN_NAMESPACE
 
 class ExtendActorBase;
 class BasicActorBase;
 
-class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
+class OSG_SYSTEMLIB_DLLMAPPING DepthFirstStateAction : public NewActionBase
 {
     /*==== PUBLIC ===========================================================*/
   public:
+#ifdef OSG_NEWACTION_STATISTICS
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Statistics                                                  */
+    /*! \{                                                                   */
+
+    static StatElemDesc<StatIntElem> statStateClones;
+    static StatElemDesc<StatIntElem> statStateRestores;
+
+    /*! \}                                                                   */
+#endif /* OSG_NEWACTION_STATISTICS */
     /*-----------------------------------------------------------------------*/
     /*! \name    Destructor                                                  */
     /*! \{                                                                   */
 
-    virtual ~DepthFirstAction(void);
+    virtual ~DepthFirstStateAction(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
     /*! \name    Create                                                      */
     /*! \{                                                                   */
 
-    static DepthFirstAction *create(void);
+    static DepthFirstStateAction *create(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -89,7 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
     /*! \name    Constructors                                                */
     /*! \{                                                                   */
 
-    DepthFirstAction(void);
+    DepthFirstStateAction(void);
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
@@ -106,6 +118,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
     virtual void subBasicEvent      (BasicActorBase  *pActor,
                                      UInt32           actorIndex);
 
+    virtual void startEvent         (void                       );
+    virtual void stopEvent          (void                       );
+
     virtual void beginEditStateEvent(ActorBase       *pActor,
                                      UInt32           actorId   );
     virtual void endEditStateEvent  (ActorBase       *pActor,
@@ -118,23 +133,86 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
     /*! \name    Types                                                       */
     /*! \{                                                                   */
 
-    typedef NewActionBase Inherited;
+    typedef NewActionBase             Inherited;
+    typedef ActorBase::ActorBaseState ActorBaseState;
+
+#ifdef OSG_NEWACTION_STATESLOTINTERFACE
+
+    class StateRefCount
+    {
+      public:
+        inline          StateRefCount(const StateRefCount &source    );
+
+        inline explicit StateRefCount(      UInt32         stateSlot );
+        inline explicit StateRefCount(      UInt32         stateSlot,
+                                            Int32          refCount  );
+
+        inline UInt32 getStateSlot(void            ) const;
+        inline void   setStateSlot(UInt32 stateSlot);
+
+        inline Int32  getRefCount (void            ) const;
+        inline void   incRefCount (Int32  inc      );
+        inline void   decRefCount (Int32  dec      );
+
+      private:
+        UInt32 _stateSlot;
+        Int32  _refCount;
+    };
+
+#else /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+    typedef std::list<ActorBaseState *> StateStore;
+    typedef StateStore::iterator        StateStoreIt;
+    typedef StateStore::const_iterator  StateStoreConstIt;
+
+    class StateRefCount
+    {
+      public:
+        inline          StateRefCount(const StateRefCount &source  );
+
+        inline explicit StateRefCount(const StateStoreIt  &itState );
+        inline explicit StateRefCount(const StateStoreIt  &itState,
+                                            Int32          refCount);
+
+        inline StateStoreIt getState(      void                 ) const;
+        inline void         setState(const StateStoreIt &itState);
+
+        inline Int32        getRefCount(void         ) const;
+        inline void         incRefCount(Int32 inc = 1);
+        inline void         decRefCount(Int32 dec = 1);
+
+      private:
+        StateStoreIt _itState;
+        Int32        _refCount;
+    };
+
+#endif /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+    typedef std::list<StateRefCount>           StateRefCountStore;
+    typedef StateRefCountStore::iterator       StateRefCountStoreIt;
+    typedef StateRefCountStore::const_iterator StateRefCountStoreConstIt;
 
     class NodeStackEntry
     {
       public:
-        inline explicit NodeStackEntry(const NodePtr &pNode                );
-        inline explicit NodeStackEntry(const NodePtr &pNode, bool enterFlag);
+        inline NodeStackEntry(const NodePtr              &pNode,
+                              const StateRefCountStoreIt &itStateRefCount );
+        inline NodeStackEntry(const NodePtr              &pNode,
+                              const StateRefCountStoreIt &itStateRefCount,
+                                    bool                  enterFlag       );
 
-        inline NodePtr getNode     (      void              ) const;
-        inline void    setNode     (const NodePtr &pNode    );
+        inline NodePtr getNode         (void          ) const;
 
-        inline bool    getEnterFlag(      void              ) const;
-        inline void    setEnterFlag(      bool     enterFlag);
+        inline StateRefCountStoreIt getStateRefCount(void          ) const;
+        inline void setStateRefCount(const StateRefCountStoreIt &itStateRefCount);
+
+        inline bool getEnterFlag    (void          ) const;
+        inline void setEnterFlag    (bool enterFlag);
 
       private:
-        NodePtr _pNode;
-        bool    _enterFlag;
+        NodePtr              _pNode;
+        StateRefCountStoreIt _itStateRefCount;
+        bool                 _enterFlag;
     };
 
     typedef std::deque<NodeStackEntry> NodeStack;
@@ -152,22 +230,39 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewActionBase
     inline ResultE enterNode         (const NodePtr &pNode                );
     inline ResultE leaveNode         (const NodePtr &pNode                );
 
+    inline StateRefCountStoreIt cloneState(void                                );
+    inline StateRefCountStoreIt getState  (void                                );
+    inline void                 setState  (StateRefCountStoreIt itStateRefCount);
+
+    inline void incRefCount(StateRefCountStoreIt itStateRefCount, Int32 inc = 1);
+    inline void decRefCount(StateRefCountStoreIt itStateRefCount, Int32 dec = 1);
+
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
 
-    NodeStack        _nodeStack;
+    NodeStack            _nodeStack;
+    StateRefCountStore   _stateRefCountStore;
 
-    ExtendActorStore _extendEnterActors;
-    ExtendActorStore _extendLeaveActors;
+#ifndef OSG_NEWACTION_STATESLOTINTERFACE
+    StateStore           _stateStore;
+#endif
 
-    BasicActorStore  _basicEnterActors;
-    BasicActorStore  _basicLeaveActors;
+    StateRefCountStoreIt _itInitialState;
+    StateRefCountStoreIt _itActiveState;
+
+    bool                 _stateClonedFlag;
+
+    ExtendActorStore     _extendEnterActors;
+    ExtendActorStore     _extendLeaveActors;
+
+    BasicActorStore      _basicEnterActors;
+    BasicActorStore      _basicLeaveActors;
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGDepthFirstAction.inl"
+#include "OSGDepthFirstStateAction.inl"
 
-#define OSGDEPTHFIRSTACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstAction.h,v 1.2 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGDEPTHFIRSTSTATEACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstStateAction.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
 
-#endif /* _OSGDEPTHFIRSTACTION_H_ */
+#endif /* _OSGDEPTHFIRSTSTATEACTION_H_ */

@@ -36,27 +36,89 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGNewAction.h"
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
+#include "OSGNewActionBase.h"
 
 OSG_BEGIN_NAMESPACE
+
+//----------------------------------------------------------------------------
+//    Types
+//----------------------------------------------------------------------------
+
+/*! Default constructor.
+ */
 
 inline
 ActorBase::ActorBaseState::ActorBaseState(void)
 {
 }
 
+/*! Copy constructor.
+ */
+
 inline
 ActorBase::ActorBaseState::ActorBaseState(const ActorBaseState &source)
 {
 }
 
-inline const NewAction *
+//----------------------------------------------------------------------------
+//    Config
+//----------------------------------------------------------------------------
+
+/*! Return if operations upon "entering" a node are enabled.
+ */
+
+inline bool
+ActorBase::getEnterNodeFlag(void) const
+{
+    return _enterNodeFlag;
+}
+
+/*! Return if operations upon "leaving" a node are enabled.
+ */
+
+inline bool
+ActorBase::getLeaveNodeFlag(void) const
+{
+    return _leaveNodeFlag;
+}
+
+/*! Set if operations upon "entering a node are desired.
+    \warning You must not call this while the actor is attached to an action,
+    it will cause possibly fatal inconsistency.
+*/
+
+inline void
+ActorBase::setEnterNodeFlag(bool enter)
+{
+    _enterNodeFlag = enter;
+}
+
+/*! Set if operations upon "leaving a node are desired.
+    \warning You must not call this while the actor is attached to an action,
+    it will cause possibly fatal inconsistency.
+*/
+
+inline void
+ActorBase::setLeaveNodeFlag(bool leave)
+{
+    _leaveNodeFlag = leave;
+}
+
+//----------------------------------------------------------------------------
+//    Action Access
+//----------------------------------------------------------------------------
+
+inline const NewActionBase *
 ActorBase::getAction(void) const
 {
     return _pAction;
 }
 
-inline NewAction *
+inline NewActionBase *
 ActorBase::getAction(void)
 {
     return _pAction;
@@ -65,97 +127,94 @@ ActorBase::getAction(void)
 inline UInt32
 ActorBase::getActorId(void) const
 {
-    return _uiActorId;
+    return _actorId;
 }
 
-inline bool
-ActorBase::getApplyEnter(void) const
-{
-    return _bApplyEnter;
-}
+//----------------------------------------------------------------------------
+//    State Managment
+//----------------------------------------------------------------------------
 
-inline bool
-ActorBase::getApplyLeave(void) const
-{
-    return _bApplyLeave;
-}
+/*! Notify the action, that state is about to be edited.
 
-/*! Set whether the applyEnter method should be called.
- *  Note that changing this value only has an effect if the actor is NOT
- *  attached to an action.
- */
-
-inline void
-ActorBase::setApplyEnter(bool bApplyEnter)
-{
-    _bApplyEnter = bApplyEnter;
-}
-
-/*! Set whether the applyLeave method should be called.
- *  Note that changing this value only has an effect if the actor is NOT
- *  attached to an action.
- */
-
-inline void
-ActorBase::setApplyLeave(bool bApplyLeave)
-{
-    _bApplyLeave = bApplyLeave;
-}
-
-inline NodePtr
-ActorBase::getCurrNode(void) const
-{
-    return getAction()->getActiveChildrenList()->getParentNode();
-}
-
-inline NodePtr
-ActorBase::getCurrNode(void)
-{
-    return getAction()->getActiveChildrenList()->getParentNode();
-}
-
-/*! Call this before accessing the state of an actor to ensure that the
- *  state is valid.
- */
+\ext
+    Call this method inside a functor or the enterNode method of an actor
+    before accessing any state variables.
+    If you are worried about top performance you may omit the call as long
+    as you only read state values, but as this is error prone it is not
+    recommended.
+\endext
+*/
 
 inline void
 ActorBase::beginEditState(void)
 {
-    _pAction->beginEditStateEvent(this, getActorId());
+    _pAction->beginEditStateEvent(this, _actorId);
 }
 
-/*! Call this when done accessing the state of an actor.
+/*! Notify the action, that state access is complete.
+
+\ext
+    Call this method after you are done with modifying state.
+    None of the implemented actions perform anything upon this call, hence it
+    is not as critical as the beginEditState call.
+\endext
  */
 
 inline void
 ActorBase::endEditState(void)
 {
+    _pAction->endEditStateEvent(this, _actorId);
 }
+
+/*! Get a const pointer to the currently used state.
+ */
 
 inline const ActorBase::ActorBaseState *
-ActorBase::getStatePtr(void) const
+ActorBase::getState(void) const
 {
-    return _pStatePtr;
+    return _pState;
 }
+
+/*! Get a pointer to the currently used state.
+ */
 
 inline ActorBase::ActorBaseState *
-ActorBase::getStatePtr(void)
+ActorBase::getState(void)
 {
-    return _pStatePtr;
+    return _pState;
 }
+
+/*! Set the currently used state.
+ */
 
 inline void
-ActorBase::setStatePtr(ActorBaseState *pStatePtr)
+ActorBase::setState(ActorBaseState *pState)
 {
-    _pStatePtr = pStatePtr;
+    _pState = pState;
 }
 
-inline UInt32
-ActorBase::getStateSize(void) const
+#ifdef OSG_NEWACTION_STATESLOTINTERFACE
+
+/*! Get a const reference to the SlotMap.
+ */
+
+inline const ActorBase::StateSlotMap &
+ActorBase::getSlotMap(void) const
 {
-    return getStatePtr()->size();
+    return _stateSlotMap;
 }
+
+/*! Get a reference to the SlotMap.
+ */
+
+inline ActorBase::StateSlotMap &
+ActorBase::getSlotMap(void)
+{
+    return _stateSlotMap;
+}
+
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGACTORBASE_INLINE_CVSID "@(#)$Id: OSGActorBase.inl,v 1.3 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGACTORBASE_INLINE_CVSID "@(#)$Id: OSGActorBase.inl,v 1.4 2004/09/10 15:00:46 neumannc Exp $"

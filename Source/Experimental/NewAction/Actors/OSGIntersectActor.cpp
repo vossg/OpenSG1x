@@ -36,12 +36,20 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include "OSGIntersectActor.h"
 
 OSG_USING_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*    Create                                                               */
+//----------------------------------------------------------------------------
+//    Create
+//----------------------------------------------------------------------------
+
+/*! Create a new instance of this actor.
+ */
 
 IntersectActor *
 IntersectActor::create(void)
@@ -49,25 +57,120 @@ IntersectActor::create(void)
     return new IntersectActor();
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Destructor                                                           */
+//----------------------------------------------------------------------------
+//    Destructor
+//----------------------------------------------------------------------------
+
+/*! Destructor.
+ */
 
 IntersectActor::~IntersectActor(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Apply                                                                */
+//----------------------------------------------------------------------------
+//    Misc
+//----------------------------------------------------------------------------
 
+/*! Reset all information about the hit object to default values.
+ */
 
-IntersectActor::ResultE
-IntersectActor::applyLeave(const NodePtr &pNode)
+void
+IntersectActor::reset(void)
 {
-    return Inherited::applyLeave(pNode);
+    setHitDistance     (TypeTraits<Real32>::getMax());
+    setHitObject       (NullFC                      );
+    setHitTriangleIndex(-1                          );
+    setHitNormal       (Vec3f(0.0, 0.0, 0.0)        );
+    setScaleFactor     (1.0                         );
+    Inherited::setHit  (false                       );
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Constructors                                                         */
+/*! This is a helper method for implementing functors, do not use it otherwise.
+    It sets all relevant data about a hit object with one call.
+    \warning This method may only be called when the actor is attached to an
+    action.
+ */
+
+void
+IntersectActor::setHit(
+    Real32 hitDist, NodePtr pHitObj, Int32 triIndex, Vec3f hitNormal)
+{
+    if((hitDist < 0               ) ||
+       (hitDist > getHitDistance()) ||
+       (hitDist > getMaxDistance())   )
+    {
+        return;
+    }
+
+    beginEditState();
+    {
+        this->setHitDistance     (hitDist  );
+        this->setHitObject       (pHitObj  );
+        this->setHitTriangleIndex(triIndex );
+        this->setHitNormal       (hitNormal);
+        this->Inherited::setHit  (true     );
+    }
+    endEditState  ();
+}
+
+/*! This is a helper method for implementing functors, do not use it otherwise.
+    It assigns priorities to all children and extra children, so that objects
+    close to the starting point of the ray are tested first.
+    \warning This method may only be called when the actor is attached to an
+    action.
+ */
+
+void
+IntersectActor::setupChildrenPriorities(void)
+{
+    UInt32 numChildren      = getNumChildren     ();
+    UInt32 numExtraChildren = getNumExtraChildren();
+
+    Real32 scaleFactor      = getScaleFactor();
+    Real32 hitDist          = getHitDistance();
+    Real32 bvEnter;
+    Real32 bvExit;
+
+    setChildrenListEnabled(true);
+
+    for(UInt32 i = 0; i < numChildren; ++i)
+    {
+        const DynamicVolume &dynVol = getChild(i)->getVolume(true);
+
+        if((dynVol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
+           (bvEnter * scaleFactor                       <  hitDist)   )
+        {
+            setChildPriority(i, -bvEnter * scaleFactor);
+        }
+        else
+        {
+            setChildActive  (i, false);
+        }
+    }
+
+    for(UInt32 i = 0; i < numExtraChildren; ++i)
+    {
+        const DynamicVolume &dynVol = getExtraChild(i)->getVolume(true);
+
+        if((dynVol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
+           (bvEnter * scaleFactor                       <  hitDist)   )
+        {
+            setExtraChildPriority(i, -bvEnter * scaleFactor);
+        }
+        else
+        {
+            setExtraChildActive  (i, false);
+        }
+    }
+}
+
+//----------------------------------------------------------------------------
+//    Constructors
+//----------------------------------------------------------------------------
+
+/*! Constructor.
+ */
 
 IntersectActor::IntersectActor(void)
     : Inherited()
@@ -100,4 +203,3 @@ namespace
 #ifdef OSG_SGI_CC
 #pragma reset woff 1174
 #endif
-

@@ -50,57 +50,32 @@
 
 OSG_BEGIN_NAMESPACE
 
+//#define OSG_NEWACTION_STATESLOTINTERFACE
+#define OSG_NEWACTION_STATISTICS
+
 class ActorBase;
 
 namespace NewActionTypes
 {
-    typedef Real32 PriorityType;
-
     enum ResultE
     {
-        Continue = 0x00,
-        Skip     = 0x01,
-        Quit     = 0x02
+        Continue = 0x00,  // ok
+        Skip     = 0x01,  // skip all child nodes
+        Break    = 0x02,  // skip all child nodes and remaining actors
+        Quit     = 0x04   // end traversal
     };
+
+    typedef Real32                                            PriorityType;
 
     //typedef ArgsCollector2   <ActorBase *, NodePtr>         FunctorArguments;
     typedef ArgsCollector    <ActorBase *>                    FunctorArguments;
     typedef TypedFunctor2Base<ResultE,
                               CPtrCallArg<NodeCorePtr>,
                               FunctorArguments            > Functor;
-
-    class OSG_SYSTEMLIB_DLLMAPPING NodePriorityPair
-    {
-      public:
-        inline NodePriorityPair(const NodePtr &pNode                       );
-        inline NodePriorityPair(const NodePtr &pNode, PriorityType priority);
-
-        inline NodePtr      getNode    (void                 ) const;
-        inline void         setNode    (const NodePtr &pNode );
-
-        inline PriorityType getPriority(void                 ) const;
-        inline void         setPriority(PriorityType priority);
-
-        struct LessCompare
-        {
-            inline bool operator()(const NodePriorityPair &lhs,
-                                   const NodePriorityPair &rhs );
-        };
-
-      private:
-        NodePtr      _pNode;
-        PriorityType _priority;
-    };
-
-    typedef std::vector<NodePriorityPair> NodeList;
-    typedef NodeList::iterator            NodeListIt;
-    typedef NodeList::const_iterator      NodeListConstIt;
 }
 
 OSG_END_NAMESPACE
 
-#include "OSGNewActionTypes.inl"
-
-#define OSGNEWACTIONTYPES_HEADER_CVSID "@(#)$Id: OSGNewActionTypes.h,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGNEWACTIONTYPES_HEADER_CVSID "@(#)$Id: OSGNewActionTypes.h,v 1.2 2004/09/10 15:00:46 neumannc Exp $"
 
 #endif /* _OSGNEWACTIONTYPES_H_ */

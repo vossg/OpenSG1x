@@ -36,14 +36,31 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include "OSGDepthFirstAction.h"
 
 OSG_USING_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*    Create                                                               */
+//==== PUBLIC ================================================================
+//----------------------------------------------------------------------------
+//    Destructor
+//----------------------------------------------------------------------------
 
-/*! Return a new instance of DepthFirstAction.
+/*! Destructor.
+ */
+
+DepthFirstAction::~DepthFirstAction(void)
+{
+}
+
+//----------------------------------------------------------------------------
+//    Create
+//----------------------------------------------------------------------------
+
+/*! Create new instance.
  */
 
 DepthFirstAction *
@@ -52,275 +69,349 @@ DepthFirstAction::create(void)
     return new DepthFirstAction();
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Destructor                                                           */
+//----------------------------------------------------------------------------
+//    Apply
+//----------------------------------------------------------------------------
 
-DepthFirstAction::~DepthFirstAction(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*    Apply                                                                */
-
-/*! Traverse the scenegraph from the given node.
- *  The priority only ever matters if any of the attached actors add additional
- *  root nodes.
+/*! Apply the action to the node pRoot, i.e. traverse the graph below it.
  */
 
 DepthFirstAction::ResultE
-DepthFirstAction::apply(const NodePtr &pRootNode, PriorityType priority)
+DepthFirstAction::apply(NodePtr pRoot)
 {
     ResultE result = NewActionTypes::Continue;
 
-    Inherited::apply(pRootNode, priority);
+    startEvent();
 
     result = startActors();
 
-    if(result == NewActionTypes::Continue)
+    if(result & NewActionTypes::Quit)
+        return result;
+
+    _nodeStack.push_back(NodeStackEntry(pRoot, true));
+
+    if((_extendLeaveActors.empty() == true) &&
+       (_basicLeaveActors .empty() == true)    )
     {
-        std::stable_sort(beginRootNodes(), endRootNodes(),
-                         NodeList::value_type::LessCompare());
-
-        NodeList::reverse_iterator itRootNodes  = getRootNodes().rbegin();
-        NodeList::reverse_iterator endRootNodes = getRootNodes().rend  ();
-
-        for(; itRootNodes != endRootNodes; ++itRootNodes)
-            _nodeStack.push_back(NodeStackEntry(itRootNodes->getNode()));
-
-        getRootNodes().clear();
-
-        if(_actorsLeave.empty() == true)
-        {
-            result = applyEnter();
-        }
-        else
-        {
-            result = applyEnterLeave();
-        }
+        result = traverseEnter();
+    }
+    else
+    {
+        result = traverseEnterLeave();
     }
 
-    if(result == NewActionTypes::Continue)
-    {
-        result = stopActors();
-    }
+    if(result & NewActionTypes::Quit)
+        return result;
+
+    result = stopActors();
+
+    stopEvent();
 
     return result;
 }
 
-/*! Traverse the scenegraph(s) from the given nodes.
- *  The nodes are first sorted by their priority, if it is equal they retain
- *  the order in the NodeList.
+//==== PROTECTED =============================================================
+//----------------------------------------------------------------------------
+//    Constructors
+//----------------------------------------------------------------------------
+
+/*! Default constructor.
  */
-
-DepthFirstAction::ResultE
-DepthFirstAction::apply(NodeListConstIt begin, NodeListConstIt end)
-{
-    ResultE result = NewActionTypes::Continue;
-
-    Inherited::apply(begin, end);
-
-    result = startActors();
-
-    if(result == NewActionTypes::Continue)
-    {
-        std::stable_sort(beginRootNodes(), endRootNodes(),
-                         NodeList::value_type::LessCompare());
-
-        NodeList::reverse_iterator itRootNodes  = getRootNodes().rbegin();
-        NodeList::reverse_iterator endRootNodes = getRootNodes().rend  ();
-
-        for(; itRootNodes != endRootNodes; ++itRootNodes)
-            _nodeStack.push_back(NodeStackEntry(itRootNodes->getNode()));
-
-        getRootNodes().clear();
-
-        if(_actorsLeave.empty() == true)
-        {
-            result = applyEnter();
-        }
-        else
-        {
-            result = applyEnterLeave();
-        }
-    }
-
-    if(result == NewActionTypes::Continue)
-    {
-        result = stopActors();
-    }
-
-    return result;
-}
-
-/*-------------------------------------------------------------------------*/
-/*    Constructors                                                         */
 
 DepthFirstAction::DepthFirstAction(void)
-    : _nodeStack  (),
-      _actorsEnter(),
-      _actorsLeave()
+    : Inherited         (),
+      _nodeStack        (),
+      _extendEnterActors(),
+      _extendLeaveActors(),
+      _basicEnterActors (),
+      _basicLeaveActors ()
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Events                                                               */
+//----------------------------------------------------------------------------
+//    Events
+//----------------------------------------------------------------------------
 
-/*! Inserts the newly attached actor into two internal datastructures to
- *  speed up enter/leave calling.
+/*! Inserts the extend actor into an internal data structure, depending on
+    whether the enter node flag and leave node flag are set.
+    This avoids making the destinction everytime the actors are called.
  */
 
 void
-DepthFirstAction::attachEvent(ActorBase *pActor, UInt32 uiActorId)
+DepthFirstAction::addExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
 {
-    ActorApplyStoreIt      itEnter  = _actorsEnter.begin();
-    ActorApplyStoreConstIt endEnter = _actorsEnter.end  ();
+    ExtendActorStoreIt itActors  = beginExtend();
+    ExtendActorStoreIt endActors = beginExtend() + actorIndex;
 
-    ActorApplyStoreIt      itLeave  = _actorsLeave.begin();
-    ActorApplyStoreConstIt endLeave = _actorsLeave.end  ();
+    ExtendActorStoreIt itEnter   = _extendEnterActors.begin();
+    ExtendActorStoreIt itLeave   = _extendLeaveActors.begin();
 
-    Inherited::attachEvent(pActor, uiActorId);
-
-    if(pActor->getApplyEnter() == true)
+    for(; itActors != endActors; ++itActors)
     {
-        for(; itEnter != endEnter; ++itEnter)
-        {
-            if((*itEnter)->getActorId() > uiActorId)
-                break;
-        }
+        if((*itActors)->getEnterNodeFlag() == true)
+            ++itEnter;
 
-        _actorsEnter.insert(itEnter, pActor);
+        if((*itActors)->getLeaveNodeFlag() == true)
+            ++itLeave;
     }
 
-    if(pActor->getApplyLeave() == true)
-    {
-        for(; itLeave != endLeave; ++itLeave)
-        {
-            if((*itLeave)->getActorId() > uiActorId)
-                break;
-        }
+    if(pActor->getEnterNodeFlag() == true)
+        _extendEnterActors.insert(itEnter, pActor);
 
-        _actorsLeave.insert(itLeave, pActor);
-    }
+    if(pActor->getLeaveNodeFlag() == true)
+        _extendLeaveActors.insert(itLeave, pActor);
 }
 
-/*! Removes the actor from internal datastructurs.
+/*! Removes the extend actor from the internal data structures.
  */
 
 void
-DepthFirstAction::detachEvent(ActorBase *pActor, UInt32 uiActorId)
+DepthFirstAction::subExtendEvent(ExtendActorBase *pActor, UInt32 actorIndex)
 {
-    ActorApplyStoreIt      itEnter  = _actorsEnter.begin();
-    ActorApplyStoreConstIt endEnter = _actorsEnter.end  ();
+    ExtendActorStoreIt itEnter  = _extendEnterActors.begin();
+    ExtendActorStoreIt endEnter = _extendEnterActors.end  ();
 
-    ActorApplyStoreIt      itLeave  = _actorsLeave.begin();
-    ActorApplyStoreConstIt endLeave = _actorsLeave.end  ();
+    ExtendActorStoreIt itLeave  = _extendLeaveActors.begin();
+    ExtendActorStoreIt endLeave = _extendLeaveActors.end  ();
 
-    if(pActor->getApplyEnter() == true)
+    for(; itEnter != endEnter; ++itEnter)
     {
-        for(; itEnter != endEnter; ++itEnter)
+        if(*itEnter == pActor)
         {
-            if(*itEnter == pActor)
-            {
-                _actorsEnter.erase(itEnter);
-                break;
-            }
+            _extendEnterActors.erase(itEnter);
+
+            break;
         }
     }
 
-    if(pActor->getApplyLeave() == true)
+    for(; itLeave != endLeave; ++itLeave)
     {
-        for(; itLeave != endLeave; ++itLeave)
+        if(*itLeave == pActor)
         {
-            if(*itLeave == pActor)
-            {
-                _actorsLeave.erase(itLeave);
-                break;
-            }
+            _extendLeaveActors.erase(itLeave);
+
+            break;
         }
     }
-
-    Inherited::detachEvent(pActor, uiActorId);
 }
 
-/*! The actual traversal functunality, if no leave calls are required.
+/*! Inserts the basic actor into an internal data structure, depending on
+    whether the enter node flag and leave node flag are set.
+    This avoids making the destinction everytime the actors are called.
+ */
+
+void
+DepthFirstAction::addBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
+{
+    BasicActorStoreIt itActors  = beginBasic();
+    BasicActorStoreIt endActors = beginBasic() + actorIndex;
+
+    BasicActorStoreIt itEnter   = _basicEnterActors.begin();
+    BasicActorStoreIt itLeave   = _basicLeaveActors.begin();
+
+    for(; itActors != endActors; ++itActors)
+    {
+        if((*itActors)->getEnterNodeFlag() == true)
+            ++itEnter;
+
+        if((*itActors)->getLeaveNodeFlag() == true)
+            ++itLeave;
+    }
+
+    if(pActor->getEnterNodeFlag() == true)
+        _basicEnterActors.insert(itEnter, pActor);
+
+    if(pActor->getLeaveNodeFlag() == true)
+        _basicLeaveActors.insert(itLeave, pActor);
+}
+
+/*! Removes the extend actor from the internal data structures.
+ */
+
+void
+DepthFirstAction::subBasicEvent(BasicActorBase *pActor, UInt32 actorIndex)
+{
+    BasicActorStoreIt itEnter  = _basicEnterActors.begin();
+    BasicActorStoreIt endEnter = _basicEnterActors.end  ();
+
+    BasicActorStoreIt itLeave  = _basicLeaveActors.begin();
+    BasicActorStoreIt endLeave = _basicLeaveActors.end  ();
+
+    for(; itEnter != endEnter; ++itEnter)
+    {
+        if(*itEnter == pActor)
+        {
+            _basicEnterActors.erase(itEnter);
+
+            break;
+        }
+    }
+
+    for(; itLeave != endLeave; ++itLeave)
+    {
+        if(*itLeave == pActor)
+        {
+            _basicLeaveActors.erase(itLeave);
+
+            break;
+        }
+    }
+}
+
+/*! Does nothing, DepthFirstAction never copies state.
+ */
+
+void
+DepthFirstAction::beginEditStateEvent(ActorBase *pActor, UInt32 actorId)
+{
+}
+
+/*! Does nothing, DepthFirstAction never copies state.
+ */
+
+void
+DepthFirstAction::endEditStateEvent(ActorBase *pActor, UInt32 actorId)
+{
+}
+
+//==== PRIVATE ===============================================================
+//----------------------------------------------------------------------------
+//    Helper Methods
+//----------------------------------------------------------------------------
+
+/*! Drives the traversal of the graph. It only calls the actors upon "entering"
+    a node.
  */
 
 DepthFirstAction::ResultE
-DepthFirstAction::applyEnter(void)
+DepthFirstAction::traverseEnter(void)
 {
-    ResultE result   = NewActionTypes::Continue;
-    NodePtr currNode;
+    ResultE result = NewActionTypes::Continue;
+    NodePtr pNode;
 
     while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
     {
-        currNode = _nodeStack.back().getNode();
+        pNode = _nodeStack.back().getNode();
 
-        setUseActiveChildrenList(false);
-        getActiveChildrenList   (     )->setParentNode(currNode);
+        getChildrenList().setParentNode(pNode);
 
-        if( (currNode                                 == NullFC) ||
-           ((currNode->getTravMask() & getTravMask()) == 0     )   )
+#ifdef OSG_NEWACTION_STATISTICS
+        getStatistics()->getElem(statNodesEnter)->inc();
+#endif /* OSG_NEWACTION_STATISTICS */
+
+        result = enterNode(pNode);
+
+        _nodeStack.pop_back();
+
+        pushChildren(pNode, result);
+    }
+
+    return result;
+}
+
+/*! Drives the traversal of the graph. It calls the actors upon "entering" and
+    "leaving" a node.
+ */
+
+DepthFirstAction::ResultE
+DepthFirstAction::traverseEnterLeave(void)
+{
+    ResultE result = NewActionTypes::Continue;
+    NodePtr pNode;
+
+    while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
+    {
+        pNode = _nodeStack.back().getNode();
+
+        getChildrenList().setParentNode(pNode);
+
+        if(_nodeStack.back().getEnterFlag() == true)
         {
-            _nodeStack.pop_back();
+            _nodeStack.back().setEnterFlag(false);
+
+#ifdef OSG_NEWACTION_STATISTICS
+            getStatistics()->getElem(statNodesEnter)->inc();
+#endif /* OSG_NEWACTION_STATISTICS */
+
+            result = enterNode(pNode);
+
+            pushChildren(pNode, result);
         }
         else
         {
-            result = static_cast<ResultE>(NewActionTypes::Continue |
-                                          callEnter(currNode)       );
+#ifdef OSG_NEWACTION_STATISTICS
+            getStatistics()->getElem(statNodesLeave)->inc();
+#endif /* OSG_NEWACTION_STATISTICS */
+
+            result = leaveNode(pNode);
 
             _nodeStack.pop_back();
-
-            pushChildren(currNode, result);
         }
     }
 
     return result;
 }
 
-/*! The actual traveral functunality, if enter and leave calls are required.
+/*! Pushes the active children and extra children of the traversed node onto
+    the internal stack.
  */
 
-DepthFirstAction::ResultE
-DepthFirstAction::applyEnterLeave(void)
+void
+DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
 {
-    ResultE result   = NewActionTypes::Continue;
-    NodePtr currNode;
-
-    while((_nodeStack.empty() == false) && !(result & NewActionTypes::Quit))
+    if(result & (NewActionTypes::Skip  |
+                 NewActionTypes::Break |
+                 NewActionTypes::Quit   ))
     {
-        NodeStackEntry &topEntry = _nodeStack.back ();
-        currNode                 = topEntry.getNode();
+        setChildrenListEnabled(false);
 
-        if( (currNode                                 == NullFC) ||
-           ((currNode->getTravMask() & getTravMask()) == 0     )   )
-        {
-            _nodeStack.pop_back();
-        }
-        else
-        {
-            setUseActiveChildrenList(false);
-            getActiveChildrenList   (     )->setParentNode(currNode);
+        getExtraChildrenList().clear();
 
-            if(topEntry.getEnterNode() == true)
+        return;
+    }
+
+    ChildrenList      &cl  = getChildrenList     ();
+    ExtraChildrenList &ecl = getExtraChildrenList();
+
+    if(getChildrenListEnabled() == true)
+    {
+        for(UInt32 i = 0, size = cl.getSize(); i < size; ++i)
+        {
+            if(( cl.getActive(i)                                 == true  ) &&
+               ( cl.getChild (i)                                 != NullFC) &&
+               ((cl.getChild (i)->getTravMask() & getTravMask()) != 0     )   )
             {
-                result = static_cast<ResultE>(NewActionTypes::Continue |
-                                              callEnter(currNode)       );
-
-                topEntry.setEnterNode(false);
-
-                pushChildren(currNode, result);
+                _nodeStack.push_back(NodeStackEntry(cl.getChild(i), true));
             }
-            else
-            {
-                result = static_cast<ResultE>(NewActionTypes::Continue |
-                                              callLeave(currNode)       );
+        }
+    }
+    else
+    {
+        MFNodePtr::const_iterator itChildren  = pNode->getMFChildren()->begin();
+        MFNodePtr::const_iterator endChildren = pNode->getMFChildren()->end  ();
 
-                _nodeStack.pop_back();
+        for(; itChildren != endChildren; ++itChildren)
+        {
+            if((  *itChildren                                  != NullFC) &&
+               (((*itChildren)->getTravMask() & getTravMask()) != 0     )   )
+            {
+                _nodeStack.push_back(NodeStackEntry(*itChildren, true));
             }
         }
     }
 
-    return result;
+    for(UInt32 i = 0, size = ecl.getSize(); i < size; ++i)
+    {
+        if(( ecl.getActive(i)                                 == true  ) &&
+           ( ecl.getChild (i)                                 != NullFC) &&
+           ((ecl.getChild (i)->getTravMask() & getTravMask()) != 0     )   )
+        {
+            _nodeStack.push_back(NodeStackEntry(ecl.getChild(i), true));
+        }
+    }
+
+    setChildrenListEnabled(false);
+    ecl.clear             (     );
 }
 
 /*------------------------------------------------------------------------*/
@@ -336,7 +427,7 @@ DepthFirstAction::applyEnterLeave(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstAction.cpp,v 1.2 2004/04/21 12:15:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstAction.cpp,v 1.3 2004/09/10 15:00:46 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHFIRSTACTION_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHFIRSTACTION_INLINE_CVSID;
 }

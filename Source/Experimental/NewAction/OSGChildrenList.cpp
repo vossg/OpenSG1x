@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,8 +36,32 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-OSG_BEGIN_NAMESPACE
+#include "OSGChildrenList.h"
 
-OSG_END_NAMESPACE
+OSG_USING_NAMESPACE
 
-#define OSGINTERSECTACTOR_INLINE_CVSID "@(#)$Id:"
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChildrenList.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_hpp       [] = OSGCHILDRENLIST_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCHILDRENLIST_INLINE_CVSID;
+}
+
+#ifdef OSG_LINUX_ICC
+#pragma warning(enable : 177)
+#endif
+
+#ifdef OSG_SGI_CC
+#pragma reset woff 1174
+#endif

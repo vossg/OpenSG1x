@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGActiveChildrenList.h"
+#include "OSGExtraChildrenList.h"
 
 OSG_USING_NAMESPACE
 
@@ -53,9 +53,9 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGActiveChildrenList.cpp,v 1.1 2004/04/20 13:47:08 neumannc Exp $";
-    static Char8 cvsid_hpp       [] = OSGACTIVECHILDRENLIST_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGACTIVECHILDRENLIST_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGExtraChildrenList.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_hpp       [] = OSGEXTRACHILDRENLIST_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGEXTRACHILDRENLIST_INLINE_CVSID;
 }
 
 #ifdef OSG_LINUX_ICC
@@ -65,3 +65,4 @@ namespace
 #ifdef OSG_SGI_CC
 #pragma reset woff 1174
 #endif
+

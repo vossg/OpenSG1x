@@ -36,23 +36,94 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include "OSGExtendActorBase.h"
+#include "OSGBasicActorBase.h"
+
 OSG_BEGIN_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*    PRIVATE Types                                                        */
+//----------------------------------------------------------------------------
+//    Helper Methods
+//----------------------------------------------------------------------------
+
+/*! Calls the enterNode method of the attached actors.
+ */
+
+inline DepthFirstAction::ResultE
+DepthFirstAction::enterNode(const NodePtr &pNode)
+{
+    ResultE            result    = NewActionTypes::Continue;
+
+    ExtendActorStoreIt itExtend  = _extendEnterActors.begin();
+    ExtendActorStoreIt endExtend = _extendEnterActors.end  ();
+
+    BasicActorStoreIt  itBasic   = _basicEnterActors.begin();
+    BasicActorStoreIt  endBasic  = _basicEnterActors.end  ();
+
+    for(;  (itExtend != endExtend                                    )  &&
+          !(result   &  (NewActionTypes::Break | NewActionTypes::Quit));
+        ++itExtend                                                         )
+    {
+        result = static_cast<ResultE>(result | (*itExtend)->enterNode(pNode));
+    }
+
+    for(;  (itBasic != endBasic                                     )  &&
+          !(result  &  (NewActionTypes::Break | NewActionTypes::Quit));
+        ++itBasic                                                        )
+    {
+        result = static_cast<ResultE>(result | (*itBasic)->enterNode(pNode));
+    }
+
+    return result;
+}
+
+/*! Calls the leaveNode method of the attached actors.
+ */
+
+inline DepthFirstAction::ResultE
+DepthFirstAction::leaveNode(const NodePtr &pNode)
+{
+    ResultE            result    = NewActionTypes::Continue;
+
+    ExtendActorStoreIt itExtend  = _extendLeaveActors.begin();
+    ExtendActorStoreIt endExtend = _extendLeaveActors.end  ();
+
+    BasicActorStoreIt  itBasic   = _basicLeaveActors.begin();
+    BasicActorStoreIt  endBasic  = _basicLeaveActors.end  ();
+
+    for(;  (itExtend != endExtend                                    )  &&
+          !(result   &  (NewActionTypes::Break | NewActionTypes::Quit));
+        ++itExtend                                                         )
+    {
+        result = static_cast<ResultE>(result | (*itExtend)->leaveNode(pNode));
+    }
+
+    for(;  (itBasic != endBasic                                     )  &&
+          !(result  &  (NewActionTypes::Break | NewActionTypes::Quit));
+        ++itBasic                                                         )
+    {
+        result = static_cast<ResultE>(result | (*itBasic)->leaveNode(pNode));
+    }
+
+    return result;
+}
+
+//----------------------------------------------------------------------------
+//    Types
+//----------------------------------------------------------------------------
 
 inline
 DepthFirstAction::NodeStackEntry::NodeStackEntry(const NodePtr &pNode)
-    : _pNode     (pNode),
-      _bEnterNode(true )
+    : _pNode    (pNode),
+      _enterFlag(true )
 {
 }
 
 inline
-DepthFirstAction::NodeStackEntry::NodeStackEntry(const NodePtr &pNode,
-                                                       bool     bEnterNode)
-    : _pNode     (pNode     ),
-      _bEnterNode(bEnterNode)
+DepthFirstAction::NodeStackEntry::NodeStackEntry(
+    const NodePtr &pNode, bool enterFlag)
+
+    : _pNode    (pNode    ),
+      _enterFlag(enterFlag)
 {
 }
 
@@ -69,92 +140,17 @@ DepthFirstAction::NodeStackEntry::setNode(const NodePtr &pNode)
 }
 
 inline bool
-DepthFirstAction::NodeStackEntry::getEnterNode(void) const
+DepthFirstAction::NodeStackEntry::getEnterFlag(void) const
 {
-    return _bEnterNode;
+    return _enterFlag;
 }
 
 inline void
-DepthFirstAction::NodeStackEntry::setEnterNode(bool bEnterNode)
+DepthFirstAction::NodeStackEntry::setEnterFlag(bool enterFlag)
 {
-    _bEnterNode = bEnterNode;
-}
-
-/*-------------------------------------------------------------------------*/
-/*    Helper Methods                                                       */
-
-inline DepthFirstAction::ResultE
-DepthFirstAction::callEnter(const NodePtr &pNode)
-{
-    ResultE                result    = NewActionTypes::Continue;
-    ActorApplyStoreIt      itActors  = _actorsEnter.begin();
-    ActorApplyStoreConstIt endActors = _actorsEnter.end  ();
-
-    for(; (itActors != endActors) && !(result & NewActionTypes::Quit);
-        ++itActors)
-    {
-        result = static_cast<ResultE>(result | (*itActors)->applyEnter(pNode));
-    }
-
-    return result;
-}
-
-inline DepthFirstAction::ResultE
-DepthFirstAction::callLeave(const NodePtr &pNode)
-{
-    ResultE                result    = NewActionTypes::Continue;
-    ActorApplyStoreIt      itActors  = _actorsLeave.begin();
-    ActorApplyStoreConstIt endActors = _actorsLeave.end  ();
-
-    for(; (itActors != endActors) && !(result & NewActionTypes::Quit);
-        ++itActors)
-    {
-        result = static_cast<ResultE>(result | (*itActors)->applyLeave(pNode));
-    }
-
-    return result;
-}
-
-inline void
-DepthFirstAction::pushChildren(const NodePtr &pNode, ResultE result)
-{
-    if(result & NewActionTypes::Quit)
-        return;
-
-    if(result & NewActionTypes::Skip)
-        return;
-
-    if(getUseActiveChildrenList() == true)
-    {
-        ActiveChildrenList *pActiveChildrenList = getActiveChildrenList();
-        
-        ActiveChildrenList::MFNodePtrConstIt itChildren    =
-            pActiveChildrenList->beginChildren();
-        ActiveChildrenList::MFNodePtrConstIt endItChildren =
-            pActiveChildrenList->endChildren  ();
-
-        for(; itChildren != endItChildren; ++itChildren)
-        {
-            if(pActiveChildrenList->getActive(itChildren) == true)
-            {
-                _nodeStack.push_back(NodeStackEntry(*itChildren));
-            }
-        }
-    }
-    else
-    {
-        MFNodePtr::const_iterator itChildren    =
-            pNode->getMFChildren()->begin();
-        MFNodePtr::const_iterator endItChildren =
-            pNode->getMFChildren()->end  ();
-
-        for(; itChildren != endItChildren; ++itChildren)
-        {
-            _nodeStack.push_back(NodeStackEntry(*itChildren));
-        }
-    }
+    _enterFlag = enterFlag;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHFIRSTACTION_INLINE_CVSID "@(#)$Id: OSGDepthFirstAction.inl,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGDEPTHFIRSTACTION_INLINE_CVSID "@(#)$Id: OSGDepthFirstAction.inl,v 1.2 2004/09/10 15:00:46 neumannc Exp $"

@@ -40,154 +40,92 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include "OSGActorBase.h"
+#include "OSGBasicActorBase.h"
 
 OSG_USING_NAMESPACE
-
-//----------------------------------------------------------------------------
-//    Description
-//----------------------------------------------------------------------------
-
-/*! \class osg::ActorBase
-    \ingroup GrpExperimentalNewAction
-
-ActorBase is the base class for all Actors. See \ref
-PageExperimentalNewActionActorBase for a description.
-
-\ext
-
-To create a new actor you should use the actorEdit utility that can be found
-in /OpenSG/Tools/actorEdit. It will generate a base class for your own actor
-that takes care of the managment of functors and state.
-
-\endext
-
-*/
-
-// Abstract function doc
-
-/*! \fn osg::ActorBase::ResultE osg::ActorBase::enterNode(const NodePtr &pNode)
-
-    This method will be called by an action, when "entering" a node.
-*/
-
-/*! \fn osg::ActorBase::ResultE osg::ActorBase::leaveNode(const NodePtr &pNode)
-
-    This method will be called by an action, when "leaving" a node.
-*/
-
-
-//----------------------------------------------------------------------------
-//    Types
-//----------------------------------------------------------------------------
-
-ActorBase::ActorBaseState::~ActorBaseState(void)
-{
-}
 
 //----------------------------------------------------------------------------
 //    Destructor
 //----------------------------------------------------------------------------
 
-/*! Destructor
- */
-
-ActorBase::~ActorBase(void)
+BasicActorBase::~BasicActorBase(void)
 {
 }
-
 
 //----------------------------------------------------------------------------
 //    Start/Stop
 //----------------------------------------------------------------------------
 
-/*! Called by an action before a traversal.
-    \warning When overriding this method, you must call the inherited version.
- */
-
-ActorBase::ResultE
-ActorBase::start(void)
+BasicActorBase::ResultE
+BasicActorBase::start(void)
 {
-#ifdef OSG_NEWACTION_STATESLOTINTERFACE
-    _stateSlotMap.clear();
-#endif
+    return Inherited::start();
+}
 
+BasicActorBase::ResultE
+BasicActorBase::stop(void)
+{
+    return Inherited::stop();
+}
+
+//----------------------------------------------------------------------------
+//    Enter/Leave
+//----------------------------------------------------------------------------
+
+BasicActorBase::ResultE
+BasicActorBase::enterNode(const NodePtr &pNode)
+{
     return NewActionTypes::Continue;
 }
 
-/*! Called by an action after a traversal.
-    \warning When overriding this method, you must call the inherited version.
- */
-
-ActorBase::ResultE
-ActorBase::stop(void)
+BasicActorBase::ResultE
+BasicActorBase::leaveNode(const NodePtr &pNode)
 {
-#ifdef OSG_NEWACTION_STATESLOTINTERFACE
-    _stateSlotMap.clear();
-#endif
-
     return NewActionTypes::Continue;
 }
 
 //----------------------------------------------------------------------------
-//    Constructor
+//    Constructors
 //----------------------------------------------------------------------------
 
-/*! Constructor
+/*! Default constructor
  */
 
-ActorBase::ActorBase(void)
-    : _pAction      (NULL                        ),
-      _actorId      (TypeTraits<UInt32>::getMax()),
-      _enterNodeFlag(false                       ),
-      _leaveNodeFlag(false                       ),
-#ifdef OSG_NEWACTION_STATESLOTINTERFACE
-      _stateSlotMap (                            ),
-#endif
-      _pState       (NULL                        )
+BasicActorBase::BasicActorBase(void)
+    : Inherited()
 {
 }
 
 //----------------------------------------------------------------------------
-//    Event Notification
+//    Add, Sub and Find helper
 //----------------------------------------------------------------------------
 
-/*! Notifies the actor, that it was added to an action.
-    \warning When overriding this method, you must call the inherited version.
- */
-
-void
-ActorBase::addEvent(NewActionBase *pAction, UInt32 actorId)
+UInt32
+BasicActorBase::addHelper(NewActionBase *pAction)
 {
-    if((_pAction != NULL) || (_actorId != TypeTraits<UInt32>::getMax()))
-    {
-        SWARNING << "ActorBase::attachEvent: Actor already attached."
-                 << endLog;
-    }
-
-    createInitialState();
-
-    _pAction = pAction;
-    _actorId = actorId;
+    return pAction->addBasicActor(this);
 }
 
-/*! Notifies the actor, that it was removed from an action.
-    \warning When overriding this method, you must call the inherited version.
- */
-
 void
-ActorBase::subEvent(NewActionBase *pAction, UInt32 actorId)
+BasicActorBase::subHelper(NewActionBase *pAction)
 {
-    if((_pAction != pAction) || (_actorId != actorId))
+    UInt32 actorIndex = pAction->findBasicActor(this);
+
+    if(actorIndex == TypeTraits<UInt32>::getMax())
     {
-        SWARNING << "ActorBase::detachEvent: Inconsistency detected."
+        SWARNING << "BasicActorBase::subHelper: Illegal actor index."
                  << endLog;
+
+        return;
     }
 
-    deleteInitialState();
+    pAction->subBasicActor(actorIndex);
+}
 
-    _pAction = NULL;
-    _actorId = TypeTraits<UInt32>::getMax();
+UInt32
+BasicActorBase::findHelper(const NewActionBase *pAction)
+{
+    return pAction->findBasicActor(this);
 }
 
 /*------------------------------------------------------------------------*/
@@ -203,9 +141,9 @@ ActorBase::subEvent(NewActionBase *pAction, UInt32 actorId)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_hpp       [] = OSGACTORBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGACTORBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBasicActorBase.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_hpp       [] = OSGBASICACTORBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGBASICACTORBASE_INLINE_CVSID;
 }
 
 #ifdef OSG_LINUX_ICC
