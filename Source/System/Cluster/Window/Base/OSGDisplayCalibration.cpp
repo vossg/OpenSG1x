@@ -380,9 +380,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         addRefCP(_bgammachunk);
 
         // set gamma table
-        _rgammaimg = Image::create();
-        _ggammaimg = Image::create();
-        _bgammaimg = Image::create();
         for(int j=0; j < 3; ++j)
         {
             ImagePtr img;
@@ -747,7 +744,9 @@ void DisplayCalibration::updateGamma()
     if(_useFragmentProgram)
     {
         beginEditCP(_fragProgram, FragmentProgramChunk::ParamValuesFieldMask);
+
         _fragProgram->setParameter(5, Vec4f(getGamma(),getGamma(),getGamma(),0));   
+
         endEditCP(_fragProgram, FragmentProgramChunk::ParamValuesFieldMask);
     }
     else
