@@ -156,6 +156,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     void print (void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Helper                                     */
+    /*! \{                                                                 */
+
+    bool isGZip(std::istream &is);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -199,8 +206,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const SceneFileHandler &source);
-
-    bool isGZip(std::istream &is);
 
     typedef struct
     {

@@ -44,6 +44,7 @@
 #include "OSGConfig.h"
 
 #include <iostream>
+#include <fstream>
 
 #include "OSGVRMLNodeDescs.h"
 #include <OSGLog.h>
@@ -63,6 +64,7 @@
 #include <OSGInline.h>
 #include <OSGImage.h>
 #include <OSGSceneFileHandler.h>
+#include <OSGZStream.h>
 
 #include <OSGVRMLFile.h>
 
@@ -4877,17 +4879,35 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
     std::string filename =
     SceneFileHandler::the().getPathHandler()->findFile((*pUrl)[0].c_str());
 
-    pVRMLLoader->scanFile(filename.c_str());
+    // read it via stream could be a compressed file.
+    std::ifstream in(filename.c_str(), std::ios::binary);
+    if(in)
+    {
+        if(SceneFileHandler::the().isGZip(in))
+        {
+            zip_istream unzipper(in);
+            pVRMLLoader->scanStream(unzipper);
+        }
+        else
+        {
+            pVRMLLoader->scanStream(in);
+        }
+        in.close();
+    }
+    //pVRMLLoader->scanFile(filename.c_str());
 
     NodePtr pFile = pVRMLLoader->getRoot();
 
 //    NodePtr pFile = SceneFileHandler::the().read((*pUrl)[0].c_str());
 
-    beginEditCP(pNode, Node::ChildrenFieldMask);
+    if(pFile != NullFC)
     {
-        pNode->addChild(pFile);
+        beginEditCP(pNode, Node::ChildrenFieldMask);
+        {
+            pNode->addChild(pFile);
+        }
+        endEditCP  (pNode, Node::ChildrenFieldMask);
     }
-    endEditCP  (pNode, Node::ChildrenFieldMask);
 
     delete pVRMLLoader;
 
