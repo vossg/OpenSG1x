@@ -114,13 +114,6 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                Texture specific                              */
-    /*! \{                                                                 */
-
-    void imageContentChanged(void);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name               Cube Texture specific                          */
     /*! \{                                                                 */
 
