@@ -33,6 +33,7 @@
 #include <OSGFrameInterleaveWindow.h>
 #endif
 #include <OSGShearedStereoCameraDecorator.h>
+#include <OSGSimpleAttachments.h>
 
 OSG_USING_NAMESPACE
 
@@ -67,6 +68,8 @@ Real32                   animTime=0;
 std::string              serviceAddress;
 bool                     serviceAddressValid = false;
 UInt32                   interleave=0;
+Real32                   _dsFactor = 1.0; // scale down factor.
+bool                     _enablecc = true; // enable color correction.
 PolygonChunkPtr          polygonChunk;
 bool                     prepared=false;
 bool                     showInfo=false;
@@ -389,6 +392,26 @@ void mouse(int button, int state, int x, int y)
 	glutPostRedisplay();
 }
 
+void setHEyeWallParameter(Real32 dsFactor, bool enablecc)
+{
+    static char str[1024];
+    
+    NamePtr parameters = NamePtr::dcast(clusterWindow->findAttachment(Name::getClassType()));
+
+    if(parameters == NullFC)
+    {
+        parameters = Name::create();
+        beginEditCP(clusterWindow, Node::AttachmentsFieldMask);
+            clusterWindow->addAttachment(parameters);
+        endEditCP(clusterWindow, Node::AttachmentsFieldMask);
+    }
+    
+    sprintf(str, "downScale=%f colorCorrection=%d", dsFactor, enablecc);
+    beginEditCP(parameters);
+        parameters->getFieldPtr()->getValue().assign(str);
+    endEditCP(parameters);
+}
+
 void key(unsigned char key, int /*x*/, int /*y*/)
 {
 	switch ( key )
@@ -530,6 +553,25 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                 root->subChild(0);
             }
             endEditCP(root);
+            break;
+        case '+':
+            _dsFactor += 0.01f;
+            if(_dsFactor > 1.0f)
+                _dsFactor = 1.0f;
+            setHEyeWallParameter(_dsFactor, _enablecc);
+            break;
+        case '-':
+            _dsFactor -= 0.01f;
+            if(_dsFactor <= 0.0f)
+                _dsFactor = 0.01f;
+            setHEyeWallParameter(_dsFactor, _enablecc);
+            break;
+        case 'f':
+            if(_enablecc)
+                _enablecc = false;
+            else
+                _enablecc = true;
+            setHEyeWallParameter(_dsFactor, _enablecc);
             break;
         case 27:	// should kill the clients here
             // exit
