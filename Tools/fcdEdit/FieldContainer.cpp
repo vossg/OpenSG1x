@@ -808,8 +808,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 
                 out << endl << "    };" << endl << endl;
 
-				fieldIt = _fieldList.begin();
-				for ( fieldIt; fieldIt != _fieldList.end(); fieldIt++ )
+				for ( fieldIt = _fieldList.begin(); fieldIt != _fieldList.end(); fieldIt++ )
 				{
 					name = fieldIt->name();
 					out << "    static const osg::BitVector " 
