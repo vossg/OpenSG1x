@@ -2535,7 +2535,7 @@ void VRMLMaterialDesc::endProtoInterface(void)
                        _defaultAmbientIntensity.getValue(),
                        _defaultDiffuseColor    .getValue().blue() *
                        _defaultAmbientIntensity.getValue(),
-                       _defaultTransparency    .getValue());
+                       1.f - _defaultTransparency    .getValue());
     
     _pDefMat = ChunkMaterial::create();
 
@@ -2546,14 +2546,14 @@ void VRMLMaterialDesc::endProtoInterface(void)
     cCol.setValuesRGBA   (_defaultDiffuseColor.getValue()[0],
                           _defaultDiffuseColor.getValue()[1],
                           _defaultDiffuseColor.getValue()[2],
-                          _defaultTransparency.getValue());
+                          1.f - _defaultTransparency.getValue());
 
     pMatChunk->setDiffuse(cCol);
 
     cCol.setValuesRGBA    (_defaultSpecularColor.getValue()[0],
                            _defaultSpecularColor.getValue()[1],
                            _defaultSpecularColor.getValue()[2],
-                           _defaultTransparency.getValue());
+                           1.f - _defaultTransparency.getValue());
     pMatChunk->setSpecular(cCol);
 
     pMatChunk->setShininess(_defaultShininess.getValue());
@@ -2561,7 +2561,7 @@ void VRMLMaterialDesc::endProtoInterface(void)
     cCol.setValuesRGBA    (_defaultEmissiveColor.getValue()[0],
                            _defaultEmissiveColor.getValue()[1],
                            _defaultEmissiveColor.getValue()[2],
-                           _defaultTransparency.getValue());
+                           1.f - _defaultTransparency.getValue());
     pMatChunk->setEmission(cCol);
 
     _pDefMat->addChunk(pMatChunk);
@@ -2627,7 +2627,7 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
                             _ambientIntensity.getValue(),
                             _diffuseColor    .getValue().blue() *
                             _ambientIntensity.getValue(),
-                            _transparency.getValue());
+                            1.f - _transparency.getValue());
 
         beginEditCP(_pMat);
 
@@ -2636,13 +2636,13 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
         cCol.setValuesRGBA (_diffuseColor.getValue()[0],
                             _diffuseColor.getValue()[1],
                             _diffuseColor.getValue()[2],
-                            _transparency.getValue());
+                            1.f - _transparency.getValue());
         _pMat->setDiffuse  (cCol);
 
         cCol.setValuesRGBA (_specularColor.getValue()[0],
                             _specularColor.getValue()[1],
                             _specularColor.getValue()[2],
-                            _transparency.getValue());
+                            1.f - _transparency.getValue());
         _pMat->setSpecular (cCol);
 
         _pMat->setShininess(_shininess.getValue()    );
@@ -2650,7 +2650,7 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
         cCol.setValuesRGBA (_emissiveColor.getValue()[0],
                             _emissiveColor.getValue()[1],
                             _emissiveColor.getValue()[2],
-                            _transparency.getValue());
+                            1.f - _transparency.getValue());
         _pMat->setEmission (cCol);
 
         endEditCP(_pMat);
