@@ -70,7 +70,6 @@
 #include <OSGGL.h>                        // OffsetLine default header
 #include <OSGGL.h>                        // OffsetFill default header
 
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  PolygonChunkBase::CullFaceFieldMask = 
@@ -539,29 +538,4 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 }
 
-
-
-/*------------------------------------------------------------------------*/
-/*                              cvs id's                                  */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.24 2002/04/30 09:29:12 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGPOLYGONCHUNKFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

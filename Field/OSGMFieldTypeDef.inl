@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,55 +36,33 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILEGEOPROPFIELDINST
-
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
-
-#include <OSGGeoPropFields.h>
-
-#include <OSGMFieldTypeDef.inl>
-#include <OSGSFieldTypeDef.inl>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GeoPositionsPtr >::_type("GeoPositionsPtr",
-                                                 "GeoPositionsInterfacePtr");
-DataType FieldDataTraits<GeoNormalsPtr   >::_type("GeoNormalsPtr",
-                                                 "GeoNormalsInterfacePtr");
-DataType FieldDataTraits<GeoColorsPtr    >::_type("GeoColorsPtr",
-                                                 "GeoColorsInterfacePtr");
-DataType FieldDataTraits<GeoTexCoordsPtr>::_type("GeoTexCoordsPtr",
-                                                 "GeoTexCoordsInterfacePtr");
-DataType FieldDataTraits<GeoIndicesPtr    >::_type("GeoIndicesPtr",
-                                                 "GeoIndicesInterfacePtr");
-DataType FieldDataTraits<GeoPTypesPtr    >::_type("GeoPTypesPtr",
-                                                 "GeoPTypesInterfacePtr");
-DataType FieldDataTraits<GeoPLengthsPtr  >::_type("GeoPLengthsPtr",
-                                                 "GeoPLengthsInterfacePtr");
+/*-------------------------------------------------------------------------*/
+/*                             FieldType                                   */
 
-#if defined(__sgi)
-
-#pragma instantiate SField             <GeoPositionsPtr           >::_fieldType
-#pragma instantiate SField             <GeoNormalsPtr             >::_fieldType
-#pragma instantiate SField             <GeoColorsPtr              >::_fieldType
-#pragma instantiate SField             <GeoTexCoordsPtr          >::_fieldType
-#pragma instantiate SField             <GeoIndicesPtr              >::_fieldType
-#pragma instantiate SField             <GeoPTypesPtr              >::_fieldType
-#pragma instantiate SField             <GeoPLengthsPtr            >::_fieldType
-
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+template <class FieldTypeT, Int32 fieldNameSpace>
+const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
+    MFieldTraits::getMName(), 
+    MFieldTraits::getPName(),
+    MFieldTraits::getType (),
+    MField<FieldTypeT, fieldNameSpace>::create,
+    FieldType::MULTI_FIELD);
 #else
-
-OSG_DLLEXPORT_DEF1(SField, GeoPositionsPtr , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoNormalsPtr   , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoColorsPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoIndicesPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoPTypesPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoPLengthsPtr  , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
+template <class FieldTypeT, Int32 fieldNameSpace>
+const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
+    MFieldTraits::getMName(), 
+    MFieldTraits::getPName(),
+    MFieldTraits::getType (),
+    MField<FieldTypeT, fieldNameSpace>::create,
+    FieldType::MULTI_FIELD);
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGMFIELDTYPEDEF_INLINE_CVSID "@(#)$Id: $"

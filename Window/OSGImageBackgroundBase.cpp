@@ -62,22 +62,6 @@
 #include "OSGImageBackground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ImageBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ImageBackgroundBase::ColorFieldMask = 
@@ -299,6 +283,8 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -313,14 +299,10 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.10 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.11 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

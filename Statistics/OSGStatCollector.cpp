@@ -52,27 +52,6 @@
 
 #include "OSGStatCollector.h"
 
-
-OSG_BEGIN_NAMESPACE
-
-/*-------------------------- field instantiations -------------------------*/
-
-DataType FieldDataTraits<StatCollector>::_type("StatCollector", 
-        "None");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<StatCollector>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
-
 OSG_USING_NAMESPACE
 
 /** \enum OSGVecBase::VectorSizeE
@@ -271,6 +250,28 @@ bool StatCollector::operator < (const StatCollector &other) const
     return this < &other;
 }
 
+
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+/*-------------------------- field instantiations -------------------------*/
+
+DataType FieldDataTraits<StatCollector>::_type("StatCollector", 
+        "None");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<StatCollector>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

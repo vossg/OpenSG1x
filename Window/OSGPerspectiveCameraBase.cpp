@@ -62,24 +62,6 @@
 #include "OSGPerspectiveCamera.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "CameraPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<PerspectiveCameraPtr>::_fieldType
-#pragma instantiate MField<PerspectiveCameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  PerspectiveCameraBase::FovFieldMask = 
@@ -239,6 +221,27 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "CameraPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<PerspectiveCameraPtr>::_fieldType
+#pragma instantiate MField<PerspectiveCameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -253,14 +256,10 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.25 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.26 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

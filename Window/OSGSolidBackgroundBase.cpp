@@ -62,22 +62,6 @@
 #include "OSGSolidBackground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<SolidBackgroundPtr>::_type("SolidBackgroundPtr", "BackgroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<SolidBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SolidBackgroundBase::ColorFieldMask = 
@@ -237,6 +221,8 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -251,14 +237,10 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.25 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.26 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

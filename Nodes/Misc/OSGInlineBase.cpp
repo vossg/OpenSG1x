@@ -62,24 +62,6 @@
 #include "OSGInline.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<InlinePtr>::_fieldType
-#pragma instantiate MField<InlinePtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  InlineBase::UrlFieldMask = 
@@ -270,6 +252,27 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<InlinePtr>::_fieldType
+#pragma instantiate MField<InlinePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -290,8 +293,4 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGINLINEFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

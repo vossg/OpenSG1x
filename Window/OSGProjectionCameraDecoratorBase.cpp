@@ -62,24 +62,6 @@
 #include "OSGProjectionCameraDecorator.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<ProjectionCameraDecoratorPtr>::_type("ProjectionCameraDecoratorPtr", "StereoCameraDecoratorPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ProjectionCameraDecoratorPtr>::_fieldType
-#pragma instantiate MField<ProjectionCameraDecoratorPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::UserFieldMask = 
@@ -425,6 +407,27 @@ void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecora
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ProjectionCameraDecoratorPtr>::_type("ProjectionCameraDecoratorPtr", "StereoCameraDecoratorPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ProjectionCameraDecoratorPtr>::_fieldType
+#pragma instantiate MField<ProjectionCameraDecoratorPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -439,14 +442,10 @@ void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecora
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGProjectionCameraDecoratorBase.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGProjectionCameraDecoratorBase.cpp,v 1.4 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPROJECTIONCAMERADECORATORFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

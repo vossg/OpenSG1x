@@ -62,24 +62,6 @@
 #include "OSGGroup.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", "NodeCorePtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<GroupPtr>::_fieldType
-#pragma instantiate MField<GroupPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 
@@ -199,6 +181,27 @@ void GroupBase::executeSyncImpl(      GroupBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", "NodeCorePtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<GroupPtr>::_fieldType
+#pragma instantiate MField<GroupPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -213,14 +216,10 @@ void GroupBase::executeSyncImpl(      GroupBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.22 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.23 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGROUPFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

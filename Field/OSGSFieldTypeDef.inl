@@ -36,55 +36,29 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILEGEOPROPFIELDINST
-
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
-
-#include <OSGGeoPropFields.h>
-
-#include <OSGMFieldTypeDef.inl>
-#include <OSGSFieldTypeDef.inl>
-
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GeoPositionsPtr >::_type("GeoPositionsPtr",
-                                                 "GeoPositionsInterfacePtr");
-DataType FieldDataTraits<GeoNormalsPtr   >::_type("GeoNormalsPtr",
-                                                 "GeoNormalsInterfacePtr");
-DataType FieldDataTraits<GeoColorsPtr    >::_type("GeoColorsPtr",
-                                                 "GeoColorsInterfacePtr");
-DataType FieldDataTraits<GeoTexCoordsPtr>::_type("GeoTexCoordsPtr",
-                                                 "GeoTexCoordsInterfacePtr");
-DataType FieldDataTraits<GeoIndicesPtr    >::_type("GeoIndicesPtr",
-                                                 "GeoIndicesInterfacePtr");
-DataType FieldDataTraits<GeoPTypesPtr    >::_type("GeoPTypesPtr",
-                                                 "GeoPTypesInterfacePtr");
-DataType FieldDataTraits<GeoPLengthsPtr  >::_type("GeoPLengthsPtr",
-                                                 "GeoPLengthsInterfacePtr");
+/*-------------------------------------------------------------------------*/
+/*                             FieldType                                   */
 
-#if defined(__sgi)
-
-#pragma instantiate SField             <GeoPositionsPtr           >::_fieldType
-#pragma instantiate SField             <GeoNormalsPtr             >::_fieldType
-#pragma instantiate SField             <GeoColorsPtr              >::_fieldType
-#pragma instantiate SField             <GeoTexCoordsPtr          >::_fieldType
-#pragma instantiate SField             <GeoIndicesPtr              >::_fieldType
-#pragma instantiate SField             <GeoPTypesPtr              >::_fieldType
-#pragma instantiate SField             <GeoPLengthsPtr            >::_fieldType
-
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+template <class FieldTypeT, Int32 fieldNameSpace>
+const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
+    SFieldTraits::getSName(), 
+    SFieldTraits::getPName(),
+    SFieldTraits::getType (),
+    SField<FieldTypeT, fieldNameSpace>::create,
+    FieldType::SINGLE_FIELD);
 #else
-
-OSG_DLLEXPORT_DEF1(SField, GeoPositionsPtr , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoNormalsPtr   , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoColorsPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoIndicesPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoPTypesPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GeoPLengthsPtr  , OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
+template <class FieldTypeT, Int32 fieldNameSpace>
+const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
+    SFieldTraits::getSName(), 
+    SFieldTraits::getPName(),
+    SFieldTraits::getType (),
+    SField<FieldTypeT, fieldNameSpace>::create,
+    FieldType::SINGLE_FIELD);
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGSFIELDTYPEDEF_INLINE_CVSID "@(#)$Id: $"

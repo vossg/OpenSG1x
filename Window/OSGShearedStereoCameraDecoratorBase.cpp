@@ -62,24 +62,6 @@
 #include "OSGShearedStereoCameraDecorator.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<ShearedStereoCameraDecoratorPtr>::_type("ShearedStereoCameraDecoratorPtr", "StereoCameraDecoratorPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ShearedStereoCameraDecoratorPtr>::_fieldType
-#pragma instantiate MField<ShearedStereoCameraDecoratorPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ShearedStereoCameraDecoratorBase::ZeroParallaxDistanceFieldMask = 
@@ -270,6 +252,27 @@ void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCamera
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ShearedStereoCameraDecoratorPtr>::_type("ShearedStereoCameraDecoratorPtr", "StereoCameraDecoratorPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ShearedStereoCameraDecoratorPtr>::_fieldType
+#pragma instantiate MField<ShearedStereoCameraDecoratorPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -284,14 +287,10 @@ void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCamera
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShearedStereoCameraDecoratorBase.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShearedStereoCameraDecoratorBase.cpp,v 1.4 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHEAREDSTEREOCAMERADECORATORFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -52,11 +52,17 @@ ViewportPtr vp;
 WindowPtr win;
 
 TransformPtr cam_trans;
+TransformPtr scene_trans;
 
 Trackball tball;
 
+bool move_obj = false;
+
 int mouseb = 0;
 int lastx=0, lasty=0;
+
+Quaternion oldq;
+Vec3f      oldv;
 
 void 
 display(void)
@@ -83,7 +89,18 @@ display(void)
 //    cout << tball.getRotation() << endl;
 
     m1.mult( m2 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+
+    cerr << m1 << endl;
+    
+
+    if(move_obj == true)
+    {
+        scene_trans->getSFMatrix()->setValue( m1 );
+    }
+    else
+    {
+        cam_trans->getSFMatrix()->setValue( m1 );
+    }
 
     win->draw( ract );
 }
@@ -195,11 +212,54 @@ void key(unsigned char key, int x, int y)
         case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
             cerr << "PolygonMode: Fill." << endl;
             break;
-        case 'r':   cerr << "Sending ray through " << x << "," << y << endl;
+        case 'r':   
+        {
+            cerr << "Sending ray through " << x << "," << y << endl;
             Line l;
             cam->calcViewRay( l, x, y, *vp );
-            cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
-            break;
+            cerr << "From " << l.getPosition() << ", dir " << l.getDirection()
+                 << endl;
+        }
+        break;
+
+        case ' ':
+        {
+            Matrix     m;
+            Quaternion q;
+            Vec3f      v;
+
+            q = oldq;
+            v = oldv;
+
+            oldq = tball.getRotation();
+            oldv = tball.getPosition();
+
+            move_obj = ! move_obj;
+            if ( move_obj )
+            {
+                puts("moving object");
+//                m = scene_trans->getSFMatrix()->getValue();
+                tball.setMode( osg::Trackball::OSGCamera );
+
+            }
+            else
+            {
+                puts("moving camera");
+//                m = cam_trans->getSFMatrix()->getValue();
+                tball.setMode( osg::Trackball::OSGObject );
+            }
+            
+//            q.setValue(m);
+            tball.setStartPosition( v, true );
+            tball.setStartRotation( q, true );
+
+            cout << q << endl;
+            cout << v << endl;
+
+//            cout << " " << m[3][0] << " " << m[3][1] << " " << m[3][2] << endl;
+            
+        }
+        break;
     }
 }
 
@@ -296,8 +356,19 @@ int main (int argc, char **argv)
     
     cout << "Volume: from " << min << " to " << max << endl;
 
+
+    scene_trans      = Transform::create();
+    NodePtr sceneTrN = Node::create();
+
+    beginEditCP(sceneTrN);
+    {
+        sceneTrN->setCore(scene_trans);
+        sceneTrN->addChild(file);
+    }
+    endEditCP(sceneTrN);
+
     beginEditCP(dlight);
-    dlight->addChild( file );
+    dlight->addChild(sceneTrN);
     endEditCP(dlight);
 
     cerr << "Tree: " << endl;

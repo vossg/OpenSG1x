@@ -74,24 +74,6 @@
 #include <OSGGL.h>                        // GenFuncR default header
 #include <OSGGL.h>                        // GenFuncQ default header
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<TextureChunkPtr>::_fieldType
-#pragma instantiate MField<TextureChunkPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  TextureChunkBase::ImageFieldMask = 
@@ -840,6 +822,27 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<TextureChunkPtr>::_fieldType
+#pragma instantiate MField<TextureChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -854,14 +857,10 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.30 2002/04/30 09:29:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.31 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTEXTURECHUNKFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

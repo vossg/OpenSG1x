@@ -62,7 +62,6 @@
 #include "OSGGeometry.h"
 
 
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GeometryBase::TypesFieldMask = 
@@ -531,29 +530,4 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 }
 
-
-
-/*------------------------------------------------------------------------*/
-/*                              cvs id's                                  */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.26 2002/04/30 09:29:10 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGGEOMETRYFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

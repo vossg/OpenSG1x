@@ -62,24 +62,6 @@
 #include "OSGViewport.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<ViewportPtr>::_type("ViewportPtr", "AttachmentContainerPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ViewportPtr>::_fieldType
-#pragma instantiate MField<ViewportPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ViewportBase::LeftFieldMask = 
@@ -487,6 +469,27 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ViewportPtr>::_type("ViewportPtr", "AttachmentContainerPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ViewportPtr>::_fieldType
+#pragma instantiate MField<ViewportPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -501,14 +504,10 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.28 2002/04/30 09:29:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.29 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGVIEWPORTFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

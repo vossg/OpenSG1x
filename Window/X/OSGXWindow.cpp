@@ -53,34 +53,6 @@
 
 #include "OSGXWindow.h"
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<DisplayP>  ::_type("DisplayP", NULL);
-DataType FieldDataTraits<X11Window> ::_type("X11Window", NULL);
-DataType FieldDataTraits<GLXContext>::_type("GLXContext", NULL);
-
-#if defined(__sgi)
-
-#pragma instantiate SField<DisplayP>  ::_fieldType
-#pragma instantiate MField<DisplayP>  ::_fieldType
-#pragma instantiate SField<X11Window> ::_fieldType
-#pragma instantiate MField<X11Window> ::_fieldType
-#pragma instantiate SField<GLXContext>::_fieldType
-#pragma instantiate MField<GLXContext>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 /*! \class osg::XWindow
@@ -204,6 +176,37 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 #endif
 }
 
+
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<DisplayP>  ::_type("DisplayP", NULL);
+DataType FieldDataTraits<X11Window> ::_type("X11Window", NULL);
+DataType FieldDataTraits<GLXContext>::_type("GLXContext", NULL);
+
+#if defined(__sgi)
+
+#pragma instantiate SField<DisplayP>  ::_fieldType
+#pragma instantiate MField<DisplayP>  ::_fieldType
+#pragma instantiate SField<X11Window> ::_fieldType
+#pragma instantiate MField<X11Window> ::_fieldType
+#pragma instantiate SField<GLXContext>::_fieldType
+#pragma instantiate MField<GLXContext>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

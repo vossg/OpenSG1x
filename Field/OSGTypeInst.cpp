@@ -57,6 +57,9 @@
 #include "OSGSFMathTypes.h"
 #include "OSGMFMathTypes.h"
 
+#include "OSGSFieldTypeDef.inl"
+#include "OSGMFieldTypeDef.inl"
+
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits2<bool >::_type("bool"  , "IntegralType");

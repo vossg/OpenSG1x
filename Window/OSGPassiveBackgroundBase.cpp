@@ -62,22 +62,6 @@
 #include "OSGPassiveBackground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", "BackgroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<PassiveBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 
@@ -197,6 +181,8 @@ void PassiveBackgroundBase::executeSyncImpl(      PassiveBackgroundBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -217,8 +203,4 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGPASSIVEBACKGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

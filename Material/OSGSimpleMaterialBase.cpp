@@ -63,7 +63,6 @@
 
 #include <OSGGL.h>                        // ColorMaterial default header
 
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SimpleMaterialBase::AmbientFieldMask = 
@@ -439,29 +438,4 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
 
 }
 
-
-
-/*------------------------------------------------------------------------*/
-/*                              cvs id's                                  */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.24 2002/04/30 09:29:09 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGSIMPLEMATERIALFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

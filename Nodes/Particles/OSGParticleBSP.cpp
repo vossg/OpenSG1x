@@ -53,25 +53,6 @@
 
 #include "OSGParticles.h"
 
-OSG_BEGIN_NAMESPACE
-
-/*-------------------------- field instantiations -------------------------*/
-
-DataType FieldDataTraits<ParticleBSPTree>::_type("ParticleBSPTree", 
-        "None");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ParticleBSPTree>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ParticleBSPTree, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 /*! \class osg::ParticleBSPTree
@@ -479,6 +460,28 @@ void ParticleBSPTree::destroy()
 }
 
 
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+/*-------------------------- field instantiations -------------------------*/
+
+DataType FieldDataTraits<ParticleBSPTree>::_type("ParticleBSPTree", 
+        "None");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ParticleBSPTree>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ParticleBSPTree, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -492,7 +495,7 @@ void ParticleBSPTree::destroy()
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.8 2002/05/13 09:21:11 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.9 2002/05/16 03:47:02 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

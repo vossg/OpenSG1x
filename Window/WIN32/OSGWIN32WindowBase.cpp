@@ -62,24 +62,6 @@
 #include "OSGWIN32Window.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<WIN32WindowPtr>::_type("WIN32WindowPtr", "WindowPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<WIN32WindowPtr>::_fieldType
-#pragma instantiate MField<WIN32WindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  WIN32WindowBase::HwndFieldMask = 
@@ -332,6 +314,27 @@ void WIN32WindowBase::executeSyncImpl(      WIN32WindowBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<WIN32WindowPtr>::_type("WIN32WindowPtr", "WindowPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<WIN32WindowPtr>::_fieldType
+#pragma instantiate MField<WIN32WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -346,14 +349,10 @@ void WIN32WindowBase::executeSyncImpl(      WIN32WindowBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.8 2002/04/30 09:29:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.9 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGWIN32WINDOWFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

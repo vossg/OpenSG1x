@@ -80,28 +80,6 @@ OSG_BEGIN_NAMESPACE
 */
 
 /*-------------------------------------------------------------------------*/
-/*                             FieldType                                   */
-
-#if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class FieldTypeT, Int32 fieldNameSpace>
-const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
-    MFieldTraits::getMName(), 
-    MFieldTraits::getPName(),
-    MFieldTraits::getType (),
-    create,
-    FieldType::MULTI_FIELD);
-#else
-template <class FieldTypeT, Int32 fieldNameSpace>
-const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
-    MFieldTraits::getMName(), 
-    MFieldTraits::getPName(),
-    MFieldTraits::getType (),
-    create,
-    FieldType::MULTI_FIELD);
-#endif
-
-
-/*-------------------------------------------------------------------------*/
 /*                            Class Get                                    */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

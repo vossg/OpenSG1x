@@ -62,22 +62,6 @@
 #include "OSGSkyBackground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "BackgroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate MField<SkyBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SkyBackgroundBase::SkyColorFieldMask = 
@@ -547,6 +531,24 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 }
 
 
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "BackgroundPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate MField<SkyBackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -561,14 +563,10 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.5 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.6 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSKYBACKGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -62,24 +62,6 @@
 #include "OSGBillboard.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "NodeCorePtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<BillboardPtr>::_fieldType
-#pragma instantiate MField<BillboardPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  BillboardBase::AxisOfRotationFieldMask = 
@@ -301,6 +283,27 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "NodeCorePtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<BillboardPtr>::_fieldType
+#pragma instantiate MField<BillboardPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -321,8 +324,4 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGBILLBOARDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

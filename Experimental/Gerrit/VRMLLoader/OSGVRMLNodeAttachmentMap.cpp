@@ -52,6 +52,9 @@
 #include "OSGVRMLNodeAttachmentMap.h"
 #include "OSGVRMLNode.h"
 
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------

@@ -62,24 +62,6 @@
 #include "OSGGrabForeground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<GrabForegroundPtr>::_type("GrabForegroundPtr", "ForegroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<GrabForegroundPtr>::_fieldType
-#pragma instantiate MField<GrabForegroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GrabForegroundBase::ImageFieldMask = 
@@ -239,6 +221,27 @@ void GrabForegroundBase::executeSyncImpl(      GrabForegroundBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<GrabForegroundPtr>::_type("GrabForegroundPtr", "ForegroundPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<GrabForegroundPtr>::_fieldType
+#pragma instantiate MField<GrabForegroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -253,14 +256,10 @@ void GrabForegroundBase::executeSyncImpl(      GrabForegroundBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGrabForegroundBase.cpp,v 1.5 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGrabForegroundBase.cpp,v 1.6 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRABFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

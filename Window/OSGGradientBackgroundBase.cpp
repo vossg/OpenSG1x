@@ -62,22 +62,6 @@
 #include "OSGGradientBackground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", "BackgroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate MField<GradientBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GradientBackgroundBase::ColorFieldMask = 
@@ -268,6 +252,24 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 }
 
 
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", "BackgroundPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate MField<GradientBackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -282,14 +284,10 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.25 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.26 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -83,30 +83,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
-                                               "AttachmentPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate DynFieldAttachment<GenericAttDesc>::_type
-
-#pragma instantiate SField<GenericAttPtr>::_fieldType
-#pragma instantiate MField<GenericAttPtr>::_fieldType
-
-#else
-
-OSG_ABSTR_FC_DLLEXPORT_DEF(DynFieldAttachment, 
-                           GenericAttDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-OSG_DLLEXPORT_DEF1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-OSG_END_NAMESPACE
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -4136,6 +4112,33 @@ void VRMLViewpointDesc::dump(const Char8 *)
 }
 
 
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
+                                               "AttachmentPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate DynFieldAttachment<GenericAttDesc>::_type
+
+#pragma instantiate SField<GenericAttPtr>::_fieldType
+#pragma instantiate MField<GenericAttPtr>::_fieldType
+
+#else
+
+OSG_ABSTR_FC_DLLEXPORT_DEF(DynFieldAttachment, 
+                           GenericAttDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DEF1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+OSG_END_NAMESPACE
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -4152,4 +4155,3 @@ namespace
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGVRMLNODEDESCS_HEADER_CVSID;
 }
-

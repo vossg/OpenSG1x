@@ -62,7 +62,6 @@
 #include "OSGTransformChunk.h"
 
 
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  TransformChunkBase::MatrixFieldMask = 
@@ -221,29 +220,4 @@ void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,
 
 }
 
-
-
-/*------------------------------------------------------------------------*/
-/*                              cvs id's                                  */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.21 2002/04/30 09:29:12 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -62,24 +62,6 @@
 #include "OSGCamera.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<CameraPtr>::_fieldType
-#pragma instantiate MField<CameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  CameraBase::BeaconFieldMask = 
@@ -368,6 +350,27 @@ void CameraBase::setFar(const Real32 &value)
 
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<CameraPtr>::_fieldType
+#pragma instantiate MField<CameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -382,14 +385,10 @@ void CameraBase::setFar(const Real32 &value)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.28 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.29 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCAMERAFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

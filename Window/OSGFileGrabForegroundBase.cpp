@@ -62,24 +62,6 @@
 #include "OSGFileGrabForeground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<FileGrabForegroundPtr>::_type("FileGrabForegroundPtr", "GrabForegroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<FileGrabForegroundPtr>::_fieldType
-#pragma instantiate MField<FileGrabForegroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  FileGrabForegroundBase::ActiveFieldMask = 
@@ -332,6 +314,27 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<FileGrabForegroundPtr>::_type("FileGrabForegroundPtr", "GrabForegroundPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<FileGrabForegroundPtr>::_fieldType
+#pragma instantiate MField<FileGrabForegroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -346,14 +349,10 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.6 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.7 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFILEGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -62,24 +62,6 @@
 #include "OSGXWindow.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<XWindowPtr>::_type("XWindowPtr", "WindowPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<XWindowPtr>::_fieldType
-#pragma instantiate MField<XWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  XWindowBase::DisplayFieldMask = 
@@ -301,6 +283,27 @@ void XWindowBase::executeSyncImpl(      XWindowBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<XWindowPtr>::_type("XWindowPtr", "WindowPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<XWindowPtr>::_fieldType
+#pragma instantiate MField<XWindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -315,14 +318,10 @@ void XWindowBase::executeSyncImpl(      XWindowBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.5 2002/04/30 09:29:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.6 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGXWINDOWFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

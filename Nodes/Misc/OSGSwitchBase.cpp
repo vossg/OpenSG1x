@@ -62,24 +62,6 @@
 #include "OSGSwitch.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<SwitchPtr>::_fieldType
-#pragma instantiate MField<SwitchPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SwitchBase::ChoiceFieldMask = 
@@ -239,6 +221,27 @@ void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<SwitchPtr>::_fieldType
+#pragma instantiate MField<SwitchPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -259,8 +262,4 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGSWITCHFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

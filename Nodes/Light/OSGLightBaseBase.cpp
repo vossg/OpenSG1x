@@ -62,7 +62,6 @@
 #include "OSGLightBase.h"
 
 
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  LightBaseBase::AmbientFieldMask = 
@@ -429,29 +428,4 @@ void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,
 
 }
 
-
-
-/*------------------------------------------------------------------------*/
-/*                              cvs id's                                  */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.24 2002/04/30 09:29:10 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGLIGHTBASEBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGLIGHTBASEBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGLIGHTBASEFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

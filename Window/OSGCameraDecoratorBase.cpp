@@ -62,24 +62,6 @@
 #include "OSGCameraDecorator.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", "CameraPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<CameraDecoratorPtr>::_fieldType
-#pragma instantiate MField<CameraDecoratorPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  CameraDecoratorBase::DecorateeFieldMask = 
@@ -226,6 +208,27 @@ void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", "CameraPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<CameraDecoratorPtr>::_fieldType
+#pragma instantiate MField<CameraDecoratorPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -240,14 +243,10 @@ void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.21 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.22 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCAMERADECORATORFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

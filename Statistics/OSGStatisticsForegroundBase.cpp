@@ -62,24 +62,6 @@
 #include "OSGStatisticsForeground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<StatisticsForegroundPtr>::_type("StatisticsForegroundPtr", "ForegroundPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<StatisticsForegroundPtr>::_fieldType
-#pragma instantiate MField<StatisticsForegroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  StatisticsForegroundBase::ElementIDsFieldMask = 
@@ -261,6 +243,27 @@ void StatisticsForegroundBase::executeSyncImpl(      StatisticsForegroundBase *p
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<StatisticsForegroundPtr>::_type("StatisticsForegroundPtr", "ForegroundPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<StatisticsForegroundPtr>::_fieldType
+#pragma instantiate MField<StatisticsForegroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -275,14 +278,10 @@ void StatisticsForegroundBase::executeSyncImpl(      StatisticsForegroundBase *p
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStatisticsForegroundBase.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStatisticsForegroundBase.cpp,v 1.4 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -62,24 +62,6 @@
 #include "OSGComponentTransform.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", "TransformPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ComponentTransformPtr>::_fieldType
-#pragma instantiate MField<ComponentTransformPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ComponentTransformBase::CenterFieldMask = 
@@ -363,6 +345,27 @@ void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOthe
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", "TransformPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ComponentTransformPtr>::_fieldType
+#pragma instantiate MField<ComponentTransformPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -377,14 +380,10 @@ void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOthe
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.10 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.11 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCOMPONENTTRANSFORMFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -52,6 +52,9 @@
 #include "OSGVRMLNodeFields.h"
 #include "OSGVRMLNode.h"
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------

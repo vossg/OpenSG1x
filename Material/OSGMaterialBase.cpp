@@ -62,24 +62,6 @@
 #include "OSGMaterial.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainerPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<MaterialPtr>::_fieldType
-#pragma instantiate MField<MaterialPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 
@@ -190,6 +172,27 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainerPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<MaterialPtr>::_fieldType
+#pragma instantiate MField<MaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -204,14 +207,10 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.24 2002/04/30 09:29:09 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.25 2002/05/16 03:47:01 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATERIALFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

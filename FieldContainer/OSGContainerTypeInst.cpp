@@ -65,6 +65,9 @@
 #include "OSGSFAttachmentMap.h"
 #include "OSGMFAttachmentMap.h"
 
+#include "OSGMFieldTypeDef.inl"
+#include "OSGSFieldTypeDef.inl"
+
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<FieldContainerPtr     >::_type(

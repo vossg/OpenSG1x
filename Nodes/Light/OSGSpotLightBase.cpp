@@ -62,7 +62,6 @@
 #include "OSGSpotLight.h"
 
 
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SpotLightBase::DirectionFieldMask = 
@@ -283,29 +282,4 @@ void SpotLightBase::executeSyncImpl(      SpotLightBase *pOther,
 
 }
 
-
-
-/*------------------------------------------------------------------------*/
-/*                              cvs id's                                  */
-
-#ifdef OSG_SGI_CC
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.21 2002/04/30 09:29:10 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGSPOTLIGHTFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -62,24 +62,6 @@
 #include "OSGWindow.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<WindowPtr>::_type("WindowPtr", "AttachmentContainerPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<WindowPtr>::_fieldType
-#pragma instantiate MField<WindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  WindowBase::WidthFieldMask = 
@@ -416,6 +398,27 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<WindowPtr>::_type("WindowPtr", "AttachmentContainerPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<WindowPtr>::_fieldType
+#pragma instantiate MField<WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -430,14 +433,10 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.30 2002/04/30 09:29:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.31 2002/05/16 03:47:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGWINDOWFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

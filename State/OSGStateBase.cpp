@@ -62,24 +62,6 @@
 #include "OSGState.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<StatePtr>::_fieldType
-#pragma instantiate MField<StatePtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  StateBase::ChunksFieldMask = 
@@ -239,6 +221,27 @@ void StateBase::executeSyncImpl(      StateBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<StatePtr>::_fieldType
+#pragma instantiate MField<StatePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -253,14 +256,10 @@ void StateBase::executeSyncImpl(      StateBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.24 2002/04/30 09:29:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.25 2002/05/16 03:47:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTATEFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

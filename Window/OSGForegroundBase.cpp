@@ -62,24 +62,6 @@
 #include "OSGForeground.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentContainerPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ForegroundPtr>::_fieldType
-#pragma instantiate MField<ForegroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 
@@ -190,6 +172,27 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>@@endif
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentContainerPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ForegroundPtr>::_fieldType
+#pragma instantiate MField<ForegroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -210,8 +213,4 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGFOREGROUNDFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 
