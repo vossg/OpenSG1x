@@ -47,7 +47,7 @@
 
 #include <OSGConfig.h>
 
-#include <OSGNodeCore.h>
+#include <OSGMaterialDrawable.h>
 
 #include <OSGGeoPropertyBase.h>
 
@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
 typedef GeoPositions::PtrType GeoPositionsPtr;
 
 class Particles;
-typedef FCPtr<NodeCorePtr, Particles> ParticlesPtr;
+typedef FCPtr<MaterialDrawablePtr, Particles> ParticlesPtr;
  
 class ParticleBSPTree;
 

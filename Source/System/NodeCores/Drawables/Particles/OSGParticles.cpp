@@ -78,13 +78,15 @@ void Particles::initMethod (void)
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ParticlesPtr  ,
                                           CNodePtr      ,
-                                          Action       *>(&Particles::draw));
+                                          Action       *>
+                                       (&MaterialDrawable::drawActionHandler));
 
     RenderAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ParticlesPtr  ,
                                           CNodePtr      ,
-                                          Action       *>(&Particles::render));
+                                          Action       *>
+                                       (&MaterialDrawable::renderActionHandler));
 }
 
 /***************************************************************************\
@@ -1633,12 +1635,16 @@ struct GeoTraitArrow : public ParticleTraits
     {
     }
     
+    static inline void exit(Particles *, DrawActionBase *, dataType &)
+    {
+    }
+    
     static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
     
-    static inline void draw(dataType &, Pnt3f &p,
+    static inline void draw(dataType &, Pnt3f &p, Pnt3f &,
                             Vec3f &dx, Vec3f &dy, Vec3f &dz,
                             Vec3f &s)
     {
@@ -1676,6 +1682,54 @@ struct GeoTraitArrow : public ParticleTraits
                    p[2] + dz[2] * .5f - dx[2]      );
        
         glEnd();
+    }
+};
+
+
+/* Geometry traits for drawing rectangles */
+
+struct GeoTraitRectangle : public ParticleTraits
+{
+    typedef UInt8 dataType;
+    
+    static inline void init(Particles *, DrawActionBase *, dataType &)
+    {
+        glBegin(GL_QUADS);
+    }
+    
+    static inline void exit(Particles *, DrawActionBase *, dataType &)
+    {
+        glEnd();
+    }
+    
+    static inline bool particle(dataType &, UInt32)
+    {
+        return false;
+    }
+    
+    static inline void draw(dataType &, Pnt3f &p, Pnt3f &sp,
+                            Vec3f &dx, Vec3f &dy, Vec3f &,
+                            Vec3f &s)
+    {
+        dx *= s[0] * .5f;
+       
+        glNormal3fv((GLfloat*) dy.getValues() );
+
+        glVertex3f( p[0] - dx[0],
+                    p[1] - dx[1],
+                    p[2] - dx[2]);
+
+        glVertex3f( p[0] + dx[0],
+                    p[1] + dx[1],
+                    p[2] + dx[2]);
+
+        glVertex3f(sp[0] + dx[0],
+                   sp[1] + dx[1],
+                   sp[2] + dx[2]);
+
+        glVertex3f(sp[0] - dx[0],
+                   sp[1] - dx[1],
+                   sp[2] - dx[2]);
     }
 };
 
@@ -1762,9 +1816,11 @@ struct drawObjects : public ParticlesDrawer
             Vec3f dy(dx.cross(dz));
 
             // now draw the geometry;
-            geoTrait::draw(geoData, p, dx, dy, dz, 
+            geoTrait::draw(geoData, p, sp, dx, dy, dz, 
                            sizeTrait::size(sizeData, i));
         }
+        
+        geoTrait::exit(part, action, geoData);
     }
     
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
@@ -1848,9 +1904,11 @@ struct drawObjects : public ParticlesDrawer
             Vec3f dy(dx.cross(dz));
 
             // now draw the geometry;
-            geoTrait::draw(geoData, p, dx, dy, dz, 
+            geoTrait::draw(geoData, p, sp, dx, dy, dz, 
                            sizeTrait::size(sizeData, i));
         }
+        
+        geoTrait::exit(part, action, geoData);
     }
 };
 
@@ -1945,10 +2003,12 @@ struct drawViewerObjects : public ParticlesDrawer
             Vec3f dy(dx.cross(dz));
 
             // now draw the geometry;
-            geoTrait::draw(geoData, p, dx, dy, dz, 
+            geoTrait::draw(geoData, p, sp, dx, dy, dz, 
                            sizeTrait::size(sizeData, i));
         }
-    }
+         
+        geoTrait::exit(part, action, geoData);
+   }
     
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
                              Int32 *index, UInt32 length)
@@ -2039,9 +2099,11 @@ struct drawViewerObjects : public ParticlesDrawer
             Vec3f dy(dx.cross(dz));
 
             // now draw the geometry;
-            geoTrait::draw(geoData, p, dx, dy, dz, 
+            geoTrait::draw(geoData, p, sp, dx, dy, dz, 
                            sizeTrait::size(sizeData, i));
         }
+        
+        geoTrait::exit(part, action, geoData);
     }
 };
 
@@ -2228,32 +2290,9 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
 
 #endif // remove from user docu
 
-/** \brief Actions
- */
-
-Action::ResultE Particles::draw(Action * action )
-{
-    DrawAction *a = dynamic_cast<DrawAction*>(action);
-    Material::DrawFunctor func;
-
-    func=osgTypedMethodFunctor1ObjPtr(&(*this), &Particles::doDraw);
-
-    if(a->getMaterial() != NULL)
-    {
-        a->getMaterial()->draw(func, a);
-    }
-    else if ( getMaterial() != NullFC )
-    {
-        getMaterial()->draw( func, a );
-    }
-    else
-    {
-        FWARNING(("Particles::draw:: no material!\n"));;
-    }
-    return Action::Continue;
-}
-
-Action::ResultE Particles::doDraw(DrawActionBase * action)
+/*! Low-level Draw method that pumps OpenGL commands.
+*/
+Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
 {
     // some variables for faster access
     GeoPositionsPtr  pos  = getPositions();
@@ -2350,33 +2389,6 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
     return Action::Continue;
 }
 
-Action::ResultE Particles::render(Action *action)
-{
-    RenderAction *a = dynamic_cast<RenderAction *>(action);
-
-    Material::DrawFunctor func;
-    func=osgTypedMethodFunctor1ObjPtr(this, &Particles::doDraw);
-
-    Material* m = a->getMaterial();
-
-    if(m == NULL)
-    {
-        if(getMaterial() != NullFC)
-        {
-            m = getMaterial().getCPtr();
-        }
-        else
-        {
-            fprintf(stderr, "Particles::render: no Material!?!\n");
-            return Action::Continue;
-        }
-    }
-
-    a->dropFunctor(func, m);
-
-    return Action::Continue;
-}
-
 /*! find the drawer object for the actual configuration of parameters */
 
 ParticlesDrawer *Particles::findDrawer(void)
@@ -2388,8 +2400,8 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     // find the parameters' use
     
-    size =   (getSizes().size()      == getPositions()->getSize()) ? part :
-             (getSizes().size()      == 1                        ) ? sing : 
+    size =   (getSizes().size()         == getPositions()->getSize()) ? part :
+             (getSizes().size()         == 1                        ) ? sing : 
                                                                         none;
     normal = (getNormals() != NullFC && 
               getNormals()->getSize()   == getPositions()->getSize()) ? part :
@@ -2400,9 +2412,9 @@ ParticlesDrawer *Particles::findDrawer(void)
               getColors()->getSize()    == getPositions()->getSize()) ? part :
              (getColors() != NullFC && 
               getColors()->getSize()    == 1                        ) ? sing : 
-                                                                       none;
-    tex =    (getTextureZs().size()  == getPositions()->getSize()) ? part :
-             (getTextureZs().size()  == 1                        ) ? sing : 
+                                                                        none;
+    tex =    (getTextureZs().size()     == getPositions()->getSize()) ? part :
+             (getTextureZs().size()     == 1                        ) ? sing : 
                                                                         none;
     
     // check if the used types are common cases
@@ -2524,6 +2536,16 @@ ParticlesDrawer *Particles::findDrawer(void)
         static ParticlesDrawer *fallback = 
                     new drawViewerObjects<PosTraitGeneric,ColTraitGeneric, 
                                           SizeTraitGeneric,GeoTraitArrow>;
+        
+        return fallback;
+    }
+    
+    case Rectangles:
+    {
+        static ParticlesDrawer *fallback = 
+                    new drawObjects<PosTraitGeneric,ColTraitGeneric, 
+                                    SizeTraitGeneric,NormalTraitGeneric,
+                                    GeoTraitRectangle>;
         
         return fallback;
     }

@@ -67,7 +67,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \{                                                                 */
     
     enum { Points=0, Lines, ViewDirQuads, ViewerQuads, Arrows, 
-           ViewerArrows, LastMode }
+           ViewerArrows, Rectangles, LastMode }
            ModeE;
     
     enum { Any=0, BackToFront, FrontToBack } DrawOrderE;
@@ -93,9 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \name                       Draw                                   */
     /*! \{                                                                 */
 
-    Action::ResultE draw                 (Action         *action );
-    Action::ResultE doDraw               (DrawActionBase *action);
-    Action::ResultE render               (Action         *action);
+    Action::ResultE drawPrimitives (DrawActionBase *action);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -88,9 +88,6 @@ const OSG::BitVector  ParticlesBase::IndicesFieldMask =
 const OSG::BitVector  ParticlesBase::TextureZsFieldMask = 
     (1 << ParticlesBase::TextureZsFieldId);
 
-const OSG::BitVector  ParticlesBase::MaterialFieldMask = 
-    (1 << ParticlesBase::MaterialFieldId);
-
 const OSG::BitVector  ParticlesBase::DrawOrderFieldMask = 
     (1 << ParticlesBase::DrawOrderFieldId);
 
@@ -130,9 +127,6 @@ const OSG::BitVector  ParticlesBase::BspFieldMask =
 */
 /*! \var Real32          ParticlesBase::_mfTextureZs
     The texture z coordinate of the particles. Useful in conjunction with 3D          textures to use different texture images on different particles.
-*/
-/*! \var MaterialPtr     ParticlesBase::_sfMaterial
-    The material used to render the particles.
 */
 /*! \var UInt32          ParticlesBase::_sfDrawOrder
     Define an optional sorting on the particles, see osg::Particles::DrawOrderE         for variants. Default is unordered.
@@ -191,11 +185,6 @@ FieldDescription *ParticlesBase::_desc[] =
                      TextureZsFieldId, TextureZsFieldMask,
                      false,
                      (FieldAccessMethod) &ParticlesBase::getMFTextureZs),
-    new FieldDescription(SFMaterialPtr::getClassType(), 
-                     "material", 
-                     MaterialFieldId, MaterialFieldMask,
-                     false,
-                     (FieldAccessMethod) &ParticlesBase::getSFMaterial),
     new FieldDescription(SFUInt32::getClassType(), 
                      "drawOrder", 
                      DrawOrderFieldId, DrawOrderFieldMask,
@@ -221,7 +210,7 @@ FieldDescription *ParticlesBase::_desc[] =
 
 FieldContainerType ParticlesBase::_type(
     "Particles",
-    "NodeCore",
+    "MaterialDrawable",
     NULL,
     (PrototypeCreateF) &ParticlesBase::createEmpty,
     Particles::initMethod,
@@ -279,7 +268,6 @@ ParticlesBase::ParticlesBase(void) :
     _sfNormals                (), 
     _mfIndices                (), 
     _mfTextureZs              (), 
-    _sfMaterial               (), 
     _sfDrawOrder              (UInt32(0)), 
     _sfDynamic                (bool(true)), 
     _sfPump                   (), 
@@ -301,7 +289,6 @@ ParticlesBase::ParticlesBase(const ParticlesBase &source) :
     _sfNormals                (source._sfNormals                ), 
     _mfIndices                (source._mfIndices                ), 
     _mfTextureZs              (source._mfTextureZs              ), 
-    _sfMaterial               (source._sfMaterial               ), 
     _sfDrawOrder              (source._sfDrawOrder              ), 
     _sfDynamic                (source._sfDynamic                ), 
     _sfPump                   (source._sfPump                   ), 
@@ -360,11 +347,6 @@ UInt32 ParticlesBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (TextureZsFieldMask & whichField))
     {
         returnValue += _mfTextureZs.getBinSize();
-    }
-
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        returnValue += _sfMaterial.getBinSize();
     }
 
     if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
@@ -436,11 +418,6 @@ void ParticlesBase::copyToBin(      BinaryDataHandler &pMem,
         _mfTextureZs.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
     {
         _sfDrawOrder.copyToBin(pMem);
@@ -509,11 +486,6 @@ void ParticlesBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfTextureZs.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
     {
         _sfDrawOrder.copyFromBin(pMem);
@@ -567,9 +539,6 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
     if(FieldBits::NoField != (TextureZsFieldMask & whichField))
         _mfTextureZs.syncWith(pOther->_mfTextureZs);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        _sfMaterial.syncWith(pOther->_sfMaterial);
-
     if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
         _sfDrawOrder.syncWith(pOther->_sfDrawOrder);
 
@@ -593,7 +562,7 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "NodeCorePtr");
+DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "MaterialDrawablePtr");
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

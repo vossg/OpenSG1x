@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGNodeCoreFields.h>
+#include <OSGMaterialDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,16 +69,15 @@ class Particles;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ParticlesPtr
 
-typedef FCPtr<NodeCorePtr, Particles> ParticlesPtr;
+typedef FCPtr<MaterialDrawablePtr, Particles> ParticlesPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpSystemFieldTraits
- */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+/*! \brief ParticlesPtr field traits 
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
+*/
 
 template <>
 struct FieldDataTraits<ParticlesPtr> : 
@@ -94,31 +93,21 @@ struct FieldDataTraits<ParticlesPtr> :
     static char     *getSName(void) { return "SFParticlesPtr"; }
     static char     *getMName(void) { return "MFParticlesPtr"; }
 };
+#endif             // exclude from doc
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<ParticlesPtr, true>
-    \hideinhierarchy
- */
-#endif
-
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldSingle */
+//! SFParticlesPtr
+//! \ingroup BaseFieldSingle
 
 typedef SField<ParticlesPtr> SFParticlesPtr;
-#endif
 
 #ifndef OSG_COMPILEPARTICLESINST
 OSG_DLLEXPORT_DECL1(SField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldMulti */
+//! MFParticlesPtr
+//! \ingroup BaseFieldMulti
 
 typedef MField<ParticlesPtr> MFParticlesPtr;
-#endif
 
 #ifndef OSG_COMPILEPARTICLESINST
 OSG_DLLEXPORT_DECL1(MField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

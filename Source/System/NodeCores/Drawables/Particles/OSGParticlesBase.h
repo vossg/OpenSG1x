@@ -63,7 +63,7 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGNodeCore.h> // Parent
+#include <OSGMaterialDrawable.h> // Parent
 
 #include <OSGUInt32Fields.h> // Mode type
 #include <OSGGeoPositionsFields.h> // Positions type
@@ -73,7 +73,6 @@
 #include <OSGGeoNormalsFields.h> // Normals type
 #include <OSGInt32Fields.h> // Indices type
 #include <OSGReal32Fields.h> // TextureZs type
-#include <OSGMaterialFields.h> // Material type
 #include <OSGUInt32Fields.h> // DrawOrder type
 #include <OSGBoolFields.h> // Dynamic type
 #include <OSGUInt32Fields.h> // Pump type
@@ -88,11 +87,11 @@ class BinaryDataHandler;
 
 //! \brief Particles Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef MaterialDrawable Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -107,8 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
         NormalsFieldId      = ColorsFieldId       + 1,
         IndicesFieldId      = NormalsFieldId      + 1,
         TextureZsFieldId    = IndicesFieldId      + 1,
-        MaterialFieldId     = TextureZsFieldId    + 1,
-        DrawOrderFieldId    = MaterialFieldId     + 1,
+        DrawOrderFieldId    = TextureZsFieldId    + 1,
         DynamicFieldId      = DrawOrderFieldId    + 1,
         PumpFieldId         = DynamicFieldId      + 1,
         BspFieldId          = PumpFieldId         + 1,
@@ -123,7 +121,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     static const OSG::BitVector NormalsFieldMask;
     static const OSG::BitVector IndicesFieldMask;
     static const OSG::BitVector TextureZsFieldMask;
-    static const OSG::BitVector MaterialFieldMask;
     static const OSG::BitVector DrawOrderFieldMask;
     static const OSG::BitVector DynamicFieldMask;
     static const OSG::BitVector PumpFieldMask;
@@ -160,7 +157,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
            SFGeoNormalsPtr     *getSFNormals        (void);
            MFInt32             *getMFIndices        (void);
            MFReal32            *getMFTextureZs      (void);
-           SFMaterialPtr       *getSFMaterial       (void);
            SFUInt32            *getSFDrawOrder      (void);
            SFBool              *getSFDynamic        (void);
            SFParticleBSPTree   *getSFBsp            (void);
@@ -175,8 +171,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
      const GeoColorsPtr        &getColors         (void) const;
            GeoNormalsPtr       &getNormals        (void);
      const GeoNormalsPtr       &getNormals        (void) const;
-           MaterialPtr         &getMaterial       (void);
-     const MaterialPtr         &getMaterial       (void) const;
            UInt32              &getDrawOrder      (void);
      const UInt32              &getDrawOrder      (void) const;
            bool                &getDynamic        (void);
@@ -203,7 +197,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
      void setSecPositions   ( const GeoPositionsPtr &value );
      void setColors         ( const GeoColorsPtr &value );
      void setNormals        ( const GeoNormalsPtr &value );
-     void setMaterial       ( const MaterialPtr &value );
      void setDrawOrder      ( const UInt32 &value );
      void setDynamic        ( const bool &value );
      void setBsp            ( const ParticleBSPTree &value );
@@ -260,7 +253,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     SFGeoNormalsPtr     _sfNormals;
     MFInt32             _mfIndices;
     MFReal32            _mfTextureZs;
-    SFMaterialPtr       _sfMaterial;
     SFUInt32            _sfDrawOrder;
     SFBool              _sfDynamic;
     SFParticleBSPTree   _sfBsp;

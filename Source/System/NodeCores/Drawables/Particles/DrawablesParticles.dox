@@ -4,6 +4,11 @@ using namespace OSG;
 
 /*! \defgroup GrpSystemNodeCoresDrawablesParticles Particles
     \ingroup GrpSystemNodeCoresDrawables
+    
+Particles are used for large numbers of simple, similar geometries. 
+
+See \ref PageSystemParticles for a description.
+
 */
 
 /*! \page PageSystemParticles Particles 

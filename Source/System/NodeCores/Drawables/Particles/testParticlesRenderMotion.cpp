@@ -131,6 +131,7 @@ int main(int argc, char **argv)
     if (argc > 1 && ! strcmp(argv[1],"-test"))
     {
         testSet = true;
+        doMotion = false;
         argc--;
         argv++;
     }
@@ -518,6 +519,11 @@ void keyboard(unsigned char k, int , int )
                 particles->setMode(Particles::ViewerArrows);
                 endEditCP  (particles, Particles::ModeFieldMask);
                 FLOG(("Particles switched to ViewerArrows mode\n"));
+                break;
+    case '6':   beginEditCP(particles, Particles::ModeFieldMask);
+                particles->setMode(Particles::Rectangles);
+                endEditCP  (particles, Particles::ModeFieldMask);
+                FLOG(("Particles switched to Rectangles mode\n"));
                 break;
     case 'q':   beginEditCP(particles, Particles::DrawOrderFieldMask);
                 particles->setDrawOrder(Particles::BackToFront);

@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="Particles"
-	parent="NodeCore"
+	parent="MaterialDrawable"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
@@ -92,15 +92,6 @@
 	>
         The texture z coordinate of the particles. Useful in conjunction with 3D 
         textures to use different texture images on different particles.
-	</Field>
-	<Field
-		name="material"
-		type="MaterialPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	The material used to render the particles.
 	</Field>
 	<Field
 		name="drawOrder"

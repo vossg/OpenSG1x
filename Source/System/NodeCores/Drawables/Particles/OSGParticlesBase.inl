@@ -152,13 +152,6 @@ MFReal32 *ParticlesBase::getMFTextureZs(void)
     return &_mfTextureZs;
 }
 
-//! Get the Particles::_sfMaterial field.
-inline
-SFMaterialPtr *ParticlesBase::getSFMaterial(void)
-{
-    return &_sfMaterial;
-}
-
 //! Get the Particles::_sfDrawOrder field.
 inline
 SFUInt32 *ParticlesBase::getSFDrawOrder(void)
@@ -291,27 +284,6 @@ inline
 void ParticlesBase::setNormals(const GeoNormalsPtr &value)
 {
     _sfNormals.setValue(value);
-}
-
-//! Get the value of the Particles::_sfMaterial field.
-inline
-MaterialPtr &ParticlesBase::getMaterial(void)
-{
-    return _sfMaterial.getValue();
-}
-
-//! Get the value of the Particles::_sfMaterial field.
-inline
-const MaterialPtr &ParticlesBase::getMaterial(void) const
-{
-    return _sfMaterial.getValue();
-}
-
-//! Set the value of the Particles::_sfMaterial field.
-inline
-void ParticlesBase::setMaterial(const MaterialPtr &value)
-{
-    _sfMaterial.setValue(value);
 }
 
 //! Get the value of the Particles::_sfDrawOrder field.
