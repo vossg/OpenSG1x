@@ -248,9 +248,19 @@ void BINLoader::chargeFieldContainers()
         //fetch mask
         _inFileHandler.getValue(mask);
         //fetch container data
-        beginEditCP(fcInfoIter->second.ptr, mask);
-        fcInfoIter->second.ptr->copyFromBin(_inFileHandler, BitVector(mask));
-        endEditCP  (fcInfoIter->second.ptr, mask);
+        beginEditCP(fcInfoIter->second.ptr, 
+                    mask,
+                    ChangedOrigin::Abstract        |
+                    ChangedOrigin::AbstrIncRefCount);
+        {
+            fcInfoIter->second.ptr->copyFromBin(_inFileHandler, 
+                                                BitVector(mask));
+        }
+        endEditCP  (fcInfoIter->second.ptr, 
+                    mask,
+                    ChangedOrigin::Abstract        |
+                    ChangedOrigin::AbstrIncRefCount);
+
         fcInfoIter->second.read = true;
     }
     factory->setMapper(NULL);

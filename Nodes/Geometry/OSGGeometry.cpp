@@ -850,6 +850,8 @@ Action::ResultE Geometry::render(Action *action)
 void Geometry::changed(BitVector whichField, 
                        UInt32    origin    )
 {
+    Inherited::changed(whichField, origin);
+
     if(whichField & TypesFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
@@ -867,6 +869,10 @@ void Geometry::changed(BitVector whichField,
                     
                     setTypes(pType);
                 }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTypes.getValue());
             }
             else
             {
@@ -896,6 +902,10 @@ void Geometry::changed(BitVector whichField,
                     
                     setLengths(pLength);
                 }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfLengths.getValue());
             }
             else
             {
@@ -931,6 +941,10 @@ void Geometry::changed(BitVector whichField,
                     setPositions(pPos);
                 }
             }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfPositions.getValue());
+            }
             else
             {
                 GeoPositionsPtr pPos = _sfPositions.getValue();
@@ -963,6 +977,10 @@ void Geometry::changed(BitVector whichField,
                     setNormals(pNorm);
                 }
             }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfNormals.getValue());
+            }
             else
             {
                 GeoNormalsPtr pNorm = _sfNormals.getValue();
@@ -991,6 +1009,10 @@ void Geometry::changed(BitVector whichField,
                     
                     setColors(pColor);
                 }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfColors.getValue());
             }
             else
             {
@@ -1021,6 +1043,10 @@ void Geometry::changed(BitVector whichField,
                     setTexCoords(pTexCoord);
                 }
             }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords.getValue());
+            }
             else
             {
                 GeoTexCoordsPtr pTexCoord = _sfTexCoords.getValue();
@@ -1050,6 +1076,10 @@ void Geometry::changed(BitVector whichField,
                     setIndices(pIndex);
                 }
             }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfIndices.getValue());
+            }
             else
             {
                 GeoIndicesPtr pIndex = _sfIndices.getValue();
@@ -1065,6 +1095,10 @@ void Geometry::changed(BitVector whichField,
     {
         if(origin & ChangedOrigin::Abstract)
         {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfMaterial.getValue());
+            }
         }
     }
 

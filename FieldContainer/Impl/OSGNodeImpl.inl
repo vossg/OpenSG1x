@@ -143,11 +143,21 @@ MFNodePtr *Node::getMFChildren(void)
 
 inline
 void Node::changed(BitVector  whichField,
-                   UInt32               )
+                   UInt32     origin    )
 {
+    Inherited::changed(whichField, origin);
+
     if(whichField & CoreFieldMask)
     {
         invalidateVolume();
+
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfCore.getValue());
+            }
+        }
     }
     
     if(whichField & ChildrenFieldMask)

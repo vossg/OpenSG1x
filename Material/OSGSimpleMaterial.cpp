@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.27 2002/06/01 10:37:22 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.28 2002/06/26 14:35:46 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -269,10 +269,16 @@ bool SimpleMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void SimpleMaterial::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
-                          const BitVector OSG_CHECK_ARG(bvFlags)) const
+void SimpleMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "SimpleMaterial at " << this << endl;
+//    indentLog(uiIndent, PLOG);
+
+//    SimpleMaterialPtr thisP(*this);
+
+//    thisP.dump(0, FCDumpFlags::RefCount);
+
+    PLOG << "SimpleMaterial at " << this << endl;
     PLOG << "\tambient: " << getAmbient() << endl;
     PLOG << "\tdiffuse: " << getDiffuse()  << endl;
     PLOG << "\tspecular: " << getSpecular()  << endl;

@@ -175,9 +175,29 @@ SFAttachmentMap *AttachmentContainer::getSFAttachments(void)
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void AttachmentContainer::changed(BitVector,
-                                  UInt32   )
+void AttachmentContainer::changed(BitVector whichField,
+                                  UInt32    origin    )
 {
+    if(whichField & AttachmentsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                AttachmentMap::iterator attIt  = 
+                    _attachmentMap.getValue().begin();
+                AttachmentMap::iterator attEnd = 
+                    _attachmentMap.getValue().end();
+
+                while(attIt != attEnd)
+                {
+                    addRefCP((*attIt).second);
+                    
+                    ++attIt;
+                }
+            }
+        }
+    }
 }
 
 /*-------------------------------------------------------------------------*/

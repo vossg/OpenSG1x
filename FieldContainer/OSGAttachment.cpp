@@ -284,6 +284,8 @@ void Attachment::dump(      UInt32                  uiIndent,
         PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
     }
 
+//    thisP.dump(uiIndent, FCDumpFlags::RefCount);
+
     indentLog(uiIndent, PLOG);
     PLOG << "]" << endl;
 

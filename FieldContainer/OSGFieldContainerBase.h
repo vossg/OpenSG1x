@@ -104,6 +104,7 @@ namespace ChangedOrigin
     const UInt32 AbstrIgnoreChild = 0x0200;
 
     const UInt32 AbstrCheckValid  = 0x0400;
+    const UInt32 AbstrIncRefCount = 0x0800;
 }
 
 namespace FCDumpFlags
