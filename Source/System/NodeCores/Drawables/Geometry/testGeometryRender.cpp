@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <OSGGLUT.h>
+#include <OSGGLUTWindow.h>
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGBaseFunctions.h>
@@ -36,12 +37,15 @@ NodePtr  root;
 Matrix accumM;
 Matrix stepM;
 
+WindowPtr win;
 
 void 
 display(void)
 {
     static float a = 0;
 
+    win->frameInit();
+    
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     glPushMatrix();
@@ -54,6 +58,8 @@ display(void)
     a+=1;
 
     accumM.mult(stepM);
+
+    win->frameExit();
 
     glutSwapBuffers();
 }
@@ -215,7 +221,7 @@ int main (int argc, char **argv)
 
 
     GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
-    g1->setLengths( lens );
+//    g1->setLengths( lens );
     beginEditCP(lens);
     lens->push_back( 4 );
     lens->push_back( 4 );
@@ -225,15 +231,20 @@ int main (int argc, char **argv)
     GeoPTypesPtr type = GeoPTypesUI8::create();     
     g1->setTypes( type );
     beginEditCP(type);
-    type->push_back( GL_POLYGON );
-    type->push_back( GL_POLYGON );
+    type->push_back( GL_QUADS );
+//    type->push_back( GL_POLYGON );
     endEditCP(type);
 
         endEditCP(g1);
     
     std::cerr << "Geometry type " << g1->getType().getId() << std::endl;
     
+
+    win = GLUTWindow::create();
+    win->init();
+    
     dact = DrawAction::create();
+    dact->setWindow( win.getCPtr() );
     
     glutMainLoop();
 

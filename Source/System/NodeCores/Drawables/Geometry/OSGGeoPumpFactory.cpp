@@ -626,24 +626,21 @@ void GeoPump128(Window   *win,
     UInt32 lendummy;
     UInt32 LengthsSize;
 
-    if (LengthsPtr != NullFC)
+    if(LengthsPtr != NullFC && LengthsData != NULL)
     {
-        if (!LengthsData)
-        {
-            LengthsSize = 1;
-            LengthsData = (UChar8*) &lendummy;
-            lendummy = PositionsPtr->getSize();
-        }
-        else
-        {
-            LengthsSize = LengthsPtr->getSize();
-        }
+        LengthsSize = LengthsPtr->getSize();
+    }
+    else
+    {
+        LengthsSize = 1;
+        LengthsData = (UChar8*) &lendummy;
+        lendummy = PositionsPtr->getSize();
     }
 
     UInt32 LengthsInd,TypesInd = 0;
     UInt32 first=0;
 
-    for ( LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++ )
+    for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
     {
         UInt32 count = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
         glDrawArrays(*(TypesData + TypesInd++ * TypesStride),first,count);
@@ -824,23 +821,20 @@ void GeoPump129(Window   *win,
     UInt32 lendummy;
     UInt32 LengthsSize;
 
-    if (LengthsPtr != NullFC)
+    if(LengthsPtr != NullFC && LengthsData != NULL)
     {
-        if (!LengthsData)
-        {
-            LengthsSize = 1;
-            LengthsData = (UChar8*) &lendummy;
-            lendummy = IndicesPtr->getSize();
-        }
-        else
-        {
-            LengthsSize = LengthsPtr->getSize();
-        }
+        LengthsSize = LengthsPtr->getSize();
+    }
+    else
+    {
+        LengthsSize = 1;
+        LengthsData = (UChar8*) &lendummy;
+        lendummy = PositionsPtr->getSize();
     }
 
     UInt32 LengthsInd = 0,TypesInd = 0, IndicesInd = 0;
 
-    for ( LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++ )
+    for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
     {
         UInt32 count  = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
         UInt32 * vind = (UInt32*)(IndicesData + IndicesStride * IndicesInd);
