@@ -10,33 +10,6 @@ $(warning $(OBJDIR))
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
 #########################################################################
-# Get Job Type
-#########################################################################
-
-NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
-					 dbgClean optClean Clean commonDepClean dbgDepClean		\
-					 optDepClean DepClean LibClean Tests list
-
-ifeq ($(MAKECMDGOALS),)
-SUB_JOB := build
-else
-FILTEREDCMDGOALS := $(strip $(filter-out $(NONBUILDTARGETS),$(MAKECMDGOALS)))
-
-ifeq ($(FILTEREDCMDGOALS),)
-SUB_JOB := admin
-else
-SUB_JOB := build
-endif
-
-JOB_TYPE := $(findstring opt,$(MAKECMDGOALS))
-
-ifeq ($(JOB_TYPE),opt)
-DBG := opt
-endif
-
-endif
-
-#########################################################################
 # Get Source Files
 #########################################################################
 
@@ -266,9 +239,9 @@ endif
 TEST_TARGETS_IN   := $(basename $(TEST_SOURCES))
 TEST_TARGETS_LIST := $(basename $(TEST_SOURCES))
 
-ifneq ($(FILTEREDCMDGOALS),)
-FILTEREDCMDGOALS := $(basename $(FILTEREDCMDGOALS))
-TEST_TARGETS_IN  := $(filter $(FILTEREDCMDGOALS),$(TEST_TARGETS_IN))
+ifneq ($(FILTEREDTSTGOALS),)
+FILTEREDTSTGOALS := $(basename $(FILTEREDTSTGOALS))
+TEST_TARGETS_IN  := $(filter $(FILTEREDTSTGOALS),$(TEST_TARGETS_IN))
 endif
 
 TEST_TARGETS       := $(addprefix $(EXEDIR)$(DIR_SEP),$(TEST_TARGETS_IN))

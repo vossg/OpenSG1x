@@ -286,7 +286,7 @@ $(TEST_TARGETS_IN):  $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS)
 	done
 
 Test: $(TEST_TARGETS_IN)
-	@echo Tests done
+	@echo Tests done  
 
 $(LIB_TESTQT_TARGET)
 

@@ -14,12 +14,15 @@ LNK_TARGETS=dbgLnk optLnk dbgCleanLnk dbgCleanLnk optCleanLnk optcleanLnk \
 
 NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
 					 dbgClean optClean Clean commonDepClean dbgDepClean		\
-					 optDepClean DepClean LibClean Tests dbkLnk cleanLnk
+					 optDepClean DepClean LibClean dbkLnk cleanLnk
+
+TESTBUILDTARGETS   = Test Tests dbg opt
 
 ifeq ($(MAKECMDGOALS),)
 SUB_JOB := build
 else
-FILTEREDCMDGOALS := $(strip $(filter-out $(NONBUILDTARGETS),$(MAKECMDGOALS)))
+FILTEREDCMDGOALS := $(strip $(filter-out $(NONBUILDTARGETS), $(MAKECMDGOALS)))
+FILTEREDTSTGOALS := $(strip $(filter-out $(TESTBUILDTARGETS),$(MAKECMDGOALS)))
 
 ifeq ($(FILTEREDCMDGOALS),)
 SUB_JOB := admin
