@@ -59,6 +59,12 @@
 #include <OSGBackground.h>
 
 #include <OSGBaseFunctions.h>
+
+// enabled as default.
+#ifndef OSG_OPT_DRAWTREE
+#define OSG_OPT_DRAWTREE
+#endif
+
 #if defined(OSG_OPT_DRAWTREE)
 # include <OSGDrawTreeNodeFactory.h>
 #else
