@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEBASELIB
 #define OSG_COMPILEFIELDINST
 
 #include <stdlib.h>
