@@ -11,11 +11,30 @@ Chapter Overview
     \ref TutorialLightGeneral <BR>
 <HR>
 
-This chapter is all about light sources. I will introduce point, spot and directional light sources. At the end of the chapter I will extend
-the tutorial from the last chapter as all lightsources are added. Furthermore I will show you some important things you need to know if
-working with light sources.
+This chapter is dedicated to another very important aspect of computer graphics: light sources. Well, most scenes have at least one, but
+often more, lighsources to simulate a realistic environment. OpenSG features the common OpenGL lightsourses : spot, directional and point
+lights. The actual usage is easy and should be simiar to OpenGL. At the end of this chapter there will be a tutorial which will add some
+light sources to the water mesh from the last chapter.
 
 \section TutorialLightGeneral General Things About Light in OpenSG
+
+There is one big difference compared to OpenGL, which might be a bit uncomfortable right at the beginning, but actually it is no big deal 
+at all. Beacons is what I am talking about. Every light source must be assigned to a beacon, which can be any node in the scenegraph. 
+This beacon acts like a cointainer where the light source is located in. All transformations that apply to this beacon will also be
+applied to the light source.
+
+<I>
+Just to mention it: The camera is located in a beacon the same way. We habe not seen that so far, as the simple scene manager takes
+care about that automatically. The simple scene manager also provides one point light per default. That is the reason why we had not
+a black sceen in the tutorials, altough we had not defined a single light source.
+</I>
+
+Furthermore as all light sources are derived from node core they need to be inserted into a core of a node just like every other core too.
+I suppose you wonder why you neet to set is as a core and define a beacon. Well, the beacon defines the position in the world, where as
+the position of the core in the graph should define which objects will be lit. Yes, I said should, as this feature is not implemented in
+version 1.2 and as far as I know it will not be in 1.3 as well. For know simply all objects are lit by the lighsources thus the position
+of the core does not matter right know. Anyway, keep that in mind, as it may change in a future release of OpenSG. The folowing picture
+shows two variants on how to set up a light source.
 
 
 */
