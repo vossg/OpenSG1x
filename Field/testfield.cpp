@@ -15,6 +15,7 @@
 #include "OSGMFBaseTypes.h"
 #include "OSGSFMathTypes.h"
 #include "OSGMFMathTypes.h"
+#include "OSGMFSysTypes.h"
 
 OSG_USING_NAMESPACE
 
@@ -86,6 +87,13 @@ int main (int argc, char **argv)
         (MFTime *) FieldFactory::the().createField("MFTime");
 
     fprintf(stderr, "Got Field %p %p %p %p\n", pSB, pMB, pST, pMT);
+
+    MFBool testBField;
+    
+    testBField.resize(10);
+
+    testBField[0] = true;
+    testBField[1] = false;
 
     return 0;   
 }
