@@ -7,9 +7,11 @@ ifndef OSGPOOL
 OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
 endif
 
-REQUIRED_INCPACKAGES := Window IntersectAction DrawAction Action Misc Image FieldContainer \
+REQUIRED_INCPACKAGES := Window IntersectAction DrawAction Action Misc 	\
+						MultiThreading Image FieldContainer 			\
 						Field Log Base 
-REQUIRED_LNKPACKAGES := Window IntersectAction DrawAction Action Misc Image FieldContainer \
+REQUIRED_LNKPACKAGES := Window IntersectAction DrawAction Action Misc 	\
+						MultiThreading Image FieldContainer 			\
 						Field Log Base 
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk

@@ -9,8 +9,9 @@ endif
 
 OSGMAINMAKE    = 1
 
-SUBLIBS        = Action Action/DrawAction Action/IntersectAction Base Field FieldContainer Log \
-				 Image Material Nodes State Window Loader
+SUBLIBS        = Action Action/DrawAction Action/IntersectAction Base Field   \
+				 FieldContainer Log Image Material MultiThreading Nodes State \
+				 Window Loader
 
 TAGS_EXCLUDEDIRS := Action/DrawAction
 

@@ -8,9 +8,9 @@ OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
 endif
 
 REQUIRED_INCPACKAGES := Action DrawAction Geometry Misc FieldContainer 	\
-						Field Log Base Material
+						MultiThreading Field Log Base Material
 REQUIRED_LNKPACKAGES := Action DrawAction Misc FieldContainer 	\
-						Field Log Base Geometry 
+						MultiThreading Field Log Base Geometry 
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 include $(OSGPOOL)/$(OSGCOMMON)/commonSub.mk

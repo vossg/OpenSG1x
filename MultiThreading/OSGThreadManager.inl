@@ -254,7 +254,7 @@ MPFieldStore<MPFieldT>::MPFieldType *
     }
     else 
     {
-        SWARNING << "could not find type named : " << szName << endl;
+        PDEBUG << "could not find type named : " << szName << endl;
         return NULL;
     }
 }
