@@ -71,6 +71,12 @@
 
 #include <OSGSimpleAttachments.h>
 
+#include <OSGChunkMaterial.h>
+#include <OSGMaterialChunk.h>
+#include <OSGMaterialGroup.h>
+#include <OSGTextureChunk.h>
+#include <OSGImage.h>
+
 //#define OSG_DEBUG_VRML
 
 OSG_USING_NAMESPACE
@@ -2673,8 +2679,85 @@ PROTO WorldInfo [
  postStandardProtos();
 }
 
+static Action::ResultE modifyMaterial(NodePtr& node)
+{   
+    MaterialGroupPtr mg = MaterialGroupPtr::dcast(node->getCore());
+    
+    if(mg == NullFC)
+        return Action::Continue; 
+    
+    ChunkMaterialPtr cmat = ChunkMaterialPtr::dcast(mg->getMaterial());
+    
+    if(cmat == NullFC)
+        return Action::Continue; 
+    
+    TextureChunkPtr texc = TextureChunkPtr::dcast(cmat->find(TextureChunk::getClassType()));
+    
+    if(texc == NullFC)
+        return Action::Continue;
+    
+    MaterialChunkPtr matc = MaterialChunkPtr::dcast(cmat->find(MaterialChunk::getClassType()));
+    
+    if(matc == NullFC)
+    {
+        // no material chunk so we use the replace mode.
+        beginEditCP(texc, TextureChunk::EnvModeFieldMask);
+            texc->setEnvMode(GL_REPLACE);
+        endEditCP(texc, TextureChunk::EnvModeFieldMask);
+        return Action::Continue;
+    }
+    
+    if(matc != NullFC)
+    {
+        ImagePtr img = texc->getImage();
+        
+        beginEditCP(texc, TextureChunk::EnvModeFieldMask);
+            texc->setEnvMode(GL_MODULATE);
+        endEditCP(texc, TextureChunk::EnvModeFieldMask);
+        if(img != NullFC && img->getBpp() > 2)
+        {
+            // for color textures the texture replaces only the diffuse part.
+            beginEditCP(matc, MaterialChunk::DiffuseFieldMask);
+                matc->setDiffuse(Color4f(1.0f, 1.0f, 1.0f, 1.0f));
+            endEditCP(matc, MaterialChunk::DiffuseFieldMask);
+        }
+        
+        
+        // check for textures with alpha
+        if(!matc->isTransparent() && img != NullFC &&
+           img->getBpp() == 4)
+        {
+            BlendChunkPtr blendc = BlendChunkPtr::dcast(cmat->find(BlendChunk::getClassType()));
+            if(blendc == NullFC)
+            {
+                blendc = OSG::BlendChunk::create();
+
+                beginEditCP(blendc, BlendChunk::SrcFactorFieldMask |
+                                    BlendChunk::DestFactorFieldMask);
+                    blendc->setSrcFactor (GL_SRC_ALPHA);
+                    blendc->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+                endEditCP(blendc, BlendChunk::SrcFactorFieldMask |
+                                  BlendChunk::DestFactorFieldMask);
+    
+                beginEditCP(cmat, ChunkMaterial::ChunksFieldMask);
+                    cmat->addChunk(blendc);
+                endEditCP  (cmat, ChunkMaterial::ChunksFieldMask);
+            }
+        }
+    }
+    
+    return Action::Continue;
+}
+
 NodePtr VRMLFile::getRoot(void)
 {
+    // now walk through all materials and modify them.
+    if(_pSceneRootNode != NullFC)
+    {
+        traverse(_pSceneRootNode, osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                 NodePtr>(modifyMaterial));
+    }
+    
     return _pSceneRootNode;
 }
 
