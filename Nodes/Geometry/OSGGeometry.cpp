@@ -279,7 +279,7 @@ GeometryPtr Geometry::getPtr(void) const
 
 // GL object handler
 // put the geometry into a display list
-void Geometry::handleGL( Window::GLObjectFlagE mode, UInt32 id )
+void Geometry::handleGL( Window::GLObjectStatusE mode, UInt32 id )
 {
 	if ( mode == Window::destroy )
 	{
