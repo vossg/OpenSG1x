@@ -590,7 +590,9 @@ void CNurbsPatchSurface::calculatePointsNormalsAndTextureCoords(
 
     //copy the texturecoords into the vvclEdgeLoopsTex structure
     numloops = m_vtSurfaces[0].vvclEdgeLoops.size();
-    ui_actvertidx = 0;
+#ifdef OSG_KEEP_2D_POINTS
+    int ui_actvertidx = 0;
+#endif
   
     m_vtSurfaces[0].vvclEdgeLoopsTex.resize( numloops );
     for( ui_actloop = 0; ui_actloop < numloops; ++ui_actloop )
