@@ -113,6 +113,27 @@ Action::ResultE Group::drawLeave(Action *)
 }
 
 /*-------------------------------------------------------------------------*/
+/*                              Render                                     */
+
+Action::ResultE Group::renderEnter(Action *action)
+{
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+
+    ra->pushVisibility();
+    
+    return Action::Continue;
+}
+
+Action::ResultE Group::renderLeave(Action *action)
+{
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+
+    ra->popVisibility();
+    
+    return Action::Continue;
+}
+
+/*-------------------------------------------------------------------------*/
 /*                             Intersect                                   */
 
 Action::ResultE Group::intersect(Action *action)
@@ -151,14 +172,14 @@ void Group::initMethod (void)
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           GroupPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Group::drawEnter));
+                                          Action   *>(&Group::renderEnter));
 
     RenderAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           GroupPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Group::drawLeave));
+                                          Action   *>(&Group::renderLeave));
     
     IntersectAction::registerEnterDefault( 
         getClassType(),

@@ -100,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     Action::ResultE drawEnter(Action *action);
     Action::ResultE drawLeave(Action *action);
+    Action::ResultE renderEnter(Action *action);
+    Action::ResultE renderLeave(Action *action);
     Action::ResultE intersect(Action *action);
 
     /*! \}                                                                 */

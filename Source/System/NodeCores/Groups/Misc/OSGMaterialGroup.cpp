@@ -149,7 +149,7 @@ Action::ResultE MaterialGroup::renderEnter(Action * action)
         da->setMaterial(&(*(_sfMaterial.getValue())));
     }
 
-    return Action::Continue;
+    return Group::renderEnter(action);
 }
 
 Action::ResultE MaterialGroup::renderLeave(Action * action)
@@ -161,7 +161,7 @@ Action::ResultE MaterialGroup::renderLeave(Action * action)
         da->setMaterial(NULL);
     }
 
-    return Action::Continue;
+    return Group::renderLeave(action);
 }
 
 /*-------------------------------------------------------------------------*/

@@ -183,9 +183,9 @@ Action::ResultE Transform::renderEnter(Action *action)
 {
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
-    pAction->push_matrix(this->getMatrix());
+    pAction->pushVisibility();
 
-    pAction->selectVisibles();
+    pAction->push_matrix(this->getMatrix());
 
     return Action::Continue;
 }
@@ -193,6 +193,8 @@ Action::ResultE Transform::renderEnter(Action *action)
 Action::ResultE Transform::renderLeave(Action *action)
 {
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
+
+    pAction->popVisibility();
 
     pAction->pop_matrix();
 
