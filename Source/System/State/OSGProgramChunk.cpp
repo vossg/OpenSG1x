@@ -192,7 +192,7 @@ bool ProgramChunk::read(const char *file)
     {
         FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
                     file));
-        return true;
+        return false;
     }
 }
 
@@ -208,7 +208,7 @@ bool ProgramChunk::read(std::istream &stream)
     if(!stream.good())
     {
         FWARNING(("ProgramChunk::read: stream is not good!\n"));
-        return true;
+        return false;
    
     }
     
@@ -219,7 +219,7 @@ bool ProgramChunk::read(std::istream &stream)
     }
     while(!stream.eof());
     
-    return false;
+    return true;
 }
     
 /*! Add a named parameter 
