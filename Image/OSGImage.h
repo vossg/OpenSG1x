@@ -219,12 +219,33 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
 	/** calculate mipmap geometry */
 	inline 
-    void calcMipmapGeometry ( Int32 mipmapNum,
-                              Int32 &width, Int32 &height, Int32 &depth )
+    void calcMipmapGeometry ( UInt32 mipmapNum,
+                              UInt32 &width, UInt32 &height, UInt32 &depth )
 		{
 			width  = _width >> mipmapNum;
 			height = _height >> mipmapNum;
 			depth  = _depth >> mipmapNum;
+		}
+
+	/** calculate mipmap level count */
+	inline 
+    UInt32 calcMipmapLevelCount ( void )
+		{
+			UInt32  w = _width, h = _height, d = _depth;
+			UInt32 level;
+			
+			for (level = 1; true; level++) 
+			{
+				if ((w == 1) && (h == 1) && (d == 1))
+					break;
+				else 
+				{
+					w = (w >>= 1) ? w : 1;
+					h = (h >>= 1) ? h : 1;
+					d = (d >>= 1) ? d : 1;
+				}
+			}
+			return level;
 		}
 
     /** clears the image (sets all pixel to pixelValue) */

@@ -449,8 +449,8 @@ Bool Image::scale ( int width, int height, int depth, Image *destination )
 {
 	Image *destImage = destination ? destination : new Image;
 	Bool retCode = true;
-	Int32 sw,sh,sd,dw,dh,dd;
-	Int32 frame, mipmap;
+	UInt32 sw,sh,sd,dw,dh,dd;
+	UInt32 frame, mipmap;
 	UChar8 *src, *dest;
   
 	if (width != _width || height != _height || depth != _depth) {
@@ -563,15 +563,7 @@ Bool Image::createMipmap ( Int32 level, Image *destination)
 	
 	// calc the level count
 	if (level < 0) {
-		for (level = 0; true; level++) {
-			if ((w == 1) && (h == 1) && (d == 1))
-				break;
-			else {
-				w = (w >>= 1) ? w : 1;
-				h = (h >>= 1) ? h : 1;
-				d = (d >>= 1) ? d : 1;
-			}
-		}
+		level = calcMipmapLevelCount() - 1;
 	}
 
 	// create destination image
