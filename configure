@@ -2159,10 +2159,10 @@ echo "configure:2120: checking system dir" >&5
 			    icl*)
 					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" '
 
-					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
+					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map'
 
 					ac_gdz_compiler_exe_lnk='"$(CC_PATH)/xilink" -lib -NODEFAULTLIB'
-					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'" -NODEFAULTLIB'
+					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
 
 					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
 					ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
@@ -3420,12 +3420,14 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     ac_gdz_qt_incdir_e6=
     ac_gdz_qt_libdir_e6=
     ac_gdz_qt_moc_e6=
+    ac_gdz_qt_uic_e6=
 
     if test -n "$ac_gdz_qt_dir"; then
         if test $build_os = cygwin; then
             ac_gdz_qt_incdir_e6='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
             ac_gdz_qt_libdir_e6='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
             ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
+            ac_gdz_qt_uic_e6=$ac_gdz_qt_dir/bin/uic
 
             ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
                         
@@ -3437,6 +3439,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
            ac_gdz_qt_incdir_e6=$ac_gdz_qt_dir/include
            ac_gdz_qt_libdir_e6=$ac_gdz_qt_dir/lib
            ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_uic_e6=$ac_gdz_qt_dir/bin/uic
            ac_gdz_qt_lib_e6='-lqt'
         fi
     fi
@@ -3445,6 +3448,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     ac_gdz_common_qt_in_e6=$ac_gdz_commonconf_dir/commonQT.in
     ac_gdz_common_qt_e6=$ac_gdz_commonpackage_dir/commonQT.mk
 
+    
     
     
     
@@ -3519,6 +3523,7 @@ s%@ac_gdz_qt_incdir_e6@%$ac_gdz_qt_incdir_e6%g
 s%@ac_gdz_qt_libdir_e6@%$ac_gdz_qt_libdir_e6%g
 s%@ac_gdz_qt_lib_e6@%$ac_gdz_qt_lib_e6%g
 s%@ac_gdz_qt_moc_e6@%$ac_gdz_qt_moc_e6%g
+s%@ac_gdz_qt_uic_e6@%$ac_gdz_qt_uic_e6%g
 
 CEOF
 EOF
@@ -5634,6 +5639,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     ac_gdz_qt_incdir_e15=
     ac_gdz_qt_libdir_e15=
     ac_gdz_qt_moc_e15=
+    ac_gdz_qt_uic_e15=
 
     if test -n "$ac_gdz_qt_dir"; then
 
@@ -5643,6 +5649,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
            ac_gdz_qt_incdir_e15='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
            ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
            ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_uic_e15=$ac_gdz_qt_dir/bin/uic
 
             ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
                         
@@ -5654,6 +5661,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
            ac_gdz_qt_incdir_e15=$ac_gdz_qt_dir/include
            ac_gdz_qt_libdir_e15=$ac_gdz_qt_dir/lib
            ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_uic_e15=$ac_gdz_qt_dir/bin/uic
            ac_gdz_qt_lib_e15='"-lqt"'
         fi
     else
@@ -5850,6 +5858,10 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
         ac_gdz_system_unix_e15=yes
     fi
 
+
+    ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
+    ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+
     ac_gdz_base_system_libs_e15='"'$ac_gdz_base_system_libs'"'
 
     ac_gdz_osg_config_in_e15=$ac_gdz_commonconf_dir/osg-config.in
@@ -5867,10 +5879,6 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     
     
     
-
-    
-    
-    
     
 
     
@@ -5890,7 +5898,15 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
     
     
+    
+    
 
+    
+    
+
+    
+
+    
     
 
     trap '' 1 2 15
@@ -5968,6 +5984,7 @@ s%@ac_gdz_qt_incdir_e15@%$ac_gdz_qt_incdir_e15%g
 s%@ac_gdz_qt_libdir_e15@%$ac_gdz_qt_libdir_e15%g
 s%@ac_gdz_qt_lib_e15@%$ac_gdz_qt_lib_e15%g
 s%@ac_gdz_qt_moc_e15@%$ac_gdz_qt_moc_e15%g
+s%@ac_gdz_qt_uic_e15@%$ac_gdz_qt_uic_e15%g
 s%@ac_gdz_have_qt_e15@%$ac_gdz_have_qt_e15%g
 s%@ac_gdz_tif_incdir_e15@%$ac_gdz_tif_incdir_e15%g
 s%@ac_gdz_tif_libdir_e15@%$ac_gdz_tif_libdir_e15%g
@@ -5988,6 +6005,8 @@ s%@ac_gdz_have_gif_e15@%$ac_gdz_have_gif_e15%g
 s%@ac_gdz_system_win_e15@%$ac_gdz_system_win_e15%g
 s%@ac_gdz_system_unix_e15@%$ac_gdz_system_unix_e15%g
 s%@ac_gdz_base_system_libs_e15@%$ac_gdz_base_system_libs_e15%g
+s%@ac_gdz_compiler_lib_e15@%$ac_gdz_compiler_lib_e15%g
+s%@ac_gdz_system_lib_dir_e15@%$ac_gdz_system_lib_dir_e15%g
 
 CEOF
 EOF

@@ -120,8 +120,8 @@ COMPILER_RUNTIME_DBG    = -MDd
 COMPILER_RUNTIME_OPT    = -MD
 endif
 
-CCFLAGS_EXT_OPT  := -O2 -Ob1
-CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG
+CCFLAGS_EXT_OPT  := -O2 -Ob1 -MD
+CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -MDd
 
 ### Optimize / Debug ###############################################
 
@@ -181,7 +181,7 @@ else
 	LINK_DEBUG       = -Debug 
 endif
 
-LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
+LD_FLAGS += -NODEFAULTLIB $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 LD_FLAGS_EXT     := -NODEFAULTLIB
 LD_FLAGS_EXT_OPT := 

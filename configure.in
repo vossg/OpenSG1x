@@ -418,10 +418,10 @@ then
 			    icl*)
 					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" '
 
-					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
+					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map'
 
 					ac_gdz_compiler_exe_lnk='"$(CC_PATH)/xilink" -lib -NODEFAULTLIB'
-					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'" -NODEFAULTLIB'
+					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
 
 					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
 					ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"

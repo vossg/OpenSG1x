@@ -272,6 +272,7 @@ fcdToBase:
 	cd $$CURRDIRBASE
 
 INSTALL_DIR_SED := $(shell echo $(INSTALL_DIR) | sed -e 's/\//\\\//g')
+MOC_LD          := $(shell echo $(LD)          | sed -e 's/\//\\\//g')
 
 install-bin:
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
@@ -281,13 +282,15 @@ install-bin:
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
 	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
 	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'	\
-		   -e 's|@am_gdz_link_flags@|\"$(LD_FLAGS_EXT)\"|g'				\
+		   -e 's/@am_gdz_link_flags@/\"$(LD_FLAGS_EXT)\"/g'				\
 		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
 		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
 		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
 		   -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"						\
 		   -e "s/@am_gdz_version@/$$VERSION/g"							\
 		   -e 's/@am_gdz_qt_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'		\
+		   -e 's/@am_gdz_exe_linker@/\"$(MOC_LD)\"/g'					\
+		   -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"					\
 		> $(INSTALL_DIR)/bin/osg-config
 	chmod 755 $(INSTALL_DIR)/bin/osg-config
 
@@ -310,6 +313,7 @@ install-gabe: install-includes-gabe install-libs-cp
 		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET) SUB_JOB=$(SUB_JOB); 	\
 		cd ..; 																\
 	fi
+
 
 #########################################################################
 # Help Target

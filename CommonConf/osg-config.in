@@ -84,7 +84,7 @@ image_incs_path=
 image_defs=
 
 if test "$system_win" = "yes"; then
-    sys_libs=$win_sys_libs
+    sys_libs='-LIBPATH:@ac_gdz_compiler_lib_e15@ -LIBPATH:"@ac_gdz_system_lib_dir_e15@" $win_sys_libs'
 else
     sys_libs=$unix_sys_libs
 fi;
@@ -150,6 +150,10 @@ Options:
     [--exec-prefix[=DIR]]
     [--version]
     [--compiler]
+    [--compiler-id]
+    [--moc]
+    [--uic]
+    [--exe-linker]
     [--libs]
     [--cflags]
     [--lflags]
@@ -209,6 +213,22 @@ while test $# -gt 0; do
       echo @am_gdz_compiler@
       exit 0
       ;;
+    --compiler-id)
+	  echo @am_gdz_compiler_id@
+	  exit 0
+	 ;;
+	--moc)
+      echo "@ac_gdz_qt_moc_e15@"
+	  exit 0
+	  ;;
+	--uic)
+      echo "@ac_gdz_qt_uic_e15@"
+	  exit 0
+	  ;;
+	--exe-linker)
+      echo @am_gdz_exe_linker@
+	  exit 0
+	  ;;
     --cflags)
       echo_cflags=yes
       valid_print=yes

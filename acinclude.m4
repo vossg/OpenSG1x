@@ -857,12 +857,14 @@ dnl e5
     ac_gdz_qt_incdir_e6=
     ac_gdz_qt_libdir_e6=
     ac_gdz_qt_moc_e6=
+    ac_gdz_qt_uic_e6=
 
     if test -n "$ac_gdz_qt_dir"; then
         if test $build_os = cygwin; then
             ac_gdz_qt_incdir_e6='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
             ac_gdz_qt_libdir_e6='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
             ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
+            ac_gdz_qt_uic_e6=$ac_gdz_qt_dir/bin/uic
 
             ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
                         
@@ -874,6 +876,7 @@ dnl e5
            ac_gdz_qt_incdir_e6=$ac_gdz_qt_dir/include
            ac_gdz_qt_libdir_e6=$ac_gdz_qt_dir/lib
            ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_uic_e6=$ac_gdz_qt_dir/bin/uic
            ac_gdz_qt_lib_e6='-lqt'
         fi
     fi
@@ -887,6 +890,7 @@ dnl e5
     AC_SUBST(ac_gdz_qt_libdir_e6)
     AC_SUBST(ac_gdz_qt_lib_e6)
     AC_SUBST(ac_gdz_qt_moc_e6)
+    AC_SUBST(ac_gdz_qt_uic_e6)
    
     touch confdefs.h
 
@@ -1195,6 +1199,7 @@ dnl e15
     ac_gdz_qt_incdir_e15=
     ac_gdz_qt_libdir_e15=
     ac_gdz_qt_moc_e15=
+    ac_gdz_qt_uic_e15=
 
     if test -n "$ac_gdz_qt_dir"; then
 
@@ -1204,6 +1209,7 @@ dnl e15
            ac_gdz_qt_incdir_e15='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
            ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
            ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_uic_e15=$ac_gdz_qt_dir/bin/uic
 
             ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
                         
@@ -1215,6 +1221,7 @@ dnl e15
            ac_gdz_qt_incdir_e15=$ac_gdz_qt_dir/include
            ac_gdz_qt_libdir_e15=$ac_gdz_qt_dir/lib
            ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_uic_e15=$ac_gdz_qt_dir/bin/uic
            ac_gdz_qt_lib_e15='"-lqt"'
         fi
     else
@@ -1412,6 +1419,10 @@ dnl e15
         ac_gdz_system_unix_e15=yes
     fi
 
+
+    ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
+    ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+
     ac_gdz_base_system_libs_e15='"'$ac_gdz_base_system_libs'"'
 
     ac_gdz_osg_config_in_e15=$ac_gdz_commonconf_dir/osg-config.in
@@ -1428,6 +1439,7 @@ dnl e15
     AC_SUBST(ac_gdz_qt_libdir_e15)
     AC_SUBST(ac_gdz_qt_lib_e15)
     AC_SUBST(ac_gdz_qt_moc_e15)
+    AC_SUBST(ac_gdz_qt_uic_e15)
     AC_SUBST(ac_gdz_have_qt_e15)
 
     AC_SUBST(ac_gdz_tif_incdir_e15)
@@ -1454,6 +1466,9 @@ dnl e15
     AC_SUBST(ac_gdz_system_unix_e15)
 
     AC_SUBST(ac_gdz_base_system_libs_e15)
+
+    AC_SUBST(ac_gdz_compiler_lib_e15)
+    AC_SUBST(ac_gdz_system_lib_dir_e15)
 
     AC_OUTPUT($ac_gdz_osg_config_e15:$ac_gdz_osg_config_in_e15)
 ])
