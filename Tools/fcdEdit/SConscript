@@ -24,7 +24,7 @@ else:
 
 
 BuildProgram(tc, 'fcdCompile', sources, tools=[],
-             updates=[custom, OpenSGLibrary(['OSGSystem', 'OSGBase'])],
+             updates=[custom, OpenSGLibrary(['OSGBase'])],
              CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
              CPPDEFINES=['FCD_TERM', 'OSG_BUILD_DLL'])
 
