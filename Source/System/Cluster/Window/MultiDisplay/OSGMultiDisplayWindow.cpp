@@ -144,6 +144,14 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     // calculate width and height from local width and height
     UInt32 width  = serverWindow->getWidth() ;
     UInt32 height = serverWindow->getHeight();
+    if(getWidth()==0)
+    {
+        setWidth( width*getHServers() );
+    }
+    if(getHeight()==0)
+    {
+        setHeight( height*getVServers() );
+    }
     Int32 left   = column * width;
     Int32 bottom = row    * height;
     Int32 right  = left   + width  - 1;
@@ -206,6 +214,10 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             serverPort->setLeft(1.0001);
         if(serverPort->getRight() == 1.0)
             serverPort->setRight(1.0001);
+        if(serverPort->getTop() == 1.0)
+            serverPort->setTop(1.0001);
+        if(serverPort->getBottom() == 1.0)
+            serverPort->setBottom(1.0001);
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );
         serverPort->getMFForegrounds()->setValues( clientPort->getForegrounds() );        
