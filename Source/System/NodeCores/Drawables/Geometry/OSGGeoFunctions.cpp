@@ -673,7 +673,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
             if ((nN = normset.size())) 
             {
               // find normal
-              std::sort ( normset.begin(), normset.end() );
+              //std::sort ( normset.begin(), normset.end() );
               ndI = normDic[p].find(normset);
               if (ndI == normDic[p].end()) 
               {
@@ -1536,9 +1536,14 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
 {
-  UInt32 count = 0, i, iN, index, si, sN;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+
+  UInt32 indexSharedCount = 0, dataRemapCount = 0, indexRemapCount = 0;
+  UInt32 i, iN, index, si, sN;
   UInt32 indexMapSize, indexBlock = 0, masterDSize;
   AbstractGeoPropertyInterface *masterProp = 0, *slaveProp = 0;
+  UInt8  *masterData;
   std::vector<UInt32> slaveDSizeVec;
   std::vector<UInt8*> slaveDataVec;
   UInt16 mapMask, propMask, masterPropMask;
@@ -1548,6 +1553,8 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
   std::map< Mem, UInt32, memless<Mem> >::iterator mmI;
   GeoIndicesPtr indexPtr;
   UChar8 *dataElem;
+  std::vector<Int32> indexRemap;
+  Time startTime = osg::getSystemTime();
 
   if (geoPtr != NullFC)
   {
@@ -1608,7 +1615,8 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
       for (masterPropMask = 1; (propMask & masterPropMask) == 0;)
         masterPropMask <<= 1;
 
-      if ((masterProp = geoPtr->getProperty(masterPropMask)))
+      if ( (masterProp = geoPtr->getProperty(masterPropMask)) &&
+           (masterData = masterProp->getData() ) )
       {
         // calc master data element size
         masterDSize = 
@@ -1637,33 +1645,61 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
         sN = slaveDataVec.size();
         iN = indexPtr->size() / indexMapSize;
         memMap.clear();
-        mem.second = masterDSize;
+        indexRemap.resize(masterProp->size(), -1);
+        mem.second = masterProp->getFormatSize() * masterProp->getDimension();
+
         for (i = 0; i < iN; i++) 
         {
           index = indexPtr->getValue(i * indexMapSize + indexBlock);          
-          dataElem = masterProp->getData() + (index * masterDSize);
-          mem.first = dataElem;
-          mmI = memMap.find(mem);
-          if (mmI == memMap.end())
-          {
-            // store new index
-            memMap[mem] = index;
-          }
-          else
-          {
-            // index found; check slave property
-            for ( si = 0; si < sN; si++ )
-              if ( memcmp( slaveDataVec[si] + 
-                           (index * slaveDSizeVec[si]),
-                           slaveDataVec[si] + 
-                           (mmI->second * slaveDSizeVec[si]),
-                           slaveDSizeVec[si] ) )
-                break;
-            if (si == sN) 
+          if (indexRemap[index] >= 0) {
+            if (indexRemap[index] != index)
             {
-              indexPtr->setValue ( mmI->second,
-                                   i * indexMapSize + indexBlock );
-              count++;
+              indexPtr->setValue( indexRemap[index], 
+                                  i * indexMapSize + indexBlock );
+              indexRemapCount++;
+            }
+            else
+            {
+              indexSharedCount++;
+            }
+          }
+          else {
+            // find/include the data block
+            dataElem = masterData + (index * masterDSize);
+            mem.first = dataElem;
+            mmI = memMap.find(mem);
+            if (mmI == memMap.end())
+              {
+                // index not found; store new data/index
+                memMap[mem] = index;
+                indexRemap[index] = index;
+              }
+            else
+            {
+                // data found; check slave property
+                for ( si = 0; si < sN; si++ )
+                  if ( memcmp( slaveDataVec[si] + 
+                               (index * slaveDSizeVec[si]),
+                               slaveDataVec[si] + 
+                               (mmI->second * slaveDSizeVec[si]),
+                               slaveDSizeVec[si] ) )
+                    break;
+
+                if (si == sN) 
+                {
+                  // no or valid slave data; remap the index
+                  indexPtr->setValue ( mmI->second,
+                                       i * indexMapSize + indexBlock );
+                  indexRemap[index] = mmI->second;
+                  dataRemapCount++;
+                }
+                else 
+                {
+                  // invalid slave data
+                  FWARNING (("Slave data mismatch; cannot remap index %d\n",
+                             index ));    
+                  indexRemap[index] = index;
+                }
             }
           }
         }
@@ -1681,10 +1717,20 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
     }
   }
 
-  FNOTICE (("Create sharedIndex: %d indices remapped (%d)\n", 
-            count, (indexBlock+1) ));
+  FNOTICE (("Create sharedIndex: %g %d/%d/%d %d \n", 
+            double(osg::getSystemTime() - startTime),
+            indexSharedCount, indexRemapCount, dataRemapCount, 
+            indexBlock ));
 
-  return count;
+  return (indexRemapCount + dataRemapCount);
+
+#else
+
+  FFATAL (( "Cannot run createSharedIndex (%d): NO_GEO_INFACE\n",
+            int(geoPtr->getCPtr()) ));
+
+#endif
+
 }
 
 
@@ -1694,11 +1740,12 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
  *  \ingroup Geometry
  */
 
-#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
-
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
 {
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+
   Int16 mask, maskID, finalMask = 0;
   Int32 indexMapSize, indexCount, i, j,  vCount = 0;
   Int32 index;
@@ -1780,9 +1827,15 @@ Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
     }
 
   return vCount;
-}
+
+#else
+
+  FFATAL (( "Cannot run createSingleIndex (%d): NO_GEO_INFACE\n",
+            int(geoPtr->getCPtr()) ));
 
 #endif
+
+}
 
 /*! \brief return the number of triangle/line/point elem
  *  \ingroup Geometry
