@@ -13,7 +13,7 @@
 #include <string.h>
 
 #include <OSGLog.h>
-#include <OSGBasefunctions.h>
+#include <OSGBaseFunctions.h>
 
 #include "OSGTTVectorFontGlyph.h"
 #include "OSGTTImageFontGlyph.h"
