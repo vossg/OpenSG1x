@@ -325,6 +325,10 @@ class OSG_VRML_DLLMAPPING VRMLAppearanceBinder : public VRMLNodeBinder
     void setTextureTransform(TextureTransformChunkPtr  pTexTrans);
 
     void finish             (VRMLToOSGAction          *pAction  );
+    
+  private:
+      
+    bool _has_alpha;
 };
 
 OSG_END_NAMESPACE

@@ -53,6 +53,7 @@
 #include "OSGChunkMaterial.h"
 #include "OSGVRMLToOSGAction.h"
 #include "OSGBlendChunk.h"
+#include "OSGImage.h"
 
 OSG_USING_NAMESPACE
 
@@ -266,7 +267,8 @@ SFVRMLNode *VRMLAppearance::getSFTextureTransform(void)
 /*------------- constructors & destructors --------------------------------*/
 
 VRMLAppearanceBinder::VRMLAppearanceBinder(void) :
-	Inherited()
+	Inherited(),
+    _has_alpha(false)
 {
 }
 
@@ -315,6 +317,11 @@ void VRMLAppearanceBinder::setTexture(TextureChunkPtr pTex)
             pChunkMat->addChunk(pTex);
         }
         endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
+        
+        // check for alpha
+        ImagePtr img = pTex->getImage();
+        if(img != NullFC && img->getBpp() == 4)
+            _has_alpha = true;
     }
 }
 
@@ -342,7 +349,7 @@ void VRMLAppearanceBinder::finish(VRMLToOSGAction *)
     ChunkMaterialPtr pChunkMat = 
         ChunkMaterialPtr::dcast(_pFieldContainer);
 
-    if(pChunkMat != NullFC && pChunkMat->isTransparent() == true)
+    if(pChunkMat != NullFC && (pChunkMat->isTransparent() == true || _has_alpha))
     {
         BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
 
