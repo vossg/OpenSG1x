@@ -76,6 +76,14 @@ QFieldContainerEditor::~QFieldContainerEditor(void)
 void
 QFieldContainerEditor::setFieldContainer(FieldContainerPtr fcPtr)
 {
+    if(fcPtr == NullFC)
+    {
+        _pLabelFCType->setText("");
+        _pLabelFCName->setText("");
+        depopulateTable();
+        return;
+    }
+
     AttachmentContainerPtr pAttCon = AttachmentContainerPtr::dcast(fcPtr);
 
     _fcPtr = fcPtr;
@@ -285,6 +293,8 @@ QFieldContainerEditor::initSelf(void)
     _pTable->setNumCols(2);
     _pTable->horizontalHeader()->setLabel(FieldNameCol,  "Field Name" );
     _pTable->horizontalHeader()->setLabel(FieldValueCol, "Field Value");
+    _pTable->verticalHeader()->hide();
+    _pTable->setLeftMargin(0);
     _pTable->setColumnStretchable(FieldValueCol, true);
 }
 
@@ -305,7 +315,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.2 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.3 2004/08/14 20:41:13 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }
