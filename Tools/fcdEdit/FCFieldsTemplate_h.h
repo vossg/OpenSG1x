@@ -71,6 +71,7 @@ char *FCPtrTemplate_h[]={
 "#include <@!HeaderPrefix!@OSGConfig.h>",
 "",
 "#include <@!HeaderPrefix!@OSGFieldContainerPtr.h>",
+"#include <@!HeaderPrefix!@OSGNodeCoreFieldDataType.h>",
 "#include <OSG@!Libname!@Def.h>",
 "",
 "OSG_BEGIN_NAMESPACE",
