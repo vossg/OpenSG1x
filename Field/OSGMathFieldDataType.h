@@ -76,6 +76,19 @@ struct OSGFieldDataTraits<OSGQuaternion> : public OSGTraits
     static char *getMName(void) { return "MFQuaternion"; }
 
 //    static OSGQuaternion    getDefault(void)    { return OSGQuaternion; }
+
+    static bool             getFromString(OSGQuaternion  &,
+                                          const char    *&)
+    {
+        // TO_BE_DONE
+        return false;
+    }
+
+    static void             putToString(const OSGQuaternion &,
+                                              OSGString &)
+    {
+        // TO_BE_DONE
+    }
 };
 
 OSG_END_NAMESPACE
