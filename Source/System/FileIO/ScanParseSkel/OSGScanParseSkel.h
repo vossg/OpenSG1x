@@ -42,6 +42,7 @@
 #pragma once
 #endif
 
+#include <iosfwd>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.tab.h>
@@ -122,6 +123,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*---------------------------------------------------------------------*/
     /*! \name                      Scan                                    */
     /*! \{                                                                 */
+
+    virtual void scanStream       (std::istream &is,
+                                         UInt32  uiReplaceOptions);
+
+    virtual void scanStream       (std::istream &is,
+                                         UInt32  uiAddOptions, 
+                                         UInt32  uiSubOptions);
 
     virtual void scanFile         (const Char8  *szFilename, 
                                          UInt32  uiReplaceOptions);

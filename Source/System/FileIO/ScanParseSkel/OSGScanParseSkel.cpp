@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include <iostream>
+#include <fstream>
 
 #include "OSGScanParseSkel.h"
 #include "OSGBaseFunctions.h"
@@ -77,28 +78,21 @@ ScanParseSkel::~ScanParseSkel(void)
 /*-------------------------------------------------------------------------*/
 /*                                Scan                                     */
 
-extern int   OSGScanParseSkel_parse(void);
-extern FILE *OSGScanParseSkel_in;
+extern int           OSGScanParseSkel_parse(void);
+extern std::istream *OSGScanParseSkel_is;
 
 extern void setSkel    (ScanParseSkel *pSkel);
 extern void clearSkel  (void);
 extern void abortParser(void);
 
-void ScanParseSkel::scanFile(const Char8 *szFilename, 
-                                   UInt32 uiOptions)
+void ScanParseSkel::scanStream(std::istream &is,
+                                     UInt32  uiOptions)
 {
-    if(szFilename == NULL)
-        return;
-
-    FILE *pInFile = fopen(szFilename, "r");
-
-    if(pInFile != NULL)
+    if(is.good())
     {
         setSkel(this);
 
-        PNOTICE << "Loading : " << szFilename << std::endl;
-
-        OSGScanParseSkel_in = pInFile;
+        OSGScanParseSkel_is = &is;
 
         _uiCurrOptions = uiOptions;
 
@@ -106,9 +100,37 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
         reset();
 
-        fclose(pInFile);
-
         clearSkel();
+    }
+}
+
+void ScanParseSkel::scanStream(std::istream &is,
+                                     UInt32  uiAddOptions, 
+                                     UInt32  uiSubOptions)
+{
+    UInt32 uiOptions = _uiDefOptions;
+
+    uiOptions |=  uiAddOptions;
+    uiOptions &= ~uiSubOptions;
+
+    ScanParseSkel::scanStream(is, uiOptions);
+}
+
+void ScanParseSkel::scanFile(const Char8 *szFilename, 
+                                   UInt32 uiOptions)
+{
+    if(szFilename == NULL)
+        return;
+
+    std::ifstream is(szFilename);
+
+    if(is.good())
+    {
+        PNOTICE << "Loading : " << szFilename << std::endl;
+
+        scanStream(is, uiOptions);
+
+        is.close();
     }
 }
 
@@ -116,12 +138,19 @@ void ScanParseSkel::scanFile(const Char8  *szFilename,
                                    UInt32  uiAddOptions, 
                                    UInt32  uiSubOptions)
 {
-    UInt32 uiOptions = _uiDefOptions;
+    if(szFilename == NULL)
+        return;
 
-    uiOptions |=  uiAddOptions;
-    uiOptions &= ~uiSubOptions;
+    std::ifstream is(szFilename);
 
-    ScanParseSkel::scanFile(szFilename, uiOptions);
+    if(is.good())
+    {
+        PNOTICE << "Loading : " << szFilename << std::endl;
+
+        scanStream(is, uiAddOptions, uiSubOptions);
+
+        is.close();
+    }
 }
 
 void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)

@@ -47,6 +47,16 @@
 #include <OSGScanParseSkel.tab.h>
 #include <OSGScanParseSkel.h>
 
+#include <iostream>
+std::istream *OSGScanParseSkel_is;
+#define YY_INPUT(buf, result, max_size) \
+    { \
+        OSGScanParseSkel_is->read(buf, max_size); \
+        result = OSGScanParseSkel_is->gcount(); \
+        if (OSGScanParseSkel_is->bad()) \
+            YY_FATAL_ERROR("input in flex scanner failed"); \
+    }
+
 int iLineNum = 1;
 
 extern "C"
@@ -223,63 +233,63 @@ header (#[^\n]*\n)
  /* VRML-Datei, in einer Prototyp-Implementierung oder beim */
  /* Lesen des Inhaltes von SFNode- oder MFNode-Feldern. */
 
-<NODE>PROTO         { return PROTO; }
-<NODE>EXTERNPROTO   { return EXTERNPROTO; }
-<NODE>DEF           { return DEF; }
-<NODE>USE           { return USE; }
-<NODE>TO            { return TO; }
-<NODE>ROUTE         { return ROUTE; }
-<NODE>NULL          { return SFN_NULL; }
-<NODE>Script        { return SCRIPT; }
-<NODE>eventIn       { return EVENTIN; }
-<NODE>eventOut      { return EVENTOUT; }
-<NODE>field         { return FIELD; }
-<NODE>exposedField  { return EXPOSEDFIELD; }
+<INITIAL,NODE>PROTO         { return PROTO; }
+<INITIAL,NODE>EXTERNPROTO   { return EXTERNPROTO; }
+<INITIAL,NODE>DEF           { return DEF; }
+<INITIAL,NODE>USE           { return USE; }
+<INITIAL,NODE>TO            { return TO; }
+<INITIAL,NODE>ROUTE         { return ROUTE; }
+<INITIAL,NODE>NULL          { return SFN_NULL; }
+<INITIAL,NODE>Script        { return SCRIPT; }
+<INITIAL,NODE>eventIn       { return EVENTIN; }
+<INITIAL,NODE>eventOut      { return EVENTOUT; }
+<INITIAL,NODE>field         { return FIELD; }
+<INITIAL,NODE>exposedField  { return EXPOSEDFIELD; }
 
-<NODE>MFColor       { return Tok_MFColor;    } 
-<NODE>MFFloat       { return Tok_MFFloat;    } 
-<NODE>MFInt32       { return Tok_MFInt32;    } 
-<NODE>MFNode        { return Tok_MFNode;     } 
-<NODE>MFRotation    { return Tok_MFRotation; } 
-<NODE>MFString      { return Tok_MFString;   } 
-<NODE>MFTime        { return Tok_MFTime;     } 
-<NODE>MFVec2f       { return Tok_MFVec2f;    } 
-<NODE>MFVec3f       { return Tok_MFVec3f;    } 
-<NODE>SFBool        { return Tok_SFBool;     } 
-<NODE>SFColor       { return Tok_SFColor;    } 
-<NODE>SFFloat       { return Tok_SFFloat;    } 
-<NODE>SFImage       { return Tok_SFImage;    } 
-<NODE>SFInt32       { return Tok_SFInt32;    } 
-<NODE>SFNode        { return Tok_SFNode;     } 
-<NODE>SFRotation    { return Tok_SFRotation; } 
-<NODE>SFString      { return Tok_SFString;   } 
-<NODE>SFTime        { return Tok_SFTime;     } 
-<NODE>SFVec2f       { return Tok_SFVec2f;    } 
-<NODE>SFVec3f       { return Tok_SFVec3f;    } 
+<INITIAL,NODE>MFColor       { return Tok_MFColor;    } 
+<INITIAL,NODE>MFFloat       { return Tok_MFFloat;    } 
+<INITIAL,NODE>MFInt32       { return Tok_MFInt32;    } 
+<INITIAL,NODE>MFNode        { return Tok_MFNode;     } 
+<INITIAL,NODE>MFRotation    { return Tok_MFRotation; } 
+<INITIAL,NODE>MFString      { return Tok_MFString;   } 
+<INITIAL,NODE>MFTime        { return Tok_MFTime;     } 
+<INITIAL,NODE>MFVec2f       { return Tok_MFVec2f;    } 
+<INITIAL,NODE>MFVec3f       { return Tok_MFVec3f;    } 
+<INITIAL,NODE>SFBool        { return Tok_SFBool;     } 
+<INITIAL,NODE>SFColor       { return Tok_SFColor;    } 
+<INITIAL,NODE>SFFloat       { return Tok_SFFloat;    } 
+<INITIAL,NODE>SFImage       { return Tok_SFImage;    } 
+<INITIAL,NODE>SFInt32       { return Tok_SFInt32;    } 
+<INITIAL,NODE>SFNode        { return Tok_SFNode;     } 
+<INITIAL,NODE>SFRotation    { return Tok_SFRotation; } 
+<INITIAL,NODE>SFString      { return Tok_SFString;   } 
+<INITIAL,NODE>SFTime        { return Tok_SFTime;     } 
+<INITIAL,NODE>SFVec2f       { return Tok_SFVec2f;    } 
+<INITIAL,NODE>SFVec3f       { return Tok_SFVec3f;    } 
 
     /* extended types */
 
-<NODE>MFColor4f     { return Tok_MFColor4f;  } 
-<NODE>MFColor4i     { return Tok_MFColor4i;  } 
-<NODE>MFColor3f     { return Tok_MFColor3f;  }
-<NODE>MFMatrix      { return Tok_MFMatrix;   }
-<NODE>MFPnt2f       { return Tok_MFPnt2f;    } 
-<NODE>MFPnt3f       { return Tok_MFPnt3f;    } 
-<NODE>MFPnt4f       { return Tok_MFPnt4f;    } 
-<NODE>MFVec4f       { return Tok_MFVec4f;    } 
-<NODE>MFPlane       { return Tok_MFPlane;    }
-<NODE>SFColor4f     { return Tok_SFColor4f;  } 
-<NODE>SFColor4i     { return Tok_SFColor4i;  } 
-<NODE>SFColor3f     { return Tok_SFColor3f;  }
-<NODE>SFMatrix      { return Tok_SFMatrix;   } 
-<NODE>SFPnt2f       { return Tok_SFPnt2f;    } 
-<NODE>SFPnt3f       { return Tok_SFPnt3f;    } 
-<NODE>SFPnt4f       { return Tok_SFPnt4f;    } 
-<NODE>SFVec4f       { return Tok_SFVec4f;    }
-<NODE>SFPlane       { return Tok_SFPlane;    } 
+<INITIAL,NODE>MFColor4f     { return Tok_MFColor4f;  } 
+<INITIAL,NODE>MFColor4i     { return Tok_MFColor4i;  } 
+<INITIAL,NODE>MFColor3f     { return Tok_MFColor3f;  }
+<INITIAL,NODE>MFMatrix      { return Tok_MFMatrix;   }
+<INITIAL,NODE>MFPnt2f       { return Tok_MFPnt2f;    } 
+<INITIAL,NODE>MFPnt3f       { return Tok_MFPnt3f;    } 
+<INITIAL,NODE>MFPnt4f       { return Tok_MFPnt4f;    } 
+<INITIAL,NODE>MFVec4f       { return Tok_MFVec4f;    } 
+<INITIAL,NODE>MFPlane       { return Tok_MFPlane;    }
+<INITIAL,NODE>SFColor4f     { return Tok_SFColor4f;  } 
+<INITIAL,NODE>SFColor4i     { return Tok_SFColor4i;  } 
+<INITIAL,NODE>SFColor3f     { return Tok_SFColor3f;  }
+<INITIAL,NODE>SFMatrix      { return Tok_SFMatrix;   } 
+<INITIAL,NODE>SFPnt2f       { return Tok_SFPnt2f;    } 
+<INITIAL,NODE>SFPnt3f       { return Tok_SFPnt3f;    } 
+<INITIAL,NODE>SFPnt4f       { return Tok_SFPnt4f;    } 
+<INITIAL,NODE>SFVec4f       { return Tok_SFVec4f;    }
+<INITIAL,NODE>SFPlane       { return Tok_SFPlane;    } 
 
-<NODE>{IdFirstChar}{IdRestChar}* { //fprintf(stderr, "ID : %s\n", vrml97_text);
-                                   return ID; }
+<INITIAL,NODE>{IdFirstChar}{IdRestChar}* { //fprintf(stderr, "ID : %s\n", vrml97_text);
+                                           return ID; }
 
 <mfcolorValue,mffloatValue,mfint32Value,mfrotationValue,mfstringValue>\[ {
     if(parsing_mf)
@@ -1047,7 +1057,7 @@ header (#[^\n]*\n)
 
 <*>{nl}     { ++iLineNum; }
 
-<*>.    { fprintf(stderr, "%c", OSGScanParseSkel_text[0]); }
+<*>.    { BEGIN EXTERROR; }
 
 %%
 
