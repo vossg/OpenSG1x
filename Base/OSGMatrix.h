@@ -247,7 +247,7 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 	                  VectorType3f   &center) const;
 
 	void getTransform(VectorType3f   &translation, 
-                      QuaternionType &rotation,
+										QuaternionType &rotation,
 	                  VectorType3f   &scaleFactor, 
                       QuaternionType &scaleOrientation) const;
 
@@ -305,6 +305,25 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
     Bool 		transposed   (TransformationMatrix 			&result		) const;
     Bool 		transpose    (void										);
     Bool 		transposeFrom(const TransformationMatrix 	&matrix		);
+
+		void add(const TransformationMatrix &matrix);
+		void scale(ValueTypeT s);
+		void addScaled(const TransformationMatrix &matrix, ValueTypeT s);
+		void negate(void);
+
+		ValueTypeT norm1(void) const;
+		ValueTypeT norm2(void) const;
+		ValueTypeT normInfinity(void) const;
+
+		Bool sqrt(TransformationMatrix &result) const;
+		Bool sqrtOf(const TransformationMatrix &matrix);
+		Bool sqrt(void);
+
+		Bool log(TransformationMatrix &result) const;
+		Bool logOf(const TransformationMatrix &matrix);
+
+		Bool exp(TransformationMatrix &result) const;
+		Bool expOf(const TransformationMatrix &matrix);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

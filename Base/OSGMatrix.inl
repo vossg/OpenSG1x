@@ -1775,6 +1775,452 @@ void TransformationMatrix<ValueTypeT>::multLeft(
 }
 
 
+/** \brief Adds the given matrix to this matrix
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::add(
+    const TransformationMatrix &matrix)
+{
+	_matrix[0][0] += matrix._matrix[0][0];
+	_matrix[0][1] += matrix._matrix[0][1];  
+	_matrix[0][2] += matrix._matrix[0][2];  
+	_matrix[0][3] += matrix._matrix[0][3];  
+
+	_matrix[1][0] += matrix._matrix[1][0]; 
+	_matrix[1][1] += matrix._matrix[1][1]; 
+	_matrix[1][2] += matrix._matrix[1][2]; 
+	_matrix[1][3] += matrix._matrix[1][3]; 
+
+	_matrix[2][0] += matrix._matrix[2][0]; 
+	_matrix[2][1] += matrix._matrix[2][1]; 
+	_matrix[2][2] += matrix._matrix[2][2]; 
+	_matrix[2][3] += matrix._matrix[2][3]; 
+
+	_matrix[3][0] += matrix._matrix[3][0]; 
+	_matrix[3][1] += matrix._matrix[3][1]; 
+	_matrix[3][2] += matrix._matrix[3][2]; 
+	_matrix[3][3] += matrix._matrix[3][3]; 
+}
+
+/** \brief Adds a scaled version of the given matrix to this matrix
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::addScaled(
+    const TransformationMatrix &matrix, ValueTypeT s)
+{
+	_matrix[0][0] += s*matrix._matrix[0][0];  
+	_matrix[0][1] += s*matrix._matrix[0][1];  
+	_matrix[0][2] += s*matrix._matrix[0][2];  
+	_matrix[0][3] += s*matrix._matrix[0][3];  
+
+	_matrix[1][0] += s*matrix._matrix[1][0];  
+	_matrix[1][1] += s*matrix._matrix[1][1];  
+	_matrix[1][2] += s*matrix._matrix[1][2];  
+	_matrix[1][3] += s*matrix._matrix[1][3];  
+
+	_matrix[2][0] += s*matrix._matrix[2][0];  
+	_matrix[2][1] += s*matrix._matrix[2][1];  
+	_matrix[2][2] += s*matrix._matrix[2][2];  
+	_matrix[2][3] += s*matrix._matrix[2][3];  
+
+	_matrix[3][0] += s*matrix._matrix[3][0];  
+	_matrix[3][1] += s*matrix._matrix[3][1];  
+	_matrix[3][2] += s*matrix._matrix[3][2];  
+	_matrix[3][3] += s*matrix._matrix[3][3];  
+}
+
+/** \brief Negates the matrix in place
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::negate(void)
+{
+	_matrix[0][0] *= -1.0;
+	_matrix[0][1] *= -1.0;
+	_matrix[0][2] *= -1.0;
+	_matrix[0][3] *= -1.0;
+
+	_matrix[1][0] *= -1.0;
+	_matrix[1][1] *= -1.0;
+	_matrix[1][2] *= -1.0;
+	_matrix[1][3] *= -1.0;
+
+	_matrix[2][0] *= -1.0;
+	_matrix[2][1] *= -1.0;
+	_matrix[2][2] *= -1.0;
+	_matrix[2][3] *= -1.0;
+
+	_matrix[3][0] *= -1.0;
+	_matrix[3][1] *= -1.0;
+	_matrix[3][2] *= -1.0;
+	_matrix[3][3] *= -1.0;
+}
+
+/** \brief Scales the elements of this matrix
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::scale(
+ValueTypeT s)
+{
+	_matrix[0][0] *= s;
+	_matrix[0][1] *= s;
+	_matrix[0][2] *= s;
+	_matrix[0][3] *= s;
+
+	_matrix[1][0] *= s;
+	_matrix[1][1] *= s;
+	_matrix[1][2] *= s;
+	_matrix[1][3] *= s;
+
+	_matrix[2][0] *= s;
+	_matrix[2][1] *= s;
+	_matrix[2][2] *= s;
+	_matrix[2][3] *= s;
+
+	_matrix[3][0] *= s;
+	_matrix[3][1] *= s;
+	_matrix[3][2] *= s;
+	_matrix[3][3] *= s;
+}
+
+/** \brief Returns the 1-norm of _matrix matrix
+*/
+
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::norm1(void) const
+{
+	ValueTypeT m(0);
+
+	m += osgabs(_matrix[0][0]);
+	m += osgabs(_matrix[0][1]);
+	m += osgabs(_matrix[0][2]);
+	m += osgabs(_matrix[0][3]);
+	m += osgabs(_matrix[1][0]);
+	m += osgabs(_matrix[1][1]);
+	m += osgabs(_matrix[1][2]);
+	m += osgabs(_matrix[1][3]);
+	m += osgabs(_matrix[2][0]);
+	m += osgabs(_matrix[2][1]);
+	m += osgabs(_matrix[2][2]);
+	m += osgabs(_matrix[2][3]);
+	m += osgabs(_matrix[3][0]);
+	m += osgabs(_matrix[3][1]);
+	m += osgabs(_matrix[3][2]);
+	m += osgabs(_matrix[3][3]);
+
+	return m;
+}
+
+/** \brief Returns the 2-norm of this matrix
+*/
+
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::norm2(void) const 
+{
+	ValueTypeT m(0), t;
+
+	t = _matrix[0][0]; m += t*t;
+	t = _matrix[0][1]; m += t*t;
+	t = _matrix[0][2]; m += t*t;
+	t = _matrix[0][3]; m += t*t;
+	t = _matrix[1][0]; m += t*t;
+	t = _matrix[1][1]; m += t*t;
+	t = _matrix[1][2]; m += t*t;
+	t = _matrix[1][3]; m += t*t;
+	t = _matrix[2][0]; m += t*t;
+	t = _matrix[2][1]; m += t*t;
+	t = _matrix[2][2]; m += t*t;
+	t = _matrix[2][3]; m += t*t;
+	t = _matrix[3][0]; m += t*t;
+	t = _matrix[3][1]; m += t*t;
+	t = _matrix[3][2]; m += t*t;
+	t = _matrix[3][3]; m += t*t;
+
+	return osgsqrt(m);
+}
+
+/** \brief Returns the infinity norm of this matrix
+*/
+
+template<class ValueTypeT> inline
+ValueTypeT TransformationMatrix<ValueTypeT>::normInfinity(void) const 
+{
+	ValueTypeT m(0),t;
+
+	if ((t = osgabs(_matrix[0][0])) > m) m = t;
+	if ((t = osgabs(_matrix[0][1])) > m) m = t;
+	if ((t = osgabs(_matrix[0][2])) > m) m = t;
+	if ((t = osgabs(_matrix[0][3])) > m) m = t;
+	if ((t = osgabs(_matrix[1][0])) > m) m = t;
+	if ((t = osgabs(_matrix[1][1])) > m) m = t;
+	if ((t = osgabs(_matrix[1][2])) > m) m = t;
+	if ((t = osgabs(_matrix[1][3])) > m) m = t;
+	if ((t = osgabs(_matrix[2][0])) > m) m = t;
+	if ((t = osgabs(_matrix[2][1])) > m) m = t;
+	if ((t = osgabs(_matrix[2][2])) > m) m = t;
+	if ((t = osgabs(_matrix[2][3])) > m) m = t;
+	if ((t = osgabs(_matrix[3][0])) > m) m = t;
+	if ((t = osgabs(_matrix[3][1])) > m) m = t;
+	if ((t = osgabs(_matrix[3][2])) > m) m = t;
+	if ((t = osgabs(_matrix[3][3])) > m) m = t;
+
+	return m;
+}
+
+
+//@}
+/*---------------------------- non-simple math ------------------------------*/
+
+/** @name non-simple math */
+//@{
+
+/** \brief Computes the square root of the matrix and stores it in
+    result, assumes det > 0
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::sqrt(
+    TransformationMatrix &result) const
+{
+	TransformationMatrix<ValueTypeT> iX, Y, iY;
+	ValueTypeT g, ig;
+
+	result.setValue(*this);
+	Y.setIdentity();
+  for (int i = 0; i < 6; i++) {
+		result.inverse(iX);
+    Y.inverse(iY);
+		g = osgabs(osgpow(result.det()*Y.det(),ValueTypeT(-0.125)));
+		ig = ValueTypeT(1.0/g);
+		result.scale(g);
+		result.addScaled(iY,ig);
+	  result.scale(0.5);
+		Y.scale(g);
+    Y.addScaled(iX,ig);
+    Y.scale(0.5); 
+	}
+	// ToDo: return should depend on achieved accuracy
+	return true;
+}
+
+/** \brief Sets this matrix to the square root of the given matrix,
+   assumes det > 0
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::sqrtOf(
+    const TransformationMatrix &matrix)
+{
+	TransformationMatrix<ValueTypeT> iX, Y, iY;
+	ValueTypeT g, ig;
+	
+	setValue(matrix);
+	Y.setIdentity();
+  for (int i = 0; i < 6; i++) {
+		inverse(iX);
+    Y.inverse(iY);
+		g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
+		ig = ValueTypeT(1.0/g);
+		scale(g);
+		addScaled(iY,ig);
+	  scale(0.5);
+		Y.scale(g);
+    Y.addScaled(iX,ig);
+    Y.scale(0.5); 
+	}
+	// ToDo: return should depend on achieved accuracy
+	return true;
+}
+
+/** \brief Sets this matrix to its square root,
+   assumes det > 0
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::sqrt(void)
+{
+	TransformationMatrix<ValueTypeT> iX, Y, iY;
+	ValueTypeT g, ig;
+	
+	Y.setIdentity();
+  for (int i = 0; i < 6; i++) {
+		inverse(iX);
+    Y.inverse(iY);
+		g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
+		ig = ValueTypeT(1.0/g);
+		scale(g);
+		addScaled(iY,ig);
+	  scale(0.5);
+		Y.scale(g);
+    Y.addScaled(iX,ig);
+    Y.scale(0.5); 
+	}
+	// ToDo: return should depend on achieved accuracy
+	return true;
+}
+
+/** \brief Computes the logarithm of this matrix and stores it in
+    result, assumes det > 0
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::log(
+    TransformationMatrix &result) const
+{
+	const int maxiter(12);
+	const ValueTypeT eps(1e-12);
+	int k(0), i(0);
+	TransformationMatrix<ValueTypeT> A(*this),Z;
+	
+
+	// Take repeated square roots to reduce spectral radius
+	Z.setValue(A);
+	Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+	Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+	Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+	Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
+	while (Z.normInfinity() > 0.5) {
+		A.sqrt();
+		Z.setValue(A);	
+		Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+		Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+		Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+		Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
+		k++;
+	}
+
+	A[0][0] -= TypeConstants<ValueType>::getOneElement();
+	A[1][1] -= TypeConstants<ValueType>::getOneElement();
+	A[2][2] -= TypeConstants<ValueType>::getOneElement();
+	A[3][3] -= TypeConstants<ValueType>::getOneElement(); 
+	A.negate();
+	result.setValue(A);
+	Z.setValue(A);
+	i = 1;
+	while(Z.normInfinity() > eps && i < maxiter) {
+		Z.mult(A);
+		i++;
+		result.addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));		
+	}
+	result.scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+
+	return (i<maxiter);
+}
+
+/** \brief Sets this matrix to the logarithm of the given matrix,
+	assumes det > 0
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::logOf(
+    const TransformationMatrix &matrix)
+{
+	const int maxiter(12);
+	const ValueTypeT eps(1e-12);
+	int k(0), i(0);
+	TransformationMatrix<ValueTypeT> A(matrix),Z;
+	
+
+	// Take repeated square roots to reduce spectral radius
+	Z.setValue(A);
+	Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+	Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+	Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+	Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
+	while (Z.normInfinity() > 0.5) {
+		A.sqrt();
+		Z.setValue(A);	
+		Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+		Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+		Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+		Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
+		k++;
+	}
+
+	A[0][0] -= TypeConstants<ValueType>::getOneElement();
+	A[1][1] -= TypeConstants<ValueType>::getOneElement();
+	A[2][2] -= TypeConstants<ValueType>::getOneElement();
+	A[3][3] -= TypeConstants<ValueType>::getOneElement(); 
+	A.negate();
+	setValue(A);
+	Z.setValue(A);
+	i = 1;
+	while(Z.normInfinity() > eps && i < maxiter) {
+		Z.mult(A);
+		i++;
+		addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));		
+	}
+	scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+
+	return (i<maxiter);
+}
+
+/** \brief Computes the exponential of this matrix and stores it in
+    result
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::exp(
+    TransformationMatrix &result) const
+{
+	TransformationMatrix<ValueTypeT> A(*this), D, N;
+	const int q(6);
+	int j(1), k;
+	ValueTypeT c(1.0);
+
+	j += int(osglog(A.normInfinity()/0.693));
+	if (j < 0) j = 0;
+	A.scale(1.0/(ValueTypeT(1<<j)));
+	result.setIdentity();
+	for (k = 1; k <= q; k++) {
+		c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
+		result.multLeft(A);
+		N.addScaled(result,c);
+		if (k%2) D.addScaled(result,-c);
+		else D.addScaled(result,c);
+  }
+	result.invertFrom(D);
+	result.mult(N);
+	for (k=0;k<j;k++)
+		result.mult(result);
+	// ToDo: return value
+	return true;
+}
+
+/** \brief Sets this matrix to the exponential of the given matrix
+*/
+
+template<class ValueTypeT> inline
+Bool TransformationMatrix<ValueTypeT>::expOf(
+    const TransformationMatrix &matrix)
+{
+	TransformationMatrix<ValueTypeT> A(matrix), D, N;
+	const int q(6);
+	int j(1), k;
+	ValueTypeT c(1.0);
+
+	j += int(osglog(A.normInfinity()/0.693));
+	if (j < 0) j = 0;
+	A.scale(1.0/(ValueTypeT(1<<j)));
+	setIdentity();
+	for (k = 1; k <= q; k++) {
+		c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
+		multLeft(A);
+		N.addScaled(*this,c);
+		if (k%2) D.addScaled(*this,-c);
+		else D.addScaled(*this,c);
+  }
+	invertFrom(D);
+	mult(N);
+	for (k=0;k<j;k++)
+		mult(*this);
+	// ToDo: return value
+	return true;
+}
+
 //@}
 
 /*--------------------------- element access --------------------------------*/
