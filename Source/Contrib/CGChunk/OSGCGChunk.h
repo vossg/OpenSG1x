@@ -86,35 +86,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 CGChunk Commands                             */
-    /*! \{                                                                 */
-
-                 bool    readVertexProgram        (const char   *file);
-                 bool    readVertexProgram        (std::istream &stream);
-                 bool    readFragmentProgram      (const char   *file);
-                 bool    readFragmentProgram      (std::istream &stream);
-    
-                 bool    addParameter(const char   *name, 
-                                            Int16   index);                                     
-    inline       bool    addParameter(const char   *name, 
-                                            Int16   index, 
-                                      const Vec4f  &value);
-    
-           const Vec4f  &getParameter(      Int16        index);
-    inline const Vec4f  &getParameter(const char        *name );
-    inline const Vec4f  &getParameter(const std::string &name );
-
-                 bool    setParameter(      Int16  index, const Vec4f& value);
-    inline       bool    setParameter(const char  *name,  const Vec4f& value);
-    inline       bool    setParameter(const std::string &name, 
-                                      const Vec4f       & value);
-    
-
-    inline       Int16   findParameter(const char        *name);
-                 Int16   findParameter(const std::string &name);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                       State                                  */
     /*! \{                                                                 */
 
@@ -188,9 +159,12 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     bool        _vp_isvalid;
     CGprogram   _fProgram;
     bool        _fp_isvalid;
-    
+    Int32       _reset;
+
     void updateCGContext(void);
-    
+    void updateParameters(Window *win, bool all = false);
+    void resetParameters(void);
+
     void parseProgramParams(CGprogram prog);
     void parseParams(CGparameter param);
 

@@ -50,6 +50,13 @@
 #include <OSGGLEXT.h>
 #include <OSGRemoteAspect.h>
 
+#include <OSGShaderParameter.h>
+#include <OSGShaderParameterReal.h>
+#include <OSGShaderParameterVec2f.h>
+#include <OSGShaderParameterVec3f.h>
+#include <OSGShaderParameterVec4f.h>
+#include <OSGShaderParameterMatrix.h>
+
 #include "OSGCGChunk.h"
 
 OSG_USING_NAMESPACE
@@ -109,7 +116,8 @@ CGChunk::CGChunk(void) :
     _vProgram(NULL),
     _fProgram(NULL),
     _vp_isvalid(false),
-    _fp_isvalid(false)
+    _fp_isvalid(false),
+    _reset(-1)
 {
 }
 
@@ -119,7 +127,8 @@ CGChunk::CGChunk(const CGChunk &source) :
     _vProgram(source._vProgram),
     _fProgram(source._fProgram),
     _vp_isvalid(source._vp_isvalid),
-    _fp_isvalid(source._fp_isvalid)
+    _fp_isvalid(source._fp_isvalid),
+    _reset(source._reset)
 {
 }
 
@@ -127,8 +136,10 @@ CGChunk::~CGChunk(void)
 {
 }
 
-void CGChunk::onCreate(const CGChunk */*source*/)
+void CGChunk::onCreate(const CGChunk *source)
 {
+    Inherited::onCreate(source);
+
     // ignore prototypes.
     if(GlobalSystemState == Startup)
         return;
@@ -147,6 +158,8 @@ void CGChunk::onCreate(const CGChunk */*source*/)
 
 void CGChunk::onDestroy(void)
 {
+    Inherited::onDestroy();
+
     if(cgIsProgram(_vProgram))
         cgDestroyProgram(_vProgram);
     if(cgIsProgram(_fProgram))
@@ -167,18 +180,18 @@ const StateChunkClass *CGChunk::getClass(void) const
 
 void CGChunk::changed(BitVector whichField, UInt32 origin)
 {
-    Inherited::changed(whichField, origin);
-
     if((whichField & VertexProgramFieldMask) ||
        (whichField & FragmentProgramFieldMask))
     {
         Window::reinitializeGLObject(getGLId());
     }  
      
-    if(whichField & ParamValuesFieldMask)
+    if(whichField & ParametersFieldMask)
     {
         Window::refreshGLObject(getGLId());
     }
+
+    Inherited::changed(whichField, origin);
 }
 
 void CGChunk::dump(      UInt32    ,
@@ -190,7 +203,7 @@ void CGChunk::dump(      UInt32    ,
 /*! GL object handler
     create the program and destroy it
 */
-void CGChunk::handleGL(Window */*win*/, UInt32 idstatus)
+void CGChunk::handleGL(Window *win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
@@ -212,26 +225,8 @@ void CGChunk::handleGL(Window */*win*/, UInt32 idstatus)
         {
             updateCGContext();
         }
-        
-        // set params
-        for(UInt16 i = 0; i < getParamValues().size(); ++i)
-        {
-            if(_vp_isvalid)
-            {
-                CGparameter vpparam = cgGetNamedParameter(_vProgram, getParamNames()[i].c_str());
-                Vec4f &val = getParamValues()[i];
-                if(vpparam != 0)
-                    cgGLSetParameter4fv(vpparam, val.getValues());
-            }
-            
-            if(_fp_isvalid)
-            {
-                CGparameter fpparam = cgGetNamedParameter(_fProgram, getParamNames()[i].c_str());
-                Vec4f &val = getParamValues()[i];
-                if(fpparam != 0)
-                    cgGLSetParameter4fv(fpparam, val.getValues());
-            }
-        }
+
+        updateParameters(win);
     }
     else
     {
@@ -296,154 +291,152 @@ void CGChunk::updateCGContext(void)
     }
 }
 
-/*---------------------------- Access ------------------------------------*/
-
-/*! Read the program string from the given file
-*/
-bool CGChunk::readVertexProgram(const char *file)
+void CGChunk::updateParameters(Window *win, bool all)
 {
-    std::ifstream s(file);
-    
-    if(s.good())
-    {
-        return readVertexProgram(s);
-    }
-    else
-    {
-        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
-                    file));
-        return false;
-    }
-}
+    _reset = 0;
 
-/*! Read the program string from the given stream
-*/
-bool CGChunk::readVertexProgram(std::istream &stream)
-{
-#define BUFSIZE 200
-    
-    getVertexProgram().erase();    
-    char buf[BUFSIZE];
-
-    if(!stream.good())
+    for(UInt32 i = 0; i < getParameters().size(); ++i)
     {
-        FWARNING(("ProgramChunk::read: stream is not good!\n"));
-        return false;
-   
-    }
-    
-    do
-    {
-        stream.read(buf, BUFSIZE);
-        getVertexProgram().append(buf, stream.gcount());
-    }
-    while(!stream.eof());
-    
-    return true;
-}
-
-/*! Read the program string from the given file
-*/
-bool CGChunk::readFragmentProgram(const char *file)
-{
-    std::ifstream s(file);
-    
-    if(s.good())
-    {
-        return readFragmentProgram(s);
-    }
-    else
-    {
-        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
-                    file));
-        return false;
-    }
-}
-
-/*! Read the program string from the given stream
-*/
-bool CGChunk::readFragmentProgram(std::istream &stream)
-{
-#define BUFSIZE 200
-    
-    getFragmentProgram().erase();    
-    char buf[BUFSIZE];
-
-    if(!stream.good())
-    {
-        FWARNING(("ProgramChunk::read: stream is not good!\n"));
-        return false;
-   
-    }
-    
-    do
-    {
-        stream.read(buf, BUFSIZE);
-        getFragmentProgram().append(buf, stream.gcount());
-    }
-    while(!stream.eof());
-    
-    return true;
-}
-
-/*! Add a named parameter 
-*/
-bool CGChunk::addParameter(const char   *name, 
-                                      Int16  index)
-{
-    if(index < 0)
-        return true;
+        ShaderParameterPtr parameter = getParameters()[i];
         
-    if(getParamNames().size() <= index)
-    {
-        getParamNames().resize(index + 1);
-    }
-    getParamNames()[index] = name;
-    return false;
-}
-    
-const Vec4f& CGChunk::getParameter(Int16 index)
-{
-    static const Vec4f bad(-1e10,-1e10,-1e10);
-    
-    if(index < 0)
-        return bad;
+        if(!all && !parameter->getChanged())
+            continue;
+
+        // works also but is not possible with a switch and a switch is much faster.
+        //UInt16 groupid = parameter->getType().getGroupId();
+        //if(groupid == ShaderParameterInt::getClassType().getGroupId())
         
-    if(getParamValues().size() <= index)
-    {
-        return getParamValues()[index];
+        switch(parameter->getTypeId())
+        {
+            //case ShaderParameter::SHPTypeBool:
+            //break;
+            //case ShaderParameter::SHPTypeInt:
+            //break;
+            case ShaderParameter::SHPTypeReal:
+            {
+                ShaderParameterRealPtr p = ShaderParameterRealPtr::dcast(parameter);
+
+                if(_vp_isvalid)
+                {
+                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    if(vpparam != 0)
+                        cgGLSetParameter1f(vpparam, p->getValue());
+                    //FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+                }
+                
+                if(_fp_isvalid)
+                {
+                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    if(fpparam != 0)
+                        cgGLSetParameter1f(fpparam, p->getValue());
+                }
+            }
+            break;
+            case ShaderParameter::SHPTypeVec2f:
+            {
+                ShaderParameterVec2fPtr p = ShaderParameterVec2fPtr::dcast(parameter);
+
+                if(_vp_isvalid)
+                {
+                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    if(vpparam != 0)
+                        cgGLSetParameter2fv(vpparam, p->getValue().getValues());
+                }
+                
+                if(_fp_isvalid)
+                {
+                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    if(fpparam != 0)
+                        cgGLSetParameter2fv(fpparam, p->getValue().getValues());
+                }
+            }
+            break;
+            case ShaderParameter::SHPTypeVec3f:
+            {
+                ShaderParameterVec3fPtr p = ShaderParameterVec3fPtr::dcast(parameter);
+
+                if(_vp_isvalid)
+                {
+                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    if(vpparam != 0)
+                        cgGLSetParameter3fv(vpparam, p->getValue().getValues());
+                }
+                
+                if(_fp_isvalid)
+                {
+                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    if(fpparam != 0)
+                        cgGLSetParameter3fv(fpparam, p->getValue().getValues());
+                }
+            }
+            break;
+            case ShaderParameter::SHPTypeVec4f:
+            {
+                ShaderParameterVec4fPtr p = ShaderParameterVec4fPtr::dcast(parameter);
+                
+                if(_vp_isvalid)
+                {
+                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    if(vpparam != 0)
+                        cgGLSetParameter4fv(vpparam, p->getValue().getValues());
+                }
+                
+                if(_fp_isvalid)
+                {
+                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    if(fpparam != 0)
+                        cgGLSetParameter4fv(fpparam, p->getValue().getValues());
+                }
+            }
+            break;
+            case ShaderParameter::SHPTypeMatrix:
+            {
+                ShaderParameterMatrixPtr p = ShaderParameterMatrixPtr::dcast(parameter);
+                
+                if(_vp_isvalid)
+                {
+                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    if(vpparam != 0)
+                        cgGLSetMatrixParameterfr(vpparam, p->getValue().getValues());
+                }
+                
+                if(_fp_isvalid)
+                {
+                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    if(fpparam != 0)
+                        cgGLSetMatrixParameterfr(fpparam, p->getValue().getValues());
+                }
+            }
+            break;
+        }
     }
-    
-    return bad;
 }
- 
-/*! Set parameter value, create it if not set yet.
-*/
-bool CGChunk::setParameter(Int16 index, const Vec4f& value)
+
+void CGChunk::resetParameters(void)
 {
-    if(index < 0)
-        return true;
-        
-    if(getParamValues().size() <= index)
+    // ok this is a HACK but I can't reset the changed field immediately
+    // this doesn't work with the cluster.
+    if(_reset == -1)
+        return;
+    
+    ++_reset;
+    
+    if(_reset <= 1)
+        return;
+    
+    _reset = -1;
+    
+    MFShaderParameterPtr &parameters = getParameters();
+    for(UInt32 i = 0; i < parameters.size(); ++i)
     {
-        getParamValues().resize(index + 1);
+        ShaderParameterPtr &parameter = parameters[i];
+        if(parameter->getChanged())
+        {
+            beginEditCP(parameter);
+                parameter->setChanged(false);
+            endEditCP(parameter);
+        }
     }
-    getParamValues()[index] = value;
-    return false;
-}
-
-/*! Find the index for a named parameter, return -1 if not found.
-*/
-Int16 CGChunk::findParameter(const std::string &name)
-{
-    MField<std::string>::iterator it;
-    
-    it = std::find(getParamNames().begin(), getParamNames().end(), name);
-
-    if(it == getParamNames().end())
-        return -1;
-
-    return it - getParamNames().begin();
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -453,6 +446,8 @@ void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     _current_context = _context;
 
     action->getWindow()->validateGLObject(getGLId());
+
+    resetParameters();
 
     if(_vp_isvalid)
     {
@@ -484,6 +479,10 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     _current_context = _context;
 
     action->getWindow()->validateGLObject(getGLId());
+
+    // fixme need to deactivate the old one here.
+
+    resetParameters();
 
     if(_vp_isvalid)
     {
@@ -531,11 +530,8 @@ bool CGChunk::operator == (const StateChunk &other) const
        getVertexProfile() != tother->getVertexProfile() ||
        getFragmentProgram() != tother->getFragmentProgram() ||
        getFragmentProfile() != tother->getFragmentProfile() ||
-       getParamValues().size() != tother->getParamValues().size() ||
-       getParamNames().size()  != tother->getParamNames().size())
+       getParameters().size() != tother->getParameters().size())
         return false;
-    
-    
 
     return true;
 }

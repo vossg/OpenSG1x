@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="CGChunk"
-	parent="StateChunk"
+	parent="ShaderChunk"
 	library="Contrib"
 	pointerfieldtypes="both"
 	structure="concrete"
@@ -11,50 +11,6 @@
 	decoratable="false"
 	useLocalIncludes="false"
 >
-	<Field
-		name="vertexProgram"
-		type="std::string"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	vertex program source
-	</Field>
-	<Field
-		name="fragmentProgram"
-		type="std::string"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	fragment program source
-	</Field>
-	<Field
-		name="paramNames"
-		type="std::string"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	program parameter names
-	</Field>
-	<Field
-		name="paramValues"
-		type="Vec4f"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	program parameter
-	</Field>
-	<Field
-		name="GLId"
-		type="UInt32"
-		cardinality="single"
-		visibility="internal"
-		access="public"
-	>
-	</Field>
 	<Field
 		name="vertexProfile"
 		type="UInt32"

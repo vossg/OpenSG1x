@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGContribDef.h>
 
-#include <OSGStateChunkFields.h>
+#include <OSGShaderChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class CGChunk;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! CGChunkPtr
 
-typedef FCPtr<StateChunkPtr, CGChunk> CGChunkPtr;
+typedef FCPtr<ShaderChunkPtr, CGChunk> CGChunkPtr;
 
 #endif
 

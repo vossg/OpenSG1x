@@ -42,50 +42,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*--------------------------- Access ------------------------------------*/
-
-/*! Concvenience function to add a new parameter and directly set its value.
-*/
-inline
-bool CGChunk::addParameter(const char   *name, 
-                                      Int16  index, 
-                                const Vec4f  &value)
-{
-    addParameter(name, index);
-    return setParameter(index, value);
-}
-
-inline 
-const Vec4f &CGChunk::getParameter(const char *name)
-{
-    return getParameter(findParameter(name));
-}
-
-inline 
-const Vec4f &CGChunk::getParameter(const std::string &name)
-{
-    return getParameter(findParameter(name.c_str()));
-}
-
-inline       
-bool CGChunk::setParameter(const char *name, const Vec4f& value)
-{
-    return setParameter(findParameter(name), value);
-}
-
-inline       
-bool CGChunk::setParameter(const std::string &name, const Vec4f &value)
-{
-    return setParameter(findParameter(name.c_str()), value);
-}
-    
-inline
-Int16 CGChunk::findParameter(const char *name)
-{
-    return findParameter(std::string(name));
-}
-
 OSG_END_NAMESPACE
 
 #define OSGCGCHUNK_INLINE_CVSID "@(#)$Id: OSGCGChunk.inl,v 1.1 2003/05/06 15:07:24 amz Exp $"
-

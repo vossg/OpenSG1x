@@ -63,13 +63,8 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGStateChunk.h> // Parent
+#include <OSGShaderChunk.h> // Parent
 
-#include <OSGStringFields.h> // VertexProgram type
-#include <OSGStringFields.h> // FragmentProgram type
-#include <OSGStringFields.h> // ParamNames type
-#include <OSGVec4fFields.h> // ParamValues type
-#include <OSGUInt32Fields.h> // GLId type
 #include <OSGUInt32Fields.h> // VertexProfile type
 #include <OSGUInt32Fields.h> // FragmentProfile type
 
@@ -82,11 +77,11 @@ class BinaryDataHandler;
 
 //! \brief CGChunk Base Class.
 
-class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
+class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 {
   private:
 
-    typedef StateChunk    Inherited;
+    typedef ShaderChunk    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -95,21 +90,11 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 
     enum
     {
-        VertexProgramFieldId   = Inherited::NextFieldId,
-        FragmentProgramFieldId = VertexProgramFieldId   + 1,
-        ParamNamesFieldId      = FragmentProgramFieldId + 1,
-        ParamValuesFieldId     = ParamNamesFieldId      + 1,
-        GLIdFieldId            = ParamValuesFieldId     + 1,
-        VertexProfileFieldId   = GLIdFieldId            + 1,
+        VertexProfileFieldId   = Inherited::NextFieldId,
         FragmentProfileFieldId = VertexProfileFieldId   + 1,
         NextFieldId            = FragmentProfileFieldId + 1
     };
 
-    static const OSG::BitVector VertexProgramFieldMask;
-    static const OSG::BitVector FragmentProgramFieldMask;
-    static const OSG::BitVector ParamNamesFieldMask;
-    static const OSG::BitVector ParamValuesFieldMask;
-    static const OSG::BitVector GLIdFieldMask;
     static const OSG::BitVector VertexProfileFieldMask;
     static const OSG::BitVector FragmentProfileFieldMask;
 
@@ -138,39 +123,19 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFVertexProgram  (void);
-           SFString            *getSFFragmentProgram(void);
-           MFString            *getMFParamNames     (void);
-           MFVec4f             *getMFParamValues    (void);
-           SFUInt32            *getSFGLId           (void);
            SFUInt32            *getSFVertexProfile  (void);
            SFUInt32            *getSFFragmentProfile(void);
 
-           std::string         &getVertexProgram  (void);
-     const std::string         &getVertexProgram  (void) const;
-           std::string         &getFragmentProgram(void);
-     const std::string         &getFragmentProgram(void) const;
-           UInt32              &getGLId           (void);
-     const UInt32              &getGLId           (void) const;
            UInt32              &getVertexProfile  (void);
      const UInt32              &getVertexProfile  (void) const;
            UInt32              &getFragmentProfile(void);
      const UInt32              &getFragmentProfile(void) const;
-           std::string         &getParamNames     (const UInt32 index);
-           MFString            &getParamNames     (void);
-     const MFString            &getParamNames     (void) const;
-           Vec4f               &getParamValues    (const UInt32 index);
-           MFVec4f             &getParamValues    (void);
-     const MFVec4f             &getParamValues    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setVertexProgram  ( const std::string &value );
-     void setFragmentProgram( const std::string &value );
-     void setGLId           ( const UInt32 &value );
      void setVertexProfile  ( const UInt32 &value );
      void setFragmentProfile( const UInt32 &value );
 
@@ -218,11 +183,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFString            _sfVertexProgram;
-    SFString            _sfFragmentProgram;
-    MFString            _mfParamNames;
-    MFVec4f             _mfParamValues;
-    SFUInt32            _sfGLId;
     SFUInt32            _sfVertexProfile;
     SFUInt32            _sfFragmentProfile;
 
