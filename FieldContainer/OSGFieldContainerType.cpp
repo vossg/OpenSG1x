@@ -461,7 +461,14 @@ void FieldContainerType::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
          << _uiGroupId
          << ", abstract: "
          << ((_pPrototype != NullFC) ? "false" : "true")
+         << " "
+         << _vDescVec.size()
          << endl;
+
+    for(UInt32 i = 0; i < _vDescVec.size(); i++)
+    {
+        SLOG << "Desc : " << _vDescVec[i]->getCName() << endl;
+    }
 }
 
 /*-------------------------------------------------------------------------*/
