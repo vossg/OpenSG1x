@@ -303,12 +303,12 @@ Action::ResultE Billboard::drawLeave(Action *)
 /*-------------------------------------------------------------------------*/
 /*                            Intersect                                    */
 
-Action::ResultE Billboard::intersectEnter(Action *action)
+Action::ResultE Billboard::intersectEnter(Action *)
 {
     return Action::Continue; 
 }
 
-Action::ResultE Billboard::intersectLeave(Action *action)
+Action::ResultE Billboard::intersectLeave(Action *)
 {
     return Action::Continue;
 }
