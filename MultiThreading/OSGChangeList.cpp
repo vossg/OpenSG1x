@@ -255,31 +255,31 @@ void ChangeList::clearAll(void)
     _vDestroyedFieldContainers.clear();
 }
 
-Bool ChangeList::merge(const ChangeList &list)
+Bool ChangeList::merge(const ChangeList &clist)
 {
     Bool returnValue = true;
  
     _vChangedFieldContainers.insert(_vChangedFieldContainers.end(),
-                                    list.beginChanged(), 
-                                    list.endChanged());
+                                    clist.beginChanged(), 
+                                    clist.endChanged());
     
     
     _vAddRefdFieldContainers.insert(_vAddRefdFieldContainers.end(),
-                                    list.beginAddRefd(), 
-                                    list.endAddRefd());
+                                    clist.beginAddRefd(), 
+                                    clist.endAddRefd());
     
     
     _vSubRefdFieldContainers.insert(_vSubRefdFieldContainers.end(),
-                                    list.beginSubRefd(), 
-                                    list.endSubRefd());
+                                    clist.beginSubRefd(), 
+                                    clist.endSubRefd());
 
     _vCreatedFieldContainers.insert(_vCreatedFieldContainers.end(),
-                                    list.beginCreated(),
-                                    list.endCreated());
+                                    clist.beginCreated(),
+                                    clist.endCreated());
 
     _vDestroyedFieldContainers.insert(_vDestroyedFieldContainers.end(),
-                                      list.beginDestroyed(),
-                                      list.endDestroyed());
+                                      clist.beginDestroyed(),
+                                      clist.endDestroyed());
 
     return returnValue;
 }

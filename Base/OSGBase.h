@@ -49,12 +49,23 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEBASELIB
-#       define OSG_BASE_DLLMAPPING __declspec(dllexport)
+#       define OSG_BASE_DLLMAPPING    __declspec(dllexport)
+#       if defined(_MSC_VER) && defined(__ICL)
+#           define OSG_MS_BASE_DLLMAPPING 
+#       else
+#           define OSG_MS_BASE_DLLMAPPING __declspec(dllexport)
+#       endif
 #   else
-#       define OSG_BASE_DLLMAPPING __declspec(dllimport)
+#       define OSG_BASE_DLLMAPPING    __declspec(dllimport)
+#       if defined(_MSC_VER) && defined(__ICL)
+#           define OSG_MS_BASE_DLLMAPPING 
+#       else
+#           define OSG_MS_BASE_DLLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_BASE_DLLMAPPING
+#define OSG_MS_BASE_DLLMAPPING
 #endif
 
 #endif /* _OSGBASE_H_ */

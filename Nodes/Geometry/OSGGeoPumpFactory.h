@@ -108,6 +108,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+    virtual ~GeoPumpFactory(void); 
+
     /*------------------------- your_category -------------------------------*/
 
 	Index getIndex( Geometry * geo );	
@@ -158,6 +160,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+    GeoPumpFactory(void);
+
   private:
 
     //-----------------------------------------------------------------------
@@ -203,8 +207,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    GeoPumpFactory(void);
-    virtual ~GeoPumpFactory(void); 
     GeoPumpFactory(const GeoPumpFactory &source);
     void operator =(const GeoPumpFactory &source);
 	

@@ -614,6 +614,7 @@ void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
 //s: 
 ///---------------------------------------------------------------------------
 
+#if 0
 #ifdef __sgi
 #pragma set woff 1424
 #endif
@@ -623,12 +624,22 @@ RetTypeT dcast(const InTypeT oIn)
 {
     return RetTypeT(
         (dynamic_cast<const typename RetTypeT::ObjectType *>(oIn.getCPtr())),
+        oIn.getContainerSize,
+        oIn.getParentFieldPos);
+}
+
+template <class RetTypeT, class InTypeT> inline
+RetTypeT dyncast(const InTypeT oIn)
+{
+    return RetTypeT(
+        (dynamic_cast<const typename RetTypeT::ObjectType *>(oIn.getCPtr())),
         oIn._containerSize,
         oIn._uiParentEPos);
 }
 
 #ifdef __sgi
 #pragma reset woff 1424
+#endif
 #endif
 
 OSG_END_NAMESPACE

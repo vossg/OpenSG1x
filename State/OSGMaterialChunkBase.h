@@ -106,24 +106,20 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    DiffuseFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector DiffuseFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        DiffuseFieldId = Inherited::NextFieldId,
+        AmbientFieldId = DiffuseFieldId + 1,
+        SpecularFieldId = AmbientFieldId + 1,
+        EmissionFieldId = SpecularFieldId + 1,
+        ShininessFieldId = EmissionFieldId + 1
+    };
 
-	static const osg::UInt32    AmbientFieldId   = DiffuseFieldId + 1;
-	static const osg::BitVector AmbientFieldMask = DiffuseFieldMask << 1;
-
-	static const osg::UInt32    SpecularFieldId   = AmbientFieldId + 1;
-	static const osg::BitVector SpecularFieldMask = AmbientFieldMask << 1;
-
-	static const osg::UInt32    EmissionFieldId   = SpecularFieldId + 1;
-	static const osg::BitVector EmissionFieldMask = SpecularFieldMask << 1;
-
-	static const osg::UInt32    ShininessFieldId   = EmissionFieldId + 1;
-	static const osg::BitVector ShininessFieldMask = EmissionFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = ShininessFieldId + 1;
-	static const osg::BitVector	NextFieldMask = ShininessFieldMask << 1;
-
+    static const osg::BitVector DiffuseFieldMask;
+    static const osg::BitVector AmbientFieldMask;
+    static const osg::BitVector SpecularFieldMask;
+    static const osg::BitVector EmissionFieldMask;
+    static const osg::BitVector ShininessFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -223,19 +219,19 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
     /*! 
      */
-    SFColor4f	_diffuse;
+    SFColor4f	_sfDiffuse;
     /*! 
      */
-    SFColor4f	_ambient;
+    SFColor4f	_sfAmbient;
     /*! 
      */
-    SFColor4f	_specular;
+    SFColor4f	_sfSpecular;
     /*! 
      */
-    SFColor4f	_emission;
+    SFColor4f	_sfEmission;
     /*! 
      */
-    SFReal32	_shininess;
+    SFReal32	_sfShininess;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEGEOMETRYINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEGEOMETRYINST
 
 #include "OSGGeometryBase.h"
 #include "OSGGeometry.h"
@@ -78,42 +78,39 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		GeometryBase::TypesFieldId;
-const OSG::BitVector	GeometryBase::TypesFieldMask;
+const OSG::BitVector	GeometryBase::TypesFieldMask = 
+    (1 << GeometryBase::TypesFieldId);
 
-const OSG::UInt32		GeometryBase::LengthsFieldId;
-const OSG::BitVector	GeometryBase::LengthsFieldMask;
+const OSG::BitVector	GeometryBase::LengthsFieldMask = 
+    (1 << GeometryBase::LengthsFieldId);
 
-const OSG::UInt32		GeometryBase::PositionsFieldId;
-const OSG::BitVector	GeometryBase::PositionsFieldMask;
+const OSG::BitVector	GeometryBase::PositionsFieldMask = 
+    (1 << GeometryBase::PositionsFieldId);
 
-const OSG::UInt32		GeometryBase::NormalsFieldId;
-const OSG::BitVector	GeometryBase::NormalsFieldMask;
+const OSG::BitVector	GeometryBase::NormalsFieldMask = 
+    (1 << GeometryBase::NormalsFieldId);
 
-const OSG::UInt32		GeometryBase::NormalPerVertexFieldId;
-const OSG::BitVector	GeometryBase::NormalPerVertexFieldMask;
+const OSG::BitVector	GeometryBase::NormalPerVertexFieldMask = 
+    (1 << GeometryBase::NormalPerVertexFieldId);
 
-const OSG::UInt32		GeometryBase::ColorsFieldId;
-const OSG::BitVector	GeometryBase::ColorsFieldMask;
+const OSG::BitVector	GeometryBase::ColorsFieldMask = 
+    (1 << GeometryBase::ColorsFieldId);
 
-const OSG::UInt32		GeometryBase::ColorPerVertexFieldId;
-const OSG::BitVector	GeometryBase::ColorPerVertexFieldMask;
+const OSG::BitVector	GeometryBase::ColorPerVertexFieldMask = 
+    (1 << GeometryBase::ColorPerVertexFieldId);
 
-const OSG::UInt32		GeometryBase::TexCoordsFieldId;
-const OSG::BitVector	GeometryBase::TexCoordsFieldMask;
+const OSG::BitVector	GeometryBase::TexCoordsFieldMask = 
+    (1 << GeometryBase::TexCoordsFieldId);
 
-const OSG::UInt32		GeometryBase::IndexFieldId;
-const OSG::BitVector	GeometryBase::IndexFieldMask;
+const OSG::BitVector	GeometryBase::IndexFieldMask = 
+    (1 << GeometryBase::IndexFieldId);
 
-const OSG::UInt32		GeometryBase::MaterialFieldId;
-const OSG::BitVector	GeometryBase::MaterialFieldMask;
-
-
-const OSG::UInt32    	GeometryBase::NextFieldId; 
-const OSG::BitVector 	GeometryBase::NextFieldMask;
+const OSG::BitVector	GeometryBase::MaterialFieldMask = 
+    (1 << GeometryBase::MaterialFieldId);
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -121,52 +118,52 @@ char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.4 2001/06/10 12:4
 FieldDescription GeometryBase::_desc[] = 
 {
     FieldDescription(SFGeoPTypePtr::getClassType(), 
-                     "types", 
+                     "sfTypes", 
                      TypesFieldId, TypesFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFTypes),
     FieldDescription(SFGeoPLengthPtr::getClassType(), 
-                     "lengths", 
+                     "sfLengths", 
                      LengthsFieldId, LengthsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFLengths),
     FieldDescription(SFGeoPositionPtr::getClassType(), 
-                     "positions", 
+                     "sfPositions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFPositions),
     FieldDescription(SFGeoNormalPtr::getClassType(), 
-                     "normals", 
+                     "sfNormals", 
                      NormalsFieldId, NormalsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFNormals),
     FieldDescription(SFBool::getClassType(), 
-                     "normalPerVertex", 
+                     "sfNormalPerVertex", 
                      NormalPerVertexFieldId, NormalPerVertexFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFNormalPerVertex),
     FieldDescription(SFGeoColorPtr::getClassType(), 
-                     "colors", 
+                     "sfColors", 
                      ColorsFieldId, ColorsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFColors),
     FieldDescription(SFBool::getClassType(), 
-                     "colorPerVertex", 
+                     "sfColorPerVertex", 
                      ColorPerVertexFieldId, ColorPerVertexFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFColorPerVertex),
     FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
-                     "texCoords", 
+                     "sfTexCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFTexCoords),
     FieldDescription(SFGeoIndexPtr::getClassType(), 
-                     "index", 
+                     "sfIndex", 
                      IndexFieldId, IndexFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFIndex),
     FieldDescription(SFMaterialPtr::getClassType(), 
-                     "material", 
+                     "sfMaterial", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFMaterial)
@@ -248,16 +245,16 @@ void GeometryBase::executeSync(FieldContainer &other,
  */
 
 GeometryBase::GeometryBase(void) :
-	_types	(), 
-	_lengths	(), 
-	_positions	(), 
-	_normals	(), 
-	_normalPerVertex	(), 
-	_colors	(), 
-	_colorPerVertex	(), 
-	_texCoords	(), 
-	_index	(), 
-	_material	(), 
+	_sfTypes	(), 
+	_sfLengths	(), 
+	_sfPositions	(), 
+	_sfNormals	(), 
+	_sfNormalPerVertex	(), 
+	_sfColors	(), 
+	_sfColorPerVertex	(), 
+	_sfTexCoords	(), 
+	_sfIndex	(), 
+	_sfMaterial	(), 
 	Inherited() 
 {
 }
@@ -266,16 +263,16 @@ GeometryBase::GeometryBase(void) :
  */
 
 GeometryBase::GeometryBase(const GeometryBase &source) :
-	_types		(source._types), 
-	_lengths		(source._lengths), 
-	_positions		(source._positions), 
-	_normals		(source._normals), 
-	_normalPerVertex		(source._normalPerVertex), 
-	_colors		(source._colors), 
-	_colorPerVertex		(source._colorPerVertex), 
-	_texCoords		(source._texCoords), 
-	_index		(source._index), 
-	_material		(source._material), 
+	_sfTypes		(source._sfTypes), 
+	_sfLengths		(source._sfLengths), 
+	_sfPositions		(source._sfPositions), 
+	_sfNormals		(source._sfNormals), 
+	_sfNormalPerVertex		(source._sfNormalPerVertex), 
+	_sfColors		(source._sfColors), 
+	_sfColorPerVertex		(source._sfColorPerVertex), 
+	_sfTexCoords		(source._sfTexCoords), 
+	_sfIndex		(source._sfIndex), 
+	_sfMaterial		(source._sfMaterial), 
 	Inherited        (source)
 {
 }
@@ -304,52 +301,52 @@ void GeometryBase::executeSyncImpl(GeometryBase *pOther,
 
     if(FieldBits::NoField != (TypesFieldMask & whichField))
     {
-        _types.syncWith(pOther->_types);
+        _sfTypes.syncWith(pOther->_sfTypes);
     }
 
     if(FieldBits::NoField != (LengthsFieldMask & whichField))
     {
-        _lengths.syncWith(pOther->_lengths);
+        _sfLengths.syncWith(pOther->_sfLengths);
     }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
     {
-        _positions.syncWith(pOther->_positions);
+        _sfPositions.syncWith(pOther->_sfPositions);
     }
 
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
     {
-        _normals.syncWith(pOther->_normals);
+        _sfNormals.syncWith(pOther->_sfNormals);
     }
 
     if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
     {
-        _normalPerVertex.syncWith(pOther->_normalPerVertex);
+        _sfNormalPerVertex.syncWith(pOther->_sfNormalPerVertex);
     }
 
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
     {
-        _colors.syncWith(pOther->_colors);
+        _sfColors.syncWith(pOther->_sfColors);
     }
 
     if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
     {
-        _colorPerVertex.syncWith(pOther->_colorPerVertex);
+        _sfColorPerVertex.syncWith(pOther->_sfColorPerVertex);
     }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
-        _texCoords.syncWith(pOther->_texCoords);
+        _sfTexCoords.syncWith(pOther->_sfTexCoords);
     }
 
     if(FieldBits::NoField != (IndexFieldMask & whichField))
     {
-        _index.syncWith(pOther->_index);
+        _sfIndex.syncWith(pOther->_sfIndex);
     }
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
-        _material.syncWith(pOther->_material);
+        _sfMaterial.syncWith(pOther->_sfMaterial);
     }
 
 

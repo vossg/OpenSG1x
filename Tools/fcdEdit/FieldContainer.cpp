@@ -698,8 +698,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 
 	// field loop
 	// useful strings
-	const char	*fieldname        = NULL,
-				*fieldtype        = NULL;
+	char	    *fieldname        = NULL;
+	const char 	*fieldtype        = NULL;
 	char		*fieldcardinality = NULL, 
 				*fielddescription = NULL;
 	char 		*fieldnameCaps = NULL, 
@@ -741,7 +741,13 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 		{
 			static char *cardnames[] = { "SF", "MF" };
 			
+            if(fieldname != NULL)
+            {
+                delete [] fieldname;
+            }
+
 			fieldname = fieldIt->name();
+
 			fieldtype = fieldIt->typeStr();
 			fieldcardinality = cardnames[ fieldIt->cardinality() ];
 			fielddescription = (char*)( fieldIt->description() ? 
@@ -754,7 +760,13 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			if ( fieldnameUpper ) free( fieldnameUpper );
 			fieldnameUpper = strdup( fieldname );
 			for ( char *s = fieldnameUpper; s && *s; *s = toupper(*s), s++ ) {}
-			
+
+            fieldname = new char[strlen(fieldIt->name()) + 3];
+            strcpy(&(fieldname[2]), fieldIt->name());			
+
+            fieldname[0] = tolower(cardnames[fieldIt->cardinality()][0]);
+            fieldname[1] = tolower(cardnames[fieldIt->cardinality()][1]);
+            fieldname[2] = toupper(fieldname[2]);
 		}
 
 		// is it a special line?
@@ -772,6 +784,37 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				const char *name, *prevname;
 				name = fieldIt->name();
 				// first field: refer to parent's last field
+                out << "    enum" << endl;
+                out << "    {" << endl;
+
+				out << "        " 
+				    << (char)toupper( name[0] ) << name + 1 << "FieldId"
+					<< " = Inherited::NextFieldId";
+
+				for(fieldIt++; fieldIt != _fieldList.end(); fieldIt++)
+				{
+					prevname = name;
+					name = fieldIt->name();
+                    out << "," << endl;
+					out << "        " 
+				    	<< (char)toupper(name[0]) << name + 1 << "FieldId"
+						<< " = " << (char)toupper(prevname[0]) 
+						<< prevname + 1 << "FieldId + 1";
+				}
+
+                out << endl << "    };" << endl << endl;
+
+				fieldIt = _fieldList.begin();
+				for ( fieldIt; fieldIt != _fieldList.end(); fieldIt++ )
+				{
+					name = fieldIt->name();
+					out << "    static const osg::BitVector " 
+				    	<< (char)toupper( name[0] ) << name + 1 << "FieldMask;" << endl;
+				}
+
+                cout << endl;
+
+#if 0                
 				out << "\tstatic const osg::UInt32    " 
 				    << (char)toupper( name[0] ) << name + 1 << "FieldId"
 					<< "\t= Inherited::NextFieldId;" << endl;
@@ -799,6 +842,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				out << "\tstatic const osg::BitVector\tNextFieldMask = " 
 				    << (char)toupper( name[0] ) << name + 1 << "FieldMask << 1;" 
 					<< endl << endl;
+#endif
 			}		
 			// loop specials 
 			else if ( ! strcmp( s, "@@BeginFieldLoop@@" ) )

@@ -80,7 +80,7 @@ is just too expensive and rarely useful.
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.8 2001/06/10 12:42:07 vossg Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.9 2001/07/03 14:16:32 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -138,7 +138,7 @@ to create an iterator.
 */
 //@{
 FaceIterator::FaceIterator( const NodePtr& geo ) :
-	_primIt(), _geo( dcast<GeometryPtr>(geo->getCore()) ),
+	_primIt(), _geo( GeometryPtr::dcast(geo->getCore()) ),
 	_faceIndex(0), _actPrimIndex(), _facePntIndex()
 {
 	_primIt.setGeo( geo );

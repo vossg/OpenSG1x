@@ -91,16 +91,21 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(VolumeField                    )
+	enum 
+	{ 
+		VolumeFieldId      = Inherited::NextFieldId, 
+		ParentFieldId      = VolumeFieldId      + 1,
+		ChildrenFieldId    = ParentFieldId      + 1,
+		CoreFieldId        = ChildrenFieldId    + 1,
+		AttachmentsFieldId = CoreFieldId        + 1,
+		NextFieldId        = AttachmentsFieldId + 1
+	};
 
-    OSG_FC_FIELD_IDM_DECL      (ParentField,      VolumeField  )
-    OSG_FC_FIELD_IDM_DECL      (ChildrenField,    ParentField  )
-
-    OSG_FC_FIELD_IDM_DECL      (CoreField,        ChildrenField)
-
-    OSG_FC_FIELD_IDM_DECL      (AttachmentsField, CoreField    )
-
-    OSG_FC_LAST_FIELD_IDM_DECL (AttachmentsField               )
+	static const BitVector VolumeFieldMask;
+	static const BitVector ParentFieldMask;
+	static const BitVector ChildrenFieldMask;
+	static const BitVector CoreFieldMask;
+	static const BitVector AttachmentsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               

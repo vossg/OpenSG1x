@@ -130,6 +130,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE VRMLTransformDrawEnter(CNodePtr &cnode, 
+                                                  Action   *pAction);
+    static Action::ResultE VRMLTransformDrawLeave(CNodePtr &cnode, 
+                                                  Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------

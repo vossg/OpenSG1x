@@ -109,7 +109,7 @@ inline DirectionalLightPtr DirectionalLightBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<DirectionalLightPtr>(
+        fc = DirectionalLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,25 +132,29 @@ inline DirectionalLightPtr DirectionalLightBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFVec3f *DirectionalLightBase::getSFDirection(void)
 {
-	return &_direction;
+	return &_sfDirection;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &DirectionalLightBase::getDirection(void)
 {
-	return _direction.getValue();
+	return _sfDirection.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Vec3f &DirectionalLightBase::getDirection(void) const
 {
-	return _direction.getValue();
+	return _sfDirection.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void DirectionalLightBase::setDirection( Vec3f value )
 {
-	_direction.setValue(value);
+	_sfDirection.setValue(value);
 }
 
 

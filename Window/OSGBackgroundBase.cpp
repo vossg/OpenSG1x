@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEBACKGROUNDINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEBACKGROUNDINST
 
 #include "OSGBackgroundBase.h"
 #include "OSGBackground.h"
@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Background type
  */

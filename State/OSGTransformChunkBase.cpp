@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILETRANSFORMCHUNKINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILETRANSFORMCHUNKINST
 
 #include "OSGTransformChunkBase.h"
 #include "OSGTransformChunk.h"
@@ -78,15 +78,12 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		TransformChunkBase::MatrixFieldId;
-const OSG::BitVector	TransformChunkBase::MatrixFieldMask;
+const OSG::BitVector	TransformChunkBase::MatrixFieldMask = 
+    (1 << TransformChunkBase::MatrixFieldId);
 
 
-const OSG::UInt32    	TransformChunkBase::NextFieldId; 
-const OSG::BitVector 	TransformChunkBase::NextFieldMask;
 
-
-char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -94,7 +91,7 @@ char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.4 200
 FieldDescription TransformChunkBase::_desc[] = 
 {
     FieldDescription(SFMatrix::getClassType(), 
-                     "matrix", 
+                     "sfMatrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,
                      (FieldAccessMethod) &TransformChunkBase::getSFMatrix)
@@ -176,7 +173,7 @@ void TransformChunkBase::executeSync(FieldContainer &other,
  */
 
 TransformChunkBase::TransformChunkBase(void) :
-	_matrix	(), 
+	_sfMatrix	(), 
 	Inherited() 
 {
 }
@@ -185,7 +182,7 @@ TransformChunkBase::TransformChunkBase(void) :
  */
 
 TransformChunkBase::TransformChunkBase(const TransformChunkBase &source) :
-	_matrix		(source._matrix), 
+	_sfMatrix		(source._sfMatrix), 
 	Inherited        (source)
 {
 }
@@ -214,7 +211,7 @@ void TransformChunkBase::executeSyncImpl(TransformChunkBase *pOther,
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
     {
-        _matrix.syncWith(pOther->_matrix);
+        _sfMatrix.syncWith(pOther->_sfMatrix);
     }
 
 

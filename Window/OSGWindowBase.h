@@ -106,24 +106,20 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    WidthFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector WidthFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        WidthFieldId = Inherited::NextFieldId,
+        HeightFieldId = WidthFieldId + 1,
+        PortFieldId = HeightFieldId + 1,
+        ResizePendingFieldId = PortFieldId + 1,
+        GlObjectFlagsFieldId = ResizePendingFieldId + 1
+    };
 
-	static const osg::UInt32    HeightFieldId   = WidthFieldId + 1;
-	static const osg::BitVector HeightFieldMask = WidthFieldMask << 1;
-
-	static const osg::UInt32    PortFieldId   = HeightFieldId + 1;
-	static const osg::BitVector PortFieldMask = HeightFieldMask << 1;
-
-	static const osg::UInt32    ResizePendingFieldId   = PortFieldId + 1;
-	static const osg::BitVector ResizePendingFieldMask = PortFieldMask << 1;
-
-	static const osg::UInt32    GlObjectFlagsFieldId   = ResizePendingFieldId + 1;
-	static const osg::BitVector GlObjectFlagsFieldMask = ResizePendingFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = GlObjectFlagsFieldId + 1;
-	static const osg::BitVector	NextFieldMask = GlObjectFlagsFieldMask << 1;
-
+    static const osg::BitVector WidthFieldMask;
+    static const osg::BitVector HeightFieldMask;
+    static const osg::BitVector PortFieldMask;
+    static const osg::BitVector ResizePendingFieldMask;
+    static const osg::BitVector GlObjectFlagsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -219,19 +215,19 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
 
     /*! 
      */
-    SFUInt16	_width;
+    SFUInt16	_sfWidth;
     /*! 
      */
-    SFUInt16	_height;
+    SFUInt16	_sfHeight;
     /*! 
      */
-    MFViewportPtr	_port;
+    MFViewportPtr	_mfPort;
     /*! 
      */
-    SFBool	_resizePending;
+    SFBool	_sfResizePending;
     /*! This field will have to disappear...
      */
-    MFUInt32	_glObjectFlags;
+    MFUInt32	_mfGlObjectFlags;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

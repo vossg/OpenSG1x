@@ -102,10 +102,10 @@ inline Int32 Viewport::getPixelHeight( void ) const
 inline void Viewport::setSize( Real32 left, Real32 bottom, Real32 right, 
 						Real32 top )
 {
-	_left.setValue( left );
-	_right.setValue( right );
-	_bottom.setValue( bottom );
-	_top.setValue( top );
+	_sfLeft.setValue( left );
+	_sfRight.setValue( right );
+	_sfBottom.setValue( bottom );
+	_sfTop.setValue( top );
 }
 
 

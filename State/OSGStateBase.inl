@@ -109,7 +109,7 @@ inline StatePtr StateBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<StatePtr>(
+        fc = StatePtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,16 +132,18 @@ inline StatePtr StateBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFStateChunkPtr *StateBase::getMFChunks(void)
 {
-	return &_chunks;
+	return &_mfChunks;
 }
 
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 StateChunkPtr &StateBase::getChunks( UInt32 index)
 {
-	return _chunks.getValue( index );
+	return _mfChunks.getValue( index );
 }
 
 

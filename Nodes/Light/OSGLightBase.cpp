@@ -143,7 +143,7 @@ void LightBase::setAmbient(Real32 rRed,
                                 Real32 rBlue, 
                                 Real32 rAlpha)
 {
-    _ambient.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
+    _sfAmbient.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
 void LightBase::setDiffuse(Real32 rRed, 
@@ -151,7 +151,7 @@ void LightBase::setDiffuse(Real32 rRed,
                                 Real32 rBlue, 
                                 Real32 rAlpha)
 {
-    _diffuse.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
+    _sfDiffuse.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
 void LightBase::setSpecular(Real32 rRed, 
@@ -159,7 +159,7 @@ void LightBase::setSpecular(Real32 rRed,
                                  Real32 rBlue, 
                                  Real32 rAlpha)
 {
-    _specular.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
+    _sfSpecular.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
 
@@ -202,11 +202,11 @@ void LightBase::dump(      UInt32     uiIndent,
 Action::ResultE LightBase::draw(Action * action )
 {
     glLightfv( GL_LIGHT0, GL_DIFFUSE,   
-                                    _diffuse.getValue().getValueRef() );
+                                    _sfDiffuse.getValue().getValueRef() );
     glLightfv( GL_LIGHT0, GL_AMBIENT,   
-                                    _ambient.getValue().getValueRef() );
+                                    _sfAmbient.getValue().getValueRef() );
     glLightfv( GL_LIGHT0, GL_SPECULAR,   
-                                    _specular.getValue().getValueRef() );
+                                    _sfSpecular.getValue().getValueRef() );
 
 
     // add the matrix to get into the beacon's coordinate system onto the stack

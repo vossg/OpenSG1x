@@ -80,7 +80,7 @@ OSG_END_NAMESPACE
 /** \brief NULL attachment pointer
  */
 
-OSG_SYSTEMLIB_DLLMAPPING const AttachmentPtr       OSG::NullAttachment;
+const AttachmentPtr  OSG::NullAttachment;
 
 /***************************************************************************\
  *                               Types                                     *
@@ -90,10 +90,8 @@ OSG_SYSTEMLIB_DLLMAPPING const AttachmentPtr       OSG::NullAttachment;
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Attachment, ParentsField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (Attachment, ParentsField)
-
+const BitVector 
+	Attachment::ParentsFieldMask  = (1 << Attachment::ParentsFieldId);
 
 char Attachment::cvsid[] = "@(#)$Id: $";
 
@@ -309,8 +307,8 @@ void Attachment::executeSync(FieldContainer &other,
 ///---------------------------------------------------------------------------
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &OSG::operator <<(ostream                &stream,
-                          const AttachmentMap &map)
+ostream &OSG::operator <<(ostream             &stream,
+                          const AttachmentMap &amap)
 {
     stream << "Attachment << NI" << endl;
 

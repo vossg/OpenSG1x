@@ -77,7 +77,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.3 2001/06/10 12:42:07 vossg Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.4 2001/07/03 14:16:32 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -156,41 +156,41 @@ void DynamicBackground::changed(BitVector, ChangeMode)
 
 void DynamicBackground::addColor( Color3f col, Real32 pos )
 {
-	if ( _angle.getSize() < 1 )
+	if ( _mfAngle.getSize() < 1 )
 	{
-		_color.addValue( col );
-		_angle.addValue( pos );
+		_mfColor.addValue( col );
+		_mfAngle.addValue( pos );
 	}
 	else 
 	{
-		if ( pos < _angle.getValue(_angle.getSize() - 1) )
+		if ( pos < _mfAngle.getValue(_mfAngle.getSize() - 1) )
 		{
-			_color.addValue( col );
-			_angle.addValue( pos );
+			_mfColor.addValue( col );
+			_mfAngle.addValue( pos );
 		}
 		else
 		{
-			_angle.addValue( _angle.getValue(_angle.getSize() - 1) );
-			_color.addValue( _color.getValue(_color.getSize() - 1) );
+			_mfAngle.addValue( _mfAngle.getValue(_mfAngle.getSize() - 1) );
+			_mfColor.addValue( _mfColor.getValue(_mfColor.getSize() - 1) );
 
-			for (int i = _angle.getSize() - 1 ; i > 0 ; i--)
+			for (int i = _mfAngle.getSize() - 1 ; i > 0 ; i--)
 			{				
-				_angle.setValue( _angle.getValue(i - 1), i);
-				_color.setValue( _color.getValue(i - 1), i);
+				_mfAngle.setValue( _mfAngle.getValue(i - 1), i);
+				_mfColor.setValue( _mfColor.getValue(i - 1), i);
 				
-				if ( pos < _angle.getValue(i) )
+				if ( pos < _mfAngle.getValue(i) )
 				{
-					_color.setValue( col, i );
-					_angle.setValue( pos, i );
+					_mfColor.setValue( col, i );
+					_mfAngle.setValue( pos, i );
 					break;
 				}
 			}
 		}
 
-		if ( pos >= _angle.getValue(0) )
+		if ( pos >= _mfAngle.getValue(0) )
 		{
-			_angle.setValue( pos, 0 );
-			_color.setValue( col, 0 );
+			_mfAngle.setValue( pos, 0 );
+			_mfColor.setValue( col, 0 );
 		}
 	}
 }
@@ -211,11 +211,11 @@ void DynamicBackground::dump(      UInt32     uiIndent,
 
 void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 {
-	if (_angle.getSize() < 2)
+	if (_mfAngle.getSize() < 2)
 	{
-		if (_angle.getSize() == 1)
+		if (_mfAngle.getSize() == 1)
 		{
-			Color3f col = _color.getValue( 0 );
+			Color3f col = _mfColor.getValue( 0 );
 			Real32 r, g, b;
 			col.getValuesRGB(r, g, b);
 			glClearColor( r, g, b, 1);
@@ -260,7 +260,7 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		
 		Real32 r1, g1, b1, r2, g2, b2;
 		Real32 pos;
-		UInt32 size = _angle.getSize();
+		UInt32 size = _mfAngle.getSize();
 		Real32 sin1, sin2, cos1, cos2, ank1, ank2;
 		Color3f col1, col2;
 
@@ -270,7 +270,7 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		int j;
 		for ( j = 0 ; j < size ; j++ )
 		{
-			if ( _angle.getValue( j ) <= 1 )
+			if ( _mfAngle.getValue( j ) <= 1 )
 			{
 				first = j;
 				break;
@@ -280,7 +280,7 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		int last;
 		for ( j = size - 1 ; j >= 0 ; j--)
 		{
-			if ( _angle.getValue( j ) >= 0 )
+			if ( _mfAngle.getValue( j ) >= 0 )
 			{
 				last = j + 1;
 				break;
@@ -290,13 +290,13 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		// lower pole
 
 	
-		if (_angle.getValue(first) == 1) 
+		if (_mfAngle.getValue(first) == 1) 
 		{
-			col1 = _color.getValue(first);
+			col1 = _mfColor.getValue(first);
 			col1.getValuesRGB(r1, g1, b1);
-			col2 = _color.getValue(first + 1);
+			col2 = _mfColor.getValue(first + 1);
 			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(first + 1);
+			pos = _mfAngle.getValue(first + 1);
 
 		}
 		else 
@@ -304,9 +304,9 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 			r1 = 0.0;
 			g1 = 0.0;
 			b1 = 0.0;
-			col2 = _color.getValue(first);
+			col2 = _mfColor.getValue(first);
 			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(first);
+			pos = _mfAngle.getValue(first);
 		}
 
 		sin2 = sin( pos * Pi );
@@ -331,13 +331,13 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 
 		// upper pole
 
-		if (_angle.getValue(last - 1) == 0) 
+		if (_mfAngle.getValue(last - 1) == 0) 
 		{
-			col1 = _color.getValue(last - 1);
+			col1 = _mfColor.getValue(last - 1);
 			col1.getValuesRGB(r1, g1, b1);
-			col2 = _color.getValue(last - 2);
+			col2 = _mfColor.getValue(last - 2);
 			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(last - 2);
+			pos = _mfAngle.getValue(last - 2);
 			last = last - 1;
 		}
 		else 
@@ -345,9 +345,9 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 			r1 = 0.0;
 			g1 = 0.0;
 			b1 = 0.0;
-			col2 = _color.getValue(last - 1);
+			col2 = _mfColor.getValue(last - 1);
 			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(last - 1);
+			pos = _mfAngle.getValue(last - 1);
 		}
 
 		cos2 = -cos( pos * Pi );
@@ -373,8 +373,8 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		for( int i = first; i < last - 1; i++)
 		{
 			
-			Real32 pos1 = _angle.getValue(i);
-			Real32 pos2 = _angle.getValue(i + 1);
+			Real32 pos1 = _mfAngle.getValue(i);
+			Real32 pos2 = _mfAngle.getValue(i + 1);
 			sin1 = sin( pos1 * Pi );
 			sin2 = sin( pos2 * Pi );
 			ank1 = cos(Pi / 4) * sin1;
@@ -383,8 +383,8 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 			ank2 = cos(Pi / 4) * sin2;
 
 		
-			col1 = _color.getValue(i);
-			col2 = _color.getValue(i + 1);
+			col1 = _mfColor.getValue(i);
+			col2 = _mfColor.getValue(i + 1);
 			col1.getValuesRGB(r1, g1, b1);
 			col2.getValuesRGB(r2, g2, b2);
 

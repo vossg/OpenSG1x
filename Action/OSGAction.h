@@ -52,7 +52,10 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerType.h>
 #include <OSGFieldContainerPtr.h>
+
+#ifndef OSG_NOFUNCTORS
 #include <OSGFunctors.h>
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -71,6 +74,7 @@ class Action;
 //  Class
 //---------------------------------------------------------------------------
 
+
 /*! \brief Action base class
  */
 
@@ -82,13 +86,40 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-	typedef enum {	Continue,	// continue with my children
-					Skip,		// skip my children
-					// really needed? Cancel, // skip my brothers, go one step up
-					Quit		// forget it, you're done
-	} ResultE;
+    enum ResultE
+    {	
+        Continue,	// continue with my children
+	    Skip,		// skip my children
+	    // really needed? Cancel, // skip my brothers, go one step up
+	    Quit		// forget it, you're done
+    };
 
+#ifdef OSG_NOFUNCTORS
+    typedef ResultE (*FunctorFunc)(CNodePtr &, Action *);
+
+    struct Functor
+    {
+       public:
+
+        FunctorFunc _func;
+
+        virtual ResultE call(CNodePtr &cnode, Action *action)
+        {
+            return _func(cnode, action);
+        }
+    };
+
+    static Functor osgFunctionFunctor2(FunctorFunc func)
+    {
+        Functor result;
+
+        result._func = func;
+
+        return result;
+    }
+#else
 	typedef Functor2Base<ResultE, CNodePtr &, Action *> Functor;
+#endif
 
     //-----------------------------------------------------------------------
     //   types                                                               

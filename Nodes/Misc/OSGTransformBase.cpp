@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILETRANSFORMINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILETRANSFORMINST
 
 #include "OSGTransformBase.h"
 #include "OSGTransform.h"
@@ -93,15 +93,12 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		TransformBase::MatrixFieldId;
-const OSG::BitVector	TransformBase::MatrixFieldMask;
+const OSG::BitVector	TransformBase::MatrixFieldMask = 
+    (1 << TransformBase::MatrixFieldId);
 
 
-const OSG::UInt32    	TransformBase::NextFieldId; 
-const OSG::BitVector 	TransformBase::NextFieldMask;
 
-
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -109,7 +106,7 @@ char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.4 2001/06/10 12
 FieldDescription TransformBase::_desc[] = 
 {
     FieldDescription(SFMatrix::getClassType(), 
-                     "matrix", 
+                     "sfMatrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,
                      (FieldAccessMethod) &TransformBase::getSFMatrix)
@@ -191,7 +188,7 @@ void TransformBase::executeSync(FieldContainer &other,
  */
 
 TransformBase::TransformBase(void) :
-	_matrix	(), 
+	_sfMatrix	(), 
 	Inherited() 
 {
 }
@@ -200,7 +197,7 @@ TransformBase::TransformBase(void) :
  */
 
 TransformBase::TransformBase(const TransformBase &source) :
-	_matrix		(source._matrix), 
+	_sfMatrix		(source._sfMatrix), 
 	Inherited        (source)
 {
 }
@@ -229,7 +226,7 @@ void TransformBase::executeSyncImpl(TransformBase *pOther,
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
     {
-        _matrix.syncWith(pOther->_matrix);
+        _sfMatrix.syncWith(pOther->_sfMatrix);
     }
 
 

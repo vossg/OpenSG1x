@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEVIEWPORTINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEVIEWPORTINST
 
 #include "OSGViewportBase.h"
 #include "OSGViewport.h"
@@ -93,36 +93,33 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		ViewportBase::LeftFieldId;
-const OSG::BitVector	ViewportBase::LeftFieldMask;
+const OSG::BitVector	ViewportBase::LeftFieldMask = 
+    (1 << ViewportBase::LeftFieldId);
 
-const OSG::UInt32		ViewportBase::RightFieldId;
-const OSG::BitVector	ViewportBase::RightFieldMask;
+const OSG::BitVector	ViewportBase::RightFieldMask = 
+    (1 << ViewportBase::RightFieldId);
 
-const OSG::UInt32		ViewportBase::BottomFieldId;
-const OSG::BitVector	ViewportBase::BottomFieldMask;
+const OSG::BitVector	ViewportBase::BottomFieldMask = 
+    (1 << ViewportBase::BottomFieldId);
 
-const OSG::UInt32		ViewportBase::TopFieldId;
-const OSG::BitVector	ViewportBase::TopFieldMask;
+const OSG::BitVector	ViewportBase::TopFieldMask = 
+    (1 << ViewportBase::TopFieldId);
 
-const OSG::UInt32		ViewportBase::ParentFieldId;
-const OSG::BitVector	ViewportBase::ParentFieldMask;
+const OSG::BitVector	ViewportBase::ParentFieldMask = 
+    (1 << ViewportBase::ParentFieldId);
 
-const OSG::UInt32		ViewportBase::CameraFieldId;
-const OSG::BitVector	ViewportBase::CameraFieldMask;
+const OSG::BitVector	ViewportBase::CameraFieldMask = 
+    (1 << ViewportBase::CameraFieldId);
 
-const OSG::UInt32		ViewportBase::RootFieldId;
-const OSG::BitVector	ViewportBase::RootFieldMask;
+const OSG::BitVector	ViewportBase::RootFieldMask = 
+    (1 << ViewportBase::RootFieldId);
 
-const OSG::UInt32		ViewportBase::BackgroundFieldId;
-const OSG::BitVector	ViewportBase::BackgroundFieldMask;
-
-
-const OSG::UInt32    	ViewportBase::NextFieldId; 
-const OSG::BitVector 	ViewportBase::NextFieldMask;
+const OSG::BitVector	ViewportBase::BackgroundFieldMask = 
+    (1 << ViewportBase::BackgroundFieldId);
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -130,42 +127,42 @@ char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.5 2001/06/10 12:4
 FieldDescription ViewportBase::_desc[] = 
 {
     FieldDescription(SFReal32::getClassType(), 
-                     "left", 
+                     "sfLeft", 
                      LeftFieldId, LeftFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFLeft),
     FieldDescription(SFReal32::getClassType(), 
-                     "right", 
+                     "sfRight", 
                      RightFieldId, RightFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFRight),
     FieldDescription(SFReal32::getClassType(), 
-                     "bottom", 
+                     "sfBottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFBottom),
     FieldDescription(SFReal32::getClassType(), 
-                     "top", 
+                     "sfTop", 
                      TopFieldId, TopFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFTop),
     FieldDescription(SFWindowPtr::getClassType(), 
-                     "parent", 
+                     "sfParent", 
                      ParentFieldId, ParentFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFParent),
     FieldDescription(SFCameraPtr::getClassType(), 
-                     "camera", 
+                     "sfCamera", 
                      CameraFieldId, CameraFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFCamera),
     FieldDescription(SFNodePtr::getClassType(), 
-                     "root", 
+                     "sfRoot", 
                      RootFieldId, RootFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFRoot),
     FieldDescription(SFBackgroundPtr::getClassType(), 
-                     "background", 
+                     "sfBackground", 
                      BackgroundFieldId, BackgroundFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFBackground)
@@ -247,14 +244,14 @@ void ViewportBase::executeSync(FieldContainer &other,
  */
 
 ViewportBase::ViewportBase(void) :
-	_left	(), 
-	_right	(), 
-	_bottom	(), 
-	_top	(), 
-	_parent	(), 
-	_camera	(), 
-	_root	(), 
-	_background	(), 
+	_sfLeft	(), 
+	_sfRight	(), 
+	_sfBottom	(), 
+	_sfTop	(), 
+	_sfParent	(), 
+	_sfCamera	(), 
+	_sfRoot	(), 
+	_sfBackground	(), 
 	Inherited() 
 {
 }
@@ -263,14 +260,14 @@ ViewportBase::ViewportBase(void) :
  */
 
 ViewportBase::ViewportBase(const ViewportBase &source) :
-	_left		(source._left), 
-	_right		(source._right), 
-	_bottom		(source._bottom), 
-	_top		(source._top), 
-	_parent		(source._parent), 
-	_camera		(source._camera), 
-	_root		(source._root), 
-	_background		(source._background), 
+	_sfLeft		(source._sfLeft), 
+	_sfRight		(source._sfRight), 
+	_sfBottom		(source._sfBottom), 
+	_sfTop		(source._sfTop), 
+	_sfParent		(source._sfParent), 
+	_sfCamera		(source._sfCamera), 
+	_sfRoot		(source._sfRoot), 
+	_sfBackground		(source._sfBackground), 
 	Inherited        (source)
 {
 }
@@ -299,42 +296,42 @@ void ViewportBase::executeSyncImpl(ViewportBase *pOther,
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
     {
-        _left.syncWith(pOther->_left);
+        _sfLeft.syncWith(pOther->_sfLeft);
     }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
     {
-        _right.syncWith(pOther->_right);
+        _sfRight.syncWith(pOther->_sfRight);
     }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
     {
-        _bottom.syncWith(pOther->_bottom);
+        _sfBottom.syncWith(pOther->_sfBottom);
     }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
     {
-        _top.syncWith(pOther->_top);
+        _sfTop.syncWith(pOther->_sfTop);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        _parent.syncWith(pOther->_parent);
+        _sfParent.syncWith(pOther->_sfParent);
     }
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
     {
-        _camera.syncWith(pOther->_camera);
+        _sfCamera.syncWith(pOther->_sfCamera);
     }
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
     {
-        _root.syncWith(pOther->_root);
+        _sfRoot.syncWith(pOther->_sfRoot);
     }
 
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
     {
-        _background.syncWith(pOther->_background);
+        _sfBackground.syncWith(pOther->_sfBackground);
     }
 
 

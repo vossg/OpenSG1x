@@ -117,57 +117,42 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    ImageFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector ImageFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        ImageFieldId = Inherited::NextFieldId,
+        MinFilterFieldId = ImageFieldId + 1,
+        MagFilterFieldId = MinFilterFieldId + 1,
+        WrapSFieldId = MagFilterFieldId + 1,
+        WrapTFieldId = WrapSFieldId + 1,
+        WrapRFieldId = WrapTFieldId + 1,
+        EnvModeFieldId = WrapRFieldId + 1,
+        GenFuncSFieldId = EnvModeFieldId + 1,
+        GenFuncTFieldId = GenFuncSFieldId + 1,
+        GenFuncRFieldId = GenFuncTFieldId + 1,
+        GenFuncQFieldId = GenFuncRFieldId + 1,
+        GenFuncSPlaneFieldId = GenFuncQFieldId + 1,
+        GenFuncTPlaneFieldId = GenFuncSPlaneFieldId + 1,
+        GenFuncRPlaneFieldId = GenFuncTPlaneFieldId + 1,
+        GenFuncQPlaneFieldId = GenFuncRPlaneFieldId + 1,
+        GLIdFieldId = GenFuncQPlaneFieldId + 1
+    };
 
-	static const osg::UInt32    MinFilterFieldId   = ImageFieldId + 1;
-	static const osg::BitVector MinFilterFieldMask = ImageFieldMask << 1;
-
-	static const osg::UInt32    MagFilterFieldId   = MinFilterFieldId + 1;
-	static const osg::BitVector MagFilterFieldMask = MinFilterFieldMask << 1;
-
-	static const osg::UInt32    WrapSFieldId   = MagFilterFieldId + 1;
-	static const osg::BitVector WrapSFieldMask = MagFilterFieldMask << 1;
-
-	static const osg::UInt32    WrapTFieldId   = WrapSFieldId + 1;
-	static const osg::BitVector WrapTFieldMask = WrapSFieldMask << 1;
-
-	static const osg::UInt32    WrapRFieldId   = WrapTFieldId + 1;
-	static const osg::BitVector WrapRFieldMask = WrapTFieldMask << 1;
-
-	static const osg::UInt32    EnvModeFieldId   = WrapRFieldId + 1;
-	static const osg::BitVector EnvModeFieldMask = WrapRFieldMask << 1;
-
-	static const osg::UInt32    GenFuncSFieldId   = EnvModeFieldId + 1;
-	static const osg::BitVector GenFuncSFieldMask = EnvModeFieldMask << 1;
-
-	static const osg::UInt32    GenFuncTFieldId   = GenFuncSFieldId + 1;
-	static const osg::BitVector GenFuncTFieldMask = GenFuncSFieldMask << 1;
-
-	static const osg::UInt32    GenFuncRFieldId   = GenFuncTFieldId + 1;
-	static const osg::BitVector GenFuncRFieldMask = GenFuncTFieldMask << 1;
-
-	static const osg::UInt32    GenFuncQFieldId   = GenFuncRFieldId + 1;
-	static const osg::BitVector GenFuncQFieldMask = GenFuncRFieldMask << 1;
-
-	static const osg::UInt32    GenFuncSPlaneFieldId   = GenFuncQFieldId + 1;
-	static const osg::BitVector GenFuncSPlaneFieldMask = GenFuncQFieldMask << 1;
-
-	static const osg::UInt32    GenFuncTPlaneFieldId   = GenFuncSPlaneFieldId + 1;
-	static const osg::BitVector GenFuncTPlaneFieldMask = GenFuncSPlaneFieldMask << 1;
-
-	static const osg::UInt32    GenFuncRPlaneFieldId   = GenFuncTPlaneFieldId + 1;
-	static const osg::BitVector GenFuncRPlaneFieldMask = GenFuncTPlaneFieldMask << 1;
-
-	static const osg::UInt32    GenFuncQPlaneFieldId   = GenFuncRPlaneFieldId + 1;
-	static const osg::BitVector GenFuncQPlaneFieldMask = GenFuncRPlaneFieldMask << 1;
-
-	static const osg::UInt32    GLIdFieldId   = GenFuncQPlaneFieldId + 1;
-	static const osg::BitVector GLIdFieldMask = GenFuncQPlaneFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = GLIdFieldId + 1;
-	static const osg::BitVector	NextFieldMask = GLIdFieldMask << 1;
-
+    static const osg::BitVector ImageFieldMask;
+    static const osg::BitVector MinFilterFieldMask;
+    static const osg::BitVector MagFilterFieldMask;
+    static const osg::BitVector WrapSFieldMask;
+    static const osg::BitVector WrapTFieldMask;
+    static const osg::BitVector WrapRFieldMask;
+    static const osg::BitVector EnvModeFieldMask;
+    static const osg::BitVector GenFuncSFieldMask;
+    static const osg::BitVector GenFuncTFieldMask;
+    static const osg::BitVector GenFuncRFieldMask;
+    static const osg::BitVector GenFuncQFieldMask;
+    static const osg::BitVector GenFuncSPlaneFieldMask;
+    static const osg::BitVector GenFuncTPlaneFieldMask;
+    static const osg::BitVector GenFuncRPlaneFieldMask;
+    static const osg::BitVector GenFuncQPlaneFieldMask;
+    static const osg::BitVector GLIdFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -311,52 +296,52 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     /*! 
      */
-    SFImageP	_image;
+    SFImageP	_sfImage;
     /*! 
      */
-    SFUInt32	_minFilter;
+    SFUInt32	_sfMinFilter;
     /*! 
      */
-    SFUInt32	_magFilter;
+    SFUInt32	_sfMagFilter;
     /*! 
      */
-    SFUInt32	_wrapS;
+    SFUInt32	_sfWrapS;
     /*! 
      */
-    SFUInt32	_wrapT;
+    SFUInt32	_sfWrapT;
     /*! 
      */
-    SFUInt32	_wrapR;
+    SFUInt32	_sfWrapR;
     /*! 
      */
-    SFUInt32	_envMode;
+    SFUInt32	_sfEnvMode;
     /*! 
      */
-    SFUInt32	_genFuncS;
+    SFUInt32	_sfGenFuncS;
     /*! 
      */
-    SFUInt32	_genFuncT;
+    SFUInt32	_sfGenFuncT;
     /*! 
      */
-    SFUInt32	_genFuncR;
+    SFUInt32	_sfGenFuncR;
     /*! 
      */
-    SFUInt32	_genFuncQ;
+    SFUInt32	_sfGenFuncQ;
     /*! 
      */
-    SFPlane	_genFuncSPlane;
+    SFPlane	_sfGenFuncSPlane;
     /*! 
      */
-    SFPlane	_genFuncTPlane;
+    SFPlane	_sfGenFuncTPlane;
     /*! 
      */
-    SFPlane	_genFuncRPlane;
+    SFPlane	_sfGenFuncRPlane;
     /*! 
      */
-    SFPlane	_genFuncQPlane;
+    SFPlane	_sfGenFuncQPlane;
     /*! 
      */
-    SFUInt32	_GLId;
+    SFUInt32	_sfGLId;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

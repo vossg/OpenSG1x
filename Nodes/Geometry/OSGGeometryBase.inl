@@ -109,7 +109,7 @@ inline GeometryPtr GeometryBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<GeometryPtr>(
+        fc = GeometryPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,205 +132,245 @@ inline GeometryPtr GeometryBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoPTypePtr *GeometryBase::getSFTypes(void)
 {
-	return &_types;
+	return &_sfTypes;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoPLengthPtr *GeometryBase::getSFLengths(void)
 {
-	return &_lengths;
+	return &_sfLengths;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoPositionPtr *GeometryBase::getSFPositions(void)
 {
-	return &_positions;
+	return &_sfPositions;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoNormalPtr *GeometryBase::getSFNormals(void)
 {
-	return &_normals;
+	return &_sfNormals;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *GeometryBase::getSFNormalPerVertex(void)
 {
-	return &_normalPerVertex;
+	return &_sfNormalPerVertex;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoColorPtr *GeometryBase::getSFColors(void)
 {
-	return &_colors;
+	return &_sfColors;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *GeometryBase::getSFColorPerVertex(void)
 {
-	return &_colorPerVertex;
+	return &_sfColorPerVertex;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords(void)
 {
-	return &_texCoords;
+	return &_sfTexCoords;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoIndexPtr *GeometryBase::getSFIndex(void)
 {
-	return &_index;
+	return &_sfIndex;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *GeometryBase::getSFMaterial(void)
 {
-	return &_material;
+	return &_sfMaterial;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoPTypePtr &GeometryBase::getTypes(void)
 {
-	return _types.getValue();
+	return _sfTypes.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoPTypePtr &GeometryBase::getTypes(void) const
 {
-	return _types.getValue();
+	return _sfTypes.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setTypes( GeoPTypePtr value )
 {
-	_types.setValue(value);
+	_sfTypes.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoPLengthPtr &GeometryBase::getLengths(void)
 {
-	return _lengths.getValue();
+	return _sfLengths.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoPLengthPtr &GeometryBase::getLengths(void) const
 {
-	return _lengths.getValue();
+	return _sfLengths.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setLengths( GeoPLengthPtr value )
 {
-	_lengths.setValue(value);
+	_sfLengths.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoPositionPtr &GeometryBase::getPositions(void)
 {
-	return _positions.getValue();
+	return _sfPositions.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoPositionPtr &GeometryBase::getPositions(void) const
 {
-	return _positions.getValue();
+	return _sfPositions.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setPositions( GeoPositionPtr value )
 {
-	_positions.setValue(value);
+	_sfPositions.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoNormalPtr &GeometryBase::getNormals(void)
 {
-	return _normals.getValue();
+	return _sfNormals.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoNormalPtr &GeometryBase::getNormals(void) const
 {
-	return _normals.getValue();
+	return _sfNormals.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setNormals( GeoNormalPtr value )
 {
-	_normals.setValue(value);
+	_sfNormals.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &GeometryBase::getNormalPerVertex(void)
 {
-	return _normalPerVertex.getValue();
+	return _sfNormalPerVertex.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &GeometryBase::getNormalPerVertex(void) const
 {
-	return _normalPerVertex.getValue();
+	return _sfNormalPerVertex.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setNormalPerVertex( Bool value )
 {
-	_normalPerVertex.setValue(value);
+	_sfNormalPerVertex.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoColorPtr &GeometryBase::getColors(void)
 {
-	return _colors.getValue();
+	return _sfColors.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoColorPtr &GeometryBase::getColors(void) const
 {
-	return _colors.getValue();
+	return _sfColors.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setColors( GeoColorPtr value )
 {
-	_colors.setValue(value);
+	_sfColors.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &GeometryBase::getColorPerVertex(void)
 {
-	return _colorPerVertex.getValue();
+	return _sfColorPerVertex.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &GeometryBase::getColorPerVertex(void) const
 {
-	return _colorPerVertex.getValue();
+	return _sfColorPerVertex.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setColorPerVertex( Bool value )
 {
-	_colorPerVertex.setValue(value);
+	_sfColorPerVertex.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoTexCoordsPtr &GeometryBase::getTexCoords(void)
 {
-	return _texCoords.getValue();
+	return _sfTexCoords.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoTexCoordsPtr &GeometryBase::getTexCoords(void) const
 {
-	return _texCoords.getValue();
+	return _sfTexCoords.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setTexCoords( GeoTexCoordsPtr value )
 {
-	_texCoords.setValue(value);
+	_sfTexCoords.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 GeoIndexPtr &GeometryBase::getIndex(void)
 {
-	return _index.getValue();
+	return _sfIndex.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const GeoIndexPtr &GeometryBase::getIndex(void) const
 {
-	return _index.getValue();
+	return _sfIndex.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setIndex( GeoIndexPtr value )
 {
-	_index.setValue(value);
+	_sfIndex.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 MaterialPtr &GeometryBase::getMaterial(void)
 {
-	return _material.getValue();
+	return _sfMaterial.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const MaterialPtr &GeometryBase::getMaterial(void) const
 {
-	return _material.getValue();
+	return _sfMaterial.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setMaterial( MaterialPtr value )
 {
-	_material.setValue(value);
+	_sfMaterial.setValue(value);
 }
 
 

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILECAMERAINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILECAMERAINST
 
 #include "OSGCameraBase.h"
 #include "OSGCamera.h"
@@ -93,21 +93,18 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		CameraBase::BeaconFieldId;
-const OSG::BitVector	CameraBase::BeaconFieldMask;
+const OSG::BitVector	CameraBase::BeaconFieldMask = 
+    (1 << CameraBase::BeaconFieldId);
 
-const OSG::UInt32		CameraBase::NearFieldId;
-const OSG::BitVector	CameraBase::NearFieldMask;
+const OSG::BitVector	CameraBase::NearFieldMask = 
+    (1 << CameraBase::NearFieldId);
 
-const OSG::UInt32		CameraBase::FarFieldId;
-const OSG::BitVector	CameraBase::FarFieldMask;
-
-
-const OSG::UInt32    	CameraBase::NextFieldId; 
-const OSG::BitVector 	CameraBase::NextFieldMask;
+const OSG::BitVector	CameraBase::FarFieldMask = 
+    (1 << CameraBase::FarFieldId);
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -115,17 +112,17 @@ char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.5 2001/06/10 12:42:07
 FieldDescription CameraBase::_desc[] = 
 {
     FieldDescription(SFNodePtr::getClassType(), 
-                     "beacon", 
+                     "sfBeacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
                      (FieldAccessMethod) &CameraBase::getSFBeacon),
     FieldDescription(SFReal32::getClassType(), 
-                     "near", 
+                     "sfNear", 
                      NearFieldId, NearFieldMask,
                      false,
                      (FieldAccessMethod) &CameraBase::getSFNear),
     FieldDescription(SFReal32::getClassType(), 
-                     "far", 
+                     "sfFar", 
                      FarFieldId, FarFieldMask,
                      false,
                      (FieldAccessMethod) &CameraBase::getSFFar)
@@ -198,9 +195,9 @@ void CameraBase::executeSync(FieldContainer &other,
  */
 
 CameraBase::CameraBase(void) :
-	_beacon	(), 
-	_near	(), 
-	_far	(), 
+	_sfBeacon	(), 
+	_sfNear	(), 
+	_sfFar	(), 
 	Inherited() 
 {
 }
@@ -209,9 +206,9 @@ CameraBase::CameraBase(void) :
  */
 
 CameraBase::CameraBase(const CameraBase &source) :
-	_beacon		(source._beacon), 
-	_near		(source._near), 
-	_far		(source._far), 
+	_sfBeacon		(source._sfBeacon), 
+	_sfNear		(source._sfNear), 
+	_sfFar		(source._sfFar), 
 	Inherited        (source)
 {
 }
@@ -240,17 +237,17 @@ void CameraBase::executeSyncImpl(CameraBase *pOther,
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
     {
-        _beacon.syncWith(pOther->_beacon);
+        _sfBeacon.syncWith(pOther->_sfBeacon);
     }
 
     if(FieldBits::NoField != (NearFieldMask & whichField))
     {
-        _near.syncWith(pOther->_near);
+        _sfNear.syncWith(pOther->_sfNear);
     }
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
     {
-        _far.syncWith(pOther->_far);
+        _sfFar.syncWith(pOther->_sfFar);
     }
 
 

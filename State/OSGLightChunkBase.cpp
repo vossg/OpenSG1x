@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILELIGHTCHUNKINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILELIGHTCHUNKINST
 
 #include "OSGLightChunkBase.h"
 #include "OSGLightChunk.h"
@@ -78,42 +78,39 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		LightChunkBase::DiffuseFieldId;
-const OSG::BitVector	LightChunkBase::DiffuseFieldMask;
+const OSG::BitVector	LightChunkBase::DiffuseFieldMask = 
+    (1 << LightChunkBase::DiffuseFieldId);
 
-const OSG::UInt32		LightChunkBase::AmbientFieldId;
-const OSG::BitVector	LightChunkBase::AmbientFieldMask;
+const OSG::BitVector	LightChunkBase::AmbientFieldMask = 
+    (1 << LightChunkBase::AmbientFieldId);
 
-const OSG::UInt32		LightChunkBase::SpecularFieldId;
-const OSG::BitVector	LightChunkBase::SpecularFieldMask;
+const OSG::BitVector	LightChunkBase::SpecularFieldMask = 
+    (1 << LightChunkBase::SpecularFieldId);
 
-const OSG::UInt32		LightChunkBase::PositionFieldId;
-const OSG::BitVector	LightChunkBase::PositionFieldMask;
+const OSG::BitVector	LightChunkBase::PositionFieldMask = 
+    (1 << LightChunkBase::PositionFieldId);
 
-const OSG::UInt32		LightChunkBase::DirectionFieldId;
-const OSG::BitVector	LightChunkBase::DirectionFieldMask;
+const OSG::BitVector	LightChunkBase::DirectionFieldMask = 
+    (1 << LightChunkBase::DirectionFieldId);
 
-const OSG::UInt32		LightChunkBase::ExponentFieldId;
-const OSG::BitVector	LightChunkBase::ExponentFieldMask;
+const OSG::BitVector	LightChunkBase::ExponentFieldMask = 
+    (1 << LightChunkBase::ExponentFieldId);
 
-const OSG::UInt32		LightChunkBase::CutoffFieldId;
-const OSG::BitVector	LightChunkBase::CutoffFieldMask;
+const OSG::BitVector	LightChunkBase::CutoffFieldMask = 
+    (1 << LightChunkBase::CutoffFieldId);
 
-const OSG::UInt32		LightChunkBase::ConstantAttenuationFieldId;
-const OSG::BitVector	LightChunkBase::ConstantAttenuationFieldMask;
+const OSG::BitVector	LightChunkBase::ConstantAttenuationFieldMask = 
+    (1 << LightChunkBase::ConstantAttenuationFieldId);
 
-const OSG::UInt32		LightChunkBase::LinearAttenuationFieldId;
-const OSG::BitVector	LightChunkBase::LinearAttenuationFieldMask;
+const OSG::BitVector	LightChunkBase::LinearAttenuationFieldMask = 
+    (1 << LightChunkBase::LinearAttenuationFieldId);
 
-const OSG::UInt32		LightChunkBase::QuadraticAttenuationFieldId;
-const OSG::BitVector	LightChunkBase::QuadraticAttenuationFieldMask;
-
-
-const OSG::UInt32    	LightChunkBase::NextFieldId; 
-const OSG::BitVector 	LightChunkBase::NextFieldMask;
+const OSG::BitVector	LightChunkBase::QuadraticAttenuationFieldMask = 
+    (1 << LightChunkBase::QuadraticAttenuationFieldId);
 
 
-char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -121,52 +118,52 @@ char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.4 2001/06/10 
 FieldDescription LightChunkBase::_desc[] = 
 {
     FieldDescription(SFColor4f::getClassType(), 
-                     "diffuse", 
+                     "sfDiffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFDiffuse),
     FieldDescription(SFColor4f::getClassType(), 
-                     "ambient", 
+                     "sfAmbient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFAmbient),
     FieldDescription(SFColor4f::getClassType(), 
-                     "specular", 
+                     "sfSpecular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFSpecular),
     FieldDescription(SFVec4f::getClassType(), 
-                     "position", 
+                     "sfPosition", 
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFPosition),
     FieldDescription(SFVec3f::getClassType(), 
-                     "direction", 
+                     "sfDirection", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFDirection),
     FieldDescription(SFReal32::getClassType(), 
-                     "exponent", 
+                     "sfExponent", 
                      ExponentFieldId, ExponentFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFExponent),
     FieldDescription(SFReal32::getClassType(), 
-                     "cutoff", 
+                     "sfCutoff", 
                      CutoffFieldId, CutoffFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFCutoff),
     FieldDescription(SFReal32::getClassType(), 
-                     "constantAttenuation", 
+                     "sfConstantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFConstantAttenuation),
     FieldDescription(SFReal32::getClassType(), 
-                     "linearAttenuation", 
+                     "sfLinearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFLinearAttenuation),
     FieldDescription(SFReal32::getClassType(), 
-                     "quadraticAttenuation", 
+                     "sfQuadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &LightChunkBase::getSFQuadraticAttenuation)
@@ -248,16 +245,16 @@ void LightChunkBase::executeSync(FieldContainer &other,
  */
 
 LightChunkBase::LightChunkBase(void) :
-	_diffuse	(Color4f(1,1,1,0)), 
-	_ambient	(Color4f(.1,.1,.1,0)), 
-	_specular	(Color4f(1,1,1,0)), 
-	_position	(Vec4f(0,-1,0,0)), 
-	_direction	(Vec3f(0,0,1)), 
-	_exponent	(Real32(2)), 
-	_cutoff	(Real32(180)), 
-	_constantAttenuation	(Real32(1)), 
-	_linearAttenuation	(Real32(0)), 
-	_quadraticAttenuation	(Real32(0)), 
+	_sfDiffuse	(Color4f(1,1,1,0)), 
+	_sfAmbient	(Color4f(.1,.1,.1,0)), 
+	_sfSpecular	(Color4f(1,1,1,0)), 
+	_sfPosition	(Vec4f(0,-1,0,0)), 
+	_sfDirection	(Vec3f(0,0,1)), 
+	_sfExponent	(Real32(2)), 
+	_sfCutoff	(Real32(180)), 
+	_sfConstantAttenuation	(Real32(1)), 
+	_sfLinearAttenuation	(Real32(0)), 
+	_sfQuadraticAttenuation	(Real32(0)), 
 	Inherited() 
 {
 }
@@ -266,16 +263,16 @@ LightChunkBase::LightChunkBase(void) :
  */
 
 LightChunkBase::LightChunkBase(const LightChunkBase &source) :
-	_diffuse		(source._diffuse), 
-	_ambient		(source._ambient), 
-	_specular		(source._specular), 
-	_position		(source._position), 
-	_direction		(source._direction), 
-	_exponent		(source._exponent), 
-	_cutoff		(source._cutoff), 
-	_constantAttenuation		(source._constantAttenuation), 
-	_linearAttenuation		(source._linearAttenuation), 
-	_quadraticAttenuation		(source._quadraticAttenuation), 
+	_sfDiffuse		(source._sfDiffuse), 
+	_sfAmbient		(source._sfAmbient), 
+	_sfSpecular		(source._sfSpecular), 
+	_sfPosition		(source._sfPosition), 
+	_sfDirection		(source._sfDirection), 
+	_sfExponent		(source._sfExponent), 
+	_sfCutoff		(source._sfCutoff), 
+	_sfConstantAttenuation		(source._sfConstantAttenuation), 
+	_sfLinearAttenuation		(source._sfLinearAttenuation), 
+	_sfQuadraticAttenuation		(source._sfQuadraticAttenuation), 
 	Inherited        (source)
 {
 }
@@ -304,52 +301,52 @@ void LightChunkBase::executeSyncImpl(LightChunkBase *pOther,
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
     {
-        _diffuse.syncWith(pOther->_diffuse);
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
     }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
     {
-        _ambient.syncWith(pOther->_ambient);
+        _sfAmbient.syncWith(pOther->_sfAmbient);
     }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
     {
-        _specular.syncWith(pOther->_specular);
+        _sfSpecular.syncWith(pOther->_sfSpecular);
     }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
-        _position.syncWith(pOther->_position);
+        _sfPosition.syncWith(pOther->_sfPosition);
     }
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
     {
-        _direction.syncWith(pOther->_direction);
+        _sfDirection.syncWith(pOther->_sfDirection);
     }
 
     if(FieldBits::NoField != (ExponentFieldMask & whichField))
     {
-        _exponent.syncWith(pOther->_exponent);
+        _sfExponent.syncWith(pOther->_sfExponent);
     }
 
     if(FieldBits::NoField != (CutoffFieldMask & whichField))
     {
-        _cutoff.syncWith(pOther->_cutoff);
+        _sfCutoff.syncWith(pOther->_sfCutoff);
     }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
     {
-        _constantAttenuation.syncWith(pOther->_constantAttenuation);
+        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
     }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
     {
-        _linearAttenuation.syncWith(pOther->_linearAttenuation);
+        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
     }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
     {
-        _quadraticAttenuation.syncWith(pOther->_quadraticAttenuation);
+        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
     }
 
 

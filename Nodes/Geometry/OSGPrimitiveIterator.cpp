@@ -90,7 +90,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.8 2001/06/10 12:42:07 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.9 2001/07/03 14:16:32 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -184,7 +184,7 @@ void PrimitiveIterator::setGeo( const GeometryPtr& geo )
 
 void PrimitiveIterator::setGeo( const NodePtr& geo )
 {
-	setGeo( dcast<GeometryPtr>(geo->getCore()) );
+	setGeo(GeometryPtr::dcast(geo->getCore()));
 }
 
 /** \brief increment

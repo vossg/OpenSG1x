@@ -106,24 +106,20 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    CenterFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector CenterFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        CenterFieldId = Inherited::NextFieldId,
+        RotationFieldId = CenterFieldId + 1,
+        ScaleFieldId = RotationFieldId + 1,
+        ScaleOrientationFieldId = ScaleFieldId + 1,
+        TranslationFieldId = ScaleOrientationFieldId + 1
+    };
 
-	static const osg::UInt32    RotationFieldId   = CenterFieldId + 1;
-	static const osg::BitVector RotationFieldMask = CenterFieldMask << 1;
-
-	static const osg::UInt32    ScaleFieldId   = RotationFieldId + 1;
-	static const osg::BitVector ScaleFieldMask = RotationFieldMask << 1;
-
-	static const osg::UInt32    ScaleOrientationFieldId   = ScaleFieldId + 1;
-	static const osg::BitVector ScaleOrientationFieldMask = ScaleFieldMask << 1;
-
-	static const osg::UInt32    TranslationFieldId   = ScaleOrientationFieldId + 1;
-	static const osg::BitVector TranslationFieldMask = ScaleOrientationFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = TranslationFieldId + 1;
-	static const osg::BitVector	NextFieldMask = TranslationFieldMask << 1;
-
+    static const osg::BitVector CenterFieldMask;
+    static const osg::BitVector RotationFieldMask;
+    static const osg::BitVector ScaleFieldMask;
+    static const osg::BitVector ScaleOrientationFieldMask;
+    static const osg::BitVector TranslationFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -223,19 +219,19 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 
     /*! 
      */
-    SFVec3f	_center;
+    SFVec3f	_sfCenter;
     /*! 
      */
-    SFQuaternion	_rotation;
+    SFQuaternion	_sfRotation;
     /*! 
      */
-    SFVec3f	_scale;
+    SFVec3f	_sfScale;
     /*! 
      */
-    SFQuaternion	_scaleOrientation;
+    SFQuaternion	_sfScaleOrientation;
     /*! 
      */
-    SFVec3f	_translation;
+    SFVec3f	_sfTranslation;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

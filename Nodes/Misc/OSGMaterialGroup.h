@@ -125,6 +125,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE MatGroupDrawEnter(CNodePtr &cnode, 
+                                             Action   *pAction);
+    static Action::ResultE MatGroupDrawLeave(CNodePtr &cnode, 
+                                             Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------

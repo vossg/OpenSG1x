@@ -157,7 +157,7 @@ void State::dump(      UInt32     uiIndent,
 	MFStateChunkPtr::const_iterator it;
 	UInt32 cind;
 	
-	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); it++, cind++ )
+	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); it++, cind++ )
 	{
 		cerr << StateChunkClass::getName(cind) << "\t";
 		if ( *it == NullStateChunk )
@@ -180,7 +180,7 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
 	}
 	
 	UInt32 cindex = chunk->getClassID();
-	UInt32 csize = _chunks.size();
+	UInt32 csize = _mfChunks.size();
 	
 	// special case: find empty slot automatically
 	if ( index < 0 )
@@ -189,7 +189,7 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
 		UInt8 ci;
 
 		for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ ) 
-			if ( _chunks.getValue( ci ) == NullStateChunk )
+			if ( _mfChunks.getValue( ci ) == NullStateChunk )
 				break;
 		
 		if ( ci >= cindex + nslots )	// no free slot found
@@ -209,13 +209,13 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
 		UInt32 oldsize = csize, 
 				  newsize = cindex + 1;
 
-		_chunks.resize( newsize );
+		_mfChunks.resize( newsize );
 	
 		for ( UInt32 i = oldsize; i < newsize; i++ )
-			_chunks.setValue( NullStateChunk, i );
+			_mfChunks.setValue( NullStateChunk, i );
 	}
 
-	_chunks.setValue( chunk, cindex );
+	_mfChunks.setValue( chunk, cindex );
 }
 
 	
@@ -229,7 +229,7 @@ void State::subChunk( StateChunkPtr chunk, Int32 index )
 	}
 	
 	UInt32 cindex = chunk->getClassID();
-	UInt32 csize = _chunks.size();
+	UInt32 csize = _mfChunks.size();
 	
 	// special case: find it in the slots
 	if ( index < 0 )
@@ -238,7 +238,7 @@ void State::subChunk( StateChunkPtr chunk, Int32 index )
 		UInt8 ci;
 
 		for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ ) 
-			if ( _chunks.getValue( ci ) == chunk )
+			if ( _mfChunks.getValue( ci ) == chunk )
 				break;
 		
 		if ( ci >= cindex + nslots )	// no free slot found
@@ -252,7 +252,7 @@ void State::subChunk( StateChunkPtr chunk, Int32 index )
 
 	// remove the chunk from the state 
 
-	_chunks.setValue( NullStateChunk, cindex );
+	_mfChunks.setValue( NullStateChunk, cindex );
 }
 	
 void State::subChunk( UInt32 classid, Int32 index )
@@ -267,7 +267,7 @@ void State::subChunk( UInt32 classid, Int32 index )
 
 	// remove the chunk from the state 
 
-	_chunks.setValue( NullStateChunk, classid + index );	
+	_mfChunks.setValue( NullStateChunk, classid + index );	
 }
 
 // call the OpenGL commands to set my part of the state.
@@ -277,7 +277,7 @@ void State::activate ( DrawAction * action )
 	Int32 ind = 0;
 	UInt32 cind;
 
-	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
+	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
 		  it++, cind++,  ind++ )
 	{
 		if ( *it != NullStateChunk )
@@ -294,7 +294,7 @@ void State::changeFrom( DrawAction * action, State * old )
 	Int32 ind = 0;
 	UInt32 cind;
 
-	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
+	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
 		  it++, cind++, ind++ )
 	{
 		StateChunkPtr o = old->getChunk( cind );
@@ -323,7 +323,7 @@ void State::deactivate ( DrawAction * action )
 	Int32 ind = 0;
 	UInt32 cind;
 
-	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
+	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
 		  it++, cind++,  ind++ )
 	{
 		if ( *it != NullStateChunk )

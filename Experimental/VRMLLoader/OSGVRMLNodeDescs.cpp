@@ -291,7 +291,7 @@ void VRMLNodeDesc::getFieldAndDesc(
 
     if(pFC->getType().isNode() == true)
     {
-        pNode     = dcast<NodePtr>(pFC);
+        pNode     = NodePtr::dcast(pFC);
 
         pNodeCore = pNode->getCore();
 
@@ -339,7 +339,7 @@ void VRMLNodeDesc::getFieldAndDesc(
     }
     else if(pFC->getType().isNodeCore() == true)
     {
-        pNodeCore = dcast<NodeCorePtr>(pFC);
+        pNodeCore = NodeCorePtr::dcast(pFC);
 
         pTmpFC = pNodeCore->findAttachment(
             GenericAtt::getClassType().getGroupId());
@@ -470,8 +470,8 @@ FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *szTypename,
         {
             FieldContainerPtr pCoreClone = _pNodeCoreProto->shallowCopy();
 
-            pNode = dcast<NodePtr    >(returnValue);
-            pCore = dcast<NodeCorePtr>(pCoreClone );
+            pNode = NodePtr    ::dcast(returnValue);
+            pCore = NodeCorePtr::dcast(pCoreClone );
 
             pNode->setCore(pCore);
         }
@@ -480,7 +480,7 @@ FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *szTypename,
         {
             FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
 
-            pAtt = dcast<GenericAttPtr>(pAttClone);
+            pAtt = GenericAttPtr::dcast(pAttClone);
 
             if(pCore != NullFC)
             {
@@ -708,12 +708,12 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 
     if(_pAppearanceDesc != NULL)
     {
-        NodePtr     pNode =  dcast<NodePtr>(pFC);
+        NodePtr     pNode =  NodePtr::dcast(pFC);
         MaterialPtr pMat  = _pAppearanceDesc->getMat();
 
         if(pNode != NullFC)
         {
-            GeometryPtr pGeo = dcast<GeometryPtr>(pNode->getCore());
+            GeometryPtr pGeo = GeometryPtr::dcast(pNode->getCore());
 
             if(pGeo != NullFC)
             {
@@ -905,7 +905,7 @@ void VRMLGeometryDesc::getFieldAndDesc(
     if(pFC == NullFC)
         return;
 
-    GeometryPtr pGeo = dcast<GeometryPtr>(pFC);
+    GeometryPtr pGeo = GeometryPtr::dcast(pFC);
 
     _bInIndex = false;
 
@@ -1017,11 +1017,11 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
         
-        pAtt = dcast<GenericAttPtr>(pAttClone);
+        pAtt = GenericAttPtr::dcast(pAttClone);
 
         returnValue = _pNodeProto->shallowCopy();
 
-        pNodeCore = dcast<NodeCorePtr>(returnValue);
+        pNodeCore = NodeCorePtr::dcast(returnValue);
        
         pNodeCore->addAttachment(pAtt);
     }

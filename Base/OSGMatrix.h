@@ -327,8 +327,8 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 
     /*------------------------- comparison ----------------------------------*/
 
-	Bool operator == (const TransformationMatrix &other);
-	Bool operator != (const TransformationMatrix &other);
+	Bool operator == (const TransformationMatrix &other) const;
+	Bool operator != (const TransformationMatrix &other) const;
 
   protected:
 

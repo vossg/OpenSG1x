@@ -103,15 +103,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    ColorFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector ColorFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        ColorFieldId = Inherited::NextFieldId,
+        AngleFieldId = ColorFieldId + 1
+    };
 
-	static const osg::UInt32    AngleFieldId   = ColorFieldId + 1;
-	static const osg::BitVector AngleFieldMask = ColorFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = AngleFieldId + 1;
-	static const osg::BitVector	NextFieldMask = AngleFieldMask << 1;
-
+    static const osg::BitVector ColorFieldMask;
+    static const osg::BitVector AngleFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -199,10 +198,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
     /*! The colors of the sphere's rings.
      */
-    MFColor3f	_color;
+    MFColor3f	_mfColor;
     /*! The angles for the colors in degrees, from 0 (top) to 180 (bottom).
      */
-    MFReal32	_angle;
+    MFReal32	_mfAngle;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

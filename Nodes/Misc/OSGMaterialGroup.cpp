@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -100,8 +100,45 @@ char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.4 2001/06/10 12
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE MaterialGroup::MatGroupDrawEnter(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE MaterialGroup::MatGroupDrawLeave(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
+    }
+}
+#endif
+
 void MaterialGroup::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
@@ -112,6 +149,14 @@ void MaterialGroup::initMethod (void)
                                 CNodePtr,  
                                 MaterialGroupPtr, 
                                 Action *>(&MaterialGroup::drawLeave));
+#else
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        MaterialGroup::MatGroupDrawEnter));
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        MaterialGroup::MatGroupDrawLeave));
+#endif
 }
 
 /***************************************************************************\
@@ -178,9 +223,9 @@ Action::ResultE MaterialGroup::drawEnter(Action * action )
 {
   DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-  if(da != NULL && _material.getValue() != MaterialPtr::NullPtr)
+  if(da != NULL && _sfMaterial.getValue() != MaterialPtr::NullPtr)
   {
-    da->setMaterial(&(*(_material.getValue())));
+    da->setMaterial(&(*(_sfMaterial.getValue())));
   }
 
   return Action::Continue;

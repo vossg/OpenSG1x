@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILESIMPLEMATERIALINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILESIMPLEMATERIALINST
 
 #include "OSGSimpleMaterialBase.h"
 #include "OSGSimpleMaterial.h"
@@ -78,30 +78,27 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		SimpleMaterialBase::AmbientFieldId;
-const OSG::BitVector	SimpleMaterialBase::AmbientFieldMask;
+const OSG::BitVector	SimpleMaterialBase::AmbientFieldMask = 
+    (1 << SimpleMaterialBase::AmbientFieldId);
 
-const OSG::UInt32		SimpleMaterialBase::DiffuseFieldId;
-const OSG::BitVector	SimpleMaterialBase::DiffuseFieldMask;
+const OSG::BitVector	SimpleMaterialBase::DiffuseFieldMask = 
+    (1 << SimpleMaterialBase::DiffuseFieldId);
 
-const OSG::UInt32		SimpleMaterialBase::SpecularFieldId;
-const OSG::BitVector	SimpleMaterialBase::SpecularFieldMask;
+const OSG::BitVector	SimpleMaterialBase::SpecularFieldMask = 
+    (1 << SimpleMaterialBase::SpecularFieldId);
 
-const OSG::UInt32		SimpleMaterialBase::ShininessFieldId;
-const OSG::BitVector	SimpleMaterialBase::ShininessFieldMask;
+const OSG::BitVector	SimpleMaterialBase::ShininessFieldMask = 
+    (1 << SimpleMaterialBase::ShininessFieldId);
 
-const OSG::UInt32		SimpleMaterialBase::EmissionFieldId;
-const OSG::BitVector	SimpleMaterialBase::EmissionFieldMask;
+const OSG::BitVector	SimpleMaterialBase::EmissionFieldMask = 
+    (1 << SimpleMaterialBase::EmissionFieldId);
 
-const OSG::UInt32		SimpleMaterialBase::TransparencyFieldId;
-const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask;
-
-
-const OSG::UInt32    	SimpleMaterialBase::NextFieldId; 
-const OSG::BitVector 	SimpleMaterialBase::NextFieldMask;
+const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask = 
+    (1 << SimpleMaterialBase::TransparencyFieldId);
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -109,32 +106,32 @@ char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.4 200
 FieldDescription SimpleMaterialBase::_desc[] = 
 {
     FieldDescription(SFColor3f::getClassType(), 
-                     "ambient", 
+                     "sfAmbient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFAmbient),
     FieldDescription(SFColor3f::getClassType(), 
-                     "diffuse", 
+                     "sfDiffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFDiffuse),
     FieldDescription(SFColor3f::getClassType(), 
-                     "specular", 
+                     "sfSpecular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFSpecular),
     FieldDescription(SFReal32::getClassType(), 
-                     "shininess", 
+                     "sfShininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFShininess),
     FieldDescription(SFColor3f::getClassType(), 
-                     "emission", 
+                     "sfEmission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFEmission),
     FieldDescription(SFReal32::getClassType(), 
-                     "transparency", 
+                     "sfTransparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFTransparency)
@@ -216,12 +213,12 @@ void SimpleMaterialBase::executeSync(FieldContainer &other,
  */
 
 SimpleMaterialBase::SimpleMaterialBase(void) :
-	_ambient	(Color3f(0,0,0)), 
-	_diffuse	(Color3f(0,0,0)), 
-	_specular	(Color3f(0,0,0)), 
-	_shininess	(Real32(1)), 
-	_emission	(Color3f(0,0,0)), 
-	_transparency	(Real32(0)), 
+	_sfAmbient	(Color3f(0,0,0)), 
+	_sfDiffuse	(Color3f(0,0,0)), 
+	_sfSpecular	(Color3f(0,0,0)), 
+	_sfShininess	(Real32(1)), 
+	_sfEmission	(Color3f(0,0,0)), 
+	_sfTransparency	(Real32(0)), 
 	Inherited() 
 {
 }
@@ -230,12 +227,12 @@ SimpleMaterialBase::SimpleMaterialBase(void) :
  */
 
 SimpleMaterialBase::SimpleMaterialBase(const SimpleMaterialBase &source) :
-	_ambient		(source._ambient), 
-	_diffuse		(source._diffuse), 
-	_specular		(source._specular), 
-	_shininess		(source._shininess), 
-	_emission		(source._emission), 
-	_transparency		(source._transparency), 
+	_sfAmbient		(source._sfAmbient), 
+	_sfDiffuse		(source._sfDiffuse), 
+	_sfSpecular		(source._sfSpecular), 
+	_sfShininess		(source._sfShininess), 
+	_sfEmission		(source._sfEmission), 
+	_sfTransparency		(source._sfTransparency), 
 	Inherited        (source)
 {
 }
@@ -264,32 +261,32 @@ void SimpleMaterialBase::executeSyncImpl(SimpleMaterialBase *pOther,
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
     {
-        _ambient.syncWith(pOther->_ambient);
+        _sfAmbient.syncWith(pOther->_sfAmbient);
     }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
     {
-        _diffuse.syncWith(pOther->_diffuse);
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
     }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
     {
-        _specular.syncWith(pOther->_specular);
+        _sfSpecular.syncWith(pOther->_sfSpecular);
     }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
     {
-        _shininess.syncWith(pOther->_shininess);
+        _sfShininess.syncWith(pOther->_sfShininess);
     }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
     {
-        _emission.syncWith(pOther->_emission);
+        _sfEmission.syncWith(pOther->_sfEmission);
     }
 
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
     {
-        _transparency.syncWith(pOther->_transparency);
+        _sfTransparency.syncWith(pOther->_sfTransparency);
     }
 
 

@@ -77,7 +77,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.11 2001/06/10 12:42:07 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.12 2001/07/03 14:16:32 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -149,7 +149,7 @@ void ChunkMaterial::changed(BitVector, ChangeMode)
 
 Bool ChunkMaterial::addChunk( StateChunkPtr chunk )
 {
-	_chunks.push_back( chunk );
+	_mfChunks.push_back( chunk );
 	return true;
 }
 
@@ -157,15 +157,15 @@ Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 {
 	MFStateChunkPtr::iterator i;
 	
-	i = _chunks.find( chunk );
+	i = _mfChunks.find( chunk );
 	
-	if (i == _chunks.end())
+	if (i == _mfChunks.end())
 	{
 		SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk " 
 				 << chunk << endl;
 	}
 	else
-		_chunks.erase( i );
+		_mfChunks.erase( i );
 		
 	return true;
 }
@@ -191,8 +191,8 @@ StatePtr ChunkMaterial::makeState( void )
 {
 	StatePtr state = State::create();
 	
-	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
-			i != _chunks.end(); i++ )
+	for ( MFStateChunkPtr::iterator i = _mfChunks.begin(); 
+			i != _mfChunks.end(); i++ )
 		state->addChunk( *i );
 	
 	return state;
@@ -208,8 +208,8 @@ void ChunkMaterial::dump(      UInt32     uiIndent,
     SLOG << "ChunkMaterial at " << this << endl;
     SLOG << "Chunks: " << endl;
 	
-	for ( MFStateChunkPtr::const_iterator i = _chunks.begin(); 
-			i != _chunks.end(); i++ )
+	for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin(); 
+			i != _mfChunks.end(); i++ )
 		SLOG << *i << endl;	
 }
 

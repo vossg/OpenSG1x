@@ -60,7 +60,7 @@
 
 OSG_USING_NAMESPACE
 
-OSG_SYSTEMLIB_DLLMAPPING const FieldContainerPtr OSG::NullFC;
+const FieldContainerPtr OSG::NullFC;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -76,9 +76,9 @@ OSG_SYSTEMLIB_DLLMAPPING const FieldContainerPtr OSG::NullFC;
 
 const UInt16    FieldContainerPtrBase::InvalidParentEPos = 0xFFFF;
 
-      char         FieldContainerPtrBase::cvsid[]              = "@(#)$Id: $";
+      char      FieldContainerPtrBase::cvsid[]           = "@(#)$Id: $";
 
-      LockPool *FieldContainerPtrBase::_pRefCountLock       = NULL;
+      LockPool *FieldContainerPtrBase::_pRefCountLock    = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -398,6 +398,11 @@ UInt16 FieldContainerPtrBase::getParentFieldPos(void) const
 UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
 {
     return (*getIdP());
+}
+
+UInt16  FieldContainerPtrBase::getContainerSize(void) const
+{
+	return _containerSize;
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    ChunksFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector ChunksFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        ChunksFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = ChunksFieldId + 1;
-	static const osg::BitVector	NextFieldMask = ChunksFieldMask << 1;
-
+    static const osg::BitVector ChunksFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -191,7 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
     /*! 
      */
-    MFStateChunkPtr	_chunks;
+    MFStateChunkPtr	_mfChunks;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

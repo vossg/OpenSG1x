@@ -136,6 +136,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE PLightDrawEnter(CNodePtr &cnode, 
+                                           Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------

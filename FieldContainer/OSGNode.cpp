@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 /** \brief NULL node pointer
  */
 
-OSG_SYSTEMLIB_DLLMAPPING const NodePtr             OSG::NullNode;
+const NodePtr OSG::NullNode;
 
 
 
@@ -71,14 +71,11 @@ OSG_SYSTEMLIB_DLLMAPPING const NodePtr             OSG::NullNode;
  * as pure virtual functions :-( (GV)
  */
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Node, VolumeField)
-
-OSG_FC_FIELD_IDM_DEF      (Node, ParentField,      VolumeField)
-OSG_FC_FIELD_IDM_DEF      (Node, ChildrenField,    ParentField)
-OSG_FC_FIELD_IDM_DEF      (Node, CoreField,        ChildrenField)
-OSG_FC_FIELD_IDM_DEF      (Node, AttachmentsField, CoreField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (Node, AttachmentsField)
+const BitVector Node::VolumeFieldMask      = (1 << Node::VolumeFieldId     );
+const BitVector Node::ParentFieldMask      = (1 << Node::ParentFieldId     );
+const BitVector Node::ChildrenFieldMask    = (1 << Node::ChildrenFieldId   );
+const BitVector Node::CoreFieldMask        = (1 << Node::CoreFieldId       );
+const BitVector Node::AttachmentsFieldMask = (1 << Node::AttachmentsFieldId);
 
 FieldDescription Node::_desc[] = 
 {
@@ -490,7 +487,7 @@ SFAttachmentMap *Node::getSFAttachments(void)
 
 NodePtr Node::getPtr(void)
 {
-    return Inherited::getPtr<NodePtr>(*this);
+    return NodePtr(*this);
 }
 
 /*-------------------------- your_category---------------------------------*/

@@ -195,25 +195,44 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
 };
 
 /*! \ingroup BaseMathFunctions
+ *  \brief osgIFGen
+ */
+
+template <bool IConditionV>
+struct osgIFGen
+{
+	template<class IThenT, class IElseT>
+	struct osgIFSwitch
+	{
+		typedef IThenT _IRet;
+	    typedef IElseT _IDummyRef;
+	};
+};
+
+/*! \ingroup BaseMathFunctions
+ *  \brief osgIFGen<false>
+ */
+
+template <>
+struct osgIFGen<false>
+{
+	template<class IThenT, class IElseT>
+	struct osgIFSwitch
+	{
+	    typedef IElseT _IRet;
+		typedef IThenT _IDummyRef;
+	};
+};
+
+
+/*! \ingroup BaseMathFunctions
  *  \brief osgIF
  */
 
 template<bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
-    typedef IThenT _IRet;
-    typedef IElseT _IDummyRef;
-};
-
-/*! \ingroup BaseMathFunctions
- *  \brief osgIF<false, IThenT, IElseT>
- */
-
-template<class IThenT, class IElseT>
-struct osgIF<false, IThenT, IElseT>
-{
-    typedef IElseT _IRet;
-    typedef IThenT _IDummyRef;
+	typedef osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
 };
 
 /*! \brief osgispower2
@@ -370,7 +389,7 @@ OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING struct LTString
+struct OSG_BASE_DLLMAPPING LTString
 {
     Bool operator()(const char* s1, const char* s2) const
     {
@@ -382,7 +401,7 @@ OSG_BASE_DLLMAPPING struct LTString
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING struct EQString
+struct OSG_BASE_DLLMAPPING EQString
 {
     Bool operator()(const char* s1, const char* s2) const
     {

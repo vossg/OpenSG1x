@@ -136,6 +136,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE SLightDrawEnter(CNodePtr &cnode, 
+                                           Action   *pAction);
+#endif
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------

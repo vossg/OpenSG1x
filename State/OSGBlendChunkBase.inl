@@ -109,7 +109,7 @@ inline BlendChunkPtr BlendChunkBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<BlendChunkPtr>(
+        fc = BlendChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,85 +132,101 @@ inline BlendChunkPtr BlendChunkBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *BlendChunkBase::getSFSrcFactor(void)
 {
-	return &_SrcFactor;
+	return &_sfSrcFactor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *BlendChunkBase::getSFDestFactor(void)
 {
-	return &_DestFactor;
+	return &_sfDestFactor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *BlendChunkBase::getSFColor(void)
 {
-	return &_Color;
+	return &_sfColor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *BlendChunkBase::getSFGLId(void)
 {
-	return &_GLId;
+	return &_sfGLId;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getSrcFactor(void)
 {
-	return _SrcFactor.getValue();
+	return _sfSrcFactor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &BlendChunkBase::getSrcFactor(void) const
 {
-	return _SrcFactor.getValue();
+	return _sfSrcFactor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setSrcFactor( UInt32 value )
 {
-	_SrcFactor.setValue(value);
+	_sfSrcFactor.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getDestFactor(void)
 {
-	return _DestFactor.getValue();
+	return _sfDestFactor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &BlendChunkBase::getDestFactor(void) const
 {
-	return _DestFactor.getValue();
+	return _sfDestFactor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setDestFactor( UInt32 value )
 {
-	_DestFactor.setValue(value);
+	_sfDestFactor.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color4f &BlendChunkBase::getColor(void)
 {
-	return _Color.getValue();
+	return _sfColor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &BlendChunkBase::getColor(void) const
 {
-	return _Color.getValue();
+	return _sfColor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setColor( Color4f value )
 {
-	_Color.setValue(value);
+	_sfColor.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getGLId(void)
 {
-	return _GLId.getValue();
+	return _sfGLId.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &BlendChunkBase::getGLId(void) const
 {
-	return _GLId.getValue();
+	return _sfGLId.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setGLId( UInt32 value )
 {
-	_GLId.setValue(value);
+	_sfGLId.setValue(value);
 }
 
 

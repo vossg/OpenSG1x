@@ -279,7 +279,7 @@ FieldContainerPtr OSGLoader::findFCByName(const Char8 *szName,
     FieldContainerPtr fcp;
 
     // check if name matches nodename
-    nodename = dcast<NamePtr>(
+    nodename = NamePtr::dcast(
         np->findAttachment(Name::getClassType().getGroupId()));
 
     if(nodename != NullFC)
@@ -291,7 +291,7 @@ FieldContainerPtr OSGLoader::findFCByName(const Char8 *szName,
     cp=np->getCore();
     if(cp != NullFC)
     {
-        nodename = dcast<NamePtr>(
+        nodename = NamePtr::dcast(
             cp->findAttachment(Name::getClassType().getGroupId()));
 
         if(nodename != NullFC)
@@ -322,23 +322,23 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
     {
         if(_pCurrentField == _pCurrentFC->getField("core"))
         {
-            NodePtr     pNode = dcast<NodePtr>(_pCurrentFC);
-            NodeCorePtr pCore = dcast<NodeCorePtr>(pNewNode);
+            NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
+            NodeCorePtr pCore = NodeCorePtr::dcast( pNewNode);
             
             pNode->setCore(pCore);
         }
         else if(_pCurrentField == _pCurrentFC->getField("children"))
         {
-            NodePtr pNode      = dcast<NodePtr>(_pCurrentFC);
+            NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
             NodePtr pChildNode;
             if(pNewNode->getType().isNode())
             {
-                pChildNode=dcast<NodePtr>(pNewNode);
+                pChildNode=NodePtr::dcast(pNewNode);
             }
             else if(pNewNode->getType().isNodeCore())
             {
                 pChildNode=Node::create();
-                pChildNode->setCore(dcast<NodeCorePtr>(pNewNode));
+                pChildNode->setCore(NodeCorePtr::dcast(pNewNode));
             }
             else
             {
@@ -353,15 +353,15 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
             {
                 if(_pCurrentFC->getType().isNode() == true)
                 {
-                    NodePtr       pNode = dcast<NodePtr      >(_pCurrentFC);
-                    AttachmentPtr pAtt  = dcast<AttachmentPtr>(pNewNode);
+                    NodePtr       pNode = NodePtr      ::dcast(_pCurrentFC);
+                    AttachmentPtr pAtt  = AttachmentPtr::dcast(pNewNode);
 
                     pNode->addAttachment(pAtt);
                 }
                 else if(_pCurrentFC->getType().isNodeCore() == true)
                 {
-                    NodeCorePtr   pNodeCore = dcast<NodeCorePtr> (_pCurrentFC);
-                    AttachmentPtr pAtt      = dcast<AttachmentPtr>(pNewNode);
+                    NodeCorePtr   pNodeCore = NodeCorePtr ::dcast(_pCurrentFC);
+                    AttachmentPtr pAtt      = AttachmentPtr::dcast(pNewNode);
 
                     pNodeCore->addAttachment(pAtt); 
                 }
@@ -442,7 +442,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
     {
         if(pNewNode->getType().isNode() == true)
         {
-            NodePtr pNode     = dcast<NodePtr>(pNewNode);
+            NodePtr pNode     = NodePtr::dcast(pNewNode);
             NamePtr pNodename = Name::create();
 
             pNodename->getFieldPtr()->getValue().set(szNodename);
@@ -451,7 +451,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         }
         else if(pNewNode->getType().isNodeCore() == true)
         {
-            NodeCorePtr pNodeCore = dcast<NodeCorePtr>(pNewNode);
+            NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
             NamePtr     pNodename = Name::create();
 
             pNodename->getFieldPtr()->getValue().set(szNodename);
@@ -477,12 +477,12 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         NodePtr pNode;
         if(_pCurrentFC->getType().isNode())
         {
-            pNode = dcast<NodePtr>(_pCurrentFC);
+            pNode = NodePtr::dcast(_pCurrentFC);
         }
         else if(_pCurrentFC->getType().isNodeCore())
         {
             pNode = Node::create();
-            pNode->setCore(dcast<NodeCorePtr>(_pCurrentFC));
+            pNode->setCore(NodeCorePtr::dcast(_pCurrentFC));
         }
         else
         {
@@ -510,7 +510,7 @@ void OSGLoader::endNode(void)
     {
         if(_pCurrentFC->getType().isNode() == true)        
         {
-            NodePtr pNode = dcast<NodePtr>(_pCurrentFC);
+            NodePtr pNode = NodePtr::dcast(_pCurrentFC);
             
             if(pNode->getCore() == NullNodeCore)
             {

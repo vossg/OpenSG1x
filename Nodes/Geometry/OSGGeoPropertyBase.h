@@ -113,51 +113,51 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*----------------------------- access ----------------------------------*/
-	
-	virtual UInt32	getFormat    (void) = 0;
+    
+    virtual UInt32  getFormat    (void) = 0;
     // number of bytes per format element
-	virtual UInt32	getFormatSize(void) = 0;	
-	virtual UInt32	getStride    (void) = 0;
-	virtual UInt32	getDimension (void) = 0;
-	virtual UInt32	getSize      (void) = 0;
-	virtual UInt8	*getData     (void) = 0;
-	
-	// generic access to make using different types easier
-	// mimics the MField interface as far as possible
+    virtual UInt32  getFormatSize(void) = 0;    
+    virtual UInt32  getStride    (void) = 0;
+    virtual UInt32  getDimension (void) = 0;
+    virtual UInt32  getSize      (void) = 0;
+    virtual UInt8   *getData     (void) = 0;
+    
+    // generic access to make using different types easier
+    // mimics the MField interface as far as possible
 
-	virtual typename GeoPropertyDesc::GenericType 
-					getValue( const UInt32 index ) = 0;
-					
-	virtual typename GeoPropertyDesc::GenericType 
-					getValue( const UInt32 index ) const = 0;
+    virtual typename GeoPropertyDesc::GenericType 
+                    getValue( const UInt32 index ) = 0;
+                    
+    virtual typename GeoPropertyDesc::GenericType 
+                    getValue( const UInt32 index ) const = 0;
 
-	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
-						const UInt32 index ) = 0;
+    virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
+                        const UInt32 index ) = 0;
 
-	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
-						const UInt32 index ) const = 0;
-					
-	virtual void 	setValue(
-						const typename GeoPropertyDesc::GenericType & val,
-						const UInt32 index ) = 0;
-	
-	virtual void 	addValue(
-						const typename GeoPropertyDesc::GenericType & val )= 0;
+    virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
+                        const UInt32 index ) const = 0;
+                    
+    virtual void    setValue(
+                        const typename GeoPropertyDesc::GenericType & val,
+                        const UInt32 index ) = 0;
+    
+    virtual void    addValue(
+                        const typename GeoPropertyDesc::GenericType & val )= 0;
 
-	// insert() and erase() should go here
-	// it's just not clear how to handle iterators in a generic way
-	// what about find()? Probably not very useful in this context
-	
-	virtual void 	clear( void ) = 0;
-	
+    // insert() and erase() should go here
+    // it's just not clear how to handle iterators in a generic way
+    // what about find()? Probably not very useful in this context
+    
+    virtual void    clear( void ) = 0;
+    
 
-	virtual void	resize(size_t newsize) = 0;
-	
-	virtual void 	push_back( 
-					const typename GeoPropertyDesc::GenericType & val ) = 0;
-	
-	// size clashes with another size()...
-	// virtual UInt32	size( void ) const;
+    virtual void    resize(size_t newsize) = 0;
+    
+    virtual void    push_back( 
+                    const typename GeoPropertyDesc::GenericType & val ) = 0;
+    
+    // size clashes with another size()...
+    // virtual UInt32   size( void ) const;
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -222,9 +222,9 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -258,9 +258,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(GeoPropDataField)
-    
-    OSG_FC_LAST_FIELD_IDM_DECL (GeoPropDataField)
+    enum
+    {
+        GeoPropDataFieldId = Inherited::NextFieldId,
+        NextFieldId        = GeoPropDataFieldId + 1
+    };
+
+    static const BitVector GeoPropDataFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -275,8 +279,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
     typedef FCPtr<typename GeoPropertyDesc::InheritPtr, 
                            PropertyType               > PtrType;
 
-	typedef typename GeoPropertyDesc::FieldType FieldType;
-	
+    typedef typename GeoPropertyDesc::FieldType   StoredFieldType;
+    typedef typename GeoPropertyDesc::GenericType StoredGenericType;
+    
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -298,59 +303,55 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 
     /*----------------------------- access ----------------------------------*/
 
-          typename GeoPropertyDesc::FieldType *getFieldPtr(void);
+          StoredFieldType *getFieldPtr(void);
 
-          typename GeoPropertyDesc::FieldType &getField(void);
-    const typename GeoPropertyDesc::FieldType &getField(void) const;
-	
-	
-	virtual UInt32	getFormat    (void);
+          StoredFieldType &getField(void);
+    const StoredFieldType &getField(void) const;
+    
+    
+    virtual UInt32  getFormat    (void);
     // number of bytes per format element
-	virtual UInt32	getFormatSize(void);	
-	virtual UInt32	getStride    (void);
-	virtual UInt32	getDimension (void);
+    virtual UInt32  getFormatSize(void);    
+    virtual UInt32  getStride    (void);
+    virtual UInt32  getDimension (void);
     // number of elements
-	virtual UInt32	getSize      (void);		
-	virtual UInt8	*getData     (void);
+    virtual UInt32  getSize      (void);        
+    virtual UInt8   *getData     (void);
 
-	// cast operator to allow using a geoProperty just like its only field
+    // cast operator to allow using a geoProperty just like its only field
 
-	typename GeoPropertyDesc::FieldType& operator->() { return _field; }
+    typename GeoPropertyDesc::FieldType& operator->() { return _field; }
 
-	
-	// generic access to make using different types easier
+    
+    // generic access to make using different types easier
 
-	virtual typename GeoPropertyDesc::GenericType 
-					getValue( const UInt32 index );
-					
-	virtual typename GeoPropertyDesc::GenericType 
-					getValue( const UInt32 index ) const;
+    virtual StoredGenericType getValue(const UInt32 index);
+                    
+    virtual StoredGenericType getValue(const UInt32 index) const;
 
-	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
-						const UInt32 index );
+    virtual void              getValue(      StoredGenericType &val,
+                                       const UInt32             index);
 
-	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
-						const UInt32 index ) const;
-					
-	virtual void 	setValue(
-						const typename GeoPropertyDesc::GenericType & val,
-						const UInt32 index );
-	
-	virtual void 	addValue(
-						const typename GeoPropertyDesc::GenericType & val );
-	// insert() and erase() should go here
-	// it's just not clear how to handle iterators in a generic way
-	// what about find()? Probably not very useful in this context
-	
-	virtual void 	clear();
-	
-	virtual void	resize(size_t newsize);
-	
-	virtual void 	push_back( 
-					const typename GeoPropertyDesc::GenericType & val );
-	
-	// size clashes with FieldContainer::size()
-	// virtual UInt32	size( void ) const;
+    virtual void              getValue(      StoredGenericType &val,
+                                       const UInt32             index) const;
+                    
+    virtual void              setValue(const StoredGenericType &val,
+                                       const UInt32             index);
+    
+    virtual void              addValue(const StoredGenericType &val);
+
+    // insert() and erase() should go here
+    // it's just not clear how to handle iterators in a generic way
+    // what about find()? Probably not very useful in this context
+    
+    virtual void    clear();
+    
+    virtual void    resize(size_t newsize);
+    
+    virtual void    push_back(const StoredGenericType &val);
+    
+    // size clashes with FieldContainer::size()
+    // virtual UInt32   size( void ) const;
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -425,11 +426,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldDescription   _desc[];
+    static FieldDescription   _desc[];
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -443,7 +444,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 };
 
 //---------------------------------------------------------------------------
@@ -458,7 +459,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 
 struct AttachmentPropertyDesc
 {
-	static const char *getTypeName (void)  { return "Attachment"; }
+    static const char *getTypeName (void)  { return "Attachment"; }
 };
 
 //---------------------------------------------------------------------------
@@ -469,16 +470,16 @@ struct AttachmentPropertyDesc
 
 struct GeoPositionPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoPosition";         }
+    static const Char8 *getTypeName (void) { return "GeoPosition";         }
 
-	static const Char8 *getGroupName(void) { return "GeoPosition";         }
-	static const Char8 *getClassName(void) { return "GeoPositionProperty"; }
+    static const Char8 *getGroupName(void) { return "GeoPosition";         }
+    static const Char8 *getClassName(void) { return "GeoPositionProperty"; }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef Attachment             Inherit;
-	typedef AttachmentPropertyDesc InheritDesc;
-	typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherit;
+    typedef AttachmentPropertyDesc InheritDesc;
+    typedef AttachmentPtr          InheritPtr;
 
     typedef Pnt3f                  GenericType;
 };
@@ -507,17 +508,17 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 struct GeoNormalPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoNormal";         }
-	static const Char8 *getGroupName(void) { return "GeoNormal";         }
-	static const Char8 *getClassName(void) { return "GeoNormalProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoNormal";         }
+    static const Char8 *getGroupName(void) { return "GeoNormal";         }
+    static const Char8 *getClassName(void) { return "GeoNormalProperty"; }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef Attachment             Inherit;
-	typedef AttachmentPropertyDesc InheritDesc;
-	typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherit;
+    typedef AttachmentPropertyDesc InheritDesc;
+    typedef AttachmentPtr          InheritPtr;
 
-	typedef Vec3f                  GenericType;
+    typedef Vec3f                  GenericType;
 };
 
 typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
@@ -545,15 +546,15 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 struct GeoColorPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoColor";         }
-	static const Char8 *getGroupName(void) { return "GeoColor";         }
-	static const Char8 *getClassName(void) { return "GeoColorProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoColor";         }
+    static const Char8 *getGroupName(void) { return "GeoColor";         }
+    static const Char8 *getClassName(void) { return "GeoColorProperty"; }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef Attachment             Inherit;
-	typedef AttachmentPropertyDesc InheritDesc;
-	typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherit;
+    typedef AttachmentPropertyDesc InheritDesc;
+    typedef AttachmentPtr          InheritPtr;
 
     typedef Color3f                GenericType;
 };
@@ -579,17 +580,17 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 struct GeoTexCoordsPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoTexCoords";         }
-	static const Char8 *getGroupName(void) { return "GeoTexCoords";         }
-	static const Char8 *getClassName(void) { return "GeoTexCoordsProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoTexCoords";         }
+    static const Char8 *getGroupName(void) { return "GeoTexCoords";         }
+    static const Char8 *getClassName(void) { return "GeoTexCoordsProperty"; }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef Attachment				Inherit;
-	typedef AttachmentPropertyDesc	InheritDesc;
-	typedef AttachmentPtr			InheritPtr;
+    typedef Attachment              Inherit;
+    typedef AttachmentPropertyDesc  InheritDesc;
+    typedef AttachmentPtr           InheritPtr;
 
-    typedef Vec2f					GenericType;
+    typedef Vec2f                   GenericType;
 };
 
 typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
@@ -616,15 +617,15 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 struct GeoIndexPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoIndex";         }
-	static const Char8 *getGroupName(void) { return "GeoIndex";         }
-	static const Char8 *getClassName(void) { return "GeoIndexProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoIndex";         }
+    static const Char8 *getGroupName(void) { return "GeoIndex";         }
+    static const Char8 *getClassName(void) { return "GeoIndexProperty"; }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	typedef Attachment             Inherit;
-	typedef AttachmentPropertyDesc InheritDesc;
-	typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherit;
+    typedef AttachmentPropertyDesc InheritDesc;
+    typedef AttachmentPtr          InheritPtr;
 
     typedef UInt32                 GenericType;
 };
@@ -662,22 +663,22 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 struct GeoPTypePropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoPType"; }
-	static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
-	static const Char8 *getFieldName(void) { return "Types"; }
-	static const Char8 *getGroupName(void) { return "GeoPType"; }
+    static const Char8 *getTypeName (void) { return "GeoPType"; }
+    static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
+    static const Char8 *getFieldName(void) { return "Types"; }
+    static const Char8 *getGroupName(void) { return "GeoPType"; }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
-	static UInt32 getFormatSize(void) { return sizeof(GLubyte);   }
-	static UInt32 getDimension (void) { return 1;                 }
-	static UInt32 getStride    (void) { return 0;                 }
+    static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
+    static UInt32 getFormatSize(void) { return sizeof(GLubyte);   }
+    static UInt32 getDimension (void) { return 1;                 }
+    static UInt32 getStride    (void) { return 0;                 }
 
-	typedef Attachment             Inherit;
-	typedef AttachmentPtr          InheritPtr;
-	typedef AttachmentPropertyDesc InheritDesc;
-	typedef MFUInt8                FieldType;
+    typedef Attachment             Inherit;
+    typedef AttachmentPtr          InheritPtr;
+    typedef AttachmentPropertyDesc InheritDesc;
+    typedef MFUInt8                FieldType;
 
     typedef UInt8                  GenericType;
 };
@@ -713,22 +714,22 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 struct GeoPLengthPropertyDesc
 {
-	static const Char8 *getTypeName (void) { return "GeoPLength";         }
-	static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
-	static const Char8 *getFieldName(void) { return "Lengths";            }
-	static const Char8 *getGroupName(void) { return "GeoPLength";         }
+    static const Char8 *getTypeName (void) { return "GeoPLength";         }
+    static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
+    static const Char8 *getFieldName(void) { return "Lengths";            }
+    static const Char8 *getGroupName(void) { return "GeoPLength";         }
 
-	static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF getInitMethod(void) { return NULL; }
 
-	static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-	static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
-	static UInt32 getDimension (void) { return 1;               }
-	static UInt32 getStride    (void) { return 0;               }
+    static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
+    static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
+    static UInt32 getDimension (void) { return 1;               }
+    static UInt32 getStride    (void) { return 0;               }
 
-	typedef Attachment             Inherit;
-	typedef AttachmentPtr          InheritPtr;
-	typedef AttachmentPropertyDesc InheritDesc;
-	typedef MFUInt32               FieldType;
+    typedef Attachment             Inherit;
+    typedef AttachmentPtr          InheritPtr;
+    typedef AttachmentPropertyDesc InheritDesc;
+    typedef MFUInt32               FieldType;
 
     typedef UInt32                 GenericType;
 };

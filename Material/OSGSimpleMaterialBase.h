@@ -107,27 +107,22 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    AmbientFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector AmbientFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        AmbientFieldId = Inherited::NextFieldId,
+        DiffuseFieldId = AmbientFieldId + 1,
+        SpecularFieldId = DiffuseFieldId + 1,
+        ShininessFieldId = SpecularFieldId + 1,
+        EmissionFieldId = ShininessFieldId + 1,
+        TransparencyFieldId = EmissionFieldId + 1
+    };
 
-	static const osg::UInt32    DiffuseFieldId   = AmbientFieldId + 1;
-	static const osg::BitVector DiffuseFieldMask = AmbientFieldMask << 1;
-
-	static const osg::UInt32    SpecularFieldId   = DiffuseFieldId + 1;
-	static const osg::BitVector SpecularFieldMask = DiffuseFieldMask << 1;
-
-	static const osg::UInt32    ShininessFieldId   = SpecularFieldId + 1;
-	static const osg::BitVector ShininessFieldMask = SpecularFieldMask << 1;
-
-	static const osg::UInt32    EmissionFieldId   = ShininessFieldId + 1;
-	static const osg::BitVector EmissionFieldMask = ShininessFieldMask << 1;
-
-	static const osg::UInt32    TransparencyFieldId   = EmissionFieldId + 1;
-	static const osg::BitVector TransparencyFieldMask = EmissionFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = TransparencyFieldId + 1;
-	static const osg::BitVector	NextFieldMask = TransparencyFieldMask << 1;
-
+    static const osg::BitVector AmbientFieldMask;
+    static const osg::BitVector DiffuseFieldMask;
+    static const osg::BitVector SpecularFieldMask;
+    static const osg::BitVector ShininessFieldMask;
+    static const osg::BitVector EmissionFieldMask;
+    static const osg::BitVector TransparencyFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -231,22 +226,22 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 
     /*! 
      */
-    SFColor3f	_ambient;
+    SFColor3f	_sfAmbient;
     /*! 
      */
-    SFColor3f	_diffuse;
+    SFColor3f	_sfDiffuse;
     /*! 
      */
-    SFColor3f	_specular;
+    SFColor3f	_sfSpecular;
     /*! 
      */
-    SFReal32	_shininess;
+    SFReal32	_sfShininess;
     /*! 
      */
-    SFColor3f	_emission;
+    SFColor3f	_sfEmission;
     /*! 
      */
-    SFReal32	_transparency;
+    SFReal32	_sfTransparency;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

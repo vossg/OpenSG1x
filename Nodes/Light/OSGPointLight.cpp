@@ -110,13 +110,41 @@ char PointLight::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE PointLight::PLightDrawEnter(CNodePtr &cnode, 
+                                                 Action  *pAction)
+{
+    NodeCore   *pNC = cnode.getCPtr();
+    PointLight *pSC = dynamic_cast<PointLight *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "PLDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->draw(pAction);
+    }
+}
+#endif
+
 void PointLight::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
 	DrawAction::registerEnterDefault( getClassType(), 
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
 								PointLightPtr, 
 								Action *>(&PointLight::draw));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                         PointLight::PLightDrawEnter));
+
+#endif
 }
 
 /***************************************************************************\
@@ -157,16 +185,16 @@ PointLight::~PointLight(void)
 
 void PointLight::setPosition(Real32 rX, Real32 rY, Real32 rZ)
 {
-    _position.getValue().setValues(rX, rY, rZ);
+    _sfPosition.getValue().setValues(rX, rY, rZ);
 }
 
 void PointLight::setAttenuation(Real32 rConstant, 
                                 Real32 rLinear, 
                                 Real32 rQuadratic)
 {
-    _constantAttenuation.setValue(rConstant);
-    _linearAttenuation.setValue(rLinear);
-    _quadraticAttenuation.setValue(rQuadratic);
+    _sfConstantAttenuation.setValue(rConstant);
+    _sfLinearAttenuation.setValue(rLinear);
+    _sfQuadraticAttenuation.setValue(rQuadratic);
 }
 
 /** \brief react to field changes
@@ -205,10 +233,10 @@ Action::ResultE PointLight::draw(Action * action )
 {
 	LightBase::draw( action );
 
-	Vec4f pos( _position.getValue() );
+	Vec4f pos( _sfPosition.getValue() );
 
 	pos[3] = 1;
-	glLightfv( GL_LIGHT0, GL_POSITION, pos.getValues() );
+	glLightfv( GL_LIGHT0, GL_POSITION, pos.getValuesRef() );
 	glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 180 );
 
 	glPopMatrix();

@@ -109,7 +109,7 @@ inline PointLightPtr PointLightBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<PointLightPtr>(
+        fc = PointLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,85 +132,101 @@ inline PointLightPtr PointLightBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFPnt3f *PointLightBase::getSFPosition(void)
 {
-	return &_position;
+	return &_sfPosition;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PointLightBase::getSFConstantAttenuation(void)
 {
-	return &_constantAttenuation;
+	return &_sfConstantAttenuation;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PointLightBase::getSFLinearAttenuation(void)
 {
-	return &_linearAttenuation;
+	return &_sfLinearAttenuation;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PointLightBase::getSFQuadraticAttenuation(void)
 {
-	return &_quadraticAttenuation;
+	return &_sfQuadraticAttenuation;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Pnt3f &PointLightBase::getPosition(void)
 {
-	return _position.getValue();
+	return _sfPosition.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Pnt3f &PointLightBase::getPosition(void) const
 {
-	return _position.getValue();
+	return _sfPosition.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PointLightBase::setPosition( Pnt3f value )
 {
-	_position.setValue(value);
+	_sfPosition.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PointLightBase::getConstantAttenuation(void)
 {
-	return _constantAttenuation.getValue();
+	return _sfConstantAttenuation.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PointLightBase::getConstantAttenuation(void) const
 {
-	return _constantAttenuation.getValue();
+	return _sfConstantAttenuation.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PointLightBase::setConstantAttenuation( Real32 value )
 {
-	_constantAttenuation.setValue(value);
+	_sfConstantAttenuation.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PointLightBase::getLinearAttenuation(void)
 {
-	return _linearAttenuation.getValue();
+	return _sfLinearAttenuation.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PointLightBase::getLinearAttenuation(void) const
 {
-	return _linearAttenuation.getValue();
+	return _sfLinearAttenuation.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PointLightBase::setLinearAttenuation( Real32 value )
 {
-	_linearAttenuation.setValue(value);
+	_sfLinearAttenuation.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PointLightBase::getQuadraticAttenuation(void)
 {
-	return _quadraticAttenuation.getValue();
+	return _sfQuadraticAttenuation.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PointLightBase::getQuadraticAttenuation(void) const
 {
-	return _quadraticAttenuation.getValue();
+	return _sfQuadraticAttenuation.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PointLightBase::setQuadraticAttenuation( Real32 value )
 {
-	_quadraticAttenuation.setValue(value);
+	_sfQuadraticAttenuation.setValue(value);
 }
 
 

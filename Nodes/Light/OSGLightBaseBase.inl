@@ -110,85 +110,101 @@ inline OSG::UInt32 LightBaseBase::getClassTypeId(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *LightBaseBase::getSFAmbient(void)
 {
-	return &_ambient;
+	return &_sfAmbient;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *LightBaseBase::getSFDiffuse(void)
 {
-	return &_diffuse;
+	return &_sfDiffuse;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *LightBaseBase::getSFSpecular(void)
 {
-	return &_specular;
+	return &_sfSpecular;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFNodePtr *LightBaseBase::getSFBeacon(void)
 {
-	return &_beacon;
+	return &_sfBeacon;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color4f &LightBaseBase::getAmbient(void)
 {
-	return _ambient.getValue();
+	return _sfAmbient.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &LightBaseBase::getAmbient(void) const
 {
-	return _ambient.getValue();
+	return _sfAmbient.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void LightBaseBase::setAmbient( Color4f value )
 {
-	_ambient.setValue(value);
+	_sfAmbient.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color4f &LightBaseBase::getDiffuse(void)
 {
-	return _diffuse.getValue();
+	return _sfDiffuse.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &LightBaseBase::getDiffuse(void) const
 {
-	return _diffuse.getValue();
+	return _sfDiffuse.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void LightBaseBase::setDiffuse( Color4f value )
 {
-	_diffuse.setValue(value);
+	_sfDiffuse.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color4f &LightBaseBase::getSpecular(void)
 {
-	return _specular.getValue();
+	return _sfSpecular.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &LightBaseBase::getSpecular(void) const
 {
-	return _specular.getValue();
+	return _sfSpecular.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void LightBaseBase::setSpecular( Color4f value )
 {
-	_specular.setValue(value);
+	_sfSpecular.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 NodePtr &LightBaseBase::getBeacon(void)
 {
-	return _beacon.getValue();
+	return _sfBeacon.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const NodePtr &LightBaseBase::getBeacon(void) const
 {
-	return _beacon.getValue();
+	return _sfBeacon.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void LightBaseBase::setBeacon( NodePtr value )
 {
-	_beacon.setValue(value);
+	_sfBeacon.setValue(value);
 }
 
 

@@ -104,8 +104,79 @@ char Transform::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE Transform::TransformDrawEnter(CNodePtr &cnode, 
+                                                   Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    Transform *pSC = dynamic_cast<Transform *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "TRDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE Transform::TransformDrawLeave(CNodePtr &cnode, 
+                                                   Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    Transform *pSC = dynamic_cast<Transform *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "TRDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
+    }
+}
+
+OSG::Action::ResultE Transform::TransformIntEnter(CNodePtr &cnode, 
+                                                  Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    Transform *pSC = dynamic_cast<Transform *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "TRIE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->intersectEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE Transform::TransformIntLeave(CNodePtr &cnode, 
+                                                  Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    Transform *pSC = dynamic_cast<Transform *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "TRIL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->intersectLeave(pAction);
+    }
+}
+#endif
+
 void Transform::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
@@ -127,6 +198,23 @@ void Transform::initMethod (void)
                                 CNodePtr,  
                                 TransformPtr, 
                                 Action *>(&Transform::intersectLeave));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Transform::TransformDrawEnter));
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Transform::TransformDrawLeave));
+
+    IntersectAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Transform::TransformIntEnter));
+    IntersectAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Transform::TransformIntLeave));
+#endif
 }
 
 /***************************************************************************\
@@ -185,7 +273,7 @@ void Transform::accumulateMatrix( Matrix & result )
 
 void Transform::adjustVolume( Volume & volume )
 {
-    volume.transform( _matrix.getValue() );
+    volume.transform( _sfMatrix.getValue() );
 }
 
 /*------------------------------- dump ----------------------------------*/

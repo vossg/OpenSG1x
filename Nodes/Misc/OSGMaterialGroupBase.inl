@@ -109,7 +109,7 @@ inline MaterialGroupPtr MaterialGroupBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<MaterialGroupPtr>(
+        fc = MaterialGroupPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,25 +132,29 @@ inline MaterialGroupPtr MaterialGroupBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
 {
-	return &_material;
+	return &_sfMaterial;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 MaterialPtr &MaterialGroupBase::getMaterial(void)
 {
-	return _material.getValue();
+	return _sfMaterial.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 {
-	return _material.getValue();
+	return _sfMaterial.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void MaterialGroupBase::setMaterial( MaterialPtr value )
 {
-	_material.setValue(value);
+	_sfMaterial.setValue(value);
 }
 
 

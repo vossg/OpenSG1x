@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    ColorFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector ColorFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        ColorFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = ColorFieldId + 1;
-	static const osg::BitVector	NextFieldMask = ColorFieldMask << 1;
-
+    static const osg::BitVector ColorFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -191,7 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
     /*! The background color.
      */
-    SFColor3f	_color;
+    SFColor3f	_sfColor;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

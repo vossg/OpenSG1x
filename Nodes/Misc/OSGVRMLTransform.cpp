@@ -99,8 +99,45 @@ char VRMLTransform::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE VRMLTransform::VRMLTransformDrawEnter(CNodePtr &cnode, 
+                                                           Action  *pAction)
+{
+    NodeCore     *pNC = cnode.getCPtr();
+    VRMLTransform *pTr = dynamic_cast<VRMLTransform *>(pNC);
+
+    if(pTr == NULL)
+    {
+        fprintf(stderr, "VTRDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pTr->drawEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE VRMLTransform::VRMLTransformDrawLeave(CNodePtr &cnode, 
+                                                           Action  *pAction)
+{
+    NodeCore     *pNC = cnode.getCPtr();
+    VRMLTransform *pTr = dynamic_cast<VRMLTransform *>(pNC);
+
+    if(pTr == NULL)
+    {
+        fprintf(stderr, "VTRDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pTr->drawLeave(pAction);
+    }
+}
+#endif
+
 void VRMLTransform::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
@@ -111,6 +148,16 @@ void VRMLTransform::initMethod (void)
                                 CNodePtr,  
                                 VRMLTransformPtr, 
                                 Action *>(&VRMLTransform::drawLeave));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        VRMLTransform::VRMLTransformDrawEnter));
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        VRMLTransform::VRMLTransformDrawLeave));
+#endif
 }
 
 /***************************************************************************\
@@ -130,7 +177,7 @@ void VRMLTransform::initMethod (void)
 VRMLTransform::VRMLTransform(void) :
     Inherited()
 {
-    _scale.getValue().setValues(1.f, 1.f, 1.f);         
+    _sfScale.getValue().setValues(1.f, 1.f, 1.f);         
 }
 
 /** \brief Copy Constructor

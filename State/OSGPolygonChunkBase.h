@@ -112,42 +112,32 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    CullFaceFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector CullFaceFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        CullFaceFieldId = Inherited::NextFieldId,
+        FrontFaceFieldId = CullFaceFieldId + 1,
+        ModeFaceFieldId = FrontFaceFieldId + 1,
+        ModeFieldId = ModeFaceFieldId + 1,
+        SmoothFieldId = ModeFieldId + 1,
+        OffsetFactorFieldId = SmoothFieldId + 1,
+        OffsetBiasFieldId = OffsetFactorFieldId + 1,
+        OffsetPointFieldId = OffsetBiasFieldId + 1,
+        OffsetLineFieldId = OffsetPointFieldId + 1,
+        OffsetFillFieldId = OffsetLineFieldId + 1,
+        StippleFieldId = OffsetFillFieldId + 1
+    };
 
-	static const osg::UInt32    FrontFaceFieldId   = CullFaceFieldId + 1;
-	static const osg::BitVector FrontFaceFieldMask = CullFaceFieldMask << 1;
-
-	static const osg::UInt32    ModeFaceFieldId   = FrontFaceFieldId + 1;
-	static const osg::BitVector ModeFaceFieldMask = FrontFaceFieldMask << 1;
-
-	static const osg::UInt32    ModeFieldId   = ModeFaceFieldId + 1;
-	static const osg::BitVector ModeFieldMask = ModeFaceFieldMask << 1;
-
-	static const osg::UInt32    SmoothFieldId   = ModeFieldId + 1;
-	static const osg::BitVector SmoothFieldMask = ModeFieldMask << 1;
-
-	static const osg::UInt32    OffsetFactorFieldId   = SmoothFieldId + 1;
-	static const osg::BitVector OffsetFactorFieldMask = SmoothFieldMask << 1;
-
-	static const osg::UInt32    OffsetBiasFieldId   = OffsetFactorFieldId + 1;
-	static const osg::BitVector OffsetBiasFieldMask = OffsetFactorFieldMask << 1;
-
-	static const osg::UInt32    OffsetPointFieldId   = OffsetBiasFieldId + 1;
-	static const osg::BitVector OffsetPointFieldMask = OffsetBiasFieldMask << 1;
-
-	static const osg::UInt32    OffsetLineFieldId   = OffsetPointFieldId + 1;
-	static const osg::BitVector OffsetLineFieldMask = OffsetPointFieldMask << 1;
-
-	static const osg::UInt32    OffsetFillFieldId   = OffsetLineFieldId + 1;
-	static const osg::BitVector OffsetFillFieldMask = OffsetLineFieldMask << 1;
-
-	static const osg::UInt32    StippleFieldId   = OffsetFillFieldId + 1;
-	static const osg::BitVector StippleFieldMask = OffsetFillFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = StippleFieldId + 1;
-	static const osg::BitVector	NextFieldMask = StippleFieldMask << 1;
-
+    static const osg::BitVector CullFaceFieldMask;
+    static const osg::BitVector FrontFaceFieldMask;
+    static const osg::BitVector ModeFaceFieldMask;
+    static const osg::BitVector ModeFieldMask;
+    static const osg::BitVector SmoothFieldMask;
+    static const osg::BitVector OffsetFactorFieldMask;
+    static const osg::BitVector OffsetBiasFieldMask;
+    static const osg::BitVector OffsetPointFieldMask;
+    static const osg::BitVector OffsetLineFieldMask;
+    static const osg::BitVector OffsetFillFieldMask;
+    static const osg::BitVector StippleFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -271,37 +261,37 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
     /*! Defines which side of the polygon is invisible.
      */
-    SFInt32	_cullFace;
+    SFInt32	_sfCullFace;
     /*! Defines which side of the polygon is considered the front side.
      */
-    SFInt32	_frontFace;
+    SFInt32	_sfFrontFace;
     /*! 
      */
-    SFInt32	_modeFace;
+    SFInt32	_sfModeFace;
     /*! Defines if polygons are rendered filled, outlined or as points.
      */
-    SFInt32	_mode;
+    SFInt32	_sfMode;
     /*! Defines if gouraud or flat shading is used.
      */
-    SFBool	_smooth;
+    SFBool	_sfSmooth;
     /*! Defines the polygon offset factor.
      */
-    SFReal32	_offsetFactor;
+    SFReal32	_sfOffsetFactor;
     /*! Defines the polygon offset bias.
      */
-    SFReal32	_offsetBias;
+    SFReal32	_sfOffsetBias;
     /*! 
      */
-    SFBool	_offsetPoint;
+    SFBool	_sfOffsetPoint;
     /*! 
      */
-    SFBool	_offsetLine;
+    SFBool	_sfOffsetLine;
     /*! 
      */
-    SFBool	_offsetFill;
+    SFBool	_sfOffsetFill;
     /*! Defines the stipple pattern. Is only valid and used if it contains 32 elements.
      */
-    MFInt32	_stipple;
+    MFInt32	_mfStipple;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

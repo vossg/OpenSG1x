@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILECHUNKMATERIALINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILECHUNKMATERIALINST
 
 #include "OSGChunkMaterialBase.h"
 #include "OSGChunkMaterial.h"
@@ -78,15 +78,12 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		ChunkMaterialBase::ChunksFieldId;
-const OSG::BitVector	ChunkMaterialBase::ChunksFieldMask;
+const OSG::BitVector	ChunkMaterialBase::ChunksFieldMask = 
+    (1 << ChunkMaterialBase::ChunksFieldId);
 
 
-const OSG::UInt32    	ChunkMaterialBase::NextFieldId; 
-const OSG::BitVector 	ChunkMaterialBase::NextFieldMask;
 
-
-char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -94,7 +91,7 @@ char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.4 2001/
 FieldDescription ChunkMaterialBase::_desc[] = 
 {
     FieldDescription(MFStateChunkPtr::getClassType(), 
-                     "chunks", 
+                     "mfChunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,
                      (FieldAccessMethod) &ChunkMaterialBase::getMFChunks)
@@ -176,7 +173,7 @@ void ChunkMaterialBase::executeSync(FieldContainer &other,
  */
 
 ChunkMaterialBase::ChunkMaterialBase(void) :
-	_chunks	(), 
+	_mfChunks	(), 
 	Inherited() 
 {
 }
@@ -185,7 +182,7 @@ ChunkMaterialBase::ChunkMaterialBase(void) :
  */
 
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
-	_chunks		(source._chunks), 
+	_mfChunks		(source._mfChunks), 
 	Inherited        (source)
 {
 }
@@ -214,7 +211,7 @@ void ChunkMaterialBase::executeSyncImpl(ChunkMaterialBase *pOther,
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
     {
-        _chunks.syncWith(pOther->_chunks);
+        _mfChunks.syncWith(pOther->_mfChunks);
     }
 
 

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILELIGHTBASEINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILELIGHTBASEINST
 
 #include "OSGLightBaseBase.h"
 #include "OSGLightBase.h"
@@ -78,24 +78,21 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		LightBaseBase::AmbientFieldId;
-const OSG::BitVector	LightBaseBase::AmbientFieldMask;
+const OSG::BitVector	LightBaseBase::AmbientFieldMask = 
+    (1 << LightBaseBase::AmbientFieldId);
 
-const OSG::UInt32		LightBaseBase::DiffuseFieldId;
-const OSG::BitVector	LightBaseBase::DiffuseFieldMask;
+const OSG::BitVector	LightBaseBase::DiffuseFieldMask = 
+    (1 << LightBaseBase::DiffuseFieldId);
 
-const OSG::UInt32		LightBaseBase::SpecularFieldId;
-const OSG::BitVector	LightBaseBase::SpecularFieldMask;
+const OSG::BitVector	LightBaseBase::SpecularFieldMask = 
+    (1 << LightBaseBase::SpecularFieldId);
 
-const OSG::UInt32		LightBaseBase::BeaconFieldId;
-const OSG::BitVector	LightBaseBase::BeaconFieldMask;
-
-
-const OSG::UInt32    	LightBaseBase::NextFieldId; 
-const OSG::BitVector 	LightBaseBase::NextFieldMask;
+const OSG::BitVector	LightBaseBase::BeaconFieldMask = 
+    (1 << LightBaseBase::BeaconFieldId);
 
 
-char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -103,22 +100,22 @@ char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.4 2001/06/10 12
 FieldDescription LightBaseBase::_desc[] = 
 {
     FieldDescription(SFColor4f::getClassType(), 
-                     "ambient", 
+                     "sfAmbient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFAmbient),
     FieldDescription(SFColor4f::getClassType(), 
-                     "diffuse", 
+                     "sfDiffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFDiffuse),
     FieldDescription(SFColor4f::getClassType(), 
-                     "specular", 
+                     "sfSpecular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFSpecular),
     FieldDescription(SFNodePtr::getClassType(), 
-                     "beacon", 
+                     "sfBeacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFBeacon)
@@ -191,10 +188,10 @@ void LightBaseBase::executeSync(FieldContainer &other,
  */
 
 LightBaseBase::LightBaseBase(void) :
-	_ambient	(), 
-	_diffuse	(), 
-	_specular	(), 
-	_beacon	(), 
+	_sfAmbient	(), 
+	_sfDiffuse	(), 
+	_sfSpecular	(), 
+	_sfBeacon	(), 
 	Inherited() 
 {
 }
@@ -203,10 +200,10 @@ LightBaseBase::LightBaseBase(void) :
  */
 
 LightBaseBase::LightBaseBase(const LightBaseBase &source) :
-	_ambient		(source._ambient), 
-	_diffuse		(source._diffuse), 
-	_specular		(source._specular), 
-	_beacon		(source._beacon), 
+	_sfAmbient		(source._sfAmbient), 
+	_sfDiffuse		(source._sfDiffuse), 
+	_sfSpecular		(source._sfSpecular), 
+	_sfBeacon		(source._sfBeacon), 
 	Inherited        (source)
 {
 }
@@ -235,22 +232,22 @@ void LightBaseBase::executeSyncImpl(LightBaseBase *pOther,
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
     {
-        _ambient.syncWith(pOther->_ambient);
+        _sfAmbient.syncWith(pOther->_sfAmbient);
     }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
     {
-        _diffuse.syncWith(pOther->_diffuse);
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
     }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
     {
-        _specular.syncWith(pOther->_specular);
+        _sfSpecular.syncWith(pOther->_sfSpecular);
     }
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
     {
-        _beacon.syncWith(pOther->_beacon);
+        _sfBeacon.syncWith(pOther->_sfBeacon);
     }
 
 

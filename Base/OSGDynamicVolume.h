@@ -68,18 +68,18 @@ OSG_BEGIN_NAMESPACE
 */
 
 class OSG_BASE_DLLMAPPING DynamicVolume : public Volume {
-		
+        
 public:
 
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-	enum Type { BOX_VOLUME, SPHERE_VOLUME };    
+    enum Type { BOX_VOLUME, SPHERE_VOLUME };    
 
 private:
 
-	//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
@@ -91,9 +91,9 @@ private:
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	Type _type;
+    Type _type;
 
-	UChar8 _volumeMem [32];
+    UChar8 _volumeMem [32];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -103,7 +103,7 @@ private:
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-  	//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
@@ -130,7 +130,7 @@ protected:
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
@@ -168,26 +168,26 @@ public:
 
 /*------------------------------ feature ----------------------------------*/
 
-	/** */
-	const Volume & getInstance (void) const
-		// { return *((OSG::Volume*)(_volumeMem)); }
-		{ return *(reinterpret_cast<const OSG::Volume*>(_volumeMem)); }
+    /** */
+    const Volume & getInstance (void) const
+        // { return *((OSG::Volume*)(_volumeMem)); }
+        { return *(reinterpret_cast<const OSG::Volume*>(_volumeMem)); }
 
-	Volume & getInstance (void)
-		// { return *((OSG::Volume*)(_volumeMem)); }
-		{ return *(reinterpret_cast<OSG::Volume*>(_volumeMem)); }
+    Volume & getInstance (void)
+        // { return *((OSG::Volume*)(_volumeMem)); }
+        { return *(reinterpret_cast<OSG::Volume*>(_volumeMem)); }
 
-	/** */
-	Type getType (void) const { return _type; }
+    /** */
+    Type getType (void) const { return _type; }
 
-	/** */
-	void setVolumeType (Type type);
+    /** */
+    void setVolumeType (Type type);
 
-	/** */
-	void morphToType (Type type);
+    /** */
+    void morphToType (Type type);
 
-	/** */
-	DynamicVolume & operator = (const DynamicVolume &source);
+    /** */
+    DynamicVolume & operator = (const DynamicVolume &source);
 
 
 /*------------------------- get values -------------------------------*/
@@ -215,12 +215,12 @@ public:
   /** Returns true if intersection of given point and Volume is not empty */
   virtual Bool intersect (const Pnt3f &point) const ;
 
-	/** intersect the volume with the given Line */
-	virtual Bool intersect (const Line &line ) const ;
+    /** intersect the volume with the given Line */
+    virtual Bool intersect (const Line &line ) const ;
 
-	/** intersect the volume with the given Line */
-	virtual Bool intersect ( const Line &line, 
-													 Real32 &enter, Real32 &exit  ) const ;
+    /** intersect the volume with the given Line */
+    virtual Bool intersect ( const Line &line, 
+                                                     Real32 &enter, Real32 &exit  ) const ;
 
   /** intersect the volume with another volume */
   virtual Bool intersect (const Volume &volume) const ;
@@ -231,24 +231,25 @@ public:
 /*-------------------------- transformation -------------------------------*/
 
 
-	/** transform the volume bye the given matrix*/
+    /** transform the volume bye the given matrix*/
   virtual void transform (const Matrix &matrix);
 
 
 /*-------------------------- output -------------------------------*/
 
-	/** print the volume */
-  virtual void dump(	UInt32				uiIndent = 0, 
-						const BitVector &	bvFlags = 0) const;
+    /** print the volume */
+  virtual void dump(    UInt32              uiIndent = 0, 
+                        const BitVector &   bvFlags = 0) const;
 
-	//-----------------------------------------------------------------------
-	//   instance variables                                                  
-	//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------
-	//   instance functions                                                  
-	//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
 
+    Bool operator ==(const DynamicVolume &other) const { return false; }
 };
 
 OSG_BASE_DLLMAPPING

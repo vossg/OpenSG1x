@@ -95,7 +95,7 @@ inline void Window::setSize( UInt16 width, UInt16 height )
 
 inline Bool Window::isResizePending ( void )
 {
-	return _resizePending.getValue();
+	return _sfResizePending.getValue();
 }
 
 /** GL extension stuff **/

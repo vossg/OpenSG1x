@@ -105,21 +105,18 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    PositionFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector PositionFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        PositionFieldId = Inherited::NextFieldId,
+        ConstantAttenuationFieldId = PositionFieldId + 1,
+        LinearAttenuationFieldId = ConstantAttenuationFieldId + 1,
+        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1
+    };
 
-	static const osg::UInt32    ConstantAttenuationFieldId   = PositionFieldId + 1;
-	static const osg::BitVector ConstantAttenuationFieldMask = PositionFieldMask << 1;
-
-	static const osg::UInt32    LinearAttenuationFieldId   = ConstantAttenuationFieldId + 1;
-	static const osg::BitVector LinearAttenuationFieldMask = ConstantAttenuationFieldMask << 1;
-
-	static const osg::UInt32    QuadraticAttenuationFieldId   = LinearAttenuationFieldId + 1;
-	static const osg::BitVector QuadraticAttenuationFieldMask = LinearAttenuationFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = QuadraticAttenuationFieldId + 1;
-	static const osg::BitVector	NextFieldMask = QuadraticAttenuationFieldMask << 1;
-
+    static const osg::BitVector PositionFieldMask;
+    static const osg::BitVector ConstantAttenuationFieldMask;
+    static const osg::BitVector LinearAttenuationFieldMask;
+    static const osg::BitVector QuadraticAttenuationFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -215,16 +212,16 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 
     /*! 
      */
-    SFPnt3f	_position;
+    SFPnt3f	_sfPosition;
     /*! 
      */
-    SFReal32	_constantAttenuation;
+    SFReal32	_sfConstantAttenuation;
     /*! 
      */
-    SFReal32	_linearAttenuation;
+    SFReal32	_sfLinearAttenuation;
     /*! 
      */
-    SFReal32	_quadraticAttenuation;
+    SFReal32	_sfQuadraticAttenuation;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

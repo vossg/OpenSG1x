@@ -104,18 +104,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    DirectionFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector DirectionFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        DirectionFieldId = Inherited::NextFieldId,
+        SpotExponentFieldId = DirectionFieldId + 1,
+        SpotCutOffFieldId = SpotExponentFieldId + 1
+    };
 
-	static const osg::UInt32    SpotExponentFieldId   = DirectionFieldId + 1;
-	static const osg::BitVector SpotExponentFieldMask = DirectionFieldMask << 1;
-
-	static const osg::UInt32    SpotCutOffFieldId   = SpotExponentFieldId + 1;
-	static const osg::BitVector SpotCutOffFieldMask = SpotExponentFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = SpotCutOffFieldId + 1;
-	static const osg::BitVector	NextFieldMask = SpotCutOffFieldMask << 1;
-
+    static const osg::BitVector DirectionFieldMask;
+    static const osg::BitVector SpotExponentFieldMask;
+    static const osg::BitVector SpotCutOffFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -207,13 +205,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     /*! 
      */
-    SFVec3f	_direction;
+    SFVec3f	_sfDirection;
     /*! 
      */
-    SFReal32	_spotExponent;
+    SFReal32	_sfSpotExponent;
     /*! 
      */
-    SFReal32	_spotCutOff;
+    SFReal32	_sfSpotCutOff;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

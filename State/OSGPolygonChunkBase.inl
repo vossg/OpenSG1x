@@ -109,7 +109,7 @@ inline PolygonChunkPtr PolygonChunkBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<PolygonChunkPtr>(
+        fc = PolygonChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,216 +132,258 @@ inline PolygonChunkPtr PolygonChunkBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFInt32 *PolygonChunkBase::getSFCullFace(void)
 {
-	return &_cullFace;
+	return &_sfCullFace;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFInt32 *PolygonChunkBase::getSFFrontFace(void)
 {
-	return &_frontFace;
+	return &_sfFrontFace;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFInt32 *PolygonChunkBase::getSFModeFace(void)
 {
-	return &_modeFace;
+	return &_sfModeFace;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFInt32 *PolygonChunkBase::getSFMode(void)
 {
-	return &_mode;
+	return &_sfMode;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *PolygonChunkBase::getSFSmooth(void)
 {
-	return &_smooth;
+	return &_sfSmooth;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PolygonChunkBase::getSFOffsetFactor(void)
 {
-	return &_offsetFactor;
+	return &_sfOffsetFactor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PolygonChunkBase::getSFOffsetBias(void)
 {
-	return &_offsetBias;
+	return &_sfOffsetBias;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *PolygonChunkBase::getSFOffsetPoint(void)
 {
-	return &_offsetPoint;
+	return &_sfOffsetPoint;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *PolygonChunkBase::getSFOffsetLine(void)
 {
-	return &_offsetLine;
+	return &_sfOffsetLine;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *PolygonChunkBase::getSFOffsetFill(void)
 {
-	return &_offsetFill;
+	return &_sfOffsetFill;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFInt32 *PolygonChunkBase::getMFStipple(void)
 {
-	return &_stipple;
+	return &_mfStipple;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 &PolygonChunkBase::getCullFace(void)
 {
-	return _cullFace.getValue();
+	return _sfCullFace.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Int32 &PolygonChunkBase::getCullFace(void) const
 {
-	return _cullFace.getValue();
+	return _sfCullFace.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setCullFace( Int32 value )
 {
-	_cullFace.setValue(value);
+	_sfCullFace.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 &PolygonChunkBase::getFrontFace(void)
 {
-	return _frontFace.getValue();
+	return _sfFrontFace.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Int32 &PolygonChunkBase::getFrontFace(void) const
 {
-	return _frontFace.getValue();
+	return _sfFrontFace.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setFrontFace( Int32 value )
 {
-	_frontFace.setValue(value);
+	_sfFrontFace.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 &PolygonChunkBase::getModeFace(void)
 {
-	return _modeFace.getValue();
+	return _sfModeFace.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Int32 &PolygonChunkBase::getModeFace(void) const
 {
-	return _modeFace.getValue();
+	return _sfModeFace.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setModeFace( Int32 value )
 {
-	_modeFace.setValue(value);
+	_sfModeFace.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 &PolygonChunkBase::getMode(void)
 {
-	return _mode.getValue();
+	return _sfMode.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Int32 &PolygonChunkBase::getMode(void) const
 {
-	return _mode.getValue();
+	return _sfMode.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setMode( Int32 value )
 {
-	_mode.setValue(value);
+	_sfMode.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &PolygonChunkBase::getSmooth(void)
 {
-	return _smooth.getValue();
+	return _sfSmooth.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &PolygonChunkBase::getSmooth(void) const
 {
-	return _smooth.getValue();
+	return _sfSmooth.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setSmooth( Bool value )
 {
-	_smooth.setValue(value);
+	_sfSmooth.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PolygonChunkBase::getOffsetFactor(void)
 {
-	return _offsetFactor.getValue();
+	return _sfOffsetFactor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PolygonChunkBase::getOffsetFactor(void) const
 {
-	return _offsetFactor.getValue();
+	return _sfOffsetFactor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setOffsetFactor( Real32 value )
 {
-	_offsetFactor.setValue(value);
+	_sfOffsetFactor.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PolygonChunkBase::getOffsetBias(void)
 {
-	return _offsetBias.getValue();
+	return _sfOffsetBias.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PolygonChunkBase::getOffsetBias(void) const
 {
-	return _offsetBias.getValue();
+	return _sfOffsetBias.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setOffsetBias( Real32 value )
 {
-	_offsetBias.setValue(value);
+	_sfOffsetBias.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &PolygonChunkBase::getOffsetPoint(void)
 {
-	return _offsetPoint.getValue();
+	return _sfOffsetPoint.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &PolygonChunkBase::getOffsetPoint(void) const
 {
-	return _offsetPoint.getValue();
+	return _sfOffsetPoint.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setOffsetPoint( Bool value )
 {
-	_offsetPoint.setValue(value);
+	_sfOffsetPoint.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &PolygonChunkBase::getOffsetLine(void)
 {
-	return _offsetLine.getValue();
+	return _sfOffsetLine.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &PolygonChunkBase::getOffsetLine(void) const
 {
-	return _offsetLine.getValue();
+	return _sfOffsetLine.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setOffsetLine( Bool value )
 {
-	_offsetLine.setValue(value);
+	_sfOffsetLine.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &PolygonChunkBase::getOffsetFill(void)
 {
-	return _offsetFill.getValue();
+	return _sfOffsetFill.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &PolygonChunkBase::getOffsetFill(void) const
 {
-	return _offsetFill.getValue();
+	return _sfOffsetFill.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PolygonChunkBase::setOffsetFill( Bool value )
 {
-	_offsetFill.setValue(value);
+	_sfOffsetFill.setValue(value);
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 &PolygonChunkBase::getStipple( UInt32 index)
 {
-	return _stipple.getValue( index );
+	return _mfStipple.getValue( index );
 }
 
 

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILESOLIDBACKGROUNDINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILESOLIDBACKGROUNDINST
 
 #include "OSGSolidBackgroundBase.h"
 #include "OSGSolidBackground.h"
@@ -91,15 +91,12 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		SolidBackgroundBase::ColorFieldId;
-const OSG::BitVector	SolidBackgroundBase::ColorFieldMask;
+const OSG::BitVector	SolidBackgroundBase::ColorFieldMask = 
+    (1 << SolidBackgroundBase::ColorFieldId);
 
 
-const OSG::UInt32    	SolidBackgroundBase::NextFieldId; 
-const OSG::BitVector 	SolidBackgroundBase::NextFieldMask;
 
-
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -107,7 +104,7 @@ char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.5 2
 FieldDescription SolidBackgroundBase::_desc[] = 
 {
     FieldDescription(SFColor3f::getClassType(), 
-                     "color", 
+                     "sfColor", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &SolidBackgroundBase::getSFColor)
@@ -189,7 +186,7 @@ void SolidBackgroundBase::executeSync(FieldContainer &other,
  */
 
 SolidBackgroundBase::SolidBackgroundBase(void) :
-	_color	(), 
+	_sfColor	(), 
 	Inherited() 
 {
 }
@@ -198,7 +195,7 @@ SolidBackgroundBase::SolidBackgroundBase(void) :
  */
 
 SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
-	_color		(source._color), 
+	_sfColor		(source._sfColor), 
 	Inherited        (source)
 {
 }
@@ -227,7 +224,7 @@ void SolidBackgroundBase::executeSyncImpl(SolidBackgroundBase *pOther,
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
-        _color.syncWith(pOther->_color);
+        _sfColor.syncWith(pOther->_sfColor);
     }
 
 

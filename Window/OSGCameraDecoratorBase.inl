@@ -110,25 +110,29 @@ inline OSG::UInt32 CameraDecoratorBase::getClassTypeId(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFCameraPtr *CameraDecoratorBase::getSFCamera(void)
 {
-	return &_camera;
+	return &_sfCamera;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 CameraPtr &CameraDecoratorBase::getCamera(void)
 {
-	return _camera.getValue();
+	return _sfCamera.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const CameraPtr &CameraDecoratorBase::getCamera(void) const
 {
-	return _camera.getValue();
+	return _sfCamera.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void CameraDecoratorBase::setCamera( CameraPtr value )
 {
-	_camera.setValue(value);
+	_sfCamera.setValue(value);
 }
 
 

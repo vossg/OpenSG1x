@@ -104,18 +104,16 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    BeaconFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector BeaconFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        BeaconFieldId = Inherited::NextFieldId,
+        NearFieldId = BeaconFieldId + 1,
+        FarFieldId = NearFieldId + 1
+    };
 
-	static const osg::UInt32    NearFieldId   = BeaconFieldId + 1;
-	static const osg::BitVector NearFieldMask = BeaconFieldMask << 1;
-
-	static const osg::UInt32    FarFieldId   = NearFieldId + 1;
-	static const osg::BitVector FarFieldMask = NearFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = FarFieldId + 1;
-	static const osg::BitVector	NextFieldMask = FarFieldMask << 1;
-
+    static const osg::BitVector BeaconFieldMask;
+    static const osg::BitVector NearFieldMask;
+    static const osg::BitVector FarFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -203,13 +201,13 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public FieldContainer
 
     /*! The object that define's the camera's coordinate system. The camera is positioned 	at the origin of the system and looks doen the negative z-axis (OpenGL-style).
      */
-    SFNodePtr	_beacon;
+    SFNodePtr	_sfBeacon;
     /*! The near distance of the camera.
      */
-    SFReal32	_near;
+    SFReal32	_sfNear;
     /*! The far distance of the camera.
      */
-    SFReal32	_far;
+    SFReal32	_sfFar;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

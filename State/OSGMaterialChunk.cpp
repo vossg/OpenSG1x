@@ -168,14 +168,14 @@ void MaterialChunk::dump(      UInt32     uiIndent,
 void MaterialChunk::activate ( DrawAction *, UInt32 )
 {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
-										_diffuse.getValue().getValueRef() );
+										_sfDiffuse.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
-										_ambient.getValue().getValueRef() );
+										_sfAmbient.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
-										_specular.getValue().getValueRef() );
+										_sfSpecular.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
-										_emission.getValue().getValueRef() );
-	glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
+										_sfEmission.getValue().getValueRef() );
+	glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
 }
 
 void MaterialChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
@@ -188,16 +188,16 @@ void MaterialChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
 		return;
 
 	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
-										_diffuse.getValue().getValueRef() );
+										_sfDiffuse.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
-										_ambient.getValue().getValueRef() );
+										_sfAmbient.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
-										_specular.getValue().getValueRef() );
+										_sfSpecular.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
-										_emission.getValue().getValueRef() );
+										_sfEmission.getValue().getValueRef() );
 	// adjust shininess only if it differs enough
-	if ( osgabs( _shininess.getValue() - old->getShininess() ) > 1e-4 )
-		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
+	if ( osgabs( _sfShininess.getValue() - old->getShininess() ) > 1e-4 )
+		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
 }
 
 void MaterialChunk::deactivate ( DrawAction *, UInt32 )

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEDIRECTIONALLIGHTINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEDIRECTIONALLIGHTINST
 
 #include "OSGDirectionalLightBase.h"
 #include "OSGDirectionalLight.h"
@@ -78,15 +78,12 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		DirectionalLightBase::DirectionFieldId;
-const OSG::BitVector	DirectionalLightBase::DirectionFieldMask;
+const OSG::BitVector	DirectionalLightBase::DirectionFieldMask = 
+    (1 << DirectionalLightBase::DirectionFieldId);
 
 
-const OSG::UInt32    	DirectionalLightBase::NextFieldId; 
-const OSG::BitVector 	DirectionalLightBase::NextFieldMask;
 
-
-char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -94,7 +91,7 @@ char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.4
 FieldDescription DirectionalLightBase::_desc[] = 
 {
     FieldDescription(SFVec3f::getClassType(), 
-                     "direction", 
+                     "sfDirection", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
                      (FieldAccessMethod) &DirectionalLightBase::getSFDirection)
@@ -176,7 +173,7 @@ void DirectionalLightBase::executeSync(FieldContainer &other,
  */
 
 DirectionalLightBase::DirectionalLightBase(void) :
-	_direction	(), 
+	_sfDirection	(), 
 	Inherited() 
 {
 }
@@ -185,7 +182,7 @@ DirectionalLightBase::DirectionalLightBase(void) :
  */
 
 DirectionalLightBase::DirectionalLightBase(const DirectionalLightBase &source) :
-	_direction		(source._direction), 
+	_sfDirection		(source._sfDirection), 
 	Inherited        (source)
 {
 }
@@ -214,7 +211,7 @@ void DirectionalLightBase::executeSyncImpl(DirectionalLightBase *pOther,
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
     {
-        _direction.syncWith(pOther->_direction);
+        _sfDirection.syncWith(pOther->_sfDirection);
     }
 
 

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEPOINTLIGHTINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEPOINTLIGHTINST
 
 #include "OSGPointLightBase.h"
 #include "OSGPointLight.h"
@@ -78,24 +78,21 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		PointLightBase::PositionFieldId;
-const OSG::BitVector	PointLightBase::PositionFieldMask;
+const OSG::BitVector	PointLightBase::PositionFieldMask = 
+    (1 << PointLightBase::PositionFieldId);
 
-const OSG::UInt32		PointLightBase::ConstantAttenuationFieldId;
-const OSG::BitVector	PointLightBase::ConstantAttenuationFieldMask;
+const OSG::BitVector	PointLightBase::ConstantAttenuationFieldMask = 
+    (1 << PointLightBase::ConstantAttenuationFieldId);
 
-const OSG::UInt32		PointLightBase::LinearAttenuationFieldId;
-const OSG::BitVector	PointLightBase::LinearAttenuationFieldMask;
+const OSG::BitVector	PointLightBase::LinearAttenuationFieldMask = 
+    (1 << PointLightBase::LinearAttenuationFieldId);
 
-const OSG::UInt32		PointLightBase::QuadraticAttenuationFieldId;
-const OSG::BitVector	PointLightBase::QuadraticAttenuationFieldMask;
-
-
-const OSG::UInt32    	PointLightBase::NextFieldId; 
-const OSG::BitVector 	PointLightBase::NextFieldMask;
+const OSG::BitVector	PointLightBase::QuadraticAttenuationFieldMask = 
+    (1 << PointLightBase::QuadraticAttenuationFieldId);
 
 
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -103,22 +100,22 @@ char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.4 2001/06/10 
 FieldDescription PointLightBase::_desc[] = 
 {
     FieldDescription(SFPnt3f::getClassType(), 
-                     "position", 
+                     "sfPosition", 
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFPosition),
     FieldDescription(SFReal32::getClassType(), 
-                     "constantAttenuation", 
+                     "sfConstantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFConstantAttenuation),
     FieldDescription(SFReal32::getClassType(), 
-                     "linearAttenuation", 
+                     "sfLinearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFLinearAttenuation),
     FieldDescription(SFReal32::getClassType(), 
-                     "quadraticAttenuation", 
+                     "sfQuadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFQuadraticAttenuation)
@@ -200,10 +197,10 @@ void PointLightBase::executeSync(FieldContainer &other,
  */
 
 PointLightBase::PointLightBase(void) :
-	_position	(), 
-	_constantAttenuation	(), 
-	_linearAttenuation	(), 
-	_quadraticAttenuation	(), 
+	_sfPosition	(), 
+	_sfConstantAttenuation	(), 
+	_sfLinearAttenuation	(), 
+	_sfQuadraticAttenuation	(), 
 	Inherited() 
 {
 }
@@ -212,10 +209,10 @@ PointLightBase::PointLightBase(void) :
  */
 
 PointLightBase::PointLightBase(const PointLightBase &source) :
-	_position		(source._position), 
-	_constantAttenuation		(source._constantAttenuation), 
-	_linearAttenuation		(source._linearAttenuation), 
-	_quadraticAttenuation		(source._quadraticAttenuation), 
+	_sfPosition		(source._sfPosition), 
+	_sfConstantAttenuation		(source._sfConstantAttenuation), 
+	_sfLinearAttenuation		(source._sfLinearAttenuation), 
+	_sfQuadraticAttenuation		(source._sfQuadraticAttenuation), 
 	Inherited        (source)
 {
 }
@@ -244,22 +241,22 @@ void PointLightBase::executeSyncImpl(PointLightBase *pOther,
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
-        _position.syncWith(pOther->_position);
+        _sfPosition.syncWith(pOther->_sfPosition);
     }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
     {
-        _constantAttenuation.syncWith(pOther->_constantAttenuation);
+        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
     }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
     {
-        _linearAttenuation.syncWith(pOther->_linearAttenuation);
+        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
     }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
     {
-        _quadraticAttenuation.syncWith(pOther->_quadraticAttenuation);
+        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
     }
 
 

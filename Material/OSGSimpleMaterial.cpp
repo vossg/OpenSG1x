@@ -81,7 +81,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.13 2001/06/10 12:42:07 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.14 2001/07/03 14:16:32 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -196,8 +196,8 @@ StatePtr SimpleMaterial::makeState( void )
 
 	state->addChunk( _materialChunk );
 	
-	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
-			i != _chunks.end(); i++ )
+	for ( MFStateChunkPtr::iterator i = _mfChunks.begin(); 
+			i != _mfChunks.end(); i++ )
 		state->addChunk( *i );
 	
 	return state;
@@ -219,8 +219,8 @@ void SimpleMaterial::dump(      UInt32     uiIndent,
 	PLOG << "\ttransparency: " << getTransparency()  << endl;
     PLOG << "\tChunks: " << endl;
 	
-	for ( MFStateChunkPtr::const_iterator i = _chunks.begin(); 
-			i != _chunks.end(); i++ )
+	for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin(); 
+			i != _mfChunks.end(); i++ )
 		PLOG << "\t" << *i << endl;	
 }
 

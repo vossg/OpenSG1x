@@ -516,14 +516,14 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 		{
 	        for(i = 0; i < _iSize; i++)
 		    {
-			    _values[i] = vec.getValues()[i];
+			    _values[i] = vec.getValuesRef()[i];
 			}
 		}
 		else	
 		{
 			for(i = 0; i < VectorT::_iSize; i++)
 			{
-	            _values[i] = vec.getValues()[i];
+	            _values[i] = vec.getValuesRef()[i];
 			}
 			for(i = VectorT::_iSize; i < _iSize; i++)
 			{
@@ -615,7 +615,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 			i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
 			i++)
 		{
-	        _values[i] = vec.getValues()[i];
+	        _values[i] = vec.getValuesRef()[i];
 	    }
 	}
 
@@ -630,10 +630,8 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     /*------------------------- get values -------------------------------*/
 
-    using StorageInterfaceT::getValues;
-
-          ValueTypeT *getValues(void);
-    const ValueTypeT *getValues(void) const;
+          ValueTypeT *getValuesRef(void);
+    const ValueTypeT *getValuesRef(void) const;
 
     /*--------------------------- common math -------------------------------*/
 
@@ -835,14 +833,14 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 		{
 	        for(i = 0; i < _iSize; i++)
 		    {
-			    _values[i] = vec.getValues()[i];
+			    _values[i] = vec.getValuesRef()[i];
 			}
 		}
 		else	
 		{
 			for(i = 0; i < VectorT::_iSize; i++)
 			{
-	            _values[i] = vec.getValues()[i];
+	            _values[i] = vec.getValuesRef()[i];
 			}
 			for(i = VectorT::_iSize; i < _iSize; i++)
 			{

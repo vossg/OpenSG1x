@@ -168,8 +168,8 @@ Window::Window(const Window &source) :
     Inherited(source)
 {
 	// mark all flags as notused, i.e. have to initialize on use
-	for ( vector<UInt32>::iterator it = _glObjectFlags.begin();
-			it != _glObjectFlags.end(); ++it )
+	for ( vector<UInt32>::iterator it = _mfGlObjectFlags.begin();
+			it != _mfGlObjectFlags.end(); ++it )
 		*it = notused;
 }
 
@@ -196,21 +196,26 @@ void Window::addPort(const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _port.addValue(portP);
-        _port.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
+        _mfPort.addValue(portP);
+// CHECK CHECK
+//        _mfPort.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
+        _mfPort.back()->setParent(WindowPtr(*this));
     }
 }
 
 void Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
 {    
-    MFViewportPtr::iterator portIt = _port.begin();
+    MFViewportPtr::iterator portIt = _mfPort.begin();
 
     if(portP != NullFC)
     {
         portIt += portIndex;
-        
-        (*(_port.insert(portIt, portP)))->setParent(
-            FieldContainer::getPtr<WindowPtr>(*this));
+  
+// CHECK CHECK      
+//        (*(_mfPort.insert(portIt, portP)))->setParent(
+//            FieldContainer::getPtr<WindowPtr>(*this));
+        (*(_mfPort.insert(portIt, portP)))->setParent(
+            WindowPtr(*this));
     }
 }
 
@@ -219,54 +224,60 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _port.getValue(portIndex)->setParent(WindowPtr::NullPtr);
-        _port.getValue(portIndex) = portP;
-        _port.getValue(portIndex)->setParent(
-            FieldContainer::getPtr<WindowPtr>(*this));
+        _mfPort.getValue(portIndex)->setParent(WindowPtr::NullPtr);
+        _mfPort.getValue(portIndex) = portP;
+// CHECK CHECK
+//        _mfPort.getValue(portIndex)->setParent(
+//            FieldContainer::getPtr<WindowPtr>(*this));
+        _mfPort.getValue(portIndex)->setParent(
+            WindowPtr(*this));
     }
 }
 
 void Window::replacePortBy(const ViewportPtr &portP, 
                              const ViewportPtr &newportP)
 {
-    MFViewportPtr::iterator portIt = _port.find(portP);
+    MFViewportPtr::iterator portIt = _mfPort.find(portP);
 
     if(newportP != NullFC)
     {
-        if(portIt != _port.end())
+        if(portIt != _mfPort.end())
         {
             (*portIt)->setParent(WindowPtr::NullPtr);
             (*portIt) = newportP;
+// CHECK CHECK
+//            (*portIt)->setParent(
+//                FieldContainer::getPtr<WindowPtr>(*this));
             (*portIt)->setParent(
-                FieldContainer::getPtr<WindowPtr>(*this));
+                WindowPtr(*this));
         }
     }
 }
 
 void Window::subPort(const ViewportPtr &portP)
 {
-    MFViewportPtr::iterator portIt = _port.find(portP);
+    MFViewportPtr::iterator portIt = _mfPort.find(portP);
 
-    if(portIt != _port.end())
+    if(portIt != _mfPort.end())
     {
         (*portIt)->setParent(WindowPtr::NullPtr);
 
-        _port.erase(portIt);
+        _mfPort.erase(portIt);
     }
 
 }
 
 void Window::subPort(UInt32  portIndex)
 {
-    MFViewportPtr::iterator portIt = _port.begin();
+    MFViewportPtr::iterator portIt = _mfPort.begin();
 
     portIt += portIndex;
 
-    if(portIt != _port.end())
+    if(portIt != _mfPort.end())
     {
         (*portIt)->setParent(WindowPtr::NullPtr);
 
-        _port.erase(portIt);
+        _mfPort.erase(portIt);
     }
 }
 
@@ -349,16 +360,16 @@ void Window::validateGLObject ( UInt32 id )
 {
 	UInt32 s;
 
-	s = _glObjectFlags.size();
+	s = _mfGlObjectFlags.size();
 	while ( s <= id ) 
 	{
-		_glObjectFlags.push_back( notused );
+		_mfGlObjectFlags.push_back( notused );
 		s = s + 1;
 	}
 	
-	if ( _glObjectFlags[id] == notused ) 
+	if ( _mfGlObjectFlags[id] == notused ) 
 	{
-		_glObjectFlags[id] = initialized;
+		_mfGlObjectFlags[id] = initialized;
 		_glObjects[id]->incRefCounter();
 		_glObjects[id]->getFunctor().call( initialize, id );
 	}
@@ -366,14 +377,14 @@ void Window::validateGLObject ( UInt32 id )
 
 void Window::refreshGLObject ( UInt32 id )
 {
-	if ( id >= _glObjectFlags.size() )
+	if ( id >= _mfGlObjectFlags.size() )
 	{
 		SWARNING << "Window::refreshGLObject: nothing known about id " << id
 				 << "!" << endl;
 		return;
 	}
 	
-	switch ( _glObjectFlags[id] ) 
+	switch ( _mfGlObjectFlags[id] ) 
 	{
 	case notused:	// not used yet, no need to refresh
 	case destroy:
@@ -384,11 +395,11 @@ void Window::refreshGLObject ( UInt32 id )
 				 << " in state initialize ?!?!" << endl;
 		return;
 	case initialized:
-		_glObjectFlags[id] = needrefresh;
+		_mfGlObjectFlags[id] = needrefresh;
 		break;
 	default:
 		SWARNING << "Window::refreshGLObject: id " << id
-				 << " in state " << _glObjectFlags[id] << "?!?!" << endl;
+				 << " in state " << _mfGlObjectFlags[id] << "?!?!" << endl;
 		return;
 	}
 }
@@ -451,20 +462,20 @@ void Window::frameExit( void )
 
 		UInt32 rc = _glObjects[ i ]->getRefCounter();
 
-		if ( _glObjectFlags[ i ] == initialized ) 
+		if ( _mfGlObjectFlags[ i ] == initialized ) 
 		{			
 		
-			_glObjectFlags[ i ] = destroy;
+			_mfGlObjectFlags[ i ] = destroy;
 			_glObjects[ i ]->getFunctor().call( destroy, i );			
 
 			if ( ! ( rc = _glObjects[ i ]->decRefCounter() )  )
 			{			
 				// call functor with the final-flag
-				_glObjectFlags[ i ] = finaldestroy;
+				_mfGlObjectFlags[ i ] = finaldestroy;
 				_glObjects[ i ]->getFunctor().call( finaldestroy, i );
 			}
 
-			_glObjectFlags[ i ] = notused;			
+			_mfGlObjectFlags[ i ] = notused;			
 		}
 
 		// if the GLObject is removed from each GL-Context, free GLObject-IDs.
@@ -509,11 +520,11 @@ void Window::draw( DrawAction * action )
 void Window::drawAllViewports( DrawAction * action )
 {
 	DrawAction *a = dynamic_cast<DrawAction*>(action);
-	MFViewportPtr::iterator portIt = _port.begin();
+	MFViewportPtr::iterator portIt = _mfPort.begin();
 
 	a->setWindow( this );
 	
-	while ( portIt != _port.end() )
+	while ( portIt != _mfPort.end() )
 	{
 		(*portIt)->draw( action );
 		portIt++;
@@ -550,12 +561,12 @@ Window& Window::operator = (const Window &source)
 
 	setWidth( source.getWidth() );
 	setHeight( source.getHeight() );
-	_port.setValues( source._port.getValues() );
-	_glObjectFlags.setValues( source._glObjectFlags.getValues() );
+	_mfPort.setValues( source._mfPort.getValues() );
+	_mfGlObjectFlags.setValues( source._mfGlObjectFlags.getValues() );
 	
 	// mark all flags as notused, i.e. have to initialize on use
-	for ( vector<UInt32>::iterator it = _glObjectFlags.begin();
-			it != _glObjectFlags.end(); ++it )
+	for ( vector<UInt32>::iterator it = _mfGlObjectFlags.begin();
+			it != _mfGlObjectFlags.end(); ++it )
 		*it = notused;
 	
 	return *this;

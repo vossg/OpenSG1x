@@ -111,39 +111,30 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    DiffuseFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector DiffuseFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        DiffuseFieldId = Inherited::NextFieldId,
+        AmbientFieldId = DiffuseFieldId + 1,
+        SpecularFieldId = AmbientFieldId + 1,
+        PositionFieldId = SpecularFieldId + 1,
+        DirectionFieldId = PositionFieldId + 1,
+        ExponentFieldId = DirectionFieldId + 1,
+        CutoffFieldId = ExponentFieldId + 1,
+        ConstantAttenuationFieldId = CutoffFieldId + 1,
+        LinearAttenuationFieldId = ConstantAttenuationFieldId + 1,
+        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1
+    };
 
-	static const osg::UInt32    AmbientFieldId   = DiffuseFieldId + 1;
-	static const osg::BitVector AmbientFieldMask = DiffuseFieldMask << 1;
-
-	static const osg::UInt32    SpecularFieldId   = AmbientFieldId + 1;
-	static const osg::BitVector SpecularFieldMask = AmbientFieldMask << 1;
-
-	static const osg::UInt32    PositionFieldId   = SpecularFieldId + 1;
-	static const osg::BitVector PositionFieldMask = SpecularFieldMask << 1;
-
-	static const osg::UInt32    DirectionFieldId   = PositionFieldId + 1;
-	static const osg::BitVector DirectionFieldMask = PositionFieldMask << 1;
-
-	static const osg::UInt32    ExponentFieldId   = DirectionFieldId + 1;
-	static const osg::BitVector ExponentFieldMask = DirectionFieldMask << 1;
-
-	static const osg::UInt32    CutoffFieldId   = ExponentFieldId + 1;
-	static const osg::BitVector CutoffFieldMask = ExponentFieldMask << 1;
-
-	static const osg::UInt32    ConstantAttenuationFieldId   = CutoffFieldId + 1;
-	static const osg::BitVector ConstantAttenuationFieldMask = CutoffFieldMask << 1;
-
-	static const osg::UInt32    LinearAttenuationFieldId   = ConstantAttenuationFieldId + 1;
-	static const osg::BitVector LinearAttenuationFieldMask = ConstantAttenuationFieldMask << 1;
-
-	static const osg::UInt32    QuadraticAttenuationFieldId   = LinearAttenuationFieldId + 1;
-	static const osg::BitVector QuadraticAttenuationFieldMask = LinearAttenuationFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = QuadraticAttenuationFieldId + 1;
-	static const osg::BitVector	NextFieldMask = QuadraticAttenuationFieldMask << 1;
-
+    static const osg::BitVector DiffuseFieldMask;
+    static const osg::BitVector AmbientFieldMask;
+    static const osg::BitVector SpecularFieldMask;
+    static const osg::BitVector PositionFieldMask;
+    static const osg::BitVector DirectionFieldMask;
+    static const osg::BitVector ExponentFieldMask;
+    static const osg::BitVector CutoffFieldMask;
+    static const osg::BitVector ConstantAttenuationFieldMask;
+    static const osg::BitVector LinearAttenuationFieldMask;
+    static const osg::BitVector QuadraticAttenuationFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -263,34 +254,34 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 
     /*! The light's diffuse color.
      */
-    SFColor4f	_diffuse;
+    SFColor4f	_sfDiffuse;
     /*! The light's ambient color.
      */
-    SFColor4f	_ambient;
+    SFColor4f	_sfAmbient;
     /*! The light's specular color.
      */
-    SFColor4f	_specular;
+    SFColor4f	_sfSpecular;
     /*! The light's position.
      */
-    SFVec4f	_position;
+    SFVec4f	_sfPosition;
     /*! The light's direction (only for spotlights).
      */
-    SFVec3f	_direction;
+    SFVec3f	_sfDirection;
     /*! The light's spotlight exponent.
      */
-    SFReal32	_exponent;
+    SFReal32	_sfExponent;
     /*! The light's spotlight cutoff.
      */
-    SFReal32	_cutoff;
+    SFReal32	_sfCutoff;
     /*! The light's constant attenuation.
      */
-    SFReal32	_constantAttenuation;
+    SFReal32	_sfConstantAttenuation;
     /*! The light's linear attenuation.
      */
-    SFReal32	_linearAttenuation;
+    SFReal32	_sfLinearAttenuation;
     /*! The light's quadratic attenuation.
      */
-    SFReal32	_quadraticAttenuation;
+    SFReal32	_sfQuadraticAttenuation;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

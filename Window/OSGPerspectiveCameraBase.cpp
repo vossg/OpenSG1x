@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEPERSPECTIVECAMERAINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEPERSPECTIVECAMERAINST
 
 #include "OSGPerspectiveCameraBase.h"
 #include "OSGPerspectiveCamera.h"
@@ -93,15 +93,12 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		PerspectiveCameraBase::FovFieldId;
-const OSG::BitVector	PerspectiveCameraBase::FovFieldMask;
+const OSG::BitVector	PerspectiveCameraBase::FovFieldMask = 
+    (1 << PerspectiveCameraBase::FovFieldId);
 
 
-const OSG::UInt32    	PerspectiveCameraBase::NextFieldId; 
-const OSG::BitVector 	PerspectiveCameraBase::NextFieldMask;
 
-
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -109,7 +106,7 @@ char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1
 FieldDescription PerspectiveCameraBase::_desc[] = 
 {
     FieldDescription(SFReal32::getClassType(), 
-                     "fov", 
+                     "sfFov", 
                      FovFieldId, FovFieldMask,
                      false,
                      (FieldAccessMethod) &PerspectiveCameraBase::getSFFov)
@@ -191,7 +188,7 @@ void PerspectiveCameraBase::executeSync(FieldContainer &other,
  */
 
 PerspectiveCameraBase::PerspectiveCameraBase(void) :
-	_fov	(), 
+	_sfFov	(), 
 	Inherited() 
 {
 }
@@ -200,7 +197,7 @@ PerspectiveCameraBase::PerspectiveCameraBase(void) :
  */
 
 PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source) :
-	_fov		(source._fov), 
+	_sfFov		(source._sfFov), 
 	Inherited        (source)
 {
 }
@@ -229,7 +226,7 @@ void PerspectiveCameraBase::executeSyncImpl(PerspectiveCameraBase *pOther,
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
     {
-        _fov.syncWith(pOther->_fov);
+        _sfFov.syncWith(pOther->_sfFov);
     }
 
 

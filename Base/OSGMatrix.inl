@@ -442,7 +442,7 @@ void TransformationMatrix<ValueTypeT>::setValue(
 template<class ValueTypeT> inline
 ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
 {
-    return _matrix[0].getValues();
+    return _matrix[0].getValuesRef();
 }
 
 //@}
@@ -1748,7 +1748,7 @@ TransformationMatrix<ValueTypeT> &
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::operator == (
-    const TransformationMatrix &other)
+    const TransformationMatrix &other) const
 {
     return equals(other, Eps);
 }
@@ -1759,7 +1759,7 @@ Bool TransformationMatrix<ValueTypeT>::operator == (
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::operator != (
-    const TransformationMatrix &other)
+    const TransformationMatrix &other) const
 {
 	return ! (*this == other);
 }

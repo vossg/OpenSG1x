@@ -109,7 +109,7 @@ inline ChunkMaterialPtr ChunkMaterialBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<ChunkMaterialPtr>(
+        fc = ChunkMaterialPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,16 +132,18 @@ inline ChunkMaterialPtr ChunkMaterialBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 {
-	return &_chunks;
+	return &_mfChunks;
 }
 
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 StateChunkPtr &ChunkMaterialBase::getChunks( UInt32 index)
 {
-	return _chunks.getValue( index );
+	return _mfChunks.getValue( index );
 }
 
 

@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    MaterialFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector MaterialFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        MaterialFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = MaterialFieldId + 1;
-	static const osg::BitVector	NextFieldMask = MaterialFieldMask << 1;
-
+    static const osg::BitVector MaterialFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -191,7 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 
     /*! 
      */
-    SFMaterialPtr	_material;
+    SFMaterialPtr	_sfMaterial;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

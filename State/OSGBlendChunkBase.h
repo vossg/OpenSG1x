@@ -105,21 +105,18 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    SrcFactorFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector SrcFactorFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        SrcFactorFieldId = Inherited::NextFieldId,
+        DestFactorFieldId = SrcFactorFieldId + 1,
+        ColorFieldId = DestFactorFieldId + 1,
+        GLIdFieldId = ColorFieldId + 1
+    };
 
-	static const osg::UInt32    DestFactorFieldId   = SrcFactorFieldId + 1;
-	static const osg::BitVector DestFactorFieldMask = SrcFactorFieldMask << 1;
-
-	static const osg::UInt32    ColorFieldId   = DestFactorFieldId + 1;
-	static const osg::BitVector ColorFieldMask = DestFactorFieldMask << 1;
-
-	static const osg::UInt32    GLIdFieldId   = ColorFieldId + 1;
-	static const osg::BitVector GLIdFieldMask = ColorFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = GLIdFieldId + 1;
-	static const osg::BitVector	NextFieldMask = GLIdFieldMask << 1;
-
+    static const osg::BitVector SrcFactorFieldMask;
+    static const osg::BitVector DestFactorFieldMask;
+    static const osg::BitVector ColorFieldMask;
+    static const osg::BitVector GLIdFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -215,16 +212,16 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 
     /*! The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
      */
-    SFUInt32	_SrcFactor;
+    SFUInt32	_sfSrcFactor;
     /*! The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
      */
-    SFUInt32	_DestFactor;
+    SFUInt32	_sfDestFactor;
     /*! This is the constant color used by blend modes *_CONSTANT_*.
      */
-    SFColor4f	_Color;
+    SFColor4f	_sfColor;
     /*! 
      */
-    SFUInt32	_GLId;
+    SFUInt32	_sfGLId;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -109,7 +109,7 @@ inline TransformPtr TransformBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<TransformPtr>(
+        fc = TransformPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,25 +132,29 @@ inline TransformPtr TransformBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFMatrix *TransformBase::getSFMatrix(void)
 {
-	return &_matrix;
+	return &_sfMatrix;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Matrix &TransformBase::getMatrix(void)
 {
-	return _matrix.getValue();
+	return _sfMatrix.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Matrix &TransformBase::getMatrix(void) const
 {
-	return _matrix.getValue();
+	return _sfMatrix.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void TransformBase::setMatrix( Matrix value )
 {
-	_matrix.setValue(value);
+	_sfMatrix.setValue(value);
 }
 
 

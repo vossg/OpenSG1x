@@ -132,9 +132,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     friend OSG_SYSTEMLIB_DLLMAPPING
     void clearRefCP (      FieldContainerPtrBase &objectP);
 
-    template <class RetTypeT, class InTypeT> inline
-    friend RetTypeT dcast(const InTypeT oIn);
-
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -256,7 +253,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     /*----------------------------- parent field pos -----------------------*/
 
-    void      setParentFieldPos(UInt16 uiParentEPos);
+    void   setParentFieldPos(UInt16 uiParentEPos);
     UInt16 getParentFieldPos(void) const;
 
     /*------------------------------ information ---------------------------*/
@@ -264,6 +261,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     UInt32 getFieldContainerId(void) const;
 
     /*------------------------- your_operators ------------------------------*/
+
+    UInt16 getContainerSize(void) const;
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -594,7 +593,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
 };
 
 
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -648,9 +646,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    template <class RetTypeT, class InTypeT> inline
-    friend RetTypeT dcast(const InTypeT oIn);
-
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -695,9 +690,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit FCPtr(const FieldContainerTypeT &source);
-    explicit FCPtr(const FieldContainerTypeT *source);
-
              FCPtr(const FieldContainerTypeT *source,
                    const UInt16               uiSize,
                    const UInt16               uiParentPos);
@@ -707,6 +699,15 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+	template <class InTypeT> inline
+	static FCPtr dcast(const InTypeT oIn)
+	{
+		return FCPtr(
+			(dynamic_cast<const typename FCPtr::ObjectType *>(oIn.getCPtr())),
+			oIn.getContainerSize(),
+			oIn.getParentFieldPos());
+	}
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -731,6 +732,13 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     /*------------------------- assignment ----------------------------------*/
 
     void operator =(const FCPtr &source);
+
+
+	/* The next two Constructors are used to work around MS Bugs, use them
+	   only if you realy now what you are doing ;-) */
+
+    explicit FCPtr(const FieldContainerTypeT &source);
+    explicit FCPtr(const FieldContainerTypeT *source);
 };
 
 
@@ -790,9 +798,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
-
-    template <class RetTypeT, class InTypeT> inline
-    friend RetTypeT dcast(const InTypeT oIn);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -882,10 +887,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
 #pragma reset woff 1375
 #endif
 
-
-template <class RetTypeT, class InTypeT> inline
-RetTypeT dcast(const InTypeT oIn);
-
 #ifdef __sgi
 #pragma reset woff 1424
 #endif
@@ -898,7 +899,7 @@ RetTypeT dcast(const InTypeT oIn);
 
 typedef FieldContainerPtr *FieldContainerPtrP;
 
-extern OSG_SYSTEMLIB_DLLMAPPING const FieldContainerPtr   NullFC;
+extern OSG_SYSTEMLIB_DLLMAPPING const FieldContainerPtr NullFC;
 
 OSG_END_NAMESPACE
 

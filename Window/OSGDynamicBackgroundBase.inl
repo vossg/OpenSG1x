@@ -109,7 +109,7 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<DynamicBackgroundPtr>(
+        fc = DynamicBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,26 +132,30 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFColor3f *DynamicBackgroundBase::getMFColor(void)
 {
-	return &_color;
+	return &_mfColor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFReal32 *DynamicBackgroundBase::getMFAngle(void)
 {
-	return &_angle;
+	return &_mfAngle;
 }
 
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color3f &DynamicBackgroundBase::getColor( UInt32 index)
 {
-	return _color.getValue( index );
+	return _mfColor.getValue( index );
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &DynamicBackgroundBase::getAngle( UInt32 index)
 {
-	return _angle.getValue( index );
+	return _mfAngle.getValue( index );
 }
 
 

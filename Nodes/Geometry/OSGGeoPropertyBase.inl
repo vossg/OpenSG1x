@@ -177,18 +177,14 @@ void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32     uiIndent,
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(GeoProperty,
-                                    GeoPropertyDesc,
-                                    GeoPropDataField)
-
-OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(GeoProperty,
-                                   GeoPropertyDesc,
-                                   GeoPropDataField)
 
 template <class GeoPropertyDesc>
 char GeoProperty<GeoPropertyDesc>::cvsid[] = 
     "@(#)$Id: $";
 
+template <class GeoPropertyDesc>
+const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask = 
+    (1 << GeoProperty<GeoPropertyDesc>::GeoPropDataFieldId);
 
 /** \brief NULL pointer
  */
@@ -206,7 +202,7 @@ template <class GeoPropertyDesc>
 FieldDescription GeoProperty<GeoPropertyDesc>::_desc[] = 
 {
     FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         GeoPropertyDesc::getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoPropDataField),
         false,
@@ -328,9 +324,8 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(GeoProperty *pOther,
 /** \brief Returns pointer to stored field
  */
 
-template <class GeoPropertyDesc> 
-inline 
-typename GeoPropertyDesc::FieldType * 
+template <class GeoPropertyDesc> inline 
+GeoProperty<GeoPropertyDesc>::StoredFieldType * 
     GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
 {
     return &_field;
@@ -339,8 +334,8 @@ typename GeoPropertyDesc::FieldType *
 /** \brief Returns reference to the stored field
  */
 
-template <class GeoPropertyDesc> 
-inline typename GeoPropertyDesc::FieldType & 
+template <class GeoPropertyDesc> inline 
+GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void)
 {
     return _field;
@@ -349,8 +344,8 @@ inline typename GeoPropertyDesc::FieldType &
 /** \brief Returns const reference to the stored field
  */
 
-template <class GeoPropertyDesc> 
-inline const typename GeoPropertyDesc::FieldType & 
+template <class GeoPropertyDesc> inline 
+const GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void) const
 {
     return _field;
@@ -360,15 +355,15 @@ inline const typename GeoPropertyDesc::FieldType &
 /** \brief Returns dimensionality of property
  */
 
-template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void)
+template <class GeoPropertyDesc> inline 
+UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void)
 {
     return GeoPropertyDesc::getFormat();
 }
 
 
-template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void)
+template <class GeoPropertyDesc> inline 
+UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void)
 {
     return GeoPropertyDesc::getFormatSize();
 }
@@ -404,48 +399,44 @@ inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void)
 
 // defaults, works for most types with same dimension as generic type
 
-template <class propertyDesc> 
-inline typename propertyDesc::GenericType
-GeoProperty<propertyDesc>::getValue( const UInt32 index )
+template <class propertyDesc> inline 
+GeoProperty<propertyDesc>::StoredGenericType
+    GeoProperty<propertyDesc>::getValue(const UInt32 index)
 {
 	return _field.getValue( index );
 }
 
-template <class propertyDesc> 
-inline typename propertyDesc::GenericType
-GeoProperty<propertyDesc>::getValue( const UInt32 index ) const
+template <class propertyDesc> inline 
+GeoProperty<propertyDesc>::StoredGenericType
+    GeoProperty<propertyDesc>::getValue(const UInt32 index) const
 {
 	return _field.getValue( index );
 }
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::getValue( 
-		typename propertyDesc::GenericType & val,
-		const UInt32 index )
+template <class propertyDesc> inline 
+void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
+                                         const UInt32             index)
 {
 	val = _field.getValue( index );
 }
 
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::getValue( 
-		typename propertyDesc::GenericType & val,
-		const UInt32 index ) const
+template <class propertyDesc> inline 
+void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
+                                         const UInt32             index) const
 {
 	val = _field.getValue( index );
 }
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::setValue(
-		const typename propertyDesc::GenericType & value,
-		const UInt32 index)
+template <class propertyDesc> inline 
+void GeoProperty<propertyDesc>::setValue(const StoredGenericType &value,
+                                         const UInt32             index)
 {
 	_field.setValue( value, index );
 }
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::addValue( 
-		const typename propertyDesc::GenericType & value)
+template <class propertyDesc> inline 
+void GeoProperty<propertyDesc>::addValue(const StoredGenericType & value)
 {
 	_field.addValue( value );
 }
@@ -457,8 +448,7 @@ inline void GeoProperty<propertyDesc>::clear( void )
 }
 
 template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::push_back( 
-		const typename propertyDesc::GenericType & value)
+inline void GeoProperty<propertyDesc>::push_back(const StoredGenericType &value)
 {
 	addValue( value );
 }

@@ -103,15 +103,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    ColorFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector ColorFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        ColorFieldId = Inherited::NextFieldId,
+        PositionFieldId = ColorFieldId + 1
+    };
 
-	static const osg::UInt32    PositionFieldId   = ColorFieldId + 1;
-	static const osg::BitVector PositionFieldMask = ColorFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = PositionFieldId + 1;
-	static const osg::BitVector	NextFieldMask = PositionFieldMask << 1;
-
+    static const osg::BitVector ColorFieldMask;
+    static const osg::BitVector PositionFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -199,10 +198,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     /*! The colors of the gradient.
      */
-    MFColor3f	_color;
+    MFColor3f	_mfColor;
     /*! The positions of the gradient.
      */
-    MFReal32	_position;
+    MFReal32	_mfPosition;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

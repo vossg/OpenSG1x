@@ -77,7 +77,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.2 2001/06/10 12:42:07 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.3 2001/07/03 14:16:32 vossg Exp $";
 
 StateChunkClass BlendChunk::_class(String("Blend"));
 
@@ -130,7 +130,7 @@ BlendChunk::BlendChunk(void) :
     Inherited()
 {
 //	_GLId = Window::registerExtension( "EXT_blend_color" );
-	_GLId.setValue( Window::registerFunction( String("glBlendColorEXT") ) );
+	_sfGLId.setValue( Window::registerFunction( String("glBlendColorEXT") ) );
 }
 
 /** \brief Copy Constructor
@@ -173,17 +173,17 @@ void BlendChunk::activate ( DrawAction *action, UInt32 )
 {
 	// get "glBlendFuncEXT" function pointer	
 	
-	if ( _SrcFactor.getValue() != GL_NONE )
+	if ( _sfSrcFactor.getValue() != GL_NONE )
 	{
-		void *p = action->getWindow()->getFunction( _GLId.getValue() );
+		void *p = action->getWindow()->getFunction( _sfGLId.getValue() );
 
-		glBlendFunc( _SrcFactor.getValue(), _DestFactor.getValue() );
+		glBlendFunc( _sfSrcFactor.getValue(), _sfDestFactor.getValue() );
 			
 		( (void (*)(GLclampf red,GLclampf green,GLclampf blue,GLclampf alpha )) 		    
-			   p  )( _Color.getValue().red(), 
-					 _Color.getValue().green(), 
-				 _Color.getValue().blue(), 
-				 _Color.getValue().alpha() );	
+			   p  )( _sfColor.getValue().red(), 
+					 _sfColor.getValue().green(), 
+				 _sfColor.getValue().blue(), 
+				 _sfColor.getValue().alpha() );	
 
 		glEnable( GL_BLEND );
 	} 	
@@ -195,7 +195,7 @@ void BlendChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
 
 void BlendChunk::deactivate ( DrawAction *, UInt32 )
 {
-	if ( _SrcFactor.getValue() != GL_NONE )
+	if ( _sfSrcFactor.getValue() != GL_NONE )
 	{
 		glDisable( GL_BLEND );	
 	}

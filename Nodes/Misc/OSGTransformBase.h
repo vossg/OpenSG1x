@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    MatrixFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector MatrixFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        MatrixFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = MatrixFieldId + 1;
-	static const osg::BitVector	NextFieldMask = MatrixFieldMask << 1;
-
+    static const osg::BitVector MatrixFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -191,7 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
 
     /*! The transformation matrix.
      */
-    SFMatrix	_matrix;
+    SFMatrix	_sfMatrix;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEMATERIALCHUNKINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEMATERIALCHUNKINST
 
 #include "OSGMaterialChunkBase.h"
 #include "OSGMaterialChunk.h"
@@ -78,27 +78,24 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		MaterialChunkBase::DiffuseFieldId;
-const OSG::BitVector	MaterialChunkBase::DiffuseFieldMask;
+const OSG::BitVector	MaterialChunkBase::DiffuseFieldMask = 
+    (1 << MaterialChunkBase::DiffuseFieldId);
 
-const OSG::UInt32		MaterialChunkBase::AmbientFieldId;
-const OSG::BitVector	MaterialChunkBase::AmbientFieldMask;
+const OSG::BitVector	MaterialChunkBase::AmbientFieldMask = 
+    (1 << MaterialChunkBase::AmbientFieldId);
 
-const OSG::UInt32		MaterialChunkBase::SpecularFieldId;
-const OSG::BitVector	MaterialChunkBase::SpecularFieldMask;
+const OSG::BitVector	MaterialChunkBase::SpecularFieldMask = 
+    (1 << MaterialChunkBase::SpecularFieldId);
 
-const OSG::UInt32		MaterialChunkBase::EmissionFieldId;
-const OSG::BitVector	MaterialChunkBase::EmissionFieldMask;
+const OSG::BitVector	MaterialChunkBase::EmissionFieldMask = 
+    (1 << MaterialChunkBase::EmissionFieldId);
 
-const OSG::UInt32		MaterialChunkBase::ShininessFieldId;
-const OSG::BitVector	MaterialChunkBase::ShininessFieldMask;
-
-
-const OSG::UInt32    	MaterialChunkBase::NextFieldId; 
-const OSG::BitVector 	MaterialChunkBase::NextFieldMask;
+const OSG::BitVector	MaterialChunkBase::ShininessFieldMask = 
+    (1 << MaterialChunkBase::ShininessFieldId);
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -106,27 +103,27 @@ char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.4 2001/
 FieldDescription MaterialChunkBase::_desc[] = 
 {
     FieldDescription(SFColor4f::getClassType(), 
-                     "diffuse", 
+                     "sfDiffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFDiffuse),
     FieldDescription(SFColor4f::getClassType(), 
-                     "ambient", 
+                     "sfAmbient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFAmbient),
     FieldDescription(SFColor4f::getClassType(), 
-                     "specular", 
+                     "sfSpecular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFSpecular),
     FieldDescription(SFColor4f::getClassType(), 
-                     "emission", 
+                     "sfEmission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFEmission),
     FieldDescription(SFReal32::getClassType(), 
-                     "shininess", 
+                     "sfShininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFShininess)
@@ -208,11 +205,11 @@ void MaterialChunkBase::executeSync(FieldContainer &other,
  */
 
 MaterialChunkBase::MaterialChunkBase(void) :
-	_diffuse	(Color4f(1,1,1,0)), 
-	_ambient	(Color4f(.2,.2,.2,0)), 
-	_specular	(Color4f(.5,.5,.5,0)), 
-	_emission	(Color4f(0,0,0,0)), 
-	_shininess	(Real32(10)), 
+	_sfDiffuse	(Color4f(1,1,1,0)), 
+	_sfAmbient	(Color4f(.2,.2,.2,0)), 
+	_sfSpecular	(Color4f(.5,.5,.5,0)), 
+	_sfEmission	(Color4f(0,0,0,0)), 
+	_sfShininess	(Real32(10)), 
 	Inherited() 
 {
 }
@@ -221,11 +218,11 @@ MaterialChunkBase::MaterialChunkBase(void) :
  */
 
 MaterialChunkBase::MaterialChunkBase(const MaterialChunkBase &source) :
-	_diffuse		(source._diffuse), 
-	_ambient		(source._ambient), 
-	_specular		(source._specular), 
-	_emission		(source._emission), 
-	_shininess		(source._shininess), 
+	_sfDiffuse		(source._sfDiffuse), 
+	_sfAmbient		(source._sfAmbient), 
+	_sfSpecular		(source._sfSpecular), 
+	_sfEmission		(source._sfEmission), 
+	_sfShininess		(source._sfShininess), 
 	Inherited        (source)
 {
 }
@@ -254,27 +251,27 @@ void MaterialChunkBase::executeSyncImpl(MaterialChunkBase *pOther,
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
     {
-        _diffuse.syncWith(pOther->_diffuse);
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
     }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
     {
-        _ambient.syncWith(pOther->_ambient);
+        _sfAmbient.syncWith(pOther->_sfAmbient);
     }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
     {
-        _specular.syncWith(pOther->_specular);
+        _sfSpecular.syncWith(pOther->_sfSpecular);
     }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
     {
-        _emission.syncWith(pOther->_emission);
+        _sfEmission.syncWith(pOther->_sfEmission);
     }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
     {
-        _shininess.syncWith(pOther->_shininess);
+        _sfShininess.syncWith(pOther->_sfShininess);
     }
 
 

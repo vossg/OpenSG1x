@@ -109,7 +109,7 @@ inline PerspectiveCameraPtr PerspectiveCameraBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<PerspectiveCameraPtr>(
+        fc = PerspectiveCameraPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,25 +132,29 @@ inline PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PerspectiveCameraBase::getSFFov(void)
 {
-	return &_fov;
+	return &_sfFov;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PerspectiveCameraBase::getFov(void)
 {
-	return _fov.getValue();
+	return _sfFov.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PerspectiveCameraBase::getFov(void) const
 {
-	return _fov.getValue();
+	return _sfFov.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void PerspectiveCameraBase::setFov( Real32 value )
 {
-	_fov.setValue(value);
+	_sfFov.setValue(value);
 }
 
 

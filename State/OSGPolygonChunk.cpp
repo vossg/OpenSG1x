@@ -74,7 +74,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.3 2001/06/10 12:42:07 vossg Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.4 2001/07/03 14:16:32 vossg Exp $";
 
 StateChunkClass PolygonChunk::_class(String("Polygon"));
 
@@ -170,41 +170,41 @@ void PolygonChunk::activate ( DrawAction *, UInt32 )
 
 // cullFace
 
-	if ( _cullFace.getValue() )		//? Test OK?
+	if ( _sfCullFace.getValue() )		//? Test OK?
 	{
 		glEnable( GL_CULL_FACE );
-		glCullFace( _cullFace.getValue() );
+		glCullFace( _sfCullFace.getValue() );
 	}
 
 // frontFace
 
-	if ( _frontFace.getValue() != GL_CCW )	
-		glFrontFace( _frontFace.getValue() );
+	if ( _sfFrontFace.getValue() != GL_CCW )	
+		glFrontFace( _sfFrontFace.getValue() );
 
 // smooth
 
-	if ( _smooth.getValue() )	glEnable( GL_POLYGON_SMOOTH );
+	if ( _sfSmooth.getValue() )	glEnable( GL_POLYGON_SMOOTH );
 
 // mode
 
-	if ( _modeFace.getValue() != GL_FRONT || _mode.getValue() != GL_FILL )
-		glPolygonMode( _modeFace.getValue(), _mode.getValue() );	
+	if ( _sfModeFace.getValue() != GL_FRONT || _sfMode.getValue() != GL_FILL )
+		glPolygonMode( _sfModeFace.getValue(), _sfMode.getValue() );	
 	
 // offset	
 
-	glPolygonOffset( _offsetFactor.getValue(), _offsetBias.getValue() );
+	glPolygonOffset( _sfOffsetFactor.getValue(), _sfOffsetBias.getValue() );
 
-	if ( _offsetPoint.getValue() )	glEnable( GL_POLYGON_OFFSET_POINT );
+	if ( _sfOffsetPoint.getValue() )	glEnable( GL_POLYGON_OFFSET_POINT );
 
-	if ( _offsetLine.getValue() )	glEnable( GL_POLYGON_OFFSET_LINE );
+	if ( _sfOffsetLine.getValue() )	glEnable( GL_POLYGON_OFFSET_LINE );
 
-	if ( _offsetFill.getValue() )	glEnable( GL_POLYGON_OFFSET_FILL );
+	if ( _sfOffsetFill.getValue() )	glEnable( GL_POLYGON_OFFSET_FILL );
 
 // stipple
 
-	if ( _stipple.size() == 32 ) 
+	if ( _mfStipple.size() == 32 ) 
 	{ 
-		glPolygonStipple( (const GLubyte *) &(_stipple[0]) );
+		glPolygonStipple( (const GLubyte *) &(_mfStipple[0]) );
 		glEnable( GL_POLYGON_STIPPLE );
 	}
 }
@@ -301,34 +301,34 @@ void PolygonChunk::deactivate ( DrawAction *, UInt32 )
 
 // cullFace
 
-	if ( _cullFace.getValue() )
+	if ( _sfCullFace.getValue() )
 		glDisable( GL_CULL_FACE );
 
 // frontFace
 
-	if ( _frontFace.getValue() != GL_CCW )	
+	if ( _sfFrontFace.getValue() != GL_CCW )	
 		glFrontFace( GL_CCW );
 
 // smooth
 
-	if ( _smooth.getValue() )		glDisable( GL_POLYGON_SMOOTH ); 
+	if ( _sfSmooth.getValue() )		glDisable( GL_POLYGON_SMOOTH ); 
 
 // mode
 
-	if ( _modeFace.getValue() != GL_FRONT || _mode.getValue() != GL_FILL )
+	if ( _sfModeFace.getValue() != GL_FRONT || _sfMode.getValue() != GL_FILL )
 	glPolygonMode( GL_FRONT, GL_FILL );		
 	
 // offset	
 
-	if ( _offsetPoint.getValue() )	glDisable( GL_POLYGON_OFFSET_POINT );
+	if ( _sfOffsetPoint.getValue() )	glDisable( GL_POLYGON_OFFSET_POINT );
 
-	if ( _offsetLine.getValue() )	glDisable( GL_POLYGON_OFFSET_LINE );
+	if ( _sfOffsetLine.getValue() )	glDisable( GL_POLYGON_OFFSET_LINE );
 
-	if ( _offsetFill.getValue() )	glDisable( GL_POLYGON_OFFSET_FILL );
+	if ( _sfOffsetFill.getValue() )	glDisable( GL_POLYGON_OFFSET_FILL );
 
 // stipple
 
-	if ( _stipple.size() == 32 )	glDisable( GL_POLYGON_STIPPLE );
+	if ( _mfStipple.size() == 32 )	glDisable( GL_POLYGON_STIPPLE );
 	
 }
 
@@ -358,37 +358,37 @@ Bool PolygonChunk::operator == (const StateChunk &other) const
 	if ( !tother )
 		return false;
 
-	if ( _cullFace.getValue() != tother->_cullFace.getValue() )	   
+	if ( _sfCullFace.getValue() != tother->_sfCullFace.getValue() )	   
 		return false;
 
-	if ( _frontFace.getValue() != tother->_frontFace.getValue() )
+	if ( _sfFrontFace.getValue() != tother->_sfFrontFace.getValue() )
 		return false;
 
-	if ( _smooth.getValue() != tother->_smooth.getValue() )
+	if ( _sfSmooth.getValue() != tother->_sfSmooth.getValue() )
 		return false;
 
-	if ( _modeFace.getValue() != tother->_modeFace.getValue() )
+	if ( _sfModeFace.getValue() != tother->_sfModeFace.getValue() )
 		return false;
 
-	if ( _mode.getValue() != tother->_mode.getValue() )
+	if ( _sfMode.getValue() != tother->_sfMode.getValue() )
 		return false;
 
-	if ( _offsetPoint.getValue() != tother->_offsetPoint.getValue() )
+	if ( _sfOffsetPoint.getValue() != tother->_sfOffsetPoint.getValue() )
 		return false;	
 	
-	if ( _offsetLine.getValue() != tother->_offsetLine.getValue() )
+	if ( _sfOffsetLine.getValue() != tother->_sfOffsetLine.getValue() )
 		return false;
 
-	if ( _offsetFill.getValue() != tother->_offsetFill.getValue() )
+	if ( _sfOffsetFill.getValue() != tother->_sfOffsetFill.getValue() )
 		return false;
 
-	if ( _offsetFactor.getValue() != tother->_offsetFactor.getValue() )
+	if ( _sfOffsetFactor.getValue() != tother->_sfOffsetFactor.getValue() )
 		return false;
 
-	if ( _offsetBias.getValue() != tother->_offsetBias.getValue() )
+	if ( _sfOffsetBias.getValue() != tother->_sfOffsetBias.getValue() )
 		return false;
 
-	if ( _stipple.begin() != tother->_stipple.begin() )
+	if ( _mfStipple.begin() != tother->_mfStipple.begin() )
 //	if ( _stipple.getValues() != tother->_stipple.getValues() )
 		return false;
 

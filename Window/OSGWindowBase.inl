@@ -110,86 +110,102 @@ inline OSG::UInt32 WindowBase::getClassTypeId(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFUInt16 *WindowBase::getSFWidth(void)
 {
-	return &_width;
+	return &_sfWidth;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFUInt16 *WindowBase::getSFHeight(void)
 {
-	return &_height;
+	return &_sfHeight;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFViewportPtr *WindowBase::getMFPort(void)
 {
-	return &_port;
+	return &_mfPort;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *WindowBase::getSFResizePending(void)
 {
-	return &_resizePending;
+	return &_sfResizePending;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFUInt32 *WindowBase::getMFGlObjectFlags(void)
 {
-	return &_glObjectFlags;
+	return &_mfGlObjectFlags;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt16 &WindowBase::getWidth(void)
 {
-	return _width.getValue();
+	return _sfWidth.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const UInt16 &WindowBase::getWidth(void) const
 {
-	return _width.getValue();
+	return _sfWidth.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void WindowBase::setWidth( UInt16 value )
 {
-	_width.setValue(value);
+	_sfWidth.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt16 &WindowBase::getHeight(void)
 {
-	return _height.getValue();
+	return _sfHeight.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const UInt16 &WindowBase::getHeight(void) const
 {
-	return _height.getValue();
+	return _sfHeight.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void WindowBase::setHeight( UInt16 value )
 {
-	_height.setValue(value);
+	_sfHeight.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Bool &WindowBase::getResizePending(void)
 {
-	return _resizePending.getValue();
+	return _sfResizePending.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Bool &WindowBase::getResizePending(void) const
 {
-	return _resizePending.getValue();
+	return _sfResizePending.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void WindowBase::setResizePending( Bool value )
 {
-	_resizePending.setValue(value);
+	_sfResizePending.setValue(value);
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 ViewportPtr &WindowBase::getPort( UInt32 index)
 {
-	return _port.getValue( index );
+	return _mfPort.getValue( index );
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &WindowBase::getGlObjectFlags( UInt32 index)
 {
-	return _glObjectFlags.getValue( index );
+	return _mfGlObjectFlags.getValue( index );
 }
 
 

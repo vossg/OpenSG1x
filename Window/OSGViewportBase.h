@@ -109,33 +109,26 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    LeftFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector LeftFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        LeftFieldId = Inherited::NextFieldId,
+        RightFieldId = LeftFieldId + 1,
+        BottomFieldId = RightFieldId + 1,
+        TopFieldId = BottomFieldId + 1,
+        ParentFieldId = TopFieldId + 1,
+        CameraFieldId = ParentFieldId + 1,
+        RootFieldId = CameraFieldId + 1,
+        BackgroundFieldId = RootFieldId + 1
+    };
 
-	static const osg::UInt32    RightFieldId   = LeftFieldId + 1;
-	static const osg::BitVector RightFieldMask = LeftFieldMask << 1;
-
-	static const osg::UInt32    BottomFieldId   = RightFieldId + 1;
-	static const osg::BitVector BottomFieldMask = RightFieldMask << 1;
-
-	static const osg::UInt32    TopFieldId   = BottomFieldId + 1;
-	static const osg::BitVector TopFieldMask = BottomFieldMask << 1;
-
-	static const osg::UInt32    ParentFieldId   = TopFieldId + 1;
-	static const osg::BitVector ParentFieldMask = TopFieldMask << 1;
-
-	static const osg::UInt32    CameraFieldId   = ParentFieldId + 1;
-	static const osg::BitVector CameraFieldMask = ParentFieldMask << 1;
-
-	static const osg::UInt32    RootFieldId   = CameraFieldId + 1;
-	static const osg::BitVector RootFieldMask = CameraFieldMask << 1;
-
-	static const osg::UInt32    BackgroundFieldId   = RootFieldId + 1;
-	static const osg::BitVector BackgroundFieldMask = RootFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = BackgroundFieldId + 1;
-	static const osg::BitVector	NextFieldMask = BackgroundFieldMask << 1;
-
+    static const osg::BitVector LeftFieldMask;
+    static const osg::BitVector RightFieldMask;
+    static const osg::BitVector BottomFieldMask;
+    static const osg::BitVector TopFieldMask;
+    static const osg::BitVector ParentFieldMask;
+    static const osg::BitVector CameraFieldMask;
+    static const osg::BitVector RootFieldMask;
+    static const osg::BitVector BackgroundFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -247,28 +240,28 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public FieldContainer
 
     /*! The left edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	left border. All other values are illegal.
      */
-    SFReal32	_left;
+    SFReal32	_sfLeft;
     /*! The right edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	right border. All other values are illegal.
      */
-    SFReal32	_right;
+    SFReal32	_sfRight;
     /*! The bottom edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	bottom border. All other values are illegal.
      */
-    SFReal32	_bottom;
+    SFReal32	_sfBottom;
     /*! The top edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	top border. All other values are illegal.
      */
-    SFReal32	_top;
+    SFReal32	_sfTop;
     /*! The Window this viewport is contained in.
      */
-    SFWindowPtr	_parent;
+    SFWindowPtr	_sfParent;
     /*! The Camera used to render the viewport.
      */
-    SFCameraPtr	_camera;
+    SFCameraPtr	_sfCamera;
     /*! The root of the tree that is displayed in this viewport.
      */
-    SFNodePtr	_root;
+    SFNodePtr	_sfRoot;
     /*! The background used to clear this viewport.
      */
-    SFBackgroundPtr	_background;
+    SFBackgroundPtr	_sfBackground;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

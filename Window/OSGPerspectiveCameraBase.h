@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    FovFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector FovFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        FovFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = FovFieldId + 1;
-	static const osg::BitVector	NextFieldMask = FovFieldMask << 1;
-
+    static const osg::BitVector FovFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -191,7 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     /*! The vertical field of view, in degrees.
      */
-    SFReal32	_fov;
+    SFReal32	_sfFov;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

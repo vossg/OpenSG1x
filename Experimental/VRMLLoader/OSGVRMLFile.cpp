@@ -338,7 +338,7 @@ FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
     // check if name matches nodename
 
     pNodename = 
-        dcast<NamePtr>(
+        NamePtr::dcast(
             pNode->findAttachment(Name::getClassType().getGroupId()));
 
     if(pNodename != NullFC)
@@ -352,7 +352,7 @@ FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
 
     if(pCore != NullFC)
     {
-        pNodename = dcast<NamePtr>(
+        pNodename = NamePtr::dcast(
             pCore->findAttachment(Name::getClassType().getGroupId()));
 
         if(pNodename != NullFC)
@@ -405,8 +405,8 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         if(_pCurrentFC   !=   NullFC && 
            _pCurrentField == _pCurrentFC->getField("children"))
         {
-            NodePtr pNode      = dcast<NodePtr>(_pCurrentFC);
-            NodePtr pChildNode = dcast<NodePtr>(pFC);
+            NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
+            NodePtr pChildNode = NodePtr::dcast(pFC);
             
             pNode->addChild(pChildNode);
         }
@@ -520,7 +520,7 @@ void VRMLFile::beginNode(
             if(pNewNode->getType().isNode() == true)
             {
                 SLOG << "NNAME : " << szNodename << endl;
-                NodePtr pNode     = dcast<NodePtr>(pNewNode);
+                NodePtr pNode     = NodePtr::dcast(pNewNode);
                 NamePtr pNodename = Name::create();
                 
                 pNodename->getFieldPtr()->getValue().set(szNodename);
@@ -531,7 +531,7 @@ void VRMLFile::beginNode(
             {
                 SLOG << "NCNAME : " << szNodename << endl;
                 
-                NodeCorePtr pNodeCore = dcast<NodeCorePtr>(pNewNode);
+                NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
                 
                 pNodename->getFieldPtr()->getValue().set(szNodename);
@@ -586,7 +586,7 @@ void VRMLFile::beginNode(
 
     if(_fcStack.size() == 1)
     {
-        NodePtr pNode = dcast<NodePtr>(_pCurrentFC);
+        NodePtr pNode = NodePtr::dcast(_pCurrentFC);
 
         if(_pRootNode == NullNode)
         {
@@ -646,7 +646,7 @@ void VRMLFile::endNode(void)
     {       
         if(_pCurrentFC->getType().isNode() == true)        
         {
-            NodePtr pNode = dcast<NodePtr>(_pCurrentFC);
+            NodePtr pNode = NodePtr::dcast(_pCurrentFC);
             
             if(pNode->getCore() == NullNodeCore)
             {
@@ -691,7 +691,7 @@ void VRMLFile::beginField(const Char8 *szFieldname,
 
             if(_pCurrentFC->getType().isNode())
             {
-                pNode = dcast<NodePtr>(_pCurrentFC);
+                pNode = NodePtr::dcast(_pCurrentFC);
 
                 pCore = pNode->getCore();
 
@@ -731,7 +731,7 @@ void VRMLFile::endField(void)
 
             if(_pCurrentFC->getType().isNode())
             {
-                pNode = dcast<NodePtr>(_pCurrentFC);
+                pNode = NodePtr::dcast(_pCurrentFC);
 
                 pCore = pNode->getCore();
 

@@ -108,13 +108,41 @@ char SpotLight::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE SpotLight::SLightDrawEnter(CNodePtr &cnode, 
+                                                Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    SpotLight *pSC = dynamic_cast<SpotLight *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "PLDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->draw(pAction);
+    }
+}
+#endif
+
 void SpotLight::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 SpotLightPtr, 
                                 Action *>(&SpotLight::draw));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                         SpotLight::SLightDrawEnter));
+
+#endif
 }
 
 /***************************************************************************\
@@ -155,7 +183,7 @@ SpotLight::~SpotLight(void)
 
 void SpotLight::setSpotDirection(Real32 rX, Real32 rY, Real32 rZ)
 {
-    _direction.getValue().setValues(rX, rY, rZ);
+    _sfDirection.getValue().setValues(rX, rY, rZ);
 }
 
 
@@ -191,13 +219,13 @@ Action::ResultE SpotLight::draw(Action * action )
 {
     PointLight::draw( action );
 
-    Vec4f dir( _direction.getValue() );
+    Vec4f dir( _sfDirection.getValue() );
 
     dir[3] = 0;
 
-    glLightfv( GL_LIGHT0, GL_SPOT_DIRECTION, dir.getValues() );
-    glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, _spotCutOff.getValue() );
-    glLightf( GL_LIGHT0, GL_SPOT_EXPONENT, _spotExponent.getValue() );
+    glLightfv( GL_LIGHT0, GL_SPOT_DIRECTION, dir.getValuesRef() );
+    glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, _sfSpotCutOff.getValue() );
+    glLightf( GL_LIGHT0, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
 
     glPopMatrix();
 

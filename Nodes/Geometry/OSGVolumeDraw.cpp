@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.1 2001/06/12 15:45:17 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -74,7 +74,6 @@ void drawVolume ( Volume &volume )
   return;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
 /*! \brief draw box volume 
  *  \ingroup Geometry
  */

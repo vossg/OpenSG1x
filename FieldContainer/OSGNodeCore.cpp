@@ -51,7 +51,7 @@
 
 OSG_USING_NAMESPACE
 
-OSG_SYSTEMLIB_DLLMAPPING const NodeCorePtr OSG::NullNodeCore;
+const NodeCorePtr OSG::NullNodeCore;
 
 /***************************************************************************\
  *                               Types                                     *
@@ -61,11 +61,10 @@ OSG_SYSTEMLIB_DLLMAPPING const NodeCorePtr OSG::NullNodeCore;
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(NodeCore, ParentsField)
-
-OSG_FC_FIELD_IDM_DEF      (NodeCore, AttachmentsField, ParentsField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (NodeCore, AttachmentsField)
+const BitVector 
+	NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
+const BitVector 
+	NodeCore::AttachmentsFieldMask = (1 << NodeCore::AttachmentsFieldId);
 
 FieldDescription NodeCore::_desc[] = 
 {
@@ -214,7 +213,7 @@ AttachmentPtr NodeCore::findAttachment(UInt16 groupId,
 
 NodeCorePtr NodeCore::getPtr(void)
 {
-    return Inherited::getPtr<NodeCorePtr>(*this);
+    return NodeCorePtr(*this);
 }
 
 /*-------------------------- your_category---------------------------------*/

@@ -93,24 +93,21 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		TileCameraDecoratorBase::LeftFieldId;
-const OSG::BitVector	TileCameraDecoratorBase::LeftFieldMask;
+const OSG::BitVector	TileCameraDecoratorBase::LeftFieldMask = 
+    (1 << TileCameraDecoratorBase::LeftFieldId);
 
-const OSG::UInt32		TileCameraDecoratorBase::RightFieldId;
-const OSG::BitVector	TileCameraDecoratorBase::RightFieldMask;
+const OSG::BitVector	TileCameraDecoratorBase::RightFieldMask = 
+    (1 << TileCameraDecoratorBase::RightFieldId);
 
-const OSG::UInt32		TileCameraDecoratorBase::BottomFieldId;
-const OSG::BitVector	TileCameraDecoratorBase::BottomFieldMask;
+const OSG::BitVector	TileCameraDecoratorBase::BottomFieldMask = 
+    (1 << TileCameraDecoratorBase::BottomFieldId);
 
-const OSG::UInt32		TileCameraDecoratorBase::TopFieldId;
-const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask;
-
-
-const OSG::UInt32    	TileCameraDecoratorBase::NextFieldId; 
-const OSG::BitVector 	TileCameraDecoratorBase::NextFieldMask;
+const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask = 
+    (1 << TileCameraDecoratorBase::TopFieldId);
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.1 2001/07/02 09:03:15 dirk Exp $";
+
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -118,22 +115,22 @@ char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp
 FieldDescription TileCameraDecoratorBase::_desc[] = 
 {
     FieldDescription(SFReal32::getClassType(), 
-                     "left", 
+                     "sfLeft", 
                      LeftFieldId, LeftFieldMask,
                      false,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFLeft),
     FieldDescription(SFReal32::getClassType(), 
-                     "right", 
+                     "sfRight", 
                      RightFieldId, RightFieldMask,
                      false,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFRight),
     FieldDescription(SFReal32::getClassType(), 
-                     "bottom", 
+                     "sfBottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFBottom),
     FieldDescription(SFReal32::getClassType(), 
-                     "top", 
+                     "sfTop", 
                      TopFieldId, TopFieldMask,
                      true,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFTop)
@@ -215,10 +212,10 @@ void TileCameraDecoratorBase::executeSync(FieldContainer &other,
  */
 
 TileCameraDecoratorBase::TileCameraDecoratorBase(void) :
-	_left	(Real32(0)), 
-	_right	(Real32(1)), 
-	_bottom	(Real32(0)), 
-	_top	(Real32(1)), 
+	_sfLeft	(Real32(0)), 
+	_sfRight	(Real32(1)), 
+	_sfBottom	(Real32(0)), 
+	_sfTop	(Real32(1)), 
 	Inherited() 
 {
 }
@@ -227,10 +224,10 @@ TileCameraDecoratorBase::TileCameraDecoratorBase(void) :
  */
 
 TileCameraDecoratorBase::TileCameraDecoratorBase(const TileCameraDecoratorBase &source) :
-	_left		(source._left), 
-	_right		(source._right), 
-	_bottom		(source._bottom), 
-	_top		(source._top), 
+	_sfLeft		(source._sfLeft), 
+	_sfRight		(source._sfRight), 
+	_sfBottom		(source._sfBottom), 
+	_sfTop		(source._sfTop), 
 	Inherited        (source)
 {
 }
@@ -259,22 +256,22 @@ void TileCameraDecoratorBase::executeSyncImpl(TileCameraDecoratorBase *pOther,
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
     {
-        _left.syncWith(pOther->_left);
+        _sfLeft.syncWith(pOther->_sfLeft);
     }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
     {
-        _right.syncWith(pOther->_right);
+        _sfRight.syncWith(pOther->_sfRight);
     }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
     {
-        _bottom.syncWith(pOther->_bottom);
+        _sfBottom.syncWith(pOther->_sfBottom);
     }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
     {
-        _top.syncWith(pOther->_top);
+        _sfTop.syncWith(pOther->_sfTop);
     }
 
 

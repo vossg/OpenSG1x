@@ -93,15 +93,12 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		CameraDecoratorBase::CameraFieldId;
-const OSG::BitVector	CameraDecoratorBase::CameraFieldMask;
+const OSG::BitVector	CameraDecoratorBase::CameraFieldMask = 
+    (1 << CameraDecoratorBase::CameraFieldId);
 
 
-const OSG::UInt32    	CameraDecoratorBase::NextFieldId; 
-const OSG::BitVector 	CameraDecoratorBase::NextFieldMask;
 
-
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.1 2001/07/02 09:03:15 dirk Exp $";
+char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -109,7 +106,7 @@ char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.1 2
 FieldDescription CameraDecoratorBase::_desc[] = 
 {
     FieldDescription(SFCameraPtr::getClassType(), 
-                     "camera", 
+                     "sfCamera", 
                      CameraFieldId, CameraFieldMask,
                      false,
                      (FieldAccessMethod) &CameraDecoratorBase::getSFCamera)
@@ -182,7 +179,7 @@ void CameraDecoratorBase::executeSync(FieldContainer &other,
  */
 
 CameraDecoratorBase::CameraDecoratorBase(void) :
-	_camera	(), 
+	_sfCamera	(), 
 	Inherited() 
 {
 }
@@ -191,7 +188,7 @@ CameraDecoratorBase::CameraDecoratorBase(void) :
  */
 
 CameraDecoratorBase::CameraDecoratorBase(const CameraDecoratorBase &source) :
-	_camera		(source._camera), 
+	_sfCamera		(source._sfCamera), 
 	Inherited        (source)
 {
 }
@@ -220,7 +217,7 @@ void CameraDecoratorBase::executeSyncImpl(CameraDecoratorBase *pOther,
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
     {
-        _camera.syncWith(pOther->_camera);
+        _sfCamera.syncWith(pOther->_sfCamera);
     }
 
 

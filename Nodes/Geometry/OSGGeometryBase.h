@@ -111,39 +111,30 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    TypesFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector TypesFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        TypesFieldId = Inherited::NextFieldId,
+        LengthsFieldId = TypesFieldId + 1,
+        PositionsFieldId = LengthsFieldId + 1,
+        NormalsFieldId = PositionsFieldId + 1,
+        NormalPerVertexFieldId = NormalsFieldId + 1,
+        ColorsFieldId = NormalPerVertexFieldId + 1,
+        ColorPerVertexFieldId = ColorsFieldId + 1,
+        TexCoordsFieldId = ColorPerVertexFieldId + 1,
+        IndexFieldId = TexCoordsFieldId + 1,
+        MaterialFieldId = IndexFieldId + 1
+    };
 
-	static const osg::UInt32    LengthsFieldId   = TypesFieldId + 1;
-	static const osg::BitVector LengthsFieldMask = TypesFieldMask << 1;
-
-	static const osg::UInt32    PositionsFieldId   = LengthsFieldId + 1;
-	static const osg::BitVector PositionsFieldMask = LengthsFieldMask << 1;
-
-	static const osg::UInt32    NormalsFieldId   = PositionsFieldId + 1;
-	static const osg::BitVector NormalsFieldMask = PositionsFieldMask << 1;
-
-	static const osg::UInt32    NormalPerVertexFieldId   = NormalsFieldId + 1;
-	static const osg::BitVector NormalPerVertexFieldMask = NormalsFieldMask << 1;
-
-	static const osg::UInt32    ColorsFieldId   = NormalPerVertexFieldId + 1;
-	static const osg::BitVector ColorsFieldMask = NormalPerVertexFieldMask << 1;
-
-	static const osg::UInt32    ColorPerVertexFieldId   = ColorsFieldId + 1;
-	static const osg::BitVector ColorPerVertexFieldMask = ColorsFieldMask << 1;
-
-	static const osg::UInt32    TexCoordsFieldId   = ColorPerVertexFieldId + 1;
-	static const osg::BitVector TexCoordsFieldMask = ColorPerVertexFieldMask << 1;
-
-	static const osg::UInt32    IndexFieldId   = TexCoordsFieldId + 1;
-	static const osg::BitVector IndexFieldMask = TexCoordsFieldMask << 1;
-
-	static const osg::UInt32    MaterialFieldId   = IndexFieldId + 1;
-	static const osg::BitVector MaterialFieldMask = IndexFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = MaterialFieldId + 1;
-	static const osg::BitVector	NextFieldMask = MaterialFieldMask << 1;
-
+    static const osg::BitVector TypesFieldMask;
+    static const osg::BitVector LengthsFieldMask;
+    static const osg::BitVector PositionsFieldMask;
+    static const osg::BitVector NormalsFieldMask;
+    static const osg::BitVector NormalPerVertexFieldMask;
+    static const osg::BitVector ColorsFieldMask;
+    static const osg::BitVector ColorPerVertexFieldMask;
+    static const osg::BitVector TexCoordsFieldMask;
+    static const osg::BitVector IndexFieldMask;
+    static const osg::BitVector MaterialFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -263,34 +254,34 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
     /*! 
      */
-    SFGeoPTypePtr	_types;
+    SFGeoPTypePtr	_sfTypes;
     /*! 
      */
-    SFGeoPLengthPtr	_lengths;
+    SFGeoPLengthPtr	_sfLengths;
     /*! 
      */
-    SFGeoPositionPtr	_positions;
+    SFGeoPositionPtr	_sfPositions;
     /*! 
      */
-    SFGeoNormalPtr	_normals;
+    SFGeoNormalPtr	_sfNormals;
     /*! 
      */
-    SFBool	_normalPerVertex;
+    SFBool	_sfNormalPerVertex;
     /*! 
      */
-    SFGeoColorPtr	_colors;
+    SFGeoColorPtr	_sfColors;
     /*! 
      */
-    SFBool	_colorPerVertex;
+    SFBool	_sfColorPerVertex;
     /*! 
      */
-    SFGeoTexCoordsPtr	_texCoords;
+    SFGeoTexCoordsPtr	_sfTexCoords;
     /*! 
      */
-    SFGeoIndexPtr	_index;
+    SFGeoIndexPtr	_sfIndex;
     /*! 
      */
-    SFMaterialPtr	_material;
+    SFMaterialPtr	_sfMaterial;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

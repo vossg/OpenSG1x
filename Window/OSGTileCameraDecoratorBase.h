@@ -105,21 +105,18 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    LeftFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector LeftFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        LeftFieldId = Inherited::NextFieldId,
+        RightFieldId = LeftFieldId + 1,
+        BottomFieldId = RightFieldId + 1,
+        TopFieldId = BottomFieldId + 1
+    };
 
-	static const osg::UInt32    RightFieldId   = LeftFieldId + 1;
-	static const osg::BitVector RightFieldMask = LeftFieldMask << 1;
-
-	static const osg::UInt32    BottomFieldId   = RightFieldId + 1;
-	static const osg::BitVector BottomFieldMask = RightFieldMask << 1;
-
-	static const osg::UInt32    TopFieldId   = BottomFieldId + 1;
-	static const osg::BitVector TopFieldMask = BottomFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = TopFieldId + 1;
-	static const osg::BitVector	NextFieldMask = TopFieldMask << 1;
-
+    static const osg::BitVector LeftFieldMask;
+    static const osg::BitVector RightFieldMask;
+    static const osg::BitVector BottomFieldMask;
+    static const osg::BitVector TopFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -215,16 +212,16 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 
     /*! The left border of the selected tile.
      */
-    SFReal32	_left;
+    SFReal32	_sfLeft;
     /*! The right border of the selected tile.
      */
-    SFReal32	_right;
+    SFReal32	_sfRight;
     /*! The bottom border of the selected tile.
      */
-    SFReal32	_bottom;
+    SFReal32	_sfBottom;
     /*! The top border of the selected tile.
      */
-    SFReal32	_top;
+    SFReal32	_sfTop;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -86,9 +86,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
   public:
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(ParentsField)
+    enum 
+	{ 
+		ParentsFieldId     = Inherited::NextFieldId, 
+		NextFieldId        = ParentsFieldId + 1, 
+	};
 
-    OSG_FC_LAST_FIELD_IDM_DECL (ParentsField)
+	static const BitVector ParentsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -238,7 +242,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename AttachmentDescT::FieldTypeT  FieldType;
+    typedef typename AttachmentDescT::FieldTypeT  StoredFieldType;
 
     typedef SimpleAttachment<AttachmentDescT>     SimpleAttType;
 
@@ -248,9 +252,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(SimpleField)
+    enum 
+	{ 
+		SimpleFieldId     = Inherited::NextFieldId, 
+		NextFieldId       = SimpleFieldId + 1, 
+	};
 
-    OSG_FC_LAST_FIELD_IDM_DECL (SimpleField)
+	static const BitVector SimpleFieldMask;
+
+//    OSG_FC_FIRST_FIELD_IDM_DECL(SimpleField)
+
+//    OSG_FC_LAST_FIELD_IDM_DECL (SimpleField)
 
     static const PtrType NullPtr;
 
@@ -269,10 +281,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
     /*----------------------------- access ----------------------------------*/
 
-          FieldType *getFieldPtr(void);
+          StoredFieldType *getFieldPtr(void);
 
-          FieldType &getField   (void);
-    const FieldType &getField   (void) const;
+          StoredFieldType &getField   (void);
+    const StoredFieldType &getField   (void) const;
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -305,7 +317,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    FieldType _field;
+    StoredFieldType _field;
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -570,7 +582,7 @@ typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &operator <<(      ostream       &stream,
-                     const AttachmentMap &map);
+                     const AttachmentMap &amap);
 
 OSG_END_NAMESPACE
 

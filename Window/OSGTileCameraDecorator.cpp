@@ -76,7 +76,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.1 2001/07/02 09:03:15 dirk Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -155,10 +155,10 @@ void TileCameraDecorator::changed(BitVector, ChangeMode)
 void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right, 
 						Real32 top )
 {
-	_left.setValue( left );
-	_right.setValue( right );
-	_bottom.setValue( bottom );
-	_top.setValue( top );
+	_sfLeft.setValue( left );
+	_sfRight.setValue( right );
+	_sfBottom.setValue( bottom );
+	_sfTop.setValue( top );
 }
 
 

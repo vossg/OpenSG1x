@@ -82,8 +82,8 @@ OSG_BEGIN_NAMESPACE
 inline	
 StateChunkPtr State::getChunk( UInt32 id )
 {
-	if ( id < _chunks.size() )
-		return _chunks.getValue( id );
+	if ( id < _mfChunks.size() )
+		return _mfChunks.getValue( id );
 	
 	return NullStateChunk;
 }
@@ -91,8 +91,8 @@ StateChunkPtr State::getChunk( UInt32 id )
 inline
 Bool State::chunkPresent( UInt32 id )
 {
-	return	id < _chunks.size() && 
-			_chunks.getValue( id ) != NullStateChunk ;
+	return	id < _mfChunks.size() && 
+			_mfChunks.getValue( id ) != NullStateChunk ;
 }
 
 inline

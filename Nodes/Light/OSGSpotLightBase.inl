@@ -109,7 +109,7 @@ inline SpotLightPtr SpotLightBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<SpotLightPtr>(
+        fc = SpotLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,65 +132,77 @@ inline SpotLightPtr SpotLightBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFVec3f *SpotLightBase::getSFDirection(void)
 {
-	return &_direction;
+	return &_sfDirection;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *SpotLightBase::getSFSpotExponent(void)
 {
-	return &_spotExponent;
+	return &_sfSpotExponent;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *SpotLightBase::getSFSpotCutOff(void)
 {
-	return &_spotCutOff;
+	return &_sfSpotCutOff;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &SpotLightBase::getDirection(void)
 {
-	return _direction.getValue();
+	return _sfDirection.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Vec3f &SpotLightBase::getDirection(void) const
 {
-	return _direction.getValue();
+	return _sfDirection.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void SpotLightBase::setDirection( Vec3f value )
 {
-	_direction.setValue(value);
+	_sfDirection.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &SpotLightBase::getSpotExponent(void)
 {
-	return _spotExponent.getValue();
+	return _sfSpotExponent.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &SpotLightBase::getSpotExponent(void) const
 {
-	return _spotExponent.getValue();
+	return _sfSpotExponent.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void SpotLightBase::setSpotExponent( Real32 value )
 {
-	_spotExponent.setValue(value);
+	_sfSpotExponent.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &SpotLightBase::getSpotCutOff(void)
 {
-	return _spotCutOff.getValue();
+	return _sfSpotCutOff.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &SpotLightBase::getSpotCutOff(void) const
 {
-	return _spotCutOff.getValue();
+	return _sfSpotCutOff.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void SpotLightBase::setSpotCutOff( Real32 value )
 {
-	_spotCutOff.setValue(value);
+	_sfSpotCutOff.setValue(value);
 }
 
 

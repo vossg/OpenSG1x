@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEMATERIALGROUPINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEMATERIALGROUPINST
 
 #include "OSGMaterialGroupBase.h"
 #include "OSGMaterialGroup.h"
@@ -93,15 +93,12 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		MaterialGroupBase::MaterialFieldId;
-const OSG::BitVector	MaterialGroupBase::MaterialFieldMask;
+const OSG::BitVector	MaterialGroupBase::MaterialFieldMask = 
+    (1 << MaterialGroupBase::MaterialFieldId);
 
 
-const OSG::UInt32    	MaterialGroupBase::NextFieldId; 
-const OSG::BitVector 	MaterialGroupBase::NextFieldMask;
 
-
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -109,7 +106,7 @@ char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.4 2001/
 FieldDescription MaterialGroupBase::_desc[] = 
 {
     FieldDescription(SFMaterialPtr::getClassType(), 
-                     "material", 
+                     "sfMaterial", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialGroupBase::getSFMaterial)
@@ -191,7 +188,7 @@ void MaterialGroupBase::executeSync(FieldContainer &other,
  */
 
 MaterialGroupBase::MaterialGroupBase(void) :
-	_material	(), 
+	_sfMaterial	(), 
 	Inherited() 
 {
 }
@@ -200,7 +197,7 @@ MaterialGroupBase::MaterialGroupBase(void) :
  */
 
 MaterialGroupBase::MaterialGroupBase(const MaterialGroupBase &source) :
-	_material		(source._material), 
+	_sfMaterial		(source._sfMaterial), 
 	Inherited        (source)
 {
 }
@@ -229,7 +226,7 @@ void MaterialGroupBase::executeSyncImpl(MaterialGroupBase *pOther,
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
-        _material.syncWith(pOther->_material);
+        _sfMaterial.syncWith(pOther->_sfMaterial);
     }
 
 

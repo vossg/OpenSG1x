@@ -67,6 +67,7 @@ OSG_BEGIN_NAMESPACE
 
 /** Accessors for position
 */
+OSG_BASE_DLLMAPPING
 const Pnt3f &Line::getPosition(void) const 
 { 
 	return _pos; 
@@ -74,6 +75,7 @@ const Pnt3f &Line::getPosition(void) const
 
 /** Accessors for direction
 */
+OSG_BASE_DLLMAPPING
 const Vec3f &Line::getDirection(void) const 
 { 
 	return _dir; 

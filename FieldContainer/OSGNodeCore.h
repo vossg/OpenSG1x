@@ -88,11 +88,15 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(ParentsField)
-    
-    OSG_FC_FIELD_IDM_DECL      (AttachmentsField, ParentsField)
+    enum 
+	{ 
+		ParentsFieldId     = Inherited::NextFieldId, 
+		AttachmentsFieldId = ParentsFieldId + 1,
+		NextFieldId        = AttachmentsFieldId + 1, 
+	};
 
-    OSG_FC_LAST_FIELD_IDM_DECL (AttachmentsField)
+	static const BitVector ParentsFieldMask;
+	static const BitVector AttachmentsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               

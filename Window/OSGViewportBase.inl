@@ -109,7 +109,7 @@ inline ViewportPtr ViewportBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<ViewportPtr>(
+        fc = ViewportPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,165 +132,197 @@ inline ViewportPtr ViewportBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *ViewportBase::getSFLeft(void)
 {
-	return &_left;
+	return &_sfLeft;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *ViewportBase::getSFRight(void)
 {
-	return &_right;
+	return &_sfRight;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *ViewportBase::getSFBottom(void)
 {
-	return &_bottom;
+	return &_sfBottom;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *ViewportBase::getSFTop(void)
 {
-	return &_top;
+	return &_sfTop;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFWindowPtr *ViewportBase::getSFParent(void)
 {
-	return &_parent;
+	return &_sfParent;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFCameraPtr *ViewportBase::getSFCamera(void)
 {
-	return &_camera;
+	return &_sfCamera;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFNodePtr *ViewportBase::getSFRoot(void)
 {
-	return &_root;
+	return &_sfRoot;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFBackgroundPtr *ViewportBase::getSFBackground(void)
 {
-	return &_background;
+	return &_sfBackground;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &ViewportBase::getLeft(void)
 {
-	return _left.getValue();
+	return _sfLeft.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &ViewportBase::getLeft(void) const
 {
-	return _left.getValue();
+	return _sfLeft.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setLeft( Real32 value )
 {
-	_left.setValue(value);
+	_sfLeft.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &ViewportBase::getRight(void)
 {
-	return _right.getValue();
+	return _sfRight.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &ViewportBase::getRight(void) const
 {
-	return _right.getValue();
+	return _sfRight.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setRight( Real32 value )
 {
-	_right.setValue(value);
+	_sfRight.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &ViewportBase::getBottom(void)
 {
-	return _bottom.getValue();
+	return _sfBottom.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &ViewportBase::getBottom(void) const
 {
-	return _bottom.getValue();
+	return _sfBottom.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setBottom( Real32 value )
 {
-	_bottom.setValue(value);
+	_sfBottom.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &ViewportBase::getTop(void)
 {
-	return _top.getValue();
+	return _sfTop.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &ViewportBase::getTop(void) const
 {
-	return _top.getValue();
+	return _sfTop.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setTop( Real32 value )
 {
-	_top.setValue(value);
+	_sfTop.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 WindowPtr &ViewportBase::getParent(void)
 {
-	return _parent.getValue();
+	return _sfParent.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const WindowPtr &ViewportBase::getParent(void) const
 {
-	return _parent.getValue();
+	return _sfParent.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setParent( WindowPtr value )
 {
-	_parent.setValue(value);
+	_sfParent.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 CameraPtr &ViewportBase::getCamera(void)
 {
-	return _camera.getValue();
+	return _sfCamera.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const CameraPtr &ViewportBase::getCamera(void) const
 {
-	return _camera.getValue();
+	return _sfCamera.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setCamera( CameraPtr value )
 {
-	_camera.setValue(value);
+	_sfCamera.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 NodePtr &ViewportBase::getRoot(void)
 {
-	return _root.getValue();
+	return _sfRoot.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const NodePtr &ViewportBase::getRoot(void) const
 {
-	return _root.getValue();
+	return _sfRoot.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setRoot( NodePtr value )
 {
-	_root.setValue(value);
+	_sfRoot.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 BackgroundPtr &ViewportBase::getBackground(void)
 {
-	return _background.getValue();
+	return _sfBackground.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const BackgroundPtr &ViewportBase::getBackground(void) const
 {
-	return _background.getValue();
+	return _sfBackground.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void ViewportBase::setBackground( BackgroundPtr value )
 {
-	_background.setValue(value);
+	_sfBackground.setValue(value);
 }
 
 

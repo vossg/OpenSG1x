@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEBLENDCHUNKINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEBLENDCHUNKINST
 
 #include "OSGBlendChunkBase.h"
 #include "OSGBlendChunk.h"
@@ -78,24 +78,21 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		BlendChunkBase::SrcFactorFieldId;
-const OSG::BitVector	BlendChunkBase::SrcFactorFieldMask;
+const OSG::BitVector	BlendChunkBase::SrcFactorFieldMask = 
+    (1 << BlendChunkBase::SrcFactorFieldId);
 
-const OSG::UInt32		BlendChunkBase::DestFactorFieldId;
-const OSG::BitVector	BlendChunkBase::DestFactorFieldMask;
+const OSG::BitVector	BlendChunkBase::DestFactorFieldMask = 
+    (1 << BlendChunkBase::DestFactorFieldId);
 
-const OSG::UInt32		BlendChunkBase::ColorFieldId;
-const OSG::BitVector	BlendChunkBase::ColorFieldMask;
+const OSG::BitVector	BlendChunkBase::ColorFieldMask = 
+    (1 << BlendChunkBase::ColorFieldId);
 
-const OSG::UInt32		BlendChunkBase::GLIdFieldId;
-const OSG::BitVector	BlendChunkBase::GLIdFieldMask;
-
-
-const OSG::UInt32    	BlendChunkBase::NextFieldId; 
-const OSG::BitVector 	BlendChunkBase::NextFieldMask;
+const OSG::BitVector	BlendChunkBase::GLIdFieldMask = 
+    (1 << BlendChunkBase::GLIdFieldId);
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -103,22 +100,22 @@ char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.4 2001/06/10 
 FieldDescription BlendChunkBase::_desc[] = 
 {
     FieldDescription(SFUInt32::getClassType(), 
-                     "SrcFactor", 
+                     "sfSrcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFSrcFactor),
     FieldDescription(SFUInt32::getClassType(), 
-                     "DestFactor", 
+                     "sfDestFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFDestFactor),
     FieldDescription(SFColor4f::getClassType(), 
-                     "Color", 
+                     "sfColor", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFColor),
     FieldDescription(SFUInt32::getClassType(), 
-                     "GLId", 
+                     "sfGLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
                      (FieldAccessMethod) &BlendChunkBase::getSFGLId)
@@ -200,10 +197,10 @@ void BlendChunkBase::executeSync(FieldContainer &other,
  */
 
 BlendChunkBase::BlendChunkBase(void) :
-	_SrcFactor	(), 
-	_DestFactor	(), 
-	_Color	(Color4f(0,0,0,0)), 
-	_GLId	(), 
+	_sfSrcFactor	(), 
+	_sfDestFactor	(), 
+	_sfColor	(Color4f(0,0,0,0)), 
+	_sfGLId	(), 
 	Inherited() 
 {
 }
@@ -212,10 +209,10 @@ BlendChunkBase::BlendChunkBase(void) :
  */
 
 BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
-	_SrcFactor		(source._SrcFactor), 
-	_DestFactor		(source._DestFactor), 
-	_Color		(source._Color), 
-	_GLId		(source._GLId), 
+	_sfSrcFactor		(source._sfSrcFactor), 
+	_sfDestFactor		(source._sfDestFactor), 
+	_sfColor		(source._sfColor), 
+	_sfGLId		(source._sfGLId), 
 	Inherited        (source)
 {
 }
@@ -244,22 +241,22 @@ void BlendChunkBase::executeSyncImpl(BlendChunkBase *pOther,
 
     if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
     {
-        _SrcFactor.syncWith(pOther->_SrcFactor);
+        _sfSrcFactor.syncWith(pOther->_sfSrcFactor);
     }
 
     if(FieldBits::NoField != (DestFactorFieldMask & whichField))
     {
-        _DestFactor.syncWith(pOther->_DestFactor);
+        _sfDestFactor.syncWith(pOther->_sfDestFactor);
     }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
-        _Color.syncWith(pOther->_Color);
+        _sfColor.syncWith(pOther->_sfColor);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
-        _GLId.syncWith(pOther->_GLId);
+        _sfGLId.syncWith(pOther->_sfGLId);
     }
 
 

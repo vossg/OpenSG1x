@@ -109,7 +109,7 @@ inline TileCameraDecoratorPtr TileCameraDecoratorBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<TileCameraDecoratorPtr>(
+        fc = TileCameraDecoratorPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,85 +132,101 @@ inline TileCameraDecoratorPtr TileCameraDecoratorBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *TileCameraDecoratorBase::getSFLeft(void)
 {
-	return &_left;
+	return &_sfLeft;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *TileCameraDecoratorBase::getSFRight(void)
 {
-	return &_right;
+	return &_sfRight;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *TileCameraDecoratorBase::getSFBottom(void)
 {
-	return &_bottom;
+	return &_sfBottom;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *TileCameraDecoratorBase::getSFTop(void)
 {
-	return &_top;
+	return &_sfTop;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &TileCameraDecoratorBase::getLeft(void)
 {
-	return _left.getValue();
+	return _sfLeft.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &TileCameraDecoratorBase::getLeft(void) const
 {
-	return _left.getValue();
+	return _sfLeft.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void TileCameraDecoratorBase::setLeft( Real32 value )
 {
-	_left.setValue(value);
+	_sfLeft.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &TileCameraDecoratorBase::getRight(void)
 {
-	return _right.getValue();
+	return _sfRight.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &TileCameraDecoratorBase::getRight(void) const
 {
-	return _right.getValue();
+	return _sfRight.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void TileCameraDecoratorBase::setRight( Real32 value )
 {
-	_right.setValue(value);
+	_sfRight.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &TileCameraDecoratorBase::getBottom(void)
 {
-	return _bottom.getValue();
+	return _sfBottom.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &TileCameraDecoratorBase::getBottom(void) const
 {
-	return _bottom.getValue();
+	return _sfBottom.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void TileCameraDecoratorBase::setBottom( Real32 value )
 {
-	_bottom.setValue(value);
+	_sfBottom.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &TileCameraDecoratorBase::getTop(void)
 {
-	return _top.getValue();
+	return _sfTop.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &TileCameraDecoratorBase::getTop(void) const
 {
-	return _top.getValue();
+	return _sfTop.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void TileCameraDecoratorBase::setTop( Real32 value )
 {
-	_top.setValue(value);
+	_sfTop.setValue(value);
 }
 
 

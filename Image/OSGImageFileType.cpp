@@ -53,7 +53,7 @@
 #include "OSGLog.h"
 
 
-using OSG::ImageFileType;
+OSG_USING_NAMESPACE
 
 // Static Class Varible implementations: 
 

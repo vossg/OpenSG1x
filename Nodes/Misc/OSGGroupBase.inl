@@ -109,7 +109,7 @@ inline GroupPtr GroupBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<GroupPtr>(
+        fc = GroupPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     

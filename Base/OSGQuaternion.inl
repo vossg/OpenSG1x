@@ -1095,7 +1095,7 @@ Bool QuaternionBase<ValueTypeT>::operator <(
 
 template <class ValueTypeT> inline
 Bool QuaternionBase<ValueTypeT>::operator ==(
-    const QuaternionBase &other)
+    const QuaternionBase &other) const
 {
     return equals(other, Eps);
 }
@@ -1105,7 +1105,7 @@ Bool QuaternionBase<ValueTypeT>::operator ==(
 
 template <class ValueTypeT> inline
 Bool QuaternionBase<ValueTypeT>::operator != (
-    const QuaternionBase &other)
+    const QuaternionBase &other) const
 {
 	return ! (*this == other);
 }

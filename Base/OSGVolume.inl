@@ -71,6 +71,7 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------- state -----------------------------------------*/
 
 /** set the volume to contain nothing */
+OSG_BASE_DLLMAPPING
 void Volume::setValid (const Bool value = true) 
 { 
 	if ( ! isStatic() )
@@ -83,12 +84,14 @@ void Volume::setValid (const Bool value = true)
 }
 
 /**  Checks if the volume is valid */
+OSG_BASE_DLLMAPPING
 Bool Volume::isValid (void) const 
 { 
 	return ( _state & OSGVALID ) ? true : false;
 }
 
 /** set the volume to contain nothing */
+OSG_BASE_DLLMAPPING
 void Volume::setEmpty (const Bool value = true) 
 { 
 	if (value) 
@@ -102,12 +105,14 @@ void Volume::setEmpty (const Bool value = true)
 }
 
 /**  Checks if the volume is empty */
+OSG_BASE_DLLMAPPING
 Bool Volume::isEmpty (void) const 
 { 
 	return ( _state & OSGEMPTY ) ? true : false; 
 }
 
 /** set the volume to contain nothing */
+OSG_BASE_DLLMAPPING
 void Volume::setStatic (const Bool value = true) 
 { 
 	if (value)
@@ -117,12 +122,14 @@ void Volume::setStatic (const Bool value = true)
 }
 
 /**  Checks if the volume is static */
+OSG_BASE_DLLMAPPING
 Bool Volume::isStatic (void) const
 { 
 	return ( _state & OSGSTATIC ) ? true : false; 
 }
 
 /** set the volume to contain nothing */
+OSG_BASE_DLLMAPPING
 void Volume::setInfinite (const Bool value = true) 
 { 
 	if (value) 
@@ -136,6 +143,7 @@ void Volume::setInfinite (const Bool value = true)
 }
 
 /**  Checks if the volume is infinite */
+OSG_BASE_DLLMAPPING
 Bool Volume::isInfinite (void) const 
 { 
 	return ( _state & OSGINFINITE ) ? true : false; 

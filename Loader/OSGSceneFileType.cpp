@@ -217,7 +217,7 @@ void SceneFileType::print(void)
 		osgLog() << "NONE";
 	else
 		for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) 
-			osgLog().stream(::LOG_DEBUG) << sI->str() << " ";
+			osgLog().stream(OSG::LOG_DEBUG) << sI->str() << " ";
 
 	osgLog() << endl;
 }

@@ -109,7 +109,7 @@ inline GradientBackgroundPtr GradientBackgroundBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<GradientBackgroundPtr>(
+        fc = GradientBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,26 +132,30 @@ inline GradientBackgroundPtr GradientBackgroundBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFColor3f *GradientBackgroundBase::getMFColor(void)
 {
-	return &_color;
+	return &_mfColor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 MFReal32 *GradientBackgroundBase::getMFPosition(void)
 {
-	return &_position;
+	return &_mfPosition;
 }
 
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color3f &GradientBackgroundBase::getColor( UInt32 index)
 {
-	return _color.getValue( index );
+	return _mfColor.getValue( index );
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 Real32 &GradientBackgroundBase::getPosition( UInt32 index)
 {
-	return _position.getValue( index );
+	return _mfPosition.getValue( index );
 }
 
 

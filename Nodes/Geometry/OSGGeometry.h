@@ -166,6 +166,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE GeoDrawEnter(CNodePtr &cnode, 
+                                        Action   *pAction);
+
+    static Action::ResultE GeoIntEnter(CNodePtr &cnode, 
+                                       Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------

@@ -98,6 +98,15 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+	template <class InTypeT> inline
+	static NodePtr dcast(const InTypeT oIn)
+	{
+		return NodePtr(
+			(dynamic_cast<const typename NodePtr::ObjectType *>(oIn.getCPtr())),
+			oIn.getContainerSize(),
+			oIn.getParentFieldPos());
+	}
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -130,6 +139,12 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
     void operator =(const NodePtr  &source);
 
     /*------------------------------ dump ----------------------------------*/
+
+	/* The next two Constructors are used to work around MS Bugs, use them
+	   only if you realy now what you are doing ;-) */
+
+    explicit NodePtr(const Node   &source);
+    explicit NodePtr(const Node   *source);
     
   protected:
 
@@ -157,9 +172,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit NodePtr(const Node   &source);
-    explicit NodePtr(const Node   *source);
-
              NodePtr(const Node   *source,
                      const UInt16  uiSize,
                      const UInt16  uiParentPos);
@@ -183,9 +195,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
-
-    template <class RetTypeT, class InTypeT> inline
-    friend RetTypeT dcast(const InTypeT oIn);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -319,9 +328,6 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public FieldContainerPtr
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
-
-    template <class RetTypeT, class InTypeT> inline
-    friend RetTypeT dcast(const InTypeT oIn);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

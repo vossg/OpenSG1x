@@ -611,7 +611,7 @@ NodePtr  FieldContainerType::createNode(void) const
     if(isAbstract() == false &&
        isNode()     == true)
     {
-        fc = dcast<NodePtr>(_pPrototype->shallowCopy());
+        fc = NodePtr::dcast(_pPrototype->shallowCopy());
     }
 
 	return fc;
@@ -624,7 +624,7 @@ NodeCorePtr FieldContainerType::createNodeCore(void) const
     if(isAbstract() == false &&
        isNodeCore() == true)
     {
-        fc = dcast<NodeCorePtr>(_pPrototype->shallowCopy());
+        fc = NodeCorePtr::dcast(_pPrototype->shallowCopy());
     }
 
 	return fc;
@@ -637,7 +637,7 @@ AttachmentPtr FieldContainerType::createAttachment(void) const
     if(isAbstract()   == false &&
        isAttachment() == true)
     {
-        fc = dcast<AttachmentPtr>(_pPrototype->shallowCopy());
+        fc = AttachmentPtr::dcast(_pPrototype->shallowCopy());
     }
 
 	return fc;

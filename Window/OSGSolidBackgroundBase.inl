@@ -109,7 +109,7 @@ inline SolidBackgroundPtr SolidBackgroundBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<SolidBackgroundPtr>(
+        fc = SolidBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,25 +132,29 @@ inline SolidBackgroundPtr SolidBackgroundBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SolidBackgroundBase::getSFColor(void)
 {
-	return &_color;
+	return &_sfColor;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SolidBackgroundBase::getColor(void)
 {
-	return _color.getValue();
+	return _sfColor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Color3f &SolidBackgroundBase::getColor(void) const
 {
-	return _color.getValue();
+	return _sfColor.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void SolidBackgroundBase::setColor( Color3f value )
 {
-	_color.setValue(value);
+	_sfColor.setValue(value);
 }
 
 

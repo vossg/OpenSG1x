@@ -109,9 +109,9 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 
 	// calc the vertices
 
-	GeoPosition3f::FieldType  * p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType    * n = norms->getFieldPtr();
-	GeoTexCoords2f::FieldType * tx = tex->getFieldPtr();
+	GeoPosition3f::StoredFieldType  * p = pnts->getFieldPtr();
+	GeoNormal3f::StoredFieldType    * n = norms->getFieldPtr();
+	GeoTexCoords2f::StoredFieldType * tx = tex->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
@@ -133,9 +133,9 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 
 	// create the faces
 	
-	GeoIndexUI32::FieldType * i = index->getFieldPtr();
-	GeoPLength::FieldType   * l = lens->getFieldPtr();
-	GeoPType::FieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType * i = index->getFieldPtr();
+	GeoPLength::StoredFieldType   * l = lens->getFieldPtr();
+	GeoPType::StoredFieldType     * t = types->getFieldPtr();
 
 	beginEditCP(index);
 	beginEditCP(lens);
@@ -267,15 +267,15 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 	
 	// vertices
 
-	GeoPosition3f::FieldType 	* p  = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   	* n  = norms->getFieldPtr();
-	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
+	GeoPosition3f::StoredFieldType 	* p  = pnts->getFieldPtr();
+	GeoNormal3f::StoredFieldType   	* n  = norms->getFieldPtr();
+	GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
 
 	// faces
 	
-	GeoIndexUI32::FieldType 	* i  = index->getFieldPtr();
-	GeoPLength::FieldType    	* l  = lens->getFieldPtr();
-	GeoPType::FieldType     	* t  = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType 	* i  = index->getFieldPtr();
+	GeoPLength::StoredFieldType    	* l  = lens->getFieldPtr();
+	GeoPType::StoredFieldType     	* t  = types->getFieldPtr();
 
 	// 
 	
@@ -445,9 +445,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 
 	// calc the vertices
 
-	GeoPosition3f::FieldType 	* p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   	* n = norms->getFieldPtr();
-	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
+	GeoPosition3f::StoredFieldType 	* p = pnts->getFieldPtr();
+	GeoNormal3f::StoredFieldType   	* n = norms->getFieldPtr();
+	GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
@@ -481,9 +481,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 
 	// create the faces
 	
-	GeoIndexUI32::FieldType * i = index->getFieldPtr();
-	GeoPLength::FieldType   * l = lens->getFieldPtr();
-	GeoPType::FieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType * i = index->getFieldPtr();
+	GeoPLength::StoredFieldType   * l = lens->getFieldPtr();
+	GeoPType::StoredFieldType     * t = types->getFieldPtr();
 
 	beginEditCP(index);
 	beginEditCP(lens);
@@ -572,10 +572,10 @@ static void subdivideTriangle( UInt32 i1,
 						UInt32 i2, 
 						UInt32 i3, 
 						Int32 depth, 
-						GeoPosition3f::FieldType  *p, 
-						GeoNormal3f::FieldType    *n,
-						GeoTexCoords2f::FieldType *tx,
-						GeoIndexUI32::FieldType   *i,
+						GeoPosition3f::StoredFieldType  *p, 
+						GeoNormal3f::StoredFieldType    *n,
+						GeoTexCoords2f::StoredFieldType *tx,
+						GeoIndexUI32::StoredFieldType   *i,
 						UInt32& z, Real32 radius) 
 {			
 	if (depth == 0) 
@@ -654,10 +654,10 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 					       {3,10,7}, {10,6,7}, {6,11,7}, {6,0,11}, {6,1,0},
 			    		   {10,1,6}, {11,0,9}, {2,11,9}, {5,2,9},  {11,2,7} };			      	
 			    
-	GeoPosition3f::FieldType 	* p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   	* n = norms->getFieldPtr();
-	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
-	GeoIndexUI32::FieldType 	* i = index->getFieldPtr();
+	GeoPosition3f::StoredFieldType 	* p = pnts->getFieldPtr();
+	GeoNormal3f::StoredFieldType   	* n = norms->getFieldPtr();
+	GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
+	GeoIndexUI32::StoredFieldType 	* i = index->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
@@ -762,9 +762,9 @@ NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize,
 
 	// calc the vertices
 
-	GeoPosition3f::FieldType  * p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType    * n = norms->getFieldPtr();
-	GeoTexCoords2f::FieldType * tx = tex->getFieldPtr();
+	GeoPosition3f::StoredFieldType  * p = pnts->getFieldPtr();
+	GeoNormal3f::StoredFieldType    * n = norms->getFieldPtr();
+	GeoTexCoords2f::StoredFieldType * tx = tex->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
@@ -805,9 +805,9 @@ NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize,
 
 	// create the faces
 	
-	GeoIndexUI32::FieldType * i = index->getFieldPtr();
-	GeoPLength::FieldType   * l = lens->getFieldPtr();
-	GeoPType::FieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType * i = index->getFieldPtr();
+	GeoPLength::StoredFieldType   * l = lens->getFieldPtr();
+	GeoPType::StoredFieldType     * t = types->getFieldPtr();
 
 	beginEditCP(index);
 	beginEditCP(lens);

@@ -105,21 +105,18 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    AmbientFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector AmbientFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        AmbientFieldId = Inherited::NextFieldId,
+        DiffuseFieldId = AmbientFieldId + 1,
+        SpecularFieldId = DiffuseFieldId + 1,
+        BeaconFieldId = SpecularFieldId + 1
+    };
 
-	static const osg::UInt32    DiffuseFieldId   = AmbientFieldId + 1;
-	static const osg::BitVector DiffuseFieldMask = AmbientFieldMask << 1;
-
-	static const osg::UInt32    SpecularFieldId   = DiffuseFieldId + 1;
-	static const osg::BitVector SpecularFieldMask = DiffuseFieldMask << 1;
-
-	static const osg::UInt32    BeaconFieldId   = SpecularFieldId + 1;
-	static const osg::BitVector BeaconFieldMask = SpecularFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = BeaconFieldId + 1;
-	static const osg::BitVector	NextFieldMask = BeaconFieldMask << 1;
-
+    static const osg::BitVector AmbientFieldMask;
+    static const osg::BitVector DiffuseFieldMask;
+    static const osg::BitVector SpecularFieldMask;
+    static const osg::BitVector BeaconFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -211,16 +208,16 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 
     /*! 
      */
-    SFColor4f	_ambient;
+    SFColor4f	_sfAmbient;
     /*! 
      */
-    SFColor4f	_diffuse;
+    SFColor4f	_sfDiffuse;
     /*! 
      */
-    SFColor4f	_specular;
+    SFColor4f	_sfSpecular;
     /*! 
      */
-    SFNodePtr	_beacon;
+    SFNodePtr	_sfBeacon;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

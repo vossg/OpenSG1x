@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    DirectionFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector DirectionFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        DirectionFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = DirectionFieldId + 1;
-	static const osg::BitVector	NextFieldMask = DirectionFieldMask << 1;
-
+    static const osg::BitVector DirectionFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -191,7 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
 
     /*! 
      */
-    SFVec3f	_direction;
+    SFVec3f	_sfDirection;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

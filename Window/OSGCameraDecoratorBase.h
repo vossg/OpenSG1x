@@ -102,12 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    CameraFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector CameraFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        CameraFieldId = Inherited::NextFieldId
+    };
 
-	static const osg::UInt32	NextFieldId   = CameraFieldId + 1;
-	static const osg::BitVector	NextFieldMask = CameraFieldMask << 1;
-
+    static const osg::BitVector CameraFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -187,7 +187,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
     /*! The Camera that is being decorated.
      */
-    SFCameraPtr	_camera;
+    SFCameraPtr	_sfCamera;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

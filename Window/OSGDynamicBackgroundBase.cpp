@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEDYNAMICBACKGROUNDINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEDYNAMICBACKGROUNDINST
 
 #include "OSGDynamicBackgroundBase.h"
 #include "OSGDynamicBackground.h"
@@ -91,18 +91,15 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		DynamicBackgroundBase::ColorFieldId;
-const OSG::BitVector	DynamicBackgroundBase::ColorFieldMask;
+const OSG::BitVector	DynamicBackgroundBase::ColorFieldMask = 
+    (1 << DynamicBackgroundBase::ColorFieldId);
 
-const OSG::UInt32		DynamicBackgroundBase::AngleFieldId;
-const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask;
-
-
-const OSG::UInt32    	DynamicBackgroundBase::NextFieldId; 
-const OSG::BitVector 	DynamicBackgroundBase::NextFieldMask;
+const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask = 
+    (1 << DynamicBackgroundBase::AngleFieldId);
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -110,12 +107,12 @@ char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1
 FieldDescription DynamicBackgroundBase::_desc[] = 
 {
     FieldDescription(MFColor3f::getClassType(), 
-                     "color", 
+                     "mfColor", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &DynamicBackgroundBase::getMFColor),
     FieldDescription(MFReal32::getClassType(), 
-                     "angle", 
+                     "mfAngle", 
                      AngleFieldId, AngleFieldMask,
                      false,
                      (FieldAccessMethod) &DynamicBackgroundBase::getMFAngle)
@@ -197,8 +194,8 @@ void DynamicBackgroundBase::executeSync(FieldContainer &other,
  */
 
 DynamicBackgroundBase::DynamicBackgroundBase(void) :
-	_color	(), 
-	_angle	(), 
+	_mfColor	(), 
+	_mfAngle	(), 
 	Inherited() 
 {
 }
@@ -207,8 +204,8 @@ DynamicBackgroundBase::DynamicBackgroundBase(void) :
  */
 
 DynamicBackgroundBase::DynamicBackgroundBase(const DynamicBackgroundBase &source) :
-	_color		(source._color), 
-	_angle		(source._angle), 
+	_mfColor		(source._mfColor), 
+	_mfAngle		(source._mfAngle), 
 	Inherited        (source)
 {
 }
@@ -237,12 +234,12 @@ void DynamicBackgroundBase::executeSyncImpl(DynamicBackgroundBase *pOther,
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
-        _color.syncWith(pOther->_color);
+        _mfColor.syncWith(pOther->_mfColor);
     }
 
     if(FieldBits::NoField != (AngleFieldMask & whichField))
     {
-        _angle.syncWith(pOther->_angle);
+        _mfAngle.syncWith(pOther->_mfAngle);
     }
 
 

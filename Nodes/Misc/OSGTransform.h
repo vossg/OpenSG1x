@@ -136,6 +136,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE TransformDrawEnter(CNodePtr &cnode, 
+                                              Action   *pAction);
+    static Action::ResultE TransformDrawLeave(CNodePtr &cnode, 
+                                              Action   *pAction);
+
+    static Action::ResultE TransformIntEnter(CNodePtr &cnode, 
+                                             Action   *pAction);
+    static Action::ResultE TransformIntLeave(CNodePtr &cnode, 
+                                             Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------

@@ -174,8 +174,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    static const UInt32    NextFieldId   =    1;
-    static const BitVector NextFieldMask = 0x01;
+	enum { NextFieldId = 1 };
+	static const BitVector NextFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -353,36 +353,38 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 #endif
     }
 
+/*
     template <class T>
-    T getPtr(const typename T::ObjectType &object)
+    static T getPtr(const typename T::ObjectType &object)
     {
         T returnValue(object); 
         return returnValue; 
     }
 
     template <class T>
-    T getPtr(const typename T::ObjectType &object) const
+    static T getPtr(const typename T::ObjectType &object) 
     {
         T returnValue(object); 
         return returnValue; 
     }
+*/
 
     template <class FieldTypeT>
-    void beginEdit(const BitVector             &,
+    void beginEdit(const BitVector          &,
                          SField<FieldTypeT> &fieldR)
     {
         fieldR.beginEdit();
     }
 
     template <class FieldTypeT>
-    void beginEdit(const BitVector             &,
+    void beginEdit(const BitVector          &,
                          MField<FieldTypeT> &fieldR)
     {
         fieldR.beginEdit();
     }
 
     template <class FieldTypeT>
-    void endEdit(const BitVector             &whichField,
+    void endEdit(const BitVector          &whichField,
                        SField<FieldTypeT> &)
     {
         FieldContainerPtr tmpPtr(this);
@@ -390,13 +392,30 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     }
 
     template <class FieldTypeT>
-    void endEdit(const BitVector             &whichField,
+    void endEdit(const BitVector          &whichField,
                        MField<FieldTypeT> &)
     {
         FieldContainerPtr tmpPtr(this);
         endEditCP(tmpPtr, whichField);
     }
 
+/*
+
+    template <class FieldTypeT>
+    void beginEdit(const BitVector  &,
+                         FieldTypeT &fieldR)
+    {
+        fieldR.beginEdit();
+    }
+
+    template <class FieldTypeT>
+    void endEdit(const BitVector  &whichField,
+                       FieldTypeT &)
+    {
+        FieldContainerPtr tmpPtr(this);
+        endEditCP(tmpPtr, whichField);
+    }
+*/
 
     virtual void changed        (BitVector whichField, ChangeMode from);
 
@@ -735,7 +754,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getClassType().getPrototype() != OSG::NullFC)                      \
-         fc = OSG::dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->       \
+         fc = OSG_CLASS_PTR::dcast(getClassType().getPrototype()->            \
                  shallowCopy());                                              \
                                                                               \
         return fc;                                                            \
@@ -751,7 +770,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getClassType().getPrototype() != OSG::NullFC)                      \
-         fc = OSG::dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->       \
+         fc = OSG_CLASS_PTR::dcast(getClassType().getPrototype()->			  \
                   shallowCopy());                                             \
                                                                               \
         return fc;                                                            \

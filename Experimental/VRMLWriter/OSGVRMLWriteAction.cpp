@@ -425,7 +425,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
 
     VRMLTransformPtr pTrans = 
-        dcast<VRMLTransformPtr>(pGroup.getNode()->getCore());
+        VRMLTransformPtr::dcast(pGroup.getNode()->getCore());
 
     Real32 rQX;
     Real32 rQY;
@@ -559,12 +559,12 @@ void VRMLWriteAction::writePoints(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoPosition3fPtr pPos = dcast<GeoPosition3fPtr>(pGeo->getPositions());
+    GeoPosition3fPtr pPos = GeoPosition3fPtr::dcast(pGeo->getPositions());
 
     if(pPos == NullFC)
         return;
 
-    GeoPosition3f::FieldType *pPosField = pPos->getFieldPtr();
+    GeoPosition3f::StoredFieldType *pPosField = pPos->getFieldPtr();
 
     if(pPosField         == NULL ||
        pPosField->size() == 0)
@@ -619,12 +619,12 @@ void VRMLWriteAction::writeNormals(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoNormal3fPtr pNorm = dcast<GeoNormal3fPtr>(pGeo->getNormals());
+    GeoNormal3fPtr pNorm = GeoNormal3fPtr::dcast(pGeo->getNormals());
 
     if(pNorm == NullFC)
         return;
 
-    GeoNormal3f::FieldType *pNormField = pNorm->getFieldPtr();
+    GeoNormal3f::StoredFieldType *pNormField = pNorm->getFieldPtr();
 
     if(pNormField         == NULL ||
        pNormField->size() == 0)
@@ -678,12 +678,12 @@ void VRMLWriteAction::writeTexCoords(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoTexCoords2fPtr pTex = dcast<GeoTexCoords2fPtr>(pGeo->getTexCoords());
+    GeoTexCoords2fPtr pTex = GeoTexCoords2fPtr::dcast(pGeo->getTexCoords());
 
     if(pTex == NullFC)
         return;
 
-    GeoTexCoords2f::FieldType *pTexField = pTex->getFieldPtr();
+    GeoTexCoords2f::StoredFieldType *pTexField = pTex->getFieldPtr();
 
     if(pTexField         == NULL ||
        pTexField->size() == 0)
@@ -739,7 +739,7 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoIndexUI32Ptr pIndex  = dcast<GeoIndexUI32Ptr>(pGeo->getIndex());
+    GeoIndexUI32Ptr pIndex  = GeoIndexUI32Ptr::dcast(pGeo->getIndex());
     GeoPTypePtr     pTypes  = pGeo->getTypes();
     GeoPLengthPtr   pLength = pGeo->getLengths();
 
@@ -750,9 +750,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoIndexUI32::FieldType *pIndexField  = pIndex->getFieldPtr();
-    GeoPType::FieldType     *pTypeField   = pTypes->getFieldPtr();
-    GeoPLength::FieldType   *pLengthField = pLength->getFieldPtr();
+    GeoIndexUI32::StoredFieldType *pIndexField  = pIndex->getFieldPtr();
+    GeoPType::StoredFieldType     *pTypeField   = pTypes->getFieldPtr();
+    GeoPLength::StoredFieldType   *pLengthField = pLength->getFieldPtr();
 
     if(pIndexField          == NULL ||
        pIndexField->size()  == 0    ||
@@ -833,7 +833,7 @@ void VRMLWriteAction::writeMaterial (GeometryPtr      pGeo,
 
     MaterialPtr pMat = pGeo->getMaterial();
 
-    SimpleMaterialPtr pSMat = dcast<SimpleMaterialPtr>(pMat);
+    SimpleMaterialPtr pSMat = SimpleMaterialPtr::dcast(pMat);
 
     if(pSMat == NullFC)
         return;
@@ -917,7 +917,7 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
 
     GeometryPtr pGeo = 
-        dcast<GeometryPtr>(pGroup.getNode()->getCore());
+        GeometryPtr::dcast(pGroup.getNode()->getCore());
 
     if(pWriter == NULL || pGeo == NullFC)
     {
@@ -1122,11 +1122,11 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
     FCInfo *pInfoCore = &(_vFCInfos[pCore.getFieldContainerId()]);
 
     NamePtr pNodename =
-        dcast<NamePtr>(pNode->findAttachment(
+        NamePtr::dcast(pNode->findAttachment(
             Name::getClassType().getGroupId()));
 
     NamePtr pCorename =
-        dcast<NamePtr>(pCore->findAttachment(
+        NamePtr::dcast(pCore->findAttachment(
             Name::getClassType().getGroupId()));
 
     pInfoNode->incUse();

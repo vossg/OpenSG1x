@@ -109,7 +109,7 @@ inline TransformChunkPtr TransformChunkBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<TransformChunkPtr>(
+        fc = TransformChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -132,25 +132,29 @@ inline TransformChunkPtr TransformChunkBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
 SFMatrix *TransformChunkBase::getSFMatrix(void)
 {
-	return &_matrix;
+	return &_sfMatrix;
 }
 
 
+OSG_SYSTEMLIB_DLLMAPPING
 Matrix &TransformChunkBase::getMatrix(void)
 {
-	return _matrix.getValue();
+	return _sfMatrix.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 const Matrix &TransformChunkBase::getMatrix(void) const
 {
-	return _matrix.getValue();
+	return _sfMatrix.getValue();
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
 void TransformChunkBase::setMatrix( Matrix value )
 {
-	_matrix.setValue(value);
+	_sfMatrix.setValue(value);
 }
 
 

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILESPOTLIGHTINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILESPOTLIGHTINST
 
 #include "OSGSpotLightBase.h"
 #include "OSGSpotLight.h"
@@ -78,21 +78,18 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		SpotLightBase::DirectionFieldId;
-const OSG::BitVector	SpotLightBase::DirectionFieldMask;
+const OSG::BitVector	SpotLightBase::DirectionFieldMask = 
+    (1 << SpotLightBase::DirectionFieldId);
 
-const OSG::UInt32		SpotLightBase::SpotExponentFieldId;
-const OSG::BitVector	SpotLightBase::SpotExponentFieldMask;
+const OSG::BitVector	SpotLightBase::SpotExponentFieldMask = 
+    (1 << SpotLightBase::SpotExponentFieldId);
 
-const OSG::UInt32		SpotLightBase::SpotCutOffFieldId;
-const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask;
-
-
-const OSG::UInt32    	SpotLightBase::NextFieldId; 
-const OSG::BitVector 	SpotLightBase::NextFieldMask;
+const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask = 
+    (1 << SpotLightBase::SpotCutOffFieldId);
 
 
-char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+
+char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -100,17 +97,17 @@ char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.4 2001/06/10 12
 FieldDescription SpotLightBase::_desc[] = 
 {
     FieldDescription(SFVec3f::getClassType(), 
-                     "direction", 
+                     "sfDirection", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
                      (FieldAccessMethod) &SpotLightBase::getSFDirection),
     FieldDescription(SFReal32::getClassType(), 
-                     "spotExponent", 
+                     "sfSpotExponent", 
                      SpotExponentFieldId, SpotExponentFieldMask,
                      false,
                      (FieldAccessMethod) &SpotLightBase::getSFSpotExponent),
     FieldDescription(SFReal32::getClassType(), 
-                     "spotCutOff", 
+                     "sfSpotCutOff", 
                      SpotCutOffFieldId, SpotCutOffFieldMask,
                      false,
                      (FieldAccessMethod) &SpotLightBase::getSFSpotCutOff)
@@ -192,9 +189,9 @@ void SpotLightBase::executeSync(FieldContainer &other,
  */
 
 SpotLightBase::SpotLightBase(void) :
-	_direction	(), 
-	_spotExponent	(), 
-	_spotCutOff	(), 
+	_sfDirection	(), 
+	_sfSpotExponent	(), 
+	_sfSpotCutOff	(), 
 	Inherited() 
 {
 }
@@ -203,9 +200,9 @@ SpotLightBase::SpotLightBase(void) :
  */
 
 SpotLightBase::SpotLightBase(const SpotLightBase &source) :
-	_direction		(source._direction), 
-	_spotExponent		(source._spotExponent), 
-	_spotCutOff		(source._spotCutOff), 
+	_sfDirection		(source._sfDirection), 
+	_sfSpotExponent		(source._sfSpotExponent), 
+	_sfSpotCutOff		(source._sfSpotCutOff), 
 	Inherited        (source)
 {
 }
@@ -234,17 +231,17 @@ void SpotLightBase::executeSyncImpl(SpotLightBase *pOther,
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
     {
-        _direction.syncWith(pOther->_direction);
+        _sfDirection.syncWith(pOther->_sfDirection);
     }
 
     if(FieldBits::NoField != (SpotExponentFieldMask & whichField))
     {
-        _spotExponent.syncWith(pOther->_spotExponent);
+        _sfSpotExponent.syncWith(pOther->_sfSpotExponent);
     }
 
     if(FieldBits::NoField != (SpotCutOffFieldMask & whichField))
     {
-        _spotCutOff.syncWith(pOther->_spotCutOff);
+        _sfSpotCutOff.syncWith(pOther->_sfSpotCutOff);
     }
 
 

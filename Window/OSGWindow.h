@@ -49,7 +49,9 @@
 
 #include <OSGConfig.h>
 
+#ifndef OSG_NOFUNCTORS
 #include <OSGFunctors.h>
+#endif
 
 #include <OSGWindowBase.h>
 
@@ -90,7 +92,32 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    typedef void (*FunctorFunc)(GLObjectFlagE, UInt32);
+
+    struct GLObjectFunctor
+    {
+       public:
+
+        FunctorFunc _func;
+
+        virtual void call(GLObjectFlagE flagsGL, UInt32 uiOpt)
+        {
+            _func(flagsGL, uiOpt);
+        }
+    };
+
+    static GLObjectFunctor osgFunctionFunctor2(FunctorFunc func)
+    {
+        GLObjectFunctor result;
+
+        result._func = func;
+
+        return result;
+    }
+#else
 	typedef Functor2Base<void,GLObjectFlagE,UInt32> GLObjectFunctor;
+#endif
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -240,6 +267,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 		volatile UInt32 refCounter;
 	};
 
+    friend class GLObject;
+
 	typedef MField<GLObjectFlagE> MFGLObjectFlagE;
 	
 
@@ -307,9 +336,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
  
 	/** GLObject stuff **/
 
-	static Lock                       *_GLObjectLock;
-	static vector<Window::GLObject*>  _glObjects;
-	static vector<UInt32>			  _glObjectDestroyList;
+	static Lock               *_GLObjectLock;
+	static vector<GLObject*>   _glObjects;
+	static vector<UInt32>	   _glObjectDestroyList;
    
  
     //-----------------------------------------------------------------------

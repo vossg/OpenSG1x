@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEGRADIENTBACKGROUNDINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEGRADIENTBACKGROUNDINST
 
 #include "OSGGradientBackgroundBase.h"
 #include "OSGGradientBackground.h"
@@ -91,18 +91,15 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		GradientBackgroundBase::ColorFieldId;
-const OSG::BitVector	GradientBackgroundBase::ColorFieldMask;
+const OSG::BitVector	GradientBackgroundBase::ColorFieldMask = 
+    (1 << GradientBackgroundBase::ColorFieldId);
 
-const OSG::UInt32		GradientBackgroundBase::PositionFieldId;
-const OSG::BitVector	GradientBackgroundBase::PositionFieldMask;
-
-
-const OSG::UInt32    	GradientBackgroundBase::NextFieldId; 
-const OSG::BitVector 	GradientBackgroundBase::NextFieldMask;
+const OSG::BitVector	GradientBackgroundBase::PositionFieldMask = 
+    (1 << GradientBackgroundBase::PositionFieldId);
 
 
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+
+char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -110,12 +107,12 @@ char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v
 FieldDescription GradientBackgroundBase::_desc[] = 
 {
     FieldDescription(MFColor3f::getClassType(), 
-                     "color", 
+                     "mfColor", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &GradientBackgroundBase::getMFColor),
     FieldDescription(MFReal32::getClassType(), 
-                     "position", 
+                     "mfPosition", 
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &GradientBackgroundBase::getMFPosition)
@@ -197,8 +194,8 @@ void GradientBackgroundBase::executeSync(FieldContainer &other,
  */
 
 GradientBackgroundBase::GradientBackgroundBase(void) :
-	_color	(), 
-	_position	(), 
+	_mfColor	(), 
+	_mfPosition	(), 
 	Inherited() 
 {
 }
@@ -207,8 +204,8 @@ GradientBackgroundBase::GradientBackgroundBase(void) :
  */
 
 GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &source) :
-	_color		(source._color), 
-	_position		(source._position), 
+	_mfColor		(source._mfColor), 
+	_mfPosition		(source._mfPosition), 
 	Inherited        (source)
 {
 }
@@ -237,12 +234,12 @@ void GradientBackgroundBase::executeSyncImpl(GradientBackgroundBase *pOther,
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
-        _color.syncWith(pOther->_color);
+        _mfColor.syncWith(pOther->_mfColor);
     }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
-        _position.syncWith(pOther->_position);
+        _mfPosition.syncWith(pOther->_mfPosition);
     }
 
 

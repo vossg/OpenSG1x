@@ -86,7 +86,7 @@ typedef SField<Bool, 2>   SFBool;
 
 #else
 
-OSG_DLLEXPORT_DECL2(SField, Bool, 2, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(SField, Bool, 2, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 #endif

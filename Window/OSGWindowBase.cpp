@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEWINDOWINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEWINDOWINST
 
 #include "OSGWindowBase.h"
 #include "OSGWindow.h"
@@ -93,27 +93,24 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		WindowBase::WidthFieldId;
-const OSG::BitVector	WindowBase::WidthFieldMask;
+const OSG::BitVector	WindowBase::WidthFieldMask = 
+    (1 << WindowBase::WidthFieldId);
 
-const OSG::UInt32		WindowBase::HeightFieldId;
-const OSG::BitVector	WindowBase::HeightFieldMask;
+const OSG::BitVector	WindowBase::HeightFieldMask = 
+    (1 << WindowBase::HeightFieldId);
 
-const OSG::UInt32		WindowBase::PortFieldId;
-const OSG::BitVector	WindowBase::PortFieldMask;
+const OSG::BitVector	WindowBase::PortFieldMask = 
+    (1 << WindowBase::PortFieldId);
 
-const OSG::UInt32		WindowBase::ResizePendingFieldId;
-const OSG::BitVector	WindowBase::ResizePendingFieldMask;
+const OSG::BitVector	WindowBase::ResizePendingFieldMask = 
+    (1 << WindowBase::ResizePendingFieldId);
 
-const OSG::UInt32		WindowBase::GlObjectFlagsFieldId;
-const OSG::BitVector	WindowBase::GlObjectFlagsFieldMask;
-
-
-const OSG::UInt32    	WindowBase::NextFieldId; 
-const OSG::BitVector 	WindowBase::NextFieldMask;
+const OSG::BitVector	WindowBase::GlObjectFlagsFieldMask = 
+    (1 << WindowBase::GlObjectFlagsFieldId);
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.6 2001/07/03 14:16:33 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -121,27 +118,27 @@ char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.5 2001/06/10 12:42:07
 FieldDescription WindowBase::_desc[] = 
 {
     FieldDescription(SFUInt16::getClassType(), 
-                     "width", 
+                     "sfWidth", 
                      WidthFieldId, WidthFieldMask,
                      false,
                      (FieldAccessMethod) &WindowBase::getSFWidth),
     FieldDescription(SFUInt16::getClassType(), 
-                     "height", 
+                     "sfHeight", 
                      HeightFieldId, HeightFieldMask,
                      false,
                      (FieldAccessMethod) &WindowBase::getSFHeight),
     FieldDescription(MFViewportPtr::getClassType(), 
-                     "port", 
+                     "mfPort", 
                      PortFieldId, PortFieldMask,
                      false,
                      (FieldAccessMethod) &WindowBase::getMFPort),
     FieldDescription(SFBool::getClassType(), 
-                     "resizePending", 
+                     "sfResizePending", 
                      ResizePendingFieldId, ResizePendingFieldMask,
                      true,
                      (FieldAccessMethod) &WindowBase::getSFResizePending),
     FieldDescription(MFUInt32::getClassType(), 
-                     "glObjectFlags", 
+                     "mfGlObjectFlags", 
                      GlObjectFlagsFieldId, GlObjectFlagsFieldMask,
                      true,
                      (FieldAccessMethod) &WindowBase::getMFGlObjectFlags)
@@ -214,11 +211,11 @@ void WindowBase::executeSync(FieldContainer &other,
  */
 
 WindowBase::WindowBase(void) :
-	_width	(), 
-	_height	(), 
-	_port	(), 
-	_resizePending	(), 
-	_glObjectFlags	(), 
+	_sfWidth	(), 
+	_sfHeight	(), 
+	_mfPort	(), 
+	_sfResizePending	(), 
+	_mfGlObjectFlags	(), 
 	Inherited() 
 {
 }
@@ -227,11 +224,11 @@ WindowBase::WindowBase(void) :
  */
 
 WindowBase::WindowBase(const WindowBase &source) :
-	_width		(source._width), 
-	_height		(source._height), 
-	_port		(source._port), 
-	_resizePending		(source._resizePending), 
-	_glObjectFlags		(source._glObjectFlags), 
+	_sfWidth		(source._sfWidth), 
+	_sfHeight		(source._sfHeight), 
+	_mfPort		(source._mfPort), 
+	_sfResizePending		(source._sfResizePending), 
+	_mfGlObjectFlags		(source._mfGlObjectFlags), 
 	Inherited        (source)
 {
 }
@@ -260,27 +257,27 @@ void WindowBase::executeSyncImpl(WindowBase *pOther,
 
     if(FieldBits::NoField != (WidthFieldMask & whichField))
     {
-        _width.syncWith(pOther->_width);
+        _sfWidth.syncWith(pOther->_sfWidth);
     }
 
     if(FieldBits::NoField != (HeightFieldMask & whichField))
     {
-        _height.syncWith(pOther->_height);
+        _sfHeight.syncWith(pOther->_sfHeight);
     }
 
     if(FieldBits::NoField != (PortFieldMask & whichField))
     {
-        _port.syncWith(pOther->_port);
+        _mfPort.syncWith(pOther->_mfPort);
     }
 
     if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
     {
-        _resizePending.syncWith(pOther->_resizePending);
+        _sfResizePending.syncWith(pOther->_sfResizePending);
     }
 
     if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
     {
-        _glObjectFlags.syncWith(pOther->_glObjectFlags);
+        _mfGlObjectFlags.syncWith(pOther->_mfGlObjectFlags);
     }
 
 

@@ -140,8 +140,45 @@ const char *Geometry::mapType( UInt8 type )
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE Geometry::GeoDrawEnter(CNodePtr &cnode, 
+                                            Action  *pAction)
+{
+    NodeCore *pNC = cnode.getCPtr();
+    Geometry *pSC = dynamic_cast<Geometry *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "GEDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->doDraw(pAction);
+    }
+}
+
+OSG::Action::ResultE Geometry::GeoIntEnter(CNodePtr &cnode, 
+                                           Action  *pAction)
+{
+    NodeCore *pNC = cnode.getCPtr();
+    Geometry *pSC = dynamic_cast<Geometry *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "GEIE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->intersect(pAction);
+    }
+}
+#endif
+
 void Geometry::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
 	DrawAction::registerEnterDefault( getClassType(), 
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
@@ -153,6 +190,17 @@ void Geometry::initMethod (void)
 								CNodePtr,  
 								GeometryPtr, 
 								Action *>(&Geometry::intersect));
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Geometry::GeoDrawEnter));
+
+    IntersectAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Geometry::GeoIntEnter));
+
+#endif
 }
 
 
@@ -215,7 +263,7 @@ void Geometry::adjustVolume( Volume & volume )
 
 GeometryPtr Geometry::getPtr(void) const
 {
-    return FieldContainer::getPtr<GeometryPtr>(*this);
+    return GeometryPtr(*this);
 }
 
 

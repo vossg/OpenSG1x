@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILESTATEINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILESTATEINST
 
 #include "OSGStateBase.h"
 #include "OSGState.h"
@@ -93,15 +93,12 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		StateBase::ChunksFieldId;
-const OSG::BitVector	StateBase::ChunksFieldMask;
+const OSG::BitVector	StateBase::ChunksFieldMask = 
+    (1 << StateBase::ChunksFieldId);
 
 
-const OSG::UInt32    	StateBase::NextFieldId; 
-const OSG::BitVector 	StateBase::NextFieldMask;
 
-
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -109,7 +106,7 @@ char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.4 2001/06/10 12:42:07 v
 FieldDescription StateBase::_desc[] = 
 {
     FieldDescription(MFStateChunkPtr::getClassType(), 
-                     "chunks", 
+                     "mfChunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,
                      (FieldAccessMethod) &StateBase::getMFChunks)
@@ -191,7 +188,7 @@ void StateBase::executeSync(FieldContainer &other,
  */
 
 StateBase::StateBase(void) :
-	_chunks	(), 
+	_mfChunks	(), 
 	Inherited() 
 {
 }
@@ -200,7 +197,7 @@ StateBase::StateBase(void) :
  */
 
 StateBase::StateBase(const StateBase &source) :
-	_chunks		(source._chunks), 
+	_mfChunks		(source._mfChunks), 
 	Inherited        (source)
 {
 }
@@ -229,7 +226,7 @@ void StateBase::executeSyncImpl(StateBase *pOther,
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
     {
-        _chunks.syncWith(pOther->_chunks);
+        _mfChunks.syncWith(pOther->_mfChunks);
     }
 
 

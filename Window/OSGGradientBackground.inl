@@ -87,8 +87,8 @@ OSG_BEGIN_NAMESPACE
 /*------------------------------ access -----------------------------------*/
 inline void GradientBackground::addColor( Color3f col, Real32 pos )
 {
-	_color.addValue( col );
-	_position.addValue( pos );
+	_mfColor.addValue( col );
+	_mfPosition.addValue( pos );
 }
 
 /*------------------------------- size ----------------------------------*/

@@ -55,13 +55,13 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEVRMLTRANSFORMINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
-
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEVRMLTRANSFORMINST
 
 #include "OSGVRMLTransformBase.h"
 #include "OSGVRMLTransform.h"
@@ -93,27 +93,24 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::UInt32		VRMLTransformBase::CenterFieldId;
-const OSG::BitVector	VRMLTransformBase::CenterFieldMask;
+const OSG::BitVector	VRMLTransformBase::CenterFieldMask = 
+    (1 << VRMLTransformBase::CenterFieldId);
 
-const OSG::UInt32		VRMLTransformBase::RotationFieldId;
-const OSG::BitVector	VRMLTransformBase::RotationFieldMask;
+const OSG::BitVector	VRMLTransformBase::RotationFieldMask = 
+    (1 << VRMLTransformBase::RotationFieldId);
 
-const OSG::UInt32		VRMLTransformBase::ScaleFieldId;
-const OSG::BitVector	VRMLTransformBase::ScaleFieldMask;
+const OSG::BitVector	VRMLTransformBase::ScaleFieldMask = 
+    (1 << VRMLTransformBase::ScaleFieldId);
 
-const OSG::UInt32		VRMLTransformBase::ScaleOrientationFieldId;
-const OSG::BitVector	VRMLTransformBase::ScaleOrientationFieldMask;
+const OSG::BitVector	VRMLTransformBase::ScaleOrientationFieldMask = 
+    (1 << VRMLTransformBase::ScaleOrientationFieldId);
 
-const OSG::UInt32		VRMLTransformBase::TranslationFieldId;
-const OSG::BitVector	VRMLTransformBase::TranslationFieldMask;
-
-
-const OSG::UInt32    	VRMLTransformBase::NextFieldId; 
-const OSG::BitVector 	VRMLTransformBase::NextFieldMask;
+const OSG::BitVector	VRMLTransformBase::TranslationFieldMask = 
+    (1 << VRMLTransformBase::TranslationFieldId);
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -121,27 +118,27 @@ char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.5 2001/
 FieldDescription VRMLTransformBase::_desc[] = 
 {
     FieldDescription(SFVec3f::getClassType(), 
-                     "center", 
+                     "sfCenter", 
                      CenterFieldId, CenterFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFCenter),
     FieldDescription(SFQuaternion::getClassType(), 
-                     "rotation", 
+                     "sfRotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFRotation),
     FieldDescription(SFVec3f::getClassType(), 
-                     "scale", 
+                     "sfScale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFScale),
     FieldDescription(SFQuaternion::getClassType(), 
-                     "scaleOrientation", 
+                     "sfScaleOrientation", 
                      ScaleOrientationFieldId, ScaleOrientationFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFScaleOrientation),
     FieldDescription(SFVec3f::getClassType(), 
-                     "translation", 
+                     "sfTranslation", 
                      TranslationFieldId, TranslationFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFTranslation)
@@ -223,11 +220,11 @@ void VRMLTransformBase::executeSync(FieldContainer &other,
  */
 
 VRMLTransformBase::VRMLTransformBase(void) :
-	_center	(), 
-	_rotation	(), 
-	_scale	(), 
-	_scaleOrientation	(), 
-	_translation	(), 
+	_sfCenter	(), 
+	_sfRotation	(), 
+	_sfScale	(), 
+	_sfScaleOrientation	(), 
+	_sfTranslation	(), 
 	Inherited() 
 {
 }
@@ -236,11 +233,11 @@ VRMLTransformBase::VRMLTransformBase(void) :
  */
 
 VRMLTransformBase::VRMLTransformBase(const VRMLTransformBase &source) :
-	_center		(source._center), 
-	_rotation		(source._rotation), 
-	_scale		(source._scale), 
-	_scaleOrientation		(source._scaleOrientation), 
-	_translation		(source._translation), 
+	_sfCenter		(source._sfCenter), 
+	_sfRotation		(source._sfRotation), 
+	_sfScale		(source._sfScale), 
+	_sfScaleOrientation		(source._sfScaleOrientation), 
+	_sfTranslation		(source._sfTranslation), 
 	Inherited        (source)
 {
 }
@@ -269,27 +266,27 @@ void VRMLTransformBase::executeSyncImpl(VRMLTransformBase *pOther,
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
     {
-        _center.syncWith(pOther->_center);
+        _sfCenter.syncWith(pOther->_sfCenter);
     }
 
     if(FieldBits::NoField != (RotationFieldMask & whichField))
     {
-        _rotation.syncWith(pOther->_rotation);
+        _sfRotation.syncWith(pOther->_sfRotation);
     }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
     {
-        _scale.syncWith(pOther->_scale);
+        _sfScale.syncWith(pOther->_sfScale);
     }
 
     if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
     {
-        _scaleOrientation.syncWith(pOther->_scaleOrientation);
+        _sfScaleOrientation.syncWith(pOther->_sfScaleOrientation);
     }
 
     if(FieldBits::NoField != (TranslationFieldMask & whichField))
     {
-        _translation.syncWith(pOther->_translation);
+        _sfTranslation.syncWith(pOther->_sfTranslation);
     }
 
 

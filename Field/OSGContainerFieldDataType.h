@@ -40,12 +40,10 @@
 #define _OSG_CONTAINERFIELDDATATYPE_H_
 
 #include <OSGFieldDataType.h>
+#include <OSGNodePtr.h>
 
 OSG_BEGIN_NAMESPACE
 
-class FieldContainer;
-
-class NodePtr;
 
 class NodeCore;
 typedef FCPtr<FieldContainerPtr, NodeCore> NodeCorePtr;

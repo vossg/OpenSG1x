@@ -101,13 +101,41 @@ char DirectionalLight::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE DirectionalLight::DLightDrawEnter(CNodePtr &cnode, 
+                                                       Action  *pAction)
+{
+    NodeCore         *pNC = cnode.getCPtr();
+    DirectionalLight *pSC = dynamic_cast<DirectionalLight *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "DLDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->draw(pAction);
+    }
+}
+#endif
+
 void DirectionalLight::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 DirectionalLightPtr, 
                                 Action *>(&DirectionalLight::draw));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                         DirectionalLight::DLightDrawEnter));
+
+#endif
 }
 
 /***************************************************************************\
@@ -150,7 +178,7 @@ void DirectionalLight::setDirection(Real32 rX,
                                     Real32 rY, 
                                     Real32 rZ)
 {
-    _direction.getValue().setValues(rX, rY, rZ);
+    _sfDirection.getValue().setValues(rX, rY, rZ);
 }
 
 
@@ -186,10 +214,10 @@ Action::ResultE DirectionalLight::draw(Action * action )
 {
     LightBase::draw( action );
 
-    Vec4f dir( _direction.getValue() );
+    Vec4f dir( _sfDirection.getValue() );
 
     dir[3] = 0;
-    glLightfv( GL_LIGHT0, GL_POSITION, dir.getValues() );
+    glLightfv( GL_LIGHT0, GL_POSITION, dir.getValuesRef() );
     glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 180 );
 
     glPopMatrix();

@@ -573,12 +573,15 @@ OSG_USING_STD_NAMESPACE
 #endif
 
 
-#if defined(WIN32) && !defined(BCC)
+#if defined(WIN32) && defined(__ICL)
+
+#define OSG_EXTERN_EXPORT
+
 #define OSG_EXPORT_TYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                     \
-    extern template                                                          \
+    extern template DLLMAPPING                                               \
         const FieldType  CLASSNAME<T1>::_fieldType;
 #define OSG_EXPORT_TYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                 \
-    extern template                                                          \
+    extern template DLLMAPPING                                               \
         const FieldType  CLASSNAME<T1, T2>::_fieldType;
 
 #define OSG_EXPORT_GETTYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                  \
@@ -698,7 +701,50 @@ OSG_USING_STD_NAMESPACE
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
 
+#elif defined(WIN32) && !defined(BCC)
+
+#define OSG_EXTERN_EXPORT extern
+
+#define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)                       \
+    extern template DLLMAPPING CLASSNAME<T1>;
+
+#define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                   \
+    extern template DLLMAPPING CLASSNAME<T1, T2>;
+
+#define OSG_DLLEXPORT_DEF1(CLASSNAME, T1, DLLMAPPING)                        \
+           template DLLMAPPING CLASSNAME<T1>;
+
+#define OSG_DLLEXPORT_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                    \
+           template DLLMAPPING CLASSNAME<T1, T2>;
+
+
+
+
+
+#define OSG_FC_EXPORT_CLASS_DECL(CLASSNAME, T1, DLLMAPPING)                  \
+    extern template DLLMAPPING CLASSNAME<T1>;
+
+#define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)                     \
+    OSG_FC_EXPORT_CLASS_DECL (CLASSNAME, T1, DLLMAPPING)
+
+#define OSG_ABSTR_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)               \
+    OSG_FC_EXPORT_CLASS_DECL       (CLASSNAME, T1, DLLMAPPING)
+
+
+
+#define OSG_FC_EXPORT_CLASS_DEF(CLASSNAME, T1, DLLMAPPING)                   \
+           template DLLMAPPING CLASSNAME<T1>;
+
+#define OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                      \
+    OSG_FC_EXPORT_CLASS_DEF (CLASSNAME, T1, DLLMAPPING)
+
+#define OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                \
+    OSG_FC_EXPORT_CLASS_DEF       (CLASSNAME, T1, DLLMAPPING)
+
+
 #elif defined (WIN32) && defined(BCC)
+
+#define OSG_EXTERN_EXPORT
 
 #define OSG_EXPORT_TYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                     \
     explicit template                                                        \
@@ -826,6 +872,8 @@ OSG_USING_STD_NAMESPACE
 
 #elif defined (__linux)
 
+#define OSG_EXTERN_EXPORT
+
 #define OSG_EXPORT_TYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                     \
     extern template const FieldType  CLASSNAME<T1>::_fieldType;
 #define OSG_EXPORT_TYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                 \
@@ -880,6 +928,7 @@ OSG_USING_STD_NAMESPACE
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)
 
 #elif defined (__sgi)
+#define OSG_EXTERN_EXPORT
 #else
 #error Could not determine system
 #endif

@@ -168,20 +168,20 @@ void LightChunk::dump(      UInt32     uiIndent,
 void LightChunk::activate( DrawAction *, UInt32 index )
 {
 	glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,   
-										_diffuse.getValue().getValueRef() );
+										_sfDiffuse.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_AMBIENT,   
-										_ambient.getValue().getValueRef() );
+										_sfAmbient.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_SPECULAR,   
-										_specular.getValue().getValueRef() );
+										_sfSpecular.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_POSITION,   
-										_position.getValue().getValues() );
+										_sfPosition.getValue().getValuesRef() );
 
-	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _cutoff.getValue() );
-	if ( _cutoff.getValue() < 180 )
+	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
+	if ( _sfCutoff.getValue() < 180 )
 	{
 		glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,   
-										_direction.getValue().getValues() );
-		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _exponent.getValue() );
+										_sfDirection.getValue().getValuesRef() );
+		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
 	}
 	glEnable( GL_LIGHT0 + index );
 }
@@ -198,20 +198,20 @@ void LightChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 index 
 	// it could theoretically be more efficient to turn the light off before 
 	// changing its parameters, have to try that sometime
 	glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,   
-										_diffuse.getValue().getValueRef() );
+										_sfDiffuse.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_AMBIENT,   
-										_ambient.getValue().getValueRef() );
+										_sfAmbient.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_SPECULAR,   
-										_specular.getValue().getValueRef() );
+										_sfSpecular.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_POSITION,   
-										_position.getValue().getValues() );
+										_sfPosition.getValue().getValuesRef() );
 
-	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _cutoff.getValue() );
-	if ( _cutoff.getValue() < 180 )
+	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
+	if ( _sfCutoff.getValue() < 180 )
 	{
 		glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,   
-										_direction.getValue().getValues() );
-		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _exponent.getValue() );
+										_sfDirection.getValue().getValuesRef() );
+		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
 	}
 }
 
