@@ -93,7 +93,7 @@ OSG_USING_NAMESPACE
  *    Classvariables
  *****************************/
 
-
+GraphOpSeq       *SceneFileHandler::_defaultgraphOpSeq = NULL;
 SceneFileHandler * SceneFileHandler::_the = NULL;
 
 /********************************
@@ -224,9 +224,6 @@ bool SceneFileHandler::isGZip(std::istream &is)
 NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtension,
                                       GraphOpSeq *graphOpSeq)
 {
-    if(graphOpSeq == NULL)
-        graphOpSeq = _defaultgraphOpSeq;
-    
     SceneFileType *type = getFileType(fileNameOrExtension);
     NodePtr        scene = NullFC;
 
@@ -292,9 +289,6 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
     std::istream &is, const Char8 *fileNameOrExtension,
            GraphOpSeq *graphOpSeq)
 {
-    if(graphOpSeq == NULL)
-        graphOpSeq = _defaultgraphOpSeq;
-    
     std::vector<FieldContainerPtr> nodeVec;
     NodePtr scene = read(is, fileNameOrExtension);
     if(scene == NullFC)
@@ -319,9 +313,6 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 NodePtr SceneFileHandler::read(const  Char8  *fileName,
                                       GraphOpSeq *graphOpSeq)
 {
-    if(graphOpSeq == NULL)
-        graphOpSeq = _defaultgraphOpSeq;
-    
     if(!fileName)
     {
         SWARNING << "cannot read NULL file" << std::endl;
@@ -389,9 +380,6 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
     const  Char8  *fileName,
            GraphOpSeq *graphOpSeq)
 {
-    if(graphOpSeq == NULL)
-        graphOpSeq = _defaultgraphOpSeq;
-
     std::vector<FieldContainerPtr> nodeVec;
 
     if(!fileName)
@@ -874,12 +862,15 @@ SceneFileHandler::SceneFileHandler (void) :
     _progressData(),
     _readReady(false),
     _pathHandler(NULL),
-    _defaultPathHandler(),
-    _defaultgraphOpSeq(new GraphOpSeq)
+    _defaultPathHandler()
 {
-    // Add default striper.
-    _defaultgraphOpSeq->addGraphOp(new StripeGraphOp);
-    
+    if(_defaultgraphOpSeq == NULL)
+    {
+        _defaultgraphOpSeq = new GraphOpSeq;
+        // Add default striper.
+        _defaultgraphOpSeq->addGraphOp(new StripeGraphOp);
+    }
+
     return;
 }
 

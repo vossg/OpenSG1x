@@ -143,13 +143,18 @@ int main (int argc, char **argv)
     //in.close();
 
     // As a default all geometries are striped with the StripeGraphOp
-    // To disable the default striper you can add a empty GraphOpSeq instance.
+    // To disable the default striper you can add a empty or a NULL GraphOpSeq instance.
     //GraphOpSeq *graphop = new GraphOpSeq;
     //SceneFileHandler::the().setDefaultGraphOp(graphop);
     //scene = SceneFileHandler::the().read(fileName);
     // or
+    //SceneFileHandler::the().setDefaultGraphOp(NULL);
+    //scene = SceneFileHandler::the().read(fileName);
+    // or
     //GraphOpSeq *graphop = new GraphOpSeq;
     //scene = SceneFileHandler::the().read(fileName, graphop);
+    // or
+    //scene = SceneFileHandler::the().read(fileName, NULL);
     
     // You can also add your own GraphOP's
     GraphOpSeq *graphop = new GraphOpSeq;

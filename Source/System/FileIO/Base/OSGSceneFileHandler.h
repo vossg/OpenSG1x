@@ -105,16 +105,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \{                                                                 */
 
     virtual NodePtr    read                  (std::istream &is, const Char8* ext,
-                                                     GraphOpSeq *graphOpSeq = NULL);
+                                                     GraphOpSeq *graphOpSeq = _defaultgraphOpSeq);
 
     virtual FCPtrStore readTopNodes          (std::istream &is, const Char8* ext,
-                                                     GraphOpSeq *graphOpSeq = NULL);
+                                                     GraphOpSeq *graphOpSeq = _defaultgraphOpSeq);
 
     virtual NodePtr    read                  (const  Char8  *fileName,
-                                                     GraphOpSeq *graphOpSeq = NULL);
+                                                     GraphOpSeq *graphOpSeq = _defaultgraphOpSeq);
 
     virtual FCPtrStore readTopNodes          (const  Char8  *fileName,
-                                                     GraphOpSeq *graphOpSeq = NULL);
+                                                     GraphOpSeq *graphOpSeq = _defaultgraphOpSeq);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -218,7 +218,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     PathHandler     *_pathHandler;
     PathHandler     _defaultPathHandler;
-    GraphOpSeq      *_defaultgraphOpSeq;
+
+    static GraphOpSeq      *_defaultgraphOpSeq;
     
 };
 
