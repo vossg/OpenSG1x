@@ -1630,5 +1630,6 @@ case "$build_os" in
     ;;
 esac
 
-grep '#' config.status | grep configure | grep '\-\-with' | sed -e 's/# //g' > $ac_gdz_commonbin/run_configure
+echo "#!/bin/sh" > $ac_gdz_commonbin/run_configure
+grep '#' config.status | grep configure | grep '\-\-with' | sed -e 's/# //g' >> $ac_gdz_commonbin/run_configure
 chmod 755 $ac_gdz_commonbin/run_configure
