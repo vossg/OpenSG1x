@@ -20,7 +20,7 @@ This is the documentation for the VRMLTransform class.
 	</Field>
 	<Field
 		name="rotation"
-		type="Quaternion"
+		type="QuaternionPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -42,6 +42,8 @@ This is the documentation for the VRMLTransform class.
 		type="Quaternion"
 		cardinality="single"
 		visibility="external"
+		defaultValue="GL_POINTS"
+		defaultHeader="<GL/gl.h>"
 		access="public"
 	>
 	The ScaleOrientation is ... 	 	 	 	 	 	
