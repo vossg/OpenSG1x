@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #define OSG_LOG_MODULE "LOG-TEST"
 
