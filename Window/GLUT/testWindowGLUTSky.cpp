@@ -23,7 +23,6 @@
 #include <OSGMFVecTypes.h>          
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
-//#include <OSGGeometry.h>
 #include <OSGSceneFileHandler.h>
 
 #include <OSGDirectionalLight.h>
@@ -32,20 +31,13 @@
 #include "OSGCamera.h"
 #include "OSGWindow.h"
 #include "OSGGLUTWindow.h"
-//#include "OSGPipe.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
-#include "OSGSolidBackground.h"
-//#include "OSGVariedBackground.h"
-#include "OSGSolidBackground.h"
-#include "OSGGradientBackground.h"
-#include "OSGDynamicBackground.h"
-//#include "OSGUniformBackground.h"
+#include "OSGSkyBackground.h"
 
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-#include "RAW/OSGRAWSceneFileType.h"
-#endif
+#include "OSGImage.h"
+#include "OSGTextureChunk.h"
 
 #include "OSGTrackball.h"
 
@@ -77,18 +69,8 @@ display(void)
     q1.setValue(m3);
 
     m1.setRotate(q1);
-    
-//    cout << "TBROT" << endl << tball.getRotation() << endl;
-//    cout << "M3" << endl << m3 << endl;
-//    cout << "Q1" << endl << q1 << endl;
-//    cout << "M1" << endl << m1 << endl;
-
-//  m1.setRotate( tball.getRotation() );
+ 
     m2.setTranslate( tball.getPosition() );
-    
-//cout << "Pos: " << tball.getPosition() << ", Rot: " << tball.getRotation() << endl;
-
-//    cout << tball.getRotation() << endl;
 
     m1.mult( m2 );
     cam_trans->getSFMatrix()->setValue( m1 );
@@ -306,80 +288,51 @@ int main (int argc, char **argv)
     cam->setFar( 10000 );
 
     // Background
-//  BackgroundPtr bkgnd = Background::create();
-//  SolidBackgroundPtr sbkgnd = SolidBackground::create();
-//  VariedBackgroundPtr vbkgnd = VariedBackground::create();
-//  ColorBackgroundPtr cbkgnd = ColorBackground::create();
-//  GradientBackgroundPtr gbkgnd = GradientBackground::create();
-    DynamicBackgroundPtr gbkgnd = DynamicBackground::create();
+    SkyBackgroundPtr sky = SkyBackground::create();
+    beginEditCP(sky);
+    sky->setSphereRes(16);
+    
+    sky->getMFSkyColor()->addValue(Color3f(0, 0, 1));
+    sky->getMFSkyAngle()->addValue(Pi / 4);
+    sky->getMFSkyColor()->addValue(Color3f(0, 1, 0));
+    sky->getMFSkyAngle()->addValue(Pi / 2);
+    sky->getMFSkyColor()->addValue(Color3f(1, 0, 0)); 
 
-//      sbkgnd->setColor( 0,0,1 );
-/*
-//      vbkgnd->setCol( 0, 0, 1 );
-        vbkgnd->setX( 0 );
-//      vbkgnd->setCol( 0, 0, 1 );
-        vbkgnd->setX( 0.5 );
-//      vbkgnd->setCol( 0, 1, 0 );
-        vbkgnd->setX( 1 );
-*/
-/*
-    cbkgnd->setColor( Color3f(1, 0, 0) );
-    cbkgnd->setPosition( 0 );
-    cbkgnd->setColor( Color3f(0, 0, 1) );
-    cbkgnd->setPosition( 0.5 );
-    cbkgnd->setColor( Color3f(0, 1, 0) );
-    cbkgnd->setPosition( 1 );
-*/
-/*
-    gbkgnd->addColor( Color3f(1, 0, 0), -0.9 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 0.2 );
-    gbkgnd->addColor( Color3f(0, 0, 1), -0.3 );
-    gbkgnd->addColor( Color3f(0, 1, 1), 0.4 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 1.5 );
-    gbkgnd->addColor( Color3f(1, 1, 0), -0.6 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 1.5 );
-    gbkgnd->addColor( Color3f(1, 1, 0), 0.1 ); 
-    gbkgnd->addColor( Color3f(1, 0, 0), 0.5 );
-    gbkgnd->addColor( Color3f(0, 0, 1), 1.8 );
-    gbkgnd->addColor( Color3f(0, 0, 1), 0.91 );
-*/
-/*  gbkgnd->addColors( Color3f(0, 1, 0), 180 );
-    gbkgnd->addColors( Color3f(0, 1, 1), 135 );
-    gbkgnd->addColors( Color3f(0, 0, 1), 105 );
-    gbkgnd->addColors( Color3f(1, 0, 1), 90 );
-    gbkgnd->addColors( Color3f(1, 0, 0), 80 );
-//  gbkgnd->addColors( Color3f(0, 0, 1), 60 );
-    gbkgnd->addColors( Color3f(1, 1, 0), 40 );
-    gbkgnd->addColors( Color3f(1, 1, 1), 0 );
-    gbkgnd->addColors( Color3f(1, 1, 0), 40 );
-    gbkgnd->addColors( Color3f(1, 0, 0), 80 );
-    gbkgnd->addColors( Color3f(1, 0, 1), 90 );
-    gbkgnd->addColors( Color3f(0, 0, 1), 105 );
-    gbkgnd->addColors( Color3f(0, 1, 1), 135 );
-    gbkgnd->addColors( Color3f(0, 1, 0), 180 );
-*/
+    sky->getMFGroundColor()->addValue(Color3f(0, 1, 1));
+    sky->getMFGroundAngle()->addValue(Pi / 8);
+    sky->getMFGroundColor()->addValue(Color3f(1, 0, 1));
+    sky->getMFGroundAngle()->addValue(Pi / 4);
+    sky->getMFGroundColor()->addValue(Color3f(1, 1, 1));
+    
+    UChar8 imgdata[] = 
+        {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
+    Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
-    gbkgnd->addColor( Color3f(0, 0, 0), 190 );
-    gbkgnd->addColor( Color3f(1, 1, 0), 40 );
-    gbkgnd->addColor( Color3f(0, 0, 1), 105 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 180 );
-    gbkgnd->addColor( Color3f(1, 0, 0), 80 );
-    gbkgnd->addColor( Color3f(0, 0, 0), 500 );
-    gbkgnd->addColor( Color3f(0, 0, 0), -100 );
-    gbkgnd->addColor( Color3f(1, 0, 1), 90 );
-    gbkgnd->addColor( Color3f(1, 1, 1), 0 );
-    gbkgnd->addColor( Color3f(0, 1, 1), 135 );
-    gbkgnd->addColor( Color3f(0, 0, 0), -2 );
-
+    if ( argc > 2 )
+        image.read( argv[2] );
+    
+    TextureChunkPtr tex1;
+    tex1 = TextureChunk::create();
+    tex1->setImage( &image );
+    tex1->setMinFilter( GL_NEAREST );
+    tex1->setMagFilter( GL_NEAREST );
+    tex1->setWrapS( GL_REPEAT );
+    tex1->setEnvMode( GL_REPLACE );
+    
+    sky->setBackTexture(tex1);
+    sky->setFrontTexture(tex1);
+    sky->setLeftTexture(tex1);
+    sky->setRightTexture(tex1);
+    sky->setBottomTexture(tex1);
+    sky->setTopTexture(tex1);
+ 
+    endEditCP  (sky);
 
     // Viewport
 
     ViewportPtr vp = Viewport::create();
     vp->setCamera( cam );
-//  vp->setBackground( bkgnd );
-//  vp->setBackground( sbkgnd );
-//  vp->setBackground( cbkgnd );
-    vp->setBackground( gbkgnd );
+    vp->setBackground( sky );
     vp->setRoot( root );
     vp->setSize( 0,0, 1,1 );
 
