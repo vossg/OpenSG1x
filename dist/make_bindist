@@ -122,76 +122,76 @@ case $system in
 
     mips-sgi-* )
 
-    glut_dir="/igd/a4/software/IRIX"
-    glut_lib="libglut.a"
-    glut_args="--with-glut=$glut_dir"
-    qt_dir=${qt_dir:="/igd/a4/software/IRIX/packages/qt-3.0"}
-    qt_lib=libqt.so
-    qt_args="--with-qt=$qt_dir"
-    tif_args="--with-tif"
-    jpeg_args="--with-jpeg"
-    png_args=""
-    par_jobs=6
-    compiler=${compiler:=CC}
-    export PATH=/igd/a4/software/IRIX/bin/:$PATH
-    distname=sgi
-    ;;
+        glut_dir="/igd/a4/software/IRIX"
+        glut_lib="libglut.a"
+        glut_args="--with-glut=$glut_dir"
+        qt_dir=${qt_dir:="/igd/a4/software/IRIX/packages/qt-3.0"}
+        qt_lib=libqt.so
+        qt_args="--with-qt=$qt_dir"
+        tif_args="--with-tif"
+        jpeg_args="--with-jpeg"
+        png_args=""
+        par_jobs=6
+        compiler=${compiler:=CC}
+        export PATH=/igd/a4/software/IRIX/bin/:$PATH
+        distname=sgi
+        ;;
 
     *-linux-gnu )
 
-    glut_dir="/usr"
-    glut_lib="libglut.so.3"
-    glut_args="--with-glut=$glut_dir"
-    qt_dir=${qt_dir:="/usr/lib/qt3"}
-    qt_lib=libqt-mt.so.3
-    qt_args="--with-qt=$qt_dir"
-    tif_args="--with-tif"
-    jpeg_args="--with-jpeg"
-    png_args="--with-png"
-    par_jobs=4
-    compiler=${compiler:=g++}
-    config_shell=bash
-    export PATH=/igd/a4/software/Linux/bin/:$PATH
-    if test -r /etc/SuSE-release
-    then
-        VERSION=`tail -1 /etc/SuSE-release | sed -e 's/^[^0-9]*//'`
-        distname=suse$VERSION
-    elif test -r /etc/redhat-release
-    then
-        VERSION=`sed -e 's/^[^0-9]*//' -e 's/[^0-9]*$//' < /etc/redhat-release`
-        distname=redhat$VERSION
-    else
-        distname=linux
-    fi
-    ;;
+        glut_dir="/usr"
+        glut_lib="libglut.so.3"
+        glut_args="--with-glut=$glut_dir"
+        qt_dir=${qt_dir:="/usr/lib/qt3"}
+        qt_lib=libqt-mt.so.3
+        qt_args="--with-qt=$qt_dir"
+        tif_args="--with-tif"
+        jpeg_args="--with-jpeg"
+        png_args="--with-png"
+        par_jobs=4
+        compiler=${compiler:=g++}
+        config_shell=bash
+        export PATH=/igd/a4/software/Linux/bin/:$PATH
+        if test -r /etc/SuSE-release
+        then
+            VERSION=`tail -1 /etc/SuSE-release | sed -e 's/^[^0-9]*//'`
+            distname=suse$VERSION
+        elif test -r /etc/redhat-release
+        then
+            VERSION=`sed -e 's/^[^0-9]*//' -e 's/[^0-9]*$//' < /etc/redhat-release`
+            distname=redhat$VERSION
+        else
+            distname=linux
+        fi
+        ;;
 
     *-pc-cygwin )
 
-    if test ${#*} -eq 1
-    then
-        echo "got config"
-        config_in=$1
-        shift
+        if test ${#*} -eq 1
+        then
+            echo "got config"
+            config_in=$1
+            shift
 
-        echo "Building for windows using config " $config_in
+            echo "Building for windows using config " $config_in
 
-        . $config_in
-    else
-        glut_dir="`pwd`/../supportlibs"
-        glut_lib="glut32.dll"
-        glut_args="--with-glut=$glut_dir"
-        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
-        qt_lib=qt-mt312.dll
-        qt_args="--with-qt=$qt_dir"
-        tif_args=""
-        par_jobs=1
-        compiler=${compiler:=icl50}
-        config_shell=bash
-        distname=win
-        innosetup="/cygdrive/c/Programme/Inno Setup 3/ISCC.exe"
-        build_make=make
-    fi
-    ;;
+            . $config_in
+        else
+            glut_dir="`pwd`/../supportlibs"
+            glut_lib="glut32.dll"
+            glut_args="--with-glut=$glut_dir"
+            qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
+            qt_lib=qt-mt312.dll
+            qt_args="--with-qt=$qt_dir"
+            tif_args=""
+            par_jobs=1
+            compiler=${compiler:=icl50}
+            config_shell=bash
+            distname=win
+            innosetup="/cygdrive/c/Programme/Inno Setup 3/ISCC.exe"
+            build_make=make
+        fi
+        ;;
 
 
     hppa2.0w-hp* )
@@ -212,12 +212,30 @@ case $system in
         # Move HP-toxic stuff out of the way
         Common/prep_hp
 	;;
+	
+    ia64-unknown-linux-gnu )	
+    	
+        glut_dir="/usr"
+        glut_lib="libglut.so.3"
+        glut_args="--with-glut=$glut_dir"
+        qt_dir=${qt_dir:="/opt"}
+        qt_lib=libqt-mt.so.3
+        qt_args="--with-qt=$qt_dir"
+        tif_args="--with-tif"
+        jpeg_args="--with-jpeg"
+        png_args="--with-png"
+        par_jobs=2
+        compiler=${compiler:=g++}
+        config_shell=bash
+        distname=ia64
+        build_make=make
+	;;
 
-   *)
+    *)
 
-    echo "Unknown system $system!"
-    exit 1
-    ;;
+        echo "Unknown system $system!"
+        exit 1
+        ;;
 
 esac
 
