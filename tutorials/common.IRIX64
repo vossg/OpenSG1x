@@ -1,9 +1,5 @@
 # options for IRIX
 
-# the path where OpenSG is found
-OPENSGPATH := $(OSGPOOL)/Builds/mips-sgi-irix6.5-CC
-
-
 CC := CC
 
 CCFLAGS :=	-DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT -DOSG_WITH_QT \
@@ -11,12 +7,12 @@ CCFLAGS :=	-DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT -DOSG_WITH_QT \
 			-n32 -mips3 -xansi  -use_readonly_const -no_auto_include \
 			-LANG:ansi-for-init-scope=on -LANG:restrict -LANG:exceptions=ON \
 			-LANG:std  -g -INLINE:none  \
-			-I$(OPENSGPATH)/include \
+			-I$(OSGROOT)/include \
 			-I$(GLUTPATH)/include \
 			-I/usr/include -I.
 
 LD_FLAGS :=  -n32 -mips3  -g   \
-			-L$(OPENSGPATH)/lib/$(DBG)  \
+			-L$(OSGROOT)/lib/$(LIBTYPE)  \
 			-L$(GLUTPATH)/lib   \
 			-lOSGWindowGLUT -lOSGSystem  -lOSGBase  \
 			-lglut  -lGLU -lGL -lXmu -lXi -lXt -lX11  -lCio -lm
