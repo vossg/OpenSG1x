@@ -67,7 +67,7 @@ int            lastx,
                mouseb;
 
 double  basetime;
-#define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
+#define dpr std::cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
 
 void display ( void )
@@ -154,19 +154,19 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                     
             if ( mouseb & ( 1 << 1 ) )
             {
-                dpr << "Left button dragged" << endl;
+                dpr << "Left button dragged" << std::endl;
                 tball.updateRotation( a, b, c, d );
                 display();
             }
             else if ( mouseb & ( 1 << 2 ) )
             {
-                dpr << "Middle button dragged" << endl;
+                dpr << "Middle button dragged" << std::endl;
                 tball.updatePosition( a, b, c, d );
                 display();
             }
             else if ( mouseb & ( 1 << 3 ) )
             {
-                dpr << "Right button dragged" << endl;
+                dpr << "Right button dragged" << std::endl;
                 tball.updatePositionNeg( a, b, c, d );
                 display();
             }
@@ -176,7 +176,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             break;
                                     
         case WM_KEYDOWN:
-            dpr << "Key pressed: " << wParam << endl;
+            dpr << "Key pressed: " << wParam << std::endl;
             if ( (int)wParam == VK_ESCAPE )
             {
                 exit(0);
@@ -185,7 +185,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                                     
         case WM_SIZE:
             dpr << "Resize: " << wParam << " " << LOWORD(lParam)
-                << " " << HIWORD( lParam ) << endl;
+                << " " << HIWORD( lParam ) << std::endl;
             if ( win != NullFC)
                 win->resize( LOWORD(lParam), HIWORD( lParam ) );
             break;
@@ -196,7 +196,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             break;
 
         case WM_CREATE:
-            dpr << "Create " << endl;
+            dpr << "Create " << std::endl;
 
             memset(&pfd, 0, sizeof(pfd));
             pfd.nSize = sizeof(pfd);
@@ -313,7 +313,7 @@ int main (int argc, char **argv)
     
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makeTorus( .5, 2, 16, 16 );
     }
     
@@ -322,13 +322,13 @@ int main (int argc, char **argv)
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
     endEditCP(dlight);
 
-    cerr << "Tree: " << endl;
+    std::cerr << "Tree: " << std::endl;
     root->dump();
 
     // Camera

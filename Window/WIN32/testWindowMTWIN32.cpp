@@ -80,7 +80,7 @@ int            lastx[NUM_THREADS],
                mouseb;
 
 double  basetime;
-#define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
+#define dpr std::cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
 
 void display (UInt32 id)
@@ -109,7 +109,7 @@ void *drawThreadProc (void *arg)
     int     *my_id = (int *) arg;
             
     _sleep(2+*my_id);
-    dpr << "drawThread " << *my_id << " started." << endl;
+    dpr << "drawThread " << *my_id << " started." << std::endl;
     
     win[*my_id]->activate();
     
@@ -196,17 +196,17 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                     
             if ( mouseb & ( 1 << 1 ) )
             {
-                dpr << "Left button dragged" << endl;
+                dpr << "Left button dragged" << std::endl;
                 tball[eventThread].updateRotation( a, b, c, d );
             }
             else if ( mouseb & ( 1 << 2 ) )
             {
-                dpr << "Middle button dragged" << endl;
+                dpr << "Middle button dragged" << std::endl;
                 tball[eventThread].updatePosition( a, b, c, d );
             }
             else if ( mouseb & ( 1 << 3 ) )
             {
-                dpr << "Right button dragged" << endl;
+                dpr << "Right button dragged" << std::endl;
                 tball[eventThread].updatePositionNeg( a, b, c, d );
             }
             lastx[eventThread] = x;
@@ -215,7 +215,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             break;
                                     
         case WM_KEYDOWN:
-            dpr << "Key pressed: " << wParam << endl;
+            dpr << "Key pressed: " << wParam << std::endl;
             if ( (int)wParam == VK_ESCAPE )
             {
                 exit(0);
@@ -224,7 +224,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                                     
         case WM_SIZE:
             dpr << "Resize: " << wParam << " " << LOWORD(lParam)
-                << " " << HIWORD( lParam ) << endl;
+                << " " << HIWORD( lParam ) << std::endl;
             if ( win[eventThread] != NullFC)
                 win[eventThread]->resize( LOWORD(lParam), HIWORD(lParam) );
             break;
@@ -307,7 +307,7 @@ int main (int argc, char **argv)
     
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makeTorus( .5, 2, 16, 16 );
     }
     
@@ -316,7 +316,7 @@ int main (int argc, char **argv)
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
