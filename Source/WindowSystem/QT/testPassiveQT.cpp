@@ -50,6 +50,7 @@ protected:
 OpenSGWidget::OpenSGWidget( QGLFormat f, QWidget *parent, const char *name )
      : QGLWidget( f, parent, name )
 {
+    setAutoBufferSwap(false);
     mgr = new SimpleSceneManager;
     pwin = PassiveWindow::create();
     mgr->setWindow(pwin);
