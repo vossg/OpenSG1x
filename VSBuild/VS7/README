@@ -1,4 +1,16 @@
 
+IMPORTANT IMPORTANT --- EXTERNAL TOOLS NEEDED --- IMPORTANT IMPORTANT
+
+sed.exe
+flex.exe
+bison.exe
+moc.exe
+
+Details see below
+
+IMPORTANT IMPORTANT --- EXTERNAL TOOLS NEEDED --- IMPORTANT IMPORTANT
+
+
 This directory contains the first version of out VStudio.NET support.
 As I have not figured out if it is possible to reconfigure parts
 on the fly you currently have to set up your VStudion the way that
@@ -28,10 +40,16 @@ Current Requirements :
 	Open Projects->VC++ Directories and include the header/lib/bin
 	path for glut/qt/...
 
-    If you want to edit any .l or .y file your VStudio additionally has to
+    If you want to edit any .l or .y file or do a full rebuild your VStudio 
+    additionally has to
 
         find a flex executable  (> version 2.5.4)
         find a bison executable (> version 1.30)
+
+    In order to do the install process VStudio must be configured to find
+    a sed.exe executable.
+
+    The Windows GNU tools I use come from gnuwin32.sourceforge.net
 
 What works :
 
