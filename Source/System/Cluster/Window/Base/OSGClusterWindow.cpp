@@ -139,7 +139,6 @@ void ClusterWindow::init( void )
     if(getAutostart().size())
     {
         std::vector<FILE*>           pipes;
-        std::vector<FILE*>::iterator pipesI;
 
         for(id=0 ; id<getServers().size() ; ++id)
         {
@@ -161,7 +160,7 @@ void ClusterWindow::init( void )
                             break;
                         case '{':
                             env = "" ;
-                            while(+c < autostart.length() &&
+                            while(++c < autostart.length() &&
                                   autostart[c] != '}')
                                 env += autostart[c];
                             if(getenv(env.c_str()))
@@ -190,26 +189,26 @@ void ClusterWindow::init( void )
         {
             if(pipes[id]) 
             {
-                SLOG << "Waiting for " << getServers()[id] << " to start." << std::endl;
+                SINFO << "Waiting for " << getServers()[id] << " to start." << std::endl;
                 char result;
-                std::string line;
+                std::string line="";
                 while((result=fgetc(pipes[id])) != EOF)
                 {
                     line += result;
                     if(result == '\n')
                     {
-                        SLOG << line;
+                        SINFO << line;
                         line = "";
                     }
                 }
                 if(!line.empty())
-                    SLOG << line << std::endl;
+                    SINFO << line << std::endl;
 #ifdef WIN32
                 _pclose(pipes[id]);
 #else
                 pclose(pipes[id]);
 #endif
-                SLOG << getServers()[id] << " started." << std::endl;
+                SINFO << getServers()[id] << " started." << std::endl;
             }
         }
     }
@@ -300,7 +299,7 @@ void ClusterWindow::init( void )
     connection->setNetworkOrder((forceNetworkOrder != 0));
     if(forceNetworkOrder)
     {
-        SLOG << "Run clustering in network order mode" << std::endl;
+        SINFO << "Run clustering in network order mode" << std::endl;
     }
 }
 
