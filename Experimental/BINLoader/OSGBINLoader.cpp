@@ -217,8 +217,8 @@ void BINLoader::createFieldContainers()
 void BINLoader::chargeFieldContainers()
 {
     FCIdMapper mapper(&_fcInfoMap);
-          IDLookupMap::      iterator fcInfoIter = _fcInfoMap.begin();
-    const IDLookupMap::const_iterator fcInfoEnd  = _fcInfoMap.end();
+          IDLookupMap::iterator fcInfoIter = _fcInfoMap.begin();
+    const IDLookupMap::iterator fcInfoEnd  = _fcInfoMap.end();
 
     UInt32 mapSize = _fcInfoMap.size(),
            mask,
