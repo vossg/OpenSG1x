@@ -614,6 +614,12 @@ void OSG::Window::validateGLObject(UInt32 id)
     
     GLObject *obj = _glObjects[id];
     
+    if(obj == NULL)
+    {
+        SWARNING << "Window::validateGLObject: obj is NULL!" << std::endl;
+        return;
+    }
+
     if(id >= _lastValidate.size()) // can happen if multi-threading
     {
         _lastValidate.insert(_lastValidate.end(), 
