@@ -4,8 +4,13 @@ Import('*')
 
 import os
 
-sources_with_moc = Glob('OSG*.cpp')
-headers = Glob('OSG*.h')
+# add the experimental stuff
+ExperimentalQtDirs = [Dir('../../Experimental/QTWidgets')]
+headers, sources_with_moc, tests, generated = ProcessDirs(ExperimentalQtDirs)
+
+# add local sources
+sources_with_moc += Glob('OSG*.cpp')
+headers += Glob('OSG*.h')
 headers += Glob('OSG*.inl')
 
 # exclude moc.cpp files.
@@ -36,6 +41,6 @@ if _po.getOption('qt'):
     BuildLibrary(tc, 'OSGWindowQT', sources, tools=[],
                  updates=[custom, OpenSGLibrary(dep_LIBS + ['OSGSystem', 'OSGBase'])],
                  includeGen=1,
-                 CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),
+                 CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + ExperimentalQtDirs + map(Dir, dep_CPPPATH)),
                  CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
                                'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'])

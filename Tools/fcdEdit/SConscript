@@ -9,10 +9,11 @@ headers = Glob('*.h')
 
 uis = Glob('*.ui')
 new_sources, new_headers = GetUiSources(uis)
-sources += new_sources
-headers += new_headers
 
-sources += GetMocSources(headers)
+AppendFilesUnique(sources, new_sources)
+AppendFilesUnique(headers, new_headers)
+
+AppendFilesUnique(sources, GetMocSources(headers))
 
 sources_term = Split("""
     FieldContainer.cpp
@@ -22,10 +23,10 @@ sources_term = Split("""
 """)
 
 def custom(env):
-    #env['CXXFILESUFFIX'] = '.cpp'
-    #env['QT_HPREFIX'] = 'uic_'
-    #env.Append(CPPPATH = ['$OSG_OBJDIR'])
-    #env['OSG_PROGDIR'] = os.path.join('..', 'fcdEdit')
+
+    # ok we are building two different executables fcdCompile and fcdEdit from
+    # the same source so we need to create the obj files in two different directories.
+    env['OSG_OBJDIR']  += 'qt'
 
     env.Append(CPPPATH=env.get('QTCPPPATH'))
     env.Append(LIBPATH=env.get('QTLIBPATH'))
@@ -45,8 +46,8 @@ BuildProgram(tc, 'fcdCompile', sources_term, tools=[],
              CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
              CPPDEFINES=['FCD_TERM', 'OSG_BUILD_DLL'])
 
-#if _po.getOption('qt'):
-#    BuildProgram(tc, 'fcdEdit', sources, tools=[],
-#                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
-#                 CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
-#                 CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])
+if _po.getOption('qt'):
+    BuildProgram(tc, 'fcdEdit', sources, tools=[],
+                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+                 CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
+                 CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

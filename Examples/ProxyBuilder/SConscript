@@ -1,0 +1,10 @@
+# ProxyBuilder
+
+Import('*')
+
+sources = Glob('*.cpp')
+
+BuildProgram(tc, 'proxyBuilder', sources, tools=[],
+             updates=[OpenSGLibrary(['OSGSystem', 'OSGBase'])],
+             CPPPATH=['.', env['PREFIX'].Dir('include')],
+             CPPDEFINES=['OSG_BUILD_DLL'])

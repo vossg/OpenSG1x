@@ -149,6 +149,19 @@ def MyInstall(dst, src):
         print "Couldn't install %s: %s" % (`dst`, str(why))
         return -1
 
+def AppendFilesUnique(files, adds):
+    for add in adds:
+        found = 0
+        for file in files:
+            filename = str(file)
+            if filename.find(add) > 0:
+                found = 1
+                break;
+        if found == 0:
+            files.append(add)
+
+Export('AppendFilesUnique')
+
 # qt stuff
 
 def GetMocSources(sources):
@@ -166,6 +179,7 @@ def CreateMocSources(env, sources):
     for source in sources:
         srcname = os.path.basename(str(source))
         if srcname[-2:] == '.h':
+            # we should scan for Q_OBJECT ...
             target = srcname[:-2] + "_moc.cpp"
             env.Command(target, source, ["moc $SOURCES -o $TARGET"])
 
@@ -178,8 +192,8 @@ def GetUiSources(sources):
     for source in sources:
         srcname = os.path.basename(str(source))
         name = srcname[:-3]
-        new_sources.append(name + ".cpp")
-        new_headers.append(name + ".h")
+        new_sources.append("uic_" + name + ".cpp")
+        new_headers.append("uic_" + name + ".h")
     return new_sources, new_headers
 
 Export('GetUiSources')
@@ -189,14 +203,14 @@ def CreateUiSources(env, sources):
         cpp_sources = []
         ui_moc_h_sources = []
         for source in sources:
-            srcname = str(source)
+            srcname = os.path.basename(str(source))
             name = srcname[:-3]
-            target1 = name + ".h"
+            target1 = "uic_" + name + ".h"
             env.Command(target1, source, ["uic -o $TARGET $SOURCES"])
-            target2 = name + ".cpp"
+            target2 = "uic_" + name + ".cpp"
             env.Command(target2, source, ["uic -o $TARGET -impl " + target1 + " $SOURCES"])
-            cpp_sources.append(name + ".cpp")
-            ui_moc_h_sources.append(name + ".h")
+            cpp_sources.append(target2)
+            ui_moc_h_sources.append(target1)
         return cpp_sources, ui_moc_h_sources
 
 Export('CreateUiSources')
@@ -682,6 +696,8 @@ class win32_msvc_base(win32):
         env.AppendENVPath('PATH', GetCygwinPath('/bin'))
 
         env.Append(CPPDEFINES=win32_defines)
+
+        env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
 
     def get_env_list(self):
         env = self.get_env()

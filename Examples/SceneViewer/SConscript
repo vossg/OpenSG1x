@@ -9,27 +9,10 @@ headers = Split("""
     OSGSceneView_qt.h
 """)
 
-moc_sources = GetMocSources(headers)
+AppendFilesUnique(sources, GetMocSources(headers))
 
-# HACK if the mocs are already builded Glob finds them and we don't need to add them again.
-append_sources = []
-for ms in moc_sources:
-    found = 0
-    for source in sources:
-        srcname = str(source)
-        if srcname.find(ms) > 0:
-            found = 1
-            break;
-    if found == 0:
-        append_sources.append(ms)
-
-sources += append_sources
-
-# we don't need to do this because the generated files from uic are already checked into the cvs.
-#uis = Glob('OSG*.ui')
-#new_sources, new_headers = GetUiSources(uis)
-#sources += new_sources
-#headers += new_headers
+# we don't need to handle the ui files because the generated files from uic
+# are already checked into the cvs.
 
 def custom(env):
 
@@ -37,7 +20,6 @@ def custom(env):
     env.Append(LIBPATH=env.get('QTLIBPATH'))
     env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
 
-    #CreateUiSources(env, uis)
     CreateMocSources(env, headers)
 
 if tc.is_win32():

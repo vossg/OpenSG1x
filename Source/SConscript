@@ -148,7 +148,3 @@ Export('BaseDirs SystemDirs')
 
 SConscript(dirs=['Base', 'System', 'WindowSystem'])
 
-#BuildProgram(tc, 'testLoaderRender', ['System/FileIO/Base/testLoaderRender.cpp'], tools=[],
-#                 updates=[OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase'])],
-#                 CPPPATH=ExpandCPPPath(SystemDirs + BaseDirs),
-#                 CPPDEFINES=['OSG_WITH_GLUT', 'OSG_BUILD_DLL'])
