@@ -66,8 +66,10 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+// lock index = ( adress & uiLockPoolMask ) >> uiLockPoolShift
 static const UInt32 uiLockPoolSize = 32;
 static const UInt32 uiLockPoolMask = 0x0f80;
+static const UInt32 uiLockPoolShift = 7;
 
 //---------------------------------------------------------------------------
 //  Class

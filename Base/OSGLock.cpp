@@ -679,16 +679,16 @@ void LockPool::destroy(LockPool *lockP)
 
 void LockPool::aquire(void *keyP)
 {
-    _locksA[(((UInt32) keyP) & uiLockPoolMask) >> 7].aquire();
+    _locksA[(((UInt32) keyP) & uiLockPoolMask) >> uiLockPoolShift].aquire();
 }
 void LockPool::release(void *keyP)
 {
-    _locksA[(((UInt32) keyP) & uiLockPoolMask) >> 7].release();
+    _locksA[(((UInt32) keyP) & uiLockPoolMask) >> uiLockPoolShift].release();
 }
 
 Bool LockPool::request(void *keyP)
 {
-    return _locksA[(((UInt32) keyP) & uiLockPoolMask) >> 7].request();
+    return _locksA[(((UInt32) keyP) & uiLockPoolMask) >> uiLockPoolShift].request();
 }
 
 /*---------------------------- properties ---------------------------------*/
