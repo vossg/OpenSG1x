@@ -69,8 +69,11 @@ PointMCastConnection::PointMCastConnection():
     _lastDgram(NULL),
     _initialized(false)
 {
+    char lockName[256];
+    sprintf(lockName,"PointMCastConnection%p",this);
+
     // create locks
-    _lock     = Lock::get(NULL);
+    _lock     = Lock::get(lockName);
 
     // fill dgramqueue
     for(UInt32 dI = 0 ; dI < OSG_DGRAM_QUEUE_LEN ; ++dI)
@@ -644,6 +647,9 @@ void PointMCastConnection::initialize()
     UInt32        combineCount;
     std::string   host;
     UInt32        port;
+    char          threadName[256];
+
+    sprintf(threadName,"PointMCastConnection%p",this);
 
     // get info about the group
     _socket.recv(message);
@@ -702,7 +708,7 @@ void PointMCastConnection::initialize()
     _ackDestination = SocketAddress(host.c_str(),port);
 
     // start reader thread
-    _recvQueueThread=BaseThread::get(NULL);
+    _recvQueueThread=BaseThread::get(threadName);
     _recvQueueThreadRunning = true;
     _recvQueueThreadStop    = false;
     _recvQueueThread->runFunction( recvQueueThread, (void *) (this) );

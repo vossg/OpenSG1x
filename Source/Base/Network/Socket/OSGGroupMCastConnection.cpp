@@ -70,8 +70,11 @@ GroupMCastConnection::GroupMCastConnection():
     _seqNumber(0),
     _initialized(false)
 {
+    char lockName[256];
+    sprintf(lockName,"GroupMCastConnection%p",this);
+
     // create locks
-    _lock     = Lock::get(NULL);
+    _lock     = Lock::get(lockName);
     // fill dgramqueue
     for(UInt32 dI = 0 ; dI < OSG_DGRAM_QUEUE_LEN ; ++dI)
         _free.put(new Dgram());
@@ -514,6 +517,9 @@ void GroupMCastConnection::initialize()
     UInt32        numSource;
     UInt32        sendTo;
     BinaryMessage message;
+    char          threadName[256];
+
+    sprintf(threadName,"GroupMCastConnection%p",this);
 
     if(!getDestination().empty())
         group = getDestination();
@@ -594,7 +600,7 @@ void GroupMCastConnection::initialize()
         _sockets[index].send(message);
     }
     // start write thread
-    _sendQueueThread=BaseThread::get(NULL);
+    _sendQueueThread=BaseThread::get(threadName);
     _sendQueueThreadRunning = true;
     _sendQueueThreadStop    = false;
     _sendQueueThread->runFunction( sendQueueThread, (void *) (this) );

@@ -68,8 +68,11 @@ DgramQueue::DgramQueue():
     _queue(),
     _waiting(false)
 {
+    char barrierName[256];
+    sprintf(barrierName,"DgramQueue%p",this);
+
     // create barrier
-    _barrier = Barrier::get(NULL);
+    _barrier = Barrier::get(barrierName);
 }
 
 /*! Destructor
