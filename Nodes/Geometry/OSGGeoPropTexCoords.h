@@ -102,6 +102,62 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
+struct GeoTexCoords3fPropertyDesc
+{
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+
+    static const Char8 *getTypeName (void) { return "GeoTexCoords3f";         }
+    static const Char8 *getClassName(void) { return "GeoTexCoords3fProperty"; }
+    static const Char8 *getFieldName(void) { return "TexCoords";              }
+    static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
+
+    static InitContainerF getInitMethod(void) { return NULL; }
+
+    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
+    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
+    static UInt32 getDimension (void)  { return 3;               }
+    static UInt32 getStride    (void)  { return 0;               }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+
+    typedef GeoTexCoords                Inherited;
+    typedef GeoTexCoords::PtrType       InheritedPtr;
+
+    typedef GeoTexCoordsPropertyDesc    InheritedDesc;
+
+    typedef MFVec3f                     FieldType;
+    typedef InheritedDesc::GenericType  GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+typedef GeoProperty<GeoTexCoords3fPropertyDesc> GeoTexCoords3f;
+
+#ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate GeoProperty<GeoTexCoords3fPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoTexCoords3fPropertyDesc>::_desc
+
+#else
+
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoTexCoords3fPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 OSG_END_NAMESPACE
 
 #include <OSGGeoPropTexCoords.inl>

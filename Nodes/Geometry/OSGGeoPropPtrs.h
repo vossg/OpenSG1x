@@ -66,6 +66,7 @@ typedef GeoColors4ub::PtrType    GeoColors4ubPtr;
 typedef GeoNormals3f::PtrType    GeoNormals3fPtr;
 
 typedef GeoTexCoords2f::PtrType  GeoTexCoords2fPtr;
+typedef GeoTexCoords3f::PtrType  GeoTexCoords3fPtr;
 
 typedef GeoIndicesUI32::PtrType  GeoIndicesUI32Ptr;
 

@@ -65,4 +65,18 @@ OSG_FC_DLLEXPORT_DEF      (GeoProperty,
 
 #endif
 
+#if defined(__sgi)
+
+#pragma instantiate GeoProperty        <GeoTexCoords3fPropertyDesc>::_type
+#pragma instantiate GeoProperty        <GeoTexCoords3fPropertyDesc>::_desc
+
+#else
+
+OSG_FC_DLLEXPORT_DEF      (GeoProperty,
+                           GeoTexCoords3fPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+
+#endif
+
 OSG_END_NAMESPACE

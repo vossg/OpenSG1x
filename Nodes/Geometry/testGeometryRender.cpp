@@ -163,6 +163,19 @@ int main (int argc, char **argv)
     texs->addValue( Vec2f( 2, 2 ) );
     texs->addValue( Vec2f( 0, 2 ) );
     endEditCP(texs);
+    
+    GeoTexCoords3fPtr texs3 = GeoTexCoords3f::create();
+    g1->setTexCoords( texs3 );
+    beginEditCP(texs3);
+    texs3->getField().addValue( Vec3f( 0, 0, 0 ) );
+    texs3->getField().addValue( Vec3f( 1, 0, 0 ) );
+    texs3->getField().addValue( Vec3f( 1, 1, 0 ) );
+    texs3->getField().addValue( Vec3f( 0, 1, 0 ) );
+    texs3->getField().addValue( Vec3f( 0, 0, 0 ) );
+    texs3->getField().addValue( Vec3f( 3, 0, 0 ) );
+    texs3->getField().addValue( Vec3f( 3, 3, 0 ) );
+    texs3->getField().addValue( Vec3f( 0, 3, 0 ) );
+    endEditCP(texs3);
 
     GeoIndicesUI32Ptr index = GeoIndicesUI32::create();     
     g1->setIndices( index );
