@@ -373,7 +373,7 @@ int NodeGraph::createPathVec ( vector<Path> &pathVec,
 int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
 {
 	unsigned pi, j, cost = 0;
-	int pSize, index, firstIndex, firstSide, entrySide, exitSide;
+	int index, firstIndex, firstSide, entrySide, exitSide;
 	Node *node;
 	bool walkRight;
 	list<int>::iterator listI;
@@ -384,7 +384,6 @@ int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
   if (path.path.empty())
     cost = 0;
   else {
-    pSize = path.path.size();
 
     if (path.type == GL_TRIANGLES) {
       // triangle
