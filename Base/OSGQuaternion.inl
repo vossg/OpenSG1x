@@ -962,8 +962,8 @@ void QuaternionBase<ValueTypeT>::scaleAngle(ValueTypeT scaleFactor)
 	VectorType axis;
 	ValueTypeT radians;
 
-	getValue(axis, radians);
-	setValue(axis, radians * scaleFactor);
+	getValueAsAxisRad(axis, radians);
+	setValueAsAxisRad(axis, radians * scaleFactor);
 }
 
 template <class ValueTypeT> inline
