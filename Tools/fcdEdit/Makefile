@@ -1,45 +1,395 @@
+#
+# This is a legacy Makefile. We will replace it with a more OpenSG-style 
+# Did it ;-) (GV)
+# Makefile later, but for now it has to suffice.
+# 
+# To compile the SceneViewer you need your QTDIR to point to a QT-3.0
+# installation. The OSGROOT settings below use an OpenSG installed in the
+# Builds hierarchy, if yours is elsewhere call make with make OSGROOT=...
+#
+# If you have trouble making it, talk to us, we can help. See www.opensg.org
+# for details.
+#
+
+# try to get configured information first, will not work if more
+# than one system is configured from one dir. Just for the 1.0
+
+PREFIXSUFFIX := $(shell ../../CommonConf/config.guess)
+
+-include .prefix.$(PREFIXSUFFIX)
+
+OSGROOT ?= $(OSGINSTALLPREFIX)
+
+OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
+
 ### PROJECT ##########################################################
 TARGET = fcdEdit
-PROJINC = -I. -DFCD_GUI
-PROJLIB = 
-PROBACK = *.ui 
-######################################################################
-
-### Build Flags ######################################################
-#TMPBIN          = YES
-DEBUG           = YES
-#PURIFYBIN       = YES
-#EFENCE					= YES
-#OGLDEBUG       = YES
-#TEMPDB          = YES
-XRUN						= YES
-######################################################################
-
-### System Compiler (GNU_CC/NATIV_CC) ################################
-CC_Linux  = GNU_CC
-CC_SunOS  = GNU_CC
-CC_IRIX   = NATIVE_CC
-CC_IRIX64 = NATIVE_CC
-CC_NT     = NATIVE_CC
-######################################################################
-
-### System Flags #####################################################
-PRO_FLAG_Linux 	=
-PRO_FLAG_SunOS  = 
-PRO_FLAG_IRIX   =
-PRO_FLAG_IRIX64 = 
-PRO_FLAG_NT     =
-######################################################################
-
-### Package Declarations #############################################
-#PERSONAL_PAK    = YES
-SYSTEM_PAK      = YES
-STL_PAK         = YES
-QT_PAK          = YES
 ######################################################################
 
 ### Common Makefile Declarations #####################################
-#include $(PPOOL)/lib/common.mk
-include common.mk
 ######################################################################
-# DO NOT DELETE
+### Common Makefile Declarations, Johannes Behr 1997,98,99  ##########
+######################################################################
+
+### System dependences ###############################################
+######################################################################
+### Common Makefile Declarations, Johannes Behr 1997,98,99  ##########
+######################################################################
+
+### System dependences ###############################################
+
+OS      := $(shell echo `uname`)
+OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
+
+# be very careful with these lines. There needs to be a space after the Unix
+# lines and nothing after the win lines!!
+
+ifeq ($(OS),IRIX)
+    
+        CCOUT := -o 
+        LDOUT := -o 
+	BINSUF:=
+
+endif
+ifeq ($(OS),IRIX64)
+    
+        CCOUT := -o 
+        LDOUT := -o 
+	BINSUF:=
+
+endif
+ifeq ($(OS),Linux)
+    
+        CCOUT := -o 
+        LDOUT := -o 
+	BINSUF:=
+
+endif
+ifeq ($(findstring WIN,$(OS)),WIN)
+    
+        OS := WIN32
+        CCOUT := -Fo
+        LDOUT := /out:
+	BINSUF := .exe
+
+endif
+
+### Retrieve osg-info ##########################################
+
+OSG_CONFIG := $(OSGROOT)/bin/osg-config 
+
+MOC        :=  $(shell $(OSG_CONFIG) --moc)
+UIC        :=  $(shell $(OSG_CONFIG) --uic)
+CXX        := "$(shell $(OSG_CONFIG) --compiler)"
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT)
+LD         := "$(shell $(OSG_CONFIG) --exe-linker)"
+LDFLAGS    :=
+LIBS       :=  $(shell $(OSG_CONFIG) --libs QT)
+CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
+
+SYSDEP     := $(OS)-$(CMPLR_ID)
+
+# check these (GV)
+
+LINK       := cp
+BINSET     := touch
+SYSTMP     := /tmp
+
+######################################################################
+
+ifeq ($(TMPBIN),YES)
+	SYSTARGET := $(SYSTMP)$(TARGET).$(USER)_$(SYSDEP)$(BINSUF)
+	TARGETLNK := $(SYSTMP)$(TARGET).$(USER)$(BINSUF)
+	LIBTARGET := $(SYSTMP)/lib$(TARGET)$(LIBSUF)
+else
+	SYSTARGET := $(TARGET).$(SYSDEP)$(BINSUF)
+	TARGETLNK := $(TARGET)$(BINSUF)
+	LIBTARGET := lib$(TARGET)$(LIBSUF)
+endif
+
+### Object and source files ##########################################
+
+HEADERS  := $(wildcard *.h *.H *.hh *.hxx *.ui)
+# all qt files that neads moc 
+MOC_IN   := $(shell grep -l Q_OBJECT *.[hH])
+MOC_CPP  := $(addsuffix .cpp, $(basename $(addprefix moc_,$(MOC_IN)))) 
+# all source files without generated sources
+SOURCES  := $(filter-out $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
+# all object files
+BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(SOURCES) $(MOC_CPP)))
+# all object files without main object
+LIBOBJS  := $(filter-out main.*.o ,$(BINOBJS))
+# required dependencies
+DEPLIST  := $(addsuffix .$(SYSDEP).dep,$(basename $(SOURCES) ))
+# existing dependencies
+DEPFOUND := $(filter $(wildcard *.dep),$(DEPLIST))
+
+#ifeq ($(strip $(HEADERS)),)
+#$(warning HEADERS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
+
+#ifeq ($(strip $(SOURCES)),)
+#$(warning SOURCES empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
+
+#ifeq ($(strip $(BINOBJS)),)
+#$(warning BINOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
+
+#ifeq ($(strip $(LIBOBJS)),)
+#$(warning LIBOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
+
+
+######################################################################
+
+### TARGET build rules ###############################################
+
+allstuff : lists 
+	# need to call recursive, as the lists need to be done when make starts
+	$(MAKE) $(TARGET)$(BINSUF)
+
+$(TARGET)$(BINSUF): $(SYSTARGET) 
+	@echo "TARGET:   " $(TARGET)
+	@echo "SYSTEM:   " $(SYSDEP)
+	@rm -f $(TARGET)$(BINSUF)
+	@rm -f $(TARGETLNK)
+	@$(LINK) $(SYSTARGET) $(TARGETLNK)
+ifneq ($(TARGETLNK),$(TARGET)$(BINSUF))
+	@$(LINK) $(TARGETLNK) $(TARGET)$(BINSUF)
+endif
+
+$(SYSTARGET):  $(BINOBJS)
+	@echo "Linking $(SYSTARGET) (from $(BINOBJS))"
+	$(LDPREFIX) $(LD) $(LDFLAGS) $(BINOBJS) $(LIBS) $(LDOUT)$@
+	@$(BINSET) $(SYSTARGET)
+
+######################################################################
+
+.PRECIOUS: moc_%.cpp
+
+### Implicit rules ###################################################
+%.cpp: %.y
+	$(YACC) -ld $< -o $@
+
+%.cpp: %.l
+	$(LEX) $< > $@
+
+%.h: %.ui
+	$(UIC) -o $@ $<
+
+%.cpp: %.ui
+	$(UIC) -i $*.h -o $@ $<
+
+moc_%.cpp: %.h
+	$(MOC) -f$< $< -o $@
+
+%.$(SYSDEP).dep: %.cpp
+	@echo "Updating " $@ 
+	@echo "THIS OPERATION IS DISABLED RIGHT NOW !!"
+	@echo 
+#	@$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
+
+%.$(SYSDEP).o: %.cc
+	$(CXX) $(CXXFLAGS) $<
+
+%.$(SYSDEP).o: %.cxx
+	$(CXX) $(CXXFLAGS) $<
+
+%.$(SYSDEP).o: %.cpp %.$(SYSDEP).dep
+	$(CXX) -c $(CXXFLAGS) $< $(CCOUT)$@
+
+%.$(SYSDEP).o: %.C
+	$(CXX) $(CXXFLAGS) $<
+
+%.$(SYSDEP).o: %.c
+	$(CC) $(CXXFLAGS) $<
+
+%.pp: %.cpp
+	$(CXX) -E $(CXXFLAGS) $<
+
+######################################################################
+
+### File lists #######################################################
+lists: declist implist objlist depend 
+
+declist:
+	@echo "make declist.mk"
+	@rm -rf declist.mk
+	@for i in *.ui ;\
+	do \
+	    echo $$i | sed 's/.ui/.h/g' > declist.mk ; \
+	done
+	@echo *.[hH] *.hh *.hxx *.ui " " | \
+	sed 's/\*\.[a-zA-Z]* //g' | \
+	cat >> declist.mk
+
+implist:
+	@echo "make implist.mk"
+	@rm -rf implist.mk
+	@grep -l Q_OBJECT *.[hH] | sed -e 's/^/moc_/g' -e 's/.[hH]/.cpp/' >> implist.mk
+	@for i in *.ui ;\
+	do \
+	    echo $$i | sed -e 's/^/moc_/g' -e 's/.ui/.cpp/g' >> implist.mk ; \
+	    echo $$i | sed -e 's/.ui/.cpp/g' >> implist.mk ; \
+	done
+	@echo *.y *.l *.c *.C *.cc *.cxx *.cpp " " | \
+	sed 's/\*\.[a-zA-Z]* //g' | \
+	cat >> implist.mk
+
+objlist: implist.mk
+	@echo "make objlist.$(SYSDEP).mk"
+	@rm -rf objlist.mk
+	@rm -rf objlist.$(SYSDEP).mk
+	@cat implist.mk >> objlist.mk
+	@cat < objlist.mk | \
+	tr '\n' ' ' | \
+	tr '\r' ' ' | \
+	sed 's/\.cc/\.$(SYSDEP)\.o/g' | \
+	sed 's/\.cxx/\.$(SYSDEP)\.o/g' | \
+	sed 's/\.cpp/\.$(SYSDEP)\.o/g' | \
+	sed 's/\.[cC]/\.$(SYSDEP)\.o/g' | \
+	sed 's/\.[ly]/\.$(SYSDEP)\.o/g' | \
+	sed 's/\.[hH]/\.$(SYSDEP)\.o/g' | \
+	cat >objlist.$(SYSDEP).mk
+
+deplist.$(SYSDEP).mk:
+	@echo "init deplist.$(SYSDEP).mk"
+	@echo >deplist.$(SYSDEP).mk ""
+	$(MAKE) lists
+
+depend: implist.mk $(shell test -f implist.mk && cat implist.mk) declist.mk $(shell test -f declist.mk && cat declist.mk)
+	@echo "make deplist.$(SYSDEP).mk"
+#	@makedepend 2>/dev/null $(INCS) $(shell cat implist.mk) \
+#	-f - | sed 's/\.o/\.$(SYSDEP)\.o/' > deplist.$(SYSDEP).mk
+######################################################################
+
+### Commands #########################################################
+all: $(TARGET)$(BINSUF)
+
+uinstall: $(SYSTARGET)
+	$(STRIP) $(SYSTARGET)
+	cp $(SYSTARGET) $(HOME)/bin/$(OS)/$(TARGET)$(BINSUF)
+
+install: $(SYSTARGET)
+	$(STRIP) $(SYSTARGET)
+	cp $(SYSTARGET) $(PPOOL)/bin/$(OS)/$(TARGET)$(BINSUF)
+
+lib: $(LIBOBJS)
+	rm -f $(LIBTARGET).a
+	$(AR) $(LIBTARGET).a $(LIBOBJS)
+
+so: $(LIBOBJS)
+	rm -f $(LIBTARGET).so
+	$(SOLD) -o $(LIBTARGET).so $(LIBOBJS)
+
+ulibinstall: lib
+	mv $(LIBTARGET).a $(HOME)/lib/$(OS)/$(LIBDIR)
+
+libinstall: lib
+	mv $(LIBTARGET).a $(PPOOL)/lib/$(OS)/$(LIBDIR)
+
+soinstall: so
+	mv $(LIBTARGET).so $(PPOOL)/lib/$(OS)/$(LIBDIR)
+
+usoinstall: so
+	mv $(LIBTARGET).so $(HOME)/lib/$(OS)/$(LIBDIR)
+
+incinstall: 
+	cp *.h $(PPOOL)/include/$(NAMESPACE)
+
+uincinstall: 
+	cp *.h $(HOME)/include/$(NAMESPACE)
+
+soinc: so
+	cp *.h $(PPOOL)/include/$(NAMESPACE)
+	mv $(LIBTARGET).so $(PPOOL)/lib/$(OS)/$(LIBDIR)
+
+usoinc: so
+	cp *.h $(HOME)/include/$(NAMESPACE)
+	mv $(LIBTARGET).so $(HOME)/lib/$(OS)/$(LIBDIR)
+
+includelink:
+	ln -s $(PWD) $(PPOOL)/include/$(TARGET)
+
+clean:
+	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.swp *~ *% \#*\# 
+	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
+
+Clean: clean
+	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
+
+run: $(RUN)
+
+xrun: $(SYSTARGET) 
+	@echo "RUN: $(SYSTARGET)"
+	@$(XTERM) -geometry 80x60+0+0 -bg black -fg green \
+	-title '$(SYSTARGET) console' \
+	-e $(SYSTARGET) -geometry +200+200
+
+run: $(SYSTARGET)
+	@echo "RUN: $(SYSTARGET)"
+	$(SYSTARGET) 
+
+strip: $(SYSTARGET)
+	@echo "STRIP: $(SYSTARGET)"
+	@$(STRIP) $(SYSTARGET)
+
+edit:
+	$(EDIT) &
+
+docify:
+	mdocify $(HEADERS)
+
+$(DOCDIR):
+	mkdir -p $(DOCDIR)
+
+doc: $(DOCDIR)
+
+$(DOCDIR)/tex: doc
+	mkdir -p $(DOCDIR)/tex
+
+tex:	$(HEADERS) $(DOCDIR)/tex
+	doc++ -t -o $(DOCDIR)/tex/$(TARGET).tex $(HEADERS)
+
+ps: tex
+	cd $(DOCDIR)/tex; latex $(TARGET).tex; latex $(TARGET).tex; \
+	dvips -o $(TARGET).ps $(TARGET).dvi
+
+$(DOCDIR)/html: doc
+	mkdir -p $(DOCDIR)/html
+
+html: $(HEADERS) $(DOCDIR)/html
+	doc++ -p -u -H -d $(DOCDIR)/html -b $(HEADERS)
+
+docu: ps html
+
+debug: $(SYSTARGET)
+	@echo "DEBUG: $(SYSTARGET)"
+	@$(XDEBUGER) --$(DEBUGER) $(SYSTARGET)
+
+count: 
+	wc $(HEADERS) $(SOURCES)
+
+tar:
+	tar cvf $(TARGET).tar $(HEADERS) $(SOURCES) [Mm]akefile $(PROBACK)
+
+star:
+	tar cvf $(TARGET)-src.tar $(HEADERS) $(SOURCES) [Mm]akefile 
+
+tgz: tar
+	gzip $(TARGET).tar
+	mv $(TARGET).tar $(TARGET).tgz
+
+backup: tar
+	mv $(TARGET).tar $(PPOOL)/src/backup
+
+sbackup: star
+	mv $(TARGET)-src.tar $(PPOOL)/src/backup
+
+tags: declist.mk implist.mk
+	@echo "make tag file"
+	@etags -C $(shell cat implist.mk) $(shell cat implist.mk)
+
+######################################################################
+

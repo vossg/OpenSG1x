@@ -1,9 +1,9 @@
 
-#include <FieldContainerViewCtl.h>
 
 #include <string>
+#include "FieldContainerViewCtl.h"
 
-#ifdef FCD_GUI
+#ifndef FCD_TERM
 
 #include <qapp.h>
 
@@ -99,9 +99,7 @@ int main( int argc, char **argv )
 	return 0;
 }
 
-#endif
-
-#ifdef FCD_TERM
+#else // FCD_TERM
 
 int main( int argc, char **argv )
 { 
