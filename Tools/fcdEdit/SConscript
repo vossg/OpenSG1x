@@ -4,7 +4,17 @@ import os.path
 
 Import('*')
 
-sources = Split("""
+sources = Glob('*.cpp')
+headers = Glob('*.h')
+
+uis = Glob('*.ui')
+new_sources, new_headers = GetUiSources(uis)
+sources += new_sources
+headers += new_headers
+
+sources += GetMocSources(headers)
+
+sources_term = Split("""
     FieldContainer.cpp
     Field.cpp
     main.cpp
@@ -12,10 +22,17 @@ sources = Split("""
 """)
 
 def custom(env):
-    env['CXXFILESUFFIX'] = '.cpp'
-    env['QT_HPREFIX'] = 'uic_'
-    env.Append(CPPPATH = ['$OSG_OBJDIR'])
-    env['OSG_PROGDIR'] = os.path.join('..', 'fcdEdit')
+    #env['CXXFILESUFFIX'] = '.cpp'
+    #env['QT_HPREFIX'] = 'uic_'
+    #env.Append(CPPPATH = ['$OSG_OBJDIR'])
+    #env['OSG_PROGDIR'] = os.path.join('..', 'fcdEdit')
+
+    env.Append(CPPPATH=env.get('QTCPPPATH'))
+    env.Append(LIBPATH=env.get('QTLIBPATH'))
+    env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
+
+    CreateUiSources(env, uis)
+    CreateMocSources(env, headers)
 
 if tc.is_win32():
     dep_LIBS = ['OSGWindowWIN32']
@@ -23,12 +40,13 @@ else:
     dep_LIBS = ['OSGWindowX']
 
 
-BuildProgram(tc, 'fcdCompile', sources, tools=[],
-             updates=[custom, OpenSGLibrary(['OSGBase'])],
+BuildProgram(tc, 'fcdCompile', sources_term, tools=[],
+             updates=[OpenSGLibrary(['OSGBase'])],
              CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
              CPPDEFINES=['FCD_TERM', 'OSG_BUILD_DLL'])
 
-#BuildProgram(tc, 'fcdEdit', sources + ['FieldContainerViewCtl.cpp', 'FieldContainerView.ui'], tools=['qt'],
-#             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
-#             CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
-#             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])
+#if _po.getOption('qt'):
+#    BuildProgram(tc, 'fcdEdit', sources, tools=[],
+#                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+#                 CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
+#                 CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

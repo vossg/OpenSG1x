@@ -2,84 +2,28 @@
 
 Import('*')
 
-sources = Split("""
-    OSGQFieldContainerView_qt.cpp
-    OSGQFieldEditorFactory.cpp
-    OSGQFieldEditor_qt.cpp
-    OSGQFieldLabelFactory.cpp
-    OSGQFieldValueLabel.cpp
-    OSGQFieldView_qt.cpp
-    OSGQGLManagedDesignerWidget_qt.cpp
-    OSGQGLManagedWidget_qt.cpp
-    OSGQGLWidget_qt.cpp
-    OSGQMatrixFieldValueLabel.cpp
-    OSGQNodeTreeView_qt.cpp
-    OSGQPointFieldValueLabel.cpp
-    OSGQSceneGraphViewFunctions.cpp
-    OSGQSceneGraphView_qt.cpp
-    OSGQTWindow.cpp
-    OSGQTWindowBase.cpp
-    OSGQTypedFieldValueLabel.cpp
-    OSGQVectorFieldValueLabel.cpp
-    OSGQWidgetFunctions.cpp
-    OSGWindowQTPlugin.cpp
-""")
+import os
 
-headers = Split("""
-    OSGQFieldContainerView_qt.h
-    OSGQFieldEditorFactory.h
-    OSGQFieldEditor_qt.h
-    OSGQFieldLabelFactory.h
-    OSGQFieldValueLabel.h
-    OSGQFieldView_qt.h
-    OSGQGLManagedDesignerWidget_qt.h
-    OSGQGLManagedWidget_qt.h
-    OSGQGLWidget_qt.h
-    OSGQMatrixFieldValueLabel.h
-    OSGQNodeTreeView_qt.h
-    OSGQPointFieldValueLabel.h
-    OSGQSceneGraphViewFunctions.h
-    OSGQSceneGraphView_qt.h
-    OSGQTWindow.h
-    OSGQTWindowBase.h
-    OSGQTWindowDataFields.h
-    OSGQTWindowFields.h
-    OSGQTypedFieldValueLabel.h
-    OSGQVectorFieldValueLabel.h
-    OSGQWidgetFunctions.h
-    OSGWindowQTDef.h
-    OSGWindowQTPlugin.h
-    OSGQFieldContainerView_qt.inl
-    OSGQFieldEditor_qt.inl
-    OSGQFieldLabelFactory.inl
-    OSGQFieldValueLabel.inl
-    OSGQFieldView_qt.inl
-    OSGQGLWidget_qt.inl
-    OSGQMatrixFieldValueLabel.inl
-    OSGQPointFieldValueLabel.inl
-    OSGQTWindow.inl
-    OSGQTWindowBase.inl
-    OSGQVectorFieldValueLabel.inl
-    OSGQWidgetFunctions.inl
-""")
+sources_with_moc = Glob('OSG*.cpp')
+headers = Glob('OSG*.h')
+headers += Glob('OSG*.inl')
+
+# exclude moc.cpp files.
+sources = []
+for source in sources_with_moc:
+    srcname = str(source)
+    if srcname.find('_moc.cpp') < 0:
+        sources.append(source)
 
 InstallHeaders(env, headers)
 
 def custom(env):
-    # By default, SCons/QT generates moc_<file>.cpp
-    #env['QT_MOCNAMEGENERATOR'] = lambda x, src_suffix, env: x + '_moc.cpp'
 
-    # Otherwise QT/moc tries to generate .cc files.
-    env['CXXFILESUFFIX'] = '.cpp'
+    env.Append(CPPPATH=env.get('QTCPPPATH'))
+    env.Append(LIBPATH=env.get('QTLIBPATH'))
+    env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
 
-    env['QT_MOCHPREFIX'] = ''
-    env['QT_MOCHSUFFIX'] = '_moc$CXXFILESUFFIX'
-    # we don't want to compile the moced header files
-    # I added a hack to qt.py in scons search for AMZ
-    # doesn't work with my scons version ...
-    env['QT_AUTOBUILD_MOC_SOURCES'] = 0
-
-    env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS', []))
+    CreateMocSources(env, headers)
 
 if tc.is_win32():
     dep_CPPPATH = ['../WIN32']
@@ -89,7 +33,7 @@ else:
     dep_LIBS    = ['OSGWindowX']
 
 if _po.getOption('qt'):
-    BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'],
+    BuildLibrary(tc, 'OSGWindowQT', sources, tools=[],
                  updates=[custom, OpenSGLibrary(dep_LIBS + ['OSGSystem', 'OSGBase'])],
                  includeGen=1,
                  CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),

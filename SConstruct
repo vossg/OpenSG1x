@@ -4,6 +4,7 @@ import string
 import sys
 import shutil
 import zipfile
+import glob
 
 SConsignFile()
 #CacheDir('cache')
@@ -147,6 +148,58 @@ def MyInstall(dst, src):
     except (IOError, os.error), why:
         print "Couldn't install %s: %s" % (`dst`, str(why))
         return -1
+
+# qt stuff
+
+def GetMocSources(sources):
+    # create ui source
+    new_sources = []
+    for source in sources:
+        srcname = os.path.basename(str(source))
+        new_sources.append(srcname[:-2] + "_moc.cpp")
+    return new_sources
+
+Export('GetMocSources')
+
+def CreateMocSources(env, sources):
+    # create moc source
+    for source in sources:
+        srcname = os.path.basename(str(source))
+        if srcname[-2:] == '.h':
+            target = srcname[:-2] + "_moc.cpp"
+            env.Command(target, source, ["moc $SOURCES -o $TARGET"])
+
+Export('CreateMocSources')
+
+def GetUiSources(sources):
+    # create ui source
+    new_sources = []
+    new_headers = []
+    for source in sources:
+        srcname = os.path.basename(str(source))
+        name = srcname[:-3]
+        new_sources.append(name + ".cpp")
+        new_headers.append(name + ".h")
+    return new_sources, new_headers
+
+Export('GetUiSources')
+
+def CreateUiSources(env, sources):
+        # create ui source
+        cpp_sources = []
+        ui_moc_h_sources = []
+        for source in sources:
+            srcname = str(source)
+            name = srcname[:-3]
+            target1 = name + ".h"
+            env.Command(target1, source, ["uic -o $TARGET $SOURCES"])
+            target2 = name + ".cpp"
+            env.Command(target2, source, ["uic -o $TARGET -impl " + target1 + " $SOURCES"])
+            cpp_sources.append(name + ".cpp")
+            ui_moc_h_sources.append(name + ".h")
+        return cpp_sources, ui_moc_h_sources
+
+Export('CreateUiSources')
 
 def CreateWinHeaders(env):
 
@@ -376,6 +429,7 @@ class PlatformOptions:
     def __init__(self, opts):
         self.de = DefaultEnvironment()
 
+        # check the QTDIR variable and set 'yes'
         opts.Add(PackageOption('qt', 'Enable qt support', 'no'))
 
         self.package_options = ['tif', 'jpg', 'png', 'glut', 'zlib']
@@ -449,6 +503,24 @@ class ToolChain:
             self.env.Append(CPPDEFINES = ['OSG_WITH_TIF'])
         if _po.getOption('png'):
             self.env.Append(CPPDEFINES = ['OSG_WITH_PNG'])
+        
+        if _po.getOption('qt'):
+            #if isinstance(_po.getOption('qt'), str):
+            self.env.PrependENVPath('PATH', os.path.join(_po.getOption('qt'), 'bin'))
+            self.env['QTCPPPATH'] = [os.path.join(_po.getOption('qt'), 'include')]
+            self.env['QTLIBPATH'] = [os.path.join(_po.getOption('qt'), 'lib')]
+
+            if self.env.get('PLATFORM') == 'win32':
+                # auto detect qt lib name with version number
+                libnames = glob.glob(os.path.join(_po.getOption('qt'), 'lib', 'qt-mt*.lib'))
+                if len(libnames) > 0:
+                    libname = os.path.basename(libnames[0])
+                    libname = libname[:-4]
+                    self.env['OSG_WINDOW_QT_LIBS'] = [libname]
+                else:
+                    print "Couldn't find qt-mt*.lib file!"
+            else:
+                self.env['OSG_WINDOW_QT_LIBS'] = ['qt-mt']
 
         # add include path for OSGConfigured.h file
         self.env.Append(CPPPATH=[Dir(os.path.join('Build', self.name, 'Source', 'Base'))])
@@ -497,10 +569,14 @@ class win32(ToolChain):
             slibs.append('libpng')
             slibs.append('zlib')
 
-        env['OSG_BASE_LIBS'] = ['winmm', 'ws2_32']
-        env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'winmm', 'ws2_32'] + slibs
-        env['OSG_WINDOW_GLUT_LIBS'] = ['glut32', 'opengl32', 'ws2_32']
-        env['OSG_WINDOW_QT_LIBS'] = ['ws2_32', 'winmm']
+        env['OSG_BASE_LIBS'] = []
+        env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'glu32.lib', 'gdi32'] + slibs
+        env['OSG_WINDOW_GLUT_LIBS'] = ['glut32', 'opengl32', 'glu32.lib', 'gdi32']
+        #env['OSG_WINDOW_QT_LIBS'] = []
+
+        # ws2_32
+        env.Append(LINKFLAGS=['/NODEFAULTLIB'],
+                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'msvcprt', 'msvcrt'])
 
     def is_win32(self):
         return 1
@@ -725,7 +801,7 @@ class linux_gcc(ToolChain):
         env['OSG_BASE_LIBS'] = ['pthread']
         env['OSG_SYSTEM_LIBS'] = ['GLU', 'GL'] + slibs
         env['OSG_WINDOW_GLUT_LIBS'] = ['glut', 'GL']
-        env['OSG_WINDOW_QT_LIBS'] = []
+        #env['OSG_WINDOW_QT_LIBS'] = []
         env['OSG_WINDOW_X_LIBS'] = []
 
         env['OSG_OBJDIR'] = 'obj'

@@ -12,6 +12,7 @@ sources = Split("""
 def custom(env):
     env['CXXFILESUFFIX'] = '.cpp'
     env['OSG_PROGDIR'] = os.path.join('..', 'Tutorials')
+    env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS', []))
 
 sources = Glob('*.cpp')
 

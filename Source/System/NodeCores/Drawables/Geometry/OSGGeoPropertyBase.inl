@@ -108,7 +108,7 @@ FieldAccessMethod GeoProperty<GeoPropertyDesc>::getFPtrAccessMethod(void)
     typedef GeoProperty<GeoPropertyDesc> Self;
     typedef StoredFieldType *(Self::*GetFieldPtr)(void);
 
-    GetFieldPtr       tmp       = getFieldPtr;
+    GetFieldPtr       tmp       = &osg::GeoProperty<GeoPropertyDesc>::getFieldPtr;
 
     FieldAccessMethod tmpMethod = (*((FieldAccessMethod *) &tmp));
 
