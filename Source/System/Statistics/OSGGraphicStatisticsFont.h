@@ -58,6 +58,8 @@ extern OSG_SYSTEMLIB_DLLMAPPING UChar8 GraphicsStatisticsFontData[];
 
 extern OSG_SYSTEMLIB_DLLMAPPING UInt32 GraphicsStatisticsFontDataSize;
 
+extern OSG_SYSTEMLIB_DLLMAPPING std::string GraphicsStatisticsFontString;
+
 /*! \}                                                                      */
 
 OSG_END_NAMESPACE

@@ -38,7 +38,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include "OSGStatisticsDefaultFont.h"
+#include "OSGGraphicStatisticsFont.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -79004,5 +79004,9 @@ UChar8 GraphicsStatisticsFontData[1051668] = {
 0,0,0,0,0,0,0,0
 };
 */
+
+std::string GraphicsStatisticsFontString(
+    (char *) GraphicsStatisticsFontData, 
+    GraphicsStatisticsFontDataSize     );
 
 OSG_END_NAMESPACE

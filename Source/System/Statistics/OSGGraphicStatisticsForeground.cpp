@@ -1158,10 +1158,13 @@ void GraphicStatisticsForeground::initText(void)
 {
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
-    std::istringstream stream((char *) GraphicsStatisticsFontData);
+    std::istringstream stream(GraphicsStatisticsFontString,
+                              std::istringstream::in | 
+                              std::istringstream::out);
 #else
-    std::istrstream stream((char *) GraphicsStatisticsFontData,
-                               GraphicsStatisticsFontDataSize);
+    std::istrstream stream(
+        (char *) GraphicsStatisticsFontData,
+                 GraphicsStatisticsFontDataSize);
 #endif
 
     TXFFont *font = new TXFFont("StatisticsDefaultFont", stream);

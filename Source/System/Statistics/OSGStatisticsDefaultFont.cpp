@@ -26416,4 +26416,7 @@ UChar8 StatisticsDefaultFontData[527380] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 
+std::string StatisticsDefaultFontString((char *) StatisticsDefaultFontData, 
+                                        StatisticsDefaultFontDataSize     );
+
 OSG_END_NAMESPACE

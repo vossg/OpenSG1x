@@ -45,6 +45,8 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 /*--------------------------------------------------------------------------*/
@@ -57,6 +59,8 @@ OSG_BEGIN_NAMESPACE
 extern OSG_SYSTEMLIB_DLLMAPPING UChar8 StatisticsDefaultFontData[];
 
 extern OSG_SYSTEMLIB_DLLMAPPING UInt32 StatisticsDefaultFontDataSize;
+
+extern OSG_SYSTEMLIB_DLLMAPPING std::string StatisticsDefaultFontString;
 
 /*! \}                                                                      */
 
