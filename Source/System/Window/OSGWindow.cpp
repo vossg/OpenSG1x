@@ -672,18 +672,13 @@ void OSG::Window::frameExit(void)
 // Yes, this is system dependent, but the system dependent parts are 
 // #ifdefed anyway, and very similar code would show up in a number of places,
 // making maintaining it unnecessarily hard
+// Note: the order of the cases is important, do not change it!
 
 void (*Window::getFunctionByName(const Char8 *s))(void)
 {
 #if defined(GLX_VERSION_1_4)
 
     return glXGetProcAddress((const GLubyte *) s);
-
-// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
-// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
-#elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
-
-    return glXGetProcAddressARB((const GLubyte *) s);
 
 #elif defined(__hpux) || defined (__sgi)
 
@@ -696,6 +691,12 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
     }
 
     return (void (*)(void)) dlsym(libHandle, s);
+
+// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
+// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
+#elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
+
+    return glXGetProcAddressARB((const GLubyte *) s);
 
 #elif defined(darwin)
 
