@@ -140,7 +140,7 @@ FieldType::FieldType(const Char8             *szName,
     _contentType (contentType               ),
     _createMethod(createMethod              ),
     _cardinality (cardinality               )
-{	
+{
     FieldFactory::addType(this);
     FDEBUG (("Initialized FieldType : %s\n", getCName()));
 }
