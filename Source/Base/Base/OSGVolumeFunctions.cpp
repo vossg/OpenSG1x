@@ -361,6 +361,9 @@ bool intersect(const SphereVolume &sphere, const CylinderVolume &cylinder)
         s1 = (apos        - sphere.getCenter()).length();
         s2 = (apos + adir - sphere.getCenter()).length();
 
+        if ((s1<=DBL_EPSILON) || (s2<=DBL_EPSILON)) 
+            return true;
+        
         //check the smallest distance and set the vector coordinate
         if(s1 <= s2)
         {

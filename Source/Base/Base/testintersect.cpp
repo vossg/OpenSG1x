@@ -310,6 +310,9 @@ int main (int argc, char **argv) {
     std::cout << "Cylinder/Frustum inside test : " << std::flush;
     std::cout << (cylinderIn.intersect(frustum) ? "ok" : "**BAD**") << std::endl;
 
+    std::cout << "Cylinder/Sphere outside test: " << std::flush;
+    std::cout << (cylinderOut.intersect(sphere) ? "**BAD**" : "ok") << std::endl;
+
     //###VOLUME EXTENSION################################################
 
     std::cout << "### volume extension test ###" << std::endl;
