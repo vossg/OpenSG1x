@@ -48,7 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
-
+#include <OSGSystemDef.h>
 #include <OSGMaterialGroupBase.h>
 #include <OSGAction.h>
 
@@ -69,7 +69,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_SYSTEM_DLLMAPPING MaterialGroup : public MaterialGroupBase
+class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
 {
   private:
 

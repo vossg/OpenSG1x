@@ -90,7 +90,7 @@ class MaterialGroup;
 
 /*! MaterialGroup Base Class. */
 
-class OSG_SYSTEM_DLLMAPPING MaterialGroupBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 {
   private:
 

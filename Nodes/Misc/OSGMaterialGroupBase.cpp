@@ -66,7 +66,7 @@
 #include <iostream.h>
 #endif
 
-#define OSG_COMPILESYSTEM
+#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEMATERIALGROUPINST
 
 #include "OSGMaterialGroupBase.h"
@@ -88,8 +88,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, MaterialGroupPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, MaterialGroupPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -107,7 +107,7 @@ const OSG::UInt32    	MaterialGroupBase::NextFieldId;
 const OSG::BitVector 	MaterialGroupBase::NextFieldMask;
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.1 2001/04/23 16:25:15 jbehr Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.2 2001/04/26 12:53:38 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -52,7 +52,7 @@
 #include <iostream.h>
 #endif
 
-#define OSG_COMPILESYSTEM
+#define OSG_COMPILESYSTEMLIB
 
 #include "OSGMaterialGroup.h"
 #include "OSGDrawAction.h"
@@ -78,7 +78,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.1 2001/04/23 16:25:15 jbehr Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.2 2001/04/26 12:53:38 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -98,7 +98,7 @@ typedef SField<MaterialGroupPtr> SFMaterialGroupPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEM_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -114,7 +114,7 @@ typedef MField<MaterialGroupPtr> MFMaterialGroupPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEM_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
