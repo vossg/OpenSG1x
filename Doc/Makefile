@@ -13,43 +13,46 @@ DOCDIR     := $(DOCBASEDIR)/$(DOCCODEDIR)/$(DOC_LEVEL_NAME)
 DOC_PROJECT_NAME = OpenSG
 DOC_PROJECT_NUMBER = $(shell cat ../VERSION)
 
-DOCS_BASE  := ../Source/Base/Base ../Source/Base/Field ../Source/Base/Functors		\
-			  ../Source/Base/Network/Base ../Source/Base/Network/Socket			\
+DOCS_BASE  := ../Source/Base/Base 				\
+			  ../Source/Base/Field 				\
+			  ../Source/Base/Functors			\
+			  ../Source/Base/Network/Base 		\
+			  ../Source/Base/Network/Socket		\
 			  ../Source/Base/StringConversion  
 
 DOCS_SYS   := ../Source/System/Action  										\
-			  ../Source/System/Action/DrawAction  					    		\
+			  ../Source/System/Action/DrawAction  				    		\
 			  ../Source/System/Action/IntersectAction  						\
-			  ../Source/System/Action/RenderAction  							\
-			  ../Source/System/Cluster/Base                                    \
-              ../Source/System/Cluster/Server		                            \
+			  ../Source/System/Action/RenderAction  						\
+			  ../Source/System/Cluster/Base                                 \
+              ../Source/System/Cluster/Server		                        \
 			  ../Source/System/Cluster/Window  								\
-			  ../Source/System/Cluster/Window/Base								\
-			  ../Source/System/Cluster/Window/MultiDisplay						\
+			  ../Source/System/Cluster/Window/Base							\
+			  ../Source/System/Cluster/Window/MultiDisplay					\
 			  ../Source/System/Cluster/Window/SortFirst						\
 			  ../Source/System/FieldContainer  								\
-			  ../Source/System/FieldContainer/Impl								\
+			  ../Source/System/FieldContainer/Impl							\
 			  ../Source/System/FileIO  										\
-			  ../Source/System/FileIO/Base										\
-			  ../Source/System/FileIO/BIN										\
-			  ../Source/System/FileIO/OBJ										\
-			  ../Source/System/FileIO/OFF										\
-			  ../Source/System/FileIO/OSG										\
-			  ../Source/System/FileIO/RAW										\
-			  ../Source/System/FileIO/WRL										\
+			  ../Source/System/FileIO/Base									\
+			  ../Source/System/FileIO/BIN									\
+			  ../Source/System/FileIO/OBJ									\
+			  ../Source/System/FileIO/OFF									\
+			  ../Source/System/FileIO/OSG									\
+			  ../Source/System/FileIO/RAW									\
+			  ../Source/System/FileIO/WRL									\
 			  ../Source/System/FileIO/ScanParseSkel							\
-			  ../Source/System/Image											\
+			  ../Source/System/Image										\
 			  ../Source/System/Material										\
 			  ../Source/System/NodeCores/Drawables/Base						\
 			  ../Source/System/NodeCores/Drawables/Geometry					\
 			  ../Source/System/NodeCores/Drawables/Misc						\
-			  ../Source/System/NodeCores/Drawables/Particles					\
-			  ../Source/System/NodeCores/Groups/Base							\
-			  ../Source/System/NodeCores/Groups/Light							\
-			  ../Source/System/NodeCores/Groups/Misc							\
+			  ../Source/System/NodeCores/Drawables/Particles				\
+			  ../Source/System/NodeCores/Groups/Base						\
+			  ../Source/System/NodeCores/Groups/Light						\
+			  ../Source/System/NodeCores/Groups/Misc						\
 			  ../Source/System/RenderingBackend								\
-			  ../Source/System/State											\
-			  ../Source/System/Statistics										\
+			  ../Source/System/State										\
+			  ../Source/System/Statistics									\
 			  ../Source/System/Window
 
 DOCS_X     := ../Source/WindowSystem/X
@@ -114,8 +117,13 @@ DOC_IMAGE_PATHES := Images
 
 DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 
+DOC_FILES := ../Source/Base/Base/Base.dox         		\
+			 ../Source/Base/Base 						\
+             ../Source/Base/Functors/Functors.dox 		\
+			 ../Source/Base/Functors
+
 # DOC_FILES := $(DOC_PAGES) ../Source/System/NodeCores/Groups/Misc \
-            ../Source/System/NodeCores/Groups/Base
+#            ../Source/System/NodeCores/Groups/Base
 
 # level-dependent defines
 DOC_LEVEL ?= 1
@@ -130,6 +138,8 @@ DOC_ENV += OSG_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF)"
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
+#DOXYGEN := doxygen
+DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
 
 default: help
 
@@ -162,7 +172,7 @@ dodoc:
 	make DOC_IMAGE_TYPE=html images
 
 #   do doxygen
-	$(DOC_ENV) doxygen ../Common/Doxygen_$(BUILD_ENV).cfg -d
+	$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
 
 #	@rm -f ../Common/dummyClasses.dox 
 
