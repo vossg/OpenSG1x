@@ -50,7 +50,7 @@
 
 OSG_USING_NAMESPACE
 
-#if 0
+#if 1
 
 FieldDescription *NameAttachmentDesc::_desc[] =
 {
@@ -60,11 +60,11 @@ FieldDescription *NameAttachmentDesc::_desc[] =
         OSG_FC_FIELD_IDM_DESC(SimpleAttachment<
                                   NameAttachmentDesc>::SimpleField),
         false,
-        (FieldAccessMethod) NULL)
-/*
+//        (FieldAccessMethod) NULL)
+
         (FieldAccessMethod) &SimpleAttachment<
                                   NameAttachmentDesc>::getFieldPtr)
- */
+
 };
 
 #endif
@@ -76,11 +76,11 @@ OSG_BEGIN_NAMESPACE
 #pragma instantiate SimpleAttachment<NameAttachmentDesc>::_type
 
 #else
-
+#ifndef CRASH_GCC_31
 OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
                            NameAttachmentDesc,
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
+#endif
 #endif
 
 OSG_END_NAMESPACE

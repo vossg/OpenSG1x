@@ -172,8 +172,6 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 

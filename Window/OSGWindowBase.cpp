@@ -398,8 +398,6 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -433,7 +431,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.34 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.35 2002/05/21 11:50:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 

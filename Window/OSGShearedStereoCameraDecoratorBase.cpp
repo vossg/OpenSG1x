@@ -252,8 +252,6 @@ void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCamera
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -266,10 +264,8 @@ DataType FieldDataTraits<ShearedStereoCameraDecoratorPtr>::_type("ShearedStereoC
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(ShearedStereoCameraDecoratorPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(ShearedStereoCameraDecoratorPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -289,7 +285,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShearedStereoCameraDecoratorBase.cpp,v 1.7 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShearedStereoCameraDecoratorBase.cpp,v 1.8 2002/05/21 11:50:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

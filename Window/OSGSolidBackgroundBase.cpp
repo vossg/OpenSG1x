@@ -221,7 +221,6 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -253,7 +252,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.29 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.30 2002/05/21 11:50:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 

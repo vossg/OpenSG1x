@@ -376,8 +376,6 @@ void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOt
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -390,10 +388,8 @@ DataType FieldDataTraits<TileCameraDecoratorPtr>::_type("TileCameraDecoratorPtr"
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(TileCameraDecoratorPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(TileCameraDecoratorPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -413,7 +409,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.26 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.27 2002/05/21 11:50:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 

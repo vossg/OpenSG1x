@@ -283,8 +283,6 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 

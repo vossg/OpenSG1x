@@ -697,7 +697,7 @@ OSG_USING_STD_NAMESPACE
 #define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)
 
 
-#define  OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+#define  OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)       \
 template<>                                                     \
 FieldContainerType CLASSNAME< T1 >::_type =                    \
     FieldContainerType(                                        \
@@ -706,8 +706,9 @@ FieldContainerType CLASSNAME< T1 >::_type =                    \
         T1::getGroupName(),                                    \
         (PrototypeCreateF) &CLASSNAME< T1 >::createEmpty,      \
         T1::getInitMethod(),                                   \
-        _desc,                                                 \
+        T1::getDesc(),                                         \
         sizeof(FieldDescription *))
+
 
 #define  OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
 template<>                                                     \

@@ -181,8 +181,6 @@ void PassiveViewportBase::executeSyncImpl(      PassiveViewportBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -216,7 +214,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveViewportBase.cpp,v 1.7 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveViewportBase.cpp,v 1.8 2002/05/21 11:50:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEVIEWPORTBASE_INLINE_CVSID;
 

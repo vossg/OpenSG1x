@@ -181,7 +181,6 @@ void PassiveBackgroundBase::executeSyncImpl(      PassiveBackgroundBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 

@@ -243,8 +243,6 @@ void StereoCameraDecoratorBase::executeSyncImpl(      StereoCameraDecoratorBase 
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -257,10 +255,8 @@ DataType FieldDataTraits<StereoCameraDecoratorPtr>::_type("StereoCameraDecorator
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(StereoCameraDecoratorPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(StereoCameraDecoratorPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -280,7 +276,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoCameraDecoratorBase.cpp,v 1.7 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoCameraDecoratorBase.cpp,v 1.8 2002/05/21 11:50:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

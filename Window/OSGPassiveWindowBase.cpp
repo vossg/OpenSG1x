@@ -181,8 +181,6 @@ void PassiveWindowBase::executeSyncImpl(      PassiveWindowBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -216,7 +214,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.9 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.10 2002/05/21 11:50:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEWINDOWBASE_INLINE_CVSID;
 

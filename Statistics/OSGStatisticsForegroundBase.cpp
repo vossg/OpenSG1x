@@ -243,8 +243,6 @@ void StatisticsForegroundBase::executeSyncImpl(      StatisticsForegroundBase *p
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -257,10 +255,8 @@ DataType FieldDataTraits<StatisticsForegroundPtr>::_type("StatisticsForegroundPt
 
 #else
 
-OSG_DLLEXPORT_SFIELD_DEF1(StatisticsForegroundPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(StatisticsForegroundPtr, 
-                          OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -280,7 +276,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStatisticsForegroundBase.cpp,v 1.7 2002/05/20 08:10:38 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStatisticsForegroundBase.cpp,v 1.8 2002/05/21 11:50:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

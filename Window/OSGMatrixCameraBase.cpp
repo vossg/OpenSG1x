@@ -252,8 +252,6 @@ void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -287,7 +285,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.10 2002/05/20 08:10:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.11 2002/05/21 11:50:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERABASE_INLINE_CVSID;
 

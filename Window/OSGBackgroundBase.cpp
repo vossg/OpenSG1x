@@ -172,8 +172,6 @@ void BackgroundBase::executeSyncImpl(      BackgroundBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -207,7 +205,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.28 2002/05/20 08:10:38 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.29 2002/05/21 11:50:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 
