@@ -116,7 +116,8 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 {
 	Int16 type, width, height, lineSize, maxValue = 0, value, x, y;
 	UInt16 i;
-  UInt8 id, commentKey = '#', *line;
+    UInt8 id, commentKey = '#';
+// *line;
 	ifstream in(fileName, ios::in );
 	
 	if (in.rdbuf()->is_open()) {
@@ -175,7 +176,7 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 		}
 		else {           // image is ascii
 			for (y = height - 1; y >= 0; y--) {
-				line = image.getData() + (y * lineSize);
+//				line = image.getData() + (y * lineSize);
 				for (x = 0; x < lineSize; x++) {
 					in >> value;
 	}

@@ -174,7 +174,6 @@ posval_list	:	/* leer */
 				if ((OSG::Animation::getAnim()) && (OSG::Animation::getAnim()->currentInterpolator()))
 				{					
 					OSG::Vec3f   value;
-					OSG::Real32	 key;
 					OSG::PositionInterpolatorPtr currInterpol;
 					
 					currInterpol = dynamic_cast<OSG::PositionInterpolatorPtr>
@@ -245,7 +244,6 @@ orival_list	:	/* leer */
 				if ((OSG::Animation::getAnim()) && (OSG::Animation::getAnim()->currentInterpolator()))
 				{
 					OSG::Quaternion  	value;
-					OSG::Real32	 		key;
 					OSG::OrientationInterpolatorPtr currInterpol;
 					OSG::Real32			x,y,z,w;
 

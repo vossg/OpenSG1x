@@ -14,8 +14,8 @@ extern "C"
 
 #define y_min(a, b)               ((a)<(b)?(a):(b))
 
-#ifdef _IRIX_SOURCE
-#pragma set woff 1110
+#ifdef __sgi
+#pragma set woff 1110,1174
 #endif
 
 /* includes */ 

@@ -705,7 +705,7 @@ FaceIterator Geometry::endFaces  ( void ) const
 GeometryPtr Geometry::clone( void )
 {
 	GeometryPtr geo = Geometry::create();
-	FieldContainerFactory * fcf = FieldContainerFactory::the();
+//	FieldContainerFactory * fcf = FieldContainerFactory::the();
 	
 	// create copies of the attributes
 
