@@ -119,8 +119,8 @@ esac
 
 ##rm -rf Builds/$system-$compiler
 
-$config_shell ./configure --with-compiler=$compiler $stl_args $glut_args \
-    $qt_args $tif_args $jpeg_args $png_args
+$config_shell ./configure --prefix=BUILD --with-compiler=$compiler \
+    $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args
 
   
 # Build the libs
@@ -129,10 +129,10 @@ cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
 
 gmake opt 
-gmake INSTALL_DIR=`pwd` install
+gmake install
 
 gmake dbg 
-gmake INSTALL_DIR=`pwd` install
+gmake install
 
 # make the sceneviewer
 
