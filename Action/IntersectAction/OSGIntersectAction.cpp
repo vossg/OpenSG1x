@@ -62,23 +62,19 @@
 #include <OSGAction.h>
 #include "OSGIntersectAction.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \class osg::IntersectAction
+    \ingroup ActionLib
 
-using namespace OSG;
+The intersect action class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -88,7 +84,7 @@ using namespace OSG;
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.3 2001/02/12 01:56:33 dirk Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.4 2001/02/13 15:39:20 dirk Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 

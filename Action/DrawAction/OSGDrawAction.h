@@ -98,10 +98,7 @@ class Action;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief DrawAction class
  */
 
 class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action

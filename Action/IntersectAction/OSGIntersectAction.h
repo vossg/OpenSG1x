@@ -94,10 +94,7 @@ class Node;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief IntersectAction class
  */
 
 class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action

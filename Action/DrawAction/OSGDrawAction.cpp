@@ -62,23 +62,19 @@
 #include "OSGAction.h"
 #include "OSGDrawAction.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \class osg::DrawAction
+    \ingroup ActionLib
 
-using namespace OSG;
+The draw action class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
