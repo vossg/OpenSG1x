@@ -201,7 +201,7 @@ QFieldContainerPtrEditor::writeField(
 void
 QFieldContainerPtrEditor::slotIdChanged(void)
 {
-    Char8            *szBasePtrBuffer;
+    Char8            szBasePtrBuffer[20];
     UInt32            uiContId =
         TypeTraits<UInt32>::getFromString(_pLineEditId->text().latin1());
 
@@ -210,11 +210,9 @@ QFieldContainerPtrEditor::slotIdChanged(void)
 
     if(pCont != NullFC)
     {
-        asprintf(&szBasePtrBuffer, "%p", pCont.getBaseCPtr());
+        sprintf(szBasePtrBuffer, "%p", pCont.getBaseCPtr());
 
         _pLabelBasePtrValue->setText(szBasePtrBuffer);
-
-        free(szBasePtrBuffer);
     }
     else
     {
@@ -275,7 +273,7 @@ QFieldContainerPtrEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.2 2004/07/30 17:00:18 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }

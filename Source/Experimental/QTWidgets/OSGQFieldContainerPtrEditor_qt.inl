@@ -53,18 +53,17 @@ QFieldContainerPtrEditor::getValue(FieldContainerPtr &pFC) const
 inline void
 QFieldContainerPtrEditor::setValue(const FieldContainerPtr &pFC)
 {
-    Char8 *szBasePtrBuffer;
+    Char8 szBasePtrBuffer[20];
 
     _pLineEditId->setText(
         TypeTraits<UInt32>::putToString(pFC.getFieldContainerId()).c_str());
 
-    asprintf(&szBasePtrBuffer, "%p", pFC.getBaseCPtr());
+    sprintf(szBasePtrBuffer, "%p", pFC.getBaseCPtr());
 
     _pLabelBasePtrValue->setText(szBasePtrBuffer);
 
-    free(szBasePtrBuffer);
 }
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.2 2004/07/30 17:00:18 a-m-z Exp $"

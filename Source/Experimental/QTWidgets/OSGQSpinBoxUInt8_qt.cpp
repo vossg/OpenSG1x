@@ -166,7 +166,7 @@ QSpinBoxUInt8::slotReturnPressed(void)
     {
         _bTextChanged = false;
 
-        _spinHelper.setValueByStr(getLineEdit()->text());
+        _spinHelper.setValueByStr(getLineEdit()->text().latin1());
     }
 
     updateDisplay();
@@ -345,7 +345,7 @@ QSpinBoxUInt8::eventFilter(QObject *pObj, QEvent *pEvent)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxUInt8_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxUInt8_qt.cpp,v 1.2 2004/07/30 17:00:18 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQSPINBOXUINT8QT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQSPINBOXUINT8QT_INLINE_CVSID;
 }

@@ -175,7 +175,7 @@ QMFieldEditor::readField(void)
         strLabel.assign(TypeTraits<UInt32>::putToString(valueIdx));
         strLabel.append("."                                      );
 
-        _labels [mapValueIndex(valueIdx)]->setText  (strLabel);
+        _labels [mapValueIndex(valueIdx)]->setText  (strLabel.c_str());
         _editors[mapValueIndex(valueIdx)]->readField(
             getFieldContainer(), getFieldId(), valueIdx      );
     }
@@ -191,7 +191,7 @@ QMFieldEditor::readField(UInt32 uiValueIndex)
         strLabel.assign(TypeTraits<UInt32>::putToString(uiValueIndex));
         strLabel.append("."                                          );
 
-        _labels [mapValueIndex(uiValueIndex)]->setText  (strLabel);
+        _labels [mapValueIndex(uiValueIndex)]->setText  (strLabel.c_str());
         _editors[mapValueIndex(uiValueIndex)]->readField(
             getFieldContainer(), getFieldId(), uiValueIndex      );
     }
@@ -553,7 +553,7 @@ QMFieldEditor::scrollDown(UInt32 uiAmount)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.2 2004/07/30 17:00:18 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQMFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQMFIELDEDITORQT_INLINE_CVSID;
 }
