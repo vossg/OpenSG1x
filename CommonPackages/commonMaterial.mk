@@ -5,7 +5,7 @@ PACKAGENAME              := Material
 INCL_DIR                 := $(OSGPOOL)/$(SUB_DIR)
 
 PROJLIBS_FILE_$(SUB_DIR) := \
-	$(OSGPOOL)/Nodes/$(SUB_DIR)/lib$(PACKAGENAME).$(OS).$(LIBEXT)
+	$(OSGPOOL)/$(SUB_DIR)/lib$(PACKAGENAME).$(OS).$(LIBEXT)
 
 
 ifeq ($(OS_BASE), NT)
