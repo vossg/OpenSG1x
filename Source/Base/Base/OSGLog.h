@@ -433,35 +433,35 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define SLOG     \
-    osgStartLog(true, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(true, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SFATAL
     \ingroup GrpBaseLog
 */
 
 #define SFATAL   \
-    osgStartLog(true, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(true, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SWARNING
     \ingroup GrpBaseLog
 */
 
 #define SWARNING \
-    osgStartLog(true, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(true, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SNOTICE
     \ingroup GrpBaseLog
 */
 
 #define SNOTICE  \
-    osgStartLog(true, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(true, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SINFO
     \ingroup GrpBaseLog
 */
 
 #define SINFO    \
-    osgStartLog(true, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(true, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)
 
 
 /*! \brief PLOG
@@ -469,35 +469,35 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define PLOG     \
-    osgStartLog(false, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(false, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PFATAL
     \ingroup GrpBaseLog
 */
 
 #define PFATAL   \
-    osgStartLog(false, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(false, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PWARNING
     \ingroup GrpBaseLog
 */
 
 #define PWARNING \
-    osgStartLog(false, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(false, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PNOTICE
     \ingroup GrpBaseLog
 */
 
 #define PNOTICE  \
-    osgStartLog(false, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(false, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PINFO
     \ingroup GrpBaseLog
 */
 
 #define PINFO    \
-    osgStartLog(false, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)
+    OSG::osgStartLog(false, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)
 
 
 // C interface, because it can be compiled away
