@@ -224,6 +224,7 @@ OSGBool OSGDrawAction::operator < (const OSGDrawAction &other) const
 
 OSGBool OSGDrawAction::operator == (const OSGDrawAction &other) const
 {
+    return false;
 }
 
 /** \brief unequal

@@ -229,11 +229,15 @@ OSGBool OSGMatrixLookAt( OSGMatrix & result, OSGPnt3f from, OSGPnt3f at, OSGVec3
 
 
 
-OSGBool OSGMatrixProjection( OSGMatrix & result, OSGReal32 left, OSGReal32 right, OSGReal32 bottom, 
-	OSGReal32 top, OSGReal32 near, OSGReal32 far )
+OSGBool OSGMatrixProjection(OSGMatrix &result, 
+                            OSGReal32  left,   OSGReal32 right, 
+                            OSGReal32  bottom, OSGReal32 top, 
+                            OSGReal32  near,   OSGReal32 far )
 {
 	SFATAL << "OSGMatrixProjection: Not yet implemented!" << endl;
 	abort();
+
+    return false;
 }
 
 OSG_END_NAMESPACE

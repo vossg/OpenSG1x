@@ -1,4 +1,4 @@
-#!gmake
+#!gmake -k -r
 
 OSGCOMMON ?= Common
 

@@ -37,11 +37,16 @@ public:
 	/** Returns true if intersection of given point and Volume is not empty */
     virtual OSGBool intersect (const OSGVec3f &point) const;
 
-  /** intersect the volume with another volume */
-  virtual OSGBool intersect (OSGVolume &volume) const;
+    /** intersect the volume with another volume */
+    virtual OSGBool intersect (const OSGVolume &volume) const;
 
 	/** intersect the volume with the given Line */
-	virtual OSGBool intersect (OSGLine &line) const { return false; }
+	virtual OSGBool intersect (const OSGLine &line) const { return false; }
+
+	/** intersect the volume with the given Line */
+	virtual OSGBool intersect (const OSGLine &line, 
+                               OSGVec3f &min, OSGVec3f &max  ) const 
+        { return false; }
 
   /** extends (if necessary) to contain the given 3D point */
   virtual void extendBy (const OSGPnt3f &pt);
