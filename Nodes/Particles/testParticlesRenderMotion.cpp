@@ -254,7 +254,7 @@ int main(int argc, char **argv)
  
     // set volume static to prevent constant update
     beginEditCP(pnode, Node::VolumeFieldMask);
-    Volume &v=pnode->getVolume().getInstance();
+    Volume &v=pnode->getVolume(false).getInstance();
     v.setEmpty();
     v.extendBy(Pnt3f(0,0,0));
     v.extendBy(Pnt3f(1,1,1));
