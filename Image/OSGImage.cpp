@@ -450,6 +450,58 @@ void Image::clear(UChar8 pixelValue)
 }
 
 //----------------------------
+// Function name: dump
+//----------------------------
+//
+//Parameters:
+//p: 
+//GlobalVars:
+//g: 
+//Returns:
+//r:void
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: method to load the image data from the given file
+//SeeAlso:
+//s:
+//----------------------------------------------------------------------
+void Image::dump (void)
+{
+  const char *pfStr = "UNDEF_PIXEL_FORMAT";
+  
+  switch (_pixelFormat) {
+  case OSG_L_PF:
+    pfStr = "LUMINANCE";
+    break;
+  case OSG_LA_PF:
+    pfStr = "LUMINANCE_ALPHA";
+    break;
+  case OSG_BGR_PF:
+    pfStr = "BGR";
+    break;
+  case OSG_BGRA_PF:
+    pfStr = "BGRA";
+    break;
+  case OSG_RGB_PF:
+    pfStr = "RGB";
+    break;
+  case OSG_RGBA_PF:
+    pfStr = "RGBA";
+    break;
+  default:
+    pfStr = "UNKNOWN_PIXEL_FORMAT";
+    break;
+	};		
+
+  FLOG (( "ImageDump: %s; %d/%d/%d; #mm: %d, #frame: %d, frameDelay %g\n",
+          pfStr, _width, _height, _depth, 
+          _mipmapCount, _frameCount, _frameDelay ));
+}
+
+//----------------------------
 // Function name: scale
 //----------------------------
 //

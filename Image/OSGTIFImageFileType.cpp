@@ -303,7 +303,7 @@ bool TIFImageFileType::write (const Image &image, const Char8 *fileName )
 		TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
 		TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 		TIFFSetField(out, TIFFTAG_PHOTOMETRIC, photometric);
-		TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
+		TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
 		TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, -1));
 		
 		for (row = 0; row < image.getHeight(); row++) {

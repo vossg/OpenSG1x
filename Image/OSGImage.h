@@ -104,7 +104,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
                         OSG_RGB_PF     = GL_RGB,
                         OSG_RGBA_PF    = GL_RGBA
 	};		
-
+ 
 //----------------------------
 //types    		 						   
 //----------------------------
@@ -281,6 +281,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
   /** clears the image (sets all pixel to pixelValue) */
   virtual void clear (UChar8 pixelValue = 0);
+
+  /** dump the image info to log */
+  virtual void dump (void);
 
   protected:
 
