@@ -63,6 +63,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 {
     /*==========================  PUBLIC  =================================*/
   public:
+  
     enum Mode
     {
         TRACKBALL=0,

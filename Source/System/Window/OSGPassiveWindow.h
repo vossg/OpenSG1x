@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief Passive Window class. See \ref 
-    PageSystemWindowPassive for a description.
+    PageSystemWindowWindowPassive for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING PassiveWindow : public PassiveWindowBase

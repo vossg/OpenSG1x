@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
     \ingroup GrpSystemWindowForegrounds
     
 Foreground is the base class for all foreground rendering.  See \ref
-PageSystemWindowForeground for a description.
+PageSystemWindowForegrounds for a description.
 
 \ext
 

@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
     \ingroup GrpSystemWindowBackgrounds
 
 A background showing a vertical color gradient, see
-\PageSystemWindowBackgroundGradient. 
+\ref PageSystemWindowBackgroundGradient. 
 
 The colors (_mfColor) and positions (_mfPosition) correspond to each other, so
 both have to have the same number of elements. The addColor() method should
