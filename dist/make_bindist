@@ -477,12 +477,14 @@ esac
 
 # from here on it's Unix
 
+cd $olddir
+
 if test x$OSG_DIST_NO_EXAMPLEBUILD = x
 then
 
     # make the sceneviewer
 
-    cd ../../Examples/SceneViewer
+    cd OpenSG/Examples/SceneViewer
 
     if $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
     then
@@ -491,7 +493,7 @@ then
         echo "ERROR: SceneViewer Build failed"
         exit
     fi
-
+    
     cd $olddir
 else
     echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
@@ -500,7 +502,7 @@ fi
 if test x$OSG_DIST_NO_FCDEDIT = x
 then
 
-    cd ../../Tools/fcdEdit
+    cd OpenSG/Tools/fcdEdit
 
     if $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
     then
