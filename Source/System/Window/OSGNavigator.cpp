@@ -673,7 +673,9 @@ const Pnt3f  &Navigator::getFrom()
                     break;
     }
 
-    return Pnt3f(0,0,0);
+    static Pnt3f returnValue(0.f, 0.f, 0.f);
+
+    return returnValue;
 }
 
 /*! Get the at point, i.e. the target position.
@@ -689,7 +691,9 @@ const Pnt3f  &Navigator::getAt()
                     break;
     }
 
-    return Pnt3f(0,0,0);
+    static Pnt3f returnValue(0.f, 0.f, 0.f);
+
+    return returnValue;
 }
 
 /*! Get the up vector.
@@ -705,7 +709,9 @@ const Vec3f  &Navigator::getUp()
                     break;
     }
 
-    return Vec3f(0,0,0);
+    static Vec3f returnValue(0.f, 0.f, 0.f);
+
+    return returnValue;
 }
 
 /*! Get the navigator's current state.
@@ -850,7 +856,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.10 2002/06/28 19:26:00 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: ";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 
