@@ -42,6 +42,7 @@
 #include "OSGConfig.h"
 
 #include "OSGVRMLSceneFileType.h"
+#include "OSGVRMLWriteAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -150,9 +151,18 @@ VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-bool VRMLSceneFileType::write(const NodePtr, const Char8 *) const
+bool VRMLSceneFileType::write(const NodePtr root, const Char8 *name) const
 {
-    return false;
+ 
+    VRMLWriteAction *pWriter = VRMLWriteAction::create();
+
+    pWriter->open(name);
+
+    pWriter->write(root);
+
+    pWriter->close();
+    
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/

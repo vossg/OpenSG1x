@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include "OSGOSGSceneFileType.h"
+#include "OSGOSGWriter.h"
 
 OSG_USING_NAMESPACE
 
@@ -157,9 +158,19 @@ OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
     return _pFile->getRootNodes();
 }
 
-bool OSGSceneFileType::write(const NodePtr, const char *) const
+bool OSGSceneFileType::write(const NodePtr root, const char *file) const
 {
-    return false;
+    std::ofstream outFileStream(file);
+    if(!outFileStream)
+    {
+        FFATAL(("Can not open output stream to file %s!\n", file));
+        return false;
+    }
+
+    OSGWriter writer(outFileStream, 4);
+    writer.write(root);  
+    
+    return true;
 }
 
 /*---------------------------- properties ---------------------------------*/

@@ -52,6 +52,7 @@
 
 #include "OSGBINSceneFileType.h"
 #include "OSGBINLoader.h"
+#include "OSGBINWriter.h"
 
 OSG_USING_NAMESPACE
 
@@ -131,10 +132,22 @@ NodePtr BINSceneFileType::read(const Char8 *fileName,
 
 /*! write node and its subtree to the given fileName
  */
-bool BINSceneFileType::write(const NodePtr OSG_CHECK_ARG(node),
-                             const Char8 * OSG_CHECK_ARG(fileName)) const
+bool BINSceneFileType::write(const NodePtr node,
+                             const Char8 * fileName) const
 {
-    return false;
+    FILE    *outFile;
+    
+    outFile = fopen(fileName, "w");
+    if(outFile == NULL)
+    {
+        FFATAL(("ERROR: Cannot write to file %s!\n", fileName));
+        return false;
+    }
+ 
+    BINWriter writer(outFile);
+    writer.write(node);
+ 
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/
