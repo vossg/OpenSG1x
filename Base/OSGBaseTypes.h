@@ -571,7 +571,7 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     {
         char buffer[10];
 
-        sprintf(buffer, "%c", val);
+        sprintf(buffer, "%u", val);
 
         return string(buffer);
     }
@@ -621,7 +621,7 @@ struct TypeConstants<Int8> : public TypeConstantsBase
     {
         char buffer[10];
 
-        sprintf(buffer, "%c", val);
+        sprintf(buffer, "%i", val);
 
         return string(buffer);
     }
