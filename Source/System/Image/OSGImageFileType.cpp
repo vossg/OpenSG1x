@@ -60,8 +60,10 @@ OSG_USING_NAMESPACE
     
 */
 
-// Static Class Varible implementations: 
-
+//-------------------------------------------------------------------------
+/*!
+Helper method to convert the Head block from net to host format
+*/
 bool ImageFileType::Head::netToHost(void)
 {
     pixelFormat    = ntohs(pixelFormat);
@@ -80,6 +82,11 @@ bool ImageFileType::Head::netToHost(void)
     return true;
 }
 
+
+//-------------------------------------------------------------------------
+/*!
+Helper method to convert the Head block from host to net format
+*/
 bool ImageFileType::Head::hostToNet(void)
 {
     pixelFormat    = htons(pixelFormat);
@@ -98,17 +105,25 @@ bool ImageFileType::Head::hostToNet(void)
     return true;
 }
 
-//----------------------------------------------------------------------
-// Method: ImageFileType
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Default Constructor
-//----------------------------------------------------------------------
-ImageFileType::ImageFileType(const Char8 *suffixArray[], UInt16 suffixByteCount)
+//-------------------------------------------------------------------------
+/*!
+Get method for the suffix list container
+*/
+const std::list<IDString> &ImageFileType::getSuffixList(void)
 {
-    Int32              suffixCount = suffixByteCount / sizeof(const Char8 *);
-    Int32              i = 0;
+  return _suffixList; 
+}
+
+//-------------------------------------------------------------------------
+/*!
+Constructor which takes a suffix array and size to add the
+ImageFileType to the Singleton ImageFileHandler
+*/
+ImageFileType::ImageFileType( const Char8 *suffixArray[], 
+                              UInt16 suffixByteCount)
+{
+    Int32 suffixCount = suffixByteCount / sizeof(const Char8 *);
+    Int32 i = 0;
     std::list<IDString>::iterator sI;
 
     _suffixList.resize(suffixCount);
@@ -121,60 +136,60 @@ ImageFileType::ImageFileType(const Char8 *suffixArray[], UInt16 suffixByteCount)
     ImageFileHandler::addImageFileType(*this);
 }
 
-//----------------------------------------------------------------------
-// Method: ImageFileType
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Copy Constructor
-//----------------------------------------------------------------------
-ImageFileType::ImageFileType(const ImageFileType &obj) :
-    _suffixList(obj._suffixList)
+//-------------------------------------------------------------------------
+/*!
+Copy Constructor 
+*/
+ImageFileType::ImageFileType(const ImageFileType &obj) 
+  : _suffixList(obj._suffixList)
 {
     SWARNING << "In ImageFileType copy constructor" << std::endl;
 }
 
-//----------------------------------------------------------------------
-// Method: ~ImageFileType
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 ImageFileType::~ImageFileType(void)
 {
-    return;
+  return;
 }
 
-/** fill the given image with the content of the mem 'buffer' */
+//-------------------------------------------------------------------------
+/*!
+Abstract restore method. Sould be overwriten by an concrete derived
+class. Tries to restore the image data from the given memblock.
+*/
 UInt64 ImageFileType::restoreData(      Image  &OSG_CHECK_ARG(image  ), 
                                   const UChar8 *OSG_CHECK_ARG(buffer ),
                                         Int32   OSG_CHECK_ARG(memSize))
 {
-    FWARNING(("ImageXFileType::restoreData() not impl. for mimeType %s\n",
-             getMimeType()));
+  FWARNING(("ImageXFileType::restoreData() not impl. for mimeType %s\n",
+            getMimeType()));
 
-    return 0;
+  return 0;
 }
 
-/** store the given image to the mem 'buffer' */
+//-------------------------------------------------------------------------
+/*!
+Abstract restore method. Sould be overwriten by an concrete derived
+class. Tries to store the given image data to the given memblock
+*/
 UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ), 
                                       UChar8 *OSG_CHECK_ARG(buffer ),
                                       Int32   OSG_CHECK_ARG(memSize))
 {
-    FWARNING(("ImageXFileType::storeData() not impl. for mimeType %s\n",
-             getMimeType()));
-
-    return 0;
+  FWARNING(("ImageXFileType::storeData() not impl. for mimeType %s\n",
+            getMimeType()));
+  
+  return 0;
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to restore the Imagedata from the given memblock. The buffer must
+include a ImageFileType::Head data block.
+*/
 UInt64 ImageFileType::restore( Image &image, 
                                const UChar8 *buffer, Int32 memSize)
 {
@@ -235,28 +250,26 @@ UInt64 ImageFileType::restore( Image &image,
     return size;
 }
 
-//----------------------------------------------------------------------
-// Method: store
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to store the raster data to the given mem block.
+Will include a ImageFileType::Head description and the data encoded
+as 'mimeType'
+*/
 UInt64 ImageFileType::store(const Image &image, const char *mimeType,
                             UChar8 *buffer, Int32 memSize)
 {
-    ImageFileType   *type = ImageFileHandler::the().getFileType(mimeType);
-
-    return type ? type->store(image, buffer, memSize) : 0;
+  ImageFileType   *type = ImageFileHandler::the().getFileType(mimeType);
+  
+  return type ? type->store(image, buffer, memSize) : 0;
 }
 
-//----------------------------------------------------------------------
-// Method: store
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to store the raster data to the given mem block.
+Will include a ImageFileType::Head description for the derived
+concreate mimeType.
+*/
 UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 {
   Head            *head;
@@ -328,13 +341,11 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Returns the max buffer size needed to store the Image (Head + mimeType
+specific data block)
+*/
 UInt64 ImageFileType::maxBufferSize(const Image &image)
 {
   unsigned long size, attachmentSize, l;
@@ -360,15 +371,11 @@ UInt64 ImageFileType::maxBufferSize(const Image &image)
   return size;
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
-
-void ImageFileType::print(void)
+//-------------------------------------------------------------------------
+/*!
+The dump method just writes some object debugging info to the LOG stream
+*/
+void ImageFileType::dump(void)
 {
     std::list<IDString>::iterator    sI;
 

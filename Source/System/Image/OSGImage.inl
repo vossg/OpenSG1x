@@ -39,66 +39,103 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
+/*!
+Check if the pixelFormat, dimension, bpp and data are valid (not null)
+with a single call.    
+*/
 inline bool   Image::isValid (void) const
 { 
   return ((_pixelFormat != OSG_INVALID_PF) && _dimension && _bpp && _data); 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the image dimension, 0 for invalid, 1 for 1D, 2 for 2D and
+3 for 3D data.
+*/
 inline Int32  Image::getDimension  (void) const 
 { 
   return _dimension; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the image pixel width, can be 0 for invalid data.
+*/
 inline Int32  Image::getWidth      (void) const 
 { 
   return _width; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline Int32  Image::getHeight     (void) const 
+/*!
+returns the image pixel height, can be 0 for invalid data.
+*/
+inline Int32 Image::getHeight      (void) const
 { 
   return _height; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the image pixel depth, can be 0 for invalid data.
+*/
 inline Int32  Image::getDepth      (void) const 
 { 
   return _depth; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the image bytes per pixel, can be 0 for invalid data
+*/
 inline UChar8 Image::getBpp        (void) const 
 { 
   return _bpp; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the number of mipMap levels. Can be 0 for invalid data,
+is 1 for simple images.
+*/
 inline Int32  Image::getMipMapCount(void) const 
 { 
   return _mipmapCount; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the number of frames. Can be 0 for invalid data,
+is 1 for simple images.
+*/
 inline Int32  Image::getFrameCount (void) const 
 { 
   return _frameCount; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the frame delay. The default value is 0.0
+*/
 inline Time   Image::getFrameDelay (void) const 
 { 
   return _frameDelay; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the pixelFormat, uset getBpp the get the bytes per pixel.
+*/
 inline Image::PixelFormat Image::getPixelFormat (void) const 
 { 
   return _pixelFormat; 
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the data size in bytes. 
+*/
 inline unsigned long Image::getSize ( bool withMipmap,
                                       bool withFrames) const
 { 
@@ -107,30 +144,44 @@ inline unsigned long Image::getSize ( bool withMipmap,
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns a data pointer for a single frame/mipmap chunk
+*/
 inline UChar8 *Image::getData ( UInt32 mipmapNum, 
                                 UInt32 frameNum) const
 {
   UChar8 *data = _data + (frameNum * _frameSize * _bpp);
   
   if (mipmapNum)
+  {
     data += calcMipmapSumSize(mipmapNum - 1);
+  }
   
   return data;
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns true if the image has any attachments
+*/
 inline bool Image::hasAttachment (void) const
 {
   return (_attachmentMap.empty() ? false : true);
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the number of attachments
+*/
 inline UInt32 Image::attachmentCount (void) const
 {
   return _attachmentMap.size();
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+set a single string attachment for the given key/data pair
+*/
 inline void Image::setAttachment ( const std::string &key, 
                                    const std::string &data)
 { 
@@ -138,6 +189,9 @@ inline void Image::setAttachment ( const std::string &key,
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+returns the string attachment for the given key or Null
+*/
 inline const 
 std::string * Image::findAttachment ( const std::string &key) const
 { 
@@ -148,16 +202,22 @@ std::string * Image::findAttachment ( const std::string &key) const
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+erases the string attachment for the given key.
+*/
 inline  void Image::eraseAttachment ( const std::string &key) 
 {
   _attachmentMap.erase(key);
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+Internal used method to calculate the next mipmap geo for the given level
+*/
 inline void   Image::calcMipmapGeometry   ( UInt32 mipmapNum,
                                             UInt32 &width, 
                                             UInt32 &height, 
-                                            UInt32 &depth )
+                                            UInt32 &depth ) const
 {
   width  = _width >> mipmapNum;
   height = _height >> mipmapNum;
@@ -169,7 +229,10 @@ inline void   Image::calcMipmapGeometry   ( UInt32 mipmapNum,
 #pragma set woff 1209
 #endif
 
-inline UInt32 Image::calcMipmapLevelCount ( void )
+/*!
+Internal used method to calculate the number of mipmaps levels
+*/
+inline UInt32 Image::calcMipmapLevelCount ( void ) const
 {
   UInt32  w = _width, h = _height, d = _depth;
   UInt32 level;
@@ -193,6 +256,9 @@ inline UInt32 Image::calcMipmapLevelCount ( void )
 #endif
 
 /*-------------------------------------------------------------------------*/
+/*!
+Internal used method to calculate the size in bpp of a single mipmap level
+*/
 inline UInt32 Image::calcMipmapSize    ( UInt32 mipmapNum,
                                          UInt32 w, UInt32 h, UInt32 d) const
 {
@@ -204,12 +270,19 @@ inline UInt32 Image::calcMipmapSize    ( UInt32 mipmapNum,
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+Internal used method to calculate the size in bpp of a single mipmap level
+for the current image settings
+*/
 inline UInt32 Image::calcMipmapSize    ( UInt32 mipmapNum) const
 {
   return calcMipmapSize(mipmapNum,_width,_height,_depth);
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+Internal used method to calculate the mem sum of all mipmap levels in bpp
+*/
 inline UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
                                          UInt32 w, UInt32 h, UInt32 d) const
 {
@@ -227,6 +300,10 @@ inline UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
 }
 
 /*-------------------------------------------------------------------------*/
+/*!
+Internal used method to calculate the mem sum of all mipmap levels in bpp
+for the current Image paramter
+*/
 inline UInt32 Image::calcMipmapSumSize (UInt32 mipmapNum) const
 {
   return calcMipmapSumSize(mipmapNum,_width,_height,_depth);

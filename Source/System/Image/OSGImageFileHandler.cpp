@@ -56,21 +56,17 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::ImageFileHandler 
     \ingroup GrpSystemImage
+
+Singelton Object/Class which holds all known ImageFileTypes.
+The class is used to write/read Image objects to/from
+files and to store/restore image data to/from memory blocks.
+Utilizes the local pathHandler for file path handler and
+construction. The PathHandler can be set from the application.
+
+See \ref PageSystemImage for details.
     
 */
 
-/* enum VecBase::VectorSizeE
- * brief 
-*/
-/* var VecBase::VectorSizeE VecBase::_iSize
- *
-*/
-/* const char *VecBase::getClassName(void)
- *  brief Classname
-*/
-/* var ValueTypeT VecBase:: _value[Size];
- * brief value store
-*/
 /*****************************
  *   Types
  *****************************/
@@ -89,26 +85,11 @@ const std::string ImageFileHandler::_fullFilePathKey("fullFilePath");
 *public
 *******************************/
 
-//----------------------------
-// Function name: getFileType
-//----------------------------
-//
-//Parameters:
-//p: const char *mimeType, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:ImageFileType
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: getFileType
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Method to find a ImageFileHandler for the given mimeType for 
+fileName suffix. Returns the ImageFileHandler object or Null.
+*/
 ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
                                              const char *fileName)
 {
@@ -157,26 +138,10 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
     return type;
 }
 
-//----------------------------
-// Function name: getFileType
-//----------------------------
-//
-//Parameters:
-//p: const char *mimeType, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:ImageFileType
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: getFileType
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Returns the default OpenSG ImageFileType
+*/
 ImageFileType *ImageFileHandler::getDefaultType(void)
 {
     IDString        dSuffix("opensg");
@@ -196,26 +161,13 @@ ImageFileType *ImageFileHandler::getDefaultType(void)
     return type;
 }
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Creates a new image and tries to read the raster data from
+the given fileName. If the mimeType is not Null the method
+will try to find the according ImageFileType. Otherwise it
+will try to use the fileName suffix to determine the mimeType
+*/
 Image *ImageFileHandler::read(const char *fileName, const char *mimeType)
 {
     Image *image = new Image;
@@ -230,26 +182,14 @@ Image *ImageFileHandler::read(const char *fileName, const char *mimeType)
     return image;
 }
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to read the raster data from
+the given fileName into the given Image. 
+If the mimeType is not Null the method
+will try to find the according ImageFileType. Otherwise it
+will try to use the fileName suffix to determine the mimeType
+*/
 bool ImageFileHandler::read(Image &image, const char *fileName,
                             const char *mimeType)
 {
@@ -295,26 +235,14 @@ bool ImageFileHandler::read(Image &image, const char *fileName,
     return retCode;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the raster data (from the given Image) to 
+the given fileName.
+If the mimeType is not Null the method
+will try to find the according ImageFileType. Otherwise it
+will try to use the fileName suffix to determine the mimeType
+*/
 bool ImageFileHandler::write(const Image &image, const char *fileName,
                              const char *mimeType)
 {
@@ -340,63 +268,46 @@ bool ImageFileHandler::write(const Image &image, const char *fileName,
     return retCode;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
-
+//-------------------------------------------------------------------------
+/*!
+Returns the path handler used
+*/
 PathHandler* ImageFileHandler::getPathHandler(void)
 {
     return _pPathHandler;
 }
 
+//-------------------------------------------------------------------------
+/*!
+Method to set the path handler. 
+*/
 void ImageFileHandler::setPathHandler(PathHandler *pPathHandler)
 {
     _pPathHandler = pPathHandler;
 }
 
+//-------------------------------------------------------------------------
+/*!
+Tries to restore the raster data from
+the given memblock into the given Image. 
+If the mimeType is not Null the method
+will try to find the according ImageFileType. Otherwise it
+will try to use the fileName suffix to determine the mimeType
+*/
 UInt64 ImageFileHandler::restore(Image &image, const UChar8 *buffer,
                                  Int32 memSize)
 {
     return ImageFileType::restore(image, buffer, memSize);
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to store the raster data (from the given Image) to 
+the given memBlock.
+If the mimeType is not Null the method
+will try to find the according ImageFileType. Otherwise it
+will try to use the fileName suffix to determine the mimeType
+*/
 UInt64 ImageFileHandler::store(const Image &image, const char *mimeType,
                                UChar8 *buffer, Int32 memSize)
 {
@@ -407,26 +318,16 @@ UInt64 ImageFileHandler::store(const Image &image, const char *mimeType,
     return type->store(image, buffer, memSize);
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to store the raster data (from the given Image) to 
+a new memBlock. The method will automatically allocate and return a
+sufficient amount of memory with new. The application has
+to free the memory with 'delete [] mem'
+If the mimeType is not Null the method
+will try to find the according ImageFileType. Otherwise it
+will try to use the fileName suffix to determine the mimeType
+*/
 UChar8 *ImageFileHandler::store(const Image &image, UInt64 &memSize,
                                 const char *mimeType)
 {
@@ -449,79 +350,37 @@ UChar8 *ImageFileHandler::store(const Image &image, UInt64 &memSize,
     return mem;
 }
 
-//----------------------------
-// Function name: print
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:void
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: print debug info to cerr
-//SeeAlso:
-//s:
-//
-//------------------------------
-void ImageFileHandler::print(void)
+//-------------------------------------------------------------------------
+/*!
+  The dump method just writes some object debugging info to the LOG stream
+*/
+void ImageFileHandler::dump(void)
 {
     std::map<IDString, ImageFileType *>::iterator    sI;
 
     for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
     {
-        std::cerr << "Image suffix: " 
-                  << sI->first.str() 
-                  << ", mime type: " 
-                  << sI->second->getMimeType() 
-                  << std::endl;
+      FLOG (( "Image suffix: %s, mimeType: %s\n",
+              sI->first.str(), sI->second->getMimeType() ));
     }
 }
 
-/******************************
-*protected
-******************************/
-
-/******************************
-*private 
-******************************/
-
-//----------------------------
-// Function name: addImageFileType
-//----------------------------
-//
-//Parameters:
-//p: ImageFileType *fileType
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Internal Method to add a new ImageFileType
+*/
 bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
 {
     bool                                           retCode = false;
-    std::list<IDString                 >::iterator sI;
+    std::list<IDString                 >::const_iterator sI;
     std::map <IDString, ImageFileType *>::iterator smI;
     IDString                                       suffix;
 
     if(!_the)
         _the = new ImageFileHandler;
 
-    for(sI = fileType.suffixList().begin(); sI != fileType.suffixList().end();
+    for( sI = fileType.getSuffixList().begin(); 
+         sI != fileType.getSuffixList().end();
         ++sI)
     {
         suffix.set(sI->str());
@@ -542,95 +401,42 @@ bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
     return retCode;
 }
 
-/***************************
-*instance methodes 
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
-
-//----------------------------
-// Function name: ImageFileHandler
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Default Constructor
+*/
 ImageFileHandler::ImageFileHandler(void)
 {
-    _pPathHandler = NULL;
-    return;
+  _pPathHandler = NULL;
+  return;
 }
 
-//----------------------------
-// Function name: ImageFileHandler
-//----------------------------
-//
-//Parameters:
-//p: const ImageFileHandler &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Invalid Copy Constructor
+*/
+ImageFileHandler::ImageFileHandler(const ImageFileHandler &obj)
+{
+  FFATAL (("Run Copy Constructor on Singleton ImageFileHandler !\n"));
 
-//----------------------------
-// Function name: ~ImageFileHandler
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+  _pPathHandler = NULL;
+  return;
+}
+
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 ImageFileHandler::~ImageFileHandler(void)
 {
     return;
 }
 
-/*------------access----------------*/
-/*------------properies-------------*/
-/*------------your Category---------*/
-/*------------Operators-------------*/
-/****************************
-*protected 
-****************************/
-/****************************
-*private
-****************************/
+//-------------------------------------------------------------------------
+/*!
+Static method the get the Singleton Object
+*/
+ImageFileHandler & ImageFileHandler::the(void)
+{ 
+  return *_the; 
+}

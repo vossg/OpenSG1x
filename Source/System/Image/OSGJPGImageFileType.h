@@ -46,6 +46,10 @@
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
 
+/*! \brief JPEG File Handler. Used to read/write JPEG files.
+See \ref PageSystemImage for a detailed description.
+*/
+
 
 OSG_BEGIN_NAMESPACE
 

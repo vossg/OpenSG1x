@@ -55,6 +55,10 @@ OSG_BEGIN_NAMESPACE
 
 class PathHandler;
 
+/*! \brief Image file Handler. Used to read/write and store/restore image data.
+See \ref PageSystemImage for a detailed description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     friend class ImageFileType;
@@ -117,27 +121,20 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*! \name                    Print                                     */
     /*! \{                                                                 */
 
-    void print (void);
+    void dump (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    static ImageFileHandler & the (void) { return *_the; }
+    static ImageFileHandler & the (void);
 
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name               Default Constructor                            */
-    /*! \{                                                                 */
-
-    ImageFileHandler (void);
-
-    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 private:
 
@@ -153,8 +150,14 @@ private:
 
     static const std::string _fullFilePathKey;
 
-    /* prohibit default function (move to 'public' if needed) */
+    /*---------------------------------------------------------------------*/
+    /*! \name               Constructor                                    */
+    /*! \{                                                                 */
+
+    ImageFileHandler (void);
     ImageFileHandler(const ImageFileHandler &obj);
+
+    /*! \}                                                                 */
 };
 
 typedef ImageFileHandler* ImageFileHandlerP;

@@ -67,8 +67,17 @@
 
 /*! \class osg::GIFImageFileType 
     \ingroup GrpSystemImage
+
+Image File Type to read/write and store/restore Image objects as
+GIF data.
+
+All the type specific code is included in the class. Does
+not depend on external libs.
+
+You have to --enable-gif in the configure line to enable
+the singleton object.
     
- */
+*/
 
 
 //--- GIF-INCLUDE START ----------------------------------------------------
@@ -147,8 +156,8 @@ typedef struct
 
 
 static GIFStream*   GIFRead(char *), *GIFReadFP(FILE *);
-       int      GIFTest(char *);
-       int      GIFWrite(char *, GIFStream *, int);
+static int      GIFTest(char *);
+static int      GIFWrite(char *, GIFStream *, int);
 static int      GIFWriteFP(FILE *, GIFStream *, int);
 static int      GIFFree (GIFStream *);
 
@@ -170,35 +179,11 @@ static const Char8 *suffixArray[] = {
 
 GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 
-/********************************
- *    Class methodes
- *******************************/
-
-/*******************************
-*public
-*******************************/
-
-
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: read the the image from the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image), 
                             const Char8 *OSG_GIF_ARG(fileName))
 {
@@ -442,26 +427,11 @@ bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image),
     return retCode;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the the image to the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
@@ -477,44 +447,10 @@ bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
     return false;
 }
 
-/******************************
-*protected
-******************************/
-
-/******************************
-*private    
-******************************/
-
-/***************************
-*instance methodes 
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
-
-//----------------------------
-// Function name: GIFImageFileType
-//----------------------------
-//
-//Parameters:
-//p: cinst char *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 GIFImageFileType::GIFImageFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
     ImageFileType(suffixArray, suffixByteCount)
@@ -522,52 +458,20 @@ GIFImageFileType::GIFImageFileType(const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: GIFImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const GIFImageFileType &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 GIFImageFileType::GIFImageFileType(const GIFImageFileType &obj) :
     ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~GIFImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 GIFImageFileType::~GIFImageFileType(void)
 {
     return;
@@ -653,7 +557,7 @@ static jmp_buf                  setjmp_buffer;
 static int    verbose = GIF_FALSE;
 //static int    showComment = GIF_FALSE;
 
-int     GIFTest(char *file)
+static int     GIFTest(char *file)
 {
     FILE    *fd = fopen(file, "rb");
     char    buf[10];
@@ -672,7 +576,7 @@ int     GIFTest(char *file)
 }
 
 /* */
-GIFStream *GIFReadFP(FILE *fd)
+static GIFStream *GIFReadFP(FILE *fd)
 {
     unsigned char   buf[256];
     unsigned char   c;
@@ -899,7 +803,7 @@ out:
 }
 
 /* */
-GIFStream *GIFRead(char *file)
+static GIFStream *GIFRead(char *file)
 {
     FILE        *fp = fopen(file, "rb");
     GIFStream   *gifStream = NULL;
@@ -914,7 +818,7 @@ GIFStream *GIFRead(char *file)
 }
 
 /* */
-int GIFFreeData(GIFData *gifData)
+static int GIFFreeData(GIFData *gifData)
 {
     int retCode = 0;
 
@@ -951,7 +855,7 @@ int GIFFreeData(GIFData *gifData)
 }
 
 /* */
-int GIFFree(GIFStream *gifStream)
+static int GIFFree(GIFStream *gifStream)
 {
     int     retCode = 1;
     GIFData *gifData, *gifNext;
@@ -1536,7 +1440,7 @@ static int binaryLog(int val)
 #endif
 
 /* */
-int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
+static int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 {
     GIFData *cur;
     int     flag = GIF_FALSE;
@@ -1687,7 +1591,7 @@ int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 #endif
 
 /* */
-int GIFWrite(char *file, GIFStream *stream, int optimize)
+static int GIFWrite(char *file, GIFStream *stream, int optimize)
 {
     if(stream != NULL)
     {

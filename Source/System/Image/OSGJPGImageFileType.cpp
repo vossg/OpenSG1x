@@ -71,6 +71,15 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::JPGImageFileType 
     \ingroup GrpSystemImage
+
+Image File Type to read/write and store/restore Image objects as
+JPEG data.
+
+To be able to load JPEG images you need the IJG JPEG library, 
+version 6 or later. This comes with all Linux distributions.
+
+You have to --enable-jpg in the configure line to enable
+the singleton object.
     
 */
 
@@ -84,59 +93,59 @@ struct
 } jpeg_mem;
 
 /* */
-void jpeg_mem_init_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
+static void jpeg_mem_init_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
     jpeg_mem.src.next_input_byte = (JOCTET *) jpeg_mem.buffer;
     jpeg_mem.src.bytes_in_buffer = (size_t) jpeg_mem.dataSize;
 }
 
 /* */
-boolean jpeg_mem_fill_input_buffer(j_decompress_ptr OSG_CHECK_ARG(cinfo))
+static boolean jpeg_mem_fill_input_buffer(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
     SFATAL << "Missing data. Given data block to small." << std::endl;
     return false;
 }
 
 /* */
-void jpeg_mem_skip_input_data(j_decompress_ptr OSG_CHECK_ARG(cinfo    ),
+static void jpeg_mem_skip_input_data(j_decompress_ptr OSG_CHECK_ARG(cinfo    ),
                               long             OSG_CHECK_ARG(num_bytes))
 {
 }
 
 /* */
-boolean jpeg_mem_resync_to_restart(j_decompress_ptr OSG_CHECK_ARG(cinfo  ),
+static boolean jpeg_mem_resync_to_restart(j_decompress_ptr OSG_CHECK_ARG(cinfo  ),
                                    int              OSG_CHECK_ARG(desired))
 {
     return false;
 }
 
 /* */
-void jpeg_mem_term_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
+static void jpeg_mem_term_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
 }
 
 /* */
-void jpeg_mem_init_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
+static void jpeg_mem_init_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
     jpeg_mem.dest.next_output_byte = (JOCTET *) jpeg_mem.buffer;
     jpeg_mem.dest.free_in_buffer = (size_t) jpeg_mem.memSize;
 }
 
 /* */
-boolean jpeg_mem_empty_output_buffer(j_compress_ptr OSG_CHECK_ARG(cinfo))
+static boolean jpeg_mem_empty_output_buffer(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
     SFATAL << "Not enough space left in buffer." << std::endl;
     return false;
 }
 
 /* */
-void jpeg_mem_term_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
+static void jpeg_mem_term_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
     jpeg_mem.dataSize = ((UChar8 *) jpeg_mem.dest.next_output_byte) - ((UChar8 *) jpeg_mem.buffer);
 }
 
 /* */
-void jpeg_memory_dest(struct jpeg_compress_struct *cinfo, 
+static void jpeg_memory_dest(struct jpeg_compress_struct *cinfo, 
                              UChar8               *buffer,
                              UInt32                memSize)
 {
@@ -149,7 +158,7 @@ void jpeg_memory_dest(struct jpeg_compress_struct *cinfo,
 }
 
 /* */
-void jpeg_memory_src(struct jpeg_decompress_struct *cinfo, 
+static void jpeg_memory_src(struct jpeg_decompress_struct *cinfo, 
                      const  UChar8                 *buffer,
                             UInt32                  dataSize)
 {
@@ -183,26 +192,11 @@ JPGImageFileType JPGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: read the the image from the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ), 
                             const Char8 *OSG_JPG_ARG(fileName))
 {
@@ -291,27 +285,11 @@ bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
 #endif
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the the image to the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
-
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image), 
                              const Char8 *OSG_JPG_ARG(fileName))
 {
@@ -476,7 +454,11 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
 #endif
 }
 
-/* */
+//-------------------------------------------------------------------------
+/*!
+Tries to restore the image data from the given memblock.
+Returns the amount of data read
+*/
 UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ), 
                                          UChar8 *OSG_JPG_ARG(buffer ),
                                          Int32   OSG_JPG_ARG(memSize))
@@ -547,44 +529,10 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
 #endif
 }
 
-/******************************
-*protected
-******************************/
-
-/******************************
-*private
-******************************/
-
-/***************************
-*instance methodes 
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
-
-//----------------------------
-// Function name: JPGImageFileType
-//----------------------------
-//
-//Parameters:
-//p: cinst char *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 JPGImageFileType::JPGImageFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
     ImageFileType(suffixArray, suffixByteCount)
@@ -592,52 +540,20 @@ JPGImageFileType::JPGImageFileType(const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: JPGImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const JPGImageFileType &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 JPGImageFileType::JPGImageFileType(const JPGImageFileType &obj) :
     ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~JPGImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 JPGImageFileType::~JPGImageFileType(void)
 {
     return;

@@ -62,40 +62,18 @@
 */
 OSG_USING_NAMESPACE 
 
-/*! \class OSG::Image 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::Image
     \ingroup GrpSystemImage
-    
- */
 
+1D/2D/3D Image with various pixel types data, can also optional hold
+mipMap and simple multi-frame data.
 
-Int32 Image::_formatMap[][2] =
-{
-    { OSG_L_PF, 1 },
-    { OSG_LA_PF, 2 },
-    { OSG_RGB_PF, 3 },
-    { OSG_RGBA_PF, 4 },
-#ifdef OSG_HAS_BGR_PF
-    { OSG_BGR_PF, 3 },
-#endif
-#ifdef OSG_HAS_BGRA_PF
-    { OSG_BGRA_PF, 4 },
-#endif
-};
+See \ref PageSystemImage for details.
 
-/* enum VecBase::VectorSizeE
- * brief 
-*/
-
-/* var VecBase::VectorSizeE VecBase::_iSize
- *
-*/
-
-/* const Char8 *VecBase::getClassName(void)
- *  brief Classname
-*/
-
-/* var ValueTypeT VecBase:: _value[Size];
- * brief value store
 */
 
 /*****************************
@@ -106,6 +84,23 @@ Int32 Image::_formatMap[][2] =
  *    Classvariables
  *****************************/
 
+//-------------------------------------------------------------------------
+/*!
+
+Static dictionary to map pixelData values to the bytes per pixel (bpp) value.
+Internaly used in the createData() method.
+
+*/
+Int32 Image::_formatDic[][2] =
+{
+    { OSG_L_PF, 1 },
+    { OSG_LA_PF, 2 },
+    { OSG_RGB_PF, 3 },
+    { OSG_RGBA_PF, 4 },
+    { OSG_BGR_PF, 3 },
+    { OSG_BGRA_PF, 4 },
+};
+
 /********************************
  *    Class methodes
  *******************************/
@@ -114,26 +109,15 @@ Int32 Image::_formatMap[][2] =
 *public
 *******************************/
 
-//----------------------------
-// Function name: set
-//----------------------------
-//
-//Parameters:
-//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapCount, Int32 frameCount, Time frameDelay, const UChar8 *data
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: set methode wich sets the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+
+//-------------------------------------------------------------------------
+/*!
+
+method to set the image data. Use the doCopy parameter to specify, whether
+the method should copy or link the pixel data.
+
+*/
+
 bool Image::set(PixelFormat pF, Int32 w, Int32 h, Int32 d, Int32 mmS, Int32 fS,
                 Time fD, const UChar8 *da, bool doCopy)
 {
@@ -151,26 +135,15 @@ bool Image::set(PixelFormat pF, Int32 w, Int32 h, Int32 d, Int32 mmS, Int32 fS,
     return createData(da, doCopy);
 }
 
-//----------------------------
-// Function name: set
-//----------------------------
-//
-//Parameters:
-//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapCount, Int32 frameCount, Time frameDelay, const UChar8 *data
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: set methode wich sets the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+method to set the image from another image object. 
+Use the doCopy parameter to specify, whether
+the method should copy or link the pixel data.
+
+
+*/
 bool Image::set(const Image &image, bool doCopy)
 {
     this->set(image._pixelFormat, image._width, image._height, image._depth,
@@ -184,89 +157,56 @@ bool Image::set(const Image &image, bool doCopy)
     return true;
 }
 
-//----------------------------
-// Function name: set
-//----------------------------
-//
-//Parameters:
-//p:obalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: set methode wich sets the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+method to set only the image pixel data, all parameter (e. pixelFormat
+width,height and depth) stay the same
+Use the doCopy parameter to specify, whether
+the method should copy or link the pixel data.
+
+*/
 bool Image::setData(const UChar8 *da, bool doCopy)
 {
     return createData(da, doCopy);
 }
 
-//----------------------------
-// Function name: set
-//----------------------------
-//
-//Parameters:
-//p:obalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: set methode wich sets the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+The Image is not just a 2D container. The class can hold 3D (volume)
+and movie data. If we have 3D/singleFrame or 2D/multiFrame data without
+mipmaps we can flip between this two formats by just swapping the
+_frameCount and _depth values. 
+
+*/
 bool Image::flipDepthFrameData (void)
 {
   bool retCode = false;
   Int32 value;
 
   if ( (_mipmapCount == 1) && ((_frameCount == 1) || (_depth == 1)) ) 
-    {
+  {
       value = _frameCount;
       _frameCount = _depth;
       _depth = value;
       retCode = true;
-    }
+  }
   else 
-    {
+  {
       FWARNING (("Cant flipDepthFrameData(); invalid data layout\n"));
-    }
+  }
 
   return retCode;
 }
 
-//----------------------------
-// Function name: addValue
-//----------------------------
-//
-//Parameters:
-//p: const char *value
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: set methode wich sets the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+This method is used by the parser to fill the image with
+string pixel data. It expects the data in VRML PixelTexture Format.
+
+*/
 bool Image::addValue(const char *value)
 {
     static Image       *currentImage = 0;
@@ -311,19 +251,19 @@ bool Image::addValue(const char *value)
         switch(pixelDepth)
         {
             case 1:
-                pf = OSG::Image::OSG_L_PF;
+                pf = osg::Image::OSG_L_PF;
                 break;
             case 2:
-                pf = OSG::Image::OSG_LA_PF;
+                pf = osg::Image::OSG_LA_PF;
                 break;
             case 3:
-                pf = OSG::Image::OSG_RGB_PF;
+                pf = osg::Image::OSG_RGB_PF;
                 break;
             case 4:
-                pf = OSG::Image::OSG_RGBA_PF;
+                pf = osg::Image::OSG_RGBA_PF;
                 break;
             default:
-                pf = OSG::Image::OSG_INVALID_PF;
+                pf = osg::Image::OSG_INVALID_PF;
                 FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
                 break;
         }
@@ -359,26 +299,13 @@ bool Image::addValue(const char *value)
     return currentData ? true : false;
 }
 
-//----------------------------
-// Function name: reformat
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *pixelFormat, Image *destination = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: reformate the image to the given pixelFormat
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+It is a simple method to reformat the image pixelFormat (not the size).
+So you can for example convert a RGBA to RGB or RGB to Grey image.
+
+*/
 bool Image::reformat ( const Image::PixelFormat pixelFormat, 
                        Image *destination )
 {  
@@ -392,9 +319,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
 
   // TODO !!! code all the cases !!!
 
-  if ( getSize() && pixelFormat &&
+  if ( getSize() && pixelFormat && 
        (destination || (pixelFormat != _pixelFormat) ) )
-    {
+  {
       dest->set(pixelFormat, _width, _height, _depth );
       data = dest->_data;
       destSize = dest->getSize();
@@ -556,8 +483,10 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
           FWARNING (( "Unvalid pixeldepth (%d) in Image::reformat() !\n",
                       pixelFormat ));
         }
-      if (data) {
-        if (!destination) {
+      if (data) 
+      {
+        if (!destination) 
+        {
           *this = *dest;
           delete dest;
         }
@@ -567,25 +496,13 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
   return (data ? true : false);
 }
 
-//----------------------------
-// Function name: clear
-//----------------------------
-//
-//Parameters:
-//p: UChar8 pixelValue
-//GlobalVars:
-//g:
-//Returns:
-//r:void
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: method to load the image data from the given file
-//SeeAlso:
-//s:
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+It just fills the hole image data with the given pixel value. It is 
+mainly used to initialize the image data.
+
+*/
 void Image::clear(UChar8 pixelValue)
 {
     unsigned long   n = getSize();
@@ -596,25 +513,12 @@ void Image::clear(UChar8 pixelValue)
             *d++ = pixelValue;
 }
 
-//----------------------------
-// Function name: dump
-//----------------------------
-//
-//Parameters:
-//p:
-//GlobalVars:
-//g:
-//Returns:
-//r:void
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: method to load the image data from the given file
-//SeeAlso:
-//s:
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+The dump method just writes some object debugging info to the LOG stream
+
+*/
 void Image::dump(void)
 {
     const char  *pfStr = "UNDEF_PIXEL_FORMAT";
@@ -662,26 +566,15 @@ void Image::dump(void)
     }
 }
 
-//----------------------------
-// Function name: scale
-//----------------------------
-//
-//Parameters:
-//p: int width, int height, int depth =1, Image *destination = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: scale the image to the given dimension
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Method to scale the image. It just does a very simple but fast
+'nearest' scale. Should handle mipmap and frame data correct.
+The method can operate on the object or stores the result in 
+the optional destination Image.
+
+*/
 bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 {
     Image   *destImage = destination ? destination : new Image;
@@ -716,11 +609,11 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 
         // rip the data from the local destImage if necessary
         if(!destination)
-          {
+        {
             this->set(*destImage,false);
             destImage->_data = 0;
             delete destImage;
-          }
+        }
     }
     else
     {       // same size; just copy the data necessary
@@ -731,26 +624,14 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
     return retCode;
 }
 
-//----------------------------
-// Function name: scale
-//----------------------------
-//
-//Parameters:
-//p: int width, int height, int depth =1, Image *destination = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: scale the image to the given dimension
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Scale the image to the next power of 2 dimensions
+The method can operate on the object or stores the result in 
+the optional destination Image.
+
+*/
 bool Image::scaleNextPower2(Image *destination)
 {
   return scale ( osgnextpower2(_width), 
@@ -759,30 +640,17 @@ bool Image::scaleNextPower2(Image *destination)
                  destination );
 }
 
+//-------------------------------------------------------------------------
+/*!
 
-//----------------------------
-// Function name: subImage
-//----------------------------
-//
-//Parameters:
-//p: Int32 offX, Int32 offY, Int32 offZ, Int32 destW, Int32 destH, Ind32 destD, Image *destination = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: create a subImage according to given offset and size
-//SeeAlso:
-//s:
-//
-//------------------------------
+Crop the image to the given bounding box. 
+The method can operate on the object or stores the result in 
+the optional destination Image.
+
+*/
 bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
-		       Int32 destW, Int32 destH, Int32 destD,
-		       Image *destination)
+                       Int32 destW, Int32 destH, Int32 destD,
+                       Image *destination)
 {
     Image   *destImage = destination ? destination : new Image;
     bool    retCode = true;
@@ -793,7 +661,7 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
     UChar8  *dest = destImage->getData();
 
     FDEBUG(("Image::subImage (%d %d %d) - (%d %d %d) - destPtr %p\n",
-	    offX, offY, offZ, destW, destH, destD, dest));
+            offX, offY, offZ, destW, destH, destD, dest));
     
     // ensure destination data is zero
     memset(dest, 0, destImage->getSize());
@@ -807,19 +675,22 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
     UInt32 yMax = osgMin(_height, offY + destH);
     UInt32 zMax = osgMin(_depth,  offZ + destD);
 
-    
     // fill the destination buffer with the subdata
     UInt32 destIdx = 0;
     
-    for(UInt32 z = zMin; z < zMax; z++) {
-      for(UInt32 y = yMin; y < yMax; y++) {
-	for(UInt32 x = xMin; x < xMax; x++) {
-	  for(UInt32 i = 0; i < _bpp; i++) {
-	    dest[destIdx] = src[((z * _height + y) * _width + x) * _bpp + i];
-	    destIdx++;
-	  }
-	}
-	destIdx += (destW - (xMax - xMin)) * _bpp;
+    for(UInt32 z = zMin; z < zMax; z++) 
+    {
+      for(UInt32 y = yMin; y < yMax; y++) 
+      {
+        for(UInt32 x = xMin; x < xMax; x++) 
+        {
+          for(UInt32 i = 0; i < _bpp; i++) 
+          {
+            dest[destIdx] = src[((z * _height + y) * _width + x) * _bpp + i];
+            destIdx++;
+          }
+        }
+        destIdx += (destW - (xMax - xMin)) * _bpp;
       }
       destIdx += (destH - (yMax - yMin)) * destW * _bpp;
     }
@@ -828,39 +699,25 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
     // rip the data from the local destImage if necessary
     if(!destination)
     {
-        delete[] _data;
-        _data = destImage->_data;
-        destImage->_data = 0;
-        delete destImage;
+      delete[] _data;
+      _data = destImage->_data;
+      destImage->_data = 0;
+      delete destImage;
     }
 
     return retCode;
 }
 
+//-------------------------------------------------------------------------
+/*!
 
-//----------------------------
-// Function name: slice
-//----------------------------
-//
-//Parameters:
-//p: Int32 offX = -1, Int32 offY = -1, Int32 offZ = -1, Image *destination = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: extracts a single slice from the image, the slice normal is given by the
-//   ONLY non negative offset
-//SeeAlso:
-//s:
-//
-//------------------------------
+Crop a slice.
+The method can operate on the object or stores the result in 
+the optional destination Image.
+
+*/
 bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
-		    Image *destination)
+                    Image *destination)
 {
     Image   *destImage = destination ? destination : new Image;
     bool    retCode = true;
@@ -872,9 +729,10 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
     if (offX >= 0) counter++;
     if (offY >= 0) counter++;
     if (offZ >= 0) counter++;
+
     if (counter != 1) {
         FWARNING(("Image::slice - more/less than one non negative value\n"));
-	return false;
+        return false;
     }
     
 	
@@ -889,19 +747,23 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         destImage->set(_pixelFormat, _width, _depth, 1);
     
         UChar8  *src  = getData();
-	UChar8  *dest = destImage->getData();
+        UChar8  *dest = destImage->getData();
 
-	// ensure destination data is zero
-	memset(dest, 0, destImage->getSize());
-
-	for(UInt32 z = 0; z < _depth; z++) { 
-	  for(UInt32 x = 0; x < _width; x++) { 
-	    for(UInt32 i = 0; i < _bpp; i++) { 
-	        dest[(z * _width + x) * _bpp + i] = src[((z * _height + offY) * _width + x) * _bpp + i]; 
-	    }
-	  }
-	} 
-
+        // ensure destination data is zero
+        memset(dest, 0, destImage->getSize());
+        
+        for(UInt32 z = 0; z < _depth; z++) 
+        { 
+          for(UInt32 x = 0; x < _width; x++) 
+          { 
+            for(UInt32 i = 0; i < _bpp; i++) 
+            { 
+              dest[(z * _width + x) * _bpp + i] = src[((z * _height + offY) * 
+                                                       _width + x) * 
+                                                     _bpp + i]; 
+            }
+          }
+        } 
     } 
 
     
@@ -910,18 +772,23 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         destImage->set(_pixelFormat, _height, _depth, 1);
       
         UChar8  *src  = getData();
-	UChar8  *dest = destImage->getData();
-
-	// ensure destination data is zero
-	memset(dest, 0, destImage->getSize());
-
-	for(UInt32 z = 0; z < _depth; z++) { 
-	  for(UInt32 y = 0; y < _height; y++) { 
-	    for(UInt32 i = 0; i < _bpp; i++) { 
-	      dest[(z * _height + y) * _bpp + i] = src[((z * _height + y) * _width + offX) * _bpp + i]; 
-	    } 
-	  } 
-	}
+        UChar8  *dest = destImage->getData();
+        
+        // ensure destination data is zero
+        memset(dest, 0, destImage->getSize());
+        
+        for(UInt32 z = 0; z < _depth; z++) 
+        { 
+          for(UInt32 y = 0; y < _height; y++) 
+          { 
+            for(UInt32 i = 0; i < _bpp; i++) 
+            { 
+              dest[(z * _height + y) * _bpp + i] = src[((z * _height + y) * 
+                                                        _width + offX) * 
+                                                      _bpp + i]; 
+            } 
+          } 
+        }
     }
   
 
@@ -937,36 +804,23 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
     return retCode;
 }
 
+//-------------------------------------------------------------------------
+/*!
 
-//----------------------------
-// Function name: scale
-//----------------------------
-//
-//Parameters:
-//p: int width, int height, int depth =1, Image *destination = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: scale the image to the given dimension
-//SeeAlso:
-//s:
-//
-//------------------------------
+Create mipmaps data, level defines the number of level
+The method can operate on the object or stores the result in 
+the optional destination Image.
+
+*/
 bool Image::createMipmap(Int32 level, Image *destination)
 {
     struct Offset
     {
-        Int32   w;
-        Int32   h;
-        Int32   d;
+      Int32   w;
+      Int32   h;
+      Int32   d;
     };
-
+  
     Offset  offset[][8] =
     {
         {   // 000
@@ -1083,144 +937,71 @@ bool Image::createMipmap(Int32 level, Image *destination)
     return true;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: methode to write the image data to the given File
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Write the image to the a file. The mimetype will be set automatically
+from the fileName suffix. Returns true on success.
+
+*/
 bool Image::write(const Char8 *fileName)
 {
     return ImageFileHandler::the().write(*this, fileName);
 }
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: methode to read the image data from the given File
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Read the image data from a file. Returns true on success.
+
+*/
 bool Image::read(const Char8 *fileName)
 {
     return ImageFileHandler::the().read(*this, fileName);
 }
 
-//----------------------------
-// Function name: store
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Store the image to the given mem block as 'mimeType'. 
+mimeType can be 0, in which case the method will store the
+object as uncompressed mtd data.
+Returns the number of bytes used.
+
+*/
 UInt64 Image::store(Char8 *mimeType, UChar8 *mem, Int32 memSize)
 {
     return ImageFileHandler::the().store(*this, mimeType, mem, memSize);
 }
 
-//----------------------------
-// Function name: restore
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Restore the image from the given mem block. Returns the
+number of bytes used. 
+
+*/
 UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 {
     return ImageFileHandler::the().restore(*this, mem, memSize);;
 }
 
-/******************************
-*protected
-******************************/
+//-------------------------------------------------------------------------
+/*!
 
-/******************************
-*private    
-******************************/
+Internal method to set the data and update related properties.
 
-//----------------------------
-// Function name: createData
-//----------------------------
-//
-//Parameters:
-//p: const UChar8 *data, bool doCopy
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: internal method to alloc and copy the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+*/
 bool Image::createData(const UChar8 *data, bool doCopy)
 {
-    Int32   i, mapSize = sizeof(_formatMap) / sizeof(UInt32[2]);
+    Int32   i, mapSize = sizeof(_formatDic) / sizeof(UInt32[2]);
     UInt32 byteCount = 0;
 
     // set bbp
     for(i = 0; i < mapSize; i++)
     {
-        if(_formatMap[i][0] == _pixelFormat)
-            _bpp = _formatMap[i][1];
+        if(_formatDic[i][0] == _pixelFormat)
+            _bpp = _formatDic[i][1];
     }
 
     // set dimension
@@ -1273,26 +1054,12 @@ bool Image::createData(const UChar8 *data, bool doCopy)
     return _data;
 }
 
-//----------------------------
-// Function name: scaleData
-//----------------------------
-//
-//Parameters:
-//p: UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD, UChar8* destData, Int32 destW, Int32 destH, Int32 destD
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Internal medhot to copy&scale image data
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+
+Internal method to scale image data blocks
+
+*/
 bool Image::scaleData(UChar8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
                       UChar8 *destData, Int32 destW, Int32 destH, Int32 destD)
 {
@@ -1332,37 +1099,12 @@ bool Image::scaleData(UChar8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
     return true;
 }
 
+//-------------------------------------------------------------------------
+/*! Default Constructor. 
 
-/***************************
-*instance methodes 
-***************************/
+Creates a invalid Image of the size 0x0x0
 
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
-
-//----------------------------
-// Function name: Image
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+*/
 Image::Image(void) :
     _pixelFormat(OSG_INVALID_PF),
     _width(0),
@@ -1379,26 +1121,12 @@ Image::Image(void) :
     return;
 }
 
-//----------------------------
-// Function name: Image
-//----------------------------
-//
-//Parameters:
-//p: const wrw &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*! Copy Constructor. 
+
+Creates a copy of the given image
+
+*/
 Image::Image(const Image &obj) :
     _pixelFormat(obj._pixelFormat),
     _width(obj._width),
@@ -1420,26 +1148,12 @@ Image::Image(const Image &obj) :
 #endif
 }
 
-//----------------------------
-// Function name: ~Image
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*! Destructor
+
+Destructor will delete the pixeldata if not linked;
+
+*/
 Image::~Image(void)
 {
     if(_isCopy && _data)
@@ -1449,26 +1163,13 @@ Image::~Image(void)
     }
 }
 
-//----------------------------
-// Function name: Image
-//----------------------------
-//
-//Parameters:
-//p: int width, int height, int depth, const Char8 *pixelFormat, UChar8 *data = 0
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: construktor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*! Constructor
+
+Full Constructor. Takes all necessary image parameter to 
+construct a valid image.
+
+*/
 Image::Image(PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth,
              Int32 mipmapCount, Int32 frameCount, Time frameDelay,
              const UChar8 *data, bool doCopy) :
@@ -1487,7 +1188,12 @@ Image::Image(PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth,
     createData(data, doCopy);
 }
 
-/*------------access----------------*/
+//-------------------------------------------------------------------------
+/*!
+
+Method to check, whether the object data defines a alpha channel or not
+
+*/
 bool Image::hasAlphaChannel(void)
 {
     return _pixelFormat == OSG_RGBA_PF
@@ -1497,13 +1203,26 @@ bool Image::hasAlphaChannel(void)
     || _pixelFormat == OSG_LA_PF;
 }
 
-UChar8 *Image::getDataByTime (Time   OSG_CHECK_ARG(time     ), 
-                              UInt32 OSG_CHECK_ARG(mipmapNum))
+//-------------------------------------------------------------------------
+/*!
+
+Method returns the right frame data for the given time.
+
+*/
+UChar8 *Image::getDataByTime (Time   time, UInt32 mipmapNum) const
 {
-    return _data;
+  UInt32 frameNum = calcFrameNum(time,true);
+  
+  return getData(0,frameNum);
 }
 
-UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop))
+//-------------------------------------------------------------------------
+/*!
+
+Method which returns the frame number for the given time
+
+*/
+UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop)) const
 {
     int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
         (int(time / _frameDelay) % _frameCount) : 0;
@@ -1511,32 +1230,55 @@ UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop))
     return ((frameNum > 0) ? frameNum : 0);
 }
 
-/*------------properies-------------*/
+//-------------------------------------------------------------------------
+/*!
 
-/*------------your Category---------*/
+Assign operator. Does a copy of the given Image object.
 
-/*------------Operators-------------*/
+*/
+Image &Image::operator=(const Image &image)
+{
+    this->set(image._pixelFormat, image._width, image._height, image._depth,
+              image._mipmapCount, image._frameCount, image._frameDelay,
+              image._data);
 
-//----------------------------
-// Function name: operator ==
-//----------------------------
-//
-//Parameters:
-//p: const Image &image
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: equal comparison operator
-//SeeAlso:
-//s:
-//
-//------------------------------
+#ifdef OSG_DEBUG
+    FDEBUG(("Running image assign operator\n"));
+    this->dump();
+#endif
+    return *this;
+}
+
+//-------------------------------------------------------------------------
+/*!
+
+Less operator; compares the data sizes of the two images
+
+*/
+bool Image::operator<(const Image &image)
+{
+    return (getSize() < image.getSize()) ? true : false;
+}
+
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE 
+
+DataType FieldDataTraits<ImageP>::  _type("ImageP", NULL);
+
+OSG_DLLEXPORT_SFIELD_DEF1(ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+
+OSG_END_NAMESPACE
+
+//-------------------------------------------------------------------------
+/*!
+
+Method to compare the object to another Image instance; 
+Checks first all parameter and afterwards the Image data;
+
+*/
 bool Image::operator==(const Image &image)
 {
     unsigned long   i, s = getSize();
@@ -1561,79 +1303,14 @@ bool Image::operator==(const Image &image)
     return false;
 }
 
-//----------------------------
-// Function name: operator =
-//----------------------------
-//
-//Parameters:
-//p: const Image &image
-//GlobalVars:
-//g:
-//Returns:
-//r: Image &image
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: assign operator
-//SeeAlso:
-//s:
-//
-//------------------------------
-Image &Image::operator=(const Image &image)
+//-------------------------------------------------------------------------
+/*!
+
+Method to compare the object to another Image instance; 
+Checks first all parameter and afterwards the Image data;
+
+*/
+bool Image::operator!=(const Image &image)
 {
-    this->set(image._pixelFormat, image._width, image._height, image._depth,
-              image._mipmapCount, image._frameCount, image._frameDelay,
-              image._data);
-
-#ifdef OSG_DEBUG
-    FDEBUG(("Running image assign operator\n"));
-    this->dump();
-#endif
-    return *this;
+  return !(*this == image);
 }
-
-//----------------------------
-// Function name: operator <
-//----------------------------
-//
-//Parameters:
-//p: const Image &image
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: lower comparison operator
-//SeeAlso:
-//s:
-//
-//------------------------------
-bool Image::operator<(const Image &image)
-{
-    return (getSize() < image.getSize()) ? true : false;
-}
-
-/****************************
-*protected  
-****************************/
-/****************************
-*private
-****************************/
-
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
-
-OSG_BEGIN_NAMESPACE 
-
-DataType FieldDataTraits<ImageP>::  _type("ImageP", NULL);
-
-OSG_DLLEXPORT_SFIELD_DEF1(ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE

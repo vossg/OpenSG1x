@@ -210,7 +210,7 @@ UInt64 MTDImageFileType::storeData(const Image  &image,
     const UChar8 *src = image.getData();
 
     if ( dataSize && src && buffer )
-        memcpy( buffer, src, dataSize);
+      memcpy( buffer, src, dataSize);
   
     return dataSize;
 } 

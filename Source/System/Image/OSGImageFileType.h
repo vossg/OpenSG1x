@@ -47,19 +47,65 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** .
-*
-*
-* @author jbehr, Tue Apr 11 15:32:43 2000
+/*! \brief Abstract Base ImageFileType. Defines the Interface for
+all concrete ImageFileTypes. See \ref PageSystemImage for detailed description.
 */
-
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
-    /*==========================  PRIVATE  ================================*/
-  private:
 
-    std::list<IDString> _suffixList;
+  /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~ImageFileType (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Get  Methods                              */
+    /*! \{                                                                 */
+
+    virtual const Char8  *getMimeType (void) = 0;
+
+    const std::list<IDString> &getSuffixList(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
+
+    virtual bool read  (Image &image, const Char8 *fileName )       = 0;
+
+    virtual bool write (const Image &image, const Char8 *fileName ) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   store/restore                              */
+    /*! \{                                                                 */
+
+    static  UInt64 restore       ( Image &image, const UChar8 *buffer,
+                                   Int32 memSize = -1 );
+
+    static  UInt64 store         ( const Image &image, const char *mimeType,
+                                   UChar8 *buffer, Int32 memSize = -1 );
+
+            UInt64 store         ( const Image &image, UChar8 *buffer,
+                                   Int32 memSize = -1 );
+
+    virtual UInt64 maxBufferSize (const Image &image );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       dump                                   */
+    /*! \{                                                                 */
+
+    void dump(void);
+
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -116,57 +162,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     /*! \}                                                                 */
 
-    /*==========================  PUBLIC  =================================*/
-  public:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~ImageFileType (void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Get  Methods                              */
-    /*! \{                                                                 */
-
-    virtual const Char8  *getMimeType (void) = 0;
-
-    virtual std::list<IDString> &suffixList(void) { return _suffixList; }
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Read/Write                                 */
-    /*! \{                                                                 */
-
-    virtual bool read  (Image &image, const Char8 *fileName )       = 0;
-
-    virtual bool write (const Image &image, const Char8 *fileName ) = 0;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Buffer                                   */
-    /*! \{                                                                 */
-
-    static  UInt64 restore       ( Image &image, const UChar8 *buffer,
-                                   Int32 memSize = -1 );
-
-    static  UInt64 store         ( const Image &image, const char *mimeType,
-                                   UChar8 *buffer, Int32 memSize = -1 );
-
-            UInt64  store        ( const Image &image, UChar8 *buffer,
-                                   Int32 memSize = -1 );
-
-    virtual UInt64 maxBufferSize (const Image &image );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Print                                  */
-    /*! \{                                                                 */
-
-    void print(void);
-
-    /*! \}                                                                 */
+    std::list<IDString> _suffixList;
 
 };
 

@@ -37,9 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef OSGIMAGE_CLASS_DECLARATION
-#define OSGIMAGE_CLASS_DECLARATION
-
+#ifndef _OSGIMAGE_H_
+#define _OSGIMAGE_H_
 #ifdef  __sgi
 #pragma  once
 #endif
@@ -54,19 +53,13 @@
 #include <string>
 #include <map>
 
-#if defined(GL_BGR) || defined(GL_BGR_EXT)
-#define OSG_HAS_BGR_PF
-#endif
-
-#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
-#define OSG_HAS_BGRA_PF
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 class ImageFileType;
 
-//! Image
+/*! \brief In memory raster Image. 
+See \ref PageSystemImage for a detailed description
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject 
 {
@@ -83,12 +76,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
                          OSG_BGR_PF     = GL_BGR,
 #elif defined(GL_BGR_EXT)
                          OSG_BGR_PF     = GL_BGR_EXT,
+#else
+                         OSG_BGR_PF     = 0,
 #endif
                          
 #if defined(GL_BGRA)
                          OSG_BGRA_PF    = GL_BGRA,
 #elif defined(GL_BGRA_EXT)
                          OSG_BGRA_PF    = GL_BGRA_EXT,
+#else
+                         OSG_BGRA_PF    = 0,
 #endif
                          OSG_RGB_PF     = GL_RGB,
                          OSG_RGBA_PF    = GL_RGBA
@@ -120,7 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Set                                   */
+    /*! \name                   Set Object Data                            */
     /*! \{                                                                 */
 
     bool set     ( PixelFormat pixelFormat,
@@ -134,7 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
 
     bool setData ( const UChar8 *data = 0, bool doCopy = true );
 
-		bool flipDepthFrameData (void);
+    bool flipDepthFrameData (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -168,8 +165,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \{                                                                 */
 
     bool subImage ( Int32 offX, Int32 offY, Int32 offZ,
-		    Int32 destW, Int32 destH, Int32 destD,
-		    Image *destination = 0);
+                    Int32 destW, Int32 destH, Int32 destD,
+                    Image *destination = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -177,15 +174,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \{                                                                 */
 
     bool slice ( Int32 offX = -1, Int32 offY = -1, Int32 offZ = -1,
-		 Image *destination = 0);
+                 Image *destination = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Mipmap                                  */
     /*! \{                                                                 */
 
-    bool createMipmap ( Int32 level = -1,
-                        Image *destination = 0);
+    bool createMipmap ( Int32 level = -1, Image *destination = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -198,12 +194,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Storage                                   */
+    /*! \name                 Storage/Restore                              */
     /*! \{                                                                 */
 
-    UInt64 store   (Char8 *mimeType, 
-                    UChar8* mem,
-                    Int32 memSize = -1);
+    UInt64 store   (Char8 *mimeType, UChar8* mem, Int32 memSize = -1);
 
     UInt64 restore ( const UChar8* mem, Int32 memSize = -1);
 
@@ -212,19 +206,20 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \name               Comparison/Assign                              */
     /*! \{                                                                 */
 
-    bool   operator == (const Image &image);
-
     Image &operator=   (const Image &image);
 
     bool   operator <  (const Image &image);
+
+    bool   operator == (const Image &image);
+    bool   operator != (const Image &image);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
-
-		inline bool   isValid (void) const;
-
+    
+    inline bool   isValid (void) const;
+    
     inline Int32  getDimension  (void) const;
 
     inline Int32  getWidth      (void) const;
@@ -262,7 +257,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     inline UChar8 *getData ( UInt32 mipmapNum = 0, 
                              UInt32 frameNum = 0) const;
 
-    inline UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
+    UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -288,11 +283,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     inline void   calcMipmapGeometry   ( UInt32 mipmapNum,
                                          UInt32 &width, 
                                          UInt32 &height, 
-                                         UInt32 &depth );
+                                         UInt32 &depth ) const;
 
-    inline UInt32 calcMipmapLevelCount ( void );
+    inline UInt32 calcMipmapLevelCount ( void ) const;
 
-    UInt32 calcFrameNum(Time time, bool loop = true);
+    UInt32 calcFrameNum(Time time, bool loop = true) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -313,7 +308,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    static Int32 _formatMap[][2];
+    static Int32 _formatDic[][2];
 
     PixelFormat _pixelFormat;
 
@@ -386,4 +381,4 @@ OSG_END_NAMESPACE
 
 #include <OSGImage.inl>
 
-#endif // OSGIMAGE_CLASS_DECLARATION
+#endif // _OSGIMAGE_H_
