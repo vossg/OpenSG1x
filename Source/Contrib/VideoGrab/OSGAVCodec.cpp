@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------- *\
 
-  file  : av.cpp
+  file  : OSGAVCodec.cpp
   author: m. gumz
   mail  : gumz at cs.uni-magdeburg.de
   copyr : copyright (c) 2003 by m. gumz
@@ -53,17 +53,19 @@ using namespace std;
 
 #include "OSGAVCodec.h"
 
+
 /* --------------------------------------------------------------- *\
 \* --------------------------------------------------------------- */
-class AVVideoException : public std::exception
+class AVCodecException : public std::exception
 {
   public:
 
-    AVVideoException(const char *error)
-      throw() : s("AVVideoEncoder error: ") { s += error; }
-    ~AVVideoException() throw() {}
+    AVCodecException(const char *error)
+      throw() : s("AVCodecEncoder error: ") { s += error; }
+    ~AVCodecException() throw() {}
 
-    virtual const char* what(void) const throw() { return s.c_str(); }
+    virtual const char* what(void) const throw()
+      { return s.c_str(); }
 
   private:
 
@@ -73,12 +75,14 @@ class AVVideoException : public std::exception
 
 /* --------------------------------------------------------------- *\
 \* --------------------------------------------------------------- */
-AVVideoEncoder::AVVideoEncoder(const char* filename, int width, int height,
-   int bitrate, int fps, bool flip) :
-    oc(0),
-    c(0),
-    video_st(0),
-    fmt(0),
+AVCodecEncoder::AVCodecEncoder(const char* filename, 
+    const unsigned int& width, const unsigned int& height,
+    const unsigned int& bitrate, const unsigned int& fps, 
+    const CodecID& codecid, const bool& flip ) :
+
+    format_ctx(0),
+    format_out(0),
+    stream(0),
     yuvframe(0),
     rgbframe(0),
     video_outbuf(0),
@@ -87,92 +91,148 @@ AVVideoEncoder::AVVideoEncoder(const char* filename, int width, int height,
     video_pts(0),
     flip_before_encode(flip)
 {
+
+  // init avcodec && avformat
+  avcodec_register_all();
   av_register_all();
 
-  /* auto detect the output format from the name. default is
-     mpeg. */
-  fmt = guess_format(NULL, filename, NULL);
-  if (!fmt) {
-    printf("Could not deduce output format from file extension: using MPEG.\n");
-    fmt = guess_format("mpeg", NULL, NULL);
-  }
-  if (!fmt)
-    throw AVVideoException("couldnt find suitable output format\n");
 
-  /* allocate the output media context */
-  oc= (AVFormatContext*)av_mallocz(sizeof(AVFormatContext));
-  if (!oc)
-    throw AVVideoException("memory error while allocating formatcontext\n");
+//
+// find a good output-format
+//
 
-  oc->oformat= fmt;
-  snprintf(oc->filename, sizeof(oc->filename), "%s", filename);
-
-  /* add the audio and video streams using the default format codecs
-     and initialize the codecs */
-  if (fmt->video_codec != CODEC_ID_NONE)
+  // check for ffv1 -> experimental
+  if ( codecid == CODEC_ID_FFV1 )
   {
-    video_st= av_new_stream(oc, 0);
-    if (!video_st)
-      throw AVVideoException("couldnt alloc stream\n");
+    printf(" >>> CODEC_ID_FFV1 <<< \n");
+    format_out= guess_format("avi", NULL, NULL);
+    format_out->video_codec= codecid;
+  }
 
-    c= &video_st->codec;
-    c->codec_id= fmt->video_codec;
+  // check search output formats for given codecid */
+  if ( codecid != CODEC_ID_NONE && !format_out )
+  {
+    printf(" >>> search for codec <<< \n");
+    extern AVOutputFormat* first_oformat;
+    for(AVOutputFormat* f= first_oformat; !f; f= f->next )
+    {
+      if ( f->video_codec == codecid )
+      {
+        format_out= f;
+        break;
+      }
+    }
+  }
+
+  // auto detect the output format from the name
+  if ( !format_out )
+  {
+    printf(" >>> guess codec via filename <<< \n");
+    format_out = guess_format(NULL, filename, NULL);
+  }
+
+  // fallback
+  if (!format_out)
+  {
+    printf("Could not deduce output format from file extension: using MPEG.\n");
+    format_out = guess_format("mpeg", NULL, NULL);
+  }
+
+  if (!format_out)
+    throw AVCodecException("couldnt find suitable output format\n");
+
+
+//
+// allocate the context for the output
+//
+
+  format_ctx= (AVFormatContext*)av_mallocz(sizeof(AVFormatContext));
+  if (!format_ctx)
+    throw AVCodecException("memory error while allformat_ctxating formatcontext\n");
+
+  format_ctx->oformat= format_out;
+  snprintf(format_ctx->filename, sizeof(format_ctx->filename), "%s", filename);
+
+//
+// create the resulting stream
+//
+  if (format_out->video_codec != CODEC_ID_NONE)
+  {
+    stream= av_new_stream(format_ctx, 0);
+    if (!stream)
+      throw AVCodecException("couldnt allformat_ctx stream\n");
+
+    AVCodecContext* c= &stream->codec;
+    c->codec_id= format_out->video_codec;
     c->codec_type= CODEC_TYPE_VIDEO;
+
+    switch ( c->codec_id)
+    {
+      case CODEC_ID_FFV1:
+        c->strict_std_compliance= -1;
+        //c->codec_tag= ('1' << 24) + ('V' << 16) + ('F' << 8) + ('F');
+        break;
+
+      case CODEC_ID_HUFFYUV:
+        c->strict_std_compliance= -1;
+        break;
+    };
 
     c->bit_rate= bitrate * 1000;
     c->width= width;
     c->height= height;
     c->frame_rate= fps;
     c->frame_rate_base= 1;
-    c->gop_size = 12;
+    c->gop_size = 0;
   }
 
   /* set the output parameters (must be done even if no
      parameters). */
-  if (av_set_parameters(oc, NULL) < 0)
-    throw AVVideoException("invalid output format parameters\n");
+  if (av_set_parameters(format_ctx, NULL) < 0)
+    throw AVCodecException("invalid output format parameters\n");
 
-  dump_format(oc, 0, filename, 1);
 
-  /* now that all the parameters are set, we can open the audio and
-     video codecs and allocate the necessary encode buffers */
-  if (video_st) open_video();
+  // setup all buffers and structures
+  if (stream)
+    initCodec();
+
+  dump_format(format_ctx, 0, filename, 1);
 
   /* open the output file, if needed */
-  if (!(fmt->flags & AVFMT_NOFILE))
+  if (!(format_out->flags & AVFMT_NOFILE))
   {
-    if (url_fopen(&oc->pb, filename, URL_WRONLY) < 0)
-      throw AVVideoException((std::string("couldnt open") + std::string(filename) + std::string("\n")).c_str());
+    if (url_fopen(&format_ctx->pb, filename, URL_WRONLY) < 0)
+      throw AVCodecException((std::string("couldnt open") + std::string(filename) + std::string("\n")).c_str());
   }
 
   /* write the stream header, if any */
-  av_write_header(oc);
+  av_write_header(format_ctx);
 }
 
-AVVideoEncoder::~AVVideoEncoder()
+AVCodecEncoder::~AVCodecEncoder()
 {
-  av_write_trailer(oc);
+  av_write_trailer(format_ctx);
 
   /* close each codec */
-  avcodec_close(&video_st->codec);
+  avcodec_close(&stream->codec);
   av_free(yuvframe->data[0]);
   av_free(yuvframe);
   av_free(rgbframe);
   av_free(video_outbuf);
 
   /* free the streams */
-  for(int i = 0; i < oc->nb_streams; i++) {
-      av_freep(&oc->streams[i]);
+  for(int i = 0; i < format_ctx->nb_streams; i++) {
+      av_freep(&format_ctx->streams[i]);
   }
 
-  if (!(fmt->flags & AVFMT_NOFILE)) {
-    url_fclose(&oc->pb);
+  if (!(format_out->flags & AVFMT_NOFILE)) {
+    url_fclose(&format_ctx->pb);
   }
 
-  av_free(oc);
+  av_free(format_ctx);
 }
 
-AVFrame* AVVideoEncoder::alloc_picture(int pix_fmt, int width, int height)
+AVFrame* AVCodecEncoder::allocFrame(int pix_format_out, int width, int height)
 {
     AVFrame*        picture;
     unsigned char*  picture_buf;
@@ -180,7 +240,7 @@ AVFrame* AVVideoEncoder::alloc_picture(int pix_fmt, int width, int height)
 
     picture= avcodec_alloc_frame();
     if (!picture) return NULL;
-    size= avpicture_get_size(pix_fmt, width, height);
+    size= avpicture_get_size(pix_format_out, width, height);
     picture_buf= (unsigned char*)av_malloc(size);
 
     if (!picture_buf)
@@ -189,65 +249,70 @@ AVFrame* AVVideoEncoder::alloc_picture(int pix_fmt, int width, int height)
       return NULL;
     }
 
-    avpicture_fill((AVPicture*)picture, picture_buf, pix_fmt, width, height);
+    avpicture_fill((AVPicture*)picture, picture_buf, pix_format_out, width, height);
     return picture;
 }
 
-void AVVideoEncoder::open_video()
+void AVCodecEncoder::initCodec()
 {
   AVCodec *codec;
-
-  c= &video_st->codec;
+  AVCodecContext* c= &stream->codec;
 
   /* find the video encoder */
-  codec= avcodec_find_encoder(c->codec_id);
+  if (c->codec_id == CODEC_ID_FFV1)
+  {
+    codec= &ffv1_encoder;
+  }
+  else
+    codec= avcodec_find_encoder(c->codec_id);
+
   if (!codec)
-    throw AVVideoException("couldnt find codec\n");
+    throw AVCodecException("couldnt find codec\n");
 
   /* open the codec */
   if (avcodec_open(c, codec) < 0)
-    throw AVVideoException("couldnt open codec\n");
+    throw AVCodecException("couldnt open codec\n");
 
   video_outbuf= NULL;
-  if (!(oc->oformat->flags & AVFMT_RAWPICTURE))
+  if (!(format_ctx->oformat->flags & AVFMT_RAWPICTURE))
   {
-    /* allocate output buffer */
-    /* XXX: API change will be done */
     video_outbuf_size= 200000;
     video_outbuf= (unsigned char*)av_malloc(video_outbuf_size);
   }
 
-  /* allocate the encoded raw picture */
-  yuvframe= alloc_picture(c->pix_fmt, c->width, c->height);
+  /* allformat_ctxate the encoded raw picture */
+  yuvframe= allocFrame(c->pix_fmt, c->width, c->height);
   if (!yuvframe)
-    throw AVVideoException("couldnt allocate yuv-picture\n");
+    throw AVCodecException("couldnt allformat_ctxate yuv-picture\n");
 
   rgbframe= avcodec_alloc_frame();
   if (!rgbframe)
-    throw AVVideoException("coudlnt allocate rgb-picture\n");
+    throw AVCodecException("coudlnt allformat_ctxate rgb-picture\n");
 
   return;
 }
 
 
-void AVVideoEncoder::write_video_frame()
+void AVCodecEncoder::writeFrame()
 {
-  if (video_st)
-    video_pts = (double)video_st->pts.val * oc->pts_num / oc->pts_den;
+
+  // calculate time
+  if (stream)
+    video_pts = (double)stream->pts.val * format_ctx->pts_num / format_ctx->pts_den;
   else
     video_pts = 0.0;
 
-  if (!video_st) return;
+  if (!stream) return;
 
-
-  img_convert( (AVPicture*)(yuvframe), c->pix_fmt,
+  // convert rgb to yuv420
+  img_convert( (AVPicture*)(yuvframe), stream->codec.pix_fmt,
                (AVPicture*)(rgbframe), PIX_FMT_RGB24,
-                c->width, c->height);
+                stream->codec.width, stream->codec.height);
 
   // flip yuv-buffer horizontal -> opengl has other order
   // why not the rgb-buffer? yuv has smaller size
   //
-  // TODO: check pix_fmt and do the right thing, its not
+  // TODO: check pix_format_out and do the right thing, its not
   // alway yuf420 ...
   if ( flip_before_encode )
   {
@@ -284,16 +349,16 @@ void AVVideoEncoder::write_video_frame()
 
   int out_size, ret;
 
-  if (oc->oformat->flags & AVFMT_RAWPICTURE) 
-    ret= av_write_frame(oc, video_st->index, (unsigned char*)yuvframe, sizeof(AVPicture));
-  else 
+  if (format_ctx->oformat->flags & AVFMT_RAWPICTURE)
+    ret= av_write_frame(format_ctx, stream->index, (unsigned char*)yuvframe, sizeof(AVPicture));
+  else
   {
-    out_size= avcodec_encode_video(c, video_outbuf, video_outbuf_size, yuvframe);
-    ret= av_write_frame(oc, video_st->index, video_outbuf, out_size);
+    out_size= avcodec_encode_video(&stream->codec, video_outbuf, video_outbuf_size, yuvframe);
+    ret= av_write_frame(format_ctx, 0, video_outbuf, out_size);
   }
 
   if (ret != 0)
-    throw AVVideoException("error while writing frame\n");
+    throw AVCodecException("error while writing frame\n");
 
   frame_count++;
 
@@ -302,16 +367,16 @@ void AVVideoEncoder::write_video_frame()
 
 /* --------------------------------------------------------------- *\
 \* --------------------------------------------------------------- */
-void AVVideoEncoder::setRgb(unsigned char* rgb)
+void AVCodecEncoder::setRgb(unsigned char* rgb)
 {
   avpicture_fill((AVPicture*)rgbframe, rgb, PIX_FMT_RGB24, width(), height());
   return;
 };
 
 
-void AVVideoEncoder::setBitrate(int bitrate)
+void AVCodecEncoder::setBitrate(int bitrate)
 {
-  c->bit_rate= bitrate * 1000;
+  stream->codec.bit_rate= bitrate * 1000;
   return;
 };
 /* --------------------------------------------------------------- *\

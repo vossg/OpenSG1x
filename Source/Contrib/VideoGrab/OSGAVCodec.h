@@ -1,9 +1,9 @@
-#ifndef _AV_HPP_
-#define _AV_HPP_
+#ifndef _OSGAVCODEC_HPP_
+#define _OSGAVCODEC_HPP_
 
 /* --------------------------------------------------------------- *\
 
-  file  : av.hpp
+  file  : OSGAVCodec.hpp
   author: m. gumz
   mail  : gumz at cs.uni-magdeburg.de
   copyr : copyright (c) 2003 by m. gumz
@@ -52,35 +52,46 @@
 /* --------------------------------------------------------------- *\
 \* --------------------------------------------------------------- */
 
-class AVVideoEncoder
+class AVCodecEncoder
 {
   public:
 
-    AVVideoEncoder(const char* filename, int width, int height,
-        int bitrate= 900, int fps= 25, bool flip= true);
-    ~AVVideoEncoder();
+    /// \parameter filename - filename of the video
+    /// \parameter width - width of the video
+    /// \parameter height - height of the video
+    /// \parameter bitrate - bitrate in kbyte / s
+    /// \parameter fps - frames per second
+    /// \parameter flip - flip the video verticale before encoding
+    AVCodecEncoder(const char* filename,
+        const unsigned int& width, 
+        const unsigned int& height,
+        const unsigned int& bitrate= 900, 
+        const unsigned int& fps= 25,
+        const CodecID& codecid= CODEC_ID_NONE,
+        const bool& flip= true);
 
-    int width() const { return c->width; };
-    int height() const { return c->height; };
+    ~AVCodecEncoder();
 
-    unsigned char* rgb() { return rgbframe->data[0]; };
-    void setRgb(unsigned char* rgb);
-    void setBitrate(int bitrate);
-    AVCodecContext*   getCodecContext() { return c; }
+    int               width()   const { return stream->codec.width; };
+    int               height()  const { return stream->codec.height; };
+    unsigned char*    rgb()     const { return rgbframe->data[0]; };
+    AVCodecContext*   context() const { return &stream->codec; }
 
-    void write_video_frame();
+    void              setRgb(unsigned char* rgb);
+    void              setBitrate(int bitrate);
+
+    void              writeFrame();
 
   private:
 
-    AVFrame* alloc_picture(int pix_fmt, int width, int height);
-    void open_video();
+    AVFrame*          allocFrame(int pix_fmt, int width, int height);
+    void              initCodec();
 
   private:
 
-    AVFormatContext*  oc;
-    AVCodecContext*   c;
-    AVStream*         video_st;
-    AVOutputFormat*   fmt;
+    AVFormatContext*  format_ctx;
+    AVOutputFormat*   format_out;
+    AVStream*         stream;
 
     AVFrame*          yuvframe;
     AVFrame*          rgbframe;

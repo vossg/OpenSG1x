@@ -46,7 +46,7 @@
 
 #include <OSGAVCodecGrabForegroundBase.h>
 
-class AVVideoEncoder;
+class AVCodecEncoder;
 
 OSG_BEGIN_NAMESPACE
 
@@ -122,7 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AVCodecGrabForeground : public AVCodecGrabForegro
 
     void operator =(const AVCodecGrabForeground &source);
 
-    AVVideoEncoder* encoder;
+    AVCodecEncoder* encoder;
 };
 
 typedef AVCodecGrabForeground *AVCodecGrabForegroundP;
