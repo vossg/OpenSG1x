@@ -42,6 +42,22 @@
 #pragma once
 #endif
 
+#if defined(__sgi)
+#include <sys/endian.h>
+#elif defined(__hpux)
+#include <arpa/nameser.h>
+#elif defined(darwin)
+#include <machine/endian.h>
+#elif defined(__linux)
+#include <endian.h>
+#elif defined(WIN32) // HACK until I find a better solution
+#define LITTLE_ENDIAN 1234
+#define BIG_ENDIAN 4321
+#define BYTE_ORDER LITTLE_ENDIAN
+#else
+#error Endian determination : could not guess your plattform
+#endif
+
 /** \namespace osg 
     \brief OpenSG namespace    
  */
