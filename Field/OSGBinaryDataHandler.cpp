@@ -319,7 +319,7 @@ void BinaryDataHandler::writeBufClear( void )
  *
  * @return buffer iterator points behind the last buffer containing data
  */
-void BinaryDataHandler::read()
+void BinaryDataHandler::readBuffer()
 {
     BuffersT::iterator i;
     OSG::UInt32 size,readSize;
@@ -365,7 +365,7 @@ void BinaryDataHandler::read(MemoryHandle mem,UInt32 size)
  * Use direct write to implement buffer write.
  *
  */
-void BinaryDataHandler::write()
+void BinaryDataHandler::writeBuffer()
 {
     BuffersT::iterator i;
     UInt32 size=0;
@@ -408,7 +408,7 @@ void BinaryDataHandler::pushBuffer()
     BuffersT::iterator i,writeEnd;
 
     // write buffers
-    write();
+    writeBuffer();
     // direct write zero copy buffers
     for(i =_zeroCopyBuffers.begin();
         i!=_zeroCopyBuffers.end();++i)
@@ -425,7 +425,7 @@ void BinaryDataHandler::pushBuffer()
 void BinaryDataHandler::pullBuffer()
 {
     // read buffers
-    read();
+    readBuffer();
     _currentReadBuffer    = readBufBegin();
     _currentReadBufferPos = 0;
 }
