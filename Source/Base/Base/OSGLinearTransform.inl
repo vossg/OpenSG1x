@@ -178,7 +178,7 @@ void LinearTransform<ValueTypeT>::setIdentity(void)
     for(i = 0; i < 4; i++)
     {
         _logMatrix[i].setNull();
-        _logMatrix[i][i] = TypeTraitss<ValueType>::getOneElement();
+        _logMatrix[i][i] = TypeTraits<ValueType>::getOneElement();
     }
 }
 
