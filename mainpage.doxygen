@@ -1,4 +1,4 @@
-/*!	\mainpage OpenSG - The Open Source Scenegraph
+/*!	\mainpage OpenSG 1.1.0 - The Open Source Scenegraph
 
 Welcome to OpenSG. 
 
@@ -13,6 +13,14 @@ documentation, don't be surprised.
 We hope you enjoy the system anyway. Visit us at 
 <a href=http://www.opensg.org>www.opensg.org</a> to learn
 more about us and the background of the system.
+
+This is version 1.1.0, our first developer's version. This means that while we 
+added a lot of features, we didn't add a lot of documentation, and the 
+interfaces of the features, while resonably stable, might still change. So
+be warned.
+
+Nonetheless a large number of bugs were fixed, too, and thus we still recommend 
+using this version.
 
 */
 

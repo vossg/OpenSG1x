@@ -6844,7 +6844,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
                 ac_gdz_freetype1_lib_e14='ttf.lib'
             ;;
             *)
-                ac_gdz_freetype1_lib_e14='-lfreetype -lttf'
+                ac_gdz_freetype1_lib_e14='-lttf'
             ;;
         esac
 
