@@ -199,26 +199,26 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
               
               // Value
               col++;
-              sfFieldPtr = dynamic_cast<osg::SFFieldContainerPtr*>(fieldPtr);
-              mfFieldPtr = dynamic_cast<osg::MFFieldContainerPtr*>(fieldPtr);
-
-              cerr << "name: " << fDesc->getCName()
-                   << ", sfFieldPtr: " << sfFieldPtr
-                   << ", mfFieldPtr: " << mfFieldPtr << endl;
-
-              if (sfFieldPtr)
-                if (sfFieldPtr->getValue() == osg::NullFC)
-                  qval = "unset";
-                else
-                  qval = "set";
-              else
-                if (mfFieldPtr)
-                  qval.setNum(mfFieldPtr->getSize());
-                else
-                  { 
-                    fieldPtr->getValueByStr(val);
-                    qval = val.c_str();
+              if ( strstr(fieldPtr->getType().getContentType().getCName(),
+                         "Ptr"))
+                if (fieldPtr->getCardinality() == osg::FieldType::SINGLE_FIELD)
+                  {
+                    sfFieldPtr = (osg::SFFieldContainerPtr*)(fieldPtr);
+                    if (sfFieldPtr->getValue() == osg::NullFC)
+                      qval = "unset";
+                    else
+                      qval = "set";
                   }
+                else
+                  {
+                    mfFieldPtr = (osg::MFFieldContainerPtr*)(fieldPtr);
+                    qval.setNum(mfFieldPtr->getSize());
+                  }
+              else
+                {
+                  fieldPtr->getValueByStr(val);
+                  qval = val.c_str();
+                }
               fieldsTable->setText(i,col,qval);
               
               // Cardinality
@@ -303,7 +303,7 @@ void OSGSceneView::createView( osg::NodePtr node )
       widget = new osg::OSGQGLManagedWidget(0,"OSG View");    
       widget->getManager().setRoot( node );
       widget->getManager().showAll();
-      // widget->getManager().useOpenSGLogo();
+      widget->getManager().useOpenSGLogo();
       viewList.push_back(widget);
       connect ( widget, SIGNAL ( closed     (QWidget *) ),
                 this,   SLOT   ( removeView (QWidget *) ) );
