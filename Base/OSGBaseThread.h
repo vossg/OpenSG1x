@@ -521,6 +521,17 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
     virtual ~BaseThread(void);
 
     /*! \}                                                                 */
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+    
+    static BaseThread *get (const Char8 *szName);
+    static BaseThread *find(const Char8 *szName);
+
+    /*! \}                                                                 */
 };
 
 typedef BaseThread *BaseThreadP;

@@ -592,8 +592,8 @@ void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 char Barrier::cvsid[] = "@(#)$Id: $";
 
 MPBarrierType Barrier::_type("OSGBarrier", 
-                                   "OSGMPBase",
-                                   Barrier::create);
+                             "OSGMPBase",
+                             Barrier::create);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -627,6 +627,16 @@ Barrier *Barrier::create (const Char8  *szName,
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
+Barrier *Barrier::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getBarrier(szName, "OSGBarrier");
+}
+
+Barrier *Barrier::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findBarrier(szName);
+}
 
 /***************************************************************************\
  *                           Instance methods                              *

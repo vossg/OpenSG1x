@@ -108,8 +108,6 @@ class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
     /*! \{                                                                 */
 
     virtual ~BarrierCommonBase(void);
-
-    /*! \}                                                                 */
 };
 
 #if defined (OSG_USE_PTHREADS)
@@ -408,6 +406,18 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 
     static Barrier *create (const Char8  *szName,
                                      UInt32  uiId);
+
+    /*! \}                                                                 */
+    /*! \}                                                                 */
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+    
+    static Barrier *get (const Char8 *szName);
+    static Barrier *find(const Char8 *szName);
 
     /*! \}                                                                 */
 };

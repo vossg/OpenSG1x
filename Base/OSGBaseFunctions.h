@@ -79,7 +79,8 @@ OSG_BEGIN_NAMESPACE
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgsqrt(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgsqrt(const FloatTypeT &rVal);
 
 /*! \brief osgcos
  *  \ingroup BaseMathFunctions
@@ -87,7 +88,8 @@ FloatTypeT osgsqrt(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgcos(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgcos(const FloatTypeT &rVal);
 
 /*! \brief osgsin
  *  \ingroup BaseMathFunctions
@@ -95,7 +97,8 @@ FloatTypeT osgcos(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgsin(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgsin(const FloatTypeT &rVal);
 
 /*! \brief osgtan
  *  \ingroup BaseMathFunctions
@@ -103,7 +106,8 @@ FloatTypeT osgsin(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgtan(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgtan(const FloatTypeT &rVal);
 
 /*! \brief osgacos
  *  \ingroup BaseMathFunctions
@@ -111,7 +115,8 @@ FloatTypeT osgtan(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgacos(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgacos(const FloatTypeT &rVal);
 
 /*! \brief osgasin
  *  \ingroup BaseMathFunctions
@@ -119,7 +124,8 @@ FloatTypeT osgacos(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgasin(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgasin(const FloatTypeT &rVal);
 
 /*! \brief osgatan
  *  \ingroup BaseMathFunctions
@@ -127,7 +133,8 @@ FloatTypeT osgasin(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgatan(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgatan(const FloatTypeT &rVal);
 
 /*! \brief osgatan2
  *  \ingroup BaseMathFunctions
@@ -135,8 +142,9 @@ FloatTypeT osgatan(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgatan2(const FloatTypeT &rVal1,
-                    const FloatTypeT &rVal2);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgatan2(const FloatTypeT &rVal1,
+             const FloatTypeT &rVal2);
 
 /*! \brief osgdegree2rad
  *  \ingroup BaseMathFunctions
@@ -144,7 +152,8 @@ FloatTypeT osgatan2(const FloatTypeT &rVal1,
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgdegree2rad(const FloatTypeT &rVal);
 
 /*! \brief osgrad2degree
  *  \ingroup BaseMathFunctions
@@ -152,21 +161,24 @@ FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgrad2degree(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgrad2degree(const FloatTypeT &rVal);
 
 /*! \brief deg2rad
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> inline
-FloatTypeT deg2rad(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    deg2rad(const FloatTypeT &rVal);
 
 /*! \brief rad2deg
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> inline
-FloatTypeT rad2deg(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    rad2deg(const FloatTypeT &rVal);
 
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
@@ -182,8 +194,9 @@ FloatTypeT osgabs(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgpow(const FloatTypeT &rVal,
-                  const FloatTypeT &rExp);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgpow(const FloatTypeT &rVal,
+           const FloatTypeT &rExp);
 
 /*! \brief osglog
  *  \ingroup BaseMathFunctions
@@ -191,7 +204,8 @@ FloatTypeT osgpow(const FloatTypeT &rVal,
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osglog(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osglog(const FloatTypeT &rVal);
 
 /*! \brief osgexp
  *  \ingroup BaseMathFunctions
@@ -199,7 +213,8 @@ FloatTypeT osglog(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgexp(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgexp(const FloatTypeT &rVal);
 
 /*! \brief osgfloor
  *  \ingroup BaseMathFunctions
@@ -207,7 +222,8 @@ FloatTypeT osgexp(const FloatTypeT &rVal);
 
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgfloor(const FloatTypeT &rVal);
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgfloor(const FloatTypeT &rVal);
 
 /*! \brief osgMin
  *  \ingroup BaseMathFunctions

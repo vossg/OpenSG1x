@@ -765,13 +765,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     Thread(const Char8 *szName, UInt32 uiId);
     virtual ~Thread(void);
 
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+    
+    static Thread *getCurrent(void);
 
-    static Thread  *getCurrent(void);
+    static Thread *get       (const Char8 *szName);
+    static Thread *find      (const Char8 *szName);
+
+    /*! \}                                                                 */
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -142,9 +142,10 @@ TypeT osgabs(const TypeT &rValue)
  */
 
 template <class FloatTypeT> inline
-FloatTypeT deg2rad(const FloatTypeT &rValue)
+typename TypeConstants<FloatTypeT>::RealReturnType
+    deg2rad(const FloatTypeT &rValue)
 {
-   return osgdegree2rad( Real32(rValue) );
+   return osgdegree2rad(rValue);
 }
 
 /*! \brief rad2deg
@@ -152,9 +153,159 @@ FloatTypeT deg2rad(const FloatTypeT &rValue)
  */
 
 template <class FloatTypeT> inline
-FloatTypeT rad2deg(const FloatTypeT &rValue)
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    rad2deg(const FloatTypeT &rValue)
 {
-   return osgrad2degree( Real32(rValue) );
+   return osgrad2degree(rValue);
+}
+
+/*@}*/
+
+/*@}*/
+
+/*! @name Default Implementation
+ */
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgsqrt(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgsqrt(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgcos(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgcos(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgsin(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgsin(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgtan(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgtan(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgacos(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgacos(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgasin(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgasin(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgatan(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgatan(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgatan2(const FloatTypeT &rVal1,
+             const FloatTypeT &rVal2)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgatan2(RealType(rVal1), RealType(rVal2));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType 
+    osgdegree2rad(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgdegree2rad(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgrad2degree(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgrad2degree(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgpow(const FloatTypeT &rVal,
+           const FloatTypeT &rExp)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgpow(RealType(rVal), RealType(rExp));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osglog(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osglog(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgexp(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgexp(RealType(rVal));
+}
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgfloor(const FloatTypeT &rVal)
+{
+    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+
+    return  osgfloor(RealType(rVal));
 }
 
 /*@}*/

@@ -51,6 +51,8 @@ using OSG::VecStorage2;
 using OSG::VecStorage3;
 using OSG::VecStorage4;
 
+OSG_USING_NAMESPACE
+
 template class VectorInterface<Real32, VecStorage2<Real32> >;
 template class VectorInterface<Real32, VecStorage3<Real32> >;
 template class VectorInterface<Real32, VecStorage4<Real32> >;
@@ -1480,17 +1482,70 @@ void matNSMTest(void)
 }
 
 
+// Instantiation Tests
+
+void nonFloatTest(void)
+{
+    Real32 rVal = osgsqrt(90);
+
+    rVal = osgcos(90);
+    rVal = osgsin(90);
+    rVal = osgtan(90);
+
+    rVal = osgacos(90);
+    rVal = osgasin(90);
+    rVal = osgatan(90);
+
+    rVal = osgatan2(90, 90);
+
+    rVal = osgdegree2rad(90);
+    rVal = osgrad2degree(90);
+
+    rVal = deg2rad(90);
+    rVal = rad2deg(90);
+
+    rVal = osgabs(90);
+    rVal = osgpow(90, 10);
+    rVal = osglog(90);
+    rVal = osgexp(90);
+    rVal = osgfloor(90);
+
+
+    rVal = osgcos(90.f);
+    rVal = osgsin(90.f);
+    rVal = osgtan(90.f);
+
+    rVal = osgacos(90.);
+    rVal = osgasin(90.);
+    rVal = osgatan(90.f);
+
+    rVal = osgatan2(90., 90.);
+
+    rVal = osgdegree2rad(90.f);
+    rVal = osgrad2degree(90.f);
+
+    rVal = deg2rad(90.);
+    rVal = rad2deg(90.);
+
+    rVal = osgabs(90.);
+    rVal = osgpow(90.f, 10.f);
+    rVal = osglog(90.);
+    rVal = osgexp(90.f);
+    rVal = osgfloor(90.);
+}
 
 int main(void)
 {
     osgInit(0, NULL);
 
-    vectorTestConstructAndSetTest();
+//   vectorTestConstructAndSetTest();
 //    vectorMathTests();
-    matrixTest();
+//    matrixTest();
 //   quattest();
 //	matutilitytest();
-		matNSMTest();
+//		matNSMTest();
+
+    nonFloatTest();
 
     return 0;
 }

@@ -956,6 +956,16 @@ void BaseThread::initThreading(void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+BaseThread *BaseThread::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getThread(szName, "OSGBaseThread");
+}
+
+BaseThread *BaseThread::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findThread(szName);
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/

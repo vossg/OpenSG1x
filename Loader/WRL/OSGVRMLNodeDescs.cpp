@@ -4329,7 +4329,7 @@ VRMLViewpointDesc::~VRMLViewpointDesc(void)
 
 void VRMLViewpointDesc::init(const Char8 *szName)
 {
-    fprintf(stderr, "Viewpoint init : %s \n", szName);
+    PINFO << "Viewpoint init : " << szName << endl;
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = ComponentTransform::create();

@@ -630,6 +630,16 @@ Lock *Lock::create(const Char8 *szName, UInt32 uiId)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+Lock *Lock::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getLock(szName, "OSGLock");
+}
+
+Lock *Lock::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findLock(szName);
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -700,8 +710,8 @@ Lock::~Lock(void)
 char LockPool::cvsid[] = "@(#)$Id: $";
 
 MPLockPoolType LockPool::_type("OSGLockPool", 
-                                     "OSGMPBase", 
-                                     LockPool::create);
+                               "OSGMPBase", 
+                               LockPool::create);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -733,6 +743,17 @@ LockPool *LockPool::create(const Char8 *szName, UInt32 uiId)
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
+LockPool *LockPool::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getLockPool(szName, "OSGLockPool");
+}
+
+LockPool *LockPool::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findLockPool(szName);
+}
+
 
 /***************************************************************************\
  *                           Instance methods                              *

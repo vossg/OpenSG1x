@@ -897,6 +897,19 @@ Thread  *Thread::getCurrent(void)
     return static_cast<Thread *>(Inherited::getCurrent());
 }
 
+Thread *Thread::get(const Char8 *szName)
+{
+    BaseThread *pThread = ThreadManager::the()->getThread(szName, "OSGThread");
+
+    return dynamic_cast<Thread *>(pThread);
+}
+
+Thread *Thread::find(const Char8 *szName)
+{
+    BaseThread *pThread = ThreadManager::the()->findThread(szName);
+
+    return dynamic_cast<Thread *>(pThread);
+}
 
 /***************************************************************************\
  *                           Instance methods                              *

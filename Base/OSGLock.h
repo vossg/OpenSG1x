@@ -428,6 +428,18 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
     virtual ~Lock(void);
 
     /*! \}                                                                 */
+    /*! \}                                                                 */
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+    
+    static Lock *get (const Char8 *szName);
+    static Lock *find(const Char8 *szName);
+
+    /*! \}                                                                 */
 };
 
 /*! \ingroup BaseThreading
@@ -510,8 +522,17 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
         
     /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
-  public :
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
     
+    static LockPool *get (const Char8 *szName);
+    static LockPool *find(const Char8 *szName);
+
+    /*! \}                                                                 */
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
@@ -521,7 +542,6 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
     Bool    request(void *keyP);
     
     /*! \}                                                                 */
-
 };
 
 //---------------------------------------------------------------------------
