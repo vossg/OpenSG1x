@@ -1489,7 +1489,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     }
     else
     {
-        target = GL_TEXTURE_CUBE_MAP;
+        target = GL_TEXTURE_CUBE_MAP_ARB;
     }
 
     FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
@@ -1672,7 +1672,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     }
     else
     {
-        target = GL_TEXTURE_CUBE_MAP;
+        target = GL_TEXTURE_CUBE_MAP_ARB;
     }
 
     if(oldused)
@@ -1890,7 +1890,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     }
     else
     {
-        target = GL_TEXTURE_CUBE_MAP;
+        target = GL_TEXTURE_CUBE_MAP_ARB;
     }
 
     if(getShaderOperation() != GL_NONE &&
