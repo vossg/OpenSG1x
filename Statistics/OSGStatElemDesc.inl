@@ -92,7 +92,7 @@ inline  const IDString &StatElemDescBase::getDescription (void)
 // The templated StatElemDesc
 
 template <class T>
-static char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.2 2002/01/20 11:10:28 dirk Exp $";
+char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.3 2002/01/21 02:43:14 jbehr Exp $";
 
 
 template <class T>

@@ -141,13 +141,13 @@ std::string &StatCollector::putToString( std::string &str )
 {
     vector<StatElem*>::iterator it;
     
-    str.clear();
+    str = "";
     
     for(it = _elemVec.begin(); it != _elemVec.end(); ++it)
     {
         if(*it != NULL)
         {
-            std:string elem;
+            std::string elem;
             
             str.append((*it)->getDesc()->getName().str());
             str.append(" ");

@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.10 2002/01/20 21:18:04 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.11 2002/01/21 02:43:14 jbehr Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -1631,8 +1631,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     toworld.invert();
     camera.multLeft(toworld);
 
-    Pnt3f refpoint;
-    refpoint.setValue(camera[3].getValues());
+    Pnt3f refpoint(camera[3].getValues());
     
     Pnt3f p,q;
     UInt32 size;
