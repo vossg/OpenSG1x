@@ -144,7 +144,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerType : public TypeBase
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    FieldContainerType(const FieldContainerType &source);
     void operator =(const FieldContainerType &source);
 
   protected:
@@ -238,6 +237,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerType : public TypeBase
                        FieldDescription       *pDesc             = NULL,
                        UInt32                  uiDescByteCounter = 0,
                        Bool                    bDescsAddable     = false);
+    FieldContainerType(const FieldContainerType &source);
     virtual ~FieldContainerType(void); 
 
     /*----------------------------- id --------------------------------------*/

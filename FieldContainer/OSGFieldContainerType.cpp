@@ -293,14 +293,14 @@ void FieldContainerType::terminate(void)
 /** \brief Constructor
  */
 
-FieldContainerType::FieldContainerType(const Char8            *szName,
+FieldContainerType::FieldContainerType(const Char8        *szName,
                                    const Char8            *szParentName,
                                    const Char8            *szGroupName,
                                    PrototypeCreateF        fPrototypeCreate,
                                    InitContainerF          fInitMethod,
                                    FieldDescription        *pDesc,
-                                   UInt32                 uiDescByteCounter,
-                                   Bool                   bDescsAddable) :
+                                   UInt32                   uiDescByteCounter,
+                                   Bool                     bDescsAddable) :
     Inherited(szName),
     _uiGroupId(0),
 
@@ -327,6 +327,39 @@ FieldContainerType::FieldContainerType(const Char8            *szName,
 
 	if(fInitMethod != NULL)
 		fInitMethod();
+}
+
+FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
+
+    Inherited   (obj.getCName()), 
+    _uiGroupId  (obj._uiGroupId),
+
+    _bInitialized(false),
+    _bDescsAddable(obj._bDescsAddable),
+
+    _baseType(obj._baseType),
+
+    _pParent(obj._pParent), 
+
+    _szParentName (obj._szParentName),
+    _szGroupName  (obj._szGroupName),
+
+    _pPrototype      (obj._pPrototype),
+    _fPrototypeCreate(obj._fPrototypeCreate),
+
+    _pDesc            (obj._pDesc),
+    _uiDescByteCounter(obj._uiDescByteCounter),
+
+	_mDescMap(),
+    _vDescVec(0)
+{
+    if(_pPrototype != NullFC)
+        addRefCP(_pPrototype);        
+
+    initFields();
+    initParentFields();
+    
+    _bInitialized = true;
 }
 
 /** \brief Destructor
@@ -360,8 +393,8 @@ FieldContainerType *FieldContainerType::getParent(void) const
 
 FieldDescription *FieldContainerType::getFieldDescription(UInt32 uiFieldId)
 {
-    if(uiFieldId < _vDescVec.size())
-        return _vDescVec[uiFieldId];
+    if(uiFieldId - 1 < _vDescVec.size())
+        return _vDescVec[uiFieldId - 1];
     else
         return NULL;
 }
@@ -369,8 +402,8 @@ FieldDescription *FieldContainerType::getFieldDescription(UInt32 uiFieldId)
 const FieldDescription *FieldContainerType::getFieldDescription(
     UInt32 uiFieldId) const
 {
-    if(uiFieldId < _vDescVec.size())
-        return _vDescVec[uiFieldId];
+    if(uiFieldId - 1 < _vDescVec.size())
+        return _vDescVec[uiFieldId - 1];
     else
         return NULL;
 }

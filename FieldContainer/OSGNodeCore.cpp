@@ -324,6 +324,7 @@ NodeCore::~NodeCore (void )
 
 void NodeCore::finalize(void)
 {
+/*
     MFNodePtr::iterator parentIt = _parents.begin();
 
     while(parentIt != _parents.end())
@@ -331,6 +332,7 @@ void NodeCore::finalize(void)
         subRefCP(*parentIt);
         parentIt++;
     }
+*/
 }
 
 void NodeCore::addParent(const NodePtr &parent)

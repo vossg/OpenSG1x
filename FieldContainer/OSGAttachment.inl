@@ -452,7 +452,7 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
 {
     PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
 
-    for(UInt32 i = 2; i <= _localType.getNumFieldDescriptions(); i++)
+    for(UInt32 i = 2; i <= _localType.getNumFieldDescs(); i++)
     {
         returnValue->addField(*(_localType.getFieldDescription(i)));
     }
@@ -468,7 +468,7 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     ,
 {
     SDEBUG << "Dump DynFieldAttachment<> NI" << endl;
 
-    _localType.print();
+    _localType.dump();
 
     for(UInt32 i = 0; i < _dynFieldsV.size(); i++)
     {
