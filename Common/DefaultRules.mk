@@ -390,6 +390,9 @@ $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) $(SUB_SO_DEF)
 	$(LD_SHARED) $($(PROJ)SUBPRELINKPAR) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
 		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) 		 \
 		$(SO_INIT_FLAGS) $(LD_FLAGS) $(SO_DEF_FLAGS) $(STORE_SO_NAME)
+ifeq ($(OS_BASE),hpux11.00)
+	chatr +s enable $(SUB_SO)
+endif
 
 $(LIB_QT_TARGET)
 

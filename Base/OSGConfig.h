@@ -547,6 +547,8 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_NOGLUTSUBDIR
 
+# define OSG_EX_NAMESPACE std
+
 # endif // defined(__hpux) && !defined(__GNUC__)
 
 

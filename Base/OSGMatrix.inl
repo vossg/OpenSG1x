@@ -2692,7 +2692,8 @@ std::ostream &operator <<(      std::ostream                     &os,
     UInt32 i;
     UInt32 j;
 
-    ios::fmtflags oldflags = os.flags(ios::showpoint | ios::fixed);
+    std::ios::fmtflags oldflags = os.flags(std::ios::showpoint | 
+                                           std::ios::fixed);
 
     Int32 pr    = os.precision(3  );
     Char8 fill  = os.fill     (' ');
