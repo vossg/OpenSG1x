@@ -89,6 +89,15 @@ endif
 OSG_CONFIG := $(OSGROOT)/bin/osg-config 
 
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
+
+# when OpenSG is not configured with QT compile fcdCompile.
+ifeq ($(TARGET), fcdEdit)
+	ifeq ($(MOC), moc)
+		TARGET = fcdCompile
+		NOGUI = true
+	endif
+endif
+
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
 ifeq ($(NOGUI),true)
@@ -233,7 +242,7 @@ clean:
 	-rm -f $(shell grep -l "This file was generated using the moc" *.h *.cpp)
 
 Clean: clean
-	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
+	-rm -rf *.o OOBR* *.dep TAGS tags *.bin
 
 help:
 	@echo "fcdEdit make options"
