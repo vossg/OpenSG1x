@@ -1,0 +1,10 @@
+Import('*')
+
+headers, sources, tests, generated = ProcessDirs(SystemDirs)
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGSystem', sources,
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILESYSTEMLIB'],
+             CPPPATH=ExpandCPPPath(SystemDirs + BaseDirs, generated),
+             LIBPATH=['../Base'],
+             LIBS=['OSGBase${OSG_LIBSUF}', 'opengl32', 'glu32', 'winmm', 'ws2_32'])

@@ -1,0 +1,40 @@
+Import('*')
+
+# Hm, straight up Command() doesn't work
+env.Command(
+    ['lex.OSGScanParseSkel_.cc'],
+    ['OSGScanParseSkel.lpp'],
+    'cd $TARGET.dir && flex -+ -POSGScanParseSkel_ ${SOURCES[0].srcpath.abspath}')
+env.Command(
+    'OSGScanParseSkel.lex.cpp',
+    'lex.OSGScanParseSkel_.cc',
+    r'sed -e "s/\(yy\)\(text_ptr\)/OSGScanParseSkel_\2/g"' + \
+    r'    -e "s/\&cin/\&std::cin/g"' + \
+    r'    -e "s/\&cout/\&std::cout/g"' + \
+    r'    -e "s/cerr/std::cerr/g"' + \
+    r'    -e "s/class istream;/#include <iosfwd>/g"' + \
+    r'    -e "s/istream\*/\std::istream\*/g"' + \
+    r'    -e "s/ostream\*/\std::ostream\*/g"' + \
+    r'    -e "s/std::std::/std::/g"' + \
+    " < ${SOURCES[0]} > ${TARGETS[0]}")
+
+# Hm, straight up Command() doesn't work
+env.Command(
+    ['OSGScanParseSkel_.tab.c', 'OSGScanParseSkel_.tab.h', 'OSGScanParseSkel_.output'],
+    ['OSGScanParseSkel.y'],
+    'cd $TARGET.dir && bison -d -v -pOSGScanParseSkel_ -bOSGScanParseSkel_ ${SOURCES[0].srcpath.abspath}')
+InstallAs('OSGScanParseSkel.tab.cpp', 'OSGScanParseSkel_.tab.c')
+InstallAs('OSGScanParseSkel.tab.h',   'OSGScanParseSkel_.tab.h')
+InstallAs('OSGScanParseSkel.output',  'OSGScanParseSkel_.output')
+
+if env['PLATFORM'] == 'win32':
+    Install('.', GetWinPath('/usr/include/FlexLexer.h'))
+    #Install('.', 'C:/cygwin/usr/include/FlexLexer.h')
+else:
+    Install('.', '/usr/include/FlexLexer.h')
+
+# Make sure to Glob after dependencies are specified.
+Add(
+    Glob('OSG*.h') + Glob('OSG*.inl'),
+    Glob('OSG*.cpp'),
+    Glob('test*.cpp'))

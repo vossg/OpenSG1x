@@ -1,0 +1,25 @@
+Import('*')
+
+sources = Split("""
+    OSGGLUTWindow.cpp
+    OSGGLUTWindowBase.cpp
+""")
+
+headers = Split("""
+    OSGGLUTWindow.h
+    OSGGLUTWindow.inl
+    OSGGLUTWindowBase.h
+    OSGGLUTWindowBase.inl
+    OSGGLUTWindowFields.h
+    OSGWindowGLUTDef.h
+""")
+
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGWindowGLUT', sources,
+             CPPPATH=['.'] + BaseDirs + SystemDirs,
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWGLUTLIB',
+                         'OSG_WITH_GLUT'],
+             LIBPATH=['../../Base', '../../System'],
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}',
+                   'glut32', 'opengl32', 'ws2_32'])

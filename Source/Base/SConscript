@@ -1,0 +1,9 @@
+Import('*')
+
+headers, sources, tests, generated = ProcessDirs(BaseDirs)
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGBase', sources,
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEBASELIB'],
+             CPPPATH=ExpandCPPPath(BaseDirs, generated),
+             LIBS=['winmm', 'ws2_32'])

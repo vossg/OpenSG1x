@@ -1,0 +1,25 @@
+Import('*')
+
+sources = Split("""
+    OSGWIN32Window.cpp
+    OSGWIN32WindowBase.cpp
+    OSGWIN32WindowDataFields.cpp
+""")
+
+headers = Split("""
+    OSGWIN32Window.h
+    OSGWIN32Window.inl
+    OSGWIN32WindowBase.h
+    OSGWIN32WindowBase.inl
+    OSGWIN32WindowDataFields.h
+    OSGWIN32WindowFields.h
+    OSGWindowWIN32Def.h
+""")
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGWindowWIN32', sources,
+             CPPPATH=['.'] + BaseDirs + SystemDirs,
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWWIN32LIB'],
+             LIBPATH=['../../Base', '../../System'],
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}',
+                   'user32', 'gdi32', 'opengl32', 'ws2_32'])

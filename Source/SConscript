@@ -1,0 +1,134 @@
+import os
+import SCons.Node.FS
+from os.path import basename, join
+from SCons.Util import splitext
+
+Import('*')
+
+def ProcessDirs(dirs):
+    headers = []
+    sources = []
+    tests = []
+    generated = []
+    for d in dirs:
+        if d.File('SConscript').exists() or \
+               d.srcnode().File('SConscript').exists():
+            def Add(h, s, t):
+                headers.extend([d.File(n) for n in h])
+                sources.extend([d.File(n) for n in s])
+                tests  .extend([d.File(n) for n in t])
+            SConscript(dirs=[d], exports="Add")
+            generated.append(d)
+        else:
+            # Some of this logic is taken from SConscript.py in SCons.
+            
+            FS = SCons.Node.FS.default_fs
+            old_fs = FS.getcwd()
+            FS.chdir(d, change_os_dir=0)
+
+            headers.extend(map(File, Glob('OSG*.h') + Glob('OSG*.inl')))
+            sources.extend(map(File, Glob('OSG*.cpp')))
+            tests  .extend(map(File, Glob('test*.cpp')))
+
+            FS.chdir(old_fs, change_os_dir=0)
+
+    return (headers, sources, tests, generated)
+
+def InstallHeaders(env, headers):
+    env = env.Copy()
+    
+    # XXX HACK for sed
+    #env.AppendENVPath('PATH', 'C:/cygwin/bin')
+    env.AppendENVPath('PATH', GetWinPath('/bin'))
+
+    for h in headers:
+        env.Command('$PREFIX/include/OpenSG/%s' % os.path.basename(str(h)),
+                    h,
+                    r'sed -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g"' +
+                    r'    -e "s/include[ ]*\%sOSG/include \%sOpenSG\/OSG/g" ' % ('"', '"') +
+                    r'< $SOURCE > $TARGET')
+
+def InstallLibrary(env, lib):
+    env.Install('$PREFIX/lib', lib)
+
+def ExpandCPPPath(list, generated):
+    return list + generated
+
+def BuildLibrary(tc, name, sources, tools=[], updates=[], includeGen=0, **kw):
+    for env in tc.get_env_list():
+        env = env.Copy()
+        for t in tools:   env.Tool(t)
+        for u in updates: u(env)
+        apply(env.Append, [], kw)
+
+        # QT generates a header where the object file goes, so we need
+        # to include it.
+        if includeGen:
+            env.Append(CPPPATH=["${OSG_OBJDIR}"])
+
+        def base(n): return splitext(basename(str(n)))[0]
+        objects = [env.SharedObject("${OSG_OBJDIR}/" + base(k), k) for k in sources]
+        lib = env.SharedLibrary(name + '${OSG_LIBSUF}', objects)
+        InstallLibrary(env, lib)
+
+
+Export('ProcessDirs InstallHeaders ExpandCPPPath BuildLibrary')
+
+
+BaseDirs = [Dir('Base').Dir(n).srcnode() for n in Split("""
+    Base
+    Field
+    Functors
+    Network/Base
+    Network/Socket
+    StringConversion
+    Xml
+""")]
+
+SystemDirs = [Dir('System').Dir(n).srcnode() for n in Split("""
+    Action
+    Action/DrawAction
+    Action/IntersectAction
+    Action/RenderAction
+    Cluster/Base
+    Cluster/Server
+    Cluster/Window/Base
+    Cluster/Window/MultiDisplay
+    Cluster/Window/SortFirst
+    Cluster/Window/SortLast
+    FieldContainer
+    FieldContainer/Impl
+    FileIO/3DS
+    FileIO/Base
+    FileIO/BIN
+    FileIO/OBJ
+    FileIO/OFF
+    FileIO/OSG
+    FileIO/RAW
+    FileIO/ScanParseSkel
+    FileIO/WRL
+    GraphOp
+    Image
+    Material
+    NodeCores/Drawables/Base
+    NodeCores/Drawables/Geometry
+    NodeCores/Drawables/Misc
+    NodeCores/Drawables/Particles
+    NodeCores/Drawables/VolRen
+    NodeCores/Groups/Base
+    NodeCores/Groups/Light
+    NodeCores/Groups/Misc
+    RenderingBackend
+    Statistics
+    State
+    Window
+    ../Experimental/NativeFileIO
+    ../Experimental/NewAction
+    ../Experimental/NewAction/ActorCodeGen
+    ../Experimental/NewAction/Actors
+    ../Experimental/Text
+""")]
+
+Export('BaseDirs SystemDirs')
+
+SConscript(dirs=['Base', 'System', 'WindowSystem'])

@@ -1,0 +1,21 @@
+from os.path import basename, join
+from SCons.Util import splitext
+
+def InstallProgram(env, prog):
+    env.Install('$PREFIX/lib', prog)
+
+def BuildProgram(tc, name, sources, tools=[], updates=[], **kw):
+    for env in tc.get_env_list():
+        env = env.Copy()
+        for t in tools:   env.Tool(t)
+        for u in updates: u(env)
+        apply(env.Append, [], kw)
+
+        def base(n): return splitext(basename(str(n)))[0]
+        objects = [env.Object("${OSG_OBJDIR}/" + base(k), k) for k in sources]
+        prog = env.Program(name + '${OSG_PROGSUF}', objects)
+        InstallProgram(env, prog)
+
+Export('BuildProgram')
+
+SConscript(dirs = ['SceneViewer'])

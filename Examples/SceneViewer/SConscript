@@ -1,0 +1,17 @@
+Import('*')
+
+sources = Split("""
+    OSGMainView_qt.cpp
+    OSGSceneView_qt.cpp
+    main.cpp
+""")
+
+def custom(env):
+    env['QT_LIB'] = 'qt-mteval323'
+    env['CXXFILESUFFIX'] = '.cpp'
+
+BuildProgram(tc, 'osgSceneViewer', sources, tools=['qt'], updates=[custom],
+             CPPPATH=['.', env['PREFIX'].Dir('include')],
+             LIBPATH=[env['PREFIX'].Dir('lib')],
+             LIBS=['OSGWindowQT${OSG_LIBSUF}', 'OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'],
+             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

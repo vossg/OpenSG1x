@@ -1,0 +1,82 @@
+Import('*')
+
+sources = Split("""
+    OSGQFieldContainerView_qt.cpp
+    OSGQFieldEditorFactory.cpp
+    OSGQFieldEditor_qt.cpp
+    OSGQFieldLabelFactory.cpp
+    OSGQFieldValueLabel.cpp
+    OSGQFieldView_qt.cpp
+    OSGQGLManagedDesignerWidget_qt.cpp
+    OSGQGLManagedWidget_qt.cpp
+    OSGQGLWidget_qt.cpp
+    OSGQMatrixFieldValueLabel.cpp
+    OSGQNodeTreeView_qt.cpp
+    OSGQPointFieldValueLabel.cpp
+    OSGQSceneGraphViewFunctions.cpp
+    OSGQSceneGraphView_qt.cpp
+    OSGQTWindow.cpp
+    OSGQTWindowBase.cpp
+    OSGQTypedFieldValueLabel.cpp
+    OSGQVectorFieldValueLabel.cpp
+    OSGQWidgetFunctions.cpp
+    OSGWindowQTPlugin.cpp
+""")
+
+headers = Split("""
+    OSGQFieldContainerView_qt.h
+    OSGQFieldEditorFactory.h
+    OSGQFieldEditor_qt.h
+    OSGQFieldLabelFactory.h
+    OSGQFieldValueLabel.h
+    OSGQFieldView_qt.h
+    OSGQGLManagedDesignerWidget_qt.h
+    OSGQGLManagedWidget_qt.h
+    OSGQGLWidget_qt.h
+    OSGQMatrixFieldValueLabel.h
+    OSGQNodeTreeView_qt.h
+    OSGQPointFieldValueLabel.h
+    OSGQSceneGraphViewFunctions.h
+    OSGQSceneGraphView_qt.h
+    OSGQTWindow.h
+    OSGQTWindowBase.h
+    OSGQTWindowDataFields.h
+    OSGQTWindowFields.h
+    OSGQTypedFieldValueLabel.h
+    OSGQVectorFieldValueLabel.h
+    OSGQWidgetFunctions.h
+    OSGWindowQTDef.h
+    OSGWindowQTPlugin.h
+    OSGQFieldContainerView_qt.inl
+    OSGQFieldEditor_qt.inl
+    OSGQFieldLabelFactory.inl
+    OSGQFieldValueLabel.inl
+    OSGQFieldView_qt.inl
+    OSGQGLWidget_qt.inl
+    OSGQMatrixFieldValueLabel.inl
+    OSGQPointFieldValueLabel.inl
+    OSGQTWindow.inl
+    OSGQTWindowBase.inl
+    OSGQVectorFieldValueLabel.inl
+    OSGQWidgetFunctions.inl
+""")
+
+InstallHeaders(env, headers)
+
+def custom(env):
+    # By default, SCons/QT generates moc_<file>.cpp
+    env['QT_MOCNAMEGENERATOR'] = lambda x, src_suffix, env: x + '_moc.cpp'
+    env['QT_AUTOBUILD_MOC_SOURCES'] = 0
+    env['QT_LIB'] = 'qt-mteval323'
+
+    # Otherwise QT/moc tries to generate .cc files.
+    env['CXXFILESUFFIX'] = '.cpp'
+
+BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'], updates=[custom],
+             includeGen=1,
+             CPPPATH = ['.'] + BaseDirs + SystemDirs + ['../WIN32'],
+             CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
+                           'OSG_WITH_QT'],
+             LIBPATH = ['../../Base', '../../System', '../WIN32'],
+             LIBS = ['OSGWindowWIN32${OSG_LIBSUF}', 'OSGSystem${OSG_LIBSUF}',
+                     'OSGBase${OSG_LIBSUF}', 'ws2_32'])
