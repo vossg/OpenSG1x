@@ -62,6 +62,8 @@
 #include <OSGImageFileHandler.h>
 #include <OSGGroup.h>
 
+#include <OSGPathHandler.h>
+
 #include "OSGOBJSceneFileType.h"
 
 OSG_USING_NAMESPACE
@@ -76,7 +78,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.18 2001/10/16 10:58:37 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.19 2001/10/16 12:06:54 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -160,6 +162,10 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   std::list<Face>::iterator faceI;
   std::list<Mesh>::iterator meshI;
 
+  // Path handler for material files
+  PathHandler ph;
+  ph.setBaseFile(fileName);
+  
   // create the first mesh entry
   meshList.push_back(emptyMesh);
   meshI = meshList.begin();
@@ -204,7 +210,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 break;
               case MTL_LIB_DE:
                 in >> elem;
-                readMTL (elem.c_str(), mtlMap);
+                readMTL ( ph.findFile(elem.c_str()).c_str(), mtlMap);
                 in.ignore(INT_MAX, '\n'); 
                 break;
               case USE_MTL_DE:
