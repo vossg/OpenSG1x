@@ -86,6 +86,7 @@
 #include <OSGGL.h>                        // PointSprite default header
 #include <OSGGL.h>                        // ShaderOperation default header
 #include <OSGGL.h>                        // ShaderInput default header
+#include <OSGGL.h>                        // ShaderRGBADotProduct default header
 
 OSG_USING_NAMESPACE
 
@@ -197,8 +198,14 @@ const OSG::BitVector  TextureChunkBase::ShaderOffsetScaleFieldMask =
 const OSG::BitVector  TextureChunkBase::ShaderOffsetBiasFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::ShaderOffsetBiasFieldId);
 
-const OSG::BitVector  TextureChunkBase::ShaderRGBADotProductIdentityFieldMask = 
-    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderRGBADotProductIdentityFieldId);
+const OSG::BitVector  TextureChunkBase::ShaderRGBADotProductFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderRGBADotProductFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderCullModesFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderCullModesFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderConstEyeFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderConstEyeFieldId);
 
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -315,8 +322,14 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 /*! \var Real32          TextureChunkBase::_sfShaderOffsetBias
     The bias factor for scaled offset textures.
 */
-/*! \var bool            TextureChunkBase::_sfShaderRGBADotProductIdentity
+/*! \var GLenum          TextureChunkBase::_sfShaderRGBADotProduct
     The RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV value.
+*/
+/*! \var UInt8           TextureChunkBase::_sfShaderCullModes
+    The CULL_MODES_NV value, coded into a single byte. The first 4 bits of         the byte are used to indicate the wnated cull modes, a value of 0          signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the         S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4          (mask 8) for Q.
+*/
+/*! \var Vec3f           TextureChunkBase::_sfShaderConstEye
+    The CONST_EYE_NV value, i.e. the constant eye position used by the          DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
 */
 
 //! TextureChunk description
@@ -503,11 +516,21 @@ FieldDescription *TextureChunkBase::_desc[] =
                      ShaderOffsetBiasFieldId, ShaderOffsetBiasFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFShaderOffsetBias),
-    new FieldDescription(SFBool::getClassType(), 
-                     "shaderRGBADotProductIdentity", 
-                     ShaderRGBADotProductIdentityFieldId, ShaderRGBADotProductIdentityFieldMask,
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "shaderRGBADotProduct", 
+                     ShaderRGBADotProductFieldId, ShaderRGBADotProductFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFShaderRGBADotProductIdentity)
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderRGBADotProduct),
+    new FieldDescription(SFUInt8::getClassType(), 
+                     "shaderCullModes", 
+                     ShaderCullModesFieldId, ShaderCullModesFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderCullModes),
+    new FieldDescription(SFVec3f::getClassType(), 
+                     "shaderConstEye", 
+                     ShaderConstEyeFieldId, ShaderConstEyeFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderConstEye)
 };
 
 
@@ -599,7 +622,9 @@ TextureChunkBase::TextureChunkBase(void) :
     _mfShaderOffsetMatrix     (), 
     _sfShaderOffsetScale      (), 
     _sfShaderOffsetBias       (), 
-    _sfShaderRGBADotProductIdentity(bool(true)), 
+    _sfShaderRGBADotProduct   (GLenum(GL_NONE)), 
+    _sfShaderCullModes        (UInt8(0)), 
+    _sfShaderConstEye         (), 
     Inherited() 
 {
 }
@@ -645,7 +670,9 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _mfShaderOffsetMatrix     (source._mfShaderOffsetMatrix     ), 
     _sfShaderOffsetScale      (source._sfShaderOffsetScale      ), 
     _sfShaderOffsetBias       (source._sfShaderOffsetBias       ), 
-    _sfShaderRGBADotProductIdentity(source._sfShaderRGBADotProductIdentity), 
+    _sfShaderRGBADotProduct   (source._sfShaderRGBADotProduct   ), 
+    _sfShaderCullModes        (source._sfShaderCullModes        ), 
+    _sfShaderConstEye         (source._sfShaderConstEye         ), 
     Inherited                 (source)
 {
 }
@@ -842,9 +869,19 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShaderOffsetBias.getBinSize();
     }
 
-    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+    if(FieldBits::NoField != (ShaderRGBADotProductFieldMask & whichField))
     {
-        returnValue += _sfShaderRGBADotProductIdentity.getBinSize();
+        returnValue += _sfShaderRGBADotProduct.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderCullModesFieldMask & whichField))
+    {
+        returnValue += _sfShaderCullModes.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderConstEyeFieldMask & whichField))
+    {
+        returnValue += _sfShaderConstEye.getBinSize();
     }
 
 
@@ -1036,9 +1073,19 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfShaderOffsetBias.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+    if(FieldBits::NoField != (ShaderRGBADotProductFieldMask & whichField))
     {
-        _sfShaderRGBADotProductIdentity.copyToBin(pMem);
+        _sfShaderRGBADotProduct.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderCullModesFieldMask & whichField))
+    {
+        _sfShaderCullModes.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderConstEyeFieldMask & whichField))
+    {
+        _sfShaderConstEye.copyToBin(pMem);
     }
 
 
@@ -1229,9 +1276,19 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfShaderOffsetBias.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+    if(FieldBits::NoField != (ShaderRGBADotProductFieldMask & whichField))
     {
-        _sfShaderRGBADotProductIdentity.copyFromBin(pMem);
+        _sfShaderRGBADotProduct.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderCullModesFieldMask & whichField))
+    {
+        _sfShaderCullModes.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderConstEyeFieldMask & whichField))
+    {
+        _sfShaderConstEye.copyFromBin(pMem);
     }
 
 
@@ -1351,8 +1408,14 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (ShaderOffsetBiasFieldMask & whichField))
         _sfShaderOffsetBias.syncWith(pOther->_sfShaderOffsetBias);
 
-    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
-        _sfShaderRGBADotProductIdentity.syncWith(pOther->_sfShaderRGBADotProductIdentity);
+    if(FieldBits::NoField != (ShaderRGBADotProductFieldMask & whichField))
+        _sfShaderRGBADotProduct.syncWith(pOther->_sfShaderRGBADotProduct);
+
+    if(FieldBits::NoField != (ShaderCullModesFieldMask & whichField))
+        _sfShaderCullModes.syncWith(pOther->_sfShaderCullModes);
+
+    if(FieldBits::NoField != (ShaderConstEyeFieldMask & whichField))
+        _sfShaderConstEye.syncWith(pOther->_sfShaderConstEye);
 
 
 }

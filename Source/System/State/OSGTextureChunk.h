@@ -126,6 +126,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     void setImage           (ImagePtr &pImage);
 
+    inline void setShaderOffsetMatrix(Real32 m11, Real32 m12, 
+                                      Real32 m21, Real32 m22);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name             Multitexture handling                            */
@@ -180,6 +183,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     static UInt32 _arbMultiTex;
     static UInt32 _nvPointSprite;
     static UInt32 _nvTextureShader;
+    static UInt32 _nvTextureShader2;
+    static UInt32 _nvTextureShader3;
     
     // extension indices for used fucntions;
     static UInt32 _funcTexImage3D;

@@ -348,11 +348,25 @@ SFReal32 *TextureChunkBase::getSFShaderOffsetBias(void)
     return &_sfShaderOffsetBias;
 }
 
-//! Get the TextureChunk::_sfShaderRGBADotProductIdentity field.
+//! Get the TextureChunk::_sfShaderRGBADotProduct field.
 inline
-SFBool *TextureChunkBase::getSFShaderRGBADotProductIdentity(void)
+SFGLenum *TextureChunkBase::getSFShaderRGBADotProduct(void)
 {
-    return &_sfShaderRGBADotProductIdentity;
+    return &_sfShaderRGBADotProduct;
+}
+
+//! Get the TextureChunk::_sfShaderCullModes field.
+inline
+SFUInt8 *TextureChunkBase::getSFShaderCullModes(void)
+{
+    return &_sfShaderCullModes;
+}
+
+//! Get the TextureChunk::_sfShaderConstEye field.
+inline
+SFVec3f *TextureChunkBase::getSFShaderConstEye(void)
+{
+    return &_sfShaderConstEye;
 }
 
 
@@ -1091,25 +1105,67 @@ void TextureChunkBase::setShaderOffsetBias(const Real32 &value)
     _sfShaderOffsetBias.setValue(value);
 }
 
-//! Get the value of the TextureChunk::_sfShaderRGBADotProductIdentity field.
+//! Get the value of the TextureChunk::_sfShaderRGBADotProduct field.
 inline
-bool &TextureChunkBase::getShaderRGBADotProductIdentity(void)
+GLenum &TextureChunkBase::getShaderRGBADotProduct(void)
 {
-    return _sfShaderRGBADotProductIdentity.getValue();
+    return _sfShaderRGBADotProduct.getValue();
 }
 
-//! Get the value of the TextureChunk::_sfShaderRGBADotProductIdentity field.
+//! Get the value of the TextureChunk::_sfShaderRGBADotProduct field.
 inline
-const bool &TextureChunkBase::getShaderRGBADotProductIdentity(void) const
+const GLenum &TextureChunkBase::getShaderRGBADotProduct(void) const
 {
-    return _sfShaderRGBADotProductIdentity.getValue();
+    return _sfShaderRGBADotProduct.getValue();
 }
 
-//! Set the value of the TextureChunk::_sfShaderRGBADotProductIdentity field.
+//! Set the value of the TextureChunk::_sfShaderRGBADotProduct field.
 inline
-void TextureChunkBase::setShaderRGBADotProductIdentity(const bool &value)
+void TextureChunkBase::setShaderRGBADotProduct(const GLenum &value)
 {
-    _sfShaderRGBADotProductIdentity.setValue(value);
+    _sfShaderRGBADotProduct.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderCullModes field.
+inline
+UInt8 &TextureChunkBase::getShaderCullModes(void)
+{
+    return _sfShaderCullModes.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderCullModes field.
+inline
+const UInt8 &TextureChunkBase::getShaderCullModes(void) const
+{
+    return _sfShaderCullModes.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderCullModes field.
+inline
+void TextureChunkBase::setShaderCullModes(const UInt8 &value)
+{
+    _sfShaderCullModes.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderConstEye field.
+inline
+Vec3f &TextureChunkBase::getShaderConstEye(void)
+{
+    return _sfShaderConstEye.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderConstEye field.
+inline
+const Vec3f &TextureChunkBase::getShaderConstEye(void) const
+{
+    return _sfShaderConstEye.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderConstEye field.
+inline
+void TextureChunkBase::setShaderConstEye(const Vec3f &value)
+{
+    _sfShaderConstEye.setValue(value);
 }
 
 

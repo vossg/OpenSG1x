@@ -88,6 +88,9 @@ PageSystemPointChunk for details. The two parameters
 osg::TextureChunk::_sfScale and osg::TextureChunk::_sfFrame specify details
 about the texture.
 
+On hardware that supports it (i.e. NVidia boards) the texture shader
+extension(s) are also available.
+
 */
 
 /***************************************************************************\
@@ -103,6 +106,8 @@ UInt32 TextureChunk::_arbMultiTex;
 UInt32 TextureChunk::_arbCubeTex;
 UInt32 TextureChunk::_nvPointSprite;
 UInt32 TextureChunk::_nvTextureShader;
+UInt32 TextureChunk::_nvTextureShader2;
+UInt32 TextureChunk::_nvTextureShader3;
 UInt32 TextureChunk::_funcTexImage3D    = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
@@ -153,6 +158,10 @@ TextureChunk::TextureChunk(void) :
         Window::registerExtension("GL_NV_point_sprite"     );
     _nvTextureShader   = 
         Window::registerExtension("GL_NV_texture_shader"   );
+    _nvTextureShader2  = 
+        Window::registerExtension("GL_NV_texture_shader2"  );
+    _nvTextureShader3  = 
+        Window::registerExtension("GL_NV_texture_shader3"  );
     _funcTexImage3D    = 
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
     _funcTexSubImage3D = 
@@ -235,14 +244,9 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
 
 bool TextureChunk::isTransparent(void) const
 {
-    bool returnValue = false;
-
-    if(getImage() != NullFC)
-    {
-        returnValue = getImage()->hasAlphaChannel() && getEnvMode() != GL_DECAL;
-    }
-
-    return returnValue;
+    // Even if the texture has alpha, the Blending is makes the sorting
+    // important, thus textures per se are not transparent
+    return false;
 }
 
 
@@ -296,13 +300,6 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
 		    FINFO(("NV Texture Shaders not supported on Window %p!\n", win));
 		return;
 	}
-
-    if(bindtarget != GL_TEXTURE_2D)
-    {
-        FWARNING(("TextureChunk::handleTextureShader: shader only defined "
-                    "for target GL_TEXTURE_2D, not %d!\n", bindtarget));
-        return;
-    }
      
     glErr("textureShader precheck");
     
@@ -313,6 +310,12 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
     
     if(getShaderOperation() == GL_NONE)
         return;
+
+    if(bindtarget == GL_TEXTURE_3D && !win->hasExtension(_nvTextureShader2))
+    {
+        FINFO(("NV Texture Shaders 2 not supported on Window %p!\n", win));
+        return;
+    }
     
     if(getShaderInput() != GL_NONE)
         glTexEnvi(GL_TEXTURE_SHADER_NV, GL_PREVIOUS_TEXTURE_INPUT_NV,
@@ -320,13 +323,11 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
         
     glErr("textureShader setup: input");
     
-    glTexEnvi(GL_TEXTURE_SHADER_NV, GL_RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV,
-                getShaderRGBADotProductIdentity() ? 
-                        GL_UNSIGNED_IDENTITY_NV :
-                        GL_EXPAND_NORMAL_NV
-              );
+    if(getShaderRGBADotProduct() != GL_NONE)
+        glTexEnvi(GL_TEXTURE_SHADER_NV, GL_RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV,
+                    getShaderRGBADotProduct());
          
-    glErr("textureShader setup: rgba dotprodidnet");
+    glErr("textureShader setup: rgba dotprod");
    
     if(getShaderOffsetMatrix().size() == 4)
     {
@@ -351,6 +352,56 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
                 getShaderOffsetBias());
         
     glErr("textureShader setup: offset bias");
+    
+    GLint cullmodes[4];
+    if(getShaderCullModes() & 0x1)
+    {
+        cullmodes[0] = GL_GEQUAL;
+    }
+    else
+    {
+        cullmodes[0] = GL_LESS;
+    }
+    
+    if(getShaderCullModes() & 0x2)
+    {
+        cullmodes[1] = GL_GEQUAL;
+    }
+    else
+    {
+        cullmodes[1] = GL_LESS;
+    }
+    
+    if(getShaderCullModes() & 0x4)
+    {
+        cullmodes[2] = GL_GEQUAL;
+    }
+    else
+    {
+        cullmodes[2] = GL_LESS;
+    }
+    
+    if(getShaderCullModes() & 0x8)
+    {
+        cullmodes[3] = GL_GEQUAL;
+    }
+    else
+    {
+        cullmodes[3] = GL_LESS;
+    }
+    
+    glTexEnviv(GL_TEXTURE_SHADER_NV, GL_CULL_MODES_NV, 
+                    cullmodes);
+       
+    glErr("textureShader setup: cull modes");
+    
+    glTexEnvfv(GL_TEXTURE_SHADER_NV, GL_CONST_EYE_NV, 
+                    getShaderConstEye().getValues());
+       
+    glErr("textureShader setup: const eye");
+
+    
+    
 #ifdef OSG_DEBUG
     GLint consistent;
     glGetTexEnviv(GL_TEXTURE_SHADER_NV, GL_SHADER_CONSISTENT_NV,

@@ -98,8 +98,6 @@ Int16 ProgramChunk::findParameter(const char *name)
     return findParameter(std::string(name));
 }
 
-
-
 OSG_END_NAMESPACE
 
 #define OSGPROGRAMCHUNK_INLINE_CVSID "@(#)$Id: $"

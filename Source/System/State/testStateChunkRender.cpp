@@ -76,11 +76,30 @@ display(void)
     lichunk2->deactivate( dact );
     blchunk->deactivate( dact );
 
+
     xchunk1->activate( dact );
     txchunk->activate( dact );
 
+#if 0
+glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_PASS_THROUGH_NV);
+glTexEnvi(GL_TEXTURE_SHADER_NV, GL_RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV,34102
+);
+glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_SCALE_NV, 0.0000 );
+glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_BIAS_NV, 0.0000 );
+
+glEnable(GL_TEXTURE_SHADER_NV);
+GLint consistent;
+glGetTexEnviv(GL_TEXTURE_SHADER_NV, GL_SHADER_CONSISTENT_NV,
+      &consistent);
+if(!consistent)
+{
+    FWARNING(("Texture shaders not consistent!\n"));
+}
+#endif
+   
     glCallList( dlid2 );
 
+// glDisable(GL_TEXTURE_SHADER_NV);
     xchunk1->deactivate( dact );
     txchunk->deactivate( dact );
 
@@ -222,7 +241,7 @@ int main( int argc, char *argv[] )
            255,255,0,  255,255,0,  255,255,255, };
 //  UChar8 limgdata[] =
 //      {  0, 128, 64, 255 };
-    pImage->set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
+    pImage->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
         pImage->read( argv[1] );
@@ -239,6 +258,9 @@ int main( int argc, char *argv[] )
     xchunk1->setEnvMode( GL_REPLACE );
     xchunk1->setEnvColor( Color4f(.5,.5,.5,0) );
     xchunk1->setScale( false );
+    
+//    xchunk1->setShaderOperation(GL_PASS_THROUGH_NV);
+    
     endEditCP(xchunk1);
 
     xchunk1->imageContentChanged();

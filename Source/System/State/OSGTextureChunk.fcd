@@ -407,14 +407,41 @@
         The bias factor for scaled offset textures.
 	</Field>
 	<Field
-		name="shaderRGBADotProductIdentity"
-		type="bool"
+		name="shaderRGBADotProduct"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="true"
-		defaultHeader=""
+		defaultValue="GL_NONE"
+		defaultHeader="<OSGGL.h>"
 	>
         The RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV value.
+	</Field>
+	<Field
+		name="shaderCullModes"
+		type="UInt8"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="0"
+		defaultHeader=""
+	>
+        The CULL_MODES_NV value, coded into a single byte. The first 4 bits of
+        the byte are used to indicate the wnated cull modes, a value of 0 
+        signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the
+        S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4 
+        (mask 8) for Q.
+	</Field>
+	<Field
+		name="shaderConstEye"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue=""
+		defaultHeader=""
+	>
+        The CONST_EYE_NV value, i.e. the constant eye position used by the 
+        DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
 	</Field>
 </FieldContainer>

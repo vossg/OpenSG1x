@@ -69,4 +69,65 @@
 	>
         The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
 	</Field>
+	<Field
+		name="backMaterial"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+	>
+        Switch for using separate material properties for front- and back-facing
+        polygons. If set to false the standard parameters will be used for front- and 
+        backfaces.
+	</Field>
+	<Field
+		name="backDiffuse"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,0"
+	>
+	</Field>
+	<Field
+		name="backAmbient"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue=".2,.2,.2,0"
+	>
+	</Field>
+	<Field
+		name="backSpecular"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue=".5,.5,.5,0"
+	>
+	</Field>
+	<Field
+		name="backEmission"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,0"
+	>
+	</Field>
+	<Field
+		name="backShininess"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="10"
+	>
+	</Field>
+	<Field
+		name="backColorMaterial"
+		type="GLenum"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_NONE"
+		defaultHeader="<OSGGL.h>"
+	>
+        The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
+	</Field>       
 </FieldContainer>

@@ -72,6 +72,13 @@
 #include <OSGReal32Fields.h> // Shininess type
 #include <OSGBoolFields.h> // Lit type
 #include <OSGGLenumFields.h> // ColorMaterial type
+#include <OSGBoolFields.h> // BackMaterial type
+#include <OSGColor4fFields.h> // BackDiffuse type
+#include <OSGColor4fFields.h> // BackAmbient type
+#include <OSGColor4fFields.h> // BackSpecular type
+#include <OSGColor4fFields.h> // BackEmission type
+#include <OSGReal32Fields.h> // BackShininess type
+#include <OSGGLenumFields.h> // BackColorMaterial type
 
 #include <OSGMaterialChunkFields.h>
 
@@ -93,14 +100,21 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
     enum
     {
-        DiffuseFieldId       = Inherited::NextFieldId,
-        AmbientFieldId       = DiffuseFieldId       + 1,
-        SpecularFieldId      = AmbientFieldId       + 1,
-        EmissionFieldId      = SpecularFieldId      + 1,
-        ShininessFieldId     = EmissionFieldId      + 1,
-        LitFieldId           = ShininessFieldId     + 1,
-        ColorMaterialFieldId = LitFieldId           + 1,
-        NextFieldId          = ColorMaterialFieldId + 1
+        DiffuseFieldId           = Inherited::NextFieldId,
+        AmbientFieldId           = DiffuseFieldId           + 1,
+        SpecularFieldId          = AmbientFieldId           + 1,
+        EmissionFieldId          = SpecularFieldId          + 1,
+        ShininessFieldId         = EmissionFieldId          + 1,
+        LitFieldId               = ShininessFieldId         + 1,
+        ColorMaterialFieldId     = LitFieldId               + 1,
+        BackMaterialFieldId      = ColorMaterialFieldId     + 1,
+        BackDiffuseFieldId       = BackMaterialFieldId      + 1,
+        BackAmbientFieldId       = BackDiffuseFieldId       + 1,
+        BackSpecularFieldId      = BackAmbientFieldId       + 1,
+        BackEmissionFieldId      = BackSpecularFieldId      + 1,
+        BackShininessFieldId     = BackEmissionFieldId      + 1,
+        BackColorMaterialFieldId = BackShininessFieldId     + 1,
+        NextFieldId              = BackColorMaterialFieldId + 1
     };
 
     static const OSG::BitVector DiffuseFieldMask;
@@ -110,7 +124,16 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     static const OSG::BitVector ShininessFieldMask;
     static const OSG::BitVector LitFieldMask;
     static const OSG::BitVector ColorMaterialFieldMask;
+    static const OSG::BitVector BackMaterialFieldMask;
+    static const OSG::BitVector BackDiffuseFieldMask;
+    static const OSG::BitVector BackAmbientFieldMask;
+    static const OSG::BitVector BackSpecularFieldMask;
+    static const OSG::BitVector BackEmissionFieldMask;
+    static const OSG::BitVector BackShininessFieldMask;
+    static const OSG::BitVector BackColorMaterialFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -141,6 +164,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
            SFReal32            *getSFShininess      (void);
            SFBool              *getSFLit            (void);
            SFGLenum            *getSFColorMaterial  (void);
+           SFBool              *getSFBackMaterial   (void);
+           SFColor4f           *getSFBackDiffuse    (void);
+           SFColor4f           *getSFBackAmbient    (void);
+           SFColor4f           *getSFBackSpecular   (void);
+           SFColor4f           *getSFBackEmission   (void);
+           SFReal32            *getSFBackShininess  (void);
+           SFGLenum            *getSFBackColorMaterial(void);
 
            Color4f             &getDiffuse        (void);
      const Color4f             &getDiffuse        (void) const;
@@ -156,6 +186,20 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
      const bool                &getLit            (void) const;
            GLenum              &getColorMaterial  (void);
      const GLenum              &getColorMaterial  (void) const;
+           bool                &getBackMaterial   (void);
+     const bool                &getBackMaterial   (void) const;
+           Color4f             &getBackDiffuse    (void);
+     const Color4f             &getBackDiffuse    (void) const;
+           Color4f             &getBackAmbient    (void);
+     const Color4f             &getBackAmbient    (void) const;
+           Color4f             &getBackSpecular   (void);
+     const Color4f             &getBackSpecular   (void) const;
+           Color4f             &getBackEmission   (void);
+     const Color4f             &getBackEmission   (void) const;
+           Real32              &getBackShininess  (void);
+     const Real32              &getBackShininess  (void) const;
+           GLenum              &getBackColorMaterial(void);
+     const GLenum              &getBackColorMaterial(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,6 +213,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
      void setShininess      ( const Real32 &value );
      void setLit            ( const bool &value );
      void setColorMaterial  ( const GLenum &value );
+     void setBackMaterial   ( const bool &value );
+     void setBackDiffuse    ( const Color4f &value );
+     void setBackAmbient    ( const Color4f &value );
+     void setBackSpecular   ( const Color4f &value );
+     void setBackEmission   ( const Color4f &value );
+     void setBackShininess  ( const Real32 &value );
+     void setBackColorMaterial( const GLenum &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -221,6 +272,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     SFReal32            _sfShininess;
     SFBool              _sfLit;
     SFGLenum            _sfColorMaterial;
+    SFBool              _sfBackMaterial;
+    SFColor4f           _sfBackDiffuse;
+    SFColor4f           _sfBackAmbient;
+    SFColor4f           _sfBackSpecular;
+    SFColor4f           _sfBackEmission;
+    SFReal32            _sfBackShininess;
+    SFGLenum            _sfBackColorMaterial;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

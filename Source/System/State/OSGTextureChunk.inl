@@ -104,6 +104,18 @@ void TextureChunk::activateTexture(Window *win, UInt16 texture)
         activeTexture(win, texture);
 }
 
+inline
+void TextureChunk::setShaderOffsetMatrix(Real32 m11, Real32 m12, 
+                                         Real32 m21, Real32 m22)
+{
+    getShaderOffsetMatrix().resize(4);
+    getShaderOffsetMatrix().setValue(m11, 0);
+    getShaderOffsetMatrix().setValue(m12, 1);
+    getShaderOffsetMatrix().setValue(m21, 2);
+    getShaderOffsetMatrix().setValue(m22, 3);
+}
+
+
 OSG_END_NAMESPACE
 
 #define OSGTEXTURECHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"

@@ -265,6 +265,20 @@ Scenes that use more textures than fit into texture memory will always incur a
 noticable performance penalty. \hint Currently it is not advisable to change 
 the priority dynamically. \endhint
 
+The TextureChunk supports the ARB_texture_env_combine (and
+ARB_texture_env_crossbar) extension. Use the env* Fields to set the
+parameters, see the OpenSG Extension registry for a detailed description 
+(http://oss.sgi.com/projects/ogl-sample/registry/ARB/texture_env_combine.txt).
+
+On systems that support it (i.e. nVidia cards) you can also use the texture 
+shader extension(s). These are defined by the shader* Fields, see 
+http://oss.sgi.com/projects/ogl-sample/registry/NV/texture_shader.txt for a 
+detailed description. 
+
+Note: to use the texture shaders, all active texture units need to have a
+valid shaderOperation (i.e. different from GL_NONE). Whether to enable
+shaders is triggered by the shaderOperation of texture unit 0.
+
 \section PageSystemTextureTransformChunk TextureTransformChunk
 
 Chunk for texture coordinate transformations, uses a simple matrix to
