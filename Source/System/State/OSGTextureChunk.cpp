@@ -1383,32 +1383,34 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB, 
-                              mode, getImage(), 5);        
+                              mode, getImage(), 5); 
+                // Have to use initialize mode here, otherwise the
+                // texture is destroyed for every side      
                 handleTexture(win, id, 
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_NONE, 
                               GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB, 
-                              mode, getImage(), 4);        
+                              Window::initialize, getImage(), 4);        
                 handleTexture(win, id, 
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_NONE, 
                               GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB, 
-                              mode, getImage(), 3);        
+                              Window::initialize, getImage(), 3);        
                 handleTexture(win, id, 
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_NONE, 
                               GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB, 
-                              mode, getImage(), 2);        
+                              Window::initialize, getImage(), 2);        
                 handleTexture(win, id, 
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_NONE, 
                               GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB, 
-                              mode, getImage(), 1);        
-               handleTexture(win, id, 
+                              Window::initialize, getImage(), 1);        
+                handleTexture(win, id, 
                               GL_TEXTURE_CUBE_MAP_ARB, 
                               GL_NONE, 
                               GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB, 
-                              mode, getImage(), 0);        
+                              Window::initialize, getImage(), 0);        
 
             }
         }
