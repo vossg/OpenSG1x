@@ -226,7 +226,7 @@ UInt64 ImageFileType::restore( ImagePtr &image,
                        head->height, head->depth, head->mipmapCount,
                        head->frameCount, float(head->frameDelay) / 1000.0, 0);
             imageSize = type->restoreData(image, data, memSize - headSize);
-            attachmentSize = head->attachmentSize;
+            attachmentSize = 0; // head->attachmentSize;
 
             /*
             if ((attachmentSize = head->attachmentSize))
@@ -412,6 +412,7 @@ UInt64 ImageFileType::maxBufferSize(const ImagePtr &image)
     attachmentSize = 0;
 
     // get attachment size
+		/*
     ImageGenericAttPtr att=ImageGenericAttPtr::dcast(
         const_cast<Image*>(image.getCPtr())->findAttachment(
             ImageGenericAtt::getClassType().getGroupId()));
@@ -433,6 +434,7 @@ UInt64 ImageFileType::maxBufferSize(const ImagePtr &image)
             }
         }
     }
+		*/
 
     size = headSize + imageSize + attachmentSize;
   
