@@ -285,7 +285,7 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend OSG_BASE_DLLMAPPING inline void initLog(void);
+    friend OSG_BASE_DLLMAPPING void initLog(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -363,7 +363,7 @@ typedef Log *LogP;
 extern OSG_BASE_DLLMAPPING LogP osgLogP;
 
 
-inline OSG_BASE_DLLMAPPING void     initLog    (void);
+       OSG_BASE_DLLMAPPING void     initLog    (void);
 inline OSG_BASE_DLLMAPPING Log     &osgLog     (void);
 inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      Bool      logHeader,
                                                       LogLevel  level,
