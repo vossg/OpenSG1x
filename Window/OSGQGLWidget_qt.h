@@ -46,6 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef OSG_WITH_QT
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -220,5 +222,6 @@ OSG_END_NAMESPACE
 
 #include <OSGQGLWidget_qt.inl>
 
+#endif /* OSG_WITH_QT */
 
 #endif /* _OSG_QGLWIDGET_H_ */

@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef OSG_WITH_QT
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -81,7 +82,7 @@ The QTWindow class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.4 2001/02/13 16:01:29 dirk Exp $";
+char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.5 2001/02/15 16:34:14 vossg Exp $";
 
 // Static Class Varible implementations: 
 
@@ -253,3 +254,4 @@ void QTWindow::dump(      UInt32     uiIndent,
 //s: 
 ///---------------------------------------------------------------------------
 
+#endif /* OSG_WITH_QT */

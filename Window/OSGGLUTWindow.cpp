@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef OSG_WITH_GLUT
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -246,3 +247,4 @@ void GLUTWindow::dump(      UInt32     uiIndent,
 //s: 
 ///---------------------------------------------------------------------------
 
+#endif // OSG_WITH_GLUT

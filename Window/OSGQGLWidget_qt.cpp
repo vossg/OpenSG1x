@@ -40,6 +40,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef OSG_WITH_QT
+
 #define OSG_COMPILEWINDOW
 
 #include <stdlib.h>
@@ -200,3 +202,5 @@ OSGQGLWidget::~OSGQGLWidget( void )
 #ifdef __sgi
 #pragma reset woff 1375
 #endif
+
+#endif /* OSG_WITH_QT */

@@ -46,6 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef OSG_WITH_QT
+
 #ifdef __sgi
 #pragma set woff 1375
 #endif
@@ -294,5 +296,7 @@ OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 OSG_END_NAMESPACE
 
 #include <OSGQTWindow.inl>
+
+#endif /* OSG_WITH_QT */
 
 #endif /* _OSG_QT_WINDOW_H_ */

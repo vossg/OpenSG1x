@@ -46,6 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef OSG_WITH_GLUT
+
 #include "OSGWindowBase.h"
 #include "OSGWindow.h"
 
@@ -270,5 +272,7 @@ OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 OSG_END_NAMESPACE
 
 #include "OSGGLUTWindow.inl"
+
+#endif /* OSG_WITH_GLUT */
 
 #endif /* _OSG_GLUT_WINDOW_H_ */

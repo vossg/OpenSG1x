@@ -8,9 +8,9 @@ CYNWINCONTRIBBIN     = $(CYNWINCONTRIB)/bin
 INCLUDE_SYSTEM		 = $(MSDIR)/VC98/Include
 INCLUDE_SYSTEM      := "$(shell cygpath -w $(INCLUDE_SYSTEM))"
 
-ICL_VERSION          = 50
+ICL_VERSION          = 45
 
-ICL_BASEDIR          = $(SOFTDIR)$(ICL_VERSION)/ia32
+ICL_BASEDIR          = $(SOFTDIR)$(ICL_VERSION)
 
 INCLUDE_SYSTEM_CC	 = #$(ICL_BASEDIR)/include
 

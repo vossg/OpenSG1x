@@ -274,6 +274,9 @@ ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler
 AC_CONFIG_HEADER($ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in)
 
 if [[ $build_os = cygwin ]]; then 
+	if [[ ! -w $ac_gdz_package_sub_dir_out/Base ]]; then
+		mkdir $ac_gdz_package_sub_dir_out/Base
+	fi
 	touch $ac_gdz_package_sub_dir_out/Base/unistd.h
     ac_gdz_gen_base_inc_e1="..\\Base"
 else
