@@ -79,9 +79,10 @@ typedef FCPtr<NodeCorePtr, Group> GroupPtr;
  */
 
 template <>
-struct FieldDataTraits<GroupPtr> : public Traits
+struct FieldDataTraits<GroupPtr> : public FieldTraitsRecurseMapper<GroupPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFGroupPtr"; }
     static char *getMName(void) { return "MFGroupPtr"; }

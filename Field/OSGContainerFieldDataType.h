@@ -41,7 +41,7 @@
 
 #include <OSGFieldDataType.h>
 #include <OSGNodePtr.h>
-
+#include <map>
 OSG_BEGIN_NAMESPACE
 
 
@@ -60,13 +60,32 @@ typedef map<UInt32, AttachmentPtr>  AttachmentMap;
  */
 
 template <>
+struct FieldTraitsRecurseMapper<FieldContainerPtr> : 
+    public FieldTraitsRecurseBase<FieldContainerPtr>
+{
+    enum                        { bHasParent        = 0x00      };
+
+    static void putToBin (void) 
+    { 
+        fprintf(stderr, "FieldTraitsToBin<FieldContainerPtr>\n");
+    }
+};
+
+template <>
 struct FieldDataTraits<FieldContainerPtr> : 
-    public Traits
+    public FieldTraitsRecurseMapper<FieldContainerPtr>
 {
     enum                        { StringConvertable = 0x00      };
-
+ 
     static char *getSName(void) { return "SFFieldContainerPtr"; }
     static char *getMName(void) { return "MFFieldContainerPtr"; }
+
+/*
+    static void putToBin (void) 
+    { 
+        fprintf(stderr, "FieldTraitsToBin<FieldContainerPtr>\n");
+    }
+*/
 };
 
 /** \ingroup FieldLib
@@ -76,9 +95,10 @@ struct FieldDataTraits<FieldContainerPtr> :
  */
 
 template <>
-struct FieldDataTraits<NodePtr> : public Traits
+struct FieldDataTraits<NodePtr> : public FieldTraitsRecurseMapper<NodePtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFNodePtr"; }
     static char *getMName(void) { return "MFNodePtr"; }
@@ -92,9 +112,10 @@ struct FieldDataTraits<NodePtr> : public Traits
 
 template <>
 struct FieldDataTraits<NodeCorePtr> : 
-    public Traits
+    public FieldTraitsRecurseMapper<NodeCorePtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFNodeCorePtr"; }
     static char *getMName(void) { return "MFNodeCorePtr"; }
@@ -108,9 +129,10 @@ struct FieldDataTraits<NodeCorePtr> :
 
 template <>
 struct FieldDataTraits<AttachmentMap> : 
-    public Traits
+    public FieldTraitsRecurseMapper<AttachmentMap>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFAttachmentMap"; }
     static char *getMName(void) { return "MFAttachmentMap"; }

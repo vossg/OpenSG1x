@@ -84,11 +84,24 @@ struct FieldDataTraits<Vec2f> : public Traits
  *  \brief Vec3f field traits 
  */
 
+template<>
+struct FieldTraitsRecurseMapper<VecStorage3<Real32> > : 
+    public FieldTraitsRecurseBase<VecStorage3<Real32> >
+{
+    enum                         { bHasParent        = 0x00                  };
+
+    static void putToBin(void)
+    {
+        fprintf(stderr, "FieldTraitsRecurseBase<VecStorage3<Real32> >\n");
+    }
+};
+
 template <>
-struct FieldDataTraits<Vec3f> : public Traits
+struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseMapper<Vec3f>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
+    enum                         { bHasParent        = 0x01                  };
 
     static Char8 *getSName(void)   { return "SFVec3f"; }
     static Char8 *getMName(void)   { return "MFVec3f"; }
@@ -217,10 +230,11 @@ struct FieldDataTraits<Vec4ub> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Pnt3f> : public Traits
+struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseMapper<Vec3f>
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
+    enum                        { bHasParent        = 0x01                  };
 
     static Char8 *getSName(void)   { return "SFPnt3f";    }
 
@@ -277,3 +291,12 @@ struct FieldDataTraits<Pnt4f> : public Traits
 OSG_END_NAMESPACE
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */
+
+
+
+
+
+
+
+
+

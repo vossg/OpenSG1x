@@ -61,10 +61,18 @@ const NodeCorePtr OSG::NullNodeCore;
  *                           Class variables                               *
 \***************************************************************************/
 
+/*
 const BitVector 
 	NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
 const BitVector 
 	NodeCore::AttachmentsFieldMask = (1 << NodeCore::AttachmentsFieldId);
+*/
+
+OSG_FC_FIRST_FIELD_IDM_DEF(NodeCore, ParentsField)
+
+OSG_FC_FIELD_IDM_DEF      (NodeCore, AttachmentsField, ParentsField)
+
+OSG_FC_LAST_FIELD_IDM_DEF (NodeCore, NextField)
 
 FieldDescription NodeCore::_desc[] = 
 {
