@@ -193,18 +193,20 @@ AC_DEFUN(AC_GDZ_EXEEXT,
 
        cygwin*)
         AC_MSG_CHECKING(executable suffix)
-        EXEEXT=exe
+        EXEEXT=.exe
         AC_MSG_RESULT($EXEEXT)
         ;;
 
         *)
         AC_EXEEXT()
+        ac_gdz_exe_suffix=.$EXEEXT
         ;;
 
     esac
 
-    ac_gdz_exe_suffix=.$EXEEXT
-
+    if [[ $ac_gdz_exe_suffix = "." ]] then
+        ac_gdz_exe_suffix=
+    fi
 ])
 
 AC_DEFUN(AC_GDZ_OBJEXT,
