@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGWindowBase.h>
+#include "OSGWindowBase.h"
 #include <OSGBaseTypes.h>
 #include <OSGFrustumVolume.h>
 #include <OSGMatrix.h>

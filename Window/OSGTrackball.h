@@ -39,7 +39,7 @@
 #ifndef _OSG_TRACKBALL_H_
 #define _OSG_TRACKBALL_H_
 
-#include <OSGWindowBase.h>
+#include "OSGWindowBase.h"
 #include <OSGBaseTypes.h>
 #include <OSGVector.h>
 #include <OSGQuaternion.h>

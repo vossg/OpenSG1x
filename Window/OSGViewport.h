@@ -53,7 +53,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGSFSysTypes.h>
 #include <OSGSFFieldContainerTypes.h>
-#include <OSGWindowBase.h>
+#include "OSGWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
