@@ -23,6 +23,8 @@ using OSG::Matrix4f;
 using OSG::Matrix;
 using OSG::Quaternion;
 
+using OSG::UInt8;
+using OSG::UInt16;
 using OSG::UInt32;
 using OSG::Int32;
 
@@ -38,6 +40,40 @@ using OSG::MatrixPerspective;
 using OSG::MatrixStereoPerspective;
 using OSG::MatrixLookAt;
 using OSG::MatrixProjection;
+
+
+// instantiate all classes to find compile problems
+
+using OSG::VectorInterface;
+using OSG::PointInterface;
+using OSG::VecStorage2;
+using OSG::VecStorage3;
+using OSG::VecStorage4;
+
+template class VectorInterface<Real32, VecStorage2<Real32> >;
+template class VectorInterface<Real32, VecStorage3<Real32> >;
+template class VectorInterface<Real32, VecStorage4<Real32> >;
+
+template class VectorInterface<UInt16, VecStorage2<UInt16> >;
+template class VectorInterface<UInt16, VecStorage3<UInt16> >;
+template class VectorInterface<UInt16, VecStorage4<UInt16> >;
+
+template class VectorInterface<UInt8, VecStorage2<UInt8> >;
+template class VectorInterface<UInt8, VecStorage3<UInt8> >;
+template class VectorInterface<UInt8, VecStorage4<UInt8> >;
+
+template class PointInterface<Real32, VecStorage2<Real32> >;
+template class PointInterface<Real32, VecStorage3<Real32> >;
+template class PointInterface<Real32, VecStorage4<Real32> >;
+
+template class PointInterface<UInt16, VecStorage2<UInt16> >;
+template class PointInterface<UInt16, VecStorage3<UInt16> >;
+template class PointInterface<UInt16, VecStorage4<UInt16> >;
+
+template class PointInterface<UInt8, VecStorage2<UInt8> >;
+template class PointInterface<UInt8, VecStorage3<UInt8> >;
+template class PointInterface<UInt8, VecStorage4<UInt8> >;
+
 
 using OSG::osgInit;
 
