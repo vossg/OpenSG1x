@@ -57,6 +57,10 @@
 #include <ieeefp.h>
 #endif
 
+#ifdef __sgi
+#include <ieeefp.h>
+#endif
+
 #include <OSGConfig.h>
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
