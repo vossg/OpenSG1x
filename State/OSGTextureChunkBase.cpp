@@ -71,6 +71,7 @@
 #include <GL/gl.h>	// WrapS default header
 #include <GL/gl.h>	// WrapT default header
 #include <GL/gl.h>	// WrapR default header
+#include <GL/gl.h>	// EnvMode default header
 #include <GL/gl.h>	// GenFuncS default header
 #include <GL/gl.h>	// GenFuncT default header
 #include <GL/gl.h>	// GenFuncR default header
@@ -137,7 +138,7 @@ const OSG::BitVector	TextureChunkBase::GLIdFieldMask =
 
 
 
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.9 2001/07/23 11:39:11 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -308,7 +309,7 @@ TextureChunkBase::TextureChunkBase(void) :
 	_sfWrapS	(UInt32(GL_REPEAT)), 
 	_sfWrapT	(UInt32(GL_REPEAT)), 
 	_sfWrapR	(UInt32(GL_REPEAT)), 
-	_sfEnvMode	(), 
+	_sfEnvMode	(UInt32(GL_REPLACE)), 
 	_sfGenFuncS	(UInt32(GL_NONE)), 
 	_sfGenFuncT	(UInt32(GL_NONE)), 
 	_sfGenFuncR	(UInt32(GL_NONE)), 
