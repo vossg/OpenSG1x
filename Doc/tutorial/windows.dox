@@ -13,6 +13,7 @@ Chapter Overview
 	\ref TutorialWindowsCameras <BR>
 	\ref TutorialWindowsBackground <BR>
 	\ref TutorialWindowsForegrounds <BR>
+	\ref TutorialWindowsTutorial <BR>
 	\ref TutorialWindowsExercises
 <HR>
 
@@ -554,7 +555,7 @@ Finally we complete the main() function by creating the window and the render ac
 
 	GLUTWindowPtr gwin= GLUTWindow::create();
 	gwin->setId(winid);
-	gwin->setSize(600,300);
+	gwin->setSize(300,300);
 	window = gwin;
 	
 	// add the viewports to the new window
@@ -622,13 +623,15 @@ Next add the createScenegraph() function - place the code that belongs to it bef
 the nodes that will act as a beacon for the cameras and the light source.
 
 \code
-	//create geometry - just a simple torus
+NodePtr createScenegraph(){
+    //create geometry - just a simple torus
 	NodePtr torus = makeTorus(1,5,8,16);
 	
 	//create transformations & beacons for cameras & light
 	leftCamBeacon = Node::create();
 	rightCamBeacon = Node::create();
 	lightBeacon = Node::create();
+
 \endcode
 
 now we fill the three nodes we just created with life:
@@ -709,7 +712,170 @@ The beacon is set, but we will also need a node which will contain the light as 
 	endEditCP(lightNode);
 \endcode
 
-[continue...]
+We are nearly finished for the first working version, we are just missing the root node:
+
+\code
+	// now create the root and add all children
+	
+	NodePtr root = Node::create();
+	beginEditCP(root);
+		root->setCore(Group::create());
+		root->addChild(lightNode);
+		root->addChild(leftCamBeacon);
+		root->addChild(rightCamBeacon);
+		root->addChild(lightBeacon);
+	endEditCP(root);
+	
+	return root;
+}
+
+\endcode
+
+Now try to compile and execute the application. It should look like this
+
+\image html 2viewports.png "Two different viewports on the same scene"
+\image latex 2viewports.eps "Two different viewports on the same scene" width = 4cm
+
+As you can see, the torus is displayed from two different positions. This is really not a miracle as we have defined different locations for both cameras. As
+far as well, but if you resize the window, the viewports are not scaled correctly altough they should! The reason is, that we have not specified the GLUT 
+reshape callback function. Add this line to the setupGLUT() function
+
+\code
+	glutReshapeFunc(reshape);
+\endcode
+
+and add this block of code right below the display() function
+
+\code
+void reshape(int w, int h)
+{
+    window->resize(w, h);
+    glutPostRedisplay();
+}
+\endcode
+
+<I>
+If you compare this function with the previous reshape function you will notice that the only thing that changed, is a replacement of the simple scene manager
+object with the window object. 
+</I>
+
+Now the application can be resized correctly. We are still missing functionality we wanted to implement: the foregrouns is still missing as well as the snapshot
+feature. First we create a foreground which will display a png file in the foreground of the right viewport. In the main() function locate the lines that say
+
+\code
+	rightViewport->setRoot(scene);
+		rightViewport->setSize(0.5,0,1,1);
+	endEditCP(rightViewport);
+
+	//and the render action - more on that later
+	renderAction = RenderAction::create();
+\endcode
+
+and add the following new code right before the renderAction is created.
+
+\code
+	// add an logo foreground to the right viwport
+	
+	//load the logo image file
+	ImagePtr frgImage = Image::create();
+	beginEditCP(frgImage);
+		frgImage->read("data/logo.png");
+	endEditCP(frgImage);
+	
+	ImageForegroundPtr imgFrg = ImageForeground::create();
+	beginEditCP(imgFrg);
+		//NOTE: the position values are between 0 and 1
+		//and are relative to the viewport!
+		imgFrg->addImage(frgImage,Pnt2f(0.1,0));
+	endEditCP(imgFrg);
+\endcode
+
+Now we have loaded an image from a file like we did for the image background. After that we created the image foreground and simply added the image. The
+position I provided via Pnt2f is the location of the image relative to the lower left corner of that viewport. As these values are smaller than one, these
+are meant realtive the same way when defining sizes of viewports.
+
+The foreground still would not be visible, because we need to add it to a foregrounds field of a viewport. That is done by the following line of code
+
+\code
+	//add the created foreground by appending it to
+	//the vieports foreground multifield
+	rightViewport->getMFForegrounds()->push_back(imgFrg);
+\endcode
+
+Finally we need to add another foreground that will allow as to capture the screen into files. This is done by the osg::FileGrabForeground. The code
+can be placed right below the code you just added
+
+\code
+	//create the foreground for screenshot functionality
+	FileGrabForegroundPtr fileGrab = FileGrabForeground::create();
+	beginEditCP(fileGrab);
+		fileGrab->setActive(false);
+		fileGrab->setName("data/screenshot%04d.jpg");
+	endEditCP(fileGrab);
+	
+	//add this one to the right viewport, too
+	rightViewport->getMFForegrounds()->push_back(fileGrab);
+\endcode
+
+We added the foreground the same way we did with the image foreground. We only set to attributes for the file grab foreground. We set a file name and also set
+it's active flag to false, to avoid that the applications starts to shot screenshots right at the beginning. Rather we want to de-/ activate this feature
+by pressing the 's' key. Maybe you find the filename a bit unusual - if I would have set it to "data/screenshot.jpg" every screenshot taken would have 
+overwritten that file. Of course that can be exactly what you want, but I decided we want to have a series of images taken. The %d is replaced by some
+internal counter varibale and %04d means that there are leading zeros until four digits are used. Therefore the images series is screenshot0001.jpg 
+screenshot0002.jpg and so on. 
+
+Let us add the keyboard callback to enable the user to switch screen capturing on and off. Add this to the setupGLUT function
+
+\code
+	glutKeyboardFunc(keyboard);
+\endcode
+
+and this right below the reshape() function
+
+\code
+void keyboard(unsigned char k, int x, int y){
+    switch(k){
+        case 27:    {
+            osgExit();
+            exit(1);
+        }
+        break;
+		
+		case 's':
+			// The return value is actually a pointer to on osgPtr class
+			// I don't know if that makes much sense at all...
+			MFForegroundPtr foregrounds = *(window->getPort(1)->getMFForegrounds());
+			FileGrabForegroundPtr fg = FileGrabForegroundPtr::dcast(foregrounds[1]);
+			
+			if (!fg->getActive()){
+				std::cout << "start recording..." << std::endl;
+				fg->setActive(true);
+			}else{
+				std::cout << "stopped" << std::endl;
+				fg->setActive(false);
+			}
+		break;
+	}
+}
+\endcode
+<I>
+	This one looks a bit more complicated... well, if the 's' key is pressed we enter the corresponding case statement, where we first get an 
+	osg::MFForegroundPtr variable, which is actually a muli field that contains all osg::ForegroundPtr of this specific viewport. The viewport we have
+	chosen is the right one with the image background. Remember we added the viewport with the gradient background first, which will become viewport 
+	number 0 and the right viewport therefor becoming number 1 which we got above my calling 'window->getPort(1)'. Unfortunately the return result of 
+	getMFForegrounds() is actually a pointer to the osg::MFForegroundPtr datastructure. I am not quite sure if that was intended as in most cases this is
+	handeled different, but anyhow we simply dereference the pointer and now have the multi field correctly stored. In the next line we 'extract' the 
+	osg::FileGrabForeground which is number 1, because we first added the image foreground which is number 0 - same procedure as with the viewport numbers.
+	However, the multi field stores osg::ForegroundPtr and we need to downcast it to the correct type. As we now that this foreground is a file grab foreground,
+	we invoke a synamic cast. Finally we have the foreground we are looking for and can now set the active attribut.
+	
+	By the way: I know that it would be easier to store the foreground as a global variable, but I wanted to show you how elements of OpenSG can be retrieved
+	from more complex data structures. With bigger projects it won't be possible to store everything globally ;-)
+</I>
+
+Our application is complete now. One hint for those with fast machines: Do not turn on screen capturing for to long, or you will hove lots of jpg files...
+
+One essential functionaliy is indeed still missing! We are not able to navigate in any means. Well, this is up to you now, have a look at the exercises ;-)
 
 \section TutorialWindowsExercises Exercises
 
@@ -717,5 +883,13 @@ The beacon is set, but we will also need a node which will contain the light as 
 
 Try to use a sky background with textures. You can find the needed textures in the progs/data folder. The files are calles right.jpg, top.jpg,... and so on.
 
+\subsection TutorialWindwsExercises2 Ex. Navigator
+
+Navigation is not possible in our tutorial. Implement a mouse driven navigation comparable to the navigation possibilities from the other tutorials.
+
+<I>
+Important Hint: You can save a great amount of time, if you have a closer look at the osg::Navigator helper class. This class is also used by the simple
+scene manager.
+</I>
 
 */

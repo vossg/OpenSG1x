@@ -226,7 +226,7 @@ int main(int argc, char **argv)
 	
 	GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
-    gwin->setSize(600,300);
+    gwin->setSize(300,300);
 	window = gwin;
 	
 	window->addPort(leftViewport);

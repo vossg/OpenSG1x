@@ -427,4 +427,6 @@ I few lines up ahead we realized that the results from directional and point lig
 \subsection TutoralLightExercises2 Ex. Spot Light
 
 Now replace the light source with a spot light. You may take 10water_lit.cpp or 10water_lit2.cpp as a starting point.
+
+Next Chapter : \ref Windows
 */
