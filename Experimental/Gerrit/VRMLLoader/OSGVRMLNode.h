@@ -116,26 +116,7 @@ struct VRMLNodeAttachmentContainerDesc
         return "VRMLNodes";
     }
 
-    static void descInserter(ReflexiveContainerType *pType)
-    {
-        typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc> AC;
-
-        if(pType == NULL)
-            return;
-
-        DataElementDesc *pDesc = NULL;
-
-        pDesc = new DataElementDesc(
-            AC::SFAttachmentObjMap::getClassType(),
-            "attachments",
-            OSG_RC_ELEM_IDM_DESC(AC::AttachmentsField),
-            false,
-            (DataElemGetMethod) &AC::getSFAttachments,
-            NULL,
-            NULL);
-
-        pType->addInitialDesc(pDesc);
-    }
+    static void descInserter(ReflexiveContainerType *pType);
 };
 
 typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>
@@ -151,8 +132,11 @@ typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>
 
 #else
 
-extern template class OSG_VRML_DLLMAPPING
+// CHECKCHECK
+#ifndef __linux
+extern template class OSG_VRML_DLLMAPPING 
     AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>;
+#endif
 
 #endif
 

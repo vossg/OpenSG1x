@@ -71,26 +71,7 @@ struct VRMLNodeAttachmentDesc
     typedef VRMLNode                      *ParentPtr;
     typedef MFVRMLNode                     MFParentPtr;
     
-    static void descInserter(ReflexiveContainerType *pType)
-    {
-        typedef AttachmentMixin<VRMLNodeAttachmentDesc> AM;
-
-        if(pType == NULL)
-            return;
-
-        DataElementDesc *pDesc = NULL;
-
-        pDesc = new DataElementDesc(
-            AM::MFParentPtr::getClassType(),
-            "parents",
-            OSG_RC_ELEM_IDM_DESC(AM::ParentsField),
-            false,
-            (DataElemGetMethod) &AM::getMFParents,
-            NULL,
-            NULL);
-
-        pType->addInitialDesc(pDesc);
-    }
+    static void descInserter(ReflexiveContainerType *pType);
 };
 
 #ifndef OSG_COMPILEVRMLNODEATTACHMENT
@@ -101,8 +82,11 @@ struct VRMLNodeAttachmentDesc
 
 #else
 
+// CHECKCHECK
+#ifndef __linux
 extern template class OSG_VRML_DLLMAPPING
     AttachmentMixin<VRMLNodeAttachmentDesc>;
+#endif
 
 #endif
 

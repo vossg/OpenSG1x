@@ -75,6 +75,27 @@ namespace
 template class OSG_VRML_DLLMAPPING 
     AttachmentMixin<VRMLNodeAttachmentDesc>;
 
+void VRMLNodeAttachmentDesc::descInserter(ReflexiveContainerType *pType)
+{
+    typedef AttachmentMixin<VRMLNodeAttachmentDesc> AM;
+    
+    if(pType == NULL)
+        return;
+    
+    DataElementDesc *pDesc = NULL;
+    
+    pDesc = new DataElementDesc(
+        AM::MFParentPtr::getClassType(),
+        "parents",
+        OSG_RC_ELEM_IDM_DESC(AM::ParentsField),
+        false,
+        (DataElemGetMethod) &AM::getMFParents,
+        NULL,
+        NULL);
+    
+    pType->addInitialDesc(pDesc);
+}
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
