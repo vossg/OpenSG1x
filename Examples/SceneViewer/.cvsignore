@@ -1,1 +1,4 @@
 .prefix.*
+moc_*.cpp
+declist.* deplist.* implist.* objlist.* 
+osgSceneViewer

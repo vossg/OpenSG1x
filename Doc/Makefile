@@ -59,6 +59,7 @@ DOCS_X     := ../Source/WindowSystem/X
 DOCS_W32   := ../Source/WindowSystem/WIN32
 DOCS_GLUT  := ../Source/WindowSystem/GLUT
 DOCS_QT    := ../Source/WindowSystem/QT
+DOCS_QT    := 
 
 DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 			  $(DOCS_X) $(DOCS_W32) $(DOCS_GLUT) $(DOCS_QT) $(DOCS_PAGES)
@@ -125,8 +126,6 @@ DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 #			 ../Source/Base/Field									\
 #			 ../Source/Base/StringConversion/StringConversion.dox	\
 #			 ../Source/Base/StringConversion
-
-DOC_FILES := $(DOC_PAGES) 
 
 # level-dependent defines
 DOC_LEVEL ?= 1

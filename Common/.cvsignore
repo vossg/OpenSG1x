@@ -1,2 +1,3 @@
 common.mk
 common.*.mk
+dummyClasses.dox dummyClasses.list
