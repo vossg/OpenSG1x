@@ -770,13 +770,12 @@ dsp:
 			-e 's|@OSG_CONF_PACKS@|$(CONFIGURED_PACKAGE_DEFS)|g'		\
 			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\
 			-e 's|@OSG_INCL@|$(INCL_EXP_$(OS_BASE))|g'					\
-			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'	| \
-			perl -pi -e 's/\n/\r\n/;' 					\
+			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'	|                   \
 		> $(PACKAGE_NAME)Lib.dsp
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 #	@rm -f $(DSP_PACKS)
-	@unix2dos $(PACKAGE_NAME)Lib.dsp
-	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
+	@perl -pi -e 's/\n/\r\n/;' < $(PACKAGE_NAME)Lib.dsp > $(PACKAGE_NAME)Lib.dsp.cooked
+	@mv $(PACKAGE_NAME)Lib.dsp.cooked $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
 ifneq ($(DSP_DEFS),)
 	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
 endif
@@ -817,13 +816,12 @@ dsp7:
 			-e 's|@OSG_CONF_PACKS@|$(CONFIGURED_PACKAGE_DEFS)|g'		\
 			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\
 			-e 's|@OSG_INCL@|$(INCL_EXP_$(OS_BASE))|g'					\
-			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'	|					\
-			perl -pi -e 's/\n/\r\n/;' 					\
+			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'                       \
 		> $(PACKAGE_NAME)Lib.dsp
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 	@rm -f $(DSP_PACKS)
-	@unix2dos $(PACKAGE_NAME)Lib.dsp
-	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
+	@perl -pi -e 's/\n/\r\n/;' < $(PACKAGE_NAME)Lib.dsp > $(PACKAGE_NAME)Lib.dsp.cooked       
+	@mv $(PACKAGE_NAME)Lib.dsp.cooked $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
 ifneq ($(DSP_DEFS),)
 	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
 endif
