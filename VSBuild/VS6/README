@@ -1,4 +1,18 @@
 
+IMPORTANT IMPORTANT --- EXTERNAL TOOLS NEEDED --- IMPORTANT IMPORTANT
+
+sed.exe
+flex.exe
+bison.exe
+moc.exe
+
+IMPORTANT IMPORTANT --- VS SERVICEPACK --- IMPORTANT IMPORTANT
+
+SP6 for Visual Studio is needed due to the amount of custom build
+rules for the install process.
+
+
+
 This directory contains the first version of out VStudio6 support.
 As I have not figured out if it is possible to reconfigure parts
 on the fly you currently have to set up your VStudion the way that
@@ -29,10 +43,16 @@ Current Requirements :
         find the glut headers and libs
         find the qt headers and libs (qt-mt301.lib) and the moc executable
 
-    If you want to edit any .l or .y file your VStudio additionally has to
+    If you want to edit any .l or .y file or do a full rebuild your VStudio 
+    additionally has to
 
         find a flex executable  (> version 2.5.4)
         find a bison executable (> version 1.30)
+
+    In order to do the install process VStudio must be configured to find
+    a sed.exe executable.
+
+    The Windows GNU tools I use come from gnuwin32.sourceforge.net
 
 What works :
 

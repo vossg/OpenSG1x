@@ -31,7 +31,7 @@ Current Requirements :
     You need to configure your VStudio to 
 
         find the glut headers and libs
-        find the qt headers and libs (qt-mt301.lib) and the moc executable
+        find the qt headers, libs and the moc executable
              there is a good chance that you have to patch the qt headers
              in order to get it working, just move the function definition
              into the class definition, worked for me
