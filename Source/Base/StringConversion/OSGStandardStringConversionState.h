@@ -144,9 +144,6 @@ class OSG_BASE_DLLMAPPING StandardStringConversionState :
 
   private:
 
-    typedef StringConversionStateBase Inherited;
-
-
     /*!\brief prohibit default function (move to 'public' if needed) */
     StandardStringConversionState(const StandardStringConversionState &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
