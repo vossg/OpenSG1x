@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.19 2002/02/11 03:46:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.20 2002/03/19 17:38:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 
@@ -98,6 +98,7 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
 
 
 //! Group type
@@ -213,4 +214,5 @@ void GroupBase::executeSyncImpl(      GroupBase *pOther,
 
 
 }
+
 

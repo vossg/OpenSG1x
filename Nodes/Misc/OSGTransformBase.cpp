@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.21 2002/02/11 03:46:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.22 2002/03/19 17:38:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 
@@ -109,6 +109,7 @@ const OSG::BitVector  TransformBase::MatrixFieldMask =
 /*! \var Matrix          TransformBase::_sfMatrix
     The transformation matrix.
 */
+
 //! Transform description
 
 FieldDescription *TransformBase::_desc[] = 
@@ -253,4 +254,5 @@ void TransformBase::executeSyncImpl(      TransformBase *pOther,
 
 
 }
+
 

@@ -98,6 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
     static const osg::BitVector CenterFieldMask;
     static const osg::BitVector RangeFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -229,6 +230,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.13 2002/02/04 16:09:54 dirk Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.14 2002/03/19 17:38:56 dirk Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

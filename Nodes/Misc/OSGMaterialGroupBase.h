@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 
     static const osg::BitVector MaterialFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef MaterialGroupBase *MaterialGroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.17 2001/11/09 08:17:09 vossg Exp $"
+#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.18 2002/03/19 17:38:56 dirk Exp $"
 
 #endif /* _OSGMATERIALGROUPBASE_H_ */

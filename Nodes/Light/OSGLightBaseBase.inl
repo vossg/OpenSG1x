@@ -265,5 +265,5 @@ void LightBaseBase::setQuadraticAttenuation(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_INLINE_CVSID "@(#)$Id: OSGLightBaseBase.inl,v 1.10 2002/02/04 20:14:09 dirk Exp $"
+#define OSGLIGHTBASEBASE_INLINE_CVSID "@(#)$Id: OSGLightBaseBase.inl,v 1.11 2002/03/19 17:38:55 dirk Exp $"
 

@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 
     static const osg::BitVector PositionFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef PointLightBase *PointLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.17 2001/11/09 08:17:09 vossg Exp $"
+#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.18 2002/03/19 17:38:55 dirk Exp $"
 
 #endif /* _OSGPOINTLIGHTBASE_H_ */

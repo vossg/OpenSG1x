@@ -116,6 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     static const osg::BitVector LinearAttenuationFieldMask;
     static const osg::BitVector QuadraticAttenuationFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -261,6 +262,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.19 2002/02/04 20:14:09 dirk Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.20 2002/03/19 17:38:55 dirk Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

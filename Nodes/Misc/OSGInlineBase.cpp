@@ -109,6 +109,7 @@ const OSG::BitVector  InlineBase::UrlFieldMask =
 /*! \var string          InlineBase::_mfUrl
     
 */
+
 //! Inline description
 
 FieldDescription *InlineBase::_desc[] = 
@@ -253,4 +254,5 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
 
 
 }
+
 

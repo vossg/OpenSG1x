@@ -101,6 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     static const osg::BitVector FocusOnCameraFieldMask;
     static const osg::BitVector AlignToScreenFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */

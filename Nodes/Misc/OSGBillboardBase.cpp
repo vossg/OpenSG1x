@@ -121,6 +121,7 @@ const OSG::BitVector  BillboardBase::AlignToScreenFieldMask =
 /*! \var bool            BillboardBase::_sfAlignToScreen
     
 */
+
 //! Billboard description
 
 FieldDescription *BillboardBase::_desc[] = 
@@ -315,4 +316,5 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 
 
 }
+
 

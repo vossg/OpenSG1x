@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 
     static const osg::BitVector UrlFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.13 2002/02/04 16:09:54 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.14 2002/03/19 17:38:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
@@ -98,6 +98,7 @@ const OSG::BitVector  DistanceLODBase::RangeFieldMask =
 /*! \var Real32          DistanceLODBase::_mfRange
     The range intervals.
 */
+
 //! DistanceLOD description
 
 FieldDescription *DistanceLODBase::_desc[] = 
@@ -267,4 +268,5 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
 
 
 }
+
 

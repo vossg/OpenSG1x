@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.7 2002/02/11 03:46:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.8 2002/03/19 17:38:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 
@@ -133,6 +133,7 @@ const OSG::BitVector  ComponentTransformBase::TranslationFieldMask =
 /*! \var Vec3f           ComponentTransformBase::_sfTranslation
     
 */
+
 //! ComponentTransform description
 
 FieldDescription *ComponentTransformBase::_desc[] = 
@@ -377,4 +378,5 @@ void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOthe
 
 
 }
+
 

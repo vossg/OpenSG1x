@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.18 2001/11/09 08:17:09 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.19 2002/03/19 17:38:55 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 
@@ -104,6 +104,7 @@ const OSG::BitVector  SpotLightBase::SpotCutOffFieldMask =
 /*! \var Real32          SpotLightBase::_sfSpotCutOff
     The cut-off angle of the spotlight (in radians, not degrees!).
 */
+
 //! SpotLight description
 
 FieldDescription *SpotLightBase::_desc[] = 
@@ -298,4 +299,5 @@ void SpotLightBase::executeSyncImpl(      SpotLightBase *pOther,
 
 
 }
+
 

@@ -109,6 +109,7 @@ const OSG::BitVector  SwitchBase::ChoiceFieldMask =
 /*! \var Int32           SwitchBase::_sfChoice
     
 */
+
 //! Switch description
 
 FieldDescription *SwitchBase::_desc[] = 
@@ -253,4 +254,5 @@ void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
 
 
 }
+
 

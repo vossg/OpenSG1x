@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
     static const osg::BitVector ScaleOrientationFieldMask;
     static const osg::BitVector TranslationFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -253,6 +254,6 @@ typedef ComponentTransformBase *ComponentTransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.4 2001/11/09 08:17:09 vossg Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.5 2002/03/19 17:38:56 dirk Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

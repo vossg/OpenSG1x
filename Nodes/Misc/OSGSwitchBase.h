@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
 
     static const osg::BitVector ChoiceFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */

@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
 
     static const osg::BitVector MatrixFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef TransformBase *TransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.17 2001/11/09 08:17:09 vossg Exp $"
+#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.18 2002/03/19 17:38:56 dirk Exp $"
 
 #endif /* _OSGTRANSFORMBASE_H_ */

@@ -101,6 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     static const osg::BitVector SpotExponentFieldMask;
     static const osg::BitVector SpotCutOffFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -237,6 +238,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.18 2001/11/09 08:17:09 vossg Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.19 2002/03/19 17:38:55 dirk Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */
