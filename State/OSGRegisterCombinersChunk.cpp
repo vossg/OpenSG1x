@@ -352,8 +352,8 @@ void RegisterCombinersChunk::setCombinerColors(UInt16 which,
 
     setPerStageConstants(true);
     
-    getCombinerColor0().setValue(color0, which);
-    getCombinerColor1().setValue(color1, which);
+    getCombinerColor0()[which] = color0;
+    getCombinerColor1()[which] = color1;
     
     endEditCP(tmpPtr, PerStageConstantsFieldMask);
 }
@@ -540,10 +540,10 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
             {
                 CombinerStageParameterfv(GL_COMBINER0_NV + i, 
                      GL_CONSTANT_COLOR0_NV, 
-                    (GLfloat*)getCombinerColor0().getValue(i).getValuesRGBA());
+                    (GLfloat*)getCombinerColor0()[i].getValuesRGBA());
                 CombinerStageParameterfv(GL_COMBINER0_NV + i, 
                     GL_CONSTANT_COLOR1_NV, 
-                    (GLfloat*)getCombinerColor1().getValue(i).getValuesRGBA());
+                    (GLfloat*)getCombinerColor1()[i].getValuesRGBA());
                 
             }
             else
@@ -702,7 +702,7 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.6 2002/08/29 16:09:11 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.7 2002/08/30 03:22:43 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }

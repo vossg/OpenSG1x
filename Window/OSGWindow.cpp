@@ -57,6 +57,14 @@
 #include "OSGCamera.h"
 #include "OSGWindow.h"
 
+#if defined(__sgi) || defined(darwin) || defined(__hpux)   
+#include <dlfcn.h>
+#endif 
+
+#if !defined(WIN32) && !defined(darwin)   
+#include <GL/glx.h>   
+#endif
+
 OSG_USING_NAMESPACE
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
@@ -745,7 +753,7 @@ void Window::resizeGL( void )
 /** \brief assignment
  */
 
-Window& Window::operator = (const Window &source)
+OSG::Window& Window::operator = (const Window &source)
 {
     if (this == &source)
         return *this;
@@ -762,6 +770,51 @@ Window& Window::operator = (const Window &source)
     return *this;
 }
 
+
+// Query for a GL extension function   
+void (*Window::getFunctionByName(const Char8 *s))(void) 
+{   
+#ifdef sgi       
+    static void *libHandle = NULL;       
+    
+    if ( ! libHandle )           
+        libHandle = dlopen("libgl.so", RTLD_LAZY);       
+    return (void (*)(void)) dlsym( libHandle, s);   
+#elif defined( WIN32 )       
+    return (void (*)(void)) wglGetProcAddress(s);   
+#elif defined(__hpux)       
+    static void *libHandle = NULL;          
+    if(libHandle == NULL) 
+    {           
+        // HACK, but we link against libGL anyway           
+        
+        libHandle = dlopen(NULL, RTLD_GLOBAL);       
+    }
+    return (void (*)(void)) dlsym(libHandle, s);   
+#elif defined(darwin)
+    static void *libHandle = NULL;
+    
+    if(libHandle == NULL)
+    {           
+        libHandle = dlopen("libGL.dylib", RTLD_NOW);
+    }          
+    return (void (*)(void)) dlsym(libHandle, s);
+#else
+    // UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
+    // but they use __GLX_glx_h__ instead of GLX_H as an include guard.   
+
+#   if defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
+    
+    return glXGetProcAddressARB((const GLubyte *) s);   
+
+#   else       
+
+    return NULL;
+
+#   endif
+
+#endif
+}
 
 /*------------------------------- dump ----------------------------------*/
 

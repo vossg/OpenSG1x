@@ -183,7 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name            GL implementation functions                       */
     /*! \{                                                                 */
 
-    virtual void    (*getFunctionByName ( const Char8 *s ))() = 0;
+    void (*getFunctionByName (const Char8 *s))(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
