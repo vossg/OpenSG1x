@@ -38,7 +38,7 @@
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
-#include "OSGDynamicBackground.h"
+#include "OSGSkyBackground.h"
 #include "OSGSolidBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
@@ -335,14 +335,18 @@ int main (int argc, char **argv)
 
     // Background
 #if 0 // doesn't work right now
-    DynamicBackgroundPtr gbkgnd = DynamicBackground::create();
+    SkyBackgroundPtr sbkgnd = SkyBackground::create();
 
-    gbkgnd->addColor( Color3f(1, 0, 0), 0 );
-    gbkgnd->addColor( Color3f(0, 1, 0), Pi/2 );
-    gbkgnd->addColor( Color3f(0, 0, 1), Pi );
+
+    sbkgnd->getMFSkyColor()->addValue(Color3f(1, 0, 0));
+    sbkgnd->getMFSkyAngle()->addValue(Pi / 2);
+    sbkgnd->getMFSkyColor()->addValue(Color3f(0, 1, 0));
+    sbkgnd->getMFSkyAngle()->addValue(Pi);
+    sbkgnd->getMFSkyColor()->addValue(Color3f(0, 0, 1)); 
+
 #else
-    SolidBackgroundPtr gbkgnd = SolidBackground::create();
-    gbkgnd->setColor( Color3f(.5, .5, 1) );
+    SolidBackgroundPtr sbkgnd = SolidBackground::create();
+    sbkgnd->setColor( Color3f(.5, .5, 1) );
 #endif
     
     // Window
@@ -370,7 +374,7 @@ int main (int argc, char **argv)
         {
             int ind = i * nvviewports + j;
             vp[ind] = Viewport::create();
-            vp[ind]->setBackground( gbkgnd );
+            vp[ind]->setBackground( sbkgnd );
             vp[ind]->setRoot( root );
             vp[ind]->setSize(   1./nhviewports * i,1./nvviewports * j, 
                                 1./nhviewports * (i+1),1./nvviewports * (j+1) );
