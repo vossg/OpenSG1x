@@ -130,31 +130,42 @@ OSG_BASE_DLLMAPPING bool MatrixPerspective(Matrix &result,
                                            Real32 rFar)
 {
     Real32 ct = osgtan(rFovy);
-
+    bool error = false;
+    
     if(rNear > rFar)
     {
         SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
                  << "!\n" << std::endl;
+        error = true;
     }
 
     if(rFovy <= Eps)
     {
         SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
                  << std::endl;
+        error = true;
     }
 
     if(osgabs(rNear - rFar) < Eps)
     {
         SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
                  << "!\n" << std::endl;
+        error = true;
     }
 
     if(rAspect < Eps)
     {
         SWARNING << "MatrixPerspective: aspect ratio " << rAspect
                  << " very small!\n" << std::endl;
+        error = true;
     }
 
+    if(error)
+    {
+        result.setIdentity();
+        return true;
+    }
+    
     MatrixFrustum( result, 
                   -rNear * ct * rAspect, 
                    rNear * ct * rAspect,
@@ -187,28 +198,34 @@ OSG_BASE_DLLMAPPING bool MatrixStereoPerspective(Matrix &projection,
     Real32 rEye = -rEyedistance * (rWhicheye - .5f);
     Real32 d;
 
+    bool error = false;
+
     if(rNear > rFar)
     {
         SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
                  << "!\n" << std::endl;
+        error = true;
     }
 
     if(rFovy <= Eps)
     {
         SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
                  << std::endl;
+        error = true;
     }
 
     if(osgabs(rNear - rFar) < Eps)
     {
         SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
                  << "!\n" << std::endl;
+        error = true;
     }
 
     if(rAspect < Eps)
     {
         SWARNING << "MatrixPerspective: aspect ratio " << rAspect
                  << " very small!\n"                   << std::endl;
+        error = true;
     }
 
     if(rZeroparallax < Eps)
@@ -217,6 +234,14 @@ OSG_BASE_DLLMAPPING bool MatrixStereoPerspective(Matrix &projection,
                  << " very small, setting to 1!\n"      << std::endl;
 
         rZeroparallax = 1;
+        error = true;
+    }
+
+    if(error)
+    {
+        projection.setIdentity();
+        projtrans.setIdentity();
+        return true;
     }
     
     /* Calculate upper and lower clipping planes */
