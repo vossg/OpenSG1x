@@ -247,10 +247,8 @@ void
 QScalarEditorHelper<ScalarTypeT>::layoutChildWidgets(
     QAbstractValueEditor *pParent)
 {
-    _pHBox->addWidget(_pLabel,                     0);
-    _pHBox->addWidget(_pSpinBox,                  10);
-
-    _pHBox->addWidget(pParent->getActionButton(), 10);
+    _pHBox->addWidget(_pLabel,    0);
+    _pHBox->addWidget(_pSpinBox, 10);
 }
 
 template <class ScalarTypeT>
@@ -264,4 +262,4 @@ QScalarEditorHelper<ScalarTypeT>::initSelf(
 
 OSG_END_NAMESPACE
 
-#define OSGQSCALAREDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQScalarEditorHelper.inl,v 1.1 2004/11/01 12:24:30 neumannc Exp $"
+#define OSGQSCALAREDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQScalarEditorHelper.inl,v 1.2 2004/12/20 11:09:54 neumannc Exp $"

@@ -72,18 +72,12 @@ QAbstractFieldEditor::setLabelsVisible(bool bVisible)
     _bLabelsVisible = bVisible;
 }
 
-void
-QAbstractFieldEditor::setActionButtonsVisible(bool bVisible)
-{
-    _bActionButtonsVisible = bVisible;
-}
 
 QAbstractFieldEditor::QAbstractFieldEditor(QWidget *pParent, const char *name)
     : Inherited             (pParent, name           ),
       _fcPtr                (NullFC                  ),
       _uiFieldId            (0                       ),
       _bReadOnly            (false                   ),
-      _bActionButtonsVisible(false                   ),
       _pFactory             (QOSGWidgetFactory::the())
 {
     if(_pPixmapNo == NULL)
@@ -113,7 +107,7 @@ QAbstractFieldEditor::QAbstractFieldEditor(QWidget *pParent, const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractFieldEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractFieldEditor_qt.cpp,v 1.4 2004/12/20 11:09:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID;
 }

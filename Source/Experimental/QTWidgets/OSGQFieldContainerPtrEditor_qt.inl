@@ -47,45 +47,15 @@ OSG_BEGIN_NAMESPACE
 inline void
 QFieldContainerPtrEditor::getValue(FieldContainerPtr &pFC) const
 {
-    UInt32 uiContId = TypeTraits<UInt32>::getFromString(
-                          _pLineEditId->text().latin1());
-
-    pFC = FieldContainerFactory::the()->getContainer(uiContId);
+    updateData(pFC);
 }
 
 inline void
 QFieldContainerPtrEditor::setValue(const FieldContainerPtr &pFC)
 {
-    std::string strBasePtr;
-    std::string strInfo;
-
-    if(pFC != NullFC)
-    {
-        _pLineEditId->blockSignals(true    );
-        _pLineEditId->setText(
-            TypeTraits<UInt32>::putToString(pFC.getFieldContainerId()).c_str());
-        _pLineEditId->blockSignals(false   );
-
-        FieldDataTraits<void *>::putToString(
-            pFC.getBaseCPtr(), strBasePtr);
-
-        strInfo.assign(pFC->getType().getCName());
-        strInfo.append(" ("                     );
-        strInfo.append(strBasePtr               );
-        strInfo.append(")"                      );
-
-        QToolTip::add(_pLineEditId, strInfo.c_str());
-    }
-    else
-    {
-        _pLineEditId->blockSignals(true    );
-        _pLineEditId->setText     ("NullFC");
-        _pLineEditId->blockSignals(false   );
-
-        QToolTip::add(_pLineEditId, "NullFC (0x0)");
-    }
+    updateDisplay(pFC);
 }
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.4 2004/08/14 18:17:01 a-m-z Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.5 2004/12/20 11:09:53 neumannc Exp $"

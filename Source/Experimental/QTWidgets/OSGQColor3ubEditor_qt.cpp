@@ -220,7 +220,7 @@ QColor3ubEditor::slotSBValueChanged(void)
     _pColorButton->setPackedColor(tmpColor.getRGB());
     _pColorButton->update        (                 );
 
-    emit valueChanged();
+    emit valueChanged(this);
 }
 
 void
@@ -267,8 +267,6 @@ QColor3ubEditor::layoutChildWidgets(void)
     _pHBox->addWidget(_pSpinBoxes[2],          10);
 
     _pHBox->addWidget(_pColorButton,           10);
-    _pHBox->addWidget(this->getActionButton(), 10);
-
 }
 
 void
@@ -318,7 +316,7 @@ QColor3ubEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor3ubEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor3ubEditor_qt.cpp,v 1.4 2004/12/20 11:09:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR3UBEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR3UBEDITORQT_INLINE_CVSID;
 }

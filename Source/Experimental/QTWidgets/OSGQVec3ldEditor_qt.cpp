@@ -118,7 +118,7 @@ QVec3ldEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
 void
 QVec3ldEditor::slotSpinBoxChanged(void)
 {
-    emit valueChanged();
+    emit valueChanged(this);
 }
 
 void
@@ -148,7 +148,7 @@ QVec3ldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec3ldEditor_qt.cpp,v 1.4 2004/11/01 12:24:30 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec3ldEditor_qt.cpp,v 1.5 2004/12/20 11:09:54 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQVEC3LDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQVEC3LDEDITORQT_INLINE_CVSID;
 }

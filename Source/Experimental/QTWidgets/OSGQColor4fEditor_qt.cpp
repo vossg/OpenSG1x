@@ -225,7 +225,7 @@ QColor4fEditor::slotSBValueChanged(void)
     _pColorButton->setPackedColor(tmpColor.getRGBA());
     _pColorButton->update        (                  );
 
-    emit valueChanged();
+    emit valueChanged(this);
 }
 
 void
@@ -254,7 +254,7 @@ QColor4fEditor::slotColorButtonClicked(void)
 void
 QColor4fEditor::createChildWidgets(void)
 {
-    _pHBox         = new QHBoxLayout   (this, 0, 2, "QColor4fEditor::_pHBox");
+    _pHBox         = new QHBoxLayout(this, 0, 2, "QColor4fEditor::_pHBox");
 
     _pLabels[0]    = new QLabel   ("R", this, "QColor4fEditor::_pLabels[0]");
     _pLabels[1]    = new QLabel   ("G", this, "QColor4fEditor::_pLabels[1]");
@@ -274,16 +274,17 @@ QColor4fEditor::layoutChildWidgets(void)
 {
     _pHBox->addWidget(_pLabels[0],              0);
     _pHBox->addWidget(_pSpinBoxes[0],          10);
+
     _pHBox->addWidget(_pLabels[1],              0);
     _pHBox->addWidget(_pSpinBoxes[1],          10);
+
     _pHBox->addWidget(_pLabels[2],              0);
     _pHBox->addWidget(_pSpinBoxes[2],          10);
+
     _pHBox->addWidget(_pLabels[3],              0);
     _pHBox->addWidget(_pSpinBoxes[3],          10);
 
     _pHBox->addWidget(_pColorButton,           10);
-    _pHBox->addWidget(this->getActionButton(), 10);
-
 }
 
 void
@@ -340,7 +341,7 @@ QColor4fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.4 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.5 2004/12/20 11:09:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4FEDITORQT_INLINE_CVSID;
 }

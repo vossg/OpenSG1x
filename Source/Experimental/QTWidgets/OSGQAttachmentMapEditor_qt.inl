@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -36,22 +37,32 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <qpushbutton.h>
-
 OSG_BEGIN_NAMESPACE
 
-inline bool
-QAbstractValueEditor::getLabelsVisible(void) const
+inline void
+QAttachmentMapEditor::getValue(AttachmentMap &attMap) const
 {
-    return _bLabelsVisible;
+    updateData(attMap);
 }
 
-inline bool
-QAbstractValueEditor::getReadOnly(void) const
+inline void
+QAttachmentMapEditor::setValue(const AttachmentMap &attMap)
 {
-    return _bReadOnly;
+    updateDisplay(attMap);
+}
+
+inline const QFieldContainerPtrEditor *
+QAttachmentMapEditor::getEditor(UInt32 index) const
+{
+    return _attachmentEditors[index];
+}
+
+inline QFieldContainerPtrEditor *
+QAttachmentMapEditor::getEditor(UInt32 index)
+{
+    return _attachmentEditors[index];
 }
 
 OSG_END_NAMESPACE
 
-#define OSGQABSTRACTVALUEEDITORQT_INLINE_CVSID "@(#)$Id: OSGQAbstractValueEditor_qt.inl,v 1.2 2004/12/20 11:09:52 neumannc Exp $"
+#define OSGQATTACHMENTMAPEDITORQT_INLINE_CVSID "@(#)$Id: OSGQAttachmentMapEditor_qt.inl,v 1.1 2004/12/20 11:09:52 neumannc Exp $"

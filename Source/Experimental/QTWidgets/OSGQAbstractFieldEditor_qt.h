@@ -69,26 +69,24 @@ class OSG_WINDOWQTLIB_DLLMAPPING QAbstractFieldEditor : public QWidget
     inline       QOSGWidgetFactory *getFactory (void                       );
     inline       void               setFactory (QOSGWidgetFactory *pFactory);
 
-    inline bool getReadOnly            (void) const;
-    inline bool getLabelsVisible       (void) const;
-    inline bool getActionButtonsVisible(void) const;
+    inline bool getReadOnly     (void) const;
+    inline bool getLabelsVisible(void) const;
 
     virtual const QAbstractValueEditor *getEditor(UInt32 uiValueIndex) const = 0;
     virtual       QAbstractValueEditor *getEditor(UInt32 uiValueIndex)       = 0;
 
   signals:
-    void valueChanged        (QAbstractFieldEditor *pSender, UInt32 uiValueIndex);
-
-    void actionButtonClicked (QAbstractFieldEditor *pSender, UInt32 uiValueIndex);
-    void actionButtonPressed (QAbstractFieldEditor *pSender, UInt32 uiValueIndex);
-    void actionButtonReleased(QAbstractFieldEditor *pSender, UInt32 uiValueIndex);
+    void valueChanged        (QAbstractFieldEditor *pSender, 
+                              UInt32                uiValueIndex );
+    void genericRequest      (QAbstractFieldEditor *pSender, 
+                              UInt32                valueIndex,
+                              QString               request      );
 
   public slots:
-    virtual void setField               (FieldContainerPtr fcPtr,
-                                         UInt32            uiFieldId);
-    virtual void setReadOnly            (bool              bReadOnly);
-    virtual void setLabelsVisible       (bool              bVisible );
-    virtual void setActionButtonsVisible(bool              bVisible );
+    virtual void setField        (FieldContainerPtr fcPtr,
+                                  UInt32            uiFieldId);
+    virtual void setReadOnly     (bool              bReadOnly);
+    virtual void setLabelsVisible(bool              bVisible );
 
     virtual void readField (void               ) = 0;
     virtual void readField (UInt32 uiValueIndex) = 0;
@@ -113,7 +111,6 @@ class OSG_WINDOWQTLIB_DLLMAPPING QAbstractFieldEditor : public QWidget
     UInt32             _uiFieldId;
     bool               _bReadOnly;
     bool               _bLabelsVisible;
-    bool               _bActionButtonsVisible;
 
     QOSGWidgetFactory *_pFactory;
 };
@@ -122,7 +119,7 @@ OSG_END_NAMESPACE
 
 #include "OSGQAbstractFieldEditor_qt.inl"
 
-#define OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
+#define OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.h,v 1.3 2004/12/20 11:09:52 neumannc Exp $"
 
 #endif /* _OSGQABSTRACTFIELDEDITOR_QT_H_ */
 

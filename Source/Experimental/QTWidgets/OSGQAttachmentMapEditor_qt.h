@@ -36,77 +36,96 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGQSFIELDEDITOR_QT_H_
-#define _OSGQSFIELDEDITOR_QT_H_
+#ifndef _OSGQATTACHMENTMAPEDITOR_QT_H_
+#define _OSGQATTACHMENTMAPEDITOR_QT_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 #include <OSGWindowQTDef.h>
-#include <OSGQAbstractFieldEditor_qt.h>
+#include <OSGQAbstractValueEditor_qt.h>
+#include <OSGAttachment.h>
 
-#include <qstring.h>
+#include <vector>
 
-class QHBoxLayout;
-class QPushButton;
+class QLabel;
+class QGridLayout;
 
 OSG_BEGIN_NAMESPACE
+    
+class QFieldContainerPtrEditor;
 
-class QAbstractValueEditor;
-
-class OSG_WINDOWQTLIB_DLLMAPPING QSFieldEditor : public QAbstractFieldEditor
+class OSG_WINDOWQTLIB_DLLMAPPING QAttachmentMapEditor 
+    : public QAbstractValueEditor
 {
-    Q_OBJECT;
-
+    Q_OBJECT
+        
   public:
-    static QAbstractFieldEditor *create(QWidget *pParent, const char *name);
+    static QAbstractValueEditor *create(QWidget *pParent, const char *name);
 
-    QSFieldEditor(QWidget *pParent, const char *name);
+             QAttachmentMapEditor(QWidget *pParent, const char *name);
+    virtual ~QAttachmentMapEditor(void                              );
+        
+    inline void getValue(      AttachmentMap &attMap) const;
+    inline void setValue(const AttachmentMap &attMap);
 
-    virtual ~QSFieldEditor(void);
-
-    virtual const QAbstractValueEditor *getEditor(UInt32 uiValueIndex) const;
-    virtual       QAbstractValueEditor *getEditor(UInt32 uiValueIndex);
+    inline const QFieldContainerPtrEditor *getEditor(UInt32 index) const;
+    inline       QFieldContainerPtrEditor *getEditor(UInt32 index); 
 
   public slots:
-    virtual void setField               (FieldContainerPtr fcPtr,
-                                         UInt32            uiFieldId);
-    virtual void setReadOnly            (bool              bReadOnly);
-    virtual void setLabelsVisible       (bool              bVisible );
+    virtual void setLabelsVisible(bool bLabels  );
+    virtual void setReadOnly     (bool bReadOnly);
 
-    virtual void readField (void               );
-    virtual void readField (UInt32 uiValueIndex);
+    virtual void readField      (FieldContainerPtr pFC,          
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex,
+                                 UInt32            uiAspect     );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-    virtual void writeField(void               );
-    virtual void writeField(UInt32 uiValueIndex);
+    virtual void writeField     (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-  protected slots:
-    virtual void slotEditorValueChanged (QAbstractValueEditor *pSender );
-    virtual void slotGenericRequest     (QAbstractValueEditor *pSender, 
-                                         QString               request );
-
-    virtual void slotButtonCommitClicked(void                          );
-    virtual void slotButtonRevertClicked(void                          );
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+    
+ protected slots:
+    virtual void slotValueChanged  (QAbstractValueEditor *pSender                 );
+    virtual void slotGenericRequest(QAbstractValueEditor *pSender, QString request);
 
   private:
-    typedef QAbstractFieldEditor Inherited;
-
+    typedef QAbstractValueEditor Inherited;
+      
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    QAttachmentMapEditor (const QAttachmentMapEditor &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator= (const QAttachmentMapEditor &source);
+  
     void createChildWidgets(void);
     void layoutChildWidgets(void);
     void initSelf          (void);
-
-    QHBoxLayout          *_pHBox;
-    QPushButton          *_pButtonCommit;
-    QPushButton          *_pButtonRevert;
-    QAbstractValueEditor *_pEditor;
+      
+    void updateDisplay     (const AttachmentMap &attMap);
+    void updateData        (      AttachmentMap &attMap) const;
+    
+    std::vector<QLabel                   *>  _indexLabels;
+    std::vector<QLabel                   *>  _groupLabels;
+    std::vector<QFieldContainerPtrEditor *>  _attachmentEditors;
+    
+    QGridLayout                             *_pGrid;
 };
 
 OSG_END_NAMESPACE
 
-//#include "OSGQSFieldEditor_qt.inl"
+#include "OSGQAttachmentMapEditor_qt.inl"
 
-#define OSGQSFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQSFieldEditor_qt.h,v 1.3 2004/12/20 11:09:54 neumannc Exp $"
+#define OSGQATTACHMENTMAPEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAttachmentMapEditor_qt.h,v 1.1 2004/12/20 11:09:52 neumannc Exp $"
 
-#endif /* _OSGQSFIELDEDITOR_QT_H_ */
-
+#endif /* _OSGQATTACHMENTMAPEDITOR_QT_H_ */

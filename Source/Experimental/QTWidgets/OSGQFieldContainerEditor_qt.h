@@ -48,6 +48,7 @@
 #include <OSGFieldContainer.h>
 #include <OSGQOSGWidgetFactory.h>
 
+#include <qstring.h>
 #include <qwidget.h>
 
 #include <vector>
@@ -90,11 +91,8 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     inline bool getLabelsVisible(void) const;
 
   signals:
-    void valueChanged(UInt32 uiFieldId, UInt32 uiValueIndex);
-
-    void actionButtonClicked (UInt32 uiFieldId, UInt32 uiValueIndex);
-    void actionButtonPressed (UInt32 uiFieldId, UInt32 uiValueIndex);
-    void actionButtonReleased(UInt32 uiFieldId, UInt32 uiValueIndex);
+    void valueChanged  (UInt32 fieldId, UInt32 valueIndex                 );
+    void genericRequest(UInt32 fieldId, UInt32 valueIndex, QString request);
 
   public slots:
     virtual void setFieldContainer(FieldContainerPtr pFC      );
@@ -103,12 +101,11 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     virtual void setLabelsVisible (bool              bVisible );
 
   protected slots:
-    virtual void slotActionButtonClicked (QAbstractFieldEditor *pSender,
-                                          UInt32                uiValueIndex);
-    virtual void slotActionButtonPressed (QAbstractFieldEditor *pSender,
-                                          UInt32                uiValueIndex);
-    virtual void slotActionButtonReleased(QAbstractFieldEditor *pSender,
-                                          UInt32                uiValueIndex);
+    virtual void slotValueChanged  (QAbstractFieldEditor *pSender,
+                                    UInt32                valueIndex  );
+    virtual void slotGenericRequest(QAbstractFieldEditor *pSender,
+                                    UInt32                valueIndex,
+                                    QString               request     );
 
   private slots:
     void slotButtonBackClicked(void);
@@ -162,6 +159,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerEditor_qt.inl"
 
-#define OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerEditor_qt.h,v 1.2 2004/08/15 15:07:19 a-m-z Exp $";
+#define OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerEditor_qt.h,v 1.3 2004/12/20 11:09:52 neumannc Exp $";
 
 #endif /* _OSGQFIELDCONTAINEREDITOR_QT_H_ */

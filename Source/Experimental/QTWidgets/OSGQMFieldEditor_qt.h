@@ -91,7 +91,6 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
                                          UInt32            uiFieldId);
     virtual void setReadOnly            (bool              bReadOnly);
     virtual void setLabelsVisible       (bool              bVisible );
-    virtual void setActionButtonsVisible(bool              bVisible );
 
     virtual void readField (void               );
     virtual void readField (UInt32 uiValueIndex);
@@ -103,23 +102,19 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
     virtual void keyPressEvent(QKeyEvent *pEvent);
 
   private slots:
-    void slotButtonPrevClicked     (void         );
-    void slotButtonNextClicked     (void         );
+    void slotButtonPrevClicked     (void              );
+    void slotButtonNextClicked     (void              );
 
-    void slotButtonCommitClicked   (void         );
-    void slotButtonRevertClicked   (void         );
+    void slotButtonCommitClicked   (void              );
+    void slotButtonRevertClicked   (void              );
 
-    void slotButtonAddAfterClicked (void         );
-    void slotButtonAddBeforeClicked(void         );
-    void slotButtonSubClicked      (void         );
+    void slotButtonAddAfterClicked (void              );
+    void slotButtonAddBeforeClicked(void              );
+    void slotButtonSubClicked      (void              );
 
-    void slotEditorValueChanged    (int  editorId);
-
-    void slotActionButtonClicked   (int  buttonId);
-    void slotActionButtonPressed   (int  buttonId);
-    void slotActionButtonReleased  (int  buttonId);
-
-    void slotSelectorButtonClicked (int  buttonId);
+    void slotValueChanged  (QAbstractValueEditor *pSender );
+    void slotGenericRequest(QAbstractValueEditor *pSender, 
+                            QString               request );
 
   private:
     typedef QAbstractFieldEditor Inherited;
@@ -129,12 +124,6 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
         SelectColumn = 0,
         LabelColumn  = 1,
         EditorColumn = 2
-    };
-
-    enum
-    {
-        RButtonAddLastID  = 0,
-        RButtonAddIndexID = 1
     };
 
     typedef std::vector<QLabel               *> LabelList;
@@ -188,8 +177,6 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
     QPushButton                         *_pButtonAddBefore;
     QPushButton                         *_pButtonSub;
 
-    QSignalMapper                       *_pValueChangedMapper;
-    QButtonGroup                        *_pActionButtonGroup;
     QButtonGroup                        *_pSelectorButtonGroup;
 
     std::vector<QLabel               *>  _labels;
@@ -201,6 +188,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQMFieldEditor_qt.inl"
 
-#define OSGQMFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMFieldEditor_qt.h,v 1.4 2004/08/19 13:46:12 a-m-z Exp $"
+#define OSGQMFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMFieldEditor_qt.h,v 1.5 2004/12/20 11:09:53 neumannc Exp $"
 
 #endif /* _OSGQMFIELDEDITOR_QT_H_ */

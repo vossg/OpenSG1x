@@ -45,7 +45,13 @@
 #include <qlayout.h>
 #include <qlabel.h>
 
+#include <OSGMathFieldDataType.h>
+#include <OSGQOSGWidgetFactoryHelper.h>
+
 OSG_USING_NAMESPACE
+
+ValueEditorRegistrator _regMatrix( FieldDataTraits<Matrix>::getType(),
+                                  &QMatrixEditor          ::create    );
 
 QAbstractValueEditor *
 QMatrixEditor::create(QWidget *pParent, const char *name)
@@ -200,9 +206,16 @@ QMatrixEditor::removeFieldElem(
     }
 }
 
-void QMatrixEditor::createChildWidgets(void)
+void
+QMatrixEditor::slotValueChanged(void)
 {
-    _pGrid = new QGridLayout(this, 4, 9, 0, 1, "QMatrixEditor::_pGrid");
+    emit valueChanged(this);
+}
+
+void 
+QMatrixEditor::createChildWidgets(void)
+{
+    _pGrid = new QGridLayout(this, 4, 8, 0, 1, "QMatrixEditor::_pGrid");
 
     _pLabels   [0]  = new QLabel        ("0,0", this,
                                          "QMatrixEditor::_pLabels"   );
@@ -286,12 +299,16 @@ void QMatrixEditor::layoutChildWidgets(void)
         _pGrid->setColStretch(2 * col,      0);
         _pGrid->setColStretch(2 * col + 1, 10);
     }
-
-    _pGrid->addMultiCellWidget(this->getActionButton(), 0, 9, 4, 9);
 }
 
 void QMatrixEditor::initSelf(void)
 {
+    for(UInt32 i = 0; i < 16; ++i)
+    {
+        connect(_pSpinBoxes[i], SIGNAL(valueChanged    (void)),
+                this,           SLOT  (slotValueChanged(void)) );
+    }
+
 }
 
 // include generated file
@@ -310,7 +327,7 @@ void QMatrixEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMatrixEditor_qt.cpp,v 1.2 2004/08/13 15:20:59 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMatrixEditor_qt.cpp,v 1.3 2004/12/20 11:09:53 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQMATRIXEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQMATRIXEDITORQT_INLINE_CVSID;
 }

@@ -37,6 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 #include "OSGQFieldContainerEditor_qt.h"
+#include <OSGQFieldContainerPtrEditor_qt.h>
+#include <OSGQAttachmentMapEditor_qt.h>
 #include <OSGSField.h>
 #include <OSGMField.h>
 #include <OSGFieldContainer.h>
@@ -131,39 +133,6 @@ QFieldContainerEditor::slotButtonBackClicked(void)
 }
 
 void
-QFieldContainerEditor::slotActionButtonClicked(
-    QAbstractFieldEditor *pSender, UInt32 uiValueIndex)
-{
-          Field     *pField = pSender->getFieldContainer()->getField(
-                                 pSender->getFieldId());
-    const FieldType &fType  = pField ->getType      ();
-
-    if(strstr(fType.getCName(), "Ptr") != NULL)
-    {
-        if(fType.getCardinality() == FieldType::SINGLE_FIELD)
-        {
-            FieldContainerPtr fc = ((SFFieldContainerPtr *) pField)->getValue();
-            if(fc != NullFC)
-            {
-                _history.push(_fcPtr);
-                this->setFieldContainer(fc);
-            }
-        }
-        else
-        {
-            FieldContainerPtr fc = (*(((MFFieldContainerPtr *)pField)))[uiValueIndex];
-            if(fc != NullFC)
-            {
-                _history.push(_fcPtr);
-                this->setFieldContainer(fc);
-            }
-        }
-    }
-
-    emit actionButtonClicked(pSender->getFieldId(), uiValueIndex);
-}
-
-void
 QFieldContainerEditor::setReadOnly(bool bReadOnly)
 {
     _bReadOnly = bReadOnly;
@@ -192,17 +161,57 @@ QFieldContainerEditor::setLabelsVisible(bool bVisible)
 }
 
 void
-QFieldContainerEditor::slotActionButtonPressed(
-    QAbstractFieldEditor *pSender, UInt32 uiValueIndex)
+QFieldContainerEditor::slotValueChanged(
+    QAbstractFieldEditor *pSender, UInt32 valueIndex)
 {
-    emit actionButtonPressed(pSender->getFieldId(), uiValueIndex);
+    emit valueChanged(pSender->getFieldId(), valueIndex);
 }
 
 void
-QFieldContainerEditor::slotActionButtonReleased(
-    QAbstractFieldEditor *pSender, UInt32 uiValueIndex)
+QFieldContainerEditor::slotGenericRequest(
+    QAbstractFieldEditor *pSender, UInt32 valueIndex, QString request)
 {
-    emit actionButtonReleased(pSender->getFieldId(), uiValueIndex);
+    SLOG << "QFieldContainerEditor::slotGenericRequest: " << request << endLog;
+
+    if(request.startsWith("QFieldContainerPtrEditor::ShowTarget") == true)
+    {
+        QFieldContainerPtrEditor *pEditor = 
+            dynamic_cast<QFieldContainerPtrEditor *>(pSender->getEditor(valueIndex));
+        FieldContainerPtr         fcPtr   = NullFC;
+
+        if(pEditor != NULL)
+        {
+            pEditor->getValue(fcPtr);
+        }
+
+        if(fcPtr != NullFC)
+        {
+            _history.push    (_fcPtr);
+            setFieldContainer(fcPtr );
+        }
+    }
+    else if(request.startsWith("QAttachmentMapEditor::ShowTarget:") == true)
+    {
+        bool                  ok      = false;
+        QAttachmentMapEditor *pEditor =
+            dynamic_cast<QAttachmentMapEditor *>(pSender->getEditor(valueIndex));
+        FieldContainerPtr     fcPtr   = NullFC;
+
+        UInt32 index = request.remove("QAttachmentMapEditor::ShowTarget:").toUInt(&ok);
+
+        if((pEditor != NULL) && (ok == true))
+        {
+            pEditor->getEditor(index)->getValue(fcPtr);
+        }
+
+        if(fcPtr != NullFC)
+        {
+            _history.push    (_fcPtr);
+            setFieldContainer(fcPtr );
+        }
+    }
+
+    emit genericRequest(pSender->getFieldId(), valueIndex, request);
 }
 
 void
@@ -240,29 +249,17 @@ QFieldContainerEditor::populateTable(void)
 
             _pTable        ->setCellWidget   (i - 1, FieldValueCol,
                                               _editors[i - 1]      );
-
-            if(strstr(fType.getCName(), "Ptr") != NULL)
-            {
-                _editors[i - 1]->setActionButtonsVisible(true);
-            }
+            connect(
+                _editors[i - 1],
+                SIGNAL(valueChanged      (QAbstractFieldEditor *, UInt32)),
+                this,
+                SLOT  (slotValueChanged  (QAbstractFieldEditor *, UInt32)) );
 
             connect(
                 _editors[i - 1],
-                SIGNAL(actionButtonClicked  (QAbstractFieldEditor *, UInt32)),
+                SIGNAL(genericRequest    (QAbstractFieldEditor *, UInt32, QString)),
                 this,
-                SLOT(slotActionButtonClicked(QAbstractFieldEditor *, UInt32)));
-
-            connect(
-                _editors[i - 1],
-                SIGNAL(actionButtonPressed  (QAbstractFieldEditor *, UInt32)),
-                this,
-                SLOT(slotActionButtonPressed(QAbstractFieldEditor *, UInt32)));
-
-            connect(
-                _editors[i - 1],
-                SIGNAL(actionButtonReleased  (QAbstractFieldEditor *, UInt32)),
-                this,
-                SLOT(slotActionButtonReleased(QAbstractFieldEditor *, UInt32)));
+                SLOT  (slotGenericRequest(QAbstractFieldEditor *, UInt32, QString)) );
         }
 
         _pTable->setText  (i - 1, FieldNameCol,
@@ -354,7 +351,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.5 2004/09/17 17:50:35 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.6 2004/12/20 11:09:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }

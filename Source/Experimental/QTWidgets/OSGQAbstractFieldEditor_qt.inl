@@ -80,12 +80,6 @@ QAbstractFieldEditor::getLabelsVisible(void) const
     return _bLabelsVisible;
 }
 
-inline bool
-QAbstractFieldEditor::getActionButtonsVisible(void) const
-{
-    return _bActionButtonsVisible;
-}
-
 inline Field *
 QAbstractFieldEditor::getField(void) const
 {
@@ -106,4 +100,4 @@ QAbstractFieldEditor::getPixmapYes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.inl,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
+#define OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.inl,v 1.3 2004/12/20 11:09:52 neumannc Exp $"

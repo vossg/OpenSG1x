@@ -63,9 +63,8 @@ class OSG_WINDOWQTLIB_DLLMAPPING QColor3fEditor : public QAbstractValueEditor
   public:
     static QAbstractValueEditor *create(QWidget *pParent, const char *name);
 
-    QColor3fEditor(QWidget *pParent, const char *name);
-
-    virtual ~QColor3fEditor(void);
+             QColor3fEditor(QWidget *pParent, const char *name);
+    virtual ~QColor3fEditor(void                              );
 
     inline void getValue(      Color3f &color) const;
     inline void setValue(const Color3f &color);
@@ -115,6 +114,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQColor3fEditor_qt.inl"
 
-#define OSGQCOLOR3FEDITORQT_HEADER_CVSID "@(#)$Id: OSGQColor3fEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
+#define OSGQCOLOR3FEDITORQT_HEADER_CVSID "@(#)$Id: OSGQColor3fEditor_qt.h,v 1.3 2004/12/20 11:09:52 neumannc Exp $"
 
 #endif /* _OSGQCOLOR3FEDITOR_QT_H_ */

@@ -58,59 +58,51 @@ class OSG_WINDOWQTLIB_DLLMAPPING QAbstractValueEditor : public QWidget
     Q_OBJECT
 
   public:
-    QAbstractValueEditor(QWidget *pParent, const char *name);
+             QAbstractValueEditor(QWidget *pParent, const char *name);
+    virtual ~QAbstractValueEditor(void                              );
 
-    virtual ~QAbstractValueEditor(void);
-
-    inline       bool         getLabelsVisible(void        ) const;
-    inline       bool         getReadOnly     (void        ) const;
-
-    inline       bool         getButtonVisible(void        ) const;
-    inline       void         setButtonVisible(bool visible);
-
-    inline const QPushButton *getActionButton (void        ) const;
-    inline       QPushButton *getActionButton (void        );
+    inline bool getLabelsVisible(void) const;
+    inline bool getReadOnly     (void) const;
 
   signals:
-    void valueChanged       (void);
+    void valueChanged  (QAbstractValueEditor *pSender                 );
+    void genericRequest(QAbstractValueEditor *pSender, QString request);
 
   public slots:
     virtual void setLabelsVisible(bool bLabelsVisible);
     virtual void setReadOnly     (bool bReadOnly     );
 
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex, UInt32 uiAspect  );
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void readField      (FieldContainerPtr pFC,          
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex, 
+                                 UInt32            uiAspect     );
+    virtual void readField      (FieldContainerPtr pFC, 
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-    virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void writeField     (FieldContainerPtr pFC,          
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
     virtual void addFieldElem   (FieldContainerPtr pFC,
                                  UInt32            uiFieldId,
-                                 UInt32            uiValueIndex);
+                                 UInt32            uiValueIndex );
     virtual void removeFieldElem(FieldContainerPtr pFC,
                                  UInt32            uiFieldId,
-                                 UInt32            uiValueIndex);
+                                 UInt32            uiValueIndex );
 
   private:
     typedef QWidget Inherited;
 
-    void initStatic         (void);
-
-    static QPixmap *_pPixmapAction;
-
-    QPushButton *_pActionButton;
-
-    bool         _bLabelsVisible;
-    bool         _bReadOnly;
+    bool _bLabelsVisible;
+    bool _bReadOnly;
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGQAbstractValueEditor_qt.inl"
 
-#define OSGQABSTRACTVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractValueEditor_qt.h,v 1.3 2004/08/14 18:17:01 a-m-z Exp $"
+#define OSGQABSTRACTVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractValueEditor_qt.h,v 1.4 2004/12/20 11:09:52 neumannc Exp $"
 
 #endif /* _OSGQABSTRACTVALUEEDITOR_QT_H_ */
 

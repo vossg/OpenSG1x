@@ -46,21 +46,12 @@
 
 OSG_USING_NAMESPACE
 
-QPixmap *QAbstractValueEditor::_pPixmapAction  = NULL;
 
 QAbstractValueEditor::QAbstractValueEditor(QWidget *pParent, const char *name)
     : Inherited      (pParent, name),
-      _pActionButton (NULL         ),
       _bLabelsVisible(true         ),
       _bReadOnly     (true         )
 {
-    initStatic();
-
-    _pActionButton = new QPushButton(this, "QAbstractValueEditor::_pActionButton");
-    _pActionButton->setPixmap(*_pPixmapAction);
-    _pActionButton->setFixedSize(16, 16);
-
-    _pActionButton->hide();
 }
 
 QAbstractValueEditor::~QAbstractValueEditor(void)
@@ -121,13 +112,6 @@ QAbstractValueEditor::removeFieldElem(
              << endLog;
 }
 
-void
-QAbstractValueEditor::initStatic(void)
-{
-    if(_pPixmapAction == NULL)
-        _pPixmapAction = new QPixmap(XPMAction);
-}
-
 // include generated files
 #include "OSGQAbstractValueEditor_qt_moc.cpp"
 
@@ -144,7 +128,7 @@ QAbstractValueEditor::initStatic(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractValueEditor_qt.cpp,v 1.3 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractValueEditor_qt.cpp,v 1.4 2004/12/20 11:09:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQABSTRACTVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQABSTRACTVALUEEDITORQT_INLINE_CVSID;
 }

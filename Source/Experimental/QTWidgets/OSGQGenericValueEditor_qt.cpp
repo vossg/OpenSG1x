@@ -167,7 +167,7 @@ QGenericValueEditor::removeFieldElem(
 void
 QGenericValueEditor::slotLineEditValueChanged(void)
 {
-    emit valueChanged();
+    emit valueChanged(this);
 }
 
 void
@@ -181,10 +181,8 @@ QGenericValueEditor::createChildWidgets(void)
 void
 QGenericValueEditor::layoutChildWidgets(void)
 {
-    _pHBox->addWidget(_pLabel,                  0);
-    _pHBox->addWidget(_pLineEdit,              10);
-
-    _pHBox->addWidget(this->getActionButton(), 10);
+    _pHBox->addWidget(_pLabel,     0);
+    _pHBox->addWidget(_pLineEdit, 10);
 }
 
 void
@@ -215,7 +213,7 @@ QGenericValueEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.3 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.4 2004/12/20 11:09:53 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQGENERICVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQGENERICVALUEEDITORQT_INLINE_CVSID;
 }

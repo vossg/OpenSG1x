@@ -88,6 +88,9 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMatrixEditor : public QAbstractValueEditor
                                  UInt32            uiFieldId,
                                  UInt32            uiValueIndex );
 
+  protected slots:
+    virtual void slotValueChanged(void);
+
   private:
     typedef QAbstractValueEditor Inherited;
 
@@ -104,6 +107,6 @@ OSG_END_NAMESPACE
 
 //#include "OSGQMatrixEditor_qt.inl"
 
-#define OSGQMATRIXEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMatrixEditor_qt.h,v 1.2 2004/08/13 15:20:59 neumannc Exp $"
+#define OSGQMATRIXEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMatrixEditor_qt.h,v 1.3 2004/12/20 11:09:53 neumannc Exp $"
 
 #endif /* _OSGQMATRIXEDITOR_QT_H_ */

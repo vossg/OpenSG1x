@@ -81,27 +81,26 @@ QMFieldEditor::create(QWidget *pParent, const char *name)
 }
 
 QMFieldEditor::QMFieldEditor(QWidget *pParent, const char *name)
-    : Inherited            (pParent, name),
-      _uiBeginIndex        (0            ),
-      _uiEndIndex          (0            ),
-      _uiNumRows           (5            ),
-      _pVBox               (NULL         ),
-      _pButtonBox          (NULL         ),
-      _pEditorGrid         (NULL         ),
-      _pButtonPrev         (NULL         ),
-      _pButtonNext         (NULL         ),
-      _pButtonCommit       (NULL         ),
-      _pButtonRevert       (NULL         ),
-      _pButtonAddAfter     (NULL         ),
-      _pButtonAddBefore    (NULL         ),
-      _pButtonSub          (NULL         ),
-      _pValueChangedMapper (NULL         ),
-      _pActionButtonGroup  (NULL         ),
-      _pSelectorButtonGroup(NULL         ),
-      _labels              (             ),
-      _editors             (             )
+    : Inherited             (pParent, name),
+      _uiBeginIndex         (0            ),
+      _uiEndIndex           (0            ),
+      _uiNumRows            (5            ),
+      _pVBox                (NULL         ),
+      _pButtonBox           (NULL         ),
+      _pEditorGrid          (NULL         ),
+      _pButtonPrev          (NULL         ),
+      _pButtonNext          (NULL         ),
+      _pButtonCommit        (NULL         ),
+      _pButtonRevert        (NULL         ),
+      _pButtonAddAfter      (NULL         ),
+      _pButtonAddBefore     (NULL         ),
+      _pButtonSub           (NULL         ),
+      _pSelectorButtonGroup (NULL         ),
+      _labels               (             ),
+      _editors              (             )
 {
     initStatic        ();
+
     createChildWidgets();
     layoutChildWidgets();
     initSelf          ();
@@ -109,7 +108,6 @@ QMFieldEditor::QMFieldEditor(QWidget *pParent, const char *name)
 
 QMFieldEditor::~QMFieldEditor(void)
 {
-    delete _pActionButtonGroup;
 }
 
 const QAbstractValueEditor *
@@ -195,20 +193,6 @@ QMFieldEditor::setLabelsVisible(bool bVisible)
     for(; itEditors != endEditors; ++itEditors)
     {
         (*itEditors)->setLabelsVisible(bVisible);
-    }
-}
-
-void
-QMFieldEditor::setActionButtonsVisible(bool bVisible)
-{
-    Inherited::setActionButtonsVisible(bVisible);
-
-    EditorListIt itEditors  = _editors.begin();
-    EditorListIt endEditors = _editors.end  ();
-
-    for(; itEditors != endEditors; ++itEditors)
-    {
-        (*itEditors)->setButtonVisible(bVisible);
     }
 }
 
@@ -381,6 +365,8 @@ QMFieldEditor::slotButtonAddAfterClicked(void)
             pEditor->addFieldElem(getFieldContainer(), getFieldId(),
                                   mapWidgetIndex(uiAddIndex) + 1    );
         }
+
+        delete pEditor;
     }
 
     scrollDown           (0);
@@ -429,6 +415,8 @@ QMFieldEditor::slotButtonAddBeforeClicked(void)
             pEditor->addFieldElem(getFieldContainer(), getFieldId(),
                                   mapWidgetIndex(uiAddIndex)        );
         }
+
+        delete pEditor;
     }
 
     scrollDown           (0);
@@ -473,6 +461,8 @@ QMFieldEditor::slotButtonSubClicked(void)
             pEditor->removeFieldElem(getFieldContainer(), getFieldId(),
                                      mapWidgetIndex(uiSubIndex)        );
         }
+
+        delete pEditor;
     }
 
     scrollUp             (0);
@@ -481,8 +471,11 @@ QMFieldEditor::slotButtonSubClicked(void)
 }
 
 void
-QMFieldEditor::slotEditorValueChanged(int editorId)
+QMFieldEditor::slotValueChanged(QAbstractValueEditor *pSender)
 {
+    EditorListIt itEditors  = _editors.begin();
+    EditorListIt endEditors = _editors.end  ();
+
     _pButtonCommit   ->setEnabled(true );
     _pButtonRevert   ->setEnabled(true );
 
@@ -492,46 +485,32 @@ QMFieldEditor::slotEditorValueChanged(int editorId)
     _pButtonAddBefore->setEnabled(false);
     _pButtonSub      ->setEnabled(false);
 
-    if(isValidWidgetIndex(static_cast<UInt32>(editorId)) == true)
+    for(UInt32 i = _uiBeginIndex; itEditors != endEditors; ++itEditors, ++i)
     {
-        emit valueChanged(
-            this, mapWidgetIndex(static_cast<UInt32>(editorId)));
+        if(*itEditors == pSender)
+        {
+            emit valueChanged(this, i);
+
+            break;
+        }
     }
 }
 
 void
-QMFieldEditor::slotActionButtonClicked(int buttonId)
+QMFieldEditor::slotGenericRequest(QAbstractValueEditor *pSender, QString request)
 {
-    if(isValidWidgetIndex(static_cast<UInt32>(buttonId)) == true)
-    {
-        emit actionButtonClicked(
-            this, mapWidgetIndex(static_cast<UInt32>(buttonId)));
-    }
-}
+    EditorListIt itEditors  = _editors.begin();
+    EditorListIt endEditors = _editors.end  ();
 
-void
-QMFieldEditor::slotActionButtonPressed(int buttonId)
-{
-    if(isValidWidgetIndex(static_cast<UInt32>(buttonId)) == true)
+    for(UInt32 i = _uiBeginIndex; itEditors != endEditors; ++itEditors, ++i)
     {
-        emit actionButtonPressed(
-            this, mapWidgetIndex(static_cast<UInt32>(buttonId)));
-    }
-}
+        if(*itEditors == pSender)
+        {
+            emit genericRequest(this, i, request);
 
-void
-QMFieldEditor::slotActionButtonReleased(int buttonId)
-{
-    if(isValidWidgetIndex(static_cast<UInt32>(buttonId)) == true)
-    {
-        emit actionButtonReleased(
-            this, mapWidgetIndex(static_cast<UInt32>(buttonId)));
+            break;
+        }
     }
-}
-
-void
-QMFieldEditor::slotSelectorButtonClicked(int buttonId)
-{
 }
 
 void
@@ -572,11 +551,7 @@ QMFieldEditor::createChildWidgets(void)
     _pButtonAddBefore = new QPushButton(this, "QMFieldEditor::_pButtonAddBefore");
     _pButtonSub       = new QPushButton(this, "QMFieldEditor::_pButtonSub"      );
 
-    _pValueChangedMapper  = new QSignalMapper(
-        this, "QMFieldEditor::_pValueChangedSignalMapper");
-    _pActionButtonGroup   = new QButtonGroup(
-        NULL, "QMFieldEditor::_pActionButtonGroup");
-    _pSelectorButtonGroup = new QButtonGroup(
+    _pSelectorButtonGroup  = new QButtonGroup(
         NULL, "QMFieldEditor::_pSelectorButtonGroup");
 }
 
@@ -616,7 +591,7 @@ QMFieldEditor::initSelf(void)
     _pButtonAddBefore->setPixmap (*_pPixmapAddBefore);
     _pButtonAddBefore->setFixedSize(16, 16          );
     _pButtonSub      ->setPixmap (*_pPixmapSub      );
-    _pButtonSub     ->setFixedSize(16, 16           );
+    _pButtonSub      ->setFixedSize(16, 16          );
 
     _pEditorGrid->setColStretch(SelectColumn,  0);
     _pEditorGrid->setColStretch(LabelColumn,   1);
@@ -648,20 +623,6 @@ QMFieldEditor::initSelf(void)
             this,              SLOT  (slotButtonAddBeforeClicked(void)) );
     connect(_pButtonSub,       SIGNAL(clicked                   (void)),
             this,              SLOT  (slotButtonSubClicked      (void)) );
-
-    connect(_pValueChangedMapper,  SIGNAL(mapped                   (int)),
-            this,                  SLOT  (slotEditorValueChanged   (int)) );
-
-    connect(_pActionButtonGroup,   SIGNAL(clicked                  (int)),
-            this,                  SLOT  (slotActionButtonClicked  (int)) );
-    connect(_pActionButtonGroup,   SIGNAL(pressed                  (int)),
-            this,                  SLOT  (slotActionButtonPressed  (int)) );
-    connect(_pActionButtonGroup,   SIGNAL(released                 (int)),
-            this,                  SLOT  (slotActionButtonReleased (int)) );
-
-    connect(_pSelectorButtonGroup, SIGNAL(clicked                  (int)),
-            this,                  SLOT  (slotSelectorButtonClicked(int)) );
-
 
     QToolTip::add(_pButtonPrev,      "Previous page"            );
     QToolTip::add(_pButtonNext,      "Next page"                );
@@ -697,17 +658,17 @@ QMFieldEditor::createEditorWidgets(void)
 
         if(pEditor != NULL)
         {
-            _editors            . push_back (pEditor                      );
-            _pEditorGrid        ->addWidget (pEditor, i, EditorColumn     );
-            _pValueChangedMapper->setMapping(pEditor, i                   );
-            _pActionButtonGroup ->insert    (pEditor->getActionButton(), i);
+            _editors     . push_back(pEditor                 );
+            _pEditorGrid ->addWidget(pEditor, i, EditorColumn);
 
             pEditor->setReadOnly     (getReadOnly            ());
             pEditor->setLabelsVisible(getLabelsVisible       ());
-            pEditor->setButtonVisible(getActionButtonsVisible());
 
-            connect(pEditor,              SIGNAL(valueChanged(void)),
-                    _pValueChangedMapper, SLOT  (map         (void)) );
+            connect(pEditor, SIGNAL(valueChanged      (QAbstractValueEditor *)),
+                    this,    SLOT  (slotValueChanged  (QAbstractValueEditor *)) );
+
+            connect(pEditor, SIGNAL(genericRequest    (QAbstractValueEditor *, QString)),
+                    this,    SLOT  (slotGenericRequest(QAbstractValueEditor *, QString)) );
         }
         else
         {
@@ -741,12 +702,13 @@ QMFieldEditor::deleteEditorWidgets(void)
         _pEditorGrid->remove(_selectors[i]);
         _pEditorGrid->remove(_editors  [i]);
 
-        _pValueChangedMapper ->removeMappings(_editors  [i]                   );
-        _pActionButtonGroup  ->remove        (_editors  [i]->getActionButton());
         _pSelectorButtonGroup->remove        (_selectors[i]                   );
 
-        disconnect(_editors[i],          SIGNAL(valueChanged(void)),
-                   _pValueChangedMapper, SLOT  (map         (void)) );
+        disconnect(_editors[i], SIGNAL(valueChanged      (QAbstractValueEditor *)),
+                   this,        SLOT  (slotValueChanged  (QAbstractValueEditor *)) );
+
+        disconnect(_editors[i], SIGNAL(genericRequest    (QAbstractValueEditor *, QString)),
+                   this,        SLOT  (slotGenericRequest(QAbstractValueEditor *, QString)) );
 
         delete _labels   [i];
         delete _selectors[i];
@@ -872,7 +834,7 @@ QMFieldEditor::updateTableRow(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.7 2004/08/19 13:46:12 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.8 2004/12/20 11:09:53 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQMFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQMFIELDEDITORQT_INLINE_CVSID;
 }

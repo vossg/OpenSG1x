@@ -49,10 +49,14 @@
 
 class QHBoxLayout;
 class QLabel;
-class QLineEdit;
+class QComboBox;
+class QPushButton;
+class QStrList;
 
 OSG_BEGIN_NAMESPACE
 
+class QSpinBoxUInt32;  
+    
 class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
     : public QAbstractValueEditor
 {
@@ -91,7 +95,10 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
                                  UInt32            uiValueIndex  );
 
   protected slots:
-    virtual void slotIdChanged(void);
+    virtual void slotIdChanged              (void);
+    
+    virtual void slotButtonCreateNewClicked (void);
+    virtual void slotButtonShowTargetClicked(void);
 
   private:
     typedef QAbstractValueEditor Inherited;
@@ -101,20 +108,31 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator=          (const QFieldContainerPtrEditor &source);
 
-    void createChildWidgets(void);
-    void layoutChildWidgets(void);
-    void initSelf          (void);
+    void createChildWidgets  (void);
+    void layoutChildWidgets  (void);
+    void initSelf            (void);
 
-    QHBoxLayout *_pHBox;
+    void updateStaticTypeList(void);
 
-    QLabel      *_pLabelId;
-    QLineEdit   *_pLineEditId;
+    void updateDisplay     (FieldContainerPtr  fcPtr);
+    void updateData        (FieldContainerPtr &fcPtr) const;
+    
+    static QStrList *_pTypeNames;
+
+    QHBoxLayout     *_pHBox;
+
+    QLabel          *_pLabelId;
+    QSpinBoxUInt32  *_pSpinBoxId;
+    QLabel          *_pLabelType;
+    QComboBox       *_pCBoxType;
+    QPushButton     *_pButtonCreateNew;
+    QPushButton     *_pButtonShowTarget;
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerPtrEditor_qt.inl"
 
-#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.3 2004/08/14 18:17:01 a-m-z Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.4 2004/12/20 11:09:53 neumannc Exp $"
 
 #endif /* _OSGQFIELDCONTAINERPTREDITOR_QT_H_ */

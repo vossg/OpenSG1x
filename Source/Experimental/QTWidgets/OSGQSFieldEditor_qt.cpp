@@ -98,8 +98,6 @@ QSFieldEditor::setField(FieldContainerPtr fcPtr, UInt32 uiFieldId)
 
     if(_pEditor != NULL)
     {
-        disconnect(_pEditor->getActionButton(), 0, this, 0);
-
         _pHBox->remove(_pEditor);
 
         delete _pEditor;
@@ -114,24 +112,14 @@ QSFieldEditor::setField(FieldContainerPtr fcPtr, UInt32 uiFieldId)
 
     if(_pEditor != NULL)
     {
-        _pEditor->setReadOnly     (getReadOnly            ());
-        _pEditor->setButtonVisible(getActionButtonsVisible());
+        _pEditor->setReadOnly     (getReadOnly     ());
+        _pEditor->setLabelsVisible(getLabelsVisible());
 
-        connect(_pEditor, SIGNAL(valueChanged          (void)),
-                this,     SLOT  (slotEditorValueChanged(void)) );
+        connect(_pEditor, SIGNAL(valueChanged          (QAbstractValueEditor *)),
+                this,     SLOT  (slotEditorValueChanged(QAbstractValueEditor *)) );
 
-        connect(_pEditor->getActionButton(),
-                SIGNAL(clicked                 (void)),
-                this,
-                SLOT  (slotActionButtonClicked (void)) );
-        connect(_pEditor->getActionButton(),
-                SIGNAL(pressed                 (void)),
-                this,
-                SLOT  (slotActionButtonPressed (void)) );
-        connect(_pEditor->getActionButton(),
-                SIGNAL(released                (void)),
-                this,
-                SLOT  (slotActionButtonReleased(void)) );
+        connect(_pEditor, SIGNAL(genericRequest       (QAbstractValueEditor *, QString)),
+                this,     SLOT  (slotGenericRequest   (QAbstractValueEditor *, QString)) );
 
         _pHBox->addWidget(_pEditor, 10);
         this  ->readField(            );
@@ -172,17 +160,6 @@ QSFieldEditor::setLabelsVisible(bool bVisible)
 }
 
 void
-QSFieldEditor::setActionButtonsVisible(bool bVisible)
-{
-    Inherited::setActionButtonsVisible(bVisible);
-
-    if(_pEditor != NULL)
-    {
-        _pEditor->setButtonVisible(bVisible);
-    }
-}
-
-void
 QSFieldEditor::readField(void)
 {
     _pEditor->readField(getFieldContainer(), getFieldId(), 0);
@@ -207,12 +184,19 @@ QSFieldEditor::writeField(UInt32 uiValueIndex)
 }
 
 void
-QSFieldEditor::slotEditorValueChanged(void)
+QSFieldEditor::slotEditorValueChanged(QAbstractValueEditor *pSender)
 {
     _pButtonCommit->setEnabled(true);
     _pButtonRevert->setEnabled(true);
 
     emit valueChanged(this, 0);
+}
+
+void
+QSFieldEditor::slotGenericRequest(
+    QAbstractValueEditor *pSender, QString request)
+{
+    emit genericRequest(this, 0, request);
 }
 
 void
@@ -234,23 +218,6 @@ QSFieldEditor::slotButtonRevertClicked(void)
     readField();
 }
 
-void
-QSFieldEditor::slotActionButtonClicked(void)
-{
-    emit actionButtonClicked(this, 0);
-}
-
-void
-QSFieldEditor::slotActionButtonPressed(void)
-{
-    emit actionButtonPressed(this, 0);
-}
-
-void
-QSFieldEditor::slotActionButtonReleased(void)
-{
-    emit actionButtonReleased(this, 0);
-}
 
 void
 QSFieldEditor::createChildWidgets(void)
@@ -309,7 +276,7 @@ QSFieldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.6 2004/08/19 13:46:12 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.7 2004/12/20 11:09:54 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQSFIELDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQSFIELDEDITORQT_INLINE_CVSID;
 }

@@ -1,6 +1,8 @@
 
 #include <OSGSField.h>
 #include <OSGMField.h>
+#include <OSGSFVecTypes.h>
+#include <OSGMFVecTypes.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -273,8 +275,6 @@ QVectorPointEditorHelper<VectorPointTypeT, SizeArgT>::layoutChildWidgets(
         _pHBox->addWidget(_pLabels[i],     0);
         _pHBox->addWidget(_pSpinBoxes[i], 10);
     }
-
-    _pHBox->addWidget(pParent->getActionButton(), 10);
 }
 
 template <class        VectorPointTypeT, 
@@ -308,5 +308,5 @@ QVectorPointEditorHelper<VectorPointTypeT, SizeArgT>::initSelf(
 
 OSG_END_NAMESPACE
 
-#define OSGQVECTORPOINTEDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQVectorPointEditorHelper.inl,v 1.1 2004/11/01 12:24:30 neumannc Exp $"   
+#define OSGQVECTORPOINTEDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQVectorPointEditorHelper.inl,v 1.2 2004/12/20 11:09:54 neumannc Exp $"   
     

@@ -5,6 +5,7 @@
 #include "OSGQFieldContainerEditor_qt.h"
 
 #include <OSGSceneFileHandler.h>
+#include <OSGSimpleAttachments.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGLog.h>
 
@@ -39,6 +40,8 @@ int main(int argc, char *argv[])
         pScene = SceneFileHandler::the().read(argv[1]);
     }
 
+    setName(pScene, "pScene - Root");
+    
     pFCEditor = new QFieldContainerEditor(pGrid, "pFCEditor");
     pFCViewer = new QFieldContainerEditor(pGrid, "pFCViewer");
     pFCEditor->setReadOnly      (false );
