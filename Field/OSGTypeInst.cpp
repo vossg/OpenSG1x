@@ -68,6 +68,8 @@
 #include "OSGMFFieldContainerTypes.h"
 #include "OSGSFMathTypes.h"
 #include "OSGMFMathTypes.h"
+#include "OSGSFImageTypes.h"
+#include "OSGMFImageTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -149,6 +151,12 @@ OSG_BEGIN_NAMESPACE
 
 #pragma instantiate MField<Matrix    >::_fieldType
 #pragma instantiate MField<Quaternion>::_fieldType
+
+#pragma instantiate SField<ImageP>::_fieldType
+#pragma instantiate MField<ImageP>::_fieldType
+
+#pragma instantiate SField<Plane>::_fieldType
+#pragma instantiate MField<Plane>::_fieldType
 
 #else
 
@@ -233,6 +241,12 @@ OSG_DLLEXPORT_DEF1(SField, Quaternion, OSG_FIELD_DLLTMPLMAPPING)
 
 OSG_DLLEXPORT_DEF1(MField, Matrix,     OSG_FIELD_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Quaternion, OSG_FIELD_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DEF1(SField, ImageP,	OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ImageP,	OSG_FIELD_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DEF1(SField, Plane,	OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, Plane,	OSG_FIELD_DLLTMPLMAPPING)
 
 #endif
 

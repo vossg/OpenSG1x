@@ -202,6 +202,23 @@ OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_FIELD_DLLTMPLMAPPING)
 #endif
 #endif
 
+/** \brief MFPlane
+ */
+
+typedef MField<Plane> MFPlane;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Plane>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Plane, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGMFBASETYPES_H_ */
