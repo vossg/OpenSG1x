@@ -623,7 +623,7 @@ UInt32 Node::getBinSize(const BitVector &whichField)
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-            _volume.getBinSize();
+        returnValue += _volume       .getBinSize();
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
