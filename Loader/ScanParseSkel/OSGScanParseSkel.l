@@ -210,6 +210,8 @@ header (#[^\n]*\n)
                     }
                   }
 
+<*>"IS" { BEGIN NODE; expectToken = 0; return IS; }
+
  /* Der Lexer ist im Zustand NODE, wenn Knosten gelesen werden. */
  /* Hierbei gibt es drei Moeglichkeiten: Wurzelknoten im der */
  /* VRML-Datei, in einer Prototyp-Implementierung oder beim */
@@ -267,7 +269,6 @@ header (#[^\n]*\n)
 <NODE>SFPnt4f       { return Tok_SFPnt4f;    } 
 <NODE>SFVec4f       { return Tok_SFVec4f;    }
 <NODE>SFPlane       { return Tok_SFPlane;    } 
-
 
 <NODE>{IdFirstChar}{IdRestChar}* { //fprintf(stderr, "ID : %s\n", vrml97_text);
                                    return ID; }
@@ -988,7 +989,6 @@ header (#[^\n]*\n)
 <EXTERROR>. { return 0; }
 
 
-<*>"IS" { BEGIN NODE; expectToken = 0; return IS; }
 <*>"{"  { return OPENBRACE;                       }
 <*>"}"  { return CLOSEBRACE;                      }
 <*>"["  { return OPENBRACKET;                     }
