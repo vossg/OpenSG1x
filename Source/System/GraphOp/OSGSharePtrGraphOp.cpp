@@ -177,6 +177,12 @@ bool SharePtrGraphOp::isInList(const std::vector<std::string> &tlist,
     {
         FieldContainerType *fct = FieldContainerFactory::the()
                                         ->findType(tlist[k].c_str());
+        if(fct == NULL)
+        {
+            FWARNING(("SharePtrGraphOp: Unknown type '%s'!\n", tlist[k].c_str()));
+            break;
+        }
+
         if(fc->getType().isDerivedFrom(*fct))
             return true;
     }
