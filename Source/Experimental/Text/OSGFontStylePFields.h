@@ -153,13 +153,23 @@ struct FieldDataTraits<FontStyleP> :
     static UInt32 getBinSize(const FontStyleP &oObject)
     {
 		// AT: HIER WEITERMACHEN!
-		cout << "getBinSize in OSGFontStyleFields called with " << &oObject << endl;
+
+		cout << "getBinSize in OSGFontStyleFields called with " 
+             << &oObject << endl;
+
 		return 0;
+
         //return oObject.getBinSize();
     }
 
-    static void copyToBin(      BinaryDataHandler   &pMem, 
-                          const FontStyleP     &oObject)
+    static UInt32 getBinSize(const FontStyleP *,
+                                   UInt32      uiNumObjects)
+    {
+        return sizeof(FontStyleP) * uiNumObjects;
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FontStyleP        &oObject)
     {
 	   
 		// AT: HIER WEITERMACHEN!
@@ -171,6 +181,16 @@ struct FieldDataTraits<FontStyleP> :
 			 << endl;
     }
 
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FontStyleP        *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; i++)
+        {
+            copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+
     static void copyFromBin(BinaryDataHandler &pMem, 
                             FontStyleP     &oObject)
     {
@@ -180,6 +200,16 @@ struct FieldDataTraits<FontStyleP> :
 			 << &pMem 
 			 << " " 
 			 << &oObject << endl;
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FontStyleP        *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; i++)
+        {
+            copyFromBin(pMem, pObjectStore[i]);
+        }
     }
 };
 
