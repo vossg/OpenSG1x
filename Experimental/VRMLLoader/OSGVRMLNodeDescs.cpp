@@ -66,6 +66,12 @@
 #include <OSGSwitch.h>
 #include <OSGInline.h>
 
+#include <OSGVRMLFile.h>
+
+#ifndef OSG_LOG_MODULE
+#define OSG_LOG_MODULE "VRMLLoader"
+#endif
+
 OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
@@ -100,7 +106,9 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char VRMLNodeDesc::cvsid[] = "@(#)$Id: $";
+char   VRMLNodeDesc::cvsid[] = "@(#)$Id: $";
+
+UInt32 VRMLNodeDesc::_uiIndent = 0;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -117,6 +125,26 @@ char VRMLNodeDesc::cvsid[] = "@(#)$Id: $";
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
+UInt32 VRMLNodeDesc::getIndent  (void)
+{
+    return _uiIndent;
+}
+
+void   VRMLNodeDesc::incIndent  (void)
+{
+    _uiIndent += 4;
+}
+
+void   VRMLNodeDesc::decIndent  (void)
+{
+    _uiIndent -= 4;
+}
+
+void   VRMLNodeDesc::resetIndent(void)
+{
+    _uiIndent = 0;
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -142,14 +170,23 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
         return returnValue;
     }
 
-    cerr << "\tTrying to find field : " << szFieldname << endl;
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "VRMLNodeDesc::getField " << endl;
+
+    incIndent();
+
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "Trying to find field : " << szFieldname << endl;
 
     if(pFC1 != NullFC)
     {
         returnValue = pFC1->getField(szFieldname);
     }
 
-    cerr << "\t\tGot this from node : " << returnValue << endl;
+    incIndent();
+
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "Got this from node : " << returnValue << endl;
 
     if(returnValue != NULL)
         return returnValue;
@@ -157,11 +194,14 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
     if(pFC2 != NullFC)
     {
         returnValue = pFC2->getField(szFieldname);
-        cerr << "\t\tGot this from nodecore : " << returnValue << endl;
+
+        indentLog(getIndent(), PNOTICE);
+        PNOTICE << "Got this from nodecore : " << returnValue << endl;
     }
     else
     {
-        cerr << "\tStrange no core " << endl;
+        indentLog(getIndent(), PNOTICE);
+        PNOTICE << "No core to check" << endl;
     }
 
 
@@ -173,14 +213,17 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
         returnValue = pGenAtt->getField(szFieldname);
     }
 
-    cerr << "\t\tGot this from attachment : " << returnValue << endl;
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "Got this from attachment : " << returnValue << endl;
+
+    decIndent();
+    decIndent();
 
     return returnValue;
 }
 
 void VRMLNodeDesc::reset(void)
 {
-    
 }
 
 /*-------------------------------------------------------------------------*\
@@ -234,6 +277,10 @@ void VRMLNodeDesc::init(const Char8 *szName)
     _pGenAtt    = GenericAtt::create();
 }
 
+void VRMLNodeDesc::setOptions(UInt32 uiOptions)
+{
+    _uiOptions = uiOptions;
+}
 
 void VRMLNodeDesc::setOnEndSave(const Char8 *szName)
 {
@@ -380,7 +427,11 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
                              _pGenAtt,
                              szFieldName);
 
-    cerr << "\t\tBPF|Got Field " << pField << endl;
+    
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "VRMLNodeDesc::prototypeAddField | getField returned : " 
+            << pField 
+            << endl;
 
     if(pField == NULL)
     {
@@ -388,6 +439,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
 
         if(pType == NULL)
         {
+            PNOTICE << "VRMLNodeDesc::prototypeAddField 
             cerr << "\tCould not get type " 
                  << uiFieldTypeId << " " 
                  << endl;
@@ -1177,6 +1229,12 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  pNormalPerVertex->getValue() ,
                                  pColorPerVertex ->getValue() ,
                                  true);
+
+            if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
+               (pGeo->getNormals() == OSG::GeoNormalPtr::NullPtr))
+            {
+                OSG::calcVertexNormals(pGeo);
+            }
         }
     }
     else
@@ -3379,6 +3437,10 @@ Bool VRMLGroupDesc::prototypeAddField(const Char8  *szFieldType,
         _pCurrField = &_defaultBoxSize;
         bFound = true;
     }
+    else if(stringcasecmp("children", szFieldname) == 0)
+    {
+        bFound = true;
+    }
 
     if(bFound == true)
     {
@@ -3439,6 +3501,15 @@ void VRMLGroupDesc::getFieldAndDesc(
 
         pField = &_boxSize;
         pDesc  = NULL;
+    }
+    else if(stringcasecmp("children", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Group : children \n");
+
+        pField = pNode->getField("children");
+        
+        if(pField != NULL)
+            pDesc = pNode->getType().findFieldDescription("children");
     }
     else
     {

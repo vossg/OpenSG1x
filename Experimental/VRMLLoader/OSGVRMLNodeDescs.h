@@ -247,6 +247,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
+    static UInt32 _uiIndent;
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -267,6 +269,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     String            _szCurrentName;
     bool              _bSaveOnEnd;
 
+    UInt32            _uiOptions;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -282,6 +286,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static UInt32 getIndent  (void);
+    static void   incIndent  (void);
+    static void   decIndent  (void);
+    static void   resetIndent(void);
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -292,7 +301,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual void init (const Char8 *szName);
+    virtual void init      (const Char8  *szName   );
+            void setOptions(      UInt32  uiOptions);
 
     virtual void reset(void);
 

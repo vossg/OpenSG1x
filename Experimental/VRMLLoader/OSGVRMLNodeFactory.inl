@@ -217,7 +217,8 @@ template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::beginProtoInterface(
     const Char8 *szProtoname)
 {
-    PLOG << "Begin Proto " << szProtoname << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+    PNOTICE << "Begin Proto " << szProtoname << endl;
 
     Char8 *szName = NULL;
 
@@ -434,15 +435,21 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _mNodeDescHash[szName] = _pCurrentNodeDesc; 
         }
+
+        _pCurrentNodeDesc->setOptions(_uiOptions);
+
     }
     else
     {
-        PLOG << "Could not add second proto named " 
+        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+        PNOTICE << "Could not add second proto named " 
                 << szProtoname 
                 << endl;
 
         _bIgnoreProto = true;
     }
+
+    VRMLNodeDesc::incIndent();
 }
 
 template <class BaseT> inline
@@ -450,6 +457,8 @@ void VRMLNodeFactory<BaseT>::endProtoInterface  (void)
 {
     if(_pCurrentNodeDesc != NULL)
         _pCurrentNodeDesc->endProtoInterface();
+
+    VRMLNodeDesc::decIndent();
 
     _bIgnoreProto = false;
 }
@@ -461,8 +470,9 @@ void VRMLNodeFactory<BaseT>::addProtoEventIn(
 {
     if(_bIgnoreProto == true)
         return;
-
-    PLOG << "\tAddEventIn " << szEventType << " " << szEventName << endl;
+    
+    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+    PNOTICE << "AddEventIn " << szEventType << " " << szEventName << endl;
 }
 
 template <class BaseT> inline
@@ -473,7 +483,8 @@ void VRMLNodeFactory<BaseT>::addProtoEventOut(
     if(_bIgnoreProto == true)
         return;
 
-    PLOG << "\tAddEventOut " << szEventType << " " << szEventName << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+    PNOTICE << "\tAddEventOut " << szEventType << " " << szEventName << endl;
 }
 
 template <class BaseT> inline
@@ -553,7 +564,11 @@ template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
 {
     if(_bInFieldProto == true)
-        PLOG << "\t\tVNF: FV : " << szFieldVal << endl;
+    {
+        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+    
+        PNOTICE << "Add proto field value : " << szFieldVal << endl;
+    }
 
     if(_pCurrentNodeDesc != NULL)
     {

@@ -124,6 +124,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGsfVec4f    = TOK_SFVEC4F
     };
 
+    enum 
+    {
+        LastOption = 0x0001
+    };
+
   private:
 
     //-----------------------------------------------------------------------
@@ -187,6 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    UInt32 _uiOptions;
     Bool   _bMapTypeIds;
     Char8 *_szReferenceHeader;
 

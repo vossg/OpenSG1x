@@ -518,6 +518,8 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 {
     _pRootNode = NullNode;
 
+    VRMLNodeDesc::resetIndent();
+
     Inherited::scanFile(szFilename, uiOptions);
 }
 
@@ -534,6 +536,8 @@ void VRMLFile::beginNode(
     if(_pCurrNodeDesc == NULL)
         return;
     
+    _pCurrNodeDesc->setOptions(_uiOptions);
+
     _sNodeDescs.push(_pCurrNodeDesc);
 
     _pCurrNodeDesc->reset();
@@ -897,6 +901,8 @@ void VRMLFile::use(const Char8 *szName)
 void VRMLFile::scanStandardPrototypes(const Char8  *szFilename, 
                                             UInt32  uiOptions)
 {
+    VRMLNodeDesc::resetIndent();
+
     preStandardProtos();
     scanFile(szFilename, uiOptions);
     postStandardProtos();

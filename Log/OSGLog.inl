@@ -152,17 +152,19 @@ void indentLog(UInt32 indent, ostream &stream)
 inline 
 ostream &osgStartLog(      Bool      logHeader,
                            LogLevel  level, 
-                     const Char8    *module,
-                     const Char8    *file, 
+                           const Char8    *module,
+                           const Char8    *file, 
                            UInt32    line)
 {
 	initLog();
 
 	osgLogP->lock();
 
-	if (osgLogP->checkModule(module)) {
-		if (logHeader)
-	    osgLogP->doHeader(level,module,file,line);
+	if(osgLogP->checkModule(module)) 
+    {
+		if(logHeader)
+            osgLogP->doHeader(level,module,file,line);
+
 		return osgLogP->stream(level);
 	}
 	else
@@ -207,13 +209,14 @@ ostream &Log::nilstream(void)
 
 inline 
 ostream &Log::doHeader(      LogLevel  level, 
-                       const Char8    *module, 
-                       const Char8    *file, 
+                             const Char8    *module, 
+                             const Char8    *file, 
                              UInt32    line)
 {
 	LogOStream & sout = *(_streamVec[level]);
 
-	if (_headerElem) {
+	if (_headerElem) 
+    {
 		if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
 			sout << endl;	
 		

@@ -109,9 +109,20 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef Parent Inherited;
+
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
+
+    enum 
+    {
+        CreateNormals       = Inherited::LastOption << 1,
+        LogProtoGeneration  = CreateNormals         << 1,
+        LogObjectGeneration = LogProtoGeneration    << 1,
+
+        LastOption          = LogObjectGeneration
+    };
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -126,8 +137,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef Parent Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

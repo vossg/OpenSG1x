@@ -326,7 +326,7 @@ int main (int argc, char **argv)
     {
 //        file = FhsFile::load(argv[numFiles]);
 
-        pLoader->scanFile(argv[numFiles], 0);
+        pLoader->scanFile(argv[numFiles], OSG::VRMLFile::CreateNormals);
 
         file = pLoader->getRoot();
                      
