@@ -76,7 +76,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.20 2001/10/16 18:37:45 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.21 2001/11/10 16:21:36 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -373,7 +373,8 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
             if ((meshIndexMask & 4) == 0)
               calcVertexNormals(geoPtr);
             
-            // createOptimizedPrimitives(geoPtr);
+            // TODO; need opt flag
+						createOptimizedPrimitives(geoPtr);
             
             // create and link the node
             nodePtr = Node::create();

@@ -40,6 +40,9 @@ int main (int argc, char **argv)
     {
         if (image.read(argv[1]))
         {
+            FINFO (( "Input image has alpha: %s\n",
+                     image.hasAlphaChannel() ? "true" : "false" ));
+
             out.open(argv[2]);
             if (out.eof() == false)
             {

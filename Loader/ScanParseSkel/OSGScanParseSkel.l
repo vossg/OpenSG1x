@@ -542,7 +542,7 @@ header (#[^\n]*\n)
 }
 
 <IN_SFS,IN_MFS>\\\"     { yymore(); }
-<IN_SFS,IN_MFS>[^\"\n]+ { yymore(); }
+<IN_SFS,IN_MFS>[^\"]+ { yymore(); }
 
 <IN_SFS>\" {
     BEGIN NODE;

@@ -56,6 +56,9 @@ extern "C" {
 #include <OSGTime.h>
 #include <OSGBaseTypes.h>
 
+#include <string>
+#include <map>
+
 #if defined(GL_BGR) || defined(GL_BGR_EXT)
 #define OSG_HAS_BGR_PF
 #endif
@@ -244,7 +247,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                   Get Methods                                */
     /*! \{                                                                 */
 
-    inline UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
+    inline 
+      UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
         {
             UChar8 *data = _data + (frameNum * _frameSize * _bpp);
 
@@ -254,7 +258,40 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
             return data;
         }
 
-           UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
+    inline 
+      UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
+
+    inline 
+      Bool hasAttachment (void) 
+      {
+        return (_attachmentMap.empty() ? false : true);
+      }
+
+    inline
+      UInt32 attachmentCount (void)
+      {
+        return _attachmentMap.size();
+      }
+
+    inline 
+      void setAttachment (std::string &key, std::string &data)
+      { 
+        _attachmentMap[key] = data; 
+      }
+
+    inline
+      std::string * findAttachment (std::string &key) 
+      { 
+        std::map<std::string,std::string>::iterator ssI;
+        ssI = _attachmentMap.find(key);
+        return (ssI == _attachmentMap.end() ? 0 : &(ssI->second));
+      }
+
+    inline 
+      void eraseAttachment (std::string &key) 
+      {
+        _attachmentMap.erase(key);
+      }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -342,6 +379,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     Bool  _isCopy;
 
     UChar8 * _data;
+
+    std::map<std::string, std::string> _attachmentMap;
 
     /*==========================  PRIVATE  ================================*/
   private:
