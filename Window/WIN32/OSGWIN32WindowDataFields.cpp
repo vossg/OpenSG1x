@@ -40,15 +40,14 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEWINDOWWIN32INST
+
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-// Forget everything if we're not doing a windows compile
-#ifdef WIN32
-
-#include "OSGWIN32Window.h"
+#include "OSGWIN32WindowDataFields.h"
 
 OSG_USING_NAMESPACE
 
@@ -58,113 +57,39 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGWIN32WINDOW_HEADER_CVSID;
-    static char cvsid_inl[] = OSGWIN32WINDOW_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID;
 }
 
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
+DataType FieldDataTraits<HWND>::_type("HWND",
+                                      NULL,
+                                      true);
 
-/*! \class osg::WIN32Window
-The class for WIN32 windows. 	
-*/
+DataType FieldDataTraits<HDC>::_type("HDC",
+                                     NULL,
+                                     true);
 
-/*----------------------- constructors & destructors ----------------------*/
+DataType FieldDataTraits<HGLRC>::_type("HGLRC",
+                                       NULL,
+                                       true);
 
-//! Constructor
+DataType FieldDataTraits<PAINTSTRUCT>::_type("PAINTSTRUCT",
+                                             NULL,
+                                             true);
 
-WIN32Window::WIN32Window(void) :
-    Inherited()
-{
-}
+OSG_DLLEXPORT_DEF1(SField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
-//! Copy Constructor
+OSG_DLLEXPORT_DEF1(MField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
-WIN32Window::WIN32Window(const WIN32Window &source) :
-    Inherited(source)
-{
-}
 
-//! Destructor
 
-WIN32Window::~WIN32Window(void)
-{
-}
 
-/*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
 
-void WIN32Window::initMethod (void)
-{
-}
 
-//! react to field changes
-
-void WIN32Window::changed(BitVector, ChangeMode)
-{
-}
-
-//! output the instance for debug purposes
-
-void WIN32Window::dump(      UInt32    , 
-                         const BitVector ) const
-{
-    SLOG << "Dump WIN32Window NI" << endl;
-}
-
-/*-------------------------- your_category---------------------------------*/
-
-void (*WIN32Window::getFunctionByName( const Char8 *s ))(void)
-{
-    return (void(*)(void))wglGetProcAddress(s);
-}
-
-// init the window: create the HDC and context
-void WIN32Window::init( void )
-{
-    setHdc(GetDC(getHwnd()));
-
-    if(getHglrc() == NULL )
-    {
-        setHglrc(wglCreateContext(getHdc()));
-        
-        if(getHglrc() == NULL)
-            cout << "WIN32Window::init: failed: " << GetLastError() << endl;        
-    }
-
-    ReleaseDC(getHwnd(),getHdc());
-    activate();
-    setupGL();
-    deactivate();
-}
-
-// activate the window: bind the OGL context
-void WIN32Window::activate( void )
-{    
-    setHdc(GetDC(getHwnd()));
-
-    if(!wglMakeCurrent(getHdc(), getHglrc() ) )
-    {
-        cout << "WIN32Window::activate: failed: " << GetLastError() << endl;        
-    }
-}
-
-void WIN32Window::deactivate ( void )
-{
-    // unbind the context
-    wglMakeCurrent(NULL, NULL);
-
-    // release the hardware device context
-    ReleaseDC(getHwnd(),getHdc());
-}
-
-// swap front and back buffers
-void WIN32Window::swap( void )
-{
-    SwapBuffers(getHdc());
-}
-
-#endif // WIN32

@@ -145,7 +145,7 @@ void QTWindow::init( void )
 #ifdef WIN32
     if(getGlWidget() != NULL)
     {
-        setHwin ( getGlWidget()->winId() );
+        setHwnd ( getGlWidget()->winId() );
 //        setHDC    ( GetDC(_glWidget->winId()) );
         
         Inherited::init();
