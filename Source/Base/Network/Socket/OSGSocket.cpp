@@ -258,12 +258,20 @@ int Socket::recvAvailable(void *buf,int size)
     if(len==-1)
     {
 #if defined WIN32
-        if(getError()==WSAECONNRESET)
+        switch(getError())
         {
+        case WSAECONNRESET:
             throw SocketConnReset("recvAvailable()");
+            break;
+        case WSAEMSGSIZE:
+            len=size;
+            break;
+        default:
+            throw SocketError("recv()");
         }
-#endif
+#else
         throw SocketError("recv()");
+#endif
     }
     return len;
 }
