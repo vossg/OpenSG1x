@@ -211,6 +211,9 @@ TypeT osgMin(const TypeT &lVal, const TypeT &rVal);
 template <class TypeT> inline
 TypeT osgMax(const TypeT &lVal, const TypeT &rVal);
 
+template <class FloatTypeT>
+UInt32 osgfinite(const FloatTypeT &rVal);
+
 /*! \brief osgMax
  *  \ingroup BaseMathFunctions
  */

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.17 2001/08/08 15:02:44 neumannc Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.18 2001/08/09 12:23:59 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -946,7 +946,8 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING void osg::calcFaceNormals( GeometryPtr geo )
+OSG_SYSTEMLIB_DLLMAPPING 
+void osg::calcFaceNormals( GeometryPtr geo )
 {
   GeoIndexPtr newIndex = GeoIndexUI32::create();
   GeoNormalPtr newNormals = GeoNormal3f::create();

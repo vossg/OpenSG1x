@@ -387,6 +387,16 @@ TypeT osgMax(const TypeT &lVal, const TypeT &rVal)
 	return ((lVal > rVal) ? lVal : rVal);
 }
 
+template <class FloatTypeT>
+UInt32 osgfinite(const FloatTypeT &rVal)
+{
+#ifdef WIN32
+    return _finite(rVal);
+#else
+    return  finite(rVal);
+#endif
+}
+
 /*@}*/
 
 /*! @name Real64 Specializations

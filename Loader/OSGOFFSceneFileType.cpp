@@ -45,9 +45,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <GL/gl.h>
-
 #include "OSGConfig.h"
+
+#include <GL/gl.h>
 
 #include <iostream>
 #include <fstream>

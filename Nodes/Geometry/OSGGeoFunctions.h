@@ -107,11 +107,13 @@ UInt32 calcPrimitiveCount ( GeometryPtr geo,
 /*! \brief calculate face normals for the geometry
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING
 void calcFaceNormals( GeometryPtr geo );
 
 /*! \brief create a geometry that shows the face normals of another geometry
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING
 NodePtr getFaceNormals(GeometryPtr geo, Real32 length);
 
 OSG_END_NAMESPACE

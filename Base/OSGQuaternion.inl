@@ -650,10 +650,10 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const char *str)
 {
     setValueAsQuat(str); 
     
-    if(finite(_quat[0]) == 0 ||
-       finite(_quat[1]) == 0 ||
-       finite(_quat[2]) == 0 ||
-       finite(_quat[3]) == 0   )
+    if(osgfinite(_quat[0]) == 0 ||
+       osgfinite(_quat[1]) == 0 ||
+       osgfinite(_quat[2]) == 0 ||
+       osgfinite(_quat[3]) == 0   )
     {
         setIdentity();
     }
@@ -672,10 +672,10 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const char *str)
 {
     setValueAsQuat(str); 
     
-    if(finite(_quat[0]) == 0 ||
-       finite(_quat[1]) == 0 ||
-       finite(_quat[2]) == 0 ||
-       finite(_quat[3]) == 0   )
+    if(osgfinite(_quat[0]) == 0 ||
+       osgfinite(_quat[1]) == 0 ||
+       osgfinite(_quat[2]) == 0 ||
+       osgfinite(_quat[3]) == 0   )
     {
         setIdentity();
     }
