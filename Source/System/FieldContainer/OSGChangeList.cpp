@@ -293,6 +293,7 @@ void ChangeList::applyTo(UInt32 uiAspectId)
     }
 
     _bReadOnly = true;
+    OSG::Thread::getCurrentChangeList()->setReadOnly(true);
 
     FieldContainerPtr pTmp;
 
@@ -334,6 +335,8 @@ void ChangeList::applyTo(UInt32 uiAspectId)
     clearAll();
 
     _bReadOnly = false;
+    OSG::Thread::getCurrentChangeList()->setReadOnly(false);
+
 }
 
 void ChangeList::applyToCurrent(void)
