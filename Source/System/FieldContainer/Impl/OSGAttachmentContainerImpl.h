@@ -51,9 +51,10 @@ OSG_BEGIN_NAMESPACE
 
 class BinaryDataHandler;
 
-//! AttachmentContainer provides the functionality to store
-//! attachments for derived FieldContainer classes.
-//! \ingroup GrpSystemFieldContainer
+/*! AttachmentContainer provides the functionality to store
+    attachments for derived FieldContainer classes.
+    \ingroup GrpSystemFieldContainer
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer 
 {
