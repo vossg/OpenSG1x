@@ -76,21 +76,21 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class FieldTypeT>
-char SField<FieldTypeT>::cvsid[] = "@(#)$Id: $";
+template <class FieldTypeT, Int32 fieldNameSpace>
+char SField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
 
 /** \brief Field type
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class FieldTypeT>
-const FieldType SField<FieldTypeT>::_fieldType = FieldType(
-	FieldDataTraits<FieldTypeT>::getSName(), 
+template <class FieldTypeT, Int32 fieldNameSpace>
+const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
+	SFieldTraits::getSName(), 
 	create);
 #else
-template <class FieldTypeT>
-const FieldType SField<FieldTypeT>::_fieldType(
-	FieldDataTraits<FieldTypeT>::getSName(), 
+template <class FieldTypeT, Int32 fieldNameSpace>
+const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
+	SFieldTraits::getSName(), 
 	create);
 #endif
 
@@ -105,8 +105,8 @@ const FieldType SField<FieldTypeT>::_fieldType(
 /** \brief Get class type
  */
 
-template <class FieldTypeT> inline
-const FieldType &SField<FieldTypeT>::getClassType(void)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+const FieldType &SField<FieldTypeT, fieldNameSpace>::getClassType(void)
 {
     return _fieldType;
 }
@@ -122,8 +122,8 @@ const FieldType &SField<FieldTypeT>::getClassType(void)
 /** \brief Create method used by the factory to create an instance
  */
 
-template <class FieldTypeT> inline
-Field *SField<FieldTypeT>::create(void) 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+Field *SField<FieldTypeT, fieldNameSpace>::create(void) 
 {
     return new SField<FieldTypeT>(); 
 }
@@ -141,8 +141,8 @@ Field *SField<FieldTypeT>::create(void)
 /** \brief Constructor
  */
 
-template <class FieldTypeT> inline
-SField<FieldTypeT>::SField(void) :
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+SField<FieldTypeT, fieldNameSpace>::SField(void) :
     Inherited(),
     _value()
 {
@@ -152,8 +152,8 @@ SField<FieldTypeT>::SField(void) :
 /** \brief Constructor from a give value
  */
 
-template <class FieldTypeT> inline
-SField<FieldTypeT>::SField(const FieldTypeT &value) :
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+SField<FieldTypeT, fieldNameSpace>::SField(const FieldTypeT &value) :
     Inherited(),
     _value(value)
 {
@@ -162,8 +162,8 @@ SField<FieldTypeT>::SField(const FieldTypeT &value) :
 /** \brief Constructor from a given field
  */
 
-template <class FieldTypeT> inline
-SField<FieldTypeT>::SField(const SField &obj) :
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+SField<FieldTypeT, fieldNameSpace>::SField(const SField &obj) :
     Inherited(obj),
     _value(obj._value)
 {
@@ -172,8 +172,8 @@ SField<FieldTypeT>::SField(const SField &obj) :
 /** \brief Destructor
  */
 
-template <class FieldTypeT> inline
-SField<FieldTypeT>::~SField(void)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+SField<FieldTypeT, fieldNameSpace>::~SField(void)
 {
 }
 
@@ -182,8 +182,8 @@ SField<FieldTypeT>::~SField(void)
 /** \brief Return a reference to the stored value
  */
 
-template <class FieldTypeT> inline
-FieldTypeT &SField<FieldTypeT>::getValue(void)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void)
 {
     return _value;
 }
@@ -191,8 +191,8 @@ FieldTypeT &SField<FieldTypeT>::getValue(void)
 /** \brief Return a const reference to the stored value
  */
 
-template <class FieldTypeT> inline
-const FieldTypeT &SField<FieldTypeT>::getValue(void) const
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+const FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void) const
 {
     return _value;
 }
@@ -200,8 +200,8 @@ const FieldTypeT &SField<FieldTypeT>::getValue(void) const
 /** \brief Copies the values from a given field iff the two fieldtypes match 
  */
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::setAbstrValue(const Field &obj)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
@@ -212,8 +212,8 @@ void SField<FieldTypeT>::setAbstrValue(const Field &obj)
 /** \brief Sets the stored value from a given one
  */
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::setValue(const FieldTypeT &value)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value)
 {
     _value = value;
 }
@@ -221,8 +221,9 @@ void SField<FieldTypeT>::setValue(const FieldTypeT &value)
 /** \brief Sets the stored value from a given field
  */
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::setValue(const SField<FieldTypeT> &obj)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, 
+            fieldNameSpace>::setValue(const SField<FieldTypeT> &obj)
 {
     _value = obj._value;
 }
@@ -232,8 +233,9 @@ void SField<FieldTypeT>::setValue(const SField<FieldTypeT> &obj)
 /** \brief Returns the field cardinality, allways Field::SINGLE_FIELD
  */
 
-template <class FieldTypeT> inline
-Field::Cardinality SField<FieldTypeT>::getCardinality (void) const
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+Field::Cardinality SField<FieldTypeT, 
+                          fieldNameSpace>::getCardinality (void) const
 {
     return SINGLE_FIELD;
 }
@@ -241,8 +243,8 @@ Field::Cardinality SField<FieldTypeT>::getCardinality (void) const
 /** \brief Returns the size of the field, allway 1
  */
 
-template <class FieldTypeT> inline
-UInt32 SField<FieldTypeT>::size(void) const
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 SField<FieldTypeT, fieldNameSpace>::size(void) const
 {
     return 1;
 }
@@ -252,8 +254,8 @@ UInt32 SField<FieldTypeT>::size(void) const
 /** \brief Returns the type of the field
  */
 
-template <class FieldTypeT> inline
-const FieldType &SField<FieldTypeT>::getType(void) const
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+const FieldType &SField<FieldTypeT, fieldNameSpace>::getType(void) const
 {
     return _fieldType;
 }
@@ -263,8 +265,8 @@ const FieldType &SField<FieldTypeT>::getType(void) const
 /** \brief Sets the field value from a given string
  */
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::pushValueByStr(const Char8 *str)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
                     Traits::FromStringConvertable), 
@@ -277,8 +279,8 @@ void SField<FieldTypeT>::pushValueByStr(const Char8 *str)
 /** \brief Dump the field to a given string
  */
 
-template <class FieldTypeT> inline
-String &SField<FieldTypeT>::getValueByStr(String &string) const
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+String &SField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
 {
     typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
                     Traits::ToStringConvertable), 
@@ -296,8 +298,8 @@ String &SField<FieldTypeT>::getValueByStr(String &string) const
  *  log stream instead
  */
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::dump(void) const
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 {
     cerr << "Dump Field : " << _value << endl;
 }
@@ -306,14 +308,14 @@ void SField<FieldTypeT>::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::doSync(Field *source)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::doSync(Field *source)
 {
     setValue(*((SField<FieldTypeT> *) source));
 }
 
-template <class FieldTypeT> inline
-void SField<FieldTypeT>::beginEdit(void)
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::beginEdit(void)
 {
     
 }

@@ -137,9 +137,8 @@ struct FieldDataTraits<String> : public Traits
     }
 };
 
-#if 0
 template <>
-struct FieldDataTraits<Time> : public Traits
+struct FieldDataTraits1<Time> : public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -164,7 +163,6 @@ struct FieldDataTraits<Time> : public Traits
         // TO_BE_DONE
     }
 };
-#endif
 
 template <>
 struct FieldDataTraits<DynamicVolume> : 
@@ -192,6 +190,20 @@ struct FieldDataTraits<DynamicVolume> :
         // TO_BE_DONE
     }
 };
+
+template <>
+struct FieldDataTraits1<BitVector> : 
+    public Traits
+{
+    enum                     { StringConvertable = 0x00 };
+
+    static Char8            *getSName(void)      { return "SFBitVector";   }
+
+    static Char8            *getMName(void)      { return "MFBitVector";   }
+
+    static BitVector         getDefault(void)    { return BitVector(); }
+};
+
 
 OSG_END_NAMESPACE
 

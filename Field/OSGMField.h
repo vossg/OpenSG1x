@@ -223,7 +223,7 @@ class OSG_FIELD_DLLMAPPING MFieldVector : public vector<_Tp, _Alloc>
  *  \brief Base class for all multi field, for example ::MFMatrix
  */
 
-template <class FieldTypeT>
+template <class FieldTypeT, Int32 fieldNameSpace = 0>
 class OSG_FIELD_DLLMAPPING MField : public Field
 {
   public:
@@ -258,6 +258,11 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     typedef typename vector<FieldTypeT>::const_reference const_reference;
 #endif
     
+    typedef typename osgIF<fieldNameSpace == 0, 
+                           FieldDataTraits <FieldTypeT>, 
+                           FieldDataTraits1<FieldTypeT> >::_IRet MFieldTraits;
+
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------

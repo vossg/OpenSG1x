@@ -73,7 +73,7 @@ typedef SField<String>        SFString;
 /** \brief SFTime
  */
 
-typedef SField<Time>          SFTime;
+typedef SField<Time, 1>       SFTime;
 
 /** \brief SFColor3f
  */
@@ -89,6 +89,11 @@ typedef SField<Color4f>       SFColor4f;
  */
 
 typedef SField<DynamicVolume> SFVolume;
+
+/** \brief SFBitVector
+ */
+
+typedef SField<BitVector, 1>  SFBitVector;
 
 OSG_END_NAMESPACE
 

@@ -88,6 +88,18 @@ struct OSG_FIELD_DLLMAPPING FieldDataTraits : public Traits
 {
 };
 
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Base template to store the required information to instantiate
+ *   fields
+ */
+
+template <class FieldTypeT>
+struct OSG_FIELD_DLLMAPPING FieldDataTraits1 : public Traits
+{
+};
+
 OSG_END_NAMESPACE
 
 #endif /* _OSG_FIELDDATATYPE_H_ */

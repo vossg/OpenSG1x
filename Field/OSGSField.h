@@ -78,7 +78,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Base class for all single fields, for example ::SFMatrix.
  */
 
-template <class FieldTypeT>
+template <class FieldTypeT, Int32 fieldNameSpace = 0>
 class OSG_FIELD_DLLMAPPING SField : public Field 
 {
   public:
@@ -96,6 +96,10 @@ class OSG_FIELD_DLLMAPPING SField : public Field
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef typename osgIF<fieldNameSpace == 0, 
+                           FieldDataTraits <FieldTypeT>, 
+                           FieldDataTraits1<FieldTypeT> >::_IRet SFieldTraits;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

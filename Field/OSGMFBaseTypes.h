@@ -73,7 +73,7 @@ typedef MField<String>        MFString;
 /** \brief MFTime
  */
 
-typedef MField<Time>          MFTime;
+typedef MField<Time, 1>       MFTime;
 
 /** \brief MFColor3f
  */
@@ -89,6 +89,11 @@ typedef MField<Color4f>       MFColor4f;
  */
 
 typedef MField<DynamicVolume> MFVolume;
+
+/** \brief MFBitVector
+ */
+
+typedef MField<BitVector, 1>  MFBitVector;
 
 OSG_END_NAMESPACE
 

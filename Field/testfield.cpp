@@ -70,5 +70,19 @@ int main (int argc, char **argv)
 
 	cout << "sizeof(SFVec3f): " << sizeof( vec3f ) << endl;
 
+    SFBitVector *pSB = 
+        (SFBitVector *) FieldFactory::the().createField("SFBitVector");
+
+    MFBitVector *pMB = 
+        (MFBitVector *) FieldFactory::the().createField("MFBitVector");
+
+    SFTime      *pST = 
+        (SFTime *) FieldFactory::the().createField("SFTime");
+
+    MFTime      *pMT = 
+        (MFTime *) FieldFactory::the().createField("MFTime");
+
+    fprintf(stderr, "Got Field %p %p %p %p\n", pSB, pMB, pST, pMT);
+
  	return 0;	
 }
