@@ -13,7 +13,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 	if(dwReason == DLL_PROCESS_ATTACH)
 	{
         OSG::SLOG << "Init Shared Object : @ac_gdz_package_name_out@"
-                  << endLog;
+                  << OSG::endLog;
 
         OSG::FieldContainerFactory::the()->initializePendingTypes();
 	}
