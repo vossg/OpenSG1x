@@ -256,7 +256,7 @@ int main (int argc, char **argv)
     // Camera
     cam = PerspectiveCamera::create();
 
-    cam->setBeacon( cam_trans->getMFParents()->getValue(0) );
+    cam->setBeacon( (*(cam_trans->getMFParents()))[0] );
     cam->setFov( deg2rad( 60 ) );
     cam->setNear( 0.1 );
     cam->setFar( 10000 );
