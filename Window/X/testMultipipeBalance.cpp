@@ -30,15 +30,15 @@
 using namespace OSG;
 
 struct WinInfo {
-    string         dpyName;
+    std::string         dpyName;
     Display       *dpy;
     ::Window       hwin;
     XWindowPtr     win;
     ThreadBase    *thread;
     int            tile;
 };
-vector<string>              files;
-vector<WinInfo>             windowList;
+std::vector<std::string>    files;
+std::vector<WinInfo>        windowList;
 NodePtr                     root;
 PerspectiveCameraPtr        cam;
 TransformPtr                camTrans;
@@ -99,11 +99,11 @@ void readArgs(int argc,char **argv)
                     fullscreen=true;
                     break;
                 case 'h':
-                    cout << argv[0] << " " 
-                         << "file ... -d display -d display ... -f "
-                         << endl;
-                    cout << "-d Display   e.g :0 or xyz:1.0" << endl;
-                    cout << "-f           fullscreen" << endl;
+                    std::cout << argv[0] << " " 
+                              << "file ... -d display -d display ... -f "
+                              << std::endl;
+                    std::cout << "-d Display   e.g :0 or xyz:1.0" << std::endl;
+                    std::cout << "-f           fullscreen" << std::endl;
                     exit(0);
             }
         }
@@ -141,28 +141,28 @@ void openWindows(int argc,char **argv)
         windowList.push_back(winInfo);
     }                
 
-    for(vector<WinInfo>::iterator w=windowList.begin();
+    for(std::vector<WinInfo>::iterator w=windowList.begin();
         w!=windowList.end();
         ++w)
     {
         w->dpy = XOpenDisplay(w->dpyName.c_str());
         if (w->dpy == NULL) 
         {
-            cerr << "Error: Could not open display:" 
-                 << w->dpyName << endl;
+            std::cerr << "Error: Could not open display:" 
+                 << w->dpyName << std::endl;
             exit(0);
         }
         if(!glXQueryExtension(w->dpy, &dummy, &dummy))
         {
-            cerr << "Error: X server has no OpenGL GLX extension:" 
-                 << w->dpyName << endl;
+            std::cerr << "Error: X server has no OpenGL GLX extension:" 
+                 << w->dpyName << std::endl;
             exit(0);
         }
         vi = glXChooseVisual(w->dpy, DefaultScreen(w->dpy), dblBuf);
         if ( vi == NULL ) 
         {
-            cerr << "no RGB visual with depth buffer"
-                 << w->dpyName << endl;
+            std::cerr << "no RGB visual with depth buffer"
+                 << w->dpyName << std::endl;
             exit(0);
         }
         cmap = XCreateColormap(w->dpy, 
@@ -277,7 +277,7 @@ void handleWindows()
     KeySym       keysym;
     Real32       width,height,a,b,c,d;
 
-    for(vector<WinInfo>::iterator w=windowList.begin();
+    for(std::vector<WinInfo>::iterator w=windowList.begin();
         w!=windowList.end();
         ++w)
     {
@@ -438,7 +438,7 @@ void createGraph()
     Vec3f min,max;
     fileGroupNode->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( fileGroupNode );
@@ -524,7 +524,7 @@ void *syncThreadProc (void *OSG_CHECK_ARG(arg))
 void startThreads()
 {
     // start renderers
-    for(vector<WinInfo>::iterator w=windowList.begin();
+    for(std::vector<WinInfo>::iterator w=windowList.begin();
         w!=windowList.end();
         ++w)
     {
@@ -532,7 +532,7 @@ void startThreads()
             dynamic_cast<Thread *>(ThreadManager::the()->getThread(NULL));
         if ( w->thread == NULL )   
         {
-            cerr << "Unable to create thread" << endl;
+            std::cerr << "Unable to create thread" << std::endl;
             exit(0);
         }
         w->thread->runFunction( drawThreadProc, 1, (void *)(&(*w)) );
@@ -542,7 +542,7 @@ void startThreads()
         dynamic_cast<Thread *>(ThreadManager::the()->getThread(NULL));
     if ( syncThread == NULL )   
     {
-        cerr << "Unable to create syncThread" << endl;
+        std::cerr << "Unable to create syncThread" << std::endl;
         exit(0);
     }
     syncThread->runFunction( syncThreadProc, 1, NULL );
@@ -550,7 +550,7 @@ void startThreads()
 
 void joinThreads()
 {
-    for(vector<WinInfo>::iterator w=windowList.begin();
+    for(std::vector<WinInfo>::iterator w=windowList.begin();
         w!=windowList.end();
         ++w)
     {
@@ -585,11 +585,11 @@ int main(int argc,char **argv)
 #if 0        
         for(int i=0;i<region.size();i+=4)
         {
-            cout << "Region: " << i/4 << " ";
-            cout << region[i+0] << " ";
-            cout << region[i+1] << " ";
-            cout << region[i+2] << " ";
-            cout << region[i+3] << endl;
+            std::cout << "Region: " << i/4 << " ";
+            std::cout << region[i+0] << " ";
+            std::cout << region[i+1] << " ";
+            std::cout << region[i+2] << " ";
+            std::cout << region[i+3] << std::endl;
         }
 #endif
         syncBarrier->enter( syncCount );

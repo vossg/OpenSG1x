@@ -73,18 +73,18 @@ display(void)
 
     m1.setRotate(q1);
 
-//    cout << "TBROT" << endl << tball.getRotation() << endl;
-//    cout << "M3" << endl << m3 << endl;
-//    cout << "Q1" << endl << q1 << endl;
-//    cout << "M1" << endl << m1 << endl;
+//    std::cout << "TBROT" << std::endl << tball.getRotation() << std::endl;
+//    std::cout << "M3" << std::endl << m3 << std::endl;
+//    std::cout << "Q1" << std::endl << q1 << std::endl;
+//    std::cout << "M1" << std::endl << m1 << std::endl;
 
 //  m1.setRotate( tball.getRotation() );
     m2.setTranslate( tball.getPosition() );
 
-//cout << "Pos: " << tball.getPosition() << ", Rot: "
-// << tball.getRotation() << endl;
+//std::cout << "Pos: " << tball.getPosition() << ", Rot: "
+// << tball.getRotation() << std::endl;
 
-//    cout << tball.getRotation() << endl;
+//    std::cout << tball.getRotation() << std::endl;
 
     m1.mult( m2 );
     cam_trans->getSFMatrix()->setValue( m1 );
@@ -94,7 +94,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-    cerr << "Reshape: " << w << "," << h << endl;
+    std::cerr << "Reshape: " << w << "," << h << std::endl;
     win->resize( w, h );
 }
 
@@ -185,13 +185,13 @@ void key(unsigned char key, int, int)
     {
         case 27:    osgExit(); exit(0);
         case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-                    cerr << "PolygonMode: Point." << endl;
+                    std::cerr << "PolygonMode: Point." << std::endl;
                     break;
         case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-                    cerr << "PolygonMode: Line." << endl;
+                    std::cerr << "PolygonMode: Line." << std::endl;
                     break;
         case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-                    cerr << "PolygonMode: Fill." << endl;
+                    std::cerr << "PolygonMode: Fill." << std::endl;
                     break;
         case ' ':   {
                     UChar8 *data,*start;
@@ -288,7 +288,7 @@ int main (int argc, char **argv)
 
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makeTorus( .5, 2, 16, 16 );
     }
 
@@ -297,13 +297,13 @@ int main (int argc, char **argv)
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
 
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
     endEditCP(dlight);
 
-    cerr << "Tree: " << endl;
+    std::cerr << "Tree: " << std::endl;
 //  root->dump();
 
     // Camera
@@ -341,7 +341,7 @@ int main (int argc, char **argv)
     vp->setSize( 0,0, 1,1 );
 
     // Window
-    cout << "GLUT winid: " << winid << endl;
+    std::cout << "GLUT winid: " << winid << std::endl;
 
     GLUTWindowPtr gwin;
 

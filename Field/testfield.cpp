@@ -50,7 +50,7 @@ int main (int argc, char **argv)
     MFQuaternion mfquad;
 
     if (mfquad.empty() == false)
-        cerr << "new mfquad field is not empty" << endl;
+        std::cerr << "new mfquad field is not empty" << std::endl;
 
     SFInt32  *int32P;
     SFUInt32 *uint32P;
@@ -64,7 +64,7 @@ int main (int argc, char **argv)
 
     vec3fP->getValue().setValues(1,2,3);
 
-//  cout << "Vec3f: " << *vec3fP << endl;
+//  std::cout << "Vec3f: " << *vec3fP << std::endl;
 
     fieldP = FieldFactory::the().createField("SFUInt32");
    
@@ -74,7 +74,7 @@ int main (int argc, char **argv)
   
     if(uint32P != NULL)
     {
-        cout << "UInt32 : " << (*uint32P).getType().getCName() << endl;
+        std::cout << "UInt32 : " << (*uint32P).getType().getCName() << std::endl;
     }
 
     fieldP = FieldFactory::the().createField("SFInt32");
@@ -85,14 +85,14 @@ int main (int argc, char **argv)
 
     if(int32P != NULL)
     {
-        cout << "Int32 : " << (*int32P).getType().getCName() << endl;
+        std::cout << "Int32 : " << (*int32P).getType().getCName() << std::endl;
     }
 
-    cout << endl << "Some sizes:" << endl;
+    std::cout << std::endl << "Some sizes:" << std::endl;
 
-    cout << "sizeof(SFInt32): " << sizeof( *int32P ) << endl;
+    std::cout << "sizeof(SFInt32): " << sizeof( *int32P ) << std::endl;
 
-    cout << "sizeof(SFVec3f): " << sizeof( vec3f ) << endl;
+    std::cout << "sizeof(SFVec3f): " << sizeof( vec3f ) << std::endl;
 
     SFBitVector *pSB = 
         (SFBitVector *) FieldFactory::the().createField("SFBitVector");

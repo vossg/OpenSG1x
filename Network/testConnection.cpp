@@ -9,14 +9,14 @@
 
 using namespace OSG;
 
-BaseThread         *connectThread;
-vector<BaseThread*> acceptThread;
-Lock               *addressLock;
-Barrier            *mybarrier;
-string              connectionType="Multicast";
-int                 recvCount=4;
-vector<string>      recvAddress;
-UInt32              dataCount=100000;
+BaseThread              *connectThread;
+std::vector<BaseThread*> acceptThread;
+Lock                    *addressLock;
+Barrier                 *mybarrier;
+std::string              connectionType="Multicast";
+int                      recvCount=4;
+std::vector<std::string> recvAddress;
+UInt32                   dataCount=100000;
 
 void *connectProc(void *)
 {
@@ -27,7 +27,7 @@ void *connectProc(void *)
             ConnectionFactory::the().create(connectionType);
         if(!connection)
         {
-            SFATAL << "Unknown connection " << connectionType << endl;
+            SFATAL << "Unknown connection " << connectionType << std::endl;
             exit(0);
         }
         mybarrier->enter(recvCount+1);
@@ -42,7 +42,7 @@ void *connectProc(void *)
             connection->putValue(i);
         }
         connection->flush();
-        SLOG << "send OK" << endl;
+        SLOG << "send OK" << std::endl;
         for(c=0;c<recvCount;c++)
         {
             FLOG(("wait for %d\n",c));
@@ -58,11 +58,11 @@ void *connectProc(void *)
             }
             FLOG(("recv %d OK\n",c));
         }
-        SLOG << "recv OK" << endl;
+        SLOG << "recv OK" << std::endl;
         connection->signal();
         delete connection;
     }
-    catch(exception &e)
+    catch(OSG_EX_NAMESPACE::exception &e)
     {
         FFATAL(("Error while connecting: %s\n",e.what()));
     }
@@ -77,7 +77,7 @@ void *acceptProc(void *)
     {
         Connection *connection = ConnectionFactory::the().create(connectionType);
         addressLock->aquire();
-        string address=connection->bind("");
+        std::string address=connection->bind("");
         recvAddress.push_back(address);
         addressLock->release();
         mybarrier->enter(recvCount+1);
@@ -90,20 +90,20 @@ void *acceptProc(void *)
             connection->getValue(j);
             if(j!=i)
             {
-                SLOG << "Error: Unexpected data!!" << endl;
+                SLOG << "Error: Unexpected data!!" << std::endl;
             }
         }
-        SLOG << "recvB OK" << endl;
+        SLOG << "recvB OK" << std::endl;
         for(i=0;i<dataCount;i++)
         {
             connection->putValue(i);
         }
         connection->flush();
-        SLOG << "sendB OK" << endl;
+        SLOG << "sendB OK" << std::endl;
         connection->wait();
         delete connection;
     }
-    catch(exception &e)
+    catch(OSG_EX_NAMESPACE::exception &e)
     {
         FFATAL(("Error while connecting: %s\n",e.what()));
     }

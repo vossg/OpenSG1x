@@ -13,7 +13,7 @@ using namespace OSG;
 
 bool initFuncWrapperFunc(void)
 {
-    cerr << "initFuncWrapperFunc called" << endl;
+    std::cerr << "initFuncWrapperFunc called" << std::endl;
     return true;
 }
 
@@ -22,7 +22,7 @@ static InitFuncWrapper testInitFuncWrapper(initFuncWrapperFunc);
 
 bool staticInitFuncWrapperFunc(void)
 {
-    cerr << "staticInitFuncWrapperFunc called" << endl;
+    std::cerr << "staticInitFuncWrapperFunc called" << std::endl;
     return true;
 }
 
@@ -31,7 +31,7 @@ static StaticInitFuncWrapper testStaticInitFuncWrapper(staticInitFuncWrapperFunc
 
 bool initTestFunc(void)
 {
-    cerr << "initTestFunc called" << endl;
+    std::cerr << "initTestFunc called" << std::endl;
     return true;
 }
 
@@ -47,15 +47,15 @@ static InitTest initDummy;
 
 int main (int argc, char **argv) 
 {
-    cerr << "Main started" << endl;
+    std::cerr << "Main started" << std::endl;
     
     osgInit(argc,argv);
 
-    cerr << "osgInit called" << endl;
+    std::cerr << "osgInit called" << std::endl;
     
     osgExit();
 
-    cerr << "osgExit called" << endl;
+    std::cerr << "osgExit called" << std::endl;
 
     return 0;
 }

@@ -102,7 +102,7 @@ volatile bool exiting = false;
 
 
 double  basetime;
-#define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
+#define dpr std::cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
 void doCamTrans (UInt32 )
 {
@@ -135,7 +135,7 @@ void *drawThreadProc (void *arg)
        
     while ( ! stopIt )
     {
-        // dpr << "draw" << endl;
+        // dpr << "draw" << std::endl;
 
         FLOG(( "display::waitSync\n"));
         // notify successful synchronisation
@@ -247,7 +247,7 @@ int main (int argc, char **argv)
     
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makeTorus( .5, 2, 16, 16 );
     }
     
@@ -256,7 +256,7 @@ int main (int argc, char **argv)
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
@@ -305,12 +305,12 @@ int main (int argc, char **argv)
 
         if (dpy[i] == NULL) 
         {
-            cerr << "Error: Could not open display!" << endl;
+            std::cerr << "Error: Could not open display!" << std::endl;
         }
 
         if(!glXQueryExtension(dpy[i], &dummy, &dummy))
         {
-            cerr << "Error: X server has no OpenGL GLX extension" << endl;
+            std::cerr << "Error: X server has no OpenGL GLX extension" << std::endl;
         }
 
         vi = glXChooseVisual(dpy[i], DefaultScreen(dpy[i]), dblBuf);
@@ -320,14 +320,14 @@ int main (int argc, char **argv)
            vi = glXChooseVisual(dpy[i], DefaultScreen(dpy[i]), snglBuf);
            if (vi == NULL)
            {
-               cerr << "no RGB visual with depth buffer" << endl;
+               std::cerr << "no RGB visual with depth buffer" << std::endl;
            }
 
            doubleBuffer = GL_FALSE;
         }
         if (vi->c_class != TrueColor)
         {
-            cerr << "TrueColor visual required for this program" << endl;
+            std::cerr << "TrueColor visual required for this program" << std::endl;
         }
 
         cmap = XCreateColormap(dpy[i], RootWindow(dpy[i], vi->screen), vi->visual, AllocNone);
@@ -426,7 +426,7 @@ int main (int argc, char **argv)
                 switch (event.type) 
                 {
                     case KeyPress:           
-                        //  << "Key pressed: " << event.xkey.keycode << endl;
+                        //  << "Key pressed: " << event.xkey.keycode << std::endl;
                         switch ( event.xkey.keycode ) 
                         {
                             case 16: 
@@ -436,7 +436,7 @@ int main (int argc, char **argv)
                         break;
 
                     case ButtonPress:
-                        // cout << "Button pressed: " << event.xbutton.button << endl;                 
+                        // std::cout << "Button pressed: " << event.xbutton.button << std::endl;                 
                         switch ( event.xbutton.button ) 
                         {                       
                             case 2:
@@ -450,7 +450,7 @@ int main (int argc, char **argv)
                         break;
 
                     case ButtonRelease:
-                        // cout << "Button released: " << event.xbutton.button << endl;                    
+                        // std::cout << "Button released: " << event.xbutton.button << std::endl;                    
                         switch ( event.xbutton.button ) 
                         {                       
                             case 2:
@@ -464,7 +464,7 @@ int main (int argc, char **argv)
                         break;
 
                     case MotionNotify:
-                        // cout << "MotionNotify" << endl;
+                        // std::cout << "MotionNotify" << std::endl;
 
                         w = win[eventThread]->getWidth();
                         h = win[eventThread]->getHeight();
@@ -490,14 +490,14 @@ int main (int argc, char **argv)
                         break;
 
                     case ConfigureNotify:
-                        // cout << "ConfigureNotify" << endl;
+                        // std::cout << "ConfigureNotify" << std::endl;
                         //if ( ! win[eventThread]->isResizePending() )
                         {
                             win[eventThread]->resize( event.xconfigure.width,
                                                       event.xconfigure.height );
                         }                
 
-                    default: //cout << "unhandled" << endl;
+                    default: //std::cout << "unhandled" << std::endl;
                              break;
                 } // switch event.type
             } // while pending

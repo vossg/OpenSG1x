@@ -59,38 +59,38 @@ int main (int argc, char **argv) {
 
     b.setBounds(xmin, ymin, zmin, xmax, ymax, zmax);
 
-    cout << endl;
+    std::cout << std::endl;
     b.dump();
-    cout << endl;
+    std::cout << std::endl;
 
     for ( i = 0 ; i < nlines; i++ )
     {
-        cout << "Line: (" << lines[i].getPosition() << ") ("
-             << lines[i].getDirection() << ")" << endl;
+        std::cout << "Line: (" << lines[i].getPosition() << ") ("
+             << lines[i].getDirection() << ")" << std::endl;
 
         bool res = lines[i].intersect( b, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
                 xp = lines[i].getPosition() + ex * lines[i].getDirection();
 
-        cout << "Result: " << res;
+        std::cout << "Result: " << res;
 
         if ( res )
         {
-            cout << " enter " << ent << "=(" << ep << ") ";
+            std::cout << " enter " << ent << "=(" << ep << ") ";
 
             bool es = ( b.isOnSurface( ep ) || b.intersect( ep ) ),
                  xs = b.isOnSurface( xp );
 
-            if ( ( res && es ) || !res )    cout << "ok";
-            else                            cout << "**BAD**";
+            if ( ( res && es ) || !res )    std::cout << "ok";
+            else                            std::cout << "**BAD**";
 
-            cout << ";  exit " << ex << "=(" << xp << ") ";
+            std::cout << ";  exit " << ex << "=(" << xp << ") ";
 
-            if ( ( res && xs ) || !res )    cout << "ok";
-            else                            cout << "**BAD**";
+            if ( ( res && xs ) || !res )    std::cout << "ok";
+            else                            std::cout << "**BAD**";
         }
 
-        cout << endl;
+        std::cout << std::endl;
     }
 
 
@@ -108,39 +108,39 @@ int main (int argc, char **argv) {
     s.setCenter(center);
     s.setRadius(radius);
 
-    cout << endl;
+    std::cout << std::endl;
     s.dump();
-    cout << endl;
+    std::cout << std::endl;
 
 
     for ( i = 0 ; i < nlines; i++ )
     {
-        cout << "Line: (" << lines[i].getPosition() << ") ("
-             << lines[i].getDirection() << ")" << endl;
+        std::cout << "Line: (" << lines[i].getPosition() << ") ("
+                  << lines[i].getDirection() << ")" << std::endl;
 
         bool res = lines[i].intersect( s, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
                 xp = lines[i].getPosition() + ex * lines[i].getDirection();
 
-        cout << "Result: " << res;
+        std::cout << "Result: " << res;
 
         if ( res )
         {
-            cout << " enter " << ent << "=(" << ep << ") ";
+            std::cout << " enter " << ent << "=(" << ep << ") ";
 
             bool es = ( s.isOnSurface( ep ) || s.intersect( ep ) ),
                  xs = s.isOnSurface( xp );
 
-            if ( ( res && es ) || !res )    cout << "ok";
-            else                            cout << "**BAD**";
+            if ( ( res && es ) || !res )    std::cout << "ok";
+            else                            std::cout << "**BAD**";
 
-            cout << ";  exit " << ex << "=(" << xp << ") ";
+            std::cout << ";  exit " << ex << "=(" << xp << ") ";
 
-            if ( ( res && xs ) || !res )    cout << "ok";
-            else                            cout << "**BAD**";
+            if ( ( res && xs ) || !res )    std::cout << "ok";
+            else                            std::cout << "**BAD**";
         }
 
-        cout << endl;
+        std::cout << std::endl;
     }
 
     /*
@@ -168,46 +168,46 @@ int main (int argc, char **argv) {
 //  c.setAxis(p, d);
 //  c.setRadius(rad);
 
-    cout << endl;
+    std::cout << std::endl;
     c.dump();
-    cout << endl;
+    std::cout << std::endl;
 
 
     for ( i = 0 ; i < nlines; i++ )
     {
-        cout << "Line: (" << lines[i].getPosition() << ") ("
+        std::cout << "Line: (" << lines[i].getPosition() << ") ("
              << lines[i].getDirection() << ")" << endl;
 
         bool res = lines[i].intersect( c, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
                 xp = lines[i].getPosition() + ex * lines[i].getDirection();
 
-        cout << "Result: " << res;
+        std::cout << "Result: " << res;
 
         if ( res )
         {
-            cout << " enter " << ent << "=(" << ep << ") ";
+            std::cout << " enter " << ent << "=(" << ep << ") ";
 
             bool es = ( c.isOnSurface( ep ) || c.intersect( ep ) ),
                  xs = c.isOnSurface( xp );
 
-            if ( ( res && es ) || !res )    cout << "ok";
-            else                            cout << "**BAD**";
+            if ( ( res && es ) || !res )    std::cout << "ok";
+            else                            std::cout << "**BAD**";
 
-            cout << ";  exit " << ex << "=(" << xp << ") ";
+            std::cout << ";  exit " << ex << "=(" << xp << ") ";
 
-            if ( ( res && xs ) || !res )    cout << "ok";
-            else                            cout << "**BAD**";
+            if ( ( res && xs ) || !res )    std::cout << "ok";
+            else                            std::cout << "**BAD**";
         }
 
-        cout << endl;
+        std::cout << std::endl;
     }
     */
 
     //### volume intersection ##############################################
 
 
-    cout << "### volume intersection test ###" << endl;
+    std::cout << "### volume intersection test ###" << std::endl;
 
     BoxVolume box(-1,-1,-1,1,1,1);
     BoxVolume boxOut (5,5,5,10,10,10);
@@ -261,64 +261,64 @@ int main (int argc, char **argv) {
 
         //Tests
 
-    cout << "Box/box outside test: " << flush;
-    cout << (box.intersect(boxOut) ? "**BAD**" : "ok") << endl;
+    std::cout << "Box/box outside test: " << std::flush;
+    std::cout << (box.intersect(boxOut) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Box/box inside test: " << flush;
-    cout << (box.intersect(boxIn) ? "ok" : "**BAD**") << endl;
+    std::cout << "Box/box inside test: " << std::flush;
+    std::cout << (box.intersect(boxIn) ? "ok" : "**BAD**") << std::endl;
 
-    cout << "Box/sphere outside test: " << flush;
-    cout << (box.intersect(sphereOut) ? "**BAD**" : "ok") << endl;
+    std::cout << "Box/sphere outside test: " << std::flush;
+    std::cout << (box.intersect(sphereOut) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Box/sphere inside test: " << flush;
-    cout << (box.intersect(sphereIn) ? "ok" : "**BAD**")<< endl;
+    std::cout << "Box/sphere inside test: " << std::flush;
+    std::cout << (box.intersect(sphereIn) ? "ok" : "**BAD**")<< std::endl;
 
-    cout << "Sphere/sphere outside test: " << flush;
-    cout << (sphere.intersect(sphereOut) ? "**BAD**" : "ok") << endl;
+    std::cout << "Sphere/sphere outside test: " << std::flush;
+    std::cout << (sphere.intersect(sphereOut) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Sphere/sphere inside test: " << flush;
-    cout << (sphere.intersect(sphereIn) ? "ok" : "**BAD**") << endl;
+    std::cout << "Sphere/sphere inside test: " << std::flush;
+    std::cout << (sphere.intersect(sphereIn) ? "ok" : "**BAD**") << std::endl;
 
-    cout << "Box/cylinder outside test: " << flush;
-    cout << (box.intersect(cylinderOut) ? "**BAD**" : "ok") << endl;
+    std::cout << "Box/cylinder outside test: " << std::flush;
+    std::cout << (box.intersect(cylinderOut) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Box/cylinder inside test: " << flush;
-    cout << (box.intersect(cylinderIn) ? "ok" : "**BAD**") << endl;
+    std::cout << "Box/cylinder inside test: " << std::flush;
+    std::cout << (box.intersect(cylinderIn) ? "ok" : "**BAD**") << std::endl;
 
-    cout << "Sphere/cylinder outside test: " << flush;
-    cout << (sphere.intersect(cylinderOut) ? "**BAD**" : "ok") << endl;
+    std::cout << "Sphere/cylinder outside test: " << std::flush;
+    std::cout << (sphere.intersect(cylinderOut) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Sphere/cylinder inside test: " << flush;
-    cout << (sphere.intersect(cylinderIn) ? "ok" : " **BAD**") << endl;
+    std::cout << "Sphere/cylinder inside test: " << std::flush;
+    std::cout << (sphere.intersect(cylinderIn) ? "ok" : " **BAD**") << std::endl;
 
-    cout << "Cylinder/cylinder outside test: "<<flush;
-    cout << (cylinder.intersect(cylinderOut) ? "**BAD**" : "ok")<<endl;
+    std::cout << "Cylinder/cylinder outside test: "<<std::flush;
+    std::cout << (cylinder.intersect(cylinderOut) ? "**BAD**" : "ok")<<std::endl;
 
-    cout << "Cylinder/cylinder inside test: "<<flush;
-    cout << (cylinder.intersect(cylinderIn) ? "ok" : " **BAD** ")<<endl;
+    std::cout << "Cylinder/cylinder inside test: "<<std::flush;
+    std::cout << (cylinder.intersect(cylinderIn) ? "ok" : " **BAD** ")<<std::endl;
 
-    cout << "Box/Frustum outside test : " << flush;
-    cout << (boxOut.intersect(frustum) ? "**BAD**" : "ok") << endl;
+    std::cout << "Box/Frustum outside test : " << std::flush;
+    std::cout << (boxOut.intersect(frustum) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Box/Frustum inside test : " << flush;
-    cout << (boxIn.intersect(frustum) ? "ok" : "**BAD**") << endl;
+    std::cout << "Box/Frustum inside test : " << std::flush;
+    std::cout << (boxIn.intersect(frustum) ? "ok" : "**BAD**") << std::endl;
 
-    cout << "Sphere/Frustum outside test : " << flush;
-    cout << (sphereOut.intersect(frustum) ? "**BAD**" : "ok") << endl;
+    std::cout << "Sphere/Frustum outside test : " << std::flush;
+    std::cout << (sphereOut.intersect(frustum) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Sphere/Frustum inside test : " << flush;
-    cout << (sphereIn.intersect(frustum) ? "ok" : "**BAD**") << endl;
+    std::cout << "Sphere/Frustum inside test : " << std::flush;
+    std::cout << (sphereIn.intersect(frustum) ? "ok" : "**BAD**") << std::endl;
 
 
-    cout << "Cylinder/Frustum outside test : " << flush;
-    cout << (cylinderOut.intersect(frustum) ? "**BAD**" : "ok") << endl;
+    std::cout << "Cylinder/Frustum outside test : " << std::flush;
+    std::cout << (cylinderOut.intersect(frustum) ? "**BAD**" : "ok") << std::endl;
 
-    cout << "Cylinder/Frustum inside test : " << flush;
-    cout << (cylinderIn.intersect(frustum) ? "ok" : "**BAD**") << endl;
+    std::cout << "Cylinder/Frustum inside test : " << std::flush;
+    std::cout << (cylinderIn.intersect(frustum) ? "ok" : "**BAD**") << std::endl;
 
     //###VOLUME EXTENSION################################################
 
-    cout << "### volume extension test ###" << endl;
+    std::cout << "### volume extension test ###" << std::endl;
 
     Pnt3f min,max;
 
@@ -326,49 +326,49 @@ int main (int argc, char **argv) {
 
     extend(box, boxIn);
     box.getBounds(min,max);
-    cout<< "min of the box : " <<min<<endl;
-    cout<< "max of the box : " <<max<<endl;
+    std::cout<< "min of the box : " <<min<<std::endl;
+    std::cout<< "max of the box : " <<max<<std::endl;
 
     extend(box,sphere);
     box.getBounds(min,max);
-    cout<< "min of the box : " <<min<<endl;
-    cout<< "max of the box : " <<max<<endl;
+    std::cout<< "min of the box : " <<min<<std::endl;
+    std::cout<< "max of the box : " <<max<<std::endl;
 
     extend(box,cylinder);
     box.getBounds(min,max);
-    cout<< "min of the box : " <<min<<endl;
-    cout<< "max of the box : " <<max<<endl;
+    std::cout<< "min of the box : " <<min<<std::endl;
+    std::cout<< "max of the box : " <<max<<std::endl;
 
     //Sphere extension
 
     extend(sphere, box);
-    cout<<"Center of the sphere : " <<sphere.getCenter()<<endl;
-    cout<<"Radius of the sphere : " <<sphere.getRadius()<<endl;
+    std::cout<<"Center of the sphere : " <<sphere.getCenter()<<std::endl;
+    std::cout<<"Radius of the sphere : " <<sphere.getRadius()<<std::endl;
 
     extend(sphere, sphereOut);
-    cout<<"Center of the sphere : " <<sphere.getCenter()<<endl;
-    cout<<"Radius of the sphere : " <<sphere.getRadius()<<endl;
+    std::cout<<"Center of the sphere : " <<sphere.getCenter()<<std::endl;
+    std::cout<<"Radius of the sphere : " <<sphere.getRadius()<<std::endl;
 
     extend(sphere, cylinder);
-    cout<<"Center of the sphere : " <<sphere.getCenter()<<endl;
-    cout<<"Radius of the sphere : " <<sphere.getRadius()<<endl;
+    std::cout<<"Center of the sphere : " <<sphere.getCenter()<<std::endl;
+    std::cout<<"Radius of the sphere : " <<sphere.getRadius()<<std::endl;
 
     //Cylinder extension
 
     extend (cylinder, box);
     cylinder.getBounds(min,max);
-    cout<< "min of the cylinder : " <<min<<endl;
-    cout<< "max of the cylinder : " <<max<<endl;
+    std::cout<< "min of the cylinder : " <<min<<std::endl;
+    std::cout<< "max of the cylinder : " <<max<<std::endl;
 
     extend (cylinder, sphere);
     cylinder.getBounds(min,max);
-    cout<< "min of the cylinder : " <<min<<endl;
-    cout<< "max of the cylinder : " <<max<<endl;
+    std::cout<< "min of the cylinder : " <<min<<std::endl;
+    std::cout<< "max of the cylinder : " <<max<<std::endl;
 
     extend (cylinder, cylinder);
     cylinder.getBounds(min,max);
-    cout<< "min of the cylinder : " <<min<<endl;
-    cout<< "max of the cylinder : " <<max<<endl;
+    std::cout<< "min of the cylinder : " <<min<<std::endl;
+    std::cout<< "max of the cylinder : " <<max<<std::endl;
 
 
     return 0;

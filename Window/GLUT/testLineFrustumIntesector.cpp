@@ -82,26 +82,26 @@ NodePtr setFrustumPlanes(FrustumVolume &frustum,Line *view_rays,Pnt3f center,Rea
     pnear.intersectInfinite(view_rays[1],nleftbottom);
     pfar.intersectInfinite(view_rays[1],fleftbottom);
     
-    cout << "nleftbottom: " << nleftbottom[0] << " : " << nleftbottom[1] << " : " << nleftbottom[2] << endl;
-    cout << "fleftbottom: " << fleftbottom[0] << " : " << fleftbottom[1] << " : " << fleftbottom[2] << endl;    
+    std::cout << "nleftbottom: " << nleftbottom[0] << " : " << nleftbottom[1] << " : " << nleftbottom[2] << std::endl;
+    std::cout << "fleftbottom: " << fleftbottom[0] << " : " << fleftbottom[1] << " : " << fleftbottom[2] << std::endl;    
 
     pnear.intersectInfinite(view_rays[2],nrightbottom);
     pfar.intersectInfinite(view_rays[2],frightbottom);
     
-    cout << "nrightbottom: " << nrightbottom[0] << " : " << nrightbottom[1] << " : " << nrightbottom[2] << endl;
-    cout << "frightbottom: " << frightbottom[0] << " : " << frightbottom[1] << " : " << frightbottom[2] << endl;    
+    std::cout << "nrightbottom: " << nrightbottom[0] << " : " << nrightbottom[1] << " : " << nrightbottom[2] << std::endl;
+    std::cout << "frightbottom: " << frightbottom[0] << " : " << frightbottom[1] << " : " << frightbottom[2] << std::endl;    
     
     pnear.intersectInfinite(view_rays[3],nrighttop);
     pfar.intersectInfinite(view_rays[3],frighttop);
 
-    cout << "nrighttop: " << nrighttop[0] << " : " << nrighttop[1] << " : " << nrighttop[2] << endl;
-    cout << "frighttop: " << frighttop[0] << " : " << frighttop[1] << " : " << frighttop[2] << endl;    
+    std::cout << "nrighttop: " << nrighttop[0] << " : " << nrighttop[1] << " : " << nrighttop[2] << std::endl;
+    std::cout << "frighttop: " << frighttop[0] << " : " << frighttop[1] << " : " << frighttop[2] << std::endl;    
     
     pnear.intersectInfinite(view_rays[4],nlefttop);
     pfar.intersectInfinite(view_rays[4],flefttop);
                 
-    cout << "nlefttop: " << nlefttop[0] << " : " << nlefttop[1] << " : " << nlefttop[2] << endl;
-    cout << "flefttop: " << flefttop[0] << " : " << flefttop[1] << " : " << flefttop[2] << endl;    
+    std::cout << "nlefttop: " << nlefttop[0] << " : " << nlefttop[1] << " : " << nlefttop[2] << std::endl;
+    std::cout << "flefttop: " << flefttop[0] << " : " << flefttop[1] << " : " << flefttop[2] << std::endl;    
 
     Plane pleft(nleftbottom,nlefttop,flefttop);    
     Plane pright(nrightbottom,nrighttop,frighttop);
@@ -265,7 +265,7 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
           
             if ((first=line1.intersect(frustum,l_en1,l_ex1)) )
             {
-//                cout << "en-ex : l_en-l_ex :" << enter << ":" << exit << ":" << l_en << ":" << l_ex <<endl;
+//                std::cout << "en-ex : l_en-l_ex :" << enter << ":" << exit << ":" << l_en << ":" << l_ex <<std::endl;
                 
                 if (first && l_en1>=enter1 && l_en1<=exit1 && l_ex1>=enter1 && l_ex1<=exit1)
                 {
@@ -300,7 +300,7 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
         }                   
         
     endEditCP  (pnts, GeoPositions3f::GeoPropDataFieldMask);
-    cout << "Added lines: " << len/2 << endl;
+    std::cout << "Added lines: " << len/2 << std::endl;
     
     GeoPTypesPtr type = GeoPTypesUI8::create();        
     beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
@@ -520,12 +520,12 @@ key(unsigned char key, int x, int y)
                     if (act->didHit())
                     {
                         p=act->getHitPoint();
-                        cout << "we did a hit: " << p[0] << ":" << p[1] << ":" << p[2] << endl;
+                        std::cout << "we did a hit: " << p[0] << ":" << p[1] << ":" << p[2] << std::endl;
                     }
                     else
                     {
                         p=Pnt3f(0,0,0);
-                        cout << "no hit, developing around (0,0,0)" << endl;
+                        std::cout << "no hit, developing around (0,0,0)" << std::endl;
                     }
                     
                     FrustumVolume frustum;

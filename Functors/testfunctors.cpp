@@ -499,8 +499,8 @@ void testfunctor1(void)
 {
     fprintf(stderr, "testfunctor1 started\n");
     
-    vector<Functor1>  funcVec;
-    vector<Functor1I> funcVecI;
+    std::vector<Functor1>  funcVec;
+    std::vector<Functor1I> funcVecI;
 
     A a1;
     A1 a2;    
@@ -541,8 +541,8 @@ void testfunctor1a(void)
 {
     fprintf(stderr, "testfunctor1a started\n");
     
-    vector<Functor1O> funcVec;
-    vector<Functor1IO> funcVecI;
+    std::vector<Functor1O> funcVec;
+    std::vector<Functor1IO> funcVecI;
 
     A a1;
     A1 a2;
@@ -580,8 +580,8 @@ void testfunctor2(void)
 {
     fprintf(stderr, "testfunctor2 started\n");
 
-    vector<Functor2>  funcVec;
-    vector<Functor2I> funcVecI;
+    std::vector<Functor2>  funcVec;
+    std::vector<Functor2I> funcVecI;
 
     A a1;
     A1 a2;
@@ -631,8 +631,8 @@ void testfunctor2a(void)
 {
     fprintf(stderr, "testfunctor2a started\n");
 
-    vector<Functor2O>  funcVec;
-    vector<Functor2IO> funcVecI;
+    std::vector<Functor2O>  funcVec;
+    std::vector<Functor2IO> funcVecI;
 
     A a1;
     A1 a2;
@@ -696,7 +696,7 @@ void testpointer1(void)
     pA = &a;
     pA1 = &a1;
 
-    vector<Functor1P> funcVec;
+    std::vector<Functor1P> funcVec;
 
     funcVec.push_back(
         osgTypedFunctionVoidFunctor1CPtrRef < Pointer<A> >(fooP));
@@ -735,7 +735,7 @@ void testpointer1o(void)
     pA = &a;
     pA1 = &a1;
 
-    vector<Functor1OP> funcVec;
+    std::vector<Functor1OP> funcVec;
 
     funcVec.push_back(
         osgTypedFunctionVoidFunctor1CPtr < Pointer<A> >(fooOP));
@@ -777,7 +777,7 @@ void testpointer1a(void)
     pA = &a;
     pA1 = &a1;
 
-    vector<Functor1IP> funcVec;
+    std::vector<Functor1IP> funcVec;
 
     funcVec.push_back(osgTypedFunctionFunctor1(fooIP));
     funcVec.push_back(osgTypedFunctionFunctor1(&B::fooIP));
@@ -817,8 +817,8 @@ void testpointer2(void)
 
     Int32 j;
 
-    vector<Functor2P> funcVec;
-    vector<Functor2IP> funcVecI;
+    std::vector<Functor2P> funcVec;
+    std::vector<Functor2IP> funcVecI;
 
     funcVec.push_back(
         osgTypedFunctionVoidFunctor2CPtrRef<Pointer<A>, 
@@ -907,7 +907,7 @@ void testpointer3(void)
 
     Int32 j;
 
-    vector<Functor2TP> funcVec;
+    std::vector<Functor2TP> funcVec;
 
     funcVec.push_back(osgMethodFunctor2CPtr<void, 
                                             Int32, 

@@ -83,7 +83,7 @@ using OSG::osgInit;
 template <class VecT>
 void printVec(VecT &vec)
 {
-    cerr << vec << "\n";
+    std::cerr << vec << "\n";
 }
 
 Real32 pValsI[] = { 10., 11., 12., 13., 14 };
@@ -92,7 +92,7 @@ void vectorTestConstructAndSetTest(void)
 {
     Real32 *pVals = pValsI;
 
-    cerr << "vectorTestConstructAndSetTest\n";
+    std::cerr << "vectorTestConstructAndSetTest\n";
 
     Vec2f v2f;
     Vec3f v3f;
@@ -116,25 +116,25 @@ void vectorTestConstructAndSetTest(void)
     Vec4f v4f3(3., 2., 1.);
     Vec4f v4f4(4., 3., 2., 1.);
 
-    cerr << "construct (void);\n";
+    std::cerr << "construct (void);\n";
 
     printVec(v2f);
     printVec(v3f);
     printVec(v4f);
 
-    cerr << "construct (2 val);\n";
+    std::cerr << "construct (2 val);\n";
 
     printVec(v2f2);
     printVec(v3f2);
     printVec(v4f2);
 
-    cerr << "construct (3 val);\n";
+    std::cerr << "construct (3 val);\n";
 
     printVec(v2f3);
     printVec(v3f3);
     printVec(v4f3);
 
-    cerr << "construct (4 val);\n";
+    std::cerr << "construct (4 val);\n";
 
     printVec(v2f4);
     printVec(v3f4);
@@ -165,32 +165,32 @@ void vectorTestConstructAndSetTest(void)
     Vec4f v4fp6(p3f);
     Vec4f v4fp7(p4f);
 
-    cerr << "construct (cp size 2) " << v2f4 << "\n";
+    std::cerr << "construct (cp size 2) " << v2f4 << "\n";
     printVec(v2f5);
     printVec(v3f5);
     printVec(v4f5);
 
-    cerr << "construct (cp size 3) " << v3f4 << "\n";
+    std::cerr << "construct (cp size 3) " << v3f4 << "\n";
     printVec(v2f6);
     printVec(v3f6);
     printVec(v4f6);
 
-    cerr << "construct (cp size 4) " << v4f4 << "\n";
+    std::cerr << "construct (cp size 4) " << v4f4 << "\n";
     printVec(v2f7);
     printVec(v3f7);
     printVec(v4f7);
 
-    cerr << "construct (cp size p2) " << p2f << "\n";
+    std::cerr << "construct (cp size p2) " << p2f << "\n";
     printVec(v2fp5);
     printVec(v3fp5);
     printVec(v4fp5);
 
-    cerr << "construct (cp size p3) " << p3f << "\n";
+    std::cerr << "construct (cp size p3) " << p3f << "\n";
     printVec(v2fp6);
     printVec(v3fp6);
     printVec(v4fp6);
 
-    cerr << "construct (cp size p4) " << p4f << "\n";
+    std::cerr << "construct (cp size p4) " << p4f << "\n";
     printVec(v2fp7);
     printVec(v3fp7);
     printVec(v4fp7);
@@ -202,7 +202,7 @@ void vectorTestConstructAndSetTest(void)
     Vec3f v3f8(pVals);
     Vec4f v4f8(pVals);
 
-    cerr << "construct (array)\n";
+    std::cerr << "construct (array)\n";
     printVec(v2f8);
     printVec(v3f8);
     printVec(v4f8);
@@ -211,7 +211,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setNull();
     v4f8.setNull();
 
-    cerr << "set Null\n";
+    std::cerr << "set Null\n";
     printVec(v2f8);
     printVec(v3f8);
     printVec(v4f8);
@@ -220,7 +220,7 @@ void vectorTestConstructAndSetTest(void)
 //    v3f8.setValue(20., 30.);
 //    v4f8.setValue(20., 30.);
 
-    cerr << "set 2 vals\n";
+    std::cerr << "set 2 vals\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -230,7 +230,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValues(20., 30., 40.);
 //    v4f8.setValue(20., 30., 40.);
 
-    cerr << "set 3 vals\n";
+    std::cerr << "set 3 vals\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -240,7 +240,7 @@ void vectorTestConstructAndSetTest(void)
 //    v3f8.setValue(20., 30., 40., 50.);
     v4f8.setValues(20., 30., 40., 50.);
 
-    cerr << "set 4 vals\n";
+    std::cerr << "set 4 vals\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -251,7 +251,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue(v2f4);
     v4f8.setValue(v2f4);
 
-    cerr << "set vec size 2 " << v2f4 << "\n";;
+    std::cerr << "set vec size 2 " << v2f4 << "\n";;
     printVec(v2f8);
     printVec(v3f8);
     printVec(v4f8);
@@ -264,7 +264,7 @@ void vectorTestConstructAndSetTest(void)
 //    v3f8.setValue(v3f4);
     v4f8.setValue(v3f4);
 
-    cerr << "set vec size 3 " << v3f4 << "\n";
+    std::cerr << "set vec size 3 " << v3f4 << "\n";
     printVec(v2f8);
     printVec(v3f8);
     printVec(v4f8);
@@ -277,7 +277,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue(v4f4);
 //    v4f8.setValue(v4f4);
 
-    cerr << "set vec size 4 " << v4f4 << "\n";
+    std::cerr << "set vec size 4 " << v4f4 << "\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -292,7 +292,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue((char *) NULL);
     v4f8.setValue((char *) NULL);
 
-    cerr << "set vec from string NULL \n";
+    std::cerr << "set vec from string NULL \n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -307,7 +307,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue("");
     v4f8.setValue("");
 
-    cerr << "set vec from string \"\" \n";
+    std::cerr << "set vec from string \"\" \n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -323,7 +323,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue("1 ");
     v4f8.setValue("1");
 
-    cerr << "set vec from string 1 \n";
+    std::cerr << "set vec from string 1 \n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -339,7 +339,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue("1 2");
     v4f8.setValue("1 2 ");
 
-    cerr << "set vec from string 2\n";
+    std::cerr << "set vec from string 2\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -355,7 +355,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue("1 2 3");
     v4f8.setValue("1 2 3");
 
-    cerr << "set vec from string 3\n";
+    std::cerr << "set vec from string 3\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -371,7 +371,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue("1 2 3 4 ");
     v4f8.setValue("1 2 3 4");
 
-    cerr << "set vec from string 4\n";
+    std::cerr << "set vec from string 4\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -386,7 +386,7 @@ void vectorTestConstructAndSetTest(void)
     v3f8.setValue("1 2 3 4 5 6");
     v4f8.setValue("1 2 3 4 5 6");
 
-    cerr << "set vec from string 4\n";
+    std::cerr << "set vec from string 4\n";
 
     printVec(v2f8);
     printVec(v3f8);
@@ -407,29 +407,29 @@ void vectorMathTests(void)
 
     Real32 rX, rY, rZ, rW;
 
-    cout << v2f1 << " : iz : " << v2f1.isZero() << "\n";
-    cout << v3f1 << " : iz : " << v3f1.isZero() << "\n";
-    cout << v4f1 << " : iz : " << v4f1.isZero() << "\n";
+    std::cout << v2f1 << " : iz : " << v2f1.isZero() << "\n";
+    std::cout << v3f1 << " : iz : " << v3f1.isZero() << "\n";
+    std::cout << v4f1 << " : iz : " << v4f1.isZero() << "\n";
 
-    cout << v2f2 << " : iz : " << v2f2.isZero() << "\n";
-    cout << v3f2 << " : iz : " << v3f2.isZero() << "\n";
-    cout << v4f2 << " : iz : " << v4f2.isZero() << "\n";
+    std::cout << v2f2 << " : iz : " << v2f2.isZero() << "\n";
+    std::cout << v3f2 << " : iz : " << v3f2.isZero() << "\n";
+    std::cout << v4f2 << " : iz : " << v4f2.isZero() << "\n";
 
     v2f1.setValues(3., 4.);
     v3f1.setValues(3., 4., 5.);
     v4f1.setValues(3., 4., 5., 6.);
 
-    cout << v2f1 << " l : " << v2f1.length() << " (5)\n";
-    cout << v3f1 << " l : " << v3f1.length() << " (7.07106)\n";
-    cout << v4f1 << " l : " << v4f1.length() << " (9.27361)\n";
+    std::cout << v2f1 << " l : " << v2f1.length() << " (5)\n";
+    std::cout << v3f1 << " l : " << v3f1.length() << " (7.07106)\n";
+    std::cout << v4f1 << " l : " << v4f1.length() << " (9.27361)\n";
 
     v2f1.normalize();
     v3f1.normalize();
     v4f1.normalize();
 
-    cout << v2f1 << " l : " << v2f1.length() << " (1)\n";
-    cout << v3f1 << " l : " << v3f1.length() << " (1)\n";
-    cout << v4f1 << " l : " << v4f1.length() << " (1)\n";
+    std::cout << v2f1 << " l : " << v2f1.length() << " (1)\n";
+    std::cout << v3f1 << " l : " << v3f1.length() << " (1)\n";
+    std::cout << v4f1 << " l : " << v4f1.length() << " (1)\n";
 
     v2f1.setValues(0., 1.);
     v3f1.setValues(1., 0., 0.);
@@ -439,17 +439,17 @@ void vectorMathTests(void)
     v3f2.setValues(0., 1., 0.);
     v4f2.setValues(1., 0., 0., 10.);
 
-    cout << v2f1.cross(v2f2) << "\n";
-    cout << v3f1.cross(v3f2) << "\n";
-    cout << v4f1.cross(v4f2) << "\n";
+    std::cout << v2f1.cross(v2f2) << "\n";
+    std::cout << v3f1.cross(v3f2) << "\n";
+    std::cout << v4f1.cross(v4f2) << "\n";
 
     v2f1.crossThis(v2f2);
     v3f1.crossThis(v3f2);
     v4f1.crossThis(v4f2);
 
-    cout << v2f1 << "\n";
-    cout << v3f1 << "\n";
-    cout << v4f1 << "\n";
+    std::cout << v2f1 << "\n";
+    std::cout << v3f1 << "\n";
+    std::cout << v4f1 << "\n";
 
     v2f1.setValues(1., 2.);
     v3f1.setValues(1., 2., 3.);
@@ -459,45 +459,45 @@ void vectorMathTests(void)
     v3f2.setValues(10., 20., 30.);
     v4f2.setValues(10., 20., 30., 40.);
 
-    cout << v2f1.dot(v2f2) << " ( 50) \n";
-    cout << v3f1.dot(v3f2) << " (140)\n";
-    cout << v4f1.dot(v4f2) << " (300)\n";
+    std::cout << v2f1.dot(v2f2) << " ( 50) \n";
+    std::cout << v3f1.dot(v3f2) << " (140)\n";
+    std::cout << v4f1.dot(v4f2) << " (300)\n";
 
     v2f1.negate();
     v3f1.negate();
     v4f1.negate();
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
-    cout << -v2f1 << " \n";
-    cout << -v3f1 << " \n";
-    cout << -v4f1 << " \n";
+    std::cout << -v2f1 << " \n";
+    std::cout << -v3f1 << " \n";
+    std::cout << -v4f1 << " \n";
 
     v2f1.setValues(1., 1.);
     v3f1.setValues(3., 3., 3.);
     v4f1.setValues(1., 2., 3., 4.);
 
-    cout << v2f1.equals(v2f2, 0.5) << "\n";
-    cout << v3f1.equals(v3f2, 0.5) << "\n";
-    cout << v4f1.equals(v4f2, 0.5) << "\n";
+    std::cout << v2f1.equals(v2f2, 0.5) << "\n";
+    std::cout << v3f1.equals(v3f2, 0.5) << "\n";
+    std::cout << v4f1.equals(v4f2, 0.5) << "\n";
 
     v2f2.setValues(1.3, 0.9);
     v3f2.setValues(3., 3., 3.6);
     v4f2.setValues(1., 2., 3, 4.);
 
-    cout << v2f1.equals(v2f2, 0.5) << "\n";
-    cout << v3f1.equals(v3f2, 0.5) << "\n";
-    cout << v4f1.equals(v4f2, 0.5) << "\n";
+    std::cout << v2f1.equals(v2f2, 0.5) << "\n";
+    std::cout << v3f1.equals(v3f2, 0.5) << "\n";
+    std::cout << v4f1.equals(v4f2, 0.5) << "\n";
 
-    cout << (v2f1 == v2f2) << "\n";
-    cout << (v3f1 == v3f2) << "\n";
-    cout << (v4f1 == v4f2) << "\n";
+    std::cout << (v2f1 == v2f2) << "\n";
+    std::cout << (v3f1 == v3f2) << "\n";
+    std::cout << (v4f1 == v4f2) << "\n";
 
-    cout << (v2f1 != v2f2) << "\n";
-    cout << (v3f1 != v3f2) << "\n";
-    cout << (v4f1 != v4f2) << "\n";
+    std::cout << (v2f1 != v2f2) << "\n";
+    std::cout << (v3f1 != v3f2) << "\n";
+    std::cout << (v4f1 != v4f2) << "\n";
 
     v2f1.setValues(1., 2.);
     v3f1.setValues(1., 2., 3.);
@@ -511,33 +511,33 @@ void vectorMathTests(void)
     v3f1 += v3f2;
     v4f1 += v4f2;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     v2f1 -= v2f2;
     v3f1 -= v3f2;
     v4f1 -= v4f2;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     v2f1 *= 4.;
     v3f1 *= 4.;
     v4f1 *= 4.;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     v2f1 /= 2.;
     v3f1 /= 2.;
     v4f1 /= 2.;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     fprintf(stderr, "%f %f %f %f\n", v4f1[0], v4f1[1], v4f1[2], v4f1[3]);
     fprintf(stderr, "%f %f %f %f\n",
@@ -546,61 +546,61 @@ void vectorMathTests(void)
 
     v4f1.getSeparateValues(rX, rY, rZ, rW);
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
-    cout << v2f2 << " \n";
-    cout << v3f2 << " \n";
-    cout << v4f2 << " \n";
+    std::cout << v2f2 << " \n";
+    std::cout << v3f2 << " \n";
+    std::cout << v4f2 << " \n";
 
     v2f1 = v2f2;
     v3f1 = v3f2;
     v4f1 = v4f2;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
-    cout << v2f2 << " \n";
-    cout << v3f2 << " \n";
-    cout << v4f2 << " \n";
+    std::cout << v2f2 << " \n";
+    std::cout << v3f2 << " \n";
+    std::cout << v4f2 << " \n";
 
     v2f1 = v2f2 * 2.f;
     v3f1 = v3f2 * 2.f;
     v4f1 = v4f2 * 2.f;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     v2f1 = 0.5f * v2f2;
     v3f1 = 0.5f * v3f2;
     v4f1 = 0.5f * v4f2;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     v2f1 = v2f2 + v2f2;
     v3f1 = v3f2 + v3f2;
     v4f1 = v4f2 + v4f2;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
     v2f1 = v2f2 - v2f1;
     v3f1 = v3f2 - v3f1;
     v4f1 = v4f2 - v4f1;
 
-    cout << v2f1 << " \n";
-    cout << v3f1 << " \n";
-    cout << v4f1 << " \n";
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
 
-    cout << v2f2 << " \n";
-    cout << v3f2 << " \n";
-    cout << v4f2 << " \n";
+    std::cout << v2f2 << " \n";
+    std::cout << v3f2 << " \n";
+    std::cout << v4f2 << " \n";
 }
 
 void matrixTest(void)
@@ -658,21 +658,21 @@ void matrixTest(void)
     Matrix m8;
     Matrix m9;
 
-    cout << endl << "Matrix math test " << endl;
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "Matrix math test " << std::endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
-    cout << "Identity               : " << endl
-         << Matrix::identity()   << endl;
+    std::cout << "Identity               : " << std::endl
+         << Matrix::identity()   << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
-    cout << "Default constructor    : " << endl << m1 << endl;
-    cout << "3 vector3f constructor : " << endl << m2 << endl;
-    cout << "4 vector3f constructor : " << endl << m3 << endl;
-    cout << "Copy consructor        : " << endl << m4 << endl;
-    cout << "16f values construtor  : " << endl << m5 << endl;
+    std::cout << "Default constructor    : " << std::endl << m1 << std::endl;
+    std::cout << "3 vector3f constructor : " << std::endl << m2 << std::endl;
+    std::cout << "4 vector3f constructor : " << std::endl << m3 << std::endl;
+    std::cout << "Copy consructor        : " << std::endl << m4 << std::endl;
+    std::cout << "16f values construtor  : " << std::endl << m5 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
 
     m1.setValue(v4, v3, v2);
@@ -694,18 +694,18 @@ void matrixTest(void)
     m6.setValue(pVec4Array);
 //    m7.setValue(pVec3Array);
 
-    cout << "Set      matrix  : " << endl << m4 << endl;
-    cout << "Set 3 3f vectors : " << endl << m1 << endl;
-    cout << "Set 4 3f vectors : " << endl << m2 << endl;
-    cout << "Set 16 f values  : " << endl << m3 << endl;
-    cout << "Set valT array   : " << endl << m5 << endl;
-    cout << "Set val array    : " << endl << m8 << endl;
-    cout << "Set vec4 array   : " << endl << m6 << endl;
-    cout << "Set vec3 array   : " << endl << m7 << endl;
+    std::cout << "Set      matrix  : " << std::endl << m4 << std::endl;
+    std::cout << "Set 3 3f vectors : " << std::endl << m1 << std::endl;
+    std::cout << "Set 4 3f vectors : " << std::endl << m2 << std::endl;
+    std::cout << "Set 16 f values  : " << std::endl << m3 << std::endl;
+    std::cout << "Set valT array   : " << std::endl << m5 << std::endl;
+    std::cout << "Set val array    : " << std::endl << m8 << std::endl;
+    std::cout << "Set vec4 array   : " << std::endl << m6 << std::endl;
+    std::cout << "Set vec3 array   : " << std::endl << m7 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
-    cout << "Get Values : " << endl;
+    std::cout << "Get Values : " << std::endl;
 
     for(i = 0; i < 4; i++)
     {
@@ -717,7 +717,7 @@ void matrixTest(void)
         fprintf(stderr, "\n");
     }
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m1.setScale(10.);
@@ -731,12 +731,12 @@ void matrixTest(void)
     m4.setIdentity();
     m4.setTranslate(41., 42., 43.);
 
-    cout << "Set scale val       : " << endl << m1 << endl;
-    cout << "Set scale vec3f     : " << endl << m2 << endl;
-    cout << "Set translate val   : " << endl << m4 << endl;
-    cout << "Set translate vec3f : " << endl << m3 << endl;
+    std::cout << "Set scale val       : " << std::endl << m1 << std::endl;
+    std::cout << "Set scale vec3f     : " << std::endl << m2 << std::endl;
+    std::cout << "Set translate val   : " << std::endl << m4 << std::endl;
+    std::cout << "Set translate vec3f : " << std::endl << m3 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     q1.setValueAsAxisDeg(1., 0., 0., 60.);
     q2.setValueAsAxisDeg(0., 1., 0., 60.);
@@ -747,24 +747,24 @@ void matrixTest(void)
     m2.setRotate(q2);
     m3.setRotate(q3);
 
-    cout << "Set rotate X/60     : " << endl << m1 << endl;
-    cout << "Set rotate Y/60     : " << endl << m2 << endl;
-    cout << "Set rotate Z/60     : " << endl << m3 << endl;
+    std::cout << "Set rotate X/60     : " << std::endl << m1 << std::endl;
+    std::cout << "Set rotate Y/60     : " << std::endl << m2 << std::endl;
+    std::cout << "Set rotate Z/60     : " << std::endl << m3 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m1.setTranslate(41., 42., 43);
 
-    cout << m1 << endl;
+    std::cout << m1 << std::endl;
 
     m2.setIdentity();
     m2.setRotate(q1);
 
     m1.mult(m2);
 
-    cout << "mult trans * rot : " << endl << m1 << endl;
-    cout << endl << "========================================" << endl << endl;
+    std::cout << "mult trans * rot : " << std::endl << m1 << std::endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m1.setTranslate(41., 42., 43);
@@ -774,8 +774,8 @@ void matrixTest(void)
 
     m1.multLeft(m2);
 
-    cout << "multLeft rot * trans : " << endl << m1 << endl;
-    cout << endl << "========================================" << endl << endl;
+    std::cout << "multLeft rot * trans : " << std::endl << m1 << std::endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m1.setTranslate(41., 42., 43);
@@ -787,26 +787,26 @@ void matrixTest(void)
 
     m4 = m1;
 
-    cout << m1.inverse(m3) << endl;
-    cout << "Inverse trans * rot : " << endl << m3 << endl;
+    std::cout << m1.inverse(m3) << std::endl;
+    std::cout << "Inverse trans * rot : " << std::endl << m3 << std::endl;
 
-    cout << m3.invertFrom(m1) << endl;
-    cout << "InverseFrom trans * rot : " << endl << m3 << endl;
+    std::cout << m3.invertFrom(m1) << std::endl;
+    std::cout << "InverseFrom trans * rot : " << std::endl << m3 << std::endl;
 
     m3 = m1;
 
-    cout << m3.invert();
-    cout << "Invert trans * rot : " << endl << m3 << endl;
+    std::cout << m3.invert();
+    std::cout << "Invert trans * rot : " << std::endl << m3 << std::endl;
 
     m4.mult(m3);
-    cout << "Invert m-1 * m : " << endl << m4 << endl;
+    std::cout << "Invert m-1 * m : " << std::endl << m4 << std::endl;
 
     m4 = m1;
     m3.mult(m4);
 
-    cout << "Invert m * m-1 : " << endl << m3 << endl;
+    std::cout << "Invert m * m-1 : " << std::endl << m3 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
 
     m1.setIdentity();
@@ -819,26 +819,26 @@ void matrixTest(void)
 
     m4 = m1;
 
-    cout << m1.inverse3(m3) << endl;
-    cout << "Inverse trans * rot : " << endl << m3 << endl;
+    std::cout << m1.inverse3(m3) << std::endl;
+    std::cout << "Inverse trans * rot : " << std::endl << m3 << std::endl;
 
-    cout << m3.invertFrom3(m1) << endl;
-    cout << "InverseFrom trans * rot : " << endl << m3 << endl;
+    std::cout << m3.invertFrom3(m1) << std::endl;
+    std::cout << "InverseFrom trans * rot : " << std::endl << m3 << std::endl;
 
     m3 = m1;
 
-    cout << m3.invert3() << endl;
-    cout << "Invert trans * rot : " << endl << m3 << endl;
+    std::cout << m3.invert3() << std::endl;
+    std::cout << "Invert trans * rot : " << std::endl << m3 << std::endl;
 
     m4.mult(m3);
-    cout << "Invert m * m-1 : " << endl << m4 << endl;
+    std::cout << "Invert m * m-1 : " << std::endl << m4 << std::endl;
 
     m4 = m1;
     m3.mult(m4);
 
-    cout << "Invert m-1 * m : " << endl << m3 << endl;
+    std::cout << "Invert m-1 * m : " << std::endl << m3 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m1.setTranslate(41., 42., 43);
@@ -854,10 +854,10 @@ void matrixTest(void)
     m1.mult(v1, v2);
     m1.mult(p1, p2);
 
-    cout << "Transform P : " << endl << p2 << endl;
-    cout << "Transform V : " << endl << v2 << endl;
+    std::cout << "Transform P : " << std::endl << p2 << std::endl;
+    std::cout << "Transform V : " << std::endl << v2 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m2.setIdentity();
@@ -884,10 +884,10 @@ void matrixTest(void)
 
     m5.setTransform(v1, q1, v2);
 
-    cout << "Set Transform t*r*s : " << endl << m4 << endl;
-    cout << "Set Transform trs   : " << endl << m5 << endl;
+    std::cout << "Set Transform t*r*s : " << std::endl << m4 << std::endl;
+    std::cout << "Set Transform trs   : " << std::endl << m5 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
 
     m1.setIdentity();
@@ -928,10 +928,10 @@ void matrixTest(void)
 
     m9.setTransform(v1, q1, v2, q2);
 
-    cout << "Set Transform t*r*s*so : " << endl << m8 << endl;
-    cout << "Set Transform t r s so : " << endl << m9 << endl;
+    std::cout << "Set Transform t*r*s*so : " << std::endl << m8 << std::endl;
+    std::cout << "Set Transform t r s so : " << std::endl << m9 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     m1.setIdentity();
     m2.setIdentity();
@@ -971,8 +971,8 @@ void matrixTest(void)
 
     m9.setTransform(v1, q1, v2, q2, v3);
 
-    cout << "Set Transform t*r*s*so*c : " << endl << m8 << endl;
-    cout << "Set Transform t r s so c : " << endl << m9 << endl;
+    std::cout << "Set Transform t*r*s*so*c : " << std::endl << m8 << std::endl;
+    std::cout << "Set Transform t r s so c : " << std::endl << m9 << std::endl;
 }
 
 
@@ -1037,16 +1037,16 @@ void quattest(void)
     Quaternion q9;
 
 
-    cout << endl << "Quaternion math test " << endl;
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "Quaternion math test " << std::endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
-    cout << "Default Constructor         : " << endl << q1 << endl;
-    cout << "Construtor Axis3f, Angle    : " << endl << q2 << endl;
-    cout << "Copy Constructor            : " << endl << q3 << endl;
-    cout << "Constructor AxisVec3f Angle : " << endl << q4 << endl;
-    cout << "Constructor FromV3f ToV3f   : " << endl << q5 << endl;
+    std::cout << "Default Constructor         : " << std::endl << q1 << std::endl;
+    std::cout << "Construtor Axis3f, Angle    : " << std::endl << q2 << std::endl;
+    std::cout << "Copy Constructor            : " << std::endl << q3 << std::endl;
+    std::cout << "Constructor AxisVec3f Angle : " << std::endl << q4 << std::endl;
+    std::cout << "Constructor FromV3f ToV3f   : " << std::endl << q5 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
 
     q1.setIdentity();
@@ -1072,46 +1072,46 @@ void quattest(void)
     q8.setIdentity();
     q8.setValueAsAxisDeg("0.0 1.0 0.0 90.");
 
-    cout << "Set Identity                : " << endl << q1 << endl;
-    cout << "Set from axis array         : " << endl << q2 << endl;
-    cout << "Set from quat array         : " << endl << q3 << endl;
-    cout << "Set from value axis         : " << endl << q4 << endl;
-    cout << "Set from value quat         : " << endl << q5 << endl;
-    cout << "Set from axis angle         : " << endl << q6 << endl;
-    cout << "Set from from, to pair      : " << endl << q7 << endl;
-    cout << "Set from string             : " << endl << q8 << endl;
+    std::cout << "Set Identity                : " << std::endl << q1 << std::endl;
+    std::cout << "Set from axis array         : " << std::endl << q2 << std::endl;
+    std::cout << "Set from quat array         : " << std::endl << q3 << std::endl;
+    std::cout << "Set from value axis         : " << std::endl << q4 << std::endl;
+    std::cout << "Set from value quat         : " << std::endl << q5 << std::endl;
+    std::cout << "Set from axis angle         : " << std::endl << q6 << std::endl;
+    std::cout << "Set from from, to pair      : " << std::endl << q7 << std::endl;
+    std::cout << "Set from string             : " << std::endl << q8 << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
 
     q1.setValueAsAxisDeg(1., 0., 0., 60.);
     q2.setValueAsAxisDeg(0., 1., 0., 60.);
     q3.setValueAsAxisDeg(0., 0., 1., 60.);
 
-    cout << "Set from axis X/60          : " << endl << q1 << endl;
-    cout << "Set from axis Y/60          : " << endl << q2 << endl;
-    cout << "Set from axis Z/60          : " << endl << q3 << endl;
-    cout << endl;
+    std::cout << "Set from axis X/60          : " << std::endl << q1 << std::endl;
+    std::cout << "Set from axis Y/60          : " << std::endl << q2 << std::endl;
+    std::cout << "Set from axis Z/60          : " << std::endl << q3 << std::endl;
+    std::cout << std::endl;
 
     q4.setValue(rotmatInX);
     q5.setValue(rotmatInY);
     q6.setValue(rotmatInZ);
 
-    cout << "Set from matrix X/60        : " << endl << q4 << endl;
-    cout << "Set from matrix Y/60        : " << endl << q5 << endl;
-    cout << "Set from matrix Z/60        : " << endl << q6 << endl;
-    cout << endl;
+    std::cout << "Set from matrix X/60        : " << std::endl << q4 << std::endl;
+    std::cout << "Set from matrix Y/60        : " << std::endl << q5 << std::endl;
+    std::cout << "Set from matrix Z/60        : " << std::endl << q6 << std::endl;
+    std::cout << std::endl;
 
     q1.getValue(rotmatOutX);
     q2.getValue(rotmatOutY);
     q3.getValue(rotmatOutZ);
 
-    cout << "Get matrix X/60        : " << endl << rotmatOutX << endl;
-    cout << "Get matrix Y/60        : " << endl << rotmatOutY << endl;
-    cout << "Get matrix Z/60        : " << endl << rotmatOutZ << endl;
-    cout << endl;
+    std::cout << "Get matrix X/60        : " << std::endl << rotmatOutX << std::endl;
+    std::cout << "Get matrix Y/60        : " << std::endl << rotmatOutY << std::endl;
+    std::cout << "Get matrix Z/60        : " << std::endl << rotmatOutZ << std::endl;
+    std::cout << std::endl;
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     q1.setValueAsQuat(1., 2., 3., 4.); // Just for testing
 
@@ -1123,7 +1123,7 @@ void quattest(void)
     }
     fprintf(stderr, "\n");
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     q2.getValueAsAxisDeg(x, y, z, w);
 
@@ -1135,33 +1135,33 @@ void quattest(void)
     printf("Get val as quat\n");
     printf("%5.3f %5.3f %5.3f %5.3f\n", x, y, z, w);
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     q2.getValueAsAxisDeg(v1, w);
 
     printf("Get val as vec/angle\n");
-    cout << v1;
+    std::cout << v1;
     printf(" %5.3f\n", w);
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     printf("Get val as single Real32 vals\n");
     printf("%5.3f %5.3f %5.3f %5.3f\n", q1.x(), q1.y(), q1.z(), q1.w());
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     printf("length\n%5.3f", q1.length());
 
     q1.normalize();
     printf("norm\n%5.3f\n", q1.length());
 
-    cout << endl << "========================================" << endl << endl;
+    std::cout << std::endl << "========================================" << std::endl << std::endl;
 
     q2.invert();
     q3 = q2.inverse();
 
-    cout << "Invert  :" << endl << q2 << endl;
-    cout << "Inverse :" << endl << q3 << endl;
+    std::cout << "Invert  :" << std::endl << q2 << std::endl;
+    std::cout << "Inverse :" << std::endl << q3 << std::endl;
 
 
     q1.setValueAsAxisDeg(1., 0., 0., 60.);
@@ -1180,8 +1180,8 @@ void quattest(void)
 
     m1.mult(m2);
 
-    cout << m3;
-    cout << m1;
+    std::cout << m3;
+    std::cout << m1;
 
     return;
 
@@ -1189,25 +1189,25 @@ void quattest(void)
     q1.setValue(v1, 0.);
     q2.setValue(v1, Pi);
 
-    cout << "\n" << q2 << "\n";
+    std::cout << "\n" << q2 << "\n";
 
     q1 = Quaternion::slerp(q1, q2, 0.5);
 
-    cout <<  "\n" << q1 << "\n";
+    std::cout <<  "\n" << q1 << "\n";
 
     q1.setValue(Pi/2., 0., 0.);
 
-    cout <<  "\n" << q1 << "\n";
+    std::cout <<  "\n" << q1 << "\n";
 
     Matrix m;
 
     q1.getValue(m);
 
-    cout <<  "\n" << m << "\n";
+    std::cout <<  "\n" << m << "\n";
 
     q2.setValue(m);
 
-    cout <<  "\n" << q2 << "\n";
+    std::cout <<  "\n" << q2 << "\n";
 
     fprintf(stderr, "\n %f %f %f %f\n",
             q2.getValues()[0],
@@ -1217,13 +1217,13 @@ void quattest(void)
 
     q3 = q1.inverse();
 
-    cout << q3 << "\n";
+    std::cout << q3 << "\n";
 
 
     q1.setValue(1., 0., 0., Pi);
     q1.normalize();
 
-    cout << q1 << "\n";
+    std::cout << q1 << "\n";
 
     v1.setValues(1., 0., 0.);
 
@@ -1231,13 +1231,13 @@ void quattest(void)
 
     q1.multVec(v1, v2);
 
-    cout << v1 << "\n" << v2 << "\n";
+    std::cout << v1 << "\n" << v2 << "\n";
 
     q1.scaleAngle(2.);
 
     q1.mult(v1, v2);
 
-    cout << v1 << "\n" << v2 << "\n";
+    std::cout << v1 << "\n" << v2 << "\n";
 
     q1.setValue(0., 1., 0., Pi/2.);
     q2.setValue(0., 0., 1., Pi/2.);
@@ -1245,13 +1245,13 @@ void quattest(void)
     q3 = q1;
     q3.mult(q2);
 
-    cout << q3 << "\n";
+    std::cout << q3 << "\n";
 
     q1.multVec(v1, v2);
     q2.multVec(v2, v3);
     q3.multVec(v1, v4);
 
-    cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
+    std::cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
 
     q1.setValue(0., 1., 0., Pi/2.);
     q2.setValue(0., 0., 1., Pi/2.);
@@ -1259,13 +1259,13 @@ void quattest(void)
     q3 = q1;
     q3.multLeft(q2);
 
-    cout << q3 << "\n";
+    std::cout << q3 << "\n";
 
     q1.multVec(v1, v2);
     q2.multVec(v2, v3);
     q3.multVec(v1, v4);
 
-    cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
+    std::cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
 #endif
 }
 
@@ -1277,11 +1277,11 @@ void matcheck( Matrix & mat, Pnt3f * vec, int nelem )
     for ( i = 0; i < nelem; i++ )
     {
         mat.multFullMatrixPnt( vec[i],p2 );
-        cout << "transforms " << vec[i] << " to " << p2 << endl;
+        std::cout << "transforms " << vec[i] << " to " << p2 << std::endl;
 
     }
 
-    cout << endl;
+    std::cout << std::endl;
 }
 
 void matutilitytest( void )
@@ -1297,41 +1297,41 @@ void matutilitytest( void )
     // check the lookat matrix
 
     MatrixLookAt( res,  0.f,0.f,0.f, 0.f,0.f,-1.f, 0.f,1.f,0.f );
-    cout << "Lookat (0,0,0)-(0,0,-1)-(0,1,0): " << endl << res << endl;
+    std::cout << "Lookat (0,0,0)-(0,0,-1)-(0,1,0): " << std::endl << res << std::endl;
     matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
     p1.setValues( 0,0,0);
     p2.setValues( 0,0,-1);
     v.setValues( 0,1,0);
     MatrixLookAt( res,  p1, p2, v );
-    cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << endl << res << endl;
+    std::cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << std::endl << res << std::endl;
     matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
     MatrixLookAt( res,  0.f,0.f,2.f, 0.f,0.f,0.f, 0.f,1.f,0.f );
-    cout << "Lookat (0,0,2)-(0,0,0)-(0,1,0): " << endl << res << endl;
+    std::cout << "Lookat (0,0,2)-(0,0,0)-(0,1,0): " << std::endl << res << std::endl;
     matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
     MatrixLookAt( res,  2.f,0.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f );
-    cout << "Lookat (2,0,0)-(0,0,0)-(0,1,0): " << endl << res << endl;
+    std::cout << "Lookat (2,0,0)-(0,0,0)-(0,1,0): " << std::endl << res << std::endl;
     matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
     if ( MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f ) )
     {
-        cout << "MatrixLookAt failed: illegal conf correctly detected." << endl;
+        std::cout << "MatrixLookAt failed: illegal conf correctly detected." << std::endl;
     }
     else
     {
-        cout << "MatrixLookAt succeeded: illegal conf not detected!!!" << endl;
+        std::cout << "MatrixLookAt succeeded: illegal conf not detected!!!" << std::endl;
     }
     MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,0.f,1.f );
-    cout << "Lookat (0,3,0)-(0,1,0)-(0,0,1): " << endl << res << endl;
+    std::cout << "Lookat (0,3,0)-(0,1,0)-(0,0,1): " << std::endl << res << std::endl;
     matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
     p1.setValues( 1,1,1);
     p2.setValues( 0,0,0);
     v.setValues( 0,2,0);
     MatrixLookAt( res,  p1,p2,v );
-    cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << endl << res << endl;
+    std::cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << std::endl << res << std::endl;
     matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
     // check window
@@ -1341,31 +1341,31 @@ void matutilitytest( void )
         Pnt3f( 0,0,-2 ), Pnt3f( .5,.5,-.5 ), Pnt3f( 1,1,-1 )  };
 
     MatrixFrustum( res, -1, 1, -1, 1, .1, 1 );
-    cout << "Frustum (-1, 1, -1, 1, .1, 1): " << endl << res << endl;
+    std::cout << "Frustum (-1, 1, -1, 1, .1, 1): " << std::endl << res << std::endl;
     matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
     MatrixFrustum( res, 0, 1, 0, 1, 0.1, 1 );
-    cout << "Frustum (0, 1, 0, 1, 0.1, 1): " << endl << res << endl;
+    std::cout << "Frustum (0, 1, 0, 1, 0.1, 1): " << std::endl << res << std::endl;
     matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
     // check orthogonal projection
 
     MatrixOrthogonal( res, -1, 1, -1, 1, -1, 1 );
-    cout << "Orthogonal (-1, 1, -1, 1, -1, 1): " << endl << res << endl;
+    std::cout << "Orthogonal (-1, 1, -1, 1, -1, 1): " << std::endl << res << std::endl;
     matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
     MatrixOrthogonal( res, -4, -1, 1, 3, -2, 2 );
-    cout << "Orthogonal (-4, -1, 1, 3, -2, 2): " << endl << res << endl;
+    std::cout << "Orthogonal (-4, -1, 1, 3, -2, 2): " << std::endl << res << std::endl;
     matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
     // check perspective projection
 
     MatrixPerspective( res, 45, 1, 0.1, 1 );
-    cout << "Perspective (45, 1, 0.1, 1): " << endl << res << endl;
+    std::cout << "Perspective (45, 1, 0.1, 1): " << std::endl << res << std::endl;
     matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
     MatrixPerspective( res, 45, 2, 0.1, 1 );
-    cout << "Perspective (45, 2, 0.1, 1): " << endl << res << endl;
+    std::cout << "Perspective (45, 2, 0.1, 1): " << std::endl << res << std::endl;
     matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
 
@@ -1385,30 +1385,30 @@ void matNSMTest(void)
         // first single precision floats
 
 
-        cout << "====================================================" << endl
-             << "  Testing the matrix functions sqrt, exp, and log" << endl
-             << "====================================================" << endl
-             << endl
-             << "32 bit float types" << endl;
+        std::cout << "====================================================" << std::endl
+             << "  Testing the matrix functions sqrt, exp, and log" << std::endl
+             << "====================================================" << std::endl
+             << std::endl
+             << "32 bit float types" << std::endl;
 
         m1.setIdentity();
 
-        cout << endl << "Test matrix is identity!"  << endl;
+        std::cout << std::endl << "Test matrix is identity!"  << std::endl;
 
         m1.sqrt(m2);
         m3.sqrtOf(m1);
 
-        cout << "A.sqrt():" << endl << m2 << endl
-             << "sqrtOf(A):" << endl << m3 << endl;
+        std::cout << "A.sqrt():" << std::endl << m2 << std::endl
+             << "sqrtOf(A):" << std::endl << m3 << std::endl;
 
         m1.exp(m2);
         m3.expOf(m1);
 
-        cout << "A.exp():" << endl << m2 << endl
-             << "expOf(A):" << endl << m3 << endl;
+        std::cout << "A.exp():" << std::endl << m2 << std::endl
+             << "expOf(A):" << std::endl << m3 << std::endl;
 
-        cout << "A.log():" << m1.log(m2) << endl << m2 << endl
-             << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl << endl;
+        std::cout << "A.log():" << m1.log(m2) << std::endl << m2 << std::endl
+             << "logOf(A):" << m3.logOf(m1) << std::endl << m3 << std::endl << std::endl;
 
 
         do
@@ -1417,46 +1417,46 @@ void matNSMTest(void)
                                 m1[i][j] = Real32(rand())/Real32(RAND_MAX);
         while (m1.det() < 0);
 
-        cout << endl << "Test matrix (A):" << endl << m1 << endl;
+        std::cout << std::endl << "Test matrix (A):" << std::endl << m1 << std::endl;
 
         m1.sqrt(m2);
         m3.sqrtOf(m1);
 
-        cout << "A.sqrt():" << endl << m2 << endl
-             << "sqrtOf(A):" << endl << m3 << endl;
+        std::cout << "A.sqrt():" << std::endl << m2 << std::endl
+             << "sqrtOf(A):" << std::endl << m3 << std::endl;
 
         m2.mult(m2);
         m3.mult(m3);
         m2.addScaled(m1,-1.0);
         m3.addScaled(m1,-1.0);
 
-        cout << "Accuracy:" << endl
-             << "|A.sqrt()*A.sqrt()-A|:  " << m2.norm2() << endl
-             << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << m3.norm2() << endl << endl;
+        std::cout << "Accuracy:" << std::endl
+             << "|A.sqrt()*A.sqrt()-A|:  " << m2.norm2() << std::endl
+             << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << m3.norm2() << std::endl << std::endl;
 
         m1.exp(m2);
         m3.expOf(m1);
 
-        cout << "A.exp():" << endl << m2 << endl
-             << "expOf(A):" << endl << m3 << endl;
+        std::cout << "A.exp():" << std::endl << m2 << std::endl
+             << "expOf(A):" << std::endl << m3 << std::endl;
 
-        cout << "A.log():" << m1.log(m2) << endl << m2 << endl
-             << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl;
+        std::cout << "A.log():" << m1.log(m2) << std::endl << m2 << std::endl
+             << "logOf(A):" << m3.logOf(m1) << std::endl << m3 << std::endl;
 
         m1.exp(m2);
         m2.log(m3);
         m2.setValue(m3);
         m3.addScaled(m1,-1.0);
 
-        cout << "A.exp.log():" << endl << m2 << endl
-             << "|A.exp().log()-A|):  " << m3.norm2() << endl;
+        std::cout << "A.exp.log():" << std::endl << m2 << std::endl
+             << "|A.exp().log()-A|):  " << m3.norm2() << std::endl;
 
 
         // now double precision floats
 
 
-        cout << endl
-             << "64 bit float types (accuracies only)" << endl << endl;
+        std::cout << std::endl
+             << "64 bit float types (accuracies only)" << std::endl << std::endl;
 
         for (int i=0;i<4;i++)
                 for (int j=0;j<4;j++)
@@ -1470,14 +1470,14 @@ void matNSMTest(void)
         md2.addScaled(md1,-1.0);
         md3.addScaled(md1,-1.0);
 
-        cout << "|A.sqrt()*A.sqrt()-A|:  " << md2.norm2() << endl
-             << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << md3.norm2() << endl;
+        std::cout << "|A.sqrt()*A.sqrt()-A|:  " << md2.norm2() << std::endl
+             << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << md3.norm2() << std::endl;
 
         md1.exp(md2);
         md2.log(md3);
         md3.addScaled(md1,-1.0);
 
-        cout << "|A.exp().log()-A|:  " << md3.norm2() << endl << endl;
+        std::cout << "|A.exp().log()-A|:  " << md3.norm2() << std::endl << std::endl;
 
 }
 
@@ -1577,31 +1577,31 @@ void testfactor(void)
 
     m.setTransform(t1, r1, s1);
 
-    cerr << "r1" << endl;
-    cerr << r1 << endl;
+    std::cerr << "r1" << std::endl;
+    std::cerr << r1 << std::endl;
 
-    cerr << "t1" << endl;
-    cerr << t1 << endl;
+    std::cerr << "t1" << std::endl;
+    std::cerr << t1 << std::endl;
 
-    cerr << "s1" << endl;
-    cerr << s1 << endl;
+    std::cerr << "s1" << std::endl;
+    std::cerr << s1 << std::endl;
 
-    cerr << "Matrix" << endl;
-    cerr << m << endl;
+    std::cerr << "Matrix" << std::endl;
+    std::cerr << m << std::endl;
     
     m.getTransform(tR, rR, sR, rsR);
 
-    cerr << "tR" << endl;
-    cerr << tR << endl;
+    std::cerr << "tR" << std::endl;
+    std::cerr << tR << std::endl;
 
-    cerr << "rR" << endl;
-    cerr << rR << endl;
+    std::cerr << "rR" << std::endl;
+    std::cerr << rR << std::endl;
 
-    cerr << "sR" << endl;
-    cerr << sR << endl;
+    std::cerr << "sR" << std::endl;
+    std::cerr << sR << std::endl;
 
-    cerr << "rsR" << endl;
-    cerr << rsR << endl;
+    std::cerr << "rsR" << std::endl;
+    std::cerr << rsR << std::endl;
 
     m.getTransform(tR, rR, sR, rsR, t1);
 }

@@ -82,7 +82,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-    cerr << "Reshape: " << w << "," << h << endl;
+    std::cerr << "Reshape: " << w << "," << h << std::endl;
     win->resize( w, h );
 }
 
@@ -173,19 +173,19 @@ void key(unsigned char key, int , int )
     {
     case 27:    osgExit(); exit(0);
     case 'a':   glDisable( GL_LIGHTING );
-                cerr << "Lighting disabled." << endl;
+                std::cerr << "Lighting disabled." << std::endl;
                 break;
     case 's':   glEnable( GL_LIGHTING );
-                cerr << "Lighting enabled." << endl;
+                std::cerr << "Lighting enabled." << std::endl;
                 break;
     case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-                cerr << "PolygonMode: Point." << endl;
+                std::cerr << "PolygonMode: Point." << std::endl;
                 break;
     case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-                cerr << "PolygonMode: Line." << endl;
+                std::cerr << "PolygonMode: Line." << std::endl;
                 break;
     case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-                cerr << "PolygonMode: Fill." << endl;
+                std::cerr<< "PolygonMode: Fill." << std::endl;
                 break;
     }
 }
@@ -265,7 +265,7 @@ int main (int argc, char **argv)
     Vec3f min,max;
     vol->getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
@@ -298,14 +298,15 @@ int main (int argc, char **argv)
 
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
-    Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+    
+    Image *image = new Image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 2 )
-        image.read( argv[2] );
+        image->read( argv[2] );
     
     TextureChunkPtr tex1;
     tex1 = TextureChunk::create();
-    tex1->setImage( &image );
+    tex1->setImage( image );
     tex1->setMinFilter( GL_NEAREST );
     tex1->setMagFilter( GL_NEAREST );
     tex1->setWrapS( GL_REPEAT );
@@ -329,7 +330,7 @@ int main (int argc, char **argv)
     vp->setSize( 0,0, 1,1 );
 
     // Window
-    cout << "GLUT winid: " << winid << endl;
+    std::cout << "GLUT winid: " << winid << std::endl;
 
     GLUTWindowPtr gwin;
 

@@ -153,7 +153,7 @@ int main (int argc, char **argv)
     
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makeTorus( .5, 2, 16, 16 );
     }
     
@@ -162,13 +162,13 @@ int main (int argc, char **argv)
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
     endEditCP(dlight);
 
-    cerr << "Tree: " << endl;
+    std::cerr << "Tree: " << std::endl;
     root->dump();
 
     // Camera
@@ -208,12 +208,12 @@ int main (int argc, char **argv)
     dpy = XOpenDisplay(NULL);
     if (dpy == NULL) 
     {
-        cerr << "Error: Could not open display!" << endl;
+        std::cerr << "Error: Could not open display!" << std::endl;
     }
 
     if( ! glXQueryExtension( dpy, &dummy, &dummy ) )
     {
-        cerr << "Error: X server has no OpenGL GLX extension" << endl;
+        std::cerr << "Error: X server has no OpenGL GLX extension" << std::endl;
     }
 
     vi = glXChooseVisual( dpy, DefaultScreen(dpy), dblBuf );
@@ -223,14 +223,14 @@ int main (int argc, char **argv)
        vi = glXChooseVisual( dpy, DefaultScreen(dpy), snglBuf );
        if (vi == NULL)
        {
-           cerr << "no RGB visual with depth buffer" << endl;
+           std::cerr << "no RGB visual with depth buffer" << std::endl;
        }
 
        doubleBuffer = GL_FALSE;
     }
     if (vi->c_class != TrueColor)
     {
-        cerr << "TrueColor visual required for this program" << endl;
+        std::cerr << "TrueColor visual required for this program" << std::endl;
     }
 
     cmap = XCreateColormap( dpy, 
@@ -293,7 +293,7 @@ int main (int argc, char **argv)
             switch (event.type) 
             {
                 case KeyPress:           
-                    cout << "Key pressed: " << event.xkey.keycode << endl;
+                    std::cout << "Key pressed: " << event.xkey.keycode << std::endl;
                     switch ( event.xkey.keycode ) 
                     {
                         case 16: 
@@ -303,7 +303,7 @@ int main (int argc, char **argv)
                     break;
 
                 case ButtonPress:
-                    cout << "Button pressed: " << event.xbutton.button << endl;                 
+                    std::cout << "Button pressed: " << event.xbutton.button << std::endl;                 
                     switch ( event.xbutton.button ) 
                     {                       
                         case 2:
@@ -317,7 +317,7 @@ int main (int argc, char **argv)
                     break;
                     
                 case ButtonRelease:
-                    cout << "Button released: " << event.xbutton.button << endl;                    
+                    std::cout << "Button released: " << event.xbutton.button << std::endl;                    
                     switch ( event.xbutton.button ) 
                     {                       
                         case 2:
@@ -331,7 +331,7 @@ int main (int argc, char **argv)
                     break;
                     
                 case MotionNotify:
-                    cout << "MotionNotify" << endl;
+                    std::cout << "MotionNotify" << std::endl;
                     
                     w = win->getWidth();
                     h = win->getHeight();
@@ -358,7 +358,7 @@ int main (int argc, char **argv)
                     break;
                     
                 case ConfigureNotify:
-                    cout << "ConfigureNotify" << endl;
+                    std::cout << "ConfigureNotify" << std::endl;
                     if ( ! win->isResizePending() )
                     {
                         win->resize( event.xconfigure.width,

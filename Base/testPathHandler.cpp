@@ -64,22 +64,22 @@ int main( int argc, char** argv )
 
     
     SLOG << "Looking for tie.wrl: "
-         << endl
+         << std::endl
          << ph.findFile("../../../Experimental/VRMLLoader/tie.wrl")
-         << endl;
+         << std::endl;
 
     SLOG << "Looking for std.wrl: "
-         << endl
+         << std::endl
          << ph.findFile("std.wrl")
-         << endl;
+         << std::endl;
 
     SLOG << "Looking for polyp.tif: "
-         << endl
+         << std::endl
          << ph.findFile("polyp.tif")
-         << endl;
+         << std::endl;
 
 //  SLOG << "Looking for testCalcFaceNormals.cpp: "
-//       << ph.findFile( "testCalcFaceNormals.cpp" ) << endl;
+//       << ph.findFile( "testCalcFaceNormals.cpp" ) << std::endl;
 
 //  ph.subPath( "~/Develop/OpenSG/Base" );
   

@@ -271,7 +271,7 @@ int main( int argc, char **argv )
     
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makeTorus( .5, 2, 16, 16 );
     }
     
@@ -280,13 +280,13 @@ int main( int argc, char **argv )
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
     endEditCP(dlight);
 
-    cerr << "Tree: " << endl;
+    std::cerr << "Tree: " << std::endl;
     root->dump();
 
     // Camera

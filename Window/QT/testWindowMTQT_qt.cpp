@@ -109,7 +109,7 @@ Trackball   tball;
  
 
 double basetime;
-#define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
+#define dpr std::cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
 MyOSGQGLWidget::MyOSGQGLWidget ( QWidget *parent, const char *name ) :
     OSGQGLWidget( parent, name ),_stop(false)
@@ -221,7 +221,7 @@ void *drawThreadProc (void *arg)
     QTWindowPtr    my_win = my_widget->_osgWin;
 
     osgsleep( 2 + *my_id );
-    dpr << "drawThead " << *my_id << " started." << endl;
+    dpr << "drawThead " << *my_id << " started." << std::endl;
 
     my_win->init();     // create the context
     my_win->activate(); // and activate it
@@ -322,7 +322,7 @@ int main( int argc, char **argv )
     
     if ( file == NullFC )
     {
-        cerr << "Couldn't load file, ignoring" << endl;
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
         file = makePlane( 2,2,2,2 );
     }
     
@@ -331,13 +331,13 @@ int main( int argc, char **argv )
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
     endEditCP(dlight);
 
-    cerr << "Tree: " << endl;
+    std::cerr << "Tree: " << std::endl;
     root->dump();
 
     // Camera

@@ -19,34 +19,34 @@ int main (int argc, char **argv)
 	osg::Vec3f vec, retVec;
   osg::Real32 dot;
 
-  cout << "Build NormalQuantifier with 4 subdivisions" << endl;
+  std::cout << "Build NormalQuantifier with 4 subdivisions" << std::endl;
 
 	nq.build(4);
 
 	nCount = nq.getNormalCount();
 
-	cout << "Normal count: " << nCount << endl;
+	std::cout << "Normal count: " << nCount << std::endl;
 
 	// Run some random tests
 	for (i = 0; i < 10; i++)
 	{
-    cout << "-----------------------------------------------\n";
+    std::cout << "-----------------------------------------------\n";
 
 		index = osg::UInt32(double(nCount)*rand()/(RAND_MAX+1.0));
-		cout << "index:    " << index;
+		std::cout << "index:    " << index;
 		vec = nq.getNormal(index);
-		cout << ", vec: " << vec;
-    cout << endl;
+		std::cout << ", vec: " << vec;
+    std::cout << std::endl;
 
 		retIndex = nq.getIndex(vec);
-		cout << "retIndex: " << retIndex;
+		std::cout << "retIndex: " << retIndex;
 		retVec = nq.getNormal(retIndex);
-		cout << ", retVec: " << retVec;
-		cout << endl;
+		std::cout << ", retVec: " << retVec;
+		std::cout << std::endl;
 
     dot = vec.dot(retVec);
-		cout << "dot: " << dot;
-    cout << endl;
+		std::cout << "dot: " << dot;
+    std::cout << std::endl;
 	}
 
 	return retCode;

@@ -36,7 +36,7 @@ public:
         fwrite(mem,size,1,_file);
     }
 private:
-    vector<vector<OSG::UInt8> > _memory;
+    std::vector<std::vector<OSG::UInt8> > _memory;
     FILE *_file;
 };
 
@@ -54,27 +54,27 @@ void runTest(bool write,BinaryDataHandler &pMem,const T &value)
         mfield.push_back(value);
         mfield.copyToBin(pMem);
         SLOG << SField<T>::SFieldTraits::getSName() << " size " 
-             << sfield.getBinSize() << endl;
+             << sfield.getBinSize() << std::endl;
         SLOG << MField<T>::MFieldTraits::getMName() << " size " 
-             << mfield.size() << " " << mfield.getBinSize() << endl;
+             << mfield.size() << " " << mfield.getBinSize() << std::endl;
     }
     else
     {
         sfield.copyFromBin(pMem);
         if(sfield.getValue() == value)
             SLOG << SField<T>::SFieldTraits::getSName() << " " 
-                 << "OK" << endl;
+                 << "OK" << std::endl;
         else
             SLOG << SField<T>::SFieldTraits::getSName() << " " 
-                 << "ERROR" << endl;
+                 << "ERROR" << std::endl;
         mfield.copyFromBin(pMem);
         if(mfield[0] == value &&
            mfield[1] == value)
             SLOG << SField<T>::SFieldTraits::getMName() << " "
-                 << "OK" << endl;
+                 << "OK" << std::endl;
         else
             SLOG << SField<T>::SFieldTraits::getMName() << " " 
-                 << "ERROR" << endl;
+                 << "ERROR" << std::endl;
     }
 }
 
@@ -92,27 +92,27 @@ void runTest1(bool write,BinaryDataHandler &pMem,const T &value)
         mfield.push_back(value);
         mfield.copyToBin(pMem);
         SLOG << SField<T,1>::SFieldTraits::getSName() << " size " 
-             << sfield.getBinSize() << endl;
+             << sfield.getBinSize() << std::endl;
         SLOG << MField<T,1>::MFieldTraits::getMName() << " size " 
-             << mfield.size() << " " << mfield.getBinSize() << endl;
+             << mfield.size() << " " << mfield.getBinSize() << std::endl;
     }
     else
     {
         sfield.copyFromBin(pMem);
         if(sfield.getValue() == value)
             SLOG << SField<T,1>::SFieldTraits::getSName() << " " 
-                 << "OK" << endl;
+                 << "OK" << std::endl;
         else
             SLOG << SField<T,1>::SFieldTraits::getSName() << " " 
-                 << "ERROR " << endl;
+                 << "ERROR " << std::endl;
         mfield.copyFromBin(pMem);
         if(mfield[0] == value &&
            mfield[1] == value)
             SLOG << SField<T,1>::SFieldTraits::getMName() << " "
-                 << "OK" << endl;
+                 << "OK" << std::endl;
         else
             SLOG << SField<T,1>::SFieldTraits::getMName() << " " 
-                 << "ERROR" << endl;
+                 << "ERROR" << std::endl;
     }
 }
 
@@ -130,33 +130,33 @@ void runTest2(bool write,BinaryDataHandler &pMem,const T &value)
         mfield.push_back(value);
         mfield.copyToBin(pMem);
         SLOG << SField<T,2>::SFieldTraits::getSName() << " size " 
-             << sfield.getBinSize() << endl;
+             << sfield.getBinSize() << std::endl;
         SLOG << MField<T,2>::MFieldTraits::getMName() << " size " 
-             << mfield.size() << " " << mfield.getBinSize() << endl;
+             << mfield.size() << " " << mfield.getBinSize() << std::endl;
     }
     else
     {
         sfield.copyFromBin(pMem);
         if(sfield.getValue() == value)
             SLOG << SField<T,2>::SFieldTraits::getSName() << " " 
-                 << "OK" << endl;
+                 << "OK" << std::endl;
         else
             SLOG << SField<T,2>::SFieldTraits::getSName() << " " 
-                 << "ERROR" << endl;
+                 << "ERROR" << std::endl;
         mfield.copyFromBin(pMem);
         if(mfield[0] == value &&
            mfield[1] == value)
             SLOG << SField<T,2>::SFieldTraits::getMName() << " "
-                 << "OK" << endl;
+                 << "OK" << std::endl;
         else
             SLOG << SField<T,2>::SFieldTraits::getMName() << " " 
-                 << "ERROR" << endl;
+                 << "ERROR" << std::endl;
     }
 }
 
 void runTests(bool write,BinaryDataHandler &pMem)
 {
-    runTest  (write,pMem, string("Hallo") );
+    runTest  (write,pMem, std::string("Hallo") );
     runTest1 (write,pMem, Time(222.22) );
     runTest  (write,pMem, Color3f(1.1,2.2,3.3) );
     runTest  (write,pMem, Color4f(1.1,2.2,3.3,4.4) );

@@ -13,14 +13,14 @@ int main(int argc, char** argv)
     osgInit(argc, argv);
     
     UInt8 numTestStrings = 7;
-    string testStrings[] = {
-                            string(""),
-                            string("     "),
-                            string("No space at front and end"),
-                            string(" Space only at front"),
-                            string("Space only at end "),
-                            string(" Space at front and end "),
-                            string(" Misc.\t stuff tested   \non \ttwo lines"),
+    std::string testStrings[] = {
+                            std::string(""),
+                            std::string("     "),
+                            std::string("No space at front and end"),
+                            std::string(" Space only at front"),
+                            std::string("Space only at end "),
+                            std::string(" Space at front and end "),
+                            std::string(" Misc.\t stuff tested   \non \ttwo lines"),
                              };
     
     StringTokenizer tokens(testStrings[0]);
@@ -30,13 +30,13 @@ int main(int argc, char** argv)
         //       StringTokenizer* tokens = new StringTokenizer(testStrings[i]);
 
         tokens.setString(testStrings[i]);
-        SLOG << "teststring: |" << testStrings[i] << "|" << endl;
-        SLOG << tokens.countTokens() << " in string" << endl;
+        SLOG << "teststring: |" << testStrings[i] << "|" << std::endl;
+        SLOG << tokens.countTokens() << " in string" << std::endl;
 
         for(UInt32 tokenCount = 0; tokens.hasNext(); tokenCount++)
         {
             SLOG << tokenCount+1 << "/" << tokens.countTokens()
-                 << "  |" << tokens.getNext() << "|  " << endl;
+                 << "  |" << tokens.getNext() << "|  " << std::endl;
        }
     }
     
