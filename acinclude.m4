@@ -2137,3 +2137,18 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
 
     AC_OUTPUT($ac_gdz_flexlexer_fix_out_e19:$ac_gdz_flexlexer_fix_in_e19)
 ])
+
+AC_DEFUN(AC_GDZ_FIX_HP_INCLUDES,
+[
+dnl e20
+
+    ac_gdz_flexlexer_fix_in_e20=$ac_gdz_commonconf_dir/FlexLexer.h.in
+    ac_gdz_flexlexer_fix_out_e20=$ac_gdz_package_sub_dir_out/Base/FlexLexer.h
+
+dnl    ac_gdz__fix_in_e16=$ac_gdz_commonconf_dir/.in
+dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_flexlexer_fix_out_e20:$ac_gdz_flexlexer_fix_in_e20)
+])

@@ -1451,6 +1451,10 @@ fi
 case $build_os in
     solaris*)
         AC_GDZ_FIX_SUN_INCLUDES()
+    ;;
+    hpux*)
+        AC_GDZ_FIX_HP_INCLUDES()
+    ;;
 esac
 
 if test $build_os = cygwin; then
