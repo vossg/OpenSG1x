@@ -157,9 +157,11 @@ Bool DATImageFileType::read (      Image &image,
             {
             case OBJECT_FILE_NAME_KT:
               objectFileName = value;
+              image.setAttachment ( keyStr, value );
               break;
             case RESOLUTION_KT:
               sscanf ( value, "%d %d %d", &(res[0]), &(res[1]), &(res[2]));
+              image.setAttachment ( keyStr, value );
               break;
             case FORMAT_KT:
               formatI = _formatStrMap.find(value);
@@ -177,9 +179,11 @@ Bool DATImageFileType::read (      Image &image,
                   pixelFormat = Image::OSG_INVALID_PF;
                   needConversion = false;
                 }
+              image.setAttachment ( keyStr, value );
               break;
             case FILE_OFFSET_KT:
               sscanf ( value, "%d", &fileOffset );
+              image.setAttachment ( keyStr, value );
               break;
             case UNKNOWN_KT:
               FWARNING (( "Uknown DAT file key: >%s<\n", keyStr.c_str() ));
