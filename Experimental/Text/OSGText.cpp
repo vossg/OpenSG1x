@@ -99,8 +99,6 @@ bool Text::fillTXFGeo(Geometry &  mesh, bool isNew, vector<string*> lineVec)
   GeoNormalsPtr normals;
   GeoTexCoordsPtr texCoords;
   GeoPTypesPtr ftypes;        
-  GeoPLengthsPtr flengths;    
-  GeoIndicesPtr faces;
 
   numChars = 0;
   for(i=0; i < lineVec.size(); i++)
@@ -112,26 +110,17 @@ bool Text::fillTXFGeo(Geometry &  mesh, bool isNew, vector<string*> lineVec)
     texCoords = GeoTexCoords2f::create();
 
     ftypes = GeoPTypesUI8::create();        
-    flengths = GeoPLengthsUI32::create();    
-    faces = GeoIndicesUI32::create();
-
+    ftypes->addValue(GL_QUADS);
     normals->resize(1);
     normals->setValue(Vec3f(0.0, 0.0, -1.0), 0);
   }
   else {
     points = mesh.getPositions();
     texCoords = mesh.getTexCoords();
-
-    ftypes = mesh.getTypes();
-    flengths = mesh.getLengths();
-    faces = mesh.getIndices();
   }
 
-  faces->resize(numChars*8);
   points->resize(numChars*4);
   texCoords->resize(numChars*4);
-  flengths->resize(numChars);
-  ftypes->resize(numChars);
 
   scale = ((Real32)_fontInstance->getBaselineSkip()*_fontInstance->getYRes());
 
@@ -208,32 +197,13 @@ bool Text::fillTXFGeo(Geometry &  mesh, bool isNew, vector<string*> lineVec)
       xOff += currentGlyph->getAdvance()/scale;
     }
     yOff -= (Real32)_fontInstance->getBaselineSkip();
-  }
-
-
-  for (i=0; i< numChars; i++) {
-    ftypes->setValue(GL_QUADS, i);
-    flengths->setValue(4, i);
-  }
-
-  for(i = 0; i < numChars*4; i++, stride+=2) {
-    faces->setValue(i, stride);
-    faces->setValue(0, stride+1);
-  }
-    
+  }    
     
   if(isNew) {
     mesh.setPositions(points);
     mesh.setTexCoords(texCoords);
-    mesh.setNormals(normals);
-    
+    mesh.setNormals(normals);    
     mesh.setTypes(ftypes);
-    mesh.setLengths(flengths);
-    mesh.setIndices(faces);
-    
-    mesh.getIndexMapping().addValue(Geometry::MapPosition |
-				    Geometry::MapTexcoords);
-    mesh.getIndexMapping().addValue(Geometry::MapNormal);
   }
 
   return true;
