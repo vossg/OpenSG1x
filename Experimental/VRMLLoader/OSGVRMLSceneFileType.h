@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGVRMLFILE_H_
-#define _OSGVRMLFILE_H_
+#ifndef _OSGVRMLSCENEFILETYPE_H_
+#define _OSGVRMLSCENEFILETYPE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,22 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
-
-#include <map>
-
 #include <OSGBaseTypes.h>
-#include <OSGScanParseSkel.h>
-#include <OSGScanParseFieldTypeMapper.h>
-
-#include <OSGFieldContainerPtr.h>
-#include <OSGField.h>
-#include <OSGFieldContainer.h>
-
-#include <stack>
-#include <vector>
-
-#include <OSGVRMLNodeFactory.h>
+#include <OSGSceneFileType.h>
+#include <OSGVRMLFile.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -74,59 +61,97 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > 
-    Parent;
-
-#ifndef OSG_COMPILEVRMLLOADERINST
-
-#ifndef __sgi
-extern 
-template OSG_SYSTEMLIB_DLLMAPPING 
-ScanParseFieldTypeMapper<ScanParseSkel>;
-
-extern 
-template OSG_SYSTEMLIB_DLLMAPPING 
-VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
-#endif
-
-#endif
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
+/*! \ingroup baselib
  *  \brief Brief
  *
  *  detailed
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
+class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
 {
   public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Parent Inherited;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    enum 
-    {
-        CreateNormals       = Inherited::LastOption << 1,
-        LogProtoGeneration  = CreateNormals         << 1,
-        LogObjectGeneration = LogProtoGeneration    << 1,
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
 
-        LastOption          = LogObjectGeneration
-    };
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static VRMLSceneFileType &the(void);
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	virtual ~VRMLSceneFileType (void);
+ 
+    /*------------------------- your_category -------------------------------*/
+
+    virtual NodePtr     read   (const char    *fileName) const;
+
+    virtual Bool        write  (const NodePtr  node, 
+                                const char    *fileName) const;
+
+    virtual const char *getName(void                   ) const 
+    { 
+        return "VRML GEOMETRY"; 
+    }
+
+    /*------------------------- your_operators ------------------------------*/
+
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+
+  protected:
 
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static const char        *_suffixA[];
+    static VRMLSceneFileType  _the;
+    
+    static Bool               _bLoaderInitialized;
+    static VRMLFile           _vrmlLoader;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    VRMLSceneFileType(const char   *suffixArray[], 
+                            UInt16  suffixByteCount);
 
   private:
 
@@ -137,6 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef SceneFileType Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -166,120 +193,14 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    VRMLFile(const VRMLFile &source);
-    void operator =(const VRMLFile &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef map<String, FieldContainerPtr> NameContainerMap;
-    typedef map<String, VRMLNodeDesc    *> NameDescriptionMap;
- 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-          NodePtr          _pRootNode;
-
-          VRMLNodeDesc *   _pCurrNodeDesc;
-    stack<VRMLNodeDesc *>  _sNodeDescs;
-
-          FieldContainerPtr  _pCurrentFC;
-          Field             *_pCurrentField;
-    const FieldDescription  *_pCurrentFieldDesc;
-
-    stack<      FieldContainerPtr > _fcStack;
-    stack<      Field            *> _fStack;
-    stack<const FieldDescription *> _fdStack;
-
-    NameContainerMap                _nameFCMap;
-    NameDescriptionMap              _nameDescMap;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    void initIntExtFieldTypeMapper(void);
-    void initExtIntFieldTypeMapper(void);
-
-    FieldContainerPtr findFCByName          (const Char8  *szName,
-                                                   NodePtr pNode);
-
-    void              setContainerFieldValue(const FieldContainerPtr &pFC);
-
-    FieldContainerPtr findReference         (const Char8 *szName);
-
-  public :
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLFile(void);
-    virtual ~VRMLFile(void); 
-
-    virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void  beginNode               (const Char8 *szNodeTypename,
-                                           const Char8 *szNodename);
-    
-    virtual void  endNode                 (void);
-
-
-    virtual void  beginField              (const Char8 *szFieldname,
-                                           const UInt32 uiFieldTypeId);
-
-    virtual void  endField                (void);
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual void  addFieldValue           (const Char8 *szFieldVal);
-
-    /*------------------------- assignment ----------------------------------*/
-
-    virtual UInt32  getFieldType          (const Char8 *szFieldname);
-
-    /*------------------------- comparison ----------------------------------*/
-
-    virtual void    use                   (const Char8 *szName);
-    
-            void    scanStandardPrototypes(const Char8  *szFilename, 
-                                                 UInt32  uiOptions);
-
-            NodePtr getRoot               (void);
-
-            NodePtr cloneTree             (NodePtr pRootNode);
+    VRMLSceneFileType(const VRMLSceneFileType &source);
+    void operator =(const VRMLSceneFileType &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
-
-typedef VRMLFile *VRMLFileP;
-
 OSG_END_NAMESPACE
 
-#endif /* _OSGVRMLFILE_H_ */
+#endif /* _GFHSSCENEFILETYPE_H_ */

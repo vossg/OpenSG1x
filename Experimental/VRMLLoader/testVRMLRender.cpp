@@ -36,6 +36,7 @@
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
 #include "OSGSolidBackground.h"
+#include "OSGSceneFileHandler.h"
 
 #include "OSGTrackball.h"
 
@@ -317,18 +318,9 @@ int main (int argc, char **argv)
 
 	// Load the file
 
-
-    OSG::VRMLFile *pLoader = new OSG::VRMLFile();
-
-    pLoader->scanStandardPrototypes("std.wrl", 0);
-
     for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
     {
-//        file = FhsFile::load(argv[numFiles]);
-
-        pLoader->scanFile(argv[numFiles], OSG::VRMLFile::CreateNormals);
-
-        file = pLoader->getRoot();
+        file = OSG::SceneFileHandler::the().read(argv[numFiles]);
                      
         OSG::beginEditCP(dlight);
         dlight->addChild( file );

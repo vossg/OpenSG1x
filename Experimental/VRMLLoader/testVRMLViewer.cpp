@@ -51,6 +51,8 @@
 #include <OSGVRMLTransform.h>
 #include <OSGMField.h>
 
+#include <OSGSceneFileHandler.h>
+
 OSG::DrawAction * ract;
 OSG::Bool doWire = false;
 
@@ -646,17 +648,9 @@ int main (int argc, char **argv)
 	OSG::endEditCP(sceneTransNode);
 	
 
-	// Load the file
-	
-    OSG::VRMLFile *pLoader = new OSG::VRMLFile();
-
-    pLoader->scanStandardPrototypes("std.supported.wrl", 0);
-
     for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
     {
-        pLoader->scanFile(argv[numFiles], 0);
-
-        file = pLoader->getRoot();
+        file = OSG::SceneFileHandler::the().read(argv[numFiles]);
                      
         OSG::beginEditCP(dlight);
         	dlight->addChild( file );

@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <OSGVRMLFile.h>
+#include <OSGSceneFileHandler.h>
 
 int main(int argc, char **argv)
 {
@@ -11,15 +12,9 @@ int main(int argc, char **argv)
 
     OSG::osgInit(i, NULL);
 
-    OSG::VRMLFile *pFile = new OSG::VRMLFile;
-
     OSG::Node::create();
 
-    pFile->scanStandardPrototypes("std.wrl", 0);
-
-    pFile->scanFile(argv[1], 0);
-
-    pRoot = pFile->getRoot();
+    pRoot = OSG::SceneFileHandler::the().read(argv[1]);
 
     cerr << "Tree : " << endl;
 
