@@ -69,7 +69,7 @@ extern ScanParseSkel *_pSkel;
 #pragma set woff 1174,1552,1110,1209
 #endif
 
-#ifdef OSG_LINUX_ICC
+#if defined(OSG_LINUX_ICC) || defined(OSG_WIN32_ICL)
 #pragma warning( disable : 193 810 177 279 111 )
 #endif
 

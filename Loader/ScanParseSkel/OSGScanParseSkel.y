@@ -48,7 +48,7 @@
 #include <OSGScanParseSkel.h>
 #include <stack>
 
-#ifdef OSG_LINUX_ICC
+#if defined(OSG_LINUX_ICC) || defined(OSG_WIN32_ICL)
 #pragma warning( disable : 193 810 177 )
 #endif
 
