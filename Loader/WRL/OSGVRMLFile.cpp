@@ -2557,7 +2557,7 @@ PROTO WorldInfo [
 
 NodePtr VRMLFile::getRoot(void)
 {
-    //   return _pRootNode;
+    return _pSceneRootNode;
 }
 
 NodePtr VRMLFile::cloneTree(NodePtr pRootNode)

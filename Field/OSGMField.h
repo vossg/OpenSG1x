@@ -46,6 +46,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <OSGField.h>
+#include <OSGMFieldVector.h>
 
 #include <vector>
 #include <string>
@@ -68,13 +69,13 @@ class MField : public Field
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef          vector<FieldTypeT>                  StorageType;
+    typedef          MFieldVector<FieldTypeT>     StorageType;
 
-    typedef typename vector<FieldTypeT>::iterator        iterator;
-    typedef typename vector<FieldTypeT>::const_iterator  const_iterator;
+    typedef typename StorageType::iterator        iterator;
+    typedef typename StorageType::const_iterator  const_iterator;
 
-    typedef typename vector<FieldTypeT>::reference       reference;
-    typedef typename vector<FieldTypeT>::const_reference const_reference;
+    typedef typename StorageType::reference       reference;
+    typedef typename StorageType::const_reference const_reference;
     
     typedef typename osgIF<fieldNameSpace == 1,
                            FieldDataTraits1<FieldTypeT>,
