@@ -258,11 +258,6 @@ int main (int argc, char **argv)
 
     osgInit(argc,argv);
     basetime = getSystemTime();
- 
-
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
-#endif
 
     SceneFileHandler::the().print();
 

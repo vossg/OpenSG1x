@@ -101,10 +101,6 @@ int main (int argc, char **argv)
 
     osgInit(argc, argv);
 
-#ifdef WIN32
-    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
-#endif
-
     SceneFileHandler::the().print();
 
 	// create the graph
