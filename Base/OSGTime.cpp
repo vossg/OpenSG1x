@@ -92,13 +92,13 @@ OSG_BASE_DLLMAPPING Time getSystemTime (void)
 	time = double (timebuffer.millitm) / 1000.0 + double (timebuffer.time);
 	*/
 
-	time = double(timeGetTime()) / 1000.0;
+	time = Time(timeGetTime()) / 1000.0;
 
 #else
 
 	struct timeval tv;
 	gettimeofday(&tv, 0);
-	time = double(tv.tv_usec) / 1000000.0 + double(tv.tv_sec);
+	time = Time(tv.tv_usec) / 1000000.0 + Time(tv.tv_sec);
 
 #endif
 
