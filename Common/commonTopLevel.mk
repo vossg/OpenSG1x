@@ -26,7 +26,7 @@ endif
 endif
 
 
-SUB_MAKE      := gmake -r -k $($(PROJ)SUBMAKEPAR)
+SUB_MAKE      := $(MAKE) -r -k $($(PROJ)SUBMAKEPAR)
 
 SUB_MAKEFILE  := Makefile
 
@@ -37,21 +37,21 @@ SUB_MAKEFILE  := Makefile
 SUB_LIBTARGETS  := $(addsuffix .src, $(SUB_LIBS))
 
 dbg:
-	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internal
+	@$(MAKE) -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internal
 
 dbg_internal: SUB_TARGET := dbg
 dbg_internal: SUB_JOB := build
 dbg_internal: $(SUB_LIBTARGETS) 
 
 dbgLnk:
-	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internalLnk
+	@$(MAKE) -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internalLnk
 
 dbg_internalLnk: SUB_TARGET := dbgLnk
 dbg_internalLnk: SUB_JOB := build
 dbg_internalLnk: $(SUB_LIBTARGETS) 
 
 opt:
-	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internal
+	@$(MAKE) -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internal
 
 
 opt_internal: SUB_TARGET := opt
@@ -59,7 +59,7 @@ opt_internal: SUB_JOB := build
 opt_internal: $(SUB_LIBTARGETS) 
 
 optLnk:
-	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internalLnk
+	@$(MAKE) -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internalLnk
 
 
 opt_internalLnk: SUB_TARGET := optLnk
@@ -275,6 +275,7 @@ INSTALL_DIR_SED := $(shell echo $(INSTALL_DIR) | sed -e 's/\//\\\//g')
 
 install-bin:
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
+	VERSION=`cat $($(PROJ)POOL)/VERSION`; \
 	cat CommonPackages/osg-config |										\
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
 	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
@@ -283,6 +284,7 @@ install-bin:
 		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
 		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
 		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
+		   -e "s/@am_gdz_version@/$$VERSION/g"							\
 		> $(INSTALL_DIR)/bin/osg-config
 	chmod 755 $(INSTALL_DIR)/bin/osg-config
 

@@ -199,8 +199,7 @@ while test $# -gt 0; do
       valid_print=yes
       ;;
     --version)
-#Set
-      echo 0.9
+      echo @am_gdz_version@
       valid_print=yes
       ;;
     --cflags)
