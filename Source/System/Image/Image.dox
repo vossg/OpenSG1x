@@ -5,15 +5,26 @@ using namespace OSG;
 /*! \defgroup GrpSystemImage Image
     \ingroup GrpSystem
     
-    See \ref PageSystemSystemImage for details.
+    See \ref PageSystemImage for a description.
 */
 
 /*! \page PageSystemImage Image
 
-Image: image reading/writing
+\latexonly Starter:NewChapter \endlatexonly
 
-Formats:
+Defines and holds a 1D/2D/3D image and optionally a mipmap pyramid and/or a
+list of equally sized frames with a single frameDelay. Various pixelTypes are
+supported to handle gray and RGB color images with or without alpha channel.
+The image data starts in the lower left (front) corner and all bytes for a
+single pixel (e.g. RGB) are stored sequentially in memory. They are not
+organized in separate layers or channels.
 
-\subsection 
+An Image is only a container for the pixel data and image description. It does
+not create or handle any OpenGL state elements. However, image objects are
+utilized to handle the data for texture (e.g. SimpleTextureMaterial) or bitmap
+objects (e.g. ImageForeground).
+
+The system provides loaders and writers for various formats. The graph loaders
+(e.g. OSGLoader, VRMLLoader) use image loaders to fetch the raster data.
 
 */
