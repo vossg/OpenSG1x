@@ -411,14 +411,25 @@ void Node::getWorldVolume(DynamicVolume &result)
 
     result = getVolume();
     result.transform(m);
+/*
+Pnt3f low,high;
+result.getBounds(low,high);     
+fprintf(stderr,"%p: node 0x%p gwv (%f %f %f  %f %f %f)\n", 
+            Thread::getCurrent(), this,
+            low[0], low[1], low[2], 
+            high[0], high[1], high[2] );
+*/
 }
 
+#if 0
 void Node::updateVolume(void)
 {
     Volume &vol = _sfVolume.getValue().getInstance();
 
     if(vol.isValid() == true)
         return;             // still valid, nothing to do
+
+// fprintf(stderr,"%p: node 0x%p update needed\n", Thread::getCurrent(), this);
 
     MFNodePtr::iterator it;
 
@@ -435,9 +446,43 @@ void Node::updateVolume(void)
     // test for null core. Shouldn't happen, but just in case...
     if(getCore() != NullFC)
         getCore()->adjustVolume(vol);
-
+   
     endEdit(VolumeFieldMask, _sfVolume);
 }
+#else // test version using DVol instance instead of reference
+void Node::updateVolume(void)
+{
+    if(_sfVolume.getValue().getInstance().isValid() == true)
+        return;             // still valid, nothing to do
+
+    // be careful to not change the real volume. If two threads
+    // are updating the same aspect this will lead to chaos
+    
+    DynamicVolume vol = _sfVolume.getValue();
+
+//fprintf(stderr,"%p: node 0x%p update needed\n", Thread::getCurrent(), this);
+
+    MFNodePtr::iterator it;
+
+    vol.getInstance().setEmpty();
+
+    for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
+    {
+        (*it)->updateVolume();
+        vol.getInstance().extendBy((*it)->getVolume());
+    }
+
+    // test for null core. Shouldn't happen, but just in case...
+    if(getCore() != NullFC)
+        getCore()->adjustVolume(vol.getInstance());
+
+    beginEdit(VolumeFieldMask, _sfVolume);
+
+    _sfVolume.setValue(vol);
+    
+    endEdit(VolumeFieldMask, _sfVolume);
+}
+#endif
 
 void Node::invalidateVolume(void)
 {
@@ -478,14 +523,14 @@ void Node::dump(      UInt32    uiIndent,
          << " children | "
          << _attachmentMap.getValue().size() 
          << " attachments | "
-         << "Parent : ";
+         << "Parent : " << hex;
 
     if(_sfParent.getValue() != NullFC)
-        PLOG << &(*(_sfParent.getValue())) << " | ";
+        PLOG << "0x" << &(*(_sfParent.getValue())) << " | ";
     else
         PLOG << "NULL | ";
 
-    PLOG << this << endl;
+    PLOG << "0x" << this << dec << endl;
 
     indentLog(uiIndent, PLOG);
 
