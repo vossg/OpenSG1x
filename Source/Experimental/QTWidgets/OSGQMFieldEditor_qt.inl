@@ -36,6 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include <OSGQSpinBoxUInt32_qt.h>
+
 #include <qlayout.h>
 #include <qpushbutton.h>
 
@@ -62,9 +64,10 @@ QMFieldEditor::getNumRows(void) const
 inline void
 QMFieldEditor::setNumRows(UInt32 uiNumRows)
 {
+    deleteEditorWidgets();
+
     _uiNumRows = uiNumRows;
 
-    deleteEditorWidgets();
     createEditorWidgets();
 }
 
@@ -101,6 +104,15 @@ QMFieldEditor::autoEnableScrollButtons(void)
         (_uiEndIndex   != getField()->getSize()) ? true : false);
 }
 
+inline void
+QMFieldEditor::autoEnableEditButtons(void)
+{
+    _pButtonAddAfter ->setEnabled((getReadOnly()                  == false)   );
+    _pButtonAddBefore->setEnabled((getReadOnly()                  == false)   );
+    _pButtonSub      ->setEnabled((getReadOnly()                  == false) &&
+                                  (getField()->getSize()          >  0    )   );
+}
+
 OSG_END_NAMESPACE
 
-#define OSGQMFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQMFieldEditor_qt.inl,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
+#define OSGQMFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQMFieldEditor_qt.inl,v 1.3 2004/08/13 12:33:06 neumannc Exp $"

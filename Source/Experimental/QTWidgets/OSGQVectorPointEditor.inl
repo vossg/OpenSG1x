@@ -230,7 +230,7 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::removeFieldElemImpl(
         MField<VectorPointType> *pMF          =
             dynamic_cast<MField<VectorPointType> *>(pFC->getField(uiFieldId));
         UInt32                   uiEraseIndex =
-            osgMin(uiValueIndex, pMF->empty() ? 0 : pMF->size() - 1);
+            osgMin(uiValueIndex, pMF->empty() ? 0 : (pMF->size() - 1));
 
         pMF->erase(pMF->begin() + uiEraseIndex);
     }
@@ -325,4 +325,4 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::initSelf(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQVECTORPOINTEDITOR_INLINE_CVSID "@(#)$Id: OSGQVectorPointEditor.inl,v 1.2 2004/08/06 16:16:04 neumannc Exp $"
+#define OSGQVECTORPOINTEDITOR_INLINE_CVSID "@(#)$Id: OSGQVectorPointEditor.inl,v 1.3 2004/08/13 12:33:06 neumannc Exp $"

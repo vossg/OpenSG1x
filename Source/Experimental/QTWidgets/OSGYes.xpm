@@ -1,5 +1,11 @@
 /* XPM */
-static const char *yes_xpm[] = {
+
+#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+
+OSG_BEGIN_NAMESPACE
+
+static const Char8 *XPMYes[] = {
 "12 15 5 1",
 " 	c None",
 ".	c None",
@@ -20,4 +26,7 @@ static const char *yes_xpm[] = {
 "@+++@##.....",
 ".@@@##......",
 "..###.......",
-"............"};
+"............"
+};
+
+OSG_END_NAMESPACE

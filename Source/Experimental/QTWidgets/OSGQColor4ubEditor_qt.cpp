@@ -122,6 +122,7 @@ QColor4ubEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
         }
 
         _pColorButton->setPackedColor(pSF->getValue().getRGBA());
+        _pColorButton->update        (                         );
     }
     else
     {
@@ -136,6 +137,7 @@ QColor4ubEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
         }
 
         _pColorButton->setPackedColor((*pMF)[uiValueIndex].getRGBA());
+        _pColorButton->update        (                              );
     }
 }
 
@@ -334,7 +336,7 @@ QColor4ubEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4ubEditor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4ubEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4UBEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4UBEDITORQT_INLINE_CVSID;
 }

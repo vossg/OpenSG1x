@@ -88,12 +88,12 @@ QAbstractFieldEditor::QAbstractFieldEditor(QWidget *pParent, const char *name)
 {
     if(_pPixmapNo == NULL)
     {
-        _pPixmapNo = new QPixmap(no_xpm);
+        _pPixmapNo = new QPixmap(XPMNo);
     }
 
     if(_pPixmapYes == NULL)
     {
-        _pPixmapYes = new QPixmap(yes_xpm);
+        _pPixmapYes = new QPixmap(XPMYes);
     }
 }
 
@@ -113,7 +113,7 @@ QAbstractFieldEditor::QAbstractFieldEditor(QWidget *pParent, const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractFieldEditor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractFieldEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID;
 }

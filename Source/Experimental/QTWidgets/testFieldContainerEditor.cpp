@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
     QOSGWidgetFactory::FieldEditorCF  cFunc;
     QFieldContainerEditor            *pFCEditor;
+    QFieldContainerEditor            *pFCViewer;
 
     NodePtr pScene;
 
@@ -39,8 +40,11 @@ int main(int argc, char *argv[])
     }
 
     pFCEditor = new QFieldContainerEditor(pGrid, "pFCEditor");
+    pFCViewer = new QFieldContainerEditor(pGrid, "pFCViewer");
     pFCEditor->setReadOnly      (false );
+    pFCViewer->setReadOnly      (true  );
     pFCEditor->setFieldContainer(pScene);
+    pFCViewer->setFieldContainer(pScene);
 
     pQApp->setMainWidget(pGrid);
     pGrid->show();

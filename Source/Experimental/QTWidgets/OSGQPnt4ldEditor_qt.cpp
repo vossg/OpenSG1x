@@ -107,7 +107,7 @@ void
 QPnt4ldEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                               UInt32            uiValueIndex                   )
 {
-    Inherited::removeFieldElem(pFC, uiFieldId, uiValueIndex);
+    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -145,7 +145,7 @@ QPnt4ldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt4ldEditor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt4ldEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQPNT4LDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQPNT4LDEDITORQT_INLINE_CVSID;
 }
