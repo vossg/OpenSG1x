@@ -21,7 +21,7 @@ Current Requirements :
         use Intels icl compiler
         find the glut headers and libs
         find the tif headers and libs
-        find the qt headers and libs and the moc executable
+        find the qt headers and libs (qt-mt301.lib) and the moc executable
         find a flex executable (at least version 2.5.4)
         find a bison executable (at least version 1.30)
 

@@ -1,0 +1,5 @@
+Debug
+OSGScan*.cpp
+OSGScan*.h
+OSGScan*.output
+*.plg
