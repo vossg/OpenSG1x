@@ -107,15 +107,19 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
  
     FaceIterator(const FaceIterator &source);
  
+	// used by geometry to create them. useful for seeking	
+    FaceIterator( const GeometryPtr& geo );
+    FaceIterator( const NodePtr& geo );
+
     virtual ~FaceIterator(void); 
 
     /*------------------------- access -------------------------------*/
 
 	// get the triangle index
-	inline Int32    	getFaceIndex	( void 	      ) const;
+	inline Int32    	getIndex		( void 	      ) const;
 
-	// get the size of the face
-	inline Int32    	getFaceSize		( void 	      ) const;
+	// get the length of the face
+	inline Int32    	getLength		( void 	      ) const;
 
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx
@@ -134,6 +138,8 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
 
     void operator ++( void );
 
+	// seek from the beginning to face with index index
+	void seek( Int32 index );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -146,10 +152,6 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
 	Bool operator == (const FaceIterator &other) const;
 	Bool operator != (const FaceIterator &other) const;
 
-
-	// used by geometry to create them. not useful for applications	
-    FaceIterator( const GeometryPtr& geo );
-    FaceIterator( const NodePtr& geo );
 
   protected:
 

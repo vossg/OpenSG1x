@@ -112,13 +112,13 @@ OSG_BEGIN_NAMESPACE
 
 
 inline		 
-Int32 FaceIterator::getFaceIndex( void) const
+Int32 FaceIterator::getIndex( void) const
 {
 	return _faceIndex;
 }
 
 inline		 
-Int32 FaceIterator::getFaceSize( void) const
+Int32 FaceIterator::getLength( void) const
 {
 	return _facePntIndex[3] == -1 ? 3 : 4;
 }

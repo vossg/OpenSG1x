@@ -112,7 +112,7 @@ OSG_BEGIN_NAMESPACE
 
 
 inline		 
-Int32 TriangleIterator::getTriIndex( void) const
+Int32 TriangleIterator::getIndex( void) const
 {
 	return _triIndex;
 }

@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.3 2001/01/21 22:16:05 dirk Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.4 2001/01/24 19:24:40 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -175,7 +175,7 @@ void TriangleIterator::operator++ ()
 	++_triIndex;
 
 	// at end of primitive?
-	if ( _actPrimIndex >= _primIt.getPrimLength() )
+	if ( _actPrimIndex >= _primIt.getLength() )
 	{
 		++_primIt;
 		
@@ -185,7 +185,7 @@ void TriangleIterator::operator++ ()
 		return;
 	}
 
-	switch ( _primIt.getPrimType() )
+	switch ( _primIt.getType() )
 	{
 	case GL_TRIANGLES:  	_triPntIndex[0] = _actPrimIndex++;
 							_triPntIndex[1] = _actPrimIndex++;
@@ -220,7 +220,7 @@ void TriangleIterator::operator++ ()
 							break;
 	default:			SWARNING << "TriangleIterator::++: encountered " 
 								  << "unknown primitive type " 
-								  << _primIt.getPrimType()
+								  << _primIt.getType()
 								  << ", ignoring!" << endl;
 						if ( ! _primIt.isAtEnd() )
 							startPrim();
@@ -235,7 +235,7 @@ void TriangleIterator::startPrim( void )
 	_triPntIndex[2] = 2;
 	_actPrimIndex = 3;
 	
-	switch ( _primIt.getPrimType() )
+	switch ( _primIt.getType() )
 	{
 	case GL_POINTS: 	// non-polygon types: ignored
 	case GL_LINES:
@@ -249,7 +249,7 @@ void TriangleIterator::startPrim( void )
 	case GL_TRIANGLE_FAN:
 	case GL_QUADS:
 	case GL_QUAD_STRIP:
-	case GL_POLYGON:	if ( _primIt.getPrimLength() < 3 )
+	case GL_POLYGON:	if ( _primIt.getLength() < 3 )
 						{
 							++_primIt;
 							if ( ! _primIt.isAtEnd() )
@@ -259,13 +259,23 @@ void TriangleIterator::startPrim( void )
 						break;
 	default:			SWARNING << "TriangleIterator::startPrim: encountered " 
 								  << "unknown primitive type " 
-								  << _primIt.getPrimType()
+								  << _primIt.getType()
 								  << ", ignoring!" << endl;
 						++_primIt;
 						if ( ! _primIt.isAtEnd() )
 							startPrim();
 						break;
 	}			
+}
+
+void TriangleIterator::seek( Int32 index )
+{
+	_primIt.setToBegin();
+	_triIndex = 0;
+	startPrim();
+	
+	while ( getIndex() != index )
+		++(*this);
 }
 
 void TriangleIterator::setToBegin( void )

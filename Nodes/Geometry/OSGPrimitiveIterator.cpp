@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.3 2001/01/21 22:16:05 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.4 2001/01/24 19:24:40 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -217,6 +217,28 @@ void PrimitiveIterator::setToEnd( void )
 	_primIndex = _types->getSize();
 	_actPointIndex = 0;
 	_ended = true;
+}
+
+void PrimitiveIterator::seek( Int32 index )
+{	
+	_actPointIndex = 0;
+	_ended = false;
+
+	if ( index >= _types->getSize() )
+	{
+		_primIndex = _types->getSize();
+		_ended = true;
+	}
+	else
+	{
+		_primIndex = max( 0, index );	
+		
+		for ( int j = 0; j < _primIndex; j++ )
+			_actPointIndex += _lengths->getValue( j );
+			
+		_actPrimType = _types->getValue( _primIndex );
+		_actPrimLength = _lengths->getValue( _primIndex );
+	}
 }
 
 /*-------------------------- assignment -----------------------------------*/

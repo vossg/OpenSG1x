@@ -124,19 +124,19 @@ Bool PrimitiveIterator::isAtEnd( void ) const
 }
 
 inline		 
-Int32 PrimitiveIterator::getPrimIndex( void ) const
+Int32 PrimitiveIterator::getIndex( void ) const
 {
 	return _primIndex;
 }
 
 inline		 
-Int32 PrimitiveIterator::getPrimLength( void ) const
+Int32 PrimitiveIterator::getLength( void ) const
 {
 	return _actPrimLength;
 }
 
 inline		 
-UInt8 PrimitiveIterator::getPrimType( void ) const
+UInt8 PrimitiveIterator::getType( void ) const
 {
 	return _actPrimType;
 }

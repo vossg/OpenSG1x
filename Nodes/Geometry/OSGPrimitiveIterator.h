@@ -117,16 +117,16 @@ class OSG_GEOMETRY_DLLMAPPING PrimitiveIterator
 
 	void setToBegin( void );
 	void setToEnd( void );
-
+	
     /*------------------------- access -------------------------------*/
 
 	// check for end
 	inline Bool    		isAtEnd			( void 	      ) const;
 
 	// get the primitive information
-	inline Int32    	getPrimIndex	( void 	      ) const;
-	inline Int32    	getPrimLength	( void 	      ) const;
-	inline UInt8    	getPrimType		( void 	      ) const;
+	inline Int32    	getIndex		( void 	      ) const;
+	inline Int32    	getLength		( void 	      ) const;
+	inline UInt8    	getType			( void 	      ) const;
 
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx
@@ -145,7 +145,9 @@ class OSG_GEOMETRY_DLLMAPPING PrimitiveIterator
     /*------------------------- your_operators ------------------------------*/
 
     void operator ++( void );
-
+	
+	// seek the iterator to the index-th primitive
+	void seek( Int32 index );
 
     /*------------------------- assignment ----------------------------------*/
 

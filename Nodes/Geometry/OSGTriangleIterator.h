@@ -104,7 +104,11 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
     //-----------------------------------------------------------------------
 
     TriangleIterator( void );
- 
+
+	// used by geometry to create them. useful for seeking	
+    TriangleIterator( const GeometryPtr& geo );
+    TriangleIterator( const NodePtr& geo );
+
     TriangleIterator(const TriangleIterator &source);
 	
     virtual ~TriangleIterator(void); 
@@ -112,7 +116,7 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
     /*------------------------- access -------------------------------*/
 
 	// get the triangle index
-	inline Int32    	getTriIndex		( void 	      ) const;
+	inline Int32    	getIndex		( void 	      ) const;
 
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx
@@ -131,6 +135,8 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
 
     void operator ++( void );
 
+	// seek from the beginning to triangle with index index
+	void seek( Int32 index );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -142,10 +148,6 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
     
 	Bool operator == (const TriangleIterator &other) const;
 	Bool operator != (const TriangleIterator &other) const;
-
-	// used by geometry to create them. not useful for applications	
-    TriangleIterator( const GeometryPtr& geo );
-    TriangleIterator( const NodePtr& geo );
  
   protected:
 
