@@ -85,7 +85,7 @@ include @ac_gdz_commonpackage_dir_e1@/commonSTL.mk
 LINK_COMPILER   := @ac_gdz_compiler_lib@
 
 ifneq ($(INCLUDE_SYSTEM),)
-INCL_$(OS_BASE) := $(INC_OPTION)$(INCLUDE_SYSTEM)  $(INCL_$(OS_BASE))
+INCL_$(OS_BASE) := $(INCL_$(OS_BASE)) $(INC_OPTION)$(INCLUDE_SYSTEM)
 endif
 
 ifneq ($(LINK_SYSTEM),)

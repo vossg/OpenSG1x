@@ -1,6 +1,6 @@
 #!/bin/sh
 
-file=`echo $1 | sed 's/\(.*\)\/\(.*\.h\)/\2/'`
+file=`echo $1 | sed 's/\(.*\)\/\(.*\)/\2/'`
 
 echo "Installing $1"
 echo "    to $2/$file"

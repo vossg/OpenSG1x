@@ -307,7 +307,7 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DEFAULTS,
     if test "x$ac_gdz_compiler" = "x"
     then
         case "$build_os" in
-        cygwin*)    ac_gdz_compiler=icl50 
+        cygwin*)    ac_gdz_compiler=icl 
                     ;;
         linux*)     ac_gdz_compiler=g++
                     ;;
@@ -1648,6 +1648,8 @@ dnl e16
 dnl    ac_gdz__fix_in_e16=$ac_gdz_commonconf_dir/.in
 dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
 
+    touch confdefs.h
+
     AC_OUTPUT($ac_gdz_fstream_fix_out_e16:$ac_gdz_fstream_fix_in_e16
               $ac_gdz_iostream_fix_out_e16:$ac_gdz_iostream_fix_in_e16
               $ac_gdz_list_fix_out_e16:$ac_gdz_list_fix_in_e16
@@ -1657,6 +1659,26 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
               $ac_gdz_algo_fix_out_e16:$ac_gdz_algo_fix_in_e16
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16)
 ])
+
+AC_DEFUN(AC_GDZ_FIX_MS_INCLUDES,
+[
+dnl e17
+
+    ac_gdz_xtree_fix_in_e17=$ac_gdz_commonconf_dir/xtree.in
+    ac_gdz_xtree_fix_out_e17=$ac_gdz_package_sub_dir_out/Base/xtree
+
+    touch confdefs.h
+
+    if test -e $ac_gdz_xtree_fix_out_e17; then
+        rm -f $ac_gdz_xtree_fix_out_e17
+    fi
+
+    if test "$enable_fixed_xtree" = yes; then
+        AC_OUTPUT($ac_gdz_xtree_fix_out_e17:$ac_gdz_xtree_fix_in_e17)
+    fi
+])
+
+
 
 
 

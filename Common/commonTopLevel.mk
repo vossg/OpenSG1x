@@ -161,6 +161,14 @@ GV_EXCLUDE := -o -name tmp_gv
 GV_ADD_PATH :=
 endif
 
+install-xxx:
+	CURRDIR=`pwd`;                                                          \
+	find $$CURRDIR/Base -follow                                             \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
+	       -name Tools -o -name tmp \) -prune \)                            \
+	    -o -type f                                                          \
+	-exec $($(PROJ)POOL)/Common/sedIncBuild {} $(INSTALL_DIR)/include/OpenSG \; ; \
+
 install-includes: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then                               \
             mkdir $(INSTALL_DIR)/include;                                   \
@@ -169,9 +177,7 @@ install-includes: install-test
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                               \
 	fi;                                                                     \
 	CURRDIR=`pwd`;                                                          \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h'                 \
-	    -exec rm -f {} \;       ;                                           \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'               \
+	find $(INSTALL_DIR)/include/OpenSG -follow -type f                      \
 	    -exec rm -f {} \;       ;                                           \
 	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
@@ -187,14 +193,19 @@ install-includes: install-test
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o      	                    \
 	       -type f -name '*.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ;\
+	find $$CURRDIR/Base -follow                                             \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
+	       -name Tools -o -name tmp \) -prune \)                            \
+	    -o -type f                                                          \
+	-exec $($(PROJ)POOL)/Common/sedIncBuild {} $(INSTALL_DIR)/include/OpenSG \; ; \
 	find $$CURRDIR  -follow                                                 \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
-	       -name Tools -o -name Builds -o -name tmp \) -prune \)            \
+	       -name Tools -o -name Base -o -name tmp \) -prune \)              \
 	    -o -type f -name '*\.h'                                             \
 	-exec $($(PROJ)POOL)/Common/sedIncBuild {} $(INSTALL_DIR)/include/OpenSG \; ; \
 	find $$CURRDIR -follow                                                  \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o        \
-	       -name Tools -o -name Builds -o -name tmp \) -prune \)            \
+	       -name Tools -o -name Base -o -name tmp \) -prune \)              \
 	    -o -type f -name '*\.inl'                                           \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \;
 
@@ -220,14 +231,19 @@ update-includes: install-test
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.inl'                                             \
 	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \; ;\
+	find $$CURRDIR/Base -follow                                             \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
+	       -name Tools -o -name tmp \) -prune \)                            \
+	    -o -type f                                                          \
+	-exec $($(PROJ)POOL)/Common/sedIncBuildU {} $(INSTALL_DIR)/include/OpenSG \; ; \
 	find $$CURRDIR  -follow                                                  \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o        \
-	       -name Tools -o -name Builds -o -name tmp \) -prune \)             \
+	       -name Tools -o -name Base -o -name tmp \) -prune \)             \
 	    -o -type f -name '*\.h'                                              \
 	-exec $($(PROJ)POOL)/Common/sedIncBuildU {} $(INSTALL_DIR)/include/OpenSG \; ; \
 	find $$CURRDIR -follow                                                   \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o         \
-	       -name Tools -o -name Builds -o -name tmp \) -prune \)             \
+	       -name Tools -o -name Base -o -name tmp \) -prune \)             \
 	    -o -type f -name '*\.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \;
 
@@ -237,9 +253,7 @@ install-includes-gabe: install-test
 	    mkdir $(INSTALL_DIR)/include/OpenSG;                                \
 	 fi
 	@CURRDIR=`pwd`;                                                         \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h'                 \
-	    -exec rm -f {} \;       ;                                           \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'               \
+	find $(INSTALL_DIR)/include/OpenSG -follow -type f                      \
 	    -exec rm -f {} \;       ;                                           \
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
@@ -253,14 +267,19 @@ install-includes-gabe: install-test
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
 	       -type f -name '*.inl'                                            \
 	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
+	find $$CURRDIR/Base -follow                                             \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
+	       -name Tools -o -name tmp \) -prune \)                            \
+	    -o -type f                                                          \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; ;                 \
 	find $$CURRDIR  -follow                                                 \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
-	       -name Tools -o -name Builds \) -prune \)                         \
+	       -name Tools -o -name Base \) -prune \)                         \
 	    -o -type f -name '*\.h'                                             \
 	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
 	find $$CURRDIR -follow                                                  \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o        \
-	       -name Tools -o -name Builds \) -prune \)                         \
+	       -name Tools -o -name Base \) -prune \)                         \
 	    -o -type f -name '*\.inl'                                           \
 	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
 
