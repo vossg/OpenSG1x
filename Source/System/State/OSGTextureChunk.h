@@ -50,7 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-#define osgMaxTextures 4
+#define osgMaxTextures 8
 
 /*! \brief State chunk for textures. See \ref PageSystemTextureChunk 
     for a description.

@@ -376,6 +376,13 @@ SFReal32 *TextureChunkBase::getSFLodBias(void)
     return &_sfLodBias;
 }
 
+//! Get the TextureChunk::_sfTarget field.
+inline
+SFGLenum *TextureChunkBase::getSFTarget(void)
+{
+    return &_sfTarget;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1194,6 +1201,27 @@ inline
 void TextureChunkBase::setLodBias(const Real32 &value)
 {
     _sfLodBias.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfTarget field.
+inline
+GLenum &TextureChunkBase::getTarget(void)
+{
+    return _sfTarget.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfTarget field.
+inline
+const GLenum &TextureChunkBase::getTarget(void) const
+{
+    return _sfTarget.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfTarget field.
+inline
+void TextureChunkBase::setTarget(const GLenum &value)
+{
+    _sfTarget.setValue(value);
 }
 
 

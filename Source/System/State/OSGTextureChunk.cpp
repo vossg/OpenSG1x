@@ -66,18 +66,18 @@ OSG_USING_NAMESPACE
 
 See \ref PageSystemTextureChunk for a description.
 
-This chunk wraps glTexImage[123]D (osg::TextureChunk::_sfImage, 
+This chunk wraps glTexImage[123]D (osg::TextureChunk::_sfImage,
 osg::TextureChunk::_sfInternalFormat, osg::TextureChunk::_sfExternalFormat),
 glTexParameter (osg::TextureChunk::_sfMinFilter,
-osg::TextureChunk::_sfMagFilter, osg::TextureChunk::_sfWrapS, 
-osg::TextureChunk::_sfWrapT, osg::TextureChunk::_sfWrapR), glTexEnv 
+osg::TextureChunk::_sfMagFilter, osg::TextureChunk::_sfWrapS,
+osg::TextureChunk::_sfWrapT, osg::TextureChunk::_sfWrapR), glTexEnv
 (osg::TextureChunk::_sfEnvMode, osg::TextureChunk::_sfEnvColor,
 osg::TextureChunk::_sfPriority). The ARB combine extension is also supported,
-where available (osg::TextureChunk::_sfEnvCombineRGB,  
+where available (osg::TextureChunk::_sfEnvCombineRGB,
 osg::TextureChunk::_sfEnvScaleRGB, osg::TextureChunk::_sfEnvSource0RGB,
 osg::TextureChunk::_sfEnvSource1RGB, osg::TextureChunk::_sfEnvSource2RGB,
 osg::TextureChunk::_sfEnvOperand0RGB, osg::TextureChunk::_sfEnvOperand1RGB,
-osg::TextureChunk::_sfEnvOperand2RGB, 
+osg::TextureChunk::_sfEnvOperand2RGB,
 osg::TextureChunk::_sfEnvCombineAlpha,   osg::TextureChunk::_sfEnvScaleAlpha,
 osg::TextureChunk::_sfEnvSource0Alpha, osg::TextureChunk::_sfEnvSource1Alpha,
 osg::TextureChunk::_sfEnvSource2Alpha, osg::TextureChunk::_sfEnvOperand0Alpha,
@@ -150,29 +150,29 @@ void TextureChunk::initMethod (void)
 TextureChunk::TextureChunk(void) :
     Inherited()
 {
-    _extTex3D          = 
+    _extTex3D          =
         Window::registerExtension("GL_EXT_texture3D"       );
-    _arbMultiTex       = 
+    _arbMultiTex       =
         Window::registerExtension("GL_ARB_multitexture"    );
-    _arbCubeTex        = 
+    _arbCubeTex        =
         Window::registerExtension("GL_ARB_texture_cube_map");
-    _nvPointSprite     = 
+    _nvPointSprite     =
         Window::registerExtension("GL_NV_point_sprite"     );
-    _nvTextureShader   = 
+    _nvTextureShader   =
         Window::registerExtension("GL_NV_texture_shader"   );
-    _nvTextureShader2  = 
+    _nvTextureShader2  =
         Window::registerExtension("GL_NV_texture_shader2"  );
-    _nvTextureShader3  = 
+    _nvTextureShader3  =
         Window::registerExtension("GL_NV_texture_shader3"  );
-    _sgisGenerateMipmap  = 
+    _sgisGenerateMipmap  =
         Window::registerExtension("GL_SGIS_generate_mipmap"  );
     _extTextureLodBias  = 
         Window::registerExtension("GL_EXT_texture_lod_bias"  );
-    _funcTexImage3D    = 
+    _funcTexImage3D    =
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        , _extTex3D);
-    _funcTexSubImage3D = 
+    _funcTexSubImage3D =
         Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D                     , _extTex3D);
-    _funcActiveTexture = 
+    _funcActiveTexture =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"  , _arbMultiTex);
 }
 
@@ -199,7 +199,7 @@ const StateChunkClass *TextureChunk::getClass(void) const
 /*------------------------------- Sync -----------------------------------*/
 
 /*! React to field changes.
-    Note: this function also handles CubeTexture changes, make sure to keep 
+    Note: this function also handles CubeTexture changes, make sure to keep
     it consistent with the cubeTexture specifics
 */
 
@@ -210,7 +210,7 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
         if((getMinFilter() != GL_NEAREST) &&
            (getMinFilter() != GL_LINEAR))
         {
-	        Window::reinitializeGLObject(getGLId());
+            Window::reinitializeGLObject(getGLId());
         }
         else
         {
@@ -237,9 +237,9 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
             else
             {
                 ImagePtr pImage = _sfImage.getValue();
-                
+
                 _sfImage.setValue(NullFC);
-                
+
                 setImage(pImage);
             }
         }
@@ -262,7 +262,7 @@ void TextureChunk::onCreate(const TextureChunk *)
 {
     if(GlobalSystemState == Startup)
         return;
-        
+
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
@@ -272,10 +272,10 @@ void TextureChunk::onCreate(const TextureChunk *)
 
     setGLId(
         Window::registerGLObject(
-            osgTypedMethodVoidFunctor2ObjCPtrPtr<TextureChunkPtr, 
-                                                 Window , 
+            osgTypedMethodVoidFunctor2ObjCPtrPtr<TextureChunkPtr,
+                                                 Window ,
                                                  UInt32>(
-                                                     tmpPtr, 
+                                                     tmpPtr,
                                                      &TextureChunk::handleGL),
             1));
 
@@ -299,21 +299,21 @@ void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 */
 
 void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
-{    
+{
     if(!win->hasExtension(_nvTextureShader))
     {
         if(getShaderOperation() != GL_NONE)
             FINFO(("NV Texture Shaders not supported on Window %p!\n", win));
         return;
     }
-     
+
     glErr("textureShader precheck");
-    
+
     glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV,
                 getShaderOperation());
-    
+
     glErr("textureShader setup: operation");
-    
+
     if(getShaderOperation() == GL_NONE)
         return;
 
@@ -322,24 +322,24 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
         FINFO(("NV Texture Shaders 2 not supported on Window %p!\n", win));
         return;
     }
-    
+
     if(getShaderInput() != GL_NONE)
         glTexEnvi(GL_TEXTURE_SHADER_NV, GL_PREVIOUS_TEXTURE_INPUT_NV,
                     getShaderInput());
-        
+
     glErr("textureShader setup: input");
-    
+
     if(getShaderRGBADotProduct() != GL_NONE)
         glTexEnvi(GL_TEXTURE_SHADER_NV, GL_RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV,
                     getShaderRGBADotProduct());
-         
+
     glErr("textureShader setup: rgba dotprod");
-   
+
     if(getShaderOffsetMatrix().size() == 4)
     {
         glTexEnvfv(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_MATRIX_NV,
                     (GLfloat*)&(getShaderOffsetMatrix()[0]));
-        
+
         glErr("textureShader setup: offset matrix");
     }
     else if(getShaderOffsetMatrix().size() != 0)
@@ -348,17 +348,17 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
                     " to have 4 entries, not %d!\n",
                     getShaderOffsetMatrix().size() ));
     }
-    
+
     glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_SCALE_NV,
                 getShaderOffsetScale());
-        
+
     glErr("textureShader setup: offset scale");
-    
+
     glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_BIAS_NV,
                 getShaderOffsetBias());
-        
+
     glErr("textureShader setup: offset bias");
-    
+
     GLint cullmodes[4];
     if(getShaderCullModes() & 0x1)
     {
@@ -368,7 +368,7 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
     {
         cullmodes[0] = GL_LESS;
     }
-    
+
     if(getShaderCullModes() & 0x2)
     {
         cullmodes[1] = GL_GEQUAL;
@@ -377,7 +377,7 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
     {
         cullmodes[1] = GL_LESS;
     }
-    
+
     if(getShaderCullModes() & 0x4)
     {
         cullmodes[2] = GL_GEQUAL;
@@ -386,7 +386,7 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
     {
         cullmodes[2] = GL_LESS;
     }
-    
+
     if(getShaderCullModes() & 0x8)
     {
         cullmodes[3] = GL_GEQUAL;
@@ -395,19 +395,19 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
     {
         cullmodes[3] = GL_LESS;
     }
-    
-    glTexEnviv(GL_TEXTURE_SHADER_NV, GL_CULL_MODES_NV, 
+
+    glTexEnviv(GL_TEXTURE_SHADER_NV, GL_CULL_MODES_NV,
                     cullmodes);
-       
+
     glErr("textureShader setup: cull modes");
-    
-    glTexEnvfv(GL_TEXTURE_SHADER_NV, GL_CONST_EYE_NV, 
+
+    glTexEnvfv(GL_TEXTURE_SHADER_NV, GL_CONST_EYE_NV,
                     getShaderConstEye().getValues());
-       
+
     glErr("textureShader setup: const eye");
 
-    
-    
+
+
 #ifdef OSG_DEBUG
     GLint consistent;
     glGetTexEnviv(GL_TEXTURE_SHADER_NV, GL_SHADER_CONSISTENT_NV,
@@ -419,10 +419,10 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
 #endif
 }
 
-void TextureChunk::handleTexture(Window *win, UInt32 id, 
-    GLenum bindtarget, 
-    GLenum paramtarget, 
-    GLenum imgtarget, 
+void TextureChunk::handleTexture(Window *win, UInt32 id,
+    GLenum bindtarget,
+    GLenum paramtarget,
+    GLenum imgtarget,
     Window::GLObjectStatusE mode, ImagePtr img)
 {
     if( img==NullFC || ! img->getDimension()) // no image ?
@@ -441,33 +441,33 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             FINFO(("Cube textures not supported on Window %p!\n", win));
             return;
         }
-		     
+
         if(mode == Window::reinitialize)
         {
             GLuint tex = id;
             glDeleteTextures(1, &tex);
         }
-        
+
         // 3D texture functions
-        void (OSG_APIENTRY*TexImage3D)(GLenum target, GLint level, GLenum internalformat, 
-                           GLsizei width, GLsizei height, GLsizei depth, 
-                           GLint border, GLenum format, GLenum type, 
-                           const GLvoid *pixels) = 
-            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLenum internalformat, 
-                      GLsizei width, GLsizei height, GLsizei depth, 
-                      GLint border, GLenum format, GLenum type, 
+        void (OSG_APIENTRY*TexImage3D)(GLenum target, GLint level, GLenum internalformat,
+                           GLsizei width, GLsizei height, GLsizei depth,
+                           GLint border, GLenum format, GLenum type,
+                           const GLvoid *pixels) =
+            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLenum internalformat,
+                      GLsizei width, GLsizei height, GLsizei depth,
+                      GLint border, GLenum format, GLenum type,
                       const GLvoid *pixels))
             win->getFunction(_funcTexImage3D);
 
         void (OSG_APIENTRY*TexSubImage3D)
-                          (GLenum target, GLint level, GLint xoffset, 
-                           GLint yoffset, GLint zoffset, GLsizei width, 
-                           GLsizei height, GLsizei depth, GLenum format, 
+                          (GLenum target, GLint level, GLint xoffset,
+                           GLint yoffset, GLint zoffset, GLsizei width,
+                           GLsizei height, GLsizei depth, GLenum format,
                            GLenum type, const GLvoid *pixels) =
-            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLint xoffset, 
-                      GLint yoffset, GLint zoffset, GLsizei width, 
-                      GLsizei height, GLsizei depth, GLenum format, 
-                      GLenum type, const GLvoid *pixels)) 
+            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLint xoffset,
+                      GLint yoffset, GLint zoffset, GLsizei width,
+                      GLsizei height, GLsizei depth, GLenum format,
+                      GLenum type, const GLvoid *pixels))
             win->getFunction(_funcTexSubImage3D);
 
         // as we're not allocating anything here, the same code can be used
@@ -489,7 +489,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             glTexParameteri(paramtarget, GL_TEXTURE_MIN_FILTER, getMinFilter());
             glTexParameteri(paramtarget, GL_TEXTURE_MAG_FILTER, getMagFilter());
             glTexParameteri(paramtarget, GL_TEXTURE_WRAP_S, getWrapS());
-            if(paramtarget == GL_TEXTURE_2D || 
+            if(paramtarget == GL_TEXTURE_2D ||
                paramtarget == GL_TEXTURE_3D ||
                paramtarget == GL_TEXTURE_CUBE_MAP_ARB
               )
@@ -500,11 +500,11 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 
             glErr("TextureChunk::initialize params");
         }
-        
+
         // set the image
         GLenum internalFormat = getInternalFormat();
         GLenum externalFormat = img->getPixelFormat();
-        GLenum type           = GL_UNSIGNED_BYTE;
+        GLenum type           = img->getDataType();
         UInt32 width          = img->getWidth();
         UInt32 height         = img->getHeight();
         UInt32 depth          = img->getDepth();
@@ -555,7 +555,15 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 #endif
             default:    internalFormat = externalFormat;
                         break;
-	        }
+            }
+        }
+        
+        if(imgtarget == GL_TEXTURE_RECTANGLE_EXT && needMipmaps)
+        {
+            SWARNING << "TextureChunk::initialize1: Can't do mipmaps"
+                     << "with GL_TEXTURE_RECTANGLE_EXT target! Ignored"
+                     << std::endl;
+            needMipmaps= false;
         }
         
         // do we need mipmaps?
@@ -563,7 +571,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         {
             // do we have usable mipmaps ?
             if(img->getMipMapCount() == img->calcMipmapLevelCount() &&
-                 osgispower2(width) && osgispower2(height) && 
+                 osgispower2(width) && osgispower2(height) &&
                  osgispower2(depth)
               )
             {
@@ -655,7 +663,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                     SWARNING << "TextureChunk::initialize: "
                                              << "gluScaleImage failed: "
                                              << gluErrorString(res) << "("
-                                             << res << ")!" 
+                                             << res << ")!"
                                              << std::endl;
                                     free(data);
                                     data = NULL;
@@ -816,6 +824,12 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                         externalFormat, type,
                                         data);
                         break;
+                    case GL_TEXTURE_RECTANGLE_EXT:
+                        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, internalFormat,
+                                        width, height, 0,
+                                        externalFormat, type,
+                                        data);
+                        break;
                     case GL_TEXTURE_3D:
                           TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
                                         width, height, depth, 0,
@@ -838,7 +852,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                     externalFormat, type,
                                     NULL);
                     glTexSubImage1D(GL_TEXTURE_1D, 0, 0, width,
-                                    externalFormat, type, 
+                                    externalFormat, type,
                                      img->getData(0, frame));
                     break;
                 case GL_TEXTURE_2D:
@@ -849,23 +863,29 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                 case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                     glTexImage2D(imgtarget, 0, internalFormat,
-                                    osgnextpower2(width), 
+                                    osgnextpower2(width),
                                     osgnextpower2(height), 0,
                                     externalFormat, type,
                                     NULL);
                     glTexSubImage2D(imgtarget, 0, 0, 0, width, height,
-                                    externalFormat, type, 
+                                    externalFormat, type,
+                                    img->getData(0, frame));
+                    break;
+                case GL_TEXTURE_RECTANGLE_EXT:
+                    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, internalFormat,
+                                    width, height, 0,
+                                    externalFormat, type,
                                     img->getData(0, frame));
                     break;
                 case GL_TEXTURE_3D:
                       TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
-                                    osgnextpower2(width), 
-                                    osgnextpower2(height), 
-                                    osgnextpower2(depth), 
+                                    osgnextpower2(width),
+                                    osgnextpower2(height),
+                                    osgnextpower2(depth),
                                     0, externalFormat, type, NULL);
                       TexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                     width, height, depth,
-                                    externalFormat, type, 
+                                    externalFormat, type,
                                     img->getData(0, frame));
                     break;
                 default:
@@ -883,20 +903,21 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
     else if(mode == Window::needrefresh)
     {
         void (OSG_APIENTRY*TexSubImage3D)
-                          (GLenum target, GLint level, GLint xoffset, 
-                           GLint yoffset, GLint zoffset, GLsizei width, 
-                           GLsizei height, GLsizei depth, GLenum format, 
+                          (GLenum target, GLint level, GLint xoffset,
+                           GLint yoffset, GLint zoffset, GLsizei width,
+                           GLsizei height, GLsizei depth, GLenum format,
                            GLenum type, const GLvoid *pixels) =
-            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLint xoffset, 
-                      GLint yoffset, GLint zoffset, GLsizei width, 
-                      GLsizei height, GLsizei depth, GLenum format, 
-                      GLenum type, const GLvoid *pixels)) 
+            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLint xoffset,
+                      GLint yoffset, GLint zoffset, GLsizei width,
+                      GLsizei height, GLsizei depth, GLenum format,
+                      GLenum type, const GLvoid *pixels))
             win->getFunction(_funcTexSubImage3D);
 
         GLenum externalFormat = img->getPixelFormat();
+        GLenum type           = img->getDataType();
 
-	    if(getExternalFormat() != GL_NONE)
-	        externalFormat = getExternalFormat();
+        if(getExternalFormat() != GL_NONE)
+            externalFormat = getExternalFormat();
 
 
         if(! img) // no image ?
@@ -914,7 +935,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             {
             case GL_TEXTURE_1D:
                 glTexSubImage1D(GL_TEXTURE_1D, 0, 0, img->getWidth(),
-                                externalFormat, GL_UNSIGNED_BYTE,
+                                externalFormat, type,
                                 img->getData( 0, getFrame() ) );
                 break;
             case GL_TEXTURE_2D:
@@ -926,23 +947,29 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                 glTexSubImage2D(imgtarget, 0, 0, 0, img->getWidth(),
                                 img->getHeight(),
-                                externalFormat, GL_UNSIGNED_BYTE,
+                                externalFormat, type,
+                                img->getData( 0, getFrame() ) );
+                break;
+            case GL_TEXTURE_RECTANGLE_EXT:
+                glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, img->getWidth(),
+                                img->getHeight(),
+                                externalFormat, type,
                                 img->getData( 0, getFrame() ) );
                 break;
             case GL_TEXTURE_3D:
                   TexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                 img->getWidth(),
                                 img->getHeight(), img->getDepth(),
-                                externalFormat, GL_UNSIGNED_BYTE,
+                                externalFormat, type,
                                 img->getData( 0, getFrame() ) );
                 break;
             default:
                     SFATAL << "TextureChunk::refresh: unknown target "
                            << imgtarget << "!!!" << std::endl;
             }
-            
+
             if(paramtarget != GL_NONE)
-                glTexParameterf(paramtarget, GL_TEXTURE_PRIORITY, 
+                glTexParameterf(paramtarget, GL_TEXTURE_PRIORITY,
                                   getPriority());
         }
         else
@@ -963,7 +990,7 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
-    
+
     Window::unpackIdStatus(idstatus, id, mode);
 
     if(mode == Window::destroy)
@@ -979,26 +1006,30 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
             mode == Window::needrefresh )
     {
         GLenum target;
-        
+
         ImagePtr img = getImage();
 
-        if(img != NullFC) 
+        if (img != NullFC)
         {
-           if(img->getDepth() > 1)
-           {
-              if(win->hasExtension(_extTex3D))
-                  target = GL_TEXTURE_3D;
-              else
-              {
-                FWARNING(("TextureChunk::initialize: 3D textures not "
-                            "supported for this window!\n"));
-                return;
-              }
-           }
-           else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
-           else                                 target = GL_TEXTURE_1D;
+            target = getTarget();
+            if ( target == GL_NONE )
+            {
+                if(img->getDepth() > 1)
+                {
+                    if(win->hasExtension(_extTex3D))
+                        target = GL_TEXTURE_3D;
+                    else
+                    {
+                        FWARNING(("TextureChunk::initialize: 3D textures not "
+                                    "supported for this window!\n"));
+                        return;
+                    }
+                }
+                else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
+                else                                 target = GL_TEXTURE_1D;
+            }
 
-           handleTexture(win, id, target, target, target, mode, img);        
+            handleTexture(win, id, target, target, target, mode, img);
         }
     }
     else
@@ -1012,30 +1043,33 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 {
     activateTexture(action->getWindow(), idx);
- 
+
     action->getWindow()->validateGLObject(getGLId());
 
     ImagePtr img = getImage();
-    GLenum target;
+    GLenum target = getTarget();
 
     if( img == NullFC || ! img->getDimension()) // no image ?
         return;
 
     glErr("TextureChunk::activate precheck");
-    
-    if(img->getDepth() > 1)
+
+    if ( target == GL_NONE )
     {
-        if(action->getWindow()->hasExtension(_extTex3D))
-              target = GL_TEXTURE_3D;
-        else
+        if ( img->getDepth() > 1 )
         {
-            FWARNING(("TextureChunk::activate: 3D textures not "
-                        "supported for this window!\n"));
-            return;
+                if(action->getWindow()->hasExtension(_extTex3D))
+                    target = GL_TEXTURE_3D;
+                else
+                {
+                    FWARNING(("TextureChunk::activate: 3D textures not "
+                                "supported for this window!\n"));
+                    return;
+                }
         }
+        else if(img->getHeight() > 1)   target = GL_TEXTURE_2D;
+        else                            target = GL_TEXTURE_1D;
     }
-    else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
-    else                                    target = GL_TEXTURE_1D;
 
 
     FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
@@ -1044,7 +1078,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     // texture env
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
-    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
+    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
                 (GLfloat*)getEnvColor().getValuesRGBA());
 
 #ifdef GL_NV_point_sprite
@@ -1066,12 +1100,12 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
         glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB());
 
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
         glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
@@ -1088,7 +1122,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     if(getShaderOperation() != GL_NONE &&
        action->getWindow()->hasExtension(_nvTextureShader) &&
        idx == 0)
-    {       
+    {
         glEnable(GL_TEXTURE_SHADER_NV);
     }
 
@@ -1098,16 +1132,16 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 }
 
 
-void TextureChunk::changeFrom(DrawActionBase *action, 
-                              StateChunk     *old   , 
+void TextureChunk::changeFrom(DrawActionBase *action,
+                              StateChunk     *old   ,
                               UInt32          idx )
 {
     // change from me to me?
-    // this assumes I haven't changed in the meantime. 
+    // this assumes I haven't changed in the meantime.
     // is that a valid assumption?
     if(old == this)
         return;
-    
+
     // If the old one is not a texture chunk, deactivate it and activate
     // ourselves
     // Need to check for exact type, as derived chunks might change
@@ -1120,48 +1154,27 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     }
 
     TextureChunk *oldp      = dynamic_cast<TextureChunk *>(old);
-    
+
     ImagePtr      img       = getImage();
-    GLenum        target;
-    GLenum        oldtarget = GL_INVALID_ENUM;
+    GLenum        target    = getTarget();
+    GLenum        oldtarget = oldp->getTarget();
 
     if(img == NullFC || img->getDimension() == 0)
     {
         oldp->deactivate(action, idx);
         return;
     }
-    
-    glErr("TextureChunk::changeFrom precheck");
-    
-    activateTexture(action->getWindow(), idx);
-     
-    if(img->getDepth() > 1)
-    {
-        if(action->getWindow()->hasExtension(_extTex3D))
-              target = GL_TEXTURE_3D;
-        else
-        {
-            FWARNING(("TextureChunk::changeFrom: 3D textures not "
-                        "supported for this window!\n"));
-            oldp->deactivate(action, idx);
-            return;
-        }
-    }
-    else if(img->getHeight() > 1)
-    {
-        target = GL_TEXTURE_2D;
-    }
-    else
-    {
-        target = GL_TEXTURE_1D;
-    }
 
-    if(oldp->getImage() != NullFC)
+    glErr("TextureChunk::changeFrom precheck");
+
+    activateTexture(action->getWindow(), idx);
+
+    if ( target == GL_NONE )
     {
-        if(oldp->getImage()->getDepth() > 1)
+        if(img->getDepth() > 1)
         {
             if(action->getWindow()->hasExtension(_extTex3D))
-                  oldtarget = GL_TEXTURE_3D;
+                target = GL_TEXTURE_3D;
             else
             {
                 FWARNING(("TextureChunk::changeFrom: 3D textures not "
@@ -1170,13 +1183,34 @@ void TextureChunk::changeFrom(DrawActionBase *action,
                 return;
             }
         }
-        else if(oldp->getImage()->getHeight() > 1)
+        else if(img->getHeight() > 1)   target = GL_TEXTURE_2D;
+        else                            target = GL_TEXTURE_1D;
+    }
+
+    if(oldp->getImage() != NullFC)
+    {
+        if ( oldtarget == GL_NONE )
         {
-            oldtarget = GL_TEXTURE_2D;
-        }
-        else
-        {
-            oldtarget = GL_TEXTURE_1D;
+            if(oldp->getImage()->getDepth() > 1)
+            {
+                if(action->getWindow()->hasExtension(_extTex3D))
+                    oldtarget = GL_TEXTURE_3D;
+                else
+                {
+                    FWARNING(("TextureChunk::changeFrom: 3D textures not "
+                                "supported for this window!\n"));
+                    oldp->deactivate(action, idx);
+                    return;
+                }
+            }
+            else if(oldp->getImage()->getHeight() > 1)
+            {
+                oldtarget = GL_TEXTURE_2D;
+            }
+            else
+            {
+                oldtarget = GL_TEXTURE_1D;
+            }
         }
 
         if(target != oldtarget)
@@ -1192,7 +1226,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     if(oldp->getEnvMode() != getEnvMode())
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
-    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
+    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
                     (GLfloat*)getEnvColor().getValuesRGBA());
 
 #ifdef GL_NV_point_sprite
@@ -1215,12 +1249,12 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
         glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB());
 
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
         glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
@@ -1261,7 +1295,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 {
     ImagePtr img = getImage();
-    GLenum target;
+    GLenum target = getTarget();
 
     if( img == NullFC || ! img->getDimension())
       return;
@@ -1270,35 +1304,31 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 
     activateTexture(action->getWindow(), idx);
 
-    if(img->getDepth() > 1)
+    if ( target == GL_NONE )
     {
-        if(action->getWindow()->hasExtension(_extTex3D))
-              target = GL_TEXTURE_3D;
-        else
+        if ( img->getDepth() > 1 )
         {
-            FWARNING(("TextureChunk::deactivate: 3D textures not "
-                        "supported for this window!\n"));
-            return;
+            if(action->getWindow()->hasExtension(_extTex3D))
+                target = GL_TEXTURE_3D;
+            else
+            {
+                FWARNING(("TextureChunk::deactivate: 3D textures not "
+                            "supported for this window!\n"));
+                return;
+            }
         }
+        else if(img->getHeight() > 1)   target = GL_TEXTURE_2D;
+        else                            target = GL_TEXTURE_1D;
     }
-    else if(img->getHeight() > 1) 
-    {       
-        target = GL_TEXTURE_2D;
-    }
-    else
-    {                                    
-        target = GL_TEXTURE_1D;
-    }
-
     if(getShaderOperation() != GL_NONE &&
        action->getWindow()->hasExtension(_nvTextureShader))
     {
         glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_NONE);
-        
+
         if(idx == 0)
             glDisable(GL_TEXTURE_SHADER_NV);
     }
-    
+
     glDisable(target);
 
 #ifdef GL_NV_point_sprite
@@ -1342,9 +1372,9 @@ bool TextureChunk::operator == (const StateChunk &other) const
     if(tother == this)
         return true;
 
-    
 
-    bool returnValue =  
+
+    bool returnValue =
         getImage    () == tother->getImage    () &&
         getMinFilter() == tother->getMinFilter() &&
         getMagFilter() == tother->getMagFilter() &&
@@ -1356,16 +1386,16 @@ bool TextureChunk::operator == (const StateChunk &other) const
 
     if(returnValue == true && getEnvMode() == GL_COMBINE_EXT)
     {
-        returnValue = 
+        returnValue =
             getEnvCombineRGB ()   == tother->getEnvCombineRGB   () &&
 
-            getEnvSource0RGB ()   == tother->getEnvSource0RGB   () && 
-            getEnvSource1RGB ()   == tother->getEnvSource1RGB   () && 
-            getEnvSource2RGB ()   == tother->getEnvSource2RGB   () && 
+            getEnvSource0RGB ()   == tother->getEnvSource0RGB   () &&
+            getEnvSource1RGB ()   == tother->getEnvSource1RGB   () &&
+            getEnvSource2RGB ()   == tother->getEnvSource2RGB   () &&
 
-            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
-            getEnvOperand1RGB()   == tother->getEnvOperand1RGB  () && 
-            getEnvOperand2RGB()   == tother->getEnvOperand2RGB  () && 
+            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () &&
+            getEnvOperand1RGB()   == tother->getEnvOperand1RGB  () &&
+            getEnvOperand2RGB()   == tother->getEnvOperand2RGB  () &&
 
             getEnvCombineAlpha () == tother->getEnvCombineAlpha () &&
 

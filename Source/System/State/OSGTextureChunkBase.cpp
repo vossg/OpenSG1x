@@ -87,6 +87,7 @@
 #include <OSGGL.h>                        // ShaderOperation default header
 #include <OSGGL.h>                        // ShaderInput default header
 #include <OSGGL.h>                        // ShaderRGBADotProduct default header
+#include <OSGGL.h>                        // Target default header
 
 OSG_USING_NAMESPACE
 
@@ -209,6 +210,9 @@ const OSG::BitVector  TextureChunkBase::ShaderConstEyeFieldMask =
 
 const OSG::BitVector  TextureChunkBase::LodBiasFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::LodBiasFieldId);
+
+const OSG::BitVector  TextureChunkBase::TargetFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::TargetFieldId);
 
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -336,6 +340,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var Real32          TextureChunkBase::_sfLodBias
     Bias of LOD calculation for texture access.
+*/
+/*! \var GLenum          TextureChunkBase::_sfTarget
+    Texture target. Overwrite automatically determined texture target         based on the parameters of the assigned image if set to anything          else than GL_NONE. Used for nVidia's rectangle textures. Be careful         when using it!
 */
 
 //! TextureChunk description
@@ -541,7 +548,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "lodBias", 
                      LodBiasFieldId, LodBiasFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFLodBias)
+                     (FieldAccessMethod) &TextureChunkBase::getSFLodBias),
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "target", 
+                     TargetFieldId, TargetFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFTarget)
 };
 
 
@@ -637,6 +649,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfShaderCullModes        (UInt8(0)), 
     _sfShaderConstEye         (), 
     _sfLodBias                (Real32(0.0)), 
+    _sfTarget                 (GLenum(GL_NONE)), 
     Inherited() 
 {
 }
@@ -686,6 +699,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfShaderCullModes        (source._sfShaderCullModes        ), 
     _sfShaderConstEye         (source._sfShaderConstEye         ), 
     _sfLodBias                (source._sfLodBias                ), 
+    _sfTarget                 (source._sfTarget                 ), 
     Inherited                 (source)
 {
 }
@@ -902,6 +916,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfLodBias.getBinSize();
     }
 
+    if(FieldBits::NoField != (TargetFieldMask & whichField))
+    {
+        returnValue += _sfTarget.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1109,6 +1128,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (LodBiasFieldMask & whichField))
     {
         _sfLodBias.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TargetFieldMask & whichField))
+    {
+        _sfTarget.copyToBin(pMem);
     }
 
 
@@ -1319,6 +1343,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfLodBias.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TargetFieldMask & whichField))
+    {
+        _sfTarget.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1447,6 +1476,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (LodBiasFieldMask & whichField))
         _sfLodBias.syncWith(pOther->_sfLodBias);
+
+    if(FieldBits::NoField != (TargetFieldMask & whichField))
+        _sfTarget.syncWith(pOther->_sfTarget);
 
 
 }
