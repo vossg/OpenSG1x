@@ -2735,24 +2735,37 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
     {
         ChunkMaterialPtr pChunkMat = ChunkMaterialPtr::dcast(pFC);
 
-        if(pChunkMat != NullFC && pChunkMat->isTransparent() == true)
+        if(pChunkMat != NullFC)
         {
-            BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
-
-            beginEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
-                                     BlendChunk::DestFactorFieldMask);
+            StateChunkPtr cp = pChunkMat->find(TextureChunk::getClassType());
+            
+            TextureChunkPtr tex = NullFC;
+            
+            if(cp != NullFC)
+                tex = TextureChunkPtr::dcast(cp);
+            
+            if (pChunkMat->isTransparent() == true ||
+                (tex != NullFC && tex->getImage() != NullFC && 
+                 tex->getImage()->hasAlphaChannel()
+               ))
             {
-                pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
-                pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
-            }
-            endEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
-                                   BlendChunk::DestFactorFieldMask);
+                BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
 
-            beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
-            {
-                pChunkMat->addChunk(pBlendChunk);
+                beginEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
+                                         BlendChunk::DestFactorFieldMask);
+                {
+                    pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
+                    pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+                }
+                endEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
+                                       BlendChunk::DestFactorFieldMask);
+
+                beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
+                {
+                    pChunkMat->addChunk(pBlendChunk);
+                }
+                endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
             }
-            endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
         }
     }
 

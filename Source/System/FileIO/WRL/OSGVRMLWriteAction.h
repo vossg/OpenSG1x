@@ -224,7 +224,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
         Int32  _iTimesUsed;
         bool   _bOwnName;
         Char8 *_szName;
-        bool   _bWriten;
+        bool   _bWritten;
 
       public:
 
@@ -232,7 +232,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
         FCInfo(const FCInfo &source);
         ~FCInfo(void);
 
-        void convertName(      Char8 *szName);
+        Char8 mapChar    (      Char8 c);
+        void  convertName(      Char8 *&szName);
 
         void setName    (const Char8  *szName);
         void buildName  (const Char8  *szTypename,
@@ -242,8 +243,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
               UInt32  getUse (void) const;
         const Char8  *getName(void) const;
 
-        bool  getWriten(void) const;
-        void  setWriten (void);
+        bool  getWritten(void) const;
+        void  setWritten (void);
 
         // returnvalue required by MS
         Int32 clear    (void);

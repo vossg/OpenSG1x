@@ -100,7 +100,7 @@ VRMLWriteAction::FCInfo::FCInfo(void) :
     _iTimesUsed(0     ),
     _bOwnName   (false),
     _szName     (NULL ),
-    _bWriten    (false)
+    _bWritten    (false)
 {
 }
 
@@ -108,7 +108,7 @@ VRMLWriteAction::FCInfo::FCInfo(const FCInfo &source) :
     _iTimesUsed(source._iTimesUsed),
     _bOwnName  (source._bOwnName  ),
     _szName    (NULL              ),
-    _bWriten   (source._bWriten   )
+    _bWritten   (source._bWritten   )
 {
     if(_bOwnName == true)
     {
@@ -122,58 +122,41 @@ VRMLWriteAction::FCInfo::~FCInfo(void)
         delete [] _szName;
 }
 
-void VRMLWriteAction::FCInfo::convertName(Char8 *szName)
+Char8 VRMLWriteAction::FCInfo::mapChar(Char8 c)
 {
+    // These are taken from the VRML97 reference document
+    static char badchars[] = {  
+        0x22, 0x23, 0x27, 0x2c, 0x2e, 0x5b, 0x5c, 0x5d, 0x7b, 0x7d, 0x7f
+    };
+    
+    if (c <= 0x20) return '_';
+    
+    for(Int16 i = 0; i < sizeof(badchars); ++i)
+        if(c == badchars[i])
+            return '_';
+    
+    return c;
+}
+
+void VRMLWriteAction::FCInfo::convertName(Char8 *&szName)
+{       
     if(szName == NULL)
         return;
-
-    switch(szName[0])
-    {
-        case 0x30:
-        case 0x31:
-        case 0x32:
-        case 0x33:
-        case 0x34:
-        case 0x35:
-        case 0x36:
-        case 0x37:
-        case 0x38:
-        case 0x39:
-        case 0x2b: 
-        case 0x2d:
-        {
-            szName[0]='_';
-            break;
-        }
-    }
     
     for(UInt32 i = 0; i < strlen(szName); i++)
     {
-        if(szName[i] <= 0x20)
-        {
-            szName[i]='_';
-        }
-        else
-        {
-            switch(szName[i])
-            {
-                case 0x22: 
-                case 0x23:
-                case 0x27:
-                case 0x2c:
-                case 0x2e:
-                case 0x5b:
-                case 0x5c:
-                case 0x5d:
-                case 0x7b:
-                case 0x7d:
-                case 0x7f:
-                {
-                    szName[i]='_';
-                    break;
-                }
-            }
-        }
+        szName[i] = mapChar(szName[i]);
+    }
+    
+    // first char a number? add an _
+    if(szName[0] >= 0x30 && szName[0] <= 0x39)
+    {
+        Char8 *newstring = new char [strlen(szName) + 2];
+        
+        newstring[0] = '_';
+        strcpy(newstring + 1, szName);
+        delete[] szName;
+        szName = newstring;
     }
 }
 
@@ -221,14 +204,14 @@ const Char8 *VRMLWriteAction::FCInfo::getName(void) const
     return _szName;
 }
 
-bool VRMLWriteAction::FCInfo::getWriten(void) const
+bool VRMLWriteAction::FCInfo::getWritten(void) const
 {
-    return _bWriten;
+    return _bWritten;
 }
 
-void VRMLWriteAction::FCInfo::setWriten(void)
+void VRMLWriteAction::FCInfo::setWritten(void)
 {
-    _bWriten = true;
+    _bWritten = true;
 }
 
 Int32 VRMLWriteAction::FCInfo::clear(void)
@@ -242,7 +225,7 @@ Int32 VRMLWriteAction::FCInfo::clear(void)
 
     _bOwnName = false;
     _szName   = NULL;
-    _bWriten  = false;
+    _bWritten  = false;
 
     return 0;
 }
@@ -366,7 +349,7 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
         }
 
         if(pCoreInfo->getUse()    >  0 && 
-           pCoreInfo->getWriten() == true)
+           pCoreInfo->getWritten() == true)
         {
             pWriter->printIndent();
             fprintf(pFile, "Group # osg shared %s\n", pCoreInfo->getName());
@@ -379,7 +362,7 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Group\n", pCoreInfo->getName());
             
-            pCoreInfo->setWriten();
+            pCoreInfo->setWritten();
         }
         else if((pInfo->getName()    != NULL) &&
                 (pInfo->getName()[0] != '\0'))
@@ -387,7 +370,7 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Group\n", pInfo->getName());
             
-            pInfo->setWriten();
+            pInfo->setWritten();
         }
         else
         {
@@ -498,13 +481,13 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
         }
 
         if((pInfo->getName() != NULL   ) &&
-           (pInfo->getWriten() == false) && 
+           (pInfo->getWritten() == false) && 
            (pInfo->getName()[0] != '\0'))
         {
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Transform\n", pInfo->getName());
 
-            pInfo->setWriten();
+            pInfo->setWritten();
         }
         else
         {
@@ -1280,7 +1263,7 @@ bool VRMLWriteAction::writeGeoCommon(NodePtr          pNode,
     }
 
     if(pCoreInfo->getUse()    >  0 && 
-       pCoreInfo->getWriten() == true)
+       pCoreInfo->getWritten() == true)
     {
         pWriter->printIndent();
         fprintf(pFile, "geometry USE %s\n", pCoreInfo->getName());
@@ -1296,7 +1279,7 @@ bool VRMLWriteAction::writeGeoCommon(NodePtr          pNode,
                     pCoreInfo->getName(), 
                     setTypename);
             
-            pCoreInfo->setWriten();
+            pCoreInfo->setWritten();
         }
         else if((pInfo->getName()    != NULL) &&
                 (pInfo->getName()[0] != '\0'))
@@ -1307,7 +1290,7 @@ bool VRMLWriteAction::writeGeoCommon(NodePtr          pNode,
                     pInfo->getName(), 
                     setTypename);
             
-            pInfo->setWriten();
+            pInfo->setWritten();
         }
         else
         {
@@ -1684,7 +1667,11 @@ void VRMLWriteAction::printIndent(void)
 {
     if(_pFile != NULL)
     {
-        for(UInt32 i = 0; i < _uiIndent; i++)
+        for(UInt32 i = 0; i < _uiIndent/8; i++)
+        {
+            fprintf(_pFile, "\t");
+        }
+        for(UInt32 i = 0; i < _uiIndent%8; i++)
         {
             fprintf(_pFile, " ");
         }
