@@ -71,6 +71,9 @@ const OSG::BitVector  BlendChunkBase::SrcFactorFieldMask =
 const OSG::BitVector  BlendChunkBase::DestFactorFieldMask = 
     (1 << BlendChunkBase::DestFactorFieldId);
 
+const OSG::BitVector  BlendChunkBase::EquationFieldMask = 
+    (1 << BlendChunkBase::EquationFieldId);
+
 const OSG::BitVector  BlendChunkBase::ColorFieldMask = 
     (1 << BlendChunkBase::ColorFieldId);
 
@@ -85,10 +88,13 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
 // Field descriptions
 
 /*! \var UInt32          BlendChunkBase::_sfSrcFactor
-    The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
+    The incoming pixel is multiplied by the source factor. Legal values are directly taken from the glBlendFunc() manpage.
 */
 /*! \var UInt32          BlendChunkBase::_sfDestFactor
-    The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
+    The frame buffer pixel is multiplied by the destination factor. Legal values are directly taken from the glBlendFunc() manpage.
+*/
+/*! \var UInt32          BlendChunkBase::_sfEquation
+    The equation used to combine the two values. Only available where GL_ARB_imaging is supported. See glBlendEquation() for details.
 */
 /*! \var Color4f         BlendChunkBase::_sfColor
     This is the constant color used by blend modes *_CONSTANT_*.
@@ -105,17 +111,22 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
 FieldDescription *BlendChunkBase::_desc[] = 
 {
     new FieldDescription(SFUInt32::getClassType(), 
-                     "SrcFactor", 
+                     "srcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFSrcFactor),
     new FieldDescription(SFUInt32::getClassType(), 
-                     "DestFactor", 
+                     "destFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFDestFactor),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "equation", 
+                     EquationFieldId, EquationFieldMask,
+                     false,
+                     (FieldAccessMethod) &BlendChunkBase::getSFEquation),
     new FieldDescription(SFColor4f::getClassType(), 
-                     "Color", 
+                     "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFColor),
@@ -189,6 +200,7 @@ void BlendChunkBase::executeSync(      FieldContainer &other,
 BlendChunkBase::BlendChunkBase(void) :
     _sfSrcFactor              (), 
     _sfDestFactor             (), 
+    _sfEquation               (UInt32(GL_NONE)), 
     _sfColor                  (Color4f(0,0,0,0)), 
     _sfAlphaFunc              (UInt32(GL_NONE)), 
     _sfAlphaValue             (Real32(0)), 
@@ -205,6 +217,7 @@ BlendChunkBase::BlendChunkBase(void) :
 BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
     _sfSrcFactor              (source._sfSrcFactor              ), 
     _sfDestFactor             (source._sfDestFactor             ), 
+    _sfEquation               (source._sfEquation               ), 
     _sfColor                  (source._sfColor                  ), 
     _sfAlphaFunc              (source._sfAlphaFunc              ), 
     _sfAlphaValue             (source._sfAlphaValue             ), 
@@ -234,6 +247,11 @@ UInt32 BlendChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (DestFactorFieldMask & whichField))
     {
         returnValue += _sfDestFactor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EquationFieldMask & whichField))
+    {
+        returnValue += _sfEquation.getBinSize();
     }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
@@ -270,6 +288,11 @@ void BlendChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfDestFactor.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (EquationFieldMask & whichField))
+    {
+        _sfEquation.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
         _sfColor.copyToBin(pMem);
@@ -303,6 +326,11 @@ void BlendChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfDestFactor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (EquationFieldMask & whichField))
+    {
+        _sfEquation.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
         _sfColor.copyFromBin(pMem);
@@ -333,6 +361,9 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
     if(FieldBits::NoField != (DestFactorFieldMask & whichField))
         _sfDestFactor.syncWith(pOther->_sfDestFactor);
 
+    if(FieldBits::NoField != (EquationFieldMask & whichField))
+        _sfEquation.syncWith(pOther->_sfEquation);
+
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
 
@@ -361,7 +392,7 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.28 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.29 2002/08/29 16:08:09 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

@@ -144,7 +144,13 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
 
     // indices for used extensions and functions
     static UInt32 _extBlend;
+    static UInt32 _extImaging;
+    static UInt32 _extBlendSubtract;
+    static UInt32 _extBlendMinMax;
+    static UInt32 _extBlendLogicOp;
     static UInt32 _funcBlendColor;
+    static UInt32 _funcBlendEquation;
+    static UInt32 _funcBlendEquationExt;
 
     static void initMethod( void );
 

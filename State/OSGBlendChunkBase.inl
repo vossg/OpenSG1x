@@ -109,6 +109,12 @@ SFUInt32 *BlendChunkBase::getSFDestFactor(void)
 }
 
 inline
+SFUInt32 *BlendChunkBase::getSFEquation(void)
+{
+    return &_sfEquation;
+}
+
+inline
 SFColor4f *BlendChunkBase::getSFColor(void)
 {
     return &_sfColor;
@@ -161,6 +167,24 @@ inline
 void BlendChunkBase::setDestFactor(const UInt32 &value)
 {
     _sfDestFactor.setValue(value);
+}
+
+inline
+UInt32 &BlendChunkBase::getEquation(void)
+{
+    return _sfEquation.getValue();
+}
+
+inline
+const UInt32 &BlendChunkBase::getEquation(void) const
+{
+    return _sfEquation.getValue();
+}
+
+inline
+void BlendChunkBase::setEquation(const UInt32 &value)
+{
+    _sfEquation.setValue(value);
 }
 
 inline
@@ -220,5 +244,5 @@ void BlendChunkBase::setAlphaValue(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.12 2002/06/20 13:02:19 vossg Exp $"
+#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.13 2002/08/29 16:08:09 dirk Exp $"
 

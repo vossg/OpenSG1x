@@ -75,12 +75,18 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.19 2002/07/02 15:07:00 dirk Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.20 2002/08/29 16:08:09 dirk Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
 UInt32 BlendChunk::_extBlend;
+UInt32 BlendChunk::_extImaging;
+UInt32 BlendChunk::_extBlendSubtract;
+UInt32 BlendChunk::_extBlendMinMax;
+UInt32 BlendChunk::_extBlendLogicOp;
 UInt32 BlendChunk::_funcBlendColor;
+UInt32 BlendChunk::_funcBlendEquation;
+UInt32 BlendChunk::_funcBlendEquationExt;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -130,10 +136,22 @@ void BlendChunk::initMethod (void)
 BlendChunk::BlendChunk(void) :
     Inherited()
 {
-    _extBlend       =
-        Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_EXT_blend_color");
-    _funcBlendColor =
+    _extBlend             =
+        Window::registerExtension("GL_EXT_blend_color");
+    _extImaging           =
+        Window::registerExtension("GL_ARB_imaging");
+    _extBlendSubtract     =
+        Window::registerExtension("GL_EXT_blend_subtract");
+    _extBlendMinMax       =
+        Window::registerExtension("GL_EXT_blend_minmax");
+    _extBlendLogicOp      =
+        Window::registerExtension("GL_EXT_blend_logic_op");
+    _funcBlendColor       =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendColorEXT");
+    _funcBlendEquation    =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendEquation");
+    _funcBlendEquationExt =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendEquationEXT");
 }
 
 /** \brief Copy Constructor
@@ -209,6 +227,35 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
 #endif
         glEnable(GL_BLEND);
     }
+
+    if(_sfEquation.getValue() != GL_NONE)
+    {
+#if defined(GL_ARB_imaging)
+        if(action->getWindow()->hasExtension(_extImaging))
+        {
+            // get "glBlendEquation" function pointer
+            void (OSG_APIENTRY* blendeq)(GLenum mode) =
+                (void (OSG_APIENTRY*)(GLenum mode))
+                action->getWindow()->getFunction(_funcBlendEquation);
+
+             blendeq(_sfEquation.getValue());
+        }
+
+#elif defined(GL_EXT_blend_subtract) || defined(GL_EXT_blend_minmax) || \
+    defined(GL_EXT_blend_logic_op)
+        if(action->getWindow()->hasExtension(_extBlendSubtract) ||
+           action->getWindow()->hasExtension(_extBlendMinMax) ||
+           action->getWindow()->hasExtension(_extBlendLogicOp))
+        {
+            // get "glBlendEquationEXT" function pointer
+            void (OSG_APIENTRY* blendeq)(GLenum mode) =
+                (void (OSG_APIENTRY*)(GLenum mode))
+                action->getWindow()->getFunction(_funcBlendEquationExt);
+
+             blendeq(_sfEquation.getValue());
+        }
+#endif
+    }
     
     if(_sfAlphaFunc.getValue() != GL_NONE)
     {
@@ -265,6 +312,35 @@ void BlendChunk::changeFrom( DrawActionBase *action,
         if(old->_sfSrcFactor.getValue() != GL_NONE)
             glDisable(GL_BLEND);
     }
+
+    if(_sfEquation.getValue() != old->_sfEquation.getValue())
+    {
+#if defined(GL_ARB_imaging)
+        if(action->getWindow()->hasExtension(_extImaging))
+        {
+            // get "glBlendEquation" function pointer
+            void (OSG_APIENTRY* blendeq)(GLenum mode) =
+                (void (OSG_APIENTRY*)(GLenum mode))
+                action->getWindow()->getFunction(_funcBlendEquation);
+
+             blendeq(_sfEquation.getValue());
+        }
+
+#elif defined(GL_EXT_blend_subtract) || defined(GL_EXT_blend_minmax) || \
+    defined(GL_EXT_blend_logic_op)
+        if(action->getWindow()->hasExtension(_extBlendSubtract) ||
+           action->getWindow()->hasExtension(_extBlendMinMax) ||
+           action->getWindow()->hasExtension(_extBlendLogicOp))
+        {
+            // get "glBlendEquationEXT" function pointer
+            void (OSG_APIENTRY* blendeq)(GLenum mode) =
+                (void (OSG_APIENTRY*)(GLenum mode))
+                action->getWindow()->getFunction(_funcBlendEquationExt);
+
+             blendeq(_sfEquation.getValue());
+        }
+#endif
+    }
     
     if(_sfAlphaFunc.getValue() != GL_NONE)
     {
@@ -283,11 +359,40 @@ void BlendChunk::changeFrom( DrawActionBase *action,
     
 }
 
-void BlendChunk::deactivate ( DrawActionBase *, UInt32 )
+void BlendChunk::deactivate ( DrawActionBase *action, UInt32 )
 {
     if(_sfSrcFactor.getValue() != GL_NONE)
     {
         glDisable(GL_BLEND);
+    }
+
+    if(_sfEquation.getValue() != GL_NONE)
+    {
+#if defined(GL_ARB_imaging)
+        if(action->getWindow()->hasExtension(_extImaging))
+        {
+            // get "glBlendEquation" function pointer
+            void (OSG_APIENTRY* blendeq)(GLenum mode) =
+                (void (OSG_APIENTRY*)(GLenum mode))
+                action->getWindow()->getFunction(_funcBlendEquation);
+
+             blendeq(GL_FUNC_ADD);
+        }
+
+#elif defined(GL_EXT_blend_subtract) || defined(GL_EXT_blend_minmax) || \
+    defined(GL_EXT_blend_logic_op)
+        if(action->getWindow()->hasExtension(_extBlendSubtract) ||
+           action->getWindow()->hasExtension(_extBlendMinMax) ||
+           action->getWindow()->hasExtension(_extBlendLogicOp))
+        {
+            // get "glBlendEquationEXT" function pointer
+            void (OSG_APIENTRY* blendeq)(GLenum mode) =
+                (void (OSG_APIENTRY*)(GLenum mode))
+                action->getWindow()->getFunction(_funcBlendEquationExt);
+
+             blendeq(GL_FUNC_ADD_EXT);
+        }
+#endif
     }
     
     if(_sfAlphaFunc.getValue() != GL_NONE)
