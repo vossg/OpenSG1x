@@ -1267,7 +1267,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
                             }
-
+                            break;
                         case OSG_LA_PF:
                             switch (getDataType())
                             {
