@@ -2,6 +2,11 @@
 
 prefix=@am_gdz_install_dir@
 
+# Guess the prefix from the shell script's path if not set
+if test "x$prefix" = "x"; then
+    prefix=`echo $0 | sed -e 's|//*[^/]*$||' -e 's|//*[^/]*$||'`
+fi
+
 system_win=@ac_gdz_system_win_e15@
 system_unix=@ac_gdz_system_unix_e15@
 
@@ -12,7 +17,10 @@ have_jpg=@ac_gdz_have_jpg_e15@
 have_png=@ac_gdz_have_png_e15@
 have_mng=@ac_gdz_have_mng_e15@
 have_gif=@ac_gdz_have_gif_e15@  
-have_freetype1=@ac_gdz_have_freetype1_e15@  
+have_freetype1=@ac_gdz_have_freetype1_e15@
+have_sepia=@ac_gdz_have_sepia_e15@
+
+
 
 if test "$system_win" = "yes"; then
 	prefix=`cygpath -w $prefix`
@@ -54,6 +62,10 @@ inc_gl_path=@ac_gdz_gl_incdir_e15@
 
 win_sys_libs=$gl_libs
 unix_sys_libs=$gl_libs
+
+sepia_libs="@ac_gdz_sepia_lib_e15@"
+lib_sepia_path=@ac_gdz_sepia_libdir_e15@
+inc_sepia_path=@ac_gdz_sepia_incdir_e15@
 
 glut_libs="@ac_gdz_glut_lib_e15@"
 lib_glut_path=@ac_gdz_glut_libdir_e15@
@@ -192,6 +204,16 @@ if test "$have_freetype1" = "yes"; then
     fi
 #    image_defs="$image_defs -DOSG_WITH_FREETYPE1"
 fi
+if test "$have_sepia" = "yes"; then
+    sepia_libs="$sepia_libs $glut_libs"
+    if test "yes$lib_sepia_path" != "yes"; then
+        sepia_libs_path="$linkdir_pre$lib_sepia_path$linkdir_suf $lib_glut_path"
+    fi
+    if test "yes$inc_sepia_path" != "yes"; then
+        sepia_incs_path="$incdir_pre$inc_sepia_path$incdir_suf @inc_glut_path"
+    fi
+    sepia_defs="-DOSG_WITH_SEPIA"
+fi
 
 usage()
 {
@@ -219,6 +241,7 @@ Libraries:
     X
     GLUT
     QT
+    Sepia
 EOF
     exit $1
 }
@@ -349,6 +372,11 @@ while test $# -gt 0; do
       fi;
       lib_QT=yes
       ;;
+    Sepia)
+      lib_Base=yes
+      lib_System=yes
+      lib_Sepia=yes
+      ;;
     Contrib)
       lib_Base=yes
       lib_System=yes
@@ -434,6 +462,22 @@ if test "$lib_GLUT" = "yes"; then
         system_defs="$system_defs -DOSG_WITH_GLUT"
     else
         echo "Warning GLUT not configured, ignoring request"
+    fi;
+fi;
+
+if test "$lib_Sepia" = "yes"; then
+    if test "$have_sepia" = "yes"; then
+        sepia_libs="$sepia_libs"
+        system_libs="$system_libs $sepia_libs"
+        if test "yes$lib_sepia_path" != "yes"; then
+            system_libs_path="$system_libs_path $linkdir_pre$lib_sepia_path$linkdir_suf"
+        fi
+        if test "yes$inc_sepia_path" != "yes"; then
+            system_incs_path="$system_incs_path $incdir_pre$inc_sepia_path$incdir_suf"
+        fi
+        system_defs="$system_defs -DOSG_WITH_SEPIA"
+    else
+        echo "Warning SEPIA not configured, ignoring request"
     fi;
 fi;
 
