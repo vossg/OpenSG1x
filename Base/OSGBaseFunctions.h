@@ -374,7 +374,7 @@ OSG_BASE_DLLMAPPING struct LTString
 {
     Bool operator()(const char* s1, const char* s2) const
     {
-        return strcmp(s1, s2) < 0;
+        return ::strcmp(s1, s2) < 0;
     }
 };
 
@@ -386,7 +386,7 @@ OSG_BASE_DLLMAPPING struct EQString
 {
     Bool operator()(const char* s1, const char* s2) const
     {
-        return strcmp(s1, s2) == 0;
+        return ::strcmp(s1, s2) == 0;
     }
 };
 

@@ -12,6 +12,7 @@
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ *                                                                           *
  * This library is free software; you can redistribute it and/or modify it   *
  * under the terms of the GNU Library General Public License as published    *
  * by the Free Software Foundation, version 2.                               *
@@ -24,6 +25,7 @@
  * You should have received a copy of the GNU Library General Public         *
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -460,8 +462,8 @@ OSG_BASE_DLLMAPPING void stringDup(const char *szInput, char *&szOutput)
 
     if(szInput != NULL)
     {
-        szOutput = new char[strlen(szInput) + 1];
-        strcpy(szOutput, szInput);
+        szOutput = new char[::strlen(szInput) + 1];
+        ::strcpy(szOutput, szInput);
     }
 }
 
@@ -469,7 +471,7 @@ inline
 OSG_BASE_DLLMAPPING
 Int32 stringncmp(const char *string1, const char *string2, size_t count)
 {
-	return strncmp(string1, string2, count);
+	return ::strncmp(string1, string2, count);
 }
 
 /*! \brief limited string compare
@@ -480,7 +482,7 @@ Int32 stringncmp(const char *string1, const char *string2, size_t count)
 inline 
 OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1)
 {
-    return strlen(string1);
+    return ::strlen(string1);
 }
 
 
@@ -491,7 +493,7 @@ OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1)
 inline 
 OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2)
 {
-	return strcmp(string1, string2);
+	return ::strcmp(string1, string2);
 }
 
 /*! \brief string case compare
@@ -503,7 +505,7 @@ OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
                                         const char *string2)
 {
 #if !defined(WIN32)
-	return strcasecmp(string1, string2);
+	return ::strcasecmp(string1, string2);
 #else
     return _stricmp  (string1, string2);
 #endif

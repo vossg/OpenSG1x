@@ -152,13 +152,13 @@ class OSG_BASE_DLLMAPPING String
 
 	inline Bool operator <(const String &obj) const
   	{ 
-        return (_str && obj._str && (strcmp(_str, obj._str) < 0)); 
+        return (_str && obj._str && (::strcmp(_str, obj._str) < 0)); 
     }
 
 	inline Bool operator ==(const String &o) const
 	{ 
         return ((_str == o._str) ? 
-                1 : (_str && o._str && !strcmp(_str, o._str))); 
+                1 : (_str && o._str && !::strcmp(_str, o._str))); 
     }
 
 	inline Bool operator !=(const String &o) const
