@@ -82,8 +82,6 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-char CLASSNAME::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -132,7 +130,7 @@ CLASSNAME::CLASSNAME(void) :
 //{
 //}
 
-/** \brief Destructor
+/** Destructor
  */
 
 CLASSNAME::~CLASSNAME(void)
@@ -147,7 +145,7 @@ CLASSNAME::~CLASSNAME(void)
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
+/** assignment
  */
 
 CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
@@ -167,25 +165,25 @@ CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
+/** assignment
  */
 
-OSGBool CLASSNAME::operator < (const CLASSNAME &other) const
+Bool CLASSNAME::operator < (const CLASSNAME &other) const
 {
     return this < &other;
 }
 
-/** \brief equal
+/** equal
  */
 
-OSGBool CLASSNAME::operator == (const CLASSNAME &other) const
+Bool CLASSNAME::operator == (const CLASSNAME &other) const
 {
 }
 
-/** \brief unequal
+/** unequal
  */
 
-OSGBool CLASSNAME::operator != (const CLASSNAME &other) const
+Bool CLASSNAME::operator != (const CLASSNAME &other) const
 {
 	return ! (*this == other);
 }

@@ -80,6 +80,7 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     /*! \name                      dcast                                   */
     /*! \{                                                                 */
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
     /*! \{                                                                 */
@@ -138,10 +139,10 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    OSGBool operator < (const CLASSNAME &other) const;
+    Bool operator < (const CLASSNAME &other) const;
     
-	//OSGBool operator == (const CLASSNAME &other) const;
-	//OSGBool operator != (const CLASSNAME &other) const;
+	//Bool operator == (const CLASSNAME &other) const;
+	//Bool operator != (const CLASSNAME &other) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
