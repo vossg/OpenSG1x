@@ -306,6 +306,55 @@ SFBool *TextureChunkBase::getSFPointSprite(void)
     return &_sfPointSprite;
 }
 
+//! Get the TextureChunk::_sfPriority field.
+inline
+SFReal32 *TextureChunkBase::getSFPriority(void)
+{
+    return &_sfPriority;
+}
+
+//! Get the TextureChunk::_sfShaderOperation field.
+inline
+SFGLenum *TextureChunkBase::getSFShaderOperation(void)
+{
+    return &_sfShaderOperation;
+}
+
+//! Get the TextureChunk::_sfShaderInput field.
+inline
+SFGLenum *TextureChunkBase::getSFShaderInput(void)
+{
+    return &_sfShaderInput;
+}
+
+//! Get the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+MFReal32 *TextureChunkBase::getMFShaderOffsetMatrix(void)
+{
+    return &_mfShaderOffsetMatrix;
+}
+
+//! Get the TextureChunk::_sfShaderOffsetScale field.
+inline
+SFReal32 *TextureChunkBase::getSFShaderOffsetScale(void)
+{
+    return &_sfShaderOffsetScale;
+}
+
+//! Get the TextureChunk::_sfShaderOffsetBias field.
+inline
+SFReal32 *TextureChunkBase::getSFShaderOffsetBias(void)
+{
+    return &_sfShaderOffsetBias;
+}
+
+//! Get the TextureChunk::_sfShaderRGBADotProductIdentity field.
+inline
+SFBool *TextureChunkBase::getSFShaderRGBADotProductIdentity(void)
+{
+    return &_sfShaderRGBADotProductIdentity;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -937,6 +986,153 @@ void TextureChunkBase::setPointSprite(const bool &value)
     _sfPointSprite.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfPriority field.
+inline
+Real32 &TextureChunkBase::getPriority(void)
+{
+    return _sfPriority.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfPriority field.
+inline
+const Real32 &TextureChunkBase::getPriority(void) const
+{
+    return _sfPriority.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfPriority field.
+inline
+void TextureChunkBase::setPriority(const Real32 &value)
+{
+    _sfPriority.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderOperation field.
+inline
+GLenum &TextureChunkBase::getShaderOperation(void)
+{
+    return _sfShaderOperation.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderOperation field.
+inline
+const GLenum &TextureChunkBase::getShaderOperation(void) const
+{
+    return _sfShaderOperation.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderOperation field.
+inline
+void TextureChunkBase::setShaderOperation(const GLenum &value)
+{
+    _sfShaderOperation.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderInput field.
+inline
+GLenum &TextureChunkBase::getShaderInput(void)
+{
+    return _sfShaderInput.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderInput field.
+inline
+const GLenum &TextureChunkBase::getShaderInput(void) const
+{
+    return _sfShaderInput.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderInput field.
+inline
+void TextureChunkBase::setShaderInput(const GLenum &value)
+{
+    _sfShaderInput.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderOffsetScale field.
+inline
+Real32 &TextureChunkBase::getShaderOffsetScale(void)
+{
+    return _sfShaderOffsetScale.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderOffsetScale field.
+inline
+const Real32 &TextureChunkBase::getShaderOffsetScale(void) const
+{
+    return _sfShaderOffsetScale.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderOffsetScale field.
+inline
+void TextureChunkBase::setShaderOffsetScale(const Real32 &value)
+{
+    _sfShaderOffsetScale.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderOffsetBias field.
+inline
+Real32 &TextureChunkBase::getShaderOffsetBias(void)
+{
+    return _sfShaderOffsetBias.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderOffsetBias field.
+inline
+const Real32 &TextureChunkBase::getShaderOffsetBias(void) const
+{
+    return _sfShaderOffsetBias.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderOffsetBias field.
+inline
+void TextureChunkBase::setShaderOffsetBias(const Real32 &value)
+{
+    _sfShaderOffsetBias.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfShaderRGBADotProductIdentity field.
+inline
+bool &TextureChunkBase::getShaderRGBADotProductIdentity(void)
+{
+    return _sfShaderRGBADotProductIdentity.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfShaderRGBADotProductIdentity field.
+inline
+const bool &TextureChunkBase::getShaderRGBADotProductIdentity(void) const
+{
+    return _sfShaderRGBADotProductIdentity.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfShaderRGBADotProductIdentity field.
+inline
+void TextureChunkBase::setShaderRGBADotProductIdentity(const bool &value)
+{
+    _sfShaderRGBADotProductIdentity.setValue(value);
+}
+
+
+//! Get the value of the \a index element the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+Real32 &TextureChunkBase::getShaderOffsetMatrix(const UInt32 index)
+{
+    return _mfShaderOffsetMatrix[index];
+}
+
+//! Get the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void)
+{
+    return _mfShaderOffsetMatrix;
+}
+
+//! Get the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+const MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void) const
+{
+    return _mfShaderOffsetMatrix;
+}
 
 OSG_END_NAMESPACE
 

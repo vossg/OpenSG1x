@@ -254,6 +254,17 @@ multi-texturing.
 material you can just append additional texture chunks to a osg::ChunkMaterial
 or one of its descendents. \endhint
 
+Textures can also be prioritized, which aids the OpenGL texture manager in
+cases where not all textures fit into texture memory. This is useful for
+scenes where a limited set of textures is used all the time and some other
+textures are only used sometimes. Giving the always used textures a higher
+priority can reduce the amount of texture transfer and significantly increase
+performance. In general the texture manager does a reasonable job, so unless
+you know exactly what you're doing, don't bother fiddling with the priority.
+Scenes that use more textures than fit into texture memory will always incur a
+noticable performance penalty. \hint Currently it is not advisable to change 
+the priority dynamically. \endhint
+
 \section PageSystemTextureTransformChunk TextureTransformChunk
 
 Chunk for texture coordinate transformations, uses a simple matrix to

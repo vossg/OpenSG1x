@@ -71,23 +71,22 @@ osg::TextureChunk::_sfInternalFormat, osg::TextureChunk::_sfExternalFormat),
 glTexParameter (osg::TextureChunk::_sfMinFilter,
 osg::TextureChunk::_sfMagFilter, osg::TextureChunk::_sfWrapS, 
 osg::TextureChunk::_sfWrapT, osg::TextureChunk::_sfWrapR), glTexEnv 
-(osg::TextureChunk::_sfEnvMode, osg::TextureChunk::_sfEnvColor). The ARB
-combine extension is also supported, where available
-(osg::TextureChunk::_sfEnvCombineRGB,  
+(osg::TextureChunk::_sfEnvMode, osg::TextureChunk::_sfEnvColor,
+osg::TextureChunk::_sfPriority). The ARB combine extension is also supported,
+where available (osg::TextureChunk::_sfEnvCombineRGB,  
 osg::TextureChunk::_sfEnvScaleRGB, osg::TextureChunk::_sfEnvSource0RGB,
 osg::TextureChunk::_sfEnvSource1RGB, osg::TextureChunk::_sfEnvSource2RGB,
-osg::TextureChunk::_sfEnvOperand0RGB,
-osg::TextureChunk::_sfEnvOperand1RGB, osg::TextureChunk::_sfEnvOperand2RGB, 
-osg::TextureChunk::_sfEnvCombineAlpha,  
-osg::TextureChunk::_sfEnvScaleAlpha, osg::TextureChunk::_sfEnvSource0Alpha,
-osg::TextureChunk::_sfEnvSource1Alpha, osg::TextureChunk::_sfEnvSource2Alpha,
-osg::TextureChunk::_sfEnvOperand0Alpha,
-osg::TextureChunk::_sfEnvOperand1Alpha, osg::TextureChunk::_sfEnvOperand2Alpha, 
-). It is possible to enable the point sprite coordinate replacement 
-(osg::TextureChunk::_sfPointSprite), see \ref PageSystemPointChunk for
-details. The two
-parameters osg::TextureChunk::_sfScale and osg::TextureChunk::_sfFrame specify
-details about the texture.
+osg::TextureChunk::_sfEnvOperand0RGB, osg::TextureChunk::_sfEnvOperand1RGB,
+osg::TextureChunk::_sfEnvOperand2RGB, 
+osg::TextureChunk::_sfEnvCombineAlpha,   osg::TextureChunk::_sfEnvScaleAlpha,
+osg::TextureChunk::_sfEnvSource0Alpha, osg::TextureChunk::_sfEnvSource1Alpha,
+osg::TextureChunk::_sfEnvSource2Alpha, osg::TextureChunk::_sfEnvOperand0Alpha,
+osg::TextureChunk::_sfEnvOperand1Alpha,
+osg::TextureChunk::_sfEnvOperand2Alpha). It is possible to enable the point
+sprite coordinate replacement  (osg::TextureChunk::_sfPointSprite), see \ref
+PageSystemPointChunk for details. The two parameters
+osg::TextureChunk::_sfScale and osg::TextureChunk::_sfFrame specify details
+about the texture.
 
 */
 
@@ -103,6 +102,7 @@ UInt32 TextureChunk::_extTex3D;
 UInt32 TextureChunk::_arbMultiTex;
 UInt32 TextureChunk::_arbCubeTex;
 UInt32 TextureChunk::_nvPointSprite;
+UInt32 TextureChunk::_nvTextureShader;
 UInt32 TextureChunk::_funcTexImage3D    = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
@@ -144,13 +144,15 @@ TextureChunk::TextureChunk(void) :
     Inherited()
 {
     _extTex3D          = 
-        Window::registerExtension("GL_EXT_texture3D"    );
+        Window::registerExtension("GL_EXT_texture3D"       );
     _arbMultiTex       = 
-        Window::registerExtension("GL_ARB_multitexture" );
+        Window::registerExtension("GL_ARB_multitexture"    );
     _arbCubeTex        = 
         Window::registerExtension("GL_ARB_texture_cube_map");
-    _nvPointSprite        = 
-        Window::registerExtension("GL_NV_point_sprite");
+    _nvPointSprite     = 
+        Window::registerExtension("GL_NV_point_sprite"     );
+    _nvTextureShader   = 
+        Window::registerExtension("GL_NV_texture_shader"   );
     _funcTexImage3D    = 
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
     _funcTexSubImage3D = 
@@ -188,7 +190,7 @@ const StateChunkClass *TextureChunk::getClass(void) const
 
 void TextureChunk::changed(BitVector whichField, UInt32 origin)
 {
-    if((whichField & ~(MinFilterFieldMask | MagFilterFieldId)) == 0)
+    if((whichField & ~(MinFilterFieldMask | MagFilterFieldMask)) == 0)
     {
         if((getMinFilter() != GL_NEAREST) &&
            (getMinFilter() != GL_LINEAR))
@@ -200,11 +202,14 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
             Window::refreshGLObject(getGLId());
         }
     }
+    else if((whichField & ~PriorityFieldMask) == 0)
+    {
+        Window::refreshGLObject(getGLId());
+    }
     else
     {
         Window::reinitializeGLObject(getGLId());
     }
-
 
     if(whichField & ImageFieldMask)
     {
@@ -283,13 +288,86 @@ void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     Also used by derived CubeMap chunk.
 */
 
+void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
+{    
+	if(!win->hasExtension(_nvTextureShader))
+	{
+        if(getShaderOperation() != GL_NONE)
+		    FINFO(("NV Texture Shaders not supported on Window %p!\n", win));
+		return;
+	}
+
+    if(bindtarget != GL_TEXTURE_2D)
+    {
+        FWARNING(("TextureChunk::handleTextureShader: shader only defined "
+                    "for target GL_TEXTURE_2D, not %d!\n", bindtarget));
+        return;
+    }
+     
+    glErr("textureShader precheck");
+    
+    glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV,
+                getShaderOperation());
+    
+    glErr("textureShader setup: operation");
+    
+    if(getShaderOperation() == GL_NONE)
+        return;
+    
+    if(getShaderInput() != GL_NONE)
+        glTexEnvi(GL_TEXTURE_SHADER_NV, GL_PREVIOUS_TEXTURE_INPUT_NV,
+                    getShaderInput());
+        
+    glErr("textureShader setup: input");
+    
+    glTexEnvi(GL_TEXTURE_SHADER_NV, GL_RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV,
+                getShaderRGBADotProductIdentity() ? 
+                        GL_UNSIGNED_IDENTITY_NV :
+                        GL_EXPAND_NORMAL_NV
+              );
+         
+    glErr("textureShader setup: rgba dotprodidnet");
+   
+    if(getShaderOffsetMatrix().size() == 4)
+    {
+        glTexEnvfv(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_MATRIX_NV,
+                    (GLfloat*)&(getShaderOffsetMatrix()[0]));
+        
+        glErr("textureShader setup: offset matrix");
+    }
+    else if(getShaderOffsetMatrix().size() != 0)
+    {
+        FWARNING(("TextureChunk::handleTextureShader: shaderOffsetMatrix has"
+                    " to have 4 entries, not %d!\n",
+                    getShaderOffsetMatrix().size() ));
+    }
+    
+    glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_SCALE_NV,
+                getShaderOffsetScale());
+        
+    glErr("textureShader setup: offset scale");
+    
+    glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_BIAS_NV,
+                getShaderOffsetBias());
+        
+    glErr("textureShader setup: offset bias");
+#ifdef OSG_DEBUG
+    GLint consistent;
+    glGetTexEnviv(GL_TEXTURE_SHADER_NV, GL_SHADER_CONSISTENT_NV,
+          &consistent);
+    if(!consistent)
+    {
+        FWARNING(("Texture shaders not consistent!\n"));
+    }
+#endif
+}
+
 void TextureChunk::handleTexture(Window *win, UInt32 id, 
     GLenum bindtarget, 
     GLenum paramtarget, 
     GLenum imgtarget, 
     Window::GLObjectStatusE mode, ImagePtr img)
 {
-
     if( img==NullFC || ! img->getDimension()) // no image ?
         return;
 
@@ -350,6 +428,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         if(paramtarget != GL_NONE)
         {
             // set the parameters
+            glTexParameterf(paramtarget, GL_TEXTURE_PRIORITY,   getPriority());
             glTexParameteri(paramtarget, GL_TEXTURE_MIN_FILTER, getMinFilter());
             glTexParameteri(paramtarget, GL_TEXTURE_MAG_FILTER, getMagFilter());
             glTexParameteri(paramtarget, GL_TEXTURE_WRAP_S, getWrapS());
@@ -690,7 +769,6 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         SFATAL << "TextureChunk::initialize4: unknown target "
                                << imgtarget << "!!!" << std::endl;
                 }
-
             }
 
             if(data != img->getData(0, frame))
@@ -714,7 +792,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 
         GLenum externalFormat = img->getPixelFormat();
 
-	    if ( getExternalFormat() != GL_NONE )
+	    if(getExternalFormat() != GL_NONE)
 	        externalFormat = getExternalFormat();
 
 
@@ -759,6 +837,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                     SFATAL << "TextureChunk::refresh: unknown target "
                            << imgtarget << "!!!" << std::endl;
             }
+            
+            if(paramtarget != GL_NONE)
+                glTexParameterf(paramtarget, GL_TEXTURE_PRIORITY, 
+                                  getPriority());
         }
         else
         {
@@ -797,7 +879,7 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
         
         ImagePtr img = getImage();
 
-        if (img != NullFC) 
+        if(img != NullFC) 
         {
            if(img->getDepth() > 1)
            {
@@ -838,16 +920,16 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     glErr("TextureChunk::activate precheck");
     
-    if ( img->getDepth() > 1 )
+    if(img->getDepth() > 1)
     {
-            if(action->getWindow()->hasExtension(_extTex3D))
-                  target = GL_TEXTURE_3D;
-            else
-            {
-                FWARNING(("TextureChunk::activate: 3D textures not "
-                            "supported for this window!\n"));
-                return;
-            }
+        if(action->getWindow()->hasExtension(_extTex3D))
+              target = GL_TEXTURE_3D;
+        else
+        {
+            FWARNING(("TextureChunk::activate: 3D textures not "
+                        "supported for this window!\n"));
+            return;
+        }
     }
     else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
     else                                    target = GL_TEXTURE_1D;
@@ -878,8 +960,8 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand0RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB()); 
 
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
         glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
@@ -890,7 +972,15 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
     }
-    // register combiners etc. goes here
+
+    handleTextureShader(action->getWindow(), target);
+
+    if(getShaderOperation() != GL_NONE &&
+       action->getWindow()->hasExtension(_nvTextureShader) &&
+       idx == 0)
+    {       
+        glEnable(GL_TEXTURE_SHADER_NV);
+    }
 
     glEnable(target);
 
@@ -1012,8 +1102,8 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand0RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB()); 
 
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
         glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
@@ -1028,6 +1118,24 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     if(target != oldtarget)
     {
         glEnable(target);
+    }
+
+    if(action->getWindow()->hasExtension(_nvTextureShader))
+    {
+        if(      getShaderOperation() != GL_NONE &&
+           oldp->getShaderOperation() == GL_NONE    )
+        {
+            handleTextureShader(action->getWindow(), target);
+            if(idx == 0)
+                glEnable(GL_TEXTURE_SHADER_NV);
+        }
+        else if(      getShaderOperation() == GL_NONE &&
+                oldp->getShaderOperation() != GL_NONE    )
+        {
+            glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_NONE);
+            if(idx == 0)
+                glDisable(GL_TEXTURE_SHADER_NV);
+        }
     }
 
     glErr("TextureChunk::changeFrom");
@@ -1045,7 +1153,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 
     activateTexture(action->getWindow(), idx);
 
-    if ( img->getDepth() > 1 )
+    if(img->getDepth() > 1)
     {
         if(action->getWindow()->hasExtension(_extTex3D))
               target = GL_TEXTURE_3D;
@@ -1063,6 +1171,15 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     else
     {                                    
         target = GL_TEXTURE_1D;
+    }
+
+    if(getShaderOperation() != GL_NONE &&
+       action->getWindow()->hasExtension(_nvTextureShader))
+    {
+        glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_NONE);
+        
+        if(idx == 0)
+            glDisable(GL_TEXTURE_SHADER_NV);
     }
     
     glDisable(target);
@@ -1110,6 +1227,7 @@ bool TextureChunk::operator == (const StateChunk &other) const
         getWrapS    () == tother->getWrapS    () &&
         getWrapT    () == tother->getWrapT    () &&
         getWrapR    () == tother->getWrapR    () &&
+        getPriority () == tother->getPriority () &&
         getEnvMode  () == tother->getEnvMode  ();
 
     if(returnValue == true && getEnvMode() == GL_COMBINE_EXT)
@@ -1122,8 +1240,8 @@ bool TextureChunk::operator == (const StateChunk &other) const
             getEnvSource2RGB ()   == tother->getEnvSource2RGB   () && 
 
             getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
-            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
-            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
+            getEnvOperand1RGB()   == tother->getEnvOperand1RGB  () && 
+            getEnvOperand2RGB()   == tother->getEnvOperand2RGB  () && 
 
             getEnvCombineAlpha () == tother->getEnvCombineAlpha () &&
 

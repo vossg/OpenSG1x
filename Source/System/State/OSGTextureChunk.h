@@ -171,12 +171,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
                        GLenum imgtarget, 
                        Window::GLObjectStatusE mode, ImagePtr img);
 
+    void handleTextureShader(Window *win, GLenum bindtarget);
+
     /*! \}                                                                 */ 
 
     // extension indices for used extensions;
     static UInt32 _extTex3D;
     static UInt32 _arbMultiTex;
     static UInt32 _nvPointSprite;
+    static UInt32 _nvTextureShader;
     
     // extension indices for used fucntions;
     static UInt32 _funcTexImage3D;

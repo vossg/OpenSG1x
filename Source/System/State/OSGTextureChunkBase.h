@@ -95,6 +95,13 @@
 #include <OSGGLenumFields.h> // EnvOperand2Alpha type
 #include <OSGGLenumFields.h> // GLId type
 #include <OSGBoolFields.h> // PointSprite type
+#include <OSGReal32Fields.h> // Priority type
+#include <OSGGLenumFields.h> // ShaderOperation type
+#include <OSGGLenumFields.h> // ShaderInput type
+#include <OSGReal32Fields.h> // ShaderOffsetMatrix type
+#include <OSGReal32Fields.h> // ShaderOffsetScale type
+#include <OSGReal32Fields.h> // ShaderOffsetBias type
+#include <OSGBoolFields.h> // ShaderRGBADotProductIdentity type
 
 #include <OSGTextureChunkFields.h>
 
@@ -116,37 +123,44 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     enum
     {
-        ImageFieldId            = Inherited::NextFieldId,
-        InternalFormatFieldId   = ImageFieldId            + 1,
-        ExternalFormatFieldId   = InternalFormatFieldId   + 1,
-        ScaleFieldId            = ExternalFormatFieldId   + 1,
-        FrameFieldId            = ScaleFieldId            + 1,
-        MinFilterFieldId        = FrameFieldId            + 1,
-        MagFilterFieldId        = MinFilterFieldId        + 1,
-        WrapSFieldId            = MagFilterFieldId        + 1,
-        WrapTFieldId            = WrapSFieldId            + 1,
-        WrapRFieldId            = WrapTFieldId            + 1,
-        EnvModeFieldId          = WrapRFieldId            + 1,
-        EnvColorFieldId         = EnvModeFieldId          + 1,
-        EnvCombineRGBFieldId    = EnvColorFieldId         + 1,
-        EnvCombineAlphaFieldId  = EnvCombineRGBFieldId    + 1,
-        EnvScaleRGBFieldId      = EnvCombineAlphaFieldId  + 1,
-        EnvScaleAlphaFieldId    = EnvScaleRGBFieldId      + 1,
-        EnvSource0RGBFieldId    = EnvScaleAlphaFieldId    + 1,
-        EnvSource1RGBFieldId    = EnvSource0RGBFieldId    + 1,
-        EnvSource2RGBFieldId    = EnvSource1RGBFieldId    + 1,
-        EnvSource0AlphaFieldId  = EnvSource2RGBFieldId    + 1,
-        EnvSource1AlphaFieldId  = EnvSource0AlphaFieldId  + 1,
-        EnvSource2AlphaFieldId  = EnvSource1AlphaFieldId  + 1,
-        EnvOperand0RGBFieldId   = EnvSource2AlphaFieldId  + 1,
-        EnvOperand1RGBFieldId   = EnvOperand0RGBFieldId   + 1,
-        EnvOperand2RGBFieldId   = EnvOperand1RGBFieldId   + 1,
-        EnvOperand0AlphaFieldId = EnvOperand2RGBFieldId   + 1,
-        EnvOperand1AlphaFieldId = EnvOperand0AlphaFieldId + 1,
-        EnvOperand2AlphaFieldId = EnvOperand1AlphaFieldId + 1,
-        GLIdFieldId             = EnvOperand2AlphaFieldId + 1,
-        PointSpriteFieldId      = GLIdFieldId             + 1,
-        NextFieldId             = PointSpriteFieldId      + 1
+        ImageFieldId                        = Inherited::NextFieldId,
+        InternalFormatFieldId               = ImageFieldId                        + 1,
+        ExternalFormatFieldId               = InternalFormatFieldId               + 1,
+        ScaleFieldId                        = ExternalFormatFieldId               + 1,
+        FrameFieldId                        = ScaleFieldId                        + 1,
+        MinFilterFieldId                    = FrameFieldId                        + 1,
+        MagFilterFieldId                    = MinFilterFieldId                    + 1,
+        WrapSFieldId                        = MagFilterFieldId                    + 1,
+        WrapTFieldId                        = WrapSFieldId                        + 1,
+        WrapRFieldId                        = WrapTFieldId                        + 1,
+        EnvModeFieldId                      = WrapRFieldId                        + 1,
+        EnvColorFieldId                     = EnvModeFieldId                      + 1,
+        EnvCombineRGBFieldId                = EnvColorFieldId                     + 1,
+        EnvCombineAlphaFieldId              = EnvCombineRGBFieldId                + 1,
+        EnvScaleRGBFieldId                  = EnvCombineAlphaFieldId              + 1,
+        EnvScaleAlphaFieldId                = EnvScaleRGBFieldId                  + 1,
+        EnvSource0RGBFieldId                = EnvScaleAlphaFieldId                + 1,
+        EnvSource1RGBFieldId                = EnvSource0RGBFieldId                + 1,
+        EnvSource2RGBFieldId                = EnvSource1RGBFieldId                + 1,
+        EnvSource0AlphaFieldId              = EnvSource2RGBFieldId                + 1,
+        EnvSource1AlphaFieldId              = EnvSource0AlphaFieldId              + 1,
+        EnvSource2AlphaFieldId              = EnvSource1AlphaFieldId              + 1,
+        EnvOperand0RGBFieldId               = EnvSource2AlphaFieldId              + 1,
+        EnvOperand1RGBFieldId               = EnvOperand0RGBFieldId               + 1,
+        EnvOperand2RGBFieldId               = EnvOperand1RGBFieldId               + 1,
+        EnvOperand0AlphaFieldId             = EnvOperand2RGBFieldId               + 1,
+        EnvOperand1AlphaFieldId             = EnvOperand0AlphaFieldId             + 1,
+        EnvOperand2AlphaFieldId             = EnvOperand1AlphaFieldId             + 1,
+        GLIdFieldId                         = EnvOperand2AlphaFieldId             + 1,
+        PointSpriteFieldId                  = GLIdFieldId                         + 1,
+        PriorityFieldId                     = PointSpriteFieldId                  + 1,
+        ShaderOperationFieldId              = PriorityFieldId                     + 1,
+        ShaderInputFieldId                  = ShaderOperationFieldId              + 1,
+        ShaderOffsetMatrixFieldId           = ShaderInputFieldId                  + 1,
+        ShaderOffsetScaleFieldId            = ShaderOffsetMatrixFieldId           + 1,
+        ShaderOffsetBiasFieldId             = ShaderOffsetScaleFieldId            + 1,
+        ShaderRGBADotProductIdentityFieldId = ShaderOffsetBiasFieldId             + 1,
+        NextFieldId                         = ShaderRGBADotProductIdentityFieldId + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
@@ -179,6 +193,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector EnvOperand2AlphaFieldMask;
     static const OSG::BitVector GLIdFieldMask;
     static const OSG::BitVector PointSpriteFieldMask;
+    static const OSG::BitVector PriorityFieldMask;
+    static const OSG::BitVector ShaderOperationFieldMask;
+    static const OSG::BitVector ShaderInputFieldMask;
+    static const OSG::BitVector ShaderOffsetMatrixFieldMask;
+    static const OSG::BitVector ShaderOffsetScaleFieldMask;
+    static const OSG::BitVector ShaderOffsetBiasFieldMask;
+    static const OSG::BitVector ShaderRGBADotProductIdentityFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -235,6 +256,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFGLenum            *getSFEnvOperand2Alpha(void);
            SFGLenum            *getSFGLId           (void);
            SFBool              *getSFPointSprite    (void);
+           SFReal32            *getSFPriority       (void);
+           SFGLenum            *getSFShaderOperation(void);
+           SFGLenum            *getSFShaderInput    (void);
+           MFReal32            *getMFShaderOffsetMatrix(void);
+           SFReal32            *getSFShaderOffsetScale(void);
+           SFReal32            *getSFShaderOffsetBias(void);
+           SFBool              *getSFShaderRGBADotProductIdentity(void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -296,6 +324,21 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const GLenum              &getGLId           (void) const;
            bool                &getPointSprite    (void);
      const bool                &getPointSprite    (void) const;
+           Real32              &getPriority       (void);
+     const Real32              &getPriority       (void) const;
+           GLenum              &getShaderOperation(void);
+     const GLenum              &getShaderOperation(void) const;
+           GLenum              &getShaderInput    (void);
+     const GLenum              &getShaderInput    (void) const;
+           Real32              &getShaderOffsetScale(void);
+     const Real32              &getShaderOffsetScale(void) const;
+           Real32              &getShaderOffsetBias(void);
+     const Real32              &getShaderOffsetBias(void) const;
+           bool                &getShaderRGBADotProductIdentity(void);
+     const bool                &getShaderRGBADotProductIdentity(void) const;
+           Real32              &getShaderOffsetMatrix(const UInt32 index);
+           MFReal32            &getShaderOffsetMatrix(void);
+     const MFReal32            &getShaderOffsetMatrix(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -332,6 +375,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setEnvOperand2Alpha( const GLenum &value );
      void setGLId           ( const GLenum &value );
      void setPointSprite    ( const bool &value );
+     void setPriority       ( const Real32 &value );
+     void setShaderOperation( const GLenum &value );
+     void setShaderInput    ( const GLenum &value );
+     void setShaderOffsetScale( const Real32 &value );
+     void setShaderOffsetBias( const Real32 &value );
+     void setShaderRGBADotProductIdentity( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -407,6 +456,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFGLenum            _sfEnvOperand2Alpha;
     SFGLenum            _sfGLId;
     SFBool              _sfPointSprite;
+    SFReal32            _sfPriority;
+    SFGLenum            _sfShaderOperation;
+    SFGLenum            _sfShaderInput;
+    MFReal32            _mfShaderOffsetMatrix;
+    SFReal32            _sfShaderOffsetScale;
+    SFReal32            _sfShaderOffsetBias;
+    SFBool              _sfShaderRGBADotProductIdentity;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

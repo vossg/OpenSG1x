@@ -339,4 +339,82 @@
 	>
         Flag to use this texture for Point Sprites.
 	</Field>
+	<Field
+		name="priority"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="0.f"
+		defaultHeader=""
+	>
+        Priority of this texture, between 0 and 1, the default is 0.
+	</Field>
+	<Field
+		name="shaderOperation"
+		type="GLenum"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="GL_NONE"
+		defaultHeader="<OSGGL.h>"
+	>
+        Shader operation of this texture unit, default GL_NONE. If unit 0 uses
+        GL_NONE, shading is switched off.
+	</Field>
+	<Field
+		name="shaderInput"
+		type="GLenum"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="GL_NONE"
+		defaultHeader="<OSGGL.h>"
+	>
+        Input texture unit for this shader's operation.
+	</Field>
+	<Field
+		name="shaderOffsetMatrix"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+		defaultValue=""
+		defaultHeader=""
+	>
+        The 2x2 transformation matrix for offset textures.
+	</Field>
+	<Field
+		name="shaderOffsetScale"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue=""
+		defaultHeader=""
+	>
+        The scaling factor for scaled offset textures.
+	</Field>
+	<Field
+		name="shaderOffsetBias"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue=""
+		defaultHeader=""
+	>
+        The bias factor for scaled offset textures.
+	</Field>
+	<Field
+		name="shaderRGBADotProductIdentity"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="true"
+		defaultHeader=""
+	>
+        The RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV value.
+	</Field>
 </FieldContainer>

@@ -84,102 +84,125 @@
 #include <OSGGL.h>                        // EnvOperand1Alpha default header
 #include <OSGGL.h>                        // EnvOperand2Alpha default header
 #include <OSGGL.h>                        // PointSprite default header
+#include <OSGGL.h>                        // ShaderOperation default header
+#include <OSGGL.h>                        // ShaderInput default header
 
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  TextureChunkBase::ImageFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::ImageFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::ImageFieldId);
 
 const OSG::BitVector  TextureChunkBase::InternalFormatFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::InternalFormatFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::InternalFormatFieldId);
 
 const OSG::BitVector  TextureChunkBase::ExternalFormatFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::ExternalFormatFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::ExternalFormatFieldId);
 
 const OSG::BitVector  TextureChunkBase::ScaleFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::ScaleFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::ScaleFieldId);
 
 const OSG::BitVector  TextureChunkBase::FrameFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::FrameFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::FrameFieldId);
 
 const OSG::BitVector  TextureChunkBase::MinFilterFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::MinFilterFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::MinFilterFieldId);
 
 const OSG::BitVector  TextureChunkBase::MagFilterFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::MagFilterFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::MagFilterFieldId);
 
 const OSG::BitVector  TextureChunkBase::WrapSFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::WrapSFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::WrapSFieldId);
 
 const OSG::BitVector  TextureChunkBase::WrapTFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::WrapTFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::WrapTFieldId);
 
 const OSG::BitVector  TextureChunkBase::WrapRFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::WrapRFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::WrapRFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvModeFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvModeFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvModeFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvColorFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvColorFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvColorFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvCombineRGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvCombineRGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvCombineRGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvCombineAlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvCombineAlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvCombineAlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvScaleRGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvScaleRGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvScaleRGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvScaleAlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvScaleAlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvScaleAlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource0RGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource0RGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvSource0RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource1RGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource1RGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvSource1RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource2RGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource2RGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvSource2RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource0AlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource0AlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvSource0AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource1AlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource1AlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvSource1AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource2AlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource2AlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvSource2AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand0RGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand0RGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvOperand0RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand1RGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand1RGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvOperand1RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand2RGBFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand2RGBFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvOperand2RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand0AlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand0AlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvOperand0AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand1AlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand1AlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvOperand1AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand2AlphaFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand2AlphaFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::EnvOperand2AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::GLIdFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::GLIdFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::GLIdFieldId);
 
 const OSG::BitVector  TextureChunkBase::PointSpriteFieldMask = 
-    (static_cast<OSG::BitVector>(1) << TextureChunkBase::PointSpriteFieldId);
+    (TypeTraits<BitVector>::One << TextureChunkBase::PointSpriteFieldId);
+
+const OSG::BitVector  TextureChunkBase::PriorityFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::PriorityFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderOperationFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderOperationFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderInputFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderInputFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderOffsetMatrixFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderOffsetMatrixFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderOffsetScaleFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderOffsetScaleFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderOffsetBiasFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderOffsetBiasFieldId);
+
+const OSG::BitVector  TextureChunkBase::ShaderRGBADotProductIdentityFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::ShaderRGBADotProductIdentityFieldId);
 
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -272,7 +295,28 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
     The OpenGL texture id for this texture.
 */
 /*! \var bool            TextureChunkBase::_sfPointSprite
-    The OpenGL texture id for this texture.
+    Flag to use this texture for Point Sprites.
+*/
+/*! \var Real32          TextureChunkBase::_sfPriority
+    Priority of this texture, between 0 and 1, the default is 0.
+*/
+/*! \var GLenum          TextureChunkBase::_sfShaderOperation
+    Shader operation of this texture unit, default GL_NONE. If unit 0 uses         GL_NONE, shading is switched off.
+*/
+/*! \var GLenum          TextureChunkBase::_sfShaderInput
+    Input texture unit for this shader's operation.
+*/
+/*! \var Real32          TextureChunkBase::_mfShaderOffsetMatrix
+    The 2x2 transformation matrix for offset textures.
+*/
+/*! \var Real32          TextureChunkBase::_sfShaderOffsetScale
+    The scaling factor for scaled offset textures.
+*/
+/*! \var Real32          TextureChunkBase::_sfShaderOffsetBias
+    The bias factor for scaled offset textures.
+*/
+/*! \var bool            TextureChunkBase::_sfShaderRGBADotProductIdentity
+    The RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV value.
 */
 
 //! TextureChunk description
@@ -427,8 +471,43 @@ FieldDescription *TextureChunkBase::_desc[] =
     new FieldDescription(SFBool::getClassType(), 
                      "pointSprite", 
                      PointSpriteFieldId, PointSpriteFieldMask,
-                     true,
-                     (FieldAccessMethod) &TextureChunkBase::getSFPointSprite)
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFPointSprite),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "priority", 
+                     PriorityFieldId, PriorityFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFPriority),
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "shaderOperation", 
+                     ShaderOperationFieldId, ShaderOperationFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderOperation),
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "shaderInput", 
+                     ShaderInputFieldId, ShaderInputFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderInput),
+    new FieldDescription(MFReal32::getClassType(), 
+                     "shaderOffsetMatrix", 
+                     ShaderOffsetMatrixFieldId, ShaderOffsetMatrixFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getMFShaderOffsetMatrix),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "shaderOffsetScale", 
+                     ShaderOffsetScaleFieldId, ShaderOffsetScaleFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderOffsetScale),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "shaderOffsetBias", 
+                     ShaderOffsetBiasFieldId, ShaderOffsetBiasFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderOffsetBias),
+    new FieldDescription(SFBool::getClassType(), 
+                     "shaderRGBADotProductIdentity", 
+                     ShaderRGBADotProductIdentityFieldId, ShaderRGBADotProductIdentityFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFShaderRGBADotProductIdentity)
 };
 
 
@@ -514,6 +593,13 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfEnvOperand2Alpha       (GLenum(GL_SRC_ALPHA)), 
     _sfGLId                   (GLenum(0)), 
     _sfPointSprite            (bool(GL_FALSE)), 
+    _sfPriority               (Real32(0.f)), 
+    _sfShaderOperation        (GLenum(GL_NONE)), 
+    _sfShaderInput            (GLenum(GL_NONE)), 
+    _mfShaderOffsetMatrix     (), 
+    _sfShaderOffsetScale      (), 
+    _sfShaderOffsetBias       (), 
+    _sfShaderRGBADotProductIdentity(bool(true)), 
     Inherited() 
 {
 }
@@ -553,6 +639,13 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfEnvOperand2Alpha       (source._sfEnvOperand2Alpha       ), 
     _sfGLId                   (source._sfGLId                   ), 
     _sfPointSprite            (source._sfPointSprite            ), 
+    _sfPriority               (source._sfPriority               ), 
+    _sfShaderOperation        (source._sfShaderOperation        ), 
+    _sfShaderInput            (source._sfShaderInput            ), 
+    _mfShaderOffsetMatrix     (source._mfShaderOffsetMatrix     ), 
+    _sfShaderOffsetScale      (source._sfShaderOffsetScale      ), 
+    _sfShaderOffsetBias       (source._sfShaderOffsetBias       ), 
+    _sfShaderRGBADotProductIdentity(source._sfShaderRGBADotProductIdentity), 
     Inherited                 (source)
 {
 }
@@ -719,6 +812,41 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfPointSprite.getBinSize();
     }
 
+    if(FieldBits::NoField != (PriorityFieldMask & whichField))
+    {
+        returnValue += _sfPriority.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderOperationFieldMask & whichField))
+    {
+        returnValue += _sfShaderOperation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderInputFieldMask & whichField))
+    {
+        returnValue += _sfShaderInput.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))
+    {
+        returnValue += _mfShaderOffsetMatrix.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetScaleFieldMask & whichField))
+    {
+        returnValue += _sfShaderOffsetScale.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetBiasFieldMask & whichField))
+    {
+        returnValue += _sfShaderOffsetBias.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+    {
+        returnValue += _sfShaderRGBADotProductIdentity.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -876,6 +1004,41 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
     {
         _sfPointSprite.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PriorityFieldMask & whichField))
+    {
+        _sfPriority.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOperationFieldMask & whichField))
+    {
+        _sfShaderOperation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderInputFieldMask & whichField))
+    {
+        _sfShaderInput.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))
+    {
+        _mfShaderOffsetMatrix.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetScaleFieldMask & whichField))
+    {
+        _sfShaderOffsetScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetBiasFieldMask & whichField))
+    {
+        _sfShaderOffsetBias.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+    {
+        _sfShaderRGBADotProductIdentity.copyToBin(pMem);
     }
 
 
@@ -1036,6 +1199,41 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfPointSprite.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (PriorityFieldMask & whichField))
+    {
+        _sfPriority.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOperationFieldMask & whichField))
+    {
+        _sfShaderOperation.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderInputFieldMask & whichField))
+    {
+        _sfShaderInput.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))
+    {
+        _mfShaderOffsetMatrix.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetScaleFieldMask & whichField))
+    {
+        _sfShaderOffsetScale.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderOffsetBiasFieldMask & whichField))
+    {
+        _sfShaderOffsetBias.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+    {
+        _sfShaderRGBADotProductIdentity.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1134,6 +1332,27 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
         _sfPointSprite.syncWith(pOther->_sfPointSprite);
+
+    if(FieldBits::NoField != (PriorityFieldMask & whichField))
+        _sfPriority.syncWith(pOther->_sfPriority);
+
+    if(FieldBits::NoField != (ShaderOperationFieldMask & whichField))
+        _sfShaderOperation.syncWith(pOther->_sfShaderOperation);
+
+    if(FieldBits::NoField != (ShaderInputFieldMask & whichField))
+        _sfShaderInput.syncWith(pOther->_sfShaderInput);
+
+    if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))
+        _mfShaderOffsetMatrix.syncWith(pOther->_mfShaderOffsetMatrix);
+
+    if(FieldBits::NoField != (ShaderOffsetScaleFieldMask & whichField))
+        _sfShaderOffsetScale.syncWith(pOther->_sfShaderOffsetScale);
+
+    if(FieldBits::NoField != (ShaderOffsetBiasFieldMask & whichField))
+        _sfShaderOffsetBias.syncWith(pOther->_sfShaderOffsetBias);
+
+    if(FieldBits::NoField != (ShaderRGBADotProductIdentityFieldMask & whichField))
+        _sfShaderRGBADotProductIdentity.syncWith(pOther->_sfShaderRGBADotProductIdentity);
 
 
 }
