@@ -65,17 +65,17 @@
     010300
  */
 
-#define OSG_VERSION             010300
+#define OSG_VERSION             010400
 
 /*! The numeric major version number, e.g. 1
  */
 
 #define OSG_MAJOR_VERSION       1
 
-/*! The numeric minor version number, e.g. 3
+/*! The numeric minor version number, e.g. 4
  */
 
-#define OSG_MINOR_VERSION       3
+#define OSG_MINOR_VERSION       4
 
 /*! The numeric release version number, e.g. 0
  */
