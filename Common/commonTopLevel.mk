@@ -121,10 +121,10 @@ INSTALL_WRITABLE := $(shell if test ! -w $(INSTALL_DIR) ; then echo "not"; fi  )
 
 install-test:
 ifeq ($(INSTALL_EXISTS),not)
-        $(error Install dir $(INSTALL_DIR) doesn't exist! I can't install there)
+	$(error Install dir $(INSTALL_DIR) doesn't exist! I can't install there)
 endif
 ifeq ($(INSTALL_WRITABLE),not)
-        $(error Install dir $(INSTALL_DIR) exists but is not writable! I can't install there)
+	$(error Install dir $(INSTALL_DIR) exists but is not writable! I can't install there)
 endif
 
 install-includes: install-test
