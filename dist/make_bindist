@@ -434,6 +434,18 @@ case $system in
 
         cd Tools/fcdEdit
 
+        echo "Building fcdCompile"
+
+        if $build_make LIBTYPE=opt NOGUI=true QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
+        then
+            echo "fcdCompile Build succeeded"
+        else
+            echo "ERROR: fcdCompile Build failed"
+            exit
+        fi
+
+        build_make clean
+
         echo "Building fcdEdit"
 
         if $build_make LIBTYPE=opt QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
@@ -447,6 +459,7 @@ case $system in
         cd ../..
 
         # copy the fcdEdit
+        cp Tools/fcdEdit/fcdCompile.exe .
         cp Tools/fcdEdit/fcdEdit.exe .
 
         rm -rf Tools
