@@ -512,7 +512,7 @@ void FieldContainerPtrBase::dump(      UInt32    uiIndent,
         PLOG << "Id       : " << (*(getIdP()))   << endl;
 
         indentLog(uiIndent, PLOG);
-        PLOG << "Storage  : " << hex << UInt32(getFirstElemP()) << endl;
+        PLOG << "Storage  : " << hex << (UInt32 *)getFirstElemP() << endl;
 
         if(bvFlags & FCDumpFlags::RefCount)
         {
