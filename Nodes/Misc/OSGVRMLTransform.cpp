@@ -138,6 +138,7 @@ void VRMLTransform::initMethod (void)
 VRMLTransform::VRMLTransform(void) :
     Inherited()
 {
+    _scale.getValue().setValues(1.f, 1.f, 1.f);         
 }
 
 /** \brief Copy Constructor
@@ -167,6 +168,8 @@ void VRMLTransform::changed(BitVector, ChangeMode)
                              getScale           (),
                              getScaleOrientation(),
                              getCenter          ());
+
+    cerr << getMatrix() << endl;
 }
 
 /*------------------------------- dump ----------------------------------*/

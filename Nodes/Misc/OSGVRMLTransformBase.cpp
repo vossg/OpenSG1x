@@ -119,7 +119,7 @@ const OSG::UInt32    	VRMLTransformBase::NextFieldId;
 const OSG::BitVector 	VRMLTransformBase::NextFieldMask;
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.3 2001/05/26 15:59:07 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -222,7 +222,7 @@ UInt32 VRMLTransformBase::getSize(void) const
  */
 
 VRMLTransformBase::VRMLTransformBase(void) :
-	_center	(), 
+	_center	 (), 
 	_rotation	(), 
 	_scale	(), 
 	_scaleOrientation	(), 
