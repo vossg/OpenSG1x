@@ -108,7 +108,7 @@ void GraphicStatisticsForeground::initMethod (void)
 
 //! react to field changes
 
-void GraphicStatisticsForeground::changed(BitVector whichField, UInt32 from)
+void GraphicStatisticsForeground::changed(BitVector whichField, UInt32)
 {
   UInt32 i, n = getHistorySize().size();
 
@@ -996,7 +996,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
             lasty = currHeight;
       
 
-            Real32 angle = 0.0;
+//            Real32 angle = 0.0;
             /* draw Point if wanted */
       
             if (flags & STATISTICS_ENABLE_POINTS)
@@ -1407,7 +1407,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.8 2002/07/30 16:30:32 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.9 2002/07/31 07:15:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
