@@ -51,6 +51,7 @@
 #include <OSGRenderAction.h>
 #include <OSGMaterial.h>
 #include <OSGGeoPropPtrs.h>
+#include <OSGCamera.h>
 
 #include "OSGParticles.h"
 
@@ -62,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.2 2002/01/04 18:29:39 jbehr Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.3 2002/01/09 10:41:59 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -164,6 +165,7 @@ void Particles::adjustVolume( Volume & volume )
         for(UInt32 i = 0; i < pos->getSize(); i++)
         {
             pos->getValue(p, i);
+            // make the size bigger to accomodate rotations
             s=sizes->getValue(i)[0]*Sqrt2;
 
             p[0]+=s/2;
@@ -191,6 +193,7 @@ void Particles::adjustVolume( Volume & volume )
     {
         Vec3f p;
         Real32 s,s2;
+        // make the size bigger to accomodate rotations
         s=sizes->getValue(0)[0]*Sqrt2;
         s2=s/2;
 
@@ -233,6 +236,402 @@ void Particles::adjustVolume( Volume & volume )
 }
 
 
+// pump functions
+
+static void drawLinesSingleSize(Particles *part, DrawActionBase *)
+{
+    // some variables for faster access
+    GeoPositionsPtr  pos  = part->getPositions();
+    GeoPositionsPtr  secpos  = part->getSecPositions();
+    GeoColorsPtr     col  = part->getColors();
+    MFVec3f         *size = part->getMFSizes();
+
+    // draw the particles
+    Pnt3f   p;
+    Real32  s;
+    Color3f c;   // !!! TODO Colors with alpha are not handled yet
+
+    if(size->getSize() == 0)
+    {
+        s = 1;
+    }
+    else if(size->getSize() == 1)
+    {
+        s = size->getValue(0)[0];
+    }
+    else
+        s = 1;
+
+    GLfloat lw;
+    glGetFloatv(GL_LINE_WIDTH, &lw);
+    glLineWidth(s);
+    
+    if(col != NullFC && col->getSize() == 1)
+    {
+        glColor3fv( (GLfloat*) col->getValue(0).getValuesRGB() );
+    }
+
+    glBegin(GL_LINES);
+    
+    for(UInt32 i = 0; i < pos->getSize(); i++)
+    {
+        if(col != NullFC && col->getSize() == pos->getSize())
+        {
+            col->getValue(c, i);
+            glColor3fv((GLfloat*) c.getValuesRGB());
+        }
+
+        pos->getValue(p, i);
+        glVertex3fv((GLfloat*)p.getValues());
+        secpos->getValue(p, i);
+        glVertex3fv((GLfloat*)p.getValues());
+    }
+      
+    glEnd();
+    
+    if(osgabs(s-lw)>Eps)
+        glLineWidth(lw);
+}
+
+static void drawViewDirQuads(Particles *part, DrawActionBase *action)
+{
+
+    // some variables for faster access
+    GeoPositionsPtr  pos  = part->getPositions();
+    GeoColorsPtr     col  = part->getColors();
+    MFVec3f         *size = part->getMFSizes();
+
+    // get ModelView matrix to define the direction vectors
+    Matrix modelview,toWorld;
+    action->getCamera()->getBeacon()->getToWorld(modelview);
+    // transforms can't work yet, getActNode returns garbage for RenderAction
+    //action->getActNode()->getToWorld(toWorld);
+    modelview.invert();
+    //toWorld.invert();
+    //modelview.mult(toWorld);
+    modelview.transpose();
+
+    // Direction vectors
+    Vec4f  d1, d2, d3, d4;
+
+    d1 = -1.0f * modelview[0] + -1.0f * modelview[1];
+    d2 =  1.0f * modelview[0] + -1.0f * modelview[1];
+    d3 =  1.0f * modelview[0] +  1.0f * modelview[1];
+    d4 = -1.0f * modelview[0] +  1.0f * modelview[1];
+
+    // draw the particles
+    Pnt3f   p;
+    Real32  s;
+    Color3f c;   // !!! TODO Colors with alpha are not handled yet
+
+    if(size->getSize() == 0)
+    {
+        s = 0.5f;
+    }
+    else if(size->getSize() == 1)
+    {
+        s = size->getValue(0)[0]/2.f;
+    }
+
+    if(col != NullFC && col->getSize() == 1)
+    {
+        glColor3fv( (GLfloat*) col->getValue(0).getValuesRGB() );
+    }
+
+    glBegin(GL_QUADS);
+
+    for(UInt32 i = 0; i < pos->getSize(); i++)
+    {
+        if(col != NullFC && col->getSize() == pos->getSize())
+        {
+            col->getValue(c, i);
+            glColor3fv((GLfloat*) c.getValuesRGB());
+        }
+
+        if(size->getSize() == pos->getSize())
+            s = size->getValue(i)[0]/2.f;
+
+        pos->getValue(p, i);
+
+        glTexCoord2f(0,0);
+        glVertex3f( p[0] + d1[0]*s, p[1] + d1[1]*s, p[2] + d1[2]*s);
+
+        glTexCoord2f(1,0);
+        glVertex3f( p[0] + d2[0]*s, p[1] + d2[1]*s, p[2] + d2[2]*s);
+
+        glTexCoord2f(1,1);
+        glVertex3f( p[0] + d3[0]*s, p[1] + d3[1]*s, p[2] + d3[2]*s);
+
+        glTexCoord2f(0,1);
+        glVertex3f( p[0] + d4[0]*s, p[1] + d4[1]*s, p[2] + d4[2]*s);
+    }
+
+    glEnd();
+}
+
+static void drawViewDirQuadsIndexed(Particles *part, DrawActionBase *action,
+    Int32 *index)
+{
+
+    // some variables for faster access
+    GeoPositionsPtr  pos  = part->getPositions();
+    GeoColorsPtr     col  = part->getColors();
+    MFVec3f         *size = part->getMFSizes();
+
+    // get ModelView matrix to define the direction vectors
+    Matrix modelview;
+    action->getCamera()->getBeacon()->getToWorld(modelview);
+    modelview.invert();
+    modelview.mult(action->getActNode()->getToWorld());
+    modelview.transpose();
+
+    // Direction vectors
+    Vec4f  d1, d2, d3, d4;
+
+    d1 = -1.0f * modelview[0] + -1.0f * modelview[1];
+    d2 =  1.0f * modelview[0] + -1.0f * modelview[1];
+    d3 =  1.0f * modelview[0] +  1.0f * modelview[1];
+    d4 = -1.0f * modelview[0] +  1.0f * modelview[1];
+
+    // draw the particles
+    Pnt3f   p;
+    Real32  s;
+    Color3f c;   // !!! TODO Colors with alpha are not handled yet
+
+    if(size->getSize() == 0)
+    {
+        s = 0.5f;
+    }
+    else if(size->getSize() == 1)
+    {
+        s = size->getValue(0)[0]/2.f;
+    }
+
+    if(col != NullFC && col->getSize() == 1)
+    {
+        glColor3fv( (GLfloat*) col->getValue(0).getValuesRGB() );
+    }
+
+    glBegin(GL_QUADS);
+
+    Int32 i;
+    for(UInt32 ii = 0; ii < pos->getSize(); ++ii)
+    {
+        i = index[ii];
+        
+        if(i < 0 || i > pos->getSize())
+            continue;
+            
+        if(col != NullFC && col->getSize() == pos->getSize())
+        {
+            col->getValue(c, i);
+            glColor3fv((GLfloat*) c.getValuesRGB());
+        }
+
+        if(size->getSize() == pos->getSize())
+            s = size->getValue(i)[0]/2.f;
+
+        pos->getValue(p, i);
+
+        glTexCoord2f(0,0);
+        glVertex3f( p[0] + d1[0]*s, p[1] + d1[1]*s, p[2] + d1[2]*s);
+
+        glTexCoord2f(1,0);
+        glVertex3f( p[0] + d2[0]*s, p[1] + d2[1]*s, p[2] + d2[2]*s);
+
+        glTexCoord2f(1,1);
+        glVertex3f( p[0] + d3[0]*s, p[1] + d3[1]*s, p[2] + d3[2]*s);
+
+        glTexCoord2f(0,1);
+        glVertex3f( p[0] + d4[0]*s, p[1] + d4[1]*s, p[2] + d4[2]*s);
+    }
+
+    glEnd();
+}
+
+static void drawArrows(Particles *part, DrawActionBase *)
+{
+    // some variables for faster access
+    GeoPositionsPtr  pos     = part->getPositions();
+    GeoPositionsPtr  secpos  = part->getSecPositions();
+    GeoColorsPtr     col     = part->getColors();
+    GeoNormalsPtr    norm    = part->getNormals();
+    MFVec3f         *size    = part->getMFSizes();
+
+    // draw the particles
+    Pnt3f   p,sp;
+    Color3f c;   // !!! TODO Colors with alpha are not handled yet
+    Vec3f   s;
+    Vec3f   n;
+    
+    if(size->getSize() == 0)
+    {
+        s.setValues(1,1,1);
+    }
+    else if(size->getSize() == 1)
+    {
+        s=size->getValue(0);
+    }
+    
+    if(norm->getSize() == 0)
+    {
+        n.setValues(0,1,0);
+    }
+    else if(norm->getSize() == 1)
+    {
+        norm->getValue(n,0);
+        n.normalize();
+    }
+
+    if(col != NullFC && col->getSize() == 1)
+    {
+        glColor3fv( (GLfloat*) col->getValue(0).getValuesRGB() );
+    }
+
+    for(UInt32 i = 0; i < pos->getSize(); i++)
+    {
+        if(col != NullFC && col->getSize() == pos->getSize())
+        {
+            col->getValue(c, i);
+            glColor3fv((GLfloat*) c.getValuesRGB());
+        }
+
+        if(norm != NullFC && norm->getSize() == pos->getSize())
+        {
+            norm->getValue(n,i);
+            n.normalize();
+        }
+
+        if(size->getSize() == pos->getSize())
+            s=size->getValue(i);
+
+        pos->getValue(p, i);
+        secpos->getValue(sp, i);
+
+        Vec3f dz(sp - p);
+        dz.normalize();
+        
+        Vec3f dx(n.cross(dz));
+        if(dx.isZero())
+        {
+            dx=Vec3f(1,0,0).cross(dz);
+            if(dx.isZero())
+            {
+                dx=Vec3f(0,1,0).cross(dz);
+                if(dx.isZero())
+                {
+                    dx=Vec3f(0,0,1).cross(dz);
+                }
+                else
+                {
+                    dx.setValues(0,0,0);
+                }
+            }
+        }
+        dx.normalize();
+        
+        Vec3f dy(dx.cross(dz));
+ 
+        dz*=s[2];
+        dx*=s[0];
+       
+        glNormal3fv((GLfloat*) dy.getValues() );
+        
+        glBegin(GL_TRIANGLE_FAN);
+        
+        glVertex3fv((GLfloat*) p.getValues() );
+        
+        glVertex3f(p[0] + dz[0] * .5f + dx[0]      ,
+                   p[1] + dz[1] * .5f + dx[1]      ,
+                   p[2] + dz[2] * .5f + dx[2]      );
+
+        glVertex3f(p[0] + dz[0] * .5f + dx[0] * .5 ,
+                   p[1] + dz[1] * .5f + dx[1] * .5 ,
+                   p[2] + dz[2] * .5f + dx[2] * .5 );
+
+        glVertex3f(p[0] + dz[0]       + dx[0] * .5 ,
+                   p[1] + dz[1]       + dx[1] * .5 ,
+                   p[2] + dz[2]       + dx[2] * .5 );
+
+        glVertex3f(p[0] + dz[0]       - dx[0] * .5 ,
+                   p[1] + dz[1]       - dx[1] * .5 ,
+                   p[2] + dz[2]       - dx[2] * .5 );
+
+        glVertex3f(p[0] + dz[0] * .5f - dx[0] * .5 ,
+                   p[1] + dz[1] * .5f - dx[1] * .5 ,
+                   p[2] + dz[2] * .5f - dx[2] * .5 );
+
+        glVertex3f(p[0] + dz[0] * .5f - dx[0]      ,
+                   p[1] + dz[1] * .5f - dx[1]      ,
+                   p[2] + dz[2] * .5f - dx[2]      );
+       
+        glEnd();
+        
+    }
+
+}
+
+struct sorter
+{
+    sorter() {}
+
+    sorter(Real32 value, Int32 index)
+    {
+        _value=value;
+        _index=index;
+    }
+
+    bool operator<(const sorter &a) const
+    {
+        if(_value < a._value)
+            return true;
+
+        return false;
+    }
+
+    Real32 _value;
+    Int32  _index;
+};
+
+Int32 *Particles::calcIndex(DrawActionBase *action, NodePtr )
+{ 
+    // some variables for faster access
+    GeoPositionsPtr  pos  = getPositions();
+    
+    vector<sorter> list(pos->getSize());
+
+    // get ModelView matrix to define the direction vectors
+    Matrix modelview;
+    action->getCamera()->getBeacon()->getToWorld(modelview);
+    modelview.invert();
+    //modelview.mult(actnode->getToWorld());
+    //modelview.transpose();
+    
+    Pnt3f p,q;
+
+    for(UInt32 i=0; i<pos->getSize(); i++)
+    {
+        pos->getValue(p,i);
+        
+        modelview.mult(p);
+        
+        list[i]._value=p[2];
+        list[i]._index=i;
+    }
+    
+    sort(list.begin(),list.end());
+    
+    Int32 *index=new Int32[pos->getSize()];
+    
+    for(UInt32 i=0; i<pos->getSize(); i++)
+    {
+        index[i]=list[i]._index;
+    }
+        
+    return index;    
+}
+
+
 /** \brief Actions
  */
 
@@ -260,85 +659,45 @@ Action::ResultE Particles::draw(Action * action )
 
 Action::ResultE Particles::doDraw(DrawActionBase * action)
 {
-    DrawAction * da = dynamic_cast<DrawAction *>(action);
-
     // some variables for faster access
     GeoPositionsPtr  pos  = getPositions();
     GeoColorsPtr     col  = getColors();
+    GeoNormalsPtr    norm = getNormals();
     MFVec3f         *size = getMFSizes();
 
-    if((size->getSize() > 1 && size->getSize() != pos->getSize()) ||
-       (col != NullFC && col->getSize() != 1 &&
-                         col->getSize() != pos->getSize())
-       )
+    if((size->getSize() > 1 && size->getSize() != pos->getSize())  ||
+       (col  != NullFC && col->getSize()  != 1 &&
+                          col->getSize()  != pos->getSize())       ||
+       (norm != NullFC && norm->getSize() != 1 &&
+                          norm->getSize() != pos->getSize())
+      )
     {
-            SWARNING << "Particles::draw: inconsistent attributes!" << endl;
-            return Action::Continue;
+        FWARNING(("Particles::draw: inconsistent attributes (%d %d %d)!",
+                    pos->getSize(), size->getSize(), 
+                    (col != NullFC)? col->getSize() : -1));
+        return Action::Continue;
     }
 
-    // get ModelView matrix to define the direction vectors
-    Matrix modelview;
-    glGetFloatv(GL_MODELVIEW_MATRIX, (GLfloat*)modelview.getValues());
-
-    modelview.transpose();
-
-    // Direction vectors
-    Vec4f  d1, d2, d3, d4;
-
-    d1 = -1.0f * modelview[0] + -1.0f * modelview[1];
-    d2 =  1.0f * modelview[0] + -1.0f * modelview[1];
-    d3 =  1.0f * modelview[0] +  1.0f * modelview[1];
-    d4 = -1.0f * modelview[0] +  1.0f * modelview[1];
-
-    glBegin(GL_QUADS);
-
-    // draw the particles
-    Pnt3f   p;
-    Real32  s;
-    Color3f c;   // !!! TODO Colors with alpha are not handled yet
-
-    if(size->getSize() == 0)
+    switch(_sfMode.getValue())
     {
-        s = 0.5f;
+    case Lines:         drawLinesSingleSize(this, action);
+                        break;
+    case ViewDirQuads:  if(_sfDrawOrder.getValue()!=Particles::Any)
+                        {
+                            Int32 *index=calcIndex(action,NullFC);
+                            drawViewDirQuadsIndexed(this, action, index);
+                            delete [] index;
+                        }
+                        else
+                            drawViewDirQuads(this, action);
+                        break;
+    case Arrows:        drawArrows(this, action);
+                        break;
+    default:            FWARNING(("Particles::doDraw: unknown mode %d!\n",
+                                  _sfMode.getValue()));
+                        break;  
     }
-    else if(size->getSize() == 1)
-    {
-        s = size->getValue(0)[0]/2.f;
-    }
-
-    if(col != NullFC && col->getSize() == 1)
-    {
-        glColor3fv( (GLfloat*) col->getValue(0).getValueRef() );
-    }
-
-    for(UInt32 i = 0; i < pos->getSize(); i++)
-    {
-        if(col != NullFC && col->getSize() == pos->getSize())
-        {
-            col->getValue(c, i);
-            glColor3fv((GLfloat*) c.getValueRef());
-        }
-
-        if(size->getSize() == pos->getSize())
-            s = size->getValue(i)[0]/2.f;
-
-        pos->getValue(p, i);
-
-        glTexCoord2f(0,0);
-        glVertex3f( p[0] + d1[0]*s, p[1] + d1[1]*s, p[2] + d1[2]*s);
-
-        glTexCoord2f(1,0);
-        glVertex3f( p[0] + d2[0]*s, p[1] + d2[1]*s, p[2] + d2[2]*s);
-
-        glTexCoord2f(1,1);
-        glVertex3f( p[0] + d3[0]*s, p[1] + d3[1]*s, p[2] + d3[2]*s);
-
-        glTexCoord2f(0,1);
-        glVertex3f( p[0] + d4[0]*s, p[1] + d4[1]*s, p[2] + d4[2]*s);
-    }
-
-    glEnd();
-
+   
     return Action::Continue;
 }
 
@@ -368,4 +727,3 @@ Action::ResultE Particles::render(Action *action)
 
     return Action::Continue;
 }
-

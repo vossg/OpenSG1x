@@ -16,39 +16,7 @@
 		visibility="external"
 		access="public"
 	>
-        The positions of the particles. This is the primary defining information
-        for a particle.
-	</Field>
-	<Field
-		name="secPositions"
-		type="GeoPositionsPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-        The secondary position of the particle. This information is only used by
-        a few rendering modes, e.g. the streak mode. Usually it represents the 
-        particle's last position.
-	</Field>
-	<Field
-		name="colors"
-		type="GeoColorsPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-        The particle colors (optional).
-	</Field>
-	<Field
-		name="normals"
-		type="GeoNormalsPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-        Most particles will be automatically aligned to the view direction.
-        If normals are set they will be used to define the direction the 
-        particles are facing.
+	The positions of the particles. This is the primary defining information         for a particle.
 	</Field>
 	<Field
 		name="sizes"
@@ -57,10 +25,34 @@
 		visibility="external"
 		access="public"
 	>
-        The particle sizes. If not set (1,1,1) will be used, if only one entry is
-        set, it will be used for all particles. If the number of sizes if equal
-        to the number of positions every particle will get its own size.
-        Most modes only use the X coordinate of the vector.
+	The particle sizes. If not set (1,1,1) will be used, if only one entry is         set, it will be used for all particles. If the number of sizes if equal         to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector.
+	</Field>
+	<Field
+		name="secPositions"
+		type="GeoPositionsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The secondary position of the particle. This information is only used by         a few rendering modes, e.g. the streak mode. Usually it represents the          particle's last position.
+	</Field>
+	<Field
+		name="colors"
+		type="GeoColorsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The particle colors (optional).
+	</Field>
+	<Field
+		name="normals"
+		type="GeoNormalsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Most particles will be automatically aligned to the view direction.         If normals are set they will be used to define the direction the          particles are facing.
 	</Field>
 	<Field
 		name="material"
@@ -69,6 +61,42 @@
 		visibility="external"
 		access="public"
 	>
-        The material used to render the particles.
+	The material used to render the particles.
+	</Field>
+	<Field
+		name="pump"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		access="private"
+	>
+	</Field>
+	<Field
+		name="mode"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="2"
+		access="public"
+	>
+	The particle mode, see Particles::modeE for options.
+	</Field>
+	<Field
+		name="drawOrder"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="dynamic"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
 	</Field>
 </FieldContainer>

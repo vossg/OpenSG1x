@@ -99,6 +99,12 @@ SFGeoPositionsPtr *ParticlesBase::getSFPositions(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
+MFVec3f *ParticlesBase::getMFSizes(void)
+{
+    return &_mfSizes;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoPositionsPtr *ParticlesBase::getSFSecPositions(void)
 {
     return &_sfSecPositions;
@@ -117,15 +123,33 @@ SFGeoNormalsPtr *ParticlesBase::getSFNormals(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFVec3f *ParticlesBase::getMFSizes(void)
-{
-    return &_mfSizes;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *ParticlesBase::getSFMaterial(void)
 {
     return &_sfMaterial;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *ParticlesBase::getSFPump(void)
+{
+    return &_sfPump;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *ParticlesBase::getSFMode(void)
+{
+    return &_sfMode;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *ParticlesBase::getSFDrawOrder(void)
+{
+    return &_sfDrawOrder;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *ParticlesBase::getSFDynamic(void)
+{
+    return &_sfDynamic;
 }
 
 
@@ -219,6 +243,78 @@ void ParticlesBase::setMaterial(const MaterialPtr &value)
     _sfMaterial.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &ParticlesBase::getPump(void)
+{
+    return _sfPump.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &ParticlesBase::getPump(void) const
+{
+    return _sfPump.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setPump(const UInt32 &value)
+{
+    _sfPump.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &ParticlesBase::getMode(void)
+{
+    return _sfMode.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &ParticlesBase::getMode(void) const
+{
+    return _sfMode.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setMode(const UInt32 &value)
+{
+    _sfMode.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &ParticlesBase::getDrawOrder(void)
+{
+    return _sfDrawOrder.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &ParticlesBase::getDrawOrder(void) const
+{
+    return _sfDrawOrder.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setDrawOrder(const UInt32 &value)
+{
+    _sfDrawOrder.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &ParticlesBase::getDynamic(void)
+{
+    return _sfDynamic.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &ParticlesBase::getDynamic(void) const
+{
+    return _sfDynamic.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setDynamic(const Bool &value)
+{
+    _sfDynamic.setValue(value);
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &ParticlesBase::getSizes(UInt32 index)
@@ -239,5 +335,5 @@ const MFVec3f &ParticlesBase::getSizes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.1 2002/01/04 17:05:03 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.2 2002/01/09 10:41:59 dirk Exp $"
 

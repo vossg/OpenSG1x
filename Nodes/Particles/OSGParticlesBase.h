@@ -68,11 +68,15 @@
 #include <OSGNodeCore.h> // Parent
 
 #include <OSGGeoPositionsFields.h> // Positions type
+#include <OSGVec3fFields.h> // Sizes type
 #include <OSGGeoPositionsFields.h> // SecPositions type
 #include <OSGGeoColorsFields.h> // Colors type
 #include <OSGGeoNormalsFields.h> // Normals type
-#include <OSGVec3fFields.h> // Sizes type
 #include <OSGMaterialFields.h> // Material type
+#include <OSGUInt32Fields.h> // Pump type
+#include <OSGUInt32Fields.h> // Mode type
+#include <OSGUInt32Fields.h> // DrawOrder type
+#include <OSGBoolFields.h> // Dynamic type
 
 #include <OSGParticlesFields.h>
 
@@ -95,20 +99,28 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     enum
     {
         PositionsFieldId    = Inherited::NextFieldId,
-        SecPositionsFieldId = PositionsFieldId    + 1,
+        SizesFieldId        = PositionsFieldId    + 1,
+        SecPositionsFieldId = SizesFieldId        + 1,
         ColorsFieldId       = SecPositionsFieldId + 1,
         NormalsFieldId      = ColorsFieldId       + 1,
-        SizesFieldId        = NormalsFieldId      + 1,
-        MaterialFieldId     = SizesFieldId        + 1,
-        NextFieldId         = MaterialFieldId     + 1
+        MaterialFieldId     = NormalsFieldId      + 1,
+        PumpFieldId         = MaterialFieldId     + 1,
+        ModeFieldId         = PumpFieldId         + 1,
+        DrawOrderFieldId    = ModeFieldId         + 1,
+        DynamicFieldId      = DrawOrderFieldId    + 1,
+        NextFieldId         = DynamicFieldId      + 1
     };
 
     static const osg::BitVector PositionsFieldMask;
+    static const osg::BitVector SizesFieldMask;
     static const osg::BitVector SecPositionsFieldMask;
     static const osg::BitVector ColorsFieldMask;
     static const osg::BitVector NormalsFieldMask;
-    static const osg::BitVector SizesFieldMask;
     static const osg::BitVector MaterialFieldMask;
+    static const osg::BitVector PumpFieldMask;
+    static const osg::BitVector ModeFieldMask;
+    static const osg::BitVector DrawOrderFieldMask;
+    static const osg::BitVector DynamicFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -133,11 +145,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     /*! \{                                                                 */
 
     inline       SFGeoPositionsPtr   *getSFPositions      (void);
+    inline       MFVec3f             *getMFSizes          (void);
     inline       SFGeoPositionsPtr   *getSFSecPositions   (void);
     inline       SFGeoColorsPtr      *getSFColors         (void);
     inline       SFGeoNormalsPtr     *getSFNormals        (void);
-    inline       MFVec3f             *getMFSizes          (void);
     inline       SFMaterialPtr       *getSFMaterial       (void);
+    inline       SFUInt32            *getSFMode           (void);
+    inline       SFUInt32            *getSFDrawOrder      (void);
+    inline       SFBool              *getSFDynamic        (void);
 
     inline       GeoPositionsPtr     &getPositions      (void);
     inline const GeoPositionsPtr     &getPositions      (void) const;
@@ -149,6 +164,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     inline const GeoNormalsPtr       &getNormals        (void) const;
     inline       MaterialPtr         &getMaterial       (void);
     inline const MaterialPtr         &getMaterial       (void) const;
+    inline       UInt32              &getMode           (void);
+    inline const UInt32              &getMode           (void) const;
+    inline       UInt32              &getDrawOrder      (void);
+    inline const UInt32              &getDrawOrder      (void) const;
+    inline       Bool                &getDynamic        (void);
+    inline const Bool                &getDynamic        (void) const;
     inline       Vec3f               &getSizes          (UInt32 index);
     inline       MFVec3f             &getSizes          (void);
     inline const MFVec3f             &getSizes          (void) const;
@@ -163,6 +184,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     inline void setColors         ( const GeoColorsPtr &value );
     inline void setNormals        ( const GeoNormalsPtr &value );
     inline void setMaterial       ( const MaterialPtr &value );
+    inline void setMode           ( const UInt32 &value );
+    inline void setDrawOrder      ( const UInt32 &value );
+    inline void setDynamic        ( const Bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -209,11 +233,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     /*! \{                                                                 */
 
     SFGeoPositionsPtr   _sfPositions;
+    MFVec3f             _mfSizes;
     SFGeoPositionsPtr   _sfSecPositions;
     SFGeoColorsPtr      _sfColors;
     SFGeoNormalsPtr     _sfNormals;
-    MFVec3f             _mfSizes;
     SFMaterialPtr       _sfMaterial;
+    SFUInt32            _sfMode;
+    SFUInt32            _sfDrawOrder;
+    SFBool              _sfDynamic;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -247,6 +274,30 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFUInt32            _sfPump;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+    inline       SFUInt32            *getSFPump           (void);
+
+    inline       UInt32              &getPump           (void);
+    inline const UInt32              &getPump           (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setPump           (const UInt32 &value);
+
+    /*! \}                                                                 */
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const ParticlesBase &source);
@@ -261,6 +312,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.1 2002/01/04 17:05:03 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.2 2002/01/09 10:41:59 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

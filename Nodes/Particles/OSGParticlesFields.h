@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Particles;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: OSGParticlesFields.h,v 1.1 2002/01/04 17:05:03 dirk Exp $"
+#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: OSGParticlesFields.h,v 1.2 2002/01/09 10:41:59 dirk Exp $"
 
 #endif /* _OSGPARTICLESFIELDS_H_ */

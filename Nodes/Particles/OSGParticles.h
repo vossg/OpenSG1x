@@ -64,6 +64,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
   public:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                     Modes                                    */
+    /*! \{                                                                 */
+    
+    enum { Points=0, Lines, ViewDirQuads, ViewerQuads, Boxes, Arrows }
+           ModeE;
+    
+    enum { Any=0, BackToFront, FrontToBack } DrawOrderE;
+       
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
@@ -115,7 +125,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     void    adjustVolume(Volume & volume);
 
     /*! \}                                                                 */
-    
+     /*---------------------------------------------------------------------*/
+    /*! \name                Particles Specific                            */
+    /*! \{                                                                 */
+
+    Int32 *calcIndex(DrawActionBase *action, NodePtr actnode);
+
+    /*! \}                                                                 */
+   
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -136,6 +153,6 @@ OSG_END_NAMESPACE
 #include <OSGParticles.inl>
 #include <OSGParticlesBase.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.1 2002/01/04 17:05:03 dirk Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.2 2002/01/09 10:41:59 dirk Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.1 2002/01/04 17:05:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.2 2002/01/09 10:41:59 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 
@@ -102,6 +102,9 @@ namespace
 const OSG::BitVector  ParticlesBase::PositionsFieldMask = 
     (1 << ParticlesBase::PositionsFieldId);
 
+const OSG::BitVector  ParticlesBase::SizesFieldMask = 
+    (1 << ParticlesBase::SizesFieldId);
+
 const OSG::BitVector  ParticlesBase::SecPositionsFieldMask = 
     (1 << ParticlesBase::SecPositionsFieldId);
 
@@ -111,11 +114,20 @@ const OSG::BitVector  ParticlesBase::ColorsFieldMask =
 const OSG::BitVector  ParticlesBase::NormalsFieldMask = 
     (1 << ParticlesBase::NormalsFieldId);
 
-const OSG::BitVector  ParticlesBase::SizesFieldMask = 
-    (1 << ParticlesBase::SizesFieldId);
-
 const OSG::BitVector  ParticlesBase::MaterialFieldMask = 
     (1 << ParticlesBase::MaterialFieldId);
+
+const OSG::BitVector  ParticlesBase::PumpFieldMask = 
+    (1 << ParticlesBase::PumpFieldId);
+
+const OSG::BitVector  ParticlesBase::ModeFieldMask = 
+    (1 << ParticlesBase::ModeFieldId);
+
+const OSG::BitVector  ParticlesBase::DrawOrderFieldMask = 
+    (1 << ParticlesBase::DrawOrderFieldId);
+
+const OSG::BitVector  ParticlesBase::DynamicFieldMask = 
+    (1 << ParticlesBase::DynamicFieldId);
 
 
 
@@ -123,6 +135,9 @@ const OSG::BitVector  ParticlesBase::MaterialFieldMask =
 
 /*! \var GeoPositionsPtr ParticlesBase::_sfPositions
     The positions of the particles. This is the primary defining information         for a particle.
+*/
+/*! \var Vec3f           ParticlesBase::_mfSizes
+    The particle sizes. If not set (1,1,1) will be used, if only one entry is         set, it will be used for all particles. If the number of sizes if equal         to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector.
 */
 /*! \var GeoPositionsPtr ParticlesBase::_sfSecPositions
     The secondary position of the particle. This information is only used by         a few rendering modes, e.g. the streak mode. Usually it represents the          particle's last position.
@@ -133,11 +148,20 @@ const OSG::BitVector  ParticlesBase::MaterialFieldMask =
 /*! \var GeoNormalsPtr   ParticlesBase::_sfNormals
     Most particles will be automatically aligned to the view direction.         If normals are set they will be used to define the direction the          particles are facing.
 */
-/*! \var Vec3f           ParticlesBase::_mfSizes
-    The particle sizes. If not set (1,1,1) will be used, if only one entry is         set, it will be used for all particles. If the number of sizes if equal         to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector.
-*/
 /*! \var MaterialPtr     ParticlesBase::_sfMaterial
     The material used to render the particles.
+*/
+/*! \var UInt32          ParticlesBase::_sfPump
+    
+*/
+/*! \var UInt32          ParticlesBase::_sfMode
+    The particle mode, see Particles::modeE for options.
+*/
+/*! \var UInt32          ParticlesBase::_sfDrawOrder
+    
+*/
+/*! \var Bool            ParticlesBase::_sfDynamic
+    
 */
 //! Particles description
 
@@ -148,6 +172,11 @@ FieldDescription *ParticlesBase::_desc[] =
                      PositionsFieldId, PositionsFieldMask,
                      false,
                      (FieldAccessMethod) &ParticlesBase::getSFPositions),
+    new FieldDescription(MFVec3f::getClassType(), 
+                     "sizes", 
+                     SizesFieldId, SizesFieldMask,
+                     false,
+                     (FieldAccessMethod) &ParticlesBase::getMFSizes),
     new FieldDescription(SFGeoPositionsPtr::getClassType(), 
                      "secPositions", 
                      SecPositionsFieldId, SecPositionsFieldMask,
@@ -163,16 +192,31 @@ FieldDescription *ParticlesBase::_desc[] =
                      NormalsFieldId, NormalsFieldMask,
                      false,
                      (FieldAccessMethod) &ParticlesBase::getSFNormals),
-    new FieldDescription(MFVec3f::getClassType(), 
-                     "sizes", 
-                     SizesFieldId, SizesFieldMask,
-                     false,
-                     (FieldAccessMethod) &ParticlesBase::getMFSizes),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFMaterial)
+                     (FieldAccessMethod) &ParticlesBase::getSFMaterial),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "pump", 
+                     PumpFieldId, PumpFieldMask,
+                     true,
+                     (FieldAccessMethod) &ParticlesBase::getSFPump),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "mode", 
+                     ModeFieldId, ModeFieldMask,
+                     false,
+                     (FieldAccessMethod) &ParticlesBase::getSFMode),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "drawOrder", 
+                     DrawOrderFieldId, DrawOrderFieldMask,
+                     false,
+                     (FieldAccessMethod) &ParticlesBase::getSFDrawOrder),
+    new FieldDescription(SFBool::getClassType(), 
+                     "dynamic", 
+                     DynamicFieldId, DynamicFieldMask,
+                     false,
+                     (FieldAccessMethod) &ParticlesBase::getSFDynamic)
 };
 
 //! Particles type
@@ -232,11 +276,15 @@ void ParticlesBase::executeSync(      FieldContainer &other,
 
 ParticlesBase::ParticlesBase(void) :
     _sfPositions              (), 
+    _mfSizes                  (), 
     _sfSecPositions           (), 
     _sfColors                 (), 
     _sfNormals                (), 
-    _mfSizes                  (), 
     _sfMaterial               (), 
+    _sfPump                   (), 
+    _sfMode                   (UInt32(2)), 
+    _sfDrawOrder              (UInt32(0)), 
+    _sfDynamic                (Bool(true)), 
     Inherited() 
 {
 }
@@ -249,11 +297,15 @@ ParticlesBase::ParticlesBase(void) :
 
 ParticlesBase::ParticlesBase(const ParticlesBase &source) :
     _sfPositions              (source._sfPositions              ), 
+    _mfSizes                  (source._mfSizes                  ), 
     _sfSecPositions           (source._sfSecPositions           ), 
     _sfColors                 (source._sfColors                 ), 
     _sfNormals                (source._sfNormals                ), 
-    _mfSizes                  (source._mfSizes                  ), 
     _sfMaterial               (source._sfMaterial               ), 
+    _sfPump                   (source._sfPump                   ), 
+    _sfMode                   (source._sfMode                   ), 
+    _sfDrawOrder              (source._sfDrawOrder              ), 
+    _sfDynamic                (source._sfDynamic                ), 
     Inherited                 (source)
 {
 }
@@ -277,6 +329,11 @@ UInt32 ParticlesBase::getBinSize(const BitVector &whichField)
         returnValue += _sfPositions.getBinSize();
     }
 
+    if(FieldBits::NoField != (SizesFieldMask & whichField))
+    {
+        returnValue += _mfSizes.getBinSize();
+    }
+
     if(FieldBits::NoField != (SecPositionsFieldMask & whichField))
     {
         returnValue += _sfSecPositions.getBinSize();
@@ -292,14 +349,29 @@ UInt32 ParticlesBase::getBinSize(const BitVector &whichField)
         returnValue += _sfNormals.getBinSize();
     }
 
-    if(FieldBits::NoField != (SizesFieldMask & whichField))
-    {
-        returnValue += _mfSizes.getBinSize();
-    }
-
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         returnValue += _sfMaterial.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PumpFieldMask & whichField))
+    {
+        returnValue += _sfPump.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        returnValue += _sfMode.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
+    {
+        returnValue += _sfDrawOrder.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DynamicFieldMask & whichField))
+    {
+        returnValue += _sfDynamic.getBinSize();
     }
 
 
@@ -314,6 +386,11 @@ void ParticlesBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
     {
         _sfPositions.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SizesFieldMask & whichField))
+    {
+        _mfSizes.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (SecPositionsFieldMask & whichField))
@@ -331,14 +408,29 @@ void ParticlesBase::copyToBin(      BinaryDataHandler &pMem,
         _sfNormals.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (SizesFieldMask & whichField))
-    {
-        _mfSizes.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         _sfMaterial.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PumpFieldMask & whichField))
+    {
+        _sfPump.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        _sfMode.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
+    {
+        _sfDrawOrder.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DynamicFieldMask & whichField))
+    {
+        _sfDynamic.copyToBin(pMem);
     }
 
 
@@ -352,6 +444,11 @@ void ParticlesBase::copyFromBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
     {
         _sfPositions.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SizesFieldMask & whichField))
+    {
+        _mfSizes.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (SecPositionsFieldMask & whichField))
@@ -369,14 +466,29 @@ void ParticlesBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfNormals.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (SizesFieldMask & whichField))
-    {
-        _mfSizes.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         _sfMaterial.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PumpFieldMask & whichField))
+    {
+        _sfPump.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        _sfMode.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
+    {
+        _sfDrawOrder.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DynamicFieldMask & whichField))
+    {
+        _sfDynamic.copyFromBin(pMem);
     }
 
 
@@ -391,6 +503,9 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
         _sfPositions.syncWith(pOther->_sfPositions);
 
+    if(FieldBits::NoField != (SizesFieldMask & whichField))
+        _mfSizes.syncWith(pOther->_mfSizes);
+
     if(FieldBits::NoField != (SecPositionsFieldMask & whichField))
         _sfSecPositions.syncWith(pOther->_sfSecPositions);
 
@@ -400,11 +515,20 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
         _sfNormals.syncWith(pOther->_sfNormals);
 
-    if(FieldBits::NoField != (SizesFieldMask & whichField))
-        _mfSizes.syncWith(pOther->_mfSizes);
-
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
         _sfMaterial.syncWith(pOther->_sfMaterial);
+
+    if(FieldBits::NoField != (PumpFieldMask & whichField))
+        _sfPump.syncWith(pOther->_sfPump);
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+        _sfMode.syncWith(pOther->_sfMode);
+
+    if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
+        _sfDrawOrder.syncWith(pOther->_sfDrawOrder);
+
+    if(FieldBits::NoField != (DynamicFieldMask & whichField))
+        _sfDynamic.syncWith(pOther->_sfDynamic);
 
 
 }
