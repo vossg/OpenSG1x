@@ -248,7 +248,52 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             fclose(file);
             break;
         }
-        case 'b':	// switch wire frame
+        case 'S':
+        {
+            FILE *file=fopen((animName+".wrl").c_str(),"w");
+            vector<Quaternion>::iterator qit;
+            
+            fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
+            for(int i = 0; i < animOri.size(); ++i)
+            {               
+                fprintf(file, "%f", i / (Real32)(animOri.size() - 1) );
+                if(i < animOri.size() - 1)
+                    fprintf(file,", ");
+            }
+            fprintf(file,"]\n\tkeyValue [");
+            for(qit = animOri.begin(); qit != animOri.end(); ++qit)
+            {
+                Real32 ax,ay,az,r;
+                (*qit).getValueAsAxisRad(ax,ay,az,r);
+                
+                fprintf(file, "%f %f %f %f", ax, ay, az, r );
+                if(qit < animPos.size() - 1)
+                    fprintf(file,", ");
+            }
+            fprintf(file,"]\n}\n\n");
+
+            vector<Vec3f>::iterator vit;
+            
+            fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
+            for(int i = 0; i < animPos.size(); ++i)
+            {               
+                fprintf(file, "%f", i / (Real32)(animPos.size() - 1) );
+                if(i < animPos.size() - 1)
+                    fprintf(file,", ");
+            }
+            fprintf(file,"]\n\tkeyValue [");
+            for(vit = animPos.begin(); vit != animPos.end(); ++vit)
+            {
+                Vec3f v = *vit;
+                
+                fprintf(file, "%f %f %f, ", v[0], v[1], v[2] );
+            }
+            fprintf(file,"]\n}\n\n");
+
+            fclose(file);
+            break;
+        }
+         case 'b':	// switch wire frame
             if(ract==ract1)
                 ract=ract2;
             else
