@@ -1,12 +1,10 @@
 
 How to use configure is quite straight forward. But be warned it is still
-considered to be experimental.
+considered to be experimental. See ./configure --help for available options.
+
+All platforms
 
 cd <..../OpenSG>
-ln -s Experimental/Common         Common.new
-ln -s Experimental/CommonPackages CommonPackages.new
-ln -s Experimental/CommonConf     CommonConf
-
 cd Experimental
 autoconf
 
@@ -39,6 +37,7 @@ cd Builds/<system>
 gmake
 (build BaseLib and SystemLib)
 you need to add BaseLib/lib-dbg and SystemLib/lib-dbg to your library path
+as an alternative you can do gmake install and add lib/dbg to your path.
 
 to make a test program
 cd SystemTest

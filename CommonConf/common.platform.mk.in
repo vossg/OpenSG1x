@@ -32,6 +32,8 @@ SED        := @ac_gdz_sed_exe@
 
 ### Patterns #########################################################
 
+PEDANTIC_ERRORS      := @ac_gdz_ped_errors_e1@
+
 SO_PRAEFIX           := @ac_gdz_so_praefix@
 SO_SUFFIX            := @ac_gdz_so_suffix@
 LIB_SUFFIX           := @ac_gdz_lib_suffix@
