@@ -51,6 +51,7 @@
 #include "OSGGeoPropPtrs.h"
 #include "OSGTriangleIterator.h"
 #include "OSGGeoFunctions.h"
+#include "OSGFaceIterator.h"
 
 #include "OSGNodeGraph.h"
 
@@ -66,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.15 2001/08/05 19:05:31 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.16 2001/08/07 13:54:39 neumannc Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -942,3 +943,222 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
 
   return (triangle + line + point);
 }
+
+
+
+OSG_SYSTEMLIB_DLLMAPPING void osg::calcFaceNormals( GeometryPtr geo )
+{
+  GeoIndexPtr newIndex = GeoIndexUI32::create();
+  GeoNormalPtr newNormals = GeoNormal3f::create();
+  Vec3f normal;
+  
+  FaceIterator faceIter = geo->beginFaces();
+  GeoIndexPtr oldIndex = geo->getIndex();
+  
+  if( oldIndex != GeoIndexPtr::NullPtr )
+    {
+      //Indexed
+      if( geo->getIndexMapping().getSize() > 0 )
+	{
+	  //MULTI INDEXED
+	  beginEditCP(newIndex);
+	  MFUInt16 &oldIndexMap = geo->getIndexMapping();
+	  UInt32 oldIMSize = oldIndexMap.getSize();
+	  for( UInt32 i=0; i<oldIndex->getSize()/oldIMSize; ++i )
+	    {
+	      for( UInt32 k=0; k<oldIMSize; ++k )
+		{
+		  newIndex->addValue( oldIndex->getValue(i*oldIMSize+k) );
+		}
+	      newIndex->addValue(0);  //placeholder for normal index
+	    }
+
+	  beginEditCP(newNormals);
+	  for( UInt32 faceCnt=0; faceIter != geo->endFaces(); ++faceIter, ++faceCnt )
+	    {
+	      if( faceIter.getLength() == 3 )
+		{
+		  //Face is a Triangle
+		  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+		  normal.normalize();
+		}
+	      else
+		{
+		  //Face must be a Quad then
+		  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+		  if( normal.length() == 0 )
+		    {
+		      //Quad is degenerate, choose different points for normal
+		      normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
+		    }
+		  normal.normalize();
+		}
+	      newNormals->addValue( normal ); //put the normal into the storage
+	      UInt32 base;
+	      switch( faceIter.getType() )
+		{
+		case GL_TRIANGLE_STRIP:
+		  base = faceIter.getIndexIndex(2);   //get last point's position in index field
+		  newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+		  break;
+		case GL_TRIANGLE_FAN:
+		  base = faceIter.getIndexIndex(2);   //get last point's position in index field
+		  newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+		  break;
+		case GL_QUAD_STRIP:
+		  base = faceIter.getIndexIndex(3);    //get last point's position in index field
+		  newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+		  break;
+		default:
+		  for( UInt32 i=0; i<faceIter.getLength(); ++i )
+		    {
+		      base = faceIter.getIndexIndex(i);
+		      newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+		    }
+		  break;
+		}
+	    }
+	  endEditCP(newNormals);
+	  endEditCP(newIndex);
+	  
+	  beginEditCP(geo);
+	  Int16 ni;
+	  ni = geo->calcMappingIndex( Geometry::MapNormal );
+	  if ( ni!=-1 )
+	    {
+	      oldIndexMap.setValue( oldIndexMap.getValue(ni) & ~ Geometry::MapNormal, ni );
+	    }
+       	  oldIndexMap.addValue( Geometry::MapNormal );
+	  geo->setNormals( newNormals );
+	  geo->setIndex( newIndex );
+	  endEditCP(geo);
+	}
+    }
+  else
+    {
+      //SINGLE INDEXED or NON INDEXED
+      UInt32 pointCnt = 0;
+      newNormals->resize( geo->getPositions()->getSize() );
+      for( ;faceIter!=geo->endFaces(); ++faceIter )
+	{
+	  if( faceIter.getLength() == 3 )
+	    {
+	      //Face is a Triangle
+	      normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+	      normal.normalize();  
+	    }
+	  else
+	    {
+	      //Face must be a Quad then	
+	      normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+	      if( normal.length() == 0 )
+		{
+		  //Quad is degenerate, choose different points for normal
+		  normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
+		}
+	      normal.normalize();
+	      
+	    }
+	  switch( faceIter.getType() )
+	    {
+	    case GL_TRIANGLE_STRIP:
+	      newNormals->setValue( normal, faceIter.getPositionIndex(2) );
+	      break;
+	    case GL_TRIANGLE_FAN:
+	      newNormals->setValue( normal, faceIter.getPositionIndex(2) );
+	      break;
+	    case GL_QUAD_STRIP:
+	      newNormals->setValue( normal, faceIter.getPositionIndex(3) );
+	      break;
+	    default:
+	      for( UInt32 i=0; i<faceIter.getLength(); ++i )
+		{
+		  newNormals->setValue( normal, faceIter.getPositionIndex(i) );
+		}
+	      break;
+	    }
+	  beginEditCP( geo );
+	  geo->setNormals( newNormals );
+	  endEditCP( geo );
+	}
+    }
+} 
+
+
+
+
+OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 length)
+{
+  NodePtr  p = Node::create();
+  GeometryPtr g = Geometry::create();
+  GeoPosition3f::PtrType pnts = GeoPosition3f::create();
+  GeoIndexUI32Ptr index = GeoIndexUI32::create();	
+  GeoPTypePtr type = GeoPType::create();	
+  GeoPLengthPtr lens = GeoPLength::create();	
+
+  // calculate
+  beginEditCP(pnts);
+  
+  FaceIterator faceIter = geo->beginFaces();
+  Pnt3f center;
+  
+  beginEditCP(pnts);
+  for( ; faceIter != geo->endFaces(); ++faceIter )
+    {
+      center[0] = 0;
+      center[1] = 0;
+      center[2] = 0;
+      for( UInt16 i=0; i<faceIter.getLength(); ++i )
+	{
+	  center[0] += faceIter.getPosition( i )[0]/faceIter.getLength();
+	  center[1] += faceIter.getPosition( i )[1]/faceIter.getLength();
+	  center[2] += faceIter.getPosition( i )[2]/faceIter.getLength();
+	}
+      pnts->addValue( center );
+      switch( faceIter.getType() )
+	{
+	case GL_TRIANGLE_STRIP:
+	  pnts->addValue( center + length * faceIter.getNormal(2) );
+	  break;
+	case GL_TRIANGLE_FAN:
+	  pnts->addValue( center + length * faceIter.getNormal(2) );
+	  break;
+	case GL_QUAD_STRIP:
+	  pnts->addValue( center + length * faceIter.getNormal(3) );
+	  break;
+	default:
+	  pnts->addValue( center + length * faceIter.getNormal(0) );  //does not matter which points normal
+	  break;
+	}
+    }
+  endEditCP(pnts);
+  
+  beginEditCP(index);
+  for ( UInt32 i = 0; i < pnts->getSize(); i++ )
+    index->addValue( i );
+  endEditCP(index);
+  
+  beginEditCP(type);
+  type->addValue( GL_LINES );
+  endEditCP(type);
+  
+  beginEditCP(lens);
+  lens->addValue( index->getSize() );
+  endEditCP(lens);
+  
+  beginEditCP(g);
+  g->setTypes( type );
+  g->setLengths( lens );
+  g->setIndex( index );
+  g->setPositions( pnts );
+  endEditCP(g);
+	
+  beginEditCP(p);
+  p->setCore(g);
+  endEditCP(p);
+  
+  return p;
+}
+
+
+

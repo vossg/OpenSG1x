@@ -103,6 +103,17 @@ Int32 createOptimizedPrimitives ( GeometryPtr geo,
 UInt32 calcPrimitiveCount ( GeometryPtr geo,
                             UInt32 &triangle, UInt32 &line, UInt32 &point);
 
+
+/*! \brief calculate face normals for the geometry
+ *  \ingroup Geometry
+ */
+void calcFaceNormals( GeometryPtr geo );
+
+/*! \brief create a geometry that shows the face normals of another geometry
+ *  \ingroup Geometry
+ */
+NodePtr getFaceNormals(GeometryPtr geo, Real32 length);
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGGEOFUNCTIONS_H_ */
