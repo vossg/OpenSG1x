@@ -849,7 +849,7 @@ inline
 OSG_BASE_DLLMAPPING
 Real32 osgrand(void)
 {
-    return rand()/32767.f;
+    return rand()/(float)RAND_MAX;
 }
 
 OSG_END_NAMESPACE
