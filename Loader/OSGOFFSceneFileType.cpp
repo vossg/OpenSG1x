@@ -148,7 +148,7 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
       
       beginEditCP(mat);
       {
-         mat->setDiffuse( Color3f( .8, .8, .8 ) );
+         mat->setDiffuse( Color3f( 0.42, 0.42, 0.52 ) );
          mat->setSpecular( Color3f( 1, 1, 1 ) );
          mat->setShininess( 20 );
       }
