@@ -52,6 +52,7 @@
 #include "OSGSFMathTypes.h"
 #include "OSGSFVecTypes.h"
 #include "OSGSFSysTypes.h"
+#include "OSGSFBaseTypes.h"
 #include "OSGStateChunk.h"
 
 OSG_BEGIN_NAMESPACE
@@ -145,31 +146,31 @@ class MaterialChunk : public StateChunk
 
 	// Diffuse Color
 	
-        SFVec4f   *getSFDiffuse( void );
-          Vec4f   &getDiffuse  ( void );
-    const Vec4f   &getDiffuse  ( void ) const;
-	void           setDiffuse  ( const Vec4f & color );
+        SFColor4f   *getSFDiffuse( void );
+          Color4f   &getDiffuse  ( void );
+    const Color4f   &getDiffuse  ( void ) const;
+	void             setDiffuse  ( const Color4f & color );
 
 	// Ambient Color
 	
-        SFVec4f   *getSFAmbient( void );
-          Vec4f   &getAmbient  ( void );
-    const Vec4f   &getAmbient  ( void ) const;
-	void           setAmbient  ( const Vec4f & color );
+        SFColor4f   *getSFAmbient( void );
+          Color4f   &getAmbient  ( void );
+    const Color4f   &getAmbient  ( void ) const;
+	void             setAmbient  ( const Color4f & color );
 
 	// Specular Color
 	
-        SFVec4f   *getSFSpecular( void );
-          Vec4f   &getSpecular  ( void );
-    const Vec4f   &getSpecular  ( void ) const;
-	void           setSpecular  ( const Vec4f & color );
+        SFColor4f   *getSFSpecular( void );
+          Color4f   &getSpecular  ( void );
+    const Color4f   &getSpecular  ( void ) const;
+	void             setSpecular  ( const Color4f & color );
 
 	// Emission Color
 	
-        SFVec4f   *getSFEmission( void );
-          Vec4f   &getEmission  ( void );
-    const Vec4f   &getEmission  ( void ) const;
-	void           setEmission  ( const Vec4f & color );
+        SFColor4f   *getSFEmission( void );
+          Color4f   &getEmission  ( void );
+    const Color4f   &getEmission  ( void ) const;
+	void             setEmission  ( const Color4f & color );
 
 	// Shininess
 	
@@ -262,11 +263,11 @@ class MaterialChunk : public StateChunk
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 	
-	SFVec4f _diffuse;
-	SFVec4f _ambient;
-	SFVec4f _specular;
-	SFVec4f _emission;
-	SFReal32 _shininess;
+	SFColor4f _diffuse;
+	SFColor4f _ambient;
+	SFColor4f _specular;
+	SFColor4f _emission;
+	SFReal32  _shininess;
 	
     //-----------------------------------------------------------------------
     //   instance functions                                                  

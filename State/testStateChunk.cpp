@@ -31,6 +31,7 @@ int main( int argc, char *argv[] )
 
 	Vec3f v31(1, 2, 3), v32;
 	Vec4f v41(1, 2, 3, 4), v42;
+	Color4f c41(1, 2, 3, 4), c42;
 
 	// Test macros for simple set/get correspondence
 
@@ -55,6 +56,9 @@ int main( int argc, char *argv[] )
 #define testVec4fField( name, set, get )  	\
 	testField( name, set, get, v41,v42, v41.equals( v42, Eps ) )
 
+#define testColor4fField( name, set, get )  	\
+	testField( name, set, get, c41,c42, (c41 == c42) )
+
 #define testRealField( name, set, get )  	\
 	testField( name, set, get, r1,r2, r1 == r2 )
 
@@ -76,10 +80,10 @@ int main( int argc, char *argv[] )
 		 << mchunk->getClassID() << ", numslots " << tchunk->getClass()->getNumSlots() 
 		 << endl;
 
-	testVec4fField( "MaterialChunk: diffuse", mchunk->setDiffuse, mchunk->getDiffuse );
-	testVec4fField( "MaterialChunk: ambient", mchunk->setAmbient, mchunk->getAmbient );
-	testVec4fField( "MaterialChunk: specular", mchunk->setSpecular, mchunk->getSpecular );
-	testVec4fField( "MaterialChunk: emission", mchunk->setEmission, mchunk->getEmission );
+	testColor4fField( "MaterialChunk: diffuse", mchunk->setDiffuse, mchunk->getDiffuse );
+	testColor4fField( "MaterialChunk: ambient", mchunk->setAmbient, mchunk->getAmbient );
+	testColor4fField( "MaterialChunk: specular", mchunk->setSpecular, mchunk->getSpecular );
+	testColor4fField( "MaterialChunk: emission", mchunk->setEmission, mchunk->getEmission );
 	testRealField( "MaterialChunk: shininess", mchunk->setShininess, mchunk->getShininess );
 	
 	// Light chunk

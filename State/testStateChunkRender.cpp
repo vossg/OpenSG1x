@@ -91,13 +91,13 @@ int main( int argc, char *argv[] )
 
 
 	mchunk1 = MaterialChunk::create();
-	mchunk1->setDiffuse( Vec4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( Vec4f( 1,0,0,0 ) );
+	mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
+	mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
 	mchunk1->setShininess( 20 );
 
 	mchunk2 = MaterialChunk::create();
-	mchunk2->setDiffuse( Vec4f( 0,1,0,0 ) );
-	mchunk2->setAmbient( Vec4f( 0,1,0,0 ) );
+	mchunk2->setDiffuse( Color4f( 0,1,0,0 ) );
+	mchunk2->setAmbient( Color4f( 0,1,0,0 ) );
 	mchunk2->setShininess( 50 );
 
 	glutMainLoop();

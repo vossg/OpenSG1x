@@ -110,7 +110,7 @@ StateChunkClass MaterialChunk::_class(String("Material"));
 FieldDescription MaterialChunk::_desc[] = 
 {
         FieldDescription(
-        SFVec4f::getClassType(), 
+        SFColor4f::getClassType(), 
         "diffuse", 
         OSG_FC_FIELD_IDM_DESC(DiffuseField),
         false,
@@ -118,7 +118,7 @@ FieldDescription MaterialChunk::_desc[] =
         ""),
 
         FieldDescription(
-        SFVec4f::getClassType(), 
+        SFColor4f::getClassType(), 
         "ambient", 
         OSG_FC_FIELD_IDM_DESC(AmbientField),
         false,
@@ -126,7 +126,7 @@ FieldDescription MaterialChunk::_desc[] =
         ""),
 
         FieldDescription(
-        SFVec4f::getClassType(), 
+        SFColor4f::getClassType(), 
         "specular", 
         OSG_FC_FIELD_IDM_DESC(SpecularField),
         false,
@@ -134,7 +134,7 @@ FieldDescription MaterialChunk::_desc[] =
         ""),
 
         FieldDescription(
-        SFVec4f::getClassType(), 
+        SFColor4f::getClassType(), 
         "emission", 
         OSG_FC_FIELD_IDM_DESC(EmissionField),
         false,
@@ -192,8 +192,8 @@ OSG_FIELD_CONTAINER_DEF(MaterialChunk, MaterialChunkPtr)
 
 MaterialChunk::MaterialChunk(void) :
 	Inherited(), 
-	_diffuse( Vec4f(1,1,1,0 ) ), _ambient( Vec4f(.2,.2,.2,0 ) ), 
-	_specular( Vec4f(.5,.5,.5,0 ) ), _emission( Vec4f(0,0,0,0 ) ), 
+	_diffuse( Color4f(1,1,1,0 ) ), _ambient( Color4f(.2,.2,.2,0 ) ), 
+	_specular( Color4f(.5,.5,.5,0 ) ), _emission( Color4f(0,0,0,0 ) ), 
 	_shininess( 10 )
 {
 	_ownClass = _class.getID();
@@ -220,22 +220,22 @@ MaterialChunk::~MaterialChunk(void)
 
 // Diffuse Color
 
-SFVec4f *MaterialChunk::getSFDiffuse(void)
+SFColor4f *MaterialChunk::getSFDiffuse(void)
 {
 	return &_diffuse;
 }
 
-Vec4f &MaterialChunk::getDiffuse(void)
+Color4f &MaterialChunk::getDiffuse(void)
 {
 	return _diffuse.getValue();
 }
 
-const Vec4f &MaterialChunk::getDiffuse(void) const
+const Color4f &MaterialChunk::getDiffuse(void) const
 {
 	return _diffuse.getValue();
 }
 
-void MaterialChunk::setDiffuse( const Vec4f & color )
+void MaterialChunk::setDiffuse( const Color4f & color )
 {
 	_diffuse.setValue( color );
 }
@@ -243,22 +243,22 @@ void MaterialChunk::setDiffuse( const Vec4f & color )
 
 // Ambient Color
 
-SFVec4f *MaterialChunk::getSFAmbient(void)
+SFColor4f *MaterialChunk::getSFAmbient(void)
 {
 	return &_ambient;
 }
 
-Vec4f &MaterialChunk::getAmbient(void)
+Color4f &MaterialChunk::getAmbient(void)
 {
 	return _ambient.getValue();
 }
 
-const Vec4f &MaterialChunk::getAmbient(void) const
+const Color4f &MaterialChunk::getAmbient(void) const
 {
 	return _ambient.getValue();
 }
 
-void MaterialChunk::setAmbient( const Vec4f & color )
+void MaterialChunk::setAmbient( const Color4f & color )
 {
 	_ambient.setValue( color );
 }
@@ -266,22 +266,22 @@ void MaterialChunk::setAmbient( const Vec4f & color )
 
 // Specular Color
 
-SFVec4f *MaterialChunk::getSFSpecular(void)
+SFColor4f *MaterialChunk::getSFSpecular(void)
 {
 	return &_specular;
 }
 
-Vec4f &MaterialChunk::getSpecular(void)
+Color4f &MaterialChunk::getSpecular(void)
 {
 	return _specular.getValue();
 }
 
-const Vec4f &MaterialChunk::getSpecular(void) const
+const Color4f &MaterialChunk::getSpecular(void) const
 {
 	return _specular.getValue();
 }
 
-void MaterialChunk::setSpecular( const Vec4f & color )
+void MaterialChunk::setSpecular( const Color4f & color )
 {
 	_specular.setValue( color );
 }
@@ -289,22 +289,22 @@ void MaterialChunk::setSpecular( const Vec4f & color )
 
 // Emission Color
 
-SFVec4f *MaterialChunk::getSFEmission(void)
+SFColor4f *MaterialChunk::getSFEmission(void)
 {
 	return &_emission;
 }
 
-Vec4f &MaterialChunk::getEmission(void)
+Color4f &MaterialChunk::getEmission(void)
 {
 	return _emission.getValue();
 }
 
-const Vec4f &MaterialChunk::getEmission(void) const
+const Color4f &MaterialChunk::getEmission(void) const
 {
 	return _emission.getValue();
 }
 
-void MaterialChunk::setEmission( const Vec4f & color )
+void MaterialChunk::setEmission( const Color4f & color )
 {
 	_emission.setValue( color );
 }
@@ -411,8 +411,8 @@ Bool MaterialChunk::operator == (const StateChunk &other) const
 	if ( !tother )
 		return false;
 
-	if ( ! getDiffuse().equals( tother->getDiffuse(), Eps )
-	   )
+	if(getDiffuse() != tother->getDiffuse())
+	   
 		return false;
 		
 	return true;
