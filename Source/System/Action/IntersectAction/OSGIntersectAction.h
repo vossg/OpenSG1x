@@ -125,6 +125,8 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     
     inline Pnt3f getHitPoint( void ) const;
     
+    inline Vec3f getHitNormal( void ) const;
+    
     inline NodePtr getHitObject( void ) const;
     
     inline Int32 getHitTriangle( void ) const;
