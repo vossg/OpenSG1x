@@ -148,6 +148,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FragmentProgramChunk : public FragmentProgramChun
 
     static void initMethod(void);
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                         GL                                   */
+    /*! \{                                                                 */
+
+    void handleGL(Window *win, UInt32 id);
+    
+    /*! \}                                                                 */
+
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const FragmentProgramChunk &source);

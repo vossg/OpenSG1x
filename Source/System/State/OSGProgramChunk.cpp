@@ -134,26 +134,6 @@ ProgramChunk::~ProgramChunk(void)
 
 void ProgramChunk::onCreate(const ProgramChunk *)
 {
-    if(GlobalSystemState == Startup)
-        return;
-
-    // !!! this temporary is needed to work around compiler problems (sgi)
-    // CHECK CHECK
-    //  ProgramChunkPtr tmpPtr = FieldContainer::getPtr<ProgramChunkPtr>(*this);
-    ProgramChunkPtr tmpPtr(*this);
-
-    beginEditCP(tmpPtr, ProgramChunk::GLIdFieldMask);
-
-    setGLId(
-        Window::registerGLObject(
-            osgTypedMethodVoidFunctor2ObjCPtrPtr<ProgramChunkPtr, 
-                                                 Window , 
-                                                 UInt32>(
-                                                     tmpPtr, 
-                                                     &ProgramChunk::handleGL),
-            1));
-
-    endEditCP(tmpPtr, ProgramChunk::GLIdFieldMask);
 }
 
 
@@ -354,17 +334,19 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
 /*! GL object handler
     create the program and destroy it
 */
-void ProgramChunk::handleGL(Window *win, UInt32 idstatus)
+void ProgramChunk::handleGL(Window *win, UInt32 idstatus, GLenum target, UInt32 extension)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
     
     Window::unpackIdStatus(idstatus, id, mode);
-
+    
     // get the program-specific specifics from the derived chunks
-    GLenum target = getTarget();
-    UInt32 extension = getExtension();
-
+    // We can't call this member methods on Window::destroy because
+    // the ProgramChunk instance is already destroyed.
+    //GLenum target = getTarget();
+    //UInt32 extension = getExtension();
+    
     if(!win->hasExtension(extension))
         return;
 
@@ -569,7 +551,6 @@ void ProgramChunk::deactivate(DrawActionBase *action, UInt32)
     glErr("ProgramChunk::deactivate: disable postcheck");
 }
 
-
 /*! Virtual helper function to let the derived chunks return the extension that
     they implement. Only if this extension is supproted on the current Window
     is the porgram called.
@@ -588,7 +569,6 @@ GLenum ProgramChunk::getTarget(void) const
     FWARNING(( "ProgramChunk::getTarget called!\n" ));
     return 0;
 }
-
 
 /*! Virtual helper function to let the derived chunks return the name of the
     target constant that they implement, for debugging purposes.

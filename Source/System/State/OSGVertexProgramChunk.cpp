@@ -108,9 +108,28 @@ VertexProgramChunk::~VertexProgramChunk(void)
 
 /*----------------------------- onCreate --------------------------------*/
 
-void VertexProgramChunk::onCreate(const VertexProgramChunk *chunk)
+void VertexProgramChunk::onCreate(const VertexProgramChunk *)
 {
-    Inherited::onCreate(chunk); 
+    if(GlobalSystemState == Startup)
+        return;
+
+    // !!! this temporary is needed to work around compiler problems (sgi)
+    // CHECK CHECK
+    //  VertexProgramChunkPtr tmpPtr = FieldContainer::getPtr<ProgramChunkPtr>(*this);
+    VertexProgramChunkPtr tmpPtr(*this);
+
+    beginEditCP(tmpPtr, VertexProgramChunk::GLIdFieldMask);
+
+    setGLId(
+        Window::registerGLObject(
+            osgTypedMethodVoidFunctor2ObjCPtrPtr<VertexProgramChunkPtr, 
+                                                 Window , 
+                                                 UInt32>(
+                                                     tmpPtr, 
+                                                     &VertexProgramChunk::handleGL),
+            1));
+
+    endEditCP(tmpPtr, VertexProgramChunk::GLIdFieldMask);
 }
 
 
@@ -135,6 +154,14 @@ void VertexProgramChunk::dump(      UInt32    ,
 }
 
 /*------------------------------ State ------------------------------------*/
+
+/*! GL object handler
+    create the program and destroy it
+*/
+void VertexProgramChunk::handleGL(Window *win, UInt32 idstatus)
+{
+    Inherited::handleGL(win, idstatus, GL_VERTEX_PROGRAM_ARB, _arbVertexProgram);
+}
 
 UInt32 VertexProgramChunk::getExtension(void) const
 {

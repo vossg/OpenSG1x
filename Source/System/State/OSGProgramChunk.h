@@ -186,7 +186,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunk : public ProgramChunkBase
                   void    printCompileError(Window *win, UInt32 idstatus);
 
     /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                         GL                                   */
+    /*! \{                                                                 */
+
+    void handleGL(Window *win, UInt32 id, GLenum target, UInt32 extension);
     
+   /*! \}                                                                 */
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -208,14 +216,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunk : public ProgramChunkBase
     /*! \}                                                                 */
 
     static void initMethod(void);
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                         GL                                   */
-    /*! \{                                                                 */
-
-    void handleGL(Window *win, UInt32 id);
-    
-   /*! \}                                                                 */
 
     // prohibit default functions (move to 'public' if you need one)
 

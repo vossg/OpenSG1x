@@ -108,9 +108,28 @@ FragmentProgramChunk::~FragmentProgramChunk(void)
 
 /*----------------------------- onCreate --------------------------------*/
 
-void FragmentProgramChunk::onCreate(const FragmentProgramChunk *chunk)
+void FragmentProgramChunk::onCreate(const FragmentProgramChunk *)
 {
-    Inherited::onCreate(chunk); 
+    if(GlobalSystemState == Startup)
+        return;
+
+    // !!! this temporary is needed to work around compiler problems (sgi)
+    // CHECK CHECK
+    //  FragmentProgramChunkPtr tmpPtr = FieldContainer::getPtr<ProgramChunkPtr>(*this);
+    FragmentProgramChunkPtr tmpPtr(*this);
+
+    beginEditCP(tmpPtr, FragmentProgramChunk::GLIdFieldMask);
+
+    setGLId(
+        Window::registerGLObject(
+            osgTypedMethodVoidFunctor2ObjCPtrPtr<FragmentProgramChunkPtr, 
+                                                 Window , 
+                                                 UInt32>(
+                                                     tmpPtr, 
+                                                     &FragmentProgramChunk::handleGL),
+            1));
+
+    endEditCP(tmpPtr, FragmentProgramChunk::GLIdFieldMask);
 }
 
 
@@ -135,6 +154,14 @@ void FragmentProgramChunk::dump(      UInt32    ,
 }
 
 /*------------------------------ State ------------------------------------*/
+
+/*! GL object handler
+    create the program and destroy it
+*/
+void FragmentProgramChunk::handleGL(Window *win, UInt32 idstatus)
+{
+    Inherited::handleGL(win, idstatus, GL_FRAGMENT_PROGRAM_ARB, _arbFragmentProgram);
+}
 
 UInt32 FragmentProgramChunk::getExtension(void) const
 {
