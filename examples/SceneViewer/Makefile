@@ -63,7 +63,7 @@ OSG_WINDOW_QT_PAK  = YES
 #OSG_WINDOW_X_PAK  = YES
 QT_PAK  = YES
 OPENGL_PAK      = YES
-GLUT_PAK        = YES
+GLUT_PAK        = NO
 TIFF_PAK        = YES
 JPEG_PAK        = YES
 ######################################################################
@@ -218,7 +218,7 @@ ifeq ($(OS),SunOS)
 	MICOINC = -I$(PPOOL)/opt/mico/inst/$(OS)/include -D MICO_LIB
 	MICOLIB = -L $(PPOOL)/opt/mico/inst/$(OS)/lib -lmico2.3.1 -lmicocoss2.3.1
 	THRINC  = 
-	THRLIB  = -lpthread -ldl
+	THRLIB  = -lpthread 
 	LOGINC  = -D LOG_LIB
 	LOGLIB  = -L$(PPOOL)/lib/$(OS) -llog$(LIBSUF)
 endif
@@ -391,7 +391,7 @@ ifeq ($(OS),IRIX)
 	MEDINC  = -D MEDUSA_LIB
 	MEDLIB  = -L$(POOL)/lib/$(OS) -lmedusa$(LIBSUF)
 	THRINC  = 
-	THRLIB  = -lpthread -ldl
+	THRLIB  = -lpthread 
 	LOGINC  = -D LOG_LIB
 	LOGLIB  = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -llog$(LIBSUF)
 	OSGINC  = -I$(OSGROOT)/include
@@ -405,7 +405,13 @@ ifeq ($(OS),IRIX)
 	OSGWXLIB    = -lOSGWindowX
 	OSGWGLUTINC = -DOSG_WITH_GLUT
 	OSGWGLUTLIB = -lOSGWindowGLUT
-	OSGWQTINC   = -DOSG_WITH_QT
+	OSGWQTINC   = -DOSG_WITH_QT -DQT_NO_XINERAMA -DQT_NO_XRENDER 		\
+				  -DQT_NO_XFTFREETYPE 									\
+				  -DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG	\
+				  -DQT_NO_IMAGEIO_JPEG -DQT_NO_STYLE_AQUA 				\
+				  -DQT_NO_STYLE_MAC -DQT_NO_STYLE_INTERLACE 			\
+				  -DQT_NO_STYLE_COMPACT
+
 	OSGWQTLIB   = -lOSGWindowQT
 endif
 #-- SGI --------------------------------------------------------------
@@ -544,7 +550,7 @@ ifeq ($(OS),IRIX64)
 	MEDINC  = -D MEDUSA_LIB
 	MEDLIB  = -L$(POOL)/lib/$(OS)/$(LIBDIR) -lmedusa$(LIBSUF)
 	THRINC  = 
-	THRLIB  = -lpthread -ldl
+	THRLIB  = -lpthread 
 	LOGINC  = -D LOG_LIB
 	LOGLIB  = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -llog$(LIBSUF)
 	OSGINC  = -I$(OSGROOT)/include
@@ -558,23 +564,28 @@ ifeq ($(OS),IRIX64)
 	OSGWXLIB    = -lOSGWindowX
 	OSGWGLUTINC = -DOSG_WITH_GLUT
 	OSGWGLUTLIB = -lOSGWindowGLUT
-	OSGWQTINC   = -DOSG_WITH_QT
+	OSGWQTINC   = -DOSG_WITH_QT -DQT_NO_XINERAMA -DQT_NO_XRENDER 		\
+				  -DQT_NO_XFTFREETYPE 									\
+				  -DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG	\
+				  -DQT_NO_IMAGEIO_JPEG -DQT_NO_STYLE_AQUA 				\
+				  -DQT_NO_STYLE_MAC -DQT_NO_STYLE_INTERLACE 			\
+				  -DQT_NO_STYLE_COMPACT
 	OSGWQTLIB   = -lOSGWindowQT
 endif
 #-- Linux -----------------------------------------------------------
 ifeq ($(OS),Linux)
-	GCC 		= $(GCCPATH)/bin/gcc 
+	GCC 		= $(GCCPATH)/bin/g++
 	GCXX 		= $(GCCPATH)/bin/g++
-  GCFLAGS = -c -o $@ -Wall -fPIC -ffast-math -funroll-loops -frtti -Wno-unknown-pragmas
+  GCFLAGS = -c -o $@ -Wall  -Wno-unknown-pragmas
   ifeq ($(TEMPDB),YES)
 	  GCFLAGS += -fno-implicit-templates
   endif
-	GLD			= $(GCCPATH)/bin/gcc -Wl,-v 
+	GLD			= $(GCCPATH)/bin/g++ -Wl,-v 
 	GSO     = $(GCCPATH)/bin/gcc -shared -Wl,-v
 	GMKDEP  = $(GCXX) -M
 #	GMKDEP  = makedepend 2>/dev/null -f-
 
-	NCC 		= gcc
+	NCC 		= g++
 	NCXX 		= g++
   NCFLAGS = -c -o $@ -Wall -fPIC -ffast-math -funroll-loops -frtti -Wno-unknown-pragmas
   ifeq ($(TEMPDB),YES)
@@ -685,14 +696,19 @@ ifeq ($(OS),Linux)
 	OSGWXLIB    = -lOSGWindowX
 	OSGWGLUTINC = -DOSG_WITH_GLUT
 	OSGWGLUTLIB = -lOSGWindowGLUT
-	OSGWQTINC   = -DOSG_WITH_QT
+	OSGWQTINC   = -DOSG_WITH_QT -DQT_NO_XINERAMA -DQT_NO_XRENDER 		\
+				  -DQT_NO_XFTFREETYPE 									\
+				  -DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG	\
+				  -DQT_NO_IMAGEIO_JPEG -DQT_NO_STYLE_AQUA 				\
+				  -DQT_NO_STYLE_MAC -DQT_NO_STYLE_INTERLACE 			\
+				  -DQT_NO_STYLE_COMPACT
 	OSGWQTLIB   = -lOSGWindowQT
 	OGLWINC = -I/usr/X11/include 
 	OGLWLIB = -L/usr/X11/lib -lMesaGLwM
 	MEDINC  = -D MEDUSA_LIB
 	MEDLIB  = -L$(POOL)/lib/$(OS) -lmedusa$(LIBSUF)
 	THRINC  = 
-	THRLIB  = -lpthread -lrt -ldl
+	THRLIB  = -lpthread 
 	LOGINC  = -D LOG_LIB
 	LOGLIB  = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -llog$(LIBSUF)
 endif
@@ -720,7 +736,7 @@ ifeq ($(findstring WIN,$(OS)),WIN)
            /D_OSG_HAVE_CONFIGURED_H_                      \
            /D__INTEL_COMPILER_VERSION=500
 #	NMKDEP  = $(NCXX) -QM -nologo
-						
+
 # /D "__i386__" /D "ANSI_STL" /D "__ANSI_CPP__"
 	NLD	    = link
 	NSO     =
@@ -841,7 +857,12 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	OSGWXLIB    = OSGWindowX.lib
 	OSGWGLUTINC = /D OSG_WITH_GLUT
 	OSGWGLUTLIB = OSGWindowGLUT.lib
-	OSGWQTINC   = /D OSG_WITH_QT
+	OSGWQTINC   = -DOSG_WITH_QT -DQT_NO_XINERAMA -DQT_NO_XRENDER 		\
+				  -DQT_NO_XFTFREETYPE 									\
+				  -DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG	\
+				  -DQT_NO_IMAGEIO_JPEG -DQT_NO_STYLE_AQUA 				\
+				  -DQT_NO_STYLE_MAC -DQT_NO_STYLE_INTERLACE 			\
+				  -DQT_NO_STYLE_COMPACT
 	OSGWQTLIB   = OSGWindowQT.lib
 	OGLINC	= /D OPENGL_LIB
 	OGLLIB	= opengl32.lib glu32.lib 
@@ -1363,7 +1384,7 @@ soinc: so
 usoinc: so
 	cp *.h $(HOME)/include/$(NAMESPACE)
 	mv $(LIBTARGET).so $(HOME)/lib/$(OS)/$(LIBDIR)
-	
+
 includelink:
 	ln -s $(PWD) $(PPOOL)/include/$(TARGET)
 
@@ -1404,7 +1425,7 @@ doc: $(DOCDIR)
 
 $(DOCDIR)/tex: doc
 	mkdir -p $(DOCDIR)/tex
-	
+
 tex:	$(HEADERS) $(DOCDIR)/tex
 	doc++ -t -o $(DOCDIR)/tex/$(TARGET).tex $(HEADERS)
 
@@ -1414,7 +1435,7 @@ ps: tex
 
 $(DOCDIR)/html: doc
 	mkdir -p $(DOCDIR)/html
-	
+
 html: $(HEADERS) $(DOCDIR)/html
 	doc++ -p -u -H -d $(DOCDIR)/html -b $(HEADERS)
 

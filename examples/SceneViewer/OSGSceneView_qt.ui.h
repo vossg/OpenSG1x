@@ -248,7 +248,7 @@ void OSGSceneView::createView( osg::NodePtr node )
       viewList.push_back(widget);
       connect ( widget, SIGNAL ( closed     (QWidget *) ),
                 this,   SLOT   ( removeView (QWidget *) ) );
-      widget->getManager().setRoot( node );
+           widget->getManager().setRoot( node );
       widget->getManager().showAll();
       // widget->getManager().useOpenSGLogo();
       widget->show();
