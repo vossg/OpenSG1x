@@ -256,12 +256,12 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
         }
         else
         {
-            Window::imageContentChanged();
+            imageContentChanged();
         }
     } // Only priority changed? Refresh is fine.
     else if((whichField & ~PriorityFieldMask) == 0)
     {
-        Window::imageContentChanged();
+        imageContentChanged();
     } // Only dirty rectangle changed? Refresh is fine.
     else if ((whichField & ~(DirtyMinXFieldMask | DirtyMaxXFieldMask |
                              DirtyMinYFieldMask | DirtyMaxYFieldMask |
