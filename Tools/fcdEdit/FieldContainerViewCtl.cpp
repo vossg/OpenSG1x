@@ -58,7 +58,7 @@ FieldContainerViewCtl::FieldContainerViewCtl( const char *file )
 			break;
 
 	for (i = 0; true; i++)
-		if (Field::visibilityStr(i))
+		if (Field::accessStr(i))
 			partAccessCombo->insertItem(QString(Field::accessStr(i)));
 		else
 			break;
