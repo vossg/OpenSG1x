@@ -40,6 +40,10 @@
 #pragma once
 #endif
 
+/*! \file OSGAttachmentImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
@@ -60,24 +64,27 @@ class FieldDescription;
 //  Class
 //---------------------------------------------------------------------------
 
-//! Attachment is the base class for sharable thread safe data stores,
-//! which could be attached to other fieldcontainers than Attachments.
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+    Attachment is the base class for sharable thread safe data stores,
+    which could be attached to other fieldcontainers than Attachments.
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer 
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef FieldContainer Inherited;
     
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum 
     { 
         ParentsFieldId     = Inherited::NextFieldId, 
-        InternalFieldId    = ParentsFieldId + 1,
+        InternalFieldId    = ParentsFieldId  + 1,
         NextFieldId        = InternalFieldId + 1
     };
 
@@ -95,24 +102,24 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                        Parents                               */
     /*! \{                                                                 */
 
-          MFFieldContainerPtr &getParents  (void);
-    const MFFieldContainerPtr &getParents  (void) const;
+          MFFieldContainerPtr &getParents  (void                    );
+    const MFFieldContainerPtr &getParents  (void                    ) const;
     
-          MFFieldContainerPtr *getMFParents(void);
+          MFFieldContainerPtr *getMFParents(void                    );
 
-    void                       addParent   (FieldContainerPtr parent);
-    void                       subParent   (FieldContainerPtr parent);
+          void                 addParent   (FieldContainerPtr parent);
+          void                 subParent   (FieldContainerPtr parent);
 
-    Int32                      findParent  (FieldContainerPtr parent);
+          Int32                findParent  (FieldContainerPtr parent);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Parents                               */
     /*! \{                                                                 */
 
-          SFBool &getInternal  (void);
-    const SFBool &getInternal  (void) const;
-          SFBool *getSFInternal(void);
+          SFBool &getInternal  (void     );
+    const SFBool &getInternal  (void     ) const;
+          SFBool *getSFInternal(void     );
 
           void    setInternal  (bool bVal);
 
@@ -138,6 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -160,7 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Attachment(void);
+    Attachment(      void           );
     Attachment(const Attachment &obj);
 
     /*! \}                                                                 */
@@ -190,6 +198,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -210,18 +219,20 @@ template <class AttachmentDescT>
 class SimpleAttachment : public Attachment
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef Attachment Inherited;
 
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    typedef typename AttachmentDescT::FieldTypeT          StoredFieldType;
+    typedef typename AttachmentDescT::FieldTypeT       StoredFieldType;
 
-    typedef          SimpleAttachment<AttachmentDescT>    Self;
+    typedef          SimpleAttachment<AttachmentDescT> Self;
 
-    typedef          FCPtr<AttachmentPtr,  Self      >    PtrType;
+    typedef          FCPtr<AttachmentPtr,  Self      > PtrType;
     
     enum 
     { 
@@ -270,16 +281,14 @@ class SimpleAttachment : public Attachment
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
-#if 1 //defined(OSG_MICROSOFT_COMPILER_ALERT)
     static FieldDescription   *_desc[];
-#endif
-
     static FieldContainerType  _type;
 
     /*! \}                                                                 */
@@ -317,6 +326,7 @@ class SimpleAttachment : public Attachment
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -335,10 +345,10 @@ class SimpleAttachment : public Attachment
 //! \ingroup GrpSystemFieldContainer
 
 template <class AttachmentDescT>
-class DynFieldAttachment : 
-    public AttachmentDescT::Parent
+class DynFieldAttachment : public AttachmentDescT::Parent
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef          DynFieldAttachment<AttachmentDescT> Self;
@@ -381,6 +391,7 @@ class DynFieldAttachment :
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef typename AttachmentDescT::Parent Inherited;
@@ -405,7 +416,7 @@ class DynFieldAttachment :
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DynFieldAttachment(void);
+    DynFieldAttachment(      void                      );
     DynFieldAttachment(const DynFieldAttachment &source);
 
     /*! \}                                                                 */
@@ -417,6 +428,7 @@ class DynFieldAttachment :
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+ 
   private:
 
     friend class FieldContainer;
@@ -425,10 +437,15 @@ class DynFieldAttachment :
     void operator =(const DynFieldAttachment &source);
 };
 
+/*! \ingroup GrpSystemFieldContainer
+ */
+
 typedef std::map<UInt32, AttachmentPtr>  AttachmentMap;
 
-OSG_SYSTEMLIB_DLLMAPPING
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
+OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream  &stream,
                           const AttachmentMap &amap);
 

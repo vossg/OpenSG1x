@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGNodePtrImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 #include <OSGAttachmentContainerPtr.h>
@@ -57,8 +61,8 @@ class CNodePtr;
 //  Class
 //---------------------------------------------------------------------------
 
-//! Pointer to a node
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 #ifdef __sgi
 #pragma set woff 1375,1424
@@ -71,6 +75,7 @@ class CNodePtr;
 class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef Node                   StoredObjectType;
@@ -145,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -157,6 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -169,6 +176,9 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 #ifdef __sgi
 #pragma reset woff 1375,1424
 #endif
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream &os,

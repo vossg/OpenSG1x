@@ -42,13 +42,18 @@
 #pragma once
 #endif
 
+/*! \file OSGSimpleAttachments.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 #include <OSGAttachment.h>
 
 OSG_BEGIN_NAMESPACE
 
-//! Name attachment
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+    \hideinhierarchy
+ */
 
 struct NameAttachmentDesc
 {
@@ -81,19 +86,35 @@ struct NameAttachmentDesc
     static FieldDescription **getDesc      (void) { return _desc; }
 };
 
+/*! \ingroup GrpSystemFieldContainer
+ */
+
 typedef SimpleAttachment<NameAttachmentDesc  > Name;
+
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 
 
 class AttachmentContainerPtr;
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 const Char8 *getName(      AttachmentContainerPtr  container);
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
       void   setName(      AttachmentContainerPtr  container, 
                      const std::string            &name     );
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
       void   setName(      AttachmentContainerPtr  container, 
                      const Char8                  *name     );
@@ -110,8 +131,9 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 
-//! void pointer attachment
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+    \hideinhierarchy
+ */
 
 struct VoidPAttachmentDesc
 {
@@ -144,38 +166,30 @@ struct VoidPAttachmentDesc
     static FieldDescription **getDesc      (void) { return _desc; }
 };
 
+/*! \ingroup GrpSystemFieldContainer
+ */
+
 typedef SimpleAttachment<VoidPAttachmentDesc            > VoidPAttachment;
+
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 typedef FCPtr           <AttachmentPtr,  VoidPAttachment> VoidPAttachmentPtr;
 
-
-class AttachmentContainerPtr;
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Char8 *getName(      AttachmentContainerPtr  container);
-
-OSG_SYSTEMLIB_DLLMAPPING
-      void   setName(      AttachmentContainerPtr  container, 
-                     const std::string            &name     );
-OSG_SYSTEMLIB_DLLMAPPING
-      void   setName(      AttachmentContainerPtr  container, 
-                     const Char8                  *name     );
-
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 void *getVoidP(AttachmentContainerPtr  container);
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 void  setVoidP(AttachmentContainerPtr  container, 
-               void                   *pData     );
+               void                   *pData    );
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-#ifndef OSG_COMPILESIMPLEATTACHMENTSINST
-OSG_FC_DLLEXPORT_DECL(SimpleAttachment, 
-                      NameAttachmentDesc,
-                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
 
 #ifndef OSG_COMPILESIMPLEATTACHMENTSINST
 OSG_FC_DLLEXPORT_DECL(SimpleAttachment, 

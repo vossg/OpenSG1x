@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGCNodePtrImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 #include <OSGAttachmentContainerPtr.h>
@@ -63,12 +67,13 @@ class NodeCore;
 #pragma warning( disable : 444 )
 #endif
 
-//! Pointer to a node
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef NodeCore               StoredObjectType;
@@ -80,7 +85,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-             CNodePtr(void);
+             CNodePtr(      void                         );
              CNodePtr(const CNodePtr              &source);
              CNodePtr(const NullFieldContainerPtr &source);
     explicit CNodePtr(const NodePtr               &source);
@@ -135,6 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -147,6 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -159,6 +166,9 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 #ifdef __sgi
 #pragma reset woff 1375,1424
 #endif
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream &os,

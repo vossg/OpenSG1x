@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerTypeImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGIDStringLink.h>
@@ -53,15 +57,23 @@ OSG_BEGIN_NAMESPACE
 
 class FieldDescription;
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 typedef void              (*InitContainerF)  (void);
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
-//! FieldContainerType
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -156,6 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     enum BaseType
@@ -223,6 +236,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     typedef DataType Inherited;

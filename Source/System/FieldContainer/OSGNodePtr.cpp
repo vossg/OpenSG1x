@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGNodePtr.cpp
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -56,7 +60,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */
 
-//! Write FC to the given stream
+// Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &OSG::operator <<(      std::ostream &os,
@@ -84,7 +88,7 @@ std::ostream &OSG::operator <<(      std::ostream &os,
     return os;
 }
 
-//! Write FC to the given stream
+// Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &OSG::operator <<(      std::ostream  &os,

@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGFieldContainerType.cpp
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -56,10 +60,6 @@
 #include "OSGNodeCore.h"
 #include "OSGAttachment.h"
 
-#if 0
-#include "OSGNodeCore.h"
-#endif
-
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -77,9 +77,6 @@ void FieldContainerType::registerType(const Char8 *szGroupName)
     _uiGroupId = FieldContainerFactory::the()->registerGroup(
         szGroupName != NULL ? szGroupName : _szName.str());
 }
-
-/*! \class osg::FieldContainerType
- */
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

@@ -34,6 +34,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGNodeCore.cpp
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -44,9 +48,6 @@
 #include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
-
-/*! \class osg::NodeCore
- */
 
 const BitVector
     NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );

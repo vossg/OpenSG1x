@@ -37,10 +37,9 @@
 #ifndef _OSGATTACHMENTIMPL_INL_
 #define _OSGATTACHMENTIMPL_INL_
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
+/*! \file OSGAttachmentImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -52,9 +51,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \class SimpleAttachment
- */
-
 OSG_FIELD_CONTAINER_INL_DEF(Attachment, AttachmentPtr)
 
 #if defined(__hpux)
@@ -65,7 +61,6 @@ const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask;
 /*-------------------------------------------------------------------------*/
 /*                           Type Information                              */
 
-#if 1 //defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
 FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 {
@@ -77,7 +72,6 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
         (FieldAccessMethod) &SimpleAttachment<AttachmentDescT>::getFieldPtr,
         NULL)
 };
-#endif
 
 #if 0
 #if 1
@@ -116,7 +110,8 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(SimpleAttachment,
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-//! Returns pointer to stored field
+/*! Returns pointer to stored field
+ */
 
 template <class AttachmentDescT> inline
 typename SimpleAttachment<AttachmentDescT>::StoredFieldType *
@@ -125,8 +120,9 @@ typename SimpleAttachment<AttachmentDescT>::StoredFieldType *
     return &_field;
 }
 
-//! Returns reference to the stored field
- 
+/*! Returns reference to the stored field
+ */
+
 template <class AttachmentDescT> inline
 typename SimpleAttachment<AttachmentDescT>::StoredFieldType &
     SimpleAttachment<AttachmentDescT>::getField(void)
@@ -134,7 +130,8 @@ typename SimpleAttachment<AttachmentDescT>::StoredFieldType &
     return _field;
 }
 
-//! Returns const reference to the stored field
+/*! Returns const reference to the stored field
+ */
 
 template <class AttachmentDescT> inline
 const typename SimpleAttachment<AttachmentDescT>::StoredFieldType &
@@ -209,7 +206,7 @@ SimpleAttachment<AttachmentDescT>::SimpleAttachment(void) :
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::SimpleAttachment(
                       const SimpleAttachment &source) :
-     Inherited(source),
+     Inherited(source       ),
     _field    (source._field)
 {
 }
@@ -250,8 +247,7 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
 
 
 
-/*! \class DynFieldAttachment
- */
+
 #if 0
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
@@ -290,7 +286,7 @@ FieldContainerType &DynFieldAttachment<AttachmentDescT>::getType(void)
 }
 
 template <class AttachmentDescT> inline
-const FieldContainerType&
+const FieldContainerType &
     DynFieldAttachment<AttachmentDescT>::getType(void) const
 {
     return _localType;

@@ -40,6 +40,10 @@
 #pragma once
 #endif
 
+/*! \file OSGNodeCore.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <map>
 
 #include <OSGSystemDef.h>
@@ -55,21 +59,24 @@ OSG_BEGIN_NAMESPACE
 class BinaryDataHandler;
 class NodeCore;
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+// created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 #endif
 
-//! NodeCore
-//! \ingroup FieldContainerLib
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef AttachmentContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum 
@@ -125,6 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -205,6 +213,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class Node;

@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGAttachmentContainerPtrImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
@@ -49,9 +53,6 @@
 OSG_BEGIN_NAMESPACE
 
 class AttachmentContainer;
-
-//! Pointer to an attachment container
-//! \ingroup GrpSystemFieldContainer
 
 #ifdef __sgi
 #pragma set woff 1375,1424
@@ -61,16 +62,20 @@ class AttachmentContainer;
 #pragma warning( disable : 444 )
 #endif
 
+/*! \ingroup GrpSystemFieldContainer
+ */
+
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr : 
     public FieldContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef AttachmentContainer    StoredObjectType;
     typedef AttachmentContainerPtr ObjectType;
 
-    typedef FieldContainerPtr   Inherited;
+    typedef FieldContainerPtr      Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      dcast                                   */
@@ -84,7 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    AttachmentContainerPtr(void);
+    AttachmentContainerPtr(      void                          );
     AttachmentContainerPtr(const AttachmentContainerPtr &source);
     AttachmentContainerPtr(const NullFieldContainerPtr  &source);
     
@@ -129,6 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -141,6 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -154,9 +161,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
 #pragma reset woff 1375,1424
 #endif
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream           &os,

@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGChangeList.cpp
+    \ingroup GrpSystemMultithreading
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -52,23 +56,19 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::ChangeList
- */
-
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 ChangeList::ChangeList(void) :
-     Inherited                (),
-    _bReadOnly                (false),
+     Inherited                (                   ),
+    _bReadOnly                (false              ),
     _uiAspectId               (Thread::getAspect()),
-    _listMode                 (Public),
-    _vChangedFieldContainers  (),
-    _vAddRefdFieldContainers  (),
-    _vSubRefdFieldContainers  (),
-    _vCreatedFieldContainers  (),
-    _vDestroyedFieldContainers()
+    _listMode                 (Public             ),
+    _vChangedFieldContainers  (                   ),
+    _vAddRefdFieldContainers  (                   ),
+    _vSubRefdFieldContainers  (                   ),
+    _vCreatedFieldContainers  (                   ),
+    _vDestroyedFieldContainers(                   )
 {
 //    Aspect::addList(this, _aspectId);
 }

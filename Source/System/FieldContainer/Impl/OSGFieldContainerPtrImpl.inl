@@ -39,16 +39,16 @@
 #ifndef _OSGFIELDCONTAINERPTRIMPL_INL_
 #define _OSGFIELDCONTAINERPTRIMPL_INL_
 
+/*! \file OSGFieldContainerPtrImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
 #include <iostream>
-
-#ifndef _OSGFIELDCONTAINER_H_
-//#warning FCPtr.inl ohne FC.h
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -145,9 +145,6 @@ FieldContainerPtrBase::FieldContainerPtrBase(void) :
     _uiParentEPos(InvalidParentEPos),
     _storeP      (NULL             ) 
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _szTypename = NULL;
-#endif
 }
 
 inline
@@ -158,9 +155,6 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     _uiParentEPos (InvalidParentEPos),
     _storeP       (NULL             )
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _szTypename = NULL;
-#endif
 }
 
 inline
@@ -171,12 +165,6 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     _uiParentEPos (source._uiParentEPos ),
     _storeP       (source._storeP       )
 {
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _szTypename = NULL;
-    else
-        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -237,10 +225,6 @@ void FieldContainerPtrBase::operator =(const NullFieldContainerPtr &)
     _containerSize = 0;
     _uiParentEPos  = InvalidParentEPos;
     _storeP        = NULL;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _szTypename = NULL;
-#endif
 }
 
 inline
@@ -252,13 +236,6 @@ void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
     _containerSize = source._containerSize;
     _uiParentEPos  = source._uiParentEPos;
     _storeP        = source._storeP;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _szTypename = NULL;
-    else
-        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -314,18 +291,6 @@ bool FieldContainerPtrBase::operator ! (void) const
 }
 
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-inline
-void FieldContainerPtrBase::updateTypedStore(void)
-{
-    if(_storeP == NULL)
-        _szTypename = NULL;
-    else
-        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
-}
-#endif
-
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
@@ -346,13 +311,6 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source,
     {
         _storeP  = NULL;
     }
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _typename = NULL;
-    else
-        _typename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -369,13 +327,6 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer &source)
     _uiParentEPos    = InvalidParentEPos;
     _storeP          = (UInt8 *) (const_cast<FieldContainer *>(&source));
     _storeP         -= getElemOff(Thread::getAspect());
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _typename = NULL;
-    else
-        _typename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
 }
 
 inline
@@ -394,13 +345,6 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source)
         _containerSize = 0;
         _storeP          = NULL;
     }
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _typename = NULL;
-    else
-        _typename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -425,10 +369,6 @@ void FieldContainerPtrBase::setNull(void)
     _containerSize = 0;
     _uiParentEPos  = InvalidParentEPos;
     _storeP        = NULL;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _szTypename = NULL;
-#endif
 }
 
 
@@ -436,9 +376,6 @@ void FieldContainerPtrBase::setNull(void)
 //  Class
 //---------------------------------------------------------------------------
 
-
-/*! \class osg::FieldContainerPtr
- */
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -710,9 +647,6 @@ ConstFieldContainerPtr::ConstFieldContainerPtr(
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \class osg::NullFieldContainerPtr
- */
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
@@ -735,9 +669,6 @@ NullFieldContainerPtr::~NullFieldContainerPtr(void)
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
-
-/*! \class FCPtr
- */
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -869,9 +800,6 @@ FCPtr<BasePtrTypeT,
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
-
-/*! \class ConstFCPtr
- */
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

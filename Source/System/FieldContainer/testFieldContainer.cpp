@@ -241,6 +241,11 @@ int main (int argc, char **argv)
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p2->dump(0, OSG::FCDumpFlags::RefCount);
 
+    fprintf(stderr, "%p %p %p\n",
+            p1.getBaseCPtr(),
+            p1.getAspectCPtr(0),
+            p1.getAspectCPtr(1));
+
     // test name convenience functions
     
     std::cerr << "Name convenience" << std::endl;

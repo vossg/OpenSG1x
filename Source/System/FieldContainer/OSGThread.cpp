@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGThread.cpp
+    \ingroup GrpSystemMultithreading
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -62,9 +66,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::ThreadCommonBase
- */
-
 const UInt32 ThreadCommonBase::InvalidAspect = 
     TypeTraits<UInt32>::BitsSet;
 
@@ -82,10 +83,11 @@ ChangeList *ThreadCommonBase::getChangeList(void)
 ThreadCommonBase::ThreadCommonBase(const Char8  *szName,
                                          UInt32  uiId) :
     
-     Inherited(szName, uiId),
+     Inherited  (szName, 
+                 uiId  ),
 
-    _uiAspectId (0),
-    _pChangeList(NULL)
+    _uiAspectId (0     ),
+    _pChangeList(NULL  )
 {
 }
 
@@ -114,9 +116,6 @@ void ThreadCommonBase::setChangeList(ChangeList *pChangeList)
 
 
 #if defined (OSG_USE_PTHREADS)
-
-/*! \class osg::PThreadBase
- */
 
 #ifdef OSG_ASPECT_USE_CUSTOMSELF
 
@@ -364,9 +363,6 @@ void PThreadBase::setupChangeList(void)
 
 #if defined (OSG_USE_SPROC)
 
-/*! \class osg::SprocBase
- */
-
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
@@ -469,11 +465,8 @@ void SprocBase::setupChangeListInternal(void)
 
 #if defined (OSG_USE_WINTHREADS)
 
-/*! \class osg::WinThreadBase
- */
-
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
-UInt32 WinThreadBase::_aspectKey = 0;
+UInt32 WinThreadBase::_aspectKey     = 0;
 UInt32 WinThreadBase::_changeListKey = 0;
 #endif
 
@@ -648,9 +641,6 @@ void WinThreadBase::setupChangeList(void)
 
 
 
-/*! \class osg::Thread
- */
-
 MPThreadType Thread::_type("OSGThread", 
                            "OSGBaseThread", 
                            (CreateThreadF)  Thread::create,
@@ -752,8 +742,7 @@ Thread::~Thread(void)
 }
 
 
-/*! \class osg::ExternalThread
- */
+
 
 MPThreadType ExternalThread::_type("OSGExternalThread", 
                                    "OSGMPBase", 

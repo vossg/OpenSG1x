@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerPtrImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGConceptPropertyChecks.h>
 #include <OSGFieldContainerProperties.h>
 #include <OSGSystemDef.h>
@@ -64,8 +68,8 @@ class NullFieldContainerPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-//! FieldContainerPtrBase
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 #ifdef __sgi
 #pragma set woff 1424
@@ -86,6 +90,7 @@ class NullFieldContainerPtr;
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     static const UInt16           InvalidParentEPos;
@@ -94,8 +99,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    FieldContainerPtrBase(void); 
-    FieldContainerPtrBase(const NullFieldContainerPtr &);
+    FieldContainerPtrBase(      void                         ); 
+    FieldContainerPtrBase(const NullFieldContainerPtr &      );
     FieldContainerPtrBase(const FieldContainerPtrBase &source);
 
     /*! \}                                                                 */
@@ -166,6 +171,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -184,16 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     UInt16  _uiParentEPos;
     UInt8  *_storeP;
 
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    const Char8 *_szTypename;
-#endif
-
     /*! \}                                                                 */
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    void updateTypedStore(void);
-#endif
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -260,6 +257,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -295,8 +293,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 //  Class
 //---------------------------------------------------------------------------
 
-//! FieldContainerPtr
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 #ifdef __sgi
 #pragma set woff 1375
@@ -305,6 +303,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     OSG_PROPERTY_DECL(Pointer);
@@ -318,8 +317,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    FieldContainerPtr(void);
-    FieldContainerPtr(const NullFieldContainerPtr &);
+    FieldContainerPtr(      void                         );
+    FieldContainerPtr(const NullFieldContainerPtr &      );
     FieldContainerPtr(const FieldContainerPtr     &source);
 
     /*! \}                                                                 */
@@ -348,11 +347,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
     /*! \name                    Assignment                                */
     /*! \{                                                                 */
 
-    void operator =(const NullFieldContainerPtr &);
+    void operator =(const NullFieldContainerPtr &      );
     void operator =(const FieldContainerPtr     &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -378,6 +378,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -405,13 +406,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 
 
 
-//! NullPtr Class
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING NullFieldContainerPtr : 
     public FieldContainerPtr 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef FieldContainerPtr Inherited;
@@ -438,14 +440,16 @@ class OSG_SYSTEMLIB_DLLMAPPING NullFieldContainerPtr :
 //  Class
 //---------------------------------------------------------------------------
 
-//! ConstFieldContainerPtr, read FieldContainer const * pFieldContainer
-//! NOT FieldContainer * const pFieldContainer
-//! \ingroup GrpSystemFieldContainer
+/*! ConstFieldContainerPtr, read FieldContainer const * pFieldContainer
+    NOT FieldContainer * const pFieldContainer
+   \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr : 
     public FieldContainerPtrBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     OSG_PROPERTY_DECL(ConstPointer);
@@ -459,7 +463,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ConstFieldContainerPtr(void                                );
+    ConstFieldContainerPtr(      void                          );
     ConstFieldContainerPtr(const NullFieldContainerPtr  &      );
     ConstFieldContainerPtr(const FieldContainerPtr      &source);
     ConstFieldContainerPtr(const ConstFieldContainerPtr &source);
@@ -490,12 +494,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
     /*! \name                    Assignment                                */
     /*! \{                                                                 */
 
-    void operator =(const NullFieldContainerPtr &);
+    void operator =(const NullFieldContainerPtr &       );
     void operator =(const FieldContainerPtr      &source);
     void operator =(const ConstFieldContainerPtr &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -511,6 +516,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 };
 
@@ -521,13 +527,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
 //  Class
 //---------------------------------------------------------------------------
 
-//! Template to construct custom field container pointers
-//! \ingroup GrpSystemFieldContainer
+/*! Template to construct custom field container pointers
+    \ingroup GrpSystemFieldContainer
+ */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
 class FCPtr : public BasePtrTypeT
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, Pointer);
@@ -559,7 +567,7 @@ class FCPtr : public BasePtrTypeT
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    FCPtr(void                               ); 
+    FCPtr(      void                         ); 
     FCPtr(const NullFieldContainerPtr &      );
     FCPtr(const FCPtr                 &source);
 
@@ -604,6 +612,7 @@ class FCPtr : public BasePtrTypeT
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -616,6 +625,7 @@ class FCPtr : public BasePtrTypeT
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -628,13 +638,15 @@ class FCPtr : public BasePtrTypeT
 //  Class
 //---------------------------------------------------------------------------
 
-//! Template to construct custom data store pointers
-//! \ingroup GrpSystemFieldContainer
+/*! Template to construct custom data store pointers
+    \ingroup GrpSystemFieldContainerX
+ */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
 class ConstFCPtr : public BasePtrTypeT
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, ConstPointer);
@@ -654,7 +666,7 @@ class ConstFCPtr : public BasePtrTypeT
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ConstFCPtr(void                               ); 
+    ConstFCPtr(      void                         ); 
     ConstFCPtr(const NullFieldContainerPtr &      );
     ConstFCPtr(const NCFCPtr               &source);
     ConstFCPtr(const ConstFCPtr            &source);
@@ -701,6 +713,7 @@ class ConstFCPtr : public BasePtrTypeT
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -713,6 +726,7 @@ class ConstFCPtr : public BasePtrTypeT
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -729,6 +743,9 @@ class ConstFCPtr : public BasePtrTypeT
 #ifdef __sgi
 #pragma reset woff 1424
 #endif
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream      &os,

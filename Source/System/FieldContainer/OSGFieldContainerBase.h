@@ -42,9 +42,16 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerBase.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
+
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 namespace FieldBits
 {
@@ -93,6 +100,9 @@ namespace FieldBits
     const BitVector Field31   = 0x80000000;
 }
 
+/*! \ingroup GrpSystemFieldContainer
+ */
+
 namespace ChangedOrigin
 {
     const UInt32 External         = 0x0001;
@@ -106,6 +116,9 @@ namespace ChangedOrigin
     const UInt32 AbstrCheckValid  = 0x0400;
     const UInt32 AbstrIncRefCount = 0x0800;
 }
+
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 namespace FCDumpFlags
 {

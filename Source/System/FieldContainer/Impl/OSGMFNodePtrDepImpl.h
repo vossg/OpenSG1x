@@ -39,15 +39,16 @@
 #ifndef _OSGMFNODEPTRDEPIMPL_H_
 #define _OSGMFNODEPTRDEPIMPL_H_
 
+/*! \file OSGMFNodePtrDepImpl.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldMulti
+*/
+
 OSG_BEGIN_NAMESPACE
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 OSG_DLLEXPORT_DECL1(MField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
-
-//OSG_DLLEXPORT_DECL1(MField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-//template __declspec(dllexport) MField< NodePtr, 0 >;
 
 OSG_END_NAMESPACE
 

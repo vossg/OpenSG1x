@@ -39,6 +39,9 @@
 #ifndef _OSGNODEPTRIMPL_INL_
 #define _OSGNODEPTRIMPL_INL_
 
+/*! \file OSGNodePtrImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
 
 OSG_BEGIN_NAMESPACE
 
@@ -46,7 +49,7 @@ OSG_BEGIN_NAMESPACE
 /*                            Constructors                                 */
 
 inline
-NodePtr::NodePtr(void) :
+NodePtr::NodePtr(void) : 
     Inherited()
 {
 }

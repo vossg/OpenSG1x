@@ -226,6 +226,11 @@ struct FieldDataTraits<AttachmentMap> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseMapper<AttachmentMap, false> */
+/*! \hideinhierarchy                                      */
+#endif
+
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE

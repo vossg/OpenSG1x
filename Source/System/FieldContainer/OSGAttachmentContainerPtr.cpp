@@ -46,7 +46,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::AttachmentContainerPtr
+/*! \file OSGAttachmentContainerPtr.cpp
+    \ingroup GrpSystemFieldContainer
  */
 
 /*-------------------------------------------------------------------------*/
@@ -154,8 +155,6 @@ AttachmentContainerPtr::AttachmentContainerPtr(
 
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */
-
-//! Write FCPtr to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &OSG::operator <<(      std::ostream            &os,

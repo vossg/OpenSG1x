@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGChangeList.h
+    \ingroup GrpSystemMultithreading
+ */
+
 #include <vector>
 
 #include <OSGSystemDef.h>
@@ -54,12 +58,13 @@ class Thread;
 class Field;
 class FieldContainerPtr;
 
-//! ChangeList
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum Mode
@@ -176,11 +181,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef MemoryObject Inherited;
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class Thread;

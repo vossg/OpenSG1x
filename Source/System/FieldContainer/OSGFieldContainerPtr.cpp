@@ -49,18 +49,16 @@
 
 #include "OSGFieldContainerBase.h"
 #include "OSGFieldContainerPtr.h"
-//#include "OSGFieldContainer.h"
-
-/*
-#include "OSGLog.h"
-#include "OSGThread.h"
-*/
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 #include "OSGTime.h"
 #endif
 
 OSG_USING_NAMESPACE
+
+/*! \file OSGFieldContainerPtr.cpp
+    \ingroup GrpSystemFieldContainer
+ */
 
 OSG_BEGIN_NAMESPACE
 const NullFieldContainerPtr NullFC;
@@ -69,9 +67,6 @@ OSG_END_NAMESPACE
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
-
-/*! \class osg::FieldContainerPtrBase
- */
 
 const UInt16    FieldContainerPtrBase::InvalidParentEPos = 0xFFFF;
 
@@ -154,8 +149,6 @@ bool FieldContainerPtrBase::terminate(void)
 
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */
-
-//! Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &OSG::operator <<(      std::ostream       &os,

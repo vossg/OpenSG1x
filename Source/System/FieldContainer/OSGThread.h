@@ -36,12 +36,15 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGTHREAD_H_
 #define _OSGTHREAD_H_
 #ifdef __sgi
 #pragma once
 #endif
+
+/*! \file OSGThread.h
+    \ingroup GrpSystemMultithreading
+ */
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -66,12 +69,13 @@ class ChangeList;
 //  Class
 //---------------------------------------------------------------------------
 
-//! ThreadCommonBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     static const UInt32 InvalidAspect;
@@ -84,6 +88,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef BaseThread Inherited;
@@ -120,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class ThreadManager;
@@ -139,12 +145,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 
 #ifdef OSG_USE_PTHREADS
 
-//! PThreadBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class PThreadBase : public ThreadCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -165,6 +172,7 @@ class PThreadBase : public ThreadCommonBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef ThreadCommonBase Inherited;
@@ -219,6 +227,7 @@ class PThreadBase : public ThreadCommonBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class ThreadManager;
@@ -242,12 +251,13 @@ typedef PThreadBase ThreadBase;
 
 #ifdef OSG_USE_SPROC
 
-//! SprocBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class SprocBase : public ThreadCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -268,6 +278,7 @@ class SprocBase : public ThreadCommonBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef ThreadCommonBase Inherited;
@@ -309,6 +320,7 @@ class SprocBase : public ThreadCommonBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   private:
 
     friend class ThreadManager;
@@ -332,12 +344,13 @@ typedef SprocBase ThreadBase;
 
 #ifdef OSG_USE_WINTHREADS
 
-//! WinThreadBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -358,6 +371,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef ThreadCommonBase Inherited;
@@ -411,6 +425,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class ThreadManager;
@@ -432,17 +447,19 @@ typedef WinThreadBase ThreadBase;
 //  Class
 //---------------------------------------------------------------------------
 
-//! Thread
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef ThreadBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     typedef      MPThreadType Type;
@@ -451,7 +468,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static ThreadBase *getCurrent(void);
+    static ThreadBase *getCurrent(      void         );
 
     static Thread     *get       (const Char8 *szName);
     static Thread     *find      (const Char8 *szName);
@@ -465,6 +482,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -498,6 +516,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class ThreadManager;
@@ -515,12 +534,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 //  Class
 //---------------------------------------------------------------------------
 
-//! ExternalThread
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpSystemMultithreading
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     typedef MPThreadType Type;
@@ -529,7 +549,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static ThreadBase     *getCurrent(void);
+    static ThreadBase     *getCurrent(      void         );
 
     static ExternalThread *get       (const Char8 *szName);
     static ExternalThread *find      (const Char8 *szName);
@@ -543,6 +563,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef ThreadBase Inherited;
@@ -578,6 +599,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class ThreadManager;

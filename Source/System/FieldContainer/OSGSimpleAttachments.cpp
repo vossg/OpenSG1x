@@ -36,9 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+/*! \file OSGSimpleAttachments.cpp
+    \ingroup GrpSystemFieldContainer
+ */
 
 #define OSG_COMPILESIMPLEATTACHMENTSINST
 
@@ -133,9 +133,8 @@ const Char8 *getName(AttachmentContainerPtr container)
     return name->getFieldPtr()->getValue().c_str();
 }
 
-/*! 
-  Set the name attached to the container. If the container doesn't have a
-  name attachement yet one is created. 
+/*! Set the name attached to the container. If the container doesn't have a
+    name attachement yet one is created. 
  */
 
 void setName(      AttachmentContainerPtr  container, 

@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGFieldContainerFactory.cpp
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -55,9 +59,6 @@
 #include "OSGFieldType.h"
 
 OSG_USING_NAMESPACE
-
-/*! \class osg::FieldContainerFactory
- */
 
 FieldContainerFactory *FieldContainerFactory::_the = NULL;
 
@@ -585,7 +586,7 @@ UInt16 FieldContainerFactory::registerGroup(const Char8 *szName)
     return returnValue;
 }
 
-void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
+void FieldContainerFactory::unregisterType(FieldContainerType *pType)
 {
     TypeIdMapIt   typeIdIt;
     TypeNameMapIt typeNameIt;
@@ -595,7 +596,7 @@ void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 
     if(_pTypeIdMap)
     {
-        UInt32 uiId = pType->getId();
+        UInt32 uiId =  pType->getId();
 
         typeIdIt    = _pTypeIdMap->find(uiId);
 

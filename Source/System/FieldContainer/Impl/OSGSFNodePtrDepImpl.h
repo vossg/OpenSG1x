@@ -42,6 +42,11 @@
 #pragma once
 #endif
 
+/*! \file OSGSFNodePtrDepImpl.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldSingle
+*/
+
 OSG_BEGIN_NAMESPACE
 
 #ifndef OSG_COMPILECONTAINERFIELDINST

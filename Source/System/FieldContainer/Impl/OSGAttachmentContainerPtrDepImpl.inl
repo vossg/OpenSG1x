@@ -39,6 +39,10 @@
 #ifndef _OSGATTACHMENTCONTAINERPTRDEPIMPL_H_
 #define _OSGATTACHMENTCONTAINERPTRDEPIMPL_H_
 
+/*! \file OSGAttachmentContainerPtrDepImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
+
 OSG_BEGIN_NAMESPACE
 
 template <class InTypeT> inline

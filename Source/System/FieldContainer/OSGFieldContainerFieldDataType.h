@@ -182,6 +182,11 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
                         
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseMapper<FieldContainerPtr, false> */
+/*! \hideinhierarchy                                          */
+#endif
+
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE

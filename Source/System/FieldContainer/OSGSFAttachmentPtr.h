@@ -42,14 +42,14 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGSField.h>
-#include <OSGAttachmentFieldDataType.h>
-
 /*! \file OSGSFAttachmentPtr.h
     \ingroup GrpSystemField
     \ingroup GrpSystemFieldSingle
 */
+
+#include <OSGSystemDef.h>
+#include <OSGSField.h>
+#include <OSGAttachmentFieldDataType.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGContainerTypeInst.cpp
+    \ingroup GrpSystemField
+ */
+
 #define OSG_COMPILECONTAINERFIELDINST
 
 #include <stdlib.h>

@@ -39,9 +39,11 @@
 #ifndef _OSGFIELDCONTAINERPTRDEPIMPL_INL_
 #define _OSGFIELDCONTAINERPTRDEPIMPL_INL_
 
-OSG_BEGIN_NAMESPACE
+/*! \file OSGFieldContainerPtrDepImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
 
-//! Write FC to the given stream
+OSG_BEGIN_NAMESPACE
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 std::ostream &operator <<(

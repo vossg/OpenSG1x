@@ -39,6 +39,10 @@
 #ifndef _OSGFIELDCONTAINERTYPEDEPIMPL_INL_
 #define _OSGFIELDCONTAINERTYPEDEPIMPL_INL_
 
+/*! \file OSGFieldContainerTypeDepImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
+
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/

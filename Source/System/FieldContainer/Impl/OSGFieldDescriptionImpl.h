@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldDescriptionImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGIDString.h>
@@ -52,19 +56,27 @@ OSG_BEGIN_NAMESPACE
 
 class Field;
 
-typedef Field * (FieldContainer::*FieldAccessMethod)(void); 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
+typedef Field * (FieldContainer::*FieldAccessMethod     )(void  ); 
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 typedef Field * (FieldContainer::*FieldIndexAccessMethod)(UInt32);
 
 //---------------------------------------------------------------------------
 //   Class         
 //---------------------------------------------------------------------------
 
-//! FieldDescription
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -112,9 +124,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
           UInt32     getFieldId     (void                ) const;
           void       setFieldId     (UInt32 uiFieldId    );
 
-    const Char8     *getDefaultValue(void) const;
+    const Char8     *getDefaultValue(void                ) const;
 
-    const TypeBase  &getFieldType   (void) const;
+    const TypeBase  &getFieldType   (void                ) const;
 
           bool       isInternal     (void                ) const;
 
@@ -173,7 +185,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 //---------------------------------------------------------------------------
 
 /*! FieldDescription point less than
-    \ingroup GrpSystemFieldContainer
+    \ingroup GrpSystemFieldContainerFuncs
     \hideinhierarchy
  */
 

@@ -42,27 +42,47 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerPtrFuncsImpl.h
+    \ingroup GrpSystemFieldContainer
+    \ingroup GrpSystemFieldContainerFuncs
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerBase.h>
 
 OSG_BEGIN_NAMESPACE
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void addRefCP   (const FieldContainerPtrBase &objectP);
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void subRefCP   (const FieldContainerPtrBase &objectP);
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void setRefdCP  (      FieldContainerPtrBase &objectP,
                  const FieldContainerPtrBase &newObjectP);
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void clearRefCP(FieldContainerPtrBase &objectP);
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 inline
@@ -70,17 +90,26 @@ void beginEditCP(const FieldContainerPtr &objectP,
                        BitVector         whichField = FieldBits    ::AllFields,
                        UInt32            origin     = ChangedOrigin::External);
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void endEditCP  (const FieldContainerPtr &objectP, 
                        BitVector         whichField = FieldBits    ::AllFields,
                        UInt32            origin     = ChangedOrigin::External);
 
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void changedCP  (const FieldContainerPtr &objectP, 
                        BitVector         whichField = FieldBits    ::AllFields,
                        UInt32            origin     = ChangedOrigin::External);
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 inline

@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerProperties.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
@@ -50,7 +54,8 @@ OSG_BEGIN_NAMESPACE
 #pragma set woff 1209
 #endif
 
-/*! \hideinhierarchy
+/*! \ingroup GrpSystemFieldContainer
+    \hideinhierarchy
  */
 
 struct FIELDCONTAINER_ERROR

@@ -39,6 +39,10 @@
 #ifndef _OSGFIELDCONTAINERIMPL_INL_
 #define _OSGFIELDCONTAINERIMPL_INL_
 
+/*! \file OSGFieldContainerImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -125,10 +129,8 @@ FieldContainer::~FieldContainer(void)
 {
 }
 
-
 /*-------------------------------------------------------------------------*/
 /*                         Create Fieldcontainer                           */
-
 
 template <class ObjectPtrT> inline
 void FieldContainer::newPtr(      
@@ -261,8 +263,6 @@ void FieldContainer::newPtr(ObjectPtrT &result)
     }
 */
 
-
-
 /*-------------------------------------------------------------------------*/
 /*                               MT Edit                                   */
 
@@ -295,7 +295,6 @@ void endEdit(const BitVector  &whichField,
     endEditCP(tmpPtr, whichField);
 }
 */
-
 
 /*-------------------------------------------------------------------------*/
 /*                             MT Contruction                              */

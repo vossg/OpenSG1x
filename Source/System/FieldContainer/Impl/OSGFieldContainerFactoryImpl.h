@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerFactoryImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGIDStringLink.h>
@@ -57,8 +61,8 @@ class FieldContainerType;
 //  Class
 //---------------------------------------------------------------------------
 
-//! FieldContainerMapper
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 {
@@ -69,20 +73,21 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 //  Class
 //---------------------------------------------------------------------------
 
-//!  \brief FieldContainerFactory
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef std::map   <UInt32,       
-                        FieldContainerType        *>  TypeIdMap;
+                        FieldContainerType        *> TypeIdMap;
     typedef std::map   <IDStringLink, 
-                        FieldContainerType        *>  TypeNameMap;
+                        FieldContainerType        *> TypeNameMap;
     typedef std::map   <IDStringLink, 
-                        UInt16                     >  GroupMap;
+                        UInt16                     > GroupMap;
 
     typedef std::vector<FieldContainerType        *> UninitializedTypeStore;
     typedef std::vector<FieldContainerPtr          > FieldContainerStore;
@@ -99,9 +104,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
 
     /*==========================  PUBLIC  =================================*/
+
   public :
 
-    typedef TypeIdMapIt                              TypeMapIterator;
+    typedef TypeIdMapIt TypeMapIterator;
 
     static FieldContainerFactory *the(void);
 
@@ -116,10 +122,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     FieldContainerType *findUninitializedType (const Char8  *szName) const;
 
-    bool                initializePendingTypes(void);
+    bool                initializePendingTypes(      void          );
 
-    TypeMapIterator     beginTypes  (void);
-    TypeMapIterator     endTypes    (void);
+    TypeMapIterator     beginTypes            (      void          );
+    TypeMapIterator     endTypes              (      void          );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -129,7 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
           UInt16  findGroupId  (const Char8  *szName   ) const;
     const Char8  *findGroupName(      UInt16  uiGroupId) const;
         
-          UInt16  getNumGroups (void                   ) const;
+          UInt16  getNumGroups (      void             ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -172,6 +178,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     static FieldContainerFactory *_the;
@@ -248,6 +255,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainerType;

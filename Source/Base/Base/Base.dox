@@ -275,7 +275,7 @@ their source data from a different matrix, see the class docs for details.
 The default vector/point multiplication methods multMatrixVec() and
 multMatrixPnt() assume that the matrix only uses the standard 3x4 elements. To
 use the full 4x4 matrix use multFullMatrixPnt(). As Vectors have a w
-coordinate of 0, compared to points which have w=1, they don't need a full
+coordinate of 0, compared to points which have w = 1, they don't need a full
 transform.
 
 \section BaseVectors Vectors/Points/Colors
@@ -297,9 +297,16 @@ operations (dot, cross, etc.) don't make sense for points. Points can be
 subtracted (creating a vector), scaled and a vector can be added to or
 subtracted from them. If you want to represent a position, use a point. It
 helps keeping the concepts in order and not mix up everything just because it
-has the same data. If you really need to get from a point to a vector, you can
-use Vector &osg::Point.toVector() to cast the point to a vector. When
-multiplied with a matrix, the w coordinate is set as 1 for 3 element points. 
+has the same data. When multiplied with a matrix, the w coordinate is set 
+as 1 for 3 element points. 
+
+If you really need to get from a point to a vector or vice versa, you can
+use 
+
+- Vector &osg::Point.subZero() 
+- Point  &osg::Vector.addToZero()
+
+to cast a point to a vector and back. 
 
 Colors are RGB vectors, which also have access functions to the named
 components. They also allow access via the HSV color model and scalar

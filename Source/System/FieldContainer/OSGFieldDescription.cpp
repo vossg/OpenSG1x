@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+/*! \file OSGFieldDescription.cpp
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -46,9 +50,6 @@
 #include "OSGFieldDescription.h"
 
 OSG_USING_NAMESPACE
-
-/*! \class osg::FieldDescription
- */
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

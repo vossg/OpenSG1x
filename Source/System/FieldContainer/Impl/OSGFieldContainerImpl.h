@@ -40,6 +40,10 @@
 #pragma once
 #endif
 
+/*! \file OSGFieldContainerImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGIDStringLink.h>
 
@@ -50,16 +54,12 @@
 #include <OSGThread.h>
 #endif
 
-/*! \file OSGFieldContainerImpl.h
-    \ingroup GrpSystemFCContainer
- */
-
 OSG_BEGIN_NAMESPACE
 
 class Field;
 class BinaryDataHandler;
 
-/*! \ingroup GrpSystemFCContainer
+/*! \ingroup GrpSystemFieldContainer
  */
 
 class FieldContainer 
@@ -107,7 +107,7 @@ class FieldContainer
     /*! \{                                                                 */
 
     OSG_SYSTEMLIB_DLLMAPPING 
-    virtual UInt32  getContainerSize(void                  ) const = 0;
+    virtual UInt32  getContainerSize(void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -273,7 +273,7 @@ class FieldContainer
 
 // Macros used to derive a new fieldcontainer
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \relates FieldContainer
  *  \brief declare the first field
  */
@@ -282,7 +282,7 @@ class FieldContainer
     static const OSG::UInt32    OSG_FIELDNAME##Id;                            \
     static const OSG::BitVector OSG_FIELDNAME##Mask;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \relates FieldContainer
  *  \brief define the first field
  */
@@ -293,7 +293,7 @@ const OSG::UInt32    OSG_CLASS::OSG_FIELDNAME##Id   =                         \
 const OSG::BitVector OSG_CLASS::OSG_FIELDNAME##Mask =                         \
     Inherited::NextFieldMask;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \relates FieldContainer
  *  \brief define the first field in template
  */
@@ -308,7 +308,7 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =        \
     Inherited::NextFieldMask;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \relates FieldContainer
  *  \brief declare a field
  */
@@ -317,7 +317,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =        \
     static const OSG::UInt32    OSG_FIELDNAME##Id;                            \
     static const OSG::BitVector OSG_FIELDNAME##Mask;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \relates FieldContainer
  *  \brief define a field
  */
@@ -328,7 +328,7 @@ const OSG::UInt32    OSG_CLASS::OSG_FIELDNAME##Id    =                        \
 const OSG::BitVector OSG_CLASS::OSG_FIELDNAME##Mask  =                        \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \relates FieldContainer
  *  \brief define a field in template
  */
@@ -344,7 +344,7 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =        \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \brief declare the end of fields
  */
 
@@ -352,7 +352,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =        \
     static const OSG::UInt32    NextFieldId;                                  \
     static const OSG::BitVector NextFieldMask;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \brief define the end of fields
  */
 
@@ -362,7 +362,7 @@ const OSG::UInt32    OSG_CLASS::NextFieldId   =                               \
 const OSG::BitVector OSG_CLASS::NextFieldMask =                               \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \brief define the end of fields in template
  */
 
@@ -376,7 +376,7 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/*! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainerX
  *  \brief put the field information in the fielddescription constructor
  */
 #else

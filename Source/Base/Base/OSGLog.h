@@ -126,6 +126,7 @@ struct OSG_BASE_DLLMAPPING LogOStream : public std::ostream
 };
 
 /*! \ingroup GrpBaseLog
+    \hideinhierarchy
     stream buf helper class; creates a chunk buffer of all messages
     which can ge fetched by a application (e.g. gui)
  */

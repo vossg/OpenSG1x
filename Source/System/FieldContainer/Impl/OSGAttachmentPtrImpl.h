@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+/*! \file OSGAttachmentPtrImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
@@ -49,9 +53,6 @@
 OSG_BEGIN_NAMESPACE
 
 class Attachment;
-
-//! Pointer to an attachment 
-//! \ingroup GrpSystemFieldContainer
 
 #ifdef __sgi
 #pragma set woff 1375,1424
@@ -61,9 +62,13 @@ class Attachment;
 #pragma warning( disable : 444 )
 #endif
 
+/*! \ingroup GrpSystemFieldContainer
+ */
+
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef Attachment        StoredObjectType;
@@ -128,6 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -140,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;
@@ -152,6 +159,9 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 #ifdef __sgi
 #pragma reset woff 1375,1424
 #endif
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream  &os,

@@ -34,9 +34,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+/*! \file OSGAttachment.cpp
+    \ingroup GrpSystemFieldContainer
+ */
 
 #define OSG_COMPILEATTACHMENTINST
 
@@ -52,13 +52,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \var MFFieldContainerPtr Attachment::_parents
-    \brief Parents multifield
- */
-
-/*! \typedef Attachment::Inherited
-    \brief Parent type
- */
 
 const BitVector 
     Attachment::InternalFieldMask  = (1 << Attachment::InternalFieldId);

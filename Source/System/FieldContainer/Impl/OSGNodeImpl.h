@@ -40,6 +40,10 @@
 #pragma once
 #endif
 
+/*! \file OSGNodeImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
@@ -60,17 +64,19 @@ class NodeCore;
 class BinaryDataHandler;
 class FieldDescription;
 
-//! Node
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFieldContainer
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer 
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef AttachmentContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum 
@@ -221,6 +227,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     friend class FieldContainer;
@@ -293,11 +300,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const Node &source);
 };
+
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 NodePtr cloneTree(NodePtr pRootNode);

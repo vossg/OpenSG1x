@@ -37,15 +37,16 @@
 #ifndef _OSGNODEIMPL_INL_
 #define _OSGNODEIMPL_INL_
 
+/*! \file OSGNodeImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
-
-
-
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */

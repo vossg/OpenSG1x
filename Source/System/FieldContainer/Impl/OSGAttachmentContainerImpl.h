@@ -40,6 +40,10 @@
 #pragma once
 #endif
 
+/*! \file OSGAttachmentContainerImpl.h
+    \ingroup GrpSystemFieldContainer
+ */
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
@@ -51,19 +55,22 @@ OSG_BEGIN_NAMESPACE
 
 class BinaryDataHandler;
 
-/*! AttachmentContainer provides the functionality to store
+/*! \ingroup GrpSystemFieldContainer
+    AttachmentContainer provides the functionality to store
     attachments for derived FieldContainer classes.
-    \ingroup GrpSystemFieldContainer
+    
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer 
 {
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef FieldContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum 
@@ -134,6 +141,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -185,6 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;

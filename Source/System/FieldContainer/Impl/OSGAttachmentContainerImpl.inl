@@ -37,9 +37,9 @@
 #ifndef _OSGATTACHMENTCONTAINERIMPL_INL_
 #define _OSGATTACHMENTCONTAINERIMPL_INL_
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+/*! \file OSGAttachmentContainerImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,6 +47,7 @@
 #include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
+
 
 OSG_ABSTR_FIELD_CONTAINER_INL_DEF(AttachmentContainer, AttachmentContainerPtr)
 

@@ -34,9 +34,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+/*! \file OSGNode.cpp
+    \ingroup GrpSystemFieldContainer
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,10 +49,6 @@
 #include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
-
-
-/*! \class osg::Node
- */
 
 const BitVector Node::VolumeFieldMask      = (1 << Node::VolumeFieldId     );
 const BitVector Node::ActiveFieldMask      = (1 << Node::ActiveFieldId     );

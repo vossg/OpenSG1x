@@ -34,9 +34,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+/*! \file OSGAttachmentContainer.cpp
+    \ingroup GrpSystemFieldContainer
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,9 +49,6 @@
 #include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
-
-/*! \class osg::AttachmentContainer
- */
 
 const BitVector AttachmentContainer::AttachmentsFieldMask =
     (1 << AttachmentContainer::AttachmentsFieldId);
