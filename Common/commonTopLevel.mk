@@ -207,3 +207,62 @@ install: install-includes install-libs-ln
 		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET) SUB_JOB=$(SUB_JOB); 	\
 		cd ..; 																\
 	fi
+
+#########################################################################
+# Help Target
+#########################################################################
+
+help:
+	@echo 
+	@echo "Targets supported on this level (Top):"
+	@echo "======================================"
+	@echo 
+	@echo "Creation targets"
+	@echo 
+	@echo "<default>  compile the same versions of the configured libraries as last time"
+	@echo "dbg        compile the debug versions of the configured libraries"
+	@echo "opt        compile the optimized versions of the configured libraries"
+	@echo "depend     explicitly create the dependency information"
+	@echo 
+	@echo "Cleanup targets"
+	@echo 
+	@echo "remove temporary result files: object files, flex/bison/moc output etc.,"
+	@echo "dbgclean    for the debugging libraries only"
+	@echo "optclean    for the optimized libraries only"
+	@echo "clean       for the same libraries as last time"
+	@echo "allclean    dbgclean and optclean"
+	@echo 
+	@echo "remove dependency files"
+	@echo "dbgDepClean    for the debugging libraries only"
+	@echo "optDepClean    for the optimized libraries only"
+	@echo "DepClean       for the same libraries as last time"
+	@echo 
+	@echo "same as clean + dependencies + results (libs/programs)"
+	@echo "dbgClean    for the debugging libraries only"
+	@echo "optClean    for the optimized libraries only"
+	@echo "Clean       for the same libraries as last time"
+	@echo "distclean   dbgClean and optClean"
+	@echo 
+	@echo "LibClean   remove libraries"
+	@echo "ExeClean   remove executables"
+	@echo 
+	@echo "Installation targets"
+	@echo 
+	@echo "The installation base directory is the one given to configure as --prefix,"
+	@echo "but it can be set on the make line with INSTALL_DIR=<dir>"
+	@echo "install the libraries into INSTALL_DIR/lib/{dbg,opt}"
+	@echo "install-libs-ln   using links"
+	@echo "install-libs-cp   copying them"
+	@echo "install-libs      linking or copying them, the same as last time"
+	@echo "install-includes  install the include files into INSTALL_DIR/include"
+	@echo "install-ln        install-includes + install-libs-ln"
+	@echo "install-cp        install-includes + install-libs-cp"
+	@echo "install           install-includes + install-libs-ln"
+	@echo 
+	@echo "Other targets"
+	@echo 
+	@echo "fcdToBase    run through the tree and regenerate all the Base sources"
+	@echo 
+	@echo "Useful Environment Variables"
+	@echo 
+	@echo "OSGSUBPARJOBS     number of parallel compiler jobs to run"

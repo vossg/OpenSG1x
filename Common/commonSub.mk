@@ -356,3 +356,82 @@ LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 LIBS_DEP  := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_DEP_$(lp)))
 
 include $($(PROJ)POOL)/$($(PROJ)COMMON)/DefaultRules.mk
+
+
+#########################################################################
+# Help Target
+#########################################################################
+
+ifeq ($(IN_TEST_DIR),1)
+
+help:
+	@echo 
+	@echo "Targets supported on this level (Test):"
+	@echo "======================================="
+	@echo 
+	@echo "list       list all available tests"
+	@echo 
+	@echo "Creation targets"
+	@echo 
+	@echo "<name>     compile the named test"
+	@echo "Test       compile the same versions of the tests as last time"
+	@echo "<default>  as as tests"
+	@echo "dbg        compile the debug versions of the configured tests"
+	@echo "opt        compile the optimized versions of the configured tests"
+	@echo "depend     explicitly create the dependency information"
+	@echo 
+	@echo "Cleanup targets"
+	@echo 
+	@echo "remove temporary result files: object files, flex/bison/moc output etc.,"
+	@echo "dbgclean    for the debugging libraries only"
+	@echo "optclean    for the optimized libraries only"
+	@echo "clean       for the same libraries as last time"
+	@echo "allclean    dbgclean and optclean"
+	@echo 
+	@echo "remove dependency files"
+	@echo "dbgDepClean    for the debugging libraries only"
+	@echo "optDepClean    for the optimized libraries only"
+	@echo "DepClean       for the same libraries as last time"
+	@echo 
+	@echo "same as clean + dependencies + results (libs/programs)"
+	@echo "dbgClean    for the debugging libraries only"
+	@echo "optClean    for the optimized libraries only"
+	@echo "Clean       for the same libraries as last time"
+	@echo "distclean   dbgClean and optClean"
+
+else
+
+help:
+	@echo 
+	@echo "Targets supported on this level (Library):"
+	@echo "=========================================="
+	@echo 
+	@echo "Creation targets"
+	@echo 
+	@echo "<default>  compile the same versions of the library as last time"
+	@echo "dbg        compile the debug versions of the library"
+	@echo "opt        compile the optimized versions of the library"
+	@echo "depend     explicitly create the dependency information"
+	@echo 
+	@echo "Cleanup targets"
+	@echo 
+	@echo "remove temporary result files: object files, flex/bison/moc output etc.,"
+	@echo "dbgclean    for the debugging libraries only"
+	@echo "optclean    for the optimized libraries only"
+	@echo "clean       for the same libraries as last time"
+	@echo "allclean    dbgclean and optclean"
+	@echo 
+	@echo "remove dependency files"
+	@echo "dbgDepClean    for the debugging libraries only"
+	@echo "optDepClean    for the optimized libraries only"
+	@echo "DepClean       for the same libraries as last time"
+	@echo 
+	@echo "same as clean + dependencies + results (libs/programs)"
+	@echo "dbgClean    for the debugging libraries only"
+	@echo "optClean    for the optimized libraries only"
+	@echo "Clean       for the same libraries as last time"
+	@echo "distclean   dbgClean and optClean"
+	@echo 
+	@echo "LibClean   remove libraries"
+
+endif

@@ -32,9 +32,15 @@ DOC_ENV += OSGPOOL="$(OSGPOOL)"
 all:
 	@echo "We finally switched to configure, please have a look at INSTALL"
 	@echo "and using_configure how to use it"
-	@echo "################################################"
-	@echo "Only 'make doc' is still supportet at this level"
-	@echo "################################################"
+	@echo 
+	@echo "Use make help to see all available targets at every level"
+
+help: 
+	@echo "Targets supported on this level:"
+	@echo "================================"
+	@echo 
+	@echo "doc:  run doxygen to create the documentation"
+
 
 .PHONY: doc
 doc: 
