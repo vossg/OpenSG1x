@@ -39,6 +39,9 @@ private:
 	static KeyDic _keyDic[];
 
 	///
+	static const char _filePrefix[];
+
+	///
 	static const char _descFileSuffix[];
 
 	/// 
@@ -144,6 +147,9 @@ public:
   virtual bool readDesc (const char *fileName = 0);
 
 	///
+	virtual bool writeTempl ( ofstream & out, char ** templ );
+
+	///
 	virtual bool writeDesc (const char *fileName = 0);
 
 	///
@@ -167,6 +173,9 @@ public:
 	virtual bool writeCodeImp ( const char *decFile, 
 															const char *impFile );
 
+
+	/// 
+	static const char *filePrefix(void) { return _filePrefix; }
 
 	/// 
 	static const char *decFileSuffix(void) { return _decFileSuffix; }

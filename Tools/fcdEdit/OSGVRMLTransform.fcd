@@ -1,34 +1,59 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0"?>
 
-<FieldContainer name="VRMLTransform" parent="Transform" library="MISC"
-				pointerfieldtypes="both">
-
-	This is the documentation for the VRMLTransform class.
-
-	<Field name="center" type="Vec3f" cardinality="single">
-		The Center is ...
+<FieldContainer
+	name="VRMLTransform"
+	parent="Transform"
+	library="MISC"
+	pointerfieldtypes="both"
+>
+This is the documentation for the VRMLTransform class.
+	<Field
+		name="center"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+	>
+	The Center is ... 	 	
 	</Field>
-
-	<Field name="rotation" type="Quaternion" cardinality="single">
-		The Rotation is ...
+	<Field
+		name="rotation"
+		type="Quaternion"
+		cardinality="single"
+		visibility="external"
+	>
+	The Rotation is ... 	 	
 	</Field>
-
-	<Field name="scale" type="Vec3f" cardinality="single" defaultValue="1.,1.,1.">
-		The Scale is ...
+	<Field
+		name="scale"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.,1.,1."
+	>
+	The Scale is ... 	 	
 	</Field>
-
-	<Field name="scaleOrientation" type="Quaternion" cardinality="single">
-		The ScaleOrientation is ...
+	<Field
+		name="scaleOrientation"
+		type="Quaternion"
+		cardinality="single"
+		visibility="external"
+	>
+	The ScaleOrientation is ... 	 	
 	</Field>
-
-	<Field name="translation" type="Vec3f" cardinality="single">
-		The Translation is ...
+	<Field
+		name="translation"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+	>
+	The Translation is ... 	 	
 	</Field>
-
-	<Field name="knoedel" type="Vec3f" cardinality="multi">
-		The Knoedel is a round squishy object.
+	<Field
+		name="knoedel"
+		type="Vec3f"
+		cardinality="multi"
+		visibility="external"
+	>
+	The Knoedel is a round squishy object. 	 	
 	</Field>
-
 </FieldContainer>
-
-	

@@ -17,8 +17,17 @@ using namespace xmlpp;
 // Class declarations
 #include "FieldContainer.h"
 
+// Include the template strings
+#include "FCBaseTemplate_h.h"
+#include "FCBaseTemplate_inl.h"
+#include "FCBaseTemplate_cpp.h"
+#include "FCTemplate_h.h"
+#include "FCTemplate_inl.h"
+#include "FCTemplate_cpp.h"
+
 
 // Static Class Varible implementations: 
+const char FieldContainer::_filePrefix[] = "OSG";
 const char FieldContainer::_descFileSuffix[] = "fcd";
 const char FieldContainer::_decFileSuffix[] = "h";
 const char FieldContainer::_inlFileSuffix[] = "inl";
@@ -402,7 +411,7 @@ bool FieldContainer::writeDesc (const char *fN)
   if (fN)
     out.open(fN);
   else {
-    sprintf (fileName,"%s.%s", name(), _descFileSuffix);
+    sprintf (fileName,"%s%s.%s", filePrefix(), name(), _descFileSuffix);
     out.open(fileName);
   }
  
@@ -457,12 +466,15 @@ bool FieldContainer::writeCode (bool base, bool fc)
 
 		if (base) {
 			retCode = true;
-			sprintf(decFile,"%sBase.%s", name(), decFileSuffix());
-			sprintf(decFile,"%sBase.%s", name(), inlFileSuffix());
-			sprintf(impFile,"%sBase.%s", name(), impFileSuffix());
+			sprintf(decFile,"%s%sBase.%s", filePrefix(), name(), 
+											decFileSuffix());
+			sprintf(inlFile,"%s%sBase.%s", filePrefix(), name(), 
+											inlFileSuffix());
+			sprintf(impFile,"%s%sBase.%s", filePrefix(), name(), 
+											impFileSuffix());
 
 			retCode &= writeBaseCodeDec(decFile);
-			retCode &= writeBaseCodeInl(decFile);
+			retCode &= writeBaseCodeInl(inlFile);
 			retCode &= writeBaseCodeImp(decFile,impFile);
 
 			if (retCode)
@@ -473,12 +485,12 @@ bool FieldContainer::writeCode (bool base, bool fc)
 		
 		if (fc) {
 			retCode = true;
-			sprintf(decFile,"%s.%s", name(), decFileSuffix());
-			sprintf(decFile,"%s.%s", name(), inlFileSuffix());
-			sprintf(impFile,"%s.%s", name(), impFileSuffix());
+			sprintf(decFile,"%s%s.%s", filePrefix(), name(), decFileSuffix());
+			sprintf(inlFile,"%s%s.%s", filePrefix(), name(), inlFileSuffix());
+			sprintf(impFile,"%s%s.%s", filePrefix(), name(), impFileSuffix());
 			
 			retCode &= writeCodeDec(decFile);
-			retCode &= writeCodeInl(decFile);
+			retCode &= writeCodeInl(inlFile);
 			retCode &= writeCodeImp(decFile,impFile);
 
 			if (retCode)
@@ -497,6 +509,417 @@ bool FieldContainer::writeCode (bool base, bool fc)
 
 
 //----------------------------------------------------------------------
+// Method: writeTempl
+// Author: reiners
+// Date:   Thu Mar 29 01:00:00 2001
+// Description:
+//         
+//----------------------------------------------------------------------
+bool FieldContainer::writeTempl( ofstream & out, char ** templ )
+{
+	// file loop
+	// some useful strings
+	char *libname = _library;
+	char *libnameUpper = strdup( _library );
+	char *fcname = _name;
+	char *fcnameUpper = strdup( _name );
+	char *parentname = _parentFieldContainer;
+	char *parentnameUpper = strdup( _parentFieldContainer );
+
+	for ( char *s = libnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+	for ( char *s = fcnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+	for ( char *s = parentnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+
+	// field loop
+	// useful strings
+	const char	*fieldname = NULL,
+				*fieldtype = NULL, *fieldcardinality = NULL;
+	char 		*fieldnameCaps = NULL, *fieldnameUpper = NULL;
+	
+	// state
+	char ** flStart;
+	list<Field>::iterator fieldIt;
+	bool inFieldLoop = false;
+	bool skipFieldLoop = false;
+	
+	bool retCode = true;
+
+	for ( ; *templ; templ++ )
+	{
+		char *s = *templ;
+
+		// if in field loop, prepare the strings
+		if ( inFieldLoop && ! skipFieldLoop)
+		{
+			static char *cardnames[] = { "SF", "MF" };
+			
+			fieldname = fieldIt->name();
+			fieldtype = fieldIt->typeStr();
+			fieldcardinality = cardnames[ fieldIt->cardinality() ];
+			
+			if ( fieldnameCaps ) free( fieldnameCaps );
+			fieldnameCaps = strdup( fieldname );
+			fieldnameCaps[0] = toupper( fieldnameCaps[0] );
+		
+			if ( fieldnameUpper ) free( fieldnameUpper );
+			fieldnameUpper = strdup( fieldname );
+			for ( char *s = fieldnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+			
+		}
+
+		// is it a special line?
+		if ( ! strncmp( s, "@@", 2 ) )
+		{
+			// specials
+			// field ids/masks
+			if ( ! strcmp( s, "@@FieldIdsAndMasksDecl@@" ) )
+			{
+				fieldIt = _fieldList.begin();
+				const char *name, *prevname;
+				name = fieldIt->name();
+				// first field: refer to parent's last field
+				out << "\tstatic const osg::UInt32    " 
+				    << (char)toupper( name[0] ) << name + 1 << "FieldId"
+					<< "\t= Inherited::NextFieldId;" << endl;
+				out << "\tstatic const osg::BitVector " 
+				    << (char)toupper( name[0] ) << name + 1 << "FieldMask"
+					<< "\t= Inherited::NextFieldMask;" << endl << endl;
+				// loop: refer to previous field
+				for ( fieldIt++; fieldIt != _fieldList.end(); fieldIt++ )
+				{
+					prevname = name;
+					name = fieldIt->name();
+					out << "\tstatic const osg::UInt32    " 
+				    	<< (char)toupper( name[0] ) << name + 1 << "FieldId"
+						<< "   = " << (char)toupper( prevname[0] ) 
+						<< prevname + 1 << "FieldId + 1;" << endl;
+					out << "\tstatic const osg::BitVector " 
+				    	<< (char)toupper( name[0] ) << name + 1 << "FieldMask"
+						<< " = " << (char)toupper( prevname[0] ) 
+						<< prevname + 1 << "FieldMask << 1;" << endl << endl;
+				}
+				// Last field: prepare for use by inherited types
+				out << "\tstatic const osg::UInt32\tNextFieldId   = " 
+				    << (char)toupper( name[0] ) << name + 1 << "FieldId + 1;" 
+					<< endl;
+				out << "\tstatic const osg::BitVector\tNextFieldMask = " 
+				    << (char)toupper( name[0] ) << name + 1 << "FieldMask << 1;" 
+					<< endl << endl;
+			}		
+			// Pointer Fields
+			else if ( ! strcmp( s, "@@PointerFieldDecl@@" ) )
+			{
+				if ( pointerFieldTypes() == 0 )
+					continue;
+				
+				out << "/** \\ingroup FieldLib " 
+				    << fcname << endl;
+				out << " *  \\brief " << fcname << "Ptr field traits" << endl;
+				out << " */" << endl << endl;
+				
+				out << "template <>" << endl;
+				out << "struct FieldDataTraits<" << fcname << "Ptr> : "
+				    << "public Traits" << endl;
+				out << "{" << endl;
+				out << "	enum                         { StringConvertable "
+					<< " = 0x00      };" << endl << endl;
+				out << "    static char *getSName(void) { return \"SF"
+					<< fcname << "Ptr\"; }" << endl;
+				out << "    static char *getMName(void) { return \"MF"
+					<< fcname << "Ptr\"; }" << endl;
+				out << "};" << endl << endl;
+				
+				if ( pointerFieldTypes() & 1 )
+				{
+					out << "/**  \\brief SF" << fcname << "Ptr" << endl;
+					out << " */" << endl << endl;
+					out << "typedef SField<" << fcname << "Ptr> SF" 
+						<< fcname << "Ptr;" << endl;
+					out << "" << endl;
+					out << "#ifndef OSG_COMPILE" << fcnameUpper << "INST" 
+						<< endl;
+					out << "#if defined(__sgi)" << endl << endl;
+					out << "#pragma do_not_instantiate SField<" << fcname 
+						<< "Ptr>::_fieldType" << endl << endl;
+					out << "#else" << endl << endl;
+					out << "OSG_DLLEXPORT_DECL1(SField, " << fcname 
+						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl << endl;
+					out << "#endif" << endl;
+					out << "#endif" << endl << endl;
+				}
+				
+				if ( pointerFieldTypes() & 2 )
+				{
+					out << "/**  \\brief MF" << fcname << "Ptr" << endl;
+					out << " */" << endl << endl;
+					out << "typedef MField<" << fcname << "Ptr> MF" 
+						<< fcname << "Ptr;" << endl;
+					out << "" << endl;
+					out << "#ifndef OSG_COMPILE" << fcnameUpper << "INST" 
+						<< endl;
+					out << "#if defined(__sgi)" << endl << endl;
+					out << "#pragma do_not_instantiate MField<" << fcname 
+						<< "Ptr>::_fieldType" << endl << endl;
+					out << "#else" << endl << endl;
+					out << "OSG_DLLEXPORT_DECL1(MField, " << fcname 
+						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl << endl;
+					out << "#endif" << endl;
+					out << "#endif" << endl << endl;
+				}
+			}			
+			else if ( ! strcmp( s, "@@PointerFieldDef@@" ) )
+			{
+				if ( pointerFieldTypes() == 0 )
+					continue;
+				out << "OSG_BEGIN_NAMESPACE" << endl;
+				out << "" << endl;
+				out << "#if defined(__sgi)" << endl;
+				out << "" << endl;
+				
+				if ( pointerFieldTypes() & 1 )
+					out << "#pragma instantiate SField<" << fcname 
+						<< "Ptr>::_fieldType" << endl;
+				
+				if ( pointerFieldTypes() & 2 )
+					out << "#pragma instantiate MField<" << fcname 
+						<< "Ptr>::_fieldType" << endl;
+
+				out << "" << endl;
+				out << "#else" << endl;
+				out << "" << endl;
+				
+				if ( pointerFieldTypes() & 1 )
+					out << "OSG_DLLEXPORT_DEF1(SField, " << fcname 
+						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl;
+							
+				if ( pointerFieldTypes() & 2 )
+					out << "OSG_DLLEXPORT_DEF1(MField, " << fcname 
+						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl;
+
+				out << "" << endl;
+				out << "#endif" << endl;
+				out << "OSG_END_NAMESPACE" << endl;
+			}			
+			// loop specials 
+			else if ( ! strcmp( s, "@@BeginFieldLoop@@" ) )
+			{
+				inFieldLoop = true;
+				flStart = templ;
+				fieldIt = _fieldList.begin();
+			}
+			else if ( ! strcmp( s, "@@EndFieldLoop@@" ) )
+			{
+				fieldIt++;
+				if ( fieldIt != _fieldList.end() ) 
+				{
+					templ = flStart;
+				}
+				else
+				{
+					inFieldLoop = false;
+					skipFieldLoop = false;
+				}
+			}
+			else if ( ! strcmp( s, "@@BeginSFFieldLoop@@" ) )
+			{
+				inFieldLoop = true;
+				flStart = templ;
+				
+				for ( 	fieldIt = _fieldList.begin();
+						fieldIt != _fieldList.end() && 
+						fieldIt->cardinality() != 0;
+						fieldIt++ ) {}
+						
+				if ( fieldIt == _fieldList.end() ) // No singlefields
+					skipFieldLoop = true;
+			}
+			else if ( ! strcmp( s, "@@EndSFFieldLoop@@" ) )
+			{
+				if ( skipFieldLoop )
+				{
+					skipFieldLoop = false;
+					inFieldLoop = false;
+					continue;
+				}
+				
+				for ( 	fieldIt++;
+						fieldIt != _fieldList.end() && 
+						fieldIt->cardinality() != 0;
+						fieldIt++ ) {}
+						
+				if ( fieldIt != _fieldList.end() ) 
+				{
+					templ = flStart;
+				}
+				else
+				{
+					inFieldLoop = false;
+				}
+			}
+			else if ( ! strcmp( s, "@@BeginMFFieldLoop@@" ) )
+			{
+				inFieldLoop = true;
+				flStart = templ;
+				
+				for ( 	fieldIt = _fieldList.begin();
+						fieldIt != _fieldList.end() && 
+						fieldIt->cardinality() != 1;
+						fieldIt++ ) {}
+						
+				if ( fieldIt == _fieldList.end() ) // No singlefields
+					skipFieldLoop = true;
+			}
+			else if ( ! strcmp( s, "@@EndMFFieldLoop@@" ) )
+			{
+				if ( skipFieldLoop )
+				{
+					skipFieldLoop = false;
+					inFieldLoop = false;
+					continue;
+				}
+				
+				for ( 	fieldIt++;
+						fieldIt != _fieldList.end() && 
+						fieldIt->cardinality() != 1;
+						fieldIt++ ) {}
+						
+				if ( fieldIt != _fieldList.end() ) 
+				{
+					templ = flStart;
+				}
+				else
+				{
+					inFieldLoop = false;
+				}
+			}
+			// unknown special??
+			else if ( ! strncmp( s, "@@", 2 ) ) 
+			{
+				cerr << "FieldContainer::writeBaseCodeImp: unknown "
+					 << "command " << s << " in line "
+					 << *templ << "!!" << endl;
+				// retCode = false;
+				// break;
+			}
+		}
+		else if ( skipFieldLoop )	// skip text processing
+			continue;
+		else // verbatim text
+		{
+			// replace @!classname!@ etc. with the names
+			static char *keys[] = { 
+				"@!Classname!@", 	"@!CLASSNAME!@", 
+				"@!Libname!@",  	"@!LIBNAME!@",
+				"@!Parent!@", 		"@!PARENT!@",
+				"@!CARDINALITY!@", 	"@!Fieldtype!@",
+				"@!fieldname!@", 	"@!Fieldname!@", 
+				"@!FIELDNAME!@", 	"@!fieldvisibility!@",
+				"@!FieldTypedDefault!@",
+				NULL };
+			static int keylen[] = { 13,13, 11,11, 10,10, 
+				15,13, 13,13, 13,19,  21, -1 };
+			const char *values[ sizeof(keys) / sizeof( char * ) ];
+			
+			values[0] = fcname;
+			values[1] = fcnameUpper;
+			values[2] = libname;
+			values[3] = libnameUpper;
+			values[4] = parentname;
+			values[5] = parentnameUpper;
+
+			if ( inFieldLoop )
+			{
+				values[6] = fieldcardinality;
+				values[7] = fieldtype;
+				values[8] = fieldname;
+				values[9] = fieldnameCaps;
+				values[10] = fieldnameUpper;
+				values[11] = fieldIt->visibility() ? "false" : "true";
+				if ( fieldIt->defaultValue() )
+				{
+					char * s = new char [ strlen(fieldtype) + 
+										   1 + 
+										   strlen( fieldIt->defaultValue() ) +
+										   1 + 1];
+					strcpy( s, fieldtype );
+					strcat( s, "(" );
+					strcat( s, fieldIt->defaultValue() );
+					strcat( s, ")" );	
+					values[12] = s;		
+				}
+				else
+				{
+					char *s = new char [1];
+					*s = 0;
+					values[12] = s;	
+				}
+			}
+			else
+			{
+				values[6] = values[7] = values[8] = values[9] = 
+				values[10] = values[11] = values[12] = NULL;
+			}
+
+
+			char *cs = s, *ce = strchr( cs, '@' );
+
+			while ( ce )
+			{
+				if ( !ce[1] || ce[1] != '!' )
+				{
+					ce = strchr( ce + 1, '@' );;
+					continue;
+				}
+				
+				int i;
+				for ( i = 0; keys[i] ; i++ )
+					if ( ! strncmp( ce, keys[i], keylen[i] ) )
+					{
+						if ( ! values[i] ) 
+						{
+							cerr << "Replacement for " << keys[i] << " is NULL"
+								 << " in line " << *templ << endl;
+						}
+						else
+						{
+							char tmp = *ce;
+							*ce = 0;
+							out << cs << values[i];
+							*ce = tmp;
+						}
+						ce += keylen[i];	// get behind the !@-string
+						cs = ce;
+						break;
+					}
+				
+				if ( ! keys[i] )
+				{
+					cerr << "No replacement found for " << ce << " in line " 
+						 << *templ <<  endl;
+					ce++;
+				}
+				
+				ce = strchr( ce, '@' );
+			}
+			
+			if ( values[12] )
+				delete [] values[12];
+
+			out << cs << endl;
+		}
+	}
+
+		
+	if ( fieldnameCaps ) free( fieldnameCaps );
+	if ( fieldnameUpper ) free( fieldnameUpper );
+	free( fcnameUpper );
+	free( libnameUpper );
+	free( parentnameUpper );
+	return retCode;
+}
+
+
+//----------------------------------------------------------------------
 // Method: writeDec
 // Author: jbehr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -507,6 +930,16 @@ bool FieldContainer::writeBaseCodeDec (const char *decFile)
 {
 	bool retCode = false;
 
+	ofstream out;
+
+	if (decFile)
+		out.open(decFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCBaseTemplate_h );
+ 	}
+ 
 	return retCode;
 }
 
@@ -521,21 +954,42 @@ bool FieldContainer::writeBaseCodeInl (const char *InlFile)
 {
 	bool retCode = false;
 
+	ofstream out;
+
+	if (InlFile)
+		out.open(InlFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCBaseTemplate_inl );
+ 	}
+ 
 	return retCode;
 }
 	
-	//----------------------------------------------------------------------
-	// Method: writeImp
-	// Author: jbehr
+
+//----------------------------------------------------------------------
+// Method: writeImp
+// Author: jbehr
 // Date:   Thu Jan  8 19:53:04 1998
 // Description:
 //         
 //----------------------------------------------------------------------
 bool FieldContainer::writeBaseCodeImp ( const char *decFile, 
-																				const char *impFile)
+										const char *impFile)
 {
 	bool retCode = false;
 
+	ofstream out;
+
+	if (impFile)
+		out.open(impFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCBaseTemplate_cpp );
+ 	}
+ 
 	return retCode;
 }
 
@@ -551,6 +1005,16 @@ bool FieldContainer::writeCodeDec (const char *decFile)
 {
 	bool retCode = false;
 
+	ofstream out;
+
+	if (decFile)
+		out.open(decFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCTemplate_h );
+ 	}
+ 
 	return retCode;
 }
 
@@ -565,6 +1029,16 @@ bool FieldContainer::writeCodeInl (const char *decFile)
 {
 	bool retCode = false;
 
+	ofstream out;
+
+	if (decFile)
+		out.open(decFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCTemplate_inl );
+ 	}
+ 
 	return retCode;
 }
 	
@@ -580,6 +1054,16 @@ bool FieldContainer::writeCodeImp ( const char *decFile,
 {
 	bool retCode = false;
 
+	ofstream out;
+
+	if (impFile)
+		out.open(impFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCTemplate_cpp );
+ 	}
+ 
 	return retCode;
 }
 

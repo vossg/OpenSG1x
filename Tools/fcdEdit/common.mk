@@ -255,7 +255,7 @@ ifeq ($(OS),IRIX)
 	NCC			= cc
 	NCXX		= /usr/bin/CC
 	NCXXINC = -I/usr/include/CC
-  NCFLAGS = -c -o $@ -D$(OS)_OS -DARCH=3 -DNATIVE_CC -n32 -LANG:bool=ON -woff 1682 
+  NCFLAGS = -c -o $@ -D$(OS)_OS -DARCH=3 -DNATIVE_CC -n32 -LANG:bool=ON -woff 1107,1682 
 	NLD			= CC 
 	NLIBDIR = lib
 
@@ -340,7 +340,7 @@ ifeq ($(OS),IRIX64)
 	NCXX 		= CC -LANG:std -ptused -signed
 	#NCXX 		= CC -LANG:std -ptused
 	NCFLAGS = -LANG:std -ptused -c -o $@ -D$(OS)_OS -DNATIVE_CC -n32 \
-						-woff 3303,1355
+						-woff 3303,1355,1107
 	NLD			= CC -n32 -LANG:std -ptused
 #	NLD			= CC -n32 -LANG:std -ptused
 	NLIBDIR = lib32
