@@ -55,11 +55,11 @@ endif
 
 # Var settings
 
-CC = "$(shell $(OSGROOT/bin/osg-config) --compiler)"
+CC = "$(shell $(OSGROOT)/bin/osg-config --compiler)"
 
-CCFLAGS = $(shell $(OSGROOT/bin/osg-config) --cflags --$(LIBTYPE) Base System GLUT)
+CCFLAGS = $(shell $(OSGROOT)/bin/osg-config --cflags --$(LIBTYPE) Base System GLUT)
 
-LDFLAGS = $(LINK) $(shell $(OSGROOT/bin/osg-config) --libs --$(LIBTYPE) Base System GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGROOT)/bin/osg-config --libs --$(LIBTYPE) Base System GLUT)
 
 
 # all tutorials in this directory
