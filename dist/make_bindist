@@ -383,7 +383,7 @@ case $system in
         cd Tutorials
     fi
 
-    $build_make COMP=$compiler$suffix -f Makefile.win dsw
+    $build_make COMP=$compiler${suffix}-ms_stl -f Makefile.win dsw
 
     echo "Cleaning up"
 
@@ -404,6 +404,13 @@ case $system in
     perl -pi -e 's/\n/\r\n/;' < opensg_bindist.iss.raw > opensg_bindist.iss
     
     "$innosetup" opensg_bindist.iss
+
+    if ! test x$OSG_DIST_CLEANUP = x
+    then
+        rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
+
+        echo "Cleanup\n";
+    fi
     
     exit
     ;;
@@ -575,6 +582,13 @@ cd ..
 
 tar cf - OpenSG-$OSGVERSION-${distname}-dbg | \
             gzip -9 > OpenSG-$OSGVERSION-${distname}-dbg.tgz
+
+if ! test x$OSG_DIST_CLEANUP = x
+then
+    rm -rf OpenSG-$OSGVERSION-${distname}-dbg
+
+    echo "Cleanup\n";
+fi
 
 # that's it!
 echo "All done. Enjoy!"
