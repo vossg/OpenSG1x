@@ -235,6 +235,8 @@ RenderAction::RenderAction(void) :
 
     _pMatRoots           (),
     _pTransMatRoots      (),
+    _pNoStateSortRoot    (NULL),
+    _pNoStateSortTransRoot(NULL),
 
     _uiActiveMatrix      (0),
     _pActiveState        (NULL),
@@ -254,6 +256,7 @@ RenderAction::RenderAction(void) :
     _lightsState(0),
     _activeLightsState(0),
     _activeLightsCount(0),
+    _stateSorting(true),
     _visibilityStack()
 {
     if(_vDefaultEnterFunctors != NULL)
@@ -286,6 +289,8 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _pMatRoots           (source._pMatRoots),
     _pTransMatRoots      (source._pTransMatRoots),
+    _pNoStateSortRoot    (source._pNoStateSortRoot),
+    _pNoStateSortTransRoot(source._pNoStateSortTransRoot),
 
     _uiActiveMatrix      (source._uiActiveMatrix),
     _pActiveState        (source._pActiveState),
@@ -305,6 +310,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _lightsState         (source._lightsState),
     _activeLightsState   (source._activeLightsState),
     _activeLightsCount   (source._activeLightsCount),
+    _stateSorting        (source._stateSorting),
     _visibilityStack     (source._visibilityStack)
 {
 #if defined(OSG_OPT_DRAWTREE)
@@ -373,6 +379,34 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     }
     else
     {
+        return;
+    }
+
+    if(!_stateSorting)
+    {
+        DrawTreeNode *pNewElem = _pNodeFactory->create();
+
+        pNewElem->setNode       (getActNode());
+        pNewElem->setGeometry   (pGeo);
+        pNewElem->setMatrixStore(_currMatrix);
+        pNewElem->setLightsState(_lightsState);
+        pNewElem->setState(pMat->getState().getCPtr());
+    
+        if(!pMat->isTransparent())
+        {
+            if(_pNoStateSortRoot == NULL)
+                _pNoStateSortRoot = pNewElem;
+            else
+                _pNoStateSortRoot->addChild(pNewElem);
+        }
+        else
+        {
+            if(_pNoStateSortTransRoot == NULL)
+                _pNoStateSortTransRoot = pNewElem;
+            else
+                _pNoStateSortTransRoot->addChild(pNewElem);
+        }
+
         return;
     }
 
@@ -542,6 +576,34 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     }
     else
     {
+        return;
+    }
+
+    if(!_stateSorting)
+    {
+        DrawTreeNode *pNewElem = _pNodeFactory->create();
+
+        pNewElem->setNode       (getActNode());
+        pNewElem->setFunctor    (func);
+        pNewElem->setMatrixStore(_currMatrix);
+        pNewElem->setLightsState(_lightsState);
+        pNewElem->setState(pMat->getState().getCPtr());
+    
+        if(!pMat->isTransparent())
+        {
+            if(_pNoStateSortRoot == NULL)
+                _pNoStateSortRoot = pNewElem;
+            else
+                _pNoStateSortRoot->addChild(pNewElem);
+        }
+        else
+        {
+            if(_pNoStateSortTransRoot == NULL)
+                _pNoStateSortTransRoot = pNewElem;
+            else
+                _pNoStateSortTransRoot->addChild(pNewElem);
+        }
+
         return;
     }
 
@@ -1159,6 +1221,16 @@ Action::ResultE RenderAction::start(void)
         subRefP(_pMatRoots[i]);
     for(UInt32 i=0;i<_pTransMatRoots.size();++i)
         subRefP(_pTransMatRoots[i]);
+    if(_pNoStateSortRoot != NULL)
+    {
+        subRefP(_pNoStateSortRoot);
+        _pNoStateSortRoot = NULL;
+    }
+    if(_pNoStateSortTransRoot != NULL)
+    {
+        subRefP(_pNoStateSortTransRoot);
+        _pNoStateSortTransRoot = NULL;
+    }
 #endif
 
     /*
@@ -1176,6 +1248,8 @@ Action::ResultE RenderAction::start(void)
 
     _pMatRoots.clear();
     _pTransMatRoots.clear();
+    _pNoStateSortRoot = NULL;
+    _pNoStateSortTransRoot = NULL;
 
     _pActiveState   = NULL;
 
@@ -1191,6 +1265,7 @@ Action::ResultE RenderAction::start(void)
     _lightsState       = 0;
     _activeLightsState = 0;
     _activeLightsCount = 0;
+    _stateSorting = true;
 
     if(_viewport != NULL && full == false)
     {
@@ -1226,6 +1301,16 @@ Action::ResultE RenderAction::stop(ResultE res)
             glLoadMatrixf(_vLights[i].second.getValues());
             _vLights[i].first->activate(this, i);
         }
+    }
+
+    if(_pNoStateSortRoot != NULL)
+    {
+        draw(_pNoStateSortRoot);
+    }
+
+    if(_pNoStateSortTransRoot != NULL)
+    {
+        draw(_pNoStateSortTransRoot);
     }
 
     UInt32 passes = osgMax(_pMatRoots.size(), _pTransMatRoots.size());

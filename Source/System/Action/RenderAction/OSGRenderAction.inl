@@ -125,6 +125,18 @@ const Matrix &RenderAction::top_matrix(void)
     return _accMatrix;
 }
 
+inline
+void RenderAction::setStateSorting(bool s)
+{
+    _stateSorting = s;
+}
+
+inline
+bool RenderAction::getStateSorting(void)
+{
+    return _stateSorting;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/

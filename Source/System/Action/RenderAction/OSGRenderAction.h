@@ -154,6 +154,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void undropLight   (Light     *pLight);
     void dropFunctor (Material::DrawFunctor &func, Material *mat);
 
+    void setStateSorting(bool s);
+    bool getStateSorting(void);
+
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);
@@ -222,6 +225,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     //DrawTreeNode             *_pRoot;
     std::vector<DrawTreeNode *> _pMatRoots;
     std::vector<DrawTreeNode *> _pTransMatRoots;
+    DrawTreeNode               *_pNoStateSortRoot;
+    DrawTreeNode               *_pNoStateSortTransRoot;
 
     UInt32                    _uiActiveMatrix;
     State                    *_pActiveState;
@@ -241,6 +246,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt64                    _lightsState;
     UInt64                    _activeLightsState;
     UInt32                    _activeLightsCount;
+
+    bool                      _stateSorting;
 
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 
