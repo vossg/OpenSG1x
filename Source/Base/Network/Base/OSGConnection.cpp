@@ -93,7 +93,6 @@ Connection::~Connection(void)
 void Connection::wait(UInt32 channel)
 {
     UInt32 tag;
-    UInt32 i;
     UInt32 waitFor;
 
     if(channel == ALL_CHANNELS)
