@@ -1448,7 +1448,38 @@ dnl e15
     AC_OUTPUT($ac_gdz_osg_config_e15:$ac_gdz_osg_config_in_e15)
 ])
 
+AC_DEFUN(AC_GDZ_FIX_SGI_INCLUDES,
+[
+dnl e16
 
+    ac_gdz_fstream_fix_in_e16=$ac_gdz_commonconf_dir/fstream.in
+    ac_gdz_fstream_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/fstream
+
+    ac_gdz_iostream_fix_in_e16=$ac_gdz_commonconf_dir/iostream.in
+    ac_gdz_iostream_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/iostream
+
+    ac_gdz_list_fix_in_e16=$ac_gdz_commonconf_dir/list.in
+    ac_gdz_list_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/list
+
+    ac_gdz_map_fix_in_e16=$ac_gdz_commonconf_dir/map.in
+    ac_gdz_map_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/map
+
+    ac_gdz_string_fix_in_e16=$ac_gdz_commonconf_dir/string.in
+    ac_gdz_string_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/string
+
+    ac_gdz_vector_fix_in_e16=$ac_gdz_commonconf_dir/vector.in
+    ac_gdz_vector_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/vector
+
+dnl    ac_gdz__fix_in_e16=$ac_gdz_commonconf_dir/.in
+dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
+
+    AC_OUTPUT($ac_gdz_fstream_fix_out_e16:$ac_gdz_fstream_fix_in_e16
+              $ac_gdz_iostream_fix_out_e16:$ac_gdz_iostream_fix_in_e16
+              $ac_gdz_list_fix_out_e16:$ac_gdz_list_fix_in_e16
+              $ac_gdz_map_fix_out_e16:$ac_gdz_map_fix_in_e16
+              $ac_gdz_string_fix_out_e16:$ac_gdz_string_fix_in_e16
+              $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16)
+])
 
 
 
