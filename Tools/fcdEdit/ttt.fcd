@@ -12,7 +12,7 @@
 This is the documentation for the VRMLTransform class.
 	<Field
 		name="center"
-		type="Vec3f"
+		type="std::string"
 		cardinality="single"
 		visibility="internal"
 		header="testheader.h"

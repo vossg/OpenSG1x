@@ -43,6 +43,7 @@ private:
         SYSTEMCOMPONENT_FIELD,
         PARENTSYSTEMCOMPONENT_FIELD,
         DECORATABLE_FIELD,
+        USELOCALINCLUDES_FIELD,
         UNKNOWN_FIELD
     };
 
@@ -103,6 +104,9 @@ private:
 
     ///
     bool _decoratable;
+
+    ///
+    bool _useLocalIncludes;
 
     ///
     bool _parentSystemComponent;
@@ -207,6 +211,16 @@ public:
   virtual void setDecoratable (bool val) 
         { _decoratable = val; }
     
+  /// 
+  virtual bool useLocalIncludes (void) { return _useLocalIncludes; }
+
+  /// 
+    virtual void setUseLocalIncludes (const char *str);
+ 
+  ///  
+  virtual void setUseLocalIncludes (bool val) 
+        { _useLocalIncludes = val; }
+   
   /// get method for attribute parentSystemComponent
   virtual bool parentSystemComponent (void) { return _parentSystemComponent; }
 

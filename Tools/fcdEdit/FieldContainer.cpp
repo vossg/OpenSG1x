@@ -57,6 +57,7 @@ FieldContainer::KeyDic FieldContainer::_keyDic[] =
     { FieldContainer::SYSTEMCOMPONENT_FIELD,       "systemcomponent"       },
     { FieldContainer::PARENTSYSTEMCOMPONENT_FIELD, "parentsystemcomponent" },
     { FieldContainer::DECORATABLE_FIELD,           "decoratable"           },
+    { FieldContainer::USELOCALINCLUDES_FIELD,      "useLocalIncludes"      },
     { FieldContainer::UNKNOWN_FIELD,                NULL                   }
 };
 
@@ -88,7 +89,8 @@ FieldContainer::FieldContainer(void) :
     _systemComponent      (false), 
     _parentSystemComponent(true ),
     _fcdFileName          (    0), 
-    _decoratable          (false)
+    _decoratable          (false),
+    _useLocalIncludes     (false)
 {
     return;
 }
@@ -111,7 +113,8 @@ FieldContainer::FieldContainer(FieldContainer &obj) :
     _systemComponent      (false), 
     _parentSystemComponent(true ),
     _fcdFileName          (    0), 
-    _decoratable          (false)
+    _decoratable          (false),
+    _useLocalIncludes     (false)
 {
     return;
 }
@@ -146,6 +149,7 @@ void FieldContainer::clear (void)
     _systemComponent = false;
     _parentSystemComponent = true;
     _decoratable = false;
+    _useLocalIncludes = false;
     
     _fieldList.clear();
 
@@ -397,6 +401,23 @@ void FieldContainer::setDecoratable (const char* str )
 }
 
 //----------------------------------------------------------------------
+// Method: setUseLocalIncludes
+// Author: dr
+//----------------------------------------------------------------------
+void FieldContainer::setUseLocalIncludes (const char* str )
+{
+    if ( ! strcasecmp(str, "true" ) )
+        _useLocalIncludes = true;
+    else if ( ! strcasecmp(str, "false" ) )
+        _useLocalIncludes = false;
+    else
+    {
+        cerr << "FieldContainer::setUseLocalIncludes: string " << str 
+             << " not recognized!" << endl;
+    }
+}
+
+//----------------------------------------------------------------------
 // Method: setParentSystemComponent
 // Author: dr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -474,6 +495,9 @@ bool FieldContainer::readDesc (const char *fn)
                         break;
                     case DECORATABLE_FIELD:
                         setDecoratable(aI->second.c_str());
+                        break;
+                    case USELOCALINCLUDES_FIELD:
+                        setUseLocalIncludes(aI->second.c_str());
                         break;
                     default:
                         break;
@@ -669,6 +693,8 @@ bool FieldContainer::writeDesc (const char *fN)
              _parentSystemComponent?"true":"false");
     putField(out, nprefix, DECORATABLE_FIELD, 
              _decoratable?"true":"false");
+    putField(out, nprefix, USELOCALINCLUDES_FIELD, 
+             _useLocalIncludes?"true":"false");
     out << ">" << endl;
         if (_description && *_description)
         out << _description << endl;
@@ -1125,6 +1151,7 @@ bool FieldContainer::writeTempl(
                     "isPrivate", "isProtected", "isPublic",
                     "hasDefaultHeader", "SystemComponent",
                     "isDecoratable", "Decorator", "Library",
+                    "useLocalIncludes",
                     NULL };
                 
                 char *key = s + strcspn( s, " \t");
@@ -1255,6 +1282,11 @@ bool FieldContainer::writeTempl(
                             break;
                 case 15:    // Library
                             if ( !_library || strlen(_library) == 0 )
+                                skipIf = 1;
+                            break;
+                           
+                case 16:    // UseLocalIncludes
+                            if ( !_useLocalIncludes )
                                 skipIf = 1;
                             break;
                            

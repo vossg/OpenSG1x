@@ -122,6 +122,8 @@ void FieldContainerViewCtl::updateFieldContainerView(void)
 	structureCombo->setCurrentItem(_fieldContainer.abstract());
 	sysComp->setChecked(_fieldContainer.systemComponent());
 	parentSysComp->setChecked(_fieldContainer.parentSystemComponent());
+	decoratableSwitch->setChecked(_fieldContainer.decoratable());
+	localIncludes->setChecked(_fieldContainer.useLocalIncludes());
 }
 
 void FieldContainerViewCtl::updateActivePartView(void)
@@ -754,6 +756,11 @@ void FieldContainerViewCtl::decoratableSwitch_stateChanged(int index)
     _fieldContainer.setPointerFieldTypes(1);
     pointerFieldTypesCombo->setCurrentItem(1);
 	}
+}
+
+void FieldContainerViewCtl::localIncludesChanged(int index)
+{
+	_fieldContainer.setUseLocalIncludes(index);
 }
 
 void FieldContainerViewCtl::partAccessChanged(int index)
