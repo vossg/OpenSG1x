@@ -7,7 +7,7 @@ ac_gdz_package[1]="System:1:Action@ Action/DrawAction@ Action/IntersectAction@ F
 
 ac_gdz_package[2]="WindowGLUT:1:Window/GLUT@: Action Action/DrawAction Action/IntersectAction Base Field FieldContainer Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GLUT GL:SystemLib BaseLib :: GLUT GL:" 
 
-ac_gdz_package[3]="WindowX:1:Window/X@: Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window GL:SystemLib BaseLib :: GL:" 
+ac_gdz_package[3]="WindowX:1:Window/X@: Action Action/DrawAction Base Field FieldContainer Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window GL:SystemLib BaseLib :: GL:" 
 
 ac_gdz_package[4]="WindowQT:1:Window/QT@:  Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Material Nodes/Misc Nodes/Geometry Nodes/Light Window Window/@WINDOWSYSTEM@ QT GL: Window@WINDOWSYSTEM@Lib  SystemLib BaseLib ::QT GL:" 
 
