@@ -1565,8 +1565,20 @@ dnl e15
             ;;
 
             *)
-               ac_gdz_qt_lib_e15='-lqt'
+                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt-mt.so 2> /dev/null`
+
+                if test "x"$ac_gdz_qt_lib_e15 = "x"; then
+                    ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt.so 2> /dev/null`
+
+                    if test "x"$ac_gdz_qt_lib_e15 != "x"; then
+                        ac_gdz_qt_lib_e15='-lqt'
+                    fi
+        
+                else
+                    ac_gdz_qt_lib_e15='-lqt-mt'
+                fi
             ;;
+
         esac
 
         if test -n "$ac_gdz_qt_incdir"; then
