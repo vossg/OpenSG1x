@@ -116,7 +116,7 @@ MOC_CPP  := $(addsuffix .cpp, $(basename $(addprefix moc_,$(MOC_IN))))
 # all source files without generated sources
 SOURCES  := $(filter-out $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
 # all object files
-BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(SOURCES) $(MOC_CPP)))
+BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(MOC_CPP) $(SOURCES) ))
 # all object files without main object
 LIBOBJS  := $(filter-out main.*.o ,$(BINOBJS))
 # required dependencies
@@ -145,8 +145,7 @@ DEPFOUND := $(filter $(wildcard *.dep),$(DEPLIST))
 
 ### TARGET build rules ###############################################
 
-allstuff : lists 
-	# need to call recursive, as the lists need to be done when make starts
+allstuff : 
 	$(MAKE) $(TARGET)$(BINSUF)
 
 $(TARGET)$(BINSUF): $(SYSTARGET) 
@@ -258,10 +257,8 @@ deplist.$(SYSDEP).mk:
 	@echo >deplist.$(SYSDEP).mk ""
 	$(MAKE) lists
 
-depend: implist.mk $(shell test -f implist.mk && cat implist.mk) declist.mk $(shell test -f declist.mk && cat declist.mk)
-	@echo "make deplist.$(SYSDEP).mk"
-#	@makedepend 2>/dev/null $(INCS) $(shell cat implist.mk) \
-#	-f - | sed 's/\.o/\.$(SYSDEP)\.o/' > deplist.$(SYSDEP).mk
+depend: $(DEPLIST)
+
 ######################################################################
 
 ### Commands #########################################################
@@ -392,4 +389,8 @@ tags: declist.mk implist.mk
 	@etags -C $(shell cat implist.mk) $(shell cat implist.mk)
 
 ######################################################################
+
+
+moc_FieldContainerViewCtl.cpp:	FieldContainerView.h
+
 
