@@ -680,12 +680,7 @@ GIFStream *GIFReadFP(FILE *fd)
 	}
 
 	if (gifStream->aspectRatio != 0 && gifStream->aspectRatio != 49) {
-	       float   r;
-
-	       r = ((float) gifStream->aspectRatio + 15.0) / 64.0;
-	       INFO_MSG(("warning - non-square pixels; to fix do a 'pnmscale -%cscale %g'",
-		   r < 1.0 ? 'x' : 'y',
-		   r < 1.0 ? 1.0 / r : r ));
+		INFO_MSG(("warning - non-square pixels"));
 	}
 
 	while (ReadOK(fd, &c, 1) && c != ';') {
@@ -1629,7 +1624,7 @@ static code_int free_ent;              /* first unused entry */
  */
 static int clear_flg;
 
-static int offset;
+// static int offset = 0;
 
 /*
  * compress stdin to stdout
@@ -1682,7 +1677,7 @@ static void putImage(FILE *fp, int interlaced, int bpp, int width, int height,
 	/*
 	** Set up the necessary values
 	*/
-	offset = 0;
+	// offset = 0;
 	clear_flg = GIF_FALSE;
 	maxbits = BITS;
 	maxmaxcode = 1 << BITS;
