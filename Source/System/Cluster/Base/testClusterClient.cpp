@@ -302,7 +302,17 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                 animate=true;
             }
             break;
+        case 'd':
+            // remove tree
+            beginEditCP(root);
+            while(root->getNChildren())
+            {
+                root->subChild(0);
+            }
+            endEditCP(root);
+            break;
         case 27:	// should kill the clients here
+            // exit
             subRefCP(clusterWindow);
             osgExit(); 
             exit(0);
@@ -359,6 +369,7 @@ void init(std::vector<char *> &filenames)
     OSG::endEditCP(t1n);
 
     cam_trans = t1;
+    addRefCP(t1n);
 
     // light
 
@@ -378,6 +389,7 @@ void init(std::vector<char *> &filenames)
 
     // root
     root = OSG::Node::create();
+    addRefCP(root);
     OSG::GroupPtr gr1 = OSG::Group::create();
     OSG::beginEditCP(root);
     root->setCore( gr1 );

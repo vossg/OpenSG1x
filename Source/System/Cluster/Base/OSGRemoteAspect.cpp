@@ -52,6 +52,8 @@
 #include "OSGTextureChunk.h"
 #include "OSGWindow.h"
 
+#include <map>
+
 OSG_USING_NAMESPACE
 
 /** \class osg::RemoteAspect
@@ -84,7 +86,7 @@ RemoteAspect::statSyncTime ("remoteSyncTime",
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
+/*! Constructor
  */
 
 RemoteAspect::RemoteAspect():
@@ -119,23 +121,26 @@ RemoteAspect::~RemoteAspect(void)
         i++)
     {
         fcPtr=factory->getContainer(i->second);
-        
-        callDestroyed(fcPtr);
-        // subref all Fealdcontainers
-        subRefCP(fcPtr);
+        if(fcPtr != NullFC)
+        {
+            callDestroyed(fcPtr);
+            // subref twice because we have two addrefs on reate
+            // It is not possible to subref until the node is removed
+            // because if this node is referenced by another node
+            // then we will have a crash if we try to subref this
+            // other node.
+            subRefCP(fcPtr);
+            subRefCP(fcPtr);
+        }
     }
 }
 
-/** \brief Receive changes from a connection
- *
- * <EM>receiveSync</EM> reads changes from the given connection and
- * applies them to the current thread aspect.
- * Functors for registered types are called, if they occure in the
- * sync stream.
+/*! <EM>receiveSync</EM> reads changes from the given connection and
+ *  applies them to the current thread aspect.
+ *  Functors for registered types are called, if they occure in the
+ *  sync stream.
  * 
- * \param connection   Read from this Connection
- * 
- * \see registerCreated registerChanged registerDeleted
+ *  \see registerCreated registerChanged registerDeleted
  */
 void RemoteAspect::receiveSync(Connection &connection,
                                bool applyToChangelist)
@@ -202,6 +207,8 @@ void RemoteAspect::receiveSync(Connection &connection,
                     fcType=factory->findType(localTypeId);
                     fcPtr=fcType->createFieldContainer();
                     _receivedFC[remoteId]=fcPtr.getFieldContainerId();
+                    // make shure, client will not subref to zero
+                    addRefCP(fcPtr);
                     addRefCP(fcPtr);
                     callCreated(fcPtr);
                 }
@@ -219,9 +226,27 @@ void RemoteAspect::receiveSync(Connection &connection,
                 }
                 else
                 {
-                    fcPtr=factory->getContainer(receivedFCI->second);
-                    callDestroyed(fcPtr);
-                    subRefCP(fcPtr);
+                    UInt32 id=receivedFCI->second;
+                    _receivedFC.erase(receivedFCI);
+                    fcPtr=factory->getContainer(id);
+                    if(fcPtr!=NullFC)
+                    {
+                        callDestroyed(fcPtr);
+
+                        // first subref because if on the client side
+                        // the refcount gets zero, then no subref is
+                        // added to the changelist
+
+                        // then refcount is 0 or 1
+                        // 0 if addRef never was called for this fc
+                        // 1 if one or more times addRef was called
+                        do
+                        {
+                            subRefCP(fcPtr);
+                            fcPtr=factory->getContainer(id);
+                        }
+                        while(fcPtr!=NullFC);
+                    }
                 }
                 break;
             }
@@ -323,14 +348,9 @@ void RemoteAspect::receiveSync(Connection &connection,
         _statistics->getElem(statSyncTime)->stop();
 }
 
-/** \brief Write all changes from the given ChangeList to the connection.
- *
- * All changes are send to the connecteion except the fields which are
- * filtered. Filters are used to avoid transmission of local states 
- * e.g. GL variables.
- *
- * \param connection   Write to this Connection
- * \param changeList   Read changes from this list. Default is current list
+/*! All changes from changeList are send to the connecteion except 
+ *  the fields which are filtered. Filters are used to avoid transmission
+ *  of local states. e.g. GL variables. 
  */
 void RemoteAspect::sendSync(Connection &connection,
                             ChangeList *changeList)
@@ -348,6 +368,7 @@ void RemoteAspect::sendSync(Connection &connection,
     UInt32 maskUInt32;
     UInt8 cmd;
     std::string typeName;
+    std::map<UInt32,BitVector>::iterator sentFCI;
 
     if(_statistics)
         _statistics->getElem(statSyncTime)->start();
@@ -363,10 +384,10 @@ void RemoteAspect::sendSync(Connection &connection,
         createdI++)
     {
         fcPtr=fcFactory->getContainer(*createdI);
-        
         if(fcPtr == NullFC)
+        {
             continue;
-
+        }
         typeId = fcPtr->getTypeId();
         // type unknown by remote context ?
         if(_sentType.count(typeId)==0)
@@ -381,10 +402,29 @@ void RemoteAspect::sendSync(Connection &connection,
             connection.putValue(typeName);
         }
         // send container to create
+        _sentFC[*createdI]=0;
         cmd=CREATED;
         connection.putValue(cmd);
         connection.putValue(typeId);
         connection.putValue(*createdI);
+    }
+
+    // destroy fct
+    for(destroyedI =changeList->beginDestroyed() ;
+        destroyedI!=changeList->endDestroyed() ;
+        destroyedI++)
+    {
+        UInt32 id=(*destroyedI);
+        // is it a known container
+        sentFCI=_sentFC.find(id);
+        if(sentFCI != _sentFC.end())
+        {
+            // remove from known containers
+            _sentFC.erase(sentFCI);
+            cmd=DESTROYED;
+            connection.putValue(cmd);
+            connection.putValue(id);
+        }
     }
 
     // changed fields
@@ -392,6 +432,10 @@ void RemoteAspect::sendSync(Connection &connection,
         changedI!=changeList->endChanged() ;
         changedI++)
     {
+        sentFCI=_sentFC.find(changedI->first);
+        // ignore changes for not transmitted fieldcontainers
+        if(sentFCI == _sentFC.end())
+            continue;
         FieldContainerPtr fcPtr = 
             FieldContainerFactory::the()->getContainer(changedI->first);
         if(fcPtr == NullFC)
@@ -407,6 +451,7 @@ void RemoteAspect::sendSync(Connection &connection,
         }
         // send changes
         maskUInt32=mask;
+        sentFCI->second|=mask;
         cmd=CHANGED;
         connection.putValue(cmd);
         connection.putValue(fcPtr.getFieldContainerId());   // id
@@ -418,35 +463,34 @@ void RemoteAspect::sendSync(Connection &connection,
                   mask ))
     }
 
-    // destroy fct
-    for(destroyedI =changeList->beginDestroyed() ;
-        destroyedI!=changeList->endDestroyed() ;
-        destroyedI++)
-    {
-        cmd=DESTROYED;
-        connection.putValue(cmd);
-        connection.putValue(*destroyedI);
-    }
-
-    // destroy
+    // addref
     for(addRefedI =changeList->beginAddRefd();
         addRefedI!=changeList->endAddRefd();
         addRefedI++)
     {
+        UInt32 id=(*addRefedI);
+        // ignore subrefs for unknown fcs
+        if(_sentFC.find(id) == _sentFC.end())
+            continue;
         cmd=ADDREFED;
         connection.putValue(cmd);
-        connection.putValue(*addRefedI);
+        connection.putValue(id);
     }
-    
+
     // subref
     for(subRefedI =changeList->beginSubRefd();
         subRefedI!=changeList->endSubRefd();
         subRefedI++)
     {
+        UInt32 id=(*subRefedI);
+        // ignore addrefs for unknown fcs
+        if(_sentFC.find(id) == _sentFC.end())
+            continue;
         cmd=SUBREFED;
         connection.putValue(cmd);
-        connection.putValue(*subRefedI);
+        connection.putValue(id);
     }
+
     cmd=SYNCENDED;
     connection.putValue(cmd);
     // write buffer 
@@ -456,15 +500,10 @@ void RemoteAspect::sendSync(Connection &connection,
         _statistics->getElem(statSyncTime)->stop();
 }
 
-/** \brief Register functor for create
+/*! The given functor is called when a create of the specified type
+ *  is received.
  *
- * The given functor is called when a create of the specified type
- * is received.
- *
- * \param type  FiieldContainerType 
- * \param func  Functor
- *
- * \see receiveSync
+ *  \see receiveSync
  */
 void RemoteAspect::registerCreated(const FieldContainerType &type, 
                                    const Functor &func)
@@ -480,15 +519,10 @@ void RemoteAspect::registerCreated(const FieldContainerType &type,
     _createdFunctors[ type.getId() ] = func;
 }
 
-/** \brief Register functor for destroy
+/*! The given functor is called when a destroy of the specified type
+ *  is received.
  *
- * The given functor is called when a destroy of the specified type
- * is received.
- *
- * \param type  FiieldContainerType 
- * \param func  Functor
- *
- * \see receiveSync
+ *  \see receiveSync
  */
 void RemoteAspect::registerDestroyed(const FieldContainerType &type, 
                                      const Functor &func)
@@ -504,15 +538,10 @@ void RemoteAspect::registerDestroyed(const FieldContainerType &type,
     _destroyedFunctors[ type.getId() ] = func;
 }
 
-/** \brief Register functor for destroy
+/*! The given functor is called when a change of the specified type
+ *  is received.
  *
- * The given functor is called when a change of the specified type
- * is received.
- *
- * \param type  FiieldContainerType 
- * \param func  Functor
- *
- * \see receiveSync
+ *  \see receiveSync
  */
 void RemoteAspect::registerChanged(const FieldContainerType &type, 
                                    const Functor &func)
@@ -528,7 +557,7 @@ void RemoteAspect::registerChanged(const FieldContainerType &type,
     _changedFunctors[ type.getId() ] = func;
 }
 
-/** \brief Set statistics collector
+/*! Set statistics collector
  *
  */
 
@@ -541,9 +570,9 @@ void RemoteAspect::setStatistics(StatCollector *statistics)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-/** \brief Call created functor for a given FieldContainer
+/*! Call created functor for a given FieldContainer
  *
- * \see registerCreated
+ *  \see registerCreated
  */
 bool RemoteAspect::callCreated( FieldContainerPtr &fcp )
 {
@@ -558,9 +587,9 @@ bool RemoteAspect::callCreated( FieldContainerPtr &fcp )
     return result;
 }
 
-/** \brief Call destroyed functor for a given FieldContainer
+/*! Call destroyed functor for a given FieldContainer
  *
- * \see registerDestroyed
+ *  \see registerDestroyed
  */
 bool RemoteAspect::callDestroyed( FieldContainerPtr &fcp )
 {
@@ -575,9 +604,9 @@ bool RemoteAspect::callDestroyed( FieldContainerPtr &fcp )
     return result;
 }
 
-/** \brief Call changed functor for a given FieldContainer
+/*! Call changed functor for a given FieldContainer
  *
- * \see registerChanged
+ *  \see registerChanged
  */
 bool RemoteAspect::callChanged( FieldContainerPtr &fcp )
 {
@@ -602,7 +631,7 @@ bool RemoteAspect::callChanged( FieldContainerPtr &fcp )
 #pragma set woff 3201
 #endif
 
-/** \brief Default create functor
+/*! Default create functor
  */
 bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr& fcp,
                                            RemoteAspect *)
@@ -613,7 +642,7 @@ bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr& fcp,
     return true;
 }
 
-/** \brief Default destroyed functor
+/*! Default destroyed functor
  */
 bool RemoteAspect::_defaultDestroyedFunction(FieldContainerPtr& fcp,
                                            RemoteAspect *)
@@ -624,7 +653,7 @@ bool RemoteAspect::_defaultDestroyedFunction(FieldContainerPtr& fcp,
     return true;
 }
 
-/** \brief Default changed functor
+/*! Default changed functor
  */
 bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr& fcp,
                                            RemoteAspect *)
@@ -639,13 +668,8 @@ bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr& fcp,
 #pragma reset woff 3201
 #endif
 
-/** \brief Field contayner id mapper
- *
- * This mapper mappes remote field container id to local ids
- *
- * \param uiId  remote id
- *
- * \return local id
+/*! Field container id mapper. This mapper mappes remote field 
+ *  container id to local ids.
  */
 
 UInt32 RemoteAspectFieldContainerMapper::map(UInt32 uiId)

@@ -236,6 +236,8 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
+    // clear command buffers
+    glFinish();
     // tell client that we are finish
     getConnection()->signal();
     // wait for swap

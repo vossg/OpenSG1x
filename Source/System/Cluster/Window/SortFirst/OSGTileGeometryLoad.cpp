@@ -46,7 +46,7 @@
 
 #include "OSGConfig.h"
 #include "OSGBaseFunctions.h"
-#include "OSGFaceIterator.h"
+#include "OSGTriangleIterator.h"
 #include "OSGTileGeometryLoad.h"
 
 OSG_USING_NAMESPACE
@@ -69,7 +69,40 @@ TileGeometryLoad::TileGeometryLoad(NodePtr node,
     _faces(0),
     _useFaceDistribution(useFaceDistribution)
 {
-    _faceDistribution.resize(FACE_DISTRIBUTION_SAMPLING_COUNT);
+    if(_directions.size()==0)
+    {
+        // create directions for face distribution
+        _directions.push_back(
+            Plane(Vec3f( 1, 0, 0)              ,Pnt3f(0,0,0)));
+        _directions.push_back(
+            Plane(Vec3f( 0, 1, 0)              ,Pnt3f(0,0,0)));
+        _directions.push_back(
+            Plane(Vec3f( 0, 0, 1)              ,Pnt3f(0,0,0)));
+
+        _directions.push_back(
+            Plane(Vec3f( 1, 1, 1)*(1/sqrt(3.0)),Pnt3f(0,0,0)));
+        _directions.push_back(
+            Plane(Vec3f(-1, 1, 1)*(1/sqrt(3.0)),Pnt3f(1,0,0)));
+        _directions.push_back(
+            Plane(Vec3f( 1,-1, 1)*(1/sqrt(3.0)),Pnt3f(0,1,0)));
+        _directions.push_back(
+            Plane(Vec3f( 1, 1,-1)*(1/sqrt(3.0)),Pnt3f(0,0,1)));
+
+        _directions.push_back(
+            Plane(Vec3f( 1, 1, 0)*(1/sqrt(2.0)),Pnt3f(0,0,0)));
+        _directions.push_back(
+            Plane(Vec3f( 1,-1, 0)*(1/sqrt(2.0)),Pnt3f(0,1,0)));
+        _directions.push_back(
+            Plane(Vec3f( 0, 1, 1)*(1/sqrt(2.0)),Pnt3f(0,0,0)));
+        _directions.push_back(
+            Plane(Vec3f( 0,-1, 1)*(1/sqrt(2.0)),Pnt3f(0,1,0)));
+        _directions.push_back(
+            Plane(Vec3f( 1, 0, 1)*(1/sqrt(2.0)),Pnt3f(0,0,0)));
+        _directions.push_back(
+            Plane(Vec3f(-1, 0, 1)*(1/sqrt(2.0)),Pnt3f(1,0,0)));
+
+
+    }
     updateGeometry();
 } 
 
@@ -108,11 +141,15 @@ void TileGeometryLoad::updateView(Matrix &viewing,
                                   UInt32 width,
                                   UInt32 height)
 {
-    Vec3f  vol[2];
-    Pnt3f  pnt;
-    Real32 minx,miny;
-    Real32 maxx,maxy;
-    Matrix *p;
+    Vec3f                        vol[2];
+    Pnt3f                        pnt;
+    Real32                       minx,miny;
+    Real32                       maxx,maxy;
+    Matrix                      *p;
+    Real32                       bestScalX;
+    UInt32                       bestDirX;
+    Real32                       bestScalY;
+    UInt32                       bestDirY;
 
     // get whole transformation
     Matrix m=_node->getToWorld();
@@ -137,6 +174,49 @@ void TileGeometryLoad::updateView(Matrix &viewing,
         _visible=false;
         return;
     }
+
+    // find best directon for face distribution
+    if(_useFaceDistribution)
+    {
+        Real32 scal;
+        Vec3f xdir(m[0][0],m[1][0],m[2][0]);
+        Vec3f ydir(m[0][1],m[1][1],m[2][1]);
+        xdir.normalize();
+        ydir.normalize();
+        bestScalX=bestScalY=0;
+        for(UInt32 dir=0;dir<_directions.size();++dir)
+        {
+            scal=_directions[dir].getNormal()*xdir;
+            if(scal>bestScalX)
+            {
+                bestScalX=scal;
+                bestDirX =dir*2;
+            }
+            if((-scal)>bestScalX)
+            {
+                bestScalX=-scal;
+                bestDirX =dir*2+1;
+            }
+            scal=_directions[dir].getNormal()*ydir;
+            if(scal>bestScalY)
+            {
+                bestScalY=scal;
+                bestDirY =dir*2;
+            }
+            if((-scal)>bestScalY)
+            {
+                bestScalY=-scal;
+                bestDirY =dir*2+1;
+            }
+        }
+        // cout << "x " << xdir << " " << _directions[bestDirX>>1].getNormal() << endl;
+        // cout << "y " << ydir << " " << _directions[bestDirY>>1].getNormal() << endl;
+        _faceDistDirX=bestDirX;
+        _faceDistDirY=bestDirY;
+        // cout << "best X:" << bestDirX << endl;
+        // cout << "best Y:" << bestDirY << endl;
+    }
+
     if(vol[1][2] > -rNear)
     {
         // volume lays on the fron clipping plane
@@ -189,17 +269,6 @@ void TileGeometryLoad::updateView(Matrix &viewing,
         _areaSize = 
             (Real32)( _max[0] - _min[0] + 1 ) *
             (Real32)( _max[1] - _min[1] + 1 );
-/*
-        if(_areaSize<0)
-        {
-            cout << "areasize " 
-                 << _areaSize 
-                 << " " << fabs(minx) 
-                 << " " << miny 
-                 << " " << maxx 
-                 << " " << maxy << endl; 
-        }
-*/
         /* Don't clip!
         if(_min[0]<0) _min[0]=0;
         if(_min[1]<0) _min[1]=0;
@@ -221,8 +290,8 @@ void TileGeometryLoad::updateView(Matrix &viewing,
 void TileGeometryLoad::updateGeometry()
 {
     const OSG::Volume *volume = &(_node->getVolume().getInstance());
-    FaceIterator       f;
-    int                p,i;
+    TriangleIterator   f;
+    int                p,d,s,i;
     Vec3f              vmin,vmax;
     Pnt3f              pos;
     Real32             min,max;
@@ -232,6 +301,8 @@ void TileGeometryLoad::updateGeometry()
     UInt32             faceCount=0;
     NodeCorePtr        core;
     GeometryPtr        geo;
+    const Real32       sq2=sqrt(2);
+    const Real32       sq3=sqrt(3);
 
     _faces = 0;
     core=_node->getCore();
@@ -241,72 +312,91 @@ void TileGeometryLoad::updateGeometry()
     if(geo == NullFC)
         return;
 
+    // get volume min,max
+    volume->getBounds(vmin,vmax);
+
     // count faces
-    for(f=geo->beginFaces() ; f!=geo->endFaces() ; ++f)
+    for(f=geo->beginTriangles() ; f!=geo->endTriangles() ; ++f)
     {
         ++_faces;
     }
-
     if(_useFaceDistribution)
     {
-        // get face distribution
-        Plane plane[6]={
-            Plane(Vec3f( 1, 0, 0)            ,Pnt3f(0,0,0)),
-            Plane(Vec3f( 0, 1, 0)            ,Pnt3f(0,0,0)),
-            Plane(Vec3f( 0, 0, 1)            ,Pnt3f(0,0,0)),
-            Plane(Vec3f( 1, 1, 1)*(1/sqrt(3.0)),Pnt3f(0,0,0)),
-            Plane(Vec3f(-1, 1, 1)*(1/sqrt(3.0)),Pnt3f(1,0,0)),
-            Plane(Vec3f( 1,-1, 1)*(1/sqrt(3.0)),Pnt3f(0,1,0))
-        };
-        // clear tab
-        for(i=0;i<FACE_DISTRIBUTION_SAMPLING_COUNT;i++)
-            faceStart[i]=0;
-        // get volume min,max
-        volume->getBounds(vmin,vmax);
-        // get distribution for x,y,z axis and the three main diagonals
-        for(f=geo->beginFaces() ; f!=geo->endFaces() ; ++f)
+        _faceDistribution.resize(_directions.size()*2);
+        // loop through all directions
+        for(d=0;d<_directions.size();++d)
         {
-            for(i=0;i<6;i++)
+            // init dist
+            _faceDistribution[d*2  ].resize(FACE_DISTRIBUTION_SAMPLING_COUNT);
+            _faceDistribution[d*2+1].resize(FACE_DISTRIBUTION_SAMPLING_COUNT);
+            for(s=0;s<FACE_DISTRIBUTION_SAMPLING_COUNT;++s)
             {
-                for(p=0;p<f.getLength();p++)
+                _faceDistribution[d*2  ][s]=0;
+                _faceDistribution[d*2+1][s]=0;
+            }
+            // loop over all faces
+            for(f=geo->beginTriangles() ; 
+                f!=geo->endTriangles() ;
+                ++f)
+            {
+                for(p=0;p<3;++p)
                 {
-                    pos=f.getPosition(p) - vmin;
+                    // get point and rescale
+                    pos=(f.getPosition(p) - vmin);
                     pos[0]/=vmax[0]-vmin[0];
                     pos[1]/=vmax[1]-vmin[1];
                     pos[2]/=vmax[2]-vmin[2];
                     if(p==0)
                     {
-                        max=min=plane[i].distance(pos);
+                        max=min=_directions[d].distance(pos);
                     }
                     else
                     {
-                        max=osgMax(max,plane[i].distance(pos));
-                        min=osgMin(min,plane[i].distance(pos));
+                        max=osgMax(max,_directions[d].distance(pos));
+                        min=osgMin(min,_directions[d].distance(pos));
                     }
                 }
-                if(i>=3)
+                if(d>=7)
                 {
-                    min/=sqrt(3.0);
-                    max/=sqrt(3.0);
+                    min/=sq2;
+                    max/=sq2;
                 }
-                faceStart[ (int)(ceil(min*
-                                      (FACE_DISTRIBUTION_SAMPLING_COUNT-1)))]++;
-                faceStart[ (int)(ceil((1-max)*
-                                      (FACE_DISTRIBUTION_SAMPLING_COUNT-1)))]++;
-                faceCount+=2;
+                else if(d>=3)
+                {
+                    min/=sq3;
+                    max/=sq3;
+                }
+                _faceDistribution
+                    [d*2  ]
+                    [(int)(ceil(min*
+                                (FACE_DISTRIBUTION_SAMPLING_COUNT-1)))]++;
+                _faceDistribution
+                    [d*2+1]
+                    [(int)(ceil((1-max)*
+                                (FACE_DISTRIBUTION_SAMPLING_COUNT-1)))]++;
             }
         }
-        // cummulate distribution
-        for(i=0,sum=0;i<FACE_DISTRIBUTION_SAMPLING_COUNT;i++)
+        for(d=0;d<_directions.size();++d)
         {
-            sum+=(faceStart[i]/(float)faceCount);
-            _faceDistribution[i]=sum;
-            /*
-            printf("%10.6f %10.6f\n",
-                   ((float)i)/(FACE_DISTRIBUTION_SAMPLING_COUNT-1),
-                   sum);
-            */
-        }
+            _faceDistribution[d*2  ][0]/=_faces;
+            _faceDistribution[d*2+1][0]/=_faces;
+            for(s=1;s<FACE_DISTRIBUTION_SAMPLING_COUNT;++s)
+            {
+                _faceDistribution[d*2  ][s]/=_faces;
+                _faceDistribution[d*2+1][s]/=_faces;
+                _faceDistribution[d*2  ][s]+=_faceDistribution[d*2  ][s-1];
+                _faceDistribution[d*2+1][s]+=_faceDistribution[d*2+1][s-1];
+            }
+#if 0
+            printf("--> ");
+            for(s=0;s<FACE_DISTRIBUTION_SAMPLING_COUNT;++s)
+                printf("%4.3f ",_faceDistribution[d*2  ][s]);
+            printf("\n<-- ");
+            for(s=0;s<FACE_DISTRIBUTION_SAMPLING_COUNT;++s)
+                printf("%4.3f ",_faceDistribution[d*2+1][s]);
+            printf("\n");
+#endif
+        }    
     }
 }
 
@@ -326,6 +416,8 @@ TileGeometryLoad& TileGeometryLoad::operator=(const TileGeometryLoad &source)
     _faces               = source._faces;
     _visible             = source._visible;
     _faceDistribution    = source._faceDistribution;
+    _faceDistDirX        = source._faceDistDirX;
+    _faceDistDirY        = source._faceDistDirY;
     _node                = source._node;
     _useFaceDistribution = source._useFaceDistribution;
     _areaSize            = source._areaSize;
@@ -421,10 +513,15 @@ Real32 TileGeometryLoad::getVisibleFraction( const Int32 wmin[2],
         x=1.0/(_max[0]-_min[0]+1);
         y=1.0/(_max[1]-_min[1]+1);
         return
-            (getFaceDistribution(1.0 - (viswmin[0] - _min[0]    ) * x) +
-             getFaceDistribution(      (viswmax[0] - _min[0] + 1) * x) - 1) *
-            (getFaceDistribution(1.0 - (viswmin[1] - _min[1]    ) * y) +
-             getFaceDistribution(      (viswmax[1] - _min[1] + 1) * y) - 1);
+            (getFaceDistribution(_faceDistDirX^1,
+                                 1.0 - (viswmin[0] - _min[0]    ) * x) +
+             getFaceDistribution(_faceDistDirX,
+                                       (viswmax[0] - _min[0] + 1) * x) - 1) 
+            *
+            (getFaceDistribution(_faceDistDirY^1,
+                                 1.0 - (viswmin[1] - _min[1]    ) * y) +
+             getFaceDistribution(_faceDistDirY,
+                                       (viswmax[1] - _min[1] + 1) * y) - 1);
     }
     else
     {
@@ -471,25 +568,10 @@ bool TileGeometryLoad::checkRegion( Int32 min[2],
         return true;
 }
 
-Real32 TileGeometryLoad::getFaceDistribution(Real32 cut)
-{
-    if(cut<=0)
-    {
-        return 0.0;
-    }
-    if(cut >=1.0)
-    {
-        return 1.0;
-    }
-    cut*=FACE_DISTRIBUTION_SAMPLING_COUNT-1;
-    
-    UInt32 a=(UInt32)(floor(cut));
-    Real32 f=cut-a;
+/*-------------------------------------------------------------------------*/
+/*                              static                                     */
 
-    return _faceDistribution[a] +
-        (_faceDistribution[a+1] - _faceDistribution[a]) * f;
-}
-
+std::vector<Plane>    TileGeometryLoad::_directions;
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -506,4 +588,5 @@ namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id:$";
     static Char8 cvsid_hpp[] = OSG_TILE_GEOMETRY_LOADHEADER_CVSID;
+    static Char8 cvsid_inl[] = OSG_TILE_GEOMETRY_LOADINLINE_CVSID;
 }

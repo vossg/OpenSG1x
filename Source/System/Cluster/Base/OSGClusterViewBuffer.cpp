@@ -97,12 +97,8 @@ ClusterViewBuffer::~ClusterViewBuffer(void)
 {
 }
 
-/** \brief Receive image data from a network connection
- *
- * Receive image data from all channels of a conneciton. The receive is
- * finished, when the last channel signals a transmission end.
- *
- * \param connection   Connection from which read is done
+/*! Receive image data from all channels of a conneciton. The receive is
+ *  finished, when the last channel signals a transmission end.
  */
 void ClusterViewBuffer::recv(Connection &connection)
 {
@@ -226,16 +222,16 @@ void ClusterViewBuffer::recv(Connection &connection)
     glEnable(GL_DEPTH_TEST);  
 }
 
-/** \brief Send parts of a view buffer to a Connection
+/*! Send parts of a view buffer to a Connection
  *
- * \param connection   send to this connection
- * \param component    Component to transfer
- * \param x1           left begin of rectangle to be transfered
- * \param y1           bottom begin of rectangle to be transfered
- * \param x2           right. The right pixel is included
- * \param x2           top. The top pixel is included
- * \param toX          copy to this x position on destination buffer
- * \param toY          copy to this y position on destination buffer
+ *  \param connection   send to this connection
+ *  \param component    Component to transfer
+ *  \param x1           left begin of rectangle to be transfered
+ *  \param y1           bottom begin of rectangle to be transfered
+ *  \param x2           right. The right pixel is included
+ *  \param x2           top. The top pixel is included
+ *  \param toX          copy to this x position on destination buffer
+ *  \param toY          copy to this y position on destination buffer
  */
 void ClusterViewBuffer::send(Connection &connection,
                              UInt32     component,
@@ -365,11 +361,9 @@ void ClusterViewBuffer::send(Connection &connection,
     connection.flush();
     connection.selectChannel();
     connection.getValue(sync);
-    std::cout << "IMG size" << imgtranssize << std::endl;
-
 }
 
-/** \brief Send parts of a view buffer to a Connection
+/*! Send parts of a view buffer to a Connection
  *
  * \param connection   send to this connection
  * \param component    Component to transfer
@@ -384,7 +378,7 @@ void ClusterViewBuffer::send(Connection &connection,
     send(connection,component,0,0,getBufferWidth(),getBufferHeight(),toX,toY);
 }
 
-/** \brief Set compression type
+/*! Set compression type
  *
  * By default, no compression is used for image transmission. 
  * The given mime type identifies an ImageType e.g. "JPEG".
@@ -404,7 +398,7 @@ void ClusterViewBuffer::setImgTransType(const char *mimeType)
     }
 }
 
-/** \brief Set subtile size
+/*! Set subtile size
  *
  * The whole buffer is transfered as small subtiles. Increasing or 
  * decreasing the subtile size will result in changes to the performance.
@@ -418,7 +412,7 @@ void ClusterViewBuffer::setSubtileSize(UInt32 size)
     _subTileSize=size;
 }
 
-/** \brief Get buffer width
+/*! Get buffer width
  *
  * \return current buffer width
  */
@@ -429,7 +423,7 @@ UInt32 ClusterViewBuffer::getBufferWidth()
     return view[2];
 }
 
-/** \brief Get buffer width
+/*! Get buffer width
  *
  * \return current buffer height
  */

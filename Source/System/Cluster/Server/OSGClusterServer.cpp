@@ -240,8 +240,6 @@ void ClusterServer::stop()
  * contains the name of this server. <code>serverInit</code> is
  * called after the first ClusterWindow sync. 
  *
- * \param action   RenderAction to use for rendering
- *
  * \todo Sync RenderAciton contents
  */
 void ClusterServer::render(RenderAction *action)
@@ -301,7 +299,9 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
     return true;
 }
 
-/*! tell address of server requested over broadcast
+/*!
+ * Tell address of server requested over broadcast. A clusterServer
+ * instance is given as parameter.
  *
  * serviceProc is a static class function that is processed in a
  * seperate thread. It tells all requesting clients on which
@@ -312,8 +312,6 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
  * clients the address on wich the accept is expected.
  * After a successful connection the service thread will be
  * termnated.
- *
- * \param arg   Pointer to the ClusterServer
  */
 
 void ClusterServer::serviceProc(void *arg)

@@ -132,6 +132,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     ReceivedTypeT                     _receivedType;
     /** is type mapped **/
     std::set<UInt32>                  _sentType;
+    /** mapped fieldcontainer with mask **/
+    std::map<UInt32,BitVector>        _sentFC;
     /** fild filter **/
     FieldFilterT                      _fieldFilter;
     std::vector<Functor>              _createdFunctors;

@@ -50,7 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-#define FACE_DISTRIBUTION_SAMPLING_COUNT 16
+#define FACE_DISTRIBUTION_SAMPLING_COUNT 8
 
 class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad 
 {
@@ -145,7 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     /*! \name                     utilities                                */
     /*! \{                                                                 */
 
-    Real32 getFaceDistribution(Real32 cut);
+    Real32 getFaceDistribution(UInt32 dir,Real32 cut);
 
     /*! \}                                                                 */
 
@@ -153,15 +153,25 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     /*! \name                        Members                               */
     /*! \{                                                                 */
 
-    NodePtr               _node;
-    GeometryPtr           _geometry;
-    UInt32                _faces;
-    Int32                 _min[2];
-    Int32                 _max[2];
-    std::vector<Real32>   _faceDistribution;
-    bool                  _visible;
-    bool                  _useFaceDistribution;
-    Real32                _areaSize;
+    NodePtr                       _node;
+    GeometryPtr                   _geometry;
+    UInt32                        _faces;
+    Int32                         _min[2];
+    Int32                         _max[2];
+    std::vector<vector<Real32> >  _faceDistribution;
+    UInt32                        _faceDistDirX;
+    UInt32                        _faceDistDirY;
+    bool                          _visible;
+    bool                          _useFaceDistribution;
+    Real32                        _areaSize;
+
+    /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static elements                             */
+    /*! \{                                                                 */
+
+    static std::vector<Plane>    _directions;
 
     /*! \}                                                                 */
 
@@ -171,6 +181,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
 };
 
 OSG_END_NAMESPACE
+
+#include <OSGTileGeometryLoad.inl>
 
 #define OSG_TILE_GEOMETRY_LOADHEADER_CVSID "@(#)$Id:$"
 
