@@ -164,7 +164,7 @@ void Material::changed(BitVector whichField, UInt32 origin)
 void Material::dump(      UInt32    ,
                     const BitVector ) const
 {
-    SLOG << "Material::dump called: NIY!" << endl;
+    SLOG << "Material::dump called: NIY!" << std::endl;
 //   Inherited::dump(uiIndent, bvFlags);
 }
 
@@ -177,7 +177,7 @@ bool Material::operator < (const Material &other) const
 
 bool Material::operator == (const Material &OSG_CHECK_ARG(other)) const
 {   
-    SLOG << "Material::operator== called: NIY!" << endl;
+    SLOG << "Material::operator== called: NIY!" << std::endl;
     return false;
 }
 
