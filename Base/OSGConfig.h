@@ -288,6 +288,8 @@
 
 # define OSG_LONGLONG_HAS_LL
 
+# define OSG_THROW_NOTHING() THROW_NOTHING()
+
 # endif
 
 
@@ -348,6 +350,8 @@
 # define OSG_LINUX_TYPES
 // Use GLX 
 # define OSG_USE_GLX
+
+# define OSG_THROW_NOTHING() 
 #endif
 
 
@@ -360,6 +364,7 @@
 # endif
 // Use GLX 
 # define OSG_USE_GLX
+# define OSG_THROW_NOTHING()
 #endif
 
 #ifdef __ICL
@@ -405,6 +410,7 @@
 # define OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
 # define OSG_NEED_EXPLICIT_INST_FOR_STATIC
 # define OSG_LONGLONG_HAS_LL
+# define OSG_THROW_NOTHING()
 # endif
 
 
@@ -471,6 +477,8 @@
 //# define OSG_HAS_TEMPLATE_RETURNVALUES
 
 # define OSG_NEED_EXPLICIT_INST_FOR_STATIC
+
+# define OSG_THROW_NOTHING()
 # endif
 
 
@@ -493,6 +501,8 @@
 # define OSG_STREAM_RDBUF_HAS_PARAM
 # define OSG_HAS_NILBUF
 # define OSG_USE_WGL
+
+# define OSG_THROW_NOTHING()
 # endif  /*  */
 
 

@@ -111,7 +111,7 @@ Exception::Exception(const Exception &source) :
 /** \brief Destructor
  */
 
-Exception::~Exception(void) THROW_NOTHING()
+Exception::~Exception(void) OSG_THROW_NOTHING()
 {
 }
 
@@ -121,7 +121,7 @@ Exception::~Exception(void) THROW_NOTHING()
 
 /*-------------------------- your_category---------------------------------*/
 
-const char *Exception::what() const THROW_NOTHING()
+const char *Exception::what() const OSG_THROW_NOTHING()
 {
     return _what.c_str();
 }
