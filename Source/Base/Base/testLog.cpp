@@ -1,7 +1,6 @@
 
 #include "OSGConfig.h"
 
-#define __EXTENSIONS__  // ??? what's this ???
 #include <stdlib.h>
 
 #include <iostream>
@@ -16,6 +15,11 @@ using OSG::osgLogP;
 using OSG::osgLog;
 using OSG::initLog;
 using OSG::endLog;
+
+void MyLogCallback(const char *pszText, int size, void *pData)
+{
+    std::cerr << "MyLogCallback: " << pszText << std::endl;
+}
 
 int main (int argc, char **argv)
 {
@@ -70,6 +74,14 @@ int main (int argc, char **argv)
     FNOTICE(( "C-notice test: %d\n", OSG::LOG_NOTICE ));
     FINFO(( "C-into test: %d\n", OSG::LOG_INFO ));
     FDEBUG(( "C-debug test: %d\n", OSG::LOG_DEBUG ));
+    
+    // Check callback
+    
+    std::cerr << std::endl << "Callback test" << std::endl;
+    OSG::osgLog().getLogBuf().setCallback(MyLogCallback, 0, true);
+    OSG::osgLog().setLogType(OSG::LOG_BUFFER);
+    OSG::SLOG << "test" << OSG::endLog;
+    OSG::osgLog().setLogType(OSG::LOG_STDERR);
     
     FASSERT ( 0, true );
  
