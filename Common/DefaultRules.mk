@@ -109,7 +109,7 @@ define linux_make_depend
 	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
 	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
 	 		  -e 's/\/usr\/Software\/[^ ]*//g'						\
-	 		  -e 's/\/igd\/a4\/software/\[^ ]*//g'					\
+	 		  -e 's/\/igd\/a4\/software\/[^ ]*//g'					\
 			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
 			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
 			>> $@ 
