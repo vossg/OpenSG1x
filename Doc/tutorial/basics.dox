@@ -6,7 +6,7 @@ using namespace OSG;
 
 \page TutorialBasics Basics
 \latexonly Starter:NewChapter \endlatexonly
-<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
+<IMG SRC="underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
@@ -28,7 +28,7 @@ Chapter Overview
     >\ref TutorialBasicTutorial3<br>
     >\ref TutorialBasicLoadingSaving<br>
     >\ref TutorialBasicTutorial4<br>
-    >\ref TutorialBasicExercises<br>
+    >\ref TutorialBasicExercises
 </td></tr></table>
 <HR>
 

@@ -5,7 +5,7 @@ OSG_USING_NAMESPACE;
 /*! 
 \page Solutions Appendix A - Solutions
 \latexonly Starter:NewChapter \endlatexonly
-<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
+<IMG SRC="underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
@@ -14,7 +14,7 @@ Chapter Overview
 		>\ref SolIntroductionEx2 <BR>
 		>\ref SolBasicEx1 <BR>
 		>\ref SolBasicEx2 <BR> 
-		>\ref SolNodecores2 <BR>
+		>\ref SolNodecores2
 </td></tr></table>
 <HR>
 

@@ -4,7 +4,7 @@ using namespace OSG;
 
 /*! \page TutorialIntroduction Introduction
 \latexonly Starter:NewChapter \endlatexonly
-<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
+<IMG SRC="underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
@@ -14,7 +14,7 @@ Chapter Overview
     >\ref TutorialInstallation <BR>
     >\ref TutorialMakingAndExecuting <BR>
     >\ref TutorialCompilation <BR>
-    >\ref TutorialExercises <BR>
+    >\ref TutorialExercises
 </td></tr></table>
 <HR>
 
@@ -92,9 +92,9 @@ that. Here is how:
 Open a terminal and enter the two following commands
 
 \code
-	cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/opensg login
+cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/opensg login
 		
-	cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/openg co OpenSG
+cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/openg co OpenSG
 \endcode
 
 <I>
@@ -208,13 +208,13 @@ Download the precompiled zip file. There is no need to compile it yourself, howe
 After the download has finished open the zip package and copy the following files to these locations
 
 \code
-	//replace 'Windows' with your Windows base directory (possibly 'WinNT')
-	glut.dll	->  C:\Windows\System
+//replace 'Windows' with your Windows base directory (possibly 'WinNT')
+glut.dll	->  C:\Windows\System
 	
-	//again, adjust the path corresponding to your installation
-	//this applies to default installation of VS .NET 2002
-	glut32.lib  ->  C:\Program Files\Microsoft Visual Studio .NET\Vc7\lib
-	glut.h		->  C:\Program Files\Microsoft Visual Studio .NET\Vc7\include\GL
+//again, adjust the path corresponding to your installation
+//this applies to default installation of VS .NET 2002
+glut32.lib  ->  C:\Program Files\Microsoft Visual Studio .NET\Vc7\lib
+glut.h		->  C:\Program Files\Microsoft Visual Studio .NET\Vc7\include\GL
 \endcode
 
 That should do it, however if you need more information on the installation of GLUT, have a look at Nate Robins Readme file.
@@ -230,7 +230,9 @@ Now you have all the libraries needed for a typical OpenSG installation
 \subsubsection TutorialInstallationCygwinConfigureStuff Configuring
 
 Unless you are using the old version 5.0 of the Intel compiler you also need to add the following parameter to your configure line:
-<PRE>./configure [--all-options-you-want] --with-compiler={icl60, icl70, cl.net}</PRE>
+<PRE>
+./configure [--all-options-you-want] --with-compiler={icl60, icl70, cl.net}
+</PRE>
 Choose the compiler coressponding to your version of the Intel compiler/Visual Studio. 
 
 <I>Note:\n
@@ -323,8 +325,6 @@ all image libraries needed by OpenSG are also installed with imagemagick and fur
 it anyway.
 
 However there is still one thing to do before you start compiling, because your system will be identified as powerpc-unknown-linux-gnu. 
-
-<B>Ist das noetig? Ich dachte das geht inzwischen?</B>
 
 Well, this is a bit quick and dirty but it works well, so open the "OSGConfig.h" which can be found in <I>your_openg_folder/Source/Base/Base</I>.
 \code
@@ -423,7 +423,12 @@ The following picture shows what you should see if you type (assuming you are st
 \image html tutorial_tie.png "The legendary Tie Fighter loaded from VRML by OpenSG!"
 \image latex tutorial_tie.eps "The legendary Tie Fighter loaded from VRML by OpenSG!" width = 4cm
 
-If you get an error like <PRE>error while loading shared libraries: libOSGSystem.so: cannot open shared object file: No such file or directory</PRE> when you are executing one of the tutorials you should check if you have correctly specified the LD_LIBRARY_PATH
+If you get an error like 
+<PRE>
+	error while loading shared libraries: libOSGSystem.so: 
+	cannot open shared object file: No such file or directory
+</PRE> 
+when you are executing one of the tutorials you should check if you have correctly specified the LD_LIBRARY_PATH
 or the PATH variable, depending on your platform.
 
 Windows users need not to compile the tutorials on their own as they are precompiled, but my advise is to open one Visual 
@@ -475,13 +480,14 @@ copy and paste shortcut...
 <PRE>
 C/C++ preprocessor flags (CPPFLAGS)
 
--D_GNU_SOURCE -DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_JPG 
--DOSG_WITH_PNG -D_OSG_HAVE_CONFIGURED_H_ -DQT_NO_XINERAMA -DQT_NO_XRENDER 
--DQT_NO_XFTFREETYPE -DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG 
--DQT_NO_IMAGEIO_JPEG -DQT_NO_STYLE_AQUA -DQT_NO_STYLE_MAC 
--DQT_NO_STYLE_INTERLACE -DQT_NO_STYLE_COMPACT -use_readonly_const 
--ftemplate-depth-100 
--I/usr/local/include -I/usr/qt/3/include -march=athlon -Wno-deprecated
+-D_GNU_SOURCE -DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT -DOSG_WITH_QT 
+-DOSG_WITH_JPG -DOSG_WITH_PNG -D_OSG_HAVE_CONFIGURED_H_ 
+-DQT_NO_XINERAMA -DQT_NO_XRENDER -DQT_NO_XFTFREETYPE -DQT_NO_XKB 
+-DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG -DQT_NO_IMAGEIO_JPEG 
+-DQT_NO_STYLE_AQUA -DQT_NO_STYLE_MAC -DQT_NO_STYLE_INTERLACE 
+-DQT_NO_STYLE_COMPACT -use_readonly_const -ftemplate-depth-100 
+-I/usr/local/include -I/usr/qt/3/include -march=athlon 
+-Wno-deprecated
 </PRE>
 
 and 

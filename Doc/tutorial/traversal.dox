@@ -7,7 +7,7 @@ OSG_USING_NAMESPACE;
 /*! 
 \page Traversal Traversal of the Graph
 \latexonly Starter:NewChapter \endlatexonly
-<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
+<IMG SRC="underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>

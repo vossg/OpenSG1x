@@ -7,7 +7,7 @@ OSG_USING_NAMESPACE;
 /*! 
 \page NodeCores Node Cores
 \latexonly Starter:NewChapter \endlatexonly
-<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
+<IMG SRC="underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
@@ -18,7 +18,7 @@ Chapter Overview
     >\ref TutorialNodeCoresSwitch<br>
     >\ref TutorialNodeCoresLOD<br>
     >\ref TutorialNodeCoresTutorial<br>
-    >\ref TutorialNodeCoresExercises<br>
+    >\ref TutorialNodeCoresExercises
 </td></tr></table>
 <HR>
 
