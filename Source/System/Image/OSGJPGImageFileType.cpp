@@ -209,8 +209,8 @@ JPGImageFileType& JPGImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ), 
-                            const Char8 *OSG_JPG_ARG(fileName))
+bool JPGImageFileType::read(      ImagePtr &OSG_JPG_ARG(image), 
+                            const Char8    *OSG_JPG_ARG(fileName))
 {
 #ifdef OSG_WITH_JPG
     bool    retCode = false;
@@ -263,10 +263,10 @@ bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
             break;
         };
 
-        if(image.set(pixelFormat, cinfo.output_width, cinfo.output_height))
+        if(image->set(pixelFormat, cinfo.output_width, cinfo.output_height))
         {
-            imageSize = image.getSize();
-            destData = image.getData() + imageSize;
+            imageSize = image->getSize();
+            destData = image->getData() + imageSize;
             row_stride = cinfo.output_width * cinfo.output_components;
             buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
             while(cinfo.output_scanline < cinfo.output_height)
@@ -302,11 +302,12 @@ bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image), 
-                             const Char8 *OSG_JPG_ARG(fileName))
+bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), 
+                             const Char8    *OSG_JPG_ARG(fileName))
 {
 #ifdef OSG_WITH_JPG
-    if((image.getBpp() != 1 && image.getBpp() != 3) || image.getDepth() != 1)
+    if((image->getBpp() != 1 && 
+        image->getBpp() != 3) || image->getDepth() != 1)
     {
         SWARNING <<
             getMimeType() <<
@@ -348,10 +349,10 @@ bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image),
     jpeg_create_compress(&cinfo);
     jpeg_stdio_dest(&cinfo, outfile);
 
-    cinfo.image_width = image.getWidth();
-    cinfo.image_height = image.getHeight();
-    cinfo.input_components = image.getBpp();
-    cinfo.in_color_space = (image.getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
+    cinfo.image_width = image->getWidth();
+    cinfo.image_height = image->getHeight();
+    cinfo.input_components = image->getBpp();
+    cinfo.in_color_space = (image->getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
     jpeg_set_quality(&cinfo, 90, TRUE);
@@ -360,10 +361,10 @@ bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image),
     buffer = &data;
     while(cinfo.next_scanline < cinfo.image_height)
     {
-        data = image.getData() +
-            (image.getHeight() - 1 - cinfo.next_scanline) *
-            image.getWidth() *
-            image.getBpp();
+        data = image->getData() +
+            (image->getHeight() - 1 - cinfo.next_scanline) *
+            image->getWidth() *
+            image->getBpp();
         jpeg_write_scanlines(&cinfo, buffer, 1);
     }
 
@@ -383,9 +384,9 @@ bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image),
 }
 
 /* */
-UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ), 
-                                     const UChar8 *OSG_JPG_ARG(buffer ),
-                                           Int32   OSG_JPG_ARG(memSize))
+UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ), 
+                                     const UChar8   *OSG_JPG_ARG(buffer ),
+                                           Int32     OSG_JPG_ARG(memSize))
 {
 #ifdef OSG_WITH_JPG
     bool    retCode = false;
@@ -434,10 +435,10 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
         break;
     };
 
-    if(image.set(pixelFormat, cinfo.output_width, cinfo.output_height))
+    if(image->set(pixelFormat, cinfo.output_width, cinfo.output_height))
     {
-        imageSize = image.getSize();
-        destData = image.getData() + imageSize;
+        imageSize = image->getSize();
+        destData = image->getData() + imageSize;
         row_stride = cinfo.output_width * cinfo.output_components;
         imagebuffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
         while(cinfo.output_scanline < cinfo.output_height)
@@ -471,12 +472,13 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
 Tries to restore the image data from the given memblock.
 Returns the amount of data read.
 */
-UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ), 
-                                         UChar8 *OSG_JPG_ARG(buffer ),
-                                         Int32   OSG_JPG_ARG(memSize))
+UInt64 JPGImageFileType::storeData(const ImagePtr &OSG_JPG_ARG(image  ), 
+                                   UChar8         *OSG_JPG_ARG(buffer ),
+                                   Int32           OSG_JPG_ARG(memSize))
 {
 #ifdef OSG_WITH_JPG
-    if((image.getBpp() != 1 && image.getBpp() != 3) || image.getDepth() != 1)
+    if((image->getBpp() != 1 && image->getBpp() != 3)
+       || image->getDepth() != 1)
     {
         SWARNING <<
             getMimeType() <<
@@ -508,10 +510,10 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
     jpeg_create_compress(&cinfo);
     jpeg_memory_dest(&cinfo, buffer, memSize);
 
-    cinfo.image_width = image.getWidth();
-    cinfo.image_height = image.getHeight();
-    cinfo.input_components = image.getBpp();
-    cinfo.in_color_space = (image.getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
+    cinfo.image_width = image->getWidth();
+    cinfo.image_height = image->getHeight();
+    cinfo.input_components = image->getBpp();
+    cinfo.in_color_space = (image->getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
     jpeg_set_quality(&cinfo, 90, TRUE);
@@ -520,10 +522,10 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
     imagebuffer = &data;
     while(cinfo.next_scanline < cinfo.image_height)
     {
-        data = image.getData() +
-            (image.getHeight() - 1 - cinfo.next_scanline) *
-            image.getWidth() *
-            image.getBpp();
+        data = image->getData() +
+            (image->getHeight() - 1 - cinfo.next_scanline) *
+            image->getWidth() *
+            image->getBpp();
         jpeg_write_scanlines(&cinfo, imagebuffer, 1);
     }
 

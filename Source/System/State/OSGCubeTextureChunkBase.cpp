@@ -83,19 +83,19 @@ const OSG::BitVector  CubeTextureChunkBase::NegYImageFieldMask =
 
 // Field descriptions
 
-/*! \var ImageP          CubeTextureChunkBase::_sfPosZImage
+/*! \var ImagePtr        CubeTextureChunkBase::_sfPosZImage
     The image for the positive Z direction for the cube tetxure.
 */
-/*! \var ImageP          CubeTextureChunkBase::_sfPosXImage
+/*! \var ImagePtr        CubeTextureChunkBase::_sfPosXImage
     The image for the positive X direction for the cube tetxure.
 */
-/*! \var ImageP          CubeTextureChunkBase::_sfNegXImage
+/*! \var ImagePtr        CubeTextureChunkBase::_sfNegXImage
     The image for the negative X direction for the cube tetxure.
 */
-/*! \var ImageP          CubeTextureChunkBase::_sfPosYImage
+/*! \var ImagePtr        CubeTextureChunkBase::_sfPosYImage
     The image for the positive Y direction for the cube tetxure.
 */
-/*! \var ImageP          CubeTextureChunkBase::_sfNegYImage
+/*! \var ImagePtr        CubeTextureChunkBase::_sfNegYImage
     The image for the negative Y direction for the cube tetxure.
 */
 
@@ -103,27 +103,27 @@ const OSG::BitVector  CubeTextureChunkBase::NegYImageFieldMask =
 
 FieldDescription *CubeTextureChunkBase::_desc[] = 
 {
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "posZImage", 
                      PosZImageFieldId, PosZImageFieldMask,
                      false,
                      (FieldAccessMethod) &CubeTextureChunkBase::getSFPosZImage),
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "posXImage", 
                      PosXImageFieldId, PosXImageFieldMask,
                      false,
                      (FieldAccessMethod) &CubeTextureChunkBase::getSFPosXImage),
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "negXImage", 
                      NegXImageFieldId, NegXImageFieldMask,
                      false,
                      (FieldAccessMethod) &CubeTextureChunkBase::getSFNegXImage),
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "posYImage", 
                      PosYImageFieldId, PosYImageFieldMask,
                      false,
                      (FieldAccessMethod) &CubeTextureChunkBase::getSFPosYImage),
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "negYImage", 
                      NegYImageFieldId, NegYImageFieldMask,
                      false,
@@ -183,11 +183,11 @@ void CubeTextureChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 CubeTextureChunkBase::CubeTextureChunkBase(void) :
-    _sfPosZImage              (ImageP(NULL)), 
-    _sfPosXImage              (ImageP(NULL)), 
-    _sfNegXImage              (ImageP(NULL)), 
-    _sfPosYImage              (ImageP(NULL)), 
-    _sfNegYImage              (ImageP(NULL)), 
+    _sfPosZImage              (), 
+    _sfPosXImage              (), 
+    _sfNegXImage              (), 
+    _sfPosYImage              (), 
+    _sfNegYImage              (), 
     Inherited() 
 {
 }

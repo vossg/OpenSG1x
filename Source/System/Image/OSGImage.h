@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,35 +36,26 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGIMAGE_H_
 #define _OSGIMAGE_H_
-#ifdef  __sgi
-#pragma  once
+#ifdef __sgi
+#pragma once
 #endif
 
-#include <OSGGL.h>
-
-#include <OSGSystemDef.h>
-#include <OSGTime.h>
-#include <OSGBaseTypes.h>
-#include <OSGMemoryObject.h>
-
-#include <string>
-#include <map>
+#include <OSGConfig.h>
+#include <OSGImageBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-class ImageFileType;
-
-/*! \brief In memory raster Image. 
-See \ref PageSystemImage for a detailed description
+/*! rief Image class. See ef 
+           PageSYSTEMImage for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject 
+class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 {
+  private:
 
-  friend class ImageFileType;
+    typedef ImageBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -90,48 +81,37 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
                          OSG_RGB_PF     = GL_RGB,
                          OSG_RGBA_PF    = GL_RGBA
     };
-
     /*---------------------------------------------------------------------*/
-    /*! \name                Default Constructor                           */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    Image (void);
+    virtual void changed(BitVector  whichField, 
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                Copy Constructor                              */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    Image (const Image &obj);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructor                                */
-    /*! \{                                                                 */
-
-    Image ( PixelFormat pixelFormat,
-            Int32 width, Int32 height = 1, Int32 depth = 1,
-            Int32 mipmapCount = 1,
-            Int32 frameCount = 1, Time frameDelay = 0.0,
-            const UChar8 *data = 0, bool doCopy = true );
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Set Object Data                            */
     /*! \{                                                                 */
 
-    bool set     ( PixelFormat pixelFormat,
-                   Int32 width, Int32 height = 1,
-                   Int32 depth = 1,
-                   Int32 mipmapCount = 1,
-                   Int32 frameCount = 1, Time frameDelay = 0.0,
-                   const UChar8 *data = 0, bool doCopy = true );
-
-    bool set     ( const Image &image, bool doCopy = true );
-
-    bool setData ( const UChar8 *data = 0, bool doCopy = true );
-
-    bool flipDepthFrameData (void);
+    bool set                (      UInt32      pixelFormat,
+                                   Int32       width, 
+                                   Int32       height = 1,
+                                   Int32       depth = 1,
+                                   Int32       mipmapCount = 1,
+                                   Int32       frameCount = 1, 
+                                   Time        frameDelay = 0.0,
+                             const UInt8     *data = 0         );
+    bool set                (      ImagePtr   image            );
+    bool setData            (const UInt8     *data = 0         );
+    bool flipDepthFrameData (void                              );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,18 +126,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \{                                                                 */
 
     bool reformat ( const PixelFormat pixelFormat,
-                    Image *destination = 0);
+                    ImagePtr destination = NullFC);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Scale                                  */
     /*! \{                                                                 */
 
-    bool scale ( Int32 width, Int32 height = 1,
-                 Int32 depth = 1,
-                 Image *destination = 0);
-
-    bool scaleNextPower2 ( Image *destination = 0 );
+    bool scale          ( Int32 width, Int32 height = 1,
+                          Int32 depth = 1,
+                          ImagePtr destination = NullFC );
+    bool scaleNextPower2( ImagePtr destination = NullFC );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -166,7 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
 
     bool subImage ( Int32 offX, Int32 offY, Int32 offZ,
                     Int32 destW, Int32 destH, Int32 destD,
-                    Image *destination = 0);
+                    ImagePtr destination = NullFC);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,14 +153,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \{                                                                 */
 
     bool slice ( Int32 offX = -1, Int32 offY = -1, Int32 offZ = -1,
-                 Image *destination = 0);
+                 ImagePtr destination = NullFC);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Mipmap                                  */
     /*! \{                                                                 */
 
-    bool createMipmap ( Int32 level = -1, Image *destination = 0);
+    bool createMipmap ( Int32 level = -1, ImagePtr destination = NullFC);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,7 +168,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \{                                                                 */
 
     bool write (const Char8 *fileName);
-
     bool read  (const Char8 *fileName);
 
     /*! \}                                                                 */
@@ -197,19 +175,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \name                 Storage/Restore                              */
     /*! \{                                                                 */
 
-    UInt64 store   (Char8 *mimeType, UChar8* mem, Int32 memSize = -1);
-
-    UInt64 restore ( const UChar8* mem, Int32 memSize = -1);
+    UInt64 store   (Char8 *mimeType, UInt8* mem, Int32 memSize = -1);
+    UInt64 restore ( const UInt8* mem, Int32 memSize = -1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Comparison/Assign                              */
     /*! \{                                                                 */
 
-    Image &operator=   (const Image &image);
-
+    Image &operator =  (const Image &image);
     bool   operator <  (const Image &image);
-
     bool   operator == (const Image &image);
     bool   operator != (const Image &image);
 
@@ -218,33 +193,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
     
-    inline bool   isValid (void) const;
-    
-    inline Int32  getDimension  (void) const;
-
-    inline Int32  getWidth      (void) const;
-
-    inline Int32  getHeight     (void) const;
-
-    inline Int32  getDepth      (void) const;
-
-    inline UChar8 getBpp        (void) const;
-
-    inline Int32  getMipMapCount(void) const;
-
-    inline Int32  getFrameCount (void) const;
-
-    inline Time   getFrameDelay (void) const;
-
-    inline PixelFormat getPixelFormat (void) const;
-
-    bool hasAlphaChannel(void);
+    inline bool isValid        (void) const;
+           bool hasAlphaChannel(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Size                                    */
     /*! \{                                                                 */
-
 
     inline unsigned long getSize ( bool withMipmap = true,
                                    bool withFrames = true) const;
@@ -254,131 +209,108 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject
     /*! \name                   Get Methods                                */
     /*! \{                                                                 */
 
-    inline UChar8 *getData ( UInt32 mipmapNum = 0, 
-                             UInt32 frameNum = 0) const;
-
-    UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name               string attachment handling                     */
-    /*! \{                                                                 */
-
-    inline bool hasAttachment (void) const;
-
-    inline UInt32 attachmentCount (void) const;
-
-    inline void setAttachment ( const std::string &key, 
-                                const std::string &data);
-    
-    inline const std::string * findAttachment ( const std::string &key) const;
-    
-    inline void eraseAttachment ( const std::string &key);
+    inline const UInt8 *getData ( UInt32 mipmapNum = 0, 
+                                  UInt32 frameNum = 0) const;
+    inline       UInt8 *getData ( UInt32 mipmapNum = 0, 
+                                  UInt32 frameNum = 0);
+    UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Calculate                               */
     /*! \{                                                                 */
 
-    inline void   calcMipmapGeometry   ( UInt32 mipmapNum,
+    void   calcMipmapGeometry   ( UInt32 mipmapNum,
                                          UInt32 &width, 
                                          UInt32 &height, 
-                                         UInt32 &depth ) const;
-
-    inline UInt32 calcMipmapLevelCount ( void ) const;
-
-    UInt32 calcFrameNum(Time time, bool loop = true) const;
+                                         UInt32 &depth       ) const;
+    UInt32 calcMipmapLevelCount ( void                       ) const;
+    UInt32 calcFrameNum         ( Time time, bool loop = true) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Clear Image                                */
     /*! \{                                                                 */
 
-    virtual void clear (UChar8 pixelValue = 0);
+    virtual void clear (UInt8 pixelValue = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Output                                  */
+    /*! \name               attachment handling                            */
     /*! \{                                                                 */
 
-    virtual void dump (void);
+    bool   hasAttachment   (void) const;
+    UInt32 attachmentCount (void) const;
+    void   setAttachmentField ( const std::string &key, 
+                                const std::string &data);
+    const std::string * findAttachmentField ( const std::string &key) const;
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    static Int32 _formatDic[][2];
-
-    PixelFormat _pixelFormat;
-
-    Int32 _width;
-
-    Int32 _height;
-
-    Int32 _depth;
-
-    Int32 _mipmapCount;
-
-    Int32 _frameCount;
-
-    Time _frameDelay;
-
-    UChar8 _bpp;
-
-    Int32 _dimension;
-
-    Int32 _frameSize;
-
-    bool  _isCopy;
-
-    UChar8 * _data;
-
-    std::map<std::string, std::string> _attachmentMap;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
+    /*! \name                  static element                              */
     /*! \{                                                                 */
 
-    virtual ~Image (void);
+    static Int32 _formatDic[][2];
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    Image(void);
+    Image(const Image &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~Image(void); 
+
+    /*! \}                                                                 */
+    
     /*==========================  PRIVATE  ================================*/
   private:
-
     /*---------------------------------------------------------------------*/
     /*! \name               Calculate Mipmap Size                          */
     /*! \{                                                                 */
 
-    inline UInt32 calcMipmapSize ( UInt32 mipmapNum,
-                                   UInt32 w, UInt32 h, UInt32 d) const;
-
-    inline UInt32 calcMipmapSize    ( UInt32 mipmapNum) const;
-
-    inline UInt32 calcMipmapSumSize ( UInt32 mipmapNum,
-                                      UInt32 w, UInt32 h, UInt32 d) const;
-
-    inline UInt32 calcMipmapSumSize (UInt32 mipmapNum) const;
+    UInt32 calcMipmapSize   ( UInt32 mipmapNum,
+                                     UInt32 w, UInt32 h, UInt32 d) const;
+    UInt32 calcMipmapSize   ( UInt32 mipmapNum                   ) const;
+    UInt32 calcMipmapSumSize( UInt32 mipmapNum,
+                                     UInt32 w, UInt32 h, UInt32 d) const;
+    UInt32 calcMipmapSumSize( UInt32 mipmapNum                   ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Image Data                                 */
     /*! \{                                                                 */
 
-    bool createData (const UChar8 *data, bool doCopy );
-
-    bool scaleData  ( UChar8* srcData, 
+    bool createData ( const UInt8 *data );
+    bool scaleData  ( UInt8* srcData, 
                       Int32 srcW, Int32 srcH, Int32 srcD,
-                      UChar8* destData, 
+                      UInt8* destData, 
                       Int32 destW, Int32 destH, Int32 destD );
 
     /*! \}                                                                 */
+
+    friend class FieldContainer;
+    friend class ImageBase;
+
+    static void initMethod(void);
 };
 
-typedef Image* ImageP;
+typedef Image *ImageP;
 
 OSG_END_NAMESPACE
 
+#include <OSGImageBase.inl>
 #include <OSGImage.inl>
 
-#endif // _OSGIMAGE_H_
+#define OSGIMAGE_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGIMAGE_H_ */

@@ -133,8 +133,8 @@ PNGImageFileType& PNGImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image), 
-                            const Char8 *OSG_PNG_ARG(fileName))
+bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image), 
+                            const Char8    *OSG_PNG_ARG(fileName))
 {
 
 #ifdef OSG_WITH_PNG
@@ -200,7 +200,7 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
             break;
         };
 
-        if(image.set(pixelFormat, width, height))
+        if(image->set(pixelFormat, width, height))
         {
             // Convert paletted images to RGB
             if(color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 8)
@@ -223,7 +223,7 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
             row_pointers = new png_bytep[height];
             wc = width * channels;
             h = height - 1;
-            base = image.getData();
+            base = image->getData();
             for(i = 0; i < height; ++i)
                 row_pointers[i] = base + (h - i) * wc;
 
@@ -261,7 +261,7 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool PNGImageFileType::write(const ImagePtr &, 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
 #ifdef PNG_LIB

@@ -98,7 +98,7 @@ SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::createEmpty(void)
 
 //! Get the SimpleTexturedMaterial::_sfImage field.
 inline
-SFImageP *SimpleTexturedMaterialBase::getSFImage(void)
+SFImagePtr *SimpleTexturedMaterialBase::getSFImage(void)
 {
     return &_sfImage;
 }
@@ -134,21 +134,21 @@ SFBool *SimpleTexturedMaterialBase::getSFEnvMap(void)
 
 //! Get the value of the SimpleTexturedMaterial::_sfImage field.
 inline
-ImageP &SimpleTexturedMaterialBase::getImage(void)
+ImagePtr &SimpleTexturedMaterialBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
 //! Get the value of the SimpleTexturedMaterial::_sfImage field.
 inline
-const ImageP &SimpleTexturedMaterialBase::getImage(void) const
+const ImagePtr &SimpleTexturedMaterialBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
 //! Set the value of the SimpleTexturedMaterial::_sfImage field.
 inline
-void SimpleTexturedMaterialBase::setImage(const ImageP &value)
+void SimpleTexturedMaterialBase::setImage(const ImagePtr &value)
 {
     _sfImage.setValue(value);
 }

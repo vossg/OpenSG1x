@@ -61,6 +61,7 @@
 #include <OSGDistanceLOD.h>
 #include <OSGSwitch.h>
 #include <OSGInline.h>
+#include <OSGImage.h>
 
 #include <OSGVRMLFile.h>
 
@@ -3243,7 +3244,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
     std::string      tmpName;  
     TextureChunkPtr  pTexture = NullFC;
 
-    Image           *pImage   = new Image();
+    ImagePtr         pImage   = Image::create();
 
     pTexture = TextureChunkPtr::dcast(pFC);
 
@@ -3295,7 +3296,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                          << " !!!" 
                          << std::endl;
                 
-                subRefP(pImage);
+                subRefCP(pImage);
             }
         }
         else
@@ -3306,7 +3307,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                      << " !!!" 
                      << std::endl;
             
-            subRefP(pImage);
+            subRefCP(pImage);
         }
     }
     else
@@ -3464,7 +3465,8 @@ FieldContainerPtr VRMLPixelTextureDesc::beginNode(
 {
     TextureChunkPtr returnValue = TextureChunk::create();
 
-    _image.setValue(new Image());
+    ImagePtr iPtr=Image::create();
+    _image.setValue(iPtr);
 
     _repeatS = _defaultRepeatS;
     _repeatT = _defaultRepeatT;
@@ -3487,7 +3489,7 @@ void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
 
     if(pTexture != NullFC)
     {
-        if(_image.getValue() != NULL)
+        if(_image.getValue() != NullFC)
         {
             pTexture->setImage(_image.getValue());
             
@@ -3535,7 +3537,7 @@ void VRMLPixelTextureDesc::addFieldValue(      Field *pField,
 {
     if(pField != NULL)
     {
-        if( (pField == &_image) && (_image.getValue() != NULL) )
+        if( (pField == &_image) && (_image.getValue() != NullFC) )
         {
             _image.getValue()->addValue(szFieldVal);
         }

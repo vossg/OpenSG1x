@@ -77,12 +77,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual Image * read  ( const char *fileName, const char *mimeType = 0);
+    virtual ImagePtr read  ( const char *fileName, const char *mimeType = 0);
 
-    virtual bool    read  ( Image &image,
-                            const char *fileName, const char *mimeType = 0);
+    virtual bool     read  ( ImagePtr &image,
+                             const char *fileName, const char *mimeType = 0);
 
-    virtual bool    write ( const Image &image,
+    virtual bool    write ( const ImagePtr &image,
                             const char *fileName, const char *mimeType = 0);
     
     /*! \}                                                                 */
@@ -98,13 +98,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*! \name                     Storage                                  */
     /*! \{                                                                 */
 
-    virtual UInt64 restore ( Image &image,
+    virtual UInt64 restore ( ImagePtr &image,
                              const UChar8 *buffer, Int32 memSize = -1 );
 
-    virtual UInt64 store   ( const Image &image, const char *mimeType,
+    virtual UInt64 store   ( const ImagePtr &image, const char *mimeType,
                              UChar8 *buffer, Int32 memSize = -1 );
 
-    virtual UChar8* store  ( const Image &image, UInt64 &memSize,
+    virtual UChar8* store  ( const ImagePtr &image, UInt64 &memSize,
                              const char *mimeType = 0);
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

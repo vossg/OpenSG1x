@@ -14,7 +14,7 @@ int main (int argc, char **argv)
     bool retCode = 0;
     std::ofstream out;
     OSG::ImageFileType *fileType;
-    OSG::Image *pImage = new OSG::Image;;
+    OSG::ImagePtr pImage = OSG::Image::create();
     OSG::UChar8 *data = 0;
     unsigned long i,maxSize;
 
@@ -41,9 +41,9 @@ int main (int argc, char **argv)
             out.open(argv[2]);
             if (out.eof() == false)
             {
-                maxSize = fileType->maxBufferSize(*pImage);
+                maxSize = fileType->maxBufferSize(pImage);
                 data = new OSG::UChar8[maxSize];
-                maxSize = fileType->store(*pImage,(OSG::UChar8*)data);
+                maxSize = fileType->store(pImage,(OSG::UChar8*)data);
                 out << "static unsigned char imageData[" << maxSize << "] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {

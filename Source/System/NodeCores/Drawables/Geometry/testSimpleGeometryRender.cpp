@@ -21,6 +21,7 @@
 
 #include <OSGWindow.h>
 #include <OSGGLUTWindow.h>
+#include <OSGImage.h>
 
 #include "OSGGeometry.h"
 #include "OSGSimpleGeometry.h"
@@ -175,7 +176,8 @@ int main (int argc, char **argv)
     
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
-    Image *pImage = new Image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+    ImagePtr pImage = Image::create();
+    pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
         pImage->read( argv[1] );

@@ -288,7 +288,7 @@ ImageGetRow(ImageRec *image, unsigned char *buf, int y, int z)
 
         iPtr = image->tmp;
         oPtr = buf;
-        while (1) 
+        for(;;)
         {
             pixel = *iPtr++;
             count = (int)(pixel & 0x7F);
@@ -363,7 +363,7 @@ SGIImageFileType& SGIImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool SGIImageFileType::read (Image &image, const char *fileName )
+bool SGIImageFileType::read (ImagePtr &image, const char *fileName )
 {
  
     ImageRec *img = ImageOpen(fileName);
@@ -385,8 +385,8 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
     
     switch ( img->zsize )
     {
-    case 1: image.set( Image::OSG_L_PF, img->xsize, img->ysize );
-            lptr = image.getData();
+    case 1: image->set( Image::OSG_L_PF, img->xsize, img->ysize );
+            lptr = image->getData();
         for(y=0; y<img->ysize; y++) 
         {
             ImageGetRow(img,rbuf,y,0);
@@ -394,8 +394,8 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
             lptr += img->xsize;
         }
         break;
-    case 2: image.set( Image::OSG_LA_PF, img->xsize, img->ysize );
-            lptr = image.getData();
+    case 2: image->set( Image::OSG_LA_PF, img->xsize, img->ysize );
+            lptr = image->getData();
         for(y=0; y<img->ysize; y++) 
         {
             ImageGetRow(img,rbuf,y,0);
@@ -404,8 +404,8 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
             lptr += img->xsize*img->zsize;
         }
         break;
-    case 3: image.set( Image::OSG_RGB_PF, img->xsize, img->ysize );
-            lptr = image.getData();
+    case 3: image->set( Image::OSG_RGB_PF, img->xsize, img->ysize );
+            lptr = image->getData();
         for(y=0; y<img->ysize; y++) 
         {
             ImageGetRow(img,rbuf,y,0);
@@ -415,8 +415,8 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
             lptr += img->xsize*img->zsize;
         }
         break;
-    case 4: image.set( Image::OSG_RGBA_PF, img->xsize, img->ysize );
-            lptr = image.getData();
+    case 4: image->set( Image::OSG_RGBA_PF, img->xsize, img->ysize );
+            lptr = image->getData();
         for(y=0; y<img->ysize; y++) 
         {
             ImageGetRow(img,rbuf,y,0);
@@ -446,7 +446,7 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool SGIImageFileType::write(const ImagePtr &  , 
                              const char  *OSG_CHECK_ARG(fileName))
 { 
     FWARNING(("SGIImageFileType::write: not implemented yet!\n"));

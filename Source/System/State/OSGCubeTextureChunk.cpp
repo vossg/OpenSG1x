@@ -96,11 +96,18 @@ CubeTextureChunk::CubeTextureChunk(const CubeTextureChunk &source) :
 
 CubeTextureChunk::~CubeTextureChunk(void)
 {
-    subRefP(_sfPosZImage.getValue());
-    subRefP(_sfPosXImage.getValue());
-    subRefP(_sfNegXImage.getValue());
-    subRefP(_sfPosYImage.getValue());
-    subRefP(_sfNegYImage.getValue());
+    if(_sfPosZImage.getValue() != NullFC)
+        subRefCP(_sfPosZImage.getValue());
+
+    if(_sfPosXImage.getValue() != NullFC)
+        subRefCP(_sfPosXImage.getValue());
+    if(_sfNegXImage.getValue() != NullFC)
+        subRefCP(_sfNegXImage.getValue());
+
+    if(_sfPosYImage.getValue() != NullFC)
+        subRefCP(_sfPosYImage.getValue());
+    if(_sfNegYImage.getValue() != NullFC)
+        subRefCP(_sfNegYImage.getValue());
 }
 
 /*------------------------- Chunk Class Access ---------------------------*/

@@ -90,7 +90,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForeground : public ImageForegroundBase
     /*! \name                    access fields                             */
     /*! \{                                                                 */
 
-    inline void addImage(ImageP image, Pnt2f position);
+    inline void addImage(ImagePtr image, Pnt2f position);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

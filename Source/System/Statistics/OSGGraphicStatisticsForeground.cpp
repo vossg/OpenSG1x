@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 
 /* static vars */
 
-ImageP          GraphicStatisticsForeground::_textimage = NULL;
+ImagePtr        GraphicStatisticsForeground::_textimage = NullFC;
 Text            GraphicStatisticsForeground::_text;
 TextureChunkPtr GraphicStatisticsForeground::_texchunk;
 
@@ -143,7 +143,7 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport * port)
             return;
         }
     // initialize the text texture
-    if(_textimage == NULL)
+    if(_textimage == NullFC)
         {
             initText();
         }
@@ -1276,8 +1276,8 @@ void GraphicStatisticsForeground::initText(void)
     
     // create the TXF texture
 
-    _textimage = new Image;
-    _text.fillTXFImage(*_textimage);
+    _textimage = Image::create();
+    _text.fillTXFImage(_textimage);
 
     _texchunk = TextureChunk::create();
     

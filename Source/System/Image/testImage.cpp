@@ -16,24 +16,27 @@
 #include "OSGBaseFunctions.h"
 
 using OSG::Image;
+using OSG::ImagePtr;
 
 int main (int argc, char **argv)
 {
     int retCode = 0;
     char defaultOutImage[] = "out.pnm";
-    Image *pImage;
+    ImagePtr pImage;
+
+    OSG::osgInit(argc,argv);
 
     OSG::ImageFileHandler::the().dump();
 
     if (argc > 1)
     {
-        pImage = new Image;
+        pImage = OSG::Image::create();
 
         pImage->read(argv[1]);
         pImage->dump();
         pImage->write( (argc > 2) ? argv[2] : defaultOutImage);
 
-        OSG::subRefP(pImage);
+        OSG::subRefCP(pImage);
 
     }
     else

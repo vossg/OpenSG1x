@@ -120,7 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static ImageP          _textimage;
+    static ImagePtr        _textimage;
     static Text            _text;
 
     static TextureChunkPtr _texchunk;

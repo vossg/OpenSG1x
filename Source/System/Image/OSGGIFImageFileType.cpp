@@ -196,8 +196,8 @@ GIFImageFileType& GIFImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image), 
-                            const Char8 *OSG_GIF_ARG(fileName))
+bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image), 
+                            const Char8    *OSG_GIF_ARG(fileName))
 {
     bool                retCode = false;
 
@@ -293,11 +293,11 @@ bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image),
                 if(currentFrame)
                 {
                     // is not the first frame
-                    if((channel == image.getBpp()) &&
-                       (width == image.getWidth()) &&
-                       (height == image.getHeight()))
+                    if((channel == image->getBpp()) &&
+                       (width == image->getWidth()) &&
+                       (height == image->getHeight()))
                     {
-                        destData = image.getData(0, currentFrame);
+                        destData = image->getData(0, currentFrame);
                     }
                     else
                     {
@@ -322,9 +322,9 @@ bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image),
                         pixelFormat = Image::OSG_RGBA_PF;
                         break;
                     };
-                    image.set(pixelFormat, width, height, 1, 1, frameCount,
-                              frameDelay);
-                    destData = image.getData();
+                    image->set(pixelFormat, width, height, 1, 1, frameCount,
+                               frameDelay);
+                    destData = image->getData();
                 }
 
                 // copy the image data)
@@ -444,7 +444,7 @@ bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image),
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool GIFImageFileType::write(const ImagePtr &, 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
 #ifdef OSG_WITH_GIF

@@ -74,7 +74,7 @@ the size and color used for all lines in _sfSize and _sfColor.
 
 /* static vars */
 
-ImageP          SimpleStatisticsForeground::_textimage = NULL;
+ImagePtr        SimpleStatisticsForeground::_textimage = NullFC;
 Text            SimpleStatisticsForeground::_text;
 
 TextureChunkPtr SimpleStatisticsForeground::_texchunk;
@@ -156,8 +156,8 @@ void SimpleStatisticsForeground::initText(void)
     
     // create the TXF texture
 
-    _textimage = new Image;
-    _text.fillTXFImage(*_textimage);
+    _textimage = Image::create();
+    _text.fillTXFImage(_textimage);
 
     _texchunk = TextureChunk::create();
     
@@ -175,7 +175,7 @@ void SimpleStatisticsForeground::initText(void)
 */
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
-    if(_textimage == NULL)
+    if(_textimage == NullFC)
         initText();
         
     Real32 pw = port->getPixelWidth();

@@ -65,7 +65,7 @@
 
 #include <OSGStateChunk.h> // Parent
 
-#include <OSGImagePFields.h> // Image type
+#include <OSGImageFields.h> // Image type
 #include <OSGGLenumFields.h> // InternalFormat type
 #include <OSGGLenumFields.h> // ExternalFormat type
 #include <OSGBoolFields.h> // Scale type
@@ -200,7 +200,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImageP            *getSFImage          (void);
+           SFImagePtr          *getSFImage          (void);
            SFGLenum            *getSFInternalFormat (void);
            SFGLenum            *getSFExternalFormat (void);
            SFBool              *getSFScale          (void);
@@ -230,8 +230,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFGLenum            *getSFEnvOperand2Alpha(void);
            SFGLenum            *getSFGLId           (void);
 
-           ImageP              &getImage          (void);
-     const ImageP              &getImage          (void) const;
+           ImagePtr            &getImage          (void);
+     const ImagePtr            &getImage          (void) const;
            GLenum              &getInternalFormat (void);
      const GLenum              &getInternalFormat (void) const;
            GLenum              &getExternalFormat (void);
@@ -294,7 +294,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setImage          ( const ImageP &value );
+     void setImage          ( const ImagePtr &value );
      void setInternalFormat ( const GLenum &value );
      void setExternalFormat ( const GLenum &value );
      void setScale          ( const bool &value );
@@ -368,7 +368,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP            _sfImage;
+    SFImagePtr          _sfImage;
     SFGLenum            _sfInternalFormat;
     SFGLenum            _sfExternalFormat;
     SFBool              _sfScale;

@@ -10,6 +10,7 @@
 
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGBlendChunk.h>
+#include <OSGImage.h>
 #include <OSGParticles.h>
 
 #include <OSGParticleBSP.h>
@@ -269,7 +270,7 @@ int main(int argc, char **argv)
     UChar8 imgdata[] =
         {  255,255,255,  255,0,0,  255,0,255,
            255,0,0,  255,0,0,  255,255,255 };
-    Image *pImage = new Image;
+    ImagePtr pImage = Image::create();
 
     if (argc > 2)
     {

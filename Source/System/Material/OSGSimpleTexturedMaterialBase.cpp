@@ -86,7 +86,7 @@ const OSG::BitVector  SimpleTexturedMaterialBase::EnvMapFieldMask =
 
 // Field descriptions
 
-/*! \var ImageP          SimpleTexturedMaterialBase::_sfImage
+/*! \var ImagePtr        SimpleTexturedMaterialBase::_sfImage
     Defines the texture image.
 */
 /*! \var GLenum          SimpleTexturedMaterialBase::_sfMinFilter
@@ -106,7 +106,7 @@ const OSG::BitVector  SimpleTexturedMaterialBase::EnvMapFieldMask =
 
 FieldDescription *SimpleTexturedMaterialBase::_desc[] = 
 {
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
@@ -186,7 +186,7 @@ void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
 #endif
 
 SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(void) :
-    _sfImage                  (ImageP(0)), 
+    _sfImage                  (), 
     _sfMinFilter              (GLenum(GL_LINEAR_MIPMAP_LINEAR)), 
     _sfMagFilter              (GLenum(GL_LINEAR)), 
     _sfEnvMode                (GLenum(GL_REPLACE)), 

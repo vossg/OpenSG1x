@@ -77,7 +77,7 @@ const OSG::BitVector  ScreenAlignedTextBase::RenderImageFieldMask =
 /*! \var Color4f         ScreenAlignedTextBase::_sfColor
     
 */
-/*! \var ImageP          ScreenAlignedTextBase::_sfRenderImage
+/*! \var ImagePtr        ScreenAlignedTextBase::_sfRenderImage
     Bitmap image used only for rendering
 */
 
@@ -90,7 +90,7 @@ FieldDescription *ScreenAlignedTextBase::_desc[] =
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &ScreenAlignedTextBase::getSFColor),
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "RenderImage", 
                      RenderImageFieldId, RenderImageFieldMask,
                      true,
@@ -151,7 +151,7 @@ void ScreenAlignedTextBase::executeSync(      FieldContainer &other,
 
 ScreenAlignedTextBase::ScreenAlignedTextBase(void) :
     _sfColor                  (), 
-    _sfRenderImage            (ImageP(NULL)), 
+    _sfRenderImage            (), 
     Inherited() 
 {
 }

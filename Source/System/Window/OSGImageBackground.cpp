@@ -48,6 +48,7 @@
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>
 #include <OSGDrawActionBase.h>
+#include <OSGImage.h>
 
 #include "OSGImageBackground.h"
 
@@ -103,9 +104,9 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
                  1);                 
     glClear(GL_COLOR_BUFFER_BIT);
     
-    ImageP img = getImage();
+    ImagePtr img = getImage();
 
-    if(!img || img->getWidth() <= 0 || img->getHeight() <= 0)
+    if(img == NullFC || img->getWidth() <= 0 || img->getHeight() <= 0)
         return; 
 
     bool depth=glIsEnabled(GL_DEPTH_TEST);

@@ -44,6 +44,7 @@
 #include <stdio.h>
 
 #include <OSGConfig.h>
+#include <OSGImage.h>
 
 #include "OSGFileGrabForeground.h"
 
@@ -112,11 +113,13 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
     }
     
     // do we have an image yet? If not, create one.
-    if(getImage() == NULL)
+    if(getImage() == NullFC)
     {
         beginEditCP(this->getPtr(), FileGrabForeground::ImageFieldMask);
         {
-            setImage(new Image(Image::OSG_RGB_PF, 1));
+            ImagePtr iPtr=Image::create();
+            iPtr->set(Image::OSG_RGB_PF, 1);
+            setImage(iPtr);
         }
         endEditCP  (this->getPtr(), FileGrabForeground::ImageFieldMask);
     }
@@ -128,7 +131,7 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
 
     sprintf(name, getName().c_str(), getFrame());
         
-    ImageP i = getImage();
+    ImagePtr i = getImage();
 
     i->write(name);
     

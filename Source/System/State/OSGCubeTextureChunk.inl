@@ -55,51 +55,51 @@ const StateChunkClass *CubeTextureChunk::getStaticClass(void)
 }
 
 inline
-void CubeTextureChunk::setPosZImage(ImageP &pImage)
+void CubeTextureChunk::setPosZImage(ImagePtr &pImage)
 {
-     addRefP(pImage);
+     addRefCP(pImage);
 
-     subRefP(_sfPosZImage.getValue());
+     subRefCP(_sfPosZImage.getValue());
 
     _sfPosZImage.setValue(pImage);
 }
 
 inline
-void CubeTextureChunk::setPosXImage(ImageP &pImage)
+void CubeTextureChunk::setPosXImage(ImagePtr &pImage)
 {
-     addRefP(pImage);
+     addRefCP(pImage);
 
-     subRefP(_sfPosXImage.getValue());
+     subRefCP(_sfPosXImage.getValue());
 
     _sfPosXImage.setValue(pImage);
 }
 
 inline
-void CubeTextureChunk::setNegXImage(ImageP &pImage)
+void CubeTextureChunk::setNegXImage(ImagePtr &pImage)
 {
-     addRefP(pImage);
+     addRefCP(pImage);
 
-     subRefP(_sfNegXImage.getValue());
+     subRefCP(_sfNegXImage.getValue());
 
     _sfNegXImage.setValue(pImage);
 }
 
 inline
-void CubeTextureChunk::setPosYImage(ImageP &pImage)
+void CubeTextureChunk::setPosYImage(ImagePtr &pImage)
 {
-     addRefP(pImage);
+     addRefCP(pImage);
 
-     subRefP(_sfPosYImage.getValue());
+     subRefCP(_sfPosYImage.getValue());
 
     _sfPosYImage.setValue(pImage);
 }
 
 inline
-void CubeTextureChunk::setNegYImage(ImageP &pImage)
+void CubeTextureChunk::setNegYImage(ImagePtr &pImage)
 {
-     addRefP(pImage);
+     addRefCP(pImage);
 
-     subRefP(_sfNegYImage.getValue());
+     subRefCP(_sfNegYImage.getValue());
 
     _sfNegYImage.setValue(pImage);
 }

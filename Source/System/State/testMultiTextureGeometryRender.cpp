@@ -8,6 +8,7 @@
 
 #include <OSGSimpleMaterial.h>
 #include <OSGTextureChunk.h>
+#include <OSGImage.h>
 #include <OSGTexGenChunk.h>
 #include <OSGTextureTransformChunk.h>
 
@@ -89,11 +90,13 @@ int main(int argc, char **argv)
    
     UChar8 imgdata1[] =
         {  255,0,0,  0,255,0,  0,0,255, 255,0,255 };
-    Image *pImg1 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
+    ImagePtr pImg1 = Image::create();
+    pImg1->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
    
     UChar8 imgdata2[] =
         {  64,64,64, 128,128,128, 192,192,192, 255,255,255 };
-    Image *pImg2 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
+    ImagePtr pImg2 = Image::create();
+    pImg2->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
     
     beginEditCP(tx1);
     tx1->setImage(pImg1); // NOTE: the image is NOT copied, the variable

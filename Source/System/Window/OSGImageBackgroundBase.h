@@ -66,7 +66,7 @@
 #include <OSGBackground.h> // Parent
 
 #include <OSGColor3fFields.h> // Color type
-#include <OSGImagePFields.h> // Image type
+#include <OSGImageFields.h> // Image type
 #include <OSGBoolFields.h> // Scale type
 
 #include <OSGImageBackgroundFields.h>
@@ -123,13 +123,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \{                                                                 */
 
            SFColor3f           *getSFColor          (void);
-           SFImageP            *getSFImage          (void);
+           SFImagePtr          *getSFImage          (void);
            SFBool              *getSFScale          (void);
 
            Color3f             &getColor          (void);
      const Color3f             &getColor          (void) const;
-           ImageP              &getImage          (void);
-     const ImageP              &getImage          (void) const;
+           ImagePtr            &getImage          (void);
+     const ImagePtr            &getImage          (void) const;
            bool                &getScale          (void);
      const bool                &getScale          (void) const;
 
@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \{                                                                 */
 
      void setColor          ( const Color3f &value );
-     void setImage          ( const ImageP &value );
+     void setImage          ( const ImagePtr &value );
      void setScale          ( const bool &value );
 
     /*! \}                                                                 */
@@ -187,7 +187,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \{                                                                 */
 
     SFColor3f           _sfColor;
-    SFImageP            _sfImage;
+    SFImagePtr          _sfImage;
     SFBool              _sfScale;
 
     /*! \}                                                                 */

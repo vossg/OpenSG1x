@@ -129,8 +129,8 @@ MNGImageFileType& MNGImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
-                            const Char8 *OSG_MNG_ARG(fileName))
+bool MNGImageFileType::read(      ImagePtr &OSG_MNG_ARG(image   ),
+                            const Char8    *OSG_MNG_ARG(fileName))
 {
 
 #ifdef MNG_LIB
@@ -239,8 +239,8 @@ bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool MNGImageFileType::write(const Image &OSG_MNG_ARG(image   ), 
-                             const Char8 *OSG_MNG_ARG(fileName))
+bool MNGImageFileType::write(const ImagePtr &OSG_MNG_ARG(image   ), 
+                             const Char8    *OSG_MNG_ARG(fileName))
 {
 
 #ifdef MNG_LIB

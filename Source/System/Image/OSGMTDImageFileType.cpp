@@ -107,26 +107,26 @@ MTDImageFileType& MTDImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool MTDImageFileType::read (      Image &image   , 
-                             const Char8 *fileName)
+bool MTDImageFileType::read (      ImagePtr &image   , 
+                             const Char8    *fileName)
 {
   bool retCode = false;
   std::ifstream in(fileName, std::ios::in | std::ios::binary);
   Head head;
   void *headData = (void*)(&head);
   unsigned dataSize, headSize = sizeof(Head);
-
+  
   if ( in &&        
        in.read(static_cast<char *>(headData), 
                headSize) && head.netToHost() &&
-       image.set ( Image::PixelFormat(head.pixelFormat), 
-                   head.width, head.height, head.depth, head.mipmapCount, 
-                   head.frameCount, float(head.frameDelay) / 1000.0) &&
-       (dataSize = image.getSize()) && 
-       in.read((char *)(image.getData()), dataSize ))
-    retCode = true;
+       image->set ( Image::PixelFormat(head.pixelFormat), 
+                    head.width, head.height, head.depth, head.mipmapCount, 
+                    head.frameCount, float(head.frameDelay) / 1000.0) &&
+       (dataSize = image->getSize()) && 
+       in.read((char *)(image->getData()), dataSize ))
+      retCode = true;
   else
-    retCode = false;
+      retCode = false;
 
   return retCode;
 }
@@ -136,7 +136,7 @@ bool MTDImageFileType::read (      Image &image   ,
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool MTDImageFileType::write(const Image &image   , 
+bool MTDImageFileType::write(const ImagePtr &image   , 
                              const Char8 *fileName)
 {
     bool retCode = false;
@@ -145,19 +145,19 @@ bool MTDImageFileType::write(const Image &image   ,
 
     Head head;
     const void *headData = (void*)(&head);
-    unsigned dataSize = image.getSize(), headSize = sizeof(Head);
+    unsigned dataSize = image->getSize(), headSize = sizeof(Head);
 
-    head.pixelFormat  = image.getPixelFormat();
-    head.width        = image.getWidth();
-    head.height       = image.getHeight();
-    head.depth        = image.getDepth();
-    head.mipmapCount  = image.getMipMapCount();
-    head.frameCount   = image.getFrameCount();
-    head.frameDelay   = short(image.getFrameDelay() * 1000.0);
+    head.pixelFormat  = image->getPixelFormat();
+    head.width        = image->getWidth();
+    head.height       = image->getHeight();
+    head.depth        = image->getDepth();
+    head.mipmapCount  = image->getMipMapCount();
+    head.frameCount   = image->getFrameCount();
+    head.frameDelay   = short(image->getFrameDelay() * 1000.0);
     head.hostToNet();
   
     if ( out && out.write(static_cast<const char *>(headData), headSize) && 
-         dataSize && out.write((char *)(image.getData()), dataSize) )
+         dataSize && out.write((char *)(image->getData()), dataSize) )
       retCode = true;
     else
       retCode = false;    
@@ -171,13 +171,13 @@ bool MTDImageFileType::write(const Image &image   ,
 Tries to restore the image data from the given memblock.
 Returns the amount of data read.
 */
-UInt64 MTDImageFileType::restoreData(      Image  &image, 
-                                     const UChar8 *buffer,
-                                           Int32   OSG_CHECK_ARG(memSize) )
+UInt64 MTDImageFileType::restoreData(      ImagePtr &image, 
+                                     const UChar8   *buffer,
+                                           Int32     OSG_CHECK_ARG(memSize) )
 {
-    image.setData(buffer);
+    image->setData(buffer);
 
-    return image.getSize();
+    return image->getSize();
 }
 
 //-------------------------------------------------------------------------
@@ -185,12 +185,12 @@ UInt64 MTDImageFileType::restoreData(      Image  &image,
 Tries to store the image data to the given memblock.
 Returns the amount of data written.
 */
-UInt64 MTDImageFileType::storeData(const Image  &image, 
-                                         UChar8 *buffer,
-                                         Int32   OSG_CHECK_ARG(memSize))
+UInt64 MTDImageFileType::storeData(const ImagePtr &image, 
+                                         UChar8   *buffer,
+                                         Int32     OSG_CHECK_ARG(memSize))
 {
-    unsigned dataSize = image.getSize();
-    const UChar8 *src = image.getData();
+    unsigned dataSize = image->getSize();
+    const UChar8 *src = image->getData();
 
     if ( dataSize && src && buffer )
       memcpy( buffer, src, dataSize);

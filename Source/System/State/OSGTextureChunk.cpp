@@ -48,6 +48,7 @@
 #include <OSGGL.h>
 #include <OSGGLU.h>
 #include <OSGGLEXT.h>
+#include <OSGImage.h>
 
 #include "OSGDrawActionBase.h"
 
@@ -160,7 +161,8 @@ TextureChunk::TextureChunk(const TextureChunk &source) :
 
 TextureChunk::~TextureChunk(void)
 {
-    subRefP(_sfImage.getValue());
+    if(_sfImage.getValue() != NullFC)
+        subRefCP(_sfImage.getValue());
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
 }
@@ -205,13 +207,13 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
         {
             if(origin & ChangedOrigin::AbstrIncRefCount)
             {
-                addRefP(_sfImage.getValue());
+                addRefCP(_sfImage.getValue());
             }
             else
             {
-                ImageP pImage = _sfImage.getValue();
+                ImagePtr pImage = _sfImage.getValue();
                 
-                _sfImage.setValue(NULL);
+                _sfImage.setValue(NullFC);
                 
                 setImage(pImage);
             }
@@ -225,7 +227,7 @@ bool TextureChunk::isTransparent(void) const
 {
     bool returnValue = false;
 
-    if(getImage() != NULL)
+    if(getImage() != NullFC)
     {
         returnValue = getImage()->hasAlphaChannel();
     }
@@ -280,10 +282,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
     GLenum bindtarget, 
     GLenum paramtarget, 
     GLenum imgtarget, 
-    Window::GLObjectStatusE mode, Image *img)
+    Window::GLObjectStatusE mode, ImagePtr img)
 {
 
-    if(! img || ! img->getDimension()) // no image ?
+    if( img==NullFC || ! img->getDimension()) // no image ?
         return;
 
     if(mode == Window::initialize || mode == Window::reinitialize)
@@ -397,7 +399,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                     switch (imgtarget)
                     {
                     case GL_TEXTURE_1D:
-                        glTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
+                        glTexImage1D(GL_TEXTURE_1D, i, internalFormat,
                                         w, 0,
                                         externalFormat, type,
                                         img->getData(i, frame));
@@ -409,13 +411,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                     case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB:
                     case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                     case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
-                        glTexImage2D(imgtarget, 0, internalFormat,
+                        glTexImage2D(imgtarget, i, internalFormat,
                                         w, h, 0,
                                         externalFormat, type,
                                         img->getData(i, frame));
                         break;
                     case GL_TEXTURE_3D:
-                          TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
+                          TexImage3D(GL_TEXTURE_3D, i, internalFormat,
                                         w, h, d, 0,
                                         externalFormat, type,
                                         img->getData(i, frame));
@@ -788,9 +790,9 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
     {
         GLenum target;
         
-        ImageP img = getImage();
+        ImagePtr img = getImage();
 
-        if (img) 
+        if (img != NullFC) 
         {
            if(img->getDepth() > 1)
            {
@@ -823,10 +825,10 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
  
     action->getWindow()->validateGLObject(getGLId());
 
-    ImageP img = getImage();
+    ImagePtr img = getImage();
     GLenum target;
 
-    if(! img || ! img->getDimension()) // no image ?
+    if( img == NullFC || ! img->getDimension()) // no image ?
         return;
 
     glErr("TextureChunk::activate precheck");
@@ -906,11 +908,11 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     TextureChunk *oldp      = dynamic_cast<TextureChunk *>(old);
     
-    ImageP        img       = getImage();
+    ImagePtr      img       = getImage();
     GLenum        target;
     GLenum        oldtarget = GL_INVALID_ENUM;
 
-    if(img == NULL || img->getDimension() == 0)
+    if(img == NullFC || img->getDimension() == 0)
     {
         oldp->deactivate(action, idx);
         return;
@@ -941,7 +943,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         target = GL_TEXTURE_1D;
     }
 
-    if(oldp->getImage() != NULL)
+    if(oldp->getImage() != NullFC)
     {
         if(oldp->getImage()->getDepth() > 1)
         {
@@ -1011,10 +1013,10 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
 void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 {
-    ImageP img = getImage();
+    ImagePtr img = getImage();
     GLenum target;
 
-    if(! img || ! img->getDimension())
+    if( img == NullFC || ! img->getDimension())
       return;
 
     glErr("TextureChunk::deactivate precheck");

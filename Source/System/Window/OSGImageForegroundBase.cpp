@@ -74,7 +74,7 @@ const OSG::BitVector  ImageForegroundBase::PositionsFieldMask =
 
 // Field descriptions
 
-/*! \var ImageP          ImageForegroundBase::_mfImages
+/*! \var ImagePtr        ImageForegroundBase::_mfImages
     The images to display.
 */
 /*! \var Pnt2f           ImageForegroundBase::_mfPositions
@@ -85,7 +85,7 @@ const OSG::BitVector  ImageForegroundBase::PositionsFieldMask =
 
 FieldDescription *ImageForegroundBase::_desc[] = 
 {
-    new FieldDescription(MFImageP::getClassType(), 
+    new FieldDescription(MFImagePtr::getClassType(), 
                      "images", 
                      ImagesFieldId, ImagesFieldMask,
                      false,

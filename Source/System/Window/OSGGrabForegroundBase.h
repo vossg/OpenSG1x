@@ -65,7 +65,7 @@
 
 #include <OSGForeground.h> // Parent
 
-#include <OSGImagePFields.h> // Image type
+#include <OSGImageFields.h> // Image type
 
 #include <OSGGrabForegroundFields.h>
 
@@ -116,17 +116,17 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImageP            *getSFImage          (void);
+           SFImagePtr          *getSFImage          (void);
 
-           ImageP              &getImage          (void);
-     const ImageP              &getImage          (void) const;
+           ImagePtr            &getImage          (void);
+     const ImagePtr            &getImage          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setImage          ( const ImageP &value );
+     void setImage          ( const ImagePtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -172,7 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP            _sfImage;
+    SFImagePtr          _sfImage;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

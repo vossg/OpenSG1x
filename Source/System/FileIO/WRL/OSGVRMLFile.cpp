@@ -64,7 +64,7 @@
 #include <OSGMFFieldContainerTypes.h>
 #include <OSGSFFieldContainerTypes.h>
 
-#include <OSGSFImageTypes.h>
+#include <OSGImageFields.h>
 
 #include <OSGGeoProperty.h>
 #include <OSGTime.h>
@@ -2610,7 +2610,7 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     Self::setIntExtMapping(SFReal32::getClassType().getId(), 
                            ScanParseSkel::OSGsfFloat);
 
-    Self::setIntExtMapping(SFImageP::getClassType().getId(),
+    Self::setIntExtMapping(SFImagePtr::getClassType().getId(),
                            ScanParseSkel::OSGsfImage);
 
     Self::setIntExtMapping(SFInt32::getClassType().getId(),
@@ -2753,7 +2753,7 @@ void VRMLFile::initExtIntFieldTypeMapper(void)
                      */
 
     Self::setExtIntMapping(ScanParseSkel::OSGsfImage, 
-                           SFImageP::getClassType().getId());
+                           SFImagePtr::getClassType().getId());
 
     Self::setExtIntMapping(ScanParseSkel::OSGsfInt32, 
                            SFInt32::getClassType().getId());

@@ -98,7 +98,7 @@ ImageForegroundPtr ImageForegroundBase::createEmpty(void)
 
 //! Get the ImageForeground::_mfImages field.
 inline
-MFImageP *ImageForegroundBase::getMFImages(void)
+MFImagePtr *ImageForegroundBase::getMFImages(void)
 {
     return &_mfImages;
 }
@@ -114,21 +114,21 @@ MFPnt2f *ImageForegroundBase::getMFPositions(void)
 
 //! Get the value of the \a index element the ImageForeground::_mfImages field.
 inline
-ImageP &ImageForegroundBase::getImages(const UInt32 index)
+ImagePtr &ImageForegroundBase::getImages(const UInt32 index)
 {
     return _mfImages[index];
 }
 
 //! Get the ImageForeground::_mfImages field.
 inline
-MFImageP &ImageForegroundBase::getImages(void)
+MFImagePtr &ImageForegroundBase::getImages(void)
 {
     return _mfImages;
 }
 
 //! Get the ImageForeground::_mfImages field.
 inline
-const MFImageP &ImageForegroundBase::getImages(void) const
+const MFImagePtr &ImageForegroundBase::getImages(void) const
 {
     return _mfImages;
 }

@@ -98,7 +98,7 @@ TextureChunkPtr TextureChunkBase::createEmpty(void)
 
 //! Get the TextureChunk::_sfImage field.
 inline
-SFImageP *TextureChunkBase::getSFImage(void)
+SFImagePtr *TextureChunkBase::getSFImage(void)
 {
     return &_sfImage;
 }
@@ -302,21 +302,21 @@ SFGLenum *TextureChunkBase::getSFGLId(void)
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
-ImageP &TextureChunkBase::getImage(void)
+ImagePtr &TextureChunkBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
-const ImageP &TextureChunkBase::getImage(void) const
+const ImagePtr &TextureChunkBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
 //! Set the value of the TextureChunk::_sfImage field.
 inline
-void TextureChunkBase::setImage(const ImageP &value)
+void TextureChunkBase::setImage(const ImagePtr &value)
 {
     _sfImage.setValue(value);
 }

@@ -119,12 +119,12 @@ void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
     }
 }
 
-bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image)
+bool TGAImageFileType::readCompressedImageData(std::istream &in, ImagePtr &image)
 {
-    UInt32 npix = image.getWidth() * image.getHeight();
+    UInt32 npix = image->getWidth() * image->getHeight();
     UInt8   rep;
-    UChar8 *data = image.getData();
-    UInt16 bpp = image.getBpp();
+    UChar8 *data = image->getData();
+    UInt16 bpp = image->getBpp();
     UChar8 r,g,b,a;
         
     while(npix)
@@ -136,7 +136,7 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image)
             rep = (rep & 0x7f) + 1;
             npix -= rep;
             
-            switch(image.getPixelFormat())
+            switch(image->getPixelFormat())
             {
                 case Image::OSG_L_PF:
                     in.read(reinterpret_cast<char *>(&a), 1);
@@ -196,8 +196,8 @@ TGAImageFileType TGAImageFileType::_the("tga",
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool TGAImageFileType::read(      Image &image, 
-                            const Char8 *fileName)
+bool TGAImageFileType::read(      ImagePtr &image, 
+                            const Char8    *fileName)
 {
     std::ifstream  in(fileName, std::ios::in | std::ios::binary);
     
@@ -241,7 +241,7 @@ bool TGAImageFileType::read(      Image &image,
        return false; 
     }
     
-    image.set(format, header.width, header.height);
+    image->set(format, header.width, header.height);
 
     // read the image ID
     UInt8 imageid[256];
@@ -273,8 +273,8 @@ bool TGAImageFileType::read(      Image &image,
     }
     else
     {
-        in.read(reinterpret_cast<char *>(image.getData()), 
-                static_cast<int>(image.getSize()));
+        in.read(reinterpret_cast<char *>(image->getData()), 
+                static_cast<int>(image->getSize()));
     }
 
     // check origin
@@ -291,12 +291,12 @@ bool TGAImageFileType::read(      Image &image,
     }
 
     // do BGR -> RGB swap, as GL_BGR_EXT is not supported everywhere
-    if(image.getPixelFormat() == Image::OSG_RGB_PF ||
-       image.getPixelFormat() == Image::OSG_RGBA_PF)
+    if(image->getPixelFormat() == Image::OSG_RGB_PF ||
+       image->getPixelFormat() == Image::OSG_RGBA_PF)
     {
-        UChar8 *d    = image.getData(), dum;
-        UInt32  npix = image.getWidth() * image.getHeight();
-        UInt8   bpp  = image.getBpp();
+        UChar8 *d    = image->getData(), dum;
+        UInt32  npix = image->getWidth() * image->getHeight();
+        UInt8   bpp  = image->getBpp();
         
         while(npix--)
         {
@@ -315,8 +315,8 @@ bool TGAImageFileType::read(      Image &image,
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool TGAImageFileType::write(const Image &OSG_CHECK_ARG(image),
-                             const Char8 *OSG_CHECK_ARG(fileName))
+bool TGAImageFileType::write(const ImagePtr &,
+                             const Char8    *OSG_CHECK_ARG(fileName))
 {
     SWARNING <<
         getMimeType() <<

@@ -56,11 +56,11 @@ const StateChunkClass *TextureChunk::getStaticClass(void)
 }
 
 inline
-void TextureChunk::setImage(ImageP &pImage)
+void TextureChunk::setImage(ImagePtr &pImage)
 {
-     addRefP(pImage);
+     addRefCP(pImage);
 
-     subRefP(_sfImage.getValue());
+     subRefCP(_sfImage.getValue());
 
     _sfImage.setValue(pImage);
 }

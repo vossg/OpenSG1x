@@ -5,7 +5,7 @@
 #include <OSGBinaryDataHandler.h>
 #include <OSGFieldContainerFactory.h>
 #include <OSGImage.h>
-#include <OSGSFImageTypes.h>
+#include <OSGImageFields.h>
 
 using std::vector;
 
@@ -162,17 +162,18 @@ int main(int argc,char **argv)
         31,32,33, 41,42,43
     };
 
-    OSG::Image *pImage = new OSG::Image(OSG::Image::OSG_RGB_PF,
-                                        2,2,
-                                        1,
-                                        1,
-                                        1,0.0,
-                                        img,true);
+    OSG::ImagePtr pImage = OSG::Image::create();
+    pImage->set(OSG::Image::OSG_RGB_PF,
+                2,2,
+                1,
+                1,
+                1,0.0,
+                img);
 
-    pImage->setAttachment("hallo","blubber");
-    pImage->setAttachment("hallo2","blubber2");
+    pImage->setAttachmentField("hallo","blubber");
+    pImage->setAttachmentField("hallo2","blubber2");
 
-    OSG::SFImageP sfimage;
+    OSG::SFImagePtr sfimage;
 
     sfimage.setValue(pImage);
 
@@ -183,7 +184,7 @@ int main(int argc,char **argv)
     rfile=fopen("binfile","r");
     TestHandler imgr(rfile);
 
-    OSG::SFImageP sfimager;
+    OSG::SFImagePtr sfimager;
     sfimager.copyFromBin(imgr);
 
     if(sfimager.getValue()->getWidth() != 2 ||

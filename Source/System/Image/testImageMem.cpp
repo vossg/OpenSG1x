@@ -8,11 +8,12 @@
 
 #include "OSGImageFileHandler.h"
 #include "OSGImage.h"
+#include "OSGImageFields.h"
 
 using OSG::Image;
 
 
-bool readMemDump (OSG::Image &image, const char *fileName)
+bool readMemDump (OSG::ImagePtr &image, const char *fileName)
 {
   bool retCode = false;
   std::ifstream ins(fileName, std::ios::in | std::ios::binary );
@@ -28,7 +29,7 @@ bool readMemDump (OSG::Image &image, const char *fileName)
       ins.read ( reinterpret_cast<char*>(data), dataSize );
       readData = ins.gcount();
       if (readData == dataSize) {
-        image.restore ( data, dataSize );
+        image->restore ( data, dataSize );
         retCode = true;
       }
     }
@@ -37,7 +38,7 @@ bool readMemDump (OSG::Image &image, const char *fileName)
   return retCode;
 }
 
-bool writeMemDump (OSG::Image &image, const char *fileName)
+bool writeMemDump (OSG::ImagePtr &image, const char *fileName)
 {
   bool retCode = false;
   std::ofstream outs(fileName, std::ios::in | std::ios::binary );
@@ -62,7 +63,7 @@ int main (int argc, char **argv)
 {
   int retCode = 0;
   //char defaultOutImage[] = "out.pnm";
-  Image *pImage = new Image;
+  OSG::ImagePtr pImage = OSG::Image::create();
   OSG::ImageFileType *fType;
   
   if (argc > 2)
@@ -70,21 +71,21 @@ int main (int argc, char **argv)
       fType = OSG::ImageFileHandler::the().getFileType(0,argv[1]);
       if (fType) {
         // read as image file
-        fType->read(*pImage,argv[1]);
+        fType->read(pImage,argv[1]);
       }
       else {
         // read as mem dump
-        readMemDump(*pImage,argv[1]);
+        readMemDump(pImage,argv[1]);
       }
 
       fType = OSG::ImageFileHandler::the().getFileType(0,argv[2]);
       if (fType) {
         // write as image file
-        fType->write(*pImage,argv[2]);
+        fType->write(pImage,argv[2]);
       }
       else {
         // read as mem dump
-        writeMemDump(*pImage,argv[2]);
+        writeMemDump(pImage,argv[2]);
       }
     }
   else

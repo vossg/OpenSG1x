@@ -105,7 +105,7 @@ SFColor4f *ScreenAlignedTextBase::getSFColor(void)
 
 //! Get the ScreenAlignedText::_sfRenderImage field.
 inline
-SFImageP *ScreenAlignedTextBase::getSFRenderImage(void)
+SFImagePtr *ScreenAlignedTextBase::getSFRenderImage(void)
 {
     return &_sfRenderImage;
 }
@@ -134,21 +134,21 @@ void ScreenAlignedTextBase::setColor(const Color4f &value)
 
 //! Get the value of the ScreenAlignedText::_sfRenderImage field.
 inline
-ImageP &ScreenAlignedTextBase::getRenderImage(void)
+ImagePtr &ScreenAlignedTextBase::getRenderImage(void)
 {
     return _sfRenderImage.getValue();
 }
 
 //! Get the value of the ScreenAlignedText::_sfRenderImage field.
 inline
-const ImageP &ScreenAlignedTextBase::getRenderImage(void) const
+const ImagePtr &ScreenAlignedTextBase::getRenderImage(void) const
 {
     return _sfRenderImage.getValue();
 }
 
 //! Set the value of the ScreenAlignedText::_sfRenderImage field.
 inline
-void ScreenAlignedTextBase::setRenderImage(const ImageP &value)
+void ScreenAlignedTextBase::setRenderImage(const ImagePtr &value)
 {
     _sfRenderImage.setValue(value);
 }

@@ -11,11 +11,10 @@
 >
 	<Field
 		name="image"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="0"
 	>
 	</Field>
 	<Field

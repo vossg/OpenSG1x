@@ -384,11 +384,11 @@ int main (int argc, char **argv)
     slicesNode->setCore(slicesCore);
     endEditCP(slicesNode);
 
-    Image *imageP = 0;
+    ImagePtr imageP = NullFC;
 
     if (argc > 1) 
       {
-        imageP = new Image();
+          imageP = Image::create();
         if (imageP->read(argv[1]))
           {
             if (imageP->getFrameCount() > 1) 
@@ -416,15 +416,15 @@ int main (int argc, char **argv)
         else
           {
             FFATAL (("Can not read \'%s\'\n", argv[1]));
-            subRefP(imageP);
-            imageP = 0;
+            subRefCP(imageP);
+            imageP = NullFC;
             return -1;
           }
       }
 
     MaterialPtr matPtr;
     
-    if (imageP) 
+    if (imageP!=NullFC) 
       {
         std::cout << "Create ChunkMaterial" << std::endl;
         ChunkMaterialPtr  texMatPtr     = ChunkMaterial::create();

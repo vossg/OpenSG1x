@@ -45,7 +45,7 @@ OSG_BEGIN_NAMESPACE
 
 /*------------------------------ access -----------------------------------*/
 
-inline void ImageForeground::addImage(ImageP image, Pnt2f position)
+inline void ImageForeground::addImage(ImagePtr image, Pnt2f position)
 {
     getImages().push_back( image );
     getPositions().push_back( position );

@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class ScreenAlignedText
+ **     class Image
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGSCREENALIGNEDTEXTBASE_H_
-#define _OSGSCREENALIGNEDTEXTBASE_H_
+#ifndef _OSGIMAGEBASE_H_
+#define _OSGIMAGEBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,38 +63,68 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGAbstractText.h> // Parent
+#include <OSGAttachmentContainer.h> // Parent
 
-#include <OSGColor4fFields.h> // Color type
-#include <OSGImageFields.h> // RenderImage type
+#include <OSGFieldContainerFields.h> // Parents type
+#include <OSGInt32Fields.h> // Dimension type
+#include <OSGInt32Fields.h> // Width type
+#include <OSGInt32Fields.h> // Height type
+#include <OSGInt32Fields.h> // Depth type
+#include <OSGInt32Fields.h> // Bpp type
+#include <OSGInt32Fields.h> // MipMapCount type
+#include <OSGInt32Fields.h> // FrameCount type
+#include <OSGTimeFields.h> // FrameDelay type
+#include <OSGUInt32Fields.h> // PixelFormat type
+#include <OSGUInt8Fields.h> // Pixel type
+#include <OSGInt32Fields.h> // FrameSize type
 
-#include <OSGScreenAlignedTextFields.h>
+#include <OSGImageFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class ScreenAlignedText;
+class Image;
 class BinaryDataHandler;
 
-//! \brief ScreenAlignedText Base Class.
+//! \brief Image Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
+class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
 {
   private:
 
-    typedef AbstractText Inherited;
+    typedef AttachmentContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        ColorFieldId       = Inherited::NextFieldId,
-        RenderImageFieldId = ColorFieldId       + 1,
-        NextFieldId        = RenderImageFieldId + 1
+        ParentsFieldId     = Inherited::NextFieldId,
+        DimensionFieldId   = ParentsFieldId     + 1,
+        WidthFieldId       = DimensionFieldId   + 1,
+        HeightFieldId      = WidthFieldId       + 1,
+        DepthFieldId       = HeightFieldId      + 1,
+        BppFieldId         = DepthFieldId       + 1,
+        MipMapCountFieldId = BppFieldId         + 1,
+        FrameCountFieldId  = MipMapCountFieldId + 1,
+        FrameDelayFieldId  = FrameCountFieldId  + 1,
+        PixelFormatFieldId = FrameDelayFieldId  + 1,
+        PixelFieldId       = PixelFormatFieldId + 1,
+        FrameSizeFieldId   = PixelFieldId       + 1,
+        NextFieldId        = FrameSizeFieldId   + 1
     };
 
-    static const OSG::BitVector ColorFieldMask;
-    static const OSG::BitVector RenderImageFieldMask;
+    static const OSG::BitVector ParentsFieldMask;
+    static const OSG::BitVector DimensionFieldMask;
+    static const OSG::BitVector WidthFieldMask;
+    static const OSG::BitVector HeightFieldMask;
+    static const OSG::BitVector DepthFieldMask;
+    static const OSG::BitVector BppFieldMask;
+    static const OSG::BitVector MipMapCountFieldMask;
+    static const OSG::BitVector FrameCountFieldMask;
+    static const OSG::BitVector FrameDelayFieldMask;
+    static const OSG::BitVector PixelFormatFieldMask;
+    static const OSG::BitVector PixelFieldMask;
+    static const OSG::BitVector FrameSizeFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -119,17 +149,61 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFColor          (void);
+           MFFieldContainerPtr *getMFParents        (void);
+           SFInt32             *getSFDimension      (void);
+           SFInt32             *getSFWidth          (void);
+           SFInt32             *getSFHeight         (void);
+           SFInt32             *getSFDepth          (void);
+           SFInt32             *getSFBpp            (void);
+           SFInt32             *getSFMipMapCount    (void);
+           SFInt32             *getSFFrameCount     (void);
+           SFTime              *getSFFrameDelay     (void);
+           SFUInt32            *getSFPixelFormat    (void);
+           MFUInt8             *getMFPixel          (void);
+           SFInt32             *getSFFrameSize      (void);
 
-           Color4f             &getColor          (void);
-     const Color4f             &getColor          (void) const;
+           Int32               &getDimension      (void);
+     const Int32               &getDimension      (void) const;
+           Int32               &getWidth          (void);
+     const Int32               &getWidth          (void) const;
+           Int32               &getHeight         (void);
+     const Int32               &getHeight         (void) const;
+           Int32               &getDepth          (void);
+     const Int32               &getDepth          (void) const;
+           Int32               &getBpp            (void);
+     const Int32               &getBpp            (void) const;
+           Int32               &getMipMapCount    (void);
+     const Int32               &getMipMapCount    (void) const;
+           Int32               &getFrameCount     (void);
+     const Int32               &getFrameCount     (void) const;
+           Time                &getFrameDelay     (void);
+     const Time                &getFrameDelay     (void) const;
+           UInt32              &getPixelFormat    (void);
+     const UInt32              &getPixelFormat    (void) const;
+           Int32               &getFrameSize      (void);
+     const Int32               &getFrameSize      (void) const;
+           FieldContainerPtr   &getParents        (const UInt32 index);
+           MFFieldContainerPtr &getParents        (void);
+     const MFFieldContainerPtr &getParents        (void) const;
+           UInt8               &getPixel          (const UInt32 index);
+           MFUInt8             &getPixel          (void);
+     const MFUInt8             &getPixel          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setColor          ( const Color4f &value );
+     void setDimension      ( const Int32 &value );
+     void setWidth          ( const Int32 &value );
+     void setHeight         ( const Int32 &value );
+     void setDepth          ( const Int32 &value );
+     void setBpp            ( const Int32 &value );
+     void setMipMapCount    ( const Int32 &value );
+     void setFrameCount     ( const Int32 &value );
+     void setFrameDelay     ( const Time &value );
+     void setPixelFormat    ( const UInt32 &value );
+     void setFrameSize      ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -156,8 +230,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  ScreenAlignedTextPtr      create          (void); 
-    static  ScreenAlignedTextPtr      createEmpty     (void); 
+    static  ImagePtr      create          (void); 
+    static  ImagePtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -175,47 +249,40 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFColor4f           _sfColor;
-    SFImagePtr          _sfRenderImage;
+    MFFieldContainerPtr   _mfParents;
+    SFInt32             _sfDimension;
+    SFInt32             _sfWidth;
+    SFInt32             _sfHeight;
+    SFInt32             _sfDepth;
+    SFInt32             _sfBpp;
+    SFInt32             _sfMipMapCount;
+    SFInt32             _sfFrameCount;
+    SFTime              _sfFrameDelay;
+    SFUInt32            _sfPixelFormat;
+    MFUInt8             _mfPixel;
+    SFInt32             _sfFrameSize;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ScreenAlignedTextBase(void);
-    ScreenAlignedTextBase(const ScreenAlignedTextBase &source);
+    ImageBase(void);
+    ImageBase(const ImageBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ScreenAlignedTextBase(void); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-           SFImagePtr          *getSFRenderImage    (void);
-
-           ImagePtr            &getRenderImage    (void);
-     const ImagePtr            &getRenderImage    (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-     void setRenderImage    (const ImagePtr &value);
+    virtual ~ImageBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      ScreenAlignedTextBase *pOther,
+    void executeSyncImpl(      ImageBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -229,7 +296,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const ScreenAlignedTextBase &source);
+    void operator =(const ImageBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -237,10 +304,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
 //---------------------------------------------------------------------------
 
 
-typedef ScreenAlignedTextBase *ScreenAlignedTextBaseP;
+typedef ImageBase *ImageBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGSCREENALIGNEDTEXTBASE_H_ */
+#endif /* _OSGIMAGEBASE_H_ */

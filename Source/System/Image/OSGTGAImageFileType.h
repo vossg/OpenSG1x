@@ -75,9 +75,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TGAImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (Image &image, const Char8 *fileName);
+    virtual bool read  (ImagePtr &image, const Char8 *fileName);
 
-    virtual bool write (const Image &image, const Char8 *fileName);
+    virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 
@@ -124,7 +124,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TGAImageFileType : public ImageFileType
 
     void readHeader(std::istream &in, TGAHeader &header);
 
-    bool readCompressedImageData(std::istream &in, Image &image);
+    bool readCompressedImageData(std::istream &in, ImagePtr &image);
 
     typedef ImageFileType Inherited;
 

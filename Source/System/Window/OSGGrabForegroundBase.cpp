@@ -71,7 +71,7 @@ const OSG::BitVector  GrabForegroundBase::ImageFieldMask =
 
 // Field descriptions
 
-/*! \var ImageP          GrabForegroundBase::_sfImage
+/*! \var ImagePtr        GrabForegroundBase::_sfImage
     The image to write to.
 */
 
@@ -79,7 +79,7 @@ const OSG::BitVector  GrabForegroundBase::ImageFieldMask =
 
 FieldDescription *GrabForegroundBase::_desc[] = 
 {
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,

@@ -65,7 +65,7 @@
 
 #include <OSGForeground.h> // Parent
 
-#include <OSGImagePFields.h> // Images type
+#include <OSGImageFields.h> // Images type
 #include <OSGPnt2fFields.h> // Positions type
 
 #include <OSGImageForegroundFields.h>
@@ -119,12 +119,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFImageP            *getMFImages         (void);
+           MFImagePtr          *getMFImages         (void);
            MFPnt2f             *getMFPositions      (void);
 
-           ImageP              &getImages         (const UInt32 index);
-           MFImageP            &getImages         (void);
-     const MFImageP            &getImages         (void) const;
+           ImagePtr            &getImages         (const UInt32 index);
+           MFImagePtr          &getImages         (void);
+     const MFImagePtr          &getImages         (void) const;
            Pnt2f               &getPositions      (const UInt32 index);
            MFPnt2f             &getPositions      (void);
      const MFPnt2f             &getPositions      (void) const;
@@ -179,7 +179,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFImageP            _mfImages;
+    MFImagePtr          _mfImages;
     MFPnt2f             _mfPositions;
 
     /*! \}                                                                 */

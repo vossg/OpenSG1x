@@ -49,6 +49,7 @@
 
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>
+#include <OSGImage.h>
 
 #include "OSGGrabForeground.h"
 
@@ -106,17 +107,18 @@ void GrabForeground::dump(      UInt32    ,
 */   
 void GrabForeground::draw(DrawActionBase *, Viewport *port)
 {
-    ImageP i = getImage();
+    ImagePtr i = getImage();
     
-    if(i == NULL)       // No image, no grab.
+    if(i == NullFC)       // No image, no grab.
         return;
 
     // If image is smaller than 2x2, resize it to vp size
     // the 2x2 is because you can't create 0x0 images
     if(i->getWidth() <= 1 || i->getHeight() <= 1)
     {
-        i->set(i->getPixelFormat(), port->getPixelWidth(), 
-                                    port->getPixelHeight());
+        i->set(i->getPixelFormat(),
+               port->getPixelWidth(), 
+               port->getPixelHeight());
     }
     
     UInt32 w = osgMin(i->getWidth(),  port->getPixelWidth());

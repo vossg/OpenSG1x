@@ -65,11 +65,11 @@
 
 #include <OSGTextureChunk.h> // Parent
 
-#include <OSGImagePFields.h> // PosZImage type
-#include <OSGImagePFields.h> // PosXImage type
-#include <OSGImagePFields.h> // NegXImage type
-#include <OSGImagePFields.h> // PosYImage type
-#include <OSGImagePFields.h> // NegYImage type
+#include <OSGImageFields.h> // PosZImage type
+#include <OSGImageFields.h> // PosXImage type
+#include <OSGImageFields.h> // NegXImage type
+#include <OSGImageFields.h> // PosYImage type
+#include <OSGImageFields.h> // NegYImage type
 
 #include <OSGCubeTextureChunkFields.h>
 
@@ -128,33 +128,33 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImageP            *getSFPosZImage      (void);
-           SFImageP            *getSFPosXImage      (void);
-           SFImageP            *getSFNegXImage      (void);
-           SFImageP            *getSFPosYImage      (void);
-           SFImageP            *getSFNegYImage      (void);
+           SFImagePtr          *getSFPosZImage      (void);
+           SFImagePtr          *getSFPosXImage      (void);
+           SFImagePtr          *getSFNegXImage      (void);
+           SFImagePtr          *getSFPosYImage      (void);
+           SFImagePtr          *getSFNegYImage      (void);
 
-           ImageP              &getPosZImage      (void);
-     const ImageP              &getPosZImage      (void) const;
-           ImageP              &getPosXImage      (void);
-     const ImageP              &getPosXImage      (void) const;
-           ImageP              &getNegXImage      (void);
-     const ImageP              &getNegXImage      (void) const;
-           ImageP              &getPosYImage      (void);
-     const ImageP              &getPosYImage      (void) const;
-           ImageP              &getNegYImage      (void);
-     const ImageP              &getNegYImage      (void) const;
+           ImagePtr            &getPosZImage      (void);
+     const ImagePtr            &getPosZImage      (void) const;
+           ImagePtr            &getPosXImage      (void);
+     const ImagePtr            &getPosXImage      (void) const;
+           ImagePtr            &getNegXImage      (void);
+     const ImagePtr            &getNegXImage      (void) const;
+           ImagePtr            &getPosYImage      (void);
+     const ImagePtr            &getPosYImage      (void) const;
+           ImagePtr            &getNegYImage      (void);
+     const ImagePtr            &getNegYImage      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setPosZImage      ( const ImageP &value );
-     void setPosXImage      ( const ImageP &value );
-     void setNegXImage      ( const ImageP &value );
-     void setPosYImage      ( const ImageP &value );
-     void setNegYImage      ( const ImageP &value );
+     void setPosZImage      ( const ImagePtr &value );
+     void setPosXImage      ( const ImagePtr &value );
+     void setNegXImage      ( const ImagePtr &value );
+     void setPosYImage      ( const ImagePtr &value );
+     void setNegYImage      ( const ImagePtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -200,11 +200,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP            _sfPosZImage;
-    SFImageP            _sfPosXImage;
-    SFImageP            _sfNegXImage;
-    SFImageP            _sfPosYImage;
-    SFImageP            _sfNegYImage;
+    SFImagePtr          _sfPosZImage;
+    SFImagePtr          _sfPosXImage;
+    SFImagePtr          _sfNegXImage;
+    SFImagePtr          _sfPosYImage;
+    SFImagePtr          _sfNegYImage;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

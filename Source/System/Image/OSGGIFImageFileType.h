@@ -69,10 +69,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool         read  (Image &image,
+    virtual bool         read  (ImagePtr &image,
                                 const Char8 *fileName);
 
-    virtual bool         write (const Image &image,
+    virtual bool         write (const ImagePtr &image,
                                 const Char8 *fileName);
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

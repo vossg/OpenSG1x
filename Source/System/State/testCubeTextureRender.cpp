@@ -16,6 +16,7 @@
 #include "OSGBlendChunk.h"
 #include "OSGPolygonChunk.h"
 #include "OSGLineChunk.h"
+#include "OSGImage.h"
 
 OSG_USING_NAMESPACE
 
@@ -32,7 +33,7 @@ TextureTransformChunkPtr txchunk;
 CubeTextureChunkPtr cchunk1;
 TexGenChunkPtr gchunk1;
 
-Image *pImage;
+ImagePtr pImage;
 
 GLint dlid, dlid2;
 
@@ -146,7 +147,7 @@ int main( int argc, char *argv[] )
 
     glutIdleFunc(display);
 
-    pImage = new Image;
+    pImage = Image::create();
 
     // create the dummy structures
 
@@ -251,7 +252,8 @@ int main( int argc, char *argv[] )
     UChar8 imgdata2[] =
     {  255,0,0,  0,255,0,  0,0,255,  255,255,255 };
 
-    Image *pImage2 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2);
+    ImagePtr pImage2 = Image::create();
+    pImage2->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2);
 
     xchunk2 = TextureChunk::create();
     beginEditCP(xchunk2);
@@ -272,14 +274,20 @@ int main( int argc, char *argv[] )
            negx[] = {  255,0,255,  128,0,128,  64,0,64,  255,255,255 },
            posx[] = {  0,255,255,  0,128,128,  0,64,64,  255,255,255 };
     
-    Image *inegz = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negz );
-    Image *iposz = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posz );
-    Image *inegy = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negy );
-    Image *iposy = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posy );
-    Image *inegx = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negx );
-    Image *iposx = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posx );
-    
-    
+    ImagePtr inegz = Image::create();
+    ImagePtr iposz = Image::create();
+    ImagePtr inegy = Image::create();
+    ImagePtr iposy = Image::create();
+    ImagePtr inegx = Image::create();
+    ImagePtr iposx = Image::create();
+
+    inegz->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negz );
+    iposz->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posz );
+    inegy->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negy );
+    iposy->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posy );
+    inegx->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negx );
+    iposx->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posx );
+        
     cchunk1 = CubeTextureChunk::create();
     beginEditCP(cchunk1);
     cchunk1->setImage( inegz );

@@ -73,7 +73,8 @@
 #include <OSGMaterialFields.h>
 #include <OSGNode.h>
 #include <OSGGroup.h>
-#include <OSGImagePFields.h>
+#include <OSGImageFields.h>
+#include <OSGImageFileHandler.h>
 
 #include <OSGSimpleAttachments.h>
 
@@ -138,7 +139,7 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFReal32::getClassType().getId(),
                      ScanParseSkel::OSGsfFloat);
 
-    setIntExtMapping(SFImageP::getClassType().getId(),
+    setIntExtMapping(SFImagePtr::getClassType().getId(),
                      ScanParseSkel::OSGsfString);
 
     setIntExtMapping(SFInt32::getClassType().getId(),

@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 #include "OSGBlendChunk.h"
 #include "OSGPolygonChunk.h"
 #include "OSGLineChunk.h"
+#include "OSGImage.h"
 
 OSG_USING_NAMESPACE
 
@@ -34,7 +35,7 @@ TextureChunkPtr xchunk1, xchunk2;
 BlendChunkPtr blchunk;
 TextureTransformChunkPtr txchunk,txchunk2;
 
-Image *pImage;
+ImagePtr pImage;
 
 GLint dlid, dlid2;
 
@@ -200,7 +201,7 @@ int main( int argc, char *argv[] )
 
     Matrix m;
 
-    pImage = new Image;
+    pImage = Image::create();
 
     tchunk1 = TransformChunk::create();
     m.setTranslate( 0, 1, 0 );
@@ -259,7 +260,8 @@ int main( int argc, char *argv[] )
     {  255,0,0,  0,255,0,  0,0,255,  255,255,255 };
 
 
-    Image *pImage2 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2);
+    ImagePtr pImage2 = Image::create();
+    pImage2->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2);
 
     xchunk2 = TextureChunk::create();
     beginEditCP(xchunk2);

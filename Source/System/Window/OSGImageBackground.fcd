@@ -21,7 +21,7 @@ A single colored background.
         </Field>
 	<Field
 		name="image"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"

@@ -111,194 +111,200 @@ DATImageFileType& DATImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool DATImageFileType::read (      Image &image, 
+bool DATImageFileType::read (      ImagePtr &image, 
                                    const Char8 *fileName )
 {
-  bool retCode = false;
+    bool retCode = false;
 
-  std::ifstream inDat(fileName), inVol;
-  std::string keyStr, objectFileName;
-  const UInt32 lineBufferSize = 1024;
-  Char8 *value, *keySepPos, lineBuffer[lineBufferSize];
-  const Char8 keySep = ':';
-  int fileOffset, keyL, valueL;
-  std::map<std::string, KeyType>::iterator keyI;
-  std::map<std::string, FormatDesc>::iterator formatI;
-  KeyType key;
-  FormatType formatType;
-  UInt32 res[3];
-  int bpv, dataSize = 0;
-  Image::PixelFormat pixelFormat;
-  char *dataBuffer = 0;
-  bool needConversion;
+    std::ifstream inDat(fileName), inVol;
+    std::string keyStr, objectFileName;
+    const UInt32 lineBufferSize = 1024;
+    Char8 *value, *keySepPos, lineBuffer[lineBufferSize];
+    const Char8 keySep = ':';
+    int fileOffset, keyL, valueL;
+    std::map<std::string, KeyType>::iterator keyI;
+    std::map<std::string, FormatDesc>::iterator formatI;
+    KeyType key;
+    FormatType formatType;
+    UInt32 res[3];
+    int bpv, dataSize = 0;
+    Image::PixelFormat pixelFormat;
+    char *dataBuffer = 0;
+    bool needConversion;
 
-  res[0] = res[1] = res[2] = 0;
-  fileOffset = 0;
-  formatType = UNKNOWN_FT;
-  bpv = 0;
-  dataSize = 0;
-  dataBuffer = 0;
+    res[0] = res[1] = res[2] = 0;
+    fileOffset = 0;
+    formatType = UNKNOWN_FT;
+    bpv = 0;
+    dataSize = 0;
+    dataBuffer = 0;
 
-  initTypeMap();
+    initTypeMap();
 
-  // read the data file 
-  for ( lineBuffer[0] = 0; 
-        inDat.getline ( lineBuffer, lineBufferSize);
-        lineBuffer[0] = 0 ) 
+    beginEditCP(image);
+
+    // read the data file 
+    for ( lineBuffer[0] = 0; 
+          inDat.getline ( lineBuffer, lineBufferSize);
+          lineBuffer[0] = 0 ) 
     {        
-      if ((keySepPos = strchr(lineBuffer,keySep))) 
+        if ((keySepPos = strchr(lineBuffer,keySep))) 
         {
-          keyL = keySepPos - lineBuffer;
-          keyStr.assign( lineBuffer, keyL );        
-          keyI = _keyStrMap.find(keyStr);
-          key = ((keyI == _keyStrMap.end()) ? UNKNOWN_KT : keyI->second);
-          value = keySepPos + 1;        
-          while (value && isspace(*value))
-            value++;
-          valueL = strlen(value);
-          while (isspace(value[valueL-1]))
-            value[--valueL] = 0;
-          switch (key)
+            keyL = keySepPos - lineBuffer;
+            keyStr.assign( lineBuffer, keyL );        
+            keyI = _keyStrMap.find(keyStr);
+            key = ((keyI == _keyStrMap.end()) ? UNKNOWN_KT : keyI->second);
+            value = keySepPos + 1;        
+            while (value && isspace(*value))
+                value++;
+            valueL = strlen(value);
+            while (isspace(value[valueL-1]))
+                value[--valueL] = 0;
+            switch (key)
             {
-            case OBJECT_FILE_NAME_KT:
-              objectFileName = value;
-              image.setAttachment ( keyStr, value );
-              break;
-            case RESOLUTION_KT:
-              sscanf ( value, "%d %d %d", &(res[0]), &(res[1]), &(res[2]));
-              image.setAttachment ( keyStr, value );
-              break;
-            case FORMAT_KT:
-              formatI = _formatStrMap.find(value);
-              if (formatI != _formatStrMap.end())
-                {
-                  formatType = formatI->second.type;
-                  bpv = formatI->second.bpv;
-                  pixelFormat = formatI->second.pixelFormat;
-                  needConversion = formatI->second.needConversion;
-                }
-              else 
-                {
-                  formatType = UNKNOWN_FT;
-                  bpv = 0;
-                  pixelFormat = Image::OSG_INVALID_PF;
-                  needConversion = false;
-                }
-              image.setAttachment ( keyStr, value );
-              break;
-            case FILE_OFFSET_KT:
-              sscanf ( value, "%d", &fileOffset );
-              image.setAttachment ( keyStr, value );
-              break;
-            case UNKNOWN_KT:
-              FWARNING (( "Uknown DAT file key: >%s<\n", keyStr.c_str() ));
-              image.setAttachment ( keyStr, value );
-              break;
-            case SLICE_THICKNESS_KT:
-            default:
-              image.setAttachment ( keyStr, value );
-              break;
+                case OBJECT_FILE_NAME_KT:
+                    objectFileName = value;
+                    image->setAttachmentField ( keyStr, value );
+                    break;
+                case RESOLUTION_KT:
+                    sscanf ( value, "%d %d %d", &(res[0]), &(res[1]), &(res[2]));
+                    image->setAttachmentField ( keyStr, value );
+                    break;
+                case FORMAT_KT:
+                    formatI = _formatStrMap.find(value);
+                    if (formatI != _formatStrMap.end())
+                    {
+                        formatType = formatI->second.type;
+                        bpv = formatI->second.bpv;
+                        pixelFormat = formatI->second.pixelFormat;
+                        needConversion = formatI->second.needConversion;
+                    }
+                    else 
+                    {
+                        formatType = UNKNOWN_FT;
+                        bpv = 0;
+                        pixelFormat = Image::OSG_INVALID_PF;
+                        needConversion = false;
+                    }
+                    image->setAttachmentField ( keyStr, value ); 
+                    break;
+                case FILE_OFFSET_KT:
+                    sscanf ( value, "%d", &fileOffset );
+                    image->setAttachmentField ( keyStr, value );
+                    break;
+                case UNKNOWN_KT:
+                    FWARNING (( "Uknown DAT file key: >%s<\n", keyStr.c_str() ));
+                    image->setAttachmentField ( keyStr, value );
+                    break;
+                case SLICE_THICKNESS_KT:
+                default:
+                    image->setAttachmentField ( keyStr, value );
+                    break;
             }
         }
-      else 
+        else 
         {        
-          FINFO (("Skip DAT line\n"));
+            FINFO (("Skip DAT line\n"));
         }
     }
   
-  // check the setting and read the raw vol data
-  if (objectFileName.empty() == false) 
+    // check the setting and read the raw vol data
+    if (objectFileName.empty() == false) 
     {
-      if ( (res[0] > 0) && (res[1] > 0) && (res[2] > 0) ) 
+        if ( (res[0] > 0) && (res[1] > 0) && (res[2] > 0) ) 
         {
-          if (formatType != UNKNOWN_FT) 
+            if (formatType != UNKNOWN_FT) 
             {
-              inVol.open(objectFileName.c_str(), 
-                         std::ios::in | std::ios::binary );
-              if (inVol)
+                inVol.open(objectFileName.c_str(), 
+                           std::ios::in | std::ios::binary );
+                if (inVol)
                 {
-                  image.set ( pixelFormat, res[0], res[1], res[2]);
-                  dataSize = bpv * res[0] * res[1] * res[2];
-                  if (needConversion)
-                    dataBuffer = new char [ dataSize ];
-                  else
-                    dataBuffer = ((char *)(image.getData()));
+                    image->set ( pixelFormat, res[0], res[1], res[2]);
+                    dataSize = bpv * res[0] * res[1] * res[2];
+                    if (needConversion)
+                        dataBuffer = new char [ dataSize ];
+                    else
+                        dataBuffer = ((char *)(image->getData()));
 
-                  inVol.ignore ( fileOffset );
-                  inVol.read ( dataBuffer, dataSize );
+                    inVol.ignore ( fileOffset );
+                    inVol.read ( dataBuffer, dataSize );
                 }
-              else 
+                else 
                 {
-                  FWARNING (( "Can not open %s image data\n", 
-                              objectFileName.c_str() ));
+                    FWARNING (( "Can not open %s image data\n", 
+                                objectFileName.c_str() ));
                 }
             }
-          else 
+            else 
             {
-              FWARNING (( "Invalid/Missing DAT Format\n" ));
+                FWARNING (( "Invalid/Missing DAT Format\n" ));
             }
         }
-      else 
+        else 
         {
-          FWARNING (( "Invalid/Missing DAT Resolution\n" ));
+            FWARNING (( "Invalid/Missing DAT Resolution\n" ));
         }
     }
-  else 
+    else 
     {
-      FWARNING (( "Invalid/Missing DAT ObjectFileName\n" ));
+        FWARNING (( "Invalid/Missing DAT ObjectFileName\n" ));
     }
 
-  // check/reformat vol data
-  if (dataSize && dataBuffer)
+    // check/reformat vol data
+    if (dataSize && dataBuffer)
     {
-      if (needConversion) 
+        if (needConversion) 
         {
-          FLOG (("DAT-Data convert not impl. yet !\n"));
-          {
-            switch (formatType)
-              {
-              case UCHAR_FT:
-                break;
-              case USHORT_FT:
-                break;
-              case UINT_FT:
-                break;
-              case ULONG_FT:
-                break;
-              case FLOAT_FT:
-                break;
-              case DOUBLE_FT:
-                break;
-              }
-          }
+            FLOG (("DAT-Data convert not impl. yet !\n"));
+            {
+                switch (formatType)
+                {
+                    case UCHAR_FT:
+                        break;
+                    case USHORT_FT:
+                        break;
+                    case UINT_FT:
+                        break;
+                    case ULONG_FT:
+                        break;
+                    case FLOAT_FT:
+                        break;
+                    case DOUBLE_FT:
+                        break;
+                    default:
+                        ;
+                }
+            }
         }
-      else 
+        else 
         {
-          retCode = true;
+            retCode = true;
         }
     }
 
 
-  /* TODO
-  std::ifstream in(fileName);
-  Head head;
-  void *headData = (void*)(&head);
-  unsigned dataSize, headSize = sizeof(Head);
+    /* TODO
+       std::ifstream in(fileName);
+       Head head;
+       void *headData = (void*)(&head);
+       unsigned dataSize, headSize = sizeof(Head);
 
-  if ( in &&        
+       if ( in &&        
        in.read(static_cast<char *>(headData), 
-               headSize) && head.netToHost() &&
+       headSize) && head.netToHost() &&
        image.set ( Image::PixelFormat(head.pixelFormat), 
-                   head.width, head.height, head.depth, head.mipmapCount, 
-                   head.frameCount, float(head.frameDelay) / 1000.0) &&
+       head.width, head.height, head.depth, head.mipmapCount, 
+       head.frameCount, float(head.frameDelay) / 1000.0) &&
        (dataSize = image.getSize()) && 
        in.read((char *)(image.getData()), dataSize ))
-    retCode = true;
-  else
-    retCode = false;
-  */
+       retCode = true;
+       else
+       retCode = false;
+    */
 
-  return retCode;
+    endEditCP(image);
+
+    return retCode;
 }
 
 //-------------------------------------------------------------------------
@@ -306,7 +312,7 @@ bool DATImageFileType::read (      Image &image,
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool DATImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool DATImageFileType::write(const ImagePtr &, 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
     bool retCode = false;
@@ -343,13 +349,13 @@ bool DATImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
 Tries to restore the image data from the given memblock.
 Returns the amount of data read.
 */
-UInt64 DATImageFileType::restoreData(      Image  &image, 
-                                     const UChar8 *buffer,
+UInt64 DATImageFileType::restoreData(      ImagePtr &image, 
+                                     const UChar8   *buffer,
                                            Int32   OSG_CHECK_ARG(memSize) )
 {
-    image.setData(buffer);
+    image->setData(buffer);
 
-    return image.getSize();
+    return image->getSize();
 }
 
 //-------------------------------------------------------------------------
@@ -357,12 +363,12 @@ UInt64 DATImageFileType::restoreData(      Image  &image,
 Tries to store the image data to the given memblock.
 Returns the amount of data written.
 */
-UInt64 DATImageFileType::storeData(const Image  &image, 
-                                         UChar8 *buffer,
-                                         Int32   OSG_CHECK_ARG(memSize))
+UInt64 DATImageFileType::storeData(const ImagePtr &image, 
+                                         UChar8   *buffer,
+                                         Int32     OSG_CHECK_ARG(memSize))
 {
-    unsigned dataSize = image.getSize();
-    const UChar8 *src = image.getData();
+    unsigned dataSize = image->getSize();
+    const UChar8 *src = image->getData();
 
     if ( dataSize && src && buffer )
         memcpy( buffer, src, dataSize);

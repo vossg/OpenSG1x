@@ -98,7 +98,7 @@ GrabForegroundPtr GrabForegroundBase::createEmpty(void)
 
 //! Get the GrabForeground::_sfImage field.
 inline
-SFImageP *GrabForegroundBase::getSFImage(void)
+SFImagePtr *GrabForegroundBase::getSFImage(void)
 {
     return &_sfImage;
 }
@@ -106,21 +106,21 @@ SFImageP *GrabForegroundBase::getSFImage(void)
 
 //! Get the value of the GrabForeground::_sfImage field.
 inline
-ImageP &GrabForegroundBase::getImage(void)
+ImagePtr &GrabForegroundBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
 //! Get the value of the GrabForeground::_sfImage field.
 inline
-const ImageP &GrabForegroundBase::getImage(void) const
+const ImagePtr &GrabForegroundBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
 //! Set the value of the GrabForeground::_sfImage field.
 inline
-void GrabForegroundBase::setImage(const ImageP &value)
+void GrabForegroundBase::setImage(const ImagePtr &value)
 {
     _sfImage.setValue(value);
 }

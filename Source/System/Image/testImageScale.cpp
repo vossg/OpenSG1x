@@ -15,11 +15,15 @@
 #include "OSGImage.h"
 
 using OSG::Image;
+using OSG::ImagePtr;
 
 int main (int argc, char **argv)
 {
+    // OSG init
+    OSG::osgInit(argc,argv);
+
     int retCode = 0;
-    Image *pImage = new Image;
+    ImagePtr pImage = Image::create();
     unsigned w,h,d;
 
     OSG::ImageFileHandler::the().dump();

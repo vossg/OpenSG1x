@@ -170,17 +170,15 @@ the given fileName. If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
 */
-Image *ImageFileHandler::read(const char *fileName, const char *mimeType)
+ImagePtr ImageFileHandler::read(const char *fileName, const char *mimeType)
 {
-    Image *image = new Image;
+    ImagePtr image = Image::create();
 
-    if(read(*image, fileName, mimeType) == false)
+    if(read(image, fileName, mimeType) == false)
     {
-        subRefP(image);
-
-        image = NULL;
+        subRefCP(image);
+        image = NullFC;
     }
-
     return image;
 }
 
@@ -192,7 +190,7 @@ If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
 */
-bool ImageFileHandler::read(Image &image, const char *fileName,
+bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
                             const char *mimeType)
 {
     bool        retCode = false;
@@ -219,9 +217,9 @@ bool ImageFileHandler::read(Image &image, const char *fileName,
 
         if(retCode)
         {
-            FDEBUG(("image: %dx%d\n", image.getWidth(), image.getHeight()));
-            image.setAttachment(_fileNameKey, fileName);
-            image.setAttachment(_fullFilePathKey, fullFilePath);
+            FDEBUG(("image: %dx%d\n", image->getWidth(), image->getHeight()));
+            image->setAttachmentField(_fileNameKey, fileName);
+            image->setAttachmentField(_fullFilePathKey, fullFilePath);
         }
         else
         {
@@ -245,14 +243,14 @@ If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
 */
-bool ImageFileHandler::write(const Image &image, const char *fileName,
+bool ImageFileHandler::write(const ImagePtr &image, const char *fileName,
                              const char *mimeType)
 {
     bool            retCode = false;
     ImageFileType   *type;
     const std::string     *fNAttachment;
     
-    if (!fileName && (fNAttachment = image.findAttachment(_fileNameKey)))
+    if (!fileName && (fNAttachment = image->findAttachmentField(_fileNameKey)))
       fileName = fNAttachment->c_str();
 
     if ((type = getFileType(mimeType, fileName)))
@@ -296,7 +294,7 @@ If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
 */
-UInt64 ImageFileHandler::restore(Image &image, const UChar8 *buffer,
+UInt64 ImageFileHandler::restore(ImagePtr &image, const UChar8 *buffer,
                                  Int32 memSize)
 {
     return ImageFileType::restore(image, buffer, memSize);
@@ -310,7 +308,7 @@ If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
 */
-UInt64 ImageFileHandler::store(const Image &image, const char *mimeType,
+UInt64 ImageFileHandler::store(const ImagePtr &image, const char *mimeType,
                                UChar8 *buffer, Int32 memSize)
 {
     ImageFileType   *type;
@@ -330,7 +328,7 @@ If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
 */
-UChar8 *ImageFileHandler::store(const Image &image, UInt64 &memSize,
+UChar8 *ImageFileHandler::store(const ImagePtr &image, UInt64 &memSize,
                                 const char *mimeType)
 {
     ImageFileType   *type = 0;

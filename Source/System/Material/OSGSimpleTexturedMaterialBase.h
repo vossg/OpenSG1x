@@ -65,7 +65,7 @@
 
 #include <OSGSimpleMaterial.h> // Parent
 
-#include <OSGImagePFields.h> // Image type
+#include <OSGImageFields.h> // Image type
 #include <OSGGLenumFields.h> // MinFilter type
 #include <OSGGLenumFields.h> // MagFilter type
 #include <OSGGLenumFields.h> // EnvMode type
@@ -128,14 +128,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImageP            *getSFImage          (void);
+           SFImagePtr          *getSFImage          (void);
            SFGLenum            *getSFMinFilter      (void);
            SFGLenum            *getSFMagFilter      (void);
            SFGLenum            *getSFEnvMode        (void);
            SFBool              *getSFEnvMap         (void);
 
-           ImageP              &getImage          (void);
-     const ImageP              &getImage          (void) const;
+           ImagePtr            &getImage          (void);
+     const ImagePtr            &getImage          (void) const;
            GLenum              &getMinFilter      (void);
      const GLenum              &getMinFilter      (void) const;
            GLenum              &getMagFilter      (void);
@@ -150,7 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setImage          ( const ImageP &value );
+     void setImage          ( const ImagePtr &value );
      void setMinFilter      ( const GLenum &value );
      void setMagFilter      ( const GLenum &value );
      void setEnvMode        ( const GLenum &value );
@@ -200,7 +200,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP            _sfImage;
+    SFImagePtr          _sfImage;
     SFGLenum            _sfMinFilter;
     SFGLenum            _sfMagFilter;
     SFGLenum            _sfEnvMode;

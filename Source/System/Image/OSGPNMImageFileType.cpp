@@ -117,7 +117,7 @@ PNMImageFileType& PNMImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool PNMImageFileType::read(Image &image, const Char8 *fileName)
+bool PNMImageFileType::read(ImagePtr &image, const Char8 *fileName)
 {
     bool           isBinary = true;
     Int16          type = 0, width, height, lineSize, maxValue=0, value, x, y;
@@ -146,27 +146,27 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
     case 1:
     case 4:
         maxValue = 1;
-        image.set(Image::OSG_L_PF, width, height);
+        image->set(Image::OSG_L_PF, width, height);
         break;
     case 2:
     case 5:
         maxValue = 0;
-        image.set(Image::OSG_L_PF, width, height);
+        image->set(Image::OSG_L_PF, width, height);
         break;
     case 3:
     case 6:
         maxValue = 0;
-        image.set(Image::OSG_RGB_PF, width, height);
+        image->set(Image::OSG_RGB_PF, width, height);
         break;
     case 7: // LA extention 
         FWARNING (("Read PNM type %d: LA-ascii extention\n",type ));
         maxValue = 0;
-        image.set(Image::OSG_LA_PF, width, height);
+        image->set(Image::OSG_LA_PF, width, height);
         break;
     case 8: // RGBA extention
         FWARNING (("Read PNM type %d: RGBA-ascii extention\n",type ));
         maxValue = 0;
-        image.set(Image::OSG_RGBA_PF, width, height);
+        image->set(Image::OSG_RGBA_PF, width, height);
         break;
     default:
         SWARNING <<
@@ -197,7 +197,7 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
     // eat the endline
     in.ignore(INT_MAX, '\n');
 
-    if(maxValue && (imageData = image.getData()))
+    if(maxValue && (imageData = image->getData()))
     {
         SINFO <<
             "Read pnm file of type " <<
@@ -208,7 +208,7 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
             height <<
             std::endl;
 
-        lineSize = width * image.getBpp();
+        lineSize = width * image->getBpp();
         if(isBinary)
         {   // image is binary
             for(y = height - 1; y >= 0; y--)
@@ -230,7 +230,7 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 
         if(maxValue == 1)
         {
-            n = image.getSize();
+            n = image->getSize();
             for(i = 0; i < n; i++)
                 imageData[0] *= 255;
         }
@@ -244,11 +244,11 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
+bool PNMImageFileType::write(const ImagePtr &image, const Char8 *fileName)
 {
     Int16          p, y, x, lineSize;
     std::ofstream  out(fileName, std::ios::out | std::ios::binary);
-    UInt16         bpp = image.getBpp();
+    UInt16         bpp = image->getBpp();
     UInt8         *data = 0;
 
     if(out.rdbuf()->is_open())
@@ -266,26 +266,26 @@ bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
         }
 
         out << "# PNMImageFileType write" << std::endl;
-        out << image.getWidth() << " " << image.getHeight() << std::endl;
+        out << image->getWidth() << " " << image->getHeight() << std::endl;
         out << "255" << std::endl;
 
         if(bpp & 1)
         {
             // with alpha
-            lineSize = image.getBpp() * image.getWidth();
-            for(y = image.getHeight() - 1; y >= 0; y--)
+            lineSize = image->getBpp() * image->getWidth();
+            for(y = image->getHeight() - 1; y >= 0; y--)
             {
-                out.write((char *) (image.getData() + (lineSize * y)), lineSize);
+                out.write((char *) (image->getData() + (lineSize * y)), lineSize);
             }
         }
         else
         {
             // skip alpha
-            lineSize = image.getBpp() * image.getWidth();
-            for(y = image.getHeight() - 1; y >= 0; y--)
+            lineSize = image->getBpp() * image->getWidth();
+            for(y = image->getHeight() - 1; y >= 0; y--)
             {
-                data = (UInt8 *) (image.getData() + (lineSize * y));
-                for(x = 0; x < image.getWidth(); x++)
+                data = (UInt8 *) (image->getData() + (lineSize * y));
+                for(x = 0; x < image->getWidth(); x++)
                 {
                     for(p = bpp - 1; p--;)
                         out << *data++;

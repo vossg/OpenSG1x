@@ -15,6 +15,7 @@
 #include "OSGBlendChunk.h"
 #include "OSGPolygonChunk.h"
 #include "OSGLineChunk.h"
+#include "OSGImage.h"
 
 OSG_USING_NAMESPACE
 
@@ -26,7 +27,7 @@ PolygonChunkPtr pchunk1,pchunk2;
 TextureTransformChunkPtr txchunk;
 LineChunkPtr lichunk1,lichunk2;
 
-Image *pImage;
+ImagePtr pImage;
 
 GLint dlid, dlid2;
 
@@ -141,7 +142,7 @@ int main( int argc, char *argv[] )
 
     glutIdleFunc(display);
 
-    pImage = new Image;
+    pImage = Image::create();
 
     // create the dummy structures
 

@@ -54,6 +54,7 @@
 #include <OSGStateChunk.h>
 #include <OSGState.h>
 #include <OSGMaterialChunk.h>
+#include <OSGImage.h>
 
 #include "OSGSimpleTexturedMaterial.h"
 
@@ -194,7 +195,7 @@ void SimpleTexturedMaterial::rebuildState(void)
 bool SimpleTexturedMaterial::isTransparent(void) const
 {
     return Inherited::isTransparent() ||
-           (getImage() &&
+           (getImage()!=NullFC &&
              (getImage()->hasAlphaChannel() && getEnvMode() != GL_DECAL)
           );
 }

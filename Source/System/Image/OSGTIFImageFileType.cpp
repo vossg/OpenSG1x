@@ -139,8 +139,8 @@ TIFImageFileType& TIFImageFileType::the (void)
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image), 
-                            const Char8 *OSG_TIF_ARG(fileName))
+bool TIFImageFileType::read(      ImagePtr &OSG_TIF_ARG(image), 
+                            const Char8    *OSG_TIF_ARG(fileName))
 {
     bool    valid = false;
 
@@ -204,8 +204,8 @@ bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
                 break;
             }
 
-            image.set(type, w, h);
-            dest = image.getData();
+            image->set(type, w, h);
+            dest = image->getData();
 
 #if defined(__linux) || defined(_WIN32)
             red = 0;
@@ -270,20 +270,20 @@ bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
 Tries to write the image object to the given fileName.
 Returns true on success.
 */
-bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
-                             const Char8 *OSG_TIF_ARG(fileName))
+bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image),
+                             const Char8    *OSG_TIF_ARG(fileName))
 {
     bool                retCode = false;
 
 #ifdef OSG_WITH_TIF
     TIFF                *out = TIFFOpen(fileName, "w");
-    int                 lineSize = image.getWidth() * image.getBpp();
+    int                 lineSize = image->getWidth() * image->getBpp();
     int                 photometric, samplesPerPixel;
     const UChar8       *data;
     int                 row;
 
     // TODO: implemet all cases correct
-    switch(image.getBpp())
+    switch(image->getBpp())
     {
     case 1:
         samplesPerPixel = 1;
@@ -305,8 +305,8 @@ bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
 
     if(out)
     {
-        TIFFSetField(out, TIFFTAG_IMAGEWIDTH, image.getWidth());
-        TIFFSetField(out, TIFFTAG_IMAGELENGTH, image.getHeight());
+        TIFFSetField(out, TIFFTAG_IMAGEWIDTH, image->getWidth());
+        TIFFSetField(out, TIFFTAG_IMAGELENGTH, image->getHeight());
         TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
         TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, samplesPerPixel);
         TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
@@ -315,9 +315,9 @@ bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
         TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
         TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, 0));
 
-        for(row = 0; row < image.getHeight(); row++)
+        for(row = 0; row < image->getHeight(); row++)
         {
-            data = image.getData() + ((image.getHeight() - row - 1) * lineSize);
+            data = image->getData() + ((image->getHeight() - row - 1) * lineSize);
             if(TIFFWriteScanline(out, 
                                  (tdata_t) const_cast<UChar8 *>(data), 
                                  row, 

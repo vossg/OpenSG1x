@@ -177,7 +177,7 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 
 // Field descriptions
 
-/*! \var ImageP          TextureChunkBase::_sfImage
+/*! \var ImagePtr        TextureChunkBase::_sfImage
     
 */
 /*! \var GLenum          TextureChunkBase::_sfInternalFormat
@@ -269,7 +269,7 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 
 FieldDescription *TextureChunkBase::_desc[] = 
 {
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
@@ -469,7 +469,7 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 TextureChunkBase::TextureChunkBase(void) :
-    _sfImage                  (ImageP(0)), 
+    _sfImage                  (), 
     _sfInternalFormat         (GLenum(GL_NONE)), 
     _sfExternalFormat         (GLenum(GL_NONE)), 
     _sfScale                  (bool(true)), 

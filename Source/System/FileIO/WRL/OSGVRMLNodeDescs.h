@@ -66,7 +66,7 @@
 #include <OSGGeoProperty.h>
 #include <OSGSFSysTypes.h>
 #include <OSGSimpleMaterial.h>
-#include <OSGSFImageTypes.h>
+#include <OSGImageFields.h>
 #include <OSGSFVecTypes.h>
 #include <OSGSFFieldContainerPtr.h>
 #include <OSGComponentTransform.h>
@@ -1180,13 +1180,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    SFImageP _defaultImage;
-    SFBool   _defaultRepeatS;
-    SFBool   _defaultRepeatT;
+    SFImagePtr _defaultImage;
+    SFBool     _defaultRepeatS;
+    SFBool     _defaultRepeatT;
 
-    SFImageP _image;
-    SFBool   _repeatS;
-    SFBool   _repeatT;
+    SFImagePtr _image;
+    SFBool     _repeatS;
+    SFBool     _repeatT;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

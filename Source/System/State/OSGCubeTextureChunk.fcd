@@ -12,51 +12,46 @@
 >
 	<Field
 		name="posZImage"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="NULL"
 	>
 	The image for the positive Z direction for the cube tetxure.
 	</Field>
 	<Field
 		name="posXImage"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="NULL"
 	>
 	The image for the positive X direction for the cube tetxure.
 	</Field>
 	<Field
 		name="negXImage"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="NULL"
 	>
 	The image for the negative X direction for the cube tetxure.
 	</Field>
 	<Field
 		name="posYImage"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="NULL"
 	>
 	The image for the positive Y direction for the cube tetxure.
 	</Field>
 	<Field
 		name="negYImage"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="NULL"
 	>
 	The image for the negative Y direction for the cube tetxure.
 	</Field>

@@ -166,7 +166,7 @@ void ScreenAlignedText::tessellate(void)
 	// calling the fillImage routine
     Color4ub    col1( 255, 255, 255, 255);
     Color4ub    col2( 0, 0, 0, 0 );
-	ImageP pImg = new Image();
+	ImagePtr pImg = Image::create();
 
 	std::vector<std::string> lineVec;
 
@@ -177,7 +177,7 @@ void ScreenAlignedText::tessellate(void)
 
 	vector<NodePtr> cNodes;
 
-    if(fontText.fillImage(*pImg, lineVec, &col1, &col2,
+    if(fontText.fillImage(pImg, lineVec, &col1, &col2,
 						  false, 0, 0, SET_TEX_TCM, CLEAR_ADD_MM, 1, true ) )
     {	
 		_sfRenderImage.setValue( pImg );
@@ -198,7 +198,7 @@ Action::ResultE ScreenAlignedText::drawPrimitives( DrawActionBase * )
     // some variables for faster access
     SFVec3f *pos = getSFPosition();
     Vec3f   &vec = pos->getValue();
-	ImageP pImage =_sfRenderImage.getValue();
+	ImagePtr pImage =_sfRenderImage.getValue();
 	GLubyte *pImageData = _sfRenderImage.getValue()->getData();
 	
 	

@@ -116,11 +116,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     /*! \name               Cube Texture specific                          */
     /*! \{                                                                 */
 
-     void setPosZImage(ImageP &value);
-     void setPosXImage(ImageP &value);
-     void setNegXImage(ImageP &value);
-     void setPosYImage(ImageP &value);
-     void setNegYImage(ImageP &value);
+     void setPosZImage(ImagePtr &value);
+     void setPosXImage(ImagePtr &value);
+     void setNegXImage(ImagePtr &value);
+     void setPosYImage(ImagePtr &value);
+     void setNegYImage(ImagePtr &value);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

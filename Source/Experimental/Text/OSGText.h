@@ -123,7 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Text
 
 
 
-    virtual bool   fillTXFImage   (Image                     &image   );
+    virtual bool   fillTXFImage   (ImagePtr                  &image   );
     virtual bool   fillTXFGeo     (Geometry                  &mesh, 
                                    bool                      isNew,
                                    std::vector<std::string> &lineVec  );
@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Text
                                    Pnt3f                    *points, 
                                    Vec2f                    *texcoords);
 
-    virtual bool   fillImage      (Image & image, 
+    virtual bool   fillImage      (ImagePtr & image, 
                      std::vector<std::string> &lineVec, 
                      Color4ub *fg,
                      Color4ub *bg, 

@@ -124,7 +124,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     void imageContentChanged(void          );
 
-    void setImage           (ImageP &pImage);
+    void setImage           (ImagePtr &pImage);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,7 +169,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     void handleTexture(Window *win, UInt32 id, GLenum bindtarget,
                        GLenum paramtarget,
                        GLenum imgtarget, 
-                       Window::GLObjectStatusE mode, Image *img);
+                       Window::GLObjectStatusE mode, ImagePtr img);
 
     /*! \}                                                                 */ 
 

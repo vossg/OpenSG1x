@@ -18,6 +18,7 @@
 #include <OSGSimpleGeometry.h>
 #include <OSGFaceIterator.h>
 #include <OSGGLUTWindow.h>
+#include <OSGImage.h>
 
 #include "OSGSimpleTexturedMaterial.h"
 #include "OSGBlendChunk.h"
@@ -172,7 +173,7 @@ int main (int argc, char **argv)
     UChar8 imgdata[] =
         {  255,0,0,  255,0,0,  255,0,255,
            255,0,0,  255,0,0,  255,0,255 };
-    Image *pImage = new Image;
+    ImagePtr pImage = Image::create();
 
     if (argc > 1)
     {

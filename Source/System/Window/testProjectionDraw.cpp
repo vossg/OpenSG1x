@@ -17,6 +17,7 @@
 #include <OSGGroup.h>
 #include <OSGMatrixUtility.h>
 #include <OSGStereoBufferViewport.h>
+#include <OSGImage.h>
 
 OSG_USING_NAMESPACE
 
@@ -147,7 +148,8 @@ void addPort(Pnt3f *vpproj,
         imgw = osgnextpower2((UInt32)(vppos[2] - vppos[0]));
         imgh = osgnextpower2((UInt32)(vppos[3] - vppos[1]));
         
-        ImageP image = new Image(Image::OSG_RGB_PF, imgw, imgh);
+        ImagePtr image = Image::create();
+        image->set(Image::OSG_RGB_PF, imgw, imgh);
         
         GrabForegroundPtr fg = GrabForeground::create();
         beginEditCP(fg);

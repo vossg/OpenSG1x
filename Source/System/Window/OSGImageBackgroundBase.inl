@@ -105,7 +105,7 @@ SFColor3f *ImageBackgroundBase::getSFColor(void)
 
 //! Get the ImageBackground::_sfImage field.
 inline
-SFImageP *ImageBackgroundBase::getSFImage(void)
+SFImagePtr *ImageBackgroundBase::getSFImage(void)
 {
     return &_sfImage;
 }
@@ -141,21 +141,21 @@ void ImageBackgroundBase::setColor(const Color3f &value)
 
 //! Get the value of the ImageBackground::_sfImage field.
 inline
-ImageP &ImageBackgroundBase::getImage(void)
+ImagePtr &ImageBackgroundBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
 //! Get the value of the ImageBackground::_sfImage field.
 inline
-const ImageP &ImageBackgroundBase::getImage(void) const
+const ImagePtr &ImageBackgroundBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
 //! Set the value of the ImageBackground::_sfImage field.
 inline
-void ImageBackgroundBase::setImage(const ImageP &value)
+void ImageBackgroundBase::setImage(const ImagePtr &value)
 {
     _sfImage.setValue(value);
 }

@@ -87,9 +87,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (Image &image, const Char8 *fileName);
+    virtual bool read  (ImagePtr &image, const Char8 *fileName);
 
-    virtual bool write (const Image &image, const Char8 *fileName);
+    virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 
@@ -115,10 +115,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*! \name                     Buffer                                   */
     /*! \{                                                                 */
 
-    virtual UInt64 restoreData ( Image &image, const UChar8 *buffer,
+    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
                                  Int32 memSize = -1 );
 
-    virtual UInt64 storeData   ( const Image &image, UChar8 *buffer,
+    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
                                  Int32 memSize = -1 );
     /*! \}                                                                 */
 

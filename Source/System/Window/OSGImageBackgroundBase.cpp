@@ -80,7 +80,7 @@ const OSG::BitVector  ImageBackgroundBase::ScaleFieldMask =
 /*! \var Color3f         ImageBackgroundBase::_sfColor
     The background color for the areas without image.
 */
-/*! \var ImageP          ImageBackgroundBase::_sfImage
+/*! \var ImagePtr        ImageBackgroundBase::_sfImage
     The image to put in the background.
 */
 /*! \var bool            ImageBackgroundBase::_sfScale
@@ -96,7 +96,7 @@ FieldDescription *ImageBackgroundBase::_desc[] =
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &ImageBackgroundBase::getSFColor),
-    new FieldDescription(SFImageP::getClassType(), 
+    new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,

@@ -51,8 +51,6 @@
 #include "OSGImageFileType.h"
 #include "OSGConnection.h"
 
-/* */
-
 OSG_USING_NAMESPACE
 
 /** \class osg::ClusterViewBuffer
@@ -105,7 +103,7 @@ void ClusterViewBuffer::recv(Connection &connection)
 {
     UInt32  tx, ty, tw, th;
     UInt32  missing = connection.getChannelCount();
-    Image   *pImage;
+//    Image   *pImage;
     BufferT data;
     BufferT imageData;
     UInt32  dataSize;
@@ -191,6 +189,7 @@ void ClusterViewBuffer::recv(Connection &connection)
             // compression ?
             if(dataSize > 0)
             {
+#if 0
                 pImage = new Image;
 
                 data.resize(dataSize);
@@ -201,6 +200,7 @@ void ClusterViewBuffer::recv(Connection &connection)
                                              pImage->getData());
 
                 subRefP(pImage);
+#endif
             }
             else
             {
@@ -241,12 +241,12 @@ void ClusterViewBuffer::send(Connection &connection,
                              UInt32 toY)
 {
     UInt32              tx, ty, tw, th;
-    Image               *pImage;
+//    Image               *pImage;
     BufferT             data;
     BufferT             imageData;
     UInt32              dataSize;
     GLenum              glformat;
-    Image::PixelFormat  imgformat;
+//    Image::PixelFormat  imgformat;
     int                 componentCnt;
     int                 imgtranssize = 0;
     UInt32              sync;
@@ -254,11 +254,11 @@ void ClusterViewBuffer::send(Connection &connection,
     switch(component & RGBA)
     {
     case RGB:  glformat = GL_RGB;
-               imgformat = Image::OSG_RGB_PF;
+//               imgformat = Image::OSG_RGB_PF;
                componentCnt = 3;
                break;
     case RGBA: glformat = GL_RGBA;
-               imgformat = Image::OSG_RGBA_PF;
+//               imgformat = Image::OSG_RGBA_PF;
                componentCnt = 4;
                break;
     default:   SFATAL << "Component combination not supported" << std::endl;
@@ -309,16 +309,16 @@ void ClusterViewBuffer::send(Connection &connection,
                 // use compression ?
                 if(_imgTransType)
                 {
+#if 0
                     // set image size
                     pImage = new Image;
 
                     pImage->set(imgformat, tw, th, 1, 1, 1, 0.0,
-                                                    (UChar8 *) &imageData[0],
-                                                    false);
+                                (UChar8 *) &imageData[0]);
 
                     // read buffer data into image
                     glReadPixels(tx, ty, tw, th, glformat, GL_UNSIGNED_BYTE,
-                                                     pImage->getData());
+                                 pImage->getData());
 
                     // bug maxsize is not big enugh
                     data.resize(_imgTransType->maxBufferSize(*pImage) + 1000);
@@ -329,6 +329,7 @@ void ClusterViewBuffer::send(Connection &connection,
                     imgtranssize += dataSize;
 
                     subRefP(pImage);
+#endif
                 }
                 else
                 {

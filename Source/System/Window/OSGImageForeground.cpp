@@ -54,6 +54,7 @@
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 #include "OSGWindow.h"
+#include "OSGImage.h"
 
 #include "OSGImageForeground.h"
 
@@ -127,7 +128,7 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
     
     for(i = 0; i < getPositions().size(); i++)
     {
-        if(getImages(i) != NULL)
+        if(getImages(i) != NullFC)
             break;
     }
     
@@ -163,9 +164,9 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
 
     for(i = 0; i < getPositions().size(); i++)
     {
-        ImageP img = getImages(i);
+        ImagePtr img = getImages(i);
 
-        if(! img)
+        if(img == NullFC)
             continue;
 
         Pnt2f p = getPositions(i);

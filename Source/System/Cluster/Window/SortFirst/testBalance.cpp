@@ -15,6 +15,9 @@
 #include <OSGSkyBackground.h>
 #include <OSGStatCollector.h>
 #include <OSGStatElemTypes.h>
+#include <OSGImage.h>
+#include <OSGImageFileType.h>
+#include <OSGImageFileHandler.h>
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -354,10 +357,11 @@ public:
             Int32 w,h;
             w=_win->getPort(0)->getPixelWidth();
             h=_win->getPort(0)->getPixelHeight();
-            Image *pImage = new Image(Image::OSG_RGB_PF,
+            ImagePtr pImage = Image::create();
+            pImage->set(Image::OSG_RGB_PF,
                         w,h,1,
                         1,1,0.0,
-                        NULL,true);
+                        NULL);
             ImageFileType *imgTransType=ImageFileHandler::the().getFileType("JPEG");
             char filename[256];
             if(imgTransType==NULL)
@@ -371,9 +375,9 @@ public:
             glReadPixels(0,0,w,h,
                          GL_RGB,GL_UNSIGNED_BYTE,
                          pImage->getData());
-            imgTransType->write(*pImage,filename);
+            imgTransType->write(pImage,filename);
 
-            subRefP(pImage);
+            subRefCP(pImage);
         }
         _win->swap();
         _win->frameExit();

@@ -39,6 +39,7 @@
 
 #include <OSGConfig.h>
 
+#include <OSGImage.h>
 #include <OSGTestCubeMaps.h>
 
 
@@ -671,31 +672,31 @@ static unsigned char TestCubeDownData[800] = {
 
 void OSG::setTestCubeImages( CubeTextureChunkPtr chunk )
 {
-    ImageP img;
+    ImagePtr img;
     
     beginEditCP(chunk);
     
-    img = new Image;
+    img = Image::create();
     img->restore(TestCubeFrontData, sizeof(TestCubeFrontData));
     chunk->setImage(img);
     
-    img = new Image;
+    img = Image::create();
     img->restore(TestCubeBackData, sizeof(TestCubeBackData));
     chunk->setPosZImage(img);
        
-    img = new Image;
+    img = Image::create();
     img->restore(TestCubeLeftData, sizeof(TestCubeLeftData));
     chunk->setNegXImage(img);
     
-    img = new Image;
+    img = Image::create();
     img->restore(TestCubeRightData, sizeof(TestCubeRightData));
     chunk->setPosXImage(img);
        
-    img = new Image;
+    img = Image::create();
     img->restore(TestCubeDownData, sizeof(TestCubeDownData));
     chunk->setNegYImage(img);
     
-    img = new Image;
+    img = Image::create();
     img->restore(TestCubeUpData, sizeof(TestCubeUpData));
     chunk->setPosYImage(img);
     

@@ -152,7 +152,7 @@ FontStyle *Text::getFontStyle(void)
     return _fontInstance;
 }
 
-bool Text::fillTXFImage(Image &image)
+bool Text::fillTXFImage(ImagePtr &image)
 {
     Int32   width, height;
     UChar8  *imageMap = NULL;
@@ -165,7 +165,7 @@ bool Text::fillTXFImage(Image &image)
 
     _fontInstance->getTXFImageSizes(width, height);
 
-    image.set(Image::OSG_LA_PF, width, height, 1, 1, 1, 0.0, imageMap, false);
+    image->set(Image::OSG_LA_PF, width, height, 1, 1, 1, 0.0, imageMap);
 
     return true;
 }
@@ -341,7 +341,7 @@ bool Text::fillTXFArrays(std::vector<std::string> &lineVec,
     return true;
 }
 
-bool Text::fillImage(Image & image, 
+bool Text::fillImage(ImagePtr & image, 
                      std::vector<std::string> &lineVec, 
                      Color4ub *fg,
                      Color4ub *bg, 
@@ -628,10 +628,10 @@ bool Text::fillImage(Image & image,
 			pixelFormat = Image::OSG_RGBA_PF;
 		}
 		
-        return image.set( pixelFormat, // Image::OSG_RGB_PF, 
-						  overallWidth, overallHeight, 1, 
-						  1, 
-						  1, 0.0, imageBuffer, false);
+        return image->set( pixelFormat, // Image::OSG_RGB_PF, 
+                           overallWidth, overallHeight, 1, 
+                           1, 
+                           1, 0.0, imageBuffer);
     }
 
     return false;

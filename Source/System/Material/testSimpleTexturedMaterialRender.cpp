@@ -18,6 +18,7 @@
 #include <OSGSimpleGeometry.h>
 #include <OSGFaceIterator.h>
 #include <OSGGLUTWindow.h>
+#include <OSGImage.h>
 
 #include "OSGSimpleTexturedMaterial.h"
 
@@ -78,8 +79,9 @@ void keyboard(unsigned char k, int, int)
                 UChar8 imgdata[] =
                     {  255,255,255,128,  255,0,255,255,  255,255,255,0,
                        255,0,0,128,  0,0,0,255,  0,255,255,0 };
-                Image *pImage = new Image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 
-                                1, 0, imgdata );
+                ImagePtr pImage = Image::create(); 
+                pImage->set( Image::OSG_RGBA_PF, 3, 2, 1, 1, 
+                             1, 0, imgdata );
 
                 beginEditCP(pm, SimpleTexturedMaterial::ImageFieldMask);
                 pm->setImage( pImage ); 
@@ -138,7 +140,8 @@ int main (int argc, char **argv)
     UChar8 imgdata[] =
         {  255,0,0,128,  255,0,0,255,  255,0,255,0,
            255,0,0,128,  255,0,0,255,  255,0,255,0 };
-    Image *pImage = new Image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 1, 0, imgdata );
+    ImagePtr pImage = Image::create();
+    pImage->set( Image::OSG_RGBA_PF, 3, 2, 1, 1, 1, 0, imgdata );
 
     pm->setImage( pImage ); // NOTE: the image is NOT copied, the variable
                             // needs to be kept around as long as the texture
@@ -158,7 +161,8 @@ int main (int argc, char **argv)
     UChar8 imgdata2[] =
         {  255,0,0,  255,0,0,  255,0,255,
            255,0,0,  255,0,0,  255,0,255 };
-    Image *pImage2 = new Image( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata2 );
+    ImagePtr pImage2 = Image::create();
+    pImage2->set( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata2 );
 
     tm->setImage( pImage2 );
     tm->setEnvMode( GL_REPLACE );

@@ -50,6 +50,7 @@
 // Class declarations
 #include "OSGImageFileType.h"
 #include "OSGImageFileHandler.h"
+#include "OSGImageGenericAtt.h"
 #include "OSGLog.h"
 
 OSG_USING_NAMESPACE
@@ -175,7 +176,7 @@ ImageFileType::~ImageFileType(void)
 Abstract restore method. Sould be overwriten by an concrete derived
 class. Tries to restore the image data from the given memblock.
 */
-UInt64 ImageFileType::restoreData(      Image  &OSG_CHECK_ARG(image  ), 
+UInt64 ImageFileType::restoreData(   ImagePtr  &, 
                                   const UChar8 *OSG_CHECK_ARG(buffer ),
                                         Int32   OSG_CHECK_ARG(memSize))
 {
@@ -190,9 +191,9 @@ UInt64 ImageFileType::restoreData(      Image  &OSG_CHECK_ARG(image  ),
 Abstract restore method. Sould be overwriten by an concrete derived
 class. Tries to store the given image data to the given memblock
 */
-UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ), 
-                                      UChar8 *OSG_CHECK_ARG(buffer ),
-                                      Int32   OSG_CHECK_ARG(memSize))
+UInt64 ImageFileType::storeData(const ImagePtr &, 
+                                      UChar8   *OSG_CHECK_ARG(buffer ),
+                                      Int32     OSG_CHECK_ARG(memSize))
 {
   FWARNING(("ImageXFileType::storeData() not impl. for mimeType %s\n",
             getMimeType()));
@@ -205,7 +206,7 @@ UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ),
 Tries to restore the Imagedata from the given memblock. The buffer must
 include a ImageFileType::Head data block.
 */
-UInt64 ImageFileType::restore( Image &image, 
+UInt64 ImageFileType::restore( ImagePtr &image, 
                                const UChar8 *buffer, Int32 memSize)
 {
     unsigned long   imageSize, headSize = sizeof(Head);
@@ -219,44 +220,44 @@ UInt64 ImageFileType::restore( Image &image,
 
     if(head && data && head->netToHost() && (mimeType = head->mimeType))
     {
-      if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
+        if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
         {
-          image.set(Image::PixelFormat(head->pixelFormat), head->width,
-                    head->height, head->depth, head->mipmapCount,
-                    head->frameCount, float(head->frameDelay) / 1000.0, 0);
-          imageSize = type->restoreData(image, data, memSize - headSize);
+            image->set(Image::PixelFormat(head->pixelFormat), head->width,
+                       head->height, head->depth, head->mipmapCount,
+                       head->frameCount, float(head->frameDelay) / 1000.0, 0);
+            imageSize = type->restoreData(image, data, memSize - headSize);
 
-          if ((attachmentSize = head->attachmentSize))
+            if ((attachmentSize = head->attachmentSize))
             {
-              attData = (char*)(buffer + headSize + imageSize);
-              attKey = attData;
-              attValue = 0;
-              for (i = 0; i < (attachmentSize-1); i++) {
-                if (attData[i] == 0) 
-                  if (attKey) {
-                    attValue = &(attData[i+1]);
-                    image.setAttachment (attKey,attValue);
-                    attKey = attValue = 0;
-                  }
-                  else
-                    attKey = &(attData[i+1]);
-              }
-              if (attKey || attValue) {
-                FFATAL (("Attachment restore error\n"));
-              }
+                attData = (char*)(buffer + headSize + imageSize);
+                attKey = attData;
+                attValue = 0;
+                for (i = 0; i < (attachmentSize-1); i++) {
+                    if (attData[i] == 0) 
+                        if (attKey) {
+                            attValue = &(attData[i+1]);
+                            image->setAttachmentField (attKey,attValue);
+                            attKey = attValue = 0;
+                        }
+                        else
+                            attKey = &(attData[i+1]);
+                }
+                if (attKey || attValue) {
+                    FFATAL (("Attachment restore error\n"));
+                }
             }
           
-          size = headSize + imageSize + attachmentSize;
+            size = headSize + imageSize + attachmentSize;
       
-          FDEBUG (( "Restore image data: %lu (%lu/%lu/%lu)\n",
-                  size, headSize, imageSize, attachmentSize ));
+            FDEBUG (( "Restore image data: %lu (%lu/%lu/%lu)\n",
+                      size, headSize, imageSize, attachmentSize ));
 
         }
-      else
+        else
         {
-          imageSize = 0;
-          FWARNING(("Can not restore image data, invalid mimeType: %s\n",
-                    mimeType ? mimeType : "Unknown"));
+            imageSize = 0;
+            FWARNING(("Can not restore image data, invalid mimeType: %s\n",
+                      mimeType ? mimeType : "Unknown"));
         }
 
       
@@ -271,7 +272,7 @@ Tries to store the raster data to the given mem block.
 Will include a ImageFileType::Head description and the data encoded
 as 'mimeType'
 */
-UInt64 ImageFileType::store(const Image &image, const char *mimeType,
+UInt64 ImageFileType::store(const ImagePtr &image, const char *mimeType,
                             UChar8 *buffer, Int32 memSize)
 {
   ImageFileType   *type = ImageFileHandler::the().getFileType(mimeType);
@@ -285,74 +286,90 @@ Tries to store the raster data to the given mem block.
 Will include a ImageFileType::Head description for the derived
 concreate mimeType.
 */
-UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
+UInt64 ImageFileType::store(const ImagePtr &image,
+                            UChar8 *buffer, Int32 memSize)
 {
-  Head            *head;
-  unsigned long   dataSize = 0, headSize = sizeof(Head);
-  unsigned long   attachmentSize;
-  UChar8          *dest;
-  const UChar8    *src = image.getData();
-  std::map<std::string, std::string>::const_iterator aI;
-  unsigned int    i,l;
-  attachmentSize = 0;
+    Head            *head;
+    unsigned long   dataSize = 0, headSize = sizeof(Head);
+    unsigned long   attachmentSize;
+    UChar8          *dest;
+    const UChar8    *src = image->getData();
+    std::map<std::string, std::string>::const_iterator aI;
+    unsigned int    i,l;
+    std::string     value;
 
-  for ( aI = image._attachmentMap.begin();
-        aI != image._attachmentMap.end(); ++aI )
+    attachmentSize = 0;
+
+    // get attachment size
+    ImageGenericAttPtr att=ImageGenericAttPtr::dcast(
+        const_cast<Image*>(image.getCPtr())->findAttachment(
+            ImageGenericAtt::getClassType().getGroupId()));
+    if(att != NullFC)
     {
-      l = aI->first.length();
-      attachmentSize += l + 1;
-      l = aI->second.length();
-      attachmentSize += l + 1;
-    }
-  
-  if (buffer) 
-    {
-      head = (Head *)buffer;
-
-      head->pixelFormat    = image.getPixelFormat();
-      head->width          = image.getWidth();
-      head->height         = image.getHeight();
-      head->depth          = image.getDepth();
-      head->mipmapCount    = image.getMipMapCount();
-      head->frameCount     = image.getFrameCount();
-      head->frameDelay     = short(image.getFrameDelay() * 1000.0);
-      head->attachmentSize = attachmentSize;
-      head->hostToNet();
-      
-      strcpy(head->mimeType, getMimeType());
-      
-      dest = (UChar8 *) (buffer + headSize);
-
-      if (src) 
-        dataSize = storeData(image, dest, memSize - headSize);
-
-      dest = (UChar8 *) (buffer + headSize + dataSize);
-
-      if (attachmentSize) 
+        for(i = 0; i < (att->getType().getNumFieldDescs()-1); ++i)
         {
-          for ( aI = image._attachmentMap.begin();
-                aI != image._attachmentMap.end(); ++aI )
-            {
-              l = aI->first.length();
-              for (i = 0; i < l; i++)
-                *dest++ = aI->first[i];
-              *dest++ = 0;
-              l = aI->second.length();
-              for (i = 0; i < l; i++)
-                *dest++ = aI->second[i];
-              *dest++ = 0;
-            }
-        }     
-      
-      FDEBUG (( "Store image data: %lu (%lu/%lu/%lu)\n",
-              headSize + dataSize + attachmentSize, headSize, dataSize, 
-              attachmentSize ));
+            FieldDescription *fieldDesc=att->getType().getFieldDescription(i);
+            Field *field=att->getField(i);
+            field->getValueByStr(value);
+            attachmentSize += strlen( fieldDesc->getName().str() ) + 1;
+            attachmentSize += value.length() + 1;
+            
+            std::cout << fieldDesc->getName().str() << std::endl; 
+            std::cout << value << std::endl; 
+        }
     }
-  else {
-    FFATAL (("Invalid buffer in ImageFileType::store()\n"));
-  }
+
+    if (buffer) 
+    {
+        head = (Head *)buffer;
+
+        head->pixelFormat    = image->getPixelFormat();
+        head->width          = image->getWidth();
+        head->height         = image->getHeight();
+        head->depth          = image->getDepth();
+        head->mipmapCount    = image->getMipMapCount();
+        head->frameCount     = image->getFrameCount();
+        head->frameDelay     = short(image->getFrameDelay() * 1000.0);
+        head->attachmentSize = attachmentSize;
+        head->hostToNet();
+      
+        strcpy(head->mimeType, getMimeType());
+      
+        dest = (UChar8 *) (buffer + headSize);
+
+        if (src) 
+            dataSize = storeData(image, dest, memSize - headSize);
+
+        dest = (UChar8 *) (buffer + headSize + dataSize);
+
+        if(att != NullFC)
+        {
+            for(i = 0; i < (att->getType().getNumFieldDescs()-1); ++i)
+            {
+                FieldDescription *fieldDesc=att->getType().getFieldDescription(i);
+                Field *field=att->getField(i);
+                field->getValueByStr(value);
+
+                l = strlen( fieldDesc->getName().str() );
+                for (i = 0; i < l; i++)
+                    *dest++ = fieldDesc->getName().str()[i];
+                *dest++ = 0;
+                l = value.length();
+                for (i = 0; i < l; i++)
+                    *dest++ = value[i];
+                *dest++ = 0;
+            }
+        }
+
+        FDEBUG (( "Store image data: %lu (%lu/%lu/%lu)\n",
+                  headSize + dataSize + attachmentSize, headSize, dataSize, 
+                  attachmentSize ));
+    }
+    else {
+        FFATAL (("Invalid buffer in ImageFileType::store()\n"));
+    }
   
-  return (headSize + dataSize + attachmentSize);
+    return (headSize + dataSize + attachmentSize);
 
 }
 
@@ -361,29 +378,39 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 Returns the max buffer size needed to store the Image (Head + mimeType
 specific data block)
 */
-UInt64 ImageFileType::maxBufferSize(const Image &image)
+UInt64 ImageFileType::maxBufferSize(const ImagePtr &image)
 {
-  unsigned long size, attachmentSize, l;
-  unsigned long imageSize = image.getSize(), headSize = sizeof(Head);
+    UInt32 i;
+    std::string value;
+    unsigned long size, attachmentSize;
+    unsigned long imageSize = image->getSize(), headSize = sizeof(Head);
 
-  std::map<std::string, std::string>::const_iterator aI;
+    std::map<std::string, std::string>::const_iterator aI;
 
-  attachmentSize = 0;
-  for ( aI = image._attachmentMap.begin();
-        aI != image._attachmentMap.end(); ++aI )
+    attachmentSize = 0;
+
+    // get attachment size
+    ImageGenericAttPtr att=ImageGenericAttPtr::dcast(
+        const_cast<Image*>(image.getCPtr())->findAttachment(
+            ImageGenericAtt::getClassType().getGroupId()));
+    if(att != NullFC)
     {
-      l = aI->first.length();
-      attachmentSize += l + 1;
-      l = aI->second.length();
-      attachmentSize += l + 1;
+        for(i = 0; i < (att->getType().getNumFieldDescs()-1); ++i)
+        {
+            FieldDescription *fieldDesc=att->getType().getFieldDescription(i);
+            Field *field=att->getField(i);
+            field->getValueByStr(value);
+            attachmentSize += strlen( fieldDesc->getName().str() ) + 1;
+            attachmentSize += value.length() + 1;
+        }
     }
+
+    size = headSize + imageSize + attachmentSize;
   
-  size = headSize + imageSize + attachmentSize;
+    FINFO (( "ImageFileType::maxBufferSize(): %lu (%lu/%lu/%lu)\n", 
+             size, headSize, imageSize, attachmentSize ));
   
-  FINFO (( "ImageFileType::maxBufferSize(): %lu (%lu/%lu/%lu)\n", 
-          size, headSize, imageSize, attachmentSize ));
-  
-  return size;
+    return size;
 }
 
 //-------------------------------------------------------------------------

@@ -683,9 +683,9 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
   std::string elem;
   std::map<std::string, MaterialElem>::const_iterator elemI;
   MaterialElem mtlElem;
-  std::map<std::string, OSG::Image*> imageMap;
-  std::map<std::string, OSG::Image*>::iterator iI;
-  Image *image = 0;
+  std::map<std::string, OSG::ImagePtr> imageMap;
+  std::map<std::string, OSG::ImagePtr>::iterator iI;
+  ImagePtr image = NullFC;
   bool constDiffuse, constAmbient, constSpecular;
 
   if (in)
@@ -758,7 +758,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
               case MTL_MAP_KD_ME:
               case MTL_MAP_KA_ME:
               case MTL_MAP_KS_ME:
-                image = 0;
+                image = NullFC;
                 in >> elem;                
                 iI = imageMap.find(elem);
                 if (iI == imageMap.end())
@@ -771,7 +771,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 {
                   image = iI->second;
                 }
-                if (image) {
+                if (image != NullFC) {
                   mtlPtr->setImage(image);
                   switch (mtlElem) {
                   case MTL_MAP_KD_ME:

@@ -75,9 +75,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PNMImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (Image &image, const Char8 *fileName);
+    virtual bool read  (ImagePtr &image, const Char8 *fileName);
 
-    virtual bool write (const Image &image, const Char8 *fileName);
+    virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 

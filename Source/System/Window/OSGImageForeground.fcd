@@ -12,7 +12,7 @@
 Background is the base class for all background clearing. 
 	<Field
 		name="images"
-		type="ImageP"
+		type="ImagePtr"
 		cardinality="multi"
 		visibility="external"
 		access="public"
