@@ -357,7 +357,7 @@ endif
 
 ifeq ($(IN_TEST_DIR),1)
 
-depend_i: $(TEST_DEPS)
+depend_i: $(LIB_TESTQTTARGET_DEPS) $(TEST_DEPS)
 
 else
 
@@ -470,6 +470,6 @@ ifeq ($(SUB_JOB), build)
 endif
 else
 ifeq ($(SUB_JOB), build)
--include $(TEST_DEPS)
+-include $(TEST_DEPS) $(LIB_TESTQTTARGET_DEPS)
 endif
 endif
