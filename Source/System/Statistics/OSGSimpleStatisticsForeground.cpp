@@ -131,7 +131,9 @@ void SimpleStatisticsForeground::initText(void)
 {
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
-    std::istringstream stream((char *) StatisticsDefaultFontData,
+    std::string fontstring((char *) StatisticsDefaultFontData,
+                                    StatisticsDefaultFontDataSize);
+    std::istringstream stream(fontstring,
                                   std::istringstream::in | std::istringstream::out);
 #else
     std::istrstream stream((char *) StatisticsDefaultFontData,
