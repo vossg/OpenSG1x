@@ -741,7 +741,7 @@ ValueTypeT QuaternionBase<ValueTypeT>::w(void) const
 //! Returns the 4 dimensional euclidian length of the quaternion
 
 template <class ValueTypeT> inline
-ValueTypeT QuaternionBase<ValueTypeT>::length(void)
+ValueTypeT QuaternionBase<ValueTypeT>::length(void) const
 {
     return osgsqrt(_quat[0] * _quat[0] +
                    _quat[1] * _quat[1] +

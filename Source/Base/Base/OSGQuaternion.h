@@ -179,7 +179,7 @@ class QuaternionBase
     /*! \name                    Simple Math                               */
     /*! \{                                                                 */
 
-          ValueTypeT      length    (void                        );
+          ValueTypeT      length    (void                        ) const;
           void            normalize (void                        );
 
           void            invert    (void                        );
