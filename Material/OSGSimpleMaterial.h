@@ -115,8 +115,9 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
 
     /*----------------------------- dump ----------------------------------*/
 
-    virtual void dump(void) const;
- 
+     virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
+
     /*------------------------- your_category -------------------------------*/
 
 

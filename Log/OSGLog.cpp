@@ -225,7 +225,7 @@ void Log::setLogType(LogType logType)
 		{				
 			for(i = 0; typenames[i]; i++)
             {
-				if( ! osgstrcasecmp(et, typenames[i] ))
+				if( ! stringcasecmp(et, typenames[i] ))
 				{
 					_logType = types[i];
 					break;
@@ -293,7 +293,7 @@ void Log::setLogLevel(LogLevel logLevel)
 				
 			for(i = 0; levelnames[i]; i++)
             {
-				if( ! osgstrcasecmp(el, levelnames[i] ))
+				if( ! stringcasecmp(el, levelnames[i] ))
 				{
 					_logLevel = levels[i];
 					break;

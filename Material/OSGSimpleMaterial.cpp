@@ -96,7 +96,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.6 2001/02/12 02:11:01 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.7 2001/02/12 16:12:22 vossg Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 
@@ -358,7 +358,7 @@ void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 	Color4f v4;
 	float alpha = 1.f - getTransparency();
 	
-	osgBeginEditCP( _materialChunk );
+	beginEditCP( _materialChunk );
 	
 	v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setAmbient( v4 );
@@ -370,7 +370,7 @@ void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setEmission( v4 );
 	
-	osgEndEditCP( _materialChunk );
+	endEditCP( _materialChunk );
 
 	state->addChunk( _materialChunk );
 	
@@ -384,14 +384,15 @@ void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 
 	state->deactivate( action );
 
-	osgSubRefCP( state );
+	subRefCP( state );
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
 /*------------------------------- dump ----------------------------------*/
 
-void SimpleMaterial::dump(void) const
+void SimpleMaterial::dump(      UInt32     uiIndent, 
+                          const BitVector &bvFlags) const
 {
     SDEBUG << "SimpleMaterial at " << this << endl;
 	PDEBUG << "\tambient: " << getAmbient() << endl;
