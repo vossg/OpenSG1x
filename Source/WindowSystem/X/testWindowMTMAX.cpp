@@ -120,7 +120,7 @@ void doCamTrans (UInt32 )
 }
 
 
-void *drawThreadProc (void *arg) 
+void drawThreadProc (void *arg) 
 {               
     int            my_id = (int) arg;
     XWindowPtr my_win = win[my_id];
