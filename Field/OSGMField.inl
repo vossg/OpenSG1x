@@ -276,7 +276,7 @@ const FieldType &MField<FieldTypeT, fieldNameSpace>::getClassType(void)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 Field *MField<FieldTypeT, fieldNameSpace>::create(void) 
 {
-    return new MField<FieldTypeT>(); 
+    return new MField<FieldTypeT, fieldNameSpace>(); 
 }
 
 /***************************************************************************\
@@ -377,7 +377,7 @@ void MField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValues(*((MField<FieldTypeT> *) &obj));
+        setValues(*((MField<FieldTypeT, fieldNameSpace> *) &obj));
     }
 }
 
@@ -405,7 +405,7 @@ void MField<FieldTypeT, fieldNameSpace>::setValues(const StorageType &value)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValues(
-    const MField<FieldTypeT> &obj)
+    const MField<FieldTypeT, fieldNameSpace> &obj)
 {
     _values = obj._values;
 }
@@ -649,9 +649,9 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     FieldTypeT  tmpVal;
 
-    typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
+    typedef osgIF< (MFieldTraits::StringConvertable &
                     Traits::FromStringConvertable), 
-                  FieldDataTraits<FieldTypeT>, 
+                  MFieldTraits, 
                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::getFromString(tmpVal, str);
@@ -697,7 +697,7 @@ void MField<FieldTypeT, fieldNameSpace>::dump(void) const
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::doSync(Field *source)
 {
-    setValues(*((MField<FieldTypeT> *) source));
+    setValues(*((MField<FieldTypeT, fieldNameSpace> *) source));
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

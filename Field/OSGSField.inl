@@ -125,7 +125,7 @@ const FieldType &SField<FieldTypeT, fieldNameSpace>::getClassType(void)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 Field *SField<FieldTypeT, fieldNameSpace>::create(void) 
 {
-    return new SField<FieldTypeT>(); 
+    return new SField<FieldTypeT, fieldNameSpace>(); 
 }
 
 /***************************************************************************\
@@ -205,7 +205,7 @@ void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValue(*((SField<FieldTypeT> *) &obj));
+        setValue(*((SField<FieldTypeT, fieldNameSpace> *) &obj));
     }
 }
 
@@ -223,7 +223,8 @@ void SField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, 
-            fieldNameSpace>::setValue(const SField<FieldTypeT> &obj)
+            fieldNameSpace>::setValue(const SField<FieldTypeT, 
+                                                   fieldNameSpace> &obj)
 {
     _value = obj._value;
 }
@@ -282,9 +283,9 @@ void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 String &SField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
 {
-    typedef osgIF< (FieldDataTraits<FieldTypeT>::StringConvertable &
+    typedef osgIF< (SFieldTraits::StringConvertable &
                     Traits::ToStringConvertable), 
-                  FieldDataTraits<FieldTypeT>, 
+                  SFieldTraits, 
                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::putToString(_value, string);
@@ -311,7 +312,7 @@ void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::doSync(Field *source)
 {
-    setValue(*((SField<FieldTypeT> *) source));
+    setValue(*((SField<FieldTypeT, fieldNameSpace> *) source));
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

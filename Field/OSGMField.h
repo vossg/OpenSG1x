@@ -296,10 +296,10 @@ class OSG_FIELD_DLLMAPPING MField : public Field
 
     void setAbstrValue(const Field &obj);
 
-    void setValue (const FieldTypeT            &value,
-                   const UInt32                 index);
-    void setValues(const StorageType           &value);
-	void setValues(const MField<FieldTypeT> &obj  );
+    void setValue (const FieldTypeT                         &value,
+                   const UInt32                              index);
+    void setValues(const StorageType                        &value);
+	void setValues(const MField<FieldTypeT, fieldNameSpace> &obj  );
 
     /*------------------------- container interface -------------------------*/
 

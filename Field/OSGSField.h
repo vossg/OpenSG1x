@@ -125,8 +125,8 @@ class OSG_FIELD_DLLMAPPING SField : public Field
 
     void setAbstrValue(const Field &obj);
 
-    void setValue(const        FieldTypeT  &value);
-	void setValue(const SField<FieldTypeT> &obj  );
+    void setValue(const        FieldTypeT                  &value);
+	void setValue(const SField<FieldTypeT, fieldNameSpace> &obj  );
 
     /*----------------------- field information -----------------------------*/
 
