@@ -965,9 +965,9 @@ void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
                     src[2] * _matrix[2][3] +
                              _matrix[3][3];
 
-    if( w < Eps && w > -Eps)
+    if( w == 0.0f )
     {
-        SINFO << "multFullMatrixPnt: w < Eps!" << std::endl;
+        SINFO << "multFullMatrixPnt: w == 0.0f!" << std::endl;
 
         dst.setValues(0, 0, 0);
 
@@ -1111,9 +1111,9 @@ void TransformationMatrix<ValueTypeT>::multPntFullMatrix(
                     src[2] * _matrix[3][2] +
                              _matrix[3][3];
 
-    if( w < Eps && w > -Eps)
+    if( w == 0.0f )
     {
-        SINFO << "multFullMatrixPnt: w < Eps!" << std::endl;
+        SINFO << "multFullMatrixPnt: w == 0.0f!" << std::endl;
 
         dst.setValues(0, 0, 0);
 
