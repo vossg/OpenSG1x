@@ -339,6 +339,7 @@ void VRMLAppearanceBinder::setTexture(TextureChunkPtr pTex)
         
         // check for alpha
         ImagePtr img = pTex->getImage();
+
         if(img != NullFC && img->getBpp() == 4)
             _has_alpha = true;
     }
@@ -368,7 +369,31 @@ void VRMLAppearanceBinder::finish(VRMLToOSGAction *)
     ChunkMaterialPtr pChunkMat = 
         ChunkMaterialPtr::dcast(_pFieldContainer);
 
-    if(pChunkMat != NullFC && (pChunkMat->isTransparent() == true || _has_alpha))
+    TextureChunkPtr pTexChunk = 
+        TextureChunkPtr::dcast(pChunkMat->find(TextureChunk::getClassType()));
+    
+    if(pTexChunk == NullFC)
+        return;
+    
+    MaterialChunkPtr pMatChunk = 
+        MaterialChunkPtr::dcast(
+            pChunkMat->find(MaterialChunk::getClassType()));
+    
+    beginEditCP(pTexChunk, TextureChunk::EnvModeFieldMask);
+    {
+        if(pMatChunk == NullFC)
+        {
+            pTexChunk->setEnvMode(GL_REPLACE);
+        }
+        else
+        {
+            pTexChunk->setEnvMode(GL_MODULATE);
+        }
+    }
+    endEditCP  (pTexChunk, TextureChunk::EnvModeFieldMask);
+
+    if(pChunkMat != NullFC && (pChunkMat->isTransparent() == true || 
+                               _has_alpha))
     {
         BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
 
