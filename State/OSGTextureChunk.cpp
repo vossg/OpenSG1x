@@ -68,7 +68,7 @@ The texture chunk class.
 
 */
 
-/***************************************************************************\
+/****************************************************************e***********\
  *                               Types                                     *
 \***************************************************************************/
 
@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.17 2001/09/01 19:10:03 jbehr Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.18 2001/09/09 14:20:18 dirk Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -172,7 +172,7 @@ void TextureChunk::changed(BitVector fields, ChangeMode)
     {
     	Window::refreshGLObject( getGLId() );
     }
-    if ( fields & ImageFieldMask )
+    else
     {
     	Window::reinitializeGLObject( getGLId() );
     }
@@ -260,8 +260,10 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
 		// for reinitialization
 		ImageP img = getImage();
 		
-		if ( ! img ) // no image ?
+		if ( ! img || ! img->getDimension() ) // no image ?
 			return;
+		
+		glErr( "TextureChunk::initialize precheck" );
 			
 		GLenum target;		
 		if ( img->getDepth() > 1 )			
@@ -634,8 +636,10 @@ void TextureChunk::activate ( DrawActionBase *action, UInt32 )
 	ImageP img = getImage();
 	GLenum target;		
 
-  if ( ! img ) // no image ?
+  if ( ! img || ! img->getDimension() ) // no image ?
     return;
+		
+	glErr( "TextureChunk::activate precheck" );
 
 	if ( img->getDepth() > 1 )			
 	{
@@ -676,8 +680,10 @@ void TextureChunk::changeFrom( DrawActionBase *action, StateChunk * old, UInt32 
 	ImageP img = getImage();
 	GLenum target, oldtarget;		
 
-	if ( ! img )
+	if ( ! img || ! img->getDimension() )
 	  return;
+		
+	glErr( "TextureChunk::changeFrom precheck" );
 
 	if ( img->getDepth() > 1 )			
 	{
@@ -722,8 +728,10 @@ void TextureChunk::deactivate ( DrawActionBase *, UInt32 )
 	ImageP img = getImage();
 	GLenum target;		
 
-  if ( ! img ) // no image ?
-    return;
+	if ( ! img || ! img->getDimension() )
+	  return;
+		
+	glErr( "TextureChunk::deactivate precheck" );
 
 	if ( img->getDepth() > 1 )			
 	{
