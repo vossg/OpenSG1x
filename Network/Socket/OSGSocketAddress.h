@@ -42,9 +42,7 @@
 #pragma once
 #endif
 
-#ifdef WIN32
-#include <Winsock2.h>  
-#else
+#ifndef WIN32
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>

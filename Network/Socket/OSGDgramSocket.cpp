@@ -43,7 +43,9 @@
 #include <sys/types.h>
 #ifdef WIN32
 #include <windows.h>
+#ifndef IP_ADD_MEMBERSHIP // VS.Net defines this within winsock2.h
 #include <WS2TCPIP.h>
+#endif
 #include <io.h>
 #else
 #include <sys/socket.h>

@@ -43,7 +43,6 @@
 #include <string.h>
 #ifdef WIN32
 #include <windows.h>
-#include <WS2TCPIP.h>
 #include <io.h>
 #else
 #include <sys/types.h>
