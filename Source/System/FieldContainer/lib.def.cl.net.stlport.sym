@@ -159,8 +159,19 @@
     ?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@$0A@@2@XZ
 
     ?getValue@?$SField@V?$map@IVAttachmentPtr@osg@@U?$less@I@_STL@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@_STL@@@4@@_STL@@$0A@@osg@@QAEAAV?$map@IVAttachmentPtr@osg@@U?$less@I@_STL@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@_STL@@@4@@_STL@@XZ
+    ?getValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEAAV?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@2@XZ
+    ?setValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXABV?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@2@@Z
+    ?setValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImageComposer@2@@osg@@$0A@@osg@@QAEXABV?$FCPtr@VAttachmentContainerPtr@osg@@VImageComposer@2@@2@@Z
+
+    ??0?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAE@XZ
+    ??1?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@UAE@XZ
 
     ?begin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEPAVFieldContainerPtr@2@XZ
     ?end@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEPAVFieldContainerPtr@2@XZ
     ?rbegin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@PAVFieldContainerPtr@osg@@V12@AAV12@PAV12@H@_STL@@XZ
     ?rend@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@PAVFieldContainerPtr@osg@@V12@AAV12@PAV12@H@_STL@@XZ
+
+    ?copyFromBin@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?copyToBin@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+
+    ?addValue@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXABVNodePtr@2@@Z

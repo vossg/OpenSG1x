@@ -8,4 +8,7 @@
 
     ??A?$MField@_N$01@osg@@QAE?AU_Bit_reference@_STL@@I@Z
 
-
+    ?getSize@?$MField@_N$01@osg@@UBEIXZ
+    ?setValue@?$MField@_N$01@osg@@QAEX_NI@Z
+    ?getValue@?$MField@_N$01@osg@@QAE?AU_Bit_reference@_STL@@I@Z
+    ?addValue@?$MField@_N$01@osg@@QAEX_N@Z
