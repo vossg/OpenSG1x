@@ -584,25 +584,29 @@ void VRMLElevationGridBinder::finish(VRMLToOSGAction *pAction)
 
     GeoPositions3fPtr pCoords = GeoPositions3f::create();
 
-    pCoords->getFieldPtr()->resize (iXDim * iZDim);
-
-    vCoordIndex            .reserve(iXDim * iZDim);
-
-    for(i = 0; i < iXDim; ++i)
+    beginEditCP(pCoords);
     {
-        for(j = 0; j < iZDim; ++j)
-        {
-            (*(pCoords->getFieldPtr()))[i + j * iXDim][0] = 
-                rXSpacing * Real32(i);
+        pCoords->getFieldPtr()->resize(iXDim * iZDim);
 
-            (*(pCoords->getFieldPtr()))[i + j * iXDim][1] = 
-                (*pHeight)[i + j * iXDim];
-            
-            (*(pCoords->getFieldPtr()))[i + j * iXDim][2] = 
-                rZSpacing * Real32(j);
+        for(i = 0; i < iXDim; ++i)
+        {
+            for(j = 0; j < iZDim; ++j)
+            {
+                (*(pCoords->getFieldPtr()))[i + j * iXDim][0] = 
+                    rXSpacing * Real32(i);
+                
+                (*(pCoords->getFieldPtr()))[i + j * iXDim][1] = 
+                    (*pHeight)[i + j * iXDim];
+                
+                (*(pCoords->getFieldPtr()))[i + j * iXDim][2] = 
+                    rZSpacing * Real32(j);
+            }
         }
     }
+    endEditCP  (pCoords);
 
+    vCoordIndex.reserve(iXDim * iZDim);
+        
     for(i = 0; i < iXDim - 1; ++i)
     {
         for(j = 0; j < iZDim - 1; ++j)

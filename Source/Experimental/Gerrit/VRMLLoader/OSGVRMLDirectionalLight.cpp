@@ -271,7 +271,7 @@ void VRMLDirectionalLightBinder::finish(VRMLToOSGAction *pAction)
     {
         pBeaconNode->setCore(pBeaconCore);
     }
-    endEditCP  (pBeaconCore, Node::CoreFieldMask);
+    endEditCP  (pBeaconNode, Node::CoreFieldMask);
 
     _pFieldContainer = pBeaconNode;
 

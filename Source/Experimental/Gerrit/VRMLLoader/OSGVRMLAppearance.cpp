@@ -310,7 +310,11 @@ void VRMLAppearanceBinder::setTexture(TextureChunkPtr pTex)
 
     if(pChunkMat != NullFC)
     {
-        pChunkMat->addChunk(pTex);
+        beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
+        {
+            pChunkMat->addChunk(pTex);
+        }
+        endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
     }
 }
 
@@ -325,23 +329,37 @@ void VRMLAppearanceBinder::setTextureTransform(
 
     if(pChunkMat != NullFC)
     {
-        pChunkMat->addChunk(pTexTrans);
+        beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
+        {
+            pChunkMat->addChunk(pTexTrans);
+        }
+        endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
     }
 }
 
 void VRMLAppearanceBinder::finish(VRMLToOSGAction *)
 {
-    BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
-
     ChunkMaterialPtr pChunkMat = 
         ChunkMaterialPtr::dcast(_pFieldContainer);
 
-    pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
-    pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
-    
     if(pChunkMat != NullFC)
     {
-        pChunkMat->addChunk(pBlendChunk);
+        BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
+
+        beginEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask | 
+                                 BlendChunk::DestFactorFieldMask);
+        {
+            pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
+            pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+        }
+        endEditCP  (pBlendChunk, BlendChunk::SrcFactorFieldMask | 
+                                 BlendChunk::DestFactorFieldMask);
+
+        beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
+        {
+            pChunkMat->addChunk(pBlendChunk);
+        }
+        endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
     }
 }
 
