@@ -481,6 +481,119 @@ struct FieldDataTraits<DynamicVolume> :
         outVal.append( " ]" );
                     
     }
+
+    static UInt32 getBinSize(const DynamicVolume  &oObject)
+    {
+        DynamicVolume::Type type=oObject.getType();
+        UInt32 size=sizeof(type);
+        switch( type )
+        {
+        case DynamicVolume::BOX_VOLUME : 
+            size+= sizeof(Pnt3f) + sizeof(Pnt3f);
+            break;
+        case DynamicVolume::SPHERE_VOLUME :
+            size+= sizeof(Pnt3f) + sizeof(float);
+            break;
+        default :
+            SWARNING << "Unknown volume type in getBinSize" << endl;
+        }
+        return sizeof(size);
+    }
+
+    static UInt32 getBinSize(const DynamicVolume *pObjectStore,
+                                   UInt32         uiNumObjects)
+    {
+        UInt32 size=0;
+
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            size += getBinSize(pObjectStore,uiNumObjects);
+        }
+
+        return size;
+    }
+
+    static void copyToBin(      BinaryDataHandler   &pMem, 
+                          const DynamicVolume       &oObject)
+    {
+        DynamicVolume::Type type=oObject.getType();
+        pMem.put(&type,sizeof(type));
+        switch( type )
+        {
+        case DynamicVolume::BOX_VOLUME : 
+        {
+            const BoxVolume   &bVol = dynamic_cast<const BoxVolume&>(
+                oObject.getInstance());
+            pMem.put(&bVol.getMin(),sizeof(Pnt3f));
+            pMem.put(&bVol.getMax(),sizeof(Pnt3f));
+            break;
+        }
+        case DynamicVolume::SPHERE_VOLUME :
+        {
+            const SphereVolume &sVol = dynamic_cast<const SphereVolume&>(
+                oObject.getInstance());
+            float radius=sVol.getRadius();
+            pMem.put(&sVol.getCenter(),sizeof(Pnt3f));
+            pMem.put(&radius,sizeof(radius));
+        }
+        default:
+            SWARNING << "Unknown volume type in copyToBin" << endl;
+        }
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const DynamicVolume     *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            DynamicVolume     &oObject)
+    {
+        DynamicVolume::Type type;
+        pMem.get(&type,sizeof(type));
+        oObject.setVolumeType(type);
+        switch( type )
+        {
+        case DynamicVolume::BOX_VOLUME : 
+        {
+            BoxVolume   &bVol = dynamic_cast<BoxVolume&>(
+                oObject.getInstance());
+            Pnt3f min,max;
+            pMem.get(&min,sizeof(Pnt3f));
+            pMem.get(&max,sizeof(Pnt3f));
+            bVol.setBounds(min,max);
+            break;
+        }
+        case DynamicVolume::SPHERE_VOLUME :
+        {
+            SphereVolume &sVol = dynamic_cast<SphereVolume&>(
+                oObject.getInstance());
+            Pnt3f center;
+            float radius;
+            pMem.get(&center,sizeof(Pnt3f));
+            pMem.get(&radius,sizeof(float));
+            sVol.setCenter(center);
+            sVol.setRadius(radius);
+        }
+        default:
+            SWARNING << "Unknown volume type in copyFronBin" << endl;
+        }
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            DynamicVolume     *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyFromBin(pMem, pObjectStore[i]);
+        }
+    }
 };
 
 template <>
