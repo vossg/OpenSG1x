@@ -88,6 +88,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
     virtual Bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Updates                                   */
+    /*! \{                                                                 */
+
+    inline void imageChanged(void);
+
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -132,6 +139,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterial.inl>
 #include <OSGSimpleTexturedMaterialBase.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.3 2001/10/15 07:05:36 vossg Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.4 2001/10/16 13:19:29 dirk Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

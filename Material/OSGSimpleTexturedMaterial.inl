@@ -42,7 +42,20 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! As the image data can be manipulated by the user at any time, the system 
+    cannot when that happens. Thus it has to be informed by the application 
+    when the texture data has chnaged and the texture needs to be rebuild.
+    
+    That's what imageChanged is for.
+ */
+
+void SimpleTexturedMaterial::imageChanged(void)
+{
+    _textureChunk->imageContentChanged();
+}
+
+
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.inl,v 1.1 2001/10/06 18:01:26 dirk Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.inl,v 1.2 2001/10/16 13:19:39 dirk Exp $"
 
