@@ -122,7 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TGAImageFileType : public ImageFileType
 
     void readHeader(std::istream &in, TGAHeader &header);
 
-    bool readCompressedImageData(std::istream &in, Image &image, TGAHeader &header);
+    bool readCompressedImageData(std::istream &in, Image &image);
 
     typedef ImageFileType Inherited;
 

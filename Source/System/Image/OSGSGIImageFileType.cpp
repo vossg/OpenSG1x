@@ -45,6 +45,8 @@
 
 #include "OSGConfig.h"
 
+#include "OSGBaseFunctions.h"
+
 #include <iostream>
 #include <fstream>
 
@@ -176,28 +178,13 @@ ConvertLong(unsigned *array, unsigned long length)
 
 static ImageRec *ImageOpen(const char *fileName)
 {
-    union 
-    {
-        int testWord;
-        char testByte[4];
-    } endianTest;
-
     ImageRec *image   = NULL;
     FILE     *pInFile = NULL;
 
     int swapFlag;
     int x;
 
-    endianTest.testWord = 1;
-
-    if (endianTest.testByte[0] == 1) 
-    {
-        swapFlag = 1;
-    } 
-    else 
-    {
-        swapFlag = 0;
-    }
+    swapFlag = !osgIsBigEndian();
 
     if((pInFile = fopen(fileName, "rb")) == NULL) 
     {

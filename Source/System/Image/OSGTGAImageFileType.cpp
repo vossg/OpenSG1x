@@ -104,8 +104,7 @@ void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
     }
 }
 
-bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image, 
-                                                TGAImageFileType::TGAHeader &header)
+bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image)
 {
     UInt32 npix = image.getWidth() * image.getHeight();
     UInt8   rep;
@@ -244,7 +243,7 @@ bool TGAImageFileType::read(      Image &image,
     // read image data
     if(compressed)
     {
-        if(!readCompressedImageData(in, image, header))
+        if(!readCompressedImageData(in, image))
         {
             FWARNING(("Unsupported image type for TGA file %s!\n", fileName));
             return false; 
@@ -252,7 +251,8 @@ bool TGAImageFileType::read(      Image &image,
     }
     else
     {
-        in.read(reinterpret_cast<char *>(image.getData()), image.getSize());
+        in.read(reinterpret_cast<char *>(image.getData()), 
+                static_cast<int>(image.getSize()));
     }
 
     // check origin
@@ -288,8 +288,8 @@ bool TGAImageFileType::read(      Image &image,
     return true;
 }
 
-bool TGAImageFileType::write(const Image &image,
-                             const Char8 *fileName)
+bool TGAImageFileType::write(const Image &OSG_CHECK_ARG(image),
+                             const Char8 *OSG_CHECK_ARG(fileName))
 {
     SWARNING <<
         getMimeType() <<
