@@ -525,9 +525,11 @@ OSG_USING_STD_NAMESPACE
 
 #endif /* OSG_USE_PTHREADS */
 
-#if defined (OSG_USE_WINTHREADS)
+#ifndef _OSG_HAVE_CONFIGURED_H_
+#   if defined (OSG_USE_WINTHREADS)
 //#define OSG_ASPECT_USE_LOCALSTORAGE
-#define OSG_ASPECT_USE_DECLSPEC
+#   define OSG_ASPECT_USE_DECLSPEC
+#   endif
 #endif
 
 #define OSG_COMPILETIME_NUM_ASPECTS
@@ -544,7 +546,9 @@ OSG_USING_STD_NAMESPACE
 #define OSG_APIENTRY
 #else
 #define OSG_APIENTRY APIENTRY
-//#define OSG_BOOL_IS_UNSIGNED
+#ifndef _OSG_HAVE_CONFIGURED_H_
+//#   define OSG_BOOL_IS_UNSIGNED
+#endif
 #endif
 
 
@@ -737,6 +741,10 @@ OSG_USING_STD_NAMESPACE
 #elif defined (__sgi)
 #else
 #error Could not determine system
+#endif
+
+#ifdef _OSG_HAVE_CONFIGURED_H_
+#include <OSGConfigured.h>
 #endif
 
 #endif /* _OSGCONFIG_H_ */
