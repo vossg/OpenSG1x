@@ -587,6 +587,6 @@ std::vector<Plane>    TileGeometryLoad::_directions;
 namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id:$";
-    static Char8 cvsid_hpp[] = OSG_TILE_GEOMETRY_LOADHEADER_CVSID;
-    static Char8 cvsid_inl[] = OSG_TILE_GEOMETRY_LOADINLINE_CVSID;
+    static Char8 cvsid_hpp[] = OSGTILEGEOMETRYLOAD_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGTILEGEOMETRYLOAD_INLINE_CVSID;
 }

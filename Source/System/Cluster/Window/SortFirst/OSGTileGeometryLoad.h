@@ -48,6 +48,8 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 
+#include <vector>
+
 OSG_BEGIN_NAMESPACE
 
 #define FACE_DISTRIBUTION_SAMPLING_COUNT 8
@@ -153,17 +155,17 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     /*! \name                        Members                               */
     /*! \{                                                                 */
 
-    NodePtr                       _node;
-    GeometryPtr                   _geometry;
-    UInt32                        _faces;
-    Int32                         _min[2];
-    Int32                         _max[2];
-    std::vector<vector<Real32> >  _faceDistribution;
-    UInt32                        _faceDistDirX;
-    UInt32                        _faceDistDirY;
-    bool                          _visible;
-    bool                          _useFaceDistribution;
-    Real32                        _areaSize;
+    NodePtr                            _node;
+    GeometryPtr                        _geometry;
+    UInt32                             _faces;
+    Int32                              _min[2];
+    Int32                              _max[2];
+    std::vector<std::vector<Real32> >  _faceDistribution;
+    UInt32                             _faceDistDirX;
+    UInt32                             _faceDistDirY;
+    bool                               _visible;
+    bool                               _useFaceDistribution;
+    Real32                             _areaSize;
 
     /*! \}                                                                 */
 
@@ -184,6 +186,6 @@ OSG_END_NAMESPACE
 
 #include <OSGTileGeometryLoad.inl>
 
-#define OSG_TILE_GEOMETRY_LOADHEADER_CVSID "@(#)$Id:$"
+#define OSGTILEGEOMETRYLOAD_HEADER_CVSID "@(#)$Id:$"
 
 #endif /* OSG_TILE_GEOMETRY_LOAD_H */
