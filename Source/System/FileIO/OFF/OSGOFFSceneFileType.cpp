@@ -282,6 +282,7 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 
     FNOTICE(("Number of triangle read: %d\n", triCount));
 
+		createSharedIndex(geo);
     calcVertexNormals(geo);
     createOptimizedPrimitives(geo);
 

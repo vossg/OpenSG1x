@@ -365,6 +365,8 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
             endEditCP(typePtr);
             endEditCP(lensPtr);
             
+            createSharedIndex( geoPtr );
+
             // check if we have normals
             if ((meshIndexMask & 4) == 0)
               calcVertexNormals(geoPtr);

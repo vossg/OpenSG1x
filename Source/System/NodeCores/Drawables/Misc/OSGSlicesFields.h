@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGNodeCoreFields.h>
+#include <OSGMaterialDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -68,7 +68,7 @@ class Slices;
 
 //! SlicesPtr
 
-typedef FCPtr<NodeCorePtr, Slices> SlicesPtr;
+typedef FCPtr<MaterialDrawablePtr, Slices> SlicesPtr;
 
 /*! \brief SlicesPtr field traits 
     \ingroup FieldLib
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGSLICESFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.18 2002/08/21 07:05:49 vossg Exp $"
 
 #endif /* _OSGSLICESFIELDS_H_ */

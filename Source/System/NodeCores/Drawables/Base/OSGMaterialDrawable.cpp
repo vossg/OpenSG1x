@@ -83,12 +83,20 @@ MaterialDrawable::~MaterialDrawable(void)
 
 //! initialize the static features of the class, e.g. action callbacks
 
-Action::ResultE MaterialDrawable::render(Action *action)
+Action::ResultE MaterialDrawable::drawPrimitives (DrawActionBase *action)
+{
+  FWARNING (("You should overload drawPrimitives in our code\n"));
+
+  return Action::Continue;
+}
+
+Action::ResultE MaterialDrawable::renderActionHandler(Action *action)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(action);
 
     Material::DrawFunctor func;
-    func=osgTypedMethodFunctor1ObjPtr(this, &MaterialDrawable::doDraw);
+    func = osgTypedMethodFunctor1ObjPtr(this, 
+                                        &MaterialDrawable::drawPrimitives);
 
     Material* m = a->getMaterial();
 
@@ -110,12 +118,13 @@ Action::ResultE MaterialDrawable::render(Action *action)
     return Action::Continue;
 }
 
-Action::ResultE MaterialDrawable::draw(Action * action )
+Action::ResultE MaterialDrawable::drawActionHandler(Action * action )
 {
     DrawAction *a = dynamic_cast<DrawAction*>(action);
     Material::DrawFunctor func;
 
-    func=osgTypedMethodFunctor1ObjPtr(&(*this), &MaterialDrawable::doDraw);
+    func=osgTypedMethodFunctor1ObjPtr(&(*this), 
+                                      &MaterialDrawable::drawPrimitives);
 
     if(a->getMaterial() != NULL)
     {
@@ -132,6 +141,7 @@ Action::ResultE MaterialDrawable::draw(Action * action )
     return Action::Continue;
 }
     
+
 void MaterialDrawable::initMethod (void)
 {
 }
@@ -165,7 +175,7 @@ void MaterialDrawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.2 2002/09/25 21:17:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.3 2002/10/10 15:08:26 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 

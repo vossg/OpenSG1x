@@ -75,10 +75,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Slices : public SlicesBase
     /*! \{                                                                 */
 
     // draw the object
-    Action::ResultE doDraw               (DrawActionBase *action);
-    Action::ResultE draw                 (Action * action );
-    Action::ResultE render               (Action * action );
-    Action::ResultE intersect            (Action * action );
+    virtual Action::ResultE drawPrimitives (DrawActionBase *action);
+    Action::ResultE intersect              (Action * action );
 
     /*! \}                                                                 */
 

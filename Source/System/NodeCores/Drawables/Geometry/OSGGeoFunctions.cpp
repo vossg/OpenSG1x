@@ -365,17 +365,53 @@ struct vecless
     }
 };
 
+template <class type>
+struct memless
+{
+  bool operator() (const type &a, const type &b) const
+    {
+      if (a.second && b.second)
+      {  
+        if (a.second == b.second)
+          return ((memcmp(a.first,b.first,a.second) < 0) ? true : false);
+        else
+        {
+          FFATAL (("a.memSize != b.memSize in memless::operator()\n"));
+        }
+      }
+      else 
+      {
+        FFATAL (("memSize is NULL in memless::operator()\n"));
+      }
+      return false;
+    }
+};
+
+
+
 OSG_SYSTEMLIB_DLLMAPPING
 void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
 {
     GeoNormalsPtr   norms;
+    GeoPositionsPtr positions;
 
     if(creaseAngle >= Pi)
     {
         calcVertexNormals( geo );
         return;
     }
-   
+
+    // Get the positions property
+    if (geo->getPositions() == NullFC)
+    {
+      FFATAL (("Geo without positions in calcVertexNormals()\n"));
+      return;
+    }
+    else
+    {
+      positions = geo->getPositions();
+    }
+
     // Get normal property, create if needed
     if(geo->getNormals() == NullFC)
     {
@@ -485,7 +521,11 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     }
     
     // creaseAngle > 0, need to calculate
-    
+
+#if 0
+
+    // orig pngMap based code (written by dirk)
+
     // collect a map from points to faces using this point
     // collect the face normals in a separate vector
     
@@ -560,6 +600,114 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     
     endEditCP(ip);
     endEditCP(norms);
+
+#else
+    
+    // opt + normal share code (written by jbehr)
+
+    // collect a map from points to faces using this point
+    // collect the face normals in a separate vector
+
+    //FLOG (("Run calcVertexNormals(%g)\n", creaseAngle));
+
+    std::vector< Vec3f > faceNormals; 
+    std::vector < std::vector< UInt32 > > pntFaceDic;
+    TriangleIterator ti;
+    UInt32 i, pN = positions->size();
+
+    pntFaceDic.resize(pN);
+    for( ti = geo->beginTriangles(), i = 0; 
+         ti != geo->endTriangles(); ++ti, ++i )
+    {
+        Vec3f d1 = ti.getPosition(1) - ti.getPosition(0);
+        Vec3f d2 = ti.getPosition(2) - ti.getPosition(0);        
+        d1.crossThis(d2);
+        
+        d1.normalize();
+        faceNormals.push_back(d1);  
+             
+        pntFaceDic [ ti.getPositionIndex(0) ].push_back(i);
+        pntFaceDic [ ti.getPositionIndex(1) ].push_back(i);
+        pntFaceDic [ ti.getPositionIndex(2) ].push_back(i);
+    }
+    
+    // now walk through the geometry again and calc the normals
+    
+    beginEditCP(norms);
+    beginEditCP(ip);
+
+    norms->clear();
+
+    Real32 cosCrease = osgcos( creaseAngle );
+    Vec3f norm;
+    std::vector < UInt32> normset;
+    std::vector < std::map< vector<UInt32>, UInt32 > > normDic;
+    std::map< vector<UInt32>, UInt32 >::iterator ndI;
+    UInt32         normalIndex = 0;
+
+    normDic.resize( pN );
+
+    for(ti = geo->beginTriangles(); ti != geo->endTriangles(); ++ti )
+    {
+        Int32 tind = ti.getIndex();
+        Vec3f mynorm(faceNormals[tind]);
+
+        for(UInt16 i = 0; i < 3; ++i)
+        {   
+            // calculate the normal: average all different normals
+            // that use a point. Simple addition or weighted addition
+            // doesn't work, as it depends on the triangulation
+            // of the object. :(
+
+            UInt32 p = ti.getPositionIndex(i);
+            UInt32 pf, f, fN = pntFaceDic[p].size();
+            UInt32 n, nN;
+
+            normset.clear();
+            for (f = 0; f < fN; f++) {
+              pf = pntFaceDic[p][f];
+              if (mynorm.dot(faceNormals[pf]) > cosCrease)
+                normset.push_back(pf);
+            }
+            
+            if ((nN = normset.size())) 
+            {
+              // find normal
+              std::sort ( normset.begin(), normset.end() );
+              ndI = normDic[p].find(normset);
+              if (ndI == normDic[p].end()) 
+              {
+                norm = faceNormals[normset[0]];
+                for (n = 1; n < nN; ++n) 
+                  norm += faceNormals[normset[n]];
+                norm.normalize();
+                normalIndex = norms->size();
+                norms->push_back(norm);
+                normDic[p][normset] = normalIndex;
+              }
+              else 
+              {
+                normalIndex = ndI->second;
+              }
+            }
+            else
+            {
+              // keep normalIndex
+              FFATAL (("Empty normset !\n"));
+            }
+
+            
+            ip->setValue ( normalIndex, ti.getIndexIndex(i) + ni );
+
+        }
+        
+    }   
+
+    endEditCP(ip);
+    endEditCP(norms);
+
+#endif
+
 }
 
 /*! \ingroup Geometry
@@ -1008,10 +1156,10 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
         geoPtr->setTypes(geoTypePtr);
         geoPtr->setIndices(indexPtr);
         geoPtr->getIndexMapping().clear();
-        // check for multiindex mapping
-        if (indexMap[1])
-            for (i = 0; ((i <= 3) && indexMap[i]); i++)
-                geoPtr->getIndexMapping().push_back( indexMap[i] );
+        // TODO: check for multiindex mapping ?
+        // if (indexMap[1])
+          for (i = 0; ((i <= 3) && indexMap[i]); i++)
+            geoPtr->getIndexMapping().push_back( indexMap[i] );
     }
     osg::endEditCP(geoPtr);
 
@@ -1381,6 +1529,165 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   return bestCost;
 }
 
+/*! \brief creates new index to share vertex property data
+ *  \ingroup Geometry
+ */
+
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
+{
+  UInt32 count = 0, i, iN, index, si, sN;
+  UInt32 indexMapSize, indexBlock = 0, masterDSize;
+  AbstractGeoPropertyInterface *masterProp = 0, *slaveProp = 0;
+  vector<UInt32> slaveDSizeVec;
+  vector<UInt8*> slaveDataVec;
+  UInt16 mapMask, propMask, masterPropMask;
+  typedef pair<UInt8*,UInt32> Mem;
+  Mem mem;
+  std::map< Mem, UInt32, memless<Mem> > memMap;
+  std::map< Mem, UInt32, memless<Mem> >::iterator mmI;
+  GeoIndicesPtr indexPtr;
+  UChar8 *dataElem;
+
+  if (geoPtr != NullFC)
+  {
+    if (geoPtr->getPositions() != NullFC) 
+    {
+      // check/create indexPtr
+      iN = geoPtr->getPositions()->size();
+      indexPtr = geoPtr->getIndices();
+      if (indexPtr == NullFC) 
+      {
+          indexPtr = GeoIndicesUI32::create();
+          indexPtr->resize(iN);
+          for (i = 0; i < iN; i++) 
+            indexPtr->setValue( i, i );
+          beginEditCP(geoPtr);
+          {
+            geoPtr->setIndices(indexPtr);
+          }
+          endEditCP(geoPtr);
+      }
+    }
+    else 
+    {
+        FFATAL (("Invalid geoPtr->getPositions() in createSharedIndex()\n"));
+    }      
+  }
+  else 
+  {
+    FFATAL (("Invalid geoPtr in createSharedIndex()\n"));
+  }
+
+  if ( indexPtr != NullFC )
+  {
+
+    // find first propMask;
+    indexMapSize = geoPtr->getIndexMapping().size();
+    if (indexMapSize) 
+    {
+      propMask = geoPtr->getIndexMapping()[0];
+    }
+    else
+    {
+      // no index geo; find valid property
+      for ( mapMask = 1, propMask = 0; 
+            mapMask && mapMask != Geometry::MapEmpty; 
+            mapMask <<= 1 )
+      {
+        if (geoPtr->getProperty(mapMask))
+          propMask |= mapMask;
+      }
+      indexMapSize = 1;
+    }
+      
+    // remap the index for a single index block
+    for (indexBlock = 0; propMask;) 
+    {
+      // find master property
+      for (masterPropMask = 1; (propMask & masterPropMask) == 0;)
+        masterPropMask <<= 1;
+
+      if ((masterProp = geoPtr->getProperty(masterPropMask)))
+      {
+        // calc master data element size
+        masterDSize = 
+          masterProp->getFormatSize() * masterProp->getDimension()  + 
+          masterProp->getStride();
+
+        // find and store slave property data and size
+        slaveDataVec.clear();
+        slaveDSizeVec.clear();
+        for ( mapMask = 1;
+              mapMask && mapMask != Geometry::MapEmpty;
+              mapMask <<= 1 )
+          if ((mapMask != masterPropMask) && (mapMask & propMask))
+            if ( (slaveProp = geoPtr->getProperty(mapMask & propMask)) )
+            {
+              slaveDataVec.push_back  ( slaveProp->getData() );
+              slaveDSizeVec.push_back ( slaveProp->getFormatSize() * 
+                                           slaveProp->getDimension()  + 
+                                           slaveProp->getStride() );
+            }
+            else
+            {
+              FFATAL (("Invalid slaveProp %d\n", (mapMask & propMask)));
+            }
+
+        sN = slaveDataVec.size();
+        iN = indexPtr->size() / indexMapSize;
+        memMap.clear();
+        mem.second = masterDSize;
+        for (i = 0; i < iN; i++) 
+        {
+          index = indexPtr->getValue(i * indexMapSize + indexBlock);          
+          dataElem = masterProp->getData() + (index * masterDSize);
+          mem.first = dataElem;
+          mmI = memMap.find(mem);
+          if (mmI == memMap.end())
+          {
+            // store new index
+            memMap[mem] = index;
+          }
+          else
+          {
+            // index found; check slave property
+            for ( si = 0; si < sN; si++ )
+              if ( memcmp( slaveDataVec[si] + 
+                           (index * slaveDSizeVec[si]),
+                           slaveDataVec[si] + 
+                           (mmI->second * slaveDSizeVec[si]),
+                           slaveDSizeVec[si] ) )
+                break;
+            if (si == sN) 
+            {
+              indexPtr->setValue ( mmI->second,
+                                   i * indexMapSize + indexBlock );
+              count++;
+            }
+          }
+        }
+      }
+      else
+      {
+        FFATAL (("Invalid masterProp %d\n", masterProp));
+      }
+
+      // get next propery Mask
+      if (++indexBlock < indexMapSize)
+        propMask = geoPtr->getIndexMapping()[indexBlock];
+      else
+        propMask = 0;
+    }
+  }
+
+  FNOTICE (("Create sharedIndex: %d indices remapped (%d)\n", 
+            count, (indexBlock+1) ));
+
+  return count;
+}
+
+
 /*! \brief creates a single index geo from multi(interleave) geo.
  *  function will change (resort) the properties.
  *  returns the number of property values
@@ -1392,7 +1699,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
 {
-  Int16 mask, maskID, finalMask;
+  Int16 mask, maskID, finalMask = 0;
   Int32 indexMapSize, indexCount, i, j,  vCount = 0;
   Int32 index;
   Int32 memSize, valueSize;

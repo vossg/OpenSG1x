@@ -52,6 +52,7 @@
 #include <OSGSimpleStatisticsForeground.h>
 #include <OSGStatElemTypes.h>
 #include <OSGStatCollector.h>
+#include <OSGDrawable.h>
 
 #include "OSGSimpleSceneManager.h"
 
@@ -441,16 +442,16 @@ void SimpleSceneManager::initialize(void)
                            "%d Nodes drawn");
         sf->addElement(RenderAction::statNTransGeometries,
                            "%d transparent Nodes drawn");
-        sf->addElement(Geometry::statNTriangles,    "%d triangles drawn");
-        sf->addElement(Geometry::statNLines,        "%d lines drawn");
-        sf->addElement(Geometry::statNPoints,       "%d points drawn");
-        sf->addElement(Geometry::statNVertices,     "%d vertices transformed");
+        sf->addElement(Drawable::statNTriangles,    "%d triangles drawn");
+        sf->addElement(Drawable::statNLines,        "%d lines drawn");
+        sf->addElement(Drawable::statNPoints,       "%d points drawn");
+        sf->addElement(Drawable::statNVertices,     "%d vertices transformed");
         endEditCP(sf);
 
         StatCollector *collector = &sf->getCollector();
 
         // add optional elements
-        collector->getElem(Geometry::statNTriangles);
+        collector->getElem(Drawable::statNTriangles);
 
         _statforeground = sf;
 

@@ -1368,6 +1368,9 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  false, // create normal; not yet :)
                                  true);
 
+            // TODO: Need some option _uiOptions param
+						createSharedIndex( pGeo);
+
             if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
                (pGeo->getNormals() == NullFC))
             {

@@ -63,9 +63,8 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGNodeCore.h> // Parent
+#include <OSGMaterialDrawable.h> // Parent
 
-#include <OSGMaterialFields.h> // Material type
 #include <OSGVec3fFields.h> // Size type
 #include <OSGInt32Fields.h> // NumberOfSlices type
 
@@ -78,24 +77,22 @@ class BinaryDataHandler;
 
 //! \brief Slices Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef MaterialDrawable Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        MaterialFieldId       = Inherited::NextFieldId,
-        SizeFieldId           = MaterialFieldId       + 1,
+        SizeFieldId           = Inherited::NextFieldId,
         NumberOfSlicesFieldId = SizeFieldId           + 1,
         NextFieldId           = NumberOfSlicesFieldId + 1
     };
 
-    static const osg::BitVector MaterialFieldMask;
     static const osg::BitVector SizeFieldMask;
     static const osg::BitVector NumberOfSlicesFieldMask;
 
@@ -122,12 +119,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMaterialPtr       *getSFMaterial       (void);
            SFVec3f             *getSFSize           (void);
            SFInt32             *getSFNumberOfSlices (void);
 
-           MaterialPtr         &getMaterial       (void);
-     const MaterialPtr         &getMaterial       (void) const;
            Vec3f               &getSize           (void);
      const Vec3f               &getSize           (void) const;
            Int32               &getNumberOfSlices (void);
@@ -138,7 +132,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public NodeCore
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setMaterial       ( const MaterialPtr &value );
      void setSize           ( const Vec3f &value );
      void setNumberOfSlices ( const Int32 &value );
 
@@ -186,7 +179,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFMaterialPtr       _sfMaterial;
     SFVec3f             _sfSize;
     SFInt32             _sfNumberOfSlices;
 
@@ -236,6 +228,6 @@ typedef SlicesBase *SlicesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.27 2002/09/16 18:39:11 vossg Exp $"
 
 #endif /* _OSGSLICESBASE_H_ */

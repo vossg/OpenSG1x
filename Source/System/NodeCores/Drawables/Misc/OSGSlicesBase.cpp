@@ -64,9 +64,6 @@
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  SlicesBase::MaterialFieldMask = 
-    (1 << SlicesBase::MaterialFieldId);
-
 const OSG::BitVector  SlicesBase::SizeFieldMask = 
     (1 << SlicesBase::SizeFieldId);
 
@@ -77,9 +74,6 @@ const OSG::BitVector  SlicesBase::NumberOfSlicesFieldMask =
 
 // Field descriptions
 
-/*! \var MaterialPtr     SlicesBase::_sfMaterial
-    The material used to render the particles.
-*/
 /*! \var Vec3f           SlicesBase::_sfSize
     terrain size in local coords
 */
@@ -91,11 +85,6 @@ const OSG::BitVector  SlicesBase::NumberOfSlicesFieldMask =
 
 FieldDescription *SlicesBase::_desc[] = 
 {
-    new FieldDescription(SFMaterialPtr::getClassType(), 
-                     "material", 
-                     MaterialFieldId, MaterialFieldMask,
-                     false,
-                     (FieldAccessMethod) &SlicesBase::getSFMaterial),
     new FieldDescription(SFVec3f::getClassType(), 
                      "size", 
                      SizeFieldId, SizeFieldMask,
@@ -112,7 +101,7 @@ FieldDescription *SlicesBase::_desc[] =
 
 FieldContainerType SlicesBase::_type(
     "Slices",
-    "NodeCore",
+    "MaterialDrawable",
     NULL,
     (PrototypeCreateF) &SlicesBase::createEmpty,
     Slices::initMethod,
@@ -164,7 +153,6 @@ void SlicesBase::executeSync(      FieldContainer &other,
 #endif
 
 SlicesBase::SlicesBase(void) :
-    _sfMaterial               (), 
     _sfSize                   (Vec3f(1, 1, 1)), 
     _sfNumberOfSlices         (Int32(100)), 
     Inherited() 
@@ -178,7 +166,6 @@ SlicesBase::SlicesBase(void) :
 //! Copy Constructor
 
 SlicesBase::SlicesBase(const SlicesBase &source) :
-    _sfMaterial               (source._sfMaterial               ), 
     _sfSize                   (source._sfSize                   ), 
     _sfNumberOfSlices         (source._sfNumberOfSlices         ), 
     Inherited                 (source)
@@ -199,11 +186,6 @@ UInt32 SlicesBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        returnValue += _sfMaterial.getBinSize();
-    }
-
     if(FieldBits::NoField != (SizeFieldMask & whichField))
     {
         returnValue += _sfSize.getBinSize();
@@ -223,11 +205,6 @@ void SlicesBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (SizeFieldMask & whichField))
     {
         _sfSize.copyToBin(pMem);
@@ -245,11 +222,6 @@ void SlicesBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SizeFieldMask & whichField))
     {
@@ -270,9 +242,6 @@ void SlicesBase::executeSyncImpl(      SlicesBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        _sfMaterial.syncWith(pOther->_sfMaterial);
-
     if(FieldBits::NoField != (SizeFieldMask & whichField))
         _sfSize.syncWith(pOther->_sfSize);
 
@@ -289,7 +258,7 @@ void SlicesBase::executeSyncImpl(      SlicesBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<SlicesPtr>::_type("SlicesPtr", "NodeCorePtr");
+DataType FieldDataTraits<SlicesPtr>::_type("SlicesPtr", "MaterialDrawablePtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -310,7 +279,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.35 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

@@ -53,6 +53,17 @@ OSG_USING_NAMESPACE
 
 */
 
+/*----------------------------- class variables ---------------------------*/
+
+StatElemDesc<StatIntElem>  Drawable::statNTriangles("NTriangles",
+"number of rendered triangles");
+StatElemDesc<StatIntElem>  Drawable::statNLines("NLines",
+"number of rendered lines");
+StatElemDesc<StatIntElem>  Drawable::statNPoints("NPoints",
+"number of rendered points");
+StatElemDesc<StatIntElem>  Drawable::statNVertices("NVertices",
+"number of transformed vertices");
+
 /*----------------------- constructors & destructors ----------------------*/
 
 //! Constructor
@@ -112,7 +123,7 @@ void Drawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.2 2002/09/25 21:17:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.3 2002/10/10 15:08:25 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 

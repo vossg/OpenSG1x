@@ -45,6 +45,7 @@
 #include <OSGConfig.h>
 
 #include <OSGDrawableBase.h>
+#include <OSGStatElemTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,6 +60,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Drawable : public DrawableBase
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static stat elem                            */
+    /*! \{                                                                 */
+
+    static StatElemDesc<StatIntElem>  statNTriangles;
+    static StatElemDesc<StatIntElem>  statNLines;
+    static StatElemDesc<StatIntElem>  statNPoints;
+    static StatElemDesc<StatIntElem>  statNVertices;
+
+    /*! \}                                                                 */
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -117,6 +129,6 @@ OSG_END_NAMESPACE
 #include <OSGDrawableBase.inl>
 #include <OSGDrawable.inl>
 
-#define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.1 2002/09/25 16:46:17 jbehr Exp $"
+#define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.2 2002/10/10 15:08:26 jbehr Exp $"
 
 #endif /* _OSGDRAWABLE_H_ */

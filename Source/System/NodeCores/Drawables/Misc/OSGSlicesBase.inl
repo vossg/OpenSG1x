@@ -97,12 +97,6 @@ SlicesPtr SlicesBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 inline
-SFMaterialPtr *SlicesBase::getSFMaterial(void)
-{
-    return &_sfMaterial;
-}
-
-inline
 SFVec3f *SlicesBase::getSFSize(void)
 {
     return &_sfSize;
@@ -114,24 +108,6 @@ SFInt32 *SlicesBase::getSFNumberOfSlices(void)
     return &_sfNumberOfSlices;
 }
 
-
-inline
-MaterialPtr &SlicesBase::getMaterial(void)
-{
-    return _sfMaterial.getValue();
-}
-
-inline
-const MaterialPtr &SlicesBase::getMaterial(void) const
-{
-    return _sfMaterial.getValue();
-}
-
-inline
-void SlicesBase::setMaterial(const MaterialPtr &value)
-{
-    _sfMaterial.setValue(value);
-}
 
 inline
 Vec3f &SlicesBase::getSize(void)
@@ -172,5 +148,5 @@ void SlicesBase::setNumberOfSlices(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGSLICESBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.17 2002/09/16 18:39:11 vossg Exp $"
 

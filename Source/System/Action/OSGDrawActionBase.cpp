@@ -49,6 +49,7 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 #include <OSGGeometry.h>
+#include <OSGDrawable.h>
 
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
@@ -189,12 +190,12 @@ Action::ResultE DrawActionBase::start(void)
     getStatistics()->getElem(statCulledNodes)->reset();
    
     // this really doesn't belong here, but don't know a better place to put it
-    if(getStatistics()->getElem(Geometry::statNTriangles,false))
+    if(getStatistics()->getElem(Drawable::statNTriangles,false))
     {
-        getStatistics()->getElem(Geometry::statNTriangles)->set(0);
-        getStatistics()->getElem(Geometry::statNLines)->set(0);
-        getStatistics()->getElem(Geometry::statNPoints)->set(0);
-        getStatistics()->getElem(Geometry::statNVertices)->set(0);
+        getStatistics()->getElem(Drawable::statNTriangles)->set(0);
+        getStatistics()->getElem(Drawable::statNLines)->set(0);
+        getStatistics()->getElem(Drawable::statNPoints)->set(0);
+        getStatistics()->getElem(Drawable::statNVertices)->set(0);
     }
 
 //fprintf(stderr,"%p: start\n", Thread::getCurrent());

@@ -52,6 +52,7 @@
 #include <OSGIntersectAction.h>
 #include <OSGRenderAction.h>
 #include <OSGMaterial.h>
+#include "OSGDrawable.h"
 #include "OSGGeometry.h"
 #include "OSGGeoFunctions.h"
 #include "OSGGeoPumpFactory.h"
@@ -103,15 +104,6 @@ const UInt16 Geometry::MapTexCoords1     = Geometry::MapTexCoords << 1;
 const UInt16 Geometry::MapTexCoords2     = Geometry::MapTexCoords1 << 1;
 const UInt16 Geometry::MapTexCoords3     = Geometry::MapTexCoords2 << 1;
 const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords3 << 1;
-
-StatElemDesc<StatIntElem>  Geometry::statNTriangles("NTriangles",
-"number of rendered triangles");
-StatElemDesc<StatIntElem>  Geometry::statNLines("NLines",
-"number of rendered lines");
-StatElemDesc<StatIntElem>  Geometry::statNPoints("NPoints",
-"number of rendered points");
-StatElemDesc<StatIntElem>  Geometry::statNVertices("NVertices",
-"number of transformed vertices");
 
 
 /***************************************************************************\
@@ -612,15 +604,14 @@ AbstractGeoPropertyInterface *Geometry::getProperty(Int32 mapID)
 
 Int16  Geometry::calcMappingIndex( UInt16 attrib ) const
 {
-    const UInt16 *mappings = &getIndexMapping().getValues()[0];
     UInt16 nmappings = getIndexMapping().size();
-    
-    int i;
-    for ( i = nmappings-1; i >= 0; i-- )
-    {
-    if ( mappings[i] & attrib  ) 
-        break;
-    }   
+    Int16 i;
+
+    for ( i = nmappings - 1; i >= 0; i-- )
+      {
+        if ( getIndexMapping()[i] & attrib  ) 
+          break;
+      }   
     
     return i;
 }
@@ -830,7 +821,7 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
 
     if(coll != NULL)
     {
-        StatIntElem *el = coll->getElem(statNTriangles,false);
+        StatIntElem *el = coll->getElem(Drawable::statNTriangles,false);
         if(el)
         {
             GeometryPtr geo(this);
@@ -838,8 +829,8 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
             
             calcPrimitiveCount(geo, ntri, nl, np);
             el->add(ntri);
-            coll->getElem(statNLines)->add(nl);
-            coll->getElem(statNLines)->add(np);
+            coll->getElem(Drawable::statNLines)->add(nl);
+            coll->getElem(Drawable::statNLines)->add(np);
             
             if(getIndices() == NullFC)
             {
@@ -857,7 +848,7 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
                 is = getIndexMapping().size();
                 is = getIndices()->getSize() / ( is ? is : 1 );
             }
-            coll->getElem(statNVertices)->add(is);
+            coll->getElem(Drawable::statNVertices)->add(is);
         }
     }
     

@@ -91,25 +91,24 @@ Slices::~Slices(void)
 
 void Slices::initMethod (void)
 {
-
-    DrawAction::registerEnterDefault( getClassType(),
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          SlicesPtr  ,
-                                          CNodePtr      ,
-                                          Action       *>(&Slices::draw));
+  DrawAction::registerEnterDefault( getClassType(),
+                                    osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          MaterialDrawablePtr  ,
+                                    CNodePtr      ,
+                                    Action       *>(&MaterialDrawable::drawActionHandler));
   
-    RenderAction::registerEnterDefault( getClassType(),
+  RenderAction::registerEnterDefault( getClassType(),
+                                      osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                      MaterialDrawablePtr  ,
+                                      CNodePtr      ,
+                                      Action       *>(&MaterialDrawable::renderActionHandler));
+  
+  IntersectAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          SlicesPtr  ,
-                                          CNodePtr      ,
-                                          Action       *>(&Slices::render));
-
-    IntersectAction::registerEnterDefault( getClassType(),
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                           SlicesPtr  ,
-                                           CNodePtr      ,
-                                           Action       *>(&Slices::intersect));
-                                         
+                                         SlicesPtr  ,
+                                         CNodePtr      ,
+                                         Action       *>(&Slices::intersect));
+  
 
 }
 
@@ -160,62 +159,13 @@ Action::ResultE Slices::intersect(Action * OSG_CHECK_ARG(action) )
     return Action::Continue;
 }
 
-Action::ResultE Slices::render(Action *action)
-{
-    RenderAction *a = dynamic_cast<RenderAction *>(action);
-
-    Material::DrawFunctor func;
-    func=osgTypedMethodFunctor1ObjPtr(this, &Slices::doDraw);
-
-    Material* m = a->getMaterial();
-
-    if(m == NULL)
-    {
-        if(getMaterial() != NullFC)
-        {
-            m = getMaterial().getCPtr();
-        }
-        else
-        {
-            fprintf(stderr, "Slices::render: no Material!?!\n");
-            return Action::Continue;
-        }
-    }
-
-    a->dropFunctor(func, m);
-
-    return Action::Continue;
-}
-
-Action::ResultE Slices::draw(Action * action )
-{
-    DrawAction *a = dynamic_cast<DrawAction*>(action);
-    Material::DrawFunctor func;
-
-    func=osgTypedMethodFunctor1ObjPtr(&(*this), &Slices::doDraw);
-
-    if(a->getMaterial() != NULL)
-    {
-        a->getMaterial()->draw(func, a);
-    }
-    else if ( getMaterial() != NullFC )
-    {
-        getMaterial()->draw( func, a );
-    }
-    else
-    {
-        FWARNING(("Slices::draw:: no material!\n"));;
-    }
-    return Action::Continue;
-}
-    
-Action::ResultE Slices::doDraw(DrawActionBase *action)
+Action::ResultE Slices::drawPrimitives(DrawActionBase *action)
 {
   Matrix camera,toworld;
   UInt32 triCount, vertexCount;
   Vec3f planeNormal;
-//  StatCollector *coll = action->getStatistics();
-//  StatIntElem   *el   = 0;
+  StatCollector *coll = action->getStatistics();
+  StatIntElem   *el   = 0;
 
   RenderAction *ra = dynamic_cast<RenderAction *>(action);
 
@@ -243,6 +193,14 @@ Action::ResultE Slices::doDraw(DrawActionBase *action)
 
   drawSlices (planeNormal,triCount,vertexCount);
 
+  if (coll) 
+  {
+    if ((el = coll->getElem(Drawable::statNTriangles,false)))
+      el->add(triCount);
+    if ((el = coll->getElem(Drawable::statNVertices,false)))
+      el->add(vertexCount);
+  }
+
   /* TODO; bbox draw code; just for debuggging; drawBBox opt ?
   glPushAttrib ( GL_ENABLE_BIT );
   glDisable (GL_LIGHTING);
@@ -260,15 +218,6 @@ Action::ResultE Slices::doDraw(DrawActionBase *action)
   }  
   glEnd();
   glPopAttrib();
-  */
-
-  /* TODO; Fix me
-  if (coll) {
-    if ((el = coll->getElem(statNTriangles,false)))
-      el->add(triCount);
-    if ((el = coll->getElem(statNVertices,false)))
-      el->add(vertexCount);
-  }
   */
   
   return Action::Continue;
@@ -324,11 +273,6 @@ void Slices::initEdgeVec( void )
 	p[4][1] = p[5][1] = p[6][1] = p[7][1] =  0.5f * size.y();
 	p[0][2] = p[1][2] = p[4][2] = p[5][2] = -0.5f * size.z();
   p[2][2] = p[3][2] = p[6][2] = p[7][2] =  0.5f * size.z();
-
-  /*
-	for (i = 0; i <= 7 ; i++)
-		_pointVec[i].setValues(v[i][0], v[i][1],v[i][2]);
-  */
 
 	// create the edge description       
 	//     4--------5      *---4----*     0: - - - 

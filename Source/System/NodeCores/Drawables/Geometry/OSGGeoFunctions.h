@@ -88,11 +88,11 @@ void calcVertexNormals(GeometryPtr geo);
 OSG_SYSTEMLIB_DLLMAPPING
 void calcVertexNormals( GeometryPtr geo,  Real32 creaseAngle );
 
-/*! \brief create a geometry that shows the normals of the geometry
+/*! \brief calculate face normals for the geometry
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-NodePtr getNormals( GeometryPtr geo, Real32 length );
+void calcFaceNormals( GeometryPtr geo );
 
 /*! \brief create the geometry index form the given FaceSet (VRML style) data 
  *  \ingroup Geometry
@@ -124,6 +124,12 @@ Int32 createOptimizedPrimitives (GeometryPtr geo,
                                  UInt32      minFanEdgeCount = 8,
                                  bool        colorCode       = false );
 
+/*! \brief creates new index to share vertex property data
+ *  \ingroup Geometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 createSharedIndex ( GeometryPtr geo );
+
 /*! \brief creates a single index geo from multi(interleave) geo.
  *  function will change (copy/resort) the property values.
  *  returns the number of property values
@@ -146,11 +152,13 @@ OSG_SYSTEMLIB_DLLMAPPING
 void mergeGeometries(std::vector<NodePtr> &nodes, 
                      std::vector<NodePtr> &results);
 
-/*! \brief calculate face normals for the geometry
+
+/*! \brief create a geometry that shows the normals of the geometry
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-void calcFaceNormals( GeometryPtr geo );
+NodePtr getNormals( GeometryPtr geo, Real32 length );
+
 
 /*! \brief create a geometry that shows the face normals of another geometry
  *  \ingroup Geometry

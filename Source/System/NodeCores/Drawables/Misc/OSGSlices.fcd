@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="Slices"
-	parent="NodeCore"
+	parent="MaterialDrawable"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
@@ -10,15 +10,6 @@
 	parentsystemcomponent="true"
 	decoratable="false"
 >
-	<Field
-		name="material"
-		type="MaterialPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	The material used to render the particles.
-	</Field>
 	<Field
 		name="size"
 		type="Vec3f"

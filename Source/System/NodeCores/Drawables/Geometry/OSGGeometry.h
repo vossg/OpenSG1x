@@ -46,7 +46,6 @@
 #include <OSGConfig.h>
 #include <OSGAction.h>
 #include <OSGWindow.h>
-#include <OSGStatElemTypes.h>
 
 #include <OSGGeometryBase.h>
 #include <OSGGeoPropPtrs.h>
@@ -76,11 +75,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static const UInt16 MapTexCoords2;
     static const UInt16 MapTexCoords3;
     static const UInt16 MapEmpty;
-
-    static StatElemDesc<StatIntElem>  statNTriangles;
-    static StatElemDesc<StatIntElem>  statNLines;
-    static StatElemDesc<StatIntElem>  statNPoints;
-    static StatElemDesc<StatIntElem>  statNVertices;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
