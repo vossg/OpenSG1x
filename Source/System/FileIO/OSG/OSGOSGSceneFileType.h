@@ -63,14 +63,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     /*! \{                                                                 */
 
     static OSGSceneFileType &the(void);
-    
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~OSGSceneFileType (void);
- 
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
@@ -82,27 +82,15 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr     read        (const Char8  *fileName, 
-                                           UInt32  uiReplaceOptions) const;
-
-    virtual NodePtr     read        (const Char8  *fileName, 
-                                           UInt32  uiAddOptions,
-                                           UInt32  uiSubOptions    ) const;
-    
-    virtual FCPtrStore  readTopNodes(const Char8  *fileName,
-                                           UInt32  uiReplaceOptions) const;
-
-    virtual FCPtrStore  readTopNodes(const Char8  *fileName,
-                                           UInt32  uiAddOptions,
-                                           UInt32  uiSubOptions    ) const;
+    virtual NodePtr     read        (std::istream &is) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr  node, 
-                       const Char8   *fileName) const;
+    virtual bool write(const NodePtr &node,
+                       std::ostream &os) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -122,7 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    OSGSceneFileType(const Char8  *suffixArray[], 
+    OSGSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
                            bool    override,
                            UInt32  overridePriority);

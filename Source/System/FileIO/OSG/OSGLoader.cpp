@@ -132,7 +132,7 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfBool);
 
 /*
-    setIntExtMapping(ScanParseSkel::OSGsfColor, 
+    setIntExtMapping(ScanParseSkel::OSGsfColor,
                ::getClassType().getId());
 */
 
@@ -174,7 +174,7 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfColor3f);
 
 /*
-    setIntExtMapping(ScanParseSkel::OSGmfColor, 
+    setIntExtMapping(ScanParseSkel::OSGmfColor,
                ::getClassType().getId());
 */
 
@@ -208,7 +208,7 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(MFColor4ub::getClassType().getId(),
                      ScanParseSkel::OSGmfColor4i);
-    
+
     setIntExtMapping(MFColor3f::getClassType().getId(),
                      ScanParseSkel::OSGmfColor3f);
 
@@ -229,7 +229,7 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfInt32);
     setIntExtMapping(MFInt8::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
-    
+
 
     setIntExtMapping(SFUInt16::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
@@ -259,18 +259,18 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGmfNode);
 
     /* extended types */
-    
+
     setIntExtMapping(SFMatrix::getClassType().getId(),
                      ScanParseSkel::OSGsfMatrix);
-    
+
     setIntExtMapping(SFPnt3f::getClassType().getId(),
                      ScanParseSkel::OSGsfPnt3f);
-    
+
     setIntExtMapping(MFPnt3f::getClassType().getId(),
                      ScanParseSkel::OSGmfPnt3f);
     setIntExtMapping(SFDynamicVolume::getClassType().getId(),
                      ScanParseSkel::OSGmfFloat);
-    
+
     setIntExtMapping(SFPlane::getClassType().getId(),
                      ScanParseSkel::OSGsfPlane);
     setIntExtMapping(MFPlane::getClassType().getId(),
@@ -282,7 +282,7 @@ void OSGLoader::initFieldTypeMapper(void)
 
 void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
 {
-    /* Hack attack, the {S|M}FieldContainerPtr * cast is a hack until the 
+    /* Hack attack, the {S|M}FieldContainerPtr * cast is a hack until the
        type system is fixed to get it right */
 
     if(_pCurrentField != NULL && _pCurrentFC != NullFC && pNewNode != NullFC)
@@ -291,7 +291,7 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
         {
             NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
             NodeCorePtr pCore = NodeCorePtr::dcast( pNewNode);
-            
+
             pNode->setCore(pCore);
         }
         else if(_pCurrentField == _pCurrentFC->getField("children"))
@@ -329,7 +329,7 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
                 }
                 else
                 {
-                    SLOG << "FieldContainer " 
+                    SLOG << "FieldContainer "
                          << _pCurrentFC->getType().getName()
                          << "is no attachment container"
                          << std::endl;
@@ -368,8 +368,7 @@ OSGLoader::OSGLoader(void) :
     _pCurrentField(NULL),
     _fcStack      (),
     _fStack       (),
-    _fdStack      (),
-    _pathHandler  ()
+    _fdStack      ()
 {
     Self::setReferenceHeader("#OSG V1.0 ");
     initFieldTypeMapper();
@@ -384,60 +383,20 @@ OSGLoader::~OSGLoader(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void OSGLoader::scanFile(const Char8  *szFilename,
-                               UInt32  uiOptions)
+void OSGLoader::scanStream(std::istream &is)
 {
-    if( szFilename != NULL )
+    if(is)
     {
-        PathHandler *oldPathHandler = ImageFileHandler::the().getPathHandler();
-       
-        _pathHandler.clearPathList();
-        _pathHandler.clearBaseFile();
-        _pathHandler.push_frontCurrentDir();
-        _pathHandler.setBaseFile(szFilename);
-        
-        ImageFileHandler::the().setPathHandler(&_pathHandler);
-        
         _pRootNode         = NullFC;
         _pCurrentFC        = NullFC;
         _pCurrentField     = NULL;
         _pCurrentFieldDesc = NULL;
         _defMap.clear();
 
-        Inherited::scanFile(szFilename, uiOptions);
-        
-        ImageFileHandler::the().setPathHandler(oldPathHandler);
+        Inherited::scanStream(is);
     }
 }
 
-
-void OSGLoader::scanFile(const Char8   *szFilename, 
-                               UInt32  uiAddOptions, 
-                               UInt32  uiSubOptions)
-{
-    if( szFilename != NULL )
-    {
-        PathHandler *oldPathHandler = ImageFileHandler::the().getPathHandler();
-       
-        _pathHandler.clearPathList();
-        _pathHandler.clearBaseFile();
-        _pathHandler.push_frontCurrentDir();
-        _pathHandler.setBaseFile(szFilename);
-        
-        ImageFileHandler::the().setPathHandler(&_pathHandler);
-
-        _pRootNode         = NullFC;
-        _pCurrentFC        = NullFC;
-        _pCurrentField     = NULL;
-        _pCurrentFieldDesc = NULL;
-        _defMap.clear();
-        
-        Inherited::scanFile(szFilename, uiAddOptions, uiSubOptions);
-        
-        ImageFileHandler::the().setPathHandler(oldPathHandler);
-    }
-}
-    
 #if defined(OSG_WIN32_ICL)
 #pragma warning (disable : 383)
 #endif
@@ -460,15 +419,15 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
     {
         PINFO << szNodename;
     }
-        
+
     PINFO << std::endl;
-    
-    pNewNode = 
+
+    pNewNode =
         FieldContainerFactory::the()->createFieldContainer(szNodeTypename);
 
     if(szNodename != NULL && pNewNode != NullFC)
     {
-        AttachmentContainerPtr pAttCon = 
+        AttachmentContainerPtr pAttCon =
             AttachmentContainerPtr::dcast(pNewNode);
 
         if(pAttCon != NullFC)
@@ -500,7 +459,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         }
         else
         {
-            SLOG << "Fieldcontainer " << szNodeTypename 
+            SLOG << "Fieldcontainer " << szNodeTypename
                  << "is neither Node nor NodeCore " << std::endl;
         }
 
@@ -509,7 +468,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
             GroupPtr pGroup = Group::create();
 
             _pRootNode = Node::create();
-            
+
             beginEditCP(_pRootNode, Node::CoreFieldMask);
             {
                 _pRootNode->setCore(pGroup);
@@ -528,17 +487,17 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
 #if defined(OSG_WIN32_ICL)
 #pragma warning (default : 383)
 #endif
-    
+
 void OSGLoader::endNode(void)
 {
     PINFO << "End Node" << std::endl;
 
     if(_pCurrentFC != NullFC)
     {
-        if(_pCurrentFC->getType().isNode() == true)        
+        if(_pCurrentFC->getType().isNode() == true)
         {
             NodePtr pNode = NodePtr::dcast(_pCurrentFC);
-            
+
             if(pNode->getCore() == NullFC)
             {
                 GroupPtr pGroup = Group::create();
@@ -552,7 +511,7 @@ void OSGLoader::endNode(void)
 
     if(_fcStack.size() != 0)
     {
-        _pCurrentFC = _fcStack.top(); 
+        _pCurrentFC = _fcStack.top();
     }
     else
     {
@@ -570,7 +529,7 @@ void OSGLoader::use(const Char8 *szName)
 
     if(pUseNode == NullFC)
     {
-        SLOG << "No FieldContainer found with name " << szName << std::endl; 
+        SLOG << "No FieldContainer found with name " << szName << std::endl;
     }
     else
     {
@@ -622,7 +581,7 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
         if(pField != NULL)
         {
             returnValue = pField->getType().getScanTypeId();
-        }    
+        }
     }
 
     return returnValue;
@@ -641,8 +600,8 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
         if(pField != NULL)
         {
             const FieldType &oFieldType = pField->getType();
-        
-            /* Should be this way 
+
+            /* Should be this way
 
             if(oFieldType.getContentType().isDerivedFrom(
                 FieldDataTraits<FieldContainerPtr>::getType()) == true)
@@ -655,15 +614,15 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
                   << " comparing with "
                   << FieldDataTraits<FieldContainerPtr>::getType().getCName()
                   << std::endl;
-            
-            
-            if(strstr(oFieldType.getContentType().getCName(), 
+
+
+            if(strstr(oFieldType.getContentType().getCName(),
                       "Ptr"                                 ) != NULL)
             {
                 PINFO << "FieldContainerPtr or derived class, "
                       << "parsing as Node"
                       << std::endl;
-                
+
                 if(oFieldType.getCardinality() == FieldType::SINGLE_FIELD)
                 {
                     returnValue = ScanParseSkel::OSGsfNode;
@@ -682,9 +641,9 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
 void OSGLoader::beginField(const Char8 *szFieldname,
                            const UInt32 )
 {
-    PINFO << "BeginField " 
+    PINFO << "BeginField "
           << szFieldname
-          << " " 
+          << " "
           << _pCurrentField
           << std::endl;
 
@@ -697,17 +656,17 @@ void OSGLoader::beginField(const Char8 *szFieldname,
     {
         _pCurrentField     = _pCurrentFC->getField(szFieldname);
 
-        _pCurrentFieldDesc = 
+        _pCurrentFieldDesc =
             _pCurrentFC->getType().findFieldDescription(szFieldname);
 
         PINFO << "BF : "
-              <<  szFieldname       << " " 
-              << _pCurrentField     << " " 
+              <<  szFieldname       << " "
+              << _pCurrentField     << " "
               << _pCurrentFieldDesc << std::endl;
 
         if(_pCurrentFieldDesc != NULL)
         {
-            beginEditCP(_pCurrentFC, 
+            beginEditCP(_pCurrentFC,
                         _pCurrentFieldDesc->getFieldMask(),
                          ChangedOrigin::Abstract          |
                          ChangedOrigin::AbstrIgnoreCore   |
@@ -727,7 +686,7 @@ void OSGLoader::endField(void)
 
     if(_fStack.size() != 0)
     {
-        _pCurrentField = _fStack.top(); 
+        _pCurrentField = _fStack.top();
     }
     else
     {
@@ -737,7 +696,7 @@ void OSGLoader::endField(void)
 
     if(_pCurrentFC != NullFC && _pCurrentFieldDesc != NULL)
     {
-        endEditCP(_pCurrentFC, 
+        endEditCP(_pCurrentFC,
                   _pCurrentFieldDesc->getFieldMask(),
                    ChangedOrigin::Abstract          |
                    ChangedOrigin::AbstrIgnoreCore   |
@@ -745,7 +704,7 @@ void OSGLoader::endField(void)
     }
 
     _fdStack.pop();
-    
+
     if(_fdStack.size() != 0)
     {
         _pCurrentFieldDesc = _fdStack.top();
@@ -780,7 +739,7 @@ FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 #pragma warning( disable : 177 )
 #endif
 
-namespace 
+namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGLOADER_HEADER_CVSID;

@@ -44,6 +44,7 @@
 #include <OSGConfig.h>
 #include <map>
 #include <vector>
+#include <iostream>
 #include <OSGNode.h>
 #include <OSGBinaryDataHandler.h>
 
@@ -57,7 +58,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     /*! \name                   Constructors/Destructor                    */
     /*! \{                                                                 */
 
-             BINLoader(FILE *file);
+             BINLoader(std::istream &is);
     virtual ~BINLoader();
 
     /*! \}                                                                 */
@@ -84,7 +85,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     {
         UInt32            newId;
         FieldContainerPtr ptr;
-        bool              read; 
+        bool              read;
         FCInfoStruct();
     };
     //          oldID	newId + FCPtr
@@ -92,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 
     /*! \hideinhierarchy */
     struct FCIdMapper : public FieldContainerMapper
-    {                                              
+    {
       public:
         const IDLookupMap *ptrMap;
         FCIdMapper(IDLookupMap *m);
@@ -104,19 +105,17 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     class BinaryFileHandler : public BinaryDataHandler
     {
       public:
-        BinaryFileHandler(FILE *file);
+        BinaryFileHandler(std::istream &is);
         virtual ~BinaryFileHandler();
-	    
+
         void read (MemoryHandle mem, UInt32 size);
-        void write(MemoryHandle mem, UInt32 size);
-	
+
       private:
-  
+
         std::vector<UInt8>  _readMemory;
-        std::vector<UInt8>  _writeMemory;
-        FILE               *_file;
+        std::istream &_is;
     };
-         
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -124,7 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     /*! \name                   private helper functions                   */
     /*! \{                                                                 */
 
-    void createFieldContainers(void);
+    bool createFieldContainers(void);
     void chargeFieldContainers(void);
 
     /*! \}                                                                 */
@@ -136,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
          IDLookupMap       _fcInfoMap;
          UInt32            _countContainers;
     std::vector<NodePtr>   _vec_pRootNodes;
+         bool              _valid_stream;
 
     /*! \}                                                                 */
 };

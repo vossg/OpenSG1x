@@ -44,12 +44,16 @@
 
 #include <list>
 #include <map>
+#include <iostream>
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGSceneFileType.h>
 
 OSG_BEGIN_NAMESPACE
+
+class PathHandler;
+class GraphOpSeq;
 
 /*! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
  *  \brief Brief OSGSceneFileHandler
@@ -81,34 +85,50 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \{                                                                 */
 
     virtual SceneFileType *getFileType(const Char8 *fileName);
+    virtual SceneFileType *getExtType(const Char8 *ext);
 
     virtual int getSuffixList(std::list<const char*> & suffixList);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Progress                                   */
+    /*! \{                                                                 */
+
+    typedef void (*progresscbfp) (UInt32 p);
+    void setReadProgressCB(progresscbfp fp);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr    readOptReplace        (const  Char8  *fileName,
-                                                     UInt32  uiReplaceOptions);
+    virtual NodePtr    read                  (std::istream &is, const Char8* ext,
+                                                     GraphOpSeq *graphOpSeq = NULL);
+
+    virtual FCPtrStore readTopNodes          (std::istream &is, const Char8* ext,
+                                                     GraphOpSeq *graphOpSeq = NULL);
 
     virtual NodePtr    read                  (const  Char8  *fileName,
-                                                     UInt32  uiAddOptions = 0,
-                                                     UInt32  uiSubOptions = 0);
-
-    virtual FCPtrStore readTopNodesOptReplace(const  Char8  *fileName,
-                                                     UInt32  uiReplaceOptions);
+                                                     GraphOpSeq *graphOpSeq = NULL);
 
     virtual FCPtrStore readTopNodes          (const  Char8  *fileName,
-                                                     UInt32  uiAddOptions = 0,
-                                                     UInt32  uiSubOptions = 0);
+                                                     GraphOpSeq *graphOpSeq = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr node, const Char8 *fileName);
+    virtual bool write(const NodePtr &node, std::ostream &os, const Char8 *ext);
+    virtual bool write(const NodePtr &node, const Char8 *fileName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   PathHandler                                */
+    /*! \{                                                                 */
+
+    virtual PathHandler* getPathHandler(void                    );
+    virtual void         setPathHandler(PathHandler *pathHandler);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -159,6 +179,22 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const SceneFileHandler &source);
+
+    typedef struct
+    {
+        UInt64 length;
+        std::istream *is;
+    } progressS;
+
+    void startReadProgressThread(std::istream &is);
+    void stopReadProgressThread(void);
+    static void readProgress(void *data);
+
+    progresscbfp    _readProgressFP;
+    progressS       _progressData;
+    bool            _readReady;
+
+    PathHandler     *_pathHandler;
 };
 
 typedef SceneFileHandler* SceneFileHandlerP;

@@ -58,17 +58,21 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::BINWriter 
+/*! \class osg::BINWriter
     \ingroup GrpSystemFileIO
-    
+
     OpenSG propritrary file writer
  */
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors/Destructor                      */
 
-BINWriter::BINWriter(FILE *file) :
-    _outFileHandler(file)
+BINWriter::BINWriter(std::ostream &os) :
+    _fcMap(),
+    _fcIdMap(),
+    _outFileHandler(os),
+    _vec_pRootNodes(),
+    _valid_stream(os)
 {
 }
 
@@ -83,8 +87,14 @@ BINWriter::~BINWriter(void)
 
 /*! write contents of a single root node
  */
-void BINWriter::write(NodePtr node)
+bool BINWriter::write(NodePtr node)
 {
+    if(!_valid_stream)
+    {
+        SWARNING << "BINLoader::write : Stream is invalid!" << std::endl;
+        return false;
+    }
+
     _fcMap.clear();
     _fcIdMap.clear();
     _vec_pRootNodes.clear();
@@ -99,12 +109,20 @@ void BINWriter::write(NodePtr node)
     // write the containers and flush the filehandler
     doWriteIndexedFC();
     _outFileHandler.flush();
+
+    return true;
 }
 
 /*! write contents of a vector of nodes
  */
-void BINWriter::write(std::vector<NodePtr> nodes)
+bool BINWriter::write(std::vector<NodePtr> nodes)
 {
+    if(!_valid_stream)
+    {
+        SWARNING << "BINLoader::write : Stream is invalid!" << std::endl;
+        return false;
+    }
+
     //does the same as write(NodePtr) for every Node in the vector
     _fcMap.clear();
     _fcIdMap.clear();
@@ -120,6 +138,8 @@ void BINWriter::write(std::vector<NodePtr> nodes)
     writeFileHeader();
     doWriteIndexedFC();
     _outFileHandler.flush();
+
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -162,21 +182,21 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
     iIdMap->second[0]++;
 }
 
-/*! Write a file header containing the following:   
+/*! Write a file header containing the following:
     <pre>
-    Number (k) of roots (osg::UInt32)                                       
-    {                                                                     
-        root IDs (osg::UInt32)                                            
-    } (k times)                                                           
+    Number (k) of roots (osg::UInt32)
+    {
+        root IDs (osg::UInt32)
+    } (k times)
 
-    Number(i) of different containertypes (osg::UInt32)                     
-    {                                                                     
-        containertype (std::string)                                           
-        number(j) of appropriate containers (osg::UInt32)                     
-        {                                                                   
-            container Ids (osg::UInt32)                                         
-        } (j times)                                                         
-    } (i times)                                                           
+    Number(i) of different containertypes (osg::UInt32)
+    {
+        containertype (std::string)
+        number(j) of appropriate containers (osg::UInt32)
+        {
+            container Ids (osg::UInt32)
+        } (j times)
+    } (i times)
     </pre>
  */
 void BINWriter::writeFileHeader(void)
@@ -278,9 +298,11 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
 
                 for(; mapIt != mapEnd; ++mapIt)
                 {
+                    /*
                     fprintf(stderr, "Write %s %s\n",
                                                 mapIt->second->getType().getCName(),
                                                 GenericAtt::getClassType().getCName());
+                    */
 
                     doIndexFC(mapIt->second);
                 }
@@ -374,13 +396,11 @@ BINWriter::FCInfo::FCInfo(void) :
 
 /*! constructor
  */
-BINWriter::BinaryFileHandler::BinaryFileHandler(FILE *file) :
+BINWriter::BinaryFileHandler::BinaryFileHandler(std::ostream &os) :
     BinaryDataHandler(0),
-    _file(file)
+    _os(os)
 {
-    _readMemory.resize(10000);
     _writeMemory.resize(10000);
-    readBufAdd(&_readMemory[0], _readMemory.size());
     writeBufAdd(&_writeMemory[0], _writeMemory.size());
 }
 
@@ -390,18 +410,11 @@ BINWriter::BinaryFileHandler::~BinaryFileHandler(void)
 {
 }
 
-/*! read from binary file 
- */
-void BINWriter::BinaryFileHandler::read(MemoryHandle mem, UInt32 size)
-{
-    fread(mem, size, 1, _file);
-}
-
 /*! write to binary file
  */
 void BINWriter::BinaryFileHandler::write(MemoryHandle mem, UInt32 size)
 {
-    fwrite(mem, size, 1, _file);
+    _os.write((const char *) mem, size);
 }
 
 /*-------------------------------------------------------------------------*/

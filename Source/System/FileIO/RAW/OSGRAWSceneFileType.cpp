@@ -64,9 +64,9 @@ OSG_USING_NAMESPACE
 #endif
 
 
-/*! \class osg::RAWSceneFileType 
+/*! \class osg::RAWSceneFileType
     \ingroup GrpSystemFileIO
-    
+
  */
 
 /*****************************
@@ -120,10 +120,9 @@ const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 #pragma set woff 1209
 #endif
 
-NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
+NodePtr RAWSceneFileType::read(std::istream &is) const
 {
     NodePtr root;
-    std::ifstream in(fileName);
     GeometryPtr geo;
     GeoPositions3f::PtrType points;
     GeoNormals3f::PtrType   normals;
@@ -136,7 +135,7 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 
     fprintf(stderr, "Loading using Loader 0\n");
 
-    if (in)
+    if(is)
     {
         root = Node::create();
         geo = Geometry::create();
@@ -157,8 +156,8 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
         beginEditCP(normals, FieldBits::AllFields);
 
         while (1) {
-            in >> x >> y >> z;
-            if (in.eof())
+            is >> x >> y >> z;
+            if (is.eof())
                 break;
             else {
                 points->getFieldPtr()->push_back( Pnt3f ( x, y, z) );
@@ -218,8 +217,6 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 
         geo->setMaterial( mat );
         endEditCP(geo, FieldBits::AllFields);
-
-        in.close();
     }
 
     if (triCount)
@@ -231,14 +228,6 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
-
-
-NodePtr RAWSceneFileType::read(const Char8  *fileName,
-                                     UInt32  uiAddOptions,
-                                     UInt32  uiSubOption ) const
-{
-    return read(fileName, uiAddOptions & ~uiSubOption);
-}
 
 //----------------------------
 // Function name: write
@@ -261,8 +250,8 @@ NodePtr RAWSceneFileType::read(const Char8  *fileName,
 //
 //------------------------------
 
-bool RAWSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
-                             const Char8   *OSG_CHECK_ARG(fileName)) const
+bool RAWSceneFileType::write(const NodePtr & OSG_CHECK_ARG(node    ),
+                             std::ostream & OSG_CHECK_ARG(os)) const
 {
     return false;
 }

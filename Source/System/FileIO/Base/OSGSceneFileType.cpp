@@ -44,9 +44,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <fstream>
+
 #include "OSGConfig.h"
 
 #include <OSGLog.h>
+
+#if 0
+#include <OSGImageFileHandler.h>
+#include <OSGPathHandler.h>
+#endif
 
 #include "OSGSceneFileType.h"
 #include "OSGSceneFileHandler.h"
@@ -54,9 +61,9 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class OSG::SceneFileType 
+/*! \class OSG::SceneFileType
     \ingroup GrpSystemFileIO
-    
+
  */
 
 //---------------------------------------------------------
@@ -137,38 +144,31 @@ UInt32 SceneFileType::getOverridePriority(void)
 
 //---------------------------------------------------------
 
-SceneFileType::FCPtrStore SceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiReplaceOptions) const
+NodePtr SceneFileType::read(std::istream & OSG_CHECK_ARG(is)) const
 {
-  FieldContainerPtr fcPtr = read(fileName, uiReplaceOptions);
-
-  std::vector<FieldContainerPtr> fcVec;
-
-  FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
-
-  if (fcPtr != OSG::NullFC)
-    fcVec.push_back(fcPtr);
-
-  return fcVec;
+    FWARNING (("STREAM INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
 }
 
-SceneFileType::FCPtrStore SceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiAddOptions,
-          UInt32  uiSubOptions) const
+NodePtr SceneFileType::read(const Char8 * OSG_CHECK_ARG(fileName)) const
 {
-  FieldContainerPtr fcPtr = read(fileName, uiAddOptions, uiSubOptions);
-  std::vector<FieldContainerPtr> fcVec;
-
-  FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
-
-  if (fcPtr != OSG::NullFC)
-    fcVec.push_back(fcPtr);
-
-  return fcVec;
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
 }
 
+bool SceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
+                          std::ostream & OSG_CHECK_ARG(os)) const
+{
+    FWARNING (("STREAM INTERFACE NOT IMPLEMENTED!\n"));
+    return false;
+}
+
+bool SceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
+                          const Char8 *OSG_CHECK_ARG(fileName)) const
+{
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return false;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -56,12 +56,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 {
     /*==========================  PUBLIC  =================================*/
   public:
-	
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors/Destructor                    */
     /*! \{                                                                 */
 
-             BINWriter(FILE *file);
+             BINWriter(std::ostream &os);
     virtual ~BINWriter(void      );
 
     /*! \}                                                                 */
@@ -69,8 +69,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*! \name                 write                                        */
     /*! \{                                                                 */
 
-    void write(            NodePtr  node );
-    void write(std::vector<NodePtr> nodes);
+    bool write(            NodePtr  node );
+    bool write(std::vector<NodePtr> nodes);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -81,15 +81,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*! \{                                                                 */
 
     /*! \hideinhierarchy */
-	struct FCInfo 
+	struct FCInfo
 	{
          OSG::IDString     type;
-		 FieldContainerPtr ptr;  
+		 FieldContainerPtr ptr;
  		 BitVector         mask; //should match UInt32
 		 FCInfo(void);
 	};
     //FieldContainerId is of type UInt32
-  	typedef std::map<     UInt32,             FCInfo  > FCInfoMap;	
+  	typedef std::map<     UInt32,             FCInfo  > FCInfoMap;
     typedef std::map<std::string, std::vector<UInt32> > FCTypeIdMap;
 
     /*! \hideinhierarchy */
@@ -97,16 +97,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 	class BinaryFileHandler : public BinaryDataHandler
     {
 	  public:
-		BinaryFileHandler(FILE *file);
+		BinaryFileHandler(std::ostream &os);
 		virtual ~BinaryFileHandler();
-	    
-		void read (MemoryHandle mem, UInt32 size);
+
 		void write(MemoryHandle mem, UInt32 size);
-	
+
 	  private:
-		std::vector<UInt8> _readMemory;
+
 		std::vector<UInt8> _writeMemory;
-		FILE *_file;
+        std::ostream &_os;
 
         BinaryFileHandler(const BinaryFileHandler &source);
         void operator =(const BinaryFileHandler &source);
@@ -132,7 +131,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 	FCTypeIdMap          _fcIdMap;
 	BinaryFileHandler    _outFileHandler;
     std::vector<NodePtr> _vec_pRootNodes;
-    
+    bool                 _valid_stream;
+
     /*! \}                                                                 */
 
     BINWriter(const BINWriter &source);

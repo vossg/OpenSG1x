@@ -61,16 +61,18 @@
 #include <OSGGeoFunctions.h>
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGImageFileHandler.h>
+#include <OSGPathHandler.h>
 #include <OSGGroup.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSGOBJSceneFileType.h"
 
 OSG_USING_NAMESPACE
 
 
-/*! \class OSG::OBJSceneFileType 
+/*! \class OSG::OBJSceneFileType
     \ingroup GrpSystemFileIO
-    
+
  */
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
@@ -122,10 +124,9 @@ OBJSceneFileType  OBJSceneFileType::_the         (_suffixA,
 //s:
 //
 //------------------------------
-NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
+NodePtr OBJSceneFileType::read(std::istream &is) const
 {
   NodePtr rootPtr, nodePtr;
-  std::ifstream in(fileName);
   std::string elem;
   std::map<std::string, DataElem>::const_iterator elemI;
   Vec3f vec3f;
@@ -133,11 +134,11 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   Real32 x,y,z;
   GeoPositionsPtr coordPtr      = GeoPositions3f::create();
   GeoTexCoordsPtr  texCoordPtr  = GeoTexCoords2f::create();
-  GeoNormalsPtr     normalPtr   = GeoNormals3f::create(); 
+  GeoNormalsPtr     normalPtr   = GeoNormals3f::create();
   GeometryPtr geoPtr;
   GeoIndicesPtr indexPtr;
   GeoPLengthsPtr lensPtr;
-  GeoPTypesPtr typePtr; 
+  GeoPTypesPtr typePtr;
   DataElem dataElem;
   Char8 strBuf[8192], *token, *nextToken;
   Int32 strBufSize = sizeof(strBuf)/sizeof(Char8);
@@ -154,66 +155,62 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   std::list<Mesh>::iterator meshI;
   bool isSingleIndex;
 
-  // Path handler for material files
-  PathHandler ph;
-  ph.setBaseFile(fileName);
-  
   // create the first mesh entry
   meshList.push_back(emptyMesh);
   meshI = meshList.begin();
 
-    if (in)
+    if(is)
     {
       primCount[0] = 0;
       primCount[1] = 0;
-      primCount[2] = 0;  
+      primCount[2] = 0;
 
       beginEditCP(coordPtr);
       beginEditCP(texCoordPtr);
       beginEditCP(normalPtr);
 
-      for (in >> elem; in.eof() == false; in >> elem) 
+      for (is >> elem; is.eof() == false; is >> elem)
         if (elem[0] == '#' ||
 	    elem[0] == '$'
 	    )
-          in.ignore(INT_MAX, '\n'); 
+          is.ignore(INT_MAX, '\n');
         else
           {
             elemI = _dataElemMap.find(elem);
             dataElem = ((elemI == _dataElemMap.end()) ?
                         UNKNOWN_DE : elemI->second );
-            switch (dataElem) 
+            switch (dataElem)
               {
               case OBJECT_DE:
               case GROUP_DE:
               case SMOOTHING_GROUP_DE:
-                in.ignore(INT_MAX, '\n'); 
+                is.ignore(INT_MAX, '\n');
                 break;
               case VERTEX_DE:
                 primCount[0]++;
-                in >> x >> y >> z;
+                is >> x >> y >> z;
                 vec3f.setValues(x,y,z);
-                coordPtr->push_back(vec3f);                    
+                coordPtr->push_back(vec3f);
                 break;
               case VERTEX_TEXTURECOORD_DE:
                 primCount[1]++;
-                in >> x >> y;
+                is >> x >> y;
                 vec2f.setValues(x,y);
                 texCoordPtr->push_back(vec2f);
                 break;
               case VERTEX_NORMAL_DE:
                 primCount[2]++;
-                in >> x >> y >> z;
+                is >> x >> y >> z;
                 vec3f.setValues(x,y,z);
-                normalPtr->push_back(vec3f);                    
+                normalPtr->push_back(vec3f);
                 break;
               case LIB_MTL_DE:
-                in >> elem;
-                readMTL ( elem.c_str(), ph, mtlMap );
-                in.ignore(INT_MAX, '\n'); 
+                is >> elem;
+                readMTL ( elem.c_str(), mtlMap );
+                is.ignore(INT_MAX, '\n');
                 break;
               case USE_MTL_DE:
-                in >> elem;
+                is >> elem;
                 if (meshI->faceList.empty() == false)
                   {
                     meshList.push_front(emptyMesh);
@@ -230,10 +227,10 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
               case FACE_DE:
                 meshI->faceList.push_front(emptyFace);
                 faceI = meshI->faceList.begin();
-                in.get(strBuf,strBufSize);
+                is.get(strBuf,strBufSize);
                 token = strBuf;
                 indexType = 0;
-                while (token && *token) 
+                while (token && *token)
                   {
                     for (; *token == '/'; token++)
                       indexType++;
@@ -247,16 +244,16 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                     if (index >= 0)
                       index--;
                     else
-                      index =  primCount[indexType] + index;        
+                      index =  primCount[indexType] + index;
                     faceI->tieVec.back().index[indexType] = index;
                     token = nextToken;
                   }
                 break;
               case UNKNOWN_DE:
               default:
-                FWARNING (( "Unkown obj data elem: %s\n", 
+                FWARNING (( "Unkown obj data elem: %s\n",
                             elem.c_str()));
-                in.ignore(INT_MAX, '\n'); 
+                is.ignore(INT_MAX, '\n');
                 break;
               }
           }
@@ -269,12 +266,12 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
       std::cerr << "------------------------------------------------" << std::endl;
       i = 0;
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++) {
-        std::cerr << "Mesh " << i << " faceCount :" 
+        std::cerr << "Mesh " << i << " faceCount :"
                   << meshI->faceList.size() << std::endl;
         j = 0 ;
         for ( faceI = meshI->faceList.begin(); faceI != meshI->faceList.end();
               faceI++)
-          std::cerr << "MESH " <<  i << "face: " << j++ << "tie num: " 
+          std::cerr << "MESH " <<  i << "face: " << j++ << "tie num: "
                     << faceI->tieVec.size() << std::endl;
         i++;
       }
@@ -285,22 +282,22 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++)
         {
           geoPtr   = Geometry::create();
-          indexPtr = GeoIndicesUI32::create();  
-          lensPtr  = GeoPLengthsUI32::create();  
+          indexPtr = GeoIndicesUI32::create();
+          lensPtr  = GeoPLengthsUI32::create();
           typePtr  = GeoPTypesUI8::create();
-          
+
           // create and check mesh index mask
           meshIndexMask = 0;
           isSingleIndex = true;
           if ( meshI->faceList.empty() == false)
-            for ( faceI = meshI->faceList.begin(); 
+            for ( faceI = meshI->faceList.begin();
                   faceI != meshI->faceList.end(); faceI++)
               {
                 indexMask = 0;
                 n = faceI->tieVec.size();
                 for (i = 0; i < n; i++)
                   for (j = 0; j < 3; j++)
-                  { 
+                  {
                     if ((index = (faceI->tieVec[i].index[j])) >= 0) {
                       indexMask |= (1 << j);
                       if (j)
@@ -323,9 +320,9 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
             {
               FWARNING (("Mesh with empty faceList\n"));
             }
-          
+
           // fill the geo properties
-          if (meshIndexMask) 
+          if (meshIndexMask)
             {
                 beginEditCP ( geoPtr );
                 {
@@ -366,7 +363,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                   geoPtr->setIndices   ( indexPtr );
                   geoPtr->setLengths   ( lensPtr );
                   geoPtr->setTypes     ( typePtr );
-                  
+
                   if (meshI->mtlPtr == NullFC)
                   {
                     meshI->mtlPtr = SimpleTexturedMaterial::create();
@@ -378,25 +375,25 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                     }
                     endEditCP( meshI->mtlPtr );
                   }
-                  geoPtr->setMaterial  ( meshI->mtlPtr ); 
+                  geoPtr->setMaterial  ( meshI->mtlPtr );
                 }
                 endEditCP ( geoPtr );
-                
+
                 beginEditCP(lensPtr);
                 beginEditCP(typePtr);
                 beginEditCP(indexPtr);
-                
-                for ( faceI = meshI->faceList.begin(); 
+
+                for ( faceI = meshI->faceList.begin();
                       faceI != meshI->faceList.end(); faceI++)
                 {
                   n = faceI->tieVec.size();
-                  
+
                   // add the lens entry
                   lensPtr->push_back(n);
-                  
+
                   // add the type entry
                   typePtr->push_back(GL_POLYGON);
-                  
+
                   // create the index values
                   for (i = 0; i < n; i++)
                     if (isSingleIndex)
@@ -406,20 +403,20 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                         if ( meshIndexMask & (1 << j))
                           indexPtr->push_back( faceI->tieVec[i].index[j]);
                 }
-            
+
                 endEditCP(indexPtr);
                 endEditCP(typePtr);
                 endEditCP(lensPtr);
-                
+
                 createSharedIndex( geoPtr );
-                
+
                 // check if we have normals
                 if ((meshIndexMask & 4) == 0)
                   calcVertexNormals(geoPtr);
-                
+
                 // TODO; need opt flag
                 createOptimizedPrimitives(geoPtr);
-                
+
                 // create and link the node
                 nodePtr = Node::create();
                 beginEditCP ( nodePtr );
@@ -427,7 +424,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                   nodePtr->setCore( geoPtr );
                 }
                 endEditCP ( nodePtr );
-                
+
                 if (meshList.size() > 1)
                   {
                     if (rootPtr == NullFC)
@@ -454,16 +451,9 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
             }
         }
     }
-    
-  
-  return rootPtr;
-}
 
-NodePtr OBJSceneFileType::read(const Char8  *fileName,
-                                     UInt32  uiAddOptions,
-                                     UInt32  uiSubOptions) const
-{
-    return read(fileName, uiAddOptions & ~uiSubOptions);
+
+  return rootPtr;
 }
 
 //----------------------------
@@ -486,7 +476,7 @@ NodePtr OBJSceneFileType::read(const Char8  *fileName,
 //s:
 //
 //------------------------------
-bool OBJSceneFileType::write (const NodePtr  OSG_CHECK_ARG(node    ),
+bool OBJSceneFileType::write (const NodePtr & OSG_CHECK_ARG(node    ),
                               const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     FFATAL (("OBJSceneFileType::write() is not impl.\n"));
@@ -640,7 +630,7 @@ void OBJSceneFileType::initElemMap(void)
   if (_dataElemMap.empty())
     {
       _dataElemMap[""]        = UNKNOWN_DE;
-     
+
       _dataElemMap["v"]       = VERTEX_DE;
       _dataElemMap["vt"]      = VERTEX_TEXTURECOORD_DE;
       _dataElemMap["vn"]      = VERTEX_NORMAL_DE;
@@ -672,12 +662,19 @@ void OBJSceneFileType::initElemMap(void)
 }
 
 Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
-                                  PathHandler &pathHandler,
                                   std::map<std::string, SimpleTexturedMaterialPtr> & mtlMap )
   const
 {
   Int32 mtlCount = 0;
-  std::ifstream in(pathHandler.findFile(fileName).c_str());
+
+  PathHandler *pathHandler = SceneFileHandler::the().getPathHandler();
+  std::string fullFilePath;
+  if(pathHandler != NULL)
+    fullFilePath = pathHandler->findFile(fileName);
+  else
+    fullFilePath = fileName;
+
+  std::ifstream in(fullFilePath.c_str());
   SimpleTexturedMaterialPtr mtlPtr = NullFC;
   Real32 a,b,c;
   std::string elem;
@@ -689,9 +686,9 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
   bool constDiffuse, constAmbient, constSpecular;
 
   if (in)
-    for (in >> elem; in.eof() == false; in >> elem) 
+    for (in >> elem; in.eof() == false; in >> elem)
       if (elem[0] == '#' || elem[0] == '$' )
-        in.ignore(INT_MAX, '\n'); 
+        in.ignore(INT_MAX, '\n');
       else
         {
           elemI = _mtlElemMap.find(elem);
@@ -715,18 +712,18 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
           else
           {
             if (mtlPtr == NullFC)
-            {  
+            {
               FFATAL (( "Invalid Mtl token: %s, newmtl expected in %s\n",
                         elem.c_str(), fileName ));
               in.ignore(INT_MAX, '\n');
             }
-            else 
+            else
             {
-              switch (mtlElem) 
+              switch (mtlElem)
               {
               case MTL_DIFFUSE_ME:
                 in >> a >> b >> c;
-                if (!constDiffuse) 
+                if (!constDiffuse)
                   mtlPtr->setDiffuse( Color3f( a,b,c ));
                 break;
               case MTL_AMBIENT_ME:
@@ -759,15 +756,19 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
               case MTL_MAP_KA_ME:
               case MTL_MAP_KS_ME:
                 image = NullFC;
-                in >> elem;                
+                in >> elem;
                 iI = imageMap.find(elem);
                 if (iI == imageMap.end())
                 {
-                  elem = pathHandler.findFile(elem.c_str());
-                  image = OSG::ImageFileHandler::the().read(elem.c_str());
+                  std::string fullElemPath;
+                  if(pathHandler != NULL)
+                    fullElemPath = pathHandler->findFile(elem.c_str());
+                  else
+                    fullElemPath = elem.c_str();
+                  image = OSG::ImageFileHandler::the().read(fullElemPath.c_str());
                   imageMap[elem] = image;
-                }                     
-                else 
+                }
+                else
                 {
                   image = iI->second;
                 }
@@ -793,7 +794,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                   FFATAL (( "Can not find %s texture file in mtl %s \n",
                             elem.c_str(), fileName ));
                 }
-              break;               
+              break;
               default:
               FWARNING (( "Invalid %s entry in %s\n",
                           elem.c_str(), fileName ));
@@ -802,10 +803,10 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
             }
           }
         }
-  
+
   if (mtlPtr != NullFC)
     endEditCP(mtlPtr);
-          
+
   return mtlCount;
 }
 

@@ -52,15 +52,15 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::BINLoader 
+/*! \class osg::BINLoader
     \ingroup GrpSystemFileIO
-    
+
     OpenSG propritrary file loader
 
     <pre>
     UInt32          num of root nodes
       // for each root node
-      UInt32        root node field container id         
+      UInt32        root node field container id
 
     UInt32          num of types
     // for each type
@@ -82,9 +82,12 @@ OSG_USING_NAMESPACE
 
 /*! constructor
  */
-BINLoader::BINLoader(FILE *file) :
-    _inFileHandler(file),
-    _countContainers(0)
+BINLoader::BINLoader(std::istream &is) :
+    _inFileHandler(is),
+    _fcInfoMap(),
+    _countContainers(0),
+    _vec_pRootNodes(),
+    _valid_stream(is)
 {
 }
 
@@ -101,8 +104,19 @@ BINLoader::~BINLoader(void)
  */
 void BINLoader::read(void)
 {
+    if(!_valid_stream)
+    {
+        SFATAL << "BINLoader::read : Stream is invalid!" << std::endl;
+        return;
+    }
+
     _vec_pRootNodes.clear();
-    createFieldContainers();
+    if(!createFieldContainers())
+    {
+        _valid_stream = false;
+        return;
+    }
+
     chargeFieldContainers();
 }
 
@@ -110,6 +124,11 @@ void BINLoader::read(void)
  */
 NodePtr BINLoader::getRootNode(void)
 {
+    if(!_valid_stream)
+    {
+        return NullFC;
+    }
+
     return _vec_pRootNodes[0];
 }
 
@@ -125,7 +144,7 @@ std::vector<NodePtr> BINLoader::getRootNodes(void)
 
 /*! create all fieldcontainers with default values
  */
-void BINLoader::createFieldContainers(void)
+bool BINLoader::createFieldContainers(void)
 {
     UInt32 countTypes = 0, countCurrentType = 0, oldFCId = 0, numOfRoots = 0,
         currentId = 0, i, j;
@@ -155,6 +174,13 @@ void BINLoader::createFieldContainers(void)
         {
             _inFileHandler.getValue(oldFCId);
             newFCInfo.ptr = FieldContainerFactory::the()->createFieldContainer(fcTypeCName.c_str());
+
+            if(newFCInfo.ptr == NullFC)
+            {
+                SFATAL << "Couldn't create unknown FieldContainer with type '" <<
+                       fcTypeCName << "'!" << std::endl;
+                return false;
+            }
             _countContainers++;
 
             //det. all RootNodes
@@ -165,7 +191,7 @@ void BINLoader::createFieldContainers(void)
 
             newFCInfo.newId = newFCInfo.ptr.getFieldContainerId();
 
-            if(_fcInfoMap.insert(std::make_pair(oldFCId, newFCInfo)).second 
+            if(_fcInfoMap.insert(std::make_pair(oldFCId, newFCInfo)).second
                == false)
             {
                 std::cerr <<
@@ -176,6 +202,7 @@ void BINLoader::createFieldContainers(void)
     }
 
     SINFO << "created " << _countContainers << " containers" << std::endl;
+    return true;
 }
 
 /*! apply field values to the field containers
@@ -301,14 +328,12 @@ UInt32 BINLoader::FCIdMapper::map(UInt32 uiId)
 
 /*! constructor
  */
-BINLoader::BinaryFileHandler::BinaryFileHandler(FILE *file) :
+BINLoader::BinaryFileHandler::BinaryFileHandler(std::istream &is) :
     BinaryDataHandler(0),
-    _file(file)
+    _is(is)
 {
     _readMemory.resize(10000);
-    _writeMemory.resize(10000);
     readBufAdd(&_readMemory[0], _readMemory.size());
-    writeBufAdd(&_writeMemory[0], _writeMemory.size());
 }
 
 /*! destructor
@@ -321,14 +346,7 @@ BINLoader::BinaryFileHandler::~BinaryFileHandler(void)
  */
 void BINLoader::BinaryFileHandler::read(MemoryHandle mem, UInt32 size)
 {
-    fread(mem, size, 1, _file);
-}
-
-/*! write
- */
-void BINLoader::BinaryFileHandler::write(MemoryHandle mem, UInt32 size)
-{
-    fwrite(mem, size, 1, _file);
+    _is.read((char *) mem, size);
 }
 
 /*-------------------------------------------------------------------------*/

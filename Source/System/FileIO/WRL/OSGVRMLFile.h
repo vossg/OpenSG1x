@@ -55,7 +55,6 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
-#include <OSGPathHandler.h>
 
 #include <OSGVRMLNodeFactory.h>
 
@@ -87,7 +86,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum 
+    enum
     {
         CreateNormals       = Inherited::LastOption << 1,
         StripeGeometry      = CreateNormals         << 1,
@@ -108,32 +107,29 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~VRMLFile(void); 
+    virtual ~VRMLFile(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Skel replacements                          */
     /*! \{                                                                 */
 
-    virtual void   scanFile      (const Char8  *szFilename, 
-                                        UInt32  uiReplaceOptions);
+    virtual void   scanStream    (std::istream &is);
 
-    virtual void   scanFile      (const Char8  *szFilename, 
-                                        UInt32  uiAddOptions,
-                                        UInt32  uiSubOption);
+    virtual void   scanFile      (const Char8  *szFilename);
 
     virtual void   beginFieldDecl(const Char8  *szFieldType,
                                   const UInt32  uiFieldTypeId,
-                                  const Char8  *szFieldName); 
+                                  const Char8  *szFieldName);
 
 
     virtual void   beginNode     (const Char8 *szNodeTypename,
                                   const Char8 *szNodename);
-    
+
     virtual void   endNode       (void);
 
     virtual void   beginScript   (const Char8 *szNodename);
-    
+
     virtual void   endScript     (void);
 
 
@@ -155,21 +151,20 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*---------------------------------------------------------------------*/
     /*! \name                      Helper                                  */
     /*! \{                                                                 */
-    
-    void    scanStandardPrototypes  (const Char8  *szFilename, 
-                                           UInt32  uiOptions);
-    
+
+    void    scanStandardPrototypes  (const Char8  *szFilename);
+
     void    createStandardPrototypes(void);
-    
+
     NodePtr getRoot                 (void);
-    
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
     typedef std::map<IDString, FieldContainerPtr> NameContainerMap;
     typedef std::map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
- 
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
@@ -193,8 +188,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 
                NameContainerMap            _nameFCMap;
                NameDescriptionMap          _nameDescMap;
-
-               PathHandler                 _pathHandler;
 
     void              initIntExtFieldTypeMapper(void);
     void              initExtIntFieldTypeMapper(void);

@@ -55,8 +55,8 @@ class OSGScanParseSkel_FlexLexer;
 
 OSG_BEGIN_NAMESPACE
 
-//! Parser / Scanner Skeleton for VRML97 syntax based file formats 
-//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib 
+//! Parser / Scanner Skeleton for VRML97 syntax based file formats
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 {
@@ -85,7 +85,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGmfTime     = TOK_MFTIME,
         OSGmfVec2f    = TOK_MFVEC2F,
         OSGmfVec3f    = TOK_MFVEC3F,
-        
+
         OSGmfColor4f  = TOK_MFCOLOR4F,
         OSGmfColor4i  = TOK_MFCOLOR4I,
         OSGmfColor3f  = TOK_MFCOLOR3F,
@@ -107,7 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGsfVolume   = TOK_SFVOLUME
     };
 
-    enum 
+    enum
     {
         LastOption = 0x0001
     };
@@ -123,7 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~ScanParseSkel(void); 
+    virtual ~ScanParseSkel(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,22 +131,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \{                                                                 */
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-    virtual void         scanStream       (std::istream &is,
-                                                UInt32  uiReplaceOptions);
-
-    virtual void         scanStream       (std::istream &is,
-                                                UInt32  uiAddOptions, 
-                                                UInt32  uiSubOptions);
+    virtual void         scanStream       (std::istream &is);
 #endif
 
-    virtual void         scanFile         (const Char8  *szFilename, 
-                                                 UInt32  uiReplaceOptions);
-
-    virtual void         scanFile         (const Char8  *szFilename, 
-                                                 UInt32  uiAddOptions, 
-                                                 UInt32  uiSubOptions);
-
-    virtual void         setDefaultOptions(      UInt32  uiOptions   );
+    virtual void         scanFile         (const Char8  *szFilename);
 
     virtual Int32        lex              (      void                );
     virtual const Char8 *getText          (      void                );
@@ -170,42 +158,42 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     virtual void beginEventInDecl         (const Char8  *szEventType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szEventName); 
+                                           const Char8  *szEventName);
 
     virtual void beginEventOutDecl        (const Char8  *szEventType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szEventName); 
+                                           const Char8  *szEventName);
 
     virtual void endEventDecl             (void);
 
     virtual void beginFieldDecl           (const Char8  *szFieldType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szFieldName); 
+                                           const Char8  *szFieldName);
 
     virtual void endFieldDecl             (void);
 
     virtual void beginExposedFieldDecl    (const Char8  *szFieldType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szFieldName); 
+                                           const Char8  *szFieldName);
 
     virtual void endExposedFieldDecl      (void);
 
 
     virtual void addExternEventInDecl     (const Char8  *szEventType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szEventName); 
+                                           const Char8  *szEventName);
 
     virtual void addExternEventOutDecl    (const Char8  *szEventType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szEventName); 
+                                           const Char8  *szEventName);
 
     virtual void addExternFieldDecl       (const Char8  *szFieldType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szFieldName); 
+                                           const Char8  *szFieldName);
 
     virtual void addExternExposedFieldDecl(const Char8  *szFieldType,
                                            const UInt32  uiFieldTypeId,
-                                           const Char8  *szFieldName); 
+                                           const Char8  *szFieldName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,7 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     virtual void beginNode(const Char8 *szNodeTypename,
                            const Char8 *szNodename);
-    
+
     virtual void endNode  (void);
 
     virtual void use      (const Char8 *szName);
@@ -262,8 +250,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    UInt32                      _uiCurrOptions;
-    UInt32                      _uiDefOptions;
     bool                        _bMapTypeIds;
     Char8                      *_szReferenceHeader;
     OSGScanParseSkel_FlexLexer *_pLexer;

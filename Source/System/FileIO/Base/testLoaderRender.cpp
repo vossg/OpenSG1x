@@ -1,105 +1,163 @@
+// Minimalistic OpenSG program
 
-#include "OSGConfig.h"
-
-#include <OSGGLUT.h>
-
-#include <iostream>
 #include <fstream>
 
-#include <OSGBaseFunctions.h>
-#include <OSGQuaternion.h>
-#include <OSGMatrix.h>
-#include <OSGNode.h>
-#include <OSGGroup.h>
-#include <OSGAction.h>
-#include <OSGDrawAction.h>
-#include <OSGGeometry.h>
+// GLUT is used for window handling
+#include <OSGGLUT.h>
 
-#include "OSGSceneFileHandler.h"
+// General OpenSG configuration, needed everywhere
+#include <OSGConfig.h>
 
-#ifdef __linux
-#include "OSGRAWSceneFileType.h"
-#endif
+// The GLUT-OpenSG connection class
+#include <OSGGLUTWindow.h>
 
+// A little helper to simplify scene management and interaction
+#include <OSGSimpleSceneManager.h>
+
+// Methods to create simple geometry: boxes, spheres, tori etc.
+#include <OSGSimpleGeometry.h>
+
+#include <OSGImageFileHandler.h>
+#include <OSGPathHandler.h>
+
+#include <OSGSceneFileHandler.h>
+
+// Activate the OpenSG namespace
 OSG_USING_NAMESPACE
 
+SimpleSceneManager *mgr;
 
-DrawAction * dact;
+NodePtr scene = NullFC;
 
-NodePtr  root;
-
-
-void
-display(void)
+// Standard GLUT callback functions
+void display( void )
 {
-    static float a = 0;
-
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-    glPushMatrix();
-    glRotatef( a, 0,1,0 );
-    dact->apply( root );
-
-    glPopMatrix();
-
-    a+=1;
-
-    glutSwapBuffers();
+    mgr->redraw();
 }
 
+void reshape( int w, int h )
+{
+    mgr->resize( w, h );
+    glutPostRedisplay();
+}
+
+void
+motion(int x, int y)
+{
+    mgr->mouseMove( x, y );
+    glutPostRedisplay();
+}
+
+void
+mouse(int button, int state, int x, int y)
+{
+    if ( state )
+        mgr->mouseButtonRelease( button, x, y );
+    else
+        mgr->mouseButtonPress( button, x, y );
+    glutPostRedisplay();
+}
+
+void
+key(unsigned char key, int , int )
+{
+    switch(key)
+    {
+    case 27:    exit(1);
+    case 'a':   mgr->setHighlight(scene);
+                break;
+    case 's':   mgr->setHighlight(NullFC);
+                break;
+    case 'l':   mgr->useOpenSGLogo();
+                break;
+    case 'f':   mgr->setNavigationMode(Navigator::FLY);
+                break;
+    case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
+                break;
+    case 'q':   mgr->setStatistics(true);
+                break;
+    case 'w':   mgr->setStatistics(false);
+                break;
+    }
+    glutPostRedisplay();
+}
+
+static void progress(UInt32 p)
+{
+    std::cout << "Loading " << p << "%" << '\r';
+}
+
+// Initialize GLUT & OpenSG and set up the scene
 int main (int argc, char **argv)
 {
-    osgInit(argc, argv);
+    // OSG init
+    osgInit(argc,argv);
 
-    FieldContainerPtr pProto = Geometry::getClassType().getPrototype();
+    // GLUT init
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    int winid = glutCreateWindow("OpenSG");
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(display);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
+    glutKeyboardFunc(key);
 
-    GeometryPtr pGeoProto = GeometryPtr::dcast(pProto);
+    // the connection between GLUT and OpenSG
+    GLUTWindowPtr gwin= GLUTWindow::create();
+    gwin->setId(winid);
+    gwin->init();
 
-    if(pGeoProto != NullFC)
-    {
-        pGeoProto->setDlistCache(false);
-    }
+    // create the scene
 
     const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
     SceneFileHandler::the().print();
 
-    root = SceneFileHandler::the().read(fileName, 0);
+    // set image and scene path handler to find relative texture and scene paths.
+    PathHandler pathHandler;
+    pathHandler.push_frontCurrentDir();
+    pathHandler.setBaseFile(fileName);
+    ImageFileHandler::the().setPathHandler(&pathHandler);
+    SceneFileHandler::the().setPathHandler(&pathHandler);
 
-    if ( root == NullFC )
+    // set a callback for reading progress.
+    SceneFileHandler::the().setReadProgressCB(progress);
+#if 0
+    // stream test.
+    std::ifstream in(fileName, std::ios::binary);
+    // The last parameter is the filetype e.g. "bin", "osg" but it is
+    // also possible to use the filename with a extension.
+    scene = SceneFileHandler::the().read(in, fileName);
+    in.close();
+#else
+    scene = SceneFileHandler::the().read(fileName, 0);
+#endif
+
+    if(scene == NullFC)
     {
         std::cerr << "Error loading " << fileName << "!" << std::endl;
-        exit(1);
+        scene = makeTorus( .5, 2, 16, 16 );
     }
 
+    //scene.dump();
 
-    std::cerr << "Tree: " << std::endl;
-    root->dump();
+#if 0
+    // stream test.
+    std::ofstream out("test.bin", std::ios::binary);
+    SceneFileHandler::the().write(scene, out, "bin");
+    out.close();
+#endif
 
-    // GLUT init
+    // create the SimpleSceneManager helper
+    mgr = new SimpleSceneManager;
 
-    glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutCreateWindow("OpenSG");
-    glutDisplayFunc(display);
+    mgr->setWindow( gwin );
+    mgr->setRoot( scene );
 
-    glutIdleFunc(display);
+    mgr->showAll();
 
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    gluPerspective( 60, 1, 0.1, 100 );
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-
-    gluLookAt( 15,15,15,  0, 0, 0,   0, 1, 0 );
-
-    glEnable( GL_DEPTH_TEST );
-    // glDrawMode(  );
-    glEnable( GL_LIGHTING );
-    glEnable( GL_LIGHT0 );
-
-    dact = DrawAction::create();
-
+    // GLUT main loop
     glutMainLoop();
 
     return 0;

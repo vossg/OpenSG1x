@@ -51,9 +51,9 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::OSGSceneFileType 
+/*! \class osg::OSGSceneFileType
     \ingroup GrpSystemFileIO
-    
+
  */
 
 /***************************************************************************\
@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
 
 const Char8 *OSGSceneFileType::_suffixA[] =  { "osg" };
 
-OSGSceneFileType OSGSceneFileType::_the(_suffixA, 
+OSGSceneFileType OSGSceneFileType::_the(_suffixA,
                                         sizeof(_suffixA),
                                         false,
                                         10);
@@ -104,72 +104,33 @@ OSGSceneFileType &OSGSceneFileType::the(void)
 
 /*------------------------------ access -----------------------------------*/
 
-const Char8 *OSGSceneFileType::getName(void) const 
-{ 
-    return "OSG GEOMETRY"; 
+const Char8 *OSGSceneFileType::getName(void) const
+{
+    return "OSG GEOMETRY";
 }
 
 
-NodePtr OSGSceneFileType::read(const Char8  *fileName, 
-                                     UInt32  uiReplaceOptions) const
+NodePtr OSGSceneFileType::read(std::istream &is) const
 {
     if(_pFile == NULL)
         _pFile = new OSGLoader;
 
-    _pFile->scanFile(fileName, uiReplaceOptions);
+    _pFile->scanStream(is);
 
     return _pFile->getRootNode();
 }
 
-NodePtr OSGSceneFileType::read(const Char8  *fileName, 
-                                     UInt32  uiAddOptions,
-                                     UInt32  uiSubOptions) const
+bool OSGSceneFileType::write(const NodePtr &root, std::ostream &os) const
 {
-    if(_pFile == NULL)
-        _pFile = new OSGLoader;
-
-    _pFile->scanFile(fileName, uiAddOptions, uiSubOptions);
-
-    return _pFile->getRootNode();    
-}
-
-OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiReplaceOptions) const
-{
-    if(_pFile == NULL)
-        _pFile = new OSGLoader;
-
-    _pFile->scanFile(fileName, uiReplaceOptions);
-
-    return _pFile->getRootNodes();
-}
-
-OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiAddOptions,
-          UInt32  uiSubOptions) const
-{
-    if(_pFile == NULL)
-        _pFile = new OSGLoader;
-
-    _pFile->scanFile(fileName, uiAddOptions, uiSubOptions);
-
-    return _pFile->getRootNodes();
-}
-
-bool OSGSceneFileType::write(const NodePtr root, const char *file) const
-{
-    std::ofstream outFileStream(file);
-    if(!outFileStream)
+    if(!os)
     {
-        FFATAL(("Can not open output stream to file %s!\n", file));
+        FFATAL(("Can not open output stream!\n"));
         return false;
     }
 
-    OSGWriter writer(outFileStream, 4);
-    writer.write(root);  
-    
+    OSGWriter writer(os, 4);
+    writer.write(root);
+
     return true;
 }
 
@@ -190,13 +151,13 @@ bool OSGSceneFileType::write(const NodePtr root, const char *file) const
 /** \brief Constructor
  */
 
-OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[], 
+OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[],
                                          UInt16  suffixByteCount,
                                          bool    override,
                                          UInt32  overridePriority) :
-    Inherited(suffixArray, 
-              suffixByteCount, 
-              override, 
+    Inherited(suffixArray,
+              suffixByteCount,
+              override,
               overridePriority)
 {
     return;
@@ -222,7 +183,7 @@ OSGSceneFileType::~OSGSceneFileType(void)
 #pragma warning( disable : 177 )
 #endif
 
-namespace 
+namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGOSGSCENEFILETYPE_HEADER_CVSID;

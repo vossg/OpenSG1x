@@ -347,8 +347,6 @@ void VRMLNodeFactory<BaseT>::beginProto(
             _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
 
-        _pCurrentNodeDesc->setOptions(Self::_uiCurrOptions);
-
     }
     else
     {

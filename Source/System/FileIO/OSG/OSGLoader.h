@@ -50,7 +50,6 @@
 #include <OSGNodePtr.h>
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
-#include <OSGPathHandler.h>
 
 #include <stack>
 #include <map>
@@ -62,14 +61,14 @@ OSG_BEGIN_NAMESPACE
  *  \brief native osg loader (vrml syntax)
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING OSGLoader : 
+class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     public ScanParseFieldTypeMapper<ScanParseSkel>
 {
     /*==========================  PRIVATE  ================================*/
   private:
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel    > Inherited;
-    typedef std::map                <std::string, 
+    typedef std::map                <std::string,
                                      FieldContainerPtr> NamedFCMap;
     typedef OSGLoader                                   Self;
 
@@ -86,23 +85,18 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~OSGLoader(void); 
+    virtual ~OSGLoader(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                Skel replacements                             */
     /*! \{                                                                 */
 
-    virtual void    scanFile          (const Char8   *szFilename, 
-                                             UInt32   uiReplaceOptions);
+    virtual void scanStream       (std::istream &is);
 
-    virtual void    scanFile          (const Char8   *szFilename, 
-                                             UInt32  uiAddOptions, 
-                                             UInt32  uiSubOptions     );
-                                         
     virtual void    beginNode         (const Char8  *szNodeTypename,
                                        const Char8  *szNodename       );
-    
+
     virtual void    endNode           (void);
 
     virtual void    use               (const Char8  *szName           );
@@ -146,9 +140,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
           std::stack<      FieldContainerPtr >  _fcStack;
           std::stack<      Field            *>  _fStack;
           std::stack<const FieldDescription *>  _fdStack;
-          
-          PathHandler                           _pathHandler;
-
 
     void              initFieldTypeMapper   (      void                      );
 

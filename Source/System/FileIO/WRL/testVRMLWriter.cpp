@@ -19,7 +19,7 @@ int main (int argc, char **argv)
     NodePtr  node;
 
     const char *fileName = (argc > 1) ? argv[1] : "tie.wrl";
-    
+
     osgInit(argc, argv);
 
     NodePtr  pScene      = Node::create();
@@ -27,7 +27,7 @@ int main (int argc, char **argv)
 
     pScene->setCore(pSceneGroup);
 
-    node = SceneFileHandler::the().read(fileName, 0);
+    node = SceneFileHandler::the().read(fileName);
 
     node->updateVolume();
 
@@ -51,7 +51,7 @@ int main (int argc, char **argv)
     pWriter->write(pScene);
 
     pWriter->close();
- 
+
     return 0;
 }
 
@@ -67,7 +67,7 @@ int main (int argc, char **argv)
     GroupPtr pSceneGroup = Group::create();
 
     pScene->setCore(pSceneGroup);
-    
+
     setName(pScene,      "foo");
     setName(pSceneGroup, "bar");
 
@@ -86,7 +86,7 @@ int main (int argc, char **argv)
     pSceneChild     = Node::create();
 //    pSceneChildCore = Group::create();
 //    pSceneChildCore = makeSphereGeo(3, 1);
-    
+
     pSceneChild->setCore(pSceneChildCore);
 
 //    setName(pSceneChild,     "foo2");
@@ -133,13 +133,13 @@ int main (int argc, char **argv)
 
     pWriter->addOptions(VRMLWriteAction::OSGNoNormals);
 //VRMLWriteAction::OSGNoIndent |
-                        
+
     pWriter->open((argc > 2) ? argv[2] : "test.wrl");
 
     pWriter->write(pScene);
 
     pWriter->close();
- 
+
     return 0;
 }
 #endif

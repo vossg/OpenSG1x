@@ -44,15 +44,17 @@
 
 #include <OSGSystemDef.h>
 #include <list>
+#include <iostream>
+
 #include <OSGBaseTypes.h>
 #include <OSGIDString.h>
 #include <OSGNodePtr.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*!\ingroup GrpSystemDrawablesGeometrymetryLoaderLib 
+/*!\ingroup GrpSystemDrawablesGeometrymetryLoaderLib
  * \brief OSGSceneFileType
- */ 
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 {
@@ -89,27 +91,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr    read        (const Char8  *fileName,
-                                          UInt32  uiReplaceOptions) const = 0;
+    virtual NodePtr    read        (std::istream &is) const;
 
-    virtual NodePtr    read        (const Char8  *fileName,
-                                          UInt32  uiAddOptions,
-                                          UInt32  uiSubOptions    ) const = 0;
-
-    virtual FCPtrStore readTopNodes(const Char8  *fileName,
-                                          UInt32  uiReplaceOptions) const;
-
-    virtual FCPtrStore readTopNodes(const Char8  *fileName,
-                                          UInt32  uiAddOptions,
-                                          UInt32  uiSubOptions     ) const;
+    virtual NodePtr    read        (const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr  node,
-                       const Char8   *fileName) const = 0;
+    virtual bool write(const NodePtr &node, std::ostream &os) const;
+
+    virtual bool write(const NodePtr &node,
+                       const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -127,7 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \{                                                                 */
 
     std::list<IDString> _suffixList;
-    
+
     bool                _override;
     UInt32              _overridePriority;
 

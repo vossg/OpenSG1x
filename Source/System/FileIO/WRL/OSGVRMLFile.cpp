@@ -79,9 +79,9 @@ OSG_USING_NAMESPACE
  */
 
 #ifndef __sgi
-template OSG_SYSTEMLIB_DLLMAPPING 
+template OSG_SYSTEMLIB_DLLMAPPING
 class ScanParseFieldTypeMapper<ScanParseSkel>;
-template OSG_SYSTEMLIB_DLLMAPPING 
+template OSG_SYSTEMLIB_DLLMAPPING
 class VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 
@@ -113,19 +113,12 @@ VRMLFile::VRMLFile(void) :
     _fdStack  (),
 
     _nameFCMap  (),
-    _nameDescMap(),
-
-    _pathHandler()
+    _nameDescMap()
 {
     Self::setReferenceHeader("#VRML V2.0 ");
 
-    Self::setDefaultOptions (VRMLFile::StripeGeometry |
-                             VRMLFile::CreateNormals  );
-
     initIntExtFieldTypeMapper();
     initExtIntFieldTypeMapper();
-
-    _pathHandler.push_frontCurrentDir();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -138,7 +131,7 @@ VRMLFile::~VRMLFile(void)
 /*-------------------------------------------------------------------------*/
 /*                           Skel Replacements                             */
 
-void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
+void VRMLFile::scanStream(std::istream &is)
 {
     startTime = getSystemTime();
 
@@ -148,39 +141,26 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
     _pCurrentGlobalLight = NullFC;
 
     _nameFCMap.clear();
-    
+
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
 #endif
 
-    if(szFilename != NULL)
+    if(is)
     {
-        std::string tmpName;
-
-        _pathHandler.setBaseFile(szFilename);
-
-        tmpName = _pathHandler.findFile(szFilename);
-
-        if(tmpName.size() != 0)
-        {
-            Inherited::scanFile(tmpName.c_str(), 
-                                uiOptions);
-        }
+        Inherited::scanStream(is);
     }
 
-    fprintf(stderr, "Full Time : %lf | Use Time %lf\n", 
+    fprintf(stderr, "Full Time : %lf | Use Time %lf\n",
             getSystemTime() - startTime,
             useTime);
 }
 
-void VRMLFile::scanFile(const Char8  *szFilename, 
-                              UInt32  uiAddOptions,
-                              UInt32  uiSubOptions)
+void VRMLFile::scanFile(const Char8 *szFilename)
 {
     startTime = getSystemTime();
 
 //    _pRootNode           = NullFC;
-
     _pSceneRootNode      = NullFC;
     _pLightRoot          = NullFC;
     _pCurrentGlobalLight = NullFC;
@@ -193,21 +173,10 @@ void VRMLFile::scanFile(const Char8  *szFilename,
 
     if(szFilename != NULL)
     {
-        std::string tmpName;
-
-        _pathHandler.setBaseFile(szFilename);
-
-        tmpName = _pathHandler.findFile(szFilename);
-
-        if(tmpName.size() != 0)
-        {
-            Inherited::scanFile(tmpName.c_str(),
-                                uiAddOptions, 
-                                uiSubOptions);
-        }
+        Inherited::scanFile(szFilename);
     }
 
-    fprintf(stderr, "Full Time : %lf | Use Time %lf\n", 
+    fprintf(stderr, "Full Time : %lf | Use Time %lf\n",
             getSystemTime() - startTime,
             useTime);
 }
@@ -221,15 +190,12 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 
     if(_pCurrNodeDesc == NULL)
         return;
-    
-    _pCurrNodeDesc->setOptions    ( _uiCurrOptions);
-    _pCurrNodeDesc->setPathHandler(&_pathHandler);
 
     _sNodeDescs.push(_pCurrNodeDesc);
 
     _pCurrNodeDesc->reset();
 
-    pNewNode = _pCurrNodeDesc->beginNode(szNodeTypename, 
+    pNewNode = _pCurrNodeDesc->beginNode(szNodeTypename,
                                          szNodename,
                                          _pCurrentFC);
 
@@ -263,16 +229,16 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
                 endEditCP(pNode,Node::AttachmentsFieldMask);
                 endEditCP(pNodename);
 
-                NameContainerMap::iterator mIt = 
+                NameContainerMap::iterator mIt =
                     _nameFCMap.find(IDStringLink(szNodename));
-                
+
                 if(mIt == _nameFCMap.end())
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
-                    
+
 #ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-                    PINFO << "Fieldcontainer " << szNodename 
+                    PINFO << "Fieldcontainer " << szNodename
                           << " added to map " << std::endl;
 #endif
                 }
@@ -285,26 +251,26 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 #endif
                 NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
-                
+
                 beginEditCP(pNodename);
                 beginEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);
 
                 pNodename->getFieldPtr()->getValue().assign(szNodename);
-                pNodeCore->addAttachment(pNodename);           
+                pNodeCore->addAttachment(pNodename);
 
                 endEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);
                 endEditCP(pNodename);
 
-                NameContainerMap::iterator mIt = 
+                NameContainerMap::iterator mIt =
                     _nameFCMap.find(IDStringLink(szNodename));
-                
+
                 if(mIt == _nameFCMap.end())
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
-                    
+
 #ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-                    PINFO << "Fieldcontainer " << szNodename 
+                    PINFO << "Fieldcontainer " << szNodename
                           << " added to map " << std::endl;
 #endif
                 }
@@ -313,33 +279,33 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             {
 #ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
-                PINFO << "Fieldcontainer " << szNodeTypename 
+                PINFO << "Fieldcontainer " << szNodeTypename
                       << " is neither node nor nodecore " << std::endl;
 #endif
-                
-                NameContainerMap::iterator mIt = 
+
+                NameContainerMap::iterator mIt =
                     _nameFCMap.find(IDStringLink(szNodename));
-                
+
                 if(mIt == _nameFCMap.end())
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
-                    
+
 #ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-                    PINFO << "Fieldcontainer " << szNodename 
+                    PINFO << "Fieldcontainer " << szNodename
                           << " added to map " << std::endl;
 #endif
                 }
-                
+
             }
 
             _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
-            
+
 #ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Desc for " 
-                  << szNodename 
-                  << " added to map " 
+            PINFO << "Desc for "
+                  << szNodename
+                  << " added to map "
                   << std::endl;
 #endif
         }
@@ -347,20 +313,20 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
         {
 #ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Fieldcontainer " 
-                  << szNodeTypename 
-                  << "is empty, save on end " 
+            PINFO << "Fieldcontainer "
+                  << szNodeTypename
+                  << "is empty, save on end "
                   << std::endl;
 #endif
 
             if(_pCurrNodeDesc != NULL)
                 _pCurrNodeDesc->setOnEndSave(szNodename);
-            
+
             _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
-            
+
 #ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Desc for " 
+            PINFO << "Desc for "
                   << szNodename
                   << " added to map "
                   << std::endl;
@@ -398,7 +364,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
         endEditCP  (_pSceneRootNode, Node::ChildrenFieldMask);
     }
 }
-   
+
 void VRMLFile::endNode(void)
 {
     if(_pCurrNodeDesc == NULL)
@@ -419,14 +385,14 @@ void VRMLFile::endNode(void)
         SLOG << "Fieldcontainer " <<  _pCurrNodeDesc->getSavename()
              << " on end Save " << std::endl;
 
-        NameContainerMap::iterator mIt = 
+        NameContainerMap::iterator mIt =
             _nameFCMap.find(IDStringLink(_pCurrNodeDesc->getSavename()));
-        
+
         if(mIt == _nameFCMap.end())
         {
-            _nameFCMap[IDString(_pCurrNodeDesc->getSavename())] = 
+            _nameFCMap[IDString(_pCurrNodeDesc->getSavename())] =
                 _pCurrNodeDesc->getSaveFieldContainer();
-            
+
             SLOG << "Fieldcontainer " << _pCurrNodeDesc->getSavename()
                  << " added to map " << std::endl;
         }
@@ -446,11 +412,11 @@ void VRMLFile::endNode(void)
     }
 
     if(_pCurrentFC != NullFC)
-    {       
-        if(_pCurrentFC->getType().isNode() == true)        
+    {
+        if(_pCurrentFC->getType().isNode() == true)
         {
             NodePtr pNode = NodePtr::dcast(_pCurrentFC);
-            
+
             if(pNode->getCore() == NullFC)
             {
                 GroupPtr pGroup = Group::create();
@@ -466,7 +432,7 @@ void VRMLFile::endNode(void)
 
     if(_fcStack.size() != 0)
     {
-        _pCurrentFC = _fcStack.top(); 
+        _pCurrentFC = _fcStack.top();
     }
     else
     {
@@ -499,8 +465,8 @@ void VRMLFile::beginField(const Char8  *szFieldname,
 
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "VRMLFile::beginField : looking for " 
-          << szFieldname 
+    PINFO << "VRMLFile::beginField : looking for "
+          << szFieldname
           << " ("
           << uiFieldTypeId
           << " | "
@@ -520,8 +486,8 @@ void VRMLFile::beginField(const Char8  *szFieldname,
 
         if(_pCurrentFC != NullFC)
         {
-            beginEditCP(_pCurrentFC, 
-//                         FieldBits::AllFields, 
+            beginEditCP(_pCurrentFC,
+//                         FieldBits::AllFields,
                         _pCurrentFieldDesc->getFieldMask(),
                          ChangedOrigin::Abstract         |
                          ChangedOrigin::AbstrIgnoreCore  |
@@ -534,8 +500,8 @@ void VRMLFile::beginField(const Char8  *szFieldname,
 
                 pCore = pNode->getCore();
 
-                beginEditCP( pCore, 
-//                            FieldBits::AllFields, 
+                beginEditCP( pCore,
+//                            FieldBits::AllFields,
                             _pCurrentFieldDesc->getFieldMask(),
                              ChangedOrigin::Abstract         |
                              ChangedOrigin::AbstrIgnoreCore  |
@@ -555,7 +521,7 @@ void VRMLFile::endField(void)
 
     if(_fStack.size() != 0)
     {
-        _pCurrentField = _fStack.top(); 
+        _pCurrentField = _fStack.top();
     }
     else
     {
@@ -570,8 +536,8 @@ void VRMLFile::endField(void)
 
         if(_pCurrentFC != NullFC)
         {
-            endEditCP(_pCurrentFC, 
-//                       FieldBits::AllFields, 
+            endEditCP(_pCurrentFC,
+//                       FieldBits::AllFields,
                       _pCurrentFieldDesc->getFieldMask(),
                        ChangedOrigin::Abstract         |
                        ChangedOrigin::AbstrIgnoreCore  |
@@ -584,8 +550,8 @@ void VRMLFile::endField(void)
 
                 pCore = pNode->getCore();
 
-                endEditCP( pCore, 
-//                           FieldBits::AllFields, 
+                endEditCP( pCore,
+//                           FieldBits::AllFields,
                           _pCurrentFieldDesc->getFieldMask(),
                            ChangedOrigin::Abstract         |
                            ChangedOrigin::AbstrIgnoreCore  |
@@ -596,7 +562,7 @@ void VRMLFile::endField(void)
     }
 
     _fdStack.pop();
-    
+
     if(_fdStack.size() != 0)
     {
         _pCurrentFieldDesc = _fdStack.top();
@@ -641,7 +607,7 @@ void VRMLFile::beginFieldDecl(const Char8  *szFieldType,
     _pCurrentField     = NULL;
     _pCurrentFieldDesc = NULL;
 
-    _pCurrNodeDesc->getFieldAndDesc(_pCurrentFC, 
+    _pCurrNodeDesc->getFieldAndDesc(_pCurrentFC,
                                      szFieldName,
                                     _pCurrentField,
                                     _pCurrentFieldDesc);
@@ -661,7 +627,7 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
     _pCurrentField     = NULL;
     _pCurrentFieldDesc = NULL;
 
-    _pCurrNodeDesc->getFieldAndDesc(_pCurrentFC, 
+    _pCurrNodeDesc->getFieldAndDesc(_pCurrentFC,
                                      szFieldname,
                                     _pCurrentField,
                                     _pCurrentFieldDesc);
@@ -672,10 +638,10 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "VRMLFile::getFieldType : Got Field and type "
-          << returnValue        << " " 
-          << _pCurrentField     << " " 
+          << returnValue        << " "
+          << _pCurrentField     << " "
           << _pCurrentFieldDesc << " ";
-    
+
     if(_pCurrentField != NULL)
         PINFO << _pCurrentField->getType().getName() << std::endl;
     else
@@ -695,22 +661,22 @@ void VRMLFile::use(const Char8 *szName)
 
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "VRMLFile::use : looking for " 
-          << szName 
+    PINFO << "VRMLFile::use : looking for "
+          << szName
           << std::endl;
 
     VRMLNodeDesc::incIndent();
 #endif
 
-    
+
 
     pUsedFC = findReference(szName);
 
     if(pUsedFC == NullFC)
     {
-        PWARNING << "No fieldContainer with name found to use" 
-                 << szName 
-                 << std::endl; 
+        PWARNING << "No fieldContainer with name found to use"
+                 << szName
+                 << std::endl;
     }
     else
     {
@@ -718,14 +684,14 @@ void VRMLFile::use(const Char8 *szName)
 
         VRMLNodeDesc *pDesc = NULL;
 
-        NameDescriptionMap::iterator mIt         = 
+        NameDescriptionMap::iterator mIt         =
             _nameDescMap.find(IDStringLink(szName));
 
         if(mIt != _nameDescMap.end())
         {
             pDesc = mIt->second;
         }
-        
+
         if(pUsedFC->getType().isNode())
         {
             NodePtr pRootNode = NodePtr::dcast(pUsedFC);
@@ -756,15 +722,14 @@ void VRMLFile::use(const Char8 *szName)
 /*-------------------------------------------------------------------------*/
 /*                          Helper                                         */
 
-void VRMLFile::scanStandardPrototypes(const Char8  *szFilename, 
-                                            UInt32  uiOptions)
+void VRMLFile::scanStandardPrototypes(const Char8  *szFilename)
 {
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
 #endif
 
     preStandardProtos();
-    scanFile(szFilename, uiOptions);
+    scanFile(szFilename);
     postStandardProtos();
 
 //    dumpTable();
@@ -783,22 +748,22 @@ PROTO Anchor [
     eventIn      MFNode   addChildren
     eventIn      MFNode   removeChildren
     exposedField MFNode   children        []
-    exposedField SFString description     "" 
+    exposedField SFString description     ""
     exposedField MFString parameter       []
     exposedField MFString url             []
     field        SFVec3f  bboxCenter      0 0 0
     field        SFVec3f  bboxSize        -1 -1 -1
     ] { }
 #endif
- 
- beginProto   ("Anchor"); 
+
+ beginProto   ("Anchor");
  {
      beginEventInDecl     ("MFNode", Self::OSGmfNode, "addChildren");
      endEventDecl         ();
 
      beginEventInDecl     ("MFNode", Self::OSGmfNode, "removeChildren");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("MFNode",   Self::OSGmfNode,   "children");
      endExposedFieldDecl  ();
 
@@ -810,7 +775,7 @@ PROTO Anchor [
 
      beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
-     
+
      beginFieldDecl       ("SFVec3f",  Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
@@ -821,7 +786,7 @@ PROTO Anchor [
  }
  endProto     ();
 
-    
+
 #if 0
 PROTO Appearance [
   exposedField SFNode material          NULL
@@ -864,7 +829,7 @@ PROTO AudioClip [
      beginExposedFieldDecl("SFString", Self::OSGsfString, "description");
      addFieldValue        ("");
      endExposedFieldDecl  ();
-     
+
      beginExposedFieldDecl("SFBool", Self::OSGsfBool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
@@ -911,9 +876,9 @@ PROTO Background [
 
  beginProto("Background");
  {
-     beginEventInDecl       ("SFBool", Self::OSGsfBool, "set_bind"); 
+     beginEventInDecl       ("SFBool", Self::OSGsfBool, "set_bind");
      endEventDecl           ();
-    
+
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "groundAngle");
      endExposedFieldDecl  ();
 
@@ -969,14 +934,14 @@ PROTO Billboard [
 
      beginEventInDecl     ("MFNode", Self::OSGmfNode, "removeChildren");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "axisOfRotation");
      addFieldValue        ("0 1 0");
      endExposedFieldDecl  ();
 
      beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
-     
+
      beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
@@ -989,7 +954,7 @@ PROTO Billboard [
 
 #if 0
 PROTO Box [
-  field    SFVec3f size  2 2 2 
+  field    SFVec3f size  2 2 2
 ] { }
 #endif
 
@@ -1002,7 +967,7 @@ PROTO Box [
  endProto  ();
 
 #if 0
-PROTO Collision [ 
+PROTO Collision [
   eventIn      MFNode   addChildren
   eventIn      MFNode   removeChildren
   exposedField MFNode   children        []
@@ -1039,7 +1004,7 @@ PROTO Collision [
 
      beginFieldDecl       ("SFNode", Self::OSGsfNode, "proxy");
      endFieldDecl         ();
-     
+
      beginEventOutDecl      ("SFTime", OSGsfTime, "collideTime");
      endEventDecl           ();
  }
@@ -1138,7 +1103,7 @@ PROTO CoordinateInterpolator [
  {
      beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
      endEventDecl         ();
-    
+
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
@@ -1223,12 +1188,12 @@ PROTO CylinderSensor [
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "offset");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
-     
+
      beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
      endEventDecl         ();
 
      beginEventOutDecl    ("SFRotation",
-                           Self::OSGsfRotation, 
+                           Self::OSGsfRotation,
                            "rotation_changed");
      endEventDecl         ();
 
@@ -1239,18 +1204,18 @@ PROTO CylinderSensor [
 
 #if 0
 PROTO DirectionalLight [
-  exposedField SFFloat ambientIntensity  0 
+  exposedField SFFloat ambientIntensity  0
   exposedField SFColor color             1 1 1
   exposedField SFVec3f direction         0 0 -1
-  exposedField SFFloat intensity         1 
-  exposedField SFBool  on                TRUE 
+  exposedField SFFloat intensity         1
+  exposedField SFBool  on                TRUE
 ] { }
 #endif
 
  beginProto("DirectionalLight");
  {
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "ambientIntensity");
-     addFieldValue        ("0"); 
+     addFieldValue        ("0");
      endExposedFieldDecl  ();
 
      beginExposedFieldDecl("SFColor", Self::OSGsfColor, "color");
@@ -1262,7 +1227,7 @@ PROTO DirectionalLight [
      endExposedFieldDecl  ();
 
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "intensity");
-     addFieldValue        ("1"); 
+     addFieldValue        ("1");
      endExposedFieldDecl  ();
 
      beginExposedFieldDecl("SFBool", Self::OSGsfBool, "on");
@@ -1409,11 +1374,11 @@ PROTO Extrusion [
 
      beginFieldDecl("MFVec2f", Self::OSGmfVec2f, "scale");
      endFieldDecl  ();
-     
+
      beginFieldDecl("SFBool", Self::OSGsfBool, "solid");
      addFieldValue ("TRUE");
      endFieldDecl  ();
-     
+
      beginFieldDecl("MFVec3f", Self::OSGmfVec3f, "spine");
      endFieldDecl  ();
  }
@@ -1474,7 +1439,7 @@ PROTO FontStyle [
      beginFieldDecl("SFBool", Self::OSGsfBool, "horizontal");
      addFieldValue ("TRUE");
      endFieldDecl  ();
-     
+
      beginFieldDecl("MFString", Self::OSGmfString, "justify");
      addFieldValue ("BEGIN");
      endFieldDecl  ();
@@ -1522,7 +1487,7 @@ PROTO Group [
 
      beginEventInDecl     ("MFNode", Self::OSGmfNode, "removeChildren");
      endEventDecl         ();
- 
+
      beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
 
@@ -1560,7 +1525,7 @@ PROTO ImageTexture [
  endProto  ();
 
 #if 0
-PROTO IndexedFaceSet [ 
+PROTO IndexedFaceSet [
   eventIn       MFInt32 set_colorIndex
   eventIn       MFInt32 set_coordIndex
   eventIn       MFInt32 set_normalIndex
@@ -1583,7 +1548,7 @@ PROTO IndexedFaceSet [
 #endif
 
  beginProto("IndexedFaceSet");
- { 
+ {
      beginEventInDecl       ("MFInt32", Self::OSGmfInt32, "set_colorIndex");
      endEventDecl           ();
 
@@ -1595,11 +1560,11 @@ PROTO IndexedFaceSet [
 
      beginEventInDecl       ("MFInt32", Self::OSGmfInt32, "set_texCoordIndex");
      endEventDecl           ();
-     
+
      beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
-     
+
      beginExposedFieldDecl("SFNode", Self::OSGsfNode, "coord");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
@@ -1629,7 +1594,7 @@ PROTO IndexedFaceSet [
 
      beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "coordIndex");
      endFieldDecl         ();
-     
+
      beginFieldDecl       ("SFFloat", Self::OSGsfFloat, "creaseAngle");
      addFieldValue        ("0");
      endFieldDecl         ();
@@ -1644,7 +1609,7 @@ PROTO IndexedFaceSet [
      beginFieldDecl       ("SFBool",  Self::OSGsfBool, "solid");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
-     
+
      beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "texCoordIndex");
      endFieldDecl();
  }
@@ -1684,7 +1649,7 @@ PROTO IndexedLineSet [
      beginFieldDecl       ("SFBool", Self::OSGsfBool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
-     
+
      beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "coordIndex");
      endFieldDecl         ();
  }
@@ -1712,12 +1677,12 @@ PROTO Inline [
      endFieldDecl         ();
  }
  endProto  ();
-   
+
 #if 0
 PROTO LOD [
-  exposedField MFNode  level    [] 
+  exposedField MFNode  level    []
   field        SFVec3f center   0 0 0
-  field        MFFloat range    [] 
+  field        MFFloat range    []
 ] { }
 #endif
 
@@ -1725,7 +1690,7 @@ PROTO LOD [
  {
      beginExposedFieldDecl("MFNode", Self::OSGmfNode, "level");
      endExposedFieldDecl  ();
-     
+
      beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
@@ -1755,7 +1720,7 @@ PROTO Material [
      beginExposedFieldDecl("SFColor", Self::OSGsfColor, "diffuseColor");
      addFieldValue        ("0.8 0.8 0.8");
      endExposedFieldDecl  ();
-     
+
      beginExposedFieldDecl("SFColor", Self::OSGsfColor, "emissiveColor");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
@@ -1830,9 +1795,9 @@ PROTO NavigationInfo [
   eventIn      SFBool   set_bind
   exposedField MFFloat  avatarSize       [ 0.25, 1.6, 0.75 ]
   exposedField SFBool   headlight        TRUE
-  exposedField SFFloat  speed            1.0 
-  exposedField MFString type             "WALK" 
-  exposedField SFFloat  visibilityLimit  0.0 
+  exposedField SFFloat  speed            1.0
+  exposedField MFString type             "WALK"
+  exposedField SFFloat  visibilityLimit  0.0
   eventOut     SFBool   isBound
 ] { }
 #endif
@@ -1841,7 +1806,7 @@ PROTO NavigationInfo [
  {
      beginEventInDecl     ("SFBool", Self::OSGsfBool, "set_bind");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "avatarSize");
      addFieldValue        ("0.25");
      addFieldValue        ("1.6 ");
@@ -1895,7 +1860,7 @@ PROTO NormalInterpolator [
  {
      beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
@@ -1926,7 +1891,7 @@ PROTO OrientationInterpolator [
 
      beginExposedFieldDecl("MFRotation", Self::OSGmfRotation, "keyValue");
      endExposedFieldDecl  ();
-     
+
      beginEventOutDecl    ("SFRotation", Self::OSGsfRotation, "value_changed");
      endEventDecl         ();
  }
@@ -2005,12 +1970,12 @@ PROTO PlaneSensor [
 
 #if 0
 PROTO PointLight [
-  exposedField SFFloat ambientIntensity  0 
+  exposedField SFFloat ambientIntensity  0
   exposedField SFVec3f attenuation       1 0 0
-  exposedField SFColor color             1 1 1 
+  exposedField SFColor color             1 1 1
   exposedField SFFloat intensity         1
   exposedField SFVec3f location          0 0 0
-  exposedField SFBool  on                TRUE 
+  exposedField SFBool  on                TRUE
   exposedField SFFloat radius            100
 ] { }
 #endif
@@ -2079,7 +2044,7 @@ PROTO PositionInterpolator [
  {
      beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl();
 
@@ -2124,8 +2089,8 @@ PROTO ProximitySensor [
      beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "position_changed");
      endEventDecl         ();
 
-     beginEventOutDecl    ("SFRotation", 
-                           Self::OSGsfRotation, 
+     beginEventOutDecl    ("SFRotation",
+                           Self::OSGsfRotation,
                            "orientation_changed");
      endEventDecl         ();
 
@@ -2156,7 +2121,7 @@ PROTO ScalarInterpolator [
 
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "keyValue");
      endExposedFieldDecl  ();
-     
+
      beginEventOutDecl    ("SFFloat", Self::OSGsfFloat, "value_changed");
      endEventDecl         ();
  }
@@ -2164,7 +2129,7 @@ PROTO ScalarInterpolator [
 
 #if 0
 PROTO Script [
-  exposedField MFString url           [ ] 
+  exposedField MFString url           [ ]
   field        SFBool   directOutput  FALSE
   field        SFBool   mustEvaluate  FALSE
 ] { }
@@ -2252,11 +2217,11 @@ PROTO Sound [
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "priority");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
-     
+
      beginExposedFieldDecl("SFNode", Self::OSGsfNode, "source");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
-     
+
      beginFieldDecl       ("SFBool", Self::OSGsfBool, "spatialize");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
@@ -2305,8 +2270,8 @@ PROTO SphereSensor [
      beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
      endEventDecl         ();
 
-     beginEventOutDecl    ("SFRotation", 
-                           Self::OSGsfRotation, 
+     beginEventOutDecl    ("SFRotation",
+                           Self::OSGsfRotation,
                            "rotation_changed");
      endEventDecl         ();
 
@@ -2317,14 +2282,14 @@ PROTO SphereSensor [
 
 #if 0
 PROTO SpotLight [
-  exposedField SFFloat ambientIntensity  0 
+  exposedField SFFloat ambientIntensity  0
   exposedField SFVec3f attenuation       1 0 0
   exposedField SFFloat beamWidth         1.570796
-  exposedField SFColor color             1 1 1 
-  exposedField SFFloat cutOffAngle       0.785398 
+  exposedField SFColor color             1 1 1
+  exposedField SFFloat cutOffAngle       0.785398
   exposedField SFVec3f direction         0 0 -1
-  exposedField SFFloat intensity         1  
-  exposedField SFVec3f location          0 0 0  
+  exposedField SFFloat intensity         1
+  exposedField SFVec3f location          0 0 0
   exposedField SFBool  on                TRUE
   exposedField SFFloat radius            100
 ] { }
@@ -2333,7 +2298,7 @@ PROTO SpotLight [
  beginProto("SpotLight");
  {
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "ambientIntensity");
-     addFieldValue        ("0"); 
+     addFieldValue        ("0");
      endExposedFieldDecl  ();
 
      beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "attenuation");
@@ -2446,7 +2411,7 @@ PROTO TextureTransform [
      beginExposedFieldDecl("SFVec2f", Self::OSGsfVec2f, "center");
      addFieldValue        ("0 0");
      endExposedFieldDecl  ();
-     
+
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "rotation");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
@@ -2510,7 +2475,7 @@ PROTO TimeSensor [
      endEventDecl         ();
  }
  endProto  ();
- 
+
 #if 0
 PROTO TouchSensor [
   exposedField SFBool  enabled TRUE
@@ -2571,7 +2536,7 @@ PROTO Transform [
 
      beginEventInDecl     ("MFNode", Self::OSGsfNode, "removeChildren");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
@@ -2622,7 +2587,7 @@ PROTO Viewpoint [
  {
      beginEventInDecl     ("SFBool", Self::OSGsfBool, "set_bind");
      endEventDecl         ();
-     
+
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "fieldOfView");
      addFieldValue        ("0.785398");
      endExposedFieldDecl  ();
@@ -2698,7 +2663,7 @@ PROTO WorldInfo [
  {
      beginFieldDecl("MFString", Self::OSGmfString, "info");
      endFieldDecl  ();
-     
+
      beginFieldDecl("SFString", Self::OSGsfString, "title");
      addFieldValue("");
      endFieldDecl();
@@ -2724,7 +2689,7 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     Self::setIntExtMapping(SFColor3f::getClassType().getId(),
                            ScanParseSkel::OSGsfColor);
 
-    Self::setIntExtMapping(SFReal32::getClassType().getId(), 
+    Self::setIntExtMapping(SFReal32::getClassType().getId(),
                            ScanParseSkel::OSGsfFloat);
 
     Self::setIntExtMapping(SFImagePtr::getClassType().getId(),
@@ -2809,7 +2774,7 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
 
     Self::setIntExtMapping(SFMaterialPtr::getClassType().getId(),
                            ScanParseSkel::OSGsfNode);
-    
+
     Self::setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
                            ScanParseSkel::OSGsfNode);
 
@@ -2844,10 +2809,10 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
 
     Self::setIntExtMapping(SFMatrix::getClassType().getId(),
                            ScanParseSkel::OSGsfMatrix);
-    
+
     Self::setIntExtMapping(SFPnt3f::getClassType().getId(),
                            ScanParseSkel::OSGsfPnt3f);
-    
+
     Self::setIntExtMapping(MFPnt3f::getClassType().getId(),
                            ScanParseSkel::OSGmfPnt3f);
 }
@@ -2855,13 +2820,13 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
 
 void VRMLFile::initExtIntFieldTypeMapper(void)
 {
-    Self::setExtIntMapping(ScanParseSkel::OSGsfBool, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfBool,
                            SFBool::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfColor, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfColor,
                            SFColor3f::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfFloat, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfFloat,
                            SFReal32::getClassType().getId());
 
 /*
@@ -2869,53 +2834,53 @@ void VRMLFile::initExtIntFieldTypeMapper(void)
                      ScanParseSkel::OSGsfInt32);
                      */
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfImage, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfImage,
                            SFImagePtr::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfInt32, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfInt32,
                            SFInt32::getClassType().getId());
-    
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfRotation, 
+
+    Self::setExtIntMapping(ScanParseSkel::OSGsfRotation,
                            SFQuaternion::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfString, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfString,
                            SFString::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfTime, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfTime,
                            SFTime::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfVec2f, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfVec2f,
                            SFVec2f::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfVec3f, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfVec3f,
                            SFVec3f::getClassType().getId());
 
 
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfColor, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfColor,
                            MFColor3f::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfFloat, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfFloat,
                            MFReal32::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfInt32, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfInt32,
                            MFInt32::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfRotation, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfRotation,
                            MFQuaternion::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfString, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfString,
                            MFString::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfTime, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfTime,
                            MFTime::getClassType().getId());
 
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfVec3f, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfVec3f,
                            MFVec3f::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfVec2f, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfVec2f,
                            MFVec2f::getClassType().getId());
 
 
@@ -2927,13 +2892,13 @@ void VRMLFile::initExtIntFieldTypeMapper(void)
 
     /* extended types */
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfMatrix, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfMatrix,
                            SFMatrix::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGsfPnt3f, 
+    Self::setExtIntMapping(ScanParseSkel::OSGsfPnt3f,
                            SFPnt3f::getClassType().getId());
 
-    Self::setExtIntMapping(ScanParseSkel::OSGmfPnt3f, 
+    Self::setExtIntMapping(ScanParseSkel::OSGmfPnt3f,
                            MFPnt3f::getClassType().getId());
 }
 
@@ -2949,7 +2914,7 @@ FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
 
     // check if name matches nodename
 
-    pNodename = 
+    pNodename =
         NamePtr::dcast(
             pNode->findAttachment(Name::getClassType().getGroupId()));
 
@@ -2959,7 +2924,7 @@ FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
             return pNode;
     }
     // check if name matches corename
-    
+
     pCore = pNode->getCore();
 
     if(pCore != NullFC)
@@ -2994,7 +2959,7 @@ FieldContainerPtr VRMLFile::findReference(const Char8 *szName)
     // search reference in this file
     FieldContainerPtr          returnValue = NullFC;
 
-    NameContainerMap::iterator mIt         = 
+    NameContainerMap::iterator mIt         =
         _nameFCMap.find(IDStringLink(szName));
 
     if(mIt != _nameFCMap.end())
@@ -3010,16 +2975,16 @@ FieldContainerPtr VRMLFile::findReference(const Char8 *szName)
             returnValue = findFCByName(szName, _pLightRoot);
         }
     }
-    
+
     return returnValue;
 }
 
 void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
 {
-    if(_pCurrentField != NULL  &&        
+    if(_pCurrentField != NULL  &&
         pFC           != NullFC)
     {
-        if(_pCurrentFC   !=   NullFC                        && 
+        if(_pCurrentFC   !=   NullFC                        &&
            _pCurrentField == _pCurrentFC->getField("children"))
         {
 #ifdef OSG_DEBUG_VRML
@@ -3032,10 +2997,10 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
 #endif
             NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
             NodePtr pChildNode = NodePtr::dcast(pFC);
-            
+
             pNode->addChild(pChildNode);
         }
-        else if(_pCurrentFC   !=   NullFC && 
+        else if(_pCurrentFC   !=   NullFC &&
                 _pCurrentField == _pCurrentFC->getField("core"))
         {
 #ifdef OSG_DEBUG_VRML
@@ -3049,7 +3014,7 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
 
             NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
             NodeCorePtr pCore = NodeCorePtr::dcast(pFC);
-            
+
             pNode->setCore(pCore);
         }
         else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
@@ -3075,7 +3040,7 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
 #pragma warning( disable : 177 )
 #endif
 
-namespace 
+namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGVRMLFILE_HEADER_CVSID;

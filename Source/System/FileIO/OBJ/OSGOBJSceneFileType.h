@@ -45,7 +45,6 @@
 #include <OSGBaseTypes.h>
 
 #include "OSGSceneFileType.h"
-#include <OSGPathHandler.h>
 
 #include <map>
 
@@ -85,19 +84,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8  *fileName, 
-                               UInt32  uiReplaceOptions) const;
+    virtual NodePtr read(std::istream &is) const;
 
-    virtual NodePtr read(const Char8  *fileName, 
-                               UInt32  uiAddOptions,
-                               UInt32  uiSubOptions) const;
-    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr node, const Char8 *fileName) const;
+    virtual bool write(const NodePtr &node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -128,27 +122,27 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
 
     typedef SceneFileType Inherited;
 
-    enum DataElem 
-    { 
+    enum DataElem
+    {
       UNKNOWN_DE = 0,
 
       VERTEX_DE, VERTEX_TEXTURECOORD_DE, VERTEX_NORMAL_DE,
-      FACE_DE, 
+      FACE_DE,
 
-      LIB_MTL_DE, 
-      USE_MTL_DE, 
+      LIB_MTL_DE,
+      USE_MTL_DE,
 
       GROUP_DE, SMOOTHING_GROUP_DE, OBJECT_DE
     };
 
     std::map<std::string, DataElem> _dataElemMap;
 
-    enum MaterialElem 
+    enum MaterialElem
     {
       UNKNOWN_ME = 0,
-      
-      NEW_MTL_ME, 
-      MTL_DIFFUSE_ME, MTL_AMBIENT_ME, MTL_SPECULAR_ME, 
+
+      NEW_MTL_ME,
+      MTL_DIFFUSE_ME, MTL_AMBIENT_ME, MTL_SPECULAR_ME,
       MTL_SHININESS_ME, MTL_ILLUM_ME,
       MTL_TRANSPARENCY_ME,
       MTL_MAP_KD_ME, MTL_MAP_KA_ME, MTL_MAP_KS_ME,
@@ -165,7 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     class Face;
     friend class Face;
 
-    struct TiePoint 
+    struct TiePoint
     {
         Int32 index[3];
         TiePoint( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
@@ -174,8 +168,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
             { index[0] = v; index[1] = vt; index[2] = vn; }
     };
 
-    struct Face 
-    {       
+    struct Face
+    {
         std::vector<TiePoint> tieVec;
     };
 
@@ -186,10 +180,9 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     };
 
 
-    Int32 readMTL (const Char8                               *fileName, 
-                         PathHandler                         &pHandler,
-                         std::map<std::string, 
-                                  SimpleTexturedMaterialPtr> &mtlMap  ) const;
+    Int32 readMTL (const Char8 *fileName,
+                   std::map<std::string,
+                   SimpleTexturedMaterialPtr> &mtlMap  ) const;
 
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const OBJSceneFileType &source);

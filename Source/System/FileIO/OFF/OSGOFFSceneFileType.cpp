@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 //-------------------------------
-// Includes  
+// Includes
 //-------------------------------
 #include <stdlib.h>
 #include <stdio.h>
@@ -63,9 +63,9 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::OFFSceneFileType 
+/*! \class osg::OFFSceneFileType
     \ingroup GrpSystemFileIO
-    
+
 */
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
@@ -112,14 +112,13 @@ OFFSceneFileType OFFSceneFileType:: _the(_suffixA, sizeof(_suffixA), false, 10);
 //s:
 //
 //------------------------------
-NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
+NodePtr OFFSceneFileType::read(std::istream &is) const
 {
     typedef std::vector<int> Face;
 
     std::vector<Face>   faceVec;
 
     char                head[256];
-    std::ifstream       in(fileName);
     NodePtr             root;
     GeometryPtr         geo;
     Vec3f               point;
@@ -132,9 +131,9 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
     Int32               triCount = 0, vertexCount, faceCount, uk;
     Real64              x, y, z;
 
-    if(in)
+    if(is)
     {
-        in >> head >> vertexCount >> faceCount >> uk;
+        is >> head >> vertexCount >> faceCount >> uk;
 
         FDEBUG(("OFF Head/vertexCount/faceCount: %s/%d/%d\n", head,
                vertexCount, faceCount));
@@ -179,9 +178,9 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
             // read/set the points
             beginEditCP(points);
             {
-                for(i = 0; (!in.eof()) && (i < vertexCount); i++)
+                for(i = 0; (!is.eof()) && (i < vertexCount); i++)
                 {
-                    in >> x >> y >> z;
+                    is >> x >> y >> z;
                     point.setValues(x, y, z);
                     points->push_back(point);
                 }
@@ -193,15 +192,15 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
             // TODO; should we 'reserve' some index mem (3,4,..) ?
             faceVec.resize(faceCount);
             triCount = 0;
-            for(i = 0; (!in.eof()) && (i < faceCount); i++)
+            for(i = 0; (!is.eof()) && (i < faceCount); i++)
             {
-                in >> n;
+                is >> n;
                 if(n >= 0)
                 {
                     triCount += n - 2;
-                    for(j = 0; (!in.eof()) && (j < n); j++)
+                    for(j = 0; (!is.eof()) && (j < n); j++)
                     {
-                        in >> k;
+                        is >> k;
                         if((k >= 0) && (k < vertexCount))
                             faceVec[i].push_back(k);
                         else
@@ -295,13 +294,6 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
     return root;
 }
 
-/* */
-NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32 uiAddOptions,
-                               UInt32 uiSubOptions) const
-{
-    return read(fileName, uiAddOptions &~uiSubOptions);
-}
-
 //----------------------------
 // Function name: write
 //----------------------------
@@ -322,8 +314,8 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32 uiAddOptions,
 //s:
 //
 //------------------------------
-bool OFFSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ), 
-                             const Char8   *OSG_CHECK_ARG(fileName)) const
+bool OFFSceneFileType::write(const NodePtr & OSG_CHECK_ARG(node    ),
+                             std::ostream & OSG_CHECK_ARG(os)) const
 {
     FFATAL(("OFFSceneFileType::write() is not impl.\n"));
     return false;
@@ -338,7 +330,7 @@ bool OFFSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
 ******************************/
 
 /***************************
-*instance methodes 
+*instance methodes
 ***************************/
 
 /***************************

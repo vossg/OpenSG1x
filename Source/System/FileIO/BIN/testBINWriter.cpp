@@ -12,8 +12,6 @@
 /* */
 int main(int argc, char *argv[])
 {
-    FILE    *outFile;
-
     OSG::osgInit(argc, argv);
 
     OSG::NodePtr    root = OSG::Node::create();
@@ -32,7 +30,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "read:" << argv[a] << std::endl;
 
-        OSG::NodePtr    node = OSG::SceneFileHandler::the().read(argv[a], 0);
+        OSG::NodePtr    node = OSG::SceneFileHandler::the().read(argv[a]);
         if(node == OSG::NullFC)
         {
             std::cerr <<
@@ -47,8 +45,8 @@ int main(int argc, char *argv[])
     }
 
     std::cout << "write:" << argv[argc - 1] << std::endl;
-    outFile = fopen(argv[argc - 1], "wb");
-    if(outFile == NULL)
+    std::ofstream out(argv[argc - 1], std::ios::binary);
+    if(!out)
     {
         std::cerr <<
             "ERROR: Cannot create file " <<
@@ -58,7 +56,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    OSG::BINWriter writer(outFile);
+    OSG::BINWriter writer(out);
 
     // print volume
     root->invalidateVolume();
@@ -69,6 +67,7 @@ int main(int argc, char *argv[])
     std::cout << "Volume: from " << vmin << " to " << vmax << std::endl;
 
     writer.write(root);
+    out.close();
 
     OSG::endEditCP(root);
     OSG::endEditCP(group);

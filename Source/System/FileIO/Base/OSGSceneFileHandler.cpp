@@ -43,13 +43,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <fstream>
+
 #include "OSGConfig.h"
 
 #include <OSGLog.h>
 #include <OSGBaseTypes.h>
+#include <OSGPathHandler.h>
+#include <OSGGraphOpSeq.h>
 
 #include "OSGSceneFileHandler.h"
-#include "OSGNode.h"
+
+#include <OSGNode.h>
+#include <OSGThread.h>
+#include <OSGThreadManager.h>
+#include <OSGBaseFunctions.h>
 
 OSG_USING_NAMESPACE
 
@@ -84,7 +92,6 @@ OSG_USING_NAMESPACE
 
 
 SceneFileHandler * SceneFileHandler::_the = NULL;
-
 
 /********************************
  *    Class methodes
@@ -131,6 +138,9 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
     {
         l = strlen(fileName);
 
+        if(l == 0)
+            return NULL;
+
         for(i = l - 1; i >= 0; i--)
         {
             if(fileName[i] == separator)
@@ -146,6 +156,45 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
 
             type = (sI == _suffixTypeMap.end()) ? 0 : sI->second->front();
         }
+    }
+
+    return type;
+}
+
+SceneFileType *SceneFileHandler::getExtType(const Char8 *ext)
+{
+          Int32                  i;
+          Int32                  l;
+          IDString               suffix;
+    const Char8                  separator = '.';
+          SceneFileType         *type = NULL;
+          FileTypeMap::iterator  sI;
+          std::ifstream          fin;
+
+    if(ext)
+    {
+        l = strlen(ext);
+
+        if(l == 0)
+            return NULL;
+
+        for(i = l - 1; i >= 0; i--)
+        {
+            if(ext[i] == separator)
+                break;
+        }
+
+        // it is also possible to give a complete filename as extension.
+        if(i >= 0)
+            suffix.set(&(ext[i+1]));
+        else
+            suffix.set(ext);
+
+        suffix.toLower();
+
+        sI = _suffixTypeMap.find(suffix);
+
+        type = (sI == _suffixTypeMap.end()) ? 0 : sI->second->front();
     }
 
     return type;
@@ -176,47 +225,32 @@ Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList)
 #pragma warning (default : 383)
 #endif
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Scene &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
-NodePtr SceneFileHandler::readOptReplace(const Char8  *fileName,
-                                               UInt32  uiReplaceOptions)
-{
-    SceneFileType *type = getFileType(fileName);
-    NodePtr        node = NullFC;
 
-    if(! fileName)
+NodePtr SceneFileHandler::read(std::istream &is, const Char8* ext,
+                                      GraphOpSeq *graphOpSeq)
+{
+    SceneFileType *type = getExtType(ext);
+    NodePtr        scene = NullFC;
+
+    if(!ext)
     {
-        SWARNING << "cannot read NULL file" << std::endl;
-        return node;
+        SWARNING << "cannot read NULL extension" << std::endl;
+        return NullFC;
     }
 
     if (type)
     {
-        SINFO << "try to read " << fileName
-              << " as "         << type->getName() << std::endl;
+        SINFO << "try to read stream as " << type->getName() << std::endl;
 
-        node = type->read(fileName, uiReplaceOptions);
+        startReadProgressThread(is);
+        scene = type->read(is);
+        stopReadProgressThread();
 
-        if (node != NullFC)
+        if(scene != NullFC)
         {
+            if(graphOpSeq != NULL)
+                graphOpSeq->run(scene);
+
             SINFO    << "read ok:"        << std::endl;
         }
         else
@@ -226,148 +260,150 @@ NodePtr SceneFileHandler::readOptReplace(const Char8  *fileName,
     }
     else
     {
-        SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << std::endl;
+        SWARNING << "could not read unknown file format" << std::endl;
     }
 
-    return node;
-}
-
-NodePtr SceneFileHandler::read(const  Char8  *fileName,
-                                      UInt32  uiAddOptions,
-                                      UInt32  uiSubOptions)
-{
-    SceneFileType *type = getFileType(fileName);
-    NodePtr        node = NullFC;
-
-    if(! fileName)
-    {
-        SWARNING << "cannot read NULL file" << std::endl;
-        return node;
-    }
-
-    if (type)
-    {
-        SINFO << "try to read " << fileName
-              << " as "         << type->getName() << std::endl;
-
-        node = type->read(fileName, uiAddOptions, uiSubOptions);
-
-        if (node != NullFC)
-        {
-            SINFO    << "read ok:"        << std::endl;
-        }
-        else
-        {
-            SWARNING << "could not read " << std::endl;
-        }
-    }
-    else
-    {
-        SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << std::endl;
-    }
-
-    return node;
+    return scene;
 }
 
 
-//----------------------------
-// Function name: readTopNodes
-//----------------------------
-//
-//Parameters:
-//p: Scene &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:vector<NodePtr>
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d:
-//SeeAlso:
-//s:
-//
-//------------------------------
-SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodesOptReplace(
-    const Char8  *fileName,
-          UInt32  uiReplaceOptions)
+SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
+    std::istream &is, const Char8 *ext,
+           GraphOpSeq *graphOpSeq)
 {
-    SceneFileType *type = getFileType(fileName);
-
     std::vector<FieldContainerPtr> nodeVec;
-
-    if(! fileName)
-    {
-        SWARNING << "cannot read NULL file" << std::endl;
+    NodePtr scene = read(is, ext);
+    if(scene == NullFC)
         return nodeVec;
-    }
 
-    if (type)
+    while(scene->getNChildren() > 0)
     {
-        SINFO << "try to read " << fileName
-              << " as "         << type->getName() << std::endl;
-
-        nodeVec = type->readTopNodes(fileName, uiReplaceOptions);
-
-        for( UInt32 i=0; i<nodeVec.size(); ++i )
-        {
-            if( nodeVec[i] == NullFC )
-            {
-                SWARNING << "could not read node " << i << std::endl;
-                return nodeVec;
-            }
-        }
-        SWARNING << "read ok. " << std::endl;
-    }
-    else
-    {
-        SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << std::endl;
+        NodePtr child = scene->getChild(0);
+        NodePtr newChild = Node::create();
+        while(child->getNChildren() > 0)
+            newChild->addChild(child->getChild(0));
+        newChild->setCore(child->getCore());
+        if(graphOpSeq != NULL)
+                graphOpSeq->run(newChild);
+        nodeVec.push_back(newChild);
+        scene->subChild(child);
     }
 
     return nodeVec;
 }
 
+NodePtr SceneFileHandler::read(const  Char8  *fileName,
+                                      GraphOpSeq *graphOpSeq)
+{
+    if(!fileName)
+    {
+        SWARNING << "cannot read NULL file" << std::endl;
+        return NullFC;
+    }
+
+    std::string fullFilePath;
+    if(_pathHandler != NULL)
+        fullFilePath = _pathHandler->findFile(fileName);
+    else
+        fullFilePath = fileName;
+
+    SceneFileType *type = getFileType(fullFilePath.c_str());
+    NodePtr scene = NullFC;
+
+    if (type)
+    {
+        SINFO << "try to read " << fullFilePath
+              << " as "         << type->getName() << std::endl;
+
+        std::ifstream in(fullFilePath.c_str(), std::ios::binary);
+
+        if(in)
+        {
+            scene = read(in, fullFilePath.c_str(), graphOpSeq);
+            in.close();
+
+            if(scene != NullFC)
+                return scene;
+        }
+        else
+        {
+            SWARNING << "Couldn't open input stream for file " << fullFilePath << std::endl;
+        }
+
+        // Ok stream interface didn't work try via filename
+        if(scene == NullFC)
+            scene = type->read(fullFilePath.c_str());
+
+        if (scene != NullFC)
+        {
+            if(graphOpSeq != NULL)
+                graphOpSeq->run(scene);
+
+            SINFO    << "read ok:"        << std::endl;
+        }
+        else
+        {
+            SWARNING << "could not read " << std::endl;
+        }
+    }
+    else
+    {
+        SWARNING << "could not read "       << fullFilePath
+                 << "; unknown file format" << std::endl;
+    }
+
+    return scene;
+}
+
 SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
     const  Char8  *fileName,
-           UInt32  uiAddOptions,
-           UInt32  uiSubOptions)
+           GraphOpSeq *graphOpSeq)
 {
-    SceneFileType *type = getFileType(fileName);
-
     std::vector<FieldContainerPtr> nodeVec;
 
-    if(! fileName)
+    if(!fileName)
     {
         SWARNING << "cannot read NULL file" << std::endl;
         return nodeVec;
     }
 
-    if (type)
+    std::string fullFilePath;
+    if(_pathHandler != NULL)
+        fullFilePath = _pathHandler->findFile(fileName);
+    else
+        fullFilePath = fileName;
+
+    std::ifstream in(fullFilePath.c_str(), std::ios::binary);
+
+    if(in)
     {
-        SINFO << "try to read " << fileName
-              << " as "         << type->getName() << std::endl;
-
-        nodeVec = type->readTopNodes(fileName, uiAddOptions, uiSubOptions);
-
-        for( UInt32 i=0; i<nodeVec.size(); ++i )
-        {
-            if( nodeVec[i] == NullFC )
-            {
-                SWARNING << "could not read node " << i << std::endl;
-                return nodeVec;
-            }
-        }
-        SWARNING << "read ok. " << std::endl;
+        nodeVec = readTopNodes(in, fullFilePath.c_str(), graphOpSeq);
+        in.close();
     }
     else
     {
-        SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << std::endl;
+        SWARNING << "Couldn't open input stream for file " << fullFilePath << std::endl;
+    }
+
+    // Ok stream interface didn't work try via filename
+    if(nodeVec.empty())
+    {
+        NodePtr scene = read(fullFilePath.c_str());
+        if(scene == NullFC)
+            return nodeVec;
+
+        while(scene->getNChildren() > 0)
+        {
+            NodePtr child = scene->getChild(0);
+            NodePtr newChild = Node::create();
+            while(child->getNChildren() > 0)
+                newChild->addChild(child->getChild(0));
+            newChild->setCore(child->getCore());
+            if(graphOpSeq != NULL)
+                graphOpSeq->run(newChild);
+            nodeVec.push_back(newChild);
+            scene->subChild(child);
+        }
     }
 
     return nodeVec;
@@ -393,14 +429,67 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 //s:
 //
 //------------------------------
-bool SceneFileHandler::write ( const NodePtr node, const Char8 *fileName )
+bool SceneFileHandler::write(const NodePtr &node, std::ostream &os, const Char8 *ext)
+{
+    bool retCode = false;
+    SceneFileType *type = getExtType(ext);
+
+    if(type)
+    {
+        SINFO << "try to write stream as " << type->getName() << std::endl;
+        retCode = type->write(node, os);
+    }
+    else
+        SWARNING << "can't write stream unknown scene format" << std::endl;
+
+    return retCode;
+}
+
+//----------------------------
+// Function name: write
+//----------------------------
+//
+//Parameters:
+//p: const Scene &image, const char *fileName
+//GlobalVars:
+//g:
+//Returns:
+//r:bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d:
+//SeeAlso:
+//s:
+//
+//------------------------------
+bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName)
 {
     bool retCode = false;
     SceneFileType *type = getFileType(fileName);
 
-    if (type) {
+    if (type)
+    {
         SINFO << "try to write " << fileName << " as " << type->getName() << std::endl;
-        retCode = type->write(node,fileName);
+
+        std::ofstream out(fileName, std::ios::binary);
+        if(out)
+        {
+            retCode = write(node, out, fileName);
+            out.close();
+        }
+        else
+        {
+            SWARNING << "Can not open output stream for file '" << fileName << "'!" << std::endl;
+        }
+
+        if(!retCode)
+            retCode = type->write(node, fileName);
+
+        if(!retCode)
+            SWARNING << "Couldn't write " << fileName << std::endl;
     }
     else
         SWARNING << "can't write " << fileName << "; unknown scene format"
@@ -408,6 +497,24 @@ bool SceneFileHandler::write ( const NodePtr node, const Char8 *fileName )
 
     return retCode;
 }
+
+/*!
+Returns the path handler used
+*/
+PathHandler *SceneFileHandler::getPathHandler(void)
+{
+    return _pathHandler;
+}
+
+//-------------------------------------------------------------------------
+/*!
+Method to set the path handler.
+*/
+void SceneFileHandler::setPathHandler(PathHandler *pathHandler)
+{
+    _pathHandler = pathHandler;
+}
+
 
 //----------------------------
 // Function name: print
@@ -627,7 +734,11 @@ bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
 //s:
 //
 //------------------------------
-SceneFileHandler::SceneFileHandler (void )
+SceneFileHandler::SceneFileHandler (void) :
+    _readProgressFP(NULL),
+    _progressData(),
+    _readReady(false),
+    _pathHandler(NULL)
 {
     return;
 }
@@ -681,6 +792,73 @@ SceneFileHandler::SceneFileHandler (const SceneFileHandler & )
 SceneFileHandler &SceneFileHandler::the(void)
 {
     return *_the;
+}
+
+void SceneFileHandler::setReadProgressCB(progresscbfp fp)
+{
+    _readProgressFP = fp;
+}
+
+void SceneFileHandler::startReadProgressThread(std::istream &is)
+{
+    if(_readProgressFP == NULL)
+        return;
+
+    // get length of the stream.
+    _progressData.is = &is;
+    is.seekg(0, std::ios::end);
+    _progressData.length = is.tellg();
+    is.seekg(0, std::ios::beg);
+
+    Thread *pt = Thread::find("osg::FileIOReadProgressThread");
+    if(pt == NULL)
+        pt = OSG::Thread::get("osg::FileIOReadProgressThread");
+
+    _readReady = false;
+    if(pt != NULL)
+        pt->runFunction(readProgress, 0, NULL);
+    else
+        SWARNING << "Couldn't create read progress thread!" << std::endl;
+}
+
+void SceneFileHandler::stopReadProgressThread(void)
+{
+    if(_readProgressFP == NULL)
+        return;
+
+    Thread *pt = Thread::find("osg::FileIOReadProgressThread");
+
+    if(pt != NULL)
+    {
+        // terminate thread
+        _readReady = true;
+        Thread::join(pt);
+    }
+}
+
+void SceneFileHandler::readProgress(void * OSG_CHECK_ARG(data))
+{
+    UInt32 p = 0;
+    while(p < 100 && !the()._readReady)
+    {
+        if(!the()._progressData.is->eof() &&
+           !the()._progressData.is->bad())
+        {
+            UInt64 pos = the()._progressData.is->tellg();
+            p = (pos * 100) / the()._progressData.length;
+            if(p > 100)
+                p = 100;
+        }
+        else
+        {
+            p = 100;
+        }
+
+        the()._readProgressFP(p);
+        osgsleep(100);
+    }
+    if(p < 100)
+        the()._readProgressFP(100);
 }
 
 SceneFileHandler::~SceneFileHandler(void)

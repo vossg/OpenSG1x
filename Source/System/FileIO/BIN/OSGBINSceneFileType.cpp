@@ -56,9 +56,9 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::BINSceneFileType 
+/*! \class osg::BINSceneFileType
     \ingroup GrpSystemFileIO
-    
+
     Binary file type
  */
 
@@ -95,59 +95,27 @@ BINSceneFileType::~BINSceneFileType(void)
 
 /*! read filename
  */
-NodePtr BINSceneFileType::read(const Char8 *fileName, UInt32) const
+NodePtr BINSceneFileType::read(std::istream &is) const
 {
-    FILE    *inFile;
-    inFile = fopen(fileName, "rb");
-    if(inFile == NULL)
-    {
-        std::cerr << "ERROR: Cannot open file " << fileName << "" << std::endl;
-
-        return NullFC;
-    }
-    else
-    {
-        BINLoader   loader(inFile);
-        loader.read();
-        fclose(inFile);
-        return loader.getRootNode();
-    }
+    BINLoader loader(is);
+    loader.read();
+    return loader.getRootNode();
 }
 
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
 
-/*! read filename. With addOptions and without subOption
- */
-NodePtr BINSceneFileType::read(const Char8 *fileName, 
-                               UInt32 uiAddOptions,
-                               UInt32 uiSubOption) const
-{
-    return read(fileName, uiAddOptions &~uiSubOption);
-}
-
 /*-------------------------------------------------------------------------*/
 /*                            write                                        */
 
 /*! write node and its subtree to the given fileName
  */
-bool BINSceneFileType::write(const NodePtr node,
-                             const Char8 * fileName) const
+bool BINSceneFileType::write(const NodePtr &node,
+                             std::ostream &os) const
 {
-    FILE    *outFile;
-    
-    outFile = fopen(fileName, "w");
-    if(outFile == NULL)
-    {
-        FFATAL(("ERROR: Cannot write to file %s!\n", fileName));
-        return false;
-    }
- 
-    BINWriter writer(outFile);
-    writer.write(node);
- 
-    return true;
+    BINWriter writer(os);
+    return writer.write(node);
 }
 
 /*-------------------------------------------------------------------------*/

@@ -86,8 +86,7 @@ const Char8 *VRMLSceneFileType::getName(void) const
 /*-------------------------------------------------------------------------*/
 /*                               Read                                      */
 
-NodePtr VRMLSceneFileType::read(const Char8  *fileName,
-                                      UInt32  uiReplaceOptions) const
+NodePtr VRMLSceneFileType::read(std::istream &is) const
 {
     if(_pVRMLLoader == NULL)
     {
@@ -97,63 +96,17 @@ NodePtr VRMLSceneFileType::read(const Char8  *fileName,
         _pVRMLLoader->createStandardPrototypes();
     }
 
-    _pVRMLLoader->scanFile(fileName, uiReplaceOptions);
+    _pVRMLLoader->scanStream(is);
 
     return  _pVRMLLoader->getRoot();
-}
-
-NodePtr VRMLSceneFileType::read(const Char8  *fileName,
-                                      UInt32  uiAddOptions,
-                                      UInt32  uiSubOptions) const
-{
-    if(_pVRMLLoader == NULL)
-    {
-        _pVRMLLoader = new VRMLFile();
-
-//        _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
-        _pVRMLLoader->createStandardPrototypes();
-    }
-
-    _pVRMLLoader->scanFile(fileName, uiAddOptions, uiSubOptions);
-
-    return  _pVRMLLoader->getRoot();
-}
-
-VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiReplaceOptions)const
-{
-    FCPtrStore fcVec;
-
-    NodePtr    nodePtr = read(fileName, uiReplaceOptions);
-
-    if(nodePtr != NullFC)
-        fcVec.push_back(nodePtr);
-
-    return fcVec;
-}
-
-VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiAddOptions,
-          UInt32  uiSubOptions)const
-{
-    FCPtrStore fcVec;
-
-    NodePtr    nodePtr = read(fileName, uiAddOptions, uiSubOptions);
-
-    if(nodePtr != NullFC)
-        fcVec.push_back(nodePtr);
-
-    return fcVec;
 }
 
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-bool VRMLSceneFileType::write(const NodePtr root, const Char8 *name) const
+bool VRMLSceneFileType::write(const NodePtr &root, const Char8 *name) const
 {
- 
+
     VRMLWriteAction *pWriter = VRMLWriteAction::create();
 
     pWriter->open(name);
@@ -161,7 +114,7 @@ bool VRMLSceneFileType::write(const NodePtr root, const Char8 *name) const
     pWriter->write(root);
 
     pWriter->close();
-    
+
     return true;
 }
 

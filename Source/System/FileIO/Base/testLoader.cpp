@@ -20,7 +20,7 @@ int main (int argc, char **argv)
 
     SceneFileHandler::the().print();
 
-    node = SceneFileHandler::the().read(fileName, 0);
+    node = SceneFileHandler::the().read(fileName);
 
     node->updateVolume();
 

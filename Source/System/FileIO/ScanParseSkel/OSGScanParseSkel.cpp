@@ -68,8 +68,6 @@ extern void resetScanner(void);
 /*                            Constructors                                 */
 
 ScanParseSkel::ScanParseSkel(void) :
-    _uiCurrOptions    (    0),
-    _uiDefOptions     (    0),
     _bMapTypeIds      (false),
     _szReferenceHeader(NULL ),
     _pLexer           (NULL )
@@ -99,8 +97,7 @@ extern int OSGScanParseSkel_parse(void *);
 extern void abortParser(void);
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-void ScanParseSkel::scanStream(std::istream &is,
-                                    UInt32   uiOptions)
+void ScanParseSkel::scanStream(std::istream &is)
 {
     if(is.good())
     {
@@ -112,8 +109,6 @@ void ScanParseSkel::scanStream(std::istream &is,
 
         _pLexer = new OSGScanParseSkel_FlexLexer(&is);
 
-        _uiCurrOptions = uiOptions;
-
         OSGScanParseSkel_parse(this);
 
         reset();
@@ -122,21 +117,9 @@ void ScanParseSkel::scanStream(std::istream &is,
     }
 }
 
-void ScanParseSkel::scanStream(std::istream &is,
-                                     UInt32  uiAddOptions, 
-                                     UInt32  uiSubOptions)
-{
-    UInt32 uiOptions = _uiDefOptions;
-
-    uiOptions |=  uiAddOptions;
-    uiOptions &= ~uiSubOptions;
-
-    ScanParseSkel::scanStream(is, uiOptions);
-}
 #endif
 
-void ScanParseSkel::scanFile(const Char8 *szFilename, 
-                                   UInt32 uiOptions)
+void ScanParseSkel::scanFile(const Char8 *szFilename)
 {
     if(szFilename == NULL)
         return;
@@ -148,7 +131,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
     {
         PNOTICE << "Loading Stream: " << szFilename << std::endl;
 
-        scanStream(is, uiOptions);
+        scanStream(is);
 
         is.close();
     }
@@ -163,8 +146,6 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
         OSGScanParseSkel_in = pInFile;
 
-        _uiCurrOptions = uiOptions;
-
         OSGScanParseSkel_parse(this);
 
         reset();
@@ -174,39 +155,6 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 //        clearSkel();
     }
 #endif
-}
-
-void ScanParseSkel::scanFile(const Char8  *szFilename, 
-                                   UInt32  uiAddOptions, 
-                                   UInt32  uiSubOptions)
-{
-    if(szFilename == NULL)
-        return;
-
-#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-    std::ifstream is(szFilename);
-
-    if(is.good())
-    {
-        PNOTICE << "Loading Stream : " << szFilename << std::endl;
-
-        scanStream(is, uiAddOptions, uiSubOptions);
-
-        is.close();
-    }
-#else
-   UInt32 uiOptions = _uiDefOptions;
-
-    uiOptions |=  uiAddOptions;
-    uiOptions &= ~uiSubOptions;
-
-    ScanParseSkel::scanFile(szFilename, uiOptions);
-#endif
-}
-
-void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)
-{
-    _uiDefOptions = uiOptions;
 }
 
 Int32 ScanParseSkel::lex(void)
@@ -241,17 +189,17 @@ bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
         SLOG << "Error Null Header String Read" << std::endl;
         return false;
     }
-    
+
     if(_szReferenceHeader != NULL)
     {
-        if(strncmp(szHeader, 
-                   _szReferenceHeader, 
+        if(strncmp(szHeader,
+                   _szReferenceHeader,
                    stringlen(_szReferenceHeader)) != 0)
         {
             SLOG << "Error : Header [" << szHeader << "] does not "
-                    << "match reference [" << _szReferenceHeader << "]" 
+                    << "match reference [" << _szReferenceHeader << "]"
                     << std::endl;
-            
+
             returnValue = false;
         }
     }
@@ -372,7 +320,7 @@ void ScanParseSkel::beginNode(const Char8 *,
                               const Char8 *)
 {
 }
-    
+
 void ScanParseSkel::endNode(void)
 {
 }
@@ -449,7 +397,7 @@ void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
 #pragma warning( disable : 177 )
 #endif
 
-namespace 
+namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGSCANPARSESKEL_HEADER_CVSID;

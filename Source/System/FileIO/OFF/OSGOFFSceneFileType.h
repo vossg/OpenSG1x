@@ -81,19 +81,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8  *fileName, 
-                               UInt32  uiReplaceOptions) const;
-
-    virtual NodePtr read(const Char8  *fileName, 
-                               UInt32  uiAddOptions,
-                               UInt32  uiSubOptions) const;
+    virtual NodePtr read(std::istream &is) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr node, const Char8 *fileName) const;
+    virtual bool write(const NodePtr &node, std::ostream &os) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

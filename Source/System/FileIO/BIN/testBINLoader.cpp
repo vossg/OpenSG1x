@@ -1,6 +1,7 @@
 #include <OSGConfig.h>
 
 #include <iostream>
+#include <fstream>
 
 #include <OSGGLUT.h>
 
@@ -232,14 +233,13 @@ int main(int argc, char **argv)
 
     OSG::osgInit(argc, argv);
 
-    FILE    *inFile;
     char    *inFileName = "tie.bin";
 
     if(argc > 1)
         inFileName = argv[1];
 
-    inFile = fopen(inFileName, "rb");
-    if(inFile == NULL)
+    std::ifstream in(inFileName, std::ios::binary);
+    if(!in)
     {
         std::cerr <<
             "ERROR: Cannot open file " <<
@@ -249,9 +249,9 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    OSG::BINLoader loader(inFile);
+    OSG::BINLoader loader(in);
     loader.read();
-    fclose(inFile);
+    in.close();
     std::cout <<
         "MAIN: " <<
         loader.getRootNode().getFieldContainerId() <<
@@ -284,7 +284,7 @@ int main(int argc, char **argv)
     //    OSGSceneFileHandler::the().print();
     //    FhsFile::touch();
     // create the graph
-    // beacon for camera and light	
+    // beacon for camera and light
     NodePtr     b1n = Node::create();
     GroupPtr    b1 = Group::create();
     beginEditCP(b1n);
@@ -407,8 +407,8 @@ int main(int argc, char **argv)
 
     // tball
     /*
-	Vec3f pos(min[0] + 0.5 * (max[0] - min[0]), 
-              min[1] + 0.5 * (max[1] - min[1]), 
+	Vec3f pos(min[0] + 0.5 * (max[0] - min[0]),
+              min[1] + 0.5 * (max[1] - min[1]),
               max[2] + 1.5 * (max[2] - min[2]));
 */
     Vec3f   pos(0, 0, max[2] + 1.5 * (max[2] - min[2]));
