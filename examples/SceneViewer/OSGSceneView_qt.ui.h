@@ -413,7 +413,7 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
 // Hack as qt returns a screwed up windows path
 #ifdef WIN32
 
-        for(OSG::UInt32 ui = 0; ui < fName.length(); ui++)
+        for(int ui = 0; ui < fName.length(); ui++)
         {
             if(fName[ui] == '/')
             {
