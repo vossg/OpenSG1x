@@ -472,13 +472,21 @@ typedef UInt32 BitVector;
  *  \ingroup BaseConstants
  */
 
-const Real32 Eps = 1E-7f;
+const Real32 Eps = 1E-6f;
 
 /*! \brief Eps
  *  \ingroup BaseConstants
  */
 
 const Real32 Pi  = (Real32) 3.141592653589797;
+
+/*! positive infinity
+*/
+const Real32 Inf = 1E30;
+
+/*! negative infinity
+*/
+const Real32 NegInf = - 1E30;
 
 /*! \brief MathTypeProperties
  *  \ingroup BaseConstants
