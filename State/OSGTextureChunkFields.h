@@ -70,9 +70,63 @@ class TextureChunk;
 
 typedef FCPtr<StateChunkPtr, TextureChunk> TextureChunkPtr;
 
+/*! \brief TextureChunkPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
+template <>
+struct FieldDataTraits<TextureChunkPtr> : 
+    public FieldTraitsRecurseMapper<TextureChunkPtr>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFTextureChunkPtr"; }
+    static char     *getMName(void) { return "MFTextureChunkPtr"; }
+};
+
+//! SFTextureChunkPtr
+//! \ingroup SingleFields
+
+typedef SField<TextureChunkPtr> SFTextureChunkPtr;
+
+#ifndef OSG_COMPILETEXTURECHUNKINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<TextureChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+//! MFTextureChunkPtr
+//! \ingroup MultiFields
+
+typedef MField<TextureChunkPtr> MFTextureChunkPtr;
+
+#ifndef OSG_COMPILETEXTURECHUNKINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<TextureChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureChunkFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
+#define OSGTEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureChunkFields.h,v 1.10 2002/01/09 10:18:27 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKFIELDS_H_ */
