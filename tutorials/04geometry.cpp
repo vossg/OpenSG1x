@@ -132,6 +132,11 @@ int main (int argc, char **argv)
     geo->setTypes(type);
     geo->setLengths(lens);
     geo->setPositions(pnts);
+     
+    // assign a material to the geometry to make it visible. The details
+    // of materials are defined elsewhere.
+    geo->setMaterial(getDefaultUnlitMaterial());
+
     endEditCP(geo);
     
     // put the geometry core into a node

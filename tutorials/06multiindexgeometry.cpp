@@ -91,8 +91,6 @@ int main (int argc, char **argv)
 
     // create the scene
     
-    // create the geometry node. This is a minimal setup
-    
     // the geometry consists of several parts:
     
     // the types of the primitives to be rendered,
@@ -120,21 +118,21 @@ int main (int argc, char **argv)
 
     // indices for the polygon
 	index->addValue( 0 );    // Position index
-	index->addValue( 2 );    // Normal index
+	index->addValue( 3 );    // Normal index
 	index->addValue( 1 );    // Position index
-	index->addValue( 2 );    // Normal index
+	index->addValue( 3 );    // Normal index
  	index->addValue( 2 );    // Position index
-	index->addValue( 2 );    // Normal index
+	index->addValue( 3 );    // Normal index
 	index->addValue( 3 );    // Position index
- 	index->addValue( 2 );    // Normal index
+ 	index->addValue( 3 );    // Normal index
   
     // indices for the triangles
 	index->addValue( 4 );    // Position index
-	index->addValue( 6 );    // Normal index
+	index->addValue( 4 );    // Normal index
 	index->addValue( 5 );    // Position index
-	index->addValue( 6 );    // Normal index
+	index->addValue( 4 );    // Normal index
  	index->addValue( 6 );    // Position index
-	index->addValue( 6 );    // Normal index
+	index->addValue( 4 );    // Normal index
 	index->addValue( 7 );    // Position index
 	index->addValue( 5 );    // Normal index
 	index->addValue( 8 );    // Position index
@@ -144,21 +142,21 @@ int main (int argc, char **argv)
     
     // indices for the lines
 	index->addValue( 0 );    // Position index
-	index->addValue( 5 );    // Normal index
+	index->addValue( 6 );    // Normal index
 	index->addValue( 5 );    // Position index
-	index->addValue( 5 );    // Normal index
+	index->addValue( 6 );    // Normal index
 	index->addValue( 1 );    // Position index
-	index->addValue( 5 );    // Normal index
+	index->addValue( 8 );    // Normal index
 	index->addValue( 7 );    // Position index
-	index->addValue( 5 );    // Normal index
+	index->addValue( 8 );    // Normal index
 	index->addValue( 2 );    // Position index
-	index->addValue( 4 );    // Normal index
+	index->addValue( 9 );    // Normal index
 	index->addValue( 8 );    // Position index
-	index->addValue( 4 );    // Normal index
+	index->addValue( 9 );    // Normal index
 	index->addValue( 3 );    // Position index
-	index->addValue( 4 );    // Normal index
+	index->addValue( 7 );    // Normal index
 	index->addValue( 4 );    // Position index
-	index->addValue( 4 );    // Normal index
+	index->addValue( 7 );    // Normal index
 	index->addValue( 6 );    // Position index
 	index->addValue( 3 );    // Normal index
 	index->addValue( 9 );    // Position index
@@ -168,29 +166,34 @@ int main (int argc, char **argv)
     // the vertices,
 	GeoPositions3fPtr pnts = GeoPositions3f::create();
  	beginEditCP(pnts);
-	pnts->addValue( Pnt3f( -1, -1, -1) );
-	pnts->addValue( Pnt3f( -1, -1,  1) );
-	pnts->addValue( Pnt3f(  1, -1,  1) );
-	pnts->addValue( Pnt3f(  1, -1, -1) );
+	pnts->addValue( Pnt3f( -1, -1, -1) );  // 0
+	pnts->addValue( Pnt3f( -1, -1,  1) );  // 1
+	pnts->addValue( Pnt3f(  1, -1,  1) );  // 2
+	pnts->addValue( Pnt3f(  1, -1, -1) );  // 3
     
-	pnts->addValue( Pnt3f(  1,  0, -1) );
-	pnts->addValue( Pnt3f( -1,  0, -1) );
-	pnts->addValue( Pnt3f(  0,  1, -1) );
+	pnts->addValue( Pnt3f(  1,  0, -1) );  // 4
+	pnts->addValue( Pnt3f( -1,  0, -1) );  // 5
+	pnts->addValue( Pnt3f(  0,  1, -1) );  // 6
     
-	pnts->addValue( Pnt3f( -1,  0,  1) );
-	pnts->addValue( Pnt3f(  1,  0,  1) );
-	pnts->addValue( Pnt3f(  0,  1,  1) );
+	pnts->addValue( Pnt3f( -1,  0,  1) );  // 7
+	pnts->addValue( Pnt3f(  1,  0,  1) );  // 8
+	pnts->addValue( Pnt3f(  0,  1,  1) );  // 9
 	endEditCP(pnts);
 
     // the normals
 	GeoNormals3fPtr norm = GeoNormals3f::create();
  	beginEditCP(norm);
-	norm->addValue( Vec3f( -1,  0,  0) );
-	norm->addValue( Vec3f(  1,  0,  0) );
-	norm->addValue( Vec3f(  0, -1,  0) );
-	norm->addValue( Vec3f(  0,  1,  0) );
-	norm->addValue( Vec3f(  0,  0, -1) );
-	norm->addValue( Vec3f(  0,  0,  1) );
+	norm->addValue( Vec3f( -1,  0,  0) );  // 0
+	norm->addValue( Vec3f(  1,  0,  0) );  // 1
+	norm->addValue( Vec3f(  0, -1,  0) );  // 2
+	norm->addValue( Vec3f(  0,  1,  0) );  // 3
+	norm->addValue( Vec3f(  0,  0, -1) );  // 4
+	norm->addValue( Vec3f(  0,  0,  1) );  // 5
+
+	norm->addValue( Vec3f( -1,  0, -1) );  // 6
+	norm->addValue( Vec3f(  1,  0, -1) );  // 7
+	norm->addValue( Vec3f( -1,  0,  1) );  // 8
+	norm->addValue( Vec3f(  1,  0,  1) );  // 9
 	endEditCP(norm);
    
     // put it all together into a geometry
