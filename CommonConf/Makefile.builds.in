@@ -1,7 +1,7 @@
 
 
-@ac_gdz_lib_project_praefix@COMMON     ?= Common.new
-@ac_gdz_lib_project_praefix@COMMONPACK ?= CommonPackages.new
+@ac_gdz_lib_project_praefix@COMMON     ?= Common
+@ac_gdz_lib_project_praefix@COMMONPACK ?= CommonPackages
 
 ifndef @ac_gdz_lib_project_praefix@POOL
 @ac_gdz_lib_project_praefix@POOL       ?= @ac_gdz_lib_src_dir@
