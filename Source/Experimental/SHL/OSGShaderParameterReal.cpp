@@ -100,16 +100,16 @@ void ShaderParameterReal::onCreate(const ShaderParameterReal */*source*/)
     if(GlobalSystemState == Startup)
         return;
 
-    ShaderParameterRealPtr tmpPtr(*this);
-    beginEditCP(tmpPtr, ShaderParameterReal::TypeIdFieldMask);
-        setTypeId(ShaderParameter::SHPTypeReal);
-    endEditCP(tmpPtr, ShaderParameterReal::TypeIdFieldMask);
+    setTypeId(ShaderParameter::SHPTypeReal);
 }
 
 /*----------------------------- class specific ----------------------------*/
 
 void ShaderParameterReal::changed(BitVector whichField, UInt32 origin)
 {
+    if(whichField & ShaderParameterReal::ValueFieldMask)
+        setChanged();
+
     Inherited::changed(whichField, origin);
 }
 
@@ -133,7 +133,7 @@ void ShaderParameterReal::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterReal.cpp,v 1.1 2004/06/05 18:16:43 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterReal.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERREALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERREALBASE_INLINE_CVSID;
 

@@ -100,16 +100,16 @@ void ShaderParameterVec4f::onCreate(const ShaderParameterVec4f */*source*/)
     if(GlobalSystemState == Startup)
         return;
 
-    ShaderParameterVec4fPtr tmpPtr(*this);
-    beginEditCP(tmpPtr, ShaderParameterVec4f::TypeIdFieldMask);
-        setTypeId(ShaderParameter::SHPTypeVec4f);
-    endEditCP(tmpPtr, ShaderParameterVec4f::TypeIdFieldMask);
+    setTypeId(ShaderParameter::SHPTypeVec4f);
 }
 
 /*----------------------------- class specific ----------------------------*/
 
 void ShaderParameterVec4f::changed(BitVector whichField, UInt32 origin)
 {
+    if(whichField & ShaderParameterVec4f::ValueFieldMask)
+        setChanged();
+
     Inherited::changed(whichField, origin);
 }
 
@@ -133,7 +133,7 @@ void ShaderParameterVec4f::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec4f.cpp,v 1.1 2004/06/05 18:16:44 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec4f.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERVEC4FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID;
 

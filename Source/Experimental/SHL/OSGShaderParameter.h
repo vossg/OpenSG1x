@@ -76,12 +76,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
 
+    bool hasChanged(void);
+    void resetChanged(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     TypeId's                                 */
     /*! \{                                                                 */
 
-    enum
+    enum SHPType
     {
         SHPTypeUnknown = 0,
         SHPTypeBool,
@@ -95,6 +98,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
         SHPTypeVec4f,
         SHPTypeMatrix
     };
+
+    SHPType getTypeId(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -116,10 +121,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
 
     virtual ~ShaderParameter(void); 
 
+    void setTypeId(SHPType type);
+    void setChanged(void);
+
     /*! \}                                                                 */
     
     /*==========================  PRIVATE  ================================*/
   private:
+
+    bool    _changed;
+    SHPType _typeid;
 
     friend class FieldContainer;
     friend class ShaderParameterBase;
@@ -138,6 +149,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterBase.inl>
 #include <OSGShaderParameter.inl>
 
-#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.2 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.3 2004/09/02 13:43:54 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETER_H_ */

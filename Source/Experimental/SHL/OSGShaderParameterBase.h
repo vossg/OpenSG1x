@@ -66,8 +66,6 @@
 #include <OSGFieldContainer.h> // Parent
 
 #include <OSGStringFields.h> // Name type
-#include <OSGBoolFields.h> // Changed type
-#include <OSGUInt32Fields.h> // TypeId type
 
 #include <OSGShaderParameterFields.h>
 
@@ -91,15 +89,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public FieldContainer
 
     enum
     {
-        NameFieldId    = Inherited::NextFieldId,
-        ChangedFieldId = NameFieldId    + 1,
-        TypeIdFieldId  = ChangedFieldId + 1,
-        NextFieldId    = TypeIdFieldId  + 1
+        NameFieldId = Inherited::NextFieldId,
+        NextFieldId = NameFieldId + 1
     };
 
     static const OSG::BitVector NameFieldMask;
-    static const OSG::BitVector ChangedFieldMask;
-    static const OSG::BitVector TypeIdFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -127,15 +121,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public FieldContainer
     /*! \{                                                                 */
 
            SFString            *getSFName           (void);
-           SFBool              *getSFChanged        (void);
-           SFUInt32            *getSFTypeId         (void);
 
            std::string         &getName           (void);
      const std::string         &getName           (void) const;
-           bool                &getChanged        (void);
-     const bool                &getChanged        (void) const;
-           UInt32              &getTypeId         (void);
-     const UInt32              &getTypeId         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,8 +131,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public FieldContainer
     /*! \{                                                                 */
 
      void setName           ( const std::string &value );
-     void setChanged        ( const bool &value );
-     void setTypeId         ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -175,8 +161,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public FieldContainer
     /*! \{                                                                 */
 
     SFString            _sfName;
-    SFBool              _sfChanged;
-    SFUInt32            _sfTypeId;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +208,6 @@ typedef ShaderParameterBase *ShaderParameterBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.2 2004/06/06 16:44:21 a-m-z Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.3 2004/09/02 13:43:54 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */

@@ -77,20 +77,6 @@ SFString *ShaderParameterBase::getSFName(void)
     return &_sfName;
 }
 
-//! Get the ShaderParameter::_sfChanged field.
-inline
-SFBool *ShaderParameterBase::getSFChanged(void)
-{
-    return &_sfChanged;
-}
-
-//! Get the ShaderParameter::_sfTypeId field.
-inline
-SFUInt32 *ShaderParameterBase::getSFTypeId(void)
-{
-    return &_sfTypeId;
-}
-
 
 //! Get the value of the ShaderParameter::_sfName field.
 inline
@@ -113,50 +99,8 @@ void ShaderParameterBase::setName(const std::string &value)
     _sfName.setValue(value);
 }
 
-//! Get the value of the ShaderParameter::_sfChanged field.
-inline
-bool &ShaderParameterBase::getChanged(void)
-{
-    return _sfChanged.getValue();
-}
-
-//! Get the value of the ShaderParameter::_sfChanged field.
-inline
-const bool &ShaderParameterBase::getChanged(void) const
-{
-    return _sfChanged.getValue();
-}
-
-//! Set the value of the ShaderParameter::_sfChanged field.
-inline
-void ShaderParameterBase::setChanged(const bool &value)
-{
-    _sfChanged.setValue(value);
-}
-
-//! Get the value of the ShaderParameter::_sfTypeId field.
-inline
-UInt32 &ShaderParameterBase::getTypeId(void)
-{
-    return _sfTypeId.getValue();
-}
-
-//! Get the value of the ShaderParameter::_sfTypeId field.
-inline
-const UInt32 &ShaderParameterBase::getTypeId(void) const
-{
-    return _sfTypeId.getValue();
-}
-
-//! Set the value of the ShaderParameter::_sfTypeId field.
-inline
-void ShaderParameterBase::setTypeId(const UInt32 &value)
-{
-    _sfTypeId.setValue(value);
-}
-
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBase.inl,v 1.2 2004/06/06 16:44:21 a-m-z Exp $"
+#define OSGSHADERPARAMETERBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBase.inl,v 1.3 2004/09/02 13:43:54 a-m-z Exp $"
 

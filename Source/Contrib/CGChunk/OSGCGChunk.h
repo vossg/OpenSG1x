@@ -87,7 +87,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     /*! \name                       Paramerters                            */
     /*! \{                                                                 */
 
-    void updateParameters(Window *win, const MFShaderParameterPtr &parameters);
+    void updateParameters(Window *win, const MFShaderParameterPtr &parameters,
+                          bool force = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

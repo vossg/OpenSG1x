@@ -81,17 +81,46 @@ void ShaderParameter::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 ShaderParameter::ShaderParameter(void) :
-    Inherited()
+    Inherited(),
+    _changed(false),
+    _typeid(SHPTypeUnknown)
 {
 }
 
 ShaderParameter::ShaderParameter(const ShaderParameter &source) :
-    Inherited(source)
+    Inherited(source),
+    _changed(source.changed),
+    _typeid(source._typeid)
 {
 }
 
 ShaderParameter::~ShaderParameter(void)
 {
+}
+
+void ShaderParameter::setTypeId(ShaderParameter::SHPType type)
+{
+    _typeid = type;
+}
+
+ShaderParameter::SHPType ShaderParameter::getTypeId(void)
+{
+    return _typeid;
+}
+
+bool ShaderParameter::hasChanged(void)
+{
+    return _changed;
+}
+
+void ShaderParameter::resetChanged(void)
+{
+    _changed = false;
+}
+
+void ShaderParameter::setChanged(void)
+{
+    _changed = true;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -121,7 +150,7 @@ void ShaderParameter::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameter.cpp,v 1.1 2004/06/05 18:16:43 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameter.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 

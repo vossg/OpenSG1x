@@ -295,7 +295,8 @@ void CGChunk::updateCGContext(void)
 }
 
 void CGChunk::updateParameters(Window */*win*/,
-                               const MFShaderParameterPtr &parameters)
+                               const MFShaderParameterPtr &parameters,
+                               bool force)
 {
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
@@ -304,7 +305,14 @@ void CGChunk::updateParameters(Window */*win*/,
         // works also but is not possible with a switch and a switch is much faster.
         //UInt16 groupid = parameter->getType().getGroupId();
         //if(groupid == ShaderParameterInt::getClassType().getGroupId())
-        
+
+        if(!force)
+        {
+            if(!parameter->hasChanged())
+                    continue;
+            parameter->resetChanged();
+        }
+
         switch(parameter->getTypeId())
         {
             //case ShaderParameter::SHPTypeBool:
@@ -414,6 +422,10 @@ void CGChunk::updateParameters(Window */*win*/,
                         cgGLSetMatrixParameterfr(fpparam, p->getValue().getValues());
                 }
             }
+            break;
+            default:
+                FWARNING(("Parameter '%s' has unknown tpye %d!\n", parameter->getName().c_str(),
+                                                                   parameter->getTypeId()));
             break;
         }
     }

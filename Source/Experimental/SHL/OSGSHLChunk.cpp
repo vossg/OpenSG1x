@@ -534,7 +534,7 @@ void SHLChunk::updateProgram(Window *win)
 
 void SHLChunk::updateParameters(Window *win,
                                 const MFShaderParameterPtr &parameters,
-                                bool useProgram)
+                                bool useProgram, bool force)
 {
     GLuint program = (GLuint) win->getGLObjectId(getGLId());
 
@@ -573,6 +573,15 @@ void SHLChunk::updateParameters(Window *win,
         //UInt16 groupid = parameter->getType().getGroupId();
         //if(groupid == ShaderParameterInt::getClassType().getGroupId())
         
+        if(!force)
+        {
+            if(!parameter->hasChanged())
+                continue;
+            parameter->resetChanged();
+        }
+
+        //printf("seeting parameter: '%s'\n", parameter->getName().c_str());
+
         switch(parameter->getTypeId())
         {
             case ShaderParameter::SHPTypeBool:
@@ -675,6 +684,10 @@ void SHLChunk::updateParameters(Window *win,
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
             }
+            break;
+            default:
+                FWARNING(("Parameter '%s' has unknown tpye %d!\n", parameter->getName().c_str(),
+                                                                   parameter->getTypeId()));
             break;
         }
     }
@@ -793,7 +806,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.19 2004/08/27 12:50:51 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.20 2004/09/02 13:43:54 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

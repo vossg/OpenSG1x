@@ -67,12 +67,6 @@ OSG_USING_NAMESPACE
 const OSG::BitVector  ShaderParameterBase::NameFieldMask = 
     (TypeTraits<BitVector>::One << ShaderParameterBase::NameFieldId);
 
-const OSG::BitVector  ShaderParameterBase::ChangedFieldMask = 
-    (TypeTraits<BitVector>::One << ShaderParameterBase::ChangedFieldId);
-
-const OSG::BitVector  ShaderParameterBase::TypeIdFieldMask = 
-    (TypeTraits<BitVector>::One << ShaderParameterBase::TypeIdFieldId);
-
 const OSG::BitVector ShaderParameterBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -83,12 +77,6 @@ const OSG::BitVector ShaderParameterBase::MTInfluenceMask =
 /*! \var std::string     ShaderParameterBase::_sfName
     parameter name
 */
-/*! \var bool            ShaderParameterBase::_sfChanged
-    changed flag
-*/
-/*! \var UInt32          ShaderParameterBase::_sfTypeId
-    type id for faster parameter setting
-*/
 
 //! ShaderParameter description
 
@@ -98,17 +86,7 @@ FieldDescription *ShaderParameterBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterBase::getSFName),
-    new FieldDescription(SFBool::getClassType(), 
-                     "changed", 
-                     ChangedFieldId, ChangedFieldMask,
-                     true,
-                     (FieldAccessMethod) &ShaderParameterBase::getSFChanged),
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "typeId", 
-                     TypeIdFieldId, TypeIdFieldMask,
-                     true,
-                     (FieldAccessMethod) &ShaderParameterBase::getSFTypeId)
+                     (FieldAccessMethod) &ShaderParameterBase::getSFName)
 };
 
 
@@ -156,8 +134,6 @@ void ShaderParameterBase::executeSync(      FieldContainer &other,
 
 ShaderParameterBase::ShaderParameterBase(void) :
     _sfName                   (), 
-    _sfChanged                (bool(true)), 
-    _sfTypeId                 (UInt32(0)), 
     Inherited() 
 {
 }
@@ -168,8 +144,6 @@ ShaderParameterBase::ShaderParameterBase(void) :
 
 ShaderParameterBase::ShaderParameterBase(const ShaderParameterBase &source) :
     _sfName                   (source._sfName                   ), 
-    _sfChanged                (source._sfChanged                ), 
-    _sfTypeId                 (source._sfTypeId                 ), 
     Inherited                 (source)
 {
 }
@@ -191,16 +165,6 @@ UInt32 ShaderParameterBase::getBinSize(const BitVector &whichField)
         returnValue += _sfName.getBinSize();
     }
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-    {
-        returnValue += _sfChanged.getBinSize();
-    }
-
-    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
-    {
-        returnValue += _sfTypeId.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -213,16 +177,6 @@ void ShaderParameterBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (NameFieldMask & whichField))
     {
         _sfName.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-    {
-        _sfChanged.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
-    {
-        _sfTypeId.copyToBin(pMem);
     }
 
 
@@ -238,16 +192,6 @@ void ShaderParameterBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfName.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-    {
-        _sfChanged.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
-    {
-        _sfTypeId.copyFromBin(pMem);
-    }
-
 
 }
 
@@ -259,12 +203,6 @@ void ShaderParameterBase::executeSyncImpl(      ShaderParameterBase *pOther,
 
     if(FieldBits::NoField != (NameFieldMask & whichField))
         _sfName.syncWith(pOther->_sfName);
-
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-        _sfChanged.syncWith(pOther->_sfChanged);
-
-    if(FieldBits::NoField != (TypeIdFieldMask & whichField))
-        _sfTypeId.syncWith(pOther->_sfTypeId);
 
 
 }
@@ -299,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.2 2004/06/06 16:44:21 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.3 2004/09/02 13:43:54 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 

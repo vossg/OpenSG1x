@@ -53,9 +53,9 @@ void SHLParameterChunk::updateParameters(Window *win)
         return;
     }
 
-    shl->updateParameters(win, getParameters(), false);
+    shl->updateParameters(win, getParameters(), false, true);
 }
 
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunk.inl,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHLPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunk.inl,v 1.3 2004/09/02 13:43:54 a-m-z Exp $"

@@ -61,10 +61,9 @@ bool ShaderParameterAccess::setParameter(const char *name, const ValueType &valu
             FWARNING(("ShaderParameterAccess::setParameter : Parameter '%s' has wrong type!\n", name));
             return false;
         }
-        beginEditCP(p);
+        beginEditCP(p, ParameterType::ValueFieldMask);
             p->setValue(value);
-            p->setChanged(true);
-        endEditCP(p);
+        endEditCP(p, ParameterType::ValueFieldMask);
     }
     else
     {
@@ -75,7 +74,6 @@ bool ShaderParameterAccess::setParameter(const char *name, const ValueType &valu
             beginEditCP(p);
                 p->setName(name);
                 p->setValue(value);
-                p->setChanged(true);
             endEditCP(p);
             _parameters.push_back(p);
             _parametermap.insert(std::pair<std::string, UInt32>(name, _parameters.size()-1));
@@ -116,4 +114,4 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.8 2004/08/30 15:38:03 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.9 2004/09/02 13:43:54 a-m-z Exp $"

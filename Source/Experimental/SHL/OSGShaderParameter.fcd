@@ -20,24 +20,4 @@
 	>
 	parameter name
 	</Field>
-	<Field
-		name="changed"
-		type="bool"
-		cardinality="single"
-		visibility="internal"
-		defaultValue="true"
-		access="public"
-	>
-	changed flag
-	</Field>
-	<Field
-		name="typeId"
-		type="UInt32"
-		cardinality="single"
-		visibility="internal"
-		defaultValue="0"
-		access="public"
-	>
-	type id for faster parameter setting
-	</Field>
 </FieldContainer>
