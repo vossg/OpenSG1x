@@ -160,7 +160,7 @@ void BINWriter::writeFileHeader()
 	vector<NodePtr>::iterator iRoots = _vec_pRootNodes.begin();
     UInt32 mapSize    = _fcIdMap.size();
 	UInt32 numOfRoots = _vec_pRootNodes.size();
-    UInt32 i = 0, j = 0;
+    UInt32 i = 0;
     
     _outFileHandler.putValue(numOfRoots);
     for(i=0; i!=numOfRoots; ++i, ++iRoots)

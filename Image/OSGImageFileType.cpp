@@ -256,7 +256,6 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
   Head            *head;
   unsigned long   dataSize = 0, headSize = sizeof(Head);
   unsigned long   attachmentSize;
-  char            *strData;           
   UChar8          *dest;
   const UChar8    *src = image.getData();
   std::map<std::string, std::string>::const_iterator aI;
