@@ -39,7 +39,7 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
 #include "OSGDynamicBackground.h"
-//#include "OSGUniformBackground.h"
+#include "OSGSolidBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
 #include "OSGRAWSceneFileType.h"
@@ -56,7 +56,7 @@ NodePtr  root;
 NodePtr  file;
 
 PerspectiveCameraPtr cam;
-int nviewports = 2;
+int nhviewports = 2, nvviewports = 2;
 ViewportPtr *vp;
 TileCameraDecoratorPtr *deco;
 WindowPtr win;
@@ -230,11 +230,19 @@ int main (int argc, char **argv)
 
 	if ( argc > 1 && isdigit(argv[1][0]) )
 	{
-		nviewports = atoi( argv[1] );
+		nhviewports = atoi( argv[1] );
 		argv++;
 		argc--;
 	}
-
+	if ( argc > 1 && isdigit(argv[1][0]) )
+	{
+		nvviewports = atoi( argv[1] );
+		argv++;
+		argc--;
+	}
+	else
+		nvviewports = nhviewports;
+		
 	// glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	
 	glEnable( GL_DEPTH_TEST );
@@ -330,11 +338,16 @@ int main (int argc, char **argv)
 	cam->setFar( 100 );
 
 	// Background
+#if 0 // doesn't work right now
 	DynamicBackgroundPtr gbkgnd = DynamicBackground::create();
 
 	gbkgnd->addColor( Color3f(1, 0, 0), 0 );
 	gbkgnd->addColor( Color3f(0, 1, 0), Pi/2 );
 	gbkgnd->addColor( Color3f(0, 0, 1), Pi );
+#else
+	SolidBackgroundPtr gbkgnd = SolidBackground::create();
+	gbkgnd->setColor( Color3f(.5, .5, 1) );
+#endif
 	
 	// Window
 	cout << "GLUT winid: " << winid << endl;
@@ -352,26 +365,29 @@ int main (int argc, char **argv)
 
 	// Viewports & Decorators
 
-	vp = new ViewportPtr [ nviewports * nviewports ];
-	deco = new TileCameraDecoratorPtr [ nviewports * nviewports ];
+	vp = new ViewportPtr [ nhviewports * nvviewports ];
+	deco = new TileCameraDecoratorPtr [ nhviewports * nvviewports ];
 	
-	for ( int i = 0; i < nviewports; i++ )
+	for ( int i = 0; i < nhviewports; i++ )
 	{
-		for ( int j = 0; j < nviewports; j++ )
+		for ( int j = 0; j < nvviewports; j++ )
 		{
-			int ind = i * nviewports + j;
+			int ind = i * nvviewports + j;
 			vp[ind] = Viewport::create();
 			vp[ind]->setBackground( gbkgnd );
 			vp[ind]->setRoot( root );
-			vp[ind]->setSize( 	1./nviewports * i,1./nviewports * j, 
-								1./nviewports * (i+1),1./nviewports * (j+1) );
+			vp[ind]->setSize( 	1./nhviewports * i,1./nvviewports * j, 
+								1./nhviewports * (i+1),1./nvviewports * (j+1) );
 
 			deco[ind] = TileCameraDecorator::create();
 			deco[ind]->setCamera( cam );
-			deco[ind]->setSize( 1./nviewports * i,1./nviewports * j, 
-								1./nviewports * (i+1),1./nviewports * (j+1) );
+			deco[ind]->setSize( 1./nhviewports * i,1./nvviewports * j, 
+								1./nhviewports * (i+1),1./nvviewports * (j+1) );
+
+			deco[ind]->setFullSize( 800, 800 );
 
 			vp[ind]->setCamera( deco[ind] );
+			// for debugging: vp[ind]->setCamera( cam );
 
 			win->addPort( vp[ind] );
 		}
@@ -382,7 +398,8 @@ int main (int argc, char **argv)
 	// Action
 	
 	ract = DrawAction::create();
-
+	ract->setFrustumCulling( false );
+	
 	// tball
 
 	Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
