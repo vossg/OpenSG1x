@@ -50,6 +50,16 @@ It does not explain every single function and its parameters, take a look
  It will also not motivate the decisions taken and alternatives that were
  rejected, see the design document for that.
  This is for jumpstarting OpenSG usage.
+\layout Standard
+
+If you want to send feedback or have further questions you can send them
+ either to the OpenSG developer list (
+\family typewriter 
+opensg-developer@lists.sf.net
+\family default 
+) or to us directly at 
+\family typewriter 
+info@opensg.org.
 \layout Section
 
 What is OpenSG
@@ -95,15 +105,25 @@ If you read this you probably have it already, otherwise take a look at
 
 If you want to get access to the current development version you can get
  it from CVS, see http://sourceforge.net/cvs/?group_id=5283 for details.
- A nightly snapshot of the CVS tree is also available at www.opensg.org/download/o
-pensg_snapshot.tgz.
+ Nightly snapshots of the CVS source and libs are available at at www.opensg.org/d
+ailybuild_logs.
 \layout Section
 
 Compilation
 \layout Standard
 
-OpenSG uses a relatively standard configure script to adapt the options
- it needs to the system it's compiled on.
+
+\shape italic 
+(( Short version: 
+\family typewriter 
+./configure ; make
+\family default 
+ should work.
+ ))
+\layout Standard
+
+Long version: OpenSG uses a relatively standard configure script to adapt
+ the options it needs to the system it's compiled on.
  configure is also used to set up optional libraries that are available.
  For Windows you need to use the cygwin environment (http://sources.redhat.com/cyg
 win/) to get the needed shell tools.
@@ -120,7 +140,7 @@ You need to set the
 \family typewriter 
 --with-compiler=
 \family default 
- option to sepcify the compiler you're going to use.
+ option to specify the compiler you're going to use.
  All other options are optional.
  The most useful ones are 
 \family typewriter 
@@ -305,11 +325,7 @@ CommConf/common.libs.in
 .
  This is not difficult, but hard to explain.
  If you need to do that, take a look at the file, try it and if it doesn't
- work send us an email (
-\family typewriter 
-info@opensg.org
-\family default 
-).
+ work send us an email or use the developer list on SourceForge.
 \layout Standard
 
 If you need new libraries you have to add them to the configure script .
@@ -730,11 +746,230 @@ Vectors/Points/Colors
 
 OpenSG is different from most other systems in differentiating between vectors,
  points and colors.
- Even though they are all classes containing 3 elements, the available operation
-s differ.
+ 
 \layout Standard
 
-Points ...
+Vectors are the most common class, and they should behave like pretty much
+ every other vector library on the planet.
+ They are templated to simplify having variants, and the standard ones that
+ are available are 
+\family typewriter 
+Vec4ub
+\family default 
+, 
+\family typewriter 
+Vec2s
+\family default 
+, 
+\family typewriter 
+Vec2f
+\family default 
+, 
+\family typewriter 
+Vec3f
+\family default 
+ and 
+\family typewriter 
+Vec4f
+\family default 
+.
+ They have operators for the scalar operations, and methods for everything
+ else, see the doxygen docs for 
+\family typewriter 
+osg::VectorInterface
+\family default 
+ for details.
+ Conceptually the 3 element vector has a w coordinate of 0, thus there is
+ no full matrix multiplication for vectors.
+\layout Standard
+
+Points represent positions in space, and as such they are a little more
+ restricted than vectors.
+ The available variants are 
+\family typewriter 
+Pnt2f
+\family default 
+, 
+\family typewriter 
+Pnt3f
+\family default 
+ and 
+\family typewriter 
+Pnt4f
+\family default 
+.
+ Most of the standard vector operations (dot, cross, etc.) don't make sense
+ for points.
+ They can be subtracted (creating a vector), scaled and a vector can be
+ added to or subtraced from them.
+ If you want to represent a position, use a point.
+ It helps keeping the concepts in order and not mix up everything just because
+ it has the same data.
+ If you really need to get from a point to a vector, you can use 
+\family typewriter 
+Vector &osg::Point.toVector()
+\family default 
+ to cast the point to a vector.
+
+\shape italic 
+ should we do that? It would ease the pain, but undermine the distinction.
+ 
+\shape default 
+When multiplied with a matrix, the w coordinate is set as 1 for 3 element
+ points.
+ 
+\layout Standard
+
+Colors are RGB vectors, which also have acces functions to the named components.
+ They also allow acces via the HSV color model and scalar multiplication,
+ but no other operations.
+ 
+\shape italic 
+should we change that? Derive them from vector?
+\layout Subsection
+
+Quaternions
+\layout Standard
+
+Quaternions are the standard way to represent rotations.
+ OpenSG quaternions feature the standard set of methods to get and set the
+ rotations, in variants for radians and degrees.
+ The standard order of the components is 
+\family typewriter 
+x
+\family default 
+,
+\family typewriter 
+y
+\family default 
+,
+\family typewriter 
+z
+\family default 
+,
+\family typewriter 
+w
+\family default 
+.
+ The standard operations (
+\family typewriter 
+length
+\family default 
+, 
+\family typewriter 
+normalize
+\family default 
+, 
+\family typewriter 
+mult
+\family default 
+) are available, as well as 
+\family typewriter 
+slerp
+\family default 
+ and 
+\family typewriter 
+multVec
+\family default 
+.
+\layout Section
+
+Functors
+\layout Standard
+
+Functors are the main method for OpenSG to call configurable actions.
+ They are used in the Actions to call the actions for the node cores, and
+ in the Window to call actions for the GL objects.
+\layout Standard
+
+The functors wrap calls to a standard function, to a member of a specific
+ instance or to a member of the first parameter.
+ 
+\layout Standard
+
+They will have to be redesigned for 1.1, as they don't compile using the
+ Microsoft Visual Studio compiler.
+ :( Thus we don't talk much about them here, if you need to add a new action
+ or GL object, send us mail.
+\layout Section
+
+Time & Date
+\layout Standard
+
+To wrap time and date handling we have a little abstraction for them.
+ 
+\layout Standard
+
+
+\family typewriter 
+getSystemTime()
+\family default 
+ returns the current time since system start in seconds, using the highest
+ resolution timer available.
+\layout Standard
+
+The Date class provides a second resolution timestamp, factored into second,
+ minute, hour, day, month and year.
+ Date::setSystemDate() can be used to set it to the current date/time.
+\layout Section
+
+Line 
+\layout Standard
+
+The Line defines a ray in space.
+ It is defined by a start point and a direction, which is normalized, but
+ doesn't have to be specified as such.
+ Lines can be constructed from two points or directory from a point and
+ a direction.
+ 
+\layout Standard
+
+A line can be intersected with all the bounding volumes and geometry.
+ Only the positive half of the line is intersected.
+\layout Standard
+
+The line can also find the closest point on itself to a given point or another
+ line.
+\layout Section
+
+Plane
+\layout Standard
+
+The Plane defines a 3D infinite halfspace.
+ It is defined by a normal and the distance from the origin, and can be
+ constructed from all useful combinations of points and vectors.
+\layout Standard
+
+Planes can also be intersected with infinite lines, if needed.
+ Points can be tested for lying on the plane, or being in the positive halfspace
+ of the plane.
+\layout Section
+
+Volumes
+\layout Standard
+
+Volumes are primarily used for bounding geometry to speed up culling or
+ intersection tests.
+ All Volumes are derived from 
+\family typewriter 
+Volume
+\family default 
+.
+\layout Standard
+
+Volumes can be in one several states.
+ The default state is valid, special states are invalid, empty, infinite
+ and static.
+ 
+\layout Standard
+
+Invalid volumes have to be set to valid explicitly 
+\layout Section
+
+Threads
+\layout Section
+
+Image
 \layout Section
 
 StringID
@@ -743,28 +978,6 @@ StringID
 Do not use it.
  It is only for StringID which can have shared data.
  Use std::string instead.
-\layout Section
-
-Functors
-\layout Standard
-
-Moving target.
- Don not use it right now.
-\layout Section
-
-Time & Data
-\layout Section
-
-Line & Plane
-\layout Section
-
-Bounding Volume
-\layout Section
-
-Threads
-\layout Section
-
-Image
 \layout Chapter
 
 Fields and FieldContainers
