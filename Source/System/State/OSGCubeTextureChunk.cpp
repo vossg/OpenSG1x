@@ -100,6 +100,9 @@ CubeTextureChunk::~CubeTextureChunk(void)
 
 void CubeTextureChunk::onCreate(const CubeTextureChunk *)
 {
+    if(GlobalSystemState == Startup)
+        return;
+
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
