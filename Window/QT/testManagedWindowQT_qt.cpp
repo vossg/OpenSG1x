@@ -1,4 +1,13 @@
+
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 #include <qapplication.h>
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 #include <OSGConfig.h>
 #include <OSGSceneFileHandler.h>
