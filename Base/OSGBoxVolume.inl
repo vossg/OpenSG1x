@@ -34,13 +34,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
-class BoxVolume;
-bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
-bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
-ostream& operator<< (ostream & os, const BoxVolume &obj);
-#endif
-
 /*! Default constructor - leaves box totally empty
 */
 
