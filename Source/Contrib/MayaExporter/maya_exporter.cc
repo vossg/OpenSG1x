@@ -230,9 +230,9 @@ MStatus OpenSG_exporter::export_all (const MString & filename) {
     if(os)
     {
         MGlobal::displayInfo("Writing file " + filename);
-        osg::OSGWriter * osg_writer = new osg::OSGWriter(os);
-        osg_writer->write(osg_root_node);
-        delete osg_writer;
+        osg::BINWriter *bin_writer = new osg::BINWriter(os);
+        bin_writer->write(osg_root_node);
+        delete bin_writer;
         os.close();
         return MStatus::kSuccess;
     }
