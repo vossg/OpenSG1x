@@ -704,9 +704,9 @@ dsp:
 		> $(PACKAGE_NAME)Lib.dsp
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 	@rm -f $(DSP_PACKS)
-	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/$(PACKAGE_NAME)Lib
+	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
 ifneq ($(DSP_DEFS),)
-	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/$(PACKAGE_NAME)Lib
+	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
 endif
 endif
 

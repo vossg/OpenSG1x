@@ -6,7 +6,7 @@ if($#ARGV < 0)
     exit;
 }
 
-$rel_path = "../..";
+$rel_path = "../../..";
 
 @out_packages = ();
 @out_h        = ();
@@ -144,10 +144,10 @@ sub printHeader
             print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
             print "\n";
             print "# Begin Custom Build\n";
-            print "InputPath=../../$qtfile\n";
+            print "InputPath=../../../$qtfile\n";
             print "\n";
             print "BuildCmds= \\\n";
-            print "\moc.exe ../../$qtfile -i -o $qifile\n";
+            print "\moc.exe ../../../$qtfile -i -o $qifile\n";
             print "\n";
             print "\"$qifile\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
             print "   \$(BuildCmds)\n";
@@ -276,17 +276,17 @@ sub printScanParse
 
         print "\n";
         print "# Begin Source File\n";
-        print "SOURCE=../../$yfp\n";
+        print "SOURCE=../../../$yfp\n";
         print "\n";
         print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
         print "\n";
         print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
         print "\n";
         print "# Begin Custom Build\n";
-        print "InputPath=../../$yfp\n";
+        print "InputPath=../../../$yfp\n";
         print "\n";
         print "BuildCmds= \\\n";
-        print "\tbison.exe -d -v -p${fbase}_  -b${fbase}_ ../../$yfp \\\n";
+        print "\tbison.exe -d -v -p${fbase}_  -b${fbase}_ ../../../$yfp \\\n";
         print "\tmove ${fbase}_.tab.c ${fbase}.tab.cpp \\\n";
         print "\tmove ${fbase}_.tab.h ${fbase}.tab.h \\\n";
         print "\tmove ${fbase}_.output ${fbase}.tab.output \\\n";
@@ -317,17 +317,17 @@ sub printScanParse
 
         print "\n";
         print "# Begin Source File\n";
-        print "SOURCE=../../$lfile\n";
+        print "SOURCE=../../../$lfile\n";
         print "\n";
         print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
         print "\n";
         print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
         print "\n";
         print "# Begin Custom Build\n";
-        print "InputPath=../../$lfile\n";
+        print "InputPath=../../../$lfile\n";
         print "\n";
         print "BuildCmds= \\\n";
-        print "\tflex.exe -l -P${fbase}_ ../../$lfile \\\n";
+        print "\tflex.exe -l -P${fbase}_ ../../../$lfile \\\n";
         print "\tmove lex.${fbase}_.c ${fbase}.lex.cpp \\\n";
         print "\n";
         print "\"$fbase.lex.cpp\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
