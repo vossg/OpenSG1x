@@ -52,6 +52,7 @@
 #include <OSGImageFileHandler.h>
 #include <OSGPathHandler.h>
 #include <OSGFileSystem.h>
+#include <OSGZStream.h>
 
 #include "OSGDATImageFileType.h"
 
@@ -119,7 +120,8 @@ bool DATImageFileType::read (      ImagePtr &image,
 {
     bool retCode = false;
 
-    std::ifstream inDat(fileName), inVol;
+    std::ifstream inDat(fileName), inVolS;
+    std::istream *inVol;
     std::string keyStr, objectFileName;
     const UInt32 lineBufferSize = 1024;
     Char8 *value, *keySepPos, lineBuffer[lineBufferSize];
@@ -204,7 +206,7 @@ bool DATImageFileType::read (      ImagePtr &image,
                     image->setAttachmentField ( keyStr, value );
                     break;
                 case UNKNOWN_KT:
-                    FWARNING (( "Uknown DAT file key: >%s<\n",
+                    FNOTICE (( "Uknown DAT file key: >%s<\n",
                                  keyStr.c_str() ));
                     image->setAttachmentField ( keyStr, value );
                     break;
@@ -227,35 +229,71 @@ bool DATImageFileType::read (      ImagePtr &image,
         {
             if (formatType != Image::OSG_INVALID_IMAGEDATATYPE) 
             {
-                inVol.open(objectFileName.c_str(), 
+                inVolS.open(objectFileName.c_str(), 
                            std::ios::in | std::ios::binary );
-                if (inVol.fail() && ImageFileHandler::the().getPathHandler())
+                if (inVolS.fail() && ImageFileHandler::the().getPathHandler())
                 {
                     // Try to find the file in the search path
-                    inVol.clear(); // reset the error state
+                    inVolS.clear(); // reset the error state
                     PathHandler * ph = ImageFileHandler::the().getPathHandler();
-                    inVol.open(ph->findFile(objectFileName.c_str()).c_str(),
+                    inVolS.open(ph->findFile(objectFileName.c_str()).c_str(),
                                std::ios::in | std::ios::binary );
                 }
-                if (inVol.good())
+                if (inVolS.fail())
                 {
-                    // get length of the stream.
-                    inVol.seekg(0, std::ios::end);
-                    UInt64 length = inVol.tellg();
-                    inVol.seekg(0, std::ios::beg);
+                    // Maybe compressed and name not changed?
+                    std::string gzname = objectFileName + ".gz";
+                    inVolS.clear(); // reset the error state
+                    inVolS.open(gzname.c_str(), 
+                           std::ios::in | std::ios::binary );
+                    if (inVolS.fail() && 
+                        ImageFileHandler::the().getPathHandler())
+                    {
+                        // Try to find the file in the search path
+                        inVolS.clear(); // reset the error state
+                        PathHandler * ph = ImageFileHandler::the().getPathHandler();
+                        inVolS.open(ph->findFile(gzname.c_str()).c_str(),
+                                   std::ios::in | std::ios::binary );
+                    }
+                } 
+                if (inVolS.good())
+                {                    
+#ifdef OSG_ZSTREAM_SUPPORTED
+                    zip_istream *unzipper = NULL;
+#endif
                     
                     dataSize = bpv * res[0] * res[1] * res[2];
                     
                     UInt32 fileDataSize = dataSize;
-                    if(length < dataSize)
+
+                    if(isGZip(inVolS))
                     {
-                        // correct dataSize.
-                        fileDataSize = length;
-                        FWARNING (( "RAW file length to small!\n" ));
+#ifdef OSG_ZSTREAM_SUPPORTED
+                        unzipper = new zip_istream(inVolS);
+                        inVol = unzipper;
+#else
+                        SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
+#endif
                     }
-                    else if(length > dataSize)
+                    else
                     {
-                        FWARNING (( "RAW file length to big!\n" ));
+                        inVol = &inVolS;
+
+                        // get length of the stream.
+                        inVol->seekg(0, std::ios::end);
+                        UInt64 length = inVol->tellg() - file_offset;
+                        inVol->seekg(0, std::ios::beg);
+
+                        if(length < dataSize)
+                        {
+                            // correct dataSize.
+                            fileDataSize = length;
+                            FWARNING (( "RAW file length to small!\n" ));
+                        }
+                        else if(length > dataSize)
+                        {
+                            FWARNING (( "RAW file length to big!\n" ));
+                        }
                     }
                     
                     image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
@@ -266,8 +304,14 @@ bool DATImageFileType::read (      ImagePtr &image,
                     else
                         dataBuffer = ((char *)(image->getData()));
 
-                    inVol.ignore ( fileOffset );
-                    inVol.read ( dataBuffer, fileDataSize );
+                    if(fileOffset != 0)
+                        inVol->ignore ( fileOffset );
+                    inVol->read ( dataBuffer, fileDataSize );
+
+#ifdef OSG_ZSTREAM_SUPPORTED
+                    if(unzipper != NULL)
+                        delete unzipper;
+#endif
                 }
                 else 
                 {
