@@ -45,8 +45,14 @@
 
 #ifdef OSG_WITH_JPG
 extern "C" {
+
+#ifdef WIN32
+#define __WIN32__
+#endif
+
 #include <setjmp.h>
 #include <jpeglib.h>
+
 }
 #endif
 
