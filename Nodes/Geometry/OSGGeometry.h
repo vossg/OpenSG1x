@@ -49,6 +49,7 @@
 #include <OSGStatElemTypes.h>
 
 #include <OSGGeometryBase.h>
+#include <OSGGeoPropPtrs.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -98,6 +99,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     GeometryPtr        getPtr           (void) const;
 
+    
+    virtual 
+    AbstractGeoPropertyInterface * getProperty (int mapID);
+
+                                        
     Int16              calcMappingIndex (UInt16 attrib) const;
 
     GeometryPtr        clone            (void);

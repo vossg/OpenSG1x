@@ -48,6 +48,28 @@
 
 OSG_BEGIN_NAMESPACE
 
+//! \ingroup GeometryLib
+//! Multi/Single index dictionary
+
+class IndexDic {
+
+ public:
+  
+  inline Int32 entry ( vector<Int32> & indexVec );
+
+  inline const vector<Int32> & entry ( Int32 index );          
+
+  inline UInt32 entryCount (void) const;
+
+ private:
+  
+  std::map< std::vector <Int32>, Int32 > _indexMap;
+  
+  std::vector < const std::vector<Int32> *> _indexVec;
+ 
+};
+
+	
 /*--------------------------------------------------------------------------*/
 /*! \name                     Geometry Functions                            */
 /*! \{                                                                      */
@@ -100,6 +122,14 @@ Int32 createOptimizedPrimitives ( GeometryPtr geo,
                                   UInt32 minFanEdgeCount = 8,
                                   bool colorCode = false );
 
+/*! \brief creates a single index geo from multi(interleave) geo.
+ *  function will change (copy/resort) the property values.
+ *  returns the number of property values
+ *  \ingroup Geometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 createSingleIndex ( GeometryPtr geo );
+
 /*! \brief return the number of triangle/line/point elem 
  *  \ingroup Geometry
  */
@@ -127,5 +157,7 @@ NodePtr getFaceNormals(GeometryPtr geo, Real32 length);
 /*! \}                                                                 */
 
 OSG_END_NAMESPACE
+
+#include <OSGGeoFunctions.inl>
 
 #endif /* _OSGGEOFUNCTIONS_H_ */

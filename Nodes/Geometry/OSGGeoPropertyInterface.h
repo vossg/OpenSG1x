@@ -60,15 +60,11 @@ OSG_BEGIN_NAMESPACE
  */
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
-template <class GeoPropertyDesc>
-class GeoPropertyInterface
+
+class AbstractGeoPropertyInterface
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
-    typedef          GeoPropertyInterface<GeoPropertyDesc> InterfaceType;
-
-    typedef typename GeoPropertyDesc::GenericType          GenericType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Get                                    */
@@ -83,6 +79,43 @@ class GeoPropertyInterface
     virtual UInt8  *getData      (void) const = 0;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Generic Access                         */
+    /*! \{                                                                 */
+
+    virtual void        clear    (      void               )       = 0;
+    virtual void        resize   (      size_t      newsize)       = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    AbstractGeoPropertyInterface(void);
+    AbstractGeoPropertyInterface(const AbstractGeoPropertyInterface &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~AbstractGeoPropertyInterface(void);
+
+    /*! \}                                                                 */
+};
+
+template <class GeoPropertyDesc>
+class GeoPropertyInterface : public AbstractGeoPropertyInterface
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    typedef          GeoPropertyInterface<GeoPropertyDesc> InterfaceType;
+
+    typedef typename GeoPropertyDesc::GenericType          GenericType;
+
+    typedef          AbstractGeoPropertyInterface          Inherited;
+
     /*---------------------------------------------------------------------*/
     /*! \name                       Generic Access                         */
     /*! \{                                                                 */
@@ -104,8 +137,6 @@ class GeoPropertyInterface
     virtual void        addValue (const GenericType &val   )       = 0;
 
 
-    virtual void        clear    (      void               )       = 0;
-    virtual void        resize   (      size_t      newsize)       = 0;
     virtual void        push_back(const GenericType &val   )       = 0;
 
     /*! \}                                                                 */

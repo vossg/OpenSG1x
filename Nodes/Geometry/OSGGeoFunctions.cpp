@@ -71,12 +71,11 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.43 2002/03/30 04:55:45 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.44 2002/04/10 21:54:47 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-
 
 
 /*! \ingroup Geometry
@@ -1082,7 +1081,7 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                 {
                   geoTypePtr->addValue( sysPType );
                 }
-                osg::endEditCP (geoTypePtr);
+                osg::beginEditCP (geoTypePtr);
               }
 
               // add index data
@@ -1142,176 +1141,294 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                                      bool       OSG_CHECK_ARG(colorCode      ))
 {
   NodeGraph graph;
-    vector<NodeGraph::Path> pathVec[2];
+  vector<NodeGraph::Path> pathVec[2];
   TriangleIterator tI;
   GeoPositionsPtr posPtr;
   Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0;
-  Int32 j, n, pN;
-    bool multiIndex;
-    vector<int> primitive;
-    GeoPLengthsPtr lensPtr;
+  Int32 i, j, k, n, pN, index, indexMapSize;
+  bool multiIndex;
+  vector<int> primitive;
+  GeoPLengthsPtr lensPtr;
   GeoPTypesPtr geoTypePtr;
   GeoIndicesPtr indexPtr;
-    Time time, inputT, optimizeT, outputT;
+  Time time, inputT, optimizeT, outputT;
   UInt32 triN, lineN, pointN, triCount;
   Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
   Int32 t,typeN = sizeof(typeVec)/sizeof(Int32);
-  UInt32 i;
+  vector<Int32> indexVec;
+  Int32 v[3];
+  IndexDic indexDic;
 
-    if (geoPtr != NullFC) {
-        posPtr = geoPtr->getPositions();
-    pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
-    multiIndex =  (geoPtr->getIndexMapping().size() > 1);
-    calcPrimitiveCount(geoPtr,triN,lineN,pointN);
-    }
-
-    if (pN && !multiIndex) {
-
-        FNOTICE (( "Start Geometry optimisation: tri/line/point: %d/%d/%d\n",
-               triN, lineN, pointN));
-
-        inputT = getSystemTime();
-        graph.init(pN,triN,8);
-
-        if (!multiIndex) {
-            triCount = 0;
-      for (tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles(); ++tI){
-        graph.setNode( triCount,
-                       tI.getPositionIndex(0),
-                       tI.getPositionIndex(1),
-                       tI.getPositionIndex(2) );
-        triCount++;
-      }
-    }
-
-    graph.verify();
-    if (triN != triCount) {
-      FFATAL (("Triangle count missmatch (%d/%d)\n", triN, triCount));
-      return 0;
-    }
-
-    pathVec[1].resize(triN);
-    if (iteration > 1)
-      pathVec[0].resize(triN);
-
-    //----------------------------------------------------------------------
-    // create surface path vector with sampling
-    FDEBUG (("Start path.createPathVec() \n"));
-    time = getSystemTime();
-    inputT = time - inputT;
-    optimizeT = time;
-    bestCost = triN * 3 + 1;
-    worstCost = 0;
-    for (i = 0; i < iteration; i++) {
-      cost = graph.createPathVec(pathVec[!best]);
-            if (cost) {
-        if (cost < bestCost) {
-            bestCost = cost;
-            best = !best;
-        }
-        if (cost > worstCost)
-            worstCost = cost;
-            }
-            else {
-                bestCost = worstCost = 0;
-                break;
-            }
-    }
-
-    // valid result
-        if (bestCost) {
-
-      //----------------------------------------------------------------------
-      // check/create the indexPtr/lengthsPtr/geoTypePtr
+  if (geoPtr != NullFC) 
+    {
+      posPtr = geoPtr->getPositions();
+      pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
+      indexMapSize = (geoPtr->getIndexMapping().size());
+      multiIndex = (indexMapSize > 1) ? true : false;
+      calcPrimitiveCount(geoPtr,triN,lineN,pointN);
       indexPtr = geoPtr->getIndices();
-      if (indexPtr == osg::NullFC)
-        indexPtr = osg::GeoIndicesUI32::create();
-      else
-        indexPtr->clear();
-
-      lensPtr = geoPtr->getLengths();
-      if (lensPtr == osg::NullFC)
-        lensPtr = osg::GeoPLengthsUI32::create();
-      else
-        lensPtr->clear();
-
-      geoTypePtr = geoPtr->getTypes();
-      if (geoTypePtr == osg::NullFC)
-      geoTypePtr = osg::GeoPTypesUI8::create();
-      else
-        geoTypePtr->clear();
-
-      //----------------------------------------------------------------------
-      // set lens/geoType/index/mapping the index mapping
-      osg::beginEditCP(geoPtr);
-      {
-        geoPtr->setLengths(lensPtr);
-        geoPtr->setTypes(geoTypePtr);
-        geoPtr->setIndices(indexPtr);
-      }
-      osg::endEditCP(geoPtr);
-
-      time = getSystemTime();
-      optimizeT = time - optimizeT;
-      outputT = time;
-
-      FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
-
-      triCount = 0;
-      for (t = 0; t < typeN; t++) {
-        for (i = 0; i < triN; i++) {
-          if (pathVec[best][i].type == typeVec[t]) {
-            cost += n = graph.getPrimitive(pathVec[best][i],primitive);
-            if (n) {
-              if (typeVec[t] == GL_TRIANGLES)
-                triCount += (n / 3);
-              else {
-                osg::beginEditCP(lensPtr);
-                {
-                  lensPtr->addValue(n);
-                }
-                osg::endEditCP (lensPtr);
-                osg::beginEditCP (geoTypePtr);
-                {
-                  geoTypePtr->addValue( typeVec[t] );
-                }
-                osg::endEditCP (geoTypePtr);
-              }
-              for (j = 0; j < n; j++)
-                indexPtr->addValue( primitive[j]);
-            }
-            else
-              break;
-          }
-        }
-        if (triCount) {
-          osg::beginEditCP(lensPtr);
-          {
-            lensPtr->addValue(triCount * 3);
-          }
-          osg::endEditCP (lensPtr);
-          osg::beginEditCP (geoTypePtr);
-          {
-            geoTypePtr->addValue( GL_TRIANGLES );
-          }
-          osg::endEditCP (geoTypePtr);
-          triCount = 0;
-        }
-      }
-
-      time = getSystemTime();
-      outputT = time - outputT;
-
-      FNOTICE (( "Graph in/opt/out timing: %g/%g/%g \n",
-                 inputT, optimizeT, outputT  ));
-
-      FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d\n",
-                 double ( double(bestCost) / double(triN * 3) * 100.0),
-                 iteration, bestCost, worstCost ));
     }
-  }
+  else
+    {
+      pN = 0;
+    }
 
+  if (multiIndex)
+    return 0;
+
+  if (pN && (indexPtr != NullFC))
+    {
+
+      FNOTICE (( "Start Geometry optimisation: tri/line/point: %d/%d/%d\n",
+                 triN, lineN, pointN));
+      
+      inputT = getSystemTime();
+      
+      triCount = 0;
+      if (multiIndex) 
+        {
+          graph.init(triN * 3, triN, 8);
+          indexVec.resize(indexMapSize);
+          for ( tI = geoPtr->beginTriangles(); 
+                tI != geoPtr->endTriangles(); ++tI)
+            {
+              for (i = 0; i < 3; i++)
+                {
+                  index = tI.getIndexIndex(i);
+                  for (j = 0; j < indexMapSize; j++)
+                    indexVec[j] = indexPtr->getValue(index + j);
+                  v[i] = indexDic.entry(indexVec);
+                }
+              graph.setNode ( triCount++, v[0], v[1], v[2] );
+            }
+          FLOG (( "IndexDic entry: %d/%d\n", 
+                  indexDic.entryCount(), (triN * 3) ));
+        }
+      else
+        {
+          graph.init(pN,triN,8); 
+          for ( tI = geoPtr->beginTriangles(); 
+                tI != geoPtr->endTriangles(); ++tI)
+            graph.setNode( triCount++,
+                           tI.getPositionIndex(0),
+                           tI.getPositionIndex(1),
+                           tI.getPositionIndex(2) );
+        }
+      
+      graph.verify();
+      if (triN != triCount) 
+        {
+          FFATAL (("Triangle count missmatch (%d/%d)\n", triN, triCount));
+          return 0;
+        }
+      
+      pathVec[1].resize(triN);
+      if (iteration > 1)
+        pathVec[0].resize(triN);
+      
+      //----------------------------------------------------------------------
+      // create surface path vector with sampling
+      FDEBUG (("Start path.createPathVec() \n"));
+      time = getSystemTime();
+      inputT = time - inputT;
+      optimizeT = time;
+      bestCost = triN * 3 + 1;
+      worstCost = 0;
+      for (i = 0; i < iteration; i++) 
+        {
+          cost = graph.createPathVec(pathVec[!best]);
+          if (cost) 
+            {
+              if (cost < bestCost) 
+                {
+                  bestCost = cost;
+                  best = !best;
+                }
+              if (cost > worstCost)
+                worstCost = cost;
+            }
+          else 
+            {
+              bestCost = worstCost = 0;
+              break;
+            }
+        }
+      
+      // valid result
+      if (bestCost) 
+        {
+          
+          // check/create the indexPtr/lengthsPtr/geoTypePtr
+          indexPtr->clear();
+          
+          lensPtr = geoPtr->getLengths();
+          if (lensPtr == osg::NullFC)
+            lensPtr = osg::GeoPLengthsUI32::create();
+          else
+            lensPtr->clear();
+          
+          geoTypePtr = geoPtr->getTypes();
+          if (geoTypePtr == osg::NullFC)
+            geoTypePtr = osg::GeoPTypesUI8::create();
+          else
+            geoTypePtr->clear();
+          
+          // set lens/geoType/index/mapping the index mapping
+          osg::beginEditCP(geoPtr);
+          {
+            geoPtr->setLengths(lensPtr);
+            geoPtr->setTypes(geoTypePtr);
+          }
+          osg::endEditCP(geoPtr);
+          
+          time = getSystemTime();
+          optimizeT = time - optimizeT;
+          outputT = time;
+          
+          FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
+          
+          triCount = 0;
+          for (t = 0; t < typeN; t++) 
+            {
+              for (i = 0; i < triN; i++) 
+                {
+                  if (pathVec[best][i].type == typeVec[t]) 
+                    {
+                      cost += n = graph.getPrimitive(pathVec[best][i],
+                                                     primitive);
+                      if (n) 
+                        {
+                          if (typeVec[t] == GL_TRIANGLES)
+                            triCount += (n / 3);
+                          else {
+                            osg::beginEditCP(lensPtr);
+                            {
+                              lensPtr->addValue(n);
+                            }
+                            osg::endEditCP (lensPtr);
+                            osg::beginEditCP (geoTypePtr);
+                            {
+                              geoTypePtr->addValue( typeVec[t] );
+                            }
+                            osg::endEditCP (geoTypePtr);
+                          }
+                          if (multiIndex)
+                            {
+                              for (j = 0; j < n; j++)
+                                for (k = 0; k < indexMapSize; k++)
+                                  {
+                                    index = indexDic.entry( primitive[j] )[k];
+                                    indexPtr->addValue ( index );
+                                  }
+                            }
+                          else
+                            for (j = 0; j < n; j++)
+                              indexPtr->addValue( primitive[j]);
+                        }
+                      else
+                        break;
+                    }
+                }
+
+              if (triCount) 
+                {
+                  osg::beginEditCP(lensPtr);
+                  {
+                    lensPtr->addValue(triCount * 3);
+                  }
+                  osg::endEditCP (lensPtr);
+                  osg::beginEditCP (geoTypePtr);
+                  {
+                    geoTypePtr->addValue( GL_TRIANGLES );
+                  }
+                  osg::endEditCP (geoTypePtr);
+                  triCount = 0;
+                }
+            }
+          
+          time = getSystemTime();
+          outputT = time - outputT;
+          
+          FNOTICE (( "Graph in/opt/out timing: %g/%g/%g \n",
+                     inputT, optimizeT, outputT  ));
+          
+          FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d\n",
+                     double ( double(bestCost) / double(triN * 3) * 100.0),
+                     iteration, bestCost, worstCost ));
+        }
+    }
+  
   return bestCost;
+}
+
+/*! \brief creates a single index geo from multi(interleave) geo.
+ *  function will change (resort) the properties.
+ *  returns the number of property values
+ *  \ingroup Geometry
+ */
+Int32 createSingleIndex ( GeometryPtr geoPtr )
+{
+  Int16 mask, maskID;
+  Int32 indexMapSize, indexCount, i, j,  vCount = 0, pCount;
+  Int32 index;
+  Int32 memSize, valueSize;
+  UInt8  *pData, *data;
+  GeoIndicesPtr indexPtr;
+  IndexDic indexDic;
+  vector<Int32> indexVec;
+  AbstractGeoPropertyInterface * pP = 0;
+  
+  if ( (geoPtr != NullFC) &&
+       (indexMapSize = (geoPtr->getIndexMapping().size()) ) )
+    {
+      indexPtr = geoPtr->getIndices();
+
+      // fill the indexDic
+      if (indexPtr != NullFC)
+        {
+          indexCount = indexPtr->size();
+          for (i = 0; i < indexCount; i++)
+            {
+              for (j = 0; j < indexMapSize; j++) 
+                indexVec[j] = indexPtr->getValue(j);
+              indexDic.entry(indexVec);
+            }
+          vCount = indexDic.entryCount();
+        }      
+      else
+        vCount = 0;
+
+      // sort/copy property values
+      if (vCount)
+        {
+          for (i = 0; i < indexMapSize; i++)
+            {
+              mask = geoPtr->getIndexMapping()[i];
+              for (maskID = 1; maskID; maskID <<= 1)
+                if ( (mask & maskID) &&
+                     (pP = geoPtr->getProperty(maskID) ) )
+                  {
+                    memSize = pP->size();
+                    data = new UInt8 [memSize];
+                    pData = pP->getData();
+                    memcpy (data,pData,memSize);
+                    pP->resize(vCount);
+                    pData = pP->getData();
+                    valueSize = pP->getFormatSize();
+                    for (j = 0; j < vCount; j++)
+                      {
+                        index = indexDic.entry(j)[i];
+                        memcpy ( pData + (valueSize * j),
+                                 data +  (valueSize * index),
+                                 valueSize );
+                      }
+                    delete [] data;
+                  }
+            }
+        }
+    }
+
+  return vCount;
 }
 
 /*! \brief return the number of triangle/line/point elem
@@ -1340,11 +1457,7 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
     geoTypePtr = GeoPTypesUI8Ptr::dcast( geoPtr->getTypes() );
     tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
 
-    if(tN == 0)
-        return 0; // empty geometry, ignore
-        
-    if(tN != lN) 
-    {
+    if ((tN == 0) || (tN != lN)) {
       FWARNING (("Invalid GeoPLengths and GeoPTypes data\n"));
     }
     else {

@@ -43,7 +43,8 @@
 #pragma once
 #endif
 
-    #include <OSGGeoPropPositions.h>
+#include <OSGGeoPropertyBase.h>
+#include <OSGGeoPropPositions.h>
 #include <OSGGeoPropColors.h>
 #include <OSGGeoPropNormals.h>
 #include <OSGGeoPropTexCoords.h>
