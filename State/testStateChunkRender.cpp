@@ -84,14 +84,14 @@ void key(unsigned char key, int x, int y)
 	case 27:	exit(0);
 	case 'a':	UChar8 imgdata[16];
 				for ( int i = 0; i < 16; i++ )
-					imgdata[i] = (UChar8) random();
+					imgdata[i] = (UChar8) rand();
 				image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 				xchunk1->imageContentChanged();
 				break;
 	case 'b':	{
 				UChar8 imgdata[16];
 				for ( int i = 0; i < 16; i++ )
-					imgdata[i] = (UChar8) random();
+					imgdata[i] = (UChar8) rand();
 				image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 				beginEditCP( xchunk1 );
 				xchunk1->setImage( &image );
