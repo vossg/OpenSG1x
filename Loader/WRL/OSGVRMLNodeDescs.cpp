@@ -3362,8 +3362,12 @@ FieldContainerPtr VRMLSwitchDesc::beginNode(
 
         pNodeCore = NodeCorePtr::dcast(pFC);
        
-        pNode    ->setCore      (pNodeCore);
-        pNodeCore->addAttachment(pAtt);
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP  (pNode);
     }
 
 #ifdef OSG_DEBUG_VRML
