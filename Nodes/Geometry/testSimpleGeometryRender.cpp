@@ -27,24 +27,29 @@ OSG_USING_NAMESPACE
 
 DrawAction * dact;
 
-NodePtr  root;
+const int nobjects = 4;
+NodePtr  objects[nobjects];
 
 void 
 display(void)
 {
 	float a = glutGet( GLUT_ELAPSED_TIME );
 
-	if ( (int) ( a / 2000 ) & 1 )	
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	else
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	switch ( (int) ( a / 2000 ) % 3 )	
+	{
+	case 0:	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
+	case 1:	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
+	case 2:	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT ); break;
+	}
+
+	int obj = (int) ( a / 5000 ) % nobjects ;  
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	glPushMatrix();
-	glRotatef( a / 6, 0,0,1 );
+	glRotatef( a / 36, 0,0,1 );
 
-	dact->apply( root );
+	dact->apply( objects[ obj ] );
 
 	glPopMatrix();
 
@@ -76,20 +81,22 @@ int main (int argc, char **argv)
 	gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
 	
 	glEnable( GL_DEPTH_TEST );
-	// glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHT0 );
 
 	// OSG
 
-    root = Node::create();
-    GroupPtr gr = Group::create();
-	root->setCore( gr );
+	objects[0] = makePlane( 2, 2, 2, 2 );
+	cerr << "Plane Node: " << hex << objects[0] << endl;
 
-	NodePtr plane;
-	plane = makePlane( 2, 2, 2, 2 );
+	objects[1] = makeCone( 2.5, 2, 20 );
+	cerr << "Cone Node: " << hex << objects[1] << endl;
 
-	root->addChild( plane );
+	objects[2] = makeTorus( .6, 2, 8, 16 );
+	cerr << "Torus Node: " << hex << objects[2] << endl;
 
-	cerr << "Plane Node: " << hex << plane << endl;
+	objects[3] = makeSphere( 3, 2 );
+	cerr << "Sphere Node: " << hex << objects[3] << endl;
 	
 	dact = new DrawAction;
 	
