@@ -4,3 +4,7 @@ cscope.out cscope.files
 obj.*
 test*IRIX64
 Debug
+.backup
+.lastdbg
+.backup
+.lastdbg
