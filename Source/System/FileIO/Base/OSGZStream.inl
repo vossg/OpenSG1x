@@ -565,7 +565,7 @@ template <class charT, class traits>
 basic_zip_ostream<charT,traits>& basic_zip_ostream<charT, traits>::add_footer(void)
 {
     if(_added_footer)
-        return;
+        return *this;
 
     zflush();
 
