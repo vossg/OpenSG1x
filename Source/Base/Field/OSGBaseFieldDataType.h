@@ -988,7 +988,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 
 template <>
 struct FieldDataTraits1<GLenum> : 
-    public FieldTraitsIntegralRecurseMapper<GLenum>
+    public FieldTraitsRecurseBase<GLenum>
 {
     static  DataType                 _type;
     typedef FieldDataTraits1<GLenum>  Self;
@@ -1015,6 +1015,51 @@ struct FieldDataTraits1<GLenum> :
                                          std::string &outStr)
     {
         outStr.assign(TypeTraits<GLenum>::putToString(inVal));
+    }
+
+    static       UInt32    getBinSize (const GLenum &)
+    {
+        return sizeof(UInt32);
+    }
+
+    static       UInt32    getBinSize (const GLenum     *,
+                                             UInt32     uiNumObjects)
+    {
+        return sizeof(UInt32)*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const GLenum            &oObject)
+    {
+        pMem.putValue ((UInt32)oObject);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const GLenum             *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    GLenum            &oObject)
+    {
+        UInt32 val;
+        pMem.getValue (val);
+        oObject = val;
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            GLenum             *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyFromBin(pMem, pObjectStore[i]);
+        }
     }
 };
 
