@@ -15,7 +15,7 @@ ac_help="$ac_help
   --with-compiler=<compiler> choose one of the following\
  compilers
         IRIX      : CC
-        Windows   : icl (==50), icl50, icl60, icl70, cl.net
+        Windows   : icl (==50), icl50, icl60, icl70, cl.net, cl.net2003
         GNU/Linux : g++,icc,g++3
         Darwin    : c++,c++3,g++,g++3
         HPUX      : aCC"

@@ -155,7 +155,7 @@ IDE      : MSVC 6, the *.dsw/*.dsp file in VSBuild are setup to build
            see the README in VSBuild/VS7
 
 Compiler : Intel C++ > 5.0 + latest patchset or VS7
-           use --with-compiler={icl|icl50|icl60|icl70|cl.net}
+           use --with-compiler={icl|icl50|icl60|icl70|cl.net|cl.net2003}
            
 Cygwin   : any quite current version should work
 gmake    : > 3.79.1
@@ -168,7 +168,9 @@ STL      : The current default is the original Microsoft
 MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
                   compiler. 
 
-                  use --with-compiler=cl.net
+                  use --with-compiler=cl.net if you have version 7.0 installed
+                  and --with-compiler=cl.net2003 if you have version 7.1 
+                  (aka Visual Studio .NET 2003)
 
                   Two current problems :
 
