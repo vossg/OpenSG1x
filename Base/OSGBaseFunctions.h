@@ -65,7 +65,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
-/*! \name                    Base Math Functions                                 */
+/*! \name                    Base Math Functions                       */
 /*! \{                                                                 */
 
 /*! @name General Declarations
