@@ -12,7 +12,7 @@
 #include "OSGSFMathTypes.h"
 #include "OSGMFMathTypes.h"
 #include "OSGMFSysTypes.h"
-#include "OSGMFReal32MF.h"
+//#include "OSGMFReal32MF.h"
 
 OSG_USING_NAMESPACE
 
@@ -20,28 +20,28 @@ int main (int argc, char **argv)
 {
     osgInit(argc, argv);
 
-    vector<Real32> foo;
+//    vector<Real32> foo;
 
-    MFMFReal32 vvR;
-    MFReal32   vR;
+//    MFMFReal32 vvR;
+//    MFReal32   vR;
 
-    MFReal32   vR1;
+//    MFReal32   vR1;
 
-    vR.push_back(1.f);
-    vR.push_back(2.f);
+//    vR.push_back(1.f);
+//    vR.push_back(2.f);
 
-    vvR.push_back(vR);
+//    vvR.push_back(vR);
 
-    vR1 = vR;
+//    vR1 = vR;
 
-    MFReal32 vR2(vR1);
+//    MFReal32 vR2(vR1);
 
-    foo.push_back(1.f);
-    foo.push_back(2.f);
+//    foo.push_back(1.f);
+//    foo.push_back(2.f);
 
-    vector<Real32> bar(foo);
+//    vector<Real32> bar(foo);
 
-    fprintf(stderr, "%f %f %f %f\n", vR[0], vR1[0], vR2[0], bar[0]);
+//    fprintf(stderr, "%f %f %f %f\n", vR[0], vR1[0], vR2[0], bar[0]);
 
     Field *fieldP;
     SFVec3f vec3f, *vec3fP;
