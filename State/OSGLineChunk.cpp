@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -62,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.1 2002/01/04 12:57:36 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.2 2002/01/05 10:02:48 dirk Exp $";
     static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
 }
