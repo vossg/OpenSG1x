@@ -283,7 +283,12 @@ LIB_BISONSOURCES_CPP := $(notdir $(patsubst %.y,%.cpp,$(LIB_BISONSOURCES)))
 LIB_BISONTARGET_CPP  := $(notdir $(patsubst %.y,%.tab.cpp,$(LIB_BISONSOURCES)))
 LIB_BISONTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_BISONTARGET_CPP))
 
-ifneq ($($(PROJ)NODEPS),1)
+LIB_BISONTARGET_HPP  := $(notdir $(patsubst %.y,%.tab.h,$(LIB_BISONSOURCES)))
+
+LIB_BISONTARGET_OBJ  := $(notdir $(patsubst %.y,%$(OBJ_SUFFIX),$(LIB_BISONSOURCES)))
+LIB_BISONTARGET_OBJ  := $(addprefix $(OBJDIR)/,$(LIB_BISONTARGET_OBJ))
+
+ifneq ($(OSGNODEPS),1)
 LIB_BISONTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_BISONTARGET_CPP))
 else
 LIB_BISONTARGET_DEPS := 

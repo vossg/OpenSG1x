@@ -14,7 +14,7 @@ RANLIB     := @ac_gdz_compiler_exe_ranlib@
 LD         := @ac_gdz_compiler_exe_exe@
 
 FLEX       := @ac_gdz_flex_exe@
-BISON      := @ac_gdz_bison_exe@
+BISON      := @ac_gdz_bison_exe@ @ac_gdz_bison_exe_flags_e1@
 
 SUB_MAKE   := @ac_gdz_gmake_exe@
 
@@ -34,6 +34,7 @@ DEBUG_CHAR:=D
 endif
 endif
 
+COMPILER_LOGO        := @ac_gdz_compiler_logo_e1@
 PEDANTIC_ERRORS      := @ac_gdz_ped_errors_e1@
 
 SO_PRAEFIX           := @ac_gdz_so_praefix@
