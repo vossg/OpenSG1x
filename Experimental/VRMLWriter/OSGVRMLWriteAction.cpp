@@ -706,10 +706,9 @@ void VRMLWriteAction::writeTexCoords(GeometryPtr      pGeo,
     {
         pWriter->printIndent();
 
-        fprintf(pFile, "%f %f %f", 
+        fprintf(pFile, "%f %f", 
                 (*pTexField)[i][0],
-                (*pTexField)[i][1],
-                (*pTexField)[i][2]);
+                (*pTexField)[i][1]);
 
         if(i == pTexField->size() - 1)
         {
