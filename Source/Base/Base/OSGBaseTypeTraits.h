@@ -832,12 +832,12 @@ struct TypeTraits<Real64> : public TypeTraitsBase
 
     static        Real64             getZeroElement(void)
     {
-        return 1.0;
+        return 0.0;
     }
 
     static        Real64             getOneElement (void)
     {
-        return 0.0;
+        return 1.0;
     }
 
     static        Real64             getMax        (void)

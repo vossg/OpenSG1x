@@ -48,6 +48,8 @@
 
 #include "OSGNormalQuantifier.h"
 
+#define EPSILON 0.0000001
+
 OSG_USING_NAMESPACE
 
 
@@ -159,6 +161,63 @@ void NormalQuantifier::build (UInt32 numberSubdivisions)
 
 /*---------------------------- Helper -------------------------------------*/
 
+// ----------------------------------------------
+// RayTriangle Intersection Function
+// by RealTime Rendering:
+// http://www.acm.org/jgt/papers/MollerTrumbore97/
+// date: December 12th, 2000
+// ----------------------------------------------
+bool NormalQuantifier::rayTriangle ( const Vec3f & dir, 
+                                     const Vec3f & vert0, 
+                                     const Vec3f & vert1, 
+                                     const Vec3f & vert2 ) const
+{
+  Vec3f edge1, edge2, tvec, pvec, qvec;
+  float det,inv_det;
+  float u,v,t;
+  Vec3f orig(0,0,0);
+ 
+  /* find vectors for two edges sharing vert0 */
+  edge1 = vert1 - vert0;
+  edge2 = vert2 - vert0;
+
+  /* begin calculating determinant - also used to calculate U parameter */
+  pvec = dir.cross(edge2);
+
+  /* if determinant is near zero, ray lies in plane of triangle */
+  det = edge1.dot(pvec);
+ 
+  /* the non-culling branch */
+  if (det > -EPSILON && det < EPSILON)
+    return false;
+
+  inv_det = 1.0 / det;
+
+  /* calculate distance from vert0 to ray origin */
+  tvec = orig - vert0;
+
+  /* calculate U parameter and test bounds */
+  u = tvec.dot(pvec) *inv_det;
+ 
+  if (u < 0.0 || u > 1.0)
+    return false;
+
+  /* prepare to test V parameter */
+  qvec = tvec.cross(edge1);
+
+  /* calculate V parameter and test bounds */
+  v = dir.dot(qvec) * inv_det;
+
+  if (v < 0.0 || u + v > 1.0)
+    return false;
+
+  /* calculate t, ray intersects triangle */
+  //t = edge2.dot(qvec) * inv_det;
+
+  return true;
+};
+
+
 /*! recursive function to fill the NormalsTable
  */
 
@@ -219,107 +278,72 @@ UInt32 NormalQuantifier::getSubIndex(Vec3f point,
                                      Vec3f point3, 
                                      UInt32 number) const
 {
-    Vec3f midPoint[4];
+	float dot0, dot1, dot2, dot3;
+	float max;
+	int intersect = -1, index = 0;
+  Vec3f newPoint1(point1);
+  Vec3f newPoint2(point1);
+  Vec3f newPoint3(point2);
   
-    number--;
+	//newPoint1 = (point1+point2)/2; newPoint1.normalize();
+	//newPoint2 = (point1+point3)/2; newPoint2.normalize();
+	//newPoint3 = (point2+point3)/2; newPoint3.normalize();
+  
+  newPoint1 += point2;
+  newPoint1 /= 2; 
+  newPoint1.normalize();
+  
+  newPoint2 += point3;
+  newPoint2 /=2; 
+  newPoint2.normalize();
+  
+  newPoint3 += point3;
+  newPoint3 /= 2; 
+  newPoint3.normalize();
+  
+	number--;
+  
+  if (rayTriangle(point, point1, newPoint1, newPoint2)) 
+    intersect = 0;
+  else 
+    if (rayTriangle(point, newPoint1, point2, newPoint3)) 
+      intersect = 1;
+    else 
+      if ( rayTriangle(point, newPoint1, newPoint2, newPoint3)) 
+        intersect = 2;
+      else 
+        if ( rayTriangle(point, newPoint2, newPoint3, point3)) 
+          intersect = 3;
+  
+  if ( intersect >= 0 ) {
     
-    Vec3f newPoint1 = point1;
-
-    newPoint1 += point2;
-    newPoint1 /= 2; 
-    newPoint1.normalize();
-
-    Vec3f newPoint2 = point1;
-
-    newPoint2 += point3;
-    newPoint2 /=2; 
-    newPoint2.normalize();
-  
-    Vec3f newPoint3 = point2;
-
-    newPoint3 += point3;
-    newPoint3 /= 2; 
-    newPoint3.normalize();
-  
-    midPoint[0]  = point1;
-    midPoint[0] += newPoint1;
-    midPoint[0] += newPoint2; 
-    midPoint[0].normalize();
-
-    midPoint[1]  = newPoint1;
-    midPoint[1] += point2;
-    midPoint[1] += newPoint3; 
-    midPoint[1].normalize();
-
-    midPoint[2]  = newPoint1;
-    midPoint[2] += newPoint2;
-    midPoint[2] += newPoint3; 
-    midPoint[2].normalize();
-
-    midPoint[3]  = newPoint2;
-    midPoint[3] += newPoint3;
-    midPoint[3] += point3; 
-    midPoint[3].normalize();
-
-    Real32 dot  = 0.f;
-    Real32 rMax = 0.f;
-    UInt32 gate = 0;
-
-    for(UInt32 i = 0; i < 4; i++)
-    {
-        dot = point.dot(midPoint[i]);
-
-        if(dot > rMax) 
-        {
-            rMax = dot;
-            gate = i;
-        }
+    index = intersect;
+    
+    if (number != 0) {
+      
+      index = index << (number*2);
+      
+      switch (intersect) {
+      case 0:
+        index += getSubIndex(point, point1, newPoint1, newPoint2, number);
+        break;
+      case 1:
+        index += getSubIndex(point, newPoint1, point2, newPoint3, number);
+        break;
+      case 2:
+        index += getSubIndex(point, newPoint1, newPoint2, newPoint3, number);
+        break;
+      case 3: 
+        index += getSubIndex(point, newPoint2, newPoint3, point3, number);
+        break;
+      }
     }
+  }
+  else {
+    FFATAL (( "Intersect < 0 in NormalQuantifier::getSubIndex()\n"));
+  }
 
-    UInt32 index = 0;
-
-    if(number > 0)
-    {
-        index = gate << (number * 2);
-  
-        switch(gate) 
-        {
-            case 0:
-                index += getSubIndex(point, 
-                                     point1, 
-                                     newPoint1, 
-                                     newPoint2, 
-                                     number);
-                break;
-            case 1:
-                index += getSubIndex(point, 
-                                     newPoint1, 
-                                     point2, 
-                                     newPoint3, 
-                                     number);
-                break;
-            case 2:
-                index += getSubIndex(point, 
-                                     newPoint1, 
-                                     newPoint2, 
-                                     newPoint3, 
-                                     number);
-                break;
-            case 3:
-                index += getSubIndex(point, 
-                                     newPoint2, 
-                                     newPoint3, 
-                                     point3, 
-                                     number);
-                break;
-        }
-    }
-    else
-    {
-        index = gate;
-    }
-
-    return index;
+  return index;
 }
 
 

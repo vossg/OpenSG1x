@@ -114,6 +114,11 @@ class OSG_BASE_DLLMAPPING NormalQuantifier
                        UInt32  number, 
                        UInt32 &index );
 
+    bool rayTriangle ( const Vec3f & dir, 
+                       const Vec3f & vert0, 
+                       const Vec3f & vert1, 
+                       const Vec3f & vert2) const;
+    
     UInt32 getSubIndex(Vec3f   point, 
                        Vec3f   point1, 
                        Vec3f   point2, 
