@@ -508,6 +508,10 @@ bool Line::intersect(const BoxVolume &box,
             tl = (low [0] - _pos[0]) * r;
         }
 
+        // check for flat boxes, count them as intersected
+        if(tl-te < Eps)
+            return true;
+            
 //        if (te > 1)   return false;
 
         if(tl < out)   
@@ -535,6 +539,10 @@ bool Line::intersect(const BoxVolume &box,
             te = (high[1] - _pos[1]) * r;
             tl = (low [1] - _pos[1]) * r;
         }
+
+        // check for flat boxes, count them as intersected
+        if(tl-te < Eps)
+            return true;
 
 //      if (te > 1)   return false;
 
@@ -564,6 +572,10 @@ bool Line::intersect(const BoxVolume &box,
             te = (high[2] - _pos[2]) * r;
             tl = (low [2] - _pos[2]) * r;
         }
+
+        // check for flat boxes, count them as intersected
+        if(tl-te < Eps)
+            return true;
 
 //        if (te > 1)   return false;
 
