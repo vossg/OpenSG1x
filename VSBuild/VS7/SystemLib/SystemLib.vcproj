@@ -101,14 +101,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
-				OutputFile="..\lib\dbg\OSGSystem.dll"
+				OutputFile="..\lib\dbg\OSGSystemD.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGSystem.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGSystemD.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGSystem.map"
-				ImportLibrary=".\..\lib\dbg/OSGSystem.lib"/>
+				MapFileName=".\Debug/OSGSystemD.map"
+				ImportLibrary=".\..\lib\dbg/OSGSystemD.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"

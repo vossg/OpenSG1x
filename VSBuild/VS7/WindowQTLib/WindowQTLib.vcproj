@@ -37,14 +37,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib qt-mt301.lib"
-				OutputFile="..\lib\dbg\OSGWindowQT.dll"
+				OutputFile="..\lib\dbg\OSGWindowQTD.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowQT.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowQTD.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGWindowQT.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowQT.lib"/>
+				MapFileName=".\Debug/OSGWindowQTD.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowQTD.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"

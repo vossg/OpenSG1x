@@ -37,14 +37,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib"
-				OutputFile="..\lib\dbg\OSGBase.dll"
+				OutputFile="..\lib\dbg\OSGBaseD.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGBase.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGBaseD.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGBase.map"
-				ImportLibrary=".\..\lib\dbg/OSGBase.lib"/>
+				MapFileName=".\Debug/OSGBaseD.map"
+				ImportLibrary=".\..\lib\dbg/OSGBaseD.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
