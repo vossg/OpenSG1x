@@ -191,6 +191,24 @@ OSGBool OSGFieldContainerType::setPrototype(OSGFieldContainerPtr prototypeP)
 	return returnValue;
 }
 
+OSGFieldContainerPtr OSGFieldContainerType::createFieldContainer(void) const
+{
+    OSGFieldContainerPtr fc;
+
+    if(isAbstract()       == false &&
+       isFieldContainer() == true)
+    {
+#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
+        fc = _prototypeP->clone().dcast<OSGFieldContainerPtr>();
+#else
+        _prototypeP->clone().dcast(fc);
+#endif
+    }
+
+	return fc;
+}
+
+
 OSGNodePtr  OSGFieldContainerType::createNode(void) const
 {
 	OSGNodePtr fc;
@@ -245,6 +263,11 @@ OSGAttachmentPtr OSGFieldContainerType::createAttachment(void) const
 OSGBool OSGFieldContainerType::isAbstract(void) const
 {
     return (_prototypeP != OSGNullFC) ? false : true;
+}
+
+OSGBool OSGFieldContainerType::isFieldContainer(void) const
+{
+    return (_baseType == OSGIsFieldContainer);
 }
 
 OSGBool OSGFieldContainerType::isNode(void) const

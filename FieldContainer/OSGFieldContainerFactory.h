@@ -114,9 +114,10 @@ class OSGFieldContainerFactory
 
    /*---------------------------- create -----------------------------------*/
 
-    OSGNodePtr       createNode      (const OSGChar8 *name) const;
-    OSGNodeCorePtr   createNodeCore  (const OSGChar8 *name) const;
-    OSGAttachmentPtr createAttachment(const OSGChar8 *name) const;
+    OSGFieldContainerPtr createFieldContainer(const OSGChar8 *name) const;
+    OSGNodePtr           createNode          (const OSGChar8 *name) const;
+    OSGNodeCorePtr       createNodeCore      (const OSGChar8 *name) const;
+    OSGAttachmentPtr     createAttachment    (const OSGChar8 *name) const;
 
    /*------------------------------- get -----------------------------------*/
 

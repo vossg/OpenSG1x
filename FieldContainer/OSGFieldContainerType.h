@@ -124,17 +124,19 @@ class OSGFieldContainerType
 
     /*----------------------------- create ----------------------------------*/
 
-    OSGNodePtr       createNode      (void) const;
-	OSGNodeCorePtr   createNodeCore  (void) const;
-	OSGAttachmentPtr createAttachment(void) const;
+    OSGFieldContainerPtr createFieldContainer(void) const;
+    OSGNodePtr           createNode          (void) const;
+	OSGNodeCorePtr       createNodeCore      (void) const;
+	OSGAttachmentPtr     createAttachment    (void) const;
 
     /*-------------------------- properties ---------------------------------*/
 
-	OSGBool isAbstract   (void) const;
+	OSGBool isAbstract      (void) const;
 
-    OSGBool isNode       (void) const;
-    OSGBool isNodeCore   (void) const;
-    OSGBool isAttachment (void) const;
+    OSGBool isFieldContainer(void) const;
+    OSGBool isNode          (void) const;
+    OSGBool isNodeCore      (void) const;
+    OSGBool isAttachment    (void) const;
 
     OSGBool isDerivedFrom(const OSGFieldContainerType &other) const;
         

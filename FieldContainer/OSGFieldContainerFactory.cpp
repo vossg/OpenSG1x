@@ -394,6 +394,19 @@ OSGUInt16 OSGFieldContainerFactory::getGroupCount(void) const
 
 /*----------------------------- create ------------------------------------*/
 
+OSGFieldContainerPtr OSGFieldContainerFactory::createFieldContainer(
+    const OSGChar8 *name) const
+{
+    OSGFieldContainerPtr returnValue;
+
+	const OSGFieldContainerType *type = findType(name);
+
+    if(type != NULL)
+        returnValue = type->createFieldContainer();
+
+    return returnValue;
+}
+
 OSGNodePtr OSGFieldContainerFactory::createNode(const OSGChar8 *name) const
 {
     OSGNodePtr returnValue;
