@@ -408,7 +408,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
             glColor4f( c[0] , c[1] , c[2] , 0.4 );
             glBegin(GL_POLYGON);
             // glVertex2f(0.0, 0.0);
-            for (angle = 0.0; angle < 2 * M_PI; angle += M_PI / 24)
+            for (angle = 0.0; angle < 2 * Pi; angle += Pi / 24)
                 {
                     glVertex2f(0.5 *cos(angle), 0.5 * sin(angle));
                 }
@@ -427,7 +427,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
             glTranslatef(0.5, 0.5, 0);
             glBegin(GL_LINE_LOOP);
       
-            for (angle = 0.0; angle < 2 * M_PI; angle += M_PI / 24)
+            for (angle = 0.0; angle < 2 * Pi; angle += Pi / 24)
                 {
                     glVertex2f(0.5 *cos(angle), 0.5 * sin(angle));
                 }
@@ -1008,7 +1008,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
                        glPushMatrix();
                        glTranslatef(deltax, currHeight, 0.0);
                        glBegin(GL_POLYGON);
-                       for (angle = 0.0; angle < 2 * M_PI; angle += M_PI / 24)
+                       for (angle = 0.0; angle < 2 * Pi; angle += Pi / 24)
                        {
                        glVertex2f(0.0125 *cos(angle), 0.0125 * sin(angle));
                        }
@@ -1409,7 +1409,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.10 2002/07/31 07:32:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.11 2002/07/31 07:39:45 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
