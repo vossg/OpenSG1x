@@ -264,9 +264,12 @@ bool ImageFileHandler::read(Image &image, const char *fileName,
 
     if(type)
     {
-        FDEBUG(("try to image read %s as %s\n", fullFilePath, 
-                    type->getMimeType()));
+        FDEBUG(("try to image read %s as %s\n", 
+                fullFilePath.c_str(), 
+                type->getMimeType()));
+
         retCode = type->read(image, fullFilePath.c_str());
+
         if(retCode)
         {
             FDEBUG(("image: %dx%d\n", image.getWidth(), image.getHeight()));

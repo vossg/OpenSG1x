@@ -174,11 +174,15 @@ static ImageRec *ImageOpen(const char *fileName)
         int testWord;
         char testByte[4];
     } endianTest;
-    ImageRec *image;
+
+    ImageRec *image   = NULL;
+    FILE     *pInFile = NULL;
+
     int swapFlag;
     int x;
 
     endianTest.testWord = 1;
+
     if (endianTest.testByte[0] == 1) 
     {
         swapFlag = 1;
@@ -188,17 +192,21 @@ static ImageRec *ImageOpen(const char *fileName)
         swapFlag = 0;
     }
 
+    if((pInFile = fopen(fileName, "rb")) == NULL) 
+    {
+        perror(fileName);
+        return image;
+    }
+
     image = (ImageRec *)malloc(sizeof(ImageRec));
+
     if (image == NULL) 
     {
         fprintf(stderr, "Out of memory!\n");
         exit(1);
     }
-    if ((image->file = fopen(fileName, "rb")) == NULL) 
-    {
-        perror(fileName);
-        exit(1);
-    }
+
+    image->file = pInFile;
 
     fread(image, 1, 12, image->file);
 

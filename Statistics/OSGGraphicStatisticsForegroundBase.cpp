@@ -53,6 +53,8 @@
 
 #define OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 
+#ifndef WIN32
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -713,10 +715,11 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.5 2002/09/16 18:39:10 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.6 2002/09/18 17:31:37 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
 
+#endif
