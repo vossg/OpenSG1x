@@ -1,0 +1,20 @@
+OpenMesh example
+================
+
+This is an example for how to use OpenMesh in conjunction with OpenSG.
+
+OpenMesh is an OpenSource computational geometry library available from www.openmesh.org. From the webpage:
+
+"OpenMesh is a generic and efficient data structure for representing and manipulating polygonal meshes. OpenMesh is developed at the Computer Graphics Group, RWTH Aachen , as part of the OpenSGPlus project, is funded by the German Ministry for Research and Education (BMBF), and will serve as geometry kernel upon which the so-called high level primitives (e.g. subdivision surfaces or progressive meshes) of OpenSGPlus are built. 
+It was designed with the following goals in mind :
+
+Flexibility : provide a basis for many different algorithms without the need for adaptation. 
+Efficiency : maximize time efficiency while keeping memory usage as low as possible. 
+Ease of use : wrap complex internal structure in an easy-to-use interface."
+
+It features a pretty flexible Mesh concept, that allows building meshes that can be used to directly interact with OpenSG data.
+
+This is a simple example that uses OpenMesh to decimate a loaded model. Note that the model is loaded via OpenMesh, thus only the OpenMesh loaders are supported. Try the dolphins.obj from the Tutorials, or any other .obj model.
+
+OpenMesh uses its own build system, which is not very integration-friendly. Thus you can either use the OpenMesh buildsystem, or you have to copy the OpenMesh-specific make options into the example Makefile.
+
