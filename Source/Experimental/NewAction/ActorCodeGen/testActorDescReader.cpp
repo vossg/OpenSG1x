@@ -170,7 +170,6 @@ int main(int argc, char *argv[])
             std::cerr << "  -p outpath: write files to outpath" << std::endl;
             
             return 0;
-            break;
         }
         };
     }
