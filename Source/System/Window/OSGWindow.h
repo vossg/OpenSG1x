@@ -295,18 +295,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         UInt32 getRefCounter(void);
         UInt32 incRefCounter(void);
         UInt32 decRefCounter(void);
-
-        UInt32 getId(Window *win           );
-        void   setId(Window *win, UInt32 id);
  
       protected:
         GLObjectFunctor _functor;
         volatile UInt32 _refCounter;
                  UInt32 _lastValidate;
-        
-        typedef std::map<Window *, UInt32> idsMap;
-        typedef idsMap::iterator idsIt;
-        idsMap _ids;
     };
 
     /*! \}                                                                 */
@@ -363,7 +356,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static std::vector<GLenum     >   _registeredConstants;
 
     typedef std::pair<UInt32,UInt32>   DestroyEntry;
-    static  std::list<DestroyEntry >  _glObjectDestroyList;
+    std::list<DestroyEntry >  _glObjectDestroyList;
 
     /*! \}                                                                 */
 
@@ -372,7 +365,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \{                                                                 */
 
     std::vector<UInt32     > _lastValidate;
-  
+    std::vector<UInt32     > _ids;
+
     std::vector<std::string> _extensions;
     std::vector<bool       > _availExtensions;
     std::vector<void      *> _extFunctions;

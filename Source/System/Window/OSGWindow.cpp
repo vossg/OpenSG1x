@@ -216,7 +216,7 @@ std::vector<OSG::Window::GLObject *>  OSG::Window::_glObjects;
 
 /*! The objects currently being destroyed.
 */
-std::list<std::pair<UInt32,UInt32> >  OSG::Window::_glObjectDestroyList;
+//std::list<std::pair<UInt32,UInt32> >  OSG::Window::_glObjectDestroyList;
 
 // GL extension handling
 
@@ -271,8 +271,10 @@ OSG::Window::Window(void) :
 */
 
 OSG::Window::Window(const Window &source) :
-    Inherited(source), 
+    Inherited(source),
+    _glObjectDestroyList(source._glObjectDestroyList),
     _lastValidate(source._lastValidate.size(),0),
+    _ids(source._ids.size(),0),
     _extensions(),
     _availExtensions(),
     _extFunctions(),
@@ -325,8 +327,27 @@ void OSG::Window::onCreateAspect(const Window *, const Window *)
 
 void OSG::Window::onDestroy(void)
 {
-    std::vector<WindowPtr>::iterator it;
+    // decrement GLObjects reference counter.
+    for(UInt32 i = 1; i < _glObjects.size(); ++i)
+    {
+        GLObject *obj = _glObjects[i];
+        UInt32 rc = obj->getRefCounter();
 
+        // has the object been used in this context at all?
+        if(getGlObjectLastReinitialize()[i] != 0) 
+        {                  
+            _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
+    
+            if((rc = _glObjects[ i ]->decRefCounter()) <= 0)
+            {           
+                // call functor with the final-flag
+                _glObjects[i]->getFunctor().call( this, 
+                                                packIdStatus(i, finaldestroy));
+            }
+        }
+    }
+
+    std::vector<WindowPtr>::iterator it;
     it = std::find(_allWindows.begin(), _allWindows.end(), WindowPtr(this));
     
     // prototype windowa re not added to the list, so they might not be found.
@@ -687,9 +708,13 @@ void OSG::Window::reinitializeGLObject(UInt32 id)
                          GlObjectLastReinitializeFieldMask);
 
         UInt32 lastinv = (*it)->getGlObjectEventCounter() + 1;
+
         MFUInt32 &field = (*it)->_mfGlObjectLastReinitialize;
         if(field.size() < id)
             field.getValues().insert(field.end(), id - field.size() + 1, 0 );
+        // is it already validated?
+        if(field[id] == 0)
+            continue;
         field[id] = lastinv;
         (*it)->setGlObjectEventCounter(lastinv);
 
@@ -759,7 +784,12 @@ void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 */
 void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 {
-    _glObjectDestroyList.push_back(DestroyEntry(id,num));
+    std::vector<WindowPtr>::iterator it;
+
+    for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
+    {
+        (*it)->_glObjectDestroyList.push_back(DestroyEntry(id,num));
+    }
 }
 
 
@@ -1101,7 +1131,7 @@ void OSG::Window::frameInit(void)
 */
 void OSG::Window::frameExit(void)
 {   
-    std::list<DestroyEntry>::iterator st,en,del;
+    std::list<DestroyEntry>::iterator st,en;
 
     st = _glObjectDestroyList.begin();
     en = _glObjectDestroyList.end  ();
@@ -1116,12 +1146,7 @@ void OSG::Window::frameExit(void)
         {
             FDEBUG(("Window::frameExit: objects %d (%d) already destroyed?!?\n",
                     i, n));
-            del = st;
-
             ++st;
-
-            _glObjectDestroyList.erase(del);
-
             continue;
         }
            
@@ -1141,7 +1166,6 @@ void OSG::Window::frameExit(void)
         }
 
         // if the GLObject is removed from each GL-Context, free GLObject-IDs.
-
         if(rc <= 0)
         {
             delete _glObjects[ i ];
@@ -1149,18 +1173,11 @@ void OSG::Window::frameExit(void)
             {
                 _glObjects[i+j] = NULL;
             }   
-
-            del = st;
-
-            ++st;
-
-            _glObjectDestroyList.erase(del);
         }
-        else
-        {
-            ++st;
-        }
+        ++st;
     }
+
+    _glObjectDestroyList.clear();
 }
 
 

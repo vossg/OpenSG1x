@@ -160,12 +160,27 @@ inline const std::vector<std::string> &Window::getIgnoredExtensions(void)
 
 inline void Window::setGLObjectId(UInt32 id, UInt32 id2)
 {
-    _glObjects[id]->setId(this, id2);
+    if(id < _ids.size())
+    {
+        _ids[id] = id2;
+    }
+    else
+    {
+        _ids.resize(_glObjects.size());
+        if(id < _ids.size())
+            _ids[id] = id2;
+        else
+            SWARNING << "Window::setGLObjectId: id (" << id << ") is not valid!" << std::endl;
+    }
 }
 
 inline UInt32 Window::getGLObjectId(UInt32 id)
 {
-    return _glObjects[id]->getId(this);
+    if(id < _ids.size())
+        return _ids[id];
+
+    SWARNING << "Window::getGLObjectId: id (" << id << ") is not valid!" << std::endl;
+    return 0;
 }
 
 /*! Pack the id and the status into one UInt32. Used to pass the id and status
@@ -198,8 +213,7 @@ inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id,
 inline Window::GLObject::GLObject( GLObjectFunctor funct ) :
             _functor(funct),
             _refCounter(0),
-            _lastValidate(0),
-            _ids()
+            _lastValidate(0)
 {
 }
 
@@ -261,19 +275,6 @@ inline UInt32 Window::GLObject::decRefCounter(void)
     _GLObjectLock->release();
 
     return val;
-}
-
-inline UInt32 Window::GLObject::getId(Window *win)
-{
-    idsIt it = _ids.find(win);
-    if(it == _ids.end())
-        return 0;
-    return (*it).second;
-}
-
-inline void Window::GLObject::setId(Window *win, UInt32 id)
-{
-    _ids.insert(std::pair<Window *, UInt32>(win, id));
 }
 
 OSG_END_NAMESPACE
