@@ -166,6 +166,13 @@ SFUInt32 *ProxyGroupBase::getSFGeometries(void)
     return &_sfGeometries;
 }
 
+//! Get the ProxyGroup::_sfAbsoluteUrl field.
+inline
+SFString *ProxyGroupBase::getSFAbsoluteUrl(void)
+{
+    return &_sfAbsoluteUrl;
+}
+
 
 //! Get the value of the ProxyGroup::_sfEnabled field.
 inline
@@ -375,6 +382,27 @@ inline
 void ProxyGroupBase::setGeometries(const UInt32 &value)
 {
     _sfGeometries.setValue(value);
+}
+
+//! Get the value of the ProxyGroup::_sfAbsoluteUrl field.
+inline
+std::string &ProxyGroupBase::getAbsoluteUrl(void)
+{
+    return _sfAbsoluteUrl.getValue();
+}
+
+//! Get the value of the ProxyGroup::_sfAbsoluteUrl field.
+inline
+const std::string &ProxyGroupBase::getAbsoluteUrl(void) const
+{
+    return _sfAbsoluteUrl.getValue();
+}
+
+//! Set the value of the ProxyGroup::_sfAbsoluteUrl field.
+inline
+void ProxyGroupBase::setAbsoluteUrl(const std::string &value)
+{
+    _sfAbsoluteUrl.setValue(value);
 }
 
 

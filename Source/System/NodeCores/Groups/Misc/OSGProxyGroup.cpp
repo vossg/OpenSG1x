@@ -47,6 +47,7 @@
 #include <OSGRenderAction.h>
 #include <OSGSceneFileHandler.h>
 #include <OSGVolumeDraw.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSGProxyGroup.h"
 
@@ -70,7 +71,17 @@ void ProxyGroup::changed(BitVector whichField, UInt32 origin)
 {
     if(whichField & (UrlFieldMask))
     {
-        setState(NOT_LOADED);
+        if(getAbsoluteUrl().empty())
+        {
+            PathHandler *ph = SceneFileHandler::the().getPathHandler();
+            beginEditCP(ProxyGroupPtr(this),ProxyGroup::AbsoluteUrlFieldMask);
+            if(ph) 
+                getAbsoluteUrl() = ph->findFile(getUrl().c_str());
+            if(getAbsoluteUrl().empty())
+                getAbsoluteUrl() = getUrl();
+            endEditCP(ProxyGroupPtr(this),ProxyGroup::AbsoluteUrlFieldMask);
+            setState(NOT_LOADED);
+        }
     }
     if(whichField & (
            StateFieldMask|
@@ -182,7 +193,7 @@ Action::ResultE ProxyGroup::draw(Action *action)
         }
         else
         {
-            SWARNING << "failed to load " << getUrl() << std::endl;
+            SWARNING << "failed to load " << getAbsoluteUrl() << std::endl;
             beginEditCP(ptr,StateFieldMask);
             setState(LOAD_ERROR);
             endEditCP(ptr,StateFieldMask);
@@ -228,7 +239,7 @@ void ProxyGroup::startLoading(void)
 
     if(getConcurrentLoad() == false)
     {
-        _loadedRoot=SceneFileHandler::the().read(getUrl().c_str());
+        _loadedRoot=SceneFileHandler::the().read(getAbsoluteUrl().c_str());
         beginEditCP(ptr,StateFieldMask);
         setState(LOAD_THREAD_FINISHED);
         endEditCP(ptr,StateFieldMask);
@@ -297,7 +308,7 @@ void ProxyGroup::loadProc(void *)
     _loadLock->release();
     while(!stopThread)
     {
-        g->_loadedRoot=SceneFileHandler::the().read(g->getUrl().c_str());
+        g->_loadedRoot=SceneFileHandler::the().read(g->getAbsoluteUrl().c_str());
         beginEditCP(g,StateFieldMask);
         g->setState(LOAD_THREAD_FINISHED);
         endEditCP(g,StateFieldMask);

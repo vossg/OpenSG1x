@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroup : public ProxyGroupBase
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    static void initMethod(void);
+    static void initMethod(      void                     );
 
     /*! \}                                                                 */
 

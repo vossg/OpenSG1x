@@ -94,6 +94,9 @@ const OSG::BitVector  ProxyGroupBase::PositionsFieldMask =
 const OSG::BitVector  ProxyGroupBase::GeometriesFieldMask = 
     (TypeTraits<BitVector>::One << ProxyGroupBase::GeometriesFieldId);
 
+const OSG::BitVector  ProxyGroupBase::AbsoluteUrlFieldMask = 
+    (TypeTraits<BitVector>::One << ProxyGroupBase::AbsoluteUrlFieldId);
+
 const OSG::BitVector ProxyGroupBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -129,6 +132,9 @@ const OSG::BitVector ProxyGroupBase::MTInfluenceMask =
     
 */
 /*! \var UInt32          ProxyGroupBase::_sfGeometries
+    
+*/
+/*! \var std::string     ProxyGroupBase::_sfAbsoluteUrl
     
 */
 
@@ -185,7 +191,12 @@ FieldDescription *ProxyGroupBase::_desc[] =
                      "geometries", 
                      GeometriesFieldId, GeometriesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFGeometries)
+                     (FieldAccessMethod) &ProxyGroupBase::getSFGeometries),
+    new FieldDescription(SFString::getClassType(), 
+                     "absoluteUrl", 
+                     AbsoluteUrlFieldId, AbsoluteUrlFieldMask,
+                     true,
+                     (FieldAccessMethod) &ProxyGroupBase::getSFAbsoluteUrl)
 };
 
 
@@ -251,6 +262,7 @@ ProxyGroupBase::ProxyGroupBase(void) :
     _sfTriangles              (UInt32(0)), 
     _sfPositions              (), 
     _sfGeometries             (), 
+    _sfAbsoluteUrl            (), 
     Inherited() 
 {
 }
@@ -270,6 +282,7 @@ ProxyGroupBase::ProxyGroupBase(const ProxyGroupBase &source) :
     _sfTriangles              (source._sfTriangles              ), 
     _sfPositions              (source._sfPositions              ), 
     _sfGeometries             (source._sfGeometries             ), 
+    _sfAbsoluteUrl            (source._sfAbsoluteUrl            ), 
     Inherited                 (source)
 {
 }
@@ -336,6 +349,11 @@ UInt32 ProxyGroupBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGeometries.getBinSize();
     }
 
+    if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
+    {
+        returnValue += _sfAbsoluteUrl.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -393,6 +411,11 @@ void ProxyGroupBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GeometriesFieldMask & whichField))
     {
         _sfGeometries.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
+    {
+        _sfAbsoluteUrl.copyToBin(pMem);
     }
 
 
@@ -453,6 +476,11 @@ void ProxyGroupBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGeometries.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
+    {
+        _sfAbsoluteUrl.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -492,6 +520,9 @@ void ProxyGroupBase::executeSyncImpl(      ProxyGroupBase *pOther,
     if(FieldBits::NoField != (GeometriesFieldMask & whichField))
         _sfGeometries.syncWith(pOther->_sfGeometries);
 
+    if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
+        _sfAbsoluteUrl.syncWith(pOther->_sfAbsoluteUrl);
+
 
 }
 
@@ -520,7 +551,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPROXYGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROXYGROUPBASE_INLINE_CVSID;
 

@@ -97,4 +97,12 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="absoluteUrl"
+		type="std::string"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+	>
+	</Field>
 </FieldContainer>

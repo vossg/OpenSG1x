@@ -75,6 +75,7 @@
 #include <OSGUInt32Fields.h> // Triangles type
 #include <OSGUInt32Fields.h> // Positions type
 #include <OSGUInt32Fields.h> // Geometries type
+#include <OSGStringFields.h> // AbsoluteUrl type
 
 #include <OSGProxyGroupFields.h>
 
@@ -108,7 +109,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
         TrianglesFieldId      = IndicesFieldId        + 1,
         PositionsFieldId      = TrianglesFieldId      + 1,
         GeometriesFieldId     = PositionsFieldId      + 1,
-        NextFieldId           = GeometriesFieldId     + 1
+        AbsoluteUrlFieldId    = GeometriesFieldId     + 1,
+        NextFieldId           = AbsoluteUrlFieldId    + 1
     };
 
     static const OSG::BitVector EnabledFieldMask;
@@ -121,6 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     static const OSG::BitVector TrianglesFieldMask;
     static const OSG::BitVector PositionsFieldMask;
     static const OSG::BitVector GeometriesFieldMask;
+    static const OSG::BitVector AbsoluteUrlFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -249,6 +252,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     SFUInt32            _sfTriangles;
     SFUInt32            _sfPositions;
     SFUInt32            _sfGeometries;
+    SFString            _sfAbsoluteUrl;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -264,6 +268,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     /*! \{                                                                 */
 
     virtual ~ProxyGroupBase(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFString            *getSFAbsoluteUrl    (void);
+
+           std::string         &getAbsoluteUrl    (void);
+     const std::string         &getAbsoluteUrl    (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setAbsoluteUrl    (const std::string &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
