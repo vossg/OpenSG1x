@@ -389,7 +389,7 @@
 #endif
 
 /* name Intel compiler, which uses the EDG front end. */ 
-# if defined(__INTEL_COMPILER)
+# if defined(__INTEL_COMPILER) && !defined(__linux)
 #   ifdef _CPPUNWIND
 #   endif
 #   ifdef _MT
@@ -428,6 +428,50 @@
 # define OSG_LONGLONG_HAS_LL
 # define OSG_THROW_NOTHING()
 # define OSG_WIN32_ICL
+# endif
+
+
+/* name Intel compiler, which uses the EDG front end. */ 
+# if defined(__INTEL_COMPILER) && defined(__linux)
+#   ifdef _CPPUNWIND
+#   endif
+#   ifdef _MT
+#   endif
+# ifndef __ICL
+# define __ICL __INTEL_COMPILER
+# endif
+# if __INTEL_COMPILER_VERSION >= 501
+# define OSG_BASE_SPEZ_IMPL_DLLMAPPING 
+# else
+# define OSG_BASE_SPEZ_HEAD_DLLMAPPING 
+# endif
+
+// Use windows internal types to define OpenSG base types
+# define OSG_LINUX_TYPES
+// Use windows threads
+# define OSG_USE_PTHREADS
+//# define OSG_WINLOCK_USE_MUTEX
+// compiler supports namespaces
+# define OSG_HAS_NAMESPACE
+// compiler supports std namespace
+# define OSG_HAS_STD_NAMESPACE
+// streams in std namespace
+# define OSG_STREAM_IN_STD_NAMESPACE
+// general float math
+# define OSG_HAS_FLOATMATH
+// Use WGL 
+# define OSG_USE_WGL
+# define OSG_STREAM_HAS_ISOPEN
+//# define OSG_HAS_VSNPRINTF
+# define OSG_HAS_NILBUF
+# define OSG_STREAM_RDBUF_HAS_PARAM
+# define OSG_STREAM_HAS_IOPEN
+# define OSG_HAS_TEMPLATE_RETURNVALUES
+# define OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
+# define OSG_NEED_EXPLICIT_INST_FOR_STATIC
+# define OSG_LONGLONG_HAS_LL
+//# define OSG_THROW_NOTHING()
+//# define OSG_WIN32_ICL
 # endif
 
 

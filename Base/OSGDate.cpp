@@ -41,14 +41,14 @@
 //---------------------------------------------------------
 
 
-#include <stdlib.h>
-#include <stdio.h>
+//#include <stdlib.h>
+//#include <stdio.h>
 
-#include "OSGConfig.h"
+//#include "OSGConfig.h"
 
 #include <iostream>
 #include <iomanip>
-#include <strstream>
+//#include <strstream>
 
 #include <time.h>
 
@@ -143,7 +143,7 @@ void Date::set (const char *string )
 {
     if (string && *string)
     {
-        istrstream is(string);
+//        istrstream is(string);
         // is >> *this;
     }
 }
@@ -343,6 +343,8 @@ ostream &OSG::operator << (ostream &outStream, const Date &obj)
                     << setw(2) << obj._second;
 }
 
+#if 0
+
 istream &OSG::operator >>(istream &inStream, Date &obj)
 {
   char c;
@@ -350,6 +352,8 @@ istream &OSG::operator >>(istream &inStream, Date &obj)
   return inStream >> obj._day  >> c >> obj._month  >> c >> obj._year
                   >> obj._hour >> c >> obj._minute >> c >> obj._second;
 }
+#endif
+
 
 /*----------------------access----------------------------*/
 

@@ -153,7 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                     Reformate                                */
     /*! \{                                                                 */
 
-    bool reformat ( PixelFormat pixelFormat,
+    bool reformat ( const PixelFormat pixelFormat,
                     Image *destination = 0);
 
     /*! \}                                                                 */

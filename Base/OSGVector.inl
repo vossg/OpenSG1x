@@ -318,9 +318,9 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(void) :
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -339,16 +339,16 @@ PointInterface<ValueTypeT,
 
     if(pVals == NULL)
     {
-        for(i = 0; i < _iSize; i++)
+        for(i = 0; i < Self::_iSize; i++)
         {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
     {
-        for(i = 0; i < _iSize; i++)
+        for(i = 0; i < Self::_iSize; i++)
         {
-            _values[i] = pVals[i];
+            Self::_values[i] = pVals[i];
         }
     }
 }
@@ -368,16 +368,16 @@ PointInterface<ValueTypeT,
 
     if(pVals == NULL)
     {
-        for(i = 0; i < _iSize; i++)
+        for(i = 0; i < Self::_iSize; i++)
         {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
     {
-        for(i = 0; i < _iSize; i++)
+        for(i = 0; i < Self::_iSize; i++)
         {
-            _values[i] = pVals[i];
+            Self::_values[i] = pVals[i];
         }
     }
 }
@@ -391,9 +391,9 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = source._values[i];
+        Self::_values[i] = source._values[i];
     }
 }
 
@@ -407,7 +407,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 
     _values[0] = rVal1;
 
-    for(i = 1; i < _iSize; i++)
+    for(i = 1; i < Self::_iSize; i++)
     {
         _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
@@ -429,19 +429,19 @@ PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    _values[0] = rVal1;
+    Self::_values[0] = rVal1;
 
-    if(_iSize == 2)
+    if(Self::_iSize == 2)
     {
-        _values[1] = rVal2;
+        Self::_values[1] = rVal2;
     }
-    else if(_iSize >= 3)
+    else if(Self::_iSize >= 3)
     {
-        _values[1] = rVal2;
+        Self::_values[1] = rVal2;
 
-        for(i = 2; i < _iSize; i++)
+        for(i = 2; i < Self::_iSize; i++)
         {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -464,25 +464,25 @@ PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    _values[0] = rVal1;
+    Self::_values[0] = rVal1;
 
-    if(_iSize == 2)
+    if(Self::_iSize == 2)
     {
-        _values[1] = rVal2;
+        Self::_values[1] = rVal2;
     }
-    else if(_iSize == 3)
+    else if(Self::_iSize == 3)
     {
-        _values[1] = rVal2;
-        _values[2] = rVal3;
+        Self::_values[1] = rVal2;
+        Self::_values[2] = rVal3;
     }
-    else if(_iSize >= 4)
+    else if(Self::_iSize >= 4)
     {
-        _values[1] = rVal2;
-        _values[2] = rVal3;
+        Self::_values[1] = rVal2;
+        Self::_values[2] = rVal3;
 
-        for(i = 3; i < _iSize; i++)
+        for(i = 3; i < Self::_iSize; i++)
         {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -506,32 +506,32 @@ PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    _values[0] = rVal1;
+    Self::_values[0] = rVal1;
 
-    if(_iSize == 2)
+    if(Self::_iSize == 2)
     {
-        _values[1] = rVal2;
+        Self::_values[1] = rVal2;
     }
-    else if(_iSize == 3)
+    else if(Self::_iSize == 3)
     {
-        _values[1] = rVal2;
-        _values[2] = rVal3;
+        Self::_values[1] = rVal2;
+        Self::_values[2] = rVal3;
     }
-    else if(_iSize == 4)
+    else if(Self::_iSize == 4)
     {
-        _values[1] = rVal2;
-        _values[2] = rVal3;
-        _values[3] = rVal4;
+        Self::_values[1] = rVal2;
+        Self::_values[2] = rVal3;
+        Self::_values[3] = rVal4;
     }
-    else if(_iSize >= 5)
+    else if(Self::_iSize >= 5)
     {
-        _values[1] = rVal2;
-        _values[2] = rVal3;
-        _values[3] = rVal4;
+        Self::_values[1] = rVal2;
+        Self::_values[2] = rVal3;
+        Self::_values[3] = rVal4;
 
-        for(i = 4; i < _iSize; i++)
+        for(i = 4; i < Self::_iSize; i++)
         {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -558,9 +558,9 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::setNull(void)
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -581,9 +581,9 @@ void PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = vec._values[i];
+        Self::_values[i] = vec._values[i];
     }
 }
 
@@ -597,9 +597,9 @@ void PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = pVals[i];
+        Self::_values[i] = pVals[i];
     }
 }
 
@@ -613,7 +613,7 @@ void PointInterface<ValueTypeT,
                     StorageInterfaceT>::setValue(const Char8 *szString)
 {
     UInt32 i;
-    UInt32 numOfToken = _iSize;
+    UInt32 numOfToken = Self::_iSize;
 
     Char8 *c      = const_cast<Char8 *>(szString);
     Char8 *tokenC = 0;
@@ -622,8 +622,8 @@ void PointInterface<ValueTypeT,
 
     if(szString == NULL || (*szString) == '\0')
     {
-        for(i = 0; i < _iSize; i++)
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        for(i = 0; i < Self::_iSize; i++)
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
 
         return;
     }
@@ -636,13 +636,13 @@ void PointInterface<ValueTypeT,
                 if(tokenC)
                 {
                     *tokenC = 0;
-                    _values[i++] =
+                    Self::_values[i++] =
                         TypeConstants<ValueTypeT>::getFromString(token);
                 }
 
                 while (i < numOfToken)
                 {
-                    _values[i++] =
+                    Self::_values[i++] =
                         TypeConstants<ValueTypeT>::getZeroElement();
                 }
                 break;
@@ -652,7 +652,7 @@ void PointInterface<ValueTypeT,
                 if(tokenC)
                 {
                     *tokenC = 0;
-                    _values[i++] =
+                    Self::_values[i++] =
                         TypeConstants<ValueTypeT>::getFromString(token);
                     tokenC = 0;
                 }
@@ -690,7 +690,7 @@ template <class ValueTypeT,
 ValueTypeT *PointInterface<ValueTypeT,
                            StorageInterfaceT>::getValues(void)
 {
-    return _values;
+    return Self::_values;
 }
 
 //! Get a const pointer to the value storage
@@ -700,7 +700,7 @@ template <class ValueTypeT,
 const ValueTypeT *PointInterface<ValueTypeT,
                                  StorageInterfaceT>::getValues(void) const
 {
-    return _values;
+    return Self::_values;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -716,10 +716,10 @@ bool PointInterface<ValueTypeT,
     UInt32 i;
     bool   returnValue = true;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        returnValue &= ((_values[i] <=  Eps) &&
-                        (_values[i] >= -Eps));
+        returnValue &= ((Self::_values[i] <=  Eps) &&
+                        (Self::_values[i] >= -Eps));
     }
 
     return returnValue;
@@ -733,9 +733,9 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::negate(void)
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = -_values[i];
+        Self::_values[i] = -Self::_values[i];
     }
 }
 
@@ -750,10 +750,11 @@ bool PointInterface<ValueTypeT, StorageInterfaceT>::equals(
     UInt32 i;
     bool   returnValue = true;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        returnValue &= ( (    _values[i] - vec._values[i] <= tolerance) &&
-                         (vec._values[i] -     _values[i] <= tolerance));
+        returnValue &= 
+            ( (Self::_values[i] - vec  ._values[i] <= tolerance) &&
+              (vec  ._values[i] - Self::_values[i] <= tolerance));
     }
 
     return returnValue;
@@ -797,9 +798,9 @@ PointInterface<ValueTypeT, StorageInterfaceT>::dist2(const PointInterface &vec)
     RealReturnType   returnValue = 0;
     RealReturnType   tmp;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        tmp = _values[i] - vec._values[i];
+        tmp = Self::_values[i] - vec._values[i];
         
         returnValue += tmp * tmp;
     }
@@ -831,10 +832,10 @@ PointInterface<ValueTypeT, StorageInterfaceT>::maxValue(void)
     UInt32 i;
     RealReturnType   returnValue = TypeConstants<RealReturnType>::getMin();
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        if(_values[i] > returnValue)
-            returnValue = _values[i];
+        if(Self::_values[i] > returnValue)
+            returnValue = Self::_values[i];
     }
 
     return returnValue;
@@ -852,9 +853,9 @@ void PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] *= val;
+        Self::_values[i] *= val;
     }
 }
 
@@ -867,9 +868,9 @@ void PointInterface<ValueTypeT,
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] /= val;
+        Self::_values[i] /= val;
     }
 }
 
@@ -884,9 +885,9 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::operator +=(
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] += vec._values[i];
+        Self::_values[i] += vec._values[i];
     }
 }
 
@@ -900,9 +901,9 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::operator -=(
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] -= vec._values[i];
+        Self::_values[i] -= vec._values[i];
     }
 }
 
@@ -919,7 +920,7 @@ typename PointInterface<ValueTypeT, StorageInterfaceT>::VecInterface
 
     VecInterface returnValue(*this);
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
         returnValue[i] -= vec[i];
     }
@@ -941,7 +942,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
-        returnValue[i] = _values[i] + vec[i];
+        returnValue[i] = Self::_values[i] + vec[i];
     }
 
     return returnValue;
@@ -961,7 +962,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
-        returnValue[i] = _values[i] - vec[i];
+        returnValue[i] = Self::_values[i] - vec[i];
     }
 
     return returnValue;
@@ -981,7 +982,7 @@ PointInterface <ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
-        returnValue[i] = _values[i] * rVal;
+        returnValue[i] = Self::_values[i] * rVal;
     }
 
     return returnValue;
@@ -998,9 +999,9 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 
     PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        returnValue._values[i] = - _values[i];
+        returnValue._values[i] = - Self::_values[i];
     }
 
     return returnValue;
@@ -1014,7 +1015,7 @@ template <class ValueTypeT,
 ValueTypeT &PointInterface<ValueTypeT, 
                            StorageInterfaceT>::operator[](const UInt32 uiVal)
 {
-    return _values[uiVal];
+    return Self::_values[uiVal];
 }
 
 template <class ValueTypeT,
@@ -1023,7 +1024,7 @@ const ValueTypeT &
     PointInterface<ValueTypeT, 
                    StorageInterfaceT>::operator[](const UInt32 uiVal) const
 {
-    return _values[uiVal];
+    return Self::_values[uiVal];
 }
 
 #if 0
@@ -1032,7 +1033,7 @@ template <class    ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>::operator
     ValueTypeT *(void)
 {
-    return _values;
+    return Self::_values;
 }
 
 template <class    ValueTypeT,
@@ -1040,7 +1041,7 @@ template <class    ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>::operator
     const ValueTypeT *(void)
 {
-    return _values;
+    return Self::_values;
 }
 #endif
 
@@ -1058,9 +1059,9 @@ PointInterface<ValueTypeT, StorageInterfaceT> &
     if(this == &source)
         return *this;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = source._values[i];
+        Self::_values[i] = source._values[i];
     }
 
     return *this;
@@ -1077,9 +1078,9 @@ bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
     UInt32 i;
     bool ret = true;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        if(_values[i] >= other._values[i])
+        if(Self::_values[i] >= other._values[i])
         {
             ret = false;
             break;
@@ -1191,9 +1192,9 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(void) :
 {
     UInt32 i;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -1241,11 +1242,11 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
 {
     UInt32 i;
 
-    _values[0] = rVal1;
+    Self::_values[0] = rVal1;
 
-    for(i = 1; i < _iSize; i++)
+    for(i = 1; i < Self::_iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
 */
@@ -1306,11 +1307,11 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
 {
     UInt32 i;
 
-    RealReturnType rTmpVal = _values[0] * _values[0];
+    RealReturnType rTmpVal = Self::_values[0] * Self::_values[0];
 
-    for(i = 1; i < _iSize; i++)
+    for(i = 1; i < Self::_iSize; i++)
     {
-        rTmpVal += _values[i] * _values[i];
+        rTmpVal += Self::_values[i] * Self::_values[i];
     }
 
     return osgsqrt(rTmpVal);
@@ -1335,9 +1336,9 @@ void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
         rLength = TypeConstants<ValueTypeT>::getOneElement() / rLength;
     }
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        _values[i] *= rLength;
+        Self::_values[i] *= rLength;
     }
 }
 
@@ -1357,14 +1358,17 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 {
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    if(_iSize >= 3)
+    if(Self::_iSize >= 3)
     {
         returnValue[0] =
-            _values[1] * vec._values[2] - _values[2] * vec._values[1];
+            Self::_values[1] * vec._values[2] - 
+            Self::_values[2] * vec._values[1];
         returnValue[1] =
-            _values[2] * vec._values[0] - _values[0] * vec._values[2];
+            Self::_values[2] * vec._values[0] - 
+            Self::_values[0] * vec._values[2];
         returnValue[2] =
-            _values[0] * vec._values[1] - _values[1] * vec._values[0];
+            Self::_values[0] * vec._values[1] - 
+            Self::_values[1] * vec._values[0];
     }
     else
     {
@@ -1393,23 +1397,28 @@ template <class ValueTypeT,
 void VectorInterface<ValueTypeT, 
                      StorageInterfaceT>::crossThis(const VectorInterface &vec)
 {
-    if(_iSize >= 3)
+    if(Self::_iSize >= 3)
     {
         ValueTypeT rTmp[2];
 
-        rTmp[0] = _values[1] * vec._values[2] - _values[2] * vec._values[1];
-        rTmp[1] = _values[2] * vec._values[0] - _values[0] * vec._values[2];
+        rTmp[0] = 
+            Self::_values[1] * vec._values[2] - 
+            Self::_values[2] * vec._values[1];
+        rTmp[1] = 
+            Self::_values[2] * vec._values[0] - 
+            Self::_values[0] * vec._values[2];
 
-        _values[2] =
-            _values[0] * vec._values[1] - _values[1] * vec._values[0];
+        Self::_values[2] =
+            Self::_values[0] * vec._values[1] -
+            Self::_values[1] * vec._values[0];
 
-        _values[0] = rTmp[0];
-        _values[1] = rTmp[1];
+        Self::_values[0] = rTmp[0];
+        Self::_values[1] = rTmp[1];
     }
     else
     {
         // Must be changed
-        fprintf(stderr, "crossThis only implemented for size 3\n");
+        fprintf(stderr, "crossThis only available for size 3\n");
     }
 }
 
@@ -1426,11 +1435,11 @@ ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot(
 {
     UInt32 i;
 
-    ValueTypeT rTmpVal = _values[0] * vec._values[0];
+    ValueTypeT rTmpVal = Self::_values[0] * vec._values[0];
 
-    for(i = 1; i < _iSize; i++)
+    for(i = 1; i < Self::_iSize; i++)
     {
-        rTmpVal += _values[i] * vec._values[i];
+        rTmpVal += Self::_values[i] * vec._values[i];
     }
 
     return rTmpVal;
@@ -1451,11 +1460,11 @@ ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot (
 {
     UInt32 i;
 
-    ValueTypeT rTmpVal = _values[0] * pnt[0];
+    ValueTypeT rTmpVal = Self::_values[0] * pnt[0];
 
-    for(i = 1; i < _iSize; i++)
+    for(i = 1; i < Self::_iSize; i++)
     {
-        rTmpVal += _values[i] * pnt[i];
+        rTmpVal += Self::_values[i] * pnt[i];
     }
 
     return rTmpVal;
@@ -1479,7 +1488,7 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
 {
     RealReturnType returnValue;
 
-    if(isZero() || vec.isZero())
+    if(Self::isZero() || vec.isZero())
     {
         returnValue = TypeConstants<RealReturnType>::getZeroElement();
     }
@@ -1554,7 +1563,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
-        returnValue[i] = _values[i] - vec[i];
+        returnValue[i] = Self::_values[i] - vec[i];
     }
 
     return returnValue;
@@ -1574,7 +1583,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
-        returnValue[i] = _values[i] + vec[i];
+        returnValue[i] = Self::_values[i] + vec[i];
     }
 
     return returnValue;
@@ -1595,7 +1604,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
-        returnValue[i] = _values[i] * rVal;
+        returnValue[i] = Self::_values[i] * rVal;
     }
 
     return returnValue;
@@ -1612,9 +1621,9 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        returnValue._values[i] = - _values[i];
+        returnValue._values[i] = - Self::_values[i];
     }
 
     return returnValue;
@@ -1648,15 +1657,15 @@ bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
     UInt32 i;
     bool   ret = true;
 
-    for(i = 0; i < _iSize; i++)
+    for(i = 0; i < Self::_iSize; i++)
     {
-        if( _values[i] > other._values[i])
+        if(Self::_values[i] > other._values[i])
         {
             ret = false;
             break;
         }
 
-        if(_values[i] < other._values[i])
+        if(Self::_values[i] < other._values[i])
             break;
     }
 

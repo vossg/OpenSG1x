@@ -116,7 +116,7 @@ class OSG_BASE_DLLMAPPING LogOStream : public ostream
     virtual ~LogOStream(void) {};
 
 #ifdef OSG_STREAM_RDBUF_HAS_PARAM
-    void setrdbuf(streambuf *buf) { rdbuf(buf); };
+    void setrdbuf(streambuf *buf) { ostream::rdbuf(buf); };
 #else
     void setrdbuf(streambuf *buf) { bp = buf; };
 #endif

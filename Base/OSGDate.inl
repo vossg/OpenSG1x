@@ -43,8 +43,6 @@
 #pragma  once
 #endif
 
-#include<OSGBaseTypes.h>
-
 OSG_BEGIN_NAMESPACE
 inline void Date::setSecond (unsigned int second)
     { _second = second; }

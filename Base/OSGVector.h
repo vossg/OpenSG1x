@@ -277,6 +277,9 @@ class PointInterface : public StorageInterfaceT
                                      StorageInterfaceT>        VecInterface;
 
 
+    typedef          PointInterface <ValueTypeT, 
+                                     StorageInterfaceT>        Self;
+
     static  const    PointInterface                            Null;
 
     /*---------------------------------------------------------------------*/
@@ -326,22 +329,22 @@ class PointInterface : public StorageInterfaceT
     {
         UInt32 i;
         
-        if(_iSize <= VectorT::_iSize)
+        if(Self::_iSize <= VectorT::_iSize)
         {
-            for(i = 0; i < _iSize; i++)
+            for(i = 0; i < Self::_iSize; i++)
             {
-                _values[i] = vec.getValues()[i];
+                Self::_values[i] = vec.getValues()[i];
             }
         }
         else
         {
             for(i = 0; i < VectorT::_iSize; i++)
             {
-                _values[i] = vec.getValues()[i];
+                Self::_values[i] = vec.getValues()[i];
             }
-            for(i = VectorT::_iSize; i < _iSize; i++)
+            for(i = VectorT::_iSize; i < Self::_iSize; i++)
             {
-                _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
             }
         }
     }
@@ -434,10 +437,11 @@ class PointInterface : public StorageInterfaceT
         UInt32 i;
         
         for(i = 0;
-            i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize);
+            i < (Self::_iSize < VectorT::_iSize ? 
+                                              Self::_iSize : VectorT::_iSize);
             i++)
         {
-            _values[i] = vec.getValues()[i];
+            Self::_values[i] = vec.getValues()[i];
         }
     }
 
@@ -579,6 +583,8 @@ class VectorInterface :
 
     typedef          Inherited                                 PntInterface;
 
+    typedef          VectorInterface<ValueTypeT, 
+                                     StorageInterfaceT>        Self;
 
     static  const    VectorInterface                           Null;
 
@@ -628,22 +634,22 @@ class VectorInterface :
     {
         UInt32 i;
         
-        if(_iSize <= VectorT::_iSize)
+        if(Self::_iSize <= VectorT::_iSize)
         {
-            for(i = 0; i < _iSize; i++)
+            for(i = 0; i < Self::_iSize; i++)
             {
-                _values[i] = vec.getValues()[i];
+                Self::_values[i] = vec.getValues()[i];
             }
         }
         else
         {
             for(i = 0; i < VectorT::_iSize; i++)
             {
-                _values[i] = vec.getValues()[i];
+                Self::_values[i] = vec.getValues()[i];
             }
-            for(i = VectorT::_iSize; i < _iSize; i++)
+            for(i = VectorT::_iSize; i < Self::_iSize; i++)
             {
-                _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
             }
         }
     }
