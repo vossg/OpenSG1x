@@ -106,6 +106,67 @@ struct FieldDataTraits<Color4f> : public Traits
 };
 
 template <>
+struct FieldDataTraits<Color3ub> : public Traits
+{
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
+
+    static Char8 *getSName(void)   { return "SFColor3ub"; }
+    static Char8 *getMName(void)   { return "MFColor3ub"; }
+
+    static Color3ub  getDefault(void) { return Color3ub();   }
+
+    static Bool   getFromString(      Color3ub  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void   putToString(const Color3ub  &,
+                                    String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Color4ub field traits 
+ */
+
+template <>
+struct FieldDataTraits<Color4ub> : public Traits
+{
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                       FromStringConvertable };
+
+    static Char8 *getSName(void)   { return "SFColor4ub";    }
+
+    static Char8 *getMName(void)   { return "MFColor4ub";    }
+
+    static Color4ub  getDefault(void) { return Color4ub();      }
+
+    static Bool   getFromString(      Color4ub  &outVal,
+                                const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void   putToString(const Color4ub  &,
+                                    String &)
+    {
+        // TO_BE_DONE
+    }
+};
+
+
+template <>
 struct FieldDataTraits<String> : public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 

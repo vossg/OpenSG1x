@@ -59,6 +59,8 @@
  * <LI> osg::SFTime
  * <LI> osg::SFColor3f
  * <LI> osg::SFColor4f
+ * <LI> osg::SFColor3ub
+ * <LI> osg::SFColor4ub
  * <LI> osg::SFVolume
  * </UL>
  */
@@ -84,6 +86,16 @@ typedef SField<Color3f>       SFColor3f;
  */
 
 typedef SField<Color4f>       SFColor4f;
+
+/** \brief SFColor3ub
+ */
+
+typedef SField<Color3ub>       SFColor3ub;
+
+/** \brief SFColor4ub
+ */
+
+typedef SField<Color4ub>       SFColor4ub;
 
 /** \brief SFVolume
  */

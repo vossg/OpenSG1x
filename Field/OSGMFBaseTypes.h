@@ -85,6 +85,16 @@ typedef MField<Color3f>       MFColor3f;
 
 typedef MField<Color4f>       MFColor4f;
 
+/** \brief MFColor3ub
+ */
+
+typedef MField<Color3ub>       MFColor3ub;
+
+/** \brief MFColor4ub
+ */
+
+typedef MField<Color4ub>       MFColor4ub;
+
 /** \brief MFVolume
  */
 
