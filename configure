@@ -20,133 +20,133 @@ ac_help="$ac_help
         Darwin    : c++,c++3,g++,g++3
         HPUX      : aCC"
 ac_help="$ac_help
-  --with-suffix=SUFFIX               add suffix to build dir"
+  --with-suffix=SUFFIX                add suffix to build dir"
 ac_help="$ac_help
-  --with-stl=DIR                     Where to find the stl to use, incompatible with stlport options"
+  --with-stl=DIR                      Where to find the stl to use, incompatible with stlport options"
 ac_help="$ac_help
-  --enable-stlport                   Build with stlport support, incompatible with --with-stl, VS7 only "
+  --enable-stlport                    Build with stlport support, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-stlport          =DIR       Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl, VS7 only "
+  --with-stlport          =DIR        Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-stlportincludedir=DIR       Use stlport includes from the given directory, incompatible with --with-stl, VS7 only "
+  --with-stlportincludedir=DIR        Use stlport includes from the given directory, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-stlportlibdir    =DIR       Use stlport library from the given directory, incompatible with --with-stl, VS7 only "
+  --with-stlportlibdir    =DIR        Use stlport library from the given directory, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-gl=DIR                      Use gl, if DIR is given use the file from the give directory"
+  --with-gl=DIR                       Use gl, if DIR is given use the file from the give directory"
 ac_help="$ac_help
-  --enable-glut                      Build with glut support "
+  --enable-glut                       Build with glut support "
 ac_help="$ac_help
-  --with-glut          =DIR          Use DIR/lib DIR/include to find the glut files "
+  --with-glut          =DIR           Use DIR/lib DIR/include to find the glut files "
 ac_help="$ac_help
-  --with-glutincludedir=DIR          Use glut includes from the given directory "
+  --with-glutincludedir=DIR           Use glut includes from the given directory "
 ac_help="$ac_help
-  --with-glutlibdir    =DIR          Use glut library from the given directory "
+  --with-glutlibdir    =DIR           Use glut library from the given directory "
 ac_help="$ac_help
-  --enable-qt                        Build with qt support"
+  --enable-qt                         Build with qt support"
 ac_help="$ac_help
-  --with-qt=DIR                      Use DIR/lib DIR/include to find the qt files"
+  --with-qt=DIR                       Use DIR/lib DIR/include to find the qt files"
 ac_help="$ac_help
-  --with-qtincludedir=DIR            Use qt includes from the given directory"
+  --with-qtincludedir=DIR             Use qt includes from the given directory"
 ac_help="$ac_help
-  --with-qtlibdir=DIR                Use qt library from the given directory"
+  --with-qtlibdir=DIR                 Use qt library from the given directory"
 ac_help="$ac_help
-  --with-qtbindir=DIR                Use qt binaries from the given directory"
+  --with-qtbindir=DIR                 Use qt binaries from the given directory"
 ac_help="$ac_help
-  --enable-tif                       Build with tif support"
+  --enable-tif                        Build with tif support"
 ac_help="$ac_help
-  --with-tif=DIR                     Use DIR/lib DIR/include to find the tif files"
+  --with-tif=DIR                      Use DIR/lib DIR/include to find the tif files"
 ac_help="$ac_help
-  --with-tifincludedir=DIR           Use tif includes from the given directory"
+  --with-tifincludedir=DIR            Use tif includes from the given directory"
 ac_help="$ac_help
-  --with-tiflibdir=DIR               Use tif lib from the given directory"
+  --with-tiflibdir=DIR                Use tif lib from the given directory"
 ac_help="$ac_help
-  --enable-jpg                       Build with jpg support"
+  --enable-jpg                        Build with jpg support"
 ac_help="$ac_help
-  --with-jpg=DIR                     Use DIR/lib DIR/include to find the jpg files"
+  --with-jpg=DIR                      Use DIR/lib DIR/include to find the jpg files"
 ac_help="$ac_help
-  --with-jpgincludedir=DIR           Use jpg includes from the given directory"
+  --with-jpgincludedir=DIR            Use jpg includes from the given directory"
 ac_help="$ac_help
-  --with-jpglibdir=DIR               Use jpg lib from the given directory"
+  --with-jpglibdir=DIR                Use jpg lib from the given directory"
 ac_help="$ac_help
-  --enable-png                       Build with png support"
+  --enable-png                        Build with png support"
 ac_help="$ac_help
-  --with-png=DIR                     Use DIR/lib DIR/include to find the png files"
+  --with-png=DIR                      Use DIR/lib DIR/include to find the png files"
 ac_help="$ac_help
-  --with-pngincludedir=DIR           Use png includes from the given directory"
+  --with-pngincludedir=DIR            Use png includes from the given directory"
 ac_help="$ac_help
-  --with-pnglibdir=DIR               Use png lib from the given directory"
+  --with-pnglibdir=DIR                Use png lib from the given directory"
 ac_help="$ac_help
-  --enable-mng                       Build with mng supprt"
+  --enable-mng                        Build with mng supprt"
 ac_help="$ac_help
-  --with-mng=DIR                     Use DIR/lib DIR/include to find the mng files"
+  --with-mng=DIR                      Use DIR/lib DIR/include to find the mng files"
 ac_help="$ac_help
-  --with-mngincludedir=DIR           Use mng includes from the given directory"
+  --with-mngincludedir=DIR            Use mng includes from the given directory"
 ac_help="$ac_help
-  --with-mnglibdir=DIR               Use mng lib from the given directory"
+  --with-mnglibdir=DIR                Use mng lib from the given directory"
 ac_help="$ac_help
-  --with-gif                         Build with gif support"
+  --with-gif                          Build with gif support"
 ac_help="$ac_help
-  --enable-gif                       Build with gif support"
+  --enable-gif                        Build with gif support"
 ac_help="$ac_help
-  --with-efence=DIR                  Use efence  lib, if DIR is given use the file from the given directory"
+  --with-efence=DIR                   Use efence  lib, if DIR is given use the file from the given directory"
 ac_help="$ac_help
-  --with-mpatrol=DIR                 Use mpatrol lib, if DIR is given use the file from the given directory"
+  --with-mpatrol=DIR                  Use mpatrol lib, if DIR is given use the file from the given directory"
 ac_help="$ac_help
-  --with-myrinet=DIR                 Use Myrinet lib, if DIR is given use the file from the given directory"
+  --with-myrinet=DIR                  Use Myrinet lib, if DIR is given use the file from the given directory"
 ac_help="$ac_help
-  --enable-freetype1                 Build with freetype1 support"
+  --enable-freetype1                  Build with freetype1 support"
 ac_help="$ac_help
-  --with-freetype1=DIR               Use DIR/include DIR/libs to find the freetype1 files"
+  --with-freetype1=DIR                Use DIR/include DIR/libs to find the freetype1 files"
 ac_help="$ac_help
-  --with-freetype1includedir=DIR     Use freetype1 includes from the given directory"
+  --with-freetype1includedir=DIR      Use freetype1 includes from the given directory"
 ac_help="$ac_help
-  --with-freetype1libdir=DIR         Use freetype1 lib from the given directory"
+  --with-freetype1libdir=DIR          Use freetype1 lib from the given directory"
 ac_help="$ac_help
-  --with-log_level=LEVEL             Sets the default log level LEVEL (LOG, FATAL, WARNING, NOTICE, INFO, DEBUG) "
+  --with-log_level=LEVEL              Sets the default log level LEVEL (LOG, FATAL, WARNING, NOTICE, INFO, DEBUG) "
 ac_help="$ac_help
-  --with-log_type=TYPE               Sets the default log level TYPE (NONE, STDOUT, STDERR) "
+  --with-log_type=TYPE                Sets the default log level TYPE (NONE, STDOUT, STDERR) "
 ac_help="$ac_help
-  --enable-win-localstorage          Use local storage instead of __declspec to get thread local storage on windows"
+  --enable-win-localstorage           Use local storage instead of __declspec to get thread local storage on windows"
 ac_help="$ac_help
-  --enable-fixed-xtree               Use fixed xtree header "
+  --enable-fixed-xtree                Use fixed xtree header "
 ac_help="$ac_help
-  --with-icc-gnu-compat               Use fixed xtree header "
+  --with-icc-gnu-compat=<GCC Version> make the icc result binary compatible to the given gcc version (e.g 333) "
 ac_help="$ac_help
-  --disable-depreciated              Exclude depreciated interfaces "
+  --disable-depreciated               Exclude depreciated interfaces "
 ac_help="$ac_help
-  --disable-glut-glsubdir            do not use GL subdir while including glut.h "
+  --disable-glut-glsubdir             do not use GL subdir while including glut.h "
 ac_help="$ac_help
-  --disable-compilerLogo             Disable compiler logo (WIn32 cl, icl) "
+  --disable-compilerLogo              Disable compiler logo (WIn32 cl, icl) "
 ac_help="$ac_help
-  --disable-bisonLineNums            Disable bison line number generation "
+  --disable-bisonLineNums             Disable bison line number generation "
 ac_help="$ac_help
-  --enable-win-bool-is-unsigned      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces "
+  --enable-win-bool-is-unsigned       Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces "
 ac_help="$ac_help
-  --enable-win-exclude-default-path  Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead "
+  --enable-win-exclude-default-path   Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead "
 ac_help="$ac_help
-  --enable-sgi-pthread               Use pthreads instead of sproc on sgi plattforms"
+  --enable-sgi-pthread                Use pthreads instead of sproc on sgi plattforms"
 ac_help="$ac_help
-  --enable-compiler-pedantic-errors  Sets the compiler to generate more errors. WARNING, some external software (e.g. QT or STL) may require some patches to work with these settings "
+  --enable-compiler-pedantic-errors   Sets the compiler to generate more errors. WARNING, some external software (e.g. QT or STL) may require some patches to work with these settings "
 ac_help="$ac_help
-  --enable-compiler-path             Reference compiler with path"
+  --enable-compiler-path              Reference compiler with path"
 ac_help="$ac_help
-  --enable-gv-beta                   enable gv beta"
+  --enable-gv-beta                    enable gv beta"
 ac_help="$ac_help
-  --enable-gv-beta-shader                   enable gv beta"
+  --enable-gv-beta-shader             enable gv beta"
 ac_help="$ac_help
-  --enable-typed-dbg-fcptr           Add a typed ptr to the fieldcontainer ptr "
+  --enable-typed-dbg-fcptr            Add a typed ptr to the fieldcontainer ptr "
 ac_help="$ac_help
-  --disable-fcptr-arithm             Disable fieldcontainer ptr aspect arithmetics "
+  --disable-fcptr-arithm              Disable fieldcontainer ptr aspect arithmetics "
 ac_help="$ac_help
-  --enable-opt-drawtree              enable opt drawtree "
+  --enable-opt-drawtree               enable opt drawtree "
 ac_help="$ac_help
-  --enable-pthread-elf-tls           enable elf tls if pthreads are used, tested on redhat 9 only "
+  --enable-pthread-elf-tls            enable elf tls if pthreads are used, tested on redhat 9 only "
 ac_help="$ac_help
-  --with-add-incdir=DIR{:DIR}*       use additional include directories (no spaces allowed) "
+  --with-add-incdir=DIR{:DIR}*        use additional include directories (no spaces allowed) "
 ac_help="$ac_help
-  --with-add-libdir=DIR{:DIR}*       use additional library directories (no spaces allowed) "
+  --with-add-libdir=DIR{:DIR}*        use additional library directories (no spaces allowed) "
 ac_help="$ac_help
-  --with-add-lib=LIB{:LIB}*          use additional libraries (use foo not libfoo.so, no spaces allowed)"
+  --with-add-lib=LIB{:LIB}*           use additional libraries (use foo not libfoo.so, no spaces allowed)"
 
 # Initialize some variables set by options.
 # The variables have the same names as the options, with

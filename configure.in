@@ -84,7 +84,7 @@ AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
 
 dnl ############# SUFFIX Settings #####################
 
-AC_ARG_WITH(suffix,     [  --with-suffix=SUFFIX               add suffix to build dir],
+AC_ARG_WITH(suffix,     [  --with-suffix=SUFFIX                add suffix to build dir],
 			,with_suffix=no) 
 
 if test "$with_suffix" = yes; then
@@ -99,7 +99,7 @@ fi
 
 dnl ############# STL Settings #####################
 
-AC_ARG_WITH(stl,     [  --with-stl=DIR                     Where to find the stl to use, incompatible with stlport options],
+AC_ARG_WITH(stl,     [  --with-stl=DIR                      Where to find the stl to use, incompatible with stlport options],
 			,with_stl=no) 
 
 if test "$with_stl" = yes; then
@@ -112,16 +112,16 @@ fi
 
 dnl ############# STLPort Settings #####################
 
-AC_ARG_ENABLE(stlport,     [  --enable-stlport                   Build with stlport support, incompatible with --with-stl, VS7 only ],
+AC_ARG_ENABLE(stlport,     [  --enable-stlport                    Build with stlport support, incompatible with --with-stl, VS7 only ],
 			,enable_stlport=no) 
 
-AC_ARG_WITH(stlport,     [  --with-stlport          =DIR       Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl, VS7 only ],
+AC_ARG_WITH(stlport,     [  --with-stlport          =DIR        Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl, VS7 only ],
 			,with_stlport=) 
 
-AC_ARG_WITH(stlportincludedir,     [  --with-stlportincludedir=DIR       Use stlport includes from the given directory, incompatible with --with-stl, VS7 only ],
+AC_ARG_WITH(stlportincludedir,     [  --with-stlportincludedir=DIR        Use stlport includes from the given directory, incompatible with --with-stl, VS7 only ],
 			,with_stlportincludedir=) 
 
-AC_ARG_WITH(stlportlibdir,     [  --with-stlportlibdir    =DIR       Use stlport library from the given directory, incompatible with --with-stl, VS7 only ],
+AC_ARG_WITH(stlportlibdir,     [  --with-stlportlibdir    =DIR        Use stlport library from the given directory, incompatible with --with-stl, VS7 only ],
 			,with_stlportlibdir=) 
 
 if test "$enable_stlport" = no && test "$with_stlport" = yes; then
@@ -180,7 +180,7 @@ fi
 
 dnl ############# GL Settings #####################
  
-AC_ARG_WITH(gl,     [  --with-gl=DIR                      Use gl, if DIR is given use the file from the give directory],
+AC_ARG_WITH(gl,     [  --with-gl=DIR                       Use gl, if DIR is given use the file from the give directory],
 			,with_gl=yes) 
 
 if test "$with_gl" = yes; then
@@ -198,16 +198,16 @@ fi
 
 dnl ############# GLUT Settings #####################
 
-AC_ARG_ENABLE(glut,     [  --enable-glut                      Build with glut support ],
+AC_ARG_ENABLE(glut,     [  --enable-glut                       Build with glut support ],
 			,enable_glut=no) 
 
-AC_ARG_WITH(glut,     [  --with-glut          =DIR          Use DIR/lib DIR/include to find the glut files ],
+AC_ARG_WITH(glut,     [  --with-glut          =DIR           Use DIR/lib DIR/include to find the glut files ],
 			,with_glut=) 
 
-AC_ARG_WITH(glutincludedir,     [  --with-glutincludedir=DIR          Use glut includes from the given directory ],
+AC_ARG_WITH(glutincludedir,     [  --with-glutincludedir=DIR           Use glut includes from the given directory ],
 			,with_glutincludedir=) 
 
-AC_ARG_WITH(glutlibdir,     [  --with-glutlibdir    =DIR          Use glut library from the given directory ],
+AC_ARG_WITH(glutlibdir,     [  --with-glutlibdir    =DIR           Use glut library from the given directory ],
 			,with_glutlibdir=) 
 
 if test "$enable_glut" = no && test "$with_glut" = yes; then
@@ -273,15 +273,15 @@ fi
 
 dnl ############# QT Settings #####################
 
-AC_ARG_ENABLE(qt,     [  --enable-qt                        Build with qt support],
+AC_ARG_ENABLE(qt,     [  --enable-qt                         Build with qt support],
 			,enable_qt=no) 
-AC_ARG_WITH(qt,     [  --with-qt=DIR                      Use DIR/lib DIR/include to find the qt files],
+AC_ARG_WITH(qt,     [  --with-qt=DIR                       Use DIR/lib DIR/include to find the qt files],
 			,with_qt=) 
-AC_ARG_WITH(qtincludedir,     [  --with-qtincludedir=DIR            Use qt includes from the given directory],
+AC_ARG_WITH(qtincludedir,     [  --with-qtincludedir=DIR             Use qt includes from the given directory],
 			,with_qtincludedir=) 
-AC_ARG_WITH(qtlibdir,     [  --with-qtlibdir=DIR                Use qt library from the given directory],
+AC_ARG_WITH(qtlibdir,     [  --with-qtlibdir=DIR                 Use qt library from the given directory],
 			,with_qtlibdir=) 
-AC_ARG_WITH(qtbindir,     [  --with-qtbindir=DIR                Use qt binaries from the given directory],
+AC_ARG_WITH(qtbindir,     [  --with-qtbindir=DIR                 Use qt binaries from the given directory],
 			,with_qtbindir=) 
 
 if test "$enable_qt" = no && test "$with_qt" = yes; then
@@ -355,13 +355,13 @@ fi
 
 dnl ############# TIF Settings #####################
 
-AC_ARG_ENABLE(tif,     [  --enable-tif                       Build with tif support],
+AC_ARG_ENABLE(tif,     [  --enable-tif                        Build with tif support],
 			,enable_tif=no) 
-AC_ARG_WITH(tif,     [  --with-tif=DIR                     Use DIR/lib DIR/include to find the tif files],
+AC_ARG_WITH(tif,     [  --with-tif=DIR                      Use DIR/lib DIR/include to find the tif files],
 			,with_tif=) 
-AC_ARG_WITH(tifincludedir,     [  --with-tifincludedir=DIR           Use tif includes from the given directory],
+AC_ARG_WITH(tifincludedir,     [  --with-tifincludedir=DIR            Use tif includes from the given directory],
 			,with_tifincludedir=) 
-AC_ARG_WITH(tiflibdir,     [  --with-tiflibdir=DIR               Use tif lib from the given directory],
+AC_ARG_WITH(tiflibdir,     [  --with-tiflibdir=DIR                Use tif lib from the given directory],
 			,with_tiflibdir=) 
 
 if test "$enable_tif" = no && test "$with_tif" = yes; then
@@ -420,13 +420,13 @@ fi
 
 dnl ############# JPG Settings #####################
 
-AC_ARG_ENABLE(jpg,     [  --enable-jpg                       Build with jpg support],
+AC_ARG_ENABLE(jpg,     [  --enable-jpg                        Build with jpg support],
 			,enable_jpg=no) 
-AC_ARG_WITH(jpg,     [  --with-jpg=DIR                     Use DIR/lib DIR/include to find the jpg files],
+AC_ARG_WITH(jpg,     [  --with-jpg=DIR                      Use DIR/lib DIR/include to find the jpg files],
 			,with_jpg=) 
-AC_ARG_WITH(jpgincludedir,     [  --with-jpgincludedir=DIR           Use jpg includes from the given directory],
+AC_ARG_WITH(jpgincludedir,     [  --with-jpgincludedir=DIR            Use jpg includes from the given directory],
 			,with_jpgincludedir=) 
-AC_ARG_WITH(jpglibdir,     [  --with-jpglibdir=DIR               Use jpg lib from the given directory],
+AC_ARG_WITH(jpglibdir,     [  --with-jpglibdir=DIR                Use jpg lib from the given directory],
 			,with_jpglibdir=) 
 
 if test "$enable_jpg" = no && test "$with_jpg" = yes; then
@@ -485,13 +485,13 @@ fi
 
 dnl ############# PNG Settings #####################
 
-AC_ARG_ENABLE(png,     [  --enable-png                       Build with png support],
+AC_ARG_ENABLE(png,     [  --enable-png                        Build with png support],
 			,enable_png=no) 
-AC_ARG_WITH(png,     [  --with-png=DIR                     Use DIR/lib DIR/include to find the png files],
+AC_ARG_WITH(png,     [  --with-png=DIR                      Use DIR/lib DIR/include to find the png files],
 			,with_png=) 
-AC_ARG_WITH(pngincludedir,     [  --with-pngincludedir=DIR           Use png includes from the given directory],
+AC_ARG_WITH(pngincludedir,     [  --with-pngincludedir=DIR            Use png includes from the given directory],
 			,with_pngincludedir=) 
-AC_ARG_WITH(pnglibdir,     [  --with-pnglibdir=DIR               Use png lib from the given directory],
+AC_ARG_WITH(pnglibdir,     [  --with-pnglibdir=DIR                Use png lib from the given directory],
 			,with_pnglibdir=) 
 
 if test "$enable_png" = no && test "$with_png" = yes; then
@@ -551,13 +551,13 @@ fi
 
 dnl ############# MNG Settings #####################
 
-AC_ARG_ENABLE(mng,     [  --enable-mng                       Build with mng supprt],
+AC_ARG_ENABLE(mng,     [  --enable-mng                        Build with mng supprt],
 			,enable_mng=no) 
-AC_ARG_WITH(mng,     [  --with-mng=DIR                     Use DIR/lib DIR/include to find the mng files],
+AC_ARG_WITH(mng,     [  --with-mng=DIR                      Use DIR/lib DIR/include to find the mng files],
 			,with_mng=) 
-AC_ARG_WITH(mngincludedir,     [  --with-mngincludedir=DIR           Use mng includes from the given directory],
+AC_ARG_WITH(mngincludedir,     [  --with-mngincludedir=DIR            Use mng includes from the given directory],
 			,with_mngincludedir=) 
-AC_ARG_WITH(mnglibdir,     [  --with-mnglibdir=DIR               Use mng lib from the given directory],
+AC_ARG_WITH(mnglibdir,     [  --with-mnglibdir=DIR                Use mng lib from the given directory],
 			,with_mnglibdir=) 
 
 if test "$enable_mng" = no && test "$with_mng" = yes; then
@@ -617,10 +617,10 @@ fi
 
 dnl ############# GIF Settings #####################
 
-AC_ARG_WITH(gif,      [  --with-gif                         Build with gif support],
+AC_ARG_WITH(gif,      [  --with-gif                          Build with gif support],
 enable_with_gif=yes, enable_with_gif=no)
 
-AC_ARG_ENABLE(gif,     [  --enable-gif                       Build with gif support],
+AC_ARG_ENABLE(gif,     [  --enable-gif                        Build with gif support],
 			,enable_gif=no) 
 
 if test "$enable_gif" = yes || test "$enable_with_gif" = yes; then
@@ -638,7 +638,7 @@ fi
 
 dnl ############# efence Settings #####################
 
-AC_ARG_WITH(efence,     [  --with-efence=DIR                  Use efence  lib, if DIR is given use the file from the given directory],
+AC_ARG_WITH(efence,     [  --with-efence=DIR                   Use efence  lib, if DIR is given use the file from the given directory],
 			,with_efence=no) 
 
 if test "$with_efence" = yes; then
@@ -656,7 +656,7 @@ fi
 
 dnl ############# mpatrol Settings #####################
 
-AC_ARG_WITH(mpatrol,     [  --with-mpatrol=DIR                 Use mpatrol lib, if DIR is given use the file from the given directory],
+AC_ARG_WITH(mpatrol,     [  --with-mpatrol=DIR                  Use mpatrol lib, if DIR is given use the file from the given directory],
 			,with_mpatrol=no) 
 
 if test "$with_mpatrol" = yes; then
@@ -674,7 +674,7 @@ fi
 
 dnl ############# Myrinet Settings #####################
 
-AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                 Use Myrinet lib, if DIR is given use the file from the given directory],
+AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                  Use Myrinet lib, if DIR is given use the file from the given directory],
 			,with_myrinet=no) 
 
 if test "$with_myrinet" = yes; then
@@ -693,13 +693,13 @@ fi
 
 dnl ############# Freetype1 Settings #####################
 
-AC_ARG_ENABLE(freetype1,   [  --enable-freetype1                 Build with freetype1 support],
+AC_ARG_ENABLE(freetype1,   [  --enable-freetype1                  Build with freetype1 support],
 			,enable_freetype1=no) 
-AC_ARG_WITH(freetype1,   [  --with-freetype1=DIR               Use DIR/include DIR/libs to find the freetype1 files],
+AC_ARG_WITH(freetype1,   [  --with-freetype1=DIR                Use DIR/include DIR/libs to find the freetype1 files],
 			,with_freetype1=) 
-AC_ARG_WITH(freetype1includedir,   [  --with-freetype1includedir=DIR     Use freetype1 includes from the given directory],
+AC_ARG_WITH(freetype1includedir,   [  --with-freetype1includedir=DIR      Use freetype1 includes from the given directory],
 			,with_freetype1includedir=) 
-AC_ARG_WITH(freetype1libdir,   [  --with-freetype1libdir=DIR         Use freetype1 lib from the given directory],
+AC_ARG_WITH(freetype1libdir,   [  --with-freetype1libdir=DIR          Use freetype1 lib from the given directory],
 			,with_freetype1libdir=) 
 
 if test "$enable_freetype1" = no && test "$with_freetype1" = yes; then
@@ -758,78 +758,78 @@ fi
 
 dnl ############# loglevel Settings #####################
 
-AC_ARG_WITH(log_level,     [  --with-log_level=LEVEL             Sets the default log level LEVEL (LOG, FATAL, WARNING, NOTICE, INFO, DEBUG) ],
+AC_ARG_WITH(log_level,     [  --with-log_level=LEVEL              Sets the default log level LEVEL (LOG, FATAL, WARNING, NOTICE, INFO, DEBUG) ],
 			,with_log_level=WARNING) 
 
 dnl ############# loglevel Settings #####################
 
-AC_ARG_WITH(log_type,     [  --with-log_type=TYPE               Sets the default log level TYPE (NONE, STDOUT, STDERR) ],
+AC_ARG_WITH(log_type,     [  --with-log_type=TYPE                Sets the default log level TYPE (NONE, STDOUT, STDERR) ],
 			,with_log_type=STDERR) 
 
 dnl ############# TLS Settings #####################
 
-AC_ARG_ENABLE(win-localstorage,     [  --enable-win-localstorage          Use local storage instead of __declspec to get thread local storage on windows],
+AC_ARG_ENABLE(win-localstorage,     [  --enable-win-localstorage           Use local storage instead of __declspec to get thread local storage on windows],
 			,enable_win_localstorage=no) 
 
 dnl ############# XTREE Settings #####################
 
-AC_ARG_ENABLE(fixed-xtree,     [  --enable-fixed-xtree               Use fixed xtree header ],
+AC_ARG_ENABLE(fixed-xtree,     [  --enable-fixed-xtree                Use fixed xtree header ],
 			,enable_fixed_xtree=no) 
 
 dnl ############# XTREE Settings #####################
 
-AC_ARG_WITH(icc-gnu-compat,     [  --with-icc-gnu-compat               Use fixed xtree header ],
+AC_ARG_WITH(icc-gnu-compat,     [  --with-icc-gnu-compat=<GCC Version> make the icc result binary compatible to the given gcc version (e.g 333) ],
 			,with_icc_gnu_compat=no) 
 
 dnl ############# Depreciated Settings #####################
 
-AC_ARG_ENABLE(depreciated,     [  --disable-depreciated              Exclude depreciated interfaces ],
+AC_ARG_ENABLE(depreciated,     [  --disable-depreciated               Exclude depreciated interfaces ],
 		disable_depreciated=yes, disable_depreciated=no) 
 
 dnl ############# Depreciated Settings #####################
 
-AC_ARG_ENABLE(glut-glsubdir,     [  --disable-glut-glsubdir            do not use GL subdir while including glut.h ],
+AC_ARG_ENABLE(glut-glsubdir,     [  --disable-glut-glsubdir             do not use GL subdir while including glut.h ],
 		disable_glut_glsubdir=yes, disable_glut_glsubdir=no) 
 
 dnl ############# Compiler Logo Settings #####################
 
-AC_ARG_ENABLE(compilerLogo,     [  --disable-compilerLogo             Disable compiler logo (WIn32 cl, icl) ],
+AC_ARG_ENABLE(compilerLogo,     [  --disable-compilerLogo              Disable compiler logo (WIn32 cl, icl) ],
 		disable_compilerLogo=yes, disable_compilerLogo=no) 
 
 dnl ############# Bison line number Settings #####################
 
-AC_ARG_ENABLE(bisonLineNums,     [  --disable-bisonLineNums            Disable bison line number generation ],
+AC_ARG_ENABLE(bisonLineNums,     [  --disable-bisonLineNums             Disable bison line number generation ],
 		disable_bisonLineNums=yes, disable_bisonLineNums=no) 
 
 dnl ############# Bool=unsigned int Settings #####################
 
-AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
+AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned       Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
 			,enable_win_bool_is_unsigned=no) 
 
 dnl ############# Win Default Path Settings #####################
 
-AC_ARG_ENABLE(win-exclude-default-path,     [  --enable-win-exclude-default-path  Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead ],
+AC_ARG_ENABLE(win-exclude-default-path,     [  --enable-win-exclude-default-path   Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead ],
 			,enable_win_exclude_default_path=no) 
 
 dnl ############# TLS Settings #####################
 
-AC_ARG_ENABLE(sgi-pthread,     [  --enable-sgi-pthread               Use pthreads instead of sproc on sgi plattforms],
+AC_ARG_ENABLE(sgi-pthread,     [  --enable-sgi-pthread                Use pthreads instead of sproc on sgi plattforms],
 			,enable_sgi_pthread=no) 
 
 dnl ############# Fullwarn Settings #####################
 
-AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors  Sets the compiler to generate more errors. WARNING, some external software (e.g. QT or STL) may require some patches to work with these settings ],
+AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors   Sets the compiler to generate more errors. WARNING, some external software (e.g. QT or STL) may require some patches to work with these settings ],
 			,enable_compiler_pedantic_errors=no) 
 
 
 dnl ############# CP Settings #####################
 
-AC_ARG_ENABLE(compiler-path,     [  --enable-compiler-path             Reference compiler with path],
+AC_ARG_ENABLE(compiler-path,     [  --enable-compiler-path              Reference compiler with path],
 			,enable_compiler_path=no) 
 
 dnl ############# CP Settings #####################
 
-AC_ARG_ENABLE(gv-beta,     [  --enable-gv-beta                   enable gv beta],
+AC_ARG_ENABLE(gv-beta,     [  --enable-gv-beta                    enable gv beta],
 			,enable_gv_beta=no) 
 
 if test $enable_gv_beta = yes; then
@@ -840,7 +840,7 @@ fi
 
 dnl ############# CP Settings #####################
 
-AC_ARG_ENABLE(gv-beta-shader,     [  --enable-gv-beta-shader                   enable gv beta],
+AC_ARG_ENABLE(gv-beta-shader,     [  --enable-gv-beta-shader             enable gv beta],
 			,enable_gv_beta_shader=no) 
 
 if test $enable_gv_beta_shader = yes; then
@@ -851,27 +851,27 @@ fi
 
 dnl ############# typed fcptr Settings #################
 
-AC_ARG_ENABLE(typed_dbg_fcptr,     [  --enable-typed-dbg-fcptr           Add a typed ptr to the fieldcontainer ptr ],
+AC_ARG_ENABLE(typed_dbg_fcptr,     [  --enable-typed-dbg-fcptr            Add a typed ptr to the fieldcontainer ptr ],
 			,enable_typed_dbg_fcptr=no) 
 
 dnl ############# Depreciated Settings #####################
 
-AC_ARG_ENABLE(fcptr_arithm,     [  --disable-fcptr-arithm             Disable fieldcontainer ptr aspect arithmetics ],
+AC_ARG_ENABLE(fcptr_arithm,     [  --disable-fcptr-arithm              Disable fieldcontainer ptr aspect arithmetics ],
 		disable_fcptr_arithm=yes, disable_fcptr_arithm=no) 
 
 dnl ############# typed fcptr Settings #################
 
-AC_ARG_ENABLE(opt_drawtree,     [  --enable-opt-drawtree              enable opt drawtree ],
+AC_ARG_ENABLE(opt_drawtree,     [  --enable-opt-drawtree               enable opt drawtree ],
 			,enable_opt_drawtree=yes) 
 
 dnl ############# typed fcptr Settings #################
 
-AC_ARG_ENABLE(pthread_elf_tls,     [  --enable-pthread-elf-tls           enable elf tls if pthreads are used, tested on redhat 9 only ],
+AC_ARG_ENABLE(pthread_elf_tls,     [  --enable-pthread-elf-tls            enable elf tls if pthreads are used, tested on redhat 9 only ],
 			,enable_pthread_elf_tls=no) 
 
 dnl ############# Add Path Settings #####################
 
-AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directories (no spaces allowed) ],
+AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*        use additional include directories (no spaces allowed) ],
 			,with_add_incdir=no) 
 
 if test "$with_add_incdir" = yes; then
@@ -882,7 +882,7 @@ else
 	ac_gdz_with_add_incdirs=$with_add_incdir 
 fi
 
-AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional library directories (no spaces allowed) ],
+AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*        use additional library directories (no spaces allowed) ],
 			,with_add_libdir=no) 
 
 if test "$with_add_libdir" = yes; then
@@ -893,7 +893,7 @@ else
 	ac_gdz_with_add_libdirs=$with_add_libdir 
 fi
 
-AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional libraries (use foo not libfoo.so, no spaces allowed)],
+AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*           use additional libraries (use foo not libfoo.so, no spaces allowed)],
 			,with_add_lib=no) 
 
 if test "$with_add_lib" = yes; then
