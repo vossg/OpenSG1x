@@ -1,4 +1,4 @@
-/* Builds/i686-pc-cygwin-cl.net-ms_stl/Base/OSGConfigured.h.  Generated automatically by configure.  */
+/* Builds/i686-pc-cygwin-cl.net2003-ms_stl/Base/OSGConfigured.h.  Generated automatically by configure.  */
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -56,7 +56,7 @@
 /* #undef OSG_DEBUG_NO_FCPTR_ARITHM */
 #endif
 
-/* #undef OSG_OPT_DRAWTREE */
+#define OSG_OPT_DRAWTREE 1
 /* #undef OSG_PTHREAD_ELF_TLS */
 
 /* #undef OSG_NO_GLUT_GLSUBDIR */
