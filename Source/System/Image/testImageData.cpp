@@ -1,24 +1,24 @@
 
-#include "OSGConfig.h"
+#include "OpenSG/OSGConfig.h"
 
 #include <iostream>
 #include <fstream>
 
-#include "OSGBaseFunctions.h"
-#include "OSGLog.h"
-#include "OSGImage.h"
-#include "OSGImageFileHandler.h"
+#include "OpenSG/OSGBaseFunctions.h"
+#include "OpenSG/OSGLog.h"
+#include "OpenSG/OSGImage.h"
+#include "OpenSG/OSGImageFileHandler.h"
 
 int main (int argc, char **argv)
 {
+    OSG::osgInit(argc, argv);
+
     bool retCode = 0;
     std::ofstream out;
     OSG::ImageFileType *fileType;
     OSG::ImagePtr pImage = OSG::Image::create();
     OSG::UChar8 *data = 0;
     unsigned long i,maxSize;
-
-    OSG::ImageFileHandler::the().dump();
 
     if(argc >= 3 && !OSG::stringcasecmp(argv[1], "-type"))
     {
