@@ -706,6 +706,7 @@ dsp:
 	$(SED)  -e 's|@OSGPACK@|$(PACKAGE_NAME)|g' 							\
 			-e 's|@OSG_CCFLAGS@|$(CCFLAGS_EXT)|g'						\
 			-e 's|@OSG_CCFLAGS_DBG@|$(CCFLAGS_EXT_DBG)|g'				\
+			-e 's|@OSG_CCFLAGS_OPT@|$(CCFLAGS_EXT_OPT)|g'				\
 			-e 's|@OSG_CURR_LIB_DEF@|-D$(CURRENT_LIB_DEF)|g'			\
 			-e 's|@OSG_CONF_PACKS@|$(CONFIGURED_PACKAGE_DEFS)|g'		\
 			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\
@@ -750,6 +751,7 @@ dsp7:
 	$(SED)  -e 's|@OSGPACK@|$(PACKAGE_NAME)|g' 							\
 			-e 's|@OSG_CCFLAGS@|$(CCFLAGS_EXT)|g'						\
 			-e 's|@OSG_CCFLAGS_DBG@|$(CCFLAGS_EXT_DBG)|g'				\
+			-e 's|@OSG_CCFLAGS_OPT@|$(CCFLAGS_EXT_OPT)|g'				\
 			-e 's|@OSG_CURR_LIB_DEF@|-D$(CURRENT_LIB_DEF)|g'			\
 			-e 's|@OSG_CONF_PACKS@|$(CONFIGURED_PACKAGE_DEFS)|g'		\
 			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\

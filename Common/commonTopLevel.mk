@@ -141,9 +141,13 @@ depend: $(SUB_LIBTARGETS)
 
 dsp: SUB_TARGET := dsp
 dsp: $(SUB_LIBTARGETS)
+	@cp Base/OSGConfigured.h $(OSGPOOL)/VSBuild/VS6
+	@cp Base/unistd.h $(OSGPOOL)/VSBuild/VS6
 
 dsp7: SUB_TARGET := dsp7
 dsp7: $(SUB_LIBTARGETS)
+	@cp Base/OSGConfigured.h $(OSGPOOL)/VSBuild/VS7
+	@cp Base/unistd.h $(OSGPOOL)/VSBuild/VS7
 
 #########################################################################
 # install

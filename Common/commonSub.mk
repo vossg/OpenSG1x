@@ -32,8 +32,8 @@ getProjFiles           = \
 					     $(wildcard $(1)/$(PROJ)*.h) 	\
 	 					 $(wildcard $(1)/$(PROJ)*.inl) 	\
 			 			 $(wildcard $(1)/$(PROJ)*.cpp)	\
-	 					 $(wildcard $(1)/$(PROJ)*.l) 	\
-	 					 $(wildcard $(1)/$(PROJ)*.y)
+	 					 $(wildcard $(1)/*.l)        	\
+	 					 $(wildcard $(1)/*.y)
 
 getSourceFiles         = \
 					     $(wildcard $(1)/$(PROJ)*.cpp) 	\
