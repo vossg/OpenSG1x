@@ -142,7 +142,7 @@ void DirectionalLightBase::executeSync(      FieldContainer &other,
 #endif
 
 DirectionalLightBase::DirectionalLightBase(void) :
-    _sfDirection              (), 
+    _sfDirection              (Vec3f(0,0,1)), 
     Inherited() 
 {
 }
@@ -241,7 +241,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 

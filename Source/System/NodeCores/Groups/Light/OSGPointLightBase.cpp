@@ -142,7 +142,7 @@ void PointLightBase::executeSync(      FieldContainer &other,
 #endif
 
 PointLightBase::PointLightBase(void) :
-    _sfPosition               (), 
+    _sfPosition               (Pnt3f(0,0,0)), 
     Inherited() 
 {
 }
@@ -241,7 +241,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 

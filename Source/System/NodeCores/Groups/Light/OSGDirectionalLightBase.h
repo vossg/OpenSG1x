@@ -224,6 +224,6 @@ typedef DirectionalLightBase *DirectionalLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */
