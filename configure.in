@@ -1393,14 +1393,14 @@ case "$build_os" in
         echo "please contact me (vossg@camtech.ntu.edu.sg) beforehand"
     ;;
     linux*)
-        case `\ls -1 /usr/lib/libGL.*so* | wc -l` in
+        case `\ls -1l /usr/lib/libGL.*so* | grep '^l' | wc -l` in
          *0)
             echo "NOTICE: Can't find libGL.so. Do you have OpenGL support?"
             ;;
          *1)
             ;;
          *2)
-            diff -q /usr/lib/libGL.*so* > /dev/null
+            diff -q /usr/lib/libGL.so /usr/lib/libGL.so.1 > /dev/null
             if test $? != 0
             then
                 echo "#############################"
