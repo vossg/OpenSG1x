@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Brief
  */
 
-class OSGQGLManagedWidget : public OSGQGLWidget
+class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
 {
 
   Q_OBJECT
@@ -145,6 +145,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.2 2001/10/15 03:10:26 vossg Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.3 2001/10/15 17:26:21 vossg Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */
