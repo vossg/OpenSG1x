@@ -16,5 +16,14 @@ It features a pretty flexible Mesh concept, that allows building meshes that can
 
 This is a simple example that uses OpenMesh to decimate a loaded model. Note that the model is loaded via OpenMesh, thus only the OpenMesh loaders are supported. Try the dolphins.obj from the Tutorials, or any other .obj model.
 
-OpenMesh uses its own build system, which is not very integration-friendly. Thus you can either use the OpenMesh buildsystem, or you have to copy the OpenMesh-specific make options into the example Makefile.
+
+OpenMesh uses its own build system, which is not very integration-friendly. 
+You can either copy the necessary options from acgmake -debug into the Makefile given here. Or you can use acgmake itself, and then you need to add the following lines to a configuration file acgmake reads (e.g. OpenMesh/acgmake/configs/config.packages):
+
+OSG_CFLAGS := $(shell osg-config --cflags Base System GLUT)
+OSG_INCDIR := $(shell osg-config --prefix)/include
+OSG_LIBDIR := $(shell osg-config --prefix)/lib/dbg
+OSG_LIBS   := OSGWindowGLUT OSGSystem OSGBase
+
+You need to have osg-config in your path for this to work. See OpenMesh/Apps/OsgViewer for an example how to configure an app using OpenSG and OpenMesh with acgmake.
 
