@@ -15,3 +15,6 @@ INCLUDE_GLUT            = /igd/a4/lib/glut/include
 
 INCLUDE_STL             = /igd/a4/op2010/Software/SGI/stdlib
 LINK_STL                = /igd/a4/op2010/Software/SGI/stdlib
+
+INCLUDE_QT              = /igd/a4/lib/qt-2.2/include
+LINK_QT                 = /igd/a4/lib/qt-2.2/lib

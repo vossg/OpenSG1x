@@ -48,7 +48,10 @@ $(OBJDIR)/%.$(OBJEXT): %.s
 	$(LD) $< $(PRAE_LD_FLAGS) $(LD_FLAGS) $(LDLOCALFLAGS) $(PRAE_LINK_LIBS) \
 		     $(PROJLIBS) $(POST_LINK_LIBS) /out:$@ 
 
-$(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.hpp
+$(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.h
+	$(MOC) $< -i -o $@
+
+$(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.cpp
 	$(MOC) $< -i -o $@
 
 else
@@ -82,7 +85,10 @@ $(OBJDIRBASE)$(DBG)/%.$(OBJEXT): %.s
 	$(LD) $< $(PRAE_LD_FLAGS) $(LD_FLAGS) $(LDLOCALFLAGS) $(PRAE_LINK_LIBS) \
 		     $(PROJLIBS) $(POST_LINK_LIBS) -o $@ 
 
-$(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.hpp
+$(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.h
+	$(MOC) $< -i -o $@
+
+$(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.cpp
 	$(MOC) $< -i -o $@
 
 endif
