@@ -617,7 +617,7 @@ bool Text::fillImage(ImagePtr & image,
 					}
 				}
 			}
-			delete imageBuffer;
+			delete [] imageBuffer;
 			imageBuffer = bitmapBuffer;
 			//overallWidth = newOverallWidth;
 #endif
@@ -629,10 +629,12 @@ bool Text::fillImage(ImagePtr & image,
 			pixelFormat = Image::OSG_RGBA_PF;
 		}
 		
-        return image->set( pixelFormat, // Image::OSG_RGB_PF, 
-                           overallWidth, overallHeight, 1, 
-                           1, 
-                           1, 0.0, imageBuffer);
+        bool retval = image->set(pixelFormat, // Image::OSG_RGB_PF, 
+                                 overallWidth, overallHeight, 1, 
+                                 1, 
+                                 1, 0.0, imageBuffer);
+        delete [] imageBuffer;
+        return retval;
     }
 
     return false;
