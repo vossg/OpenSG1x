@@ -89,6 +89,16 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
+
+    virtual UInt64 restoreData ( Image &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
+
+    virtual UInt64 storeData   ( const Image &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
