@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.1 2001/02/15 05:42:23 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.2 2001/02/15 10:09:42 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -94,6 +94,7 @@ OSG_GEOMETRY_DLLMAPPING
 void osg::calcVertexNormals( GeometryPtr& geo )
 {
 	GeoNormalPtr norms;
+    int          i;
 
 	if ( geo->getNormals() == GeoNormal3fPtr::NullPtr )
 	{
@@ -106,7 +107,7 @@ void osg::calcVertexNormals( GeometryPtr& geo )
 
 	norms->resize( geo->getPositions()->getSize() );
 
-	for ( int i = 0; i < geo->getPositions()->getSize(); i++ )
+	for ( i = 0; i < geo->getPositions()->getSize(); i++ )
 	{
 		norms->setValue( Vec3f( 0,0,0 ), i );
 	}
@@ -123,7 +124,7 @@ void osg::calcVertexNormals( GeometryPtr& geo )
 						 t.getPositionIndex(2) ); 
 	}
 
-	for ( int i = 0; i < geo->getPositions()->getSize(); i++ )
+	for ( i = 0; i < geo->getPositions()->getSize(); i++ )
 	{
 		Vec3f n = norms->getValue( i );
 		n.normalize();
