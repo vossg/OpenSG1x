@@ -108,7 +108,7 @@ class OSG_BASE_DLLMAPPING VecStorage2
 
     /*----------------------------- access ----------------------------------*/
 
-    void setValues(const ValueTypeT &rVal1, const ValueTypeT &rVal2);
+    void setValues(const ValueTypeT rVal1, const ValueTypeT rVal2);
 
     void getSeparateValues(ValueTypeT &rVal1, ValueTypeT &rVal2) const;
 
@@ -225,13 +225,13 @@ class OSG_BASE_DLLMAPPING VecStorage3
 
     /*----------------------------- access ---------------------------------*/
 
-    void setValues(const ValueTypeT &rVal1, 
-                   const ValueTypeT &rVal2, 
-                   const ValueTypeT &rVal3);
+    void setValues(const ValueTypeT rVal1, 
+                   const ValueTypeT rVal2, 
+                   const ValueTypeT rVal3);
 
     void getSeparateValues(ValueTypeT &rVal1, 
-                   ValueTypeT &rVal2, 
-                   ValueTypeT &rVal3) const;
+                           ValueTypeT &rVal2, 
+                           ValueTypeT &rVal3) const;
 
     ValueTypeT x(void) const;
     ValueTypeT y(void) const;
@@ -347,15 +347,15 @@ class OSG_BASE_DLLMAPPING VecStorage4
 
     /*----------------------------- access ----------------------------------*/
 
-    void setValues(const ValueTypeT &rVal1, 
-                   const ValueTypeT &rVal2, 
-                   const ValueTypeT &rVal3, 
-                   const ValueTypeT &rVal4);
+    void setValues(const ValueTypeT rVal1, 
+                   const ValueTypeT rVal2, 
+                   const ValueTypeT rVal3, 
+                   const ValueTypeT rVal4);
 
     void getSeparateValues(ValueTypeT &rVal1, 
-                   ValueTypeT &rVal2, 
-                   ValueTypeT &rVal3, 
-                   ValueTypeT &rVal4) const;
+                           ValueTypeT &rVal2, 
+                           ValueTypeT &rVal3, 
+                           ValueTypeT &rVal4) const;
 
     ValueTypeT x(void) const;
     ValueTypeT y(void) const;

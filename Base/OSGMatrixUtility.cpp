@@ -127,6 +127,7 @@ OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result,
 							 - rNear * ct , rNear * ct, 
 							   rNear, rFar );
 
+
 	return false;
 }
 

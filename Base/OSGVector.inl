@@ -138,8 +138,8 @@ VecStorage2<ValueTypeT>::~VecStorage2(void)
  */
 
 template <class ValueTypeT> inline
-void VecStorage2<ValueTypeT>::setValues(const ValueTypeT &rVal1, 
-                                        const ValueTypeT &rVal2)
+void VecStorage2<ValueTypeT>::setValues(const ValueTypeT rVal1, 
+                                        const ValueTypeT rVal2)
 {
     _values[0] = rVal1;
     _values[1] = rVal2;
@@ -268,9 +268,9 @@ VecStorage3<ValueTypeT>::~VecStorage3(void)
  */
 
 template <class ValueTypeT> inline
-void VecStorage3<ValueTypeT>::setValues(const ValueTypeT &rVal1, 
-                                        const ValueTypeT &rVal2, 
-                                        const ValueTypeT &rVal3)
+void VecStorage3<ValueTypeT>::setValues(const ValueTypeT rVal1, 
+                                        const ValueTypeT rVal2, 
+                                        const ValueTypeT rVal3)
 {
     _values[0] = rVal1;
     _values[1] = rVal2;
@@ -410,10 +410,10 @@ VecStorage4<ValueTypeT>::~VecStorage4(void)
  */
 
 template <class ValueTypeT> inline
-void VecStorage4<ValueTypeT>::setValues(const ValueTypeT &rVal1, 
-                                        const ValueTypeT &rVal2, 
-                                        const ValueTypeT &rVal3, 
-                                        const ValueTypeT &rVal4)
+void VecStorage4<ValueTypeT>::setValues(const ValueTypeT rVal1, 
+                                        const ValueTypeT rVal2, 
+                                        const ValueTypeT rVal3, 
+                                        const ValueTypeT rVal4)
 {
     _values[0] = rVal1;
     _values[1] = rVal2;
