@@ -171,6 +171,11 @@ MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
                   case of troubles (vossg@camtech.ntu.edu.sg) as this is 
                   still some kind of experimental
 
+MSVC.Net + icl : Without patches to the VC7 headers, icl60 throws some
+                 errors within winbase.h and the stl implementation. 
+                 Looks similar to the sdk problem, or I am missing some
+                 defines to be set. working on a solution (aka patch set).
+
 INCLUDE/LIB : As these env vars are the MS way to pass default directories
               to the compiler they must be setup correctly. As there are to 
               many compiler/include dir/lib dir configurations we rely on them
