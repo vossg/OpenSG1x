@@ -13,6 +13,8 @@
 
 OSG_USING_NAMESPACE
 
+bool useForceTesselate = false;
+
 SimpleSceneManager *mgr;
 SimpleMaterialPtr  gpcl_defaultmat;
 Real32             g_error;
@@ -79,7 +81,8 @@ void keyboard(unsigned char k, int, int)
                 }
                 endEditCP(   gpcl_surface, Surface::ErrorFieldMask );
                 // See comments about OSGSurface::forceTessellate() below
-                gpcl_surface->forceTessellate();                
+                if(useForceTesselate)
+                    gpcl_surface->forceTessellate(); 
                 break;
     case 'g':   g_error /= 2;
                 std::cerr << "Error: " << g_error << std::endl;
@@ -89,7 +92,8 @@ void keyboard(unsigned char k, int, int)
                 }
                 endEditCP(   gpcl_surface, Surface::ErrorFieldMask );
                 // See comments about OSGSurface::forceTessellate() below
-                gpcl_surface->forceTessellate();                
+                if(useForceTesselate)
+                    gpcl_surface->forceTessellate();                
                 break;
     }
 }
@@ -215,7 +219,8 @@ NodePtr makeScene( void )
     // Surface examples), it will just work automagically and tessellate 
     // your surface when needed (provided you don't forget the proper 
     // beginEditCP()/endEditCP() calls.
-    //gpcl_surface->forceTessellate();
+    if(useForceTesselate)
+        gpcl_surface->forceTessellate();
 
     return root;
 }
@@ -224,6 +229,13 @@ int main(int argc, char **argv)
 {
     g_error = 0.01;
 
+    if ( argc > 1 && !strcmp(argv[1], "-f"))
+    {
+        std::cerr << "Using forceTesselate()." << std::endl;
+        useForceTesselate = true;
+        ++argv, --argc;
+    }
+    
     if ( argc == 2 )
     {
         g_error = atof( argv[1] );
