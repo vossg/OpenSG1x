@@ -309,9 +309,9 @@ list:
 	@echo 
 	@echo "	available test cases :"
 	@echo "	======================\n"
-	@for file in $(TEST_TARGETS_LIST); do	\
+	@(for file in $(TEST_TARGETS_LIST); do	\
 		echo "		$(MAKE) $$file";         	\
-	done
+	done) | sort
 	@echo 
 	@echo 
 endif
