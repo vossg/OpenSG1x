@@ -15,8 +15,8 @@ void osgInitSharedObject@ac_gdz_package_name_out@(void)
     _init();
 #endif
 
-    OSG::SLOG << "Init Shared Object : @ac_gdz_package_name_out@" 
-              << OSG::endLog;
+    OSG::SINFO << "Init Shared Object : @ac_gdz_package_name_out@" 
+               << OSG::endLog;
 
     OSG::FieldContainerFactory::the()->initializePendingTypes();
 }    
