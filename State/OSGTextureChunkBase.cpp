@@ -62,6 +62,7 @@
 #include "OSGTextureChunk.h"
 
 #include <GL/gl.h>                        // InternalFormat default header
+#include <GL/gl.h>                        // ExternalFormat default header
 #include <GL/gl.h>                        // MinFilter default header
 #include <GL/gl.h>                        // MagFilter default header
 #include <GL/gl.h>                        // WrapS default header
@@ -99,7 +100,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.25 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.26 2002/02/19 16:28:46 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -115,6 +116,9 @@ const OSG::BitVector  TextureChunkBase::ImageFieldMask =
 
 const OSG::BitVector  TextureChunkBase::InternalFormatFieldMask = 
     (1 << TextureChunkBase::InternalFormatFieldId);
+
+const OSG::BitVector  TextureChunkBase::ExternalFormatFieldMask = 
+    (1 << TextureChunkBase::ExternalFormatFieldId);
 
 const OSG::BitVector  TextureChunkBase::ScaleFieldMask = 
     (1 << TextureChunkBase::ScaleFieldId);
@@ -177,6 +181,9 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfInternalFormat
     The internal texture format.
 */
+/*! \var UInt32          TextureChunkBase::_sfExternalFormat
+    The external texture format - overwrites external format of image when set.
+*/
 /*! \var bool            TextureChunkBase::_sfScale
     
 */
@@ -228,6 +235,7 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfGLId
     
 */
+
 //! TextureChunk description
 
 FieldDescription *TextureChunkBase::_desc[] = 
@@ -242,6 +250,11 @@ FieldDescription *TextureChunkBase::_desc[] =
                      InternalFormatFieldId, InternalFormatFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFInternalFormat),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "externalFormat", 
+                     ExternalFormatFieldId, ExternalFormatFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFExternalFormat),
     new FieldDescription(SFBool::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
@@ -387,6 +400,7 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 TextureChunkBase::TextureChunkBase(void) :
     _sfImage                  (), 
     _sfInternalFormat         (UInt32(GL_NONE)), 
+    _sfExternalFormat         (UInt32(GL_NONE)), 
     _sfScale                  (bool(true)), 
     _sfFrame                  (UInt32(0)), 
     _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
@@ -417,6 +431,7 @@ TextureChunkBase::TextureChunkBase(void) :
 TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfImage                  (source._sfImage                  ), 
     _sfInternalFormat         (source._sfInternalFormat         ), 
+    _sfExternalFormat         (source._sfExternalFormat         ), 
     _sfScale                  (source._sfScale                  ), 
     _sfFrame                  (source._sfFrame                  ), 
     _sfMinFilter              (source._sfMinFilter              ), 
@@ -460,6 +475,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
     {
         returnValue += _sfInternalFormat.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ExternalFormatFieldMask & whichField))
+    {
+        returnValue += _sfExternalFormat.getBinSize();
     }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
@@ -566,6 +586,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfInternalFormat.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ExternalFormatFieldMask & whichField))
+    {
+        _sfExternalFormat.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
     {
         _sfScale.copyToBin(pMem);
@@ -669,6 +694,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfInternalFormat.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ExternalFormatFieldMask & whichField))
+    {
+        _sfExternalFormat.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
     {
         _sfScale.copyFromBin(pMem);
@@ -769,6 +799,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
         _sfInternalFormat.syncWith(pOther->_sfInternalFormat);
 
+    if(FieldBits::NoField != (ExternalFormatFieldMask & whichField))
+        _sfExternalFormat.syncWith(pOther->_sfExternalFormat);
+
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
         _sfScale.syncWith(pOther->_sfScale);
 
@@ -822,4 +855,5 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
 
 }
+
 

@@ -127,6 +127,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     // class. Used for indexing in State
     static StateChunkClass _class;
 
+    // extension indices for used extensions;
+    static UInt32 _arbMultiTex;
+    
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const TextureTransformChunk &source);
@@ -139,6 +142,6 @@ OSG_END_NAMESPACE
 #include <OSGTextureTransformChunk.inl>
 #include <OSGTextureTransformChunkBase.inl>
 
-#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.1 2001/12/03 21:46:42 dirk Exp $"
+#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.2 2002/02/19 16:28:46 dirk Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNK_H_ */

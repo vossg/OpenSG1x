@@ -105,6 +105,12 @@ SFUInt32 *TextureChunkBase::getSFInternalFormat(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *TextureChunkBase::getSFExternalFormat(void)
+{
+    return &_sfExternalFormat;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFBool *TextureChunkBase::getSFScale(void)
 {
     return &_sfScale;
@@ -241,6 +247,24 @@ OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setInternalFormat(const UInt32 &value)
 {
     _sfInternalFormat.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &TextureChunkBase::getExternalFormat(void)
+{
+    return _sfExternalFormat.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &TextureChunkBase::getExternalFormat(void) const
+{
+    return _sfExternalFormat.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void TextureChunkBase::setExternalFormat(const UInt32 &value)
+{
+    _sfExternalFormat.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -553,5 +577,5 @@ void TextureChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.12 2002/02/04 20:14:10 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.13 2002/02/19 16:28:46 dirk Exp $"
 

@@ -48,6 +48,8 @@
 #include <GL/gl.h>
 
 #include "OSGTextureTransformChunk.h"
+#include <OSGWindow.h>
+#include <OSGDrawActionBase.h>
 
 OSG_USING_NAMESPACE
 
@@ -57,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.4 2001/12/17 15:41:18 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.5 2002/02/19 16:28:46 dirk Exp $";
     static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }
@@ -72,6 +74,8 @@ namespace
 
 StateChunkClass TextureTransformChunk::_class("TextureTransform");
 
+UInt32 TextureTransformChunk::_arbMultiTex;
+
 /*----------------------- constructors & destructors ----------------------*/
 
 //! Constructor
@@ -79,6 +83,7 @@ StateChunkClass TextureTransformChunk::_class("TextureTransform");
 TextureTransformChunk::TextureTransformChunk(void) :
     Inherited()
 {
+    _arbMultiTex       = Window::registerExtension( "GL_ARB_multitexture" );
 }
 
 //! Copy Constructor
@@ -119,30 +124,55 @@ void TextureTransformChunk::dump(      UInt32    ,
 
 //! activate the matrix
 
-void TextureTransformChunk::activate ( DrawActionBase *,  UInt32 )
+#if defined(GL_ARB_multitexture)
+void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
+#else
+void TextureTransformChunk::activate ( DrawActionBase *, UInt32 )
+#endif
 {
+#if defined(GL_ARB_multitexture)
+    if ( action->getWindow()->hasExtension( _arbMultiTex ) )
+          glActiveTextureARB( GL_TEXTURE0_ARB + idx );
+#endif
+  
     glMatrixMode(GL_TEXTURE);
     glLoadMatrixf(getMatrix().getValues());
     glMatrixMode(GL_MODELVIEW);
 }
 
-void TextureTransformChunk::changeFrom( DrawActionBase *,  StateChunk * old, UInt32 )
+#if defined(GL_ARB_multitexture)
+void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * old, UInt32 idx )
+#else
+void TextureTransformChunk::changeFrom( DrawActionBase *, StateChunk * old, UInt32 )
+#endif
 {
     // change from me to me?
     // this assumes I haven't changed in the meantime. is that a valid assumption?
     if ( old == this )
         return;
 
+#if defined(GL_ARB_multitexture)
+    if ( action->getWindow()->hasExtension( _arbMultiTex ) )
+        glActiveTextureARB( GL_TEXTURE0_ARB + idx );
+#endif
+
     glMatrixMode(GL_TEXTURE);
     glLoadMatrixf(getMatrix().getValues());
     glMatrixMode(GL_MODELVIEW);
 }
 
-void TextureTransformChunk::deactivate ( DrawActionBase *,  UInt32 )
+#if defined(GL_ARB_multitexture)
+void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
+#else
+void TextureTransformChunk::deactivate ( DrawActionBase *, UInt32 )
+#endif
 {
+#if defined(GL_ARB_multitexture)
+    if ( action->getWindow()->hasExtension( _arbMultiTex ) )
+          glActiveTextureARB( GL_TEXTURE0_ARB + idx );
+#endif
+
     glMatrixMode(GL_TEXTURE);
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
 }
-
-

@@ -69,6 +69,7 @@
 
 #include <OSGImagePFields.h> // Image type
 #include <OSGUInt32Fields.h> // InternalFormat type
+#include <OSGUInt32Fields.h> // ExternalFormat type
 #include <OSGBoolFields.h> // Scale type
 #include <OSGUInt32Fields.h> // Frame type
 #include <OSGUInt32Fields.h> // MinFilter type
@@ -109,7 +110,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     {
         ImageFieldId          = Inherited::NextFieldId,
         InternalFormatFieldId = ImageFieldId          + 1,
-        ScaleFieldId          = InternalFormatFieldId + 1,
+        ExternalFormatFieldId = InternalFormatFieldId + 1,
+        ScaleFieldId          = ExternalFormatFieldId + 1,
         FrameFieldId          = ScaleFieldId          + 1,
         MinFilterFieldId      = FrameFieldId          + 1,
         MagFilterFieldId      = MinFilterFieldId      + 1,
@@ -131,6 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     static const osg::BitVector ImageFieldMask;
     static const osg::BitVector InternalFormatFieldMask;
+    static const osg::BitVector ExternalFormatFieldMask;
     static const osg::BitVector ScaleFieldMask;
     static const osg::BitVector FrameFieldMask;
     static const osg::BitVector MinFilterFieldMask;
@@ -148,6 +151,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const osg::BitVector GenFuncRPlaneFieldMask;
     static const osg::BitVector GenFuncQPlaneFieldMask;
     static const osg::BitVector GLIdFieldMask;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -173,6 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     inline       SFImageP            *getSFImage          (void);
     inline       SFUInt32            *getSFInternalFormat (void);
+    inline       SFUInt32            *getSFExternalFormat (void);
     inline       SFBool              *getSFScale          (void);
     inline       SFUInt32            *getSFFrame          (void);
     inline       SFUInt32            *getSFMinFilter      (void);
@@ -195,6 +200,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     inline const ImageP              &getImage          (void) const;
     inline       UInt32              &getInternalFormat (void);
     inline const UInt32              &getInternalFormat (void) const;
+    inline       UInt32              &getExternalFormat (void);
+    inline const UInt32              &getExternalFormat (void) const;
     inline       bool                &getScale          (void);
     inline const bool                &getScale          (void) const;
     inline       UInt32              &getFrame          (void);
@@ -237,6 +244,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     inline void setImage          ( const ImageP &value );
     inline void setInternalFormat ( const UInt32 &value );
+    inline void setExternalFormat ( const UInt32 &value );
     inline void setScale          ( const bool &value );
     inline void setFrame          ( const UInt32 &value );
     inline void setMinFilter      ( const UInt32 &value );
@@ -301,6 +309,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     SFImageP            _sfImage;
     SFUInt32            _sfInternalFormat;
+    SFUInt32            _sfExternalFormat;
     SFBool              _sfScale;
     SFUInt32            _sfFrame;
     SFUInt32            _sfMinFilter;
@@ -365,6 +374,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.21 2002/02/04 20:14:10 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.22 2002/02/19 16:28:46 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */
