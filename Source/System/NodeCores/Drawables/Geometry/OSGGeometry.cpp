@@ -1431,6 +1431,9 @@ GeometryPtr Geometry::clone(void)
 
 bool Geometry::CompareMaterials(MaterialPtr m1, MaterialPtr m2)
 {
+    if(m1 == m2)
+        return true;
+        
     ChunkMaterialPtr cm1=ChunkMaterialPtr::dcast(m1);
     ChunkMaterialPtr cm2=ChunkMaterialPtr::dcast(m2);
     if (cm1==NullFC || cm2==NullFC) return false;
@@ -1454,6 +1457,11 @@ bool Geometry::CompareMaterials(MaterialPtr m1, MaterialPtr m2)
         ++matIt;
     }
 
+    if(cm1->getState() == NullFC)
+        cm1->rebuildState();
+    if(cm2->getState() == NullFC)
+        cm2->rebuildState();
+    
     MFStateChunkPtr &statechunks1=cm1->getState()->getChunks();
     MFStateChunkPtr &statechunks2=cm2->getState()->getChunks();
 
