@@ -77,6 +77,11 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+    
+void Geometry::invalidateDlistCache(void)
+{
+    Window::refreshGLObject( getGLId() );
+}
 
 /*------------- constructors & destructors --------------------------------*/
 

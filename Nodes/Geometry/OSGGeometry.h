@@ -163,6 +163,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void handleGL( Window* win, UInt32 id );
     
     void onCreate(const FieldContainer &source);
+    
+    inline void invalidateDlistCache(void);
 
     /*------------------------------ Actions --------------------------------*/
 	
