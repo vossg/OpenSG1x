@@ -85,6 +85,8 @@
 #include <mpatrol.h>
 #endif
 
+/* #undef OSG_ICC_GNU_COMPAT */
+
 #endif
 
 

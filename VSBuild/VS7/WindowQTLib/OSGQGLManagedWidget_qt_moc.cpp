@@ -1,7 +1,7 @@
 /****************************************************************************
 ** OSGQGLManagedWidget meta object code from reading C++ file 'OSGQGLManagedWidget_qt.h'
 **
-** Created: Sat Jun 22 16:11:03 2002
+** Created: Thu Sep 2 18:36:03 2004
 **      by: The Qt MOC ($Id: $)
 **
 ** WARNING! All changes made in this file will be lost!
