@@ -36,114 +36,19 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+OSG_BEGIN_NAMESPACE
 
-#include <stdlib.h>
-#include <stdio.h>
 
-#include "OSGConfig.h"
-
-#include "CLASSNAME.h"
-
-OSG_USING_NAMESPACE
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
+/*! function comment
+ *
+ */
+inline void CLASSNAME::inline(void)
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
+    return;
 }
 
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
+OSG_END_NAMESPACE
 
-/*! \class osg::CLASSNAME
-    CLASSNAME documentation,
- */
+#define OSG_INLINE_CVSID "@(#)$Id: template.inl,v 1.1 2001/10/10 22:05:40 dirk Exp $"
 
-
-/*! \enum CLASSNAME::ENUMNAME
-  
- */
-
-
-/*! \var VARTYPE CLASSNAME::_VARNAME
-    variable documentation
- */
-
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-/*! Constructor documentation
- */
-CLASSNAME::CLASSNAME(void) :
-    Inherited(),
-      // TODO: initialize members
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-/*! Destructor documentation
- */
-CLASSNAME::~CLASSNAME(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-/*! assignment
- */
-CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
-{
-    if(this == &source)
-        return *this;
-
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
-
-/*! less
- */
-
-Bool CLASSNAME::operator < (const CLASSNAME &other) const
-{
-    return this < &other;
-}
-
-/*! equal
- */
-
-Bool CLASSNAME::operator == (const CLASSNAME &other) const
-{
-}
-
-/*! unequal
- */
-
-Bool CLASSNAME::operator != (const CLASSNAME &other) const
-{
-    return ! (*this == other);
-}
-
-
-
+#endif /* _CLASSNAME_H_ */

@@ -50,27 +50,6 @@ OSG_BEGIN_NAMESPACE
  *  \brief Brief
  */
 
-#if 0
-    /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-
-    /*==========================  PUBLIC  =================================*/
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-#endif
-
 class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 {
     /*==========================  PUBLIC  =================================*/
@@ -89,7 +68,7 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
- 
+
     CLASSNAME(void);
 
     /*! \}                                                                 */
@@ -97,7 +76,7 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~CLASSNAME(void); 
+    virtual ~CLASSNAME(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -145,7 +124,7 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     /*! \{                                                                 */
 
     Bool operator < (const CLASSNAME &other) const;
-    
+
     //Bool operator == (const CLASSNAME &other) const;
     //Bool operator != (const CLASSNAME &other) const;
 
@@ -174,17 +153,17 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Changed                               */
+    /*! \name                      Changed                                 */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                MT Destruction                                */
+    /*! \name                   MT Destruction                             */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Sync                                     */
+    /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
@@ -193,9 +172,10 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 
     typedef PARENTCLASS Inherited;
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
+
+    /* prohibit default function (move to 'public' if needed) */
     CLASSNAME(const CLASSNAME &source);
-    /*!\brief prohibit default function (move to 'public' if needed) */
+    /* prohibit default function (move to 'public' if needed) */
     void operator =(const CLASSNAME &source);
 };
 
@@ -210,6 +190,7 @@ typedef CLASSNAME *CLASSNAMEP;
 OSG_END_NAMESPACE
 
 #define OSG_HEADER_CVSID "@(#)$Id: $"
-#define OSG_INLINE_CVSID "@(#)$Id: $"
+
+#include "CLASSNAME.inl"
 
 #endif /* _CLASSNAME_H_ */
