@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &CubesBase::getClassType(void)
+inline
+OSG::FieldContainerType &CubesBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 CubesBase::getClassTypeId(void) 
+inline
+OSG::UInt32 CubesBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline CubesPtr CubesBase::create(void) 
+inline
+CubesPtr CubesBase::create(void) 
 {
     CubesPtr fc; 
 
@@ -80,7 +83,8 @@ inline CubesPtr CubesBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline CubesPtr CubesBase::createEmpty(void) 
+inline
+CubesPtr CubesBase::createEmpty(void) 
 { 
     CubesPtr returnValue; 
     
@@ -92,93 +96,99 @@ inline CubesPtr CubesBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_MYLIB_DLLMAPPING
+inline
 SFMaterialPtr *CubesBase::getSFMaterial(void)
 {
     return &_sfMaterial;
 }
 
-OSG_MYLIB_DLLMAPPING
+inline
 MFPnt3f *CubesBase::getMFPosition(void)
 {
     return &_mfPosition;
 }
 
-OSG_MYLIB_DLLMAPPING
+inline
 MFReal32 *CubesBase::getMFLength(void)
 {
     return &_mfLength;
 }
 
-OSG_MYLIB_DLLMAPPING
+inline
 MFColor3f *CubesBase::getMFColor(void)
 {
     return &_mfColor;
 }
 
 
-OSG_MYLIB_DLLMAPPING
+inline
 MaterialPtr &CubesBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
-OSG_MYLIB_DLLMAPPING
+inline
 const MaterialPtr &CubesBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
-OSG_MYLIB_DLLMAPPING
+inline
 void CubesBase::setMaterial(const MaterialPtr &value)
 {
     _sfMaterial.setValue(value);
 }
 
 
-OSG_MYLIB_DLLMAPPING
-Pnt3f &CubesBase::getPosition(UInt32 index)
+inline
+Pnt3f &CubesBase::getPosition(const UInt32 index)
 {
-    return _mfPosition.getValue( index );
+    return _mfPosition[index];
 }
 
+inline
 MFPnt3f &CubesBase::getPosition(void)
 {
     return _mfPosition;
 }
 
+inline
 const MFPnt3f &CubesBase::getPosition(void) const
 {
     return _mfPosition;
 }
 
-OSG_MYLIB_DLLMAPPING
-Real32 &CubesBase::getLength(UInt32 index)
+inline
+Real32 &CubesBase::getLength(const UInt32 index)
 {
-    return _mfLength.getValue( index );
+    return _mfLength[index];
 }
 
+inline
 MFReal32 &CubesBase::getLength(void)
 {
     return _mfLength;
 }
 
+inline
 const MFReal32 &CubesBase::getLength(void) const
 {
     return _mfLength;
 }
 
-OSG_MYLIB_DLLMAPPING
-Color3f &CubesBase::getColor(UInt32 index)
+inline
+Color3f &CubesBase::getColor(const UInt32 index)
 {
-    return _mfColor.getValue( index );
+    return _mfColor[index];
 }
 
+inline
 MFColor3f &CubesBase::getColor(void)
 {
     return _mfColor;
 }
 
+inline
 const MFColor3f &CubesBase::getColor(void) const
 {
     return _mfColor;
@@ -187,5 +197,5 @@ const MFColor3f &CubesBase::getColor(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESBASE_INLINE_CVSID "@(#)$Id: OSGCubesBase.inl,v 1.6 2001/10/11 21:17:06 dirk Exp $"
+#define OSGCUBESBASE_INLINE_CVSID "@(#)$Id: OSGCubesBase.inl,v 1.7 2002/06/28 12:50:31 dirk Exp $"
 

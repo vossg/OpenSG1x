@@ -257,11 +257,11 @@ int main (int argc, char **argv)
     
     for ( int i=0; i < 10; i++ )
     {
-        cubes->getMFPosition()->addValue( Pnt3f( random(-2, 2), 
+        cubes->getMFPosition()->push_back( Pnt3f( random(-2, 2), 
                                                  random(-2, 2), 
                                                  random(-2, 2)) );
-        cubes->getMFLength()->addValue( random(0.5, 2) );
-        cubes->getMFColor()->addValue( Color3f( random(0.5, 1), 
+        cubes->getMFLength()->push_back( random(0.5, 2) );
+        cubes->getMFColor()->push_back( Color3f( random(0.5, 1), 
                                                 random(0.5, 1), 
                                                 random(0.5, 1)) );
     }

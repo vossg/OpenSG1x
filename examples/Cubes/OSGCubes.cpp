@@ -54,7 +54,7 @@
 #include <iostream.h>
 #endif
 
-#include <GL/gl.h>
+#include <OpenSG/OSGGL.h>
 
 
 #include <OpenSG/OSGAction.h>
@@ -86,7 +86,7 @@ A test node for directly rendering to OpenGL.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.5 2001/10/15 04:52:18 vossg Exp $";
+char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.6 2002/06/28 12:50:31 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -118,10 +118,10 @@ char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.5 2001/10/15 04:52:18 vossg Exp
 void Cubes::initMethod (void)
 {
     DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                CubesPtr,
-                                Action *>(&Cubes::draw));
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          CubesPtr , 
+                                          CNodePtr    ,
+                                          Action     *>(&Cubes::draw));
 }
 
 /***************************************************************************\
@@ -162,7 +162,7 @@ Cubes::~Cubes(void)
 /** \brief react to field changes
  */
 
-void Cubes::changed(BitVector, ChangeMode)
+void Cubes::changed(BitVector, UInt32)
 {
 }
 
@@ -172,7 +172,7 @@ void Cubes::changed(BitVector, ChangeMode)
  */
 
 void Cubes::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+                         const BitVector bvFlags) const
 {
     SLOG << "Dump Cubes NI" << endl;
 }
@@ -182,8 +182,8 @@ Action::ResultE Cubes::draw(Action * action )
 {
     DrawAction * da = dynamic_cast<DrawAction *>(action);
 
-    if ( getMFPosition()->getSize() != getMFLength()->getSize() ||
-         getMFPosition()->getSize() != getMFColor()->getSize() )
+    if ( getMFPosition()->size() != getMFLength()->size() ||
+         getMFPosition()->size() != getMFColor()->size() )
     {
         SWARNING << "Cubes::draw: inconsistent attributes!" << endl;
         return Action::Continue;
@@ -203,7 +203,7 @@ Action::ResultE Cubes::draw(Action * action )
     glBegin( GL_QUADS );
     
     // draw the cubes
-    for ( UInt32 i = 0; i < pos->getSize(); i++ )
+    for ( UInt32 i = 0; i < pos->size(); i++ )
     {
         glColor3fv( (GLfloat*) &col->getValue(i) );
         
@@ -266,7 +266,7 @@ void Cubes::adjustVolume( Volume & volume )
     MFReal32  *len = getMFLength();
     
     // go through all the cubes adjusting the volume
-    for ( int i = 0; i < pos->getSize(); i++ )
+    for ( int i = 0; i < pos->size(); i++ )
     {
         Pnt3f center = pos->getValue( i );
         

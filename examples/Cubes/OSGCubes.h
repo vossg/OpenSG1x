@@ -101,12 +101,12 @@ class OSG_MYLIB_DLLMAPPING Cubes : public CubesBase
     //-----------------------------------------------------------------------
 
     virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+                         UInt32 from);
  
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+                      const BitVector  bvFlags  = 0) const;
     
     // draw the object
     Action::ResultE draw(Action * action );

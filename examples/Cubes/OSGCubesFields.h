@@ -54,26 +54,27 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OpenSG/OSGConfig.h>
 
 #include <OpenSG/OSGFieldContainerPtr.h>
 #include <OpenSG/OSGNodeCoreFieldDataType.h>
 #include <OSGMyDef.h>
 
+#include <OpenSG/OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Cubes;
+
 //! CubesPtr
 
 typedef FCPtr<NodeCorePtr, Cubes> CubesPtr;
 
-/** \ingroup FieldLib Cubes
- *  CubesPtr field traits 
- */
+/*! \brief CubesPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<CubesPtr> : 
@@ -91,39 +92,25 @@ struct FieldDataTraits<CubesPtr> :
 };
 
 //! SFCubesPtr
+//! \ingroup SingleFields
 
 typedef SField<CubesPtr> SFCubesPtr;
 
 #ifndef OSG_COMPILECUBESINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<CubesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFCubesPtr
+//! \ingroup MultiFields
 
 typedef MField<CubesPtr> MFCubesPtr;
 
 #ifndef OSG_COMPILECUBESINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<CubesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGCubesFields.h,v 1.6 2001/10/11 21:17:06 dirk Exp $"
+#define OSGCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGCubesFields.h,v 1.7 2002/06/28 12:50:31 dirk Exp $"
 
 #endif /* _OSGCUBESFIELDS_H_ */

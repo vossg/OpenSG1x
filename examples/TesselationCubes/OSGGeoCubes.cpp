@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGeoCubes.cpp,v 1.1 2002/05/13 10:53:40 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGeoCubes.cpp,v 1.2 2002/06/28 12:53:43 dirk Exp $";
     static char cvsid_hpp[] = OSGGEOCUBES_HEADER_CVSID;
     static char cvsid_inl[] = OSGGEOCUBES_INLINE_CVSID;
 }
@@ -132,7 +132,7 @@ void GeoCubes::initMethod (void)
 
 //! react to field changes
 
-void GeoCubes::changed(BitVector whichField, ChangeMode from)
+void GeoCubes::changed(BitVector whichField, UInt32 from)
 {
 //  SLOG << "Geocubes::changed in..." << endl;
   if (whichField & PositionFieldMask ||
@@ -152,8 +152,8 @@ void GeoCubes::tessellate(void)
 {
 //  SLOG << "tessellate called..." << endl;
 
-    if ( getMFPosition()->getSize() != getMFLength()->getSize() ||
-         getMFPosition()->getSize() != getMFColor()->getSize() ) 
+    if ( getMFPosition()->size() != getMFLength()->size() ||
+         getMFPosition()->size() != getMFColor()->size() ) 
     {
          SWARNING << "GeoCubes::tessellate: inconsistent attributes!" << endl;
          return;
@@ -168,7 +168,7 @@ void GeoCubes::tessellate(void)
     }
     beginEditCP(gtypes, GeoPTypesUI8::GeoPropDataFieldMask);
         gtypes->clear();
-        gtypes->addValue(GL_QUADS);
+        gtypes->push_back(GL_QUADS);
     endEditCP  (gtypes, GeoPTypesUI8::GeoPropDataFieldMask);
 
     GeoPLengthsPtr glens = getLengths();
@@ -177,10 +177,10 @@ void GeoCubes::tessellate(void)
         //if it's NULL it wasn't used before -> you have to create it
         glens = GeoPLengthsUI32::create();
     }
-    UInt32 numcubes = getMFPosition()->getSize();
+    UInt32 numcubes = getMFPosition()->size();
     beginEditCP(glens, GeoPLengthsUI32::GeoPropDataFieldMask);
         glens->clear();
-        glens->addValue( numcubes * 4 * 6 );
+        glens->push_back( numcubes * 4 * 6 );
     endEditCP  (glens, GeoPLengthsUI32::GeoPropDataFieldMask);
 
     GeoPositionsPtr gpos = getPositions();
@@ -199,35 +199,35 @@ void GeoCubes::tessellate(void)
         {
             Pnt3f p = pos->getValue( i );       
             Real32 l = len->getValue( i ) / 2.f;
-            gpos->addValue( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] + l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] + l, p[2] - l ));
 
-            gpos->addValue( Pnt3f( p[0] - l, p[1] - l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] - l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] + l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] + l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] + l, p[2] + l ));
         
-            gpos->addValue( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] - l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] + l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] + l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] + l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] + l, p[2] - l ));
         
-            gpos->addValue( Pnt3f( p[0] + l, p[1] - l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] + l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] + l ));
         
-            gpos->addValue( Pnt3f( p[0] - l, p[1] + l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] + l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] + l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] + l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] + l, p[2] - l ));
         
-            gpos->addValue( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
-            gpos->addValue( Pnt3f( p[0] + l, p[1] - l, p[2] + l ));
-            gpos->addValue( Pnt3f( p[0] - l, p[1] - l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
+            gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] + l ));
+            gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] + l ));
 
         }
     endEditCP  ( gpos );
@@ -242,35 +242,35 @@ void GeoCubes::tessellate(void)
         gnorms->clear();
         for ( UInt32 i = 0; i < numcubes; i++ )
         {
-            gnorms->addValue( Vec3f( 0, 0, -1 ));
-            gnorms->addValue( Vec3f( 0, 0, -1 ));
-            gnorms->addValue( Vec3f( 0, 0, -1 ));
-            gnorms->addValue( Vec3f( 0, 0, -1 ));
+            gnorms->push_back( Vec3f( 0, 0, -1 ));
+            gnorms->push_back( Vec3f( 0, 0, -1 ));
+            gnorms->push_back( Vec3f( 0, 0, -1 ));
+            gnorms->push_back( Vec3f( 0, 0, -1 ));
 
-            gnorms->addValue( Vec3f( 0, 0, 1 ));
-            gnorms->addValue( Vec3f( 0, 0, 1 ));
-            gnorms->addValue( Vec3f( 0, 0, 1 ));
-            gnorms->addValue( Vec3f( 0, 0, 1 ));
+            gnorms->push_back( Vec3f( 0, 0, 1 ));
+            gnorms->push_back( Vec3f( 0, 0, 1 ));
+            gnorms->push_back( Vec3f( 0, 0, 1 ));
+            gnorms->push_back( Vec3f( 0, 0, 1 ));
 
-            gnorms->addValue( Vec3f( -1, 0, 0 ));
-            gnorms->addValue( Vec3f( -1, 0, 0 ));
-            gnorms->addValue( Vec3f( -1, 0, 0 ));
-            gnorms->addValue( Vec3f( -1, 0, 0 ));
+            gnorms->push_back( Vec3f( -1, 0, 0 ));
+            gnorms->push_back( Vec3f( -1, 0, 0 ));
+            gnorms->push_back( Vec3f( -1, 0, 0 ));
+            gnorms->push_back( Vec3f( -1, 0, 0 ));
 
-            gnorms->addValue( Vec3f( 1, 0, 0 ));
-            gnorms->addValue( Vec3f( 1, 0, 0 ));
-            gnorms->addValue( Vec3f( 1, 0, 0 ));
-            gnorms->addValue( Vec3f( 1, 0, 0 ));
+            gnorms->push_back( Vec3f( 1, 0, 0 ));
+            gnorms->push_back( Vec3f( 1, 0, 0 ));
+            gnorms->push_back( Vec3f( 1, 0, 0 ));
+            gnorms->push_back( Vec3f( 1, 0, 0 ));
 
-            gnorms->addValue( Vec3f( 0, 1, 0 ));
-            gnorms->addValue( Vec3f( 0, 1, 0 ));
-            gnorms->addValue( Vec3f( 0, 1, 0 ));
-            gnorms->addValue( Vec3f( 0, 1, 0 ));
+            gnorms->push_back( Vec3f( 0, 1, 0 ));
+            gnorms->push_back( Vec3f( 0, 1, 0 ));
+            gnorms->push_back( Vec3f( 0, 1, 0 ));
+            gnorms->push_back( Vec3f( 0, 1, 0 ));
 
-            gnorms->addValue( Vec3f( 0, -1, 0 ));
-            gnorms->addValue( Vec3f( 0, -1, 0 ));
-            gnorms->addValue( Vec3f( 0, -1, 0 ));
-            gnorms->addValue( Vec3f( 0, -1, 0 ));
+            gnorms->push_back( Vec3f( 0, -1, 0 ));
+            gnorms->push_back( Vec3f( 0, -1, 0 ));
+            gnorms->push_back( Vec3f( 0, -1, 0 ));
+            gnorms->push_back( Vec3f( 0, -1, 0 ));
         }
     endEditCP( gnorms );
 
@@ -285,7 +285,7 @@ void GeoCubes::tessellate(void)
         for ( UInt32 i = 0; i < numcubes; i++ )
         { 
             for ( UInt32 j = 0; j < 24; j++ )
-                gcol->addValue( col->getValue(i) );
+                gcol->push_back( col->getValue(i) );
         }
     endEditCP  ( gcol );
 

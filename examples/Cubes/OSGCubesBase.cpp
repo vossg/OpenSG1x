@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILEMYLIB
 #define OSG_COMPILECUBESINST
 
 #include <stdlib.h>
@@ -63,42 +62,7 @@
 #include "OSGCubes.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "NodeCorePtr", true);
-
-#if defined(__sgi)
-
-#pragma instantiate SField<CubesPtr>::_fieldType
-#pragma instantiate MField<CubesPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCubesBase.cpp,v 1.6 2001/10/11 21:17:06 dirk Exp $";
-    static char cvsid_hpp       [] = OSGCUBESBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGCUBESBASE_INLINE_CVSID;
-
-    static char cvsid_fields_hpp[] = OSGCUBESFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 
 const OSG::BitVector  CubesBase::MaterialFieldMask = 
     (1 << CubesBase::MaterialFieldId);
@@ -128,6 +92,7 @@ const OSG::BitVector  CubesBase::ColorFieldMask =
 /*! \var Color3f         CubesBase::_mfColor
     The cubes' colors.
 */
+
 //! Cubes description
 
 FieldDescription *CubesBase::_desc[] = 
@@ -169,11 +134,6 @@ FieldContainerType CubesBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-static const char *getClassname(void)
-{
-    return "Cubes"; 
-}
-
 FieldContainerType &CubesBase::getType(void) 
 {
     return _type; 
@@ -183,7 +143,7 @@ const FieldContainerType &CubesBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr CubesBase::shallowCopy(void) const 
 { 
@@ -196,7 +156,7 @@ FieldContainerPtr CubesBase::shallowCopy(void) const
 
 UInt32 CubesBase::getContainerSize(void) const 
 { 
-    return sizeof(CubesBase); 
+    return sizeof(Cubes); 
 }
 
 
@@ -210,6 +170,10 @@ void CubesBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 CubesBase::CubesBase(void) :
     _sfMaterial               (), 
     _mfPosition               (), 
@@ -218,6 +182,10 @@ CubesBase::CubesBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 
@@ -343,5 +311,41 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
         _mfColor.syncWith(pOther->_mfColor);
 
 
+}
+
+
+
+#include <OpenSG/OSGSFieldTypeDef.inl>
+#include <OpenSG/OSGMFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "NodeCorePtr");
+
+
+OSG_DLLEXPORT_SFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
+
+OSG_END_NAMESPACE
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCubesBase.cpp,v 1.7 2002/06/28 12:50:31 dirk Exp $";
+    static Char8 cvsid_hpp       [] = OSGCUBESBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCUBESBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGCUBESFIELDS_HEADER_CVSID;
 }
 

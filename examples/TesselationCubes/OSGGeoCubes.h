@@ -65,7 +65,7 @@ class OSG_MYLIB_DLLMAPPING GeoCubes : public GeoCubesBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+                         UInt32 from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -119,6 +119,6 @@ OSG_END_NAMESPACE
 #include <OSGGeoCubes.inl>
 #include <OSGGeoCubesBase.inl>
 
-#define OSGGEOCUBES_HEADER_CVSID "@(#)$Id: OSGGeoCubes.h,v 1.1 2002/05/13 10:53:40 dirk Exp $"
+#define OSGGEOCUBES_HEADER_CVSID "@(#)$Id: OSGGeoCubes.h,v 1.2 2002/06/28 12:53:43 dirk Exp $"
 
 #endif /* _OSGGEOCUBES_H_ */

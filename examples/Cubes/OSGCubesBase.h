@@ -79,7 +79,7 @@ OSG_BEGIN_NAMESPACE
 class Cubes;
 class BinaryDataHandler;
 
-/*! \brief Cubes Base Class. */
+//! \brief Cubes Base Class.
 
 class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 {
@@ -104,11 +104,10 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     static const osg::BitVector LengthFieldMask;
     static const osg::BitVector ColorFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
-
-    static const  char               *getClassname(void);
 
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
@@ -128,48 +127,48 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFMaterialPtr       *getSFMaterial       (void);
-    inline       MFPnt3f             *getMFPosition       (void);
-    inline       MFReal32            *getMFLength         (void);
-    inline       MFColor3f           *getMFColor          (void);
+           SFMaterialPtr       *getSFMaterial       (void);
+           MFPnt3f             *getMFPosition       (void);
+           MFReal32            *getMFLength         (void);
+           MFColor3f           *getMFColor          (void);
 
-    inline       MaterialPtr         &getMaterial       (void);
-    inline const MaterialPtr         &getMaterial       (void) const;
-    inline       Pnt3f               &getPosition       (UInt32 index);
-    inline       MFPnt3f             &getPosition       (void);
-    inline const MFPnt3f             &getPosition       (void) const;
-    inline       Real32              &getLength         (UInt32 index);
-    inline       MFReal32            &getLength         (void);
-    inline const MFReal32            &getLength         (void) const;
-    inline       Color3f             &getColor          (UInt32 index);
-    inline       MFColor3f           &getColor          (void);
-    inline const MFColor3f           &getColor          (void) const;
+           MaterialPtr         &getMaterial       (void);
+     const MaterialPtr         &getMaterial       (void) const;
+           Pnt3f               &getPosition       (const UInt32 index);
+           MFPnt3f             &getPosition       (void);
+     const MFPnt3f             &getPosition       (void) const;
+           Real32              &getLength         (const UInt32 index);
+           MFReal32            &getLength         (void);
+     const MFReal32            &getLength         (void) const;
+           Color3f             &getColor          (const UInt32 index);
+           MFColor3f           &getColor          (void);
+     const MFColor3f           &getColor          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setMaterial       ( const MaterialPtr &value );
+     void setMaterial       ( const MaterialPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -177,8 +176,8 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  CubesPtr    create          (void); 
-    static  CubesPtr    createEmpty     (void); 
+    static  CubesPtr      create          (void); 
+    static  CubesPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -235,8 +234,7 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Cubes &source);
+    void operator =(const CubesBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -248,6 +246,6 @@ typedef CubesBase *CubesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: OSGCubesBase.h,v 1.6 2001/10/11 21:17:06 dirk Exp $"
+#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: OSGCubesBase.h,v 1.7 2002/06/28 12:50:31 dirk Exp $"
 
 #endif /* _OSGCUBESBASE_H_ */
