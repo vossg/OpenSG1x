@@ -286,6 +286,7 @@
     <include location="global" impldecl="in implementation">OpenSG/OSGNode.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGLog.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGBINWriter.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSimpleAttachments.h</include>
     <include location="local" impldecl="in implementation">OpenSG/OSGQGLManagedWidget_qt.h</include>
     <include location="local" impldecl="in implementation">OSGSceneView_qt.ui.h</include>
 </includes>
