@@ -139,6 +139,8 @@
 
 #    define OSG_THROW_NOTHING() throw()
 
+#    define OSG_EX_NAMESPACE    std
+
 namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # else
