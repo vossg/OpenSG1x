@@ -842,7 +842,8 @@ void TTVectorFontGlyph::cleanup(void)
 
     _indices.resize(_numIndices);
     _normalIndices.resize(_indices.size());
-    memcpy(_normalIndices.begin(), _indices.begin(),
+    memcpy(&(_normalIndices[0]),
+           &(_indices[0]),
                (_indices.size()) * sizeof(Int32));
 
     _numNormals = _numPoints;
