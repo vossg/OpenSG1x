@@ -36,94 +36,161 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef _OSGATTACHMENTPTRIMPL_INL_
+#define _OSGATTACHMENTPTRIMPL_INL_
 
-#include "OSGConfig.h"
-
-#include "OSGDrawTreeNode.h"
-#include <OSGBaseFunctions.h>
-
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-#include "OSGTime.h"
+#ifdef OSG_DOC_FILES_IN_MODULE
+/*! \file OSGAttachmentPtrImpl.inl
+    \ingroup GrpSystemFieldContainer
+ */
 #endif
 
-OSG_USING_NAMESPACE
-
-/*! \class osg::DrawTreeNode
-    \ingroup GrpSystemRenderingBackend
- */
-
-/*-------------------------------------------------------------------------*/
-/*                            Statistics                                   */
-
-Int32 DrawTreeNode::_iCreateCount = 0;
-Int32 DrawTreeNode::_iDeleteCount = 0;
+OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-DrawTreeNode::DrawTreeNode(void) :
-     Inherited   (),
-    _pFirstChild (NULL),
-    _pLastChild  (NULL),
-    _pBrother    (NULL),
-    _pState      (NULL),
-    _pGeo        (NULL),
-    _functor     (),
-    _hasFunctor  (false),
-    _oMatrixStore(),
-    _rScalarVal  (0.f)
+inline
+AttachmentPtr::AttachmentPtr(void) :
+    Inherited()
 {
-    _oMatrixStore.first = 0;
+}
 
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_DT_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(),
-                getPerfCounter(),
-                this,
-                "DrawTreeNode",
-                0);
-#endif
+inline
+AttachmentPtr::AttachmentPtr(const AttachmentPtr &source) :
+
+    Inherited(source)
+{
+}
+
+inline
+AttachmentPtr::AttachmentPtr(const NullFieldContainerPtr &source) :
+
+    Inherited(source)
+{
 }
 
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-DrawTreeNode::~DrawTreeNode(void)
+inline
+AttachmentPtr::~AttachmentPtr(void)
 {
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_DT_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(), 
-                getPerfCounter(),
-                this,
-                "DrawTreeNode",
-                0);
-#endif
-
-#if !defined(OSG_OPT_DRAWTREE)
-    subRefP(_pFirstChild);
-    subRefP(_pBrother   );
-#endif
 }
-
 
 /*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
+/*                        Container Access                                 */
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
+inline
+Attachment *AttachmentPtr::operator->(void)
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDRAWTREENODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGDRAWTREENODE_INLINE_CVSID;
+#if 0
+    return (Attachment *) getElemP(Thread::getAspect());
+#else
+    return (Attachment *) Inherited::operator ->();
+#endif
 }
+
+inline
+Attachment *AttachmentPtr::operator->(void) const
+{
+#if 0
+    return (Attachment *) getElemP(Thread::getAspect());
+#else
+    return (Attachment *) Inherited::operator ->();
+#endif
+}
+
+inline
+Attachment &AttachmentPtr::operator *(void)
+{
+#if 0
+    return *((Attachment *) getElemP(Thread::getAspect()));
+#else
+    return (Attachment &) Inherited::operator *();
+#endif
+}
+
+inline
+Attachment &AttachmentPtr::operator *(void) const
+{
+#if 0
+    return *((Attachment *) getElemP(Thread::getAspect()));
+#else
+    return (Attachment &) Inherited::operator *();
+#endif
+}
+
+inline
+Attachment *AttachmentPtr::getCPtr(void)
+{
+#if 0
+    return (Attachment *) getElemP(Thread::getAspect());
+#else
+    return (Attachment *) Inherited::getCPtr();
+#endif
+}
+
+inline
+Attachment *AttachmentPtr::getCPtr(void) const
+{
+#if 0
+    return (Attachment *) getElemP(Thread::getAspect());
+#else
+    return (Attachment *) Inherited::getCPtr();
+#endif
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
+
+inline
+void AttachmentPtr::operator = (const AttachmentPtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+inline
+void AttachmentPtr::operator = (const NullFieldContainerPtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+#ifdef ATTCHECK
+
+inline
+AttachmentPtr::AttachmentPtr(const Attachment &source) :
+
+    Inherited(source)
+{
+}
+
+inline
+AttachmentPtr::AttachmentPtr(const Attachment *source) :
+
+    Inherited(source)
+{
+}
+
+inline
+AttachmentPtr::AttachmentPtr(const Attachment *source,
+                             const UInt16      uiSize,
+                             const UInt16      uiParentPos) :
+
+    Inherited(source, uiSize, uiParentPos)
+{
+}
+
+#endif
+
+OSG_END_NAMESPACE
+
+#define OSGATTACHMENTPTR_INLINE_CVSID "@(#)$Id: $"
+
+#endif /*_OSGATTACHMENTPTRIMPL_INL_ */
+

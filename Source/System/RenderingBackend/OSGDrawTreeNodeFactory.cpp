@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,79 +36,55 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
-#include "OSGDrawTreeNode.h"
-#include <OSGBaseFunctions.h>
-
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-#include "OSGTime.h"
-#endif
+#include "OSGDrawTreeNodeFactory.h"
 
 OSG_USING_NAMESPACE
-
-/*! \class osg::DrawTreeNode
-    \ingroup GrpSystemRenderingBackend
- */
-
-/*-------------------------------------------------------------------------*/
-/*                            Statistics                                   */
-
-Int32 DrawTreeNode::_iCreateCount = 0;
-Int32 DrawTreeNode::_iDeleteCount = 0;
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-DrawTreeNode::DrawTreeNode(void) :
-     Inherited   (),
-    _pFirstChild (NULL),
-    _pLastChild  (NULL),
-    _pBrother    (NULL),
-    _pState      (NULL),
-    _pGeo        (NULL),
-    _functor     (),
-    _hasFunctor  (false),
-    _oMatrixStore(),
-    _rScalarVal  (0.f)
+DrawTreeNodeFactory::DrawTreeNodeFactory(void) :
+    _nodeStore      ( ),
+    _currentFreeNode( ),
+    _uiAllocated    (0),
+    _uiReused       (0)
 {
-    _oMatrixStore.first = 0;
-
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_DT_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(),
-                getPerfCounter(),
-                this,
-                "DrawTreeNode",
-                0);
-#endif
+    _currentFreeNode = _nodeStore.end();
 }
 
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-DrawTreeNode::~DrawTreeNode(void)
+DrawTreeNodeFactory::~DrawTreeNodeFactory(void)
 {
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_DT_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(), 
-                getPerfCounter(),
-                this,
-                "DrawTreeNode",
-                0);
-#endif
-
-#if !defined(OSG_OPT_DRAWTREE)
-    subRefP(_pFirstChild);
-    subRefP(_pBrother   );
-#endif
+    for(Int32 i = 0; i < _nodeStore.size(); ++i)
+    {
+        delete _nodeStore[i];
+    }
 }
 
+void DrawTreeNodeFactory::printStat(void)
+{
+    fprintf(stderr, "\n%d | %d | %d\n", 
+            _uiAllocated, 
+            _uiReused, 
+            _nodeStore.size());
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
+
+/*-------------------------------------------------------------------------*/
+/*                             Comparison                                  */
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -124,6 +100,7 @@ DrawTreeNode::~DrawTreeNode(void)
 namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDRAWTREENODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGDRAWTREENODE_INLINE_CVSID;
+    static Char8 cvsid_hpp[] = OSGDRAWTREENODEFACTORY_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGDRAWTREENODEFACTORY_INLINE_CVSID;
 }
+

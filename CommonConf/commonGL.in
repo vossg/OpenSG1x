@@ -4,6 +4,10 @@ LINK_GL    := @ac_gdz_gl_libdir_e8@
 
 LIB_GL   := -lGLU -lGL -lXext -lXmu -lXi -lXt -lX11
 
+ifeq ($(OS_BASE), linux-gnu)
+LIB_GL   := -lGLU -lGL -lXext -lXmu -lXi -lXt -lICE -lSM -lX11
+endif
+
 ifeq ($(OS_BASE), cygwin)
 LIB_GL      := opengl32.lib glu32.lib gdi32.lib
 OSG_LIB_EXT := $(OSG_LIB_EXT) $(LIB_GL)

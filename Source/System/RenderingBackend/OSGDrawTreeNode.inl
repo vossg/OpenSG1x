@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000-2002,2002 by the OpenSG Forum                *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,131 +36,194 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGNODEPTRIMPL_INL_
-#define _OSGNODEPTRIMPL_INL_
-
-#ifdef OSG_DOC_FILES_IN_MODULE
-/*! \file OSGNodePtrImpl.inl
-    \ingroup GrpSystemFieldContainer
- */
-#endif
 
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/*                               Access                                    */
 
 inline
-NodePtr::NodePtr(void) : 
-    Inherited()
+DrawTreeNode *DrawTreeNode::getFirstChild(void)
 {
+    return _pFirstChild;
 }
 
 inline
-NodePtr::NodePtr(const NodePtr &source) :
-    Inherited(source)
+DrawTreeNode *DrawTreeNode::getLastChild(void)
 {
+    return _pLastChild;
 }
 
 inline
-NodePtr::NodePtr(const NullFieldContainerPtr &source) :
-    Inherited(source)
+void DrawTreeNode::addChild(DrawTreeNode *pChild)
 {
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-inline
-NodePtr::~NodePtr(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                           Container Access                              */
-
-inline
-Node *NodePtr::operator->(void)
-{
-#if 0
-    return (Node *) getElemP(Thread::getAspect());
+    if(_pLastChild == NULL)
+    {
+#if defined(OSG_OPT_DRAWTREE)
+        _pFirstChild = pChild;
 #else
-    return reinterpret_cast<Node *>(Inherited::operator ->());
+        setRefP(_pFirstChild, pChild);
+#endif
+
+        _pLastChild  = pChild;
+    }
+    else
+    {
+        _pLastChild->setBrother(pChild);
+        _pLastChild = pChild;
+    }
+}
+
+inline
+void DrawTreeNode::insertFirstChild  (DrawTreeNode *pChild)
+{
+    if(pChild == NULL)
+        return;
+
+    if(_pFirstChild == NULL)
+    {
+        addChild(pChild);
+    }
+    else
+    {
+        pChild->setBrother(_pFirstChild);
+        
+#if defined(OSG_OPT_DRAWTREE)
+        _pFirstChild = pChild;
+#else
+        setRefP(_pFirstChild, pChild);
+#endif
+    }
+    
+}
+
+inline
+void DrawTreeNode::insertChildAfter(DrawTreeNode *pCurrent, 
+                                    DrawTreeNode *pChild)
+{
+    if(pCurrent == NULL || pChild == NULL)
+        return;
+
+    pChild  ->setBrother(pCurrent->getBrother());
+    pCurrent->setBrother(pChild  );
+
+    if(pCurrent == _pLastChild)
+    {
+        _pLastChild = pChild;
+    }    
+}
+
+inline
+DrawTreeNode *DrawTreeNode::getBrother(void)
+{
+    return _pBrother;
+}
+
+inline
+void DrawTreeNode::setBrother(DrawTreeNode *pBrother)
+{
+#if defined(OSG_OPT_DRAWTREE)
+    _pBrother = pBrother;
+#else
+    setRefP(_pBrother, pBrother);
 #endif
 }
 
 inline
-Node *NodePtr::operator->(void) const
+void DrawTreeNode::setGeometry(Geometry *pGeo)
 {
-#if 0
-    return (Node *) getElemP(Thread::getAspect());
-#else
-    return reinterpret_cast<Node *>(Inherited::operator ->());
-#endif
+    _pGeo = pGeo;
 }
 
 inline
-Node &NodePtr::operator *(void)
+Geometry *DrawTreeNode::getGeometry(void)
 {
-#if 0
-    return *((Node *) getElemP(Thread::getAspect()));
-#else
-    return *(reinterpret_cast<Node *>(Inherited::operator ->()));
-#endif
+    return _pGeo;
 }
 
 inline
-Node &NodePtr::operator *(void) const
+void DrawTreeNode::setFunctor(Material::DrawFunctor &func)
 {
-#if 0
-    return *((Node *) getElemP(Thread::getAspect()));
-#else
-    return *(reinterpret_cast<Node *>(Inherited::operator ->()));
-#endif
+    _functor=func;
+    _hasFunctor=true;
 }
 
 inline
-Node *NodePtr::getCPtr(void)
+Material::DrawFunctor &DrawTreeNode::getFunctor(void)
 {
-#if 0
-    return (Node *) getElemP(Thread::getAspect());
-#else
-    return reinterpret_cast<Node *>(Inherited::getCPtr());
-#endif
+    return _functor;
 }
 
 inline
-Node *NodePtr::getCPtr(void) const
+bool DrawTreeNode::hasFunctor(void)
 {
-#if 0
-    return (Node *) getElemP(Thread::getAspect());
-#else
-    return reinterpret_cast<Node *>(Inherited::getCPtr());
-#endif
-}
-
-
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-inline
-void NodePtr::operator = (const NodePtr &source)
-{
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
+    return _hasFunctor;
 }
 
 inline
-void NodePtr::operator = (const NullFieldContainerPtr &source)
+void DrawTreeNode::setState(State *pState)
 {
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
+    _pState = pState;
+}
+
+inline
+State *DrawTreeNode::getState(void)
+{
+    return _pState;
+}
+
+inline
+void DrawTreeNode::setNode(NodePtr pNode)
+{
+    _pNode = pNode;
+}
+
+inline
+NodePtr DrawTreeNode::getNode(void)
+{
+    return _pNode;
+}
+
+inline
+void DrawTreeNode::setMatrixStore(const MatrixStore &oMatrixStore)
+{
+    _oMatrixStore = oMatrixStore;
+}
+
+inline
+MatrixStore &DrawTreeNode::getMatrixStore(void)
+{
+    return _oMatrixStore;
+}
+
+inline
+void DrawTreeNode::setScalar(Real32 rScalar)
+{
+    _rScalarVal = rScalar;
+}
+
+inline
+Real32 DrawTreeNode::getScalar(void)
+{
+    return _rScalarVal;
+}
+
+inline
+void DrawTreeNode::reset(void)
+{
+    _pFirstChild = NULL;
+    _pLastChild  = NULL;
+    _pBrother    = NULL;
+    _pState      = NULL;
+    _pGeo        = NULL;
+    _hasFunctor  = false;
+
+    _oMatrixStore.first = 0;
+    _oMatrixStore.second.setIdentity();
+
+    _rScalarVal = 0.f;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGNODEPTR_INLINE_CVSID "@(#)$Id: $"
-
-#endif /* _OSGNODEPTRIMPL_INL_ */
-
-
+#define OSGDRAWTREENODE_INLINE_CVSID "@(#)$Id: $"

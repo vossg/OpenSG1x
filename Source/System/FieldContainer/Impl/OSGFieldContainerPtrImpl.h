@@ -188,9 +188,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    UInt16  _containerSize;
-    UInt16  _uiParentEPos;
-    UInt8  *_storeP;
+    UInt16          _containerSize;
+    UInt16          _uiParentEPos;
+    UInt8          *_storeP;
+#ifdef OSG_DEBUG_FCPTR
+    FieldContainer *_typedStoreP;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

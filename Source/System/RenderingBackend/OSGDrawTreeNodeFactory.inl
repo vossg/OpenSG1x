@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,94 +36,48 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <stdio.h>
+OSG_BEGIN_NAMESPACE
 
-#include "OSGConfig.h"
-
-#include "OSGDrawTreeNode.h"
-#include <OSGBaseFunctions.h>
-
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-#include "OSGTime.h"
-#endif
-
-OSG_USING_NAMESPACE
-
-/*! \class osg::DrawTreeNode
-    \ingroup GrpSystemRenderingBackend
- */
-
-/*-------------------------------------------------------------------------*/
-/*                            Statistics                                   */
-
-Int32 DrawTreeNode::_iCreateCount = 0;
-Int32 DrawTreeNode::_iDeleteCount = 0;
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-DrawTreeNode::DrawTreeNode(void) :
-     Inherited   (),
-    _pFirstChild (NULL),
-    _pLastChild  (NULL),
-    _pBrother    (NULL),
-    _pState      (NULL),
-    _pGeo        (NULL),
-    _functor     (),
-    _hasFunctor  (false),
-    _oMatrixStore(),
-    _rScalarVal  (0.f)
+inline
+DrawTreeNode *DrawTreeNodeFactory::create(void)
 {
-    _oMatrixStore.first = 0;
+    DrawTreeNode *returnValue = NULL;
 
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_DT_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(),
-                getPerfCounter(),
-                this,
-                "DrawTreeNode",
-                0);
-#endif
+    if(_currentFreeNode != _nodeStore.end())
+    {
+        returnValue = *_currentFreeNode;
+
+        ++_currentFreeNode;
+
+        returnValue->reset();
+
+        ++_uiReused;
+    }
+    else
+    {
+        returnValue = new DrawTreeNode();
+
+        _nodeStore.push_back(returnValue);
+
+        _currentFreeNode = _nodeStore.end();
+
+        ++_uiAllocated;
+    }
+    
+    return returnValue;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-DrawTreeNode::~DrawTreeNode(void)
+inline
+void DrawTreeNodeFactory::freeAll(void)
 {
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_DT_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(), 
-                getPerfCounter(),
-                this,
-                "DrawTreeNode",
-                0);
-#endif
+    _currentFreeNode = _nodeStore.begin();
 
-#if !defined(OSG_OPT_DRAWTREE)
-    subRefP(_pFirstChild);
-    subRefP(_pBrother   );
-#endif
+    _uiAllocated = 0;
+    _uiReused    = 0;
 }
 
 
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
+OSG_END_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
+#define OSGDRAWTREENODEFACTORY_INLINE_CVSID "@(#)$Id: $"
 
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDRAWTREENODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGDRAWTREENODE_INLINE_CVSID;
-}

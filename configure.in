@@ -832,6 +832,21 @@ else
 	ac_gdz_conf_gvbeta_e1=0
 fi
 
+dnl ############# typed fcptr Settings #################
+
+AC_ARG_ENABLE(typed_dbg_fcptr,     [  --enable-typed-dbg-fcptr           Add a typed ptr to the fieldcontainer ptr ],
+			,enable_typed_dbg_fcptr=no) 
+
+dnl ############# Depreciated Settings #####################
+
+AC_ARG_ENABLE(fcptr_arithm,     [  --disable-fcptr-arithm             Disable fieldcontainer ptr aspect arithmetics ],
+		disable_fcptr_arithm=yes, disable_fcptr_arithm=no) 
+
+dnl ############# typed fcptr Settings #################
+
+AC_ARG_ENABLE(opt_drawtree,     [  --enable-opt-drawtree              enable opt drawtree ],
+			,enable_opt_drawtree=no) 
+
 dnl ############# Add Path Settings #####################
 
 AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directories (no spaces allowed) ],
@@ -1451,6 +1466,18 @@ fi
 
 if test "$enable_win_bool_is_unsigned" = yes; then
     AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
+fi
+
+if test "$enable_typed_dbg_fcptr" = yes; then
+	AC_DEFINE(OSG_DEBUG_FCPTR)
+fi
+
+if test "$disable_fcptr_arithm" = yes; then
+	AC_DEFINE(OSG_DEBUG_NO_FCPTR_ARITHM)
+fi
+
+if test "$enable_opt_drawtree" = yes; then
+	AC_DEFINE(OSG_OPT_DRAWTREE)
 fi
 
 case $with_log_level in

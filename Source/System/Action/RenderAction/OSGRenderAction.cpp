@@ -58,7 +58,11 @@
 #include <OSGBackground.h>
 
 #include <OSGBaseFunctions.h>
-#include <OSGDrawTreeNode.h>
+#if defined(OSG_OPT_DRAWTREE)
+# include <OSGDrawTreeNodeFactory.h>
+#else
+# include <OSGDrawTreeNode.h>
+#endif
 
 #include <OSGMaterial.h>
 
@@ -211,6 +215,9 @@ RenderAction *RenderAction::getPrototype(void)
 
 RenderAction::RenderAction(void) :
      Inherited           (),
+#if defined(OSG_OPT_DRAWTREE)
+    _pNodeFactory        (NULL),
+#endif
     _pMaterial           (NULL),
 
     _uiMatrixId          (0),
@@ -241,6 +248,10 @@ RenderAction::RenderAction(void) :
 
     if(_vDefaultLeaveFunctors != NULL)
         _leaveFunctors = *_vDefaultLeaveFunctors;
+
+#if defined(OSG_OPT_DRAWTREE)
+    _pNodeFactory = new DrawTreeNodeFactory;
+#endif
 }
 
 
@@ -249,6 +260,9 @@ RenderAction::RenderAction(void) :
 
 RenderAction::RenderAction(const RenderAction &source) :
      Inherited           (source),
+#if defined(OSG_OPT_DRAWTREE)
+    _pNodeFactory        (NULL),
+#endif
     _pMaterial           (source._pMaterial),
 
     _uiMatrixId          (source._uiMatrixId),
@@ -273,6 +287,9 @@ RenderAction::RenderAction(const RenderAction &source) :
     _bZWriteTrans        (source._bZWriteTrans),
     _vLights             (source._vLights)
 {
+#if defined(OSG_OPT_DRAWTREE)
+    _pNodeFactory = new DrawTreeNodeFactory;
+#endif
 }
 
 /** \brief create a new DrawAction by cloning the prototype
@@ -300,6 +317,9 @@ RenderAction * RenderAction::create(void)
 
 RenderAction::~RenderAction(void)
 {
+#if defined(OSG_OPT_DRAWTREE)
+    delete _pNodeFactory;
+#endif    
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -346,7 +366,12 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     if(_bSortTrans == true && pMat->isTransparent() == true)
     {
+#if defined(OSG_OPT_DRAWTREE)
+        DrawTreeNode *pNewElem = _pNodeFactory->create();
+#else
         DrawTreeNode *pNewElem = new DrawTreeNode;
+#endif
+
         Pnt3f         objPos;
             
         getActNode()->getVolume().getCenter(objPos);
@@ -410,11 +435,19 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     }
     else
     {
+#if defined(OSG_OPT_DRAWTREE)
+        DrawTreeNode *pNewElem = _pNodeFactory->create();
+#else
         DrawTreeNode *pNewElem = new DrawTreeNode;
+#endif
  
         if(it == _mMatMap.end())
         {
+#if defined(OSG_OPT_DRAWTREE)
+            DrawTreeNode *pNewMatElem = _pNodeFactory->create();
+#else
             DrawTreeNode *pNewMatElem = new DrawTreeNode;
+#endif
             
             _mMatMap[pMat].push_back(pNewMatElem);
             
@@ -472,7 +505,12 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     if(_bSortTrans == true && pMat->isTransparent() == true)
     {
+#if defined(OSG_OPT_DRAWTREE)
+        DrawTreeNode *pNewElem = _pNodeFactory->create();
+#else
         DrawTreeNode *pNewElem = new DrawTreeNode;
+#endif
+
         Pnt3f         objPos;
             
         getActNode()->getVolume().getCenter(objPos);
@@ -536,12 +574,19 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     }
     else
     {
+#if defined(OSG_OPT_DRAWTREE)
+        DrawTreeNode *pNewElem = _pNodeFactory->create();
+#else
         DrawTreeNode *pNewElem = new DrawTreeNode;
-        
+#endif 
+       
         if(it == _mMatMap.end())
         {
+#if defined(OSG_OPT_DRAWTREE)
+            DrawTreeNode *pNewMatElem = _pNodeFactory->create();
+#else
             DrawTreeNode *pNewMatElem = new DrawTreeNode;
-            
+#endif            
             _mMatMap[pMat].push_back(pNewMatElem);
             
             pNewElem->setNode       (getActNode());
@@ -826,9 +871,13 @@ Action::ResultE RenderAction::start(void)
 
     _mMatMap.clear();
 
+#if defined(OSG_OPT_DRAWTREE)
+    _pNodeFactory->freeAll();
+#else
     subRefP(_pRoot);
     subRefP(_pMatRoot);
     subRefP(_pTransMatRoot);
+#endif
 
 /*
     if(_pRoot != NULL)
@@ -843,16 +892,30 @@ Action::ResultE RenderAction::start(void)
     DrawTreeNode::_iCreateCount = 0;
     DrawTreeNode::_iDeleteCount = 0;
 
+#if defined(OSG_OPT_DRAWTREE)
+    _pRoot = _pNodeFactory->create();
+#else
     _pRoot         = new DrawTreeNode;
     addRefP(_pRoot);
+#endif
 
+#if defined(OSG_OPT_DRAWTREE)
+    _pMatRoot = _pNodeFactory->create();
+#else
     _pMatRoot      = new DrawTreeNode;
+
 //    _pRoot->addChild(_pMatRoot);
     addRefP(_pMatRoot);
+#endif
 
+#if defined(OSG_OPT_DRAWTREE)
+    _pTransMatRoot = _pNodeFactory->create();
+#else
     _pTransMatRoot = new DrawTreeNode;
+
 //    _pRoot->addChild(_pTransMatRoot);
     addRefP(_pTransMatRoot);
+#endif
 
     _pActiveState   = NULL;
 
@@ -883,6 +946,10 @@ Action::ResultE RenderAction::stop(ResultE res)
 //    dump(_pRoot, 0);
 //    dump(_pMatRoot, 0);
 //    dump(_pTransMatRoot, 0);
+
+#if defined(OSG_OPT_DRAWTREE)
+    _pNodeFactory->printStat();    
+#endif
 
     for(i = 0; i < _vLights.size(); i++)
     {

@@ -52,84 +52,6 @@ OSG_USING_NAMESPACE
  */
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-AttachmentPtr::AttachmentPtr(void) :
-    Inherited()
-{
-}
-
-AttachmentPtr::AttachmentPtr(const AttachmentPtr &source) :
-
-    Inherited(source)
-{
-}
-
-AttachmentPtr::AttachmentPtr(const NullFieldContainerPtr &source) :
-
-    Inherited(source)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-AttachmentPtr::~AttachmentPtr(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                        Container Access                                 */
-
-Attachment *AttachmentPtr::operator->(void)
-{
-    return (Attachment *) getElemP(Thread::getAspect());
-}
-
-Attachment *AttachmentPtr::operator->(void) const
-{
-    return (Attachment *) getElemP(Thread::getAspect());
-}
-
-Attachment &AttachmentPtr::operator *(void)
-{
-    return *((Attachment *) getElemP(Thread::getAspect()));
-}
-
-Attachment &AttachmentPtr::operator *(void) const
-{
-    return *((Attachment *) getElemP(Thread::getAspect()));
-}
-
-Attachment *AttachmentPtr::getCPtr(void)
-{
-    return (Attachment *) getElemP(Thread::getAspect());
-}
-
-Attachment *AttachmentPtr::getCPtr(void) const
-{
-    return (Attachment *) getElemP(Thread::getAspect());
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-void AttachmentPtr::operator = (const AttachmentPtr &source)
-{
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-void AttachmentPtr::operator = (const NullFieldContainerPtr &source)
-{
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
 AttachmentPtr::AttachmentPtr(const Attachment &source) :
 
     Inherited(source)
@@ -194,4 +116,5 @@ namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGATTACHMENTPTR_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGATTACHMENTPTR_INLINE_CVSID;
 }

@@ -147,6 +147,9 @@ FieldContainerPtrBase::FieldContainerPtrBase(void) :
     _uiParentEPos(InvalidParentEPos),
     _storeP      (NULL             ) 
 {
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 inline
@@ -157,6 +160,9 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     _uiParentEPos (InvalidParentEPos),
     _storeP       (NULL             )
 {
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 inline
@@ -167,6 +173,9 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     _uiParentEPos (source._uiParentEPos ),
     _storeP       (source._storeP       )
 {
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -227,6 +236,10 @@ void FieldContainerPtrBase::operator =(const NullFieldContainerPtr &)
     _containerSize = 0;
     _uiParentEPos  = InvalidParentEPos;
     _storeP        = NULL;
+
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP   = NULL;
+#endif
 }
 
 inline
@@ -238,6 +251,10 @@ void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
     _containerSize = source._containerSize;
     _uiParentEPos  = source._uiParentEPos;
     _storeP        = source._storeP;
+
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP   = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -307,12 +324,18 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source,
     if(source != NULL)
     {
         _storeP  = (UInt8 *) (const_cast<FieldContainer *>(source));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
         _storeP -= getElemOff(Thread::getAspect());
+#endif
     }
     else
     {
         _storeP  = NULL;
     }
+
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -328,7 +351,13 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer &source)
     _containerSize   = source.getContainerSize();
     _uiParentEPos    = InvalidParentEPos;
     _storeP          = (UInt8 *) (const_cast<FieldContainer *>(&source));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     _storeP         -= getElemOff(Thread::getAspect());
+#endif
+
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP     = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 inline
@@ -340,13 +369,19 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source)
     {
         _containerSize = source->getContainerSize();
         _storeP          = (UInt8 *) (const_cast<FieldContainer *>(source));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
         _storeP         -= getElemOff(Thread::getAspect());
+#endif
     }
     else
     {
         _containerSize = 0;
         _storeP          = NULL;
     }
+
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -371,6 +406,10 @@ void FieldContainerPtrBase::setNull(void)
     _containerSize = 0;
     _uiParentEPos  = InvalidParentEPos;
     _storeP        = NULL;
+
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
 }
 
 
@@ -414,37 +453,61 @@ FieldContainerPtr::~FieldContainerPtr(void)
 inline
 FieldContainer *FieldContainerPtr::operator->(void)
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (FieldContainer *) (getFirstElemP());
+#endif
 }
 
 inline
 FieldContainer *FieldContainerPtr::operator->(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (FieldContainer *) (getFirstElemP());
+#endif
 }
 
 inline
 FieldContainer &FieldContainerPtr::operator *(void)
-{
+{ 
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((FieldContainer *) (getElemP(Thread::getAspect())));
+#else
+    return *((FieldContainer *) (getFirstElemP()));
+#endif
 }
 
 inline
 FieldContainer &FieldContainerPtr::operator *(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((FieldContainer *) (getElemP(Thread::getAspect())));
+#else
+    return *((FieldContainer *) (getFirstElemP()));
+#endif
 }
 
 inline
 FieldContainer *FieldContainerPtr::getCPtr(void)
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (FieldContainer *) (getFirstElemP());
+#endif
 }
 
 inline
 FieldContainer *FieldContainerPtr::getCPtr(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (FieldContainer *) (getFirstElemP());
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -565,37 +628,61 @@ ConstFieldContainerPtr::~ConstFieldContainerPtr(void)
 inline
 const FieldContainer *ConstFieldContainerPtr::operator->(void)
 {
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (const FieldContainer *) (getFirstElemP());
+#endif
 }
 
 inline
 const FieldContainer *ConstFieldContainerPtr::operator->(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (const FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (const FieldContainer *) (getFirstElemP());
+#endif
 }
 
 inline
 const FieldContainer &ConstFieldContainerPtr::operator *(void)
 {
-    return *((FieldContainer *) (getElemP(Thread::getAspect())));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return *((const FieldContainer *) (getElemP(Thread::getAspect())));
+#else
+    return *((const FieldContainer *) (getFirstElemP()));
+#endif
 }
 
 inline
 const FieldContainer &ConstFieldContainerPtr::operator *(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((const FieldContainer *) (getElemP(Thread::getAspect())));
+#else
+    return *((const FieldContainer *) (getFirstElemP()));
+#endif
 }
 
 inline
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
 {
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (const FieldContainer *) (getFirstElemP());
+#endif
 }
 
 inline
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (const FieldContainer *) (getElemP(Thread::getAspect()));
+#else
+    return (const FieldContainer *) (getFirstElemP());
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -710,28 +797,44 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, 
                            FieldContainerTypeT>::operator ->(void)
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator ->(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT &FCPtr<BasePtrTypeT, 
                            FieldContainerTypeT>::operator *(void)
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+#else
+    return *((FieldContainerTypeT *) Self::getFirstElemP());
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT &FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator *(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+#else
+    return *((FieldContainerTypeT *) Self::getFirstElemP());
+#endif
 }
 
 
@@ -739,14 +842,22 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void)
 
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *
     FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -852,7 +963,11 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator ->(void)
 {
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (const FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
@@ -860,14 +975,22 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator ->(
                                            void) const
 {
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (const FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator *(void)
 {
-    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+   return *((const FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+#else
+   return *((const FieldContainerTypeT *) Self::getFirstElemP());
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
@@ -875,7 +998,11 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator *(
                                            void) const
 {
-    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+   return *((const FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+#else
+   return *((const FieldContainerTypeT *) Self::getFirstElemP());
+#endif
 }
 
 
@@ -884,14 +1011,22 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::getCPtr(void)
 
 {
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (const FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *
     ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+#else
+    return (const FieldContainerTypeT *) Self::getFirstElemP();
+#endif
 }
 
 /*-------------------------------------------------------------------------*/

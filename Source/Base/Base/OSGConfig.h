@@ -624,6 +624,7 @@
 #endif
 
 #define OSG_COMPILETIME_NUM_ASPECTS
+
 #define OSG_NUM_ASPECTS 2
 
 
@@ -660,6 +661,13 @@
 
 #ifdef _OSG_HAVE_CONFIGURED_H_
 #include <OSGConfigured.h>
+#endif
+
+#if defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+# if defined(OSG_NUM_ASPECTS)
+#  undef OSG_NUM_ASPECTS
+# endif
+# define OSG_NUM_ASPECTS 1
 #endif
 
 #define OSG_ASSERT(expr) assert(expr)

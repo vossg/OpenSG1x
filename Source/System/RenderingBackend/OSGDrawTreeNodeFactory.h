@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,153 +36,97 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDRAWTREENODE_H_
-#define _OSGDRAWTREENODE_H_
-
+#ifndef _OSGDRAWTREENODEFACTORY_H_
+#define _OSGDRAWTREENODEFACTORY_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
-#include <OSGMemoryObject.h>
-#include <OSGRenderAction.h>
-#include <OSGMaterial.h>
+#include <vector>
+#include <OSGDrawTreeNode.h>
 
 OSG_BEGIN_NAMESPACE
-
-class Geometry;
-class State;
-class DrawTreeNodeFactory;
 
 /*! \ingroup GrpSystemRenderingBackend
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
+class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNodeFactory 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Statistic                                  */
-    /*! \{                                                                 */
-
-    static Int32 _iCreateCount;
-    static Int32 _iDeleteCount;
-
-    /*! \}                                                                 */
-#if !defined(OSG_OPT_DRAWTREE)
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DrawTreeNode(void);
+    DrawTreeNodeFactory(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~DrawTreeNode(void); 
+    virtual ~DrawTreeNodeFactory(void);
 
     /*! \}                                                                 */
-#endif
     /*---------------------------------------------------------------------*/
-    /*! \name                    Access                                    */
+    /*! \name                      create                                  */
     /*! \{                                                                 */
 
-    DrawTreeNode *getFirstChild   (void                           );
-    DrawTreeNode *getLastChild    (void                           );
+    DrawTreeNode *create(void);
 
-    void          addChild        (DrawTreeNode *pChild           );
-    void          insertFirstChild(DrawTreeNode *pChild           );
-    void          insertChildAfter(DrawTreeNode *pCurrent, 
-                                   DrawTreeNode *pChild           );
-
-    DrawTreeNode *getBrother      (void);
-    void          setBrother      (DrawTreeNode *pBrother         );
-
-    void          setGeometry     (Geometry *pGeo                 );
-    Geometry     *getGeometry     (void                           );
-
-    void          setFunctor      (Material::DrawFunctor &func    );
-    Material::DrawFunctor &getFunctor(void                        );
-    bool          hasFunctor      (void                           );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       free                                   */
+    /*! \{                                                                 */
     
-    void          setState        (State    *pState               );
-    State        *getState        (void                           );
+    void freeAll(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       stat                                   */
+    /*! \{                                                                 */
     
-    void          setNode         (NodePtr   pNode                );
-    NodePtr       getNode         (void                           );
-
-    void          setMatrixStore  (const MatrixStore &oMatrixStore);
-    MatrixStore  &getMatrixStore  (void                           );        
-
-    void          setScalar       (Real32 rScalar                 );
-    Real32        getScalar       (void                           );
-
-    void          reset           (void                           );
+    void printStat(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    typedef MemoryObject Inherited;
+    typedef std::vector<DrawTreeNode *>           DrawTreeNodeStore;
 
+    typedef std::vector<DrawTreeNode *>::iterator DrawTreeNodeStoreIt;
+
+    
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    DrawTreeNode              *_pFirstChild;
-    DrawTreeNode              *_pLastChild;
+    DrawTreeNodeStore   _nodeStore;
+    DrawTreeNodeStoreIt _currentFreeNode;
 
-    DrawTreeNode              *_pBrother;
-
-    NodePtr                    _pNode;
-
-    State                     *_pState;
-    Geometry                  *_pGeo;
-    Material::DrawFunctor      _functor;
-    bool                       _hasFunctor;
-    
-    MatrixStore                _oMatrixStore;        
-
-    Real32                     _rScalarVal;
+    UInt32              _uiAllocated;
+    UInt32              _uiReused;
 
     /*! \}                                                                 */
-
-#if defined(OSG_OPT_DRAWTREE)
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    DrawTreeNode(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~DrawTreeNode(void); 
-
-    /*! \}                                                                 */
-#endif
-
     /*==========================  PRIVATE  ================================*/
+
   private:
 
-    friend class DrawTreeNodeFactory;
-
-    /*! \brief prohibit default function (move to 'public' if needed) */
-    DrawTreeNode(const DrawTreeNode &source);
-    /*! \brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DrawTreeNode &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    DrawTreeNodeFactory(const DrawTreeNodeFactory &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const DrawTreeNodeFactory &source);
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGDrawTreeNode.inl>
+#define OSGDRAWTREENODEFACTORY_HEADER_CVSID "@(#)$Id: $"
 
-#define OSGDRAWTREENODE_HEADER_CVSID "@(#)$Id: $"
+#include "OSGDrawTreeNodeFactory.inl"
 
-#endif /* _OSGDRAWTREENODE_H_ */
+#endif /* _OSGDRAWTREENODEFACTORY_H_ */

@@ -68,6 +68,10 @@ class State;
 class Light;
 class LightChunk;
 
+#if defined(OSG_OPT_DRAWTREE)
+class DrawTreeNodeFactory;
+#endif
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -186,6 +190,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
+
+#if defined(OSG_OPT_DRAWTREE)
+    DrawTreeNodeFactory      *_pNodeFactory;
+#endif
 
     Material                 *_pMaterial;
 

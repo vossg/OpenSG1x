@@ -156,7 +156,11 @@ void FieldContainer::newPtr(
     pTmp += sizeof(Int32);
     
     result._storeP = (pTmp + sizeof(UInt32));
-    
+
+#ifdef OSG_DEBUG_FCPTR
+    result._typedStoreP = reinterpret_cast<FieldContainer *>(result._storeP);
+#endif
+
     *(reinterpret_cast<UInt32 *>(pTmp)) = 
         FieldContainerFactory::the()->registerFieldContainer(result);
     
@@ -219,6 +223,10 @@ void FieldContainer::newPtr(ObjectPtrT &result)
     
     result._storeP = (pTmp + sizeof(UInt32));
     
+#ifdef OSG_DEBUG_FCPTR
+    result._typedStoreP = reinterpret_cast<FieldContainer *>(result._storeP);
+#endif
+
     *(reinterpret_cast<UInt32 *>(pTmp)) = 
         FieldContainerFactory::the()->registerFieldContainer(result);
     
