@@ -152,7 +152,6 @@ void ProxyGroup::adjustVolume( Volume & volume )
 Action::ResultE ProxyGroup::draw(Action *action)
 {
     DrawActionBase *da        = dynamic_cast<DrawActionBase *>(action);
-    RenderAction   *ra        = dynamic_cast<RenderAction   *>(action);
 
     if(getEnabled()     == false)
         return Action::Continue;

@@ -454,7 +454,6 @@ void MergeGraphOp::processGeometries(NodePtr& node)
                 //ok, try
                 std::vector<NodePtr>::iterator it2=it+1;
                 GeometryPtr new_geo=NullFC;
-                bool merged=false;
                 for ( ; it2!=en; ++it2)
                 {
                     if (!isInExcludeList(*it2) && (*it2)->getCore()->getType().isDerivedFrom(Geometry::getClassType()))

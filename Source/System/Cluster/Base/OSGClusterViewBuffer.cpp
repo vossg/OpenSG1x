@@ -109,7 +109,6 @@ void ClusterViewBuffer::recv(Connection &connection,UInt32 channel)
     UInt32  component;
     GLenum  glformat;
     int     componentCnt;
-    UInt32  sync;
 
     if(channel == Connection::ALL_CHANNELS)
         missing = connection.getChannelCount();
@@ -250,7 +249,6 @@ void ClusterViewBuffer::send(Connection &connection,
 //    Image::PixelFormat  imgformat;
     int                 componentCnt;
     int                 imgtranssize = 0;
-    UInt32              sync;
 
     switch(component & RGBA)
     {
@@ -386,11 +384,6 @@ void ClusterViewBuffer::pipe(Connection *srcConnection,
     BufferT             stencilData;
     BufferT             zData;
     BufferT             colorData;
-    UInt32              dataSize;
-    GLenum              glformat;
-    int                 componentCnt;
-    int                 imgtranssize = 0;
-    UInt32              sync;
     UInt32              srcComponent;
     UInt32              sendComponent;
     UInt32              colorRemoved=0;

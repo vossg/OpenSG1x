@@ -1005,7 +1005,7 @@ void OSG::Window::frameInit(void)
         {          
             if(! std::binary_search(_ignoredExtensions.begin(),
                                     _ignoredExtensions.end(),
-                                    (*it).c_str()))
+                                    *it))
             {
                 _extensions.push_back(*it);
             }
@@ -1031,7 +1031,7 @@ void OSG::Window::frameInit(void)
             bool supported = std::binary_search( 
                                 _extensions.begin(),
                                 _extensions.end(),
-                                _registeredExtensions[s].c_str());
+                                _registeredExtensions[s]);
 
             _availExtensions.push_back(supported);
 

@@ -220,6 +220,10 @@ typedef std::list<xmlnodeptr> xmlnodelist;
 typedef std::map<xmlstring, xmlstring> xmlattrmap;
 
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 //! xml tag attribute map
 /*! contains all attributes and values a tag has, represented in a map */
 class XMLPP_API xmlattributes: public std::map<xmlstring, xmlstring>
@@ -235,6 +239,9 @@ public:
    void set(xmlstring &key, xmlstring &value);
 };
 
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 //! xml node
 class XMLPP_API xmlnode
@@ -318,6 +325,10 @@ protected:
 };
 
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 //! xml document
 class XMLPP_API xmldocument: public xmlnode
 {
@@ -345,6 +356,9 @@ protected:
    xmlnodelist dtdrules;
 };
 
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 //! xml parsing event handler
 class XMLPP_API xmleventhandler

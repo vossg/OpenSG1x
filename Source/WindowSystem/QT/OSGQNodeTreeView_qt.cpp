@@ -195,7 +195,6 @@ QFCItem::setup(void)
         FieldDescription *pDesc     = 
             pFCAsp->getType().getFieldDescription     (fieldId);
         Field            *pField    = pFCAsp->getField(fieldId);
-        const FieldType  &fieldType = pField->getType (       );
         
         if(isSFFieldContainerPtr(pField))
         {
@@ -256,7 +255,6 @@ QFCItem::expand(void)
     {
         FieldDescription *pFieldDesc = fcType.getFieldDescription(fieldId);
         Field            *pField     = pFCAsp->getField          (fieldId);
-        const FieldType  &fieldType  = pField->getType           (       ); 
         
         //add Items for all referenced containers (except parents)
         if(isSFFieldContainerPtr(pField))

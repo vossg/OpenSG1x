@@ -210,10 +210,9 @@ UInt64 ImageFileType::restore( ImagePtr &image,
                                const UChar8 *buffer, Int32 memSize)
 {
     unsigned long   imageSize, headSize = sizeof(Head);
-    unsigned long   size, i, attachmentSize;
+    unsigned long   size, attachmentSize;
     Head            head;
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
-    char            *attData, *attKey, *attValue;
     ImageFileType   *type;
     const char      *mimeType;
 
@@ -302,8 +301,6 @@ UInt64 ImageFileType::store(const ImagePtr &image,
     UChar8          *dest;
     const UChar8    *src = image->getData();
     std::map<std::string, std::string>::const_iterator aI;
-    UInt32          l;
-    Int32           i;
     std::string     value;
 
     attachmentSize = 0;
@@ -406,7 +403,6 @@ specific data block)
 */
 UInt64 ImageFileType::maxBufferSize(const ImagePtr &image)
 {
-    UInt32 i;
     std::string value;
     unsigned long size, attachmentSize;
     unsigned long imageSize = image->getSize(), headSize = sizeof(Head);

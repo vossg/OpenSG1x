@@ -1401,7 +1401,6 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     //if ( getMaterial() != other->getMaterial() ) return -1;
     if (!CompareMaterials(getMaterial(),other->getMaterial())) return -1;
 
-    UInt16 i;
 
     //compare the existing attributes
     if ( ( (        getNormals()            != NullFC ) ^

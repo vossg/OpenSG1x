@@ -559,7 +559,6 @@ void WebInterface::fcViewHandler(std::ostream &os,
     FieldContainerPtr                   fcPtr,childFcPtr;
     std::string                         type,value;
     UInt32                              id;
-    FieldDescription                   *desc;
     Field                              *field;
     MFFieldContainerPtr                *mfFCPtr;
 
@@ -728,7 +727,6 @@ void WebInterface::treeViewHandler(std::ostream &os,
                                    ParameterT &param)
 {
     ParameterT::iterator pI;
-    UInt32               id;
 
     // open folder
     if(getParam(param,"open"))
