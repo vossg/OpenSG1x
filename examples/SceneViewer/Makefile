@@ -42,18 +42,21 @@ ifeq ($(OS),IRIX)
     
         CCOUT := -o 
         LDOUT := -o 
+	BINSUF:=
 
 endif
 ifeq ($(OS),IRIX64)
     
         CCOUT := -o 
         LDOUT := -o 
+	BINSUF:=
 
 endif
 ifeq ($(OS),Linux)
     
         CCOUT := -o 
         LDOUT := -o 
+	BINSUF:=
 
 endif
 ifeq ($(findstring WIN,$(OS)),WIN)
@@ -61,6 +64,7 @@ ifeq ($(findstring WIN,$(OS)),WIN)
         OS := WIN32
         CCOUT := -Fo
         LDOUT := /out:
+	BINSUF := .exe
 
 endif
 
@@ -81,7 +85,6 @@ SYSDEP     := $(OS)-$(CMPLR_ID)
 
 # check these (GV)
 
-BINSUF     := .exe
 LINK       := cp
 BINSET     := touch
 SYSTMP     := /tmp
