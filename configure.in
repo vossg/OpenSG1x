@@ -51,6 +51,10 @@ ac_gdz_conf_package_myrinet_e1='0'
 ac_gdz_conf_package_freetype1='0'
 ac_gdz_conf_package_freetype1_e1='0'
 
+ac_gdz_with_add_incdirs=
+ac_gdz_with_add_libdirs=
+ac_gdz_with_add_libs=
+
 ac_gdz_test_debug_libs=
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
@@ -321,9 +325,9 @@ AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional i
 			,with_add_incdir=no) 
 
 if test "$with_add_incdir" = yes; then
-	ac_gdz_with_add_incdirs =
+	ac_gdz_with_add_incdirs=
 elif test "$with_add_incdir" = no; then
-	ac_gdz_with_add_incdirs =
+	ac_gdz_with_add_incdirs=
 else
 	ac_gdz_with_add_incdirs=$with_add_incdir 
 fi
@@ -332,9 +336,9 @@ AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional l
 			,with_add_libdir=no) 
 
 if test "$with_add_libdir" = yes; then
-	ac_gdz_with_add_libdirs =
+	ac_gdz_with_add_libdirs=
 elif test "$with_add_libdir" = no; then
-	ac_gdz_with_add_libdirs =
+	ac_gdz_with_add_libdirs=
 else
 	ac_gdz_with_add_libdirs=$with_add_libdir 
 fi
@@ -343,9 +347,9 @@ AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional libr
 			,with_add_lib=no) 
 
 if test "$with_add_lib" = yes; then
-	ac_gdz_with_add_libs =
+	ac_gdz_with_add_libs=
 elif test "$with_add_lib" = no; then
-	ac_gdz_with_add_libs =
+	ac_gdz_with_add_libs=
 else
 	ac_gdz_with_add_libs=$with_add_lib 
 fi
