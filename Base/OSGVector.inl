@@ -1055,6 +1055,26 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
     return returnValue;
 }
 
+/** \brief Component wise binary vector addition operator
+ */
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface <ValueTypeT, StorageInterfaceT>
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator + (
+        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const
+{
+	PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
+
+    UInt32 i;
+
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    {
+		returnValue[i] = _values[i] + vec[i];
+	}
+
+	return returnValue;
+}
+
 /** \brief Component wise binary scalar multiplication
  */
 template <class    ValueTypeT, 
@@ -1546,6 +1566,15 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
     return returnValue;
 }
 
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT> 
+	VectorInterface<ValueTypeT, StorageInterfaceT>::operator % (
+			const VectorInterface &vec) const
+{
+	return this.cross( vec );
+}
+
 /** \brief Calculates the right handed cross-product with a given vector; 
  *  This function is implemented for size 3 vectors only.
  */
@@ -1597,6 +1626,39 @@ ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot(
     }
     
     return rTmpVal;
+}
+
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
+	const VectorInterface &vec) const
+{
+	return this.dot( vec );
+}
+
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot (
+		const PointInterface<ValueTypeT, StorageInterfaceT> &pnt) const
+{
+    UInt32 i;
+
+    ValueTypeT rTmpVal = _values[0] * pnt[0];
+
+    for(i = 1; i < _iSize; i++)
+    {
+        rTmpVal += _values[i] * pnt[i];
+    }
+    
+    return rTmpVal;
+}
+
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
+		const PointInterface<ValueTypeT, StorageInterfaceT> &pnt) const
+{
+     return this.dot( pnt );
 }
 
 /** \brief Returns the angle between this and another vector
@@ -1733,7 +1795,7 @@ template <class    ValueTypeT,
           class    StorageInterfaceT> inline
 VectorInterface<ValueTypeT, StorageInterfaceT> 
     VectorInterface<ValueTypeT, StorageInterfaceT>::operator -(
-        void)
+        void) const
 {
     UInt32 i;
 

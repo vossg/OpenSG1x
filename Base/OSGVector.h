@@ -653,6 +653,8 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     VectorInterface<ValueTypeT, StorageInterfaceT> operator - (
         const PointInterface &vec) const;
+    PointInterface operator + (
+        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;	
 
     PointInterface operator * (const ValueTypeT rVal) const;
 
@@ -883,10 +885,16 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     void            normalize(void);
 
     VectorInterface cross    (const VectorInterface &vec) const;
+    VectorInterface operator % (const VectorInterface &vec) const;
 
     void            crossThis(const VectorInterface &vec);
 
-    ValueTypeT      dot      (const VectorInterface &vec) const;
+    ValueTypeT      dot        (const VectorInterface &vec) const;
+    ValueTypeT  	operator * (const VectorInterface &vec) const;
+    ValueTypeT      dot        (const PointInterface<ValueTypeT, 
+											StorageInterfaceT> &pnt) const;
+    ValueTypeT  	operator * (const PointInterface<ValueTypeT, 
+											StorageInterfaceT> &pnt) const;
 
     RealReturnType  enclosedAngle(const VectorInterface &vec) const;
 
@@ -900,7 +908,7 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 
     VectorInterface operator * (const ValueTypeT rVal) const;
 
-    VectorInterface operator -  (void);
+    VectorInterface operator -  (void) const;
 
     /*------------------------- assignment ----------------------------------*/
 
