@@ -50,6 +50,7 @@
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
 #include <OSGIntersectAction.h>
+#include <OSGSimpleGeometry.h>
 
 OSG_USING_NAMESPACE
 
@@ -108,8 +109,8 @@ Action::ResultE MaterialDrawable::renderActionHandler(Action *action)
         }
         else
         {
-            fprintf(stderr, "MaterialDrawable::render: no Material!?!\n");
-            return Action::Continue;
+            m = getDefaultMaterial();
+            FNOTICE(("MaterialDrawable::render: no Material!?!\n"));
         }
     }
 
@@ -136,6 +137,7 @@ Action::ResultE MaterialDrawable::drawActionHandler(Action * action )
     }
     else
     {
+        getDefaultMaterial()->draw( func, a );
         FWARNING(("MaterialDrawable::draw:: no material!\n"));;
     }
     return Action::Continue;
@@ -175,7 +177,7 @@ void MaterialDrawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.5 2002/11/11 13:55:48 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.6 2003/11/01 00:19:37 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 
