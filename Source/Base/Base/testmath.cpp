@@ -65,17 +65,17 @@ template class VectorInterface<UInt8, VecStorage2<UInt8> >;
 template class VectorInterface<UInt8, VecStorage3<UInt8> >;
 template class VectorInterface<UInt8, VecStorage4<UInt8> >;
 
-template class PointInterface<Real32, VecStorage2<Real32> >;
-template class PointInterface<Real32, VecStorage3<Real32> >;
-template class PointInterface<Real32, VecStorage4<Real32> >;
+//template class PointInterface<Real32, VecStorage2<Real32> >;
+//template class PointInterface<Real32, VecStorage3<Real32> >;
+//template class PointInterface<Real32, VecStorage4<Real32> >;
 
-template class PointInterface<UInt16, VecStorage2<UInt16> >;
-template class PointInterface<UInt16, VecStorage3<UInt16> >;
-template class PointInterface<UInt16, VecStorage4<UInt16> >;
+//template class PointInterface<UInt16, VecStorage2<UInt16> >;
+//template class PointInterface<UInt16, VecStorage3<UInt16> >;
+//template class PointInterface<UInt16, VecStorage4<UInt16> >;
 
-template class PointInterface<UInt8, VecStorage2<UInt8> >;
-template class PointInterface<UInt8, VecStorage3<UInt8> >;
-template class PointInterface<UInt8, VecStorage4<UInt8> >;
+//template class PointInterface<UInt8, VecStorage2<UInt8> >;
+//template class PointInterface<UInt8, VecStorage3<UInt8> >;
+//template class PointInterface<UInt8, VecStorage4<UInt8> >;
 
 
 using OSG::osgInit;
@@ -1570,9 +1570,9 @@ void vec2pnttest(void)
 
     fprintf(stderr, "%f %f %f\n", v[0], v[1], v[2]);
 
-    p = v;
+//    p = v;
 
-    p = cv;
+//    p = cv;
 }
 
 void testfactor(void)
