@@ -53,7 +53,6 @@
 #endif
 
 #define OSG_COMPILEMISC
-#define OSG_COMPILEVRMLTRANSFORMINST
 
 #include "OSGVRMLTransform.h"
 #include "OSGDrawAction.h"
@@ -62,92 +61,24 @@ OSG_USING_NAMESPACE
 
 
 /***************************************************************************\
- *                               Types                                     *
+ *                            Description                                  *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
+/*! \class osg::VRMLTransform
 
-#if defined(__sgi)
 
-#pragma instantiate SField<VRMLTransformPtr>::_fieldType
-#pragma instantiate MField<VRMLTransformPtr>::_fieldType
 
-#else
+*/
 
-OSG_DLLEXPORT_DEF1(SField, VRMLTransformPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, VRMLTransformPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(VRMLTransform, CenterField)
-
-OSG_FC_FIELD_IDM_DEF      (VRMLTransform,
-						   RotationField, 
-                           CenterField)
-OSG_FC_FIELD_IDM_DEF      (VRMLTransform,
-						   ScaleField, 
-                           RotationField)
-OSG_FC_FIELD_IDM_DEF      (VRMLTransform,
-						   ScaleOrientationField, 
-                           ScaleField)
-OSG_FC_FIELD_IDM_DEF      (VRMLTransform,
-						   TranslationField, 
-                           ScaleOrientationField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (VRMLTransform, VRMLTransform)
-
 char VRMLTransform::cvsid[] = "@(#)$Id: $";
-
-/** \brief Group field description
- */
-
-FieldDescription VRMLTransform::_desc[] = 
-{
-    FieldDescription(SFVec3f::getClassType(), 
-                     "center", 
-                     OSG_FC_FIELD_IDM_DESC(CenterField),
-                     false,
-                     (FieldAccessMethod) &VRMLTransform::getSFCenter),
-    FieldDescription(SFQuaternion::getClassType(), 
-                     "rotation", 
-                     OSG_FC_FIELD_IDM_DESC(RotationField),
-                     false,
-                     (FieldAccessMethod) &VRMLTransform::getSFRotation),
-    FieldDescription(SFVec3f::getClassType(), 
-                     "scale", 
-                     OSG_FC_FIELD_IDM_DESC(ScaleField),
-                     false,
-                     (FieldAccessMethod) &VRMLTransform::getSFScale),
-    FieldDescription(SFQuaternion::getClassType(), 
-                     "scaleOrientation", 
-                     OSG_FC_FIELD_IDM_DESC(ScaleOrientationField),
-                     false,
-                    (FieldAccessMethod) &VRMLTransform::getSFScaleOrientation),
-    FieldDescription(SFVec3f::getClassType(), 
-                     "translation", 
-                     OSG_FC_FIELD_IDM_DESC(TranslationField),
-                     false,
-                     (FieldAccessMethod) &VRMLTransform::getSFTranslation)
-};
-
-/** \brief VRMLTransform type
- */
-
-FieldContainerType VRMLTransform::_type(
-    "VRMLTransform",
-    "Transform",
-    NULL,
-    (PrototypeCreateF) &VRMLTransform::createEmpty,
-    initMethod,
-    _desc,
-    sizeof(_desc));
-
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -198,7 +129,6 @@ void VRMLTransform::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(VRMLTransform, VRMLTransformPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -206,12 +136,7 @@ OSG_FIELD_CONTAINER_DEF(VRMLTransform, VRMLTransformPtr)
  */
 
 VRMLTransform::VRMLTransform(void) :
-    Inherited(),
-    _center          (),
-    _rotation        (),
-    _scale           (Vec3f(1., 1., 1.)),
-    _scaleOrientation(),
-    _translation     ()
+    Inherited()
 {
 }
 
@@ -219,12 +144,7 @@ VRMLTransform::VRMLTransform(void) :
  */
 
 VRMLTransform::VRMLTransform(const VRMLTransform &source) :
-    Inherited        (source                  ),
-    _center          (source._center          ),
-    _rotation        (source._rotation        ),
-    _scale           (source._scale           ),
-    _scaleOrientation(source._scaleOrientation),
-    _translation     (source._translation     )
+    Inherited(source)
 {
 }
 
@@ -237,83 +157,10 @@ VRMLTransform::~VRMLTransform(void)
 
 /*------------------------------ access -----------------------------------*/
 
-SFVec3f *VRMLTransform::getSFCenter(void)
-{
-    return &_center;
-}
+/** \brief react to field changes
+ */
 
-SFQuaternion *VRMLTransform::getSFRotation(void)
-{
-    return &_rotation;;
-}
-
-SFVec3f *VRMLTransform::getSFScale(void)
-{
-    return &_scale;
-}
-
-SFQuaternion *VRMLTransform::getSFScaleOrientation(void)
-{
-    return &_scaleOrientation;
-}
-
-SFVec3f *VRMLTransform::getSFTranslation(void)
-{
-    return &_translation;
-}
-
-Vec3f &VRMLTransform::getCenter(void)
-{
-    return _center.getValue();
-}
-
-const Vec3f &VRMLTransform::getCenter(void) const
-{
-    return _center.getValue();
-}
-
-Quaternion &VRMLTransform::getRotation(void)
-{
-    return _rotation.getValue();
-}
-
-const Quaternion &VRMLTransform::getRotation(void) const
-{
-    return _rotation.getValue();
-}
-
-Vec3f &VRMLTransform::getScale(void)
-{
-    return _scale.getValue();
-}
-
-const Vec3f &VRMLTransform::getScale(void) const
-{
-    return _scale.getValue();
-}
-
-Quaternion &VRMLTransform::getScaleOrientation(void)
-{
-    return _scaleOrientation.getValue();
-}
-
-const Quaternion &VRMLTransform::getScaleOrientation(void) const
-{
-    return _scaleOrientation.getValue();
-}
-
-Vec3f &VRMLTransform::getTranslation(void)
-{
-    return _translation.getValue();
-}
-
-const Vec3f &VRMLTransform::getTranslation(void) const
-{
-    return _translation.getValue();
-}
-
-void VRMLTransform::changed(BitVector, 
-                            ChangeMode)
+void VRMLTransform::changed(BitVector, ChangeMode)
 {
     getMatrix().setTransform(getTranslation     (),
                              getRotation        (),
@@ -323,6 +170,9 @@ void VRMLTransform::changed(BitVector,
 }
 
 /*------------------------------- dump ----------------------------------*/
+
+/** \brief output the instance for debug purposes
+ */
 
 void VRMLTransform::dump(      UInt32     uiIndent, 
                          const BitVector &bvFlags) const
@@ -339,32 +189,4 @@ void VRMLTransform::dump(      UInt32     uiIndent,
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

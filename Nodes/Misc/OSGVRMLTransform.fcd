@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="VRMLTransform"
+	parent="Transform"
+	library="Misc"
+	structure="concrete"
+	pointerfieldtypes="both"
+>
+	<Field
+		name="center"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="rotation"
+		type="Quaternion"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="scale"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="scaleOrientation"
+		type="Quaternion"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="translation"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+</FieldContainer>

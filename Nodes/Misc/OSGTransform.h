@@ -49,15 +49,8 @@
 
 #include <OSGConfig.h>
 
-#include <GL/gl.h>
-#include <OSGBaseTypes.h>
-#include <OSGNodeCore.h>
-#include <OSGSFMathTypes.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldDescription.h>
 #include <OSGAction.h>
-#include <OSGMiscBase.h>
+#include <OSGTransformBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -65,16 +58,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Transform;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-/** \brief TransformPtr
- */
-
-typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -84,22 +70,14 @@ typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
  *	\ingroup NodesLib
  */
 
-class OSG_MISC_DLLMAPPING Transform : public NodeCore
+class OSG_MISC_DLLMAPPING Transform : public TransformBase
 {
-  private:
-
-    typedef NodeCore Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-    OSG_FC_FIRST_FIELD_IDM_DECL(MatrixField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (MatrixField)
-
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -120,26 +98,17 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(TransformPtr)
-
     /*--------------------------- access fields ----------------------------*/
 
-    //! Return the matrix field.
-          SFMatrix *getSFMatrix(void);
-
     /*----------------------------- access ----------------------------------*/
-
-    //!@{ Return the matrix value.
-
-          Matrix   &getMatrix  (void);
-    const Matrix   &getMatrix  (void) const;
-
-    //!@}
 
     /*-------------------------- transformation ----------------------------*/
 
     virtual void accumulateMatrix( Matrix & result );
 
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
     /*------------------------------ volume -------------------------------*/
 
     void adjustVolume( Volume & volume );
@@ -171,9 +140,8 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    //! The field storing the transform matrix.
-    SFMatrix _matrix;
-    
+    // They should all be in TransformBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -202,11 +170,14 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef TransformBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
+    friend class TransformBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -218,16 +189,12 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
-
-    static FieldContainerType _type;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     static void initMethod( void );
-    
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
@@ -250,56 +217,9 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
  */
 typedef Transform *TransformP;
 
-/** \ingroup FieldLib Transform
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief TransformPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<TransformPtr> : public Traits
-{
-    enum                        { StringConvertable = 0x00      };
-
-    static char *getSName(void) { return "SFTransformPtr"; }
-    static char *getMName(void) { return "MFTransformPtr"; }
-};
-
-/** \brief SFTransformPtr
- */
-typedef SField<TransformPtr> SFTransformPtr;
-
-#ifndef OSG_COMPILETRANSFORMINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<TransformPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-/** \brief MFTransformPtr
- */
-typedef MField<TransformPtr> MFTransformPtr;
-
-#ifndef OSG_COMPILETRANSFORMINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<TransformPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
 #include <OSGTransform.inl>
+#include <OSGTransformBase.inl>
 
 #endif /* _OSGTRANSFORM_H_ */

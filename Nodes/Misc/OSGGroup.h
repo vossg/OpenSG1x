@@ -36,22 +36,20 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGGROUP_H_
 #define _OSGGROUP_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGNodeCore.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGMiscBase.h>
+#include <OSGConfig.h>
+
+#include <OSGGroupBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,16 +57,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Group;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-/** \brief GroupPtr
- */
-
-typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -78,14 +69,14 @@ typedef FCPtr<NodeCorePtr, Group> GroupPtr;
  *	\ingroup NodesLib
  */
 
-class OSG_MISC_DLLMAPPING Group : public NodeCore
+class OSG_MISC_DLLMAPPING Group : public GroupBase
 {
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -106,7 +97,16 @@ class OSG_MISC_DLLMAPPING Group : public NodeCore
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(GroupPtr)
+    /*--------------------------- access fields ----------------------------*/
+
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -135,6 +135,8 @@ class OSG_MISC_DLLMAPPING Group : public NodeCore
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in GroupBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -142,7 +144,7 @@ class OSG_MISC_DLLMAPPING Group : public NodeCore
     Group(void);
     Group(const Group &source);
     virtual ~Group(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -153,13 +155,14 @@ class OSG_MISC_DLLMAPPING Group : public NodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef NodeCore Inherited;
+    typedef GroupBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
+    friend class GroupBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -171,11 +174,11 @@ class OSG_MISC_DLLMAPPING Group : public NodeCore
 
     static char cvsid[];
 
-    static FieldContainerType _type;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -194,60 +197,14 @@ class OSG_MISC_DLLMAPPING Group : public NodeCore
 //   Exported Types
 //---------------------------------------------------------------------------
 
+
 /** \brief class pointer
  */
 typedef Group *GroupP;
 
-/** \ingroup FieldLib Group
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief GroupPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<GroupPtr> : public Traits
-{
-    enum                        { StringConvertable = 0x00      };
-
-    static char *getSName(void) { return "SFGroupPtr"; }
-    static char *getMName(void) { return "MFGroupPtr"; }
-};
-
-/** \brief SFGroupPtr
- */
-typedef SField<GroupPtr> SFGroupPtr;
-
-#ifndef OSG_COMPILEGROUPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GroupPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-/** \brief MFGroupPtr
- */
-typedef MField<GroupPtr> MFGroupPtr;
-
-#ifndef OSG_COMPILEGROUPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GroupPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
 #include <OSGGroup.inl>
+#include <OSGGroupBase.inl>
 
 #endif /* _OSGGROUP_H_ */

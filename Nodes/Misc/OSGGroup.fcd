@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Group"
+	parent="NodeCore"
+	library="Misc"
+	structure="concrete"
+	pointerfieldtypes="both"
+>
+Group is the simplest form of a NodeCore. A group
+carries no predefined data and most actions will only traverse the
+children list. So usually the group does nothing.
+
+</FieldContainer>

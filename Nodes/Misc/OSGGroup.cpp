@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -51,17 +53,18 @@
 #endif
 
 #define OSG_COMPILEMISC
-#define OSG_COMPILEGROUPINST
 
 #include "OSGGroup.h"
 
 OSG_USING_NAMESPACE
 
+
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
 
-/*!  \class osg::Group
+/*! \class osg::Group
+
 
 Group is the simplest form of a NodeCore. A group
 carries no predefined data and most actions will only traverse the
@@ -70,24 +73,8 @@ children list. So usually the group does nothing.
 */
 
 /***************************************************************************\
-*                                Types                                     *
+ *                               Types                                     *
 \***************************************************************************/
-
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<GroupPtr>::_fieldType
-#pragma instantiate MField<GroupPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -95,14 +82,13 @@ OSG_END_NAMESPACE
 
 char Group::cvsid[] = "@(#)$Id: $";
 
-/** \brief Group type
- */
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-FieldContainerType Group::_type(
-    "Group",
-    "NodeCore",
-    0,
-    (PrototypeCreateF) &Group::createEmpty);
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -120,15 +106,21 @@ FieldContainerType Group::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void Group::initMethod (void)
+{
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
 
-OSG_FIELD_CONTAINER_DEF(Group, GroupPtr)
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -155,13 +147,26 @@ Group::~Group(void)
 {
 }
 
+
+/** \brief react to field changes
+ */
+
+void Group::changed(BitVector, ChangeMode)
+{
+}
+
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void Group::dump(      UInt32     uiIndent, 
-                 const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
-    Inherited::dump(uiIndent, bvFlags);
+   Inherited::dump(uiIndent, bvFlags);
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -170,36 +175,4 @@ void Group::dump(      UInt32     uiIndent,
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
-
-
-
 

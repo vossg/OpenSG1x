@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Transform"
+	parent="NodeCore"
+	library="Misc"
+	structure="concrete"
+	pointerfieldtypes="both"
+>
+The basic Transformation class. Just keeps a single matrix. For more complex
+behaviour, see its descendents.
+	<Field
+		name="matrix"
+		type="Matrix"
+		cardinality="single"
+		visibility="external"
+	>
+	The transformation matrix.
+	</Field>
+</FieldContainer>

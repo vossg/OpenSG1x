@@ -50,7 +50,6 @@
 #include <iostream.h>
 #endif
 
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -86,7 +85,6 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(Transform, TransformPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -111,32 +109,4 @@ OSG_FIELD_CONTAINER_INL_DEF(Transform, TransformPtr)
 
 
 OSG_END_NAMESPACE
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

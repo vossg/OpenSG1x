@@ -46,6 +46,8 @@
 
 #include "OSGConfig.h"
 
+#include <GL/gl.h>
+
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
 #else
@@ -53,7 +55,6 @@
 #endif
 
 #define OSG_COMPILEMISC
-#define OSG_COMPILETRANSFORMINST
 
 #include <OSGDrawAction.h>
 #include <OSGIntersectAction.h>
@@ -64,58 +65,25 @@ OSG_USING_NAMESPACE
 
 
 /***************************************************************************\
- *                               Types                                     *
+ *                            Description                                  *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
+/*! \class osg::Transform
 
-#if defined(__sgi)
+The basic Transformation class. Just keeps a single matrix. For more complex 
+behaviour, see its descendents. 	
 
-#pragma instantiate SField<TransformPtr>::_fieldType
-#pragma instantiate MField<TransformPtr>::_fieldType
+*/
 
-#else
-
-OSG_DLLEXPORT_DEF1(SField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Transform, MatrixField)
-OSG_FC_LAST_FIELD_IDM_DEF (Transform, MatrixField)
-
 char Transform::cvsid[] = "@(#)$Id: $";
-
-/** \brief Group field description
- */
-
-FieldDescription Transform::_desc[] = 
-{
-    FieldDescription(SFMatrix::getClassType(), 
-                     "matrix", 
-                     OSG_FC_FIELD_IDM_DESC(MatrixField),
-                     false,
-                     (FieldAccessMethod) &Transform::getSFMatrix)
-};
-
-/** \brief Transform type
- */
-
-FieldContainerType Transform::_type(
-    "Transform",
-    "NodeCore",
-    NULL,
-    (PrototypeCreateF) &Transform::createEmpty,
-    initMethod,
-    _desc,
-    sizeof(_desc));
-
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -177,7 +145,6 @@ void Transform::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(Transform, TransformPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -185,8 +152,7 @@ OSG_FIELD_CONTAINER_DEF(Transform, TransformPtr)
  */
 
 Transform::Transform(void) :
-    Inherited(),
-    _matrix()
+    Inherited()
 {
 }
 
@@ -194,8 +160,7 @@ Transform::Transform(void) :
  */
 
 Transform::Transform(const Transform &source) :
-    Inherited(source),
-    _matrix(source._matrix)
+    Inherited(source)
 {
 }
 
@@ -208,29 +173,17 @@ Transform::~Transform(void)
 
 /*------------------------------ access -----------------------------------*/
 
-/** Returns pointer to the stored matrix field.
+/** \brief react to field changes
  */
 
-SFMatrix *Transform::getSFMatrix(void)
+void Transform::changed(BitVector, ChangeMode)
 {
-    return &_matrix;
 }
 
-/** Returns a reference to the stored field.
+/*------------------------------- dump ----------------------------------*/
+
+/** \brief output the instance for debug purposes
  */
-
-Matrix &Transform::getMatrix(void)
-{
-    return _matrix.getValue();
-}
-
-/** Returns a reference to the stored field.
- */
-
-const Matrix &Transform::getMatrix(void) const
-{
-    return _matrix.getValue();
-}
 
 
 void Transform::accumulateMatrix( Matrix & result )
@@ -246,9 +199,9 @@ void Transform::adjustVolume( Volume & volume )
 /*------------------------------- dump ----------------------------------*/
 
 void Transform::dump(      UInt32     uiIndent, 
-                     const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
-	SLOG << "Dump Transform NI" << endl;
+   Inherited::dump(uiIndent, bvFlags);
 }
 
     
@@ -311,32 +264,4 @@ Action::ResultE Transform::intersectLeave( Action *action )
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
