@@ -472,7 +472,7 @@ void BaseSprocBase::init(void)
 
 BaseThread *BaseSprocBase::getCurrent(void)
 {
-    return ((ProcessData *) PRDA->usr2_prda.fill)->_pThread;
+    return ((ProcessData *) PRDA->usr_prda.fill)->_pThread;
 }
 
 void BaseSprocBase::join(BaseSprocBase *pThread)
@@ -521,7 +521,7 @@ void BaseSprocBase::setPid(void)
 
 void BaseSprocBase::setCurrentInternal(BaseThread *pThread)
 {
-    ((ProcessData *) PRDA->usr2_prda.fill)->_pThread  = pThread;
+    ((ProcessData *) PRDA->usr_prda.fill)->_pThread  = pThread;
 }
 
 /*-------------------------------------------------------------------------*\
