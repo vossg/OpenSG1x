@@ -57,6 +57,7 @@
 
 OSG_USING_NAMESPACE
 
+OSG_BEGIN_NAMESPACE
 #if defined(__sgi)
 
 #pragma instantiate SimpleAttachment<NameAttachmentDesc>::_type
@@ -69,6 +70,7 @@ OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
                            OSG_FIELDCONTAINER_TMPLDLLMAPPING)
 
 #endif
+OSG_END_NAMESPACE
 
 /** \fn const char *Attachment::getClassname(void)
  *  \brief Classname
