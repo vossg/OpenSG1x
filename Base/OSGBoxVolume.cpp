@@ -159,7 +159,7 @@ void OSGBoxVolume::extendBy (const OSGVolume &volume)
 /// Extends Box3f (if necessary) to contain given Box3f
 void OSGBoxVolume::extendBy(const OSGBoxVolume &bb)
 {
-	if ( ! isValid() || isInfinite() || isStatic() )
+	if ( (! isValid() && ! isEmpty()) || isInfinite() || isStatic() )
 		return;
 
 	if ( ! bb.isValid() || bb.isInfinite() )
