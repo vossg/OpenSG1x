@@ -20,8 +20,7 @@
 #include <OSGBoxVolume.h>
 #include <OSGNode.h>
 #include <OSGGroup.h>
-#include <OSGThread.h>
-#include <OSGThreadManager.h>
+#include <OSGSimpleGeometry.h>
 #include <OSGFunctors.h>
 #include <OSGTime.h>
 #include <OSGTransform.h>
@@ -49,20 +48,9 @@
 using namespace osg;
 
 
-#define	        NUM_THREADS 1
+HWND	       hwnd;
 
-ThreadManager  *gThreadManager;
-Thread         *drawThread[NUM_THREADS];
-
-UInt32	       drawThreadID[NUM_THREADS];
-
-Bool           drawThreadStop[NUM_THREADS],
-               doResize[NUM_THREADS],
-               stopIt = false;
-
-HWND	       hwnd[NUM_THREADS];
-
-WIN32WindowPtr win[NUM_THREADS];
+WIN32WindowPtr win;
 
 DrawAction     *ract;
 NodePtr	       root;
@@ -70,108 +58,83 @@ NodePtr	       file;
 PerspectiveCameraPtr cam;
 ViewportPtr    vp;
 TransformPtr   cam_trans;
-Trackball      tball[NUM_THREADS];
+Trackball      tball;
 
-int            lastx[NUM_THREADS],
-               lasty[NUM_THREADS],
+int            lastx,
+               lasty,
                mouseb;
 
 double  basetime;
 #define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
 
-void display (UInt32 id)
+void display ( void )
 {
     Matrix m1, m2, m3;
     Quaternion q1;
 
-    tball[id].getRotation().getValue(m3);
+    tball.getRotation().getValue(m3);
     q1.setValue(m3);
     m1.setRotate(q1);
-    m2.setTranslate( tball[id].getPosition() );
+    m2.setTranslate( tball.getPosition() );
     m1.mult( m2 );
     cam_trans->getSFMatrix()->setValue( m1 );
 
-    win[id]->draw( ract );
+    win->draw( ract );
 }
 
-
-void *drawThreadProc (void *arg) 
-{				
-    int	*my_id = (int *) arg;
-	
-    win[i]->init();
-	
-    _sleep(2+*my_id);
-    dpr << "drawThread " << *my_id << " started." << endl;
-	
-    win[*my_id]->activate();
-	
-    while ( ! drawThreadStop[*my_id] )
-    {	     		
-        display( *my_id );						
-    }
-
-    return ( NULL );
-}
 
 LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                          WPARAM wParam, LPARAM lParam)
 {
     RECT clientRect;
-    int  eventThread, x, y;
-
-    for (i=0; i<NUM_THREADS; i++)
-    {
-        if ( hwnd2 == hwnd[i] )
-		{
-		    eventThread = i;
-			break;
-		}
-    }
+    int  eventThread = 0, x, y, i;
 
     switch(uMsg)
     {		
         case WM_LBUTTONDOWN:
 		    mouseb |= 1 << 1;
 			lastx = (int)LOWORD(lParam);
-			lasty = (int)LOWORD(lParam);
+			lasty = (int)HIWORD(lParam);
 			break;
         case WM_MBUTTONDOWN:
-		    tball[eventThread].setAutoPosition(true);
+		    tball.setAutoPosition(true);
 			mouseb |= 1 << 2;
 			lastx = (int)LOWORD(lParam);
-			lasty = (int)LOWORD(lParam);
+			lasty = (int)HIWORD(lParam);
 			break;
         case WM_RBUTTONDOWN:
-		    tball[eventThread].setAutoPositionNeg(true);	
+		    tball.setAutoPositionNeg(true);	
 			mouseb |= 1 << 3;
 			lastx = (int)LOWORD(lParam);
-			lasty = (int)LOWORD(lParam);
+			lasty = (int)HIWORD(lParam);
 			break;	 
         case WM_LBUTTONUP:
 		    mouseb &= ~(1 << 1);
 			lastx = (int)LOWORD(lParam);
-			lasty = (int)LOWORD(lParam);
+			lasty = (int)HIWORD(lParam);
 			break;	    	    
         case WM_MBUTTONUP:
-		    tball[eventThread].setAutoPositionNeg(false); 
-			mouseb &= ~(1 << 1);
+		    tball.setAutoPositionNeg(false); 
+			mouseb &= ~(1 << 2);
 			lastx = (int)LOWORD(lParam);
-			lasty = (int)LOWORD(lParam);
+			lasty = (int)HIWORD(lParam);
 			break;
         case WM_RBUTTONUP:
-		    tball[eventThread].setAutoPositionNeg(false); 
-			mouseb &= ~(1 << 1);
+		    tball.setAutoPositionNeg(false); 
+			mouseb &= ~(1 << 3);
 			lastx = (int)LOWORD(lParam);
-			lasty = (int)LOWORD(lParam);
+			lasty = (int)HIWORD(lParam);
 			break;
 
         case WM_MOUSEMOVE:
+        	{
+        	Real32 w,h,a,b,c,d;
+        	
 		    x = (int)LOWORD(lParam);
 			y = (int)HIWORD(lParam);
-			w = win[eventThread]->getWidth();
-			h = win[eventThread]->getHeight();
+			w = win->getWidth();
+			h = win->getHeight();
 	
 			a = -2. * ( lastx / w - .5 );
 			b = -2. * ( .5 - lasty / h );
@@ -181,17 +144,21 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 			if ( mouseb & ( 1 << 1 ) )
 			{
 			    dpr << "Left button dragged" << endl;
-				tball[eventThread].updateRotation( a, b, c, d );
+				tball.updateRotation( a, b, c, d );
+				display();
 			}
 			else if ( mouseb & ( 1 << 2 ) )
 			{
 			    dpr << "Middle button dragged" << endl;
-				tball[eventThread].updatePosition( a, b, c, d );
+				tball.updatePosition( a, b, c, d );
+				display();
 			}
 			else if ( mouseb & ( 1 << 3 ) )
 			{
 			    dpr << "Right button dragged" << endl;
-				tball[eventThread].updatePositionNeg( a, b, c, d );
+				tball.updatePositionNeg( a, b, c, d );
+				display();
+			}
 			}
 			lastx = x;
 			lasty = y;
@@ -204,9 +171,21 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 			    exit(0);
 			}
 			break;
+									
+        case WM_SIZE:
+		    dpr << "Resize: " << wParam << " " << LOWORD(lParam)
+		    	<< " " << HIWORD( lParam ) << endl;
+		    if ( win != WindowPtr::NullPtr)
+		    	win->resize( LOWORD(lParam), HIWORD( lParam ) );
+			break;
+									
+        case WM_PAINT:
+		    if ( win != WindowPtr::NullPtr)
+		    	display();
+			break;
 
 	    case WM_CLOSE:
-		    return ( DefWindowProc(hwnd2,uMsg,wParam,lParam) );
+		    return DefWindowProc(hwnd2,uMsg,wParam,lParam);
 			break;
 
         case WM_DESTROY:
@@ -234,7 +213,7 @@ int main (int argc, char **argv)
 
     osgInit(argc,argv);
     basetime = getSystemTime();
-    gThreadManager = ThreadManager::the();	
+ 
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
     RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
@@ -286,19 +265,25 @@ int main (int argc, char **argv)
     root->addChild( dlight );
     endEditCP(root);
     
-    // Load the file
-    
-    NodePtr file = SceneFileHandler::the().read(argv[1]);
-	
-    file->updateVolume();
+   	// Load the file
 
-    // should check first. ok for now.
-    const BoxVolume *vol = (BoxVolume *)&file->getVolume();
-
-    Vec3f min,max;
-    vol->getBounds( min, max );
+	NodePtr file = NullNode;
 	
-    cout << "Volume: from " << min << " to " << max << endl;
+	if ( argc > 1 )
+		file = SceneFileHandler::the().read(argv[1]);
+	
+	if ( file == NullNode )
+	{
+		cerr << "Couldn't load file, ignoring" << endl;
+		file = makeTorus( .5, 2, 16, 16 );
+	}
+	
+	file->updateVolume();
+
+	Vec3f min,max;
+	file->getVolume().getBounds( min, max );
+	
+	cout << "Volume: from " << min << " to " << max << endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
@@ -326,23 +311,15 @@ int main (int argc, char **argv)
 
     Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
 
-    for ( i = 0; i < NUM_THREADS; i++ )
-    {
-        tball[i].setMode( Trackball::OSGObject );
-		tball[i].setStartPosition( pos, true );
-		tball[i].setSum( true );
-		tball[i].setTranslationMode( Trackball::OSGFree );
-    }
-
-    FieldContainerPtr pc;
-    pc.dump();
-    pc = FieldContainerFactory::the()->createFieldContainer("Camera");
-    pc.dump();
-
+    tball.setMode( Trackball::OSGObject );
+    tball.setStartPosition( pos, true );
+	tball.setSum( true );
+	tball.setTranslationMode( Trackball::OSGFree );
+ 
     // Win32 Init
 
     memset(&wndClass, 0, sizeof(wndClass));
-    wndClass.style = CS_HREDRAW | CS_VREDRAW;
+    wndClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
     wndClass.lpfnWndProc = WndProc;
     wndClass.hInstance = GetModuleHandle(NULL);
     wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -362,10 +339,8 @@ int main (int argc, char **argv)
     
     // Create Windows
     
-    for ( i = 0; i < NUM_THREADS; i++ )
-    {	
-        // Create a Window
-        hwnd[i] = CreateWindow( "testWindowWIN32", "testWindowWIN32",
+    // Create a Window
+    hwnd = CreateWindow( "testWindowWIN32", "testWindowWIN32",
 	  		        WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 			        CW_USEDEFAULT, 
 			        0, 
@@ -375,18 +350,27 @@ int main (int argc, char **argv)
 			        NULL, 
 			        GetModuleHandle(NULL), 
 			        0 );
-	hDC = GetDC(hwnd[i]);
-	iPixelFormat = ChoosePixelFormat(hDC, &pfd);
-	SetPixelFormat(hDC, iPixelFormat, &pfd);
-	
-	ShowWindow( hwnd[i], SW_SHOWNORMAL );
-	SetActiveWindow( hwnd[i] );
 
 	// init the OSG window	
-	win[i] = WIN32Window::create();
-	win[i]->setHDC ( hDC );
-	win[i]->setWindow ( hwnd[i] );
-	ReleaseDC(hwnd[i],hDC);
+	hDC = GetDC(hwnd);
+	
+	iPixelFormat = ChoosePixelFormat(hDC, &pfd);
+	SetPixelFormat(hDC, iPixelFormat, &pfd);	
+	
+	win = WIN32Window::create();
+	win->setWindow ( hwnd );
+	win->setHDC ( hDC );
+	
+	ShowWindow( hwnd, SW_SHOWNORMAL );
+	SetActiveWindow( hwnd );
+
+	win->init();
+	
+	// some manual init, will be moved into StateChunks later
+	win->activate();
+	glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHT0 );
+	glEnable( GL_DEPTH_TEST );
 
 	// Viewport
 	ViewportPtr vp = Viewport::create();
@@ -394,32 +378,12 @@ int main (int argc, char **argv)
 	vp->setBackground( bkgnd );
 	vp->setRoot( root );
 	vp->setSize( 0,0, 1,1 );				
-	win[i]->addPort( vp );
-    }
-	
-    for (i = 0; i < NUM_THREADS; i++)
-    {	    	    
-        // reset thread stop/resize notify variables
-        drawThreadStop[i] = false;
+	win->addPort( vp );
 
-		// get new thread
-		drawThread[i] = gThreadManager->getThread(NULL);
-		if ( drawThread[i] != NULL )
-		{	   
-		    drawThreadID[i] = i;
-			drawThread[i]->run( drawThreadProc, 0, (void *) &(drawThreadID[i]) );
-		}
-    }
 
     // main loop 
     while ( GetMessage(&msg, NULL, 0, 0) )
         DispatchMessage(&msg);
-	 
-    for ( i=0; i<NUM_THREADS; i++ )
-    {
-        drawThreadStop[i] = 1;
-		Thread::join( drawThread[i] );
-    }
-
+	
     return (0);
 }
