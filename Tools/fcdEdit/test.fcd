@@ -67,4 +67,14 @@ This is the documentation for the VRMLTransform class.
 	>
 	The Knoedel is a round squishy object. 	 	 	 	 	 	
 	</Field>
+	<Field
+		name="knardel"
+		type="std::string"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+		defaultValue="Hugo"
+	>
+	The Knardel is a square squishy object. 	 	 	 	 	 	
+	</Field>
 </FieldContainer>
