@@ -133,9 +133,9 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 		root = Node::create();
 		geo = Geometry::create();
 
-        osgBeginEditCP(root, Node::CoreFieldMask);
+        beginEditCP(root, Node::CoreFieldMask);
 		root->setCore( geo );
-        osgEndEditCP(root, Node::CoreFieldMask);
+        endEditCP(root, Node::CoreFieldMask);
 
 		points = GeoPosition3f::create();
   		geo->setPositions( points );
@@ -144,8 +144,8 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 
 		triCount = i = 0;
 
-		osgBeginEditCP(points,  FieldBits::AllFields);
-		osgBeginEditCP(normals, FieldBits::AllFields);
+		beginEditCP(points,  FieldBits::AllFields);
+		beginEditCP(normals, FieldBits::AllFields);
 
 		while (1) {
 			in >> x >> y >> z;
@@ -172,45 +172,45 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 			}
 		}
 
-		osgEndEditCP(points,  FieldBits::AllFields);
-		osgEndEditCP(normals, FieldBits::AllFields);
+		endEditCP(points,  FieldBits::AllFields);
+		endEditCP(normals, FieldBits::AllFields);
 		
 		if (triCount) 
 		{
 		
 			index = GeoIndexUI32::create();
 			geo->setIndex( index );
-			osgBeginEditCP(index, FieldBits::AllFields);
+			beginEditCP(index, FieldBits::AllFields);
 			n = triCount * 3;
 			for (i = 0; i < n; i++) 
 				index->getFieldPtr()->addValue( i );
-			osgEndEditCP(index, FieldBits::AllFields);
+			endEditCP(index, FieldBits::AllFields);
 			
 
 			lens = GeoPLength::create();
 			geo->setLengths( lens );
-            osgBeginEditCP(lens, FieldBits::AllFields);
+            beginEditCP(lens, FieldBits::AllFields);
 			lens->getFieldPtr()->addValue( n );
-			osgEndEditCP(lens, FieldBits::AllFields);
+			endEditCP(lens, FieldBits::AllFields);
 
 			type = GeoPType::create();
 			geo->setTypes( type );
-			osgBeginEditCP(type, FieldBits::AllFields);
+			beginEditCP(type, FieldBits::AllFields);
 			type->getFieldPtr()->addValue( GL_TRIANGLES );
-			osgEndEditCP(type, FieldBits::AllFields);
+			endEditCP(type, FieldBits::AllFields);
 			
 			geo->setNormalPerVertex( true );
 		}
 
 		SimpleMaterialPtr mat = SimpleMaterial::create();
-        osgBeginEditCP(mat, FieldBits::AllFields);
+        beginEditCP(mat, FieldBits::AllFields);
 		mat->setDiffuse( Color3f( .8, .8, .8 ) );
 		mat->setSpecular( Color3f( 1, 1, 1 ) );
 		mat->setShininess( 20 );
-        osgEndEditCP(mat, FieldBits::AllFields);
+        endEditCP(mat, FieldBits::AllFields);
 		
 		geo->setMaterial( mat );
-        osgEndEditCP(geo, FieldBits::AllFields);
+        endEditCP(geo, FieldBits::AllFields);
 	
 		in.close();
 	}

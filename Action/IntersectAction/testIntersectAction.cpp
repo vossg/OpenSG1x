@@ -135,35 +135,35 @@ int main (int argc, char **argv)
 	
     NodePtr g4 = Node::create();
  	TransformPtr t1 = Transform::create();
-	osgBeginEditCP(t1);
+	beginEditCP(t1);
 	t1->getMatrix().setTranslate( 2,0,0 );
-	osgEndEditCP(t1);
-	osgBeginEditCP(g4);
+	endEditCP(t1);
+	beginEditCP(g4);
 	g4->setCore( t1 );
 	g4->addChild( p2 );
-	osgEndEditCP(g4);
+	endEditCP(g4);
 
     NodePtr g3 = Node::create();
     GroupPtr g3c = Group::create();
-	osgBeginEditCP(g3);
+	beginEditCP(g3);
 	g3->setCore( g3c );
 	g3->addChild( p1 );
-	osgEndEditCP(g3);
+	endEditCP(g3);
 	
     NodePtr g2 = Node::create();
     GroupPtr g2c = Group::create();
-	osgBeginEditCP(g2);
+	beginEditCP(g2);
 	g2->setCore( g2c );
 	g2->addChild( g3 );
-	osgEndEditCP(g2);
+	endEditCP(g2);
 
     NodePtr g1 = Node::create();
     GroupPtr g1c = Group::create();
-	osgBeginEditCP(g1);
+	beginEditCP(g1);
 	g1->setCore( g1c );
 	g1->addChild( g2 );
 	g1->addChild( g4 );
-	osgEndEditCP(g1);
+	endEditCP(g1);
 
 	// Intersect
 	

@@ -58,6 +58,7 @@
 #include <OSGBaseTypes.h>
 
 #include "OSGSceneFileHandler.h"
+#include "OSGNode.h"
 
 OSG_USING_NAMESPACE
 

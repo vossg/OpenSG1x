@@ -152,7 +152,7 @@ void key( unsigned char key, int , int )
 	cerr << "Line " << act->getLine().getPosition() << " dir " 
 		 << act->getLine().getDirection() << " hit: " << act->didHit() << " ";
 
-	osgBeginEditCP(points);
+	beginEditCP(points);
 	points->setValue( pnts[i], 0 );
 	points->setValue( pnts[i] + dirs[i], 1 );
 
@@ -184,7 +184,7 @@ void key( unsigned char key, int , int )
 		points->setValue( Pnt3f(0,0,0), 3 );
 		points->setValue( Pnt3f(0,0,0), 4 );
 	}
-	osgEndEditCP(points);
+	endEditCP(points);
 
 	cerr << endl;
 
@@ -248,100 +248,100 @@ int main (int argc, char **argv)
   	//  g1->(g2->g3->p1,t1->p2)
 	GeometryPtr g;
     NodePtr  p1 = makePlane( 2,2,2,2 );
-    g = p1->getCore().dcast<GeometryPtr>();
+    g = dcast<GeometryPtr>(p1->getCore());
 	g->setMaterial( white );
 	NodePtr  p2 = makePlane( 2,2,2,2 );
-    g = p2->getCore().dcast<GeometryPtr>();
+    g = dcast<GeometryPtr>(p2->getCore());
 	g->setMaterial( white );
 	
     NodePtr g4 = Node::create();
  	TransformPtr t1 = Transform::create();
-	osgBeginEditCP(t1);
+	beginEditCP(t1);
 	t1->getMatrix().setRotate( Quaternion( Vec3f(1,0,0), 30 ) );
-	osgEndEditCP(t1);
-	osgBeginEditCP(g4);
+	endEditCP(t1);
+	beginEditCP(g4);
 	g4->setCore( t1 );
 	g4->addChild( p2 );
-	osgEndEditCP(g4);
+	endEditCP(g4);
 
     NodePtr g3 = Node::create();
     GroupPtr g3c = Group::create();
-	osgBeginEditCP(g3);
+	beginEditCP(g3);
 	g3->setCore( g3c );
 	g3->addChild( p1 );
-	osgEndEditCP(g3);
+	endEditCP(g3);
 	
     NodePtr g2 = Node::create();
     GroupPtr g2c = Group::create();
-	osgBeginEditCP(g2);
+	beginEditCP(g2);
 	g2->setCore( g2c );
 	g2->addChild( g3 );
-	osgEndEditCP(g2);
+	endEditCP(g2);
 
     iroot = Node::create();
     GroupPtr g1c = Group::create();
-	osgBeginEditCP(iroot);
+	beginEditCP(iroot);
 	iroot->setCore( g1c );
 	iroot->addChild( g2 );
 	iroot->addChild( g4 );
-	osgEndEditCP(iroot);
+	endEditCP(iroot);
 
    
 	// make the root and test objects
 
 	points = GeoPosition3f::create();
-	osgBeginEditCP(points);
+	beginEditCP(points);
 	points->addValue( Pnt3f(0,0,0) );
 	points->addValue( Pnt3f(0,0,0) );
 	points->addValue( Pnt3f(0,0,0) );
 	points->addValue( Pnt3f(0,0,0) );
 	points->addValue( Pnt3f(0,0,0) );
-	osgEndEditCP(points);
+	endEditCP(points);
 
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
-	osgBeginEditCP(index);
+	beginEditCP(index);
 	index->addValue( 0 );
 	index->addValue( 1 );
 	index->addValue( 2 );
 	index->addValue( 3 );
 	index->addValue( 4 );
-	osgEndEditCP(index);
+	endEditCP(index);
 
 	GeoPLengthPtr lens = GeoPLength::create();	
-	osgBeginEditCP(lens);
+	beginEditCP(lens);
 	lens->addValue( 2 );
 	lens->addValue( 3 );
-	osgEndEditCP(lens);
+	endEditCP(lens);
 	
 	GeoPTypePtr type = GeoPType::create();	
-	osgBeginEditCP(type);
+	beginEditCP(type);
 	type->addValue( GL_LINES );
 	type->addValue( GL_TRIANGLES );
-	osgEndEditCP(type);
+	endEditCP(type);
 
 	GeometryPtr testgeocore = Geometry::create();
-	osgBeginEditCP(testgeocore);
+	beginEditCP(testgeocore);
 	testgeocore->setPositions( points );
 	testgeocore->setIndex( index );
 	testgeocore->setLengths( lens );
 	testgeocore->setTypes( type );
 	testgeocore->setMaterial( red );
-	osgEndEditCP( testgeocore );
+	endEditCP( testgeocore );
 	
 	
 	NodePtr testgeo = Node::create();
-	osgBeginEditCP(testgeo);
+	beginEditCP(testgeo);
 	testgeo->setCore( testgeocore );
-	osgEndEditCP( testgeo );
+	endEditCP( testgeo );
 	
 	
 	root = Node::create();
     GroupPtr rootc = Group::create();
-	osgBeginEditCP(root);
+	beginEditCP(root);
 	root->setCore( rootc );
 	root->addChild( iroot );
 	root->addChild( testgeo );
-	osgEndEditCP( root );
+	endEditCP( root );
 
 
 	dact = DrawAction::create();

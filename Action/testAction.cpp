@@ -228,9 +228,9 @@ int main( int argc, char *argv[] )
 	// register a default function. Should be copied at 
 	// instantiation time
 
-	Action::registerEnterDefault(Core1::getStaticType(), 
+	Action::registerEnterDefault(Core1::getClassType(), 
                                osgFunctionFunctor2(defenter1));
-	Action::registerLeaveDefault(Core1::getStaticType(), 
+	Action::registerLeaveDefault(Core1::getClassType(), 
                                osgFunctionFunctor2(defleave1));
 
 	Action *act1;
@@ -245,9 +245,9 @@ int main( int argc, char *argv[] )
 
 	// call without assigned functors, should use defaults
 	// should call defnter2/defleave2
-	Action::registerEnterDefault(Core2::getStaticType(), 
+	Action::registerEnterDefault(Core2::getClassType(), 
                                osgFunctionFunctor2(defenter2));
-	Action::registerLeaveDefault(Core2::getStaticType(), 
+	Action::registerLeaveDefault(Core2::getClassType(), 
                                osgFunctionFunctor2(defleave2));
 
 	Action *act2;
@@ -258,14 +258,14 @@ int main( int argc, char *argv[] )
 	act2->apply(g2);	
 
 	// assign functors
-    act1->registerEnterFunction(Core1::getStaticType(), 
+    act1->registerEnterFunction(Core1::getClassType(), 
                          osgMethodFunctor2Ptr(&gf1, &Core1Action::enter));
-    act1->registerLeaveFunction(Core1::getStaticType(), 
+    act1->registerLeaveFunction(Core1::getClassType(), 
                          osgMethodFunctor2Ptr(&gf2, &Core1Action::leave));
 						 
-	act1->registerEnterFunction(Core2::getStaticType(), 
+	act1->registerEnterFunction(Core2::getClassType(), 
                                osgFunctionFunctor2(Core2Enter));
-	act1->registerLeaveFunction(Core2::getStaticType(), 
+	act1->registerLeaveFunction(Core2::getClassType(), 
                                osgFunctionFunctor2(Core2Leave));
 
 	// set act1 as the prototype
@@ -302,7 +302,7 @@ int main( int argc, char *argv[] )
 	act1->apply( g1 );
 
 	//use a function that only traverses the first node (if any)
-	act1->registerEnterFunction(Core1::getStaticType(), 
+	act1->registerEnterFunction(Core1::getClassType(), 
                          osgFunctionFunctor2(firstOnly));
 
 	cerr << "Apply(single child traversal):" << endl;

@@ -37,7 +37,7 @@ int main (int argc, char **argv)
 	node->getVolume().getCenter(center);
 
 	cerr << "Volume: center " << center << ", volume "
-		 << node->getVolume().getVolume() << endl;
+		 << node->getVolume().getScalarVolume() << endl;
 
  
 	return 0;

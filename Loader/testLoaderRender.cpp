@@ -75,7 +75,7 @@ int main (int argc, char **argv)
 
 
 	cerr << "Tree: " << endl;
-	root->print();
+	root->dump();
 
 	// GLUT init
 
