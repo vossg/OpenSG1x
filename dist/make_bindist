@@ -83,6 +83,9 @@ case $system in
     qt_dir="/igd/a4/software/Linux/packages/qt-3.0"
     qt_lib=libqt.so.3.0.0
     qt_args="--with-qt=$qt_dir"
+    tif_args="--with-tif"
+    jpeg_args="--with-jpeg"
+    png_args="--with-png"
     par_jobs=2
     compiler=${compiler:=g++}
     config_shell=bash

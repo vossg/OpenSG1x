@@ -11,7 +11,7 @@ included the library in the lib directory. Add that to your library path to run
 it, or use the run_osgSceneViewer script.
 
 OpenSG is a portable scenegraph library for realtime rendering
-applications.For more details visit www.opensg.org.
+applications. For more details visit www.opensg.org.
 
 
 Yours

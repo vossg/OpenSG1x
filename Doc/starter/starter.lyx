@@ -1,5 +1,5 @@
 #LyX 1.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 2.16
+\lyxformat 218
 \textclass book
 \begin_preamble
 \usepackage[T1]{fontenc}
@@ -130,7 +130,7 @@ baselineskip]
 \backslash 
 textbf{
 \backslash 
-Large Version 1.0}
+Large Version 1.1.0}
 \backslash 
 
 \backslash 
@@ -250,6 +250,12 @@ feedback@opensg.org.
 This starter guide was written by the core team, but it wouldn't be what
  it is without the helpful reviews and comments by Marc Alexa and Patrick
  Dähne.
+\layout Standard
+
+This is for version 1.1.0, which is a developer release.
+ Whcih menas that while we added a bunch of features, not a lot of documentation
+ was changed.
+ This will come for 1.2.
 \layout Section
 
 What is OpenSG?
@@ -1945,7 +1951,7 @@ Node
 
 \begin_inset Figure size 238 304
 file node_core_share.eps
-width 4 80.00
+width 4 80
 flags 9
 
 \end_inset 
@@ -2286,7 +2292,7 @@ Using these properties it is possible to define geometry (see fig.
 
 \begin_inset Figure size 476 225
 file geo_nonindexed.eps
-width 3 80.00
+width 3 80
 flags 9
 
 \end_inset 
@@ -2333,7 +2339,7 @@ Indices are stored in the GeoIndices property, which only exists in the
 
 \begin_inset Figure size 476 225
 file geo_indexed.eps
-width 3 80.00
+width 3 80
 flags 9
 
 \end_inset 
@@ -2380,7 +2386,7 @@ To get around that you need multiple indices per vertex to index the different
 
 \begin_inset Figure size 476 212
 file geo_multiindexed.eps
-width 3 80.00
+width 3 80
 flags 9
 
 \end_inset 
@@ -3047,7 +3053,7 @@ value * size - 1
 
 \begin_inset Figure size 238 308
 file viewports.eps
-width 4 80.00
+width 4 80
 flags 9
 
 \end_inset 
@@ -3748,7 +3754,7 @@ The basic idea is that you use the 'field container description editor'
 
 \begin_inset Figure size 267 177
 file fcd.eps
-width 4 90.00
+width 4 90
 flags 9
 
 \end_inset 
@@ -4106,7 +4112,7 @@ fcdEdit Interface Components
 
 \begin_inset Figure size 595 482
 file fcdEdit-numbered.eps
-width 3 100.00
+width 3 100
 flags 11
 
 \end_inset 
