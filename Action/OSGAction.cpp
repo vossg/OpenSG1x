@@ -501,69 +501,31 @@ Bool Action::operator != (const Action &other)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+vector<Action::Functor>* Action::getDefaultEnterFunctors( void )
+{
+	return _defaultEnterFunctors;
+}
+
+vector<Action::Functor>* Action::getDefaultLeaveFunctors( void )
+{
+	return _defaultLeaveFunctors;
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-// default Action function: try to call the parent function,
-// if there is a known parent
-// Doesn't work yet. Later. !!!
+// default Action function: just call all kids
 
 Action::ResultE Action::_defaultEnterFunction(CNodePtr& node, Action * action)
 {
 	return Continue;
-
-/*
-	ResultE result;
-	FieldContainerType *t = &node->getType();
-	UInt32 uiFunctorIndex = action->_enterFunctors.size();
-
-	while ( t && uiFunctorIndex >= action->_enterFunctors.size() &&
-				action->_enterFunctors[uiFunctorIndex] != 
-				osgFunctionFunctor2(&Action::_defaultEnterFunction)  )
-	{
-		t = t->getParent();
-		if ( t ) 
-			uiFunctorIndex = t->getId();
-	}
-
-	// nothing found?
-	if ( uiFunctorIndex >= action->_enterFunctors.size() )
-		return Continue;
-	
-	result = action->_enterFunctors[uiFunctorIndex].call(node,action);
-
-	return result;
-*/
 }
 
 Action::ResultE Action::_defaultLeaveFunction(CNodePtr& node, Action * action)
 {
 	return Continue;
-
-/*
-	ResultE result;
-	FieldContainerType *t = &node->getType();
-	UInt32 uiFunctorIndex = action->_leaveFunctors.size();
-
-	while ( t && uiFunctorIndex >= action->_leaveFunctors.size() &&
-				action->_leaveFunctors[uiFunctorIndex] != 
-				osgFunctionFunctor2(&Action::_defaultLeaveFunction) )
-	{
-		t = t->getParent();
-		if ( t ) 
-			uiFunctorIndex = t->getId();
-	}
-
-	// nothing found?
-	if ( uiFunctorIndex >= action->_leaveFunctors.size() )
-		return Continue;
-	
-	result = action->_leaveFunctors[uiFunctorIndex].call(node,action);
-
-	return result;
-*/
 }
 
 ///---------------------------------------------------------------------------

@@ -146,6 +146,10 @@ UInt32 Action::getNNodes( void ) const
 
 /*-------------------------- your_category---------------------------------*/
 
+// callEnter/callLeave: call the right functor. If the type is unknown and new
+// (i.e. its index is larger than the vector) try to find the function in the
+// default list.
+
 inline
 Action::ResultE Action::callEnter( NodePtr node )
 {
@@ -156,7 +160,19 @@ Action::ResultE Action::callEnter( NodePtr node )
 
     if ( uiFunctorIndex < _enterFunctors.size() )
         result = _enterFunctors[uiFunctorIndex].call(cnode,this);
-	else
+	else if (  getDefaultEnterFunctors() && 
+				uiFunctorIndex < getDefaultEnterFunctors()->size() )
+	{
+		// field container registered method after this action was instantiated
+		// copy the new functors from default vector
+		vector<Functor> *defaultEnter = getDefaultEnterFunctors();
+		while ( defaultEnter->size() > _enterFunctors.size() )
+		{
+			_enterFunctors.push_back( (*defaultEnter)[_enterFunctors.size()] );
+		}		
+		result = _enterFunctors[uiFunctorIndex].call(cnode,this);
+	}
+	else // unknown field container
 		result = _defaultEnterFunction(cnode,this);
 
 	return result;
@@ -172,7 +188,19 @@ Action::ResultE Action::callLeave( NodePtr node )
 	
     if ( uiFunctorIndex < _leaveFunctors.size() )
         result = _leaveFunctors[uiFunctorIndex].call(cnode,this);
-	else
+	else if ( 	getDefaultLeaveFunctors() &&
+				uiFunctorIndex < getDefaultLeaveFunctors()->size() )
+	{
+		// field container registered method after this action was instantiated
+		// copy the new functors from default vector
+		vector<Functor> *defaultLeave = getDefaultLeaveFunctors();
+		while ( defaultLeave->size() > _leaveFunctors.size() )
+		{
+			_leaveFunctors.push_back( (*defaultLeave)[_leaveFunctors.size()] );
+		}		
+		result = _leaveFunctors[uiFunctorIndex].call(cnode,this);
+	}
+	else // unknown field container
 		result = _defaultLeaveFunction(cnode,this);
 
 	return result;

@@ -112,14 +112,14 @@ public:
 	Action::ResultE enter(CNodePtr &node, Action * action)
 	{ 
 		cerr << "Core1 enter: " << node << " action " 
-			 << action << " for Core1 " << this << endl;
+			 << hex << action << " for Core1 " << this << endl;
 		return Action::Continue; 
 	}
 
 	Action::ResultE leave(CNodePtr &node, Action * action)
 	{ 
 		cerr << "Core1 leave: " << node << " action " 
-			 << action << " for Core1 " << this << endl;
+			 << hex << action << " for Core1 " << this << endl;
 		return Action::Continue; 
 	}
 };
@@ -130,7 +130,7 @@ public:
 Action::ResultE Core2Enter(CNodePtr& node, Action * action) 
 { 
 	cerr << "Core2 enter: " << node 
-         << " action " << action << endl;
+         << " action " << hex << action << endl;
 
 	return Action::Continue; 
 }
@@ -138,7 +138,7 @@ Action::ResultE Core2Enter(CNodePtr& node, Action * action)
 Action::ResultE Core2Leave(CNodePtr& node, Action * action) 
 { 
 	cerr << "Core2 leave: " << node 
-         << " action " << action << endl;
+         << " action " << hex << action << endl;
 
 	return Action::Continue; 
 }
@@ -148,7 +148,7 @@ Action::ResultE Core2Leave(CNodePtr& node, Action * action)
 
 Action::ResultE firstOnly(CNodePtr& node, Action * action) 
 { 
-	cerr << "Core1 (first only) enter: " << node << " action " << action 
+	cerr << "Core1 (first only) enter: " << node << " action " << hex << action 
 		 << endl;
 
 	const NodePtr p = action->getNode( 0 );
@@ -164,7 +164,7 @@ Action::ResultE firstOnly(CNodePtr& node, Action * action)
 Action::ResultE defenter1(CNodePtr& node, Action * action) 
 { 
 	cerr << "Default enter 1 called: " << node 
-         << " action " << action << endl;
+         << " action " << hex << action << endl;
 
 	return Action::Continue; 
 }
@@ -172,7 +172,7 @@ Action::ResultE defenter1(CNodePtr& node, Action * action)
 Action::ResultE defleave1(CNodePtr& node, Action * action) 
 { 
 	cerr << "Default leave 1 called: " << node 
-         << " action " << action << endl;
+         << " action " << hex << action << endl;
 
 	return Action::Continue; 
 }
@@ -180,7 +180,7 @@ Action::ResultE defleave1(CNodePtr& node, Action * action)
 Action::ResultE defenter2(CNodePtr& node, Action * action) 
 { 
 	cerr << "Default enter 2 called: " << node 
-         << " action " << action << endl;
+         << " action " << hex << action << endl;
 
 	return Action::Continue; 
 }
@@ -188,7 +188,7 @@ Action::ResultE defenter2(CNodePtr& node, Action * action)
 Action::ResultE defleave2(CNodePtr& node, Action * action) 
 { 
 	cerr << "Default leave 2 called: " << node 
-         << " action " << action << endl;
+         << " action " << hex << action << endl;
 
 	return Action::Continue; 
 }
@@ -222,9 +222,6 @@ int main( int argc, char *argv[] )
 	// two instances for check instance calling
 	Core1Action gf1,gf2;
 
-	// set to hex for all the pointers coming
-	cerr << hex;
-
 	// register a default function. Should be copied at 
 	// instantiation time
 
@@ -236,25 +233,22 @@ int main( int argc, char *argv[] )
 	Action *act1;
 	act1 = Action::create();
 
-	// call without assigned functors, should use defaults
-	// for Core2, inheritance follwing should call them, too
-	cerr << "Apply (unset, inheritance following):" << endl;
-
+	cerr << "Apply (c2 unset):" << endl;
 	act1->apply(g2);	
 
-
-	// call without assigned functors, should use defaults
-	// should call defnter2/defleave2
 	Action::registerEnterDefault(Core2::getClassType(), 
                                osgFunctionFunctor2(defenter2));
 	Action::registerLeaveDefault(Core2::getClassType(), 
                                osgFunctionFunctor2(defleave2));
 
+	cerr << "Apply (c2 unset, pickup from default):" << endl;
+	act1->apply(g2);	
+
+
 	Action *act2;
 	act2 = Action::create();
 
-	cerr << "Apply (unset):" << endl;
-
+	cerr << "Apply (c2 set):" << endl;
 	act2->apply(g2);	
 
 	// assign functors
@@ -262,7 +256,7 @@ int main( int argc, char *argv[] )
                          osgMethodFunctor2Ptr(&gf1, &Core1Action::enter));
     act1->registerLeaveFunction(Core1::getClassType(), 
                          osgMethodFunctor2Ptr(&gf2, &Core1Action::leave));
-						 
+	
 	act1->registerEnterFunction(Core2::getClassType(), 
                                osgFunctionFunctor2(Core2Enter));
 	act1->registerLeaveFunction(Core2::getClassType(), 

@@ -258,6 +258,11 @@ class OSG_ACTION_DLLMAPPING Action
 	
 	ResultE callNewList( void );
 
+	// access default functors
+
+	virtual vector<Functor>* getDefaultEnterFunctors( void );
+	virtual vector<Functor>* getDefaultLeaveFunctors( void );
+
 	// default function
 	
 	static ResultE _defaultEnterFunction( CNodePtr &node, Action *action);
