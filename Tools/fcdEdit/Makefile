@@ -41,6 +41,10 @@ TARGET = fcdEdit
 OS      := $(shell echo `uname`)
 OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
 
+# init flags for system-specific options
+CXXFLAGS   :=
+LDFLAGS    :=
+
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
 
@@ -49,6 +53,7 @@ ifeq ($(OS),IRIX)
         CCOUT := -o 
         LDOUT := -o 
 	BINSUF:=
+        CXXFLAGS := $(CXXFLAGS) -signed
 
 endif
 ifeq ($(OS),IRIX64)
@@ -56,6 +61,7 @@ ifeq ($(OS),IRIX64)
         CCOUT := -o 
         LDOUT := -o 
 	BINSUF:=
+        CXXFLAGS := $(CXXFLAGS) -signed
 
 endif
 ifeq ($(OS),Linux)
@@ -81,9 +87,9 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler)"
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT ) -DXMLPP_NOEXPORTS
+CXXFLAGS   :=  $(CXXFLAGS) $(shell $(OSG_CONFIG) --cflags QT ) -DXMLPP_NOEXPORTS
 LD         := "$(shell $(OSG_CONFIG) --exe-linker)"
-LDFLAGS    :=
+LDFLAGS    :=  $(LDFLAGS)
 LIBS       :=  $(shell $(OSG_CONFIG) --libs QT)
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
@@ -117,7 +123,7 @@ UI_IN   := $(wildcard *.ui)
 UI_H    := $(addsuffix .h, $(basename $(UI_IN))) 
 UI_CPP  := $(addsuffix .cpp, $(basename $(UI_IN))) 
 # all qt files that neads moc 
-MOC_IN   := $(shell grep -l Q_OBJECT *.[hH]) $(UI_H)
+MOC_IN   := $(sort $(shell grep -l Q_OBJECT *.[hH]) $(UI_H))
 MOC_CPP  := $(addsuffix .cpp, $(basename $(addprefix moc_,$(MOC_IN)))) 
 # all source files without generated sources
 SOURCES  := $(filter-out $(UI_CPP) $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
