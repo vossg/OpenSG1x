@@ -133,6 +133,13 @@
 OSG_BEGIN_NAMESPACE
 
 inline 
+void initLog() 
+{
+    if(osgLogP == NULL)
+        doInitLog();
+}
+
+inline 
 Log &osgLog() 
 {
     initLog();

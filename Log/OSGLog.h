@@ -297,7 +297,7 @@ class OSG_BASE_DLLMAPPING Log : public ostream
 
     typedef ostream Inherited;
 
-    friend OSG_BASE_DLLMAPPING void initLog(void);
+    friend OSG_BASE_DLLMAPPING void doInitLog(void);
 
     static char cvsid[];
 
@@ -362,7 +362,8 @@ typedef Log *LogP;
 extern OSG_BASE_DLLMAPPING LogP osgLogP;
 
 
-       OSG_BASE_DLLMAPPING void     initLog    (void);
+       OSG_BASE_DLLMAPPING void     doInitLog  (void);
+inline OSG_BASE_DLLMAPPING void     initLog    (void);
 inline OSG_BASE_DLLMAPPING Log     &osgLog     (void);
 inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      bool      logHeader,
                                                       LogLevel  level,

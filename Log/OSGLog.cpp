@@ -674,10 +674,8 @@ void Log::doLog(const char * format, ...)
     vsprintf( buffer, format, args );
 #endif
 
-    lock();
     *this << buffer;
     *this << std::flush;
-    unlock();
 
     va_end( args );
 }
@@ -795,7 +793,7 @@ void Log::connect(void)
 ///---------------------------------------------------------------------------
 
 
-void OSG::initLog(void)
+void OSG::doInitLog(void)
 {
 #ifdef OSG_HAS_NILBUF
     if(Log::_nilbufP == NULL)
