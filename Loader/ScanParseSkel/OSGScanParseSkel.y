@@ -37,7 +37,9 @@
 \*---------------------------------------------------------------------------*/
 %{
 
+#ifdef WIN32
 #include <malloc.h>
+#endif
 #include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>
 
