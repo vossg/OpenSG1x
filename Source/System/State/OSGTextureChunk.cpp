@@ -108,6 +108,7 @@ UInt32 TextureChunk::_nvPointSprite;
 UInt32 TextureChunk::_nvTextureShader;
 UInt32 TextureChunk::_nvTextureShader2;
 UInt32 TextureChunk::_nvTextureShader3;
+UInt32 TextureChunk::_sgisGenerateMipmap;
 UInt32 TextureChunk::_funcTexImage3D    = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
@@ -162,6 +163,8 @@ TextureChunk::TextureChunk(void) :
         Window::registerExtension("GL_NV_texture_shader2"  );
     _nvTextureShader3  = 
         Window::registerExtension("GL_NV_texture_shader3"  );
+    _sgisGenerateMipmap  = 
+        Window::registerExtension("GL_SGIS_generate_mipmap"  );
     _funcTexImage3D    = 
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
     _funcTexSubImage3D = 
@@ -294,12 +297,12 @@ void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
 {    
-	if(!win->hasExtension(_nvTextureShader))
-	{
+    if(!win->hasExtension(_nvTextureShader))
+    {
         if(getShaderOperation() != GL_NONE)
-		    FINFO(("NV Texture Shaders not supported on Window %p!\n", win));
-		return;
-	}
+            FINFO(("NV Texture Shaders not supported on Window %p!\n", win));
+        return;
+    }
      
     glErr("textureShader precheck");
     
@@ -424,17 +427,17 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 
     if(mode == Window::initialize || mode == Window::reinitialize)
     {
-		if(bindtarget == GL_TEXTURE_3D && !win->hasExtension(_extTex3D))
-		{
-			FINFO(("3D textures not supported on Window %p!\n", win));
-			return;
-		}
-		
-		if(paramtarget == GL_TEXTURE_CUBE_MAP_ARB && !win->hasExtension(_arbCubeTex))
-		{
-			FINFO(("Cube textures not supported on Window %p!\n", win));
-			return;
-		}
+        if(bindtarget == GL_TEXTURE_3D && !win->hasExtension(_extTex3D))
+        {
+            FINFO(("3D textures not supported on Window %p!\n", win));
+            return;
+        }
+
+        if(paramtarget == GL_TEXTURE_CUBE_MAP_ARB && !win->hasExtension(_arbCubeTex))
+        {
+            FINFO(("Cube textures not supported on Window %p!\n", win));
+            return;
+        }
 		     
         if(mode == Window::reinitialize)
         {
@@ -484,11 +487,12 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             glTexParameteri(paramtarget, GL_TEXTURE_MAG_FILTER, getMagFilter());
             glTexParameteri(paramtarget, GL_TEXTURE_WRAP_S, getWrapS());
             if(paramtarget == GL_TEXTURE_2D || 
-                 paramtarget == GL_TEXTURE_3D ||
-                 paramtarget == GL_TEXTURE_CUBE_MAP_ARB
+               paramtarget == GL_TEXTURE_3D ||
+               paramtarget == GL_TEXTURE_CUBE_MAP_ARB
               )
                 glTexParameteri(paramtarget, GL_TEXTURE_WRAP_T, getWrapT());
-            if(paramtarget == GL_TEXTURE_3D)
+            if(paramtarget == GL_TEXTURE_3D ||
+               paramtarget == GL_TEXTURE_CUBE_MAP_ARB)
                 glTexParameteri(paramtarget, GL_TEXTURE_WRAP_R, getWrapR());
 
             glErr("TextureChunk::initialize params");
@@ -511,10 +515,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
                             getMinFilter() == GL_LINEAR_MIPMAP_LINEAR   ;
 
-	    if(getExternalFormat() != GL_NONE)
-	        externalFormat = getExternalFormat();
+        if(getExternalFormat() != GL_NONE)
+            externalFormat = getExternalFormat();
 
-	    if(internalFormat == GL_NONE)
+        if(internalFormat == GL_NONE)
         {
             switch(externalFormat)
             {
@@ -602,116 +606,127 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 
             if(! defined)
             {
-                // Nope, try to use gluBuild?DMipmaps
-                void * data = NULL;
-
-                // can we use it directly?
-                if(! osgispower2(width) ||
-                     ! osgispower2(height) ||
-                     ! osgispower2(depth)
-                  )
+                // Nope, do we have SGIS_generate_mipmaps?
+                if(win->hasExtension(_sgisGenerateMipmap))
                 {
-                    // scale is only implemented for 2D
-                    if(imgtarget != GL_TEXTURE_2D)
-                    {
-                        SWARNING << "TextureChunk::initialize: can't mipmap "
-                                 << "non-2D textures that are not 2^x !!!"
-                                 << std::endl;
-                    }
-                    else
-                    {
-                        UInt32 outw = osgnextpower2(width);
-                        UInt32 outh = osgnextpower2(height);
+                    if(paramtarget != GL_NONE)
+                        glTexParameteri(paramtarget, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+                    glErr("TextureChunk::activate generate_mipmaps");
+                    needMipmaps = false; // automagic does it
+                }
+                else
+                {
+                    // Nope, try to use gluBuild?DMipmaps
+                    void * data = NULL;
 
-                        // type is always ubyte right now
-                        data = malloc(outw * outh * sizeof(GLubyte) * 4);
-
-                        // should we scale to next power of 2?
-                        if(doScale)
+                    // can we use it directly?
+                    if(! osgispower2(width) ||
+                         ! osgispower2(height) ||
+                         ! osgispower2(depth)
+                      )
+                    {
+                        // scale is only implemented for 2D
+                        if(imgtarget != GL_TEXTURE_2D)
                         {
-                            GLint res = gluScaleImage(externalFormat,
-                                            width, height, type, img->getData(0, frame),
-                                            outw, outh, type, data);
+                            SWARNING << "TextureChunk::initialize: can't mipmap "
+                                     << "non-2D textures that are not 2^x !!!"
+                                     << std::endl;
+                        }
+                        else
+                        {
+                            UInt32 outw = osgnextpower2(width);
+                            UInt32 outh = osgnextpower2(height);
 
-                            if(res)
+                            // type is always ubyte right now
+                            data = malloc(outw * outh * sizeof(GLubyte) * 4);
+
+                            // should we scale to next power of 2?
+                            if(doScale)
                             {
-                                SWARNING << "TextureChunk::initialize: "
-                                         << "gluScaleImage failed: "
-                                         << gluErrorString(res) << "("
-                                         << res << ")!" 
-                                         << std::endl;
-                                free(data);
-                                data = NULL;
+                                GLint res = gluScaleImage(externalFormat,
+                                                width, height, type, img->getData(0, frame),
+                                                outw, outh, type, data);
+
+                                if(res)
+                                {
+                                    SWARNING << "TextureChunk::initialize: "
+                                             << "gluScaleImage failed: "
+                                             << gluErrorString(res) << "("
+                                             << res << ")!" 
+                                             << std::endl;
+                                    free(data);
+                                    data = NULL;
+                                }
+                                else
+                                {
+                                    width = outw;
+                                    height = outh;
+                                }
                             }
-                            else
+                            else // nope, just copy the image to the lower left part
                             {
+                                memset(data, 0, outw * outh * sizeof(GLubyte) * 4);
+
+                                UInt16 bpl = width * img->getBpp();
+                                UInt8 * src = (UInt8 *) img->getData();
+                                UInt8 * dest= (UInt8 *) data;
+
+                                for(int y = 0; y < height; y++)
+                                {
+                                    memcpy(dest, src, bpl);
+
+                                    src  += bpl;
+                                    dest += outw * img->getBpp();
+                                }
                                 width = outw;
                                 height = outh;
                             }
                         }
-                        else // nope, just copy the image to the lower left part
-                        {
-                            memset(data, 0, outw * outh * sizeof(GLubyte) * 4);
-
-                            UInt16 bpl = width * img->getBpp();
-                            UInt8 * src = (UInt8 *) img->getData();
-                            UInt8 * dest= (UInt8 *) data;
-
-                            for(int y = 0; y < height; y++)
-                            {
-                                memcpy(dest, src, bpl);
-
-                                src  += bpl;
-                                dest += outw * img->getBpp();
-                            }
-                            width = outw;
-                            height = outh;
-                        }
                     }
-                }
-                else
-                    data = img->getData(0, frame);
+                    else
+                        data = img->getData(0, frame);
 
-                if(data)
-                {
-                    switch (imgtarget)
+                    if(data)
                     {
-                    case GL_TEXTURE_1D:
-                            gluBuild1DMipmaps(imgtarget, internalFormat, width,
-                                                externalFormat, type, data);
-                            break;
-                    case GL_TEXTURE_2D:
-                    case GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB:
-                    case GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB:
-                    case GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB:
-                    case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB:
-                    case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
-                    case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
-                            gluBuild2DMipmaps(imgtarget, internalFormat,
-                                                width, height,
-                                                externalFormat, type, data);
-                            break;
-                    case GL_TEXTURE_3D:
-#  ifdef GLU_VERSION_1_3
-                            gluBuild3DMipmaps(imgtarget, internalFormat,
-                                                width, height, depth,
-                                                externalFormat, type, data);
-#  else
-                            FWARNING(("TextureChunk::initialize: 3d textures "
-                                      "supported, but GLU version < 1.3, thus "
-                                      "gluBuild3DMipmaps not supported!\n"));
-#  endif
-                            break;
-                    default:
-                            SFATAL << "TextureChunk::initialize2: unknown target "
-                                   << imgtarget << "!!!" << std::endl;
-                    }
+                        switch (imgtarget)
+                        {
+                        case GL_TEXTURE_1D:
+                                gluBuild1DMipmaps(imgtarget, internalFormat, width,
+                                                    externalFormat, type, data);
+                                break;
+                        case GL_TEXTURE_2D:
+                        case GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB:
+                        case GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB:
+                        case GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB:
+                        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB:
+                        case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
+                        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
+                                gluBuild2DMipmaps(imgtarget, internalFormat,
+                                                    width, height,
+                                                    externalFormat, type, data);
+                                break;
+                        case GL_TEXTURE_3D:
+    #  ifdef GLU_VERSION_1_3
+                                gluBuild3DMipmaps(imgtarget, internalFormat,
+                                                    width, height, depth,
+                                                    externalFormat, type, data);
+    #  else
+                                FWARNING(("TextureChunk::initialize: 3d textures "
+                                          "supported, but GLU version < 1.3, thus "
+                                          "gluBuild3DMipmaps not supported!\n"));
+    #  endif
+                                break;
+                        default:
+                                SFATAL << "TextureChunk::initialize2: unknown target "
+                                       << imgtarget << "!!!" << std::endl;
+                        }
 
-                    if(data != img->getData(0, frame))
-                        free(data);
-                    defined = true;
-                } // data
-            } // use gluBuildMipmaps
+                        if(data != img->getData(0, frame))
+                            free(data);
+                        defined = true;
+                    } // data
+                } // need to use gluBuildMipmaps?
+            } // got them from the image already?
         } // need mipmaps?
 
         // no mipmaps, or mipmapping failed?

@@ -185,6 +185,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     static UInt32 _nvTextureShader;
     static UInt32 _nvTextureShader2;
     static UInt32 _nvTextureShader3;
+    static UInt32 _sgisGenerateMipmap;
     
     // extension indices for used fucntions;
     static UInt32 _funcTexImage3D;
