@@ -236,8 +236,8 @@ bool ImageFileHandler::read (Image &image, const char *fileName )
 		SINFO << "try to read " << fileName << " as " << type->getName() << endl;
 		retCode = type->read(image,fileName);
 		if (retCode) 
-			SINFO << "image: " << image.width() << "x" << image.height()
-							<< " " << image.pixelFormat() << endl;
+			SINFO << "image: " << image.getWidth() << "x" << image.getHeight()
+							<< endl;
 		else
 			SWARNING << "could not read " << fileName << endl;
 	}
