@@ -1,236 +1,162 @@
 
-.PHONY: vtags etags
+.SUFFIXES:	.src .prj
+
+SUB_JOB := admin
+
+#########################################################################
+# Parallel Settings
+#########################################################################
+
+$(PROJ)TOPMAKEPAR :=
+
+ifdef $(PROJ)TOPPARJOBS
+ifneq ($($(PROJ)TOPPARJOBS), 0)
+$(PROJ)TOPMAKEPAR = -j $($(PROJ)TOPPARJOBS)
+endif
+endif
+
+$(PROJ)SUBMAKEPAR :=
+
+ifneq ($($(PROJ)SUBPARJOBS),)
+ifneq ($($(PROJ)SUBPARJOBS),0)
+$(PROJ)SUBMAKEPAR = -j $($(PROJ)SUBPARJOBS)
+endif
+endif
+
+
+SUB_MAKE      := gmake -r -k $($(PROJ)SUBMAKEPAR)
+
+SUB_MAKEFILE  := Makefile
 
 #########################################################################
 # Normal lib Targets
 #########################################################################
 
-MMAKEPASS:=
+SUB_LIBTARGETS  := $(addsuffix .src, $(SUB_LIBS))
 
-ifeq ($(MULTIPASS), 1)
-ifdef OSG_BUILD_DLL
-dbg: SUB_TARGET += dbg
-dbg: 
-	@echo ================== LIBPASS ==========================
-	$(SUB_MAKE) dbg_lib
-	@echo ================== LIBPASS FINISHED =================
-	@echo ================== DLLPASS ==========================
-	$(SUB_MAKE) dbg_dll 
-	@echo ================== LIBPASS FINISHED =================
+dbg:
+	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internal
 
-dbg_lib: MMAKEPASS:=LIBPASS
-dbg_lib: $(SUBLIBTARGETS)
-	@echo done libs
+dbg_internal: SUB_TARGET := dbg
+dbg_internal: SUB_JOB := build
+dbg_internal: $(SUB_LIBTARGETS) 
 
-dbg_dll: MMAKEPASS:=DLLPASS
-dbg_dll: $(SUBLIBTARGETS)
-	@echo done dlls
-else
-dbg: SUB_TARGET += dbg
-dbg: $(SUBLIBTARGETS) 
-endif
-else
-dbg: SUB_TARGET += dbg
-dbg: $(SUBLIBTARGETS) 
-endif
+opt:
+	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internal
 
-ifeq ($(MULTIPASS), 1)
-opt: SUB_TARGET += opt
-opt: 
-	@echo ================== LIBPASS ==========================
-	$(SUB_MAKE) opt_lib
-	@echo ================== LIBPASS FINISHED =================
-	@echo ================== DLLPASS ==========================
-	$(SUB_MAKE) opt_dll 
-	@echo ================== LIBPASS FINISHED =================
 
-opt_lib: MMAKEPASS:=LIBPASS
-opt_lib: $(SUBLIBTARGETS)
-	@echo done libs
-
-opt_dll: MMAKEPASS:=DLLPASS
-opt_dll: $(SUBLIBTARGETS)
-	@echo done dlls
-else
-opt: SUB_TARGET += opt
-opt: $(SUBLIBTARGETS) 
-endif
-
-all: libs
-
-libs: SUB_TARGET += SubLib
-libs: $(SUBLIBTARGETS) 
-	@echo $(SUBLIBTARGETS);
-
-#########################################################################
-# depend
-#########################################################################
-
-depend: SUB_TARGET += dbgdepend
-depend: $(SUBLIBTARGETS) 
-
-dbgdepend: SUB_TARGET += dbgdepend
-dbgdepend: $(SUBLIBTARGETS)
-
-optdepend: SUB_TARGET += optdepend
-optdepend: $(SUBLIBTARGETS)
+opt_internal: SUB_TARGET := opt
+opt_internal: SUB_JOB := build
+opt_internal: $(SUB_LIBTARGETS) 
 
 #########################################################################
 # clean
 #########################################################################
 
+dbgclean: SUB_TARGET := dbgclean
+dbgclean: $(SUB_LIBTARGETS)
 
-dbgclean: SUB_TARGET += dbgclean
-dbgclean: $(SUBLIBTARGETS)
+optclean: SUB_TARGET := optclean
+optclean: $(SUB_LIBTARGETS)
 
-optclean: SUB_TARGET += optclean
-optclean: $(SUBLIBTARGETS)
-
-clean: SUB_TARGET += clean
-clean: $(SUBLIBTARGETS)
+clean: SUB_TARGET := clean
+clean: $(SUB_LIBTARGETS)
 
 allclean: dbgclean optclean
 
-Clean: SUB_TARGET += Clean
-Clean: $(SUBLIBTARGETS) 
+dbgClean: SUB_TARGET := dbgClean
+dbgClean: $(SUB_LIBTARGETS) 
 
-#########################################################################
-# distclean
-#########################################################################
+optClean: SUB_TARGET := optClean
+optClean: $(SUB_LIBTARGETS) 
 
-distclean: SUB_TARGET += distclean
-distclean: $(SUBLIBTARGETS) initclean
+Clean: SUB_TARGET := Clean
+Clean: $(SUB_LIBTARGETS) 
 
-initclean: $(SUBLIBTARGETS) $(SUBTESTTARGETS)
-	@echo "initclear"
-	@-rm -rf bin
-	@-rm -rf lib
-	@-rm -rf include
-	@if [ -w $(DOCBASEDIR) ]; 	\
-	 then 						\
-		rm -rf $(DOCDIR);		\
-	 fi
+LibClean: SUB_TARGET := LibClean
+LibClean: $(SUB_LIBTARGETS) 
+
+DepClean: SUB_TARGET := DepClean
+DepClean: $(SUB_LIBTARGETS) 
 
 #########################################################################
 # install
 #########################################################################
 
-ifeq ($(OSG_DO_INSTALL),1)
 install-includes:
-	@if [ -w include ]; 													\
-	 then																	\
-		cd include; 														\
-		rm -f *.h *.inl *.h;												\
-		find $($(PROJECTPSD)POOL)											\
-			\( -type d \( -name CVS -o -name Test -o -name include \) 		\
-			   -prune \) 													\
-			-o -type f -name '*\.hpp' -print -exec $(LINK) {} . \; ;		\
-		find $($(PROJECTPSD)POOL)											\
-			\( -type d \( -name CVS -o -name Test -o -name include \) 		\
-			   -prune \) 													\
-			-o -type f -name '*\.h' -print -exec $(LINK) {} . \; ;			\
-		find $($(PROJECTPSD)POOL)											\
-			\( -type d \( -name CVS -o -name Test -o -name include \)		\
-			   -prune \)													\
-			-o -type f -name '*\.inl' -print -exec $(LINK) {} . \; ;		\
-	fi;																		\
-	cd $($(PROJECTPSD)POOL);
+	@if [ ! -w include ]; then mkdir include; fi
+	@cd include; 														\
+	rm -f *.h *.inl *.h;												\
+	find $($(PROJ)POOL)							\
+		\( -type d \( -name CVS -o -name Test -o -name include -o 		\
+		   -name Tools \) -prune \) 									\
+		-o -type f -name '*\.hpp' -print -exec $(LINK) {} . \; ;		\
+	find $($(PROJ)POOL)							\
+		\( -type d \( -name CVS -o -name Test -o -name include  -o 		\
+		   -name Tools \) -prune \) 									\
+		-o -type f -name '*\.h' -print -exec $(LINK) {} . \; ;			\
+	find $($(PROJ)POOL)            				\
+		\( -type d \( -name CVS -o -name Test -o -name include \)		\
+		   -prune \)													\
+		-o -type f -name '*\.inl' -print -exec $(LINK) {} . \; ;		\
+	cd ..;
 
 install-libs:
-	@BUILDLIBS=`find $($(PROJECTPSD)POOL) -name '$(OBJDIR)'					\
-						-exec find {} -name '*\.$(LIBEXT)' -print \;` ;		\
-	if [ -w lib/$(OS)$(DBG) ];												\
-	 then																	\
-		cd lib/$(OS)$(DBG);													\
-		rm -f *.$(LIBEXT);													\
-		for t in $$BUILDLIBS; 												\
-		do																	\
-			$(LINK) $$t .;													\
-			echo  $$t;														\
-		done																\
-	fi;																		\
-	cd $($(PROJECTPSD)POOL);
-ifeq ($(OS_BASE),NT)
-	@BUILDLIBS=`find $($(PROJECTPSD)POOL) -name '$(OBJDIR)'					\
-						-exec find {} -name '*\.$(SOEXT)' -print \;` ;		\
-	if [ -w lib/$(OS)$(DBG) ];												\
-	 then																	\
-		cd lib/$(OS)$(DBG);													\
-		rm -f *.$(SOEXT);													\
-		for t in $$BUILDLIBS; 												\
-		do																	\
-			$(LINK) $$t .;													\
-			echo  $$t;														\
-		done																\
-	fi;																		\
-	cd $($(PROJECTPSD)POOL);
+	@if [ ! -w lib ]; then mkdir lib; fi
+	@if [ ! -w lib/dbg ]; then mkdir lib/dbg; fi
+	@if [ ! -w lib/opt ]; then mkdir lib/opt; fi
+	@CURRDIR=`pwd`;                                                          \
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
+						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
+	cd lib/dbg;																\
+	rm -f *$(SO_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo $$t;															\
+		$(LINK) $$t .;														\
+	done;                                                                   \
+	cd ..;
+	@CURRDIR=`pwd`;															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
+						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
+	cd lib/opt;																\
+	rm -f *$(SO_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo $$t;															\
+		$(LINK) $$t .;														\
+	done;																	\
+	cd ..;
+ifeq ($(OS_BASE),cygwin)
+	@CURRDIR=`pwd`;															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
+						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
+	cd lib/dbg;																\
+	rm -f *$(LIB_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done;																	\
+	cd ..;
+	@CURRDIR=`pwd`;															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
+						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
+	cd lib/opt;																\
+	rm -f *$(LIB_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done;																	\
+	cd ..;
 endif
 
 install: install-includes install-libs
-endif
 
-#########################################################################
-# init
-#########################################################################
-
-init: SUB_TARGET += init
-init: $(SUBLIBTARGETS)
-	@echo "init"
-ifeq ($(OSG_DO_INSTALL),1)
-	@if [ ! -w bin ]; then mkdir bin; fi
-	@if [ ! -w bin/$(OS) ]; then mkdir bin/$(OS); fi
-	@if [ ! -w lib ]; then mkdir lib; fi
-	@if [ ! -w lib/$(OS)DBG ]; then mkdir lib/$(OS)DBG; fi
-	@if [ ! -w lib/$(OS)OPT ]; then mkdir lib/$(OS)OPT; fi
-	@if [ ! -w include ]; then mkdir include; fi
-endif
-ifeq ($(OSG_DO_DOC),1)
-	@if [ ! -w $(DOCBASEDIR) ]; then mkdir $(DOCBASEDIR); fi
-	@if [ ! -w $(DOCDIR) ]; then mkdir $(DOCDIR); fi
-endif
-
-doc: 
-	# find all headers and create dummy classes
-	rm -f $(OSGPOOL)/Common/dummyClasses.doxygen $(OSGPOOL)/Common/dummyClasses.list
-	touch $(OSGPOOL)/Common/dummyClasses.doxygen $(OSGPOOL)/Common/dummyClasses.list
-	for i in $(DOC_LIBS) ; do \
-		find $(OSGPOOL)/$i -name '*.h' -print > $(OSGPOOL)/Common/dummyClasses.list; \
-	done
-	perl $(OSGPOOL)/Common/makeDummyClasses `cat $(OSGPOOL)/Common/dummyClasses.list` \
-		 > $(OSGPOOL)/Common/dummyClasses.doxygen
-	rm -f $(OSGPOOL)/Common/dummyClasses.list	
-	# do doxygen
-	$(DOC_ENV) doxygen $(OSGPOOL)/$(OSGCOMMON)/Doxygen$(OS_BASE).cfg -d
-	rm -f $(OSGPOOL)/Common/dummyClasses.doxygen	
-
-include $(COMMONINCLUDE)
-
-.SUFFIXES:	.src .prj
-
-ifeq ($(MULTIPASS), 1)
 %.src:
-	@cd $*; \
-		$(SUB_MAKE) -f $(SUB_MAKEFILE) MAKEPASS=$(MMAKEPASS) RECURSE=1	\
-		$(SUB_TARGET); \
-		cd ..;
-else
-%.src:
-	@cd $*; \
-		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET); cd ..;
-endif
-
-%.prj:
-	@cd $*; \
-		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET); cd ..;
-
-TAGS_SUBDIRS := $(filter-out $(TAGS_EXCLUDEDIRS), $(SUBLIBS) )
-
-vtags:
-	@echo Creating common tags file for directories
-	@echo " $(TAGS_SUBDIRS) .."
-	@$(CTAGS) $(TAGS_OPTIONS) $(TAGS_SUBDIRS)
-
-etags:
-	@echo Creating common tags file for directories
-	@echo " $(TAGS_SUBDIRS) .."
-	@$(CTAGS) -e $(TAGS_OPTIONS) $(TAGS_SUBDIRS)
+	@if [ -d $* ]; then 													\
+		cd $*; 																\
+		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET) SUB_JOB=$(SUB_JOB); 	\
+		cd ..; 																\
+	fi

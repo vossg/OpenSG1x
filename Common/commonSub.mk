@@ -1,253 +1,345 @@
 
-include $(SYSTEMDIRECTORIES)
-include $(COMMONINCLUDE)
+-include .lastdbg
+
+DBG ?= $(LASTDBG)
+
+DBG := $(strip $(DBG))
+
+ifeq ($(DBG),)
+DBG := dbg
+endif
+
+
+OBJDIR = $(OBJDIR_BASE)-$(DBG)
+LIBDIR = $(LIBDIR_BASE)-$(DBG)
+EXEDIR = $(EXEDIR_BASE)-$(DBG)
+
+OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
 #########################################################################
-# Make goal
+# Get Job Type
 #########################################################################
 
-MAKECMDGOAL  := $(filter-out $(INTERNALTARGETS),$(MAKECMDGOALS))
+NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
+					 dbgClean optClean Clean commonDepClean dbgDepClean		\
+					 optDepClean DepClean LibClean Tests
+
+ifeq ($(MAKECMDGOALS),)
+SUB_JOB := build
+else
+FILTEREDCMDGOALS := $(strip $(filter-out $(NONBUILDTARGETS),$(MAKECMDGOALS)))
+
+ifeq ($(FILTEREDCMDGOALS),)
+SUB_JOB := admin
+else
+SUB_JOB := build
+endif
+
+JOB_TYPE := $(findstring opt,$(MAKECMDGOALS))
+
+ifeq ($(JOB_TYPE),opt)
+DBG := opt
+endif
+
+endif
 
 #########################################################################
-# Set Sources | Headers | Objects | Sublib
+# Get Source Files
 #########################################################################
 
-getBisonSources  = $(wildcard *.y)
-getFlexSources   = $(wildcard *.l)
-getQTSources     = $(wildcard OSG*_qt.cpp)
-#getTestQTSources = $(wildcard test*_qt.cpp)
-
-createMocSources = $(subst _qt,_qt_moc,$(1))
-
-LIBSOURCES       := $(call getSourceFiles)
-
-LIBFLEXSOURCES   := $(call getFlexSources)
-LIBBISONSOURCES  := $(call getBisonSources)
-
-LIBQTSOURCES     := $(call getQTSources)
+getAllMDSourceFiles = $(wildcard $(1)/$(PROJ)MD*.s  ) \
+					  $(wildcard $(1)/$(PROJ)MD*.cpp)
+getSysMDSourceFiles = $(wildcard $(1)/$(PROJ)MD$(OS_BASE)*.s  ) \
+					  $(wildcard $(1)/$(PROJ)MD$(OS_BASE)*.cpp)
 
 
+getSourceFiles         = \
+					     $(wildcard $(1)/$(PROJ)*.cpp) 	\
+	 					 $(wildcard $(1)/*.c)   	   	\
+			 			 $(wildcard $(1)/$(PROJ)*.s)
 
-ifneq ($(LIBFLEXSOURCES),)
-LIBFLEXSOURCES_CPP     := $(patsubst %.l,%.cpp,$(LIBFLEXSOURCES)) 
-LIBFLEXTARGET_CPP      := $(patsubst %.l,%.lex.cpp,$(LIBFLEXSOURCES)) 
-LIBFLEXSOURCESTMP_CPP  := lex.$(LIBFLEXSOURCES_CPP)
+getTestSourceFiles     = \
+					     $(wildcard $(1)/test*.cpp)
 
-FLEX_INTERNAL := $(strip $(basename $(LIBFLEXSOURCES_CPP)))_
-FLEX_EXTERNAL := $(LIBFLEXTARGET_CPP)
-endif
+getQTSourceFiles       = $(wildcard $(1)/OSG*_qt.cpp)
+getTestQTSourceFiles   = $(wildcard $(1)/test*_qt.cpp)
 
-ifneq ($(LIBBISONSOURCES),)
-LIBBISONSOURCES_CPP := $(patsubst %.y,%.cpp,$(LIBBISONSOURCES)) 
-LIBBISONTARGET_CPP  := $(patsubst %.y,%.tab.cpp,$(LIBBISONSOURCES)) 
+getProjSourceFiles     =$(foreach dir,$(1),$(call getSourceFiles,$(dir))) \
+					    $(wildcard ./*.cpp)
 
-BISON_INTERNAL := $(strip $(basename $(LIBBISONSOURCES_CPP)))_
-BISON_EXTERNAL := $(strip $(basename $(LIBBISONSOURCES_CPP)))
+getProjTestSourceFiles =$(foreach dir,$(1),$(call getTestSourceFiles,$(dir)))
 
-LIBHEADERS := $(call getSourceHeaderFiles)
-endif
+getProjAllMDSourceFiles= $(foreach dir,$(1),$(call getAllMDSourceFiles,$(dir)))
+getProjSysMDSourceFiles= $(foreach dir,$(1),$(call getSysMDSourceFiles,$(dir)))
 
-ifneq ($(LIBQTSOURCES),)
-LIBQTSOURCES_CPP := $(LIBQTSOURCES)
-LIBQTSOURCES_CPP := $(strip $(LIBQTSOURCES_CPP))
+getProjQTSourceFiles   = $(foreach dir,$(1),$(call getQTSourceFiles,$(dir)))
 
-LIBQTMOCSOURCES_CPP := $(call createMocSources, $(LIBQTSOURCES))
-LIBQTMOCSOURCES_CPP := $(strip $(LIBQTMOCSOURCES_CPP))
-LIBQTMOCSOURCES_CPP := $(call addObjectDir, $(LIBQTMOCSOURCES_CPP))
-endif
+getPrTestQTSourceFiles = $(foreach dir,$(1),$(call getTestQTSourceFiles,$(dir)))
 
-LIBSOURCES := $(filter-out $(LIBBISONTARGET_CPP),$(LIBSOURCES))
-LIBSOURCES := $(filter-out $(LIBFLEXTARGET_CPP),$(LIBSOURCES))
-LIBSOURCES := $(filter-out $(LIBQTSOURCES_CPP),$(LIBSOURCES))
+#########################################################################
+# Get Flex/Bison Source Files
+#########################################################################
 
-LIBOBJECTS  := $(call cnvSourceToObject,$(LIBSOURCES))
+getBisonSources  = $(wildcard $(1)/*.y)
+getFlexSources   = $(wildcard $(1)/*.l)
 
-ifneq ($(LIBQTSOURCES),)
-LIBOBJECTS := $(call cnvSourceToObject,$(LIBQTSOURCES_CPP)) $(LIBOBJECTS)
-endif
+getProjFlexSourceFiles  = $(foreach dir,$(1),$(call getFlexSources,$(dir)))
+getProjBisonSourceFiles = $(foreach dir,$(1),$(call getBisonSources,$(dir)))
 
-ifneq ($(LIBFLEXSOURCES),)
-LIBOBJECTS := $(call cnvSourceToObject,$(LIBFLEXTARGET_CPP)) $(LIBOBJECTS)
-endif
+#########################################################################
+# Create Objectfilenames
+#########################################################################
 
-ifneq ($(LIBBISONSOURCES),)
-LIBOBJECTS := $(call cnvSourceToObject,$(LIBBISONTARGET_CPP)) $(LIBOBJECTS)
-endif
+addObjectDir      = $(if $(OBJDIR),$(addprefix $(OBJDIR)$(DIR_SEP), $(1)),$(1))
 
-ifeq ($(OS_BASE), NT)
-ifdef OSG_BUILD_DLL
-ifeq ($(MAKEPASS), DLLPASS)
-SUB_SO      = $(call createSubSoName)
-SUB_SO_LINK = $(call createSubSoLink)
-endif
-ifeq ($(MAKEPASS), LIBPASS)
-SUB_LIB      = $(call createSublibName)
-SUB_LIB_LINK = $(call createSublibLink)
-SUB_LIB_UNIX      := $(call convWinUnix,$(SUB_LIB))
-SUB_LIB_LINK_UNIX := $(call convWinUnix,$(SUB_LIB_LINK))
-endif
-SUB_LIB_TESTDEF = $(call createLibDefName)
-SUB_LIB_DEF     = $(wildcard $(SUB_LIB_TESTDEF))
+cppSourceToObject  = \
+	$(patsubst %.cpp,%$(2), $(call addObjectDir,$(1)))
+cSourceToObject   = $(patsubst %.c,%$(2),$(1))
+asSourceToObject  = $(patsubst %.s,%$(2),$(1))
+
+
+cnvCandCPPSourceToObject = \
+	$(call cSourceToObject, $(call cppSourceToObject,$(1),$(2)),$(2))
+
+cnvSourceToObject        = \
+	$(call asSourceToObject, \
+		$(call cnvCandCPPSourceToObject,$(1),$(OBJ_SUFFIX)),$(OBJ_SUFFIX))
+
+cnvSourceToDep        = \
+	$(call asSourceToObject, \
+		$(call cnvCandCPPSourceToObject,$(1),$(DEP_SUFFIX)),$(DEP_SUFFIX))
+
+#########################################################################
+# Build include directive
+#########################################################################
+
+ifeq ($(OS_BASE), cygwin)
+buildIncPath      = $(INC_OPTION)"$(shell cygpath -w $(1))"
 else
-ifeq ($(OSGMAKESO),1)
-SUB_SO      = $(call createSubSoName)
-SUB_SO_LINK = $(call createSubSoLink)
+buildIncPath      = $(INC_OPTION)$(1) 
+endif
+$
+#########################################################################
+# Build lib directive
+#########################################################################
+
+ifeq ($(OS_BASE), cygwin)
+cnvSubDirUnix2Win = $(subst /,\,$(1))
+cnvSubDirsUnix2Win = $(foreach dir,$(1),"$(call cnvSubDirUnix2Win,$(dir))")
 else
-SUB_LIB      = $(call createSublibName)
-SUB_LIB_LINK = $(call createSublibLink)
-
-SUB_LIB_UNIX      := $(SUB_LIB)
-SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)
-
-endif
+cnvSubDirUnix2Win  = $1
+cnvSubDirsUnix2Win = $1
 endif
 
+ifeq ($(OS_BASE), cygwin)
+buildLibPath      = $(LIBPATH_OPTION)"$(BUILD_BASE_WIN)\$(1)\$(LIBDIR)"
 else
-ifeq ($(OSGMAKESO),1)
-SUB_SO      = $(call createSubSoName)
-SUB_SO_LINK = $(call createSubSoLink)
+buildLibPath      = $(LIBPATH_OPTION)$(BUILD_BASE)/$(1)/$(LIBDIR)
+endif
+
+buildDepLibPath   = $(BUILD_BASE)/$(1)/$(LIBDIR)
+
+buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LIB_SUFFIX)
+
+ifeq ($(OS_BASE), cygwin)
+buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)
 else
-SUB_LIB      = $(call createSublibName)
-SUB_LIB_LINK = $(call createSublibLink)
+buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(SO_SUFFIX)
+endif
 
-SUB_LIB_UNIX      := $(SUB_LIB)
-SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)
+#########################################################################
+# Define Objects
+#########################################################################
 
-SUB_LIB_UNIX      := $(SUB_LIB)
-SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)
+#ifeq ($(OS_BASE), cygwin)
+#LIB_SOURCEPACKAGES := $(strip $(subst :, ,$(subst $($(PROJ)POOL)/,,\
+#	$(subst .:,,$(VPATH)))))
+#else
+LIB_SOURCEPACKAGES := $(strip $(subst :, ,$(subst /,,$(subst $($(PROJ)POOL)/,,\
+	$(subst .:,,$(VPATH))))))
+#endif
 
+LIB_ABSSOURCEDIRS  := $(strip $(subst :, ,$(subst .:,,$(VPATH))))
+
+LIB_SYSMDSOURCES   := $(call getSysMDSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+LIB_ALLMDSOURCES   := $(call getProjAllMDSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+LIB_RMMDSOURCES    := $(filter-out $(LIB_SYSMDSOURCES),$(LIB_ALLMDSOURCES))
+LIB_RMMDSOURCES    := $(notdir $(LIB_RMMDSOURCES))
+
+LIB_SOURCES        := $(call getProjSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+LIB_SOURCES        := $(notdir $(LIB_SOURCES))
+LIB_SOURCES        := $(filter-out $(LIB_RMMDSOURCES),$(LIB_SOURCES))
+
+LIB_OBJECTS        := $(call cnvSourceToObject,$(LIB_SOURCES))
+
+TEST_SOURCES       := $(call getProjTestSourceFiles,$(LIB_ABSSOURCEDIRS))
+TEST_SOURCES        := $(notdir $(TEST_SOURCES))
+
+#########################################################################
+# Define Dep Objects
+#########################################################################
+
+ifeq ($($(PROJ)NODEPS),)
+LIB_DEPS           := $(call cnvSourceToDep,$(LIB_SOURCES))
+endif
+
+#########################################################################
+# Define FLex/Bison Objects
+#########################################################################
+
+LIB_FLEXSOURCES   := $(call getProjFlexSourceFiles,$(LIB_ABSSOURCEDIRS))
+LIB_FLEXSOURCES   := $(strip $(LIB_FLEXSOURCES))
+
+LIB_BISONSOURCES  := $(call getProjBisonSourceFiles,$(LIB_ABSSOURCEDIRS))
+LIB_BISONSOURCES  := $(strip $(LIB_BISONSOURCES))
+
+ifneq ($(LIB_FLEXSOURCES),)
+LIB_FLEXSOURCES_CPP     := $(notdir $(patsubst %.l,%.cpp,$(LIB_FLEXSOURCES)))
+LIB_FLEXTARGET_CPP      := $(patsubst %.l,%.lex.cpp,$(LIB_FLEXSOURCES)) 
+LIB_FLEXTARGET_CPP      := $(notdir $(LIB_FLEXTARGET_CPP))
+
+LIB_FLEXTARGET_CPP      := $(addprefix $(OBJDIR)/,$(LIB_FLEXTARGET_CPP))
+
+flex_int = $(strip $(basename $(notdir $(1))))_
+flex_ext =  $(strip $(basename $(notdir $(1))))
+endif
+
+
+ifneq ($(LIB_BISONSOURCES),)
+LIB_BISONSOURCES_CPP := $(notdir $(patsubst %.y,%.cpp,$(LIB_BISONSOURCES)))
+LIB_BISONTARGET_CPP  := $(notdir $(patsubst %.y,%.tab.cpp,$(LIB_BISONSOURCES)))
+LIB_BISONTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_BISONTARGET_CPP))
+
+LIB_BISONTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_BISONTARGET_CPP))
+
+bison_int = $(strip $(basename $(notdir $(1))))_
+bison_ext = $(strip $(basename $(notdir $(1))))
+endif
+
+ifneq ($(LIB_FLEXSOURCES),)
+LIB_OBJECTS := $(call cnvSourceToObject, $(notdir $(LIB_FLEXTARGET_CPP))) \
+			   $(LIB_OBJECTS)
+endif
+
+ifneq ($(LIB_BISONSOURCES),)
+LIB_OBJECTS := $(call cnvSourceToObject, $(notdir $(LIB_BISONTARGET_CPP))) \
+			   $(LIB_OBJECTS)
+endif
+
+#########################################################################
+# Define QT Objects
+#########################################################################
+
+ifeq ($(CONFIGURED_QT),1)
+LIB_QT_SOURCES    := $(call getProjQTSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+ifneq ($(LIB_QT_SOURCES),)
+LIB_QT_SOURCES    := $(notdir $(LIB_QT_SOURCES))
+
+LIB_QTTARGET_CPP  := $(subst _qt,_qt_moc,$(LIB_QT_SOURCES))
+
+LIB_QTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_QTTARGET_CPP))
+
+LIB_QTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_QTTARGET_CPP))
+
+LIB_QT_TARGET     := $(LIB_QTTARGET_CPP) : $(LIB_QT_SOURCES)
 endif
 endif
 
-# Used for depend call only
-TESTSOURCES := $(call   getTestSourceFiles)
-TESTSOURCES := $(strip $(TESTSOURCES))
+#########################################################################
+# Define Test Targets
+#########################################################################
 
-ifneq ($(MAKECMDGOAL),)
+TEST_TARGETS_IN := $(basename $(TEST_SOURCES))
 
-NUMTESTPROGS := $(words $(MAKECMDGOAL))
-
-ifneq ($(NUMTESTPROGS),1)
-PROGSWARNING := More than one test given, ignoring all but last.
-CMDGOALS     := $(word 1,$(MAKECMDGOAL))
-else
-PROGSWARNING := 
-CMDGOALS     := $(MAKECMDGOAL)
+ifneq ($(FILTEREDCMDGOALS),)
+FILTEREDCMDGOALS := $(basename $(FILTEREDCMDGOALS))
+TEST_TARGETS_IN  := $(filter $(FILTEREDCMDGOALS),$(TEST_TARGETS_IN))
 endif
 
-CMDGOALS    := $(filter-out %.cpp,$(CMDGOALS))
+TEST_TARGETS       := $(addprefix $(EXEDIR)$(DIR_SEP),$(TEST_TARGETS_IN))
+TEST_TARGETS       := $(addsuffix $(EXE_SUFFIX),$(TEST_TARGETS))
 
-TESTSOURCES := $(filter $(CMDGOALS).cpp,$(TESTSOURCES))
-TESTSOURCES := $(strip $(TESTSOURCES))
+TEST_TARGETS_CPP   := $(addsuffix .cpp,$(TEST_TARGETS_IN))
 
-TESTOBJECTS := $(call   cnvSourceToObject,$(TESTSOURCES))
-
-ifneq ($(TESTSOURCES),)
-TESTPROGSTARG := $(CMDGOALS)
-TESTPROGS     := $(CMDGOALS)$(EXEEXT)
-TESTPROGRAMMS := $(CMDGOALS).$(OS)$(EXEEXT)
-
-TESTPROGSTARG := $(strip $(TESTPROGSTARG))
-TESTPROGS     := $(strip $(TESTPROGS))
-else
-TESTPROGSTARG := $(CMDGOALS)
-TESTPROGS     := $(CMDGOALS)
-TESTPROGRAMMS := 
-PROGSWARNING  += "Error could not create rule for target $(CMDGOALS) !!"
-
-TESTPROGRAMMS := $(call extractTestProgs,$(TESTSOURCES))
-TESTPROGRAMMS := $(call addSysDep,$(TESTPROGRAMMS))
+ifeq ($($(PROJ)NODEPS),)
+TEST_DEPS          := $(call cnvSourceToDep,$(TEST_TARGETS_CPP))
 endif
 
-endif # MAKECMDGOAL
+TEST_OBJS          := $(call cnvSourceToObject,$(TEST_TARGETS_CPP))
 
-ifeq ($(OSGIGNORECURRDIR),1)
-REQUIRED_INCPACKAGES := $(REQUIRED_INCPACKAGES)
-REQUIRED_LNKPACKAGES := $(REQUIRED_LNKPACKAGES)
-else
-REQUIRED_INCPACKAGES := $(CURRENTDIR) $(REQUIRED_INCPACKAGES)
-REQUIRED_LNKPACKAGES := $(CURRENTDIR) $(REQUIRED_LNKPACKAGES)
+ifeq ($(CONFIGURED_QT),1)
+
+LIB_TESTQT_SOURCES := $(call getPrTestQTSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+ifneq ($(LIB_TESTQT_SOURCES),)
+LIB_TESTQT_SOURCES    := $(notdir $(LIB_TESTQT_SOURCES))
+
+LIB_TESTQTTARGET_CPP  := $(subst _qt,_qt_moc,$(LIB_TESTQT_SOURCES))
+
+LIB_TESTQTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
+
+LIB_TESTQTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_TESTQTTARGET_CPP))
+
+LIB_TESTQT_TARGET     := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
 endif
 
-REQUIRED_PACKAGES := $(REQUIRED_INCPACKAGES) $(REQUIRED_LNKPACKAGES)
+endif
+
+#########################################################################
+# Define Packages
+#########################################################################
+
+REQUIRED_PACKAGES := $(LIB_ABSSOURCEDIRS)
+
+REQUIRED_PACKAGES := \
+	$(addsuffix /common$(MAK_SUFFIX),$(REQUIRED_PACKAGES))
+
+REQUIRED_PACKAGES += $(LIB_REQUIRED_INCPACKAGES_FILES) \
+					 $(LIB_REQUIRED_LNKPACKAGES_FILES)
+
+ifeq ($(IN_TEST_DIR),1)
+REQUIRED_PACKAGES += $(LIB_REQUIRED_TESTLNKPACKAGES_FILES)
+endif
+
 REQUIRED_PACKAGES := $(sort $(REQUIRED_PACKAGES))
 
-ifneq ($(REQUIRED_PACKAGES),)
+include $(REQUIRED_PACKAGES)
 
-ifneq ($(OSGPOOL),$($(PROJECTPSD)POOL))
-PACKAGE_INCLUDE := $(call includePackagesProj,$(REQUIRED_PACKAGES))
-endif
-
-PACKAGE_INCLUDE += $(call includePackages,$(REQUIRED_PACKAGES))
-
-PACKAGE_INCLUDE := $(call verifyIncPackages,$(PACKAGE_INCLUDE))
-
-include $(PACKAGE_INCLUDE) 
-
-endif #REQUIRED_PACKAGES
-
-TESTCLEANALL   := $(wildcard test*.cpp)
-
-TESTCLEANBASE  := $(foreach file,$(TESTCLEANALL), $(basename $(file)))
-
-
-TESTCLEANSYSTEM    := $(addsuffix .$(OS),$(TESTCLEANBASE))
-
-TESTCLEANSYSTEMS   := \
-	$(foreach sys,$(SYSTEMS), $(addsuffix .$(sys)*,$(TESTCLEANBASE)))
 
 #########################################################################
-# Include the rest
+# Setup Compiler Environment
 #########################################################################
 
-#########################################################################
-# Default Includes
-#########################################################################
+INCL         := $(INCL_$(OS_BASE))
+LIBPATHS     := $(LIBPATHS_$(OS_BASE))
 
+RQ_LPACKS    := $(LIB_REQUIRED_LNKPACKAGES)
 
-INCL                 := $(INCL$(OS))
-
-PROJLIBSDEP          := $(call createProjLibsDep, $(REQUIRED_LNKPACKAGES))
-PROJLIBS             := $(call createProjLibs,    $(REQUIRED_LNKPACKAGES))
-
-REQUIRED_SYSTEM_LIBS := $(REQUIRED_SYSTEM_LIBS$(OS))
-
-ifdef LINK_X11
-POST_LINK_LIBS       := -L$(LINK_X11) 
+ifeq ($(IN_TEST_DIR),1)
+ifeq ($(OS_BASE), cygwin)
+RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) \
+				$(filter-out $(LIB_REQUIRED_TESTLNKPACKAGES),$(RQ_LPACKS))
 else
-POST_LINK_LIBS       :=
+RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) $(RQ_LPACKS)
 endif
-
-POST_LINK_LIBS       := $(POST_LINK_LIBS) $(POST_LINK_LIBS$(OS))
-
-
-ifneq ($(MAKECMDGOAL),)
-
-ifeq ($(OS_BASE), NT)
-PROJLIBSCHECKSYS := $(foreach file,$(PROJLIBS),$(shell cygpath -u $(file)))
 else
-PROJLIBSCHECKSYS := $(PROJLIBS)
+ifeq ($(OS_BASE), cygwin)
+RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) $(RQ_LPACKS)
+endif
 endif
 
-PROJLIBSCHECK := $(strip $(foreach lib,$(PROJLIBSCHECKSYS),$(wildcard $(lib))))
-PROJLIBSSTRIP := $(strip $(PROJLIBSCHECKSYS))
+LIBPACKPATHS := $(foreach lp,$(RQ_LPACKS), $(LIBPATHS_$(lp)))
 
-PROJLIBSMISSING := $(filter-out $(PROJLIBSCHECK),$(PROJLIBSSTRIP))
+LIBPATHS     := $(LIBPATHS) $(LIBPACKPATHS)
 
-ifneq ($(PROJLIBSCHECK),$(PROJLIBSSTRIP))
+LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)))
 
-LIBERROR = $(PROJLIBSMISSING) {is|are} missing rebuild these libs first
-$(error $(LIBERROR))
+LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 
-endif # ifneq ($(PROJLIBSCHECK),$(PROJLIBSSTRIP))
+LIBS_DEP  := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_DEP_$(lp)))
 
-endif # ifneq ($(MAKECMDGOAL),)
-
-include $(DEFAULTRULES)
-
-
--include $(DEP_MAKEFILE)
-
-
-
-
+include $($(PROJ)POOL)/$($(PROJ)COMMON)/DefaultRules.mk

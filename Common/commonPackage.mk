@@ -1,19 +1,14 @@
 
-POST_LINK_LIBS$(OS)       := \
-	$(filter-out $(REQUIRED_SYSTEM_LIBS$(OS)),$(POST_LINK_LIBS$(OS)))
-
-POST_LINK_LIBS$(OS)      += $(REQUIRED_SYSTEM_LIBS$(OS))
-
-INCL$(OS)                += $(call buildIncPath,$(INCL_DIR)) 
-
-ifndef PACKAGENAME
-ifneq ($(PROJLIBS_FILE_$(SUB_DIR)),)
-PROJLIBS_FILE_$(SUB_DIR) := $(call buildLibName,$(PROJLIBS_FILE_$(SUB_DIR)))
-endif
-else
-ifneq ($(PROJLIBS_FILE_$(PACKAGENAME)),)
-PROJLIBS_FILE_$(PACKAGENAME) := \
-	$(call buildLibName,$(PROJLIBS_FILE_$(PACKAGENAME)))
-endif
+ifneq ($(HAS_INCL),)
+INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR)) 
 endif
 
+ifneq ($(HAS_LIB),)
+LIBPATHS_$(SUB_DIR)     := \
+	$(call buildLibPath,$(call cnvSubDirUnix2Win,$(SUB_DIR)))
+
+LIB_FILE_$(SUB_DIR)     := $(call buildLibName,$(PACKAGENAME))
+
+LIB_FILE_DEP_$(SUB_DIR) := \
+	$(call buildDepLibPath,$(SUB_DIR))/$(call buildDepLibName,$(PACKAGENAME))
+endif
