@@ -101,7 +101,12 @@ BaseThreadCommonBase::~BaseThreadCommonBase(void)
 //  Class
 //---------------------------------------------------------------------------
 
+#if defined(OSG_PTHREAD_ELF_TLS)
+__thread BaseThread *BasePThreadBase::_pLocalThread = NULL;
+#else
 pthread_key_t BasePThreadBase::_threadKey;
+#endif
+
 
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
@@ -128,12 +133,14 @@ void *BasePThreadBase::threadFunc(void *pThreadArg)
     return NULL;
 }
 
+#if !defined(OSG_PTHREAD_ELF_TLS)
 void BasePThreadBase::freeThread(void *pThread)
 {
     BaseThread **pT = static_cast<BaseThread **>(pThread);
 
     delete pT;
 }
+#endif
 
 /*--------------------------- Constructors --------------------------------*/
 
@@ -163,11 +170,15 @@ BasePThreadBase::~BasePThreadBase(void)
 
 void BasePThreadBase::setupThread(void)
 {
+#ifdef OSG_PTHREAD_ELF_TLS
+    _pLocalThread = static_cast<BaseThread *>(this);
+#else
     BaseThread **pThread = new BaseThread *;
 
     *pThread = (BaseThread *) this;
 
     pthread_setspecific(_threadKey, (void *) pThread);
+#endif
 }
 
 void BasePThreadBase::setupBlockCond(void)
@@ -194,11 +205,15 @@ void BasePThreadBase::init(void)
 
 BaseThread *BasePThreadBase::getCurrent(void)
 {
+#ifdef OSG_PTHREAD_ELF_TLS
+    return _pLocalThread;
+#else
     BaseThread **pThread;
 
     pThread = (BaseThread **) pthread_getspecific(_threadKey);
 
     return *pThread;
+#endif
 }
 
 /*------------------------------ Join -------------------------------------*/
@@ -830,7 +845,7 @@ void BaseThread::initThreading(void)
 {
     FINFO(("BaseThread::initThreading\n"))
 
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_USE_PTHREADS) && !defined(OSG_PTHREAD_ELF_TLS)
     int rc;
 
     rc = pthread_key_create(&(BaseThread::_threadKey),
@@ -839,7 +854,7 @@ void BaseThread::initThreading(void)
     FFASSERT((rc == 0), 1, ("Failed to create pthread thread key\n");)
 #endif
 
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
+#if defined(OSG_USE_WINTHREADS) && defined (OSG_ASPECT_USE_LOCALSTORAGE)
     BaseThread::_threadKey     = TlsAlloc();
 
     FFASSERT((BaseThread::_threadKey != 0xFFFFFFFF), 1,

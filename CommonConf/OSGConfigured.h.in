@@ -56,6 +56,7 @@
 #endif
 
 #undef OSG_OPT_DRAWTREE
+#undef OSG_PTHREAD_ELF_TLS
 
 #undef OSG_NO_GLUT_GLSUBDIR
 

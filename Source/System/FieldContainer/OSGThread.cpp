@@ -119,23 +119,12 @@ void ThreadCommonBase::setChangeList(ChangeList *pChangeList)
 
 #if defined (OSG_USE_PTHREADS)
 
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-
-extern "C"
-{
-    extern pthread_t gThreadSelf(void);
-}
-
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_PTHREAD_ELF_TLS)
+__thread UInt32      PThreadBase::_uiTLSAspectId  = 0;
+__thread ChangeList *PThreadBase::_pTLSChangeList = NULL;
+#else
 pthread_key_t PThreadBase::_aspectKey;
 pthread_key_t PThreadBase::_changeListKey;
-#endif
-
-#if defined(OSG_ASPECT_USE_PTHREADSELF) || defined(OSG_ASPECT_USE_CUSTOMSELF)
-vector<UInt16      > PThreadBase::_vAspects;    
-vector<ChangeList *> PThreadBase::_vChangelists;
 #endif
 
 /*-------------------------------------------------------------------------*/
@@ -143,7 +132,9 @@ vector<ChangeList *> PThreadBase::_vChangelists;
 
 UInt32 PThreadBase::getAspect(void)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_PTHREAD_ELF_TLS)
+    return _uiTLSAspectId;
+#else
     UInt32 *pUint;
 
     pUint = (UInt32 *) pthread_getspecific(_aspectKey);
@@ -151,39 +142,18 @@ UInt32 PThreadBase::getAspect(void)
     return *pUint;
 #endif
 
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    return _vAspects[threadId & 0x00FF];
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    return _vAspects[threadId];
-#endif
 }
 
 ChangeList *PThreadBase::getCurrentChangeList(void)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_PTHREAD_ELF_TLS)
+    return _pTLSChangeList;
+#else
     ChangeList **pCList;
 
     pCList = (ChangeList **) pthread_getspecific(_changeListKey);
 
     return *pCList;
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    return _vChangelists[threadId & 0x00FF];
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    return _vChangelistsA[threadId];
 #endif
 }
 
@@ -210,7 +180,7 @@ bool PThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 /*-------------------------------------------------------------------------*/
 /*                               Free                                      */
 
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if !defined(OSG_PTHREAD_ELF_TLS)
 void PThreadBase::freeAspect(void *pAspect)
 {
     UInt32 *pUint = (UInt32 *) pAspect;
@@ -264,34 +234,36 @@ void PThreadBase::init(void)
 
 void PThreadBase::setupAspect(void)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+
+#if defined(OSG_PTHREAD_ELF_TLS)
+    _uiTLSAspectId  = Inherited::_uiAspectId;
+#else
     UInt32 *pUint = new UInt32;
 
     *pUint = Inherited::_uiAspectId;
 
     pthread_setspecific(_aspectKey, (void *) pUint);  
 #endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _vAspects.resize((threadId & 0x00FF) + 1);
-
-    _vAspects[threadId & 0x00FF] = Inherited::_uiAspectId;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _vAspects.resize(threadId + 1);
-
-    _vAspects[threadId] = Inherited::_uiAspectId;
-#endif
 }
 
 void PThreadBase::setupChangeList(void)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_PTHREAD_ELF_TLS)
+    if(Inherited::_pChangeList == NULL)
+    {
+        _pTLSChangeList = new ChangeList;
+
+        Inherited::setChangeList(_pTLSChangeList);
+    }
+    else
+    {
+        _pTLSChangeList = Inherited::_pChangeList;
+        
+        _pTLSChangeList->clearAll();
+    }
+    
+    _pTLSChangeList->setAspect(Inherited::_uiAspectId);
+#else
     ChangeList **pChangeList = new ChangeList *;
 
     if(Inherited::_pChangeList == NULL)
@@ -309,52 +281,6 @@ void PThreadBase::setupChangeList(void)
 
     (*pChangeList)->setAspect(Inherited::_uiAspectId);
     pthread_setspecific(_changeListKey, (void *) pChangeList);  
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    ChangeList *pChangeList;
-    pthread_t      threadId = pthread_self(); 
-
-    if(Inherited::_pChangeList == NULL)
-    {
-        pChangeList = new ChangeList;
-
-        Inherited::setChangeList(pChangeList);
-    }
-    else
-    {
-        pChangeList = Inherited::_pChangeList;
-        
-        pChangeList->clearAll();
-    }
-
-    pChangeList->setAspect(Inherited::_uiAspectId);
-    
-    _vChangelists.resize((threadId & 0x00FF) + 1);
-    _vChangelists[threadId & 0x00FF] = pChangeList;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    ChangeList *pChangeList;
-    pthread_t   threadId = gThreadSelf(); 
-
-    if(Inherited::_pChangeList == NULL)
-    {
-        pChangeList = new ChangeList;
-
-        Inherited::setChangeList(pChangeList);
-    }
-    else
-    {
-        pChangeList = Inherited::_pChangeList;
-        
-        pChangeList->clearAll();
-    }
-
-    pChangeList->setAspect(Inherited::_uiAspectId);
-
-    _vChangelists.resize(threadId + 1);
-    _vChangelists[threadId] = pChangeList;
 #endif
 }
 
@@ -687,7 +613,7 @@ void Thread::initThreading(void)
 {
     FINFO(("Thread::initThreading\n"))
 
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_USE_PTHREADS) && !defined(OSG_PTHREAD_ELF_TLS)
     int rc; 
 
     rc = pthread_key_create(&(Thread::_aspectKey), 
@@ -701,19 +627,7 @@ void Thread::initThreading(void)
     FFASSERT((rc == 0), 1, ("Failed to create pthread changelist key\n");)
 #endif
 
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-
-    Thread::_vAspects    .resize(16);
-    Thread::_vChangelists.resize(16);
-
-    for(UInt32 i = 0; i < 16; i++)
-    {
-        Thread::_vAspects[i]     = 0;
-        Thread::_vChangelists[i] = NULL;
-    }
-#endif
-
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)       
+#if defined(OSG_WIN_THREADS) && defined(OSG_ASPECT_USE_LOCALSTORAGE)       
     Thread::_aspectKey     = TlsAlloc();
 
     FFASSERT((Thread::_aspectKey != 0xFFFFFFFF), 1, 

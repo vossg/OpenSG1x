@@ -196,22 +196,20 @@ class PThreadBase : public ThreadCommonBase
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-#ifdef OSG_ASPECT_USE_PTHREADKEY
+#if defined(OSG_PTHREAD_ELF_TLS)
+    static __thread UInt32      _uiTLSAspectId;
+    static __thread ChangeList *_pTLSChangeList;
+#else
     static pthread_key_t  _aspectKey;
     static pthread_key_t  _changeListKey;
 #endif
 
-#if defined(OSG_ASPECT_USE_PTHREADSELF) || defined(OSG_ASPECT_USE_CUSTOMSELF)
-    static vector<UInt16       > _vAspects;
-    static vector<ChangeList  *> _vChangelists;
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Free                                     */
     /*! \{                                                                 */
 
+#if !defined(OSG_PTHREAD_ELF_TLS)
     static void  freeAspect    (void *pAspect);
     static void  freeChangeList(void *pChangeList);
 #endif

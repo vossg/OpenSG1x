@@ -150,14 +150,21 @@ class BasePThreadBase : public BaseThreadCommonBase
 
     typedef BaseThreadCommonBase  Inherited;
 
-    static  pthread_key_t        _threadKey;
+#if defined(OSG_PTHREAD_ELF_TLS)
+    static  __thread BaseThread     *_pLocalThread;
+#else
+    static           pthread_key_t   _threadKey;
+#endif
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Helper                                  */
     /*! \{                                                                 */
 
     static void *threadFunc(void *pThreadArg);
+
+#if !defined(OSG_PTHREAD_ELF_TLS)
     static void  freeThread(void *pThread   );
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

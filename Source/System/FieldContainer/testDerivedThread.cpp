@@ -8,6 +8,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if defined(OSG_PTHREAD_ELF_TLS)
+__thread int fooCounter = 0;
+#endif
+
 class MyThread : public Thread
 {
   private:
@@ -61,13 +65,22 @@ void MyThread::workProc(void)
 {
     fprintf(stderr, "Enter WorkProc\n");
 
+#if defined(OSG_PTHREAD_ELF_TLS)
+    fooCounter = _uiThreadId * 100000;
+#endif
+
 //    for(UInt32 i = 0; i < 10; ++i)
     while(1)
     {
-        fprintf(stderr, "%u Processing step, aspect %u\n",
+        fprintf(stderr, "%u Processing step, aspect %u (%d)\n",
                 _uiThreadId,
 //                i,
-                OSG::Thread::getAspect());
+                OSG::Thread::getAspect(),
+#if defined(OSG_PTHREAD_ELF_TLS)
+                fooCounter++);
+#else
+                0);
+#endif
         osgsleep(100);
     }
 

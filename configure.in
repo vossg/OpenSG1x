@@ -39,7 +39,7 @@ ac_gdz_conf_package_stlport_e1='0'
 ac_gdz_conf_package_tif='0'
 ac_gdz_conf_package_tif_e1='0'
 ac_gdz_conf_package_jpg='0'
-ac_gdz_conf_package_jpg_e1='0'
+ac_gdz_conf_package_jpg_e1='0'CommonConf/
 ac_gdz_conf_package_png='0'
 ac_gdz_conf_package_png_e1='0'
 ac_gdz_conf_package_mng='0'
@@ -847,6 +847,11 @@ dnl ############# typed fcptr Settings #################
 AC_ARG_ENABLE(opt_drawtree,     [  --enable-opt-drawtree              enable opt drawtree ],
 			,enable_opt_drawtree=no) 
 
+dnl ############# typed fcptr Settings #################
+
+AC_ARG_ENABLE(pthread_elf_tls,     [  --enable-pthread-elf-tls           enable elf tls if pthreads are used, tested on redhat 9 only ],
+			,enable_pthread_elf_tls=no) 
+
 dnl ############# Add Path Settings #####################
 
 AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directories (no spaces allowed) ],
@@ -1483,6 +1488,10 @@ fi
 
 if test "$enable_opt_drawtree" = yes; then
 	AC_DEFINE(OSG_OPT_DRAWTREE)
+fi
+
+if test "$enable_pthread_elf_tls" = yes; then
+	AC_DEFINE(OSG_PTHREAD_ELF_TLS)
 fi
 
 case $with_log_level in

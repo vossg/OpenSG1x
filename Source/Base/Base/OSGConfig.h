@@ -712,12 +712,6 @@
 #define OSG_DLSYM_UNDERSCORE
 #endif
 
-#if defined (OSG_USE_PTHREADS)
-
-#define OSG_ASPECT_USE_PTHREADKEY
-
-#endif /* OSG_USE_PTHREADS */
-
 #ifndef _OSG_HAVE_CONFIGURED_H_
 #   if defined (OSG_USE_WINTHREADS)
 #       define OSG_ASPECT_USE_DECLSPEC
