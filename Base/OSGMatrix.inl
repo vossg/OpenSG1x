@@ -442,7 +442,7 @@ void TransformationMatrix<ValueTypeT>::setValue(
 template<class ValueTypeT> inline
 ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
 {
-    return _matrix[0].getValueRef();
+    return _matrix[0].getValues();
 }
 
 //@}

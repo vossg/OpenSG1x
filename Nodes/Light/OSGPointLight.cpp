@@ -208,7 +208,7 @@ Action::ResultE PointLight::draw(Action * action )
 	Vec4f pos( _position.getValue() );
 
 	pos[3] = 1;
-	glLightfv( GL_LIGHT0, GL_POSITION, pos.getValueRef() );
+	glLightfv( GL_LIGHT0, GL_POSITION, pos.getValues() );
 	glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 180 );
 
 	glPopMatrix();

@@ -174,13 +174,13 @@ void LightChunk::activate( DrawAction *, UInt32 index )
 	glLightfv( GL_LIGHT0 + index, GL_SPECULAR,   
 										_specular.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_POSITION,   
-										_position.getValue().getValueRef() );
+										_position.getValue().getValues() );
 
 	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _cutoff.getValue() );
 	if ( _cutoff.getValue() < 180 )
 	{
 		glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,   
-										_direction.getValue().getValueRef() );
+										_direction.getValue().getValues() );
 		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _exponent.getValue() );
 	}
 	glEnable( GL_LIGHT0 + index );
@@ -204,13 +204,13 @@ void LightChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 index 
 	glLightfv( GL_LIGHT0 + index, GL_SPECULAR,   
 										_specular.getValue().getValueRef() );
 	glLightfv( GL_LIGHT0 + index, GL_POSITION,   
-										_position.getValue().getValueRef() );
+										_position.getValue().getValues() );
 
 	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _cutoff.getValue() );
 	if ( _cutoff.getValue() < 180 )
 	{
 		glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,   
-										_direction.getValue().getValueRef() );
+										_direction.getValue().getValues() );
 		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _exponent.getValue() );
 	}
 }

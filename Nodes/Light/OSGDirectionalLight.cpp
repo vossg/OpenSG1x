@@ -189,7 +189,7 @@ Action::ResultE DirectionalLight::draw(Action * action )
     Vec4f dir( _direction.getValue() );
 
     dir[3] = 0;
-    glLightfv( GL_LIGHT0, GL_POSITION, dir.getValueRef() );
+    glLightfv( GL_LIGHT0, GL_POSITION, dir.getValues() );
     glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 180 );
 
     glPopMatrix();

@@ -95,6 +95,7 @@ define win_make_depend
 		 	-e 's/ /\\ /g' 							\
 		 	-e 's/:\\ /: /1' 						\
 		 	-e 's///' 								\
+			-e '/:.*\.\.\/Base\//d'					\
 		 	-e 's/^\([^\.]*\)$(OBJ_SUFFIX):/$(OBJDIR)\/\1$(DEP_SUFFIX) $(OBJDIR)\/\1$(OBJ_SUFFIX):/1'		\
 	 		>> $@
 endef

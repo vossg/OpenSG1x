@@ -516,14 +516,14 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 		{
 	        for(i = 0; i < _iSize; i++)
 		    {
-			    _values[i] = vec.getValueRef()[i];
+			    _values[i] = vec.getValues()[i];
 			}
 		}
 		else	
 		{
 			for(i = 0; i < VectorT::_iSize; i++)
 			{
-	            _values[i] = vec.getValueRef()[i];
+	            _values[i] = vec.getValues()[i];
 			}
 			for(i = VectorT::_iSize; i < _iSize; i++)
 			{
@@ -615,7 +615,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 			i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
 			i++)
 		{
-	        _values[i] = vec.getValueRef()[i];
+	        _values[i] = vec.getValues()[i];
 	    }
 	}
 
@@ -630,8 +630,10 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     /*------------------------- get values -------------------------------*/
 
-          ValueTypeT *getValueRef(void);
-    const ValueTypeT *getValueRef(void) const;
+    using StorageInterfaceT::getValues;
+
+          ValueTypeT *getValues(void);
+    const ValueTypeT *getValues(void) const;
 
     /*--------------------------- common math -------------------------------*/
 
@@ -694,6 +696,8 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef StorageInterfaceT Inherited;
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -719,8 +723,6 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef StorageInterfaceT Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -833,14 +835,14 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 		{
 	        for(i = 0; i < _iSize; i++)
 		    {
-			    _values[i] = vec.getValueRef()[i];
+			    _values[i] = vec.getValues()[i];
 			}
 		}
 		else	
 		{
 			for(i = 0; i < VectorT::_iSize; i++)
 			{
-	            _values[i] = vec.getValueRef()[i];
+	            _values[i] = vec.getValues()[i];
 			}
 			for(i = VectorT::_iSize; i < _iSize; i++)
 			{

@@ -924,7 +924,7 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 ValueTypeT *PointInterface<ValueTypeT, 
-                                  StorageInterfaceT>::getValueRef(void)
+                                  StorageInterfaceT>::getValues(void)
 {
     return _values;
 }
@@ -935,7 +935,7 @@ ValueTypeT *PointInterface<ValueTypeT,
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 const ValueTypeT *PointInterface<ValueTypeT, 
-                                        StorageInterfaceT>::getValueRef(
+                                        StorageInterfaceT>::getValues(
    void) const
 {
     return _values;

@@ -365,6 +365,8 @@ void vectorMathTests(void)
     Vec4f v4f1;
     Vec4f v4f2(1., 0., 0., 0.5);
 
+    Real32 rX, rY, rZ, rW;
+
     cout << v2f1 << " : iz : " << v2f1.isZero() << "\n";
     cout << v3f1 << " : iz : " << v3f1.isZero() << "\n";
     cout << v4f1 << " : iz : " << v4f1.isZero() << "\n";
@@ -499,8 +501,10 @@ void vectorMathTests(void)
 
     fprintf(stderr, "%f %f %f %f\n", v4f1[0], v4f1[1], v4f1[2], v4f1[3]);
     fprintf(stderr, "%f %f %f %f\n", 
-            v4f1.getValueRef()[0], v4f1.getValueRef()[1], 
-            v4f1.getValueRef()[2], v4f1.getValueRef()[3]);
+            v4f1.getValues()[0], v4f1.getValues()[1], 
+            v4f1.getValues()[2], v4f1.getValues()[3]);
+
+    v4f1.getValues(rX, rY, rZ, rW);
 
     cout << v2f1 << " \n";
     cout << v3f1 << " \n";
@@ -646,7 +650,7 @@ void matrixTest(void)
     m5.setValue(pValArrayT);
     m8.setValue(pValArray, false);
     m6.setValue(pVec4Array);
-    m7.setValue(pVec3Array);
+//    m7.setValue(pVec3Array);
 
     cout << "Set      matrix  : " << endl << m4 << endl;
     cout << "Set 3 3f vectors : " << endl << m1 << endl;

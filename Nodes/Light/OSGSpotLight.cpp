@@ -195,7 +195,7 @@ Action::ResultE SpotLight::draw(Action * action )
 
     dir[3] = 0;
 
-    glLightfv( GL_LIGHT0, GL_SPOT_DIRECTION, dir.getValueRef() );
+    glLightfv( GL_LIGHT0, GL_SPOT_DIRECTION, dir.getValues() );
     glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, _spotCutOff.getValue() );
     glLightf( GL_LIGHT0, GL_SPOT_EXPONENT, _spotExponent.getValue() );
 
