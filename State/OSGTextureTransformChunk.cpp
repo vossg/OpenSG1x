@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.3 2001/12/04 02:33:47 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.4 2001/12/17 15:41:18 dirk Exp $";
     static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }
@@ -140,6 +140,9 @@ void TextureTransformChunk::changeFrom( DrawActionBase *,  StateChunk * old, UIn
 
 void TextureTransformChunk::deactivate ( DrawActionBase *,  UInt32 )
 {
+    glMatrixMode(GL_TEXTURE);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
 }
 
 
