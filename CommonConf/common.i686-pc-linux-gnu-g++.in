@@ -1,4 +1,6 @@
 
+LINKER_INIT_FLAG     := -fini
+
 LIBPATH_OPTION       := -L
 LIBLNK_OPTION        := -l
 
