@@ -149,13 +149,17 @@ def MyInstall(dst, src):
         return -1
 
 def CreateWinHeaders(env):
-    
+
     if sys.platform != 'win32':
         return
 
     build_dir = str(env['BUILD_DIR'])
     path = os.path.join(build_dir, 'Source', 'Base')
-    
+
+    # create directories
+    if not os.path.isdir(path):
+        os.makedirs(path)
+
     filename = os.path.join(path, 'unistd.h')
     if not os.path.exists(filename):
         unistd_h = open(filename, 'w')
@@ -380,7 +384,7 @@ class PlatformOptions:
             print "Not supported yet!"
         elif self.de.get('PLATFORM') == 'win32':
             opts.Add(EnumOption('compiler', 'Use compiler', 'icl',
-                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71')))
+                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80')))
             
             # try to find the supportslibs directory.
             current_dir = Dir('.').abspath
@@ -601,8 +605,7 @@ class win32_msvc_base(win32):
 
         env.AppendENVPath('PATH', GetCygwinPath('/bin'))
 
-        env.Append(CPPDEFINES=win32_defines,
-                   CXXFLAGS=['/GX', '/GR', '/Gi', '/FD', '/Zm1200'])
+        env.Append(CPPDEFINES=win32_defines)
 
     def get_env_list(self):
         env = self.get_env()
@@ -635,6 +638,9 @@ class win32_msvc71(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-msvc71')
         env = self.get_env()
+
+        env.Append(CXXFLAGS=['/GX', '/GR', '/Gi', '/FD', '/Zm1200'])
+
         # add msvc71 include and lib paths
         import SCons.Tool.msvc
         include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("7.1", 0)
@@ -649,12 +655,37 @@ class win32_msvc70(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-msvc70')
         env = self.get_env()
+
+        env.Append(CXXFLAGS=['/GX', '/GR', '/Gi', '/FD', '/Zm1200'])
         # add msvc71 include and lib paths
         import SCons.Tool.msvc
         include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("7.0", 0)
 
         env.PrependENVPath('INCLUDE', include_path)
         env.PrependENVPath('LIB', lib_path)
+        env.PrependENVPath('PATH', exe_path)
+
+class win32_msvc80(win32_msvc_base):
+    def __init__(self):
+        win32_msvc_base.__init__(self, 'win32-msvc80')
+        env = self.get_env()
+
+        env.Append(CXXFLAGS=['/w44258', '/w44996', '/EHsc', '/GR', '/FD', '/Zm1200', '/Zc:forScope'])
+
+        # add msvc80 include and lib paths
+        #import SCons.Tool.msvc
+        # doesn't work for 8.0 :-(
+        #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
+        # HACK
+        include_path = 'D:/Programme/Microsoft Visual Studio 8/VC/include'
+        lib_path = 'D:/Programme/Microsoft Visual Studio 8/VC/lib'
+        exe_path = ['D:/Programme/Microsoft Visual Studio 8/VC/bin',
+                    'D:/Programme/Microsoft Visual Studio 8/VC/../Common7/IDE']
+
+        env.PrependENVPath('INCLUDE', include_path)
+        #env.PrependENVPath('INCLUDE', os.path.join(include_path, '..', 'PlatformSDK', 'Include'))
+        env.PrependENVPath('LIB', lib_path)
+        #env.PrependENVPath('LIB', os.path.join(lib_path, '..', 'PlatformSDK', 'Lib'))
         env.PrependENVPath('PATH', exe_path)
 
 class cygwin_gcc(win32):
@@ -749,6 +780,8 @@ def SelectToolChain():
             return win32_msvc70()
         elif _po.getOption('compiler') == 'msvc71':
             return win32_msvc71()
+        elif _po.getOption('compiler') == 'msvc80':
+            return win32_msvc80()
         else:
             print "WARNING: Unsupported MSVS version found: %s.  Trying defaults." % msvs_version
             return unknown()
