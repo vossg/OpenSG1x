@@ -240,7 +240,24 @@ int main (int argc, char **argv)
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p2->dump(0, OSG::FCDumpFlags::RefCount);
 
-
+    // test name convenience functions
+    
+    cerr << "Name convenience" << endl;
+    
+    cerr << "No name: " << OSG::getName(p3) << endl;
+    
+    OSG::setName(p3, "Hugo");
+    
+    cerr << "Name: " << OSG::getName(p3) << endl;
+    
+    OSG::setName(p3, string("Hugo"));
+    
+    cerr << "String Name: " << OSG::getName(p3) << endl;
+     
+    OSG::setName(p3, NULL);
+    
+    cerr << "Removed Name: " << OSG::getName(p3) << endl;
+   
 
 
     OSG::subRefCP(p3);

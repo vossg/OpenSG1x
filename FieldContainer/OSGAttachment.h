@@ -355,6 +355,15 @@ typedef SimpleAttachment<NameAttachmentDesc  > Name;
 
 typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 
+
+class AttachmentContainerPtr;
+
+const char   *getName( AttachmentContainerPtr container );
+
+      void    setName( AttachmentContainerPtr container, const string &name );
+      void    setName( AttachmentContainerPtr container, const char *name );
+ 
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEATTACHMENTINST
@@ -369,7 +378,8 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
 //  Class
 //---------------------------------------------------------------------------
 
-//! Template to build simple attachment classes which store only one field.
+//! Template to build simple attachment classes which store an arbitrary
+//! number of fields.
 //! \ingroup FieldContainerLib
 
 template <class AttachmentDescT>

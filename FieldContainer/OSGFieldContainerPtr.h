@@ -691,6 +691,10 @@ class NullFieldContainerPtr : public FieldContainerPtr
 #pragma reset woff 1424
 #endif
 
+OSG_SYSTEMLIB_DLLMAPPING
+ostream &operator <<(      ostream           &os,
+                     const FieldContainerPtr &fc);
+
 extern OSG_SYSTEMLIB_DLLMAPPING const NullFieldContainerPtr NullFC;
 
 OSG_END_NAMESPACE

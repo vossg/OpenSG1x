@@ -768,6 +768,29 @@ NullFieldContainerPtr::~NullFieldContainerPtr(void)
 
 
 /*-------------------------------------------------------------------------*/
+/*                               Functions                                 */
+
+//! Write FC to the given stream
+
+OSG_SYSTEMLIB_DLLMAPPING
+ostream &OSG::operator <<(      ostream            &os,
+                          const FieldContainerPtr  &fc)
+{
+    if(fc == NullFC)
+    {
+        os << hex << "FieldContainerPtr 0x" << &fc << dec << ":NullFC";
+    }
+    else
+    {
+        os << hex << "FieldContainerPtr 0x"
+           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
+           << hex << (&(*fc)) << dec << ")";
+    }
+
+    return os;
+}
+
+/*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
 #ifdef __sgi

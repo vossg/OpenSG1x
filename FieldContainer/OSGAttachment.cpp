@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include "OSGAttachment.h"
+#include "OSGAttachmentContainer.h"
 #include "OSGMFNodePtr.h"
 
 OSG_USING_NAMESPACE
@@ -309,6 +310,83 @@ ostream &OSG::operator <<(ostream             &stream,
     stream << "Attachment << NI" << endl;
 
     return stream;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                   Name Attachment Utility Functions                     */
+
+//! Return the name attached to the container, NULL if none attached or
+//! container is NULL.
+const char *osg::getName( AttachmentContainerPtr container )
+{
+    if( container == NullFC )
+        return 0;
+   
+    // Get attachment pointer
+    AttachmentPtr att = container->findAttachment(
+                                        Name::getClassType().getGroupId() );
+    if( att == NullFC )
+        return 0;
+   
+    // Cast to name pointer                           
+    NamePtr name = NamePtr::dcast( att );
+    if( name == NullFC )
+        return 0;
+   
+    return name->getFieldPtr()->getValue().c_str();
+}
+
+//! Set the name attached to the container. If the container doesn't have a
+//! name attachement yet one is created. 
+void osg::setName( AttachmentContainerPtr container, const string &namestring )
+{
+    if(container == NullFC)
+    {
+        FFATAL(("setName: no container?!?"));
+        return;
+    }
+   
+    // Get attachment pointer
+    AttachmentPtr att = container->findAttachment(
+                                        Name::getClassType().getGroupId() );
+    NamePtr name;
+    
+    if(att == NullFC)
+    {
+        name = Name::create();
+        container->addAttachment(name);
+    }
+    else
+    {   
+        name = NamePtr::dcast(att);
+        if(name == NullFC)
+        {
+            FFATAL(("setName: Name Attachment is not castable to Name?!?"));
+            return;
+        }
+    }
+  
+    name->getFieldPtr()->getValue().assign(namestring);   
+}
+
+//! Set the name attached to the container. If the container doesn't have a
+//! name attachement yet one is created. If the name is NULL, an attached
+//! name is removed.
+void osg::setName( AttachmentContainerPtr container, const char *name )
+{
+    if(name == NULL)
+    {
+        AttachmentPtr att = container->findAttachment(
+                                        Name::getClassType().getGroupId() );
+ 
+        if(att != NullFC)
+        {
+            container->subAttachment(att);
+        }       
+    }
+    else
+        setName(container, string(name));
 }
 
 
