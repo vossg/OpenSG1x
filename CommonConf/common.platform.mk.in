@@ -170,3 +170,5 @@ endif
 LIBS_$(OS_BASE) := $(ADD_LIBS_$(OS_BASE)) $(LIBS_$(OS_BASE))
 
 endif
+
+LIBS_$(OS_BASE) := $(ADD_LIBS_$(OS_BASE)) $(LIBS_$(OS_BASE)) $(ADD_OS_LIB)

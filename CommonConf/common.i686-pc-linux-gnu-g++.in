@@ -141,9 +141,12 @@ else
 endif
 
 
-LD_FLAGS += -L/usr/X11R6/lib $(LINK_OPTIMIZE) $(LINK_DEBUG)
+LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
-LD_FLAGS_EXT      = -L/usr/X11R6/lib 
+LD_FLAGS_EXT      =  
 LD_FLAGS_EXT_OPT := -O2 
 LD_FLAGS_EXT_DBG := -g 
+
+ADD_OS_LIB := -L/usr/X11R6/lib 
+
