@@ -111,12 +111,10 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         ImageFileType *type;
 
         type = ImageFileHandler::the().getFileType("MTD");
-        cout << "image copyToBin: " << endl;
         if(oObject)
         {
             imgSize=type->maxBufferSize(*oObject);
         }
-        cout << "Image size " << imgSize << endl;
         memcpy(pMem,&imgSize,sizeof(imgSize));
         pMem+=sizeof(imgSize);
         if(oObject)
@@ -130,8 +128,6 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
                                   const ImageP      *pObjectStore,
                                         UInt32       uiNumObjects)
     {
-        cout << "image mcopyToBin: " << endl;
-
         // defaut: copy each element
         for(UInt32 i=0; i < uiNumObjects; ++i)
         {
@@ -158,14 +154,11 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         mem+=sizeof(imgSize);
         if(imgSize)
         {
-            cout << "Image size " << imgSize << endl;
             oObject=new Image();
             type->restore(*oObject,mem);
         }
-        ImageFileHandler::the().write(*oObject,"xxx.jpg");
 
         mem+=imgSize;
-        cout << "image copyFromBin: " << endl;
         return mem;
     }
 
@@ -180,7 +173,6 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         {
             mem = copyFromBin(mem, pObjectStore[i]);
         }
-        cout << "image mcopyFromBin: " << endl;
 
         return mem;
     }
