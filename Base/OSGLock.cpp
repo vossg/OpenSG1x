@@ -482,7 +482,7 @@ void OSGWinThreadLockBase::destroy(OSGWinThreadLockBase *lockP)
     if(lockP != NULL)
     {
         lockP->shutdown();
-        delete lockP();
+        delete lockP;
     }
 }
 
@@ -520,7 +520,7 @@ void OSGWinThreadLockBase::release(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGWinThreadLockBase::OOSGWinThreadLockBase(void) :
+OSGWinThreadLockBase::OSGWinThreadLockBase(void) :
     Inherited(),
 	_mutex(NULL)
 {
@@ -554,11 +554,11 @@ OSGBool OSGWinThreadLockBase::init(void)
     return true;
 }
 
-void OSGWinThreadBase::shutdown(void)
+void OSGWinThreadLockBase::shutdown(void)
 {
     if(_mutex != NULL)
     {
-        closeHandle(_mutex);
+        CloseHandle(_mutex);
     }
 }
 

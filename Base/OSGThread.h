@@ -357,7 +357,7 @@ class OSGPThreadBase : public OSGThreadCommonBase
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     static void  freeAspect     (void *aspectP);
     static void  freeThreadP    (void *threadP);
-    static void  freeChangeListP(void *changelistP);
+    static void  freeChangeListP(void *changeListP);
 #endif
 
     //-----------------------------------------------------------------------
@@ -487,7 +487,7 @@ class OSGSprocBase : public OSGThreadCommonBase
     {
         OSGUInt32      _aspectId;
         OSGThread     *_threadP;
-        OSGChangeList *_changelistP;
+        OSGChangeList *_changeListP;
 
     } OSGProcessData;
 
@@ -566,9 +566,7 @@ class OSGWinThreadBase : public OSGThreadCommonBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef void *(*OSGWinThreadFuncF)(void *threadArgP);
-
-    typedef         OSGWinThreadFuncF OSGThreadFuncF;
+    typedef void *(*OSGThreadFuncF)(void *threadArgP);
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -576,12 +574,8 @@ class OSGWinThreadBase : public OSGThreadCommonBase
 
     static const char    *getClassname(void) { return "OSGWinThreadBase"; };
 
-    static void           setAspect(OSGUInt32 aspect);
-
-    static OSGUInt32      getAspect(void);
-
-    static OSGThread     *getCurrent(void);
-        
+    static OSGUInt32      getAspect           (void);
+    static OSGThread     *getCurrent          (void);
     static OSGChangeList *getCurrentChangeList(void);
 
     static void           join(OSGWinThreadBase *threadP);
@@ -592,7 +586,9 @@ class OSGWinThreadBase : public OSGThreadCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    OSGBool run(OSGWinThreadFuncF gThreadFunc, void *threadArgP);
+    OSGBool run(OSGThreadFuncF  gThreadFunc, 
+                OSGUInt32       aspectId,
+                void           *threadArgP);
 
     void print(void);
 
@@ -602,11 +598,6 @@ class OSGWinThreadBase : public OSGThreadCommonBase
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
-
-    OSGBool operator < (const OSGWinThreadBase &other);
-    
-	//bool operator == (const OSGSprocBase &other);
-	//bool operator != (const OSGSprocBase &other);
 
   protected:
 
@@ -671,33 +662,25 @@ class OSGWinThreadBase : public OSGThreadCommonBase
 	static OSGUInt32 _changeListKey;
 #endif
 #if defined(OSG_ASPECT_USE_DECLSPEC)
-	static __declspec (thread) OSGUInt32      _aspectKey;
-	static __declspec (thread) OSGThread     *_threadP;
-	static __declspec (thread) OSGChangeList *_changelistP;
+	static __declspec (thread) OSGUInt32      _aspectLocal;
+	static __declspec (thread) OSGThread     *_threadLocalP;
+	static __declspec (thread) OSGChangeList *_changeListLocalP;
 #endif
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void  createAspect     (void);
-    static void  createThreadP    (void);
-    static void  createChangeListP(void);
-
 #ifdef OSG_ASPECT_USE_LOCALSTORAGE
-    static void  freeAspect     (void *aspectP);
-    static void  freeThreadP    (void *threadP);
-    static void  freeChangeListP(void *changelistP);
+    static void  freeAspect     (void);
+    static void  freeThreadP    (void);
+    static void  freeChangeListP(void);
 #endif
 
-    static void setCurrent   (OSGThread *threadP);
-
     static void              threadFunc(void *threadArgP);
-
     static void              init      (OSGThread *thisP);
 
     static OSGWinThreadBase *create    (const char *szName);
-
     static void              destroy   (OSGWinThreadBase *threadP);
 
     //-----------------------------------------------------------------------
@@ -716,6 +699,12 @@ class OSGWinThreadBase : public OSGThreadCommonBase
 
     void setPid(void);
 	void setExternalHandle(OSGHandle externalHandle);
+
+
+    static void setCurrent   (OSGThread *threadP);
+    void  setupAspect     (void);
+    void  setupThreadP    (void);
+    void  setupChangeListP(void);
 
     OSGWinThreadBase(const OSGWinThreadBase &source);
     void operator =(const OSGWinThreadBase &source);

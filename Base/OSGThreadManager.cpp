@@ -778,6 +778,12 @@ void OSGThreadManager::shutdown(void)
     {
         delete _tableLockP;
     }
+
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
+    OSGThread::freeAspect();
+    OSGThread::freeThreadP();
+    OSGThread::freeChangeListP();
+#endif
 }
 
 OSGThreadManager::OSGThreadManager(void) :

@@ -556,12 +556,10 @@ OSGWinThreadBarrierBase::OSGWinThreadBarrierBase(const OSGChar8  *szName) :
 	_conditionEvent(NULL)
 
 {
-    stringDup(szName, _szName);
 }
 
 OSGWinThreadBarrierBase::~OSGWinThreadBarrierBase(void)
 {
-    delete [] _szName;
 }
 
 /*-------------------------------------------------------------------------*\
