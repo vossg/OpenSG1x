@@ -39,7 +39,7 @@ const char *Field::_defaultTypeName[] = {
 	"Vec4f",
 	"Quaternion",
 	"Matrix",
-	"String",
+	"string",
 	"Time",
 	"Image",
 	"FieldContainerPtr",
