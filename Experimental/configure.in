@@ -29,6 +29,8 @@ ac_gdz_common_patterns=$ac_gdz_commonconf_dir/common.pattern.in
 ac_gdz_build_dir=`pwd`
 ac_gdz_compiler_exe=
 ac_gdz_conf_package_defs=
+ac_gdz_conf_package_qt='0'
+ac_gdz_conf_package_glut='0'
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
@@ -63,11 +65,13 @@ AC_ARG_WITH(glut,     [  --with-glut=DIR          Where to find the glut files t
 if [[ "$with_glut" = yes ]]; then
 	ac_gdz_glut_dir=yes
 	ac_gdz_conf_package_defs=-DOSG_WITH_GLUT
+	ac_gdz_conf_package_glut='1'
 elif [[ "$with_glut" = no ]]; then
 	ac_gdz_glut_dir=
 else
 	ac_gdz_glut_dir=$with_glut
 	ac_gdz_conf_package_defs=-DOSG_WITH_GLUT
+	ac_gdz_conf_package_glut='1'
 fi
 
 dnl ############# QT Settings #####################
@@ -78,10 +82,12 @@ AC_ARG_WITH(qt,     [  --with-qt=DIR          Where to find the qt files to use]
 if [[ "$with_qt" = yes ]]; then
 	ac_gdz_qt_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT'
+	ac_gdz_conf_package_qt='1'
 elif [[ "$with_qt" = no ]]; then
 	ac_gdz_qt_dir=
 else
 	ac_gdz_qt_dir=$with_qt
+	ac_gdz_conf_package_qt='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT'
 fi
 
@@ -305,6 +311,8 @@ AC_SUBST(ac_gdz_plat_project_praefix)
 AC_SUBST(ac_gdz_gen_base_inc_e1)
 
 AC_SUBST(ac_gdz_conf_package_defs)
+AC_SUBST(ac_gdz_conf_package_qt)
+AC_SUBST(ac_gdz_conf_package_glut)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)

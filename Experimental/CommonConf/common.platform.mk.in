@@ -33,6 +33,8 @@ OS_BASE              := @ac_gdz_os_base@
 
 @ac_gdz_common_patterns@
 
+CONFIGURED_QT           := @ac_gdz_conf_package_qt@
+CONFIGURED_GLUT         := @ac_gdz_conf_package_glut@
 CONFIGURED_PACKAGE_DEFS := @ac_gdz_conf_package_defs@
 
 @ac_gdz_common_system@

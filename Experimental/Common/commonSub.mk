@@ -224,6 +224,7 @@ endif
 # Define QT Objects
 #########################################################################
 
+ifeq ($(CONFIGURED_QT),1)
 LIB_QT_SOURCES   := $(call getProjQTSourceFiles,$(LIB_ABSSOURCEDIRS))
 
 ifneq ($(LIB_QT_SOURCES),)
@@ -234,6 +235,7 @@ LIB_QTTARGET_CPP := $(subst _qt,_qt_moc,$(LIB_QT_SOURCES))
 LIB_QTTARGET_CPP := $(addprefix $(OBJDIR)/,$(LIB_QTTARGET_CPP))
 
 LIB_QT_TARGET    := $(LIB_QTTARGET_CPP) : $(LIB_QT_SOURCES)
+endif
 endif
 
 #########################################################################
@@ -258,6 +260,7 @@ endif
 
 TEST_OBJS          := $(call cnvSourceToObject,$(TEST_TARGETS_CPP))
 
+ifeq ($(CONFIGURED_QT),1)
 
 LIB_TESTQT_SOURCES := $(call getPrTestQTSourceFiles,$(LIB_ABSSOURCEDIRS))
 
@@ -269,6 +272,8 @@ LIB_TESTQTTARGET_CPP := $(subst _qt,_qt_moc,$(LIB_TESTQT_SOURCES))
 LIB_TESTQTTARGET_CPP := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
 
 LIB_TESTQT_TARGET    := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
+endif
+
 endif
 
 #########################################################################
