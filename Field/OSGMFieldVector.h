@@ -131,7 +131,7 @@ class MFieldVector : public vector<Ty, A>
                           const Ty        &_V  = Ty(),
                           const A         &_Al = A ());
 
-	MFieldVector(const vector<Ty, A> &_X);
+	MFieldVector(const MFieldVector<Ty, A> &_X);
 
 
 	MFieldVector(      It  _F, 

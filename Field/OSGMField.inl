@@ -169,6 +169,7 @@ bool MField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
     return  empty();
 }
 
+
 //! Returns the type of the field
 
 #ifndef WIN32
@@ -421,6 +422,15 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
 {
     return _values.empty();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::operator =(const MField &source)
+{
+    if(this == &source)
+       return;
+
+    _values = source._values;
 }
 
 /*-------------------------------------------------------------------------*/
