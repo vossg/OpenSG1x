@@ -183,11 +183,10 @@ struct FieldDataTraits<AttachmentMap> :
     }
 
     static void      putToString    (const AttachmentMap &,
-                                           string        &outVal)
+                                           string        &outStr)
     {
-        outVal.assign("[]");
+        outStr.assign("AttachmentMap");
     }
-    
 };
 
 OSG_END_NAMESPACE
@@ -195,6 +194,11 @@ OSG_END_NAMESPACE
 #define OSGATTACHMENTMAPFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_ATTACHMENTMAPFIELDDATATYPE_H_ */
+
+
+
+
+
 
 
 

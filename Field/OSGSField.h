@@ -45,6 +45,7 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
+#include <OSGStringConversionStateBase.h>
 
 #include <vector>
 #include <string>
@@ -130,8 +131,10 @@ class OSG_BASE_DLLMAPPING SField : public Field
     /*! \name                   String IO                                  */
     /*! \{                                                                 */
 
-    virtual void    pushValueByStr(const Char8  *str);
-    virtual string &getValueByStr (      string &stringVal) const;
+    virtual void    pushValueByStr(const Char8               *str  );
+    virtual string &getValueByStr (string                    &str  ) const;
+    virtual string &getValueByStr (string                    &str,
+                                   StringConversionStateBase &state) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

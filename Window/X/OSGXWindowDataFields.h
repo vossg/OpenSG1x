@@ -78,9 +78,9 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
     static char     *getMName(void) { return "MFDisplayP"; }
 
     static void      putToString  (const DisplayP &,
-                                         string   &outVal)
+                                         string   &outStr)
     {
-        outVal.assign("DisplayP");
+        outStr.assign("DisplayP");
     }
 };
 
@@ -99,9 +99,9 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
     static char     *getMName(void) { return "MFX11Window"; }
 
     static void      putToString  (const X11Window &,
-                                         string    &outVal)
+                                         string    &outStr)
     {
-        outVal.assign("X11Window");
+        outStr.assign("X11Window");
     }
 };
 
@@ -120,9 +120,9 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> :
     static char     *getMName(void) { return "MFGLXContext"; }
 
     static void      putToString  (const GLXContext &,
-                                         string     &outVal)
+                                         string     &outStr)
     {
-        outVal.assign("GLXContext");
+        outStr.assign("GLXContext");
     }
 };
 
@@ -184,6 +184,6 @@ OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.3 2002/02/17 18:43:15 dirk Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.4 2002/02/22 16:46:47 neumannc Exp $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */

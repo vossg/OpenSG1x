@@ -52,6 +52,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class StringConversionStateBase;
+
 template <class T>
 struct ErrorFromToString
 {
@@ -102,7 +104,9 @@ class OSG_BASE_DLLMAPPING Field
     /*! \{                                                                 */
 
     virtual void     pushValueByStr(const Char8  *str)       = 0;
-    virtual string  &getValueByStr (      string &str) const = 0;
+    virtual string  &getValueByStr (string &str) const = 0;
+    virtual string  &getValueByStr (string &str,
+                                    StringConversionStateBase &state) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

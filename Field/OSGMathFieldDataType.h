@@ -84,59 +84,44 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
     }
 
     static void      putToString  (const Matrix &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Matrix::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[4]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[8]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[12]));
 
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[4]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[5]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[9]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[13]));
 
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[8]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[6]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[10]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[14]));
 
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[12]));
-
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[5]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[9]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[13]));
-
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[6]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[10]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[14]));
-
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[7]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[11]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[15]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[3]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[7]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[11]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[15]));
     }
 };
 
@@ -172,10 +157,9 @@ struct FieldDataTraits<Quaternion> :
     }
 
     static void       putToString   (const Quaternion &inVal,
-                                           string     &outVal)
+                                           string     &outStr)
     {
         typedef Quaternion::VectorType::ValueType ValueType;
-
         typedef TypeConstants<ValueType>          TypeConst;
 
         ValueType axisX;
@@ -185,16 +169,16 @@ struct FieldDataTraits<Quaternion> :
 
         inVal.getValueAsAxisRad(axisX, axisY, axisZ, angleRad);
 
-        outVal.assign(TypeConst::putToString(axisX));
+        outStr.assign(TypeConst::putToString(axisX));
 
-        outVal.append( " " );
-        outVal.append(TypeConst::putToString(axisY));
+        outStr.append( " " );
+        outStr.append(TypeConst::putToString(axisY));
 
-        outVal.append( " " );
-        outVal.append(TypeConst::putToString(axisZ) );
+        outStr.append( " " );
+        outStr.append(TypeConst::putToString(axisZ) );
 
-        outVal.append( " " );
-        outVal.append(TypeConst::putToString(angleRad) );
+        outStr.append( " " );
+        outStr.append(TypeConst::putToString(angleRad) );
     }
 };
 

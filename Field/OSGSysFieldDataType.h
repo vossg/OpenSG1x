@@ -72,7 +72,7 @@ struct FieldDataTraits2<bool> :
     static DataType &getType      (void) { return _type;         }
 
     static Char8    *getSName     (void) { return "SFBool";      }
-    static Char8    *getMName     (void) { return "MFbool";      }
+    static Char8    *getMName     (void) { return "MFBool";      }
 
     static bool      getDefault   (void) { return false;         }
 
@@ -133,18 +133,20 @@ struct FieldDataTraits2<bool> :
         return outVal;
     }
 
-    static void      putToString   (const bool   &inVal,
-                                          string &outVal)
+
+    static void      putToString   (const bool                  &inVal,
+                                          string                &outStr)
     {
         if( inVal == true )
         {
-            outVal.assign("TRUE");
-        } 
+            outStr.assign("TRUE");
+        }
         else
         {
-            outVal.assign("FALSE");
+            outStr.assign("FALSE");
         }
     }
+         
 };
 
 
@@ -178,9 +180,9 @@ struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
     }
 
     static void      putToString  (const Int8   &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<Int8>::putToString(inVal));
+        outStr.assign(TypeConstants<Int8>::putToString(inVal));
     }
 };
 
@@ -214,9 +216,9 @@ struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
     }
 
     static void      putToString  (const UInt8  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<UInt8>::putToString(inVal));
+        outStr.assign(TypeConstants<UInt8>::putToString(inVal));
     }
 };
 
@@ -251,9 +253,9 @@ struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
     }
 
     static void      putToString  (const Int16  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<Int16>::putToString(inVal)); 
+        outStr.assign(TypeConstants<Int16>::putToString(inVal)); 
     }
 };
 
@@ -288,9 +290,9 @@ struct FieldDataTraits<UInt16> :
     }
 
     static void      putToString  (const UInt16 &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<UInt16>::putToString(inVal));
+        outStr.assign(TypeConstants<UInt16>::putToString(inVal));
     }
 };
 
@@ -326,9 +328,9 @@ struct FieldDataTraits<Int32> :
     }
 
     static void      putToString  (const Int32  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<Int32>::putToString(inVal));
+        outStr.assign(TypeConstants<Int32>::putToString(inVal));
     }
 };
 
@@ -363,9 +365,9 @@ struct FieldDataTraits<UInt32> :
     }
 
     static void      putToString  (const UInt32 &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<UInt32>::putToString(inVal));
+        outStr.assign(TypeConstants<UInt32>::putToString(inVal));
     }
 };
 
@@ -401,9 +403,9 @@ struct FieldDataTraits<Int64> :
     }
 
     static void      putToString  (const Int64  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<Int64>::putToString(inVal));
+        outStr.assign(TypeConstants<Int64>::putToString(inVal));
     }
 };
 
@@ -438,9 +440,9 @@ struct FieldDataTraits<UInt64> :
     }
 
     static void      putToString  (const UInt64 &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<UInt64>::putToString(inVal));
+        outStr.assign(TypeConstants<UInt64>::putToString(inVal));
     }
 };
 
@@ -477,9 +479,9 @@ struct FieldDataTraits<Real32> :
     }
 
     static void      putToString  (const Real32 &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<Real32>::putToString(inVal));
+        outStr.assign(TypeConstants<Real32>::putToString(inVal));
     }
 };
 
@@ -515,9 +517,9 @@ struct FieldDataTraits<Real64> :
     }
 
     static void      putToString  (const Real64 &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
-        outVal.assign(TypeConstants<Real64>::putToString(inVal));
+        outStr.assign(TypeConstants<Real64>::putToString(inVal));
     }
 };
 

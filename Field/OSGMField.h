@@ -47,6 +47,7 @@
 #include <OSGBaseFunctions.h>
 #include <OSGField.h>
 #include <OSGMFieldVector.h>
+#include <OSGStringConversionStateBase.h>
 
 #include <vector>
 #include <string>
@@ -183,8 +184,10 @@ class MField : public Field
     /*! \name                   String IO                                  */
     /*! \{                                                                 */
 
-    virtual void    pushValueByStr(const Char8  *str   );
-    virtual string &getValueByStr (      string &string) const;
+    virtual void    pushValueByStr(const Char8               *str  );
+    virtual string &getValueByStr (string                    &str  ) const;
+    virtual string &getValueByStr (string                    &str,
+                                   StringConversionStateBase &state) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

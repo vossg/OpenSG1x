@@ -459,7 +459,7 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 string &MField<FieldTypeT, 
-               fieldNameSpace>::getValueByStr(string &stringVal) const
+               fieldNameSpace>::getValueByStr(string &str) const
 {
     string tmpString;
 
@@ -472,17 +472,45 @@ string &MField<FieldTypeT,
     {
         Converter::putToString(_values[i], tmpString);
 
-        stringVal.append(tmpString);
+        str.append(tmpString);
 
         if(i < (getSize()-1))
         {
-            stringVal.append(", ");
+            str.append(", ");
         }
     }
 
-    return stringVal;
+    return str;
 }
 
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+string &MField<FieldTypeT, 
+               fieldNameSpace>::getValueByStr(string                   &outStr,
+                                              StringConversionStateBase &state)
+                                                                          const
+{
+    string valStr;
+
+    typedef typename osgIF< (MFieldTraits::StringConvertable &
+                             Traits::FromStringConvertable),
+                            MFieldTraits,
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
+
+    state.beginField(this, outStr);
+
+    for(UInt32 i = 0; i < getSize(); ++i)
+    {
+        valStr.erase();
+        Converter::putToString(_values[i], valStr);
+
+        state.addValueStr(valStr, outStr);
+    }
+
+    state.endField(this, outStr);
+    
+    return outStr;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                           Index Operator                                */

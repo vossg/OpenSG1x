@@ -90,15 +90,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
     }
 
     static void      putToString  (const Color3f &inVal,
-                                         string  &outVal)
+                                         string  &outStr)
     {
         typedef TypeConstants<Color3f::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString(inVal.red()  ));
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString(inVal.green()));
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString(inVal.blue() ));
+        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.blue() ));
     }
 };
 
@@ -135,22 +135,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
     }
 
     static void      putToString  (const Color4f &inVal,
-                                         string  &outVal)
+                                         string  &outStr)
     {
-        outVal.assign( 
-            TypeConstants<Color4f::ValueType>::putToString(inVal.red()  ));
+        typedef TypeConstants<Color4f::ValueType> TypeConst;
 
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Color4f::ValueType>::putToString(inVal.green()));
-
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Color4f::ValueType>::putToString(inVal.blue() ));
-        
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Color4f::ValueType>::putToString(inVal.alpha()));
+        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.blue() ));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.alpha()));
     }
 };
 
@@ -184,20 +179,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 
         return true;
     }
-
+    
     static void      putToString  (const Color3ub &inVal,
-                                         string   &outVal)
+                                   string   &outStr)
     {
-        outVal.assign(
-            TypeConstants<Color3ub::ValueType>::putToString(inVal.red()  ));
+        typedef TypeConstants<Color3ub::ValueType> TypeConst;
 
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Color3ub::ValueType>::putToString(inVal.green()));
-
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Color3ub::ValueType>::putToString(inVal.blue() ));
+        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.blue() ));
     }
 };
 
@@ -233,22 +225,17 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
     }
 
     static void      putToString  (const Color4ub &inVal,
-                                         string   &outVal )
+                                         string   &outStr)
     {
-        outVal.assign(
-            TypeConstants<Color4ub::ValueType>::putToString(inVal.red()  ));
+        typedef TypeConstants<Color4ub::ValueType> TypeConst;
 
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Color4ub::ValueType>::putToString(inVal.green()));
-
-        outVal.append("  ");
-        outVal.append( 
-            TypeConstants<Color4ub::ValueType>::putToString(inVal.blue() ));
-
-        outVal.append("  ");
-        outVal.append( 
-            TypeConstants<Color4ub::ValueType>::putToString(inVal.alpha()));
+        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.blue() ));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(inVal.alpha()));
     }
 };
 
@@ -290,11 +277,11 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     }
 
     static void      putToString(const string &inVal,
-                                       string &outVal)
-    {
-        outVal.assign("\"" );
-        outVal.append(inVal);
-        outVal.append("\"" );
+                                       string &outStr)
+    { 
+        outStr.assign("\"");
+        outStr.append(inVal);
+        outStr.append("\"");
     }
 
     static UInt32    getBinSize (const string &oObject)
@@ -411,10 +398,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
         return true;
     }
 
-    static void      putToString(const Time   &inVal,
-                                       string &outVal)
+   static void      putToString(const Time   &inVal,
+                                      string &outStr)
     {
-        outVal.assign(TypeConstants<Time>::putToString(inVal));
+        outStr.assign(TypeConstants<Time>::putToString(inVal));
     }
 };
 
@@ -513,78 +500,51 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     }
 
     static void      putToString(const DynamicVolume &inVal,
-                                       string        &outVal)
+                                       string        &outStr)
     {
         Pnt3f min, max;
-        
-        outVal.assign("[ ");
-
+        outStr.erase();
         switch(inVal.getType())
-        {
-            case DynamicVolume::BOX_VOLUME : 
-            
+            {
+
+            case DynamicVolume::BOX_VOLUME:
+
+                typedef TypeConstants<Pnt3f::ValueType> TypeConst;
+
                 inVal.getBounds(min, max);
+                outStr.append(TypeConst::putToString(min.getValues()[0]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(min.getValues()[1]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(min.getValues()[2]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(max.getValues()[0]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(max.getValues()[1]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(max.getValues()[2]));
+                break;
 
-                outVal.append( 
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(min.getValues()[0]));
 
-                outVal.append(" ");
+            case DynamicVolume::SPHERE_VOLUME:
 
-                outVal.append(
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(min.getValues()[1]));
+                typedef TypeConstants<Pnt3f::ValueType> TypeConst;
 
-                outVal.append(" ");
-                outVal.append(
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(min.getValues()[2]));
-
-                outVal.append(", ");
-                outVal.append(
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(max.getValues()[0]));
-
-                outVal.append(" ");
-                outVal.append(
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(max.getValues()[1]));
-
-                outVal.append(" ");
-                outVal.append( 
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(max.getValues()[2]));
-            break;
-
-            case DynamicVolume::SPHERE_VOLUME :
-            
                 const SphereVolume &sVol = 
                     dynamic_cast<const SphereVolume&>(inVal.getInstance());
 
-                outVal.append( 
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(sVol.getCenter()[0]));
-
-                outVal.append(" ");
-                outVal.append(
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(sVol.getCenter()[1]));
-
-                outVal.append(" ");
-                outVal.append( 
-                    TypeConstants<Pnt3f::ValueType>::
-                        putToString(sVol.getCenter()[2]));
-
-                outVal.append(", ");
-                outVal.append( 
-                    TypeConstants<Real32>::
-                        putToString(sVol.getRadius()));
+                outStr.append(TypeConst::putToString(sVol.getCenter()[0]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(sVol.getCenter()[1]));
+                outStr.append(" ");
+                outStr.append(TypeConst::putToString(sVol.getCenter()[1]));
+                outStr.append(" ");
+                outStr.append(TypeConstants<Real32>::
+                              putToString(sVol.getRadius()));
                 break;
-        }
-
-        outVal.append(" ]");
+            }
     }
-
+        
     static UInt32 getBinSize(const DynamicVolume &oObject)
     {
         DynamicVolume::Type type = oObject.getType();
@@ -780,27 +740,19 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
     }
 
     static void      putToString  (const Plane  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
+        typedef TypeConstants<Vec3f::ValueType> TypeConst;
         Vec3f  normal = inVal.getNormal();
         Real32 dist   = inVal.getDistanceFromOrigin();
-
-        outVal.assign(
-            TypeConstants<Vec3f::ValueType>::putToString(
-                normal.getValues()[0]));
-
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Vec3f::ValueType>::putToString(
-                normal.getValues()[1]));
-
-        outVal.append("  ");
-        outVal.append(
-            TypeConstants<Vec3f::ValueType>::putToString(
-                normal.getValues()[2]));
-
-        outVal.append("  ");
-        outVal.append(TypeConstants<Real32>::putToString(dist));
+        
+        outStr.assign(TypeConst::putToString(normal.getValues()[0]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(normal.getValues()[1]));
+        outStr.append(" ");
+        outStr.append(TypeConst::putToString(normal.getValues()[2]));
+        outStr.append(", ");
+        outStr.append(TypeConstants<Real32>::putToString(dist));
     }
 };
 

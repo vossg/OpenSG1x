@@ -205,16 +205,39 @@ void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 string &SField<FieldTypeT, 
-               fieldNameSpace>::getValueByStr(string &stringVal) const
+               fieldNameSpace>::getValueByStr(string &str) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
                              Traits::ToStringConvertable), 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
-    Converter::putToString(_value, stringVal);
+    Converter::putToString(_value, str);
     
-    return stringVal;
+    return str;
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+string &SField<FieldTypeT, 
+               fieldNameSpace>::getValueByStr(string                    &str,
+                                              StringConversionStateBase &state)
+                                                                          const
+{
+    typedef typename osgIF< (SFieldTraits::StringConvertable &
+                             Traits::ToStringConvertable), 
+                            SFieldTraits, 
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    
+    string valStr;
+
+    state.beginField(this, str);
+
+    Converter::putToString(_value, valStr);
+    state.addValueStr(valStr, str);
+
+    state.endField(this, str);
+
+    return str;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -42,6 +42,7 @@
 #include <OSGFieldDataType.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldContainerFactory.h>
+#include <OSGFieldContainerType.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -143,12 +144,36 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
 {
     static DataType                 _type;
 
-    enum                            { StringConvertable = 0x00      };
+    enum                            { StringConvertable = 0x00  };
 
     static DataType &getType (void) { return _type;                 }
  
     static char     *getSName(void) { return "SFFieldContainerPtr"; }
     static char     *getMName(void) { return "MFFieldContainerPtr"; }
+    
+    static bool      getFromString(FieldContainerPtr& outVal,
+                                   const Char8     *& inVal  )
+    {
+        //TO_BE_DONE
+        return false;
+    }
+    
+    static void      putToString  (const FieldContainerPtr& inVal,
+                                         string           &outVal)
+    {
+        typedef TypeConstants<UInt16> TypeConst;
+        outVal.assign( FieldContainerFactory::the()->findType(
+                                inVal.getFieldContainerId())->getName().str());
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString(inVal.getContainerSize()));
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString(inVal.getParentFieldPos()));
+        outVal.append(" ");
+        //outVal.append(TypeConstants<UInt32>::putToString(
+        //                                           (UInt32)inVal._storeP));
+    }
+        
+                        
 };
 
 OSG_END_NAMESPACE

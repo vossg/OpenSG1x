@@ -39,6 +39,7 @@
 //---------------------------------------------------------------------------
 
 #include "OSGOSGWriter.h"
+#include <OSGAttachment.h>
 
 OSG_USING_NAMESPACE
 
@@ -46,9 +47,10 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+
+namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.7 2001/12/20 16:35:10 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.8 2002/02/22 16:46:42 neumannc Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
 
@@ -56,281 +58,423 @@ namespace
 #pragma reset woff 1174
 #endif
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
 
-OSGWriter::SharedFCInfoHelper::SharedFCInfoHelper(void) : 
-    printed(false), 
-    named  (false),
-    name   (     )
-{
-}
 
-OSGWriter::OSGWriter(ostream &stream, UInt32 indentStep) :
-    _fcmap        (          ),
-    _sharedFCCount(0         ),
-    _indention    (0         ),
-    _indentStep   (indentStep),
-    _outstream    (stream)
-{
-}
-
-OSGWriter::~OSGWriter(void)
-{
-}
-
-void OSGWriter::write(FieldContainerPtr container)
-{
-    _fcmap.clear();
-
-    _sharedFCCount = 0;
-    _indention     = 0;
-
-    _outstream << "#OSG V1.0 " << endl;
-    
-    doListFC(container);
-    doPrintListedFC(container);
-}
-
-void OSGWriter::write(vector<FieldContainerPtr> containers)
-{
-    _fcmap.clear();
-
-    _sharedFCCount = 0;
-    _indention = 0;
-
-    _outstream << "#OSG V1.0 " << endl;
-    
-    vector<FieldContainerPtr>::iterator iter = containers.begin();
-
-    for(; iter != containers.end(); ++iter)
-    {
-        doListFC( *iter );
-    }
-
-    for(iter = containers.begin(); iter != containers.end(); ++iter)
-    {
-        doPrintListedFC( *iter );
-    }
-}
-
-void OSGWriter::indentLine(void)
-{
-    for(UInt32 k = 0; k < _indention; ++k)
-    {
-        _outstream << " ";
-    }
-}
-
-void OSGWriter::setIndentStep(UInt32 newStep)
-{
-    _indentStep = newStep;
-}
-
+#if 0
 #if defined(OSG_WIN32_ICL)
 #pragma warning (disable : 383)
 #endif
 
-void OSGWriter::doListFC(FieldContainerPtr fieldConPtr)
-{
-    if(fieldConPtr == NullFC)
-        return;
-    
-    if(_fcmap.insert(make_pair(fieldConPtr, 
-                               SharedFCInfoHelper())).second == true)
-    {
-        FieldContainerType &fcType = fieldConPtr->getType();
-
-        for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
-        {
-            FieldDescription *fDesc    = fcType.getFieldDescription(i);
-            Field            *fieldPtr = fieldConPtr->getField(i);
-
-            const FieldType &fType = fieldPtr->getType();
-
-            if(!fDesc->isInternal())
-            {
-                if( strstr(fType.getCName(), "Ptr") != NULL )
-                {
-                    if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
-                    {
-                        doListFC(
-                            ((SFFieldContainerPtr *) fieldPtr)->getValue());
-                    }
-                    else if(fieldPtr->getCardinality() == 
-                            FieldType::MULTI_FIELD       )
-                    {
-                        UInt32 j;
-
-                        for(  j = 0;
-                              j < ((MFFieldContainerPtr*)fieldPtr)->getSize();
-                            ++j)
-                        {
-                            doListFC( 
-                                ((MFFieldContainerPtr*)fieldPtr)->getValue(j));
-                        }
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
-
-        if(iter == _fcmap.end())
-        {
-            cerr << "ERROR: This should not happen!" << endl;
-        }
-        if(iter->second.named == false)
-        {
-            iter->second.name = 
-                SharedFCInfoHelper::buildName(iter->first, 
-                                              _sharedFCCount++);
-            iter->second.named = true;
-        }
-    }
-}
-
 #if defined(OSG_WIN32_ICL)
 #pragma warning (default : 383)
 #endif
+#endif
 
-void OSGWriter::doPrintListedFC(FieldContainerPtr fieldConPtr)
+const UInt32 OSGWriter::DefaultSFWidth = TypeConstants<UInt32>::getMax();
+const UInt32 OSGWriter::DefaultMFWidth = 60;
+
+/*-------------------------------------------------------------------------*/
+/*                             Constructor                                 */
+
+/*! Constructor. Set members to initial values.
+ */
+OSGWriter::FCInfoHelper::FCInfoHelper(void) :
+    written      (false),
+    hasName      (false),
+    containerName(     )
 {
-    if(fieldConPtr == NullFC)
+}
+
+/*! Constructor. Set members to initial values.
+ */
+OSGWriter::OSGWriter(ostream &stream, UInt32 indentStep) :
+    _visitedFCMap(                 ),
+    _state       (0, DefaultSFWidth),
+    _indent      (0, indentStep    ),
+    _outStream   (stream           )
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+/*! Destructor. There are no dynamic members to destroy.
+ */
+OSGWriter::~OSGWriter(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Methods                                     */
+
+/*! Write a single FieldContainer with all its "children", i.e. everything
+ *  that can be reached via Ptr-Fields.
+ */
+void OSGWriter::write(FieldContainerPtr container)
+{
+    _visitedFCMap.clear();
+    _indent.setIndent(0);
+
+    _outStream << "#OSG V1.0 " << endl;
+
+    visitContainer(container);
+    writeContainer(container);
+}
+
+
+/*! Write all FieldContainers in containers with their "children",
+ *  i.e. everything that can be reached via Ptr-Fields.
+ */
+void OSGWriter::write(vector<FieldContainerPtr> containers)
+{
+    _visitedFCMap.clear();
+    _indent.setIndent(0);
+
+    _outStream << "#OSG V1.0 " << endl;
+
+    vector<FieldContainerPtr>::iterator iter = containers.begin();
+
+    for(; iter != containers.end(); ++iter)
     {
-        indentLine(); _outstream << "NULL" << endl;
+        visitContainer( *iter );
+    }
+
+    for(iter = containers.begin(); iter != containers.end(); ++iter)
+    {
+        writeContainer( *iter );
+    }
+}
+
+
+/*! Set the name by which this FieldContainer is referenced. If available
+ *  a NameAttachment is used, otherwise the name is constructed from
+ *  the type name and the container id.
+ */
+void OSGWriter::FCInfoHelper::setName(const FieldContainerPtr pFC)
+{
+    const FieldContainerType& fcType = pFC->getType();
+    AttachmentContainerPtr pAttCon;
+    NamePtr                pNameAtt;
+
+    if(fcType.isDerivedFrom(AttachmentContainer::getClassType()))
+    {
+        pAttCon = AttachmentContainerPtr::dcast(pFC);
+        if(pAttCon != NullFC)
+        {
+            pNameAtt = NamePtr::dcast(pAttCon->findAttachment(
+                Name::getClassType().getGroupId()));
+
+            if(pNameAtt != NullFC)
+            {
+                containerName = pNameAtt->getFieldPtr()->getValue().c_str();
+                return;
+            }
+        }
+    }
+
+    //no NameAttachment. Build name from Type and Id
+    containerName = pFC->getTypeName() +
+        TypeConstants<UInt32>::putToString(pFC.getFieldContainerId());
+}
+
+
+void OSGWriter::visitContainer(const FieldContainerPtr pFC)
+{
+
+    if(pFC == NullFC)
+    {
         return;
     }
 
-    SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
+    typedef pair<FCInfoHelperMap::iterator, bool> MapInsertInfo;
 
-    if(iter == _fcmap.end())
+    string containerName;
+    const FieldContainerType& fcType    = pFC->getType();
+    UInt32              numFields = fcType.getNumFieldDescs();
+    MapInsertInfo       insertInfo;
+
+    insertInfo = _visitedFCMap.insert(make_pair(pFC, FCInfoHelper()));
+    if(insertInfo.second == true)
     {
-        cerr << "ERROR: This should not happen!" << endl;
-    }
-
-    if(iter->second.printed == false)
-    {
-        iter->second.printed = true;
-
-        FieldContainerType& fcType = fieldConPtr->getType();
-
-        indentLine();
-
-        if(iter->second.named == true)
+        //the FC was NOT visited before
+        for(UInt32 field=1; field<=numFields; field++)
         {
-            _outstream << "DEF " << (*iter).second.name << " ";
-        }
-
-        _outstream << fieldConPtr->getTypeName()
-                   << " {" 
-                   << endl;
-
-        for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
-        {
-            FieldDescription *fDesc    = fcType.getFieldDescription(i);
-            Field            *fieldPtr = fieldConPtr->getField(i);
-
-            const FieldType& fType = fieldPtr->getType();
-
-            if(!fDesc->isInternal())
+            const FieldDescription* fieldDesc =
+                fcType.getFieldDescription(field);
+            if(fieldDesc->isInternal())
             {
-                indentLine(); 
-                _outstream << fDesc->getName();
-
-                if(strstr(fType.getCName(), "Ptr") != NULL)
-                {
-                    if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
-                    {
-                        _outstream << endl;
-                        _indention += _indentStep;
-
-                        doPrintListedFC( 
-                            ((SFFieldContainerPtr *) fieldPtr)->getValue());
-
-                        _indention -= _indentStep;
-                    }
-                    else if(fieldPtr->getCardinality() ==
-                            FieldType::MULTI_FIELD       )
-                    {
-                        UInt32 j;
-
-                        _outstream << " [" << endl;
-                        _indention += _indentStep;
-
-                        for(  j = 0;
-                              j < ((MFFieldContainerPtr*)fieldPtr)->getSize();
-                            ++j)
-                        {
-                            doPrintListedFC( ((MFFieldContainerPtr *)
-                                          fieldPtr)->getValue(j) );
-                        }
-
-                        _indention -= _indentStep;
-
-                        indentLine(); 
-
-                        _outstream << "]" <<endl;
-                    }   
-                }
-                else
-                {
-                    string val;
-
-                    fieldPtr->getValueByStr(val);
-
-                    if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
-                    {
-                        _outstream << " " << val <<endl;
-                    }
-                    else
-                    {
-                        _outstream << " [" << endl;
-
-                        _indention += _indentStep;
-
-                        indentLine(); 
-
-                        _outstream << val <<endl;
-
-                        _indention -= _indentStep;
-
-                        indentLine(); 
-                        
-                        _outstream << "]" << endl;
-                    }
-                }
+                continue;
             }
+            visitField(pFC->getField(field));
         }
-        
-        indentLine(); 
-
-        _outstream << "}" << endl;
     }
     else
     {
-        if(iter->second.named == false)
+        //the FC was in the map => FC is shared
+        FCInfoHelperMap::iterator iter = _visitedFCMap.find(pFC);
+        if(iter == _visitedFCMap.end())
         {
-            cerr << "WARNING: FC is shared, but was not named!" << endl;
+            SWARNING << "OSGWriter::visitContainer(): FieldContainerPtr "
+                     << "not found in map" << endl;
+            return;
+        }
+        if(iter->second.hasName == false)
+        {
+            iter->second.setName(pFC);
+            iter->second.hasName = true;
+        }
+    }
+}
+
+void OSGWriter::visitField(const Field* pF)
+{
+    if(pF == NULL)
+    {
+        return;
+    }
+
+    const FieldType& fType       = pF->getType();
+    const DataType & contentType = pF->getContentType();
+
+    SLOG << contentType.getCName() << endl;
+
+    //handle SFAttachmentMap as special case here
+    //if(fType.isDerivedFrom(SFAttachmentMap::getClassType()))
+    if(strstr(fType.getCName(), "AttachmentMap") != NULL)
+    {
+        //visit the Attachment FCs
+        SLOG << "Visiting AttachmentMap" << endl;
+
+        const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
+              AttachmentMap    attMap   = sfAttMap->getValue();
+
+        AttachmentMap::const_iterator iter = attMap.begin();
+        AttachmentMap::const_iterator end  = attMap.end();
+
+        for(; iter!=end; ++iter)
+        {
+            visitContainer(iter->second);
+        }
+    }
+    //else if(contentType.isDerivedFrom(FieldContainerPtr::getClassType()))
+    else if(strstr(fType.getCName(), "Ptr") != NULL)
+    {
+        //this Field points to FC
+
+        //to access the content of a field one must know the cardinality
+        if(pF->getCardinality() == FieldType::SINGLE_FIELD)
+        {
+            const SFFieldContainerPtr* sfFCPtr =
+                (const SFFieldContainerPtr*) pF;
+            visitContainer(sfFCPtr->getValue());
+        }
+        else if(pF->getCardinality() == FieldType::MULTI_FIELD)
+        {
+            const MFFieldContainerPtr* mfFCPtr =
+                (const MFFieldContainerPtr*) pF;
+            UInt32 mfSize = mfFCPtr->getSize();
+            for(UInt32 i=0; i < mfSize; i++)
+            {
+                visitContainer(mfFCPtr->getValue(i));
+            }
+        }
+    }
+}
+
+void OSGWriter::writeContainer(const FieldContainerPtr pFC)
+{
+    if(pFC == NullFC)
+    {
+        return;
+    }
+
+    const FieldContainerType& fcType    = pFC->getType();
+    UInt32              numFields = fcType.getNumFieldDescs();
+
+    FCInfoHelperMap::iterator iter = _visitedFCMap.find(pFC);
+    if(iter == _visitedFCMap.end())
+    {
+        SWARNING << "OSGWriter::writeContainer(): FieldContainerPtr "
+                 << "not found in map" << endl;
+        return;
+    }
+
+    if(!iter->second.written)
+    {
+        //FC is not written yet
+        iter->second.written = true;
+        if(iter->second.hasName)
+        {
+            _outStream << _indent                    << "DEF "
+                       << iter->second.containerName << " "
+                       << pFC->getTypeName()         << " {"
+                       << endl;
+        }
+        else{
+            _outStream << _indent <<  pFC->getTypeName() << " {"
+                       << endl;
         }
 
-        indentLine(); 
+        _indent++;
+
+        for(UInt32 field=1; field<=numFields; field++)
+        {
+            const FieldDescription* fieldDesc =
+                fcType.getFieldDescription(field);
+            if(fieldDesc->isInternal())
+            {
+                continue;
+            }
+            writeField(pFC->getField(field), fieldDesc);
+        }
+        _indent--;
+        _outStream << _indent << "}" << endl;
+    }
+    else
+    {
+        //FC is already written -> its shared -> write reference
+        if(!iter->second.hasName)
+        {
+            SWARNING << "OSGWriter::writeContainer(): FieldContainer is "
+                     << "shared, but not named"
+                     << endl;
+            return;
+        }
+
+        _outStream << _indent << "USE " << iter->second.containerName << endl;
+    }
+
+}
+
+
+void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
+{
+
+    if(pF == NULL)
+    {
+        return;
+    }
+
+    const FieldType& fType = pF->getType();
+    const DataType&  contentType = pF->getContentType();
+
+    //handle SFAttachmentMap as special case here
+    //if(fType.isDerivedFrom(SFAttachmentMap::getClassType()))
+    if(strstr(fType.getCName(), "AttachmentMap") != NULL)
+    {
+        //write Attachments
+        SLOG << "Writing Attachment Map" << endl;
         
-        _outstream << "USE " << iter->second.name << endl;
+        const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
+              AttachmentMap    attMap   = sfAttMap->getValue();
+
+        AttachmentMap::const_iterator iter = attMap.begin();
+        AttachmentMap::const_iterator end  = attMap.end();
+
+        _outStream << _indent << fieldDesc->getName();
+        _indent++;
+        _state.setIndent(_indent.getIndent());
+        
+        //if the Attachment Map is empty write NULL as its content
+        if(iter==end)
+        {
+            _outStream << " NULL" << endl;
+        }
+        else
+        {
+            _outStream << endl;
+        }
+        
+        for(; iter!=end; ++iter)
+        {
+            writeContainer(iter->second);
+        }
+        _indent--; 
+    }
+    //else if(contentType.isDerivedFrom(FieldContainerPtr::getClassType()))
+    else if(strstr(fType.getCName(), "Ptr") != NULL)
+    {
+        //this Field points to FC
+
+        _state.setIndent(_indent.getIndent());
+        _outStream << _indent << fieldDesc->getName();
+
+        //to access the content of a field via a Field*
+        //one must know the cardinality
+        if(pF->getCardinality() == FieldType::SINGLE_FIELD)
+        {
+            const SFFieldContainerPtr* sfFCPtr =
+                (const SFFieldContainerPtr*) pF;
+            if(sfFCPtr->getValue() == NullFC)
+            {
+                _outStream << " NULL" << endl;
+            }
+            else
+            {
+                _outStream << endl;
+                _indent++;
+                writeContainer(sfFCPtr->getValue());
+                _indent--;
+            }
+        }
+        else if(pF->getCardinality() == FieldType::MULTI_FIELD)
+        {
+            _outStream << " [" << endl;
+            _indent++;
+            const MFFieldContainerPtr* mfFCPtr =
+                (const MFFieldContainerPtr*) pF;
+            UInt32 mfSize = mfFCPtr->getSize();
+            for(UInt32 i=0; i < mfSize; i++)
+            {
+                if(mfFCPtr->getValue(i) == NullFC)
+                {
+                    _outStream << _indent << "NULL" << endl;
+                }
+                else
+                {
+                    writeContainer(mfFCPtr->getValue(i));
+                }
+            }
+            _indent--;
+            _outStream << _indent << "]" << endl;
+        }
+    }
+    else
+    {
+        //this Field contains data -> write it out
+
+        _state.setIndent(_indent.getIndent());
+        _outStream << _indent << fieldDesc->getName();
+
+        string fieldValue;
+
+        //to access the content of a field via a Field*
+        //one must know the cardinality
+        if(pF->getCardinality() == FieldType::SINGLE_FIELD)
+        {
+            _state.setIndent(0);
+            _state.setWidth(DefaultSFWidth);
+            pF->getValueByStr(fieldValue, _state);
+            _outStream << " " << fieldValue << endl;
+        }
+        else if(pF->getCardinality() == FieldType::MULTI_FIELD)
+        {
+            _outStream << " [" << endl;
+
+            _indent++;
+            _state.setIndent(_indent.getIndent());
+            _state.setWidth(DefaultMFWidth);
+            pF->getValueByStr(fieldValue, _state);
+            _outStream << fieldValue << endl;
+            _indent--;
+
+            _outStream << _indent << "]" << endl;
+        }
     }
 }
 
 
-string OSGWriter::SharedFCInfoHelper::buildName(FieldContainerPtr ,
-                                                UInt32            num)
-{
-    string temp;
 
-    temp.assign("FCName");
-    temp.append(TypeConstants<UInt32>::putToString(num));
 
-    return temp;
-}
+
+

@@ -53,6 +53,8 @@
 #include <OSGFieldContainer.h>
 #include <OSGSFFieldContainerPtr.h>
 #include <OSGMFFieldContainerPtr.h>
+#include <OSGIndenter.h>
+#include <OSGStandardStringConversionState.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +71,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    OSGWriter(ostream &stream, UInt32 indentStep = 4);
+    OSGWriter(ostream &stream, UInt32 indentStep=4);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -88,37 +90,39 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
-  protected: 
+  protected:
+      
+    static const UInt32 DefaultSFWidth;
+    static const UInt32 DefaultMFWidth; 
 
-    struct SharedFCInfoHelper
+    struct FCInfoHelper
     {
-        bool   printed;
-        bool   named;
-        string name;
-        static string buildName(FieldContainerPtr fcptr,
-                                UInt32            num);
-
-        SharedFCInfoHelper(void);
+        bool   written;
+        bool   hasName;
+        string containerName;
+        
+	void   setName(const FieldContainerPtr pFC);
+		             
+        FCInfoHelper(void);
     };
     
-    typedef map<FieldContainerPtr, SharedFCInfoHelper> SharedFCInfoMap;
+    typedef map<FieldContainerPtr, FCInfoHelper> FCInfoHelperMap;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    SharedFCInfoMap  _fcmap;
-    UInt32           _sharedFCCount;
-    UInt32           _indention;
-    UInt32           _indentStep;
+    FCInfoHelperMap               _visitedFCMap;
+    StandardStringConversionState _state;
+    Indenter                      _indent;
+    ostream&                      _outStream;
 
-    ostream         &_outstream;
+    void visitContainer(const FieldContainerPtr pFC      );
+    void visitField    (const Field*            pF       );
 
-
-    void indentLine     (void                         );
-    void setIndentStep  (UInt32            newStep    );
-    void doListFC       (FieldContainerPtr fieldConPtr);
-    void doPrintListedFC(FieldContainerPtr fieldConPtr);
+    void writeContainer(const FieldContainerPtr pFC      );
+    void writeField    (const Field*            pF,
+			const FieldDescription* fieldDesc);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -132,6 +136,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 
 OSG_END_NAMESPACE
 
-#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.6 2002/02/04 20:14:05 dirk Exp $"
+#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.7 2002/02/22 16:46:42 neumannc Exp $"
     
 #endif /* _OSGOSGWRITER_H_ */
+
+
+
+
+
+
+
+

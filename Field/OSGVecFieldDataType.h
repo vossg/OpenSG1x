@@ -174,13 +174,13 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
     }
 
     static void      putToString  (const Vec2f  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Vec2f::ValueType> TypeConst;
         
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
     }
 };
 
@@ -216,15 +216,15 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
     }
 
     static void      putToString  (const Vec3f  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Vec3f::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -260,17 +260,17 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
     }
 
     static void      putToString  (const Vec4f  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Vec4f::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -305,17 +305,17 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
     }
 
     static void      putToString  (const Vec4ub &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Vec4ub::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -350,13 +350,13 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
     }
 
     static void      putToString  (const Pnt2f  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Pnt2f::ValueType> TypeConst;
         
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0])); 
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0])); 
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
     }
 };
 
@@ -390,15 +390,15 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
     }
 
     static void      putToString  (const Pnt3f  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Pnt3f::ValueType> TypeConst;
         
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -433,15 +433,15 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
     }
 
     static void      putToString  (const Pnt3d  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Pnt3d::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -476,17 +476,17 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
     }
 
     static void      putToString  (const Pnt4f  &inVal,
-                                         string &outVal)
+                                         string &outStr)
     {
         typedef TypeConstants<Pnt4f::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
-        outVal.append("  ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -495,8 +495,6 @@ OSG_END_NAMESPACE
 #define OSGVECFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */
-
-
 
 
 
