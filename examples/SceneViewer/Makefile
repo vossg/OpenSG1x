@@ -22,6 +22,9 @@ OSGROOT ?= $(OSGINSTALLPREFIX)
 
 OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
+# use debug or opt libs?
+LIBTYPE ?= dbg
+
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer
 PROJINC = -I. -DQT_CLEAN_NAMESPACE # -DOSG_DEBUG
@@ -83,11 +86,11 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
-CXX        := "$(shell $(OSG_CONFIG) --compiler)"
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT)
-LD         := "$(shell $(OSG_CONFIG) --exe-linker)"
+CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT --$(LIBTYPE) )
+LD         := "$(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )"
 LDFLAGS    :=
-LIBS       :=  $(shell $(OSG_CONFIG) --libs QT)
+LIBS       :=  $(shell $(OSG_CONFIG) --libs QT --$(LIBTYPE) )
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)
