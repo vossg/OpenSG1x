@@ -94,7 +94,7 @@ static void warningHandler (const char *module, const char *fmt, va_list ap)
     vsprintf(buffer, fmt, ap);
 #endif
 
-	FWARNING (("TiffLib: %s;$s\n", module ? module : "Mod", buffer));
+	FWARNING (("TiffLib: %s;%s\n", module ? module : "Mod", buffer));
 }
 
 static void errorHandler (const char *module, const char *fmt, va_list ap)
@@ -107,7 +107,7 @@ static void errorHandler (const char *module, const char *fmt, va_list ap)
     vsprintf(buffer, fmt, ap);
 #endif
 
-	FFATAL (("TiffLib: %s;$s\n", module ? module : "Mod", buffer));
+	FFATAL (("TiffLib: %s;%s\n", module ? module : "Mod", buffer));
 }
 
 
@@ -155,9 +155,18 @@ Class method to get the singleton Object
 */
 TIFImageFileType& TIFImageFileType::the (void)
 {
+  static bool initTIFFLib = true;
+
 #ifdef OSG_WITH_TIF
-  TIFFSetWarningHandler(&warningHandler);
-  TIFFSetErrorHandler(&errorHandler);
+
+  if (initTIFFLib) 
+  {
+    initTIFFLib = false;
+
+    TIFFSetWarningHandler(&warningHandler);
+    TIFFSetErrorHandler(&errorHandler);
+  }
+
 #endif
 
   return _the;
@@ -399,7 +408,7 @@ TIFImageFileType::TIFImageFileType(const Char8 *mimeType,
                                    UInt32 flags) :
     ImageFileType(mimeType,suffixArray, suffixByteCount, flags)
 {
-    return;
+    the();
 }
 
 //-------------------------------------------------------------------------
@@ -409,7 +418,7 @@ Dummy Copy Constructor
 TIFImageFileType::TIFImageFileType(const TIFImageFileType &obj) :
     ImageFileType(obj)
 {
-    return;
+    the();
 }
 
 //-------------------------------------------------------------------------
