@@ -100,7 +100,7 @@ EOF
     if test -s $errfile;
     then
         cat $errfile >> $out_mail
-        echo  >> $out_mail
+    echo  >> $out_mail
     fi
     
     # LOCAL: choose your email adresses here
@@ -184,7 +184,7 @@ checkerror ()
     $grep -n -i -w warning $file | \
     $grep -v \
         -e "not used for resolving any symbol" \
-    > $log_warnings || true
+     > $log_warnings || true
 
     # write the log file
     write_html_log $out_html.$title.html $title $file $log_errors $log_warnings
@@ -192,21 +192,21 @@ checkerror ()
     # check error file (empty -> ignore)
     if test \! -s $log_errors 
     then
-        rm -f $log_errors
-        echo "`date +%H:%M`: <a href=$link_html.$title.html.gz>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
+    rm -f $log_errors
+    echo "`date +%H:%M`: <a href=$link_html.$title.html.gz>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
     else
-        echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html.gz>$title</a> had errors!</font><br>" >> $out_html.Main.html
+     echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html.gz>$title</a> had errors!</font><br>" >> $out_html.Main.html
 
-        IFS=':'
-        cat $log_errors | while read line err
-        do
-            echo "<a href=$link_html.$title.html.gz#$line>$line</a> : $err<br>" >> $out_html.Main.html
-        done
-        IFS=''
+    IFS=':'
+    cat $log_errors | while read line err
+    do
+        echo "<a href=$link_html.$title.html.gz#$line>$line</a> : $err<br>" >> $out_html.Main.html
+    done
+    IFS=''
 
         if test x$do_exit != xno
         then
-            errorexit $title $log_errors
+        errorexit $title $log_errors
         else
             false
             return
@@ -485,6 +485,8 @@ case $system in
             CC64)
                  # VRAC Irix settings
           
+                qt_dir="/home/users/dreiners"
+                qt_args=${qt_args:="--with-qt=${qt_dir}"}
                 glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib64"}
                 tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib64"}
                 jpg_args=${jpg_args:="--with-jpg --with-jpgincludedir=/usr/freeware/include/ --with-jpglibdir=/usr/freeware/lib64"}
@@ -494,6 +496,7 @@ case $system in
                 mail=/usr/sbin/Mail
                 make=/home/users/dreiners/bin/IRIX64/make
                 grep=/usr/freeware/bin/grep
+                export PATH=${qt_dir}/bin/:$PATH
                 loginfo="OS: `/bin/uname -aR` <br>"
                 loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
                 has_doxygen=0
