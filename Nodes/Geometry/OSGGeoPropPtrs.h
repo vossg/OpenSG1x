@@ -61,6 +61,10 @@ typedef GeoPositions2f::PtrType  GeoPositions2fPtr;
 typedef GeoPositions3f::PtrType  GeoPositions3fPtr;
 typedef GeoPositions4f::PtrType  GeoPositions4fPtr;
 
+typedef GeoPositions2d::PtrType  GeoPositions2dPtr;
+typedef GeoPositions3d::PtrType  GeoPositions3dPtr;
+typedef GeoPositions4d::PtrType  GeoPositions4dPtr;
+
 typedef GeoColors3f::PtrType     GeoColors3fPtr;
 typedef GeoColors3ub::PtrType    GeoColors3ubPtr;
 typedef GeoColors4ub::PtrType    GeoColors4ubPtr;

@@ -360,6 +360,49 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
     }
 };
 
+
+/*! \brief Pnt2d field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
+template <>
+struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
+{
+    static DataType _type;
+
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
+
+    static DataType &getType      (void) { return _type;         }
+
+    static Char8    *getSName     (void) { return "SFPnt2d";     }
+    static Char8    *getMName     (void) { return "MFPnt2d";     }
+
+    static Pnt2d     getDefault   (void) { return Pnt2d();       }
+
+    static bool      getFromString(      Pnt2d  &outVal,
+                                   const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+
+        return true;
+    }
+
+    static void      putToString  (const Pnt2d  &inVal,
+                                         string &outStr)
+    {
+        typedef TypeConstants<Pnt2d::ValueType> TypeConst;
+        
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0])); 
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+    }
+};
+
+
 /*! \brief Pnt3f field traits
     \ingroup FieldLib
     \ingroup SingleFields
@@ -479,6 +522,51 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
                                          string &outStr)
     {
         typedef TypeConstants<Pnt4f::ValueType> TypeConst;
+
+        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeConst::putToString((inVal.getValues())[3]));
+    }
+};
+
+/*! \brief Pnt4d field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
+template <>
+struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore4Base<Pnt4d>
+{
+    static DataType _type;
+
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
+
+    static DataType &getType      (void) { return _type;         }
+
+    static Char8    *getSName     (void) { return "SFPnt4d";     }
+
+    static Char8    *getMName     (void) { return "MFPnt4d";     }
+
+    static Pnt4d     getDefault   (void) { return Pnt4d();       }
+
+    static bool      getFromString(      Pnt4d  &outVal,
+                                   const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+        return false;
+    }
+
+    static void      putToString  (const Pnt4d  &inVal,
+                                         string &outStr)
+    {
+        typedef TypeConstants<Pnt4d::ValueType> TypeConst;
 
         outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
         outStr.append("  ");

@@ -154,6 +154,25 @@ OSG_DLLEXPORT_DECL1(MField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief MFPnt2d
+    \ingroup MultiFields
+*/
+
+typedef MField<Pnt2d> MFPnt2d;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Pnt2d>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 /*! \brief MFPnt3f
     \ingroup MultiFields
 */
@@ -206,6 +225,25 @@ typedef MField<Pnt4f> MFPnt4f;
 #else
 
 OSG_DLLEXPORT_DECL1(MField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
+/*! \brief MFPnt4d
+    \ingroup MultiFields
+*/
+
+typedef MField<Pnt4d> MFPnt4d;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Pnt4d>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Pnt4d, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif

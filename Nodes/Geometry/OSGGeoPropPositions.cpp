@@ -101,6 +101,21 @@ FieldDescription *GeoPositions4fPropertyDesc::_desc[] =
 
 
 
+FieldDescription *GeoPositions2dPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions2dPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions2dPropertyDesc>::getFieldPtr)
+#endif
+};
 
 FieldDescription *GeoPositions3dPropertyDesc::_desc[] =
 {
@@ -118,6 +133,22 @@ FieldDescription *GeoPositions3dPropertyDesc::_desc[] =
 #endif
 };
 
+FieldDescription *GeoPositions4dPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions4dPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions4dPropertyDesc>::getFieldPtr)
+#endif
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
@@ -126,7 +157,9 @@ OSG_BEGIN_NAMESPACE
 #pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_type
 #pragma instantiate GeoProperty        <GeoPositions4fPropertyDesc>::_type
 
+#pragma instantiate GeoProperty        <GeoPositions2dPropertyDesc>::_type
 #pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_type
+#pragma instantiate GeoProperty        <GeoPositions4dPropertyDesc>::_type
 
 #else
 
@@ -141,7 +174,13 @@ OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           GeoPositions2dPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
                            GeoPositions3dPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           GeoPositions4dPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -134,6 +134,25 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief SFPnt2d
+    \ingroup SingleFields
+*/
+
+typedef SField<Pnt2d> SFPnt2d;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Pnt2d>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 /*! \brief SFPnt3f
     \ingroup SingleFields
 */
@@ -186,6 +205,25 @@ typedef SField<Pnt4f> SFPnt4f;
 #else
 
 OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
+/*! \brief SFPnt4d
+    \ingroup SingleFields
+*/
+
+typedef SField<Pnt4d> SFPnt4d;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Pnt4d>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Pnt4d, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif

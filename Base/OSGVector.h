@@ -322,7 +322,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     {
         UInt32 i;
         
-        if(_iSize < VectorT::_iSize)
+        if(_iSize <= VectorT::_iSize)
         {
             for(i = 0; i < _iSize; i++)
             {
@@ -620,7 +620,7 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     {
         UInt32 i;
         
-        if(_iSize < VectorT::_iSize)
+        if(_iSize <= VectorT::_iSize)
         {
             for(i = 0; i < _iSize; i++)
             {
@@ -835,6 +835,22 @@ typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
 
 typedef Pnt2f *Pnt2fP;
 
+
+/*! \var typedef PointInterface<Real64, VecStorage2<Real64> > Pnt2d;
+    \brief Pnt2d
+    \ingroup BaseMathVectors
+*/
+
+typedef PointInterface<Real64, VecStorage2<Real64> > Pnt2d;
+
+/*! \var typedef Pnt2d *Pnt2dP;
+    \brief Vec2dP
+    \ingroup BaseMathVectors
+*/
+
+typedef Pnt2d *Pnt2dP;
+
+
 /*! \var typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
     \brief Vec3f
     \ingroup BaseMathVectors
@@ -876,6 +892,20 @@ typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
 */
 
 typedef Pnt4f *Pnt4fP;
+
+/*! \var typedef PointInterface<Real64, VecStorage4<Real64> > Pnt4d;
+    \brief Pnt4d
+    \ingroup BaseMathVectors
+*/
+
+typedef PointInterface<Real64, VecStorage4<Real64> > Pnt4d;
+
+/*! \var typedef Pnt4d *Pnt4dP;
+    \brief Vec4dP
+    \ingroup BaseMathVectors
+*/
+
+typedef Pnt4d *Pnt4dP;
 
 /*! \var typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
     \brief Vec2s
