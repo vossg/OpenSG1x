@@ -524,7 +524,7 @@ void GroupMCastConnection::initialize()
     if(pos>=0)
     {
         group = std::string(_destination,0,pos);
-        port  = atoi(std::string(_destination,pos+1).c_str());
+        port  = atoi(std::string(_destination,pos+1,std::string::npos).c_str());
     }
     else
     {

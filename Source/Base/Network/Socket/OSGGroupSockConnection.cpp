@@ -434,7 +434,7 @@ bool GroupSockConnection::connectSocket(StreamSocket &socket,
     if(pos>=0)
     {
         host = std::string(address,0,pos);
-        port = atoi(std::string(address,pos+1).c_str());
+        port = atoi(std::string(address,pos+1,std::string::npos).c_str());
     }
     else
     {
