@@ -492,12 +492,12 @@ void SprocBase::init(void)
 
 UInt32 SprocBase::getAspect(void)
 {
-    return ((OSGProcessData *) PRDA->usr2_prda.fill)->_uiAspectId;
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_uiAspectId;
 }
 
 ChangeList *SprocBase::getCurrentChangeList(void)
 {
-    return ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList;
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_pChangeList;
 }
 
 /***************************************************************************\
@@ -530,22 +530,22 @@ SprocBase::~SprocBase(void)
 
 void SprocBase::setAspectInternal(UInt32 uiAspect)
 {
-    ((OSGProcessData *) PRDA->usr2_prda.fill)->_uiAspectId = uiAspect;
+    ((OSGProcessData *) PRDA->usr_prda.fill)->_uiAspectId = uiAspect;
 }
 
 void SprocBase::setupChangeListInternal(void)
 {
     if(Inherited::_pChangeList == NULL)
     {
-        ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList = 
+        ((OSGProcessData *) PRDA->usr_prda.fill)->_pChangeList = 
             new ChangeList();
 
         Inherited::setChangeList(
-            ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList);
+            ((OSGProcessData *) PRDA->usr_prda.fill)->_pChangeList);
     }
     else
     {
-        ((OSGProcessData *) PRDA->usr2_prda.fill)->_pChangeList = 
+        ((OSGProcessData *) PRDA->usr_prda.fill)->_pChangeList = 
             Inherited::_pChangeList;
 
         Inherited::_pChangeList->clearAll();
