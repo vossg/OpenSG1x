@@ -1090,11 +1090,11 @@ void OSGWinThreadBase::setExternalHandle(OSGHandle externalHandle)
 void OSGWinThreadBase::setupAspect(void)
 {
 #ifdef OSG_ASPECT_USE_LOCALSTORAGE
-    OSGUInt32 *uintP;
-
-    uintP = (OSGUInt32 *) TlsGetValue(_aspectKey);
+    OSGUInt32 *uintP = new OSGUInt32;
 
     *uintP = Inherited::_aspectId;
+
+    TlsSetValue(_aspectKey, uintP);
 #endif
 
 #ifdef OSG_ASPECT_USE_DECLSPEC
@@ -1120,7 +1120,7 @@ void OSGWinThreadBase::setupThreadP(void)
 void OSGWinThreadBase::setupChangeListP(void)
 {
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-	OSGChangeList **cListPP = new OSGChangeList *;
+	OSGChangeList **changeListPP = new OSGChangeList *;
 
    if(Inherited::_changeListP == NULL)
     {
@@ -1136,7 +1136,7 @@ void OSGWinThreadBase::setupChangeListP(void)
     }
 
     (*changeListPP)->setAspect(Inherited::_aspectId);
-	TlsSetValue(_changeListKey, cListPP);
+	TlsSetValue(_changeListKey, changeListPP);
 #endif
 
 #if defined (OSG_ASPECT_USE_DECLSPEC)
