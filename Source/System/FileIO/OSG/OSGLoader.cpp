@@ -266,51 +266,6 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfVolume);
 }
 
-/* remove this, if there is a general methode to find containers */
-FieldContainerPtr OSGLoader::findFCByName(const Char8 *szName,
-                                                 NodePtr np)
-{
-    MFNodePtr::iterator i;
-    NamePtr nodename;
-    NodeCorePtr cp;
-    FieldContainerPtr fcp;
-
-    // check if name matches nodename
-    nodename = NamePtr::dcast(
-        np->findAttachment(Name::getClassType().getGroupId()));
-
-    if(nodename != NullFC)
-    {
-        if(strcmp(szName,nodename->getFieldPtr()->getValue().c_str())==0)
-            return np;
-    }
-    // check if name matches corename
-    cp=np->getCore();
-    if(cp != NullFC)
-    {
-        nodename = NamePtr::dcast(
-            cp->findAttachment(Name::getClassType().getGroupId()));
-
-        if(nodename != NullFC)
-        {
-            if(strcmp(szName,nodename->getFieldPtr()->getValue().c_str())==0)
-                return cp;
-        }
-    }
-    // matching for children
-    for(i =np->getMFChildren()->begin();
-        i!=np->getMFChildren()->end();
-        i++)
-    {
-        fcp=findFCByName(szName,*i);
-        if(fcp != NullFC)
-        {
-            return fcp;
-        }
-    }
-    return fcp;
-}
-
 void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
 {
     /* Hack attack, the {S|M}FieldContainerPtr * cast is a hack until the 
@@ -499,30 +454,15 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
 
     if(szNodename != NULL && pNewNode != NullFC)
     {
-        AttachmentContainerPtr ap = AttachmentContainerPtr::dcast(pNewNode);
-        
-        if(ap != NullFC)
-        {
-            NamePtr pNodename = Name::create();
+        AttachmentContainerPtr pAttCon = 
+            AttachmentContainerPtr::dcast(pNewNode);
 
-            pNodename->getFieldPtr()->getValue().assign(szNodename);
-  
-            ap->addAttachment(pNodename);
-        }
-        else
+        if(pAttCon != NullFC)
         {
-            SLOG << "Fieldcontainer " << szNodeTypename 
-                 << " is not derived from AttachmentContainer. "
-                 << "Can not use attachment to store Nodename " << std::endl
-                 << "Adding to _defMap instead. " << std::endl;
-
-            if( _defMap.insert(
-                std::make_pair(std::string(szNodename), 
-                               pNewNode)).second == true )
-            {
-                SLOG << "Success." << std::endl;
-            }
+            setName(pAttCon, szNodename);
         }
+
+        _defMap.insert(std::make_pair(std::string(szNodename), pNewNode));
     }
 
     // assign nodepointer to current sf|mf field
@@ -804,14 +744,14 @@ void OSGLoader::endField(void)
 
 FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 {
-    // search reference in this file
-    // search the _defMap first then the tree for name attachments
-    NamedFCMap::iterator iter = _defMap.find(std::string(szName));
-    if( iter != _defMap.end() )
-    {
-        return (*iter).second;
-    }
-    return findFCByName(szName, getRootNode());
+    // Find a previously DEF'ed FC by its name and return Ptr to it
+
+    NamedFCMap::iterator entry = _defMap.find(std::string(szName));
+
+    if(entry == _defMap.end())
+        return NullFC;
+
+    return entry->second; // return the stored FCPtr
 }
 
 

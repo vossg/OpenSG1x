@@ -154,9 +154,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
 
     void              setFieldContainerValue(      FieldContainerPtr pNewNode);
 
-    FieldContainerPtr findFCByName          (const Char8            *szName,
-                                                   NodePtr           root    );
-
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
