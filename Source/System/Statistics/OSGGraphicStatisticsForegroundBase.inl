@@ -180,11 +180,11 @@ SFReal32 *GraphicStatisticsForegroundBase::getSFLineWidth(void)
     return &_sfLineWidth;
 }
 
-//! Get the GraphicStatisticsForeground::_sfColorBackground field.
+//! Get the GraphicStatisticsForeground::_sfBackgroundColor field.
 inline
-SFColor3f *GraphicStatisticsForegroundBase::getSFColorBackground(void)
+SFColor3f *GraphicStatisticsForegroundBase::getSFBackgroundColor(void)
 {
-    return &_sfColorBackground;
+    return &_sfBackgroundColor;
 }
 
 //! Get the GraphicStatisticsForeground::_sfTextEnabled field.
@@ -230,25 +230,25 @@ void GraphicStatisticsForegroundBase::setLineWidth(const Real32 &value)
     _sfLineWidth.setValue(value);
 }
 
-//! Get the value of the GraphicStatisticsForeground::_sfColorBackground field.
+//! Get the value of the GraphicStatisticsForeground::_sfBackgroundColor field.
 inline
-Color3f &GraphicStatisticsForegroundBase::getColorBackground(void)
+Color3f &GraphicStatisticsForegroundBase::getBackgroundColor(void)
 {
-    return _sfColorBackground.getValue();
+    return _sfBackgroundColor.getValue();
 }
 
-//! Get the value of the GraphicStatisticsForeground::_sfColorBackground field.
+//! Get the value of the GraphicStatisticsForeground::_sfBackgroundColor field.
 inline
-const Color3f &GraphicStatisticsForegroundBase::getColorBackground(void) const
+const Color3f &GraphicStatisticsForegroundBase::getBackgroundColor(void) const
 {
-    return _sfColorBackground.getValue();
+    return _sfBackgroundColor.getValue();
 }
 
-//! Set the value of the GraphicStatisticsForeground::_sfColorBackground field.
+//! Set the value of the GraphicStatisticsForeground::_sfBackgroundColor field.
 inline
-void GraphicStatisticsForegroundBase::setColorBackground(const Color3f &value)
+void GraphicStatisticsForegroundBase::setBackgroundColor(const Color3f &value)
 {
-    _sfColorBackground.setValue(value);
+    _sfBackgroundColor.setValue(value);
 }
 
 //! Get the value of the GraphicStatisticsForeground::_sfTextEnabled field.

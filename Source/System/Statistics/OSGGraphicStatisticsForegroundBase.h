@@ -57,6 +57,7 @@
 #pragma once
 #endif
 
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 
@@ -76,7 +77,7 @@
 #include <OSGUInt32Fields.h> // HistorySize type
 #include <OSGStringFields.h> // Description type
 #include <OSGReal32Fields.h> // LineWidth type
-#include <OSGColor3fFields.h> // ColorBackground type
+#include <OSGColor3fFields.h> // BackgroundColor type
 #include <OSGBoolFields.h> // TextEnabled type
 #include <OSGBoolFields.h> // BackgroundEnabled type
 #include <OSGBoolFields.h> // BorderEnabled type
@@ -113,8 +114,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
         HistorySizeFieldId       = FlagsFieldId             + 1,
         DescriptionFieldId       = HistorySizeFieldId       + 1,
         LineWidthFieldId         = DescriptionFieldId       + 1,
-        ColorBackgroundFieldId   = LineWidthFieldId         + 1,
-        TextEnabledFieldId       = ColorBackgroundFieldId   + 1,
+        BackgroundColorFieldId   = LineWidthFieldId         + 1,
+        TextEnabledFieldId       = BackgroundColorFieldId   + 1,
         BackgroundEnabledFieldId = TextEnabledFieldId       + 1,
         BorderEnabledFieldId     = BackgroundEnabledFieldId + 1,
         NextFieldId              = BorderEnabledFieldId     + 1
@@ -132,7 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     static const OSG::BitVector HistorySizeFieldMask;
     static const OSG::BitVector DescriptionFieldMask;
     static const OSG::BitVector LineWidthFieldMask;
-    static const OSG::BitVector ColorBackgroundFieldMask;
+    static const OSG::BitVector BackgroundColorFieldMask;
     static const OSG::BitVector TextEnabledFieldMask;
     static const OSG::BitVector BackgroundEnabledFieldMask;
     static const OSG::BitVector BorderEnabledFieldMask;
@@ -162,15 +163,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
 
            MFString            *getMFDescription    (void);
            SFReal32            *getSFLineWidth      (void);
-           SFColor3f           *getSFColorBackground(void);
+           SFColor3f           *getSFBackgroundColor(void);
            SFBool              *getSFTextEnabled    (void);
            SFBool              *getSFBackgroundEnabled(void);
            SFBool              *getSFBorderEnabled  (void);
 
            Real32              &getLineWidth      (void);
      const Real32              &getLineWidth      (void) const;
-           Color3f             &getColorBackground(void);
-     const Color3f             &getColorBackground(void) const;
+           Color3f             &getBackgroundColor(void);
+     const Color3f             &getBackgroundColor(void) const;
            bool                &getTextEnabled    (void);
      const bool                &getTextEnabled    (void) const;
            bool                &getBackgroundEnabled(void);
@@ -187,7 +188,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     /*! \{                                                                 */
 
      void setLineWidth      ( const Real32 &value );
-     void setColorBackground( const Color3f &value );
+     void setBackgroundColor( const Color3f &value );
      void setTextEnabled    ( const bool &value );
      void setBackgroundEnabled( const bool &value );
      void setBorderEnabled  ( const bool &value );
@@ -248,7 +249,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     MFUInt32            _mfHistorySize;
     MFString            _mfDescription;
     SFReal32            _sfLineWidth;
-    SFColor3f           _sfColorBackground;
+    SFColor3f           _sfBackgroundColor;
     SFBool              _sfTextEnabled;
     SFBool              _sfBackgroundEnabled;
     SFBool              _sfBorderEnabled;

@@ -57,7 +57,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32&  value,
     Real32 maxV  =  getMaxValue() [ID];
   
     /* check for invert */
-    if (flags & STATISTICS_INVERT)
+    if (flags & STATISTICS_RECIPROC)
         {
             value  =  1.0 / value; 
         }

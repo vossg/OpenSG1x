@@ -74,26 +74,31 @@ TextureChunkPtr GraphicStatisticsForeground::_texchunk;
 
 
 /*! \class osg::GraphicStatisticsForeground
-  Background is the base class for all background clearing.
+    \ingroup GrpSystemWindowForegroundsStatistics
+    
+GraphicStatisticsForeground displays the Statistics info as graphical displays. 
+See \ref PageSystemWindowForegroundStatisticsGraphic for a description.
+
+The different parameters for all the displays are spread over a lot of fields.
+Thus it is stringly advised to use the addElement and removeElement convenience
+functions to add and remove elements, to ensure consistency.
+
+The _sfLineWidth, _sfBackgroundColor, _sfBackgroundEnabled and _sfBorderEnabled
+Fields control the parameters used for all displays.
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 GraphicStatisticsForeground::GraphicStatisticsForeground(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 GraphicStatisticsForeground::GraphicStatisticsForeground(const GraphicStatisticsForeground &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 GraphicStatisticsForeground::~GraphicStatisticsForeground(void)
 {
@@ -101,13 +106,9 @@ GraphicStatisticsForeground::~GraphicStatisticsForeground(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void GraphicStatisticsForeground::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void GraphicStatisticsForeground::changed(BitVector whichField, UInt32)
 {
@@ -125,8 +126,6 @@ void GraphicStatisticsForeground::changed(BitVector whichField, UInt32)
   }
 
 }
-
-//! output the instance for debug purposes
 
 void GraphicStatisticsForeground::dump(      UInt32    , 
                                              const BitVector ) const
@@ -398,7 +397,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
  
  
     // draw a filled circle  with alpha value if expected
-    Color3f c  =  getColorBackground();
+    Color3f c  =  getBackgroundColor();
     Real32 angle = 0.0;
     if( getBackgroundEnabled() )
         {
@@ -596,7 +595,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID,
     Real32 maxV  =  getMaxValue() [ID];
 
     // draw a rectangle with alpha value
-    Color3f c  =  getColorBackground();
+    Color3f c  =  getBackgroundColor();
     if( getBackgroundEnabled() )
         {
             glColor4f( c[0] , c[1] , c[2] , 0.4 );
@@ -749,7 +748,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID,
 	processOnlyValue(vsave, ID);
 
     // draw a rectangle with alpha value
-    Color3f c  =  getColorBackground();
+    Color3f c  =  getBackgroundColor();
     if( getBackgroundEnabled() )
         {
             glColor4f( c[0] , c[1] , c[2] , 0.4 );
@@ -909,7 +908,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 
     /* Get the current value and process it */
     Real32 value  =  el->getValue();
-    Real32 realValue = (flags & STATISTICS_INVERT) ? 1.f/value : value;
+    Real32 realValue = (flags & STATISTICS_RECIPROC) ? 1.f/value : value;
 
     processValue(value, ID);
   
@@ -920,7 +919,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
     Real32 maxV  =  getMaxValue()[ID];
 
     // draw a rectangle with alpha value
-    Color3f c  =  getColorBackground();
+    Color3f c  =  getBackgroundColor();
     if( getBackgroundEnabled() )
         {
             glColor4f( c[0] , c[1] , c[2] , 0.4 );
@@ -1105,7 +1104,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID,
 
 
   // draw a rectangle with alpha value
-  Color3f c  =  getColorBackground();
+  Color3f c  =  getBackgroundColor();
   if( getBackgroundEnabled() )
 	{
 	  glColor4f( c[0] , c[1] , c[2] , 0.4 );

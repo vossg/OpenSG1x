@@ -78,7 +78,7 @@ const OSG::BitVector  StatisticsForegroundBase::CollectorFieldMask =
     The StatElemDesc IDs to use. If not set, use all in the descriptor.
 */
 /*! \var StatCollector   StatisticsForegroundBase::_sfCollector
-    
+    The osg::StatisticsCollector that keeps the displayed statistics.
 */
 
 //! StatisticsForeground description

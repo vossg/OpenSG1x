@@ -50,6 +50,7 @@
  *****************************************************************************
 \*****************************************************************************/
 
+
 #define OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 
 #include <stdlib.h>
@@ -99,8 +100,8 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::DescriptionFieldMask =
 const OSG::BitVector  GraphicStatisticsForegroundBase::LineWidthFieldMask = 
     (1 << GraphicStatisticsForegroundBase::LineWidthFieldId);
 
-const OSG::BitVector  GraphicStatisticsForegroundBase::ColorBackgroundFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::ColorBackgroundFieldId);
+const OSG::BitVector  GraphicStatisticsForegroundBase::BackgroundColorFieldMask = 
+    (1 << GraphicStatisticsForegroundBase::BackgroundColorFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::TextEnabledFieldMask = 
     (1 << GraphicStatisticsForegroundBase::TextEnabledFieldId);
@@ -151,7 +152,7 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::BorderEnabledFieldMask =
 /*! \var Real32          GraphicStatisticsForegroundBase::_sfLineWidth
     The default line width to be used by this foreground
 */
-/*! \var Color3f         GraphicStatisticsForegroundBase::_sfColorBackground
+/*! \var Color3f         GraphicStatisticsForegroundBase::_sfBackgroundColor
     BackgroundColor of the statistics Display
 */
 /*! \var bool            GraphicStatisticsForegroundBase::_sfTextEnabled
@@ -229,10 +230,10 @@ FieldDescription *GraphicStatisticsForegroundBase::_desc[] =
                      false,
                      (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFLineWidth),
     new FieldDescription(SFColor3f::getClassType(), 
-                     "colorBackground", 
-                     ColorBackgroundFieldId, ColorBackgroundFieldMask,
+                     "backgroundColor", 
+                     BackgroundColorFieldId, BackgroundColorFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFColorBackground),
+                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFBackgroundColor),
     new FieldDescription(SFBool::getClassType(), 
                      "textEnabled", 
                      TextEnabledFieldId, TextEnabledFieldMask,
@@ -315,7 +316,7 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(void) :
     _mfHistorySize            (), 
     _mfDescription            (), 
     _sfLineWidth              (Real32(1.0)), 
-    _sfColorBackground        (Color3f(0.0,0.0,0.0)), 
+    _sfBackgroundColor        (Color3f(0.0,0.0,0.0)), 
     _sfTextEnabled            (bool(true)), 
     _sfBackgroundEnabled      (bool(true)), 
     _sfBorderEnabled          (bool(true)), 
@@ -340,7 +341,7 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(const GraphicSt
     _mfHistorySize            (source._mfHistorySize            ), 
     _mfDescription            (source._mfDescription            ), 
     _sfLineWidth              (source._sfLineWidth              ), 
-    _sfColorBackground        (source._sfColorBackground        ), 
+    _sfBackgroundColor        (source._sfBackgroundColor        ), 
     _sfTextEnabled            (source._sfTextEnabled            ), 
     _sfBackgroundEnabled      (source._sfBackgroundEnabled      ), 
     _sfBorderEnabled          (source._sfBorderEnabled          ), 
@@ -420,9 +421,9 @@ UInt32 GraphicStatisticsForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfLineWidth.getBinSize();
     }
 
-    if(FieldBits::NoField != (ColorBackgroundFieldMask & whichField))
+    if(FieldBits::NoField != (BackgroundColorFieldMask & whichField))
     {
-        returnValue += _sfColorBackground.getBinSize();
+        returnValue += _sfBackgroundColor.getBinSize();
     }
 
     if(FieldBits::NoField != (TextEnabledFieldMask & whichField))
@@ -509,9 +510,9 @@ void GraphicStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
         _sfLineWidth.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ColorBackgroundFieldMask & whichField))
+    if(FieldBits::NoField != (BackgroundColorFieldMask & whichField))
     {
-        _sfColorBackground.copyToBin(pMem);
+        _sfBackgroundColor.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (TextEnabledFieldMask & whichField))
@@ -597,9 +598,9 @@ void GraphicStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfLineWidth.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ColorBackgroundFieldMask & whichField))
+    if(FieldBits::NoField != (BackgroundColorFieldMask & whichField))
     {
-        _sfColorBackground.copyFromBin(pMem);
+        _sfBackgroundColor.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (TextEnabledFieldMask & whichField))
@@ -662,8 +663,8 @@ void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsFor
     if(FieldBits::NoField != (LineWidthFieldMask & whichField))
         _sfLineWidth.syncWith(pOther->_sfLineWidth);
 
-    if(FieldBits::NoField != (ColorBackgroundFieldMask & whichField))
-        _sfColorBackground.syncWith(pOther->_sfColorBackground);
+    if(FieldBits::NoField != (BackgroundColorFieldMask & whichField))
+        _sfBackgroundColor.syncWith(pOther->_sfBackgroundColor);
 
     if(FieldBits::NoField != (TextEnabledFieldMask & whichField))
         _sfTextEnabled.syncWith(pOther->_sfTextEnabled);

@@ -50,26 +50,27 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::StatisticsForeground
-Background is the base class for all background clearing.  	 	
+    \ingroup GrpSystemWindowForegrounds
+    
+StatisticsForeground is the base class for all foregrounds that process
+statistics.  See \ref
+PageSystemWindowForegroundStatistics for a description.
+
+The elements to display are selected using the _mfElementIDs Field. The
+collector to use is stored in the _sfCollector Field.
 */
 
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 StatisticsForeground::StatisticsForeground(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 StatisticsForeground::StatisticsForeground(const StatisticsForeground &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 StatisticsForeground::~StatisticsForeground(void)
 {
@@ -77,20 +78,14 @@ StatisticsForeground::~StatisticsForeground(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void StatisticsForeground::initMethod (void)
 {
 }
-
-//! react to field changes
 
 void StatisticsForeground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
-
-//! output the instance for debug purposes
 
 void StatisticsForeground::dump(      UInt32    , 
                          const BitVector ) const

@@ -127,13 +127,13 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE | STATISTICS_SMOOTH,
+					   STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE | STATISTICS_SMOOTH,
 					   100,
 					   "FPS"
 					   );
 	statfg->addElement(RenderAction::statDrawTime,
-                     //STATISTICS_BAR,
-					   STATISTICS_ANALOG,                     
+                     STATISTICS_BAR,
+					 //  STATISTICS_ANALOG,                     
 					   Vec2f(0.0,-1.0),
 					   Vec2f(0.4,0.2),
 					   highColor,
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE
+					   STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE
 					   | STATISTICS_SMOOTH,
 					   100,
 					   "FPS"
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
                      currentColor,
                      0.0,
                      0.0,
-                     STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE
+                     STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE
                      | STATISTICS_SMOOTH | STATISTICS_ENABLE_POINTS
                      | STATISTICS_MAX_TEXT | STATISTICS_MIN_TEXT,
                      100,
@@ -171,7 +171,7 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE
+					   STATISTICS_RECIPROC | STATISTICS_OVERFLOW_RESIZE
 					   | STATISTICS_SMOOTH,
 					   100,
 					   "FPS"
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
 					   currentColor,
 					   0.0,
 					   0.0,
-					   STATISTIK_INVERT | STATISTIK_OVERFLOW_RESIZE
+					   STATISTIK_RECIPROC | STATISTIK_OVERFLOW_RESIZE
 					   | STATISTIK_SMOOTH,
 					   
 					   50);

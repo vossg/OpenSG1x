@@ -51,9 +51,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
-
+/*! \brief Graphics Statistics Foreground class. See \ref 
+    PageSystemWindowForegroundStatisticsGraphics for a description.
+*/
 
 // The different types of the displayed Statistic
 #define STATISTICS_ANALOG 0
@@ -65,7 +65,7 @@ OSG_BEGIN_NAMESPACE
 // Flags for Statistics
 #define STATISTICS_OVERFLOW_RESIZE 0x1
 #define STATISTICS_UNDERFLOW_RESIZE 0x2
-#define STATISTICS_INVERT 0x4
+#define STATISTICS_RECIPROC 0x4
 #define STATISTICS_SMOOTH 0x8 
 #define STATISTICS_ENABLE_POINTS 0x10
 #define STATISTICS_MAX_TEXT 0x20
@@ -107,7 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     void draw(DrawActionBase *, Viewport *);
     
     
-    //! Add an Element to bie shown
+    //! Add an Element to be shown
     void addElement(StatElemDescBase &desc,
                     UInt32            displayType, 
                     Vec2f             pos, 

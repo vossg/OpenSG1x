@@ -48,8 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Statistics Foregrounds base class. See \ref 
+    PageSystemWindowForegroundStatistics for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING StatisticsForeground : public StatisticsForegroundBase
 {

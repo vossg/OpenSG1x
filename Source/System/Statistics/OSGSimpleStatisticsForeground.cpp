@@ -62,8 +62,15 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::SimpleStatisticsForeground
-Background is the base class for all background clearing.  	 	
+    \ingroup GrpSystemWindowForegroundsStatistics
+    
+SimpleStatisticsForeground displays the Statistics info as simple text lines. 
+See \ref PageSystemWindowForegroundStatisticsSimple for a description.
+
+The format string for the given elements are stored in the _mfFormats Field,
+the size and color used for all lines in _sfSize and _sfColor.
 */
+
 
 /* static vars */
 
@@ -75,21 +82,15 @@ TextureChunkPtr SimpleStatisticsForeground::_texchunk;
 
 /*----------------------- constructors & destructors ----------------------*/
 
-//! Constructor
-
 SimpleStatisticsForeground::SimpleStatisticsForeground(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 SimpleStatisticsForeground::SimpleStatisticsForeground(const SimpleStatisticsForeground &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 SimpleStatisticsForeground::~SimpleStatisticsForeground(void)
 {
@@ -97,38 +98,33 @@ SimpleStatisticsForeground::~SimpleStatisticsForeground(void)
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
 void SimpleStatisticsForeground::initMethod(void)
 {
 }
-
-//! react to field changes
 
 void SimpleStatisticsForeground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-//! output the instance for debug purposes
-
-void SimpleStatisticsForeground::dump(      UInt32    , 
-                         const BitVector ) const
+void SimpleStatisticsForeground::dump(     UInt32    , 
+                         const BitVector) const
 {
     SLOG << "Dump SimpleStatisticsForeground NI" << std::endl;
 }
 
-/** Convenience function for access
- */
-
-void SimpleStatisticsForeground::addElement( StatElemDescBase &desc, 
+/*! Convenience function to add an element and format.
+*/
+void SimpleStatisticsForeground::addElement(StatElemDescBase &desc, 
                                              const char *format)
 {
     getElementIDs().push_back(desc.getID());
     getFormats().push_back(format ? format : "");
 }
 
-void SimpleStatisticsForeground::addElement( UInt32 id, 
+/*! Convenience function to add an element and format.
+*/
+void SimpleStatisticsForeground::addElement(UInt32 id, 
                                              const char *format)
 {
     getElementIDs().push_back(id);
@@ -136,8 +132,9 @@ void SimpleStatisticsForeground::addElement( UInt32 id,
 }
 
 
-//! initialize the text 
-
+/*! Initialize the text used. It is compiled into the library as 
+    StatisticsDefaultFontData and used as a TXF font.
+*/
 void SimpleStatisticsForeground::initText(void)
 {
     // create the text needed
@@ -174,9 +171,8 @@ void SimpleStatisticsForeground::initText(void)
     endEditCP  (_texchunk);
 }
 
-/** \brief draw the statistics 
- */
-    
+/*! Draw the statistics lines.
+*/
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
     if(_textimage == NULL)
@@ -192,13 +188,13 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     GLint fill;
     glGetIntegerv(GL_POLYGON_MODE, &fill);
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    bool depth = glIsEnabled( GL_DEPTH_TEST );
-    glDisable( GL_DEPTH_TEST );
+    bool depth = glIsEnabled(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
 
-    bool colmat = glIsEnabled( GL_COLOR_MATERIAL );
-    glDisable( GL_COLOR_MATERIAL );
+    bool colmat = glIsEnabled(GL_COLOR_MATERIAL);
+    glDisable(GL_COLOR_MATERIAL);
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -286,18 +282,21 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     
     _texchunk->deactivate(action);  
 
-    glDisable( GL_ALPHA_TEST );
-    glDisable( GL_BLEND );
+    glDisable(GL_ALPHA_TEST);
+    glDisable(GL_BLEND);
         
 
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    if ( depth )    glEnable( GL_DEPTH_TEST );
-    if ( light )    glEnable( GL_LIGHTING );
-    if ( colmat )   glEnable( GL_COLOR_MATERIAL );
-    glPolygonMode( GL_FRONT_AND_BACK, fill );
+    if (depth)    
+        glEnable(GL_DEPTH_TEST);
+    if (light)    
+        glEnable(GL_LIGHTING);
+    if (colmat)   
+        glEnable(GL_COLOR_MATERIAL);
+    glPolygonMode(GL_FRONT_AND_BACK, fill);
 }
 
 
@@ -309,7 +308,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 #endif
 
 #ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
+#pragma warning(disable : 177)
 #endif
 
 namespace
