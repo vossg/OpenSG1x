@@ -109,15 +109,12 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
 
     QLabel      *_pLabelId;
     QLineEdit   *_pLineEditId;
-
-    QLabel      *_pLabelInfo;
-    QLabel      *_pLabelInfoData;
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerPtrEditor_qt.inl"
 
-#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.2 2004/08/13 15:20:59 neumannc Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.3 2004/08/14 18:17:01 a-m-z Exp $"
 
 #endif /* _OSGQFIELDCONTAINERPTREDITOR_QT_H_ */

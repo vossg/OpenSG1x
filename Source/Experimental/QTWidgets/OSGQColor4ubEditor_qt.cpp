@@ -250,7 +250,7 @@ QColor4ubEditor::slotColorButtonClicked(void)
 void
 QColor4ubEditor::createChildWidgets(void)
 {
-    _pHBox         = new QHBoxLayout  (this, 0, 1, "QColor4ubEditor::_pHBox");
+    _pHBox         = new QHBoxLayout  (this, 0, 2, "QColor4ubEditor::_pHBox");
 
     _pLabels[0]    = new QLabel  ("R", this, "QColor4ubEditor::_pLabels[0]");
     _pLabels[1]    = new QLabel  ("G", this, "QColor4ubEditor::_pLabels[1]");
@@ -336,7 +336,7 @@ QColor4ubEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4ubEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4ubEditor_qt.cpp,v 1.4 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4UBEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4UBEDITORQT_INLINE_CVSID;
 }

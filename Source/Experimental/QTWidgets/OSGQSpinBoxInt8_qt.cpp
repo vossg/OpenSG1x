@@ -242,7 +242,7 @@ QSpinBoxInt8::eventFilter(QObject *pObj, QEvent *pEvent)
 
     if(pEvent->type() == QEvent::KeyPress)
     {
-        QKeyEvent *pKeyEvent = dynamic_cast<QKeyEvent *>(pEvent);
+        QKeyEvent *pKeyEvent = static_cast<QKeyEvent *>(pEvent);
 
         switch(pKeyEvent->key())
         {
@@ -345,7 +345,7 @@ QSpinBoxInt8::eventFilter(QObject *pObj, QEvent *pEvent)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxInt8_qt.cpp,v 1.2 2004/07/30 17:00:18 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxInt8_qt.cpp,v 1.3 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQSPINBOXINT8QT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQSPINBOXINT8QT_INLINE_CVSID;
 }

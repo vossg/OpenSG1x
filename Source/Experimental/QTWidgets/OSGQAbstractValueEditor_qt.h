@@ -49,6 +49,7 @@
 #include <qwidget.h>
 
 class QPushButton;
+class QPixmap;
 
 OSG_BEGIN_NAMESPACE
 
@@ -95,6 +96,10 @@ class OSG_WINDOWQTLIB_DLLMAPPING QAbstractValueEditor : public QWidget
   private:
     typedef QWidget Inherited;
 
+    void initStatic         (void);
+
+    static QPixmap *_pPixmapAction;
+
     QPushButton *_pActionButton;
 
     bool         _bLabelsVisible;
@@ -105,7 +110,7 @@ OSG_END_NAMESPACE
 
 #include "OSGQAbstractValueEditor_qt.inl"
 
-#define OSGQABSTRACTVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractValueEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
+#define OSGQABSTRACTVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractValueEditor_qt.h,v 1.3 2004/08/14 18:17:01 a-m-z Exp $"
 
 #endif /* _OSGQABSTRACTVALUEEDITOR_QT_H_ */
 

@@ -247,7 +247,7 @@ QColor3fEditor::slotColorButtonClicked(void)
 void
 QColor3fEditor::createChildWidgets(void)
 {
-    _pHBox         = new QHBoxLayout(this, 0, 1, "QColor3fEditor::_pHBox"    );
+    _pHBox         = new QHBoxLayout(this, 0, 2, "QColor3fEditor::_pHBox"    );
 
     _pLabels[0]    = new QLabel     ("R", this, "QColor3fEditor::_pLabels[0]");
     _pLabels[1]    = new QLabel     ("G", this, "QColor3fEditor::_pLabels[1]");
@@ -321,7 +321,7 @@ QColor3fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor3fEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor3fEditor_qt.cpp,v 1.4 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR3FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR3FEDITORQT_INLINE_CVSID;
 }

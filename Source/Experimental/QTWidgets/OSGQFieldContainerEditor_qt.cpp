@@ -80,7 +80,10 @@ QFieldContainerEditor::setFieldContainer(FieldContainerPtr fcPtr)
 
     _fcPtr = fcPtr;
 
-    _pLabelFCType->setText(_fcPtr->getType().getCName());
+    QString text;
+    text.sprintf("%s (%u)", _fcPtr->getType().getCName(),
+                            _fcPtr.getFieldContainerId());
+    _pLabelFCType->setText(text);
 
     if((pAttCon != NullFC) && (getName(pAttCon) != NULL))
     {
@@ -238,7 +241,6 @@ QFieldContainerEditor::populateTable(void)
     }
 
     _pTable->adjustColumn(FieldNameCol );
-    _pTable->adjustColumn(FieldValueCol);
 }
 
 void
@@ -253,7 +255,7 @@ QFieldContainerEditor::createChildWidgets(void)
 {
     _pVBox       = new QVBoxLayout(this, 0, 1,
                                    "QFieldContainerEditor::_pVBox"      );
-    _pHBoxLabels = new QHBoxLayout(NULL, 0, 1,
+    _pHBoxLabels = new QHBoxLayout(NULL, 0, 2,
                                    "QFieldContainerEditor::_pHBoxLabels");
 
     _pLabelFCType = new QLabel(this, "QFieldContainerEditor::_pLabelFCType");
@@ -283,6 +285,7 @@ QFieldContainerEditor::initSelf(void)
     _pTable->setNumCols(2);
     _pTable->horizontalHeader()->setLabel(FieldNameCol,  "Field Name" );
     _pTable->horizontalHeader()->setLabel(FieldValueCol, "Field Value");
+    _pTable->setColumnStretchable(FieldValueCol, true);
 }
 
 
@@ -302,7 +305,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.2 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }

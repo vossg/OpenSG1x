@@ -5,15 +5,15 @@
 
 OSG_BEGIN_NAMESPACE
 
-static const Char8 *XPMRight[] = {
+static const Char8 *XPMAction[] = {
 "7 6 2 1",
 ".	c None",
 "+	c #000000",
-"...++..",
-"....++.",
-"+++++++",
-"+++++++",
-"....++.",
-"...++.."};
+".......",
+".......",
+".......",
+".++.++.",
+".++.++.",
+"......."};
 
 OSG_END_NAMESPACE

@@ -40,6 +40,7 @@
 
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <qtooltip.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -73,7 +74,7 @@ QFieldContainerPtrEditor::setValue(const FieldContainerPtr &pFC)
         strInfo.append(strBasePtr               );
         strInfo.append(")"                      );
 
-        _pLabelInfoData->setText(strInfo.c_str());
+        QToolTip::add(_pLineEditId, strInfo.c_str());
     }
     else
     {
@@ -81,10 +82,10 @@ QFieldContainerPtrEditor::setValue(const FieldContainerPtr &pFC)
         _pLineEditId->setText     ("NullFC");
         _pLineEditId->blockSignals(false   );
 
-        _pLabelInfoData->setText("NullFC (0x0)");
+        QToolTip::add(_pLineEditId, "NullFC (0x0)");
     }
 }
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.3 2004/08/13 15:20:59 neumannc Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.4 2004/08/14 18:17:01 a-m-z Exp $"

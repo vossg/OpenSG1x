@@ -173,7 +173,7 @@ QGenericValueEditor::slotLineEditValueChanged(void)
 void
 QGenericValueEditor::createChildWidgets(void)
 {
-    _pHBox     = new QHBoxLayout(this, 0, 1, "QGenericValueEditor::_pHBox"    );
+    _pHBox     = new QHBoxLayout(this, 0, 2, "QGenericValueEditor::_pHBox"    );
     _pLabel    = new QLabel     (this,       "QGenericValueEditor::_pLabel"   );
     _pLineEdit = new QLineEdit  (this,       "QGenericValueEditor::_pLineEdit");
 }
@@ -215,7 +215,7 @@ QGenericValueEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.2 2004/08/13 15:20:59 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.3 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQGENERICVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQGENERICVALUEEDITORQT_INLINE_CVSID;
 }

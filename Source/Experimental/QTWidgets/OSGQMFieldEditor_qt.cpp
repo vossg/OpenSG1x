@@ -553,15 +553,15 @@ QMFieldEditor::createChildWidgets(void)
 {
     _pVBox       = new QVBoxLayout(this, 0, 1,
                                    "QMFieldEditor::_pVBox"      );
-    _pButtonBox  = new QHBoxLayout(_pVBox, 1,
+    _pButtonBox  = new QHBoxLayout(_pVBox, 2,
                                    "QMFieldEditor::_pButtonBox" );
     _pEditorGrid = new QGridLayout(_pVBox, _uiNumRows, 3, 1,
                                    "QMFieldEditor::_pEditorGrid");
 
-    _pButtonPrev      = new QPushButton(this, "QMFieldEditor::_pButtonUp"    );
-    _pButtonNext      = new QPushButton(this, "QMFieldEditor::_pButtonDown"  );
-    _pButtonCommit    = new QPushButton(this, "QMFieldEditor::_pButtonCommit");
-    _pButtonRevert    = new QPushButton(this, "QMFieldEditor::_pButtonRevert");
+    _pButtonPrev      = new QPushButton(this, "QMFieldEditor::_pButtonUp"       );
+    _pButtonNext      = new QPushButton(this, "QMFieldEditor::_pButtonDown"     );
+    _pButtonCommit    = new QPushButton(this, "QMFieldEditor::_pButtonCommit"   );
+    _pButtonRevert    = new QPushButton(this, "QMFieldEditor::_pButtonRevert"   );
     _pButtonAddAfter  = new QPushButton(this, "QMFieldEditor::_pButtonAddAfter" );
     _pButtonAddBefore = new QPushButton(this, "QMFieldEditor::_pButtonAddBefore");
     _pButtonSub       = new QPushButton(this, "QMFieldEditor::_pButtonSub"      );
@@ -587,22 +587,30 @@ QMFieldEditor::layoutChildWidgets(void)
     _pButtonBox->addWidget(_pButtonAddBefore);
     _pButtonBox->addWidget(_pButtonAddAfter );
     _pButtonBox->addWidget(_pButtonSub      );
+    _pButtonBox->addWidget(new QLabel(this) );
 }
 
 void
 QMFieldEditor::initSelf(void)
 {
     _pButtonPrev     ->setPixmap (*_pPixmapLeft     );
+    _pButtonPrev     ->setFixedSize(16, 16          );
     _pButtonNext     ->setPixmap (*_pPixmapRight    );
+    _pButtonNext     ->setFixedSize(16, 16          );
 
     _pButtonCommit   ->setPixmap (*(getPixmapYes()) );
+    _pButtonCommit   ->setFixedSize(16, 16          );
     _pButtonCommit   ->setEnabled(false             );
     _pButtonRevert   ->setPixmap (*(getPixmapNo ()) );
+    _pButtonRevert   ->setFixedSize(16, 16          );
     _pButtonRevert   ->setEnabled(false             );
 
     _pButtonAddAfter ->setPixmap (*_pPixmapAddAfter );
+    _pButtonAddAfter ->setFixedSize(16, 16          );
     _pButtonAddBefore->setPixmap (*_pPixmapAddBefore);
+    _pButtonAddBefore->setFixedSize(16, 16          );
     _pButtonSub      ->setPixmap (*_pPixmapSub      );
+    _pButtonSub     ->setFixedSize(16, 16           );
 
     _pEditorGrid->setColStretch(SelectColumn,  0);
     _pEditorGrid->setColStretch(LabelColumn,   1);
@@ -834,7 +842,7 @@ QMFieldEditor::scrollDown(UInt32 uiAmount)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.5 2004/08/13 13:20:52 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.6 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQMFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQMFIELDEDITORQT_INLINE_CVSID;
 }

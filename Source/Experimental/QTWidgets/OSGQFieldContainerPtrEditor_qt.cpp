@@ -47,6 +47,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <qtooltip.h>
 
 OSG_USING_NAMESPACE
 
@@ -81,12 +82,10 @@ QFieldContainerPtrEditor::setLabelsVisible(bool bLabels)
     if(bLabels == true)
     {
         _pLabelId  ->show();
-        _pLabelInfo->show();
     }
     else
     {
         _pLabelId  ->hide();
-        _pLabelInfo->hide();
     }
 }
 
@@ -118,7 +117,7 @@ QFieldContainerPtrEditor::readField(
             _pLineEditId->setText     ("NullFC");
             _pLineEditId->blockSignals(false   );
 
-            _pLabelInfoData->setText("NullFC (0x0)");
+            QToolTip::add(_pLineEditId, "NullFC (0x0)");
         }
         else
         {
@@ -136,7 +135,7 @@ QFieldContainerPtrEditor::readField(
             strInfo.append(strBasePtr                           );
             strInfo.append(")"                                  );
 
-            _pLabelInfoData->setText(strInfo.c_str());
+            QToolTip::add(_pLineEditId, strInfo.c_str());
         }
     }
     else
@@ -151,7 +150,7 @@ QFieldContainerPtrEditor::readField(
             _pLineEditId->setText     ("NullFC");
             _pLineEditId->blockSignals(false   );
 
-            _pLabelInfoData->setText("NullFC (0x0)");
+            QToolTip::add(_pLineEditId, "NullFC (0x0)");
         }
         else
         {
@@ -169,7 +168,7 @@ QFieldContainerPtrEditor::readField(
             strInfo.append(strBasePtr                                );
             strInfo.append(")"                                       );
 
-            _pLabelInfoData->setText(strInfo.c_str());
+            QToolTip::add(_pLineEditId, strInfo.c_str());
         }
     }
 }
@@ -274,7 +273,7 @@ QFieldContainerPtrEditor::slotIdChanged(void)
         strInfo.append(strBasePtr                 );
         strInfo.append(")"                        );
 
-        _pLabelInfoData->setText(strInfo.c_str());
+        QToolTip::add(_pLineEditId, strInfo.c_str());
     }
     else
     {
@@ -282,7 +281,7 @@ QFieldContainerPtrEditor::slotIdChanged(void)
         _pLineEditId->setText     ("NullFC");
         _pLineEditId->blockSignals(false   );
 
-        _pLabelInfoData->setText("NullFC (0x0)");
+        QToolTip::add(_pLineEditId, "NullFC (0x0)");
     }
 
     emit valueChanged();
@@ -291,18 +290,13 @@ QFieldContainerPtrEditor::slotIdChanged(void)
 void
 QFieldContainerPtrEditor::createChildWidgets(void)
 {
-    _pHBox              = new QHBoxLayout(this, 0, 1,
+    _pHBox              = new QHBoxLayout(this, 0, 2,
                               "QFieldContainerPtrEditor::_pHBox");
 
     _pLabelId           = new QLabel     ("Id", this,
                               "QFieldContainerPtrEditor::_pLabelId");
     _pLineEditId        = new QLineEdit  ("", this,
                               "QFieldContainerPtrEditor::_pLineEditId");
-
-    _pLabelInfo         = new QLabel     ("Info ", this,
-                              "QFieldContainerPtrEditor::_pLabelInfo");
-    _pLabelInfoData     = new QLabel     ("", this,
-                              "QFieldContainerPtrEditor::_pLabelInfoData");
 }
 
 void
@@ -310,8 +304,6 @@ QFieldContainerPtrEditor::layoutChildWidgets(void)
 {
     _pHBox->addWidget(_pLabelId,                0);
     _pHBox->addWidget(_pLineEditId,            10);
-    _pHBox->addWidget(_pLabelInfo,              0);
-    _pHBox->addWidget(_pLabelInfoData,         10);
     _pHBox->addWidget(this->getActionButton(), 10);
 }
 
@@ -338,7 +330,7 @@ QFieldContainerPtrEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.3 2004/08/13 15:20:58 neumannc Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.4 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }

@@ -241,20 +241,20 @@ QColor4fEditor::slotColorButtonClicked(void)
     if(valid == true)
     {
         _pSpinBoxes[0]->setValue(
-            TypeTraits<UInt8>::getFraction((selectedColor & 0x000000FF) >> 0 ));
+            TypeTraits<UInt8>::getFraction(qRed(selectedColor)));
         _pSpinBoxes[1]->setValue(
-            TypeTraits<UInt8>::getFraction((selectedColor & 0x0000FF00) >> 8 ));
+            TypeTraits<UInt8>::getFraction(qGreen(selectedColor)));
         _pSpinBoxes[2]->setValue(
-            TypeTraits<UInt8>::getFraction((selectedColor & 0x00FF0000) >> 16));
+            TypeTraits<UInt8>::getFraction(qBlue(selectedColor)));
         _pSpinBoxes[3]->setValue(
-            TypeTraits<UInt8>::getFraction((selectedColor & 0xFF000000) >> 24));
+            TypeTraits<UInt8>::getFraction(qAlpha(selectedColor)));
     }
 }
 
 void
 QColor4fEditor::createChildWidgets(void)
 {
-    _pHBox         = new QHBoxLayout   (this, 0, 1, "QColor4fEditor::_pHBox");
+    _pHBox         = new QHBoxLayout   (this, 0, 2, "QColor4fEditor::_pHBox");
 
     _pLabels[0]    = new QLabel   ("R", this, "QColor4fEditor::_pLabels[0]");
     _pLabels[1]    = new QLabel   ("G", this, "QColor4fEditor::_pLabels[1]");
@@ -340,7 +340,7 @@ QColor4fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.4 2004/08/14 18:17:01 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4FEDITORQT_INLINE_CVSID;
 }
