@@ -111,7 +111,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                              const UInt8     *data = 0         );
     bool set                (      ImagePtr   image            );
     bool setData            (const UInt8     *data = 0         );
+    bool setSubData ( Int32 offX, Int32 offY, Int32 offZ,
+                      Int32 srcW, Int32 srcH, Int32 srcD,
+                      const UInt8 *data );
     bool flipDepthFrameData (void                              );
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

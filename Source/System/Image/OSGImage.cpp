@@ -213,8 +213,61 @@ bool Image::set(ImagePtr image)
     width,height and depth) stay the same
 */
 bool Image::setData(const UChar8 *da)
+{  
+  if (da) {
+    memcpy ( getData(), da, getSize() );
+  }
+  else {
+    FWARNING (("Image::setData(Null) call\n"));
+  }
+  
+  return (da ? true : false);
+}
+
+/*! method to update just a subregion of the image data
+  all paramter (e. pixelFormat,width,height,depth) stay the same
+*/
+bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
+                         Int32 srcW, Int32 srcH, Int32 srcD,
+                         const UInt8 *src )
 {
-    return createData(da);
+    UChar8 *dest = getData();
+    UInt64 lineSize;
+
+    FDEBUG(( "Image::setSubData (%d %d %d) - (%d %d %d) - src %p\n",
+             offX, offY, offZ, srcW, srcH, srcD, src ));
+
+    if (!src || !dest) 
+    {
+        FFATAL(("Invalid data pointer in Image::setSubData\n"));
+        return false;
+    }
+
+    // determine the area to actually copy
+    UInt32 xMin = osgMax(0,offX);
+    UInt32 yMin = osgMax(0,offY);
+    UInt32 zMin = osgMax(0,offZ);
+
+    UInt32 xMax = osgMin(getWidth(),  offX + srcW);
+    UInt32 yMax = osgMin(getHeight(), offY + srcH);
+    UInt32 zMax = osgMin(getDepth(),  offZ + srcD);
+
+    // fill the destination buffer with the subdata
+    UInt32 destIdx, srcIdx = 0;
+
+    for(UInt32 z = zMin; z < zMax; z++) 
+    {
+        for(UInt32 y = yMin; y < yMax; y++) 
+        {
+            lineSize = (xMax - xMin) * getBpp();
+            destIdx = ( (z * getHeight() + y) * getWidth() + xMin) * getBpp();
+            memcpy (&dest[destIdx], &src[srcIdx], lineSize);
+            srcIdx += (srcW - (xMax - xMin)) * getBpp() + lineSize;
+        }
+        srcIdx += (srcH - (yMax - yMin)) * srcW * getBpp();
+    }
+
+    return true;
 }
 
 /*! The Image is not just a 2D container. The class can hold 3D (volume)
@@ -1086,8 +1139,8 @@ UInt8 *Image::getDataByTime(Time   time, UInt32)
  */
 UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop)) const
 {
-    int frameNum = ((getFrameDelay() > 0) && (getFrameCount() > 0)) ?
-        (int(time / getFrameDelay()) % getFrameCount()) : 0;
+  UInt64 frameNum = ((getFrameDelay() > 0) && (getFrameCount() > 0)) ?
+        (UInt64(time / getFrameDelay()) % getFrameCount()) : 0;
     
     return ((frameNum > 0) ? frameNum : 0);
 }
@@ -1222,9 +1275,6 @@ bool Image::createData(const UInt8 *data)
     setFrameSize(calcMipmapSumSize(getMipMapCount() - 1));
 
     FINFO(("FrameSize: %d\n", getFrameSize()));
-
-    // delete old data
-    getPixel().clear();
 
     // copy the data
     if((byteCount = getSize()))

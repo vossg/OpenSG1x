@@ -41,16 +41,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
-
-#ifdef   OSG_SGI_LIB
-#include <limits>
-#endif
 #ifdef OSG_WITH_JPG
 extern "C" {
 #include <setjmp.h>
 #include <jpeglib.h>
 }
+#endif
+
+#include "OSGConfig.h"
+
+#ifdef   OSG_SGI_LIB
+#include <limits>
 #endif
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>
