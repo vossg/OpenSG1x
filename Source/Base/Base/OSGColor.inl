@@ -334,7 +334,7 @@ void Color3<ValueTypeT>::setValue(const Char8 *szString)
 
     Vec3f v;
 
-    v.setValue(szString);
+    v.setValueFromCString(szString);
 
     _rgb[0] = ValueTypeT(v[0]);
     _rgb[1] = ValueTypeT(v[1]);
@@ -620,7 +620,7 @@ void Color4<ValueTypeT>::setValue(const Char8 *szString)
     // this is the easiest way, not the most efficient...
     Vec4f v;
 
-    v.setValue(szString);
+    v.setValueFromCString(szString);
 
     _rgba[0] = ValueTypeT(v[0]);
     _rgba[1] = ValueTypeT(v[1]);

@@ -702,7 +702,8 @@ void PointInterface<ValueTypeT,
 template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, 
-                    StorageInterfaceT>::setValue(const Char8 *szString)
+                    StorageInterfaceT>::setValueFromCString(
+                        const Char8 *szString)
 {
     UInt32 i;
     UInt32 numOfToken = Self::_iSize;
@@ -768,10 +769,29 @@ void PointInterface<ValueTypeT,
 template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, 
-                    StorageInterfaceT>::setValue(Char8 *szString)
+                    StorageInterfaceT>::setValueFromCString(Char8 *szString)
 {
-    setValue(static_cast<const Char8 *>(szString));
+    setValueFromCString(static_cast<const Char8 *>(szString));
 }
+
+
+#ifndef OSG_DISABLE_DEPRECATED
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, 
+                    StorageInterfaceT>::setValueFrom(const Char8 *szString)
+{
+    setValueFromCString(szString);
+}
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, 
+                    StorageInterfaceT>::setValueFrom(Char8 *szString)
+{
+    setValueFromCString(szString);
+}
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
