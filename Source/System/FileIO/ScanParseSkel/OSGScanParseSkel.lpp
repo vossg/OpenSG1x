@@ -254,6 +254,7 @@ header (#[^\n]*\n)
     /* extended types */
 
 <INITIAL,NODE>MFColor4f     { return Tok_MFColor4f;  } 
+<INITIAL,NODE>MFColorRGBA   { return Tok_MFColor4f;  } 
 <INITIAL,NODE>MFColor4i     { return Tok_MFColor4i;  } 
 <INITIAL,NODE>MFColor3f     { return Tok_MFColor3f;  }
 <INITIAL,NODE>MFMatrix      { return Tok_MFMatrix;   }
@@ -263,6 +264,7 @@ header (#[^\n]*\n)
 <INITIAL,NODE>MFVec4f       { return Tok_MFVec4f;    } 
 <INITIAL,NODE>MFPlane       { return Tok_MFPlane;    }
 <INITIAL,NODE>SFColor4f     { return Tok_SFColor4f;  } 
+<INITIAL,NODE>SFColorRGBA   { return Tok_SFColor4f;  } 
 <INITIAL,NODE>SFColor4i     { return Tok_SFColor4i;  } 
 <INITIAL,NODE>SFColor3f     { return Tok_SFColor3f;  }
 <INITIAL,NODE>SFMatrix      { return Tok_SFMatrix;   } 
