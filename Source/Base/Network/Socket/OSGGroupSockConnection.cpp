@@ -171,24 +171,24 @@ std::string GroupSockConnection::bind(const std::string &address)
     int         port=0;
     char        localhost[256];
     char        portStr[6];
-    std::string interface;
+    std::string interf;
     std::string boundedAddress;
 
     // get local host name
     gethostname(localhost,255);
     if(!getInterface().empty())
-        interface = getInterface();
+        interf = getInterface();
     else
-        interface = localhost;
+        interf = localhost;
     // parse address
     if(!address.empty())
         port = atoi(address.c_str());
     // bind port
-    _acceptSocket.bind(SocketAddress(interface.c_str(),port));
+    _acceptSocket.bind(SocketAddress(interf.c_str(),port));
     _acceptSocket.listen();
     // create address
     sprintf(portStr,"%5d",_acceptSocket.getAddress().getPort());
-    return interface + ":" + portStr;
+    return interf + ":" + portStr;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -87,7 +87,7 @@ class OSG_BASE_DLLMAPPING PointSockConnection : public PointConnection
     virtual void        disconnect  (      void                   );
     virtual Channel     acceptGroup (      Time        timeout=-1 );
     virtual Channel     acceptPoint (      Time        timeout=-1 );
-    virtual std::string bind        (const std::string &interface );
+    virtual std::string bind        (const std::string &interf    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

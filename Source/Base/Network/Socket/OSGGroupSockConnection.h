@@ -86,7 +86,7 @@ class OSG_BASE_DLLMAPPING GroupSockConnection : public GroupConnection
                                            Time        timeout=-1 );
     virtual void        disconnect  (      Channel     channel    );
     virtual Channel     acceptPoint (      Time        timeout=-1 );
-    virtual std::string bind        (const std::string &interface );
+    virtual std::string bind        (const std::string &interf    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

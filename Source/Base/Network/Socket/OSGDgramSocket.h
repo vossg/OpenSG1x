@@ -104,7 +104,7 @@ class OSG_BASE_DLLMAPPING DgramSocket:public Socket
                            const SocketAddress &interf=
                                  SocketAddress(SocketAddress::ANY));
     void setTTL           (      unsigned char ttl                );
-    void setMCastInterface(const SocketAddress &interface         );
+    void setMCastInterface(const SocketAddress &interf            );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
