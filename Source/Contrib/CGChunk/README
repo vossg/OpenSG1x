@@ -22,10 +22,9 @@ context, but always uses the ARB_FP1 and ARB_VP1 profiles for portability.
 
 Configure:
 
-rename the "common.libs.in" files and call configure this is just an example
-you need to modify the cg paths.
+This is just an example you need to modify the cg paths.
 
-./configure <your standard options> --with-add-incdir=/usr/software/cg/WIN32/include --with-add-libdir=/usr/software/cg/WIN32/lib --with-add-lib=cg:cgGL
+./configure <your standard options> --with-add-incdir=/usr/software/cg/include --with-add-libdir=/usr/software/cg/lib --with-add-lib=cg:cgGL
 
 
 Have fun
