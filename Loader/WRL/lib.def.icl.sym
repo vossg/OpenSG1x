@@ -1,0 +1,20 @@
+
+    ?findNodeDesc@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@IAEPAVVRMLNodeDesc@2@PBD@Z
+    ?addNodeDesc@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@IAEXPBDPAVVRMLNodeDesc@2@@Z
+
+    ?beginProto@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD@Z
+    ?endProto@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
+
+    ?addEventInDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
+    ?addEventOutDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
+
+    ?beginFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBDI0@Z
+    ?endFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
+
+    ?beginExposedFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBDI0@Z
+    ?endExposedFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
+
+    ?mapExtIntFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z
+    ?preStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
+    ?postStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
+	?mapIntExtFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z

@@ -71,7 +71,7 @@ void showText(int x, int y, char *string)
 {
   int len, i;
 #ifdef WIN32
-  void *font = 6;
+  void *font = (void *) 6;
 #else
   void *font = GLUT_BITMAP_TIMES_ROMAN_24;
 #endif
