@@ -107,7 +107,7 @@ FieldDescription *Attachment::_desc[] =
 {
     new FieldDescription(
         SFBool::getClassType(),
-        "private",
+        "internal",
         OSG_FC_FIELD_IDM_DESC(InternalField),
         false,
         (FieldAccessMethod) &Attachment::getSFInternal,
