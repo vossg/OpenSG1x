@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <OSGContainerFieldDataType.h>
 
-void main(void)
+int main(void)
 {
     fprintf(stderr, "TestStart\n");
 
