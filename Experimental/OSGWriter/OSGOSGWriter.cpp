@@ -116,14 +116,14 @@ void OSGWriter::write(vector<FieldContainerPtr> containers)
 
     _outStream << "#OSG V1.0 " << endl;
 
-    vector<FieldContainerPtr>::iterator iter = containers.begin();
+    vector<FieldContainerPtr>::reverse_iterator iter;
 
-    for(; iter != containers.end(); ++iter)
+    for(iter = containers.rbegin(); iter != containers.rend(); ++iter)
     {
         visitContainer( *iter );
     }
 
-    for(iter = containers.begin(); iter != containers.end(); ++iter)
+    for(iter = containers.rbegin(); iter != containers.rend(); ++iter)
     {
         writeContainer( *iter );
     }
@@ -220,15 +220,11 @@ void OSGWriter::visitField(const Field* pF)
     const FieldType& fType       = pF->getType();
     const DataType & contentType = pF->getContentType();
 
-    SLOG << contentType.getCName() << endl;
-
     //handle SFAttachmentMap as special case here
     //if(fType.isDerivedFrom(SFAttachmentMap::getClassType()))
     if(strstr(fType.getCName(), "AttachmentMap") != NULL)
     {
         //visit the Attachment FCs
-        SLOG << "Visiting AttachmentMap" << endl;
-
         const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
               AttachmentMap    attMap   = sfAttMap->getValue();
 
@@ -347,8 +343,6 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
     if(strstr(fType.getCName(), "AttachmentMap") != NULL)
     {
         //write Attachments
-        SLOG << "Writing Attachment Map" << endl;
-        
         const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
               AttachmentMap    attMap   = sfAttMap->getValue();
 
@@ -477,6 +471,6 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.13 2002/06/26 08:01:02 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.14 2002/08/29 15:53:33 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
