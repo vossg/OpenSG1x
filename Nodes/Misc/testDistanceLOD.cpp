@@ -343,7 +343,7 @@ int main(int argc, char** argv)
     glGetIntegerv( GL_VIEWPORT, glVP );
     
     GLUTWindowPtr gwin = GLUTWindow::create();
-    gwin->setWinID(winID);
+    gwin->setId(winID);
     gwin->setSize(glVP[2], glVP[3]);
     
     window = gwin;

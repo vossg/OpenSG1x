@@ -92,7 +92,21 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     GeometryPtr        getPtr           (void) const;
 
-    void               adjustVolume     (Volume & volume);
+    Int16              calcMappingIndex (UInt16 attrib) const;
+
+    GeometryPtr        clone            (void);
+
+    virtual void       dump             (      UInt32    uiIndent = 0,
+                                         const BitVector bvFlags = 0) const;
+
+    bool               isMergeable      (const GeometryPtr other);
+
+    bool               merge            (const GeometryPtr other);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Iterator Access                        */
+    /*! \{                                                                 */
 
     TriangleIterator   beginTriangles   (void) const;
     TriangleIterator   endTriangles     (void) const;
@@ -103,35 +117,32 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     FaceIterator       beginFaces       (void) const;
     FaceIterator       endFaces         (void) const;
 
-    Int16              calcMappingIndex (UInt16 attrib) const;
-
-    bool               isMergeable      (const GeometryPtr other);
-
-    bool               merge            (const GeometryPtr other);
-
-    GeometryPtr        clone            (void);
-
-    virtual void       dump             (      UInt32    uiIndent = 0,
-                                         const BitVector bvFlags = 0) const;
-
-    inline void        invalidateDlistCache    (void);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Draw                                   */
     /*! \{                                                                 */
 
-    Action::ResultE doDraw  (Action * action );
-    Action::ResultE draw    (DrawActionBase *action);
-    Action::ResultE render  (Action *action);
+    // should these be public?	
+    Action::ResultE doDraw               (Action * action );
+    Action::ResultE draw                 (DrawActionBase *action);
+    Action::ResultE render               (Action *action);
+
+    inline void     invalidateDlistCache (void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-#ifdef OSG_NOFUNCTORS
+    /*---------------------------------------------------------------------*/
+    /*! \name                      NodeCore Specific                       */
+    /*! \{                                                                 */
 
-    typedef void (Geometry::*FunctorFunc)(Window *, UInt32);
+    void               adjustVolume     (Volume & volume);
+
+    /*! \}                                                                 */
+
+#ifdef OSG_NOFUNCTORS
+   typedef void (Geometry::*FunctorFunc)(Window *, UInt32);
 
     struct GeoGLObjectFunctor : public Window::GLObjectFunctor
     {

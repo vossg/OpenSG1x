@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.38 2002/02/04 20:14:09 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.39 2002/02/06 09:35:17 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -947,20 +947,30 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
     indexPtr = geoPtr->getIndices();
     if (indexPtr == osg::NullFC)
         indexPtr = osg::GeoIndicesUI32::create();
-    else
+    else {
+	osg::beginEditCP(indexPtr);
         indexPtr->clear();
+	osg::endEditCP(indexPtr);
+	}
 
     lensPtr = geoPtr->getLengths();
     if (lensPtr == osg::NullFC)
         lensPtr = osg::GeoPLengthsUI32::create();
-    else
+    else {
+	osg::beginEditCP(lensPtr);
         lensPtr->clear();
+	osg::endEditCP(lensPtr);
+	}
 
     geoTypePtr = geoPtr->getTypes();
     if (geoTypePtr == osg::NullFC)
         geoTypePtr = osg::GeoPTypesUI8::create();
-    else
+    else {
+	osg::beginEditCP(geoTypePtr);
         geoTypePtr->clear();
+	osg::endEditCP(geoTypePtr);
+	}
+	
 
     //----------------------------------------------------------------------
     // create the index mapping
@@ -1102,7 +1112,6 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                   }
                 }
               }
-
               triCount += len - 2;
               primitiveN++;
             }

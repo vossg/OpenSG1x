@@ -629,8 +629,8 @@ int main (int argc, char **argv)
 
     cam->setBeacon( b1n );
     cam->setFov( OSG::deg2rad( 60 ) );
-    cam->setNear( 1 );
-    cam->setFar( 5000 );
+    cam->setNear( 10 );
+    cam->setFar( 50000 );
 
     // Solid Background
     OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
@@ -653,7 +653,7 @@ int main (int argc, char **argv)
     glGetIntegerv( GL_VIEWPORT, glvp );
 
     gwin = OSG::GLUTWindow::create();
-    gwin->setWinID(winid);
+    gwin->setId(winid);
     gwin->setSize( glvp[2], glvp[3] );
 
     win = gwin;

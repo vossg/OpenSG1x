@@ -134,7 +134,7 @@ int main (int argc, char **argv)
 
     if(pGeoProto != NullFC)
     {
-        pGeoProto->setDlistCache(false);
+        pGeoProto->setDlistCache(true);
     }
 
     glutInit(&argc, argv);
@@ -178,7 +178,7 @@ int main (int argc, char **argv)
     // Texture chunk
     
     UChar8 imgdata[] = 
-        {  255,0,0,0,  0,255,0,0,  0,0,255,255,  255,255,255,255 };
+        {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
     Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
@@ -276,7 +276,8 @@ int main (int argc, char **argv)
     // The action
 
     win = GLUTWindow::create();
-
+    win->init();
+    
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
     dact->setFrustumCulling( false );
