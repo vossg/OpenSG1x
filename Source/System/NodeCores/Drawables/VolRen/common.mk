@@ -1,6 +1,6 @@
 
 SUB_DIR     := System/NodeCores/Drawables/VolRen
-PACKAGENAME := VolRen
+PACKAGENAME := SystemVolRen
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
