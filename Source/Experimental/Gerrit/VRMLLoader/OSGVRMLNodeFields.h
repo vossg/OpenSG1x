@@ -64,6 +64,8 @@ class VRMLNode;
 //   Types
 //---------------------------------------------------------------------------
 
+typedef VRMLNode *VRMLNodeP;
+
 template <>
 struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNode *>// : public TypeTraits
 {
@@ -89,6 +91,40 @@ struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNode *>// : public TypeTraits
     static const Char8 *getPName(void) 
     { 
         return "Field"; 
+    }
+
+    // Needed for MS
+    static UInt32 getBinSize(const VRMLNodeP &)
+    {
+        return 0;
+    }
+
+    static UInt32 getBinSize(const VRMLNodeP *,
+                                   UInt32     )
+    {
+        return 0;
+    }
+
+    static void copyToBin(      BinaryDataHandler &, 
+                          const VRMLNodeP         &)
+    {
+    }
+
+    static void copyToBin(      BinaryDataHandler &, 
+                          const VRMLNodeP         *,
+                                UInt32             )
+    {
+    }
+
+    static void copyFromBin(BinaryDataHandler &, 
+                            VRMLNodeP         &)
+    {
+    }
+
+    static void copyFromBin(BinaryDataHandler &, 
+                            VRMLNodeP         *,
+                            UInt32             )
+    {
     }
 
     static const DataType &getType(void)   { return _type; }

@@ -69,7 +69,7 @@ OSG_BEGIN_NAMESPACE
 //! \ingroup 
 
 template <class ChangeListDescT>
-class OSG_BASE_DLLMAPPING ChangedChangeListMixin : public MemoryObject
+class ChangedChangeListMixin : public MemoryObject
 {
   private:
 

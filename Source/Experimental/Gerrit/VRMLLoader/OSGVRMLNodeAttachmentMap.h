@@ -95,6 +95,40 @@ struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNodeAttachmentMap>// :
         return "Field"; 
     }
 
+    // Needed for MS
+    static UInt32 getBinSize(const VRMLNodeAttachmentMap &)
+    {
+        return 0;
+    }
+
+    static UInt32 getBinSize(const VRMLNodeAttachmentMap *,
+                                   UInt32                 )
+    {
+        return 0;
+    }
+
+    static void copyToBin(      BinaryDataHandler     &, 
+                          const VRMLNodeAttachmentMap &)
+    {
+    }
+
+    static void copyToBin(      BinaryDataHandler     &, 
+                          const VRMLNodeAttachmentMap *,
+                                UInt32                 )
+    {
+    }
+
+    static void copyFromBin(BinaryDataHandler     &, 
+                            VRMLNodeAttachmentMap &)
+    {
+    }
+
+    static void copyFromBin(BinaryDataHandler     &, 
+                            VRMLNodeAttachmentMap *,
+                            UInt32                 )
+    {
+    }
+
     static const DataType           &getType(void)   { return _type; }
 };
 

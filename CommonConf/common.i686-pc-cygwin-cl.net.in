@@ -20,6 +20,12 @@ II_FILESDIR          :=
 
 ### Defines #######################################################
 
+ifeq ($(CONFIGURED_GVBETA),1)
+DEF_GVBETA := -DOSG_GV_BETA
+else
+DEF_GVBETA :=
+endif
+
 # For QT
 QT_PLATTFORMDEF := -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT        \
                    -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG
@@ -29,7 +35,8 @@ SOURCE_DEFINES   := $(CONFIGURED_PACKAGE_DEFS)
 SYSTEM_DEFINES   := -DWIN32 -D_WINDOWS 				                 \
 				    -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 	     \
                     -D_WIN32_WINNT=0x0400                            \
-                    -D_OSG_HAVE_CONFIGURED_H_ 
+                    -D_OSG_HAVE_CONFIGURED_H_                        \
+                    $(DEF_GVBETA)
 #-D_HAS_EXCEPTIONS=0
 
 #ifeq ($(COMPILERVERSION),501)

@@ -120,9 +120,6 @@ struct VRMLNodeAttachmentContainerDesc
     static void descInserter(ReflexiveContainerType *pType);
 };
 
-typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>
-    VRMLNodeParent;
-
 #ifndef OSG_COMPILEVRMLNODEINST
 
 #ifdef __sgi
@@ -135,13 +132,21 @@ typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>
 
 // CHECKCHECK
 #if !defined(__linux) && !defined(__hpux)
+#if !defined(OSG_WIN32_ICL)
+extern template class 
+    AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>;
+#else
 extern template class OSG_VRML_DLLMAPPING 
     AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>;
 #endif
-
 #endif
 
 #endif
+
+#endif
+
+typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>
+    VRMLNodeParent;
 
 //---------------------------------------------------------------------------
 //  Class

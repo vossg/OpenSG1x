@@ -262,7 +262,7 @@ void VRMLInlineBinder::finish(VRMLToOSGAction *pAction)
 
     VRMLLoader *pFile = new VRMLLoader;
 
-    pFile->scanFile((*(pNode->getMFUrl()))[0].c_str(), 0);
+    pFile->scanFile((*(pNode->getMFUrl()))[0].c_str());
 
     VRMLToOSGAction aVRMLToOSG;
 
