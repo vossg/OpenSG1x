@@ -149,7 +149,7 @@ DOXYGEN := doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
-DOXYGEN := /Users/gandalf/SoftwareBuilds/doxygen_cvs/bin/doxygen
+#DOXYGEN := /Users/gandalf/SoftwareBuilds/doxygen_cvs/bin/doxygen
 
 default: help
 
