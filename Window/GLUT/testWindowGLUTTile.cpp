@@ -6,6 +6,8 @@
 #include <iostream.h>
 #endif
 
+#include<ctype.h>
+
 #include <GL/glut.h>
 
 #include <OSGFieldContainerFactory.h>
