@@ -70,9 +70,14 @@ inline StatElem *StatCollector::getElem(Int32 id, bool create)
         // but it's really nasty if it happens.
         if(id >= _elemVec.size()) 
             refitElemNum();
-            
-        StatElemDescBase    *desc = StatElemDescBase::getDesc(id);
-        _elemVec[id] = desc->createElem();
+        
+        StatElem *elem = _elemVec[id];
+        if(elem == NULL)
+        {
+            StatElemDescBase    *desc = StatElemDescBase::getDesc(id);
+            elem = _elemVec[id] = desc->createElem();
+        }
+        return elem;
     }
 
     return _elemVec[id];
