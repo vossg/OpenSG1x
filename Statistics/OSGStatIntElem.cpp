@@ -121,6 +121,21 @@ StatElem *StatIntElem::create ( StatElemDescBase *desc)
   return new StatIntElem(desc);
 }
 
+//StatIntElem::StatIntElem(const StatIntElem &source) :
+//  Inherited(source),
+//    // TODO: initialize members
+//{
+//}
+
+/** \brief Destructor
+ */
+
+StatIntElem::~StatIntElem(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
 void StatIntElem::putToString(string &str, const char *format)
 {
     if(!format)
@@ -141,20 +156,10 @@ bool StatIntElem::getFromString(const Char8 *&inVal)
     return FieldDataTraits<Int32>::getFromString(_value, inVal);
 }
 
-//StatIntElem::StatIntElem(const StatIntElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
-StatIntElem::~StatIntElem(void)
+Real64 StatIntElem::getValue(void)
 {
+    return static_cast<Real64>(get());
 }
-
-/*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 

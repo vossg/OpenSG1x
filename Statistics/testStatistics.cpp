@@ -28,6 +28,8 @@ int main (int argc, char **argv)
 
     collector.getElem(fpsDesc)->stop();
     
+    cerr << "Time real: " << elem->getValue() << endl;
+    
     elem->putToString(str);
     cerr << "Time out: " << str << endl;
     
@@ -39,12 +41,16 @@ int main (int argc, char **argv)
     
     elem->putToString(str, "Format: %r.2f 1/s");
     cerr << "Time r formatted out: " << str << endl;
+    
+    cerr << "Int real: " << collector.getElem(fooDesc)->getValue() << endl;
 
     collector.getElem(fooDesc)->putToString(str);
     cerr << "Int out: " << str << endl;
 
     collector.getElem(fooDesc)->putToString(str, "Format: %04d");
     cerr << "Int formatted out: " << str << endl;
+    
+    cerr << "Real real: " << collector.getElem(barDesc)->getValue() << endl;
 
     collector.getElem(barDesc)->putToString(str);
     cerr << "Real out: " << str << endl;

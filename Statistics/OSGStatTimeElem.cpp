@@ -122,6 +122,21 @@ StatElem *StatTimeElem::create ( StatElemDescBase *desc)
 }
 
 
+//StatTimeElem::StatTimeElem(const StatTimeElem &source) :
+//  Inherited(source),
+//    // TODO: initialize members
+//{
+//}
+
+/** \brief Destructor
+ */
+
+StatTimeElem::~StatTimeElem(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
 void StatTimeElem::putToString(string &str, const char *format)
 {
     if(!format)
@@ -168,20 +183,10 @@ bool StatTimeElem::getFromString(const Char8 *&inVal)
     return FieldDataTraits1<Time>::getFromString(_time, inVal);
 }
 
-//StatTimeElem::StatTimeElem(const StatTimeElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
-StatTimeElem::~StatTimeElem(void)
+Real64 StatTimeElem::getValue(void)
 {
+    return static_cast<Real64>(getTime());
 }
-
-/*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 

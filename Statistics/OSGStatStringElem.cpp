@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.3 2002/05/23 12:58:24 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -105,6 +105,21 @@ StatElem *StatStringElem::create(StatElemDescBase *desc)
     return new StatStringElem(desc);
 }
 
+//StatStringElem::StatStringElem(const StatStringElem &source) :
+//  Inherited(source),
+//    // TODO: initialize members
+//{
+//}
+
+/** \brief Destructor
+ */
+
+StatStringElem::~StatStringElem(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
 void StatStringElem::putToString(string &str, const char *format)
 {
     if(!format)
@@ -130,20 +145,10 @@ bool StatStringElem::getFromString(const Char8 *&inVal)
     return true;
 }
 
-//StatStringElem::StatStringElem(const StatStringElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
-StatStringElem::~StatStringElem(void)
+Real64 StatStringElem::getValue(void)
 {
+    return 0;
 }
-
-/*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -195,7 +200,7 @@ bool StatStringElem::operator < (const StatStringElem &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.3 2002/05/23 12:58:24 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSTATSTRINGELEM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSTATSTRINGELEM_INLINE_CVSID;
 }

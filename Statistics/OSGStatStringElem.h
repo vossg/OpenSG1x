@@ -91,6 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
 
     virtual bool getFromString(const Char8 *&inVal);
 
+    virtual Real64 getValue(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   comparison                                 */
@@ -138,6 +140,6 @@ OSG_END_NAMESPACE
 
 #include <OSGStatStringElem.inl>
 
-#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.1 2002/03/19 17:46:17 dirk Exp $"
+#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.2 2002/05/23 12:58:24 dirk Exp $"
 
 #endif /* _OSGSTATSTRINGELEM_H_ */

@@ -121,6 +121,21 @@ StatElem *StatRealElem::create ( StatElemDescBase *desc)
     return new StatRealElem(desc);
 }
 
+//StatRealElem::StatRealElem(const StatRealElem &source) :
+//  Inherited(source),
+//    // TODO: initialize members
+//{
+//}
+
+/** \brief Destructor
+ */
+
+StatRealElem::~StatRealElem(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
 void StatRealElem::putToString(string &str, const char *format)
 {
     if(!format)
@@ -141,20 +156,10 @@ bool StatRealElem::getFromString(const Char8 *&inVal)
     return FieldDataTraits<Real32>::getFromString(_value, inVal);
 }
 
-//StatRealElem::StatRealElem(const StatRealElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
-StatRealElem::~StatRealElem(void)
+Real64 StatRealElem::getValue(void)
 {
+    return static_cast<Real64>(get());
 }
-
-/*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 

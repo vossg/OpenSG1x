@@ -99,6 +99,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
 
     virtual bool getFromString(const Char8 *&inVal);
 
+    virtual Real64 getValue(void);
+
     virtual ~StatIntElem(void); 
 
     /*! \}                                                                 */
