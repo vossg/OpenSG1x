@@ -14,7 +14,8 @@ using namespace xmlpp;
 // Application declarations
 
 #ifdef WIN32
-#define strcasecmp stricmp
+#define strcasecmp _stricmp
+#define strdup     _strdup
 #endif
 
 // Class declarations

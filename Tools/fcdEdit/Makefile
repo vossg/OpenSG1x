@@ -81,13 +81,15 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler)"
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT)
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT ) -DXMLPP_NOEXPORTS
 LD         := "$(shell $(OSG_CONFIG) --exe-linker)"
 LDFLAGS    :=
 LIBS       :=  $(shell $(OSG_CONFIG) --libs QT)
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)
+
+#$(error -$(CXXFLAGS))
 
 # check these (GV)
 
@@ -168,7 +170,7 @@ $(SYSTARGET):  $(BINOBJS)
 
 ######################################################################
 
-.PRECIOUS: moc_%.cpp
+.PRECIOUS: moc_%.cpp %.cpp
 
 ### Implicit rules ###################################################
 %.cpp: %.y
@@ -182,6 +184,7 @@ $(SYSTARGET):  $(BINOBJS)
 
 %.cpp: %.ui
 	$(UIC) -i $*.h -o $@ $<
+	$(UIC) -o $*.h $<
 
 moc_%.cpp: %.h
 	$(MOC) -f$< $< -o $@
@@ -200,7 +203,7 @@ moc_%.cpp: %.h
 	$(CXX) $(CXXFLAGS) $<
 
 %.$(SYSDEP).o: %.cpp %.$(SYSDEP).dep
-	$(CXX) -c $(CXXFLAGS) $< $(CCOUT)$@
+	$(CXX) -c $(CXXFLAGS) -I. $< $(CCOUT)$@
 
 %.$(SYSDEP).o: %.C
 	$(CXX) $(CXXFLAGS) $<

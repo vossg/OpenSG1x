@@ -4,7 +4,7 @@
 #include <string.h>
 
 #ifdef WIN32
-#define strcasecmp stricmp
+#define strcasecmp _stricmp
 #endif
 
 // Application dectlarations
