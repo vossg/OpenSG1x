@@ -124,7 +124,7 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
 {
     if (fcPtr==NullFC)
 	{
-		cerr<<"ERROR in BINWriter::addToIdMap : NullFC"<<endl;
+		SWARNING<<"ERROR in BINWriter::addToIdMap : NullFC"<<endl;
 		return;
 	}
 	FCTypeIdMap::iterator iIdMap;
@@ -137,8 +137,8 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
 		if (!(_fcIdMap.insert(pair<std::string, vector<UInt32> >
                         (fcPtr->getType().getCName(), idVec)).second))
         {
-                cerr<<"BINWriter::addToIdMap(FieldContainerPtr):"<<endl
-                    <<"ERROR while inserting into _fcIdMap"<<endl;
+                SWARNING<<"BINWriter::addToIdMap(FieldContainerPtr):"<<endl
+                        <<"ERROR while inserting into _fcIdMap"<<endl;
         };
 	}
 	
@@ -308,6 +308,19 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
                 }
 
 			}
+            //attachments
+			if( strcmp(fDesc->getCName(), "attachments") == 0 )
+            { 
+                AttachmentMap::const_iterator mapIt  = 
+                    ((SFAttachmentMap*)fieldPtr)->getValue().begin();
+                AttachmentMap::const_iterator mapEnd = 
+                    ((SFAttachmentMap*)fieldPtr)->getValue().end();
+                for(; mapIt != mapEnd; ++mapIt)
+                {
+                    doIndexFC(mapIt->second);
+                }
+            }
+
             //ignore node volume
             if(fcType == Node::getClassType() &&
                fcType.getFieldDescription(i)->getFieldMask() == 
