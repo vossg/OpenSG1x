@@ -52,7 +52,7 @@ OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseBaseMatrixFn
     Matrix utility functions to create and analyze special kinds 
-    of matrices
+    of matrices.
  */
 
 /*! \name Functions */
