@@ -536,6 +536,9 @@ void updateScene()
     statfg->getCollector().getElem(horiDirDesc)->set(layoutParam.leftToRight ? "Left to right" : "Right to left");
     statfg->getCollector().getElem(vertDirDesc)->set(layoutParam.topToBottom ? "Top to bottom" : "Bottom to top");
 
+    if(face == NULL)
+        return;
+
     TextLayoutResult layoutResult;
     face->layout(lines, layoutParam, layoutResult);
     Vec2f offset;

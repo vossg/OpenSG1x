@@ -191,6 +191,9 @@ void updateFace()
 
 void updateScene()
 {
+    if(face == NULL)
+        return;
+
     // Put it all together into a Geometry NodeCore.
     ImagePtr imagePtr = face->getTexture();
     GeometryPtr geo = makePlaneGeo(imagePtr->getWidth(), imagePtr->getHeight(), 1, 1);

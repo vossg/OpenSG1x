@@ -573,6 +573,9 @@ void updateScene()
     statfg->getCollector().getElem(horiDirDesc)->set(layoutParam.leftToRight ? "Left to right" : "Right to left");
     statfg->getCollector().getElem(vertDirDesc)->set(layoutParam.topToBottom ? "Top to bottom" : "Bottom to top");
 
+    if(face == NULL)
+        return;
+
     // Put it all together into a Geometry NodeCore.
     TextLayoutResult layoutResult;
     Real32 scale = 2.f;
