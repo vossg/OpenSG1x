@@ -189,12 +189,12 @@ AC_GDZ_SOPRAEFIX()
 
 if test $build_os = cygwin; 
 then 
-	if [[ ac_gdz_compiler_base = g++ ]]; then
+	if [[ $ac_gdz_compiler_base != g++ ]]; then
 
 		AC_GDZ_SET_SYSTEM_DIRS()
 
-    	    case "$ac_gdz_compiler" in
-        	    icl*)
+	 	    case "$ac_gdz_compiler" in
+			    icl*)
 					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
 
 					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
@@ -203,7 +203,7 @@ then
 
 					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
 					ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
-        	    ;;
+			    ;;
 	            bcc*)
 					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'"'
 
@@ -212,8 +212,8 @@ then
 					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
 
 					ac_gdz_base_system_libs=
-            	;;
-        	esac
+				;;
+			esac
 
 		ac_gdz_ln_exe="cp"
 
@@ -231,7 +231,7 @@ then
 	else
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
 
-		ac_gdz_systen_incl_dir_e1=
+		ac_gdz_system_incl_dir_e1=
 		ac_gdz_system_lib_dir_e1=
 
 		ac_gdz_base_system_libs='-lm'
@@ -312,11 +312,11 @@ if [[ $build_os = cygwin ]]; then
 	if [[ ! -w $ac_gdz_package_sub_dir_out/Base ]]; then
 		mkdir $ac_gdz_package_sub_dir_out/Base
 	fi
-	
+
 	if [[ $ac_gdz_compiler_base = g++ ]]; then
-    	ac_gdz_gen_base_inc_e1="../Base"
+		ac_gdz_gen_base_inc_e1="../Base"
 	else
-    	ac_gdz_gen_base_inc_e1="..\\Base"
+		ac_gdz_gen_base_inc_e1="..\\Base"
 		touch $ac_gdz_package_sub_dir_out/Base/unistd.h
     fi
 else
