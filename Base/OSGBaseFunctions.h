@@ -181,7 +181,7 @@ OSG_DLLEXPORT FloatTypeT osgfloor(const FloatTypeT &rVal);
  */
 
 template <> inline 
-OSG_DLLEXPORT Real32 osgsqrt(const Real32 &rVal)
+Real32 osgsqrt(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return sqrtf(rVal);
@@ -195,7 +195,7 @@ OSG_DLLEXPORT Real32 osgsqrt(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgcos(const Real32 &rVal)
+Real32 osgcos(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return cosf(rVal);
@@ -209,7 +209,7 @@ OSG_DLLEXPORT Real32 osgcos(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgsin(const Real32 &rVal)
+Real32 osgsin(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return sinf(rVal);
@@ -223,7 +223,7 @@ OSG_DLLEXPORT Real32 osgsin(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgtan(const Real32 &rVal)
+Real32 osgtan(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return tanf(rVal);
@@ -237,7 +237,7 @@ OSG_DLLEXPORT Real32 osgtan(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgacos(const Real32 &rVal)
+Real32 osgacos(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return acosf(rVal);
@@ -251,7 +251,7 @@ OSG_DLLEXPORT Real32 osgacos(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgasin(const Real32 &rVal)
+Real32 osgasin(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return asinf(rVal);
@@ -265,7 +265,7 @@ OSG_DLLEXPORT Real32 osgasin(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgatan(const Real32 &rVal)
+Real32 osgatan(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return atanf(rVal);
@@ -279,7 +279,7 @@ OSG_DLLEXPORT Real32 osgatan(const Real32 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
+Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
 {
 #ifdef OSG_HAS_FLOATMATH
 #ifndef _OSG_HAS_ATANF2__
@@ -297,7 +297,7 @@ OSG_DLLEXPORT Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real32 osgdegree2rad(const Real32 &rValue)
+Real32 osgdegree2rad(const Real32 &rValue)
 {
    return (rValue/360.f) * 2.f * 3.1415926535f;
 }
@@ -307,7 +307,7 @@ OSG_DLLEXPORT Real32 osgdegree2rad(const Real32 &rValue)
  */
 
 template <> inline
-OSG_DLLEXPORT Real32 osgrad2degree(const Real32 &rValue)
+Real32 osgrad2degree(const Real32 &rValue)
 {
    return (rValue/(2.f * 3.1415926535f)) * 360.f;
 }
@@ -317,7 +317,7 @@ OSG_DLLEXPORT Real32 osgrad2degree(const Real32 &rValue)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real32 osgabs(const Real32 &rValue)
+Real32 osgabs(const Real32 &rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
     return fabsf(rValue);
@@ -331,7 +331,7 @@ OSG_DLLEXPORT Real32 osgabs(const Real32 &rValue)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
+Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
 {
 #ifdef OSG_HAS_FLOATMATH
     return powf(rValue, rExp);
@@ -345,7 +345,7 @@ OSG_DLLEXPORT Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real32 osgfloor(const Real32 &rValue)
+Real32 osgfloor(const Real32 &rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
     return floorf(rValue);
@@ -366,7 +366,7 @@ OSG_DLLEXPORT Real32 osgfloor(const Real32 &rValue)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real64 osgsqrt(const Real64 &rVal)
+Real64 osgsqrt(const Real64 &rVal)
 {
     return sqrt(rVal);
 }
@@ -376,7 +376,7 @@ OSG_DLLEXPORT Real64 osgsqrt(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgcos(const Real64 &rVal)
+Real64 osgcos(const Real64 &rVal)
 {
     return cos(rVal);
 }
@@ -386,7 +386,7 @@ OSG_DLLEXPORT Real64 osgcos(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgsin(const Real64 &rVal)
+Real64 osgsin(const Real64 &rVal)
 {
     return sin(rVal);
 }
@@ -396,7 +396,7 @@ OSG_DLLEXPORT Real64 osgsin(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgtan(const Real64 &rVal)
+Real64 osgtan(const Real64 &rVal)
 {
     return tan(rVal);
 }
@@ -406,7 +406,7 @@ OSG_DLLEXPORT Real64 osgtan(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgacos(const Real64 &rVal)
+Real64 osgacos(const Real64 &rVal)
 {
     return acos(rVal);
 }
@@ -416,7 +416,7 @@ OSG_DLLEXPORT Real64 osgacos(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgasin(const Real64 &rVal)
+Real64 osgasin(const Real64 &rVal)
 {
     return asin(rVal);
 }
@@ -426,7 +426,7 @@ OSG_DLLEXPORT Real64 osgasin(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgatan(const Real64 &rVal)
+Real64 osgatan(const Real64 &rVal)
 {
     return atan(rVal);
 }
@@ -436,7 +436,7 @@ OSG_DLLEXPORT Real64 osgatan(const Real64 &rVal)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
+Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
 {
     return atan2(rVal1, rVal2);
 }
@@ -446,7 +446,7 @@ OSG_DLLEXPORT Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real64 osgdegree2rad(const Real64 &rValue)
+Real64 osgdegree2rad(const Real64 &rValue)
 {
    return (rValue/360) * 2 * 3.1415926535;
 }
@@ -456,7 +456,7 @@ OSG_DLLEXPORT Real64 osgdegree2rad(const Real64 &rValue)
  */
 
 template <> inline
-OSG_DLLEXPORT Real64 osgrad2degree(const Real64 &rValue)
+Real64 osgrad2degree(const Real64 &rValue)
 {
    return (rValue/(2 * 3.1415926535)) * 360;
 }
@@ -466,7 +466,7 @@ OSG_DLLEXPORT Real64 osgrad2degree(const Real64 &rValue)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real64 osgabs(const Real64 &rValue)
+Real64 osgabs(const Real64 &rValue)
 {
     return fabs(rValue);
 }
@@ -476,7 +476,7 @@ OSG_DLLEXPORT Real64 osgabs(const Real64 &rValue)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
+Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
 {
     return pow(rValue, rExp);
 }
@@ -486,7 +486,7 @@ OSG_DLLEXPORT Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
  */
 
 template <> inline 
-OSG_DLLEXPORT Real64 osgfloor(const Real64 &rValue)
+Real64 osgfloor(const Real64 &rValue)
 {
     return floor(rValue);
 }

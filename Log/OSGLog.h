@@ -231,7 +231,7 @@ class OSG_DLLEXPORT Log : public ostream
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend inline void initLog(void);
+    friend OSG_DLLEXPORT inline void initLog(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -282,9 +282,13 @@ class OSG_DLLEXPORT Log : public ostream
 typedef Log *LogP;
 
 /** appLog */
+#ifdef WIN32
+extern OSG_DLLEXPORT LogP osgLogP;
+#else
 extern LogP osgLogP;
+#endif
 
-inline OSG_DLLEXPORT void  initLog(void);
+inline OSG_DLLEXPORT void  initLog   (void);
 inline OSG_DLLEXPORT Log  &osgLog    (void); 
 inline OSG_DLLEXPORT void  indentLog (UInt32 indent, ostream &stream);
 

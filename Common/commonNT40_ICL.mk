@@ -63,7 +63,7 @@ WARNINGS_CPP_OFF 	=
 ### Language #######################################################
 
 LANG_FLAGS          = 
-COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
+COMPILER    		= -Qvc6 /MD /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
 
 ### Optimize / Debug ###############################################
 

@@ -97,6 +97,7 @@ OSG_USING_NAMESPACE
 //s: 
 ///---------------------------------------------------------------------------
 
+OSG_DLLEXPORT 
 void OSG::osgAddInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
@@ -107,6 +108,7 @@ void OSG::osgAddInitFunction(InitFuncF initFunc)
     osgInitFunctions->push_back(initFunc);
 }
 
+OSG_DLLEXPORT 
 void OSG::osgAddExitFunction(ExitFuncF exitFunc)
 {
     if(osgExitFunctions == NULL)
@@ -117,6 +119,7 @@ void OSG::osgAddExitFunction(ExitFuncF exitFunc)
     osgExitFunctions->push_back(exitFunc);
 }
 
+OSG_DLLEXPORT 
 Bool OSG::osgInit(int argc, char **argv)
 {
     Bool returnValue = true;
@@ -138,6 +141,7 @@ Bool OSG::osgInit(int argc, char **argv)
     return returnValue;
 }
 
+OSG_DLLEXPORT 
 Bool OSG::osgExit(void)
 {
     Bool returnValue = true;

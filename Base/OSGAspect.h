@@ -170,8 +170,8 @@ class OSG_DLLEXPORT Aspect
 
     friend void    ChangeList::setAspect    (UInt32 aspectId);
     friend         ChangeList::ChangeList(void);
-    friend Bool                osgInit      (int argc, char **argv);
-    friend Bool                osgExit      (void);
+    friend OSG_DLLEXPORT Bool osgInit      (int argc, char **argv);
+    friend OSG_DLLEXPORT Bool osgExit      (void);
         
     //-----------------------------------------------------------------------
     //   class variables                                                     

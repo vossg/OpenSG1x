@@ -500,7 +500,8 @@ typedef Attachment                    *AttachmentP;
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
-ostream &operator <<(ostream                &stream,
+OSG_DLLEXPORT
+ostream &operator <<(      ostream       &stream,
                      const AttachmentMap &map);
 
 OSG_END_NAMESPACE

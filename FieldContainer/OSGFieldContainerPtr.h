@@ -283,22 +283,24 @@ class OSG_DLLEXPORT FieldContainerPtr
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	friend ostream &operator <<(ostream &os, const FieldContainerPtr &fc);
+	friend OSG_DLLEXPORT 
+           ostream &operator <<(ostream &os, const FieldContainerPtr &fc);
 
-    friend void osgAddRefCP           (FieldContainerPtr &pObject);
-    friend void osgSubRefCP           (FieldContainerPtr &pObject);
-    friend void osgBeginEditCP        (FieldContainerPtr &pObject, 
-                                       BitVector          whichField);
-    friend void osgEndEditCP          (FieldContainerPtr &pObject,
-                                       BitVector          whichField);
-    friend void osgChangedCP          (FieldContainerPtr &objectP, 
-                                       BitVector          whichField);
+    friend OSG_DLLEXPORT void osgAddRefCP   (FieldContainerPtr &pObject);
+    friend OSG_DLLEXPORT void osgSubRefCP   (FieldContainerPtr &pObject);
+    friend OSG_DLLEXPORT void osgBeginEditCP(FieldContainerPtr &pObject, 
+                                             BitVector          whichField);
+    friend OSG_DLLEXPORT void osgEndEditCP  (FieldContainerPtr &pObject,
+                                             BitVector          whichField);
+    friend OSG_DLLEXPORT void osgChangedCP  (FieldContainerPtr &objectP, 
+                                             BitVector          whichField);
 
-    friend void osgEndEditNotChangedCP(FieldContainerPtr &objectP, 
-                                       BitVector          whichField);
+    friend OSG_DLLEXPORT void osgEndEditNotChangedCP(
+        FieldContainerPtr &objectP, 
+        BitVector          whichField);
         
-    friend void osgSetRefdCP          (FieldContainerPtr &objectP,
-                                       FieldContainerPtr &newObjectP);
+    friend OSG_DLLEXPORT void osgSetRefdCP  (FieldContainerPtr &objectP,
+                                             FieldContainerPtr &newObjectP);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -1011,10 +1013,10 @@ class OSG_DLLEXPORT FCPtr : public BasePtrTypeT
 //   Exported Types
 //---------------------------------------------------------------------------
 
-extern const FieldContainerPtr   NullFC;
-extern const NodePtr             NullNode;
-extern const NodeCorePtr         NullNodeCore;
-extern const AttachmentPtr       NullAttachment;
+extern OSG_DLLEXPORT const FieldContainerPtr   NullFC;
+extern OSG_DLLEXPORT const NodePtr             NullNode;
+extern OSG_DLLEXPORT const NodeCorePtr         NullNodeCore;
+extern OSG_DLLEXPORT const AttachmentPtr       NullAttachment;
 
 OSG_END_NAMESPACE
 
