@@ -38,7 +38,7 @@
 #include "OSGBackground.h"
 //#include "OSGUniformBackground.h"
 
-#if defined(__linux)
+#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
 #include "OSGRAWSceneFileType.h"
 #endif
 
@@ -228,7 +228,7 @@ int main (int argc, char **argv)
 
 	// OSG
 
-#if defined(__linux)
+#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
     RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 
