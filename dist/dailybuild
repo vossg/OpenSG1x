@@ -20,9 +20,10 @@ cleanup ()
     gzip -9f $out_html*.html
     
     # LOCAL: copy the HTML logs to the destination location
-    $do_copy $out_html* $log_destination
+    # echo 'Copy: ' $do_copy
+    eval $do_copy 
     
-    ## rm -f $log_configure $log_make $log_errors
+    rm -f $log_configure $log_make $log_errors
 }
 
 errorexit () 
@@ -63,10 +64,10 @@ write_html_head ()
     cat << EOF > $outfile
 <html>
 <head>
-<title>OpenSG dailybuild $today on $host results</title>
+<title>OpenSG dailybuild $now on $host results</title>
 </head>
 <body>
-<h1>OpenSG dailybuild $today on $host results</h1>
+<h1>OpenSG dailybuild $now on $host results</h1>
 <p>
 `date +%H:%M`: Start<br><br>
 System: $system<br>
@@ -105,8 +106,8 @@ EOF
     fi
     
     # LOCAL: choose your email adresses here
-##    $mail -s "OpenSG dailybuild on $host failed" opensg-dailybuilds@lists.sf.net < $out_mail
-    $mail -s "OpenSG dailybuild on $host failed" reiners@igd.fhg.de < $out_mail
+    $mail -s "OpenSG dailybuild on $host failed" opensg-dailybuilds@lists.sf.net < $out_mail
+    ##$mail -s "OpenSG dailybuild on $host failed" reiners@igd.fhg.de < $out_mail
 }
 
 write_html_log ()
@@ -121,7 +122,7 @@ write_html_log ()
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>OpenSG dailybuild $today $title on $host results</title>
+<title>OpenSG dailybuild $now $title on $host results</title>
 <style type="text/css">
 <!--
 body	    	{ background-color:#ffffff }
@@ -134,7 +135,7 @@ tr.warning	{ background-color:#ff6600 }
 </style>
 </head>
 <body>
-<h1>OpenSG dailybuild $today $title on $host results</h1>
+<h1>OpenSG dailybuild $now $title on $host results</h1>
 <p>
 <a href=http://www.opensg.org/dailybuild_logs/$link_html.Main.html.gz>
 Back to main log</a>
@@ -269,20 +270,20 @@ checkerror ()
     retval=0
     
     # remove the expected errors
-    grep -n -i -w error $file| \
-    grep -v \
+    $grep -n -i -w error $file| \
+    $grep -v \
     	-e "warning: nm returned a nonzero error status" \
     	-e "GetLastError" \
 	> $log_errors || true
-    grep -n -i -w failed $file | \
-    grep -v \
+    $grep -n -i -w failed $file | \
+    $grep -v \
     	-e "WIN32Window::init: failed" \
     	-e "WIN32Window::activate: failed" \
 	>> $log_errors || true
     
     # remove the expected warnings
-    grep -n -i -w warning $file | \
-    grep -v \
+    $grep -n -i -w warning $file | \
+    $grep -v \
     	-e "not used for resolving any symbol" \
  	> $log_warnings || true
 
@@ -327,7 +328,60 @@ checkerror ()
 tmpdir=/tmp
 basedir=`pwd`
 
+extra_args=""
+par_jobs=1
+config_shell=sh
+mail=echo
+do_copy='cp $out_html* $basedir/opensg_dailybuild.$today.source.tgz $log_destination'
+grep=grep
+
+loginfo=""
+make=make
+
 scriptname=$0
+
+while test $# -gt 0 
+do
+	case $1 in
+                --compiler)
+	                compiler=$2
+	                shift
+	                shift
+	                ;;
+                --extra-args)
+                        extra_args="$extra_args $2"
+                        shift
+                        shift
+                        ;;
+                --with-qt)
+                        qt_args="--with-qt=$2"
+                        shift
+                        shift
+                        ;;
+                --with-glut)
+                        glut_args="--with-glut=$2"
+                        shift
+                        shift
+                        ;;
+                --with-tif)
+                        tif_args="--with-tif=$2"
+                        shift
+                        shift
+                        ;;
+                --with-jpg)
+                        jpg_args="--with-jpg=$2"
+                        shift
+                        shift
+                        ;;
+                --with-png)
+                        png_args="--with-png=$2"
+                        shift
+                        shift
+                        ;;
+		*)	break 2
+			;;
+	esac
+done
 
 # LOCAL change to your local directory
 log_destination=/igd/a4/www/opensg/dailybuild_logs/
@@ -361,38 +415,25 @@ fi
 rm -rf OpenSG
 
 # cvs needs to be in the path!
-cvs -z9 -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co OpenSG > $log_cvs 2>&1
+cvs -z9 -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG > $log_cvs 2>&1
 
 # find the right parameters for this system
 
 cd OpenSG
 system=`CommonConf/config.guess`
 
-stl_args=""
-glut_args=""
-qt_args=""
-tif_args=""
-jpeg_args=""
-png_args=""
-par_jobs=1
-config_shell=sh
-mail=echo
-do_copy=cp
-loginfo=""
-make=make
-
 # LOCAL: set the system specific params. 
 # PATH needs to include doxygen and dot for doc to work
 
 case $system in
 
-    mips-sgi-irix6.5 )	
+    mips-sgi-irix6* )	
     	
-	glut_args="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"
-	qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-3.0"
-	tif_args="--with-tif=/igd/a4/software/IRIX/"
-	jpeg_args="--with-jpeg=/igd/a4/software/IRIX/"
- 	png_args="--with-png=/igd/a4/software/IRIX/"
+	qt_args=${qt_args:="--with-qt=/igd/a4/software/IRIX/packages/qt-3.0"}
+	glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
+	tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
+	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/IRIX/"}
+ 	png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
    	par_jobs=6
 	compiler=${compiler:=CC}
 	mail=/usr/sbin/Mail
@@ -401,11 +442,33 @@ case $system in
         loginfo="OS: `/bin/uname -aR` <br>"
         loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
 	;;
+
+    hppa2.0w-hp* )	
+        	
+	qt_args=${qt_args:="--with-qt=/igd/a4/software/HP-UX/packages/qt-3.0"}
+	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
+	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
+	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/HP-UX/"}
+ 	png_args=${png_args:="--with-png=/igd/a4/software/HP-UX/"}
+   	par_jobs=2
+	compiler=${compiler:=aCC}
+	mail=/usr/bin/mailx
+        # Need a decent grep here
+        grep=/igd/a4/software/HP-UX/bin/grep
+	export PATH=/igd/a4/software/HP-UX/bin/:$PATH
+        loginfo="OS: `/bin/uname -a` <br>"
+        loginfo="$loginfo Compiler Version: `CC --version 2>&1` <br>"
+        # Move HP-toxic stuff out of the way
+        Common/prep_hp
+	;;
 	
     *-pc-linux-gnu )	
     	
-	qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-3.0"
-    	glut_args="--with-glut=/usr"
+	qt_args=${qt_args:="--with-qt=/igd/a4/software/Linux/packages/qt-3.0"}
+    	glut_args=${glut_args:="--with-glut"}
+	tif_args=${tif_args:="--with-tif"}
+	jpeg_args=${jpeg_args:="--with-jpeg"}
+ 	png_args=${png_args:="--with-png"}
     	par_jobs=2
 	compiler=${compiler:=g++}
 	config_shell=bash
@@ -418,25 +481,24 @@ case $system in
 
     *-pc-cygwin )	
     	
-	qt_args="--with-qt=`pwd`/../packages/qt-3.0"
-    	glut_args="--with-glut=`pwd`/../packages/glut_3.7"
-	tif_args="--with-tif=`pwd`/../packages/tiff-3.5.4"
+	qt_args=${qt_args:="--with-qt=`pwd`/../packages/qt-3.04"}
+    	glut_args=${glut_args:="--with-glut=`pwd`/../packages/glut_3.7"}
+	tif_args=${tif_args:="--with-tif=`pwd`/../packages/tiff-3.5.4"}
     	par_jobs=1
 	compiler=${compiler:=icl50}
 	config_shell=bash
 	mail=`pwd`/../do_send_mail
 	# LOCAL: for the cygwins that don't have full NFS access
-	do_copy=rcp
-	log_destination="rubens:$log_destination"
+	# note: rcp is a Windows command and thus can't handle /cygdrive pathes
+	win_base=`echo $basedir | sed -e 's|^/cygdrive/||' -e 's|/|:\\|' -e 's|/|\\|g'`
+	do_copy='rcp $win_base/$link_html* $win_base/opensg_dailybuild.$today.source.tgz rubens:$log_destination'
 	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
 	;;
 
     *-apple-darwin* )	
     	
-	qt_args=""
     	glut_args="--with-glut"
-	tif_args=""
     	par_jobs=1
 	compiler=${compiler:=cc}
 	config_shell=sh
@@ -458,12 +520,21 @@ case $system in
 	
 esac
 
+# set defaults if not set yet
+qt_args=${qt_args:=""}
+glut_args=${glut_args:=""}
+tif_args=${tif_args:=""}
+jpeg_args=${jpeg_args:=""}
+png_args=${png_args:=""}
+
+
 # Start output
 # do it here so that $compiler and $system are set
 
-today=`date '+%d.%m.%y %H:%M'`
+now=`date '+%d.%m.%y %H:%M'`
+today=`date '+%y%m%d'`
 
-build_id=`date '+%y%m%d'`.$system.$compiler
+build_id=$today.$system.$compiler
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
 
@@ -476,14 +547,14 @@ checkerror "Cvs" $log_cvs
 
 # create the source snapshot
 cd ..
-tar cf - OpenSG | gzip -9f > $out_html.source.tgz
+tar cf - OpenSG | gzip -9f > $basedir/opensg_dailybuild.$today.source.tgz
 cd OpenSG
 
 # configure it
 
-autoconf
+## autoconf    removed for now, version problems
 $config_shell ./configure --prefix=BUILD --with-compiler=$compiler $stl_args \
-    $glut_args $qt_args $tif_args $jpeg_args $png_args 1>$log_configure 2>&1
+    $glut_args $qt_args $tif_args $jpeg_args $png_args $extra_args 1>$log_configure 2>&1
 checkerror "Configure" $log_configure
 
 # start making the doc
@@ -511,7 +582,7 @@ checkerror "OptLibs" $log_make
 # locally install the libs
 
 $make install > $log_install 2>&1
-export LD_LIBRARY_PATH=`pwd`/lib/dbg
+export LD_LIBRARY_PATH=`pwd`/lib/dbg:$LD_LIBRARY_PATH
 
 checkerror "Install" $log_install
 
