@@ -56,20 +56,27 @@ int main (int argc, char **argv)
 	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
 	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
+	GeoPositionPtr pnt = pnts;
 
 	cerr << "Positions: " << endl;
-	cerr << "Dim:" << pnts->getDimension() << ", Format:" << hex << pnts->getFormat() << dec
-		 << ", Stride:" << pnts->getStride() << ", Data:" << hex << (int)pnts->getData() << dec << endl;
+	cerr << "Dim:" << pnts->getDimension() << ", Format:" 
+		 << hex << pnts->getFormat() << dec
+		 << ", Stride:" << pnts->getStride() << ", Data:" 
+		 << hex << (int)pnts->getData() << dec 
+		 << ", Size " << (int)pnts->getSize()
+		 << endl;
 
 	g1->setPositions( pnts );
 
 	osgBeginEditCP(g1, FieldBits::AllFields);
 
 	MFPnt3f *p = pnts->getFieldPtr();		// The p pointer is not MT-safe!!
-
-	pnts->getFieldPtr()->addValue( Pnt3f( -2, -1, -1) );
+	// generic access
+	pnts->addValue( Pnt3f( -1, -1, -1) );
+	// via the property
 	pnts->getFieldPtr()->addValue( Pnt3f(  1, -1, -1) );
-	p->addValue( Pnt3f( -2,  1, -1) );
+	// via the field
+	p->addValue( Pnt3f( -1,  1, -1) );
 	p->addValue( Pnt3f(  1,  1, -1) );
 	p->addValue( Pnt3f( -2, -1,  1) );
 	p->addValue( Pnt3f(  1, -1,  1) );
@@ -79,9 +86,20 @@ int main (int argc, char **argv)
 	osgEndEditCP(g1, FieldBits::AllFields);
     
 	cerr << "Positions: " << endl;
-	cerr << "Dim:" << pnts->getDimension() << ", Format:0x" << hex << pnts->getFormat() 
-		 << dec << ", Stride:" << pnts->getStride() << ", Data:0x" << hex 
-		 << (int)pnts->getData() << dec << endl;
+	cerr << "Dim:" << pnts->getDimension() << ", Format:" 
+		 << hex << pnts->getFormat() << dec
+		 << ", Stride:" << pnts->getStride() << ", Data:" 
+		 << hex << (int)pnts->getData() << dec 
+		 << ", Size " << (int)pnts->getSize()
+		 << endl;
+
+	cerr << "Positions: " << endl;
+	cerr << "Dim:" << pnt->getDimension() << ", Format:" 
+		 << hex << pnt->getFormat() << dec
+		 << ", Stride:" << pnt->getStride() << ", Data:" 
+		 << hex << (int)pnt->getData() << dec 
+		 << ", Size " << (int)pnt->getSize()
+		 << endl;
 
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
 	cerr << p->size() << " Points: " << endl;
@@ -91,14 +109,20 @@ int main (int argc, char **argv)
 		cerr << "Point " << i << " " << p->getValue( i ) << endl;
 	}
 
+	cerr << "Generic Access" << endl;
+	cerr << pnts->getSize() << " Points: " << endl;
+	for ( int i = 0; i < pnts->getSize(); i++ )
+	{
+		Pnt3f pp;
+		pnts->getValue(pp,i);
+		cerr << "Point " << i << " " << pnts->getValue(i) << " " << pp << endl;
+	}
+
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
 
     Pnt3f mean = calcMean(*p);
 
     cerr << "Mean " << mean << endl;
-	
-	// invalidate manually, automatic not yet working
-	const_cast<Volume&>(p1->getVolume()).setValid( false );
 
 	p1->updateVolume();
 

@@ -320,6 +320,10 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const Geometry &source);
+	
+	// intersect action: ray test	
+	Action::ResultE intersect(Action * action );
+
 };
 
 //---------------------------------------------------------------------------

@@ -60,6 +60,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
+#include <OSGIntersectAction.h>
 
 #include <OSGNode.h>
 
@@ -263,6 +264,12 @@ void Geometry::initMethod (void)
 								CNodePtr,  
 								GeometryPtr, 
 								Action *>(&Geometry::doDraw));
+
+	IntersectAction::registerEnterDefault( getStaticType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								GeometryPtr, 
+								Action *>(&Geometry::intersect));
 }
 
 
@@ -486,6 +493,29 @@ Action::ResultE Geometry::draw(Action * action )
 	
 	return Action::Continue;
 }
+
+Action::ResultE Geometry::intersect(Action * action )
+{ 
+	IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
+
+	TriangleIterator it;
+	Real32 t;
+	
+	for ( it = this->beginTriangles(); it != this->endTriangles(); ++it )
+	{
+		if ( ia->getLine().intersect( 	it.getPosition(0), 
+										it.getPosition(1),
+										it.getPosition(2), t ) )
+		{
+			ia->setHit( t, ia->getActNode(), it.getIndex() );
+		}
+	}
+	
+	return Action::Continue; 
+}
+
+
+
 
 void Geometry::changed(BitVector whichField, ChangeMode from)
 {
