@@ -45,6 +45,7 @@
 
 #include "OSGConfig.h"
 
+#include <OSGBase.h>
 #include <OSGGL.h>
 
 #if !defined(WIN32) && !defined(darwin)
@@ -988,8 +989,8 @@ UInt32 OSG::Window::registerFunction(const Char8 *s, Int32 ext)
 void OSG::Window::registerConstant(GLenum val)
 {
     staticAcquire();
-    
-    _registeredConstants.push_back(val),
+   
+    _registeredConstants.push_back(val);
     
     staticRelease();
 }
@@ -1112,13 +1113,14 @@ void OSG::Window::frameInit(void)
             it != _registeredConstants.end();
             ++it)
         {
-            Vec2f val(0,0);
+            Vec2f val(1.f/0.f,1.f/0.f); // init to NaN
             glGetFloatv(*it, static_cast<GLfloat*>(val.getValues()));
             _availConstants[*it] = val;
             FDEBUG(("Window(%p): Constant 0x%x value is %.3f %.3f\n", this,
                     *it, val[0], val[1]));
         }
         _numAvailConstants = _registeredConstants.size();
+        glErr("Constant Registration"); // clear the error flag 
     }
 }
 

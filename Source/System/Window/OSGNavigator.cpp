@@ -464,6 +464,23 @@ void Navigator::moveTo(Int16 x, Int16 y)
     _lastY = y;
 }
 
+/*! Performs some idle operations, depending on the current navigation mode
+ */
+void Navigator::idle(Int16 buttons, Int16 x, Int16 y)
+{
+    switch (_currentMode)
+    {
+        case NONE:
+        case TRACKBALL:
+                        break;
+        case FLY:
+        case WALK:
+                        if (buttons)
+                            moveTo(x,y);
+                        break;
+    }
+}
+
 /*! Updates the camera transformation matrix directly in the node specified as
     the cart.
 */

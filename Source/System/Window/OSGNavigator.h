@@ -119,10 +119,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     /*! \name                    Notificators                              */
     /*! \{                                                                 */
 
-    virtual void buttonPress  (Int16 button, Int16 x, Int16 y);
-    virtual void buttonRelease(Int16 button, Int16 x, Int16 y);
-    virtual void keyPress     (Int16 key   , Int16 x, Int16 y);
-    virtual void moveTo       (              Int16 x, Int16 y);
+    virtual void buttonPress  (Int16 button,  Int16 x, Int16 y);
+    virtual void buttonRelease(Int16 button,  Int16 x, Int16 y);
+    virtual void keyPress     (Int16 key   ,  Int16 x, Int16 y);
+    virtual void moveTo       (               Int16 x, Int16 y);
+    virtual void idle         (Int16 buttons, Int16 x, Int16 y);
 
     void updateCameraTransformation();
 

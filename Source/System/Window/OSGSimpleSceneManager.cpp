@@ -585,9 +585,7 @@ void SimpleSceneManager::setNavigationMode (Navigator::Mode new_mode)
  */
 void SimpleSceneManager::idle(void)
 {
-    if ( (_navigator.getMode()==Navigator::FLY    || 
-          _navigator.getMode()==Navigator::WALK ) && _mousebuttons)
-        _navigator.moveTo(_lastx,_lasty);
+  _navigator.idle(_mousebuttons,_lastx, _lasty);
 }
 
 /*! Draw the next frame, update if needed.
