@@ -212,8 +212,6 @@ MACHACK_OBJECTS    := $(call cnvMHSourcesToObject,$(MACHACK_SOURCES))
 LIB_SOURCES        := $(filter-out $(MACHACK_SOURCES),$(LIB_SOURCES))
 endif
 
-$(warning -$(MACHACK_SOURCES)-)
-$(warning -$(LIB_SOURCES)-)
 endif
 
 LIB_OBJECTS        := $(call cnvSourceToObject,$(LIB_SOURCES))
@@ -416,8 +414,6 @@ LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)))
 else
 LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)_LNK))
 endif
-
-$(warning $(LIBS))
 
 LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 
