@@ -59,7 +59,7 @@ inline Real32 TileGeometryLoad::getFaceDistribution(UInt32 dir,Real32 cut)
 
 OSG_END_NAMESPACE
 
-#define OSGTILEGEOMETRYLOAD_NLINE_CVSID "@(#)$Id:$"
+#define OSGTILEGEOMETRYLOAD_INLINE_CVSID "@(#)$Id:$"
 
 
 
