@@ -155,6 +155,25 @@ ifeq ($(OS_BASE),cygwin)
 	cd $$CURRDIR;
 endif
 
+
+fcdToBase:
+	@FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;							\
+	CURRDIRBASE=`pwd` ;														\
+	cd $($(PROJ)POOL) ;														\
+	for i in `find .														\
+		\( -type d \( -name CVS -o -name Test -o -name Builds -o			\
+		   -name Tools \) -prune \) 										\
+		-o -type f -name '*\.fcd' -print` ;									\
+	do																		\
+		echo $$i ;															\
+		CURRDIR=`pwd` ;														\
+		cd `dirname $$i` ;													\
+		$$FCDEDIT -b `basename $$i`;										\
+		cd $$CURRDIR ;														\
+	done;																	\
+	cd $$CURRDIRBASE
+
+
 install-includes-ln: INSTLINK := $(LINK)
 install-includes-ln: install-includes
 
