@@ -921,6 +921,38 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     OSG_FC_SIZE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)
 
 
+/*--------------experimental--------------*/
+/* macros for standard field access functions */
+
+#define OSG_SFIELD_ACCESS_FUNCTIONS_DECL( OSG_FIELDTYPE, OSG_TYPE,	 	\
+		OSG_NAME )														\
+	inline OSG_FIELDTYPE * getSF##OSG_NAME( void );						\
+	inline OSG_TYPE get##OSG_NAME( void ); 								\
+	inline OSG_TYPE get##OSG_NAME( void ) const; 						\
+	inline void set##OSG_NAME( const OSG_TYPE value );
+
+
+#define OSG_SFIELD_ACCESS_FUNCTIONS_INL( OSG_CLASS, OSG_FIELDTYPE,  	\
+		OSG_TYPE, OSG_NAME )											\
+	inline OSG_FIELDTYPE * OSG_CLASS::getSF##OSG_NAME( void )			\
+	{																	\
+		return &_##OSG_NAME;											\
+	}																	\
+	inline OSG_TYPE OSG_CLASS::get##OSG_NAME(void)						\
+	{																	\
+		return _##OSG_NAME.getValue();									\
+	}																	\
+	inline OSG_TYPE OSG_CLASS::get##OSG_NAME(void) const				\
+	{																	\
+		return _##OSG_NAME.getValue();									\
+	}																	\
+	inline void OSG_CLASS::set##OSG_NAME( const OSG_TYPE val)			\
+	{																	\
+		_##OSG_NAME.setValue( val );									\
+	}																	
+
+
+
 // class pointer
 
 typedef FieldContainer *FieldContainerP;
