@@ -101,7 +101,7 @@ endif
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
 ifeq ($(NOGUI),true)
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System ) -DFCD_TERM
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base ) -DFCD_TERM
 else
 CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base QT )
 endif
@@ -113,7 +113,7 @@ LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 endif
 LDFLAGS    :=
 ifeq ($(NOGUI),true)
-LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base )
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System )
 else
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base QT )
 endif
