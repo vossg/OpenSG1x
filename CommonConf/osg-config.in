@@ -13,6 +13,10 @@ have_png=@ac_gdz_have_png_e15@
 have_mng=@ac_gdz_have_mng_e15@
 have_gif=@ac_gdz_have_gif_e15@  
 
+if test "$system_win" = "yes"; then
+	prefix=`cygpath -w $prefix`
+fi
+
 exec_prefix=${prefix}
 exec_prefix_set=no
 
@@ -37,9 +41,7 @@ else
 fi
 
 link_flags=@am_gdz_link_flags@
-#"-NODEFAULTLIB"
 link_flags_opt=@am_gdz_link_flags_opt@
-#"-NODEFAULTLIB -Debug"
 link_flags_dbg=@am_gdz_link_flags_dbg@
 
 base_libs=@ac_gdz_base_system_libs_e15@
