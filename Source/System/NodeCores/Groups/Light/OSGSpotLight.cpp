@@ -80,7 +80,7 @@ void SpotLight::changed(BitVector whichField, UInt32 origin)
 
 void SpotLight::makeChunk(void)
 {
-    Light::makeChunk();
+    Inherited::makeChunk();
 
     Vec4f pos(_sfPosition.getValue ());
 
