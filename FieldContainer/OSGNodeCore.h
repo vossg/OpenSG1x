@@ -114,6 +114,13 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Volume                                 */
+    /*! \{                                                                 */
+
+    virtual void invalidateVolume(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -192,8 +199,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     /*! \{                                                                 */
 
     virtual void adjustVolume    (Volume &volume);
-
-    virtual void invalidateVolume(void          );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -544,7 +544,7 @@ Bool FieldContainerType::initFields(void)
         {
             SWARNING << "ERROR: Invalid field description "
                         << "in " << _szName.str() << "from "
-                        << _pDesc[i]->getTypeId() << endl;
+                        << (_pDesc[i]?_pDesc[i]->getTypeId():0) << endl;
 
             _bInitialized = false;
         }
