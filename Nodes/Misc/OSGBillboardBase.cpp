@@ -102,12 +102,24 @@ namespace
 const OSG::BitVector  BillboardBase::AxisOfRotationFieldMask = 
     (1 << BillboardBase::AxisOfRotationFieldId);
 
+const OSG::BitVector  BillboardBase::DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask = 
+    (1 << BillboardBase::DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldId);
+
+const OSG::BitVector  BillboardBase::DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask = 
+    (1 << BillboardBase::DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldId);
+
 
 
 // Field descriptions
 
 /*! \var Vec3f           BillboardBase::_sfAxisOfRotation
     
+*/
+/*! \var Bool            BillboardBase::_sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera
+    name until I find a better one
+*/
+/*! \var Bool            BillboardBase::_sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec
+    name until I find a better one
 */
 //! Billboard description
 
@@ -117,7 +129,17 @@ FieldDescription *BillboardBase::_desc[] =
                      "axisOfRotation", 
                      AxisOfRotationFieldId, AxisOfRotationFieldMask,
                      true,
-                     (FieldAccessMethod) &BillboardBase::getSFAxisOfRotation)
+                     (FieldAccessMethod) &BillboardBase::getSFAxisOfRotation),
+    new FieldDescription(SFBool::getClassType(), 
+                     "dontGiveAFuckWhatTheSpecSaysAndPointToTheCamera", 
+                     DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldId, DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask,
+                     true,
+                     (FieldAccessMethod) &BillboardBase::getSFDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera),
+    new FieldDescription(SFBool::getClassType(), 
+                     "doGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec", 
+                     DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldId, DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask,
+                     true,
+                     (FieldAccessMethod) &BillboardBase::getSFDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec)
 };
 
 //! Billboard type
@@ -177,6 +199,8 @@ void BillboardBase::executeSync(      FieldContainer &other,
 
 BillboardBase::BillboardBase(void) :
     _sfAxisOfRotation         (Vec3f(0.f, 1.f, 0.f)), 
+    _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(Bool(true)), 
+    _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(Bool(false)), 
     Inherited() 
 {
 }
@@ -189,6 +213,8 @@ BillboardBase::BillboardBase(void) :
 
 BillboardBase::BillboardBase(const BillboardBase &source) :
     _sfAxisOfRotation         (source._sfAxisOfRotation         ), 
+    _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(source._sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera), 
+    _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(source._sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec), 
     Inherited                 (source)
 {
 }
@@ -212,6 +238,16 @@ UInt32 BillboardBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAxisOfRotation.getBinSize();
     }
 
+    if(FieldBits::NoField != (DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask & whichField))
+    {
+        returnValue += _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask & whichField))
+    {
+        returnValue += _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -224,6 +260,16 @@ void BillboardBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AxisOfRotationFieldMask & whichField))
     {
         _sfAxisOfRotation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask & whichField))
+    {
+        _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask & whichField))
+    {
+        _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.copyToBin(pMem);
     }
 
 
@@ -239,6 +285,16 @@ void BillboardBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAxisOfRotation.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask & whichField))
+    {
+        _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask & whichField))
+    {
+        _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -251,9 +307,12 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
     if(FieldBits::NoField != (AxisOfRotationFieldMask & whichField))
         _sfAxisOfRotation.syncWith(pOther->_sfAxisOfRotation);
 
+    if(FieldBits::NoField != (DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask & whichField))
+        _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.syncWith(pOther->_sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera);
+
+    if(FieldBits::NoField != (DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask & whichField))
+        _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.syncWith(pOther->_sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec);
+
 
 }
-
-
-
 

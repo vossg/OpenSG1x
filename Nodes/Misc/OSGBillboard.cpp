@@ -187,50 +187,84 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
     if(getAxisOfRotation() == Vec3f::Null)
     {
-        if(true)
+        if(_sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getValue() ==
+           true)
         {
-            Vec3f u  (0.f, 1.f, 0.f);
             Vec3f vUp;
             Vec3f uW;
             
             mCamToWorld.mult(eyepos);
             mToWorld   .mult(objpos);
-
+            
             vDir = eyepos - objpos;
+            
+            vUp.setValue (mCamToWorld[0]);
+            
+            vUp = vDir.cross(vUp);
 
-//            vDir.setValue(mCamToWorld[2]);
-            
-            vUp.setValue (mCamToWorld[1]);
-            
-            Quaternion qN(n, vDir);
-            
-            mToWorld.mult(u);
-            
-            qN.multVec(u, uW);
-            
-            q1.setValue(uW, vUp);
-            
-            q1.mult(qN);
+            vUp.normalize();
+            vDir.normalize();
+
+            Matrix mTr;
+
+            mTr[0]    = mCamToWorld[0];
+            mTr[1][0] = vUp[0];
+            mTr[1][1] = vUp[1];
+            mTr[1][2] = vUp[2];
+            mTr[2][0] = vDir[0];
+            mTr[2][1] = vDir[1];
+            mTr[2][2] = vDir[2];
+
+            q1.setValue(mTr);
         }
         else
         {
-            Vec3f u  (0.f, 1.f, 0.f);
-            Vec3f vUp;
-            Vec3f uW;
+            if(_sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getValue() ==
+               true)
+            {
+                Vec3f u  (0.f, 1.f, 0.f);
+                Vec3f vUp;
+                Vec3f uW;
+                
+                mCamToWorld.mult(eyepos);
+                mToWorld   .mult(objpos);
+                
+                vDir = eyepos - objpos;
+                
+//            vDir.setValue(mCamToWorld[2]);
+                
+                vUp.setValue (mCamToWorld[1]);
+                
+                Quaternion qN(n, vDir);
+                
+                mToWorld.mult(u);
+                
+                qN.multVec(u, uW);
+                
+                q1.setValue(uW, vUp);
+                
+                q1.mult(qN);
+            }
+            else
+            {
+                Vec3f u  (0.f, 1.f, 0.f);
+                Vec3f vUp;
+                Vec3f uW;
+                
+                vDir.setValue(mCamToWorld[2]);
+                
+                vUp.setValue (mCamToWorld[1]);
+                
+                Quaternion qN(n, vDir);
+                
+                mToWorld.mult(u);
+                
+                qN.multVec(u, uW);
             
-            vDir.setValue(mCamToWorld[2]);
-            
-            vUp.setValue (mCamToWorld[1]);
-            
-            Quaternion qN(n, vDir);
-            
-            mToWorld.mult(u);
-            
-            qN.multVec(u, uW);
-            
-            q1.setValue(uW, vUp);
-            
-            q1.mult(qN);
+                q1.setValue(uW, vUp);
+                
+                q1.mult(qN);
+            }
         }
     }
     else

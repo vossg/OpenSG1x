@@ -68,6 +68,8 @@
 #include <OSGNodeCore.h> // Parent
 
 #include <OSGVec3fFields.h> // AxisOfRotation type
+#include <OSGBoolFields.h> // DontGiveAFuckWhatTheSpecSaysAndPointToTheCamera type
+#include <OSGBoolFields.h> // DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec type
 
 #include <OSGBillboardFields.h>
 
@@ -89,11 +91,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
 
     enum
     {
-        AxisOfRotationFieldId = Inherited::NextFieldId,
-        NextFieldId           = AxisOfRotationFieldId + 1
+        AxisOfRotationFieldId                                  = Inherited::NextFieldId,
+        DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldId = AxisOfRotationFieldId                                  + 1,
+        DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldId = DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldId + 1,
+        NextFieldId                                            = DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldId + 1
     };
 
     static const osg::BitVector AxisOfRotationFieldMask;
+    static const osg::BitVector DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask;
+    static const osg::BitVector DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -118,9 +124,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     inline       SFVec3f             *getSFAxisOfRotation (void);
+    inline       SFBool              *getSFDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void);
+    inline       SFBool              *getSFDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void);
 
     inline       Vec3f               &getAxisOfRotation (void);
     inline const Vec3f               &getAxisOfRotation (void) const;
+    inline       Bool                &getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void);
+    inline const Bool                &getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void) const;
+    inline       Bool                &getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void);
+    inline const Bool                &getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,6 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     inline void setAxisOfRotation ( const Vec3f &value );
+    inline void setDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera( const Bool &value );
+    inline void setDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec( const Bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,6 +188,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     SFVec3f             _sfAxisOfRotation;
+    SFBool              _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera;
+    SFBool              _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

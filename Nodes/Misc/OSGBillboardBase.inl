@@ -98,6 +98,18 @@ SFVec3f *BillboardBase::getSFAxisOfRotation(void)
     return &_sfAxisOfRotation;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *BillboardBase::getSFDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void)
+{
+    return &_sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *BillboardBase::getSFDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void)
+{
+    return &_sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &BillboardBase::getAxisOfRotation(void)
@@ -115,6 +127,42 @@ OSG_SYSTEMLIB_DLLMAPPING
 void BillboardBase::setAxisOfRotation(const Vec3f &value)
 {
     _sfAxisOfRotation.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &BillboardBase::getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void)
+{
+    return _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &BillboardBase::getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void) const
+{
+    return _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void BillboardBase::setDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(const Bool &value)
+{
+    _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &BillboardBase::getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void)
+{
+    return _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &BillboardBase::getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void) const
+{
+    return _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void BillboardBase::setDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(const Bool &value)
+{
+    _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.setValue(value);
 }
 
 
