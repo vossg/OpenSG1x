@@ -178,8 +178,14 @@ SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
 NodePtr SceneFileHandler::read (const char *fileName )
 {
 	SceneFileType *type = getFileType(fileName);
-	NodePtr node;
+	NodePtr node = NullNode;
 
+	if ( ! fileName )
+	{
+		SWARNING << "cannot read NULL file" << endl;
+		return node;
+	}
+	
 	if (type) {
 		SINFO << "try to read " << fileName << " as " << type->getName() << endl;
 		node = type->read(fileName);
@@ -190,7 +196,7 @@ NodePtr SceneFileHandler::read (const char *fileName )
 	}
 	else
 		SWARNING << "could not read " << fileName 
-						 << "; unknown image format" << endl;
+						 << "; unknown file format" << endl;
 
 	return node;
 }
