@@ -45,15 +45,16 @@
 
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
-extern UChar8 LogoData[];
+extern OSG_SYSTEMLIB_DLLMAPPING UChar8 LogoData[];
 
 OSG_END_NAMESPACE
 
-#define OSGLOGODATA_HEADER_CVSID "@(#)$Id: OSGLogoData.h,v 1.2 2001/10/15 14:13:13 jbehr Exp $"
+#define OSGLOGODATA_HEADER_CVSID "@(#)$Id: OSGLogoData.h,v 1.3 2001/10/22 10:49:22 dirk Exp $"
 
 #endif /* _OSGLOGODATA_H_ */
