@@ -75,7 +75,7 @@ bool ImageFileType::Head::netToHost(void)
     frameCount     = ntohs(frameCount);
     frameDelay     = ntohs(frameDelay);
     sideCount      = ntohs(sideCount);
-    _reserved2     = 0;
+    dataType       = ntohs(dataType);
     _reserved3     = 0;
     _reserved4     = 0;
     attachmentSize = ntohs(attachmentSize);
@@ -98,7 +98,7 @@ bool ImageFileType::Head::hostToNet(void)
     frameCount     = htons(frameCount);
     frameDelay     = htons(frameDelay);
     sideCount      = htons(sideCount);
-    _reserved2     = 0;
+    dataType       = htons(dataType);
     _reserved3     = 0;
     _reserved4     = 0;
     attachmentSize = htons(attachmentSize);
@@ -223,25 +223,32 @@ UInt64 ImageFileType::restore( ImagePtr &image,
                                const UChar8 *buffer, Int32 memSize)
 {
     unsigned long   imageSize, headSize = sizeof(Head);
-    unsigned long   size, attachmentSize;
+    unsigned long   size = 0, attachmentSize;
     Head            head;
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
     ImageFileType   *type;
     const char      *mimeType;
+    Image::Type     dataType;
 
-    if(buffer && (mimeType = head.mimeType))
-    {
+    if ((image != osg::NullFC) && buffer && (memSize >= headSize)) {
+
         // Copy header. Otherwise netToHost would change the original
         // data structur.
         memcpy(&head,buffer,sizeof(Head));
         head.netToHost();
-
+        mimeType = head.mimeType;
+        
         if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
         {
+            if (head.dataType)
+              dataType = Image::Type(head.dataType);
+            else
+              dataType = Image::OSG_UINT8_IMAGEDATA;
+
             image->set(Image::PixelFormat(head.pixelFormat), head.width,
                        head.height, head.depth, head.mipmapCount,
                        head.frameCount, float(head.frameDelay) / 1000.0, 0,
-                       Image::OSG_UINT8_IMAGEDATA,true,head.sideCount );
+                       dataType,true,head.sideCount );
             imageSize = static_cast<unsigned long>(
                 type->restoreData(image, data, memSize - headSize));
             attachmentSize = 0; // head->attachmentSize;
@@ -360,6 +367,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
         head->frameCount     = image->getFrameCount();
         head->frameDelay     = short(image->getFrameDelay() * 1000.0);
         head->sideCount      = image->getSideCount();
+        head->dataType       = image->getDataType();
         head->attachmentSize = static_cast<unsigned short>(attachmentSize);
         head->hostToNet();
       

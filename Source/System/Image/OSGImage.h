@@ -63,6 +63,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
   public:
 
     enum PixelFormat {   OSG_INVALID_PF = 0,
+
+                         OSG_I_PF       = GL_INTENSITY,
+
                          OSG_L_PF       = GL_LUMINANCE,
                          OSG_LA_PF      = GL_LUMINANCE_ALPHA,
 

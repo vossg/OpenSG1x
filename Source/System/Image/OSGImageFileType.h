@@ -138,13 +138,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
       unsigned short frameCount;
       unsigned short frameDelay;
       unsigned short sideCount;
-      unsigned short _reserved2;
+      unsigned short dataType;
       unsigned short _reserved3;
       unsigned short _reserved4;
       unsigned short attachmentSize;
 
-    bool netToHost (void);
-    bool hostToNet (void);
+      bool netToHost (void);
+      bool hostToNet (void);
 
     };
 
