@@ -31,7 +31,7 @@ Call ./configure --help to see all the options available.
 
 A typical configure call would look like this:
 
-./configure --enable-glut --enable-glut --enable-jpg --enable-png \
+./configure --enable-glut --enable-jpg --enable-png \
     --enable-qt --with-qt=/usr/lib/qt3
 
 on IRIX you might go for something like this:
