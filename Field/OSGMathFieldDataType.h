@@ -93,11 +93,11 @@ struct FieldDataTraits<Quaternion> : public Traits
 
 //    static Quaternion    getDefault(void)    { return Quaternion; }
 
-    static Bool             getFromString(      Quaternion  &,
-                                          const Char8      *&)
+    static Bool             getFromString(      Quaternion  &outVal,
+                                          const Char8      *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal.setValue(inVal);
+        return true;
     }
 
     static void             putToString(const Quaternion &,
