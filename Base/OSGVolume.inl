@@ -143,6 +143,26 @@ bool Volume::isUntouchable (void) const
 }
 
 
+/**  Return the lowest point of the volume. Just a convience wrapper for
+     getBounds() */
+OSG_BASE_DLLMAPPING
+Pnt3f Volume::getMin(void) const
+{
+    Pnt3f pmin,pmax;
+    getBounds(pmin, pmax);
+    return pmin;
+}
+
+/**  Return the highest point of the volume. Just a convience wrapper for
+     getBounds() */
+OSG_BASE_DLLMAPPING
+Pnt3f Volume::getMax(void) const
+{
+    Pnt3f pmin,pmax;
+    getBounds(pmin, pmax);
+    return pmax;
+}
+
 OSG_END_NAMESPACE
 
 #endif // VOLUME_CLASS_DECLARATION

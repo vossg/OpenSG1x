@@ -128,6 +128,10 @@ class OSG_BASE_DLLMAPPING Volume {
 
     virtual void   getBounds       ( Pnt3f &min, Pnt3f &max ) const = 0;
 
+    inline  Pnt3f  getMin          (void) const;
+
+    inline  Pnt3f  getMax          (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Extending                                  */
