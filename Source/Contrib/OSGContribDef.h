@@ -48,7 +48,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILESYSTEMLIB
+#   ifdef OSG_COMPILECONTRIBLIB
 #       define OSG_CONTRIBLIB_DLLMAPPING     __declspec(dllexport)
 #       define OSG_CONTRIBLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else
