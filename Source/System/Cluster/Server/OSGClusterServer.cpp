@@ -87,7 +87,8 @@ ClusterServer::ClusterServer(        WindowPtr    window,
                              const std::string    &serviceName,
                              const std::string    &connectionType,
                              const std::string    &address,
-                                        UInt32    servicePort):
+                                     UInt32       servicePort,
+                             const std::string    &serviceGroup):
     _window(window),
     _connection(NULL),
     _requestAddress(address),
@@ -96,6 +97,7 @@ ClusterServer::ClusterServer(        WindowPtr    window,
     _aspect(NULL),
     _serviceName(serviceName),
     _servicePort(servicePort),
+    _serviceGroup(serviceGroup),
     _serviceAvailable(false),
     _serverId(0),
     _connectionType(connectionType)
@@ -228,6 +230,15 @@ void ClusterServer::stop()
     _clusterWindow=NullFC;
 }
 
+/*! sync with client and render scenegraph
+ */
+void ClusterServer::render(RenderAction *action)
+{
+    doSync(false);
+    doRender(action);
+    doSwap();
+}
+
 /*! Synchronize all field containers with the client and call 
  *  <code>serverInit</code>, <code>serverRender</code> and
  *  <code>serverSwap</code> for the cluster window.
@@ -237,7 +248,7 @@ void ClusterServer::stop()
  *
  *  todo: Sync RenderAciton contents
  */
-void ClusterServer::render(RenderAction *action)
+void ClusterServer::doSync(bool applyToChangelist)
 {
     // do we have a cluster window?
     if(_clusterWindow==NullFC)
@@ -245,7 +256,7 @@ void ClusterServer::render(RenderAction *action)
         do
         {
             // recive 
-            _aspect->receiveSync(*_connection);
+            _aspect->receiveSync(*_connection,applyToChangelist);
         }
         while(_clusterWindow==NullFC);
         // get server id
@@ -257,6 +268,10 @@ void ClusterServer::render(RenderAction *action)
         SINFO << "Start server " << _serviceName 
               << " with id "     << _serverId 
               << std::endl;
+        // no timout at client side
+        _connection->setSendAliveInterval(-1);
+        // timeout after 9 seconds
+        _connection->setReadAliveTimeout(6);
         // now the window is responsible for connection and aspect
         _clusterWindow->getNetwork()->setMainConnection(_connection);
         _clusterWindow->getNetwork()->setAspect        (_aspect);
@@ -264,11 +279,55 @@ void ClusterServer::render(RenderAction *action)
         _aspect=NULL;
         _clusterWindow->serverInit(_window,_serverId);
     }
+
+    RemoteAspect *aspect=_clusterWindow->getNetwork()->getAspect();
+    Connection   *connection=_clusterWindow->getNetwork()->getMainConnection();
+
     // sync with render clinet
-    _clusterWindow->getNetwork()->getAspect()->
-        receiveSync(*(_clusterWindow->getNetwork()->getMainConnection()));
+    aspect->receiveSync(*connection,applyToChangelist);
+
+    // sync with render client
+    if(_clusterWindow->getInterleave())
+    {
+        // if the reminder of the division of interleave and 
+        // framecount is equal to the servers id, the right
+        // sync point for the current render frame is reached
+        while( (_clusterWindow->getFrameCount()%
+                _clusterWindow->getInterleave())
+               !=
+               (_serverId%_clusterWindow->getInterleave()) ) 
+        {
+            aspect->receiveSync(*connection,applyToChangelist);
+        }
+    }
+}
+
+/*! render server window
+ */
+void ClusterServer::doRender(RenderAction *action)
+{
     _clusterWindow->serverRender( _window,_serverId,action );
+}
+
+/*! swap server window
+ */
+void ClusterServer::doSwap(void)
+{
     _clusterWindow->serverSwap  ( _window,_serverId );
+}
+
+/*! return the cluster window received from the client 
+ */
+WindowPtr ClusterServer::getClusterWindow (void)
+{
+    return _clusterWindow;
+}
+
+/*! return the window used for rendering
+ */
+WindowPtr ClusterServer::getServerWindow  (void)
+{
+    return _window;
 }
 
 /*! clusterWindow changed callback. This is a callback functor. 
@@ -327,8 +386,36 @@ void ClusterServer::serviceProc(void *arg)
     {
         serviceSock.open();
         serviceSock.setReusePort(true);
-        serviceSock.bind(SocketAddress(SocketAddress::ANY,
-                                       server->_servicePort));
+        // join to multicast group
+        if(!server->_serviceGroup.empty())
+        {
+            if(server->_serviceGroup.size() > 3 &&
+               server->_serviceGroup[0] == '2' &&
+               server->_serviceGroup[1] == '2' &&
+               server->_serviceGroup[2] == '4')
+            {
+                SINFO << "wait for request on group:" << 
+                    server->_serviceGroup << std::endl;
+                serviceSock.bind(SocketAddress(SocketAddress::ANY,
+                                               server->_servicePort));
+                serviceSock.join(
+                    SocketAddress(server->_serviceGroup.c_str()));
+            }
+            else
+            {
+                SINFO << "wait for request by broadcast:" << 
+                    server->_serviceGroup << std::endl;
+                serviceSock.bind(
+                    SocketAddress(server->_serviceGroup.c_str(),
+                                  server->_servicePort));
+            }
+        }
+        else
+        {
+            SINFO << "wait for request by broadcast" << std::endl;
+            serviceSock.bind(SocketAddress(SocketAddress::ANY,
+                                           server->_servicePort));
+        }
 
         while(server->_serviceAvailable)
         {        

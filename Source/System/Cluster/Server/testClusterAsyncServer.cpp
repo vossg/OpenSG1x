@@ -8,6 +8,8 @@
 #include <OSGRenderAction.h>
 #include <OSGOSGWriter.h>
 #include <OSGViewport.h>
+#include <OSGThread.h>
+#include <OSGThreadManager.h>
 
 OSG_USING_NAMESPACE
 
@@ -17,20 +19,75 @@ GLUTWindowPtr   window;
 RenderAction   *ract;
 bool            running=false;
 bool            exitOnError=false;
-UInt32          servicePort=8437;
-std::string     serviceGroup="224.245.211.234";
+Barrier        *syncBarrier = NULL;
+ThreadBase     *mainThread  = NULL;
+ThreadBase     *syncThread  = NULL;
+bool            doRun=true;
+
+void syncThreadProc (void *OSG_CHECK_ARG(arg)) 
+{               
+    while(doRun)
+    {
+        if(!running)
+        {
+            server->start();
+            glutShowWindow();
+        }
+        try
+        {
+            // receive changes into changelist
+            server->doSync(true);
+            syncBarrier->enter( 2 );
+            running=true;
+            syncBarrier->enter( 2 );
+            OSG::Thread::getCurrentChangeList()->clearAll();
+        } 
+        catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+        {
+            if(exitOnError)
+            {
+                syncBarrier->enter( 2 );
+                doRun = running = false;
+                syncBarrier->enter( 2 );
+                osgExit();
+                return;
+            }
+            else
+            {
+                // try to restart server
+                syncBarrier->enter( 2 );
+                running=false;
+                syncBarrier->enter( 2 );
+                try
+                {
+                    server->stop();
+                }
+                catch(...)
+                {
+                }
+                glutHideWindow();
+            }
+        }
+    }
+}
 
 void display()
 {
-    if(!running)
-    {
-        server->start();
-        running=true;
-        glutShowWindow();
-    }
     try
     {
-        server->render(ract);
+        syncBarrier->enter( 2 );
+        syncThread->getChangeList()->applyToCurrent();
+        syncBarrier->enter( 2 );
+        if(!doRun)
+        {
+            printf("error exit\n");
+            exit(0);
+        }
+        if(running)
+        {
+            server->doRender(ract);
+            server->doSwap();
+        }
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
     } 
@@ -100,21 +157,16 @@ int main(int argc,char **argv)
     char           *connectionType="StreamSock";
     bool           fullscreen     =true;
     std::string    address        ="";
-    int            width=-1,height=300,x=0,y=0;
-    bool           doStereo=false;
-    char           *str;
+    int width=-1,height=300,x=0,y=0;
 
-    for(int i = 1 ; i < argc ; ++i)
+    for(int i=1;i<argc;i++)
     {
-        if(argv[i][0] == '-')
+        if(strlen(argv[i])>1 && argv[i][0]=='-')
         {
             switch(argv[i][1])
             {
                 case 'm':
                     connectionType="Multicast";
-                    break;
-                case 's':
-                    doStereo=true;
                     break;
                 case 'w':
                     fullscreen=false;
@@ -126,11 +178,7 @@ int main(int argc,char **argv)
                     address=&(argv[i][2]);
                     break;
                 case 'g':
-                    if(argv[i][2] != '\0')
-                        str=argv[i]+2;
-                    else
-                        str=argv[++i];
-                    if(sscanf(str,"%d,%d,%d,%d",
+                    if(sscanf(&(argv[i][2]),"%d,%d,%d,%d",
                               &width,&height,&x,&y)!=4)
                     {
                         SWARNING << "Wrong args in -g. Use -gw,h,x,y" 
@@ -138,63 +186,37 @@ int main(int argc,char **argv)
                         exit(0);
                     }
                     break;
-                case 'p':
-                    if(argv[i][2] != '\0')
-                        servicePort=atoi(argv[i]+2);
-                    else
-                        servicePort=atoi(argv[++i]);
-                    break;
-                case 'j':
-                    if(argv[i][2] != '\0')
-                        serviceGroup=argv[i]+2;
-                    else
-                        serviceGroup=argv[++i];
-                    break;
                 case 'h':
                     std::cout << argv[0] 
+                              << "-A "
                               << "-m "
-                              << "-s "
                               << "-w "
                               << "-e "
-                              << "-g w,h,x,y "
-                              << "-a Address "
-                              << "-j group "
-                              << "-p servicePort "
+                              << "-gw,h,x,y "
+                              << "-aAddress "
                               << std::endl;
-                    std::cout << "-m         use multicast" << std::endl;
-                    std::cout << "-s         enable stereo" << std::endl;
-                    std::cout << "-w         no fullscreen" << std::endl;
-                    std::cout << "-e         exit after closed connection" 
+                    std::cout << "-m        use multicast" << std::endl;
+                    std::cout << "-w        no fullscreen" << std::endl;
+                    std::cout << "-e        exit after closed connection" 
                               << std::endl;
-                    std::cout << "-g         geometry" << std::endl;
-                    std::cout << "-a Address Server network address"
+                    std::cout << "-g        geometry" << std::endl;
+                    std::cout << "-aAddress Server network address" 
                               << std::endl;
-                    std::cout << "-m Address wait for requests on "
-                              << "multicast group" << std::endl;
-                    std::cout << "-p port    wait for requests on port"
+                    std::cout << "-A        run asynchron"
                               << std::endl;
                     return 0;
             }
         }
         else
-        {
             name=argv[i];
-        }
     }
-
+    // exitOnError=true;
+    //    exitOnError=true;
     try
     {
         osgInit(argc, argv);
         glutInit(&argc, argv);
-        if(doStereo)
-            glutInitDisplayMode( GLUT_STEREO | 
-                                 GLUT_RGB | 
-                                 GLUT_DEPTH | 
-                                 GLUT_DOUBLE);
-        else
-            glutInitDisplayMode( GLUT_RGB | 
-                                 GLUT_DEPTH | 
-                                 GLUT_DOUBLE);
+        glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
         glutInitWindowPosition(x,y);
         if(width>0)
             glutInitWindowSize(width,height);
@@ -225,14 +247,24 @@ int main(int argc,char **argv)
         window     = GLUTWindow::create();
         window->setId(winid);
         window->init();
-        server     = new ClusterServer(window,
-                                       name,
-                                       connectionType,
-                                       address,
-                                       servicePort,
-                                       serviceGroup);
+        server     = new ClusterServer(window,name,connectionType,address);
         server->start();
         running=true;
+
+        OSG::Thread::getCurrentChangeList()->clearAll();
+
+        syncBarrier = Barrier::get("syncBarrier");
+        // start sync thread
+        syncThread=
+            dynamic_cast<Thread *>(ThreadManager::the()
+                                   ->getThread(NULL));
+        if ( syncThread == NULL )   
+        {
+            std::cerr << "Unable to create syncThread" << std::endl;
+            exit(0);
+        }
+        syncThread->runFunction( syncThreadProc, 1, NULL );
+
         glutMainLoop();
     } 
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)

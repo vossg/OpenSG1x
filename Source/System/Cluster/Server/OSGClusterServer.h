@@ -71,7 +71,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
                   const std::string    &serviceName,
                   const std::string    &connectionType = "StreamSock",
                   const std::string    &address        = "",
-                             UInt32     servicePort    = 8437);
+                             UInt32     servicePort    = 8437,
+                  const std::string    &serviceGroup   = "");
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -82,12 +83,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name                   server actions                             */
     /*! \{                                                                 */
 
-    void start             (void);
-    void stop              (void);
-    void render            (RenderAction *action);
+    void start             ( void                   );
+    void stop              ( void                   );
+    void render            ( RenderAction *action   );
+    void doSync            ( bool applyToChangelist );
+    void doRender          ( RenderAction *action   );
+    void doSwap            ( void                   );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   window access                              */
+    /*! \{                                                                 */
+
+    WindowPtr getClusterWindow (void);
+    WindowPtr getServerWindow  (void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -113,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     RemoteAspect     *_aspect;
     std::string       _serviceName;
     UInt32            _servicePort;
+    std::string       _serviceGroup;
     bool              _serviceAvailable;
     UInt32            _serverId;
     std::string       _connectionType;
