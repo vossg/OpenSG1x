@@ -101,7 +101,6 @@ protected:
     /*==========================  PRIVATE  ================================*/
 private:
 
-    bool _repair;    
 };
 
 OSG_END_NAMESPACE
