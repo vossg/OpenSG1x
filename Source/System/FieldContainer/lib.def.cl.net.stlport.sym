@@ -105,6 +105,7 @@
 
     ?getField@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@QAEAAV?$SField@PAX$0A@@2@XZ
     ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ 
+?getClassType@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
 
-
-?getValue@?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@osg@@QAEAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
+    ?getFieldPtr@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEPAV?$SField@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@$0A@@2@XZ
+    ?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@$0A@@2@XZ

@@ -484,7 +484,7 @@ if test "$echo_cflags" = "yes"; then
 
     opensg_inc_path=${incdir_pre}${prefix}/include${incdir_suf}
 
-    echo $sys_cflags $sys_defs $stl_inc_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_add_path
+    echo $sys_cflags $sys_defs $inc_stl_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_add_path
 
 fi
 

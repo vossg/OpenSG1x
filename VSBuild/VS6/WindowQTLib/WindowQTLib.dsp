@@ -237,11 +237,6 @@ SOURCE=../../../Source/WindowSystem/QT/OSGQTWindowBase.cpp
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 
 
-# Begin Source File
-SOURCE=lib.dbg.def
-# End Source File
-
-
 # End Group
 
 # End Target

@@ -14,4 +14,5 @@ endif
 ifneq ($(LIB_JPG),)
 LIB_FILE_JPG     := $(LIB_JPG)
 LIB_FILE_JPG_LNK := $(LIB_JPG)
+OSG_LIB_EXT      := $(OSG_LIB_EXT) $(LIB_JPG)
 endif
