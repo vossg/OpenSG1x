@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.25 2001/09/17 04:02:51 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.26 2001/09/30 19:33:08 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1305,6 +1305,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 void osg::mergeGeometries	( std::vector<NodePtr> &nodes, 
 														std::vector<NodePtr> &results )
 {
+	FFATAL(( "Merge Geometries: Not implemented yet!\n"));
     results.clear();
     
     for ( vector<NodePtr>::iterator n = nodes.begin();
