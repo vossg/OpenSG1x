@@ -159,7 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
 
     // temporary vector data structure
     typedef std::vector < std::pair<UInt32,HalfEdge *> > HalfEdgeLink;
-    std::vector<HalfEdgeLink> _temporaryVector;
+    std::vector<HalfEdgeLink> _edgeLinkVec;
 
     // Triangle Data Pool
     TrianglePool _trianglePool;
@@ -202,7 +202,7 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
     inline bool     addTriangle(IndexT v0, IndexT v1, IndexT v2);
     inline UInt32 triangleCount(void);
 
-    bool verify (void);
+    bool verify (bool verbose = false);
 
     UInt32 calcOptPrim(UInt32 iteration = 1, bool doStrip = true,
                        bool doFan = true, UInt32 minFanTriangleCount = 16);

@@ -102,26 +102,35 @@ HalfEdgeGraph::~HalfEdgeGraph (void )
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-bool HalfEdgeGraph::Triangle::verify(void)
+bool HalfEdgeGraph::Triangle::verify (void)
 {
     bool retCode = true;
     Triangle *neighbor[3];
+    Triangle *tP;
 
     neighbor[0] = halfEdgeVec[0].twin ? halfEdgeVec[0].twin->triangle : 0;
     neighbor[1] = halfEdgeVec[1].twin ? halfEdgeVec[1].twin->triangle : 0;
     neighbor[2] = halfEdgeVec[2].twin ? halfEdgeVec[2].twin->triangle : 0;
 
-    if((neighbor[0] &&
-       ((neighbor[0] == neighbor[1])    ||
-        (neighbor[0] == neighbor[2])))  ||
-        (neighbor[1] &&
-       ((neighbor[1] == neighbor[0])    ||
-        (neighbor[1] == neighbor[2]) )) ||
-        (neighbor[2] &&
-       ((neighbor[2] == neighbor[0]) )  ||
-        (neighbor[2] == neighbor[1]) ))
+    if ( ( neighbor[0] &&
+           ( (neighbor[0] == neighbor[1] ) ||
+             (neighbor[0] == neighbor[2] ) 
+             ) 
+           ) ||
+         ( neighbor[1] &&
+           ( (neighbor[1] == neighbor[0] ) ||
+             (neighbor[1] == neighbor[2] ) ) 
+           ) ||
+         ( neighbor[2] &&
+           ( (neighbor[2] == neighbor[0] ) ||
+             (neighbor[2] == neighbor[1] ) ) 
+           )
+         )
     {
-        SWARNING << "Neighbor linked more than once" << endl;
+        SWARNING << "Neighbor linked more than once: " 
+                 << int(neighbor[0]) << "/" 
+                 << int(neighbor[1]) << "/"
+                 << int(neighbor[2]) << endl;
         retCode = false;
     }
 
@@ -148,6 +157,7 @@ bool HalfEdgeGraph::Triangle::verify(void)
         SWARNING << "Edge next link error" << endl;
         retCode = false;
     }
+
     return retCode;
 }
 
@@ -164,12 +174,12 @@ void HalfEdgeGraph::reserve(UInt32 vertexNum, UInt32 triangleNum,
     UInt32 i;
 
     _trianglePool.setChunkSize(triangleNum);
-    _temporaryVector.resize(vertexNum); 
+    _edgeLinkVec.resize(vertexNum); 
 
     if(reserveEdges > 0)
     {
         for(i = 0; i < vertexNum; ++i)
-            _temporaryVector[i].reserve(reserveEdges);
+            _edgeLinkVec[i].reserve(reserveEdges);
     }
 }
 
@@ -180,70 +190,108 @@ void HalfEdgeGraph::reserve(UInt32 vertexNum, UInt32 triangleNum,
 // Description:
 //         
 //----------------------------------------------------------------------
-bool HalfEdgeGraph::verify(void)
+bool HalfEdgeGraph::verify (bool verbose)
 {
     bool retCode = true;
     UInt32 i, n;
-    Triangle *triangle;
+    Triangle *triangle, *nt0, *nt1, *nt2;
     Int32 triangleState[4];
     Int32 invalidTriangles = 0;
     Int32 halfEdgeCount = 0;
     map< Int32, Int32 > connectionMap;
     map< Int32, Int32 >::iterator connectionI;
     Int32 connectionCount;
+    bool validTri = false;
 
     for(i = 0; i < 4; ++i)
         triangleState[i] = 0;
 
-    for(triangle = _validTriangleBag.first; triangle; 
-        triangle = triangle->next)
+    for( i = 0, triangle = _validTriangleBag.first; 
+         triangle; 
+         i++, triangle = triangle->next)
     {
         if(triangle->verify() && 
            (triangle->state >= 0) || (triangle->state <= 3))
         {
             triangleState[triangle->state]++;
+            validTri = true;
         }
         else
         {
             ++invalidTriangles;
+            validTri = false;
+        }
+
+        if ( verbose ) 
+        {
+            nt0 = triangle->halfEdgeVec[0].twin ? 
+              triangle->halfEdgeVec[0].twin->triangle : 0;
+            nt1 = triangle->halfEdgeVec[1].twin ? 
+              triangle->halfEdgeVec[1].twin->triangle : 0;
+            nt2 = triangle->halfEdgeVec[2].twin ? 
+              triangle->halfEdgeVec[2].twin->triangle : 0;
+            
+            FINFO ( ( "HEG: Triangle %d: %d %d %d, %d %d %d: %s\n",
+                      int (triangle), 
+                      triangle->halfEdgeVec[0].vertexStart(),
+                      triangle->halfEdgeVec[1].vertexStart(),
+                      triangle->halfEdgeVec[2].vertexStart(),
+                      int (nt0), int (nt1), int (nt2),
+                      (validTri ? "VALID" : "INVALID" ) ) );
         }
     }
 
-    SINFO << "nonmanifold split: " << _invalidTriangleBag.countElem() << endl;
+    SINFO << "HEG: linked triangle count " << _validTriangleBag.countElem()
+          << endl;
+    SINFO << "HEG: invalid triangle " << invalidTriangles 
+          << endl;
+    SINFO << "HEG: nonmanifold split: " << _invalidTriangleBag.countElem() 
+          << endl;
 
-    SINFO << invalidTriangles << endl;
-
-    SINFO << "TriangleState: ";
-    for(i = 0; i < 4; ++i)
-        SINFO << triangleState[i] << " ";
-    SINFO << endl;
-
-    if (invalidTriangles)
-    {
-        SINFO << "######################################################\n";
-        SINFO << "invalid: " << invalidTriangles << endl;
-        SINFO << "######################################################\n";
-    }
-
-    n = _temporaryVector.size();
+    SINFO << "HEG: triangle state: "
+          << triangleState[0]
+          << "/"
+          << triangleState[1]
+          << "/"
+          << triangleState[2]
+          << "/"
+          << triangleState[3]
+          << endl;
+    
+    n = _edgeLinkVec.size();
+    halfEdgeCount = 0;
     for (i = 0; i < n; ++i)
     {
-        connectionCount = _temporaryVector[i].size();
+        connectionCount = _edgeLinkVec[i].size();
 
         halfEdgeCount += connectionCount;
-        if(connectionMap.find(connectionCount) == connectionMap.end())
+        if (connectionMap.find(connectionCount) == connectionMap.end())
             connectionMap[connectionCount] = 1;
         else
             connectionMap[connectionCount]++;
+
+        if (verbose) 
+        {
+            HalfEdgeLink::iterator lI;
+            for ( lI = _edgeLinkVec[i].begin(); 
+                  lI != _edgeLinkVec[i].end(); ++lI )
+            {  
+              FINFO (( "HEG: HalfEdge %d: %d to %d, twin: %d\n",
+                       int(lI->second),
+                       lI->second->vertexStart(),
+                       lI->second->vertexEnd(),
+                       int(lI->second->twin) ));
+            }
+        }
     }
     for(connectionI = connectionMap.begin();
         connectionI != connectionMap.end(); ++connectionI)
     {
-        SINFO << connectionI->first << '/' << connectionI->second << ' ';
+      SINFO << "HEG: Connection: " << connectionI->first << '/' 
+            << connectionI->second << ' ' << std::endl;
     }
-    SINFO << endl;
 
-    SINFO << "HalfEdgeCount: " << halfEdgeCount << endl;
+    SINFO << "HEG: HalfEdgeCount: " << halfEdgeCount << endl;
 
     return retCode;
 }
@@ -279,14 +327,14 @@ UInt32 HalfEdgeGraph::calcOptPrim(UInt32 extIteration,
 
     if(doFan)
     {
-        n = _temporaryVector.size();
+        n = _edgeLinkVec.size();
         fanCost = 0;
 
         // find fans 
         for(i = 0; i < n; ++i)
         {
-            if((_temporaryVector[i].size() >= minFanTriangles) &&
-               (gateEdge = _temporaryVector[i][0].second) &&
+            if((_edgeLinkVec[i].size() >= minFanTriangles) &&
+               (gateEdge = _edgeLinkVec[i][0].second) &&
                (gateEdge->triangle->valid()))
             {
                 for(halfEdge = gateEdge->next->next->twin;
@@ -310,8 +358,8 @@ UInt32 HalfEdgeGraph::calcOptPrim(UInt32 extIteration,
                         fList->add(*triangle);
                     }
                     _fanBag.push_back(Primitive(i,fList));
-                    fanCost += (_temporaryVector[i].size() + 2);
-                    triangleLeft -= _temporaryVector[i].size();
+                    fanCost += (_edgeLinkVec[i].size() + 2);
+                    triangleLeft -= _edgeLinkVec[i].size();
                 }
             }
         }
@@ -803,7 +851,7 @@ Int32 HalfEdgeGraph::getPrimitive(vector<HalfEdgeGraph::IndexT> &indexVec,
         i = n - 1;
         bag = &_fanBag;
         fillIndexFromFan(indexVec, 
-                         *_temporaryVector[_fanBag[i].first][0].second);
+                         *_edgeLinkVec[_fanBag[i].first][0].second);
         type = GL_TRIANGLE_FAN;
     }
     
@@ -872,13 +920,13 @@ Int32 HalfEdgeGraph::calcEgdeLines(vector<HalfEdgeGraph::IndexT> & indexVec,
     bool isBorder;
 
     indexVec.clear();
-    nN = _temporaryVector.size();
+    nN = _edgeLinkVec.size();
     for (i = 0; i < nN; ++i)
     {
-        nE = _temporaryVector[i].size();
+        nE = _edgeLinkVec[i].size();
         for ( j = 0; j < nE; ++j)
         {
-            halfEdge = _temporaryVector[i][j].second;
+            halfEdge = _edgeLinkVec[i][j].second;
             startVertexIndex = halfEdge->vertexStart();
             endVertexIndex = halfEdge->vertexEnd();
 
@@ -907,7 +955,7 @@ void HalfEdgeGraph::clear(void)
 {
     UInt32 i,n;
     
-    _temporaryVector.clear();
+    _edgeLinkVec.clear();
     _trianglePool.clear();
     
     n = _stripBag.size();

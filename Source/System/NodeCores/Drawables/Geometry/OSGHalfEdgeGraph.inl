@@ -314,9 +314,9 @@ inline
 HalfEdgeGraph::HalfEdge *HalfEdgeGraph::getHalfEdge(UInt32 startVertexIndex,
                                                     UInt32 endVertexIndex)
 {
-    UInt32 i, n = _temporaryVector.size();
+    UInt32 i, n = _edgeLinkVec.size();
     const HalfEdgeLink *edgeLink((startVertexIndex < n) ?
-        &_temporaryVector[startVertexIndex] : 0);
+        &_edgeLinkVec[startVertexIndex] : 0);
 
     HalfEdge *halfEdge = 0;
 
@@ -339,7 +339,7 @@ inline
 void HalfEdgeGraph::addHalfEdge(HalfEdge &halfEdge, UInt32 startVertexIndex,
                                 UInt32 endVertexIndex)
 {
-    UInt32 n(_temporaryVector.size());
+    UInt32 n(_edgeLinkVec.size());
     bool     validIndex(startVertexIndex < n);
     HalfEdge *twin(validIndex ?
         getHalfEdge(endVertexIndex, startVertexIndex) : 0);
@@ -347,9 +347,9 @@ void HalfEdgeGraph::addHalfEdge(HalfEdge &halfEdge, UInt32 startVertexIndex,
     halfEdge.setVertex(startVertexIndex,endVertexIndex);
 
     if(validIndex == false)
-        _temporaryVector.resize(startVertexIndex * 2);
+        _edgeLinkVec.resize(startVertexIndex * 2);
 
-    _temporaryVector[startVertexIndex].
+    _edgeLinkVec[startVertexIndex].
         push_back(std::pair<HalfEdgeGraph::IndexT,HalfEdge*>(endVertexIndex,
                                                              &halfEdge));
 
