@@ -14,6 +14,9 @@
 #include <OSGWindowQTDef.h>
 
 #include <qvariant.h>
+#include <OSGChangeList.h>
+#include <OSGWindowQTDef.h>
+#include <OSGConfig.h>
 #include <qwidget.h>
 class QVBoxLayout; 
 class QHBoxLayout; 

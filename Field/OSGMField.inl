@@ -82,12 +82,13 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                            Class Get                                    */
 
+#ifndef WIN32
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldType &MField<FieldTypeT, fieldNameSpace>::getClassType(void)
 {
     return _fieldType;
 }
-
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -170,11 +171,13 @@ bool MField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
 
 //! Returns the type of the field
 
+#ifndef WIN32
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldType &MField<FieldTypeT, fieldNameSpace>::getType(void) const
 {
     return _fieldType;
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                                Set                                      */

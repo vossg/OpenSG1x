@@ -407,6 +407,7 @@ bool VRMLNodeDesc::prototypeAddField(const Char8  *OSG_VRML_ARG(szFieldType),
             PWARNING << "VRMLNodeDesc::prototypeAddField "
                      << "Could not get fieldtype " 
                      << uiFieldTypeId << " " 
+                     << szFieldName << " "
                      << endl;
             
             return false;

@@ -745,41 +745,121 @@ FieldContainerType GeoProperty< T1 >::_type(                  \
     sizeof(FieldDescription *))
 
 
-#define OSG_DLLEXPORT_SFIELD_DEF1(T1,     DLLMAPPING) \
-template <>                                           \
-const FieldType SField< T1, 0 >::_fieldType(          \
-    SFieldTraits::getSName(),                         \
-    SFieldTraits::getPName (),                        \
-    SFieldTraits::getType(),                          \
-    SField< T1, 0 >::create,                          \
+#define OSG_DLLEXPORT_SFIELD_TYPE_DEF1(T1,     DLLMAPPING) \
+template <>                                                \
+const FieldType SField< T1, 0 >::_fieldType(               \
+    SFieldTraits::getSName(),                              \
+    SFieldTraits::getPName (),                             \
+    SFieldTraits::getType(),                               \
+    SField< T1, 0 >::create,                               \
     FieldType::SINGLE_FIELD)
 
-#define OSG_DLLEXPORT_SFIELD_DEF2(T1, T2, DLLMAPPING) \
-template <>                                           \
-const FieldType SField< T1, T2 >::_fieldType(         \
-    SFieldTraits::getSName(),                         \
-    SFieldTraits::getPName (),                        \
-    SFieldTraits::getType(),                          \
-    SField< T1, T2 >::create,                         \
+#define OSG_DLLEXPORT_SFIELD_TYPE_DEF2(T1, T2, DLLMAPPING) \
+template <>                                                \
+const FieldType SField< T1, T2 >::_fieldType(              \
+    SFieldTraits::getSName(),                              \
+    SFieldTraits::getPName (),                             \
+    SFieldTraits::getType(),                               \
+    SField< T1, T2 >::create,                              \
     FieldType::SINGLE_FIELD)
 
-#define OSG_DLLEXPORT_MFIELD_DEF1(T1,     DLLMAPPING) \
-template <>                                           \
-const FieldType MField< T1, 0 >::_fieldType(          \
-    MFieldTraits::getMName(),                         \
-    MFieldTraits::getPName (),                        \
-    MFieldTraits::getType(),                          \
-    MField< T1 >::create,                             \
+#define OSG_DLLEXPORT_MFIELD_TYPE_DEF1(T1,     DLLMAPPING) \
+template <>                                                \
+const FieldType MField< T1, 0 >::_fieldType(               \
+    MFieldTraits::getMName(),                              \
+    MFieldTraits::getPName (),                             \
+    MFieldTraits::getType(),                               \
+    MField< T1 >::create,                                  \
     FieldType::MULTI_FIELD)
 
-#define OSG_DLLEXPORT_MFIELD_DEF2(T1, T2, DLLMAPPING) \
-template <>                                           \
-const FieldType MField< T1, T2 >::_fieldType(         \
-    MFieldTraits::getMName(),                         \
-    MFieldTraits::getPName (),                        \
-    MFieldTraits::getType(),                          \
-    MField< T1, T2 >::create,                         \
+#define OSG_DLLEXPORT_MFIELD_TYPE_DEF2(T1, T2, DLLMAPPING) \
+template <>                                                \
+const FieldType MField< T1, T2 >::_fieldType(              \
+    MFieldTraits::getMName(),                              \
+    MFieldTraits::getPName (),                             \
+    MFieldTraits::getType(),                               \
+    MField< T1, T2 >::create,                              \
     FieldType::MULTI_FIELD)
+
+
+#define OSG_DLLEXPORT_SFIELD_GET_TYPE_DEF1(T1,     DLLMAPPING) \
+template <>                                                    \
+const FieldType &SField< T1, 0 >::getClassType(void)           \
+{                                                              \
+    return _fieldType;                                         \
+}                                                              \
+template <>                                                    \
+const FieldType &SField< T1, 0 >::getType(void) const          \
+{                                                              \
+    return _fieldType;                                         \
+}
+
+#define OSG_DLLEXPORT_SFIELD_GET_TYPE_DEF2(T1, T2, DLLMAPPING) \
+template <>                                                    \
+const FieldType &SField< T1, T2 >::getClassType(void)          \
+{                                                              \
+    return _fieldType;                                         \
+}                                                              \
+template <>                                                    \
+const FieldType &SField< T1, T2 >::getType(void) const         \
+{                                                              \
+    return _fieldType;                                         \
+}
+
+#define OSG_DLLEXPORT_MFIELD_GET_TYPE_DEF1(T1,     DLLMAPPING) \
+template <>                                                    \
+const FieldType &MField< T1, 0 >::getClassType(void)           \
+{                                                              \
+    return _fieldType;                                         \
+}                                                              \
+template <>                                                    \
+const FieldType &MField< T1, 0 >::getType(void) const          \
+{                                                              \
+    return _fieldType;                                         \
+}
+
+#define OSG_DLLEXPORT_MFIELD_GET_TYPE_DEF2(T1, T2, DLLMAPPING) \
+template <>                                                    \
+const FieldType &MField< T1, T2 >::getClassType(void)          \
+{                                                              \
+    return _fieldType;                                         \
+}                                                              \
+template <>                                                    \
+const FieldType &MField< T1, T2 >::getType(void) const         \
+{                                                              \
+    return _fieldType;                                         \
+}
+
+
+#ifdef WIN32
+#define OSG_DLLEXPORT_SFIELD_DEF1(T1,     DLLMAPPING)      \
+    OSG_DLLEXPORT_SFIELD_TYPE_DEF1(T1,     DLLMAPPING);    \
+    OSG_DLLEXPORT_SFIELD_GET_TYPE_DEF1(T1,     DLLMAPPING)
+
+#define OSG_DLLEXPORT_SFIELD_DEF2(T1, T2, DLLMAPPING)      \
+    OSG_DLLEXPORT_SFIELD_TYPE_DEF2(T1, T2, DLLMAPPING);    \
+    OSG_DLLEXPORT_SFIELD_GET_TYPE_DEF2(T1, T2, DLLMAPPING)
+
+#define OSG_DLLEXPORT_MFIELD_DEF1(T1,     DLLMAPPING)      \
+    OSG_DLLEXPORT_MFIELD_TYPE_DEF1(T1,     DLLMAPPING);    \
+    OSG_DLLEXPORT_MFIELD_GET_TYPE_DEF1(T1,     DLLMAPPING) 
+
+#define OSG_DLLEXPORT_MFIELD_DEF2(T1, T2, DLLMAPPING)      \
+    OSG_DLLEXPORT_MFIELD_TYPE_DEF2(T1, T2, DLLMAPPING);    \
+    OSG_DLLEXPORT_MFIELD_GET_TYPE_DEF2(T1, T2, DLLMAPPING)
+#else
+#define OSG_DLLEXPORT_SFIELD_DEF1(T1,     DLLMAPPING)      \
+    OSG_DLLEXPORT_SFIELD_TYPE_DEF1(T1,     DLLMAPPING)
+
+#define OSG_DLLEXPORT_SFIELD_DEF2(T1, T2, DLLMAPPING)      \
+    OSG_DLLEXPORT_SFIELD_TYPE_DEF2(T1, T2, DLLMAPPING)
+
+#define OSG_DLLEXPORT_MFIELD_DEF1(T1,     DLLMAPPING)      \
+    OSG_DLLEXPORT_MFIELD_TYPE_DEF1(T1,     DLLMAPPING)
+
+#define OSG_DLLEXPORT_MFIELD_DEF2(T1, T2, DLLMAPPING)      \
+    OSG_DLLEXPORT_MFIELD_TYPE_DEF2(T1, T2, DLLMAPPING)
+#endif
 
 #if 0
 #if (defined(WIN32) && defined(__ICL)) || defined (darwin)

@@ -328,8 +328,8 @@ DataType FieldDataTraits<WIN32WindowPtr>::_type("WIN32WindowPtr", "WindowPtr");
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
 
 #endif
 
@@ -349,7 +349,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.10 2002/05/16 04:10:19 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.11 2002/05/21 10:54:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 
