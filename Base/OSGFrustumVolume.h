@@ -104,7 +104,7 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 
     /*------------------------- your_category -------------------------------*/
 
-	const Pnt3f &getCenter(void) const { return Pnt3f(0, 0, 0); }
+	Pnt3f getCenter(void) const { return Pnt3f(0, 0, 0); }
 
     void getCenter(Pnt3f &center) const { center = Pnt3f(0, 0, 0);}
  
