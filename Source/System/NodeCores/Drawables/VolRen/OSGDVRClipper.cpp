@@ -5,7 +5,10 @@
 #include <OSGDVRVolume.h>
 #include <OSGDVRRenderSlice.h>
 
+#if !defined(darwin)
 #include <malloc.h>
+#endif
+
 #include <stdlib.h>
 
 #ifndef CALLBACK

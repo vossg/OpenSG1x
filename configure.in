@@ -1125,7 +1125,7 @@ else
         ;;
 
        darwin*)
-		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0 -flat_namespace'
+		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0 -Wl,-single_module -flat_namespace'
         ac_gdz_compiler_exe_ranlib=ranlib
         ;;
 
@@ -1176,7 +1176,7 @@ dnl a symlink from gmake to make
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
         ;;
         darwin*)
-            ac_gdz_compiler_exe_exe='$(CC) -flat_namespace -Wl,-bind_at_load'
+            ac_gdz_compiler_exe_exe='$(CC) -flat_namespace'
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'

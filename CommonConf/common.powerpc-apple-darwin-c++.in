@@ -59,12 +59,12 @@ WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long -Wno-reorder
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
-COMPILER    		= -ansi 
+COMPILER    		= 
 #-use_readonly_const 
 
 ifeq ($(LNK),)
 #-dynamic
-COMPILER           := $(COMPILER) -fPIC -fexport-coalesced
+COMPILER           := $(COMPILER) -fno-common -fPIC -fexport-coalesced
 endif
 
 ### Optimize / Debug ###############################################
