@@ -238,8 +238,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     std::vector<LightStore>   _vLights;
     LightsMap                 _lightsMap;
-    UInt32                    _lightsState;
-    UInt32                    _activeLightsState;
+    UInt64                    _lightsState;
+    UInt64                    _activeLightsState;
+    UInt32                    _activeLightsCount;
 
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 

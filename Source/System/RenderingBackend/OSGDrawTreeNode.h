@@ -121,8 +121,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     void          setScalar       (Real32 rScalar                 );
     Real32        getScalar       (void                           );
 
-    void          setLightsState   (UInt32 state                   );
-    UInt32        getLightsState   (void                           );
+    void          setLightsState   (UInt64 state                   );
+    UInt64        getLightsState   (void                           );
 
     void          reset           (void                           );
 
@@ -152,7 +152,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 
     Real32                     _rScalarVal;
 
-    UInt32                     _lightsState;
+    UInt64                     _lightsState;
 
     /*! \}                                                                 */
 

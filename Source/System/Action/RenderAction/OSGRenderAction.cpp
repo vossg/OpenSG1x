@@ -253,6 +253,7 @@ RenderAction::RenderAction(void) :
     _lightsMap(),
     _lightsState(0),
     _activeLightsState(0),
+    _activeLightsCount(0),
     _visibilityStack()
 {
     if(_vDefaultEnterFunctors != NULL)
@@ -303,6 +304,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _lightsMap           (source._lightsMap),
     _lightsState         (source._lightsState),
     _activeLightsState   (source._activeLightsState),
+    _activeLightsCount   (source._activeLightsCount),
     _visibilityStack     (source._visibilityStack)
 {
 #if defined(OSG_OPT_DRAWTREE)
@@ -733,13 +735,26 @@ void RenderAction::dropLight(Light *pLight)
         oStore.second.mult(tobeacon);
     }
 
-    _vLights.push_back(oStore);
+    bool light_limit_reached = (_vLights.size() >= (sizeof(_lightsState) * 8));
+
+    if(!light_limit_reached)
+    {
+        _vLights.push_back(oStore);
+    }
+    else
+    {
+        SWARNING << "RenderAction::dropLight: maximum light source limit is " << (sizeof(_lightsState) * 8)
+                 << " skipping light sources!" << std::endl;
+    }
 
     if(_bLocalLights)
     {
-        UInt32 lightState = _vLights.size() - 1; 
-        _lightsMap[pLight] = lightState;
-        _lightsState += (1 << lightState);
+        UInt32 lightState = _vLights.size() - 1;
+        if(!light_limit_reached)
+        {
+            _lightsMap[pLight] = lightState;
+            _lightsState += (1 << lightState);
+        }
     }
 }
 
@@ -748,8 +763,14 @@ void RenderAction::undropLight(Light *pLight)
     if(pLight == NULL)
         return;
 
-    if(_bLocalLights)
-        _lightsState -= (1 << _lightsMap[pLight]);
+    if(!_bLocalLights)
+        return;
+
+    RenderAction::LightsMap::iterator it = _lightsMap.find(pLight);
+    if(it == _lightsMap.end())
+        return;
+    
+    _lightsState -= (1 << (*it).second);
 }
 
 bool RenderAction::isVisible( Node* node )
@@ -891,29 +912,39 @@ void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
 void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
 {
     //printf("lightsState: %d\n", pRoot->getLightsState());
-    for(LightsMap::iterator it = _lightsMap.begin();it != _lightsMap.end();++it)
-    {
-        UInt32 i = (*it).second;
+    if(_activeLightsState == pRoot->getLightsState())
+        return;
 
+    // ok this is not optimal yet but it works.
+    UInt32 light_id = 0;
+    for(UInt32 i = 0;i < _vLights.size();++i)
+    {
         if((_activeLightsState & (1 << i)) ==
            (pRoot->getLightsState() & (1 << i)))
+        {
+            if(_activeLightsState & (1 << i))
+                ++light_id;
             continue;
-
+        }
+        
         if(pRoot->getLightsState() & (1 << i))
         {
-            //printf("activate light: %u\n", i);
+            //printf("activate light: %u\n", light_id);
             glPushMatrix();
             glLoadMatrixf(_vLights[i].second.getValues());
-            _vLights[i].first->activate(this, i);
+            _vLights[i].first->activate(this, light_id++);
             glPopMatrix();
         }
-        else
-        {
-            //printf("deactivate light: %u\n", i);
-            _vLights[i].first->deactivate(this, i);
-        }
     }
+    
+    for(UInt32 i = light_id;i < _activeLightsCount;++i)
+    {
+        //printf("deactivate light: %u\n", i);
+        glDisable(GL_LIGHT0 + i);
+    }
+
     _activeLightsState = pRoot->getLightsState();
+    _activeLightsCount = light_id;
 }
 
 //#define PRINT_MAT
@@ -1159,6 +1190,7 @@ Action::ResultE RenderAction::start(void)
     _lightsMap.clear();
     _lightsState       = 0;
     _activeLightsState = 0;
+    _activeLightsCount = 0;
 
     if(_viewport != NULL && full == false)
     {
@@ -1222,9 +1254,17 @@ Action::ResultE RenderAction::stop(ResultE res)
         _pActiveState->deactivate(this);
     }
 
-    for(i = 0; i < _vLights.size(); ++i)
+    if(!_bLocalLights)
     {
-        _vLights[i].first->deactivate(this, i);
+        for(i = 0; i < _vLights.size(); ++i)
+        {
+            _vLights[i].first->deactivate(this, i);
+        }
+    }
+    else
+    {
+        for(UInt32 i = 0;i < _activeLightsCount;++i)
+            glDisable(GL_LIGHT0 + i);
     }
 
     // CF changed
