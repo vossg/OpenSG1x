@@ -5,7 +5,7 @@
 #include <OSGMathFieldDataType.h>
 #include <OSGBaseFieldDataType.h>
 
-void main(void)
+int main(void)
 {
     fprintf(stderr, "TestStart\n");
 
@@ -129,4 +129,6 @@ void main(void)
     OSG::FieldDataTraits <OSG::Color4ub     >::copyToBin(NULL, NULL, 0);
     OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(NULL, NULL, 0);
     OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(NULL, NULL, 0);
+
+    return 0;
 }
