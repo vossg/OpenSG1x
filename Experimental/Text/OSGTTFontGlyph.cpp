@@ -17,6 +17,7 @@
 
 // Class declarations
 #include "OSGTTFontGlyph.h"
+#include <assert.h>
 
 /* */
 OSG_USING_NAMESPACE

@@ -5,6 +5,7 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
+#include "assert.h"
 // Application declarations
 #include "freetype1/freetype/freetype.h"
 

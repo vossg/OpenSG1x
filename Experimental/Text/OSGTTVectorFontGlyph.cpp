@@ -17,6 +17,7 @@
 
 // Class declarations
 #include "OSGTTVectorFontGlyph.h"
+#include <assert.h>
 
 OSG_USING_NAMESPACE
 
