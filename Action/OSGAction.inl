@@ -125,6 +125,12 @@ void Action::addNode( NodePtr node )
 	_newList.push_back( node );
 }
 
+inline
+void Action::useNodeList( void )
+{
+	_useNewList = true;
+}
+
 inline	
 UInt32 Action::getNNodes( void ) const
 {

@@ -231,15 +231,6 @@ Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
 {
 	Action::ResultE res = Continue;
 	
-/*  Does not work everywhere. (GV)
-
-	if ( ! begin || ! end )
-	{
-		SWARNING << "apply: begin or end is NULL!" << endl;
-		return Quit;
-	}
-*/
-	
 	// call the start function and its' returns
 	if ( ( res = callStart() ) != Continue )
 		return res;	
@@ -300,12 +291,12 @@ Action::ResultE Action::recurse( NodePtr node  )
 		return Quit;					
 	}
 	
-//	const FieldContainerType &t = core->getType();	
 	Action::ResultE result;
 	
 	_actList = NULL;
 	_actNode = node;
 	_newList.clear();
+	_useNewList = false;
 	
 	result = callEnter( node );
 
@@ -321,7 +312,7 @@ Action::ResultE Action::recurse( NodePtr node  )
 	{
 		result = callNewList();
 	}
-	else
+	else if ( ! _useNewList ) // new list is empty, but not used?
 	{
 		vector<NodePtr>::iterator it;
 
@@ -350,21 +341,19 @@ Action::ResultE Action::callNewList( void )
 {
 	Action::ResultE result = Continue;
 
-	if ( ! _newList.empty() )
-	{
-		// need to make a copy, because the one in the action is cleared
-		
-		vector<NodePtr> list = _newList;
-		vector<NodePtr>::iterator it;
-		_actList = &list;
+	// need to make a copy, because the one in the action is cleared
 
-		for ( it = list.begin(); it != list.end(); it ++ )
-		{
-			result = recurse( *it );
-			
-			if ( result != Continue )
-				break;
-		}
+	vector<NodePtr> list;
+	list.swap( _newList );
+	vector<NodePtr>::iterator it;
+	_actList = &list;
+
+	for ( it = list.begin(); it != list.end(); it ++ )
+	{
+		result = recurse( *it );
+
+		if ( result != Continue )
+			break;
 	}
 	
 	return result;

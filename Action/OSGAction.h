@@ -49,6 +49,8 @@
 #include <vector>
 
 #include <OSGBaseTypes.h>
+#include <OSGFieldContainerType.h>
+#include <OSGFieldContainerPtr.h>
 #include <OSGFunctors.h>
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
@@ -173,9 +175,10 @@ class OSG_ACTION_DLLMAPPING Action
 	void addNode( NodePtr node );
 
 	// Common case: going through the children list and picking up some of them,
-	// but it's not clear if any at all. Not clear how to do that nicely. 
+	// but it's not clear if any at all. Call useNodeList() and then
+	// addNode() for every node to traverse, or not at all. 
 
-	// 
+	void useNodeList( void ); 
 
 	// for debugging
 	
@@ -291,6 +294,7 @@ class OSG_ACTION_DLLMAPPING Action
 	vector<NodePtr>* _actList;	// list of active objects for this level
 									// if empty, use the actNode's children
 
+	bool 			_useNewList;// set by clearNodeList
 	vector<NodePtr> _newList;	// list of active object for this level
 	
     //-----------------------------------------------------------------------
