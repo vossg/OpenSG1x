@@ -125,7 +125,7 @@ bool NodeGraph::verify (bool printInfo )
             }
 
     if (printInfo) {
-      FNOTICE (( "NodeDegree: %d %d %d %d (%d)\n",
+      FNOTICE (( "NodeDegree Count:  %d %d %d %d (%d)\n",
                  nodeDegree[0], nodeDegree[1], nodeDegree[2], nodeDegree[3],
                  nodeDegree[4] ));
 
@@ -133,8 +133,8 @@ bool NodeGraph::verify (bool printInfo )
       for (i = 0; i < n; i++) 
         edgeCount += _edgeMapVec[i].size();
 
-      FNOTICE (( "NonManifold: %d\n", nonManifoldCount ));
-      FNOTICE (( "HalfEdgeCount: %d\n", edgeCount ));
+      FNOTICE (( "NonManifold split: %d\n", nonManifoldCount ));
+      FNOTICE (( "HalfEdgeCount:     %d\n", edgeCount ));
     }
  
     return retCode;
