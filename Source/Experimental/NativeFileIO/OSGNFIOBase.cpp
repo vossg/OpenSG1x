@@ -585,6 +585,13 @@ void NFIOBase::writeSFAttachmentMap(SFAttachmentMap *amap)
     }
 }
 
+void NFIOBase::readEndMarker(void)
+{
+    // end marker a empty field or fieldcontainer type name.
+    std::string endMarker;
+    _in->getValue(endMarker);
+}
+
 void NFIOBase::writeEndMarker(void)
 {
     // end marker a empty field or fieldcontainer type name.
@@ -738,6 +745,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.2 2004/02/19 10:32:59 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

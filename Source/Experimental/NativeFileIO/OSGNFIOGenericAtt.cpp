@@ -1,0 +1,135 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     * 
+ *                                                                           * 
+ *                                                                           * 
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                * 
+ *                                                                           * 
+ *                            www.opensg.org                                 * 
+ *                                                                           * 
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          * 
+ *                                                                           * 
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    * 
+ *                                                                           * 
+ * This library is free software; you can redistribute it and/or modify it   * 
+ * under the terms of the GNU Library General Public License as published    * 
+ * by the Free Software Foundation, version 2.                               * 
+ *                                                                           * 
+ * This library is distributed in the hope that it will be useful, but       * 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                * 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         * 
+ * Library General Public License for more details.                          * 
+ *                                                                           * 
+ * You should have received a copy of the GNU Library General Public         * 
+ * License along with this library; if not, write to the Free Software       * 
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 * 
+ *                                                                           * 
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    * 
+ *                                                                           * 
+ *                                                                           * 
+ *                                                                           * 
+ *                                                                           * 
+ *                                                                           * 
+ *                                                                           * 
+\*---------------------------------------------------------------------------*/
+
+#include <OSGConfig.h>
+#include "OSGNFIOGenericAtt.h"
+#include "OSGNFIOFactory.h"
+
+#include <vector>
+
+#include <OSGLog.h>
+#include <OSGImageFileHandler.h>
+#include <OSGJPGImageFileType.h>
+#include <OSGSimpleAttachments.h>
+
+OSG_USING_NAMESPACE
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::NFIOGenericAtt
+           reads and writes a image.
+ */
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+NFIOGenericAtt NFIOGenericAtt::_the;
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*----------------------------- constructors  -----------------------------*/
+
+NFIOGenericAtt::NFIOGenericAtt(void) :
+    NFIOBase("GenericAtt")
+{
+    _version = 100;
+}
+
+/*------------------------------ destructor -------------------------------*/
+
+NFIOGenericAtt::~NFIOGenericAtt(void)
+{
+}
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+FieldContainerPtr NFIOGenericAtt::readFC(const std::string &/*typeName*/)
+{
+    FDEBUG(("NFIOGenericAtt::readFC\n"));
+
+    UInt16 version;
+    _in->getValue(version);
+
+    readEndMarker();
+    
+    NamePtr dummy = Name::create();
+    beginEditCP(dummy);
+        dummy->getFieldPtr()->getValue().assign("GenericAtt dummy");
+    endEditCP(dummy);
+
+    return dummy;
+}
+
+void NFIOGenericAtt::writeFC(const FieldContainerPtr &/*fc*/)
+{
+    FDEBUG(("NFIOGenericAtt::witeFC\n"));
+
+    // GenericAtt is not yet supported so just write a empty dummy out.
+    _out->putValue(_version);
+
+    writeEndMarker();
+}
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGenericAtt.cpp,v 1.1 2004/02/19 10:32:59 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGNFIOGENERICATT_HEADER_CVSID;
+}
