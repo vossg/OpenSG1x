@@ -45,7 +45,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGFieldContainer.h>
 #include <OSGNode.h>
@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.15 2002/02/04 20:14:12 dirk Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.16 2002/02/26 06:10:15 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

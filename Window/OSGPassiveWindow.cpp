@@ -47,7 +47,7 @@
 
 #include "OSGPassiveWindow.h"
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(darwin)
 #include <GL/glx.h>
 #endif
 
@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.3 2002/02/04 16:15:09 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.4 2002/02/26 06:10:15 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
 }
@@ -146,6 +146,8 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
     return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
     return PassiveWindowExtFunc(wglGetProcAddress(s));
+#elif defined(darwin)
+    return NULL;
 #else
     return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif

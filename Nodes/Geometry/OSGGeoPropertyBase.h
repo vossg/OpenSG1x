@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGSystemDef.h>
 #include <OSGMFVecTypes.h>

@@ -48,7 +48,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include "OSGLog.h"
 

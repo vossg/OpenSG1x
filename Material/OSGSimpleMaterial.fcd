@@ -71,7 +71,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_DIFFUSE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	</Field>
 </FieldContainer>

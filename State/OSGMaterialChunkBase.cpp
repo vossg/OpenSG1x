@@ -61,7 +61,7 @@
 #include "OSGMaterialChunkBase.h"
 #include "OSGMaterialChunk.h"
 
-#include <GL/gl.h>                        // ColorMaterial default header
+#include <OSGGL.h>                        // ColorMaterial default header
 
 
 OSG_USING_NAMESPACE
@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.20 2002/02/04 20:14:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.21 2002/02/26 06:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 // Application declarations
 

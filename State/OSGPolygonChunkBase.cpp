@@ -61,14 +61,14 @@
 #include "OSGPolygonChunkBase.h"
 #include "OSGPolygonChunk.h"
 
-#include <GL/gl.h>                        // CullFace default header
-#include <GL/gl.h>                        // FrontFace default header
-#include <GL/gl.h>                        // ModeFace default header
-#include <GL/gl.h>                        // Mode default header
-#include <GL/gl.h>                        // Smooth default header
-#include <GL/gl.h>                        // OffsetPoint default header
-#include <GL/gl.h>                        // OffsetLine default header
-#include <GL/gl.h>                        // OffsetFill default header
+#include <OSGGL.h>                        // CullFace default header
+#include <OSGGL.h>                        // FrontFace default header
+#include <OSGGL.h>                        // ModeFace default header
+#include <OSGGL.h>                        // Mode default header
+#include <OSGGL.h>                        // Smooth default header
+#include <OSGGL.h>                        // OffsetPoint default header
+#include <OSGGL.h>                        // OffsetLine default header
+#include <OSGGL.h>                        // OffsetFill default header
 
 
 OSG_USING_NAMESPACE
@@ -79,7 +79,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.20 2002/02/04 20:14:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.21 2002/02/26 06:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 

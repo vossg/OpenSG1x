@@ -61,7 +61,7 @@
 #include "OSGLineChunkBase.h"
 #include "OSGLineChunk.h"
 
-#include <GL/gl.h>                        // Smooth default header
+#include <OSGGL.h>                        // Smooth default header
 
 
 OSG_USING_NAMESPACE
@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.3 2002/02/04 20:14:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.4 2002/02/26 06:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 

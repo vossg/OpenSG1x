@@ -52,7 +52,7 @@
 
 #include "OSGSkyBackground.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 OSG_USING_NAMESPACE
 
@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.6 2002/02/04 20:14:12 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.7 2002/02/26 06:10:15 vossg Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }

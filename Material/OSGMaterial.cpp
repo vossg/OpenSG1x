@@ -45,7 +45,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 #include "OSGMaterial.h"
 
 OSG_USING_NAMESPACE
@@ -77,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.15 2002/02/04 20:14:08 dirk Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.16 2002/02/26 06:10:16 vossg Exp $";
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 

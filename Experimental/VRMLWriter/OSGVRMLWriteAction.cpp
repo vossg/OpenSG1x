@@ -60,7 +60,7 @@
 #include "OSGAction.h"
 #include "OSGVRMLWriteAction.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include "functional"
 

@@ -61,9 +61,9 @@
 #include "OSGSimpleTexturedMaterialBase.h"
 #include "OSGSimpleTexturedMaterial.h"
 
-#include <GL/gl.h>                        // MinFilter default header
-#include <GL/gl.h>                        // MagFilter default header
-#include <GL/gl.h>                        // EnvMode default header
+#include <OSGGL.h>                        // MinFilter default header
+#include <OSGGL.h>                        // MagFilter default header
+#include <OSGGL.h>                        // EnvMode default header
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,7 +91,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.8 2002/02/11 03:46:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.9 2002/02/26 06:10:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 

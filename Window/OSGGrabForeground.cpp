@@ -45,7 +45,7 @@
 
 #include <OSGConfig.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGViewport.h>
 
@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.1 2002/01/18 22:58:09 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.2 2002/02/26 06:10:15 vossg Exp $";
     static char cvsid_hpp[] = OSGGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGGRABFOREGROUND_INLINE_CVSID;
 }

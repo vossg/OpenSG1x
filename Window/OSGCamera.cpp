@@ -46,7 +46,7 @@
 #include "OSGConfig.h"
 #include "OSGLog.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include "OSGNode.h"
 #include "OSGFieldContainerPtr.h"

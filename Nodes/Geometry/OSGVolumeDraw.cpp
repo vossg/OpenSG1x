@@ -43,7 +43,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGLog.h>
 #include <OSGBoxVolume.h>
@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.10 2001/10/15 04:52:16 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.11 2002/02/26 06:10:16 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174

@@ -45,7 +45,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGFieldContainer.h>
 #include <OSGNode.h>
@@ -79,7 +79,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.11 2001/11/01 09:03:30 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.12 2002/02/26 06:10:15 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

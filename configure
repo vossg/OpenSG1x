@@ -3418,6 +3418,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
             ;;
             darwin*)
                 ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
+                ac_gdz_glut_incdir_e5=/System/Library/Frameworks/GLUT.framework/Headers
             ;;
             *)
                 ac_gdz_glut_lib_e5='-lglut'
@@ -5648,14 +5649,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
     case $build_os in
         darwin*)
-            if ! test -w $ac_gdz_package_sub_dir_out/Base/GL; then
-                mkdir $ac_gdz_package_sub_dir_out/Base/GL;
-            else
-                rm -f $ac_gdz_package_sub_dir_out/Base/GL/*.h
-            fi
-
-            ln -s /System/Library/Frameworks/OpenGL.framework/Headers/gl.h $ac_gdz_package_sub_dir_out/Base/GL/gl.h
-            ln -s /System/Library/Frameworks/OpenGL.framework/Headers/glu.h $ac_gdz_package_sub_dir_out/Base/GL/glu.h
+            ac_gdz_gl_incdir_e8=/System/Library/Frameworks/OpenGL.framework/Headers
         ;;
     esac
 

@@ -41,7 +41,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include "OSGDirectionalLight.h"
 #include <OSGDrawAction.h>

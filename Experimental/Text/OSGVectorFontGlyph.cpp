@@ -10,8 +10,8 @@
 #include <iostream>
 #include <fstream>
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <OSGGL.h>
+#include <OSGGLU.h>
 
 #include <OSGLog.h>
 

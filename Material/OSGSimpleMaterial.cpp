@@ -45,7 +45,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.22 2002/02/04 20:14:08 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.23 2002/02/26 06:10:16 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 

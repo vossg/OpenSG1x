@@ -17,7 +17,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	Defines which side of the polygon is invisible.
 	</Field>
@@ -27,7 +27,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CCW"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	Defines which side of the polygon is considered the front side.
 	</Field>
@@ -37,7 +37,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FRONT"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	</Field>
 	<Field
@@ -46,7 +46,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	Defines if polygons are rendered filled, outlined or as points.
 	</Field>
@@ -56,7 +56,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	Defines if polygon antialiasing is used.
 	</Field>
@@ -84,7 +84,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	</Field>
 	<Field
@@ -93,7 +93,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	</Field>
 	<Field
@@ -102,7 +102,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 	>
 	</Field>
 	<Field

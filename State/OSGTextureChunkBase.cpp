@@ -61,18 +61,17 @@
 #include "OSGTextureChunkBase.h"
 #include "OSGTextureChunk.h"
 
-#include <GL/gl.h>                        // InternalFormat default header
-#include <GL/gl.h>                        // ExternalFormat default header
-#include <GL/gl.h>                        // MinFilter default header
-#include <GL/gl.h>                        // MagFilter default header
-#include <GL/gl.h>                        // WrapS default header
-#include <GL/gl.h>                        // WrapT default header
-#include <GL/gl.h>                        // WrapR default header
-#include <GL/gl.h>                        // EnvMode default header
-#include <GL/gl.h>                        // GenFuncS default header
-#include <GL/gl.h>                        // GenFuncT default header
-#include <GL/gl.h>                        // GenFuncR default header
-#include <GL/gl.h>                        // GenFuncQ default header
+#include <OSGGL.h>                        // InternalFormat default header
+#include <OSGGL.h>                        // MinFilter default header
+#include <OSGGL.h>                        // MagFilter default header
+#include <OSGGL.h>                        // WrapS default header
+#include <OSGGL.h>                        // WrapT default header
+#include <OSGGL.h>                        // WrapR default header
+#include <OSGGL.h>                        // EnvMode default header
+#include <OSGGL.h>                        // GenFuncS default header
+#include <OSGGL.h>                        // GenFuncT default header
+#include <OSGGL.h>                        // GenFuncR default header
+#include <OSGGL.h>                        // GenFuncQ default header
 
 OSG_BEGIN_NAMESPACE
 
@@ -100,7 +99,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.26 2002/02/19 16:28:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.27 2002/02/26 06:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

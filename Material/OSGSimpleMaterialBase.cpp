@@ -61,7 +61,7 @@
 #include "OSGSimpleMaterialBase.h"
 #include "OSGSimpleMaterial.h"
 
-#include <GL/gl.h>                        // ColorMaterial default header
+#include <OSGGL.h>                        // ColorMaterial default header
 
 
 OSG_USING_NAMESPACE
@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.20 2002/02/04 20:14:08 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.21 2002/02/26 06:10:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 

@@ -45,7 +45,7 @@
 
 #include <OSGConfig.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.7 2002/02/04 20:14:08 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.8 2002/02/26 06:10:16 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }

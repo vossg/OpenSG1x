@@ -2,8 +2,8 @@
 #ifndef WIN32
 // System declarations
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <OSGGL.h>
+#include <OSGGLU.h>
 
 #include <iostream>
 #include <assert.h>

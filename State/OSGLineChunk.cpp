@@ -45,7 +45,7 @@
 
 #include <OSGConfig.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.3 2002/02/04 20:14:10 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.4 2002/02/26 06:10:14 vossg Exp $";
     static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
 }

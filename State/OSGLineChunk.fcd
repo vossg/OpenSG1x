@@ -44,7 +44,7 @@ The line chunk contains the parameters that are specific set for lines.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Defines if polygon antialiasing is used.

@@ -44,13 +44,7 @@
 #pragma  once
 #endif
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
-extern "C" {
-#include <GL/gl.h>
-}
+#include <OSGGL.h>
 
 #include <OSGSystemDef.h>
 #include <OSGTime.h>

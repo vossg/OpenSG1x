@@ -215,7 +215,7 @@ int main (int argc, char **argv)
     // GLUT init
 
     glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutInitDisplayMode( GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     int winid = glutCreateWindow("OpenSG");
     glutKeyboardFunc(key);
     glutVisibilityFunc(vis);

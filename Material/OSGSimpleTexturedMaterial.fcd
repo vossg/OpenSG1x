@@ -25,7 +25,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR_MIPMAP_LINEAR"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	the minification filter
@@ -36,7 +36,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	the magnification filter
@@ -47,7 +47,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPLACE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	the environment mode, defining how texture and lighting color interact

@@ -44,7 +44,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<GL/gl.h>"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	The alphaFunc defines how fragments which do not fulfill a certain condition are handled. See glAlphaFunc() for details.

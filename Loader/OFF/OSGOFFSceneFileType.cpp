@@ -43,7 +43,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <iostream>
 #include <fstream>
@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.11 2002/02/04 20:14:07 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.12 2002/02/26 06:10:18 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 #ifdef __sgi

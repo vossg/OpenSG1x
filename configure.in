@@ -898,7 +898,7 @@ case "$build_os" in
         echo "WARNING"
         echo "#############################"
         echo "This port is highly experimental, currently only the {dbg|opt}Lnk"
-        echo "targets are working, but even this not out of the box." 
+        echo "targets are working" 
         echo "In case you are interested in the OSX port"
         echo "please contact me (vossg@camtech.ntu.edu.sg) beforehand"
     ;;

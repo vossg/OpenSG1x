@@ -45,7 +45,7 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGState.h>
 #include <OSGDrawActionBase.h>
@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.19 2002/02/04 20:14:08 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.20 2002/02/26 06:10:16 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -45,7 +45,7 @@
 
 #include <OSGConfig.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGFieldContainer.h>
 #include <OSGNode.h>
@@ -78,7 +78,7 @@ Background is the base class for all background clearing.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.7 2002/02/04 20:14:12 dirk Exp $";
+char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.8 2002/02/26 06:10:15 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

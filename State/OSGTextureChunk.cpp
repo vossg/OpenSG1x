@@ -45,8 +45,8 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <OSGGL.h>
+#include <OSGGLU.h>
 
 #include "OSGDrawActionBase.h"
 
@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.33 2002/02/19 14:37:33 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.34 2002/02/26 06:10:14 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", 4);
 
@@ -136,7 +136,6 @@ void TextureChunk::initMethod (void)
 
 // this should go somewhere central...
 
-#include <GL/glu.h>
 #define glErr(text)                           \
 {                                   \
         GLenum glerr;                           \

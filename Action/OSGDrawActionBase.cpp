@@ -48,7 +48,7 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 #include <OSGVolumeDraw.h>
 
 #include <OSGDrawActionBase.h>

@@ -61,7 +61,7 @@
 #include "OSGBlendChunkBase.h"
 #include "OSGBlendChunk.h"
 
-#include <GL/gl.h>                        // AlphaFunc default header
+#include <OSGGL.h>                        // AlphaFunc default header
 
 
 OSG_USING_NAMESPACE
@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.22 2002/01/04 16:47:40 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.23 2002/02/26 06:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

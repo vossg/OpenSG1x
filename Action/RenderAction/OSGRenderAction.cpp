@@ -67,7 +67,7 @@
 
 #include <OSGLightBase.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 OSG_USING_NAMESPACE
 
