@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.18 2002/06/30 05:04:22 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.19 2002/07/02 15:07:00 dirk Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -194,9 +194,9 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
             if ( action->getWindow()->hasExtension(_extBlend ))
             {
                 // get "glBlendColorEXT" function pointer
-                void (*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
+                void (OSG_APIENTRY*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
                      GLclampf alpha ) =
-                    (void (*)(GLclampf red,GLclampf green,GLclampf blue,
+                    (void (OSG_APIENTRY*)(GLclampf red,GLclampf green,GLclampf blue,
                      GLclampf alpha))
                     action->getWindow()->getFunction( _funcBlendColor );
 
@@ -244,9 +244,9 @@ void BlendChunk::changeFrom( DrawActionBase *action,
             if ( action->getWindow()->hasExtension(_extBlend ))
             {
                 // get "glBlendColorEXT" function pointer
-                void (*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
+                void (OSG_APIENTRY*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
                      GLclampf alpha ) =
-                    (void (*)(GLclampf red,GLclampf green,GLclampf blue,
+                    (void (OSG_APIENTRY*)(GLclampf red,GLclampf green,GLclampf blue,
                      GLclampf alpha))
                     action->getWindow()->getFunction( _funcBlendColor );
 

@@ -328,31 +328,31 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
  
     // functions
  
-    void (*CombinerParameterfv)(GLenum pname, GLfloat *params) = 
-            (void (*)(GLenum pname, GLfloat *params))
+    void (OSG_APIENTRY*CombinerParameterfv)(GLenum pname, GLfloat *params) = 
+            (void (OSG_APIENTRY*)(GLenum pname, GLfloat *params))
             win->getFunction(_funcCombinerParameterfv);
  
-    void (*CombinerInput)(GLenum stage, GLenum portion, GLenum variable, 
+    void (OSG_APIENTRY*CombinerInput)(GLenum stage, GLenum portion, GLenum variable, 
                           GLenum input, GLenum mapping, GLenum component) = 
-            (void (*)(GLenum stage, GLenum portion, GLenum variable, 
+            (void (OSG_APIENTRY*)(GLenum stage, GLenum portion, GLenum variable, 
                       GLenum input, GLenum mapping, GLenum component))
             win->getFunction(_funcCombinerInput);
  
-    void (*CombinerOutput)(GLenum stage, GLenum portion, 
+    void (OSG_APIENTRY*CombinerOutput)(GLenum stage, GLenum portion, 
                            GLenum abOut, GLenum cdOut, GLenum sumOut, 
                            GLenum scale, GLenum bias, 
                            GLboolean abdot, GLboolean cddot, 
                            GLboolean muxSum) = 
-            (void (*)(GLenum stage, GLenum portion, 
+            (void (OSG_APIENTRY*)(GLenum stage, GLenum portion, 
                       GLenum abOut, GLenum cdOut, GLenum sumOut, 
                       GLenum scale, GLenum bias, 
                       GLboolean abdot, GLboolean cddot, 
                       GLboolean muxSum))
             win->getFunction(_funcCombinerOutput);
  
-    void (*FinalCombinerInput)(GLenum variable, GLenum input, GLenum mapping, 
+    void (OSG_APIENTRY*FinalCombinerInput)(GLenum variable, GLenum input, GLenum mapping, 
                                GLenum component) = 
-            (void (*)(GLenum variable, GLenum input, GLenum mapping, 
+            (void (OSG_APIENTRY*)(GLenum variable, GLenum input, GLenum mapping, 
                                GLenum component))
             win->getFunction(_funcFinalCombinerInput);
     
@@ -624,7 +624,7 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.4 2002/06/30 05:04:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.5 2002/07/02 15:07:00 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }

@@ -67,8 +67,8 @@ inline bool TextureChunk::hasMultiTexture(Window *win)
 //! call glActiveTexture via the extension mechanism
 inline void TextureChunk::activeTexture(Window *win, UInt16 texture)
 {
-    void (*ActiveTexture)(GLenum target) = 
-            (void (*)(GLenum target))
+    void (OSG_APIENTRY*ActiveTexture)(GLenum target) = 
+            (void (OSG_APIENTRY*)(GLenum target))
             win->getFunction(_funcActiveTexture);
     ActiveTexture(GL_TEXTURE0_ARB + texture);
 }

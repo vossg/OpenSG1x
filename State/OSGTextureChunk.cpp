@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.42 2002/06/30 05:04:22 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.43 2002/07/02 15:07:00 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -307,22 +307,22 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         }
         
         // 3D texture functions
-        void (*TexImage3D)(GLenum target, GLint level, GLenum internalformat, 
+        void (OSG_APIENTRY*TexImage3D)(GLenum target, GLint level, GLenum internalformat, 
                            GLsizei width, GLsizei height, GLsizei depth, 
                            GLint border, GLenum format, GLenum type, 
                            const GLvoid *pixels) = 
-            (void (*)(GLenum target, GLint level, GLenum internalformat, 
+            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLenum internalformat, 
                       GLsizei width, GLsizei height, GLsizei depth, 
                       GLint border, GLenum format, GLenum type, 
                       const GLvoid *pixels))
             win->getFunction(_funcTexImage3D);
 
-        void (*TexSubImage3D)
+        void (OSG_APIENTRY*TexSubImage3D)
                           (GLenum target, GLint level, GLint xoffset, 
                            GLint yoffset, GLint zoffset, GLsizei width, 
                            GLsizei height, GLsizei depth, GLenum format, 
                            GLenum type, const GLvoid *pixels) =
-            (void (*)(GLenum target, GLint level, GLint xoffset, 
+            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLint xoffset, 
                       GLint yoffset, GLint zoffset, GLsizei width, 
                       GLsizei height, GLsizei depth, GLenum format, 
                       GLenum type, const GLvoid *pixels)) 
@@ -693,12 +693,12 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
     }
     else if(mode == Window::needrefresh)
     {
-        void (*TexSubImage3D)
+        void (OSG_APIENTRY*TexSubImage3D)
                           (GLenum target, GLint level, GLint xoffset, 
                            GLint yoffset, GLint zoffset, GLsizei width, 
                            GLsizei height, GLsizei depth, GLenum format, 
                            GLenum type, const GLvoid *pixels) =
-            (void (*)(GLenum target, GLint level, GLint xoffset, 
+            (void (OSG_APIENTRY*)(GLenum target, GLint level, GLint xoffset, 
                       GLint yoffset, GLint zoffset, GLsizei width, 
                       GLsizei height, GLsizei depth, GLenum format, 
                       GLenum type, const GLvoid *pixels)) 
