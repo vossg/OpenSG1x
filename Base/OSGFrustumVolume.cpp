@@ -177,7 +177,7 @@ void FrustumVolume::transform(const Matrix &m)
 /// Assignment operator
 const FrustumVolume &FrustumVolume::operator =(const FrustumVolume &b1)
 {
-	for (int i; i < 5; i++)
+	for (int i = 0; i < 5; i++)
 		_planeVec[i] = b1._planeVec[i];
 	_state = b1._state;
 	

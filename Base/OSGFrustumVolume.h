@@ -199,7 +199,7 @@ public:
   friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
   /// Unequality comparisons
-  inline friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+  friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
   /// Assignment operator
   const FrustumVolume &operator =(const FrustumVolume &b1);
