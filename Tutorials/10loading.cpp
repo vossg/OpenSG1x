@@ -29,6 +29,57 @@ SimpleSceneManager *mgr;
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
 
+
+// helper class to find a named node
+// names are handled as simple attachments, get the header for that
+#include <OpenSG/OSGSimpleAttachments.h>
+
+// There are two convenience functions for name access: getName() and
+// setName(). For details about general attachment handling see the 
+// attachments tutorial
+
+class NamedNodeFinder
+{
+  public:
+  
+    NamedNodeFinder(void) : _name(), _found() {}
+
+    NodePtr operator() (NodePtr root, string name)
+    {
+        _name=&name;
+        _found=NullFC;
+        
+        traverse(root, osgTypedMethodFunctor1ObjPtrCPtrRef(
+                            this, 
+                            &NamedNodeFinder::check));
+        
+        return _found;
+    }
+ 
+    static NodePtr find(NodePtr root, string name)
+    {
+        NamedNodeFinder f;      
+        
+        return f(root,name);
+    }
+   
+  private:
+     
+    Action::ResultE check(NodePtr& node)
+    {
+        if(getName(node) && *_name == getName(node))
+        {
+            _found = node;
+            return Action::Quit;
+        }
+
+        return Action::Continue;        
+    }
+ 
+    NodePtr  _found;
+    string  *_name;
+};
+
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
@@ -72,6 +123,36 @@ int main(int argc, char **argv)
         scene = SceneFileHandler::the().read(argv[1]);
     }
 
+    
+    NodePtr found;
+    
+    NamedNodeFinder f;
+    
+    // Try to find the Scene object. As it hasn't been named yet, 
+    // it's not expected to be found.
+    found = f(scene, "Scene");  
+    if(found == NullFC)
+    {
+        SLOG << "Found no object named Scene." << endLog;
+    }
+    else
+    {
+        SLOG << "Found object " << found << " named Scene. How did that happen?" 
+             << endLog;
+    }   
+    
+    // Try to find the TF_DETAIL object. An object in Data/tie.wrl is called
+    // TF_DETAIL, so we might find it.
+    found = NamedNodeFinder::find(scene, "TF_DETAIL"); 
+    if(found == NullFC)
+    {
+        SLOG << "Found no object named TF_DETAIL (did you load the tie?)." 
+             << endLog;
+    }
+    else
+    {
+        SLOG << "Found object " << found << " named TF_DETAIL." << endLog;
+    }   
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
@@ -96,6 +177,7 @@ int main(int argc, char **argv)
 // redraw the window
 void display(void)
 {
+    mgr->idle();
     mgr->redraw();
 }
 
@@ -109,6 +191,7 @@ void reshape(int w, int h)
 // react to mouse button presses
 void mouse(int button, int state, int x, int y)
 {
+
     if (state)
         mgr->mouseButtonRelease(button, x, y);
     else
@@ -120,12 +203,13 @@ void mouse(int button, int state, int x, int y)
 // react to mouse motions with pressed buttons
 void motion(int x, int y)
 {
+
     mgr->mouseMove(x, y);
     glutPostRedisplay();
 }
 
 // react to keys
-void keyboard(unsigned char k, int x, int y)
+void keyboard(unsigned char k, int , int )
 {
     switch(k)
     {
@@ -133,6 +217,18 @@ void keyboard(unsigned char k, int x, int y)
         {
             OSG::osgExit();
             exit(0);
+        }
+        break;
+        
+        case 'f': 
+        {  
+            mgr->setNavigationMode(Navigator::FLY);
+        }
+        break;
+        
+        case 't':   
+        {
+            mgr->setNavigationMode(Navigator::TRACKBALL);
         }
         break;
     }
@@ -148,6 +244,7 @@ int setupGLUT(int *argc, char *argv[])
     
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
+    glutIdleFunc(display);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);

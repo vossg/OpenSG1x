@@ -1,7 +1,21 @@
 // OpenSG Tutorial Example: Hello World
 //
-// Minimalistic OpenSG cluster program
+// Minimalistic OpenSG cluster client program
 // 
+// To test it, run 
+//   ./12ClusterServer -geometry 300x300+200+100 -m -w test1 &
+//   ./12ClusterServer -geometry 300x300+500+100 -m -w test2 &
+//   ./13ClusterClient -m -fData/tie.wrl test1 test2
+//
+// The client will open an emoty window that you can use to navigate. The
+// display is shown in the server windows.
+//
+// This will run all three on the same machine, but you can also start the 
+// servers anywhere else, as long as you can reach them via multicast.
+//
+// Note: This will run two VERY active OpenGL programs on one screen. Not all
+// OpenGL drivers are happy with that, so if it crashes your X, it's not our
+// fault! ;)
 
 // GLUT is used for window handling
 #include <OpenSG/OSGGLUT.h>
@@ -45,7 +59,7 @@ int main(int argc, char **argv)
     // GLUT init
     int winid = setupGLUT(&argc, argv);
 
-    // the connection between GLUT and OpenSG
+    // the connection between this client and the servers
     MultiDisplayWindowPtr mwin= MultiDisplayWindow::create();
 
     // all changes must be enclosed in beginEditCP and endEditCP
@@ -79,7 +93,7 @@ int main(int argc, char **argv)
                                     << " -f file"
                                     << " -x horizontal server cnt"
                                     << " -y vertical server cnt"
-                                    << std::endl;
+                                    << endLog;
                           return 0;
             }
         }
@@ -126,11 +140,10 @@ int main(int argc, char **argv)
 // redraw the window
 void display(void)
 {
-    printf("redraw\n");
     // redraw the cluster window
     mgr->redraw();
     // clear change list. If you don't clear the changelist,
-    // then the same changes will be transmitted a socond time
+    // then the same changes will be transmitted a second time
     // in the next frame. 
     OSG::Thread::getCurrentChangeList()->clearAll();
     // clear local navigation window

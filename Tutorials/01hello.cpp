@@ -25,6 +25,8 @@
 #include <OpenSG/OSGSimpleSceneManager.h>
 
 // Activate the OpenSG namespace
+// This is not strictly necessary, you can also prefix all OpenSG symbols
+// with OSG::, but that would be a bit tedious for this example
 OSG_USING_NAMESPACE
 
 // The SimpleSceneManager to manage simple applications

@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 
     // create the scene
 
-    NodePtr torus = makeTorus( .5, 2, 16, 16 );
+    NodePtr torus = makeTorus( .5, 2, 16, 32 );
 
     // create the transformation node
     // scenegraph nodes are split into 2 parts: the node and its core

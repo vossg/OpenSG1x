@@ -5,6 +5,7 @@
 // application is the client. Instances that are used for 
 // rendering are called server.
 //
+// See the ClusterClient.cpp for an example of how to use them.
 
 #include <iostream>
 
@@ -41,7 +42,13 @@ int main(int argc,char **argv)
     bool            fullscreen     =true;
     std::string     address        ="";
     char           *opt;
-    
+
+    // initialize Glut
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | 
+                         GLUT_DEPTH | 
+                         GLUT_DOUBLE);
+
     // evaluate params
     for(int a=1 ; a<argc ; ++a)
     {
@@ -56,16 +63,16 @@ int main(int argc,char **argv)
                 case 'a': address = argv[a][2] ? argv[a]+2 : argv[++a];
                           if(address == argv[argc])
                           { 
-                              std::cerr << "address missing" << std::endl;
+                              SLOG << "address missing" << endLog;
                               return 0;
                           }
-                          std::cout << address << std::endl;
+                          std::cout << address << endLog;
                           break;
                 default:  std::cout << argv[0] 
                                     << "-m "
                                     << "-w "
                                     << "-a address "
-                                    << std::endl;
+                                    << endLog;
                           return 0;
             }
         }
@@ -79,11 +86,6 @@ int main(int argc,char **argv)
         // init OpenSG
         osgInit(argc, argv);
 
-        // initialize Glut
-        glutInit(&argc, argv);
-        glutInitDisplayMode( GLUT_RGB | 
-                             GLUT_DEPTH | 
-                             GLUT_DOUBLE);
         winid = glutCreateWindow(name);
         if(fullscreen)
             glutFullScreen();
@@ -114,7 +116,7 @@ int main(int argc,char **argv)
     }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
-        std::cerr << e.what() << std::endl;
+        SLOG << e.what() << endLog;
         delete server;
         osgExit(); 
     }
@@ -133,7 +135,7 @@ void display()
     } 
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
-        std::cerr << e.what() << std::endl;
+        SLOG << e.what() << endLog;
         // try to restart server
         server->stop();
         // start server, wait for client to connect
