@@ -51,8 +51,7 @@ OSG_BEGIN_NAMESPACE
 class Viewport;
 class DrawActionBase;
 
-/*! \brief *put brief class description here* 
- */
+//! *put brief class description here* 
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageBackground : public ImageBackgroundBase
 {
@@ -67,7 +66,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackground : public ImageBackgroundBase
     /*! \name                    Actions                                   */
     /*! \{                                                                 */
 
-    virtual void clear(DrawActionBase * action, Viewport * port);
+    virtual void clear(DrawActionBase *, Viewport *);
 
      
     /*! \}                                                                 */
@@ -128,6 +127,6 @@ OSG_END_NAMESPACE
 #include <OSGImageBackground.inl>
 #include <OSGImageBackgroundBase.inl>
 
-#define OSGIMAGEBACKGROUND_HEADER_CVSID "@(#)$Id: OSGImageBackground.h,v 1.1 2001/10/29 16:46:56 dirk Exp $"
+#define OSGIMAGEBACKGROUND_HEADER_CVSID "@(#)$Id: OSGImageBackground.h,v 1.2 2001/11/01 09:03:30 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUND_H_ */

@@ -54,8 +54,7 @@ class Geometry;
 class DrawAction;
 
 
-/*! \brief Material class
- */
+//! Material class
 
 class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 {

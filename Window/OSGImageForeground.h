@@ -49,8 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+//! *put brief class description here* 
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageForeground : public ImageForegroundBase
 {
@@ -96,7 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForeground : public ImageForegroundBase
     /*! \name                    draw                                      */
     /*! \{                                                                 */
 
-    virtual void draw( DrawActionBase * action, Viewport * port );
+    virtual void draw( DrawActionBase *, Viewport *);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

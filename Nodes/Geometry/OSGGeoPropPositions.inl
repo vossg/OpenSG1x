@@ -43,6 +43,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 // Positions3d
 
@@ -97,5 +98,8 @@ GeoProperty<GeoPositions3dPropertyDesc>::addValue( const Pnt3f & val )
     _field.addValue(Pnt3d( val[0], val[1], val[2]));
 }
 
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 OSG_END_NAMESPACE
+
+

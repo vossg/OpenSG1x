@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief chunk for glBlendFunc() attributes
- */
+//! chunk for glBlendFunc() attributes
 
 class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
 {

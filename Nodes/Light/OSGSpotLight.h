@@ -48,9 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup LightNodes
- *  \brief Spotlight
- */
+//! \ingroup LightNodes
+//! Spotlight
 
 class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 {

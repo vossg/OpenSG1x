@@ -49,8 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+//! *put brief class description here* 
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMaterialBase
 {
@@ -139,6 +138,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterial.inl>
 #include <OSGSimpleTexturedMaterialBase.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.4 2001/10/16 13:19:29 dirk Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.5 2001/11/01 09:03:28 vossg Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

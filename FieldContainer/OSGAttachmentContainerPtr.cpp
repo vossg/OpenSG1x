@@ -65,10 +65,6 @@ namespace
 #pragma reset woff 1174
 #endif
 
-/** \fn const char *AttachmentContainerPtr::getClassname(void)
- *  \brief Classname
- */
-
 /** \typedef AttachmentContainerPtr::Inherited
  *  \brief Parent type
  */

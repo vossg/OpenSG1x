@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief chunk for modelview transformations
- */
+//! chunk for modelview transformations
 
 class OSG_SYSTEMLIB_DLLMAPPING TransformChunk : public TransformChunkBase
 {

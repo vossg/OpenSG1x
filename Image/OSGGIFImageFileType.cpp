@@ -52,10 +52,14 @@
 #include "OSGGIFImageFileType.h"
 #include <OSGLog.h>
 
-#ifdef OSG_WITH_GIF
-#define OSG_GIF_ARG(ARG) ARG
+#ifndef OSG_DO_DOC
+#    ifdef OSG_WITH_GIF
+#        define OSG_GIF_ARG(ARG) ARG
+#    else
+#        define OSG_GIF_ARG(ARG)
+#    endif
 #else
-#define OSG_GIF_ARG(ARG)
+#    define OSG_GIF_ARG(ARG) ARG
 #endif
 
 #ifdef OSG_WITH_GIF

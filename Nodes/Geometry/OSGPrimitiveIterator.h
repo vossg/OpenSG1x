@@ -54,10 +54,8 @@ OSG_BEGIN_NAMESPACE
 class Geometry;
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
-/*! \brief The PrimitiveIterator iterates through a geometry one primitive
- *  at a time.
- *  \ingroup GeoIterators
- */
+//! The PrimitiveIterator iterates through a geometry one primitive at a time.
+//! \ingroup GeoIterators
 
 class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 {

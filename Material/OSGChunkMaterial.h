@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief ChunkMaterial class
- */
+//! ChunkMaterial class
 
 class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
 {

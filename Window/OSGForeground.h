@@ -52,8 +52,7 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-/*! \brief foreground base class 
- */
+//! foreground base class 
 
 class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase
 {

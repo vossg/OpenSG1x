@@ -43,6 +43,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 // Color4f
 
@@ -227,5 +228,7 @@ GeoProperty<GeoColors4ubPropertyDesc>::addValue( const Color3f & val )
                         255)
             );
 }
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 OSG_END_NAMESPACE

@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief class for light source chunks.
- */
+//! \brief class for light source chunks.
 
 class OSG_SYSTEMLIB_DLLMAPPING LightChunk : public LightChunkBase
 {

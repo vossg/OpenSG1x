@@ -405,7 +405,7 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 //s:
 //
 //------------------------------
-Bool SceneFileHandler::write ( const NodePtr node, const char *fileName )
+Bool SceneFileHandler::write ( const NodePtr node, const Char8 *fileName )
 {
     Bool retCode = false;
     SceneFileType *type = getFileType(fileName);

@@ -58,8 +58,7 @@ class DrawActionBase;
 class FrustumVolume;
 class Line;
 
-/*! \brief Camera base class
- */
+//! Camera base class
 
 class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
 {

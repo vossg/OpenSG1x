@@ -52,8 +52,7 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-/*! \brief *put brief class description here* 
- */
+//! *put brief class description here* 
 
 class OSG_SYSTEMLIB_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
 {
@@ -72,7 +71,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 
-    void clear( DrawActionBase * action, Viewport * port );
+    void clear(DrawActionBase *action, Viewport *port);
 
     void addColor(Color3f color, Real32 position);
 

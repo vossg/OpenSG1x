@@ -84,9 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
     static vector<UInt32>* _numslots;
 };
 
-/*! \brief StateChunk base class
- *  \ingroup StateChunks
- */
+//! StateChunk base class
+//! \ingroup StateChunks
 
 class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 {

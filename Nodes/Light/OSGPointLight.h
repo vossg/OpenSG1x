@@ -47,9 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup LightNodes
- *  \brief Pointlight
- */
+//! \ingroup LightNodes
+//! Pointlight
 
 class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 {

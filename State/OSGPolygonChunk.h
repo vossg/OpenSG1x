@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief chunk for Polygon attributes
- */
+//! chunk for Polygon attributes
 
 class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
 {

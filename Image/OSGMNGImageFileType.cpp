@@ -56,12 +56,15 @@
 #include "OSGMNGImageFileType.h"
 #include <OSGLog.h>
 
-#ifdef OSG_WITH_MNG
-#define OSG_MNG_ARG(ARG) ARG
+#ifndef OSG_DO_DOC
+#    ifdef OSG_WITH_MNG
+#        define OSG_MNG_ARG(ARG) ARG
+#    else
+#        define OSG_MNG_ARG(ARG)
+#    endif
 #else
-#define OSG_MNG_ARG(ARG)
+#    define OSG_MNG_ARG(ARG) ARG
 #endif
-
 
 OSG_USING_NAMESPACE
 

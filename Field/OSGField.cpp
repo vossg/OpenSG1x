@@ -53,19 +53,7 @@ OSG_USING_NAMESPACE
  *  \brief Classname
  */
 
-/** \var Field::Cardinality
- *  \brief Cardinality of the field
- */
-
-/** \var Field::Cardinality Field::SINGLE_FIELD
- *  \brief Single field
- */
-
-/** \var Field::Cardinality Field::MULTI_FIELD
- *  \brief Mulit field
- */
-
-/** \fn void Field::setValueByStr(char *str)
+/** \fn void Field::pushValueByStr(const Char8 *str)
  * \brief Set value from string
  */
 

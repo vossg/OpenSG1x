@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.2 2001/10/30 11:25:22 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.3 2001/11/01 09:03:30 vossg Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }
@@ -109,7 +109,7 @@ void ImageBackground::changed(BitVector, ChangeMode)
 
 //! clear the background
 
-void ImageBackground::clear(DrawActionBase *, ViewportP )
+void ImageBackground::clear(DrawActionBase *, Viewport *)
 {
     ImageP img = getImage();
     

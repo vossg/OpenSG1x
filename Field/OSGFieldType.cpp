@@ -66,20 +66,8 @@ namespace
 #pragma reset woff 1174
 #endif
 
-/** \fn const char *FieldType::getClassname(void)
- *  \brief Classname
- */
-
 /** \typedef Field * (*FieldType::CreateFieldMethod)(void)
  *  Field create method
- */
-
-/** \var FieldDataType FieldType::_typeId
- *  \brief Field data type
- */
-
-/** \var char *FieldType::_szName
- *  \brief Field type name
  */
 
 /** \var FieldType::_createMethod
@@ -92,6 +80,14 @@ namespace
 
 /** \fn void FieldType::operator =(const FieldType &source)
  *  \brief Not implemented.
+ */
+
+/** \var FieldType::Cardinality FieldType::SINGLE_FIELD
+ *  \brief Single field
+ */
+
+/** \var FieldType::Cardinality FieldType::MULTI_FIELD
+ *  \brief Mulit field
  */
 
 /***************************************************************************\

@@ -51,8 +51,7 @@ OSG_BEGIN_NAMESPACE
 
 class DrawAction;
 
-/*! \brief PerspectiveCamera class
- */
+//! PerspectiveCamera class
 
 class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
 {

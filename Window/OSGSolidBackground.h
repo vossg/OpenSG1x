@@ -52,8 +52,7 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-/*! \brief SolidBackground class
- */
+//! \brief SolidBackground class
 
 class OSG_SYSTEMLIB_DLLMAPPING SolidBackground : public SolidBackgroundBase
 {
@@ -71,7 +70,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackground : public SolidBackgroundBase
     /*! \name                     your_category                            */
     /*! \{                                                                 */
 
-    void clear( DrawActionBase * action, Viewport * port );
+    void clear(DrawActionBase *, Viewport *);
 
 
     /*! \}                                                                 */

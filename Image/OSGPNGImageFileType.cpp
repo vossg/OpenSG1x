@@ -53,10 +53,14 @@
 #include "OSGPNGImageFileType.h"
 #include <OSGLog.h>
 
-#ifdef OSG_WITH_PNG
-#define OSG_PNG_ARG(ARG) ARG
+#ifndef OSG_DO_DOC
+#    ifdef OSG_WITH_PNG
+#        define OSG_PNG_ARG(ARG) ARG
+#    else
+#        define OSG_PNG_ARG(ARG)
+#    endif
 #else
-#define OSG_PNG_ARG(ARG)
+#    define OSG_PNG_ARG(ARG) ARG
 #endif
 
 OSG_USING_NAMESPACE

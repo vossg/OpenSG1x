@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief chunk for glMaterial() attributes
- */
+//! chunk for glMaterial() attributes
 
 class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 {

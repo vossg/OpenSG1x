@@ -56,8 +56,7 @@ OSG_BEGIN_NAMESPACE
 class DrawAction;
 class RenderAction;
 
-/*! \brief The abstract base for all windows
- */
+//! The abstract base for all windows
 
 class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 {

@@ -78,7 +78,7 @@ is just too expensive and rarely useful.
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.12 2001/10/15 04:52:16 vossg Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.13 2001/11/01 09:03:28 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -137,7 +137,7 @@ They are useful to create an iterator to be used to seek() to a specific
 indexed face. Otherwise, use Geometry::beginFaces() resp. Geometry::endFaces()
 to create an iterator.
 */
-//@{
+
 FaceIterator::FaceIterator( const NodePtr& geo ) :
     _primIt(), _geo( GeometryPtr::dcast(geo->getCore()) ),
     _faceIndex(0), _actPrimIndex(), _facePntIndex()
@@ -151,7 +151,6 @@ FaceIterator::FaceIterator( const GeometryPtr& geo ) :
 {
     _primIt.setGeo( geo );
 }
-//@}
 
 
 FaceIterator::~FaceIterator(void)

@@ -50,8 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 
-/*! \brief TileCameraDecorator selects a rectangular part of the image
- */
+//! TileCameraDecorator selects a rectangular part of the image
 
 class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorBase
 {

@@ -65,10 +65,6 @@ namespace
 #pragma reset woff 1174
 #endif
 
-/** \fn const char *FieldFactory::getClassname(void)
- *  \brief Classname
- */
-
 /** \fn FieldFactory::FieldFactory(const FieldFactory &source)
  *  \brief Not implemented.
  */

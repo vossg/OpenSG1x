@@ -52,16 +52,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*---------------------------------------------------------------------*/
-/*! \name                       Access                                 */
-/*! \{                                                                 */
-
 inline
 GeoPumpFactory& GeoPumpFactory::the(void)
 {
     return _the;
 }
-
-/*! \}                                                                 */
 
 OSG_END_NAMESPACE

@@ -60,9 +60,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup SystemLib
- *  \brief A helper class to simplify managing simple applications.
- */
+//! \ingroup SystemLib
+//! A helper class to simplify managing simple applications.
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
 {
@@ -211,6 +210,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.8 2001/10/22 11:35:05 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.9 2001/11/01 09:03:30 vossg Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

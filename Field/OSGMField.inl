@@ -415,8 +415,7 @@ void MField<FieldTypeT, fieldNameSpace>::setValues(const StorageType &value)
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::setValues(
-    const MField<FieldTypeT, fieldNameSpace> &obj)
+void MField<FieldTypeT, fieldNameSpace>::setValues(const Self &obj)
 {
     _values = obj._values;
 }

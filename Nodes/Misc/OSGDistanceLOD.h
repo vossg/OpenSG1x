@@ -50,8 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+//! *put brief class description here* 
 
 class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 {

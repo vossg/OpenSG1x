@@ -83,7 +83,7 @@ Window objects.
 
 */
 
-/*! \class Window
+/*! \class osg::Window
     \ingroup Windows
 
 The Window base class.

@@ -49,8 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief SimpleMaterial class
- */
+//! SimpleMaterial class
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
 {

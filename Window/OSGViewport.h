@@ -52,8 +52,7 @@ OSG_BEGIN_NAMESPACE
 class DrawAction;
 class RenderAction;
 
-/*! \brief Viewport class
- */
+//! Viewport class
 
 class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
 {

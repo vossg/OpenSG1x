@@ -52,8 +52,7 @@ OSG_BEGIN_NAMESPACE
 class DrawActionBase;
 class Viewport;
 
-/*! \brief gradient background class
- */
+//! gradient background class
 
 class OSG_SYSTEMLIB_DLLMAPPING GradientBackground : 
     public GradientBackgroundBase
@@ -72,7 +71,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackground :
     /*! \name                    your_category                             */
     /*! \{                                                                 */
     
-    void clear( DrawActionBase * action, Viewport * port );
+    void clear( DrawActionBase *, Viewport *);
 
     void addColor(Color3f color, Real32 position);
 

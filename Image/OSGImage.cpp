@@ -60,7 +60,13 @@
 #include "OSGSFImageTypes.h"
 #include "OSGMFImageTypes.h"
 */
-OSG_USING_NAMESPACE Int32 Image::_formatMap[][2] =
+OSG_USING_NAMESPACE 
+
+/*! class osg::Image 
+ */
+
+
+Int32 Image::_formatMap[][2] =
 {
     { OSG_L_PF, 1 },
     { OSG_LA_PF, 2 },
@@ -554,7 +560,7 @@ void Image::dump(void)
 //s:
 //
 //------------------------------
-Bool Image::scale(int width, int height, int depth, Image *destination)
+Bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 {
     Image   *destImage = destination ? destination : new Image;
     Bool    retCode = true;

@@ -48,9 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup LightNodes
- *  \brief Directional light
- */
+//! \ingroup LightNodes
+//! Directional light
 
 class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 {

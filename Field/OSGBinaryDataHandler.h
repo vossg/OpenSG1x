@@ -157,7 +157,8 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
                                             UInt32         dataSize=0      );
             void               writeBufClear(void);
 
-    virtual void               read       (MemoryHandle   mem   , UInt32 size);
+    virtual void               read       (MemoryHandle   OSG_CHECK_ARG(mem),
+                                           UInt32         OSG_CHECK_ARG(size));
     virtual void               readBuffer (void                              );
     virtual void               write      (MemoryHandle   mem   , UInt32 size);
     virtual void               writeBuffer(void                              );

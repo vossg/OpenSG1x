@@ -63,8 +63,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup 
- *  \brief Brief
+/*! \brief File AccessFlags
  */
 
 namespace AccessFlags
@@ -75,12 +74,18 @@ namespace AccessFlags
 }
 
 
+/*! \brief File Functions
+ */
+
 namespace File
 {
     inline
     static Bool tstAttr(const Char8  *szFilename,
                               UInt32  uiAccessFlags);
 }
+
+/*! \brief Directory Functions
+ */
 
 namespace Directory
 {

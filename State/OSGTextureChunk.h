@@ -49,8 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief chunk for single texture attributes
- */
+//! chunk for single texture attributes
 
 class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 {

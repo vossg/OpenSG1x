@@ -50,11 +50,16 @@
 #endif
 #include <OSGLog.h>
 
-#ifdef OSG_WITH_TIF
-#define OSG_TIF_ARG(ARG) ARG
+#ifndef OSG_DO_DOC
+#    ifdef OSG_WITH_TIF
+#        define OSG_TIF_ARG(ARG) ARG
+#    else
+#        define OSG_TIF_ARG(ARG)
+#    endif
 #else
-#define OSG_TIF_ARG(ARG)
+#    define OSG_TIF_ARG(ARG) ARG
 #endif
+
 
 OSG_USING_NAMESPACE
 
