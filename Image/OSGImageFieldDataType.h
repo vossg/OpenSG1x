@@ -82,15 +82,23 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
     static void             putToString(const ImageP &inVal,
                                               string &outStr)
     {
+		string fileName;
         static UInt32 counter = 0;
-        string fileName;
-        fileName.assign("Image");
-        fileName.append( TypeConstants<UInt32>::putToString(counter++) );
-        fileName.append(".pnm");
-        inVal->write(fileName.c_str());
-        outStr.assign( "\"" );
-        outStr.append( fileName );
-        outStr.append( "\"" );
+
+		if(inVal != NULL)
+		{
+		    fileName.assign("Image");
+			fileName.append( TypeConstants<UInt32>::putToString(counter++) );
+			fileName.append(".pnm");
+			inVal->write(fileName.c_str());
+		}
+
+		outStr.assign( "\"" );
+		if(inVal != NULL)
+		{
+			outStr.append( fileName );
+		}
+	    outStr.append( "\"" );
     }
 
     static UInt32 getBinSize(const ImageP &oObject)
