@@ -132,7 +132,7 @@ class OSGFieldContainerPtr
 
     /*------------------------------ information ---------------------------*/
 
-    OSGUInt32 getContainerId(void);
+    OSGUInt32 getContainerId(void) const;
 
     /*------------------------- pointer operators --------------------------*/
 

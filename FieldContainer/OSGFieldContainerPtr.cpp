@@ -210,7 +210,7 @@ void OSGFieldContainerPtr::endEditNotChanged(OSGBitVector whichField)
     OSGThread::getCurrentChangeList()->addChanged(*this, whichField);
 }
 
-OSGUInt32 OSGFieldContainerPtr::getContainerId(void)
+OSGUInt32 OSGFieldContainerPtr::getContainerId(void) const
 {
     return (*getIdP());
 }
