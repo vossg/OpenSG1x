@@ -34,6 +34,8 @@ int main (int argc, char **argv)
 	NodePtr n;
 	GeometryPtr g;
 	
+	int j;
+	
 	// OSG
 	
 	// create the test geometry
@@ -119,12 +121,12 @@ int main (int argc, char **argv)
 
 	
 	cerr << g->getLengths()->getSize() << " primitives with ";
-	for ( int j = 0; j < g->getLengths()->getSize(); j++ )
+	for ( j = 0; j < g->getLengths()->getSize(); j++ )
 	{
 		cerr <<  g->getLengths()->getValue( j ) << " ";
 	}
 	cerr << " points" << endl << g->getIndex()->getSize() << " indices: ";
-	for ( int j = 0; j < g->getIndex()->getSize(); j++ )
+	for ( j = 0; j < g->getIndex()->getSize(); j++ )
 	{
 		cerr <<  g->getIndex()->getValue( j ) << " ";
 	}
@@ -136,10 +138,10 @@ int main (int argc, char **argv)
 	
 	for ( pi = g->beginPrimitives(); pi != g->endPrimitives(); ++pi )
 	{
-		cerr << "Primitive " << pi.getPrimIndex() << ": "
-		 	 << Geometry::mapType( pi.getPrimType() ) << " with " 
-			 << pi.getPrimLength() << " points" << endl;
-		for ( int j = 0; j < pi.getPrimLength(); j++ )
+		cerr << "Primitive " << pi.getIndex() << ": "
+		 	 << Geometry::mapType( pi.getType() ) << " with " 
+			 << pi.getLength() << " points" << endl;
+		for ( j = 0; j < pi.getLength(); j++ )
 		{
 			cerr << "Point " << j << ":  " << pi.getPositionIndex( j ) << ": "
 				 << pi.getPosition( j );
@@ -148,27 +150,108 @@ int main (int argc, char **argv)
 		}
 	}
 	
-	cerr << endl << "Triangle Iterator:" << endl;
+	// try seek
+	
+	cerr << "Checking seek...";
+	
+	PrimitiveIterator pi2(g);
+	
+	for ( pi = g->beginPrimitives(), j = 0; 
+			pi != g->endPrimitives(); ++pi,++j )
+	{
+		pi2.seek( j );
+		
+		if ( pi.getIndex()  != pi2.getIndex() ||
+			 pi.getType() 	!= pi2.getType() || 
+			 pi.getLength() != pi2.getLength()
+			)
+		{
+			cerr << "Seek mismatch!" << endl;
+			cerr << "Primitive " << pi.getIndex() << ": "
+		 		 << Geometry::mapType( pi.getType() ) << " with " 
+				 << pi.getLength() << " points" << endl;
+			cerr << "Primitive " << pi2.getIndex() << ": "
+		 		 << Geometry::mapType( pi2.getType() ) << " with " 
+				 << pi2.getLength() << " points" << endl;
+		}
+		for ( int k = 0; k < pi.getLength(); k++ )
+		{
+			if ( pi.getPositionIndex( k )	!= pi2.getPositionIndex( k ) ||
+				 pi.getColorIndex( k )		!= pi2.getColorIndex( k ) ||
+				 pi.getNormalIndex( k ) 	!= pi2.getNormalIndex( k ) )
+			{			 
+				cerr << "Prim " << j << endl;
+				cerr << "Point " << k << ":  " << pi.getPositionIndex( k );
+				cerr << "\tcol: " << pi.getColorIndex( k );
+				cerr << "\tnorm: " << pi.getNormalIndex( k ) << endl;
+				cerr << "Point " << k << ":  " << pi2.getPositionIndex( k );
+				cerr << "\tcol: " << pi2.getColorIndex( k );
+				cerr << "\tnorm: " << pi2.getNormalIndex( k ) << endl;
+			}
+		}
+	}
+	cerr << "done" << endl;
+	
 	
 	// Try the triangle iterator
-	TriangleIterator i;
 	
-	for ( i = g->beginTriangles(); i != g->endTriangles(); ++i )
+	cerr << endl << "Triangle Iterator:" << endl;
+	
+	TriangleIterator ti;
+	
+	for ( ti = g->beginTriangles(); ti != g->endTriangles(); ++ti )
 	{
-		cerr << "Triangle " << i.getTriIndex() << endl;
-		cerr << "Points:  " << i.getPositionIndex( 0 ) << ": "
-						   << i.getPosition( 0 ) << ", "
-						   << i.getPositionIndex( 1 ) << ": "
-						   << i.getPosition( 1 ) << ", "
-						   << i.getPositionIndex( 2 ) << ": "
-						   << i.getPosition( 2 ) << endl;
-		cerr << "Colors:  " << i.getColorIndex( 0 ) << ","
-						   << i.getColorIndex( 1 ) << ","
-						   << i.getColorIndex( 2 ) << endl;
-		cerr << "Normals: " << i.getNormalIndex( 0 ) << ","
-						   << i.getNormalIndex( 1 ) << ","
-						   << i.getNormalIndex( 2 ) << endl;
+		cerr << "Triangle " << ti.getIndex() << endl;
+		cerr << "Points:  " << ti.getPositionIndex( 0 ) << ": "
+						   << ti.getPosition( 0 ) << ", "
+						   << ti.getPositionIndex( 1 ) << ": "
+						   << ti.getPosition( 1 ) << ", "
+						   << ti.getPositionIndex( 2 ) << ": "
+						   << ti.getPosition( 2 ) << endl;
+		cerr << "Colors:  " << ti.getColorIndex( 0 ) << ","
+						   << ti.getColorIndex( 1 ) << ","
+						   << ti.getColorIndex( 2 ) << endl;
+		cerr << "Normals: " << ti.getNormalIndex( 0 ) << ","
+						   << ti.getNormalIndex( 1 ) << ","
+						   << ti.getNormalIndex( 2 ) << endl;
 	}
+	
+	cerr << "Checking seek...";
+	
+	TriangleIterator ti2(g);
+	
+	for ( ti = g->beginTriangles(), j = 0; 
+			ti != g->endTriangles(); ++ti,++j )
+	{
+		ti2.seek( j );
+		
+		if ( ti.getIndex()  != ti2.getIndex() )
+		{
+			cerr << "Seek mismatch!" << endl;
+			cerr << "Primitive " << ti.getIndex() << endl;
+			cerr << "Primitive " << ti2.getIndex() << endl;
+		}
+		for ( int k = 0; k < 3; k++ )
+		{
+			if ( ti.getPositionIndex( k )	!= ti2.getPositionIndex( k ) ||
+				 ti.getColorIndex( k )		!= ti2.getColorIndex( k ) ||
+				 ti.getNormalIndex( k ) 	!= ti2.getNormalIndex( k ) )
+			{			 
+				cerr << "Prim " << j << endl;
+				cerr << "Point " << k << ":  " << ti.getPositionIndex( k );
+				cerr << "\tcol: " << ti.getColorIndex( k );
+				cerr << "\tnorm: " << ti.getNormalIndex( k ) << endl;
+				cerr << "Point " << k << ":  " << ti2.getPositionIndex( k );
+				cerr << "\tcol: " << ti2.getColorIndex( k );
+				cerr << "\tnorm: " << ti2.getNormalIndex( k ) << endl;
+			}
+		}
+	
+	}
+	
+	cerr << "done" << endl;
+	
+	
 	
 	cerr << endl << "Face Iterator:" << endl;
 	
@@ -177,7 +260,7 @@ int main (int argc, char **argv)
 	
 	for ( fi = g->beginFaces(); fi != g->endFaces(); ++fi )
 	{
-		cerr << "Face " << fi.getFaceIndex() << endl;
+		cerr << "Face " << fi.getIndex() << endl;
 		cerr << "Points:  " << fi.getPositionIndex( 0 ) << ": "
 						   << fi.getPosition( 0 ) << ", "
 						   << fi.getPositionIndex( 1 ) << ": "
@@ -196,25 +279,61 @@ int main (int argc, char **argv)
 						   << fi.getNormalIndex( 3 ) << endl;
 	}
 	
+	// try seek
+	
+	cerr << "Checking seek...";
+	
+	FaceIterator fi2(g);
+	
+	for ( fi = g->beginFaces(), j = 0; 
+			fi != g->endFaces(); ++fi,++j )
+	{
+		fi2.seek( j );
+		
+		if ( fi.getIndex()  != fi2.getIndex() )
+		{
+			cerr << "Seek mismatch!" << endl;
+			cerr << "Primitive " << fi.getIndex() << endl;
+			cerr << "Primitive " << fi2.getIndex() << endl;
+		}
+		for ( int k = 0; k < 4; k++ )
+		{
+			if ( fi.getPositionIndex( k )	!= fi2.getPositionIndex( k ) ||
+				 fi.getColorIndex( k )		!= fi2.getColorIndex( k ) ||
+				 fi.getNormalIndex( k ) 	!= fi2.getNormalIndex( k ) )
+			{			 
+				cerr << "Prim " << j << endl;
+				cerr << "Point " << k << ":  " << fi.getPositionIndex( k );
+				cerr << "\tcol: " << fi.getColorIndex( k );
+				cerr << "\tnorm: " << fi.getNormalIndex( k ) << endl;
+				cerr << "Point " << k << ":  " << fi2.getPositionIndex( k );
+				cerr << "\tcol: " << fi2.getColorIndex( k );
+				cerr << "\tnorm: " << fi2.getNormalIndex( k ) << endl;
+			}
+		}
+	}
+	cerr << "done" << endl;
+	
+	
 	// try a second time, to see if restart works
 	
 	cerr << endl << "Triangle Iterator (second run):" << endl;
 	
-	for ( i = g->beginTriangles(); i != g->endTriangles(); ++i )
+	for ( ti = g->beginTriangles(); ti != g->endTriangles(); ++ti )
 	{
-		cerr << "Triangle " << i.getTriIndex() << endl;
-		cerr << "Points:  " << i.getPositionIndex( 0 ) << ": "
-						   << i.getPosition( 0 ) << ", "
-						   << i.getPositionIndex( 1 ) << ": "
-						   << i.getPosition( 1 ) << ", "
-						   << i.getPositionIndex( 2 ) << ": "
-						   << i.getPosition( 2 ) << endl;
-		cerr << "Colors:  " << i.getColorIndex( 0 ) << ","
-						   << i.getColorIndex( 1 ) << ","
-						   << i.getColorIndex( 2 ) << endl;
-		cerr << "Normals: " << i.getNormalIndex( 0 ) << ","
-						   << i.getNormalIndex( 1 ) << ","
-						   << i.getNormalIndex( 2 ) << endl;
+		cerr << "Triangle " << ti.getIndex() << endl;
+		cerr << "Points:  " << ti.getPositionIndex( 0 ) << ": "
+						   << ti.getPosition( 0 ) << ", "
+						   << ti.getPositionIndex( 1 ) << ": "
+						   << ti.getPosition( 1 ) << ", "
+						   << ti.getPositionIndex( 2 ) << ": "
+						   << ti.getPosition( 2 ) << endl;
+		cerr << "Colors:  " << ti.getColorIndex( 0 ) << ","
+						   << ti.getColorIndex( 1 ) << ","
+						   << ti.getColorIndex( 2 ) << endl;
+		cerr << "Normals: " << ti.getNormalIndex( 0 ) << ","
+						   << ti.getNormalIndex( 1 ) << ","
+						   << ti.getNormalIndex( 2 ) << endl;
 	}
 	
     return 0;
