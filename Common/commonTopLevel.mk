@@ -150,9 +150,11 @@ ifeq ($(INSTALL_WRITABLE),not)
 endif
 
 ifeq ($(CONFIGURED_GVBETA),0)
-GV_EXCLUDE := -o -name Gerrit -o -name VRMLLoader
+GV_EXCLUDE  := -o -name Gerrit 
+GV_ADD_PATH := $($(PROJ)POOL)/Experimental/Gerrit/Functors
 else
 GV_EXCLUDE := -o -name tmp_gv
+GV_ADD_PATH :=
 endif
 
 install-includes: install-test
@@ -167,17 +169,17 @@ install-includes: install-test
 	    -exec rm -f {} \;       ;                                           \
 	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'               \
 	    -exec rm -f {} \;       ;                                           \
-	find $($(PROJ)POOL) -follow                                             \
+	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
-	       -name Templates -o -name Builds -o                               \
+	       -name Templates -o -name Builds -o -name VSBuild -o              \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                           \
 	       -type f -name '*.h'                                              \
 	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ;\
-	find $($(PROJ)POOL) -follow                                             \
+	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
-	       -name Templates -o -name Builds -o                               \
+	       -name Templates -o -name Builds -o -name VSBuild -o              \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o      	                    \
 	       -type f -name '*.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ;\
@@ -200,17 +202,17 @@ update-includes: install-test
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                                \
 	fi;                                                                      \
 	CURRDIR=`pwd`;                                                           \
-	find $($(PROJ)POOL) -follow                                              \
+	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                               \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
-	       -name Templates -o -name Builds -o                                \
+	       -name Templates -o -name Builds -o -name VSBuild -o               \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.h'                                               \
 	-exec $($(PROJ)POOL)/Common/sedIncU {} $(INSTALL_DIR)/include/OpenSG \; ;\
-	find $($(PROJ)POOL) -follow                                              \
+	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                               \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
-	       -name Templates -o -name Builds -o 								 \
+	       -name Templates -o -name Builds -o -name VSBuild -o				 \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.inl'                                             \
 	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \; ;\
@@ -415,6 +417,8 @@ help:
 	@echo "dbg        compile the debug versions of the configured libraries"
 	@echo "opt        compile the optimized versions of the configured libraries"
 	@echo "depend     explicitly create the dependency information"
+	@echo 
+	@echo "dsp        create dsp files in VSBuild/* from the current config" 
 	@echo 
 	@echo "Cleanup targets"
 	@echo 
