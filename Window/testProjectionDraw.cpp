@@ -291,7 +291,7 @@ int main(int argc, char **argv)
     usercam = PerspectiveCameraPtr::dcast(vp->getCamera());
        
     Navigator *nav = mgr->getNavigator();
-    nav->setCenter(Pnt3f(0,0,0));
+    nav->setAt(Pnt3f(0,0,0));
     nav->setDistance(1.5);
     
     // create the decorators and the second viewport

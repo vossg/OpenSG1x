@@ -233,7 +233,7 @@ int main(int argc, char **argv)
     mgr->showAll();
 
     Navigator *nav = mgr->getNavigator();
-    nav->setCenter(Pnt3f(0,0,0));
+    nav->setAt(Pnt3f(0,0,0));
     nav->setDistance(2);
     
     beginEditCP(cam);
