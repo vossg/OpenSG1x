@@ -59,6 +59,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 class State;
+class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -123,13 +124,13 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state.
-	void activate ( void );
+	void activate ( DrawAction *action );
 
 	// call commands to get from old to my state. 
-	void changeFrom( State * old );
+	void changeFrom( DrawAction *action, State * old );
 
 	// reset my part of the state.
-	void deactivate ( void );
+	void deactivate ( DrawAction *action );
 
     /*----------------------------- access ----------------------------------*/
 

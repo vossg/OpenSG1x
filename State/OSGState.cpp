@@ -256,7 +256,7 @@ void State::subChunk( UInt32 classid, Int32 index )
 }
 
 // call the OpenGL commands to set my part of the state.
-void State::activate ( void )
+void State::activate ( DrawAction * action )
 {
 	MFStateChunkPtr::iterator it;
 	UInt32 ind = 0;
@@ -266,14 +266,14 @@ void State::activate ( void )
 		  it++, cind++,  ind++ )
 	{
 		if ( *it != NullStateChunk )
-			(*it)->activate( ind );
+			(*it)->activate( action, ind );
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
 }
 
 // call commands to get from old to my state. 
-void State::changeFrom( State * old )
+void State::changeFrom( DrawAction * action, State * old )
 {
 	MFStateChunkPtr::iterator it;
 	UInt32 ind = 0;
@@ -288,12 +288,12 @@ void State::changeFrom( State * old )
 		if ( n != NullStateChunk )
 		{			
 			if ( o != NullStateChunk )
-				n->changeFrom( o.getCPtr(), ind );
+				n->changeFrom( action, o.getCPtr(), ind );
 			else
-				n->activate( ind );
+				n->activate( action, ind );
 		}
 		else if ( o != NullStateChunk )
-			o->deactivate( ind );
+			o->deactivate( action, ind );
 			
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
@@ -302,7 +302,7 @@ void State::changeFrom( State * old )
 
 
 // reset my part of the state.
-void State::deactivate ( void )
+void State::deactivate ( DrawAction * action )
 {
 	MFStateChunkPtr::iterator it;
 	UInt32 ind = 0;
@@ -312,7 +312,7 @@ void State::deactivate ( void )
 		  it++, cind++,  ind++ )
 	{
 		if ( *it != NullStateChunk )
-			(*it)->deactivate( ind );
+			(*it)->deactivate( action, ind );
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}

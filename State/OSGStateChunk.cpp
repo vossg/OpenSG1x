@@ -223,15 +223,15 @@ const StateChunkClass *  StateChunk::getClass( void ) const
 
 /*-------------------------- your_category---------------------------------*/
 
-void StateChunk::activate ( UInt32 index )
+void StateChunk::activate ( DrawAction * action, UInt32 index )
 {
 }
 
-void StateChunk::changeFrom( StateChunk * old, UInt32 index )
+void StateChunk::changeFrom( DrawAction * action, StateChunk * old, UInt32 index )
 {
 }
 
-void StateChunk::deactivate ( UInt32 index )
+void StateChunk::deactivate ( DrawAction * action, UInt32 index )
 {
 }
 

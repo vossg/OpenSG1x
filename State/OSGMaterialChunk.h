@@ -133,14 +133,14 @@ class MaterialChunk : public StateChunk
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( UInt32 index = 0 );
+	virtual void activate ( DrawAction * action, UInt32 index = 0 );
 
 	// call commands to get from old to my state. Only meaningful for
 	// chunks of the same type
-	virtual void changeFrom( StateChunk * old, UInt32 index = 0 );
+	virtual void changeFrom( DrawAction * action, StateChunk * old, UInt32 index = 0 );
 
 	// reset my part of the state
-	virtual void deactivate ( UInt32 index = 0 );
+	virtual void deactivate ( DrawAction * action, UInt32 index = 0 );
 
     /*----------------------------- access ----------------------------------*/
 

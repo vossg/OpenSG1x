@@ -337,7 +337,7 @@ void MaterialChunk::setShininess( const Real32 color )
 
 /*-------------------------- your_category---------------------------------*/
 
-void MaterialChunk::activate ( UInt32 index )
+void MaterialChunk::activate ( DrawAction *, UInt32 )
 {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
 										_diffuse.getValue().getValueRef() );
@@ -350,7 +350,7 @@ void MaterialChunk::activate ( UInt32 index )
 	glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
 }
 
-void MaterialChunk::changeFrom( StateChunk * old_chunk, UInt32 index )
+void MaterialChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
 {
 	MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
 
@@ -372,7 +372,7 @@ void MaterialChunk::changeFrom( StateChunk * old_chunk, UInt32 index )
 		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
 }
 
-void MaterialChunk::deactivate ( UInt32 index )
+void MaterialChunk::deactivate ( DrawAction *, UInt32 )
 {
 }
 
