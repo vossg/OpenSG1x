@@ -197,6 +197,7 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             continue;
         }
 
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
 
         // calculate position and size
@@ -246,6 +247,7 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             break;
         }                                   //switch()
 
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }                                       //for()
 
@@ -359,6 +361,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     if(getBackgroundEnabled())
     {
         // filled circle drawn with a triangle_strip
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.5, 0);
         glColor4f(c[0], c[1], c[2], 0.4);
@@ -371,6 +374,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         }
 
         glEnd();
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
@@ -381,6 +385,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 
         // non filled circle around the filled one
         angle = 0.0;
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.5, 0);
         glBegin(GL_LINE_LOOP);
@@ -391,11 +396,13 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         }
 
         glEnd();
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
     // draw the ticks
     glColor3f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2]);
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.5, 0.5, 0.0);
     glRotatef(135, 0.0, 0.0, 1.0);
@@ -410,9 +417,11 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         glRotatef(30, 0.0, 0.0, 1.0);
     }                                       // end for
 
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     // save current matrix, translate to the origin of the pointer and rotate
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.5, 0.5, 0);
     glRotatef(45 - (xdist * 270.0), 0.0, 0.0, 1.0);
@@ -431,9 +440,11 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     glEnd();
 
     // and finally go back
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     //draw the center of the arrow...
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glColor3f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2]);
     glBegin(GL_QUADS);
@@ -444,6 +455,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 
     glEnd();
 
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     /* draw a line representing the real current value if the value is
@@ -451,6 +463,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     UInt32  flags = getFlags()[ID];
     if(flags & OSG_SMOOTH)
     {
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.5, 0);
 
@@ -463,6 +476,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         glVertex2f(0.0, -0.5);
         glEnd();
 
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
@@ -477,13 +491,16 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         glColor4f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2], 1.0);
 
         // Draw the current value under the center.
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.5, 0.0);
         glScalef(0.2, 0.2, 1.0);
         drawString(base, real2String(value), OSG_CENTER, OSG_TOP);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
         // scale and translate the text
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.2, 0.3, 0.0);
         glScalef(0.12, 0.12, 1.0);
@@ -493,6 +510,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         drawString(base, minstr);
         glTranslatef(3.4, 0.0, 0.0);
         drawString(base, maxstr);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
@@ -563,6 +581,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
        loop */
     Real32  deltax = textWidth;
 
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.0, textHeight, 0.0);
     glScalef(1.0, 1.0 - textHeight, 1.0);
@@ -587,6 +606,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
         deltax += step;
     }                                       // end for
 
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     if(getTextEnabled())
@@ -604,24 +624,30 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
             ((Real32) port->getPixelWidth());
 
         // bottom: Current Value
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
         glScalef(0.2 * ratio, 0.2, 1.0);
         drawString(base, valstr, OSG_CENTER);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
         //draw: min value
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.0, 0.22, 0.0);
         glScalef(0.12 * ratio, 0.12, 1.0);
         drawString(base, minstr);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
         //draw: maximum value
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.0, 1.0, 0.0);
         glScalef(0.12 * ratio, 0.12, 1.0);
         drawString(base, maxstr, OSG_LEFT, OSG_TOP);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
@@ -753,24 +779,30 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
             ((Real32) port->getPixelWidth());
 
         // Left side: Min
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.0, 0.7, 0.0);
         glScalef(0.15 * ratio, 0.15, 1.0);
         drawString(base, minstr);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
         // right side: Max
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(1.0, 0.7, 0.0);
         glScalef(0.15 * ratio, 0.15, 1.0);
         drawString(base, maxstr, OSG_RIGHT);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
         // bottom: Current Value
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
         glScalef(0.2 * ratio, 0.2, 1.0);
         drawString(base, valstr, OSG_CENTER);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
@@ -847,6 +879,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
        loop */
     Real32  deltax = textWidth;
 
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.0, textHeight, 0.0);
     glScalef(1.0, 1.0 - textHeight, 1.0);
@@ -902,6 +935,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
         deltax += step;
     }                                       // end for
 
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     // draw some text ------------
@@ -919,20 +953,24 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
             ((Real32) port->getPixelWidth());
 
         // bottom: Current Value
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
         glScalef(0.2 * ratio, 0.2, 1.0);
         drawString(base, valstr, OSG_CENTER);
+        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
         //draw: min value
         if(flags & OSG_MAX_TEXT)
         {
             std::string minstr = real2String(minV, "%.0f");
+            glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glTranslatef(0.0, 0.22, 0.0);
             glScalef(0.12 * ratio, 0.12, 1.0);
             drawString(base, minstr);
+            glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
         }
 
@@ -940,10 +978,12 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
         if(flags & OSG_MIN_TEXT)
         {
             std::string maxstr = real2String(maxV, "%.0f");
+            glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glTranslatef(0.0, 1.0, 0.0);
             glScalef(0.12 * ratio, 0.12, 1.0);
             drawString(base, maxstr, OSG_LEFT, OSG_TOP);
+            glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
         }
     }
@@ -996,24 +1036,30 @@ void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
         ((Real32) port->getPixelWidth());
 
     // Current Value
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.02, 0.7, 0.0);
     glScalef(0.18 * ratio, 0.18, 1.0);
     drawString(base, valstr);
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     // MinValue
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.02, 0.5, 0.0);
     glScalef(0.18 * ratio, 0.18, 1.0);
     drawString(base, "Min: " + minstr);
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     // MaxValue
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.02, 0.3, 0.0);
     glScalef(0.18 * ratio, 0.18, 1.0);
     drawString(base, "Max: " + maxstr);
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 }
 
@@ -1146,6 +1192,8 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
                                              const std::string &text,
                                              UInt32 align, UInt32 valign)
 {
+//    return;
+
     Real32  deltaX = 0.0;
     Real32  deltaY = 0.0;
     std::vector < std::string > stat(1);
@@ -1185,6 +1233,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
             deltaY = -(textHeight / 2.0);
     }
 
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
     // sane the delta values
@@ -1210,6 +1259,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
 
     _texchunk->deactivate(base);
 
+    glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 }
 
