@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -41,35 +39,12 @@
 //---------------------------------------------------------------------------
 
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include <OSGAction.h>
-#include <OSGDrawAction.h>
-#include <OSGCamera.h>
-
-//just for debug
-#include <iostream>
-//just for debug
-
-#include "OSGDistanceLOD.h"
-
-OSG_USING_NAMESPACE
-
-
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
-
-/*! \class osg::DistanceLOD
-
-This Node manages the different levels of detail available for a Geometry and decides which one should be rendered, according to the distance from the current camera. The details of the selection process are taken from VRML97 standard.
-
-*/
+OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -79,28 +54,6 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-<<<<<<< OSGDistanceLOD.cpp
-<<<<<<< OSGDistanceLOD.cpp
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
-=======
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
->>>>>>> 1.2
-=======
-<<<<<<< OSGDistanceLOD.cpp
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
-=======
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
->>>>>>> 1.2
->>>>>>> 1.3
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -116,18 +69,6 @@ char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void DistanceLOD::initMethod (void)
-{
-	DrawAction::registerEnterDefault( getClassType(),
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,
-								DistanceLODPtr,
-								Action*>(&DistanceLOD::draw));
-}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -137,91 +78,17 @@ void DistanceLOD::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
+/*--------------------------- type information-----------------------------*/
 
-DistanceLOD::DistanceLOD(void) :
-    Inherited()
-{
-}
+/*------------------------------ access -----------------------------------*/
 
-/** \brief Copy Constructor
- */
+/*------------------------------ access -----------------------------------*/
 
-DistanceLOD::DistanceLOD(const DistanceLOD &source) :
-    Inherited(source)
-{
-}
-
-/** \brief Destructor
- */
-
-DistanceLOD::~DistanceLOD(void)
-{
-}
-
-
-/** \brief react to field changes
- */
-
-void DistanceLOD::changed(BitVector, ChangeMode)
-{
-}
+/*------------------------------- size ----------------------------------*/
 
 /*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void DistanceLOD::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
-{
-	SLOG << "Dump DistanceLOD NI" << endl;
-}
-
-
-
-Action::ResultE DistanceLOD::draw(Action* action)
-{
-	DrawAction* da = dynamic_cast<DrawAction*>(action);
-	UInt32 numLevels = getMFLevel()->getSize();
-	UInt32 numRanges = getMFRange()->getSize();
-	UInt32 limit = osgMin( numLevels, numRanges ); 
-	
-	Pnt3f eyepos;
-	(da->getCamera()->getBeacon()->getToWorld()).transform(Pnt3f(0.0, 0.0, 0.0), eyepos);
-	Pnt3f objpos;
-	(da->getActNode()->getToWorld()).transform(getCenter(), objpos);
-		
-	
-	Real32 dist = osgsqrt( (eyepos[0]-objpos[0])*(eyepos[0]-objpos[0]) +
-						   (eyepos[1]-objpos[1])*(eyepos[1]-objpos[1]) +
-						   (eyepos[2]-objpos[2])*(eyepos[2]-objpos[2]) );
-	
-	if( dist < getMFRange()->getValue(0) )
-	{
-		da->addNode( getMFLevel()->getValue(0) );
-	} 
-	else if( dist > getMFRange()->getValue(numRanges-1) )
-	{
-		da->addNode( getMFLevel()->getValue(limit-1) );
-	}
-	else
-	{
-		UInt32 i=1;
-		while( i<numRanges && !((getMFRange()->getValue(i-1) <= dist)&&(dist < getMFRange()->getValue(i))) )
-		{
-			i++;
-		}
-		da->addNode( getMFLevel()->getValue(osgMin(i, limit-1)) );
-	} 
-	
-	return Action::Continue;
-}
-    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -230,4 +97,7 @@ Action::ResultE DistanceLOD::draw(Action* action)
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+
+OSG_END_NAMESPACE
 
