@@ -7,7 +7,7 @@ using namespace OSG;
     
 Rendering Backend.
 
-See \ref PageSystemSystemRenderingBackend for details.
+See \ref PageSystemRenderingBackend for details.
 */
 
 /*! \page PageSystemRenderingBackend Rendering Backend

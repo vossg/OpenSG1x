@@ -54,8 +54,9 @@ OSG_BEGIN_NAMESPACE
 class Geometry;
 class State;
 
-//! DrawTreeNode
-//! \ingroup GrpSystemRenderingBackend
+/*! \briefDrawTreeNode
+    \ingroup GrpSystemRenderingBackend
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 {
