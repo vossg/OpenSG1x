@@ -411,10 +411,10 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 //! Dump the field to a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-string &MField<FieldTypeT, 
-               fieldNameSpace>::getValueByStr(string &str) const
+std::string &MField<FieldTypeT, 
+                    fieldNameSpace>::getValueByStr(std::string &str) const
 {
-    string tmpString;
+    std::string tmpString;
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
                              Traits::FromStringConvertable),
@@ -438,12 +438,12 @@ string &MField<FieldTypeT,
 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-string &MField<FieldTypeT, 
-               fieldNameSpace>::getValueByStr(string                   &outStr,
-                                              StringConversionStateBase &state)
-                                                                          const
+std::string &MField<FieldTypeT, 
+                    fieldNameSpace>::getValueByStr(
+                        std::string               &outStr,
+                        StringConversionStateBase &state) const
 {
-    string valStr;
+    std::string valStr;
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
                              Traits::FromStringConvertable),
@@ -583,14 +583,14 @@ void MField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::dump(void) const
 {
-    cout << "STMFST : " << endl;
+    std::cout << "STMFST : " << std::endl;
 
     for(UInt32 i = 0; i < _values.size(); i++)
     {
 //        cout << _values[i] << " , ";
     }
 
-    cout << endl;
+    std::cout << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

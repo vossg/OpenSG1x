@@ -60,15 +60,15 @@ struct ErrorFromToString
     static bool              getFromString(      T      &,
                                            const Char8 *&)
     {
-        SLOG << "Error From String Conversion not available for " << endl;
+        SLOG << "Error From String Conversion not available for " << std::endl;
 
         return false;
     }
 
-    static void             putToString(const T      &,
-                                              string &)
+    static void             putToString(const T           &,
+                                              std::string &)
     {
-        SLOG << "Error To String Conversion not available for " << endl;
+        SLOG << "Error To String Conversion not available for " << std::endl;
     }
 };
 
@@ -107,10 +107,10 @@ class OSG_BASE_DLLMAPPING Field
     /*! \name                   String IO                                  */
     /*! \{                                                                 */
 
-    virtual void     pushValueByStr(const Char8  *str)       = 0;
-    virtual string  &getValueByStr (      string &str) const = 0;
-    virtual string  &getValueByStr (      string &str,
-                                    StringConversionStateBase &state) const=0;
+    virtual void          pushValueByStr(const Char8       *str  )       = 0;
+    virtual std::string  &getValueByStr (      std::string &str  ) const = 0;
+    virtual std::string  &getValueByStr (      std::string &str,
+                                 StringConversionStateBase &state) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

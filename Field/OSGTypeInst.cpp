@@ -74,7 +74,7 @@ DataType FieldDataTraits<UInt64>::_type("UInt64", "IntegralType");
 DataType FieldDataTraits<Real32>::_type("Real32", "IntegralType");
 DataType FieldDataTraits<Real64>::_type("Real64", "IntegralType");
 
-DataType FieldDataTraits<string       >::_type("string", 
+DataType FieldDataTraits<std::string  >::_type("string", 
                                                "BaseType");
 DataType FieldDataTraits1<Time        >::_type("Time",
                                                "BaseType");
@@ -132,7 +132,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(UInt64, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Real32, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Real64, OSG_BASE_DLLTMPLMAPPING);
 
-OSG_DLLEXPORT_SFIELD_DEF1(string,        OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(std::string,   OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF2(Time, 1,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Color3f,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Color4f,       OSG_BASE_DLLTMPLMAPPING);
@@ -141,7 +141,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(Color4ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(DynamicVolume, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF2(BitVector, 1,  OSG_BASE_DLLTMPLMAPPING);
 
-OSG_DLLEXPORT_MFIELD_DEF1(string,        OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(std::string,   OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF2(Time, 1,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Color3f,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Color4f,       OSG_BASE_DLLTMPLMAPPING);

@@ -73,22 +73,22 @@ The state chunk base class.
 
 // StateChunkClass code
 
-vector<string>* StateChunkClass::_classNames = NULL;
-vector<UInt32>* StateChunkClass::_numslots = NULL;
+std::vector<std::string> *StateChunkClass::_classNames = NULL;
+std::vector<     UInt32> *StateChunkClass::_numslots   = NULL;
 
 StateChunkClass::StateChunkClass( Char8 *name, UInt32 numslots )
 {
     if ( ! _classNames )
     {
-        _classNames = new vector<string>(0);
-        _numslots   = new vector<UInt32>(0);
+        _classNames = new std::vector<std::string>(0);
+        _numslots   = new std::vector<     UInt32>(0);
     }
 
     _classId = _classNames->size();
 
     for ( unsigned i = 0; i < numslots; i++ )
     {
-        _classNames->push_back(string(name));
+        _classNames->push_back(std::string(name));
         _numslots->push_back  (numslots);
     }
 }
@@ -226,7 +226,7 @@ void StateChunk::changed(BitVector, UInt32)
 void StateChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump StateChunk NI" << endl;
+    SLOG << "Dump StateChunk NI" << std::endl;
 }
 
 

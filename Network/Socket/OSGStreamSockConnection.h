@@ -87,12 +87,12 @@ class OSG_BASE_DLLMAPPING StreamSockConnection:public Connection
     /*! \name                   Communication                              */
     /*! \{                                                                 */
 
-    string                bind            ( const string &address );
-    void                  accept          ( void                  );
-    void                  connect         ( const string &address );
-    UInt32                getChannelCount ( void                  );
-    void                  selectChannel   ( void                  );
-    const ConnectionType *getType         ( void                  );
+          std::string     bind           (const std::string &address);
+          void            accept         (      void                );
+          void            connect        (const std::string &address);
+          UInt32          getChannelCount(      void                );
+          void            selectChannel  (      void                );
+    const ConnectionType *getType        (      void                );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -110,16 +110,16 @@ class OSG_BASE_DLLMAPPING StreamSockConnection:public Connection
     /*! \name                   IO Implementation                          */
     /*! \{                                                                 */
 
-    virtual void      read(MemoryHandle mem,UInt32 size);
-    virtual void      readBuffer();
-    virtual void      write(MemoryHandle mem,UInt32 size);
-    virtual void      writeBuffer();
-    void              interpreteAddress(const string  &address,
-                                              string  &host,
-                                              UInt32  &port);
+    virtual void read             (MemoryHandle mem, UInt32 size);
+    virtual void readBuffer       (void);
+    virtual void write            (MemoryHandle mem, UInt32 size);
+    virtual void writeBuffer      (void);
+
+            void interpreteAddress(const std::string &address,
+                                         std::string &host,
+                                         UInt32      &port);
 
     /*! \}                                                                 */
-
     /*---------------------------------------------------------------------*/
     /*! \name                Instance Variables                            */
     /*! \{                                                                 */
@@ -142,7 +142,6 @@ class OSG_BASE_DLLMAPPING StreamSockConnection:public Connection
     static ConnectionType _type;
 
     /*! \}                                                                 */
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Copy                                       */
     /*! \{                                                                 */

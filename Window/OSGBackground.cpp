@@ -169,7 +169,7 @@ void Background::changed(BitVector whichField, UInt32 origin)
 void Background::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump Background NI" << endl;
+    SLOG << "Dump Background NI" << std::endl;
 }
 
     

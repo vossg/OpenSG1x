@@ -96,10 +96,10 @@ PathHandler::~PathHandler(void)
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-string PathHandler::findFile(const Char8 *fileName)
+std::string PathHandler::findFile(const Char8 *fileName)
 {
-    string returnValue;
-    bool   bFound      = false;
+    std::string returnValue;
+    bool        bFound      = false;
 
     PathList     tmpList;
 
@@ -114,7 +114,7 @@ string PathHandler::findFile(const Char8 *fileName)
     {
         if((pType & TypeMask) == AbsPath)
         {
-            PNOTICE << "Check abs : " << tmpList.front() << endl;
+            PNOTICE << "Check abs : " << tmpList.front() << std::endl;
 
             if(File::tstAttr(tmpList.front().c_str(),
                              AccessFlags::IsReadable))
@@ -130,7 +130,7 @@ string PathHandler::findFile(const Char8 *fileName)
 
                 returnValue.append(tmpList.front());
 
-                PNOTICE << "Check base : " << returnValue << endl;
+                PNOTICE << "Check base : " << returnValue << std::endl;
 
                 if(File::tstAttr(returnValue.c_str(),
                                  AccessFlags::IsReadable) == false)
@@ -150,7 +150,7 @@ string PathHandler::findFile(const Char8 *fileName)
                     returnValue.assign(*iter);
                     returnValue.append(tmpList.front());
 
-                    PNOTICE << "Check from pl : " << returnValue << endl;
+                    PNOTICE << "Check from pl : " << returnValue << std::endl;
 
                     if(File::tstAttr(returnValue.c_str(),
                                      AccessFlags::IsReadable) == true)
@@ -172,7 +172,7 @@ string PathHandler::findFile(const Char8 *fileName)
     return returnValue;
 }
 
-const string &PathHandler::getBaseFile (void) const
+const std::string &PathHandler::getBaseFile (void) const
 {
   return _baseFilePath;
 }
@@ -191,8 +191,8 @@ void PathHandler::push_backPath(const Char8 *pathList)
 
 void PathHandler::push_backCurrentDir(void)
 {
-    Char8  *pCurrentDir = Directory::getCurrent();
-    string  tmpString   = pCurrentDir;
+    Char8       *pCurrentDir = Directory::getCurrent();
+    std::string  tmpString   = pCurrentDir;
 
     _pathList.push_back(tmpString);
 
@@ -231,8 +231,8 @@ void PathHandler::push_frontPath(const Char8 *pathList)
 
 void PathHandler::push_frontCurrentDir(void)
 {
-    Char8  *pCurrentDir = Directory::getCurrent();
-    string  tmpString   = pCurrentDir;
+    Char8       *pCurrentDir = Directory::getCurrent();
+    std::string  tmpString   = pCurrentDir;
 
     _pathList.push_front(tmpString);
 
@@ -296,16 +296,16 @@ void PathHandler::dump(void)
 
     if(_baseFilePath.size() != 0)
     {
-        SLOG << "Base file path : " << _baseFilePath << endl;
+        SLOG << "Base file path : " << _baseFilePath << std::endl;
     }
     else
     {
-        SLOG << "Base file path : empty" << endl;
+        SLOG << "Base file path : empty" << std::endl;
     }
 
     for( ; iter != _pathList.end(); ++iter )
     {
-        SLOG << "\"" << *iter << "\"" << endl;
+        SLOG << "\"" << *iter << "\"" << std::endl;
     }
 }
 
@@ -336,13 +336,13 @@ void PathHandler::validateList(void)
     }
 }
 
-string PathHandler::extractPath(const Char8 *szFilename)
+std::string PathHandler::extractPath(const Char8 *szFilename)
 {
-    string returnValue(szFilename);
+    std::string            returnValue(szFilename);
 
-    string::size_type pos = returnValue.find_last_of("\\/");
+    std::string::size_type pos = returnValue.find_last_of("\\/");
 
-    if(pos != string::npos)
+    if(pos != std::string::npos)
     {
         if(pos != returnValue.length() - 1)
         {
@@ -496,12 +496,12 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
     return returnValue;
 }
 
-void PathHandler::expandWin32Path(string &path)
+void PathHandler::expandWin32Path(std::string &path)
 {
-    string envVar;
+    std::string            envVar;
 
-    string::size_type currPos  = 0;
-    string::size_type startPos = 0;
+    std::string::size_type currPos  = 0;
+    std::string::size_type startPos = 0;
 
     if(path.size() == 0)
         return;
@@ -542,18 +542,18 @@ void PathHandler::expandWin32Path(string &path)
     }
 }
 
-void PathHandler::expandUnixPath(string &path)
+void PathHandler::expandUnixPath(std::string &path)
 {
-    string  envVar;
-    string  userName;
-    string  userHome;
-    bool    stop;
+    std::string  envVar;
+    std::string  userName;
+    std::string  userHome;
+    bool         stop;
 #ifndef WIN32
     passwd* userInfo;
 #endif
     
-    string::size_type currPos  = 0;
-    string::size_type startPos = 0;
+    std::string::size_type currPos  = 0;
+    std::string::size_type startPos = 0;
 
     if(path.size() == 0)
         return;
@@ -661,10 +661,10 @@ void PathHandler::push_frontPathList(PathList &pathList)
 }
 
 
-void PathHandler::convertPath(string &path)
+void PathHandler::convertPath(std::string &path)
 {
-    string::iterator stringIt  = path.begin();
-    string::iterator stringEnd = path.end  ();
+    std::string::iterator stringIt  = path.begin();
+    std::string::iterator stringEnd = path.end  ();
 
     while(stringIt != stringEnd)
     {
@@ -715,19 +715,19 @@ void PathHandler::splitPathList(const Char8    *pathList,
                                 const Char8     pathSep,
                                       PathList &result)
 {
-    string::size_type currPos    = 0;
-    string::size_type startPos   = 0;
-    string            workString(pathList);
+    std::string::size_type currPos    = 0;
+    std::string::size_type startPos   = 0;
+    std::string            workString(pathList);
 
     currPos = workString.find(pathSep);
 
-    if(currPos == string::npos)
+    if(currPos == std::string::npos)
     {
         result.push_back(workString);
     }
     else
     {
-        while(currPos != string::npos)
+        while(currPos != std::string::npos)
         {
             result.push_back(workString.substr(startPos,
                                                currPos - startPos));
@@ -792,7 +792,7 @@ void PathHandler::parseWin32PathList(const Char8 *pathList, PathList &result)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.13 2002/06/26 16:41:42 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.14 2002/09/02 07:04:26 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 

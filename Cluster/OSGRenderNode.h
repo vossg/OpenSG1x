@@ -58,13 +58,14 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    RenderNode(Real32 invisibleFaceCost =1.0/ 15000000,
-               Real32 visibleFaceCost   =1.0/ 10000000,
-               Real32 drawPixelCost     =1.0/120000000,
-               Real32 readPixelCost     =1.0/ 20000000,
-               Real32 writePixelCost    =1.0/ 20000000,
-               const string &vendor     ="Unknown",
-               const string &renderer   ="Unknown");
+    RenderNode(           Real32  invisibleFaceCost = 1.0 /  15000000,
+                          Real32  visibleFaceCost   = 1.0 /  10000000,
+                          Real32  drawPixelCost     = 1.0 / 120000000,
+                          Real32  readPixelCost     = 1.0 /  20000000,
+                          Real32  writePixelCost    = 1.0 /  20000000,
+               const std::string &vendor            = "Unknown",
+               const std::string &renderer          = "Unknown");
+
     RenderNode(const RenderNode &source);
 
     /*! \}                                                                 */
@@ -79,37 +80,38 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    Real32 getVisibleFaceCost   (void) const;
-    Real32 getInvisibleFaceCost (void) const;
-    Real32 getDrawPixelCost     (void) const;
-    Real32 getReadPixelCost     (void) const;
-    Real32 getWritePixelCost    (void) const;
-    string getVendor            (void) const;
-    string getRenderer          (void) const;
+    Real32      getVisibleFaceCost  (void) const;
+    Real32      getInvisibleFaceCost(void) const;
+    Real32      getDrawPixelCost    (void) const;
+    Real32      getReadPixelCost    (void) const;
+    Real32      getWritePixelCost   (void) const;
+    std::string getVendor           (void) const;
+    std::string getRenderer         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    void setVisibleFaceCost    (Real32        value);
-    void setInvisibleFaceCost  (Real32        value);
-    void setDrawPixelCost      (Real32        value);
-    void setReadPixelCost      (Real32        value);
-    void setWritePixelCost     (Real32        value);
-    void setGroup              (const RenderNode *begin,const RenderNode *end);
-    void setVendor             (const string &value);
-    void setRenderer           (const string &value);
+    void setVisibleFaceCost  (           Real32      value);
+    void setInvisibleFaceCost(           Real32      value);
+    void setDrawPixelCost    (           Real32      value);
+    void setReadPixelCost    (           Real32      value);
+    void setWritePixelCost   (           Real32      value);
+    void setGroup            (const      RenderNode *begin,
+                              const      RenderNode *end);
+    void setVendor           (const std::string     &value);
+    void setRenderer         (const std::string     &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   performance analysis                       */
     /*! \{                                                                 */
 
-    void   determinePerformance( WindowPtr &prt );
-    Real32 estimatePerformance ( Real32 invisibleFaces,
-                                 Real32 visibleFaces,
-                                 Real32 pixel ) const;
+    void   determinePerformance(WindowPtr &prt           );
+    Real32 estimatePerformance (Real32     invisibleFaces,
+                                Real32     visibleFaces,
+                                Real32     pixel         ) const;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -141,21 +143,23 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    Real32                _visibleFaceCost;
-    Real32                _invisibleFaceCost;
-    Real32                _drawPixelCost;
-    Real32                _readPixelCost;
-    Real32                _writePixelCost;
-    string                _vendor;
-    string                _renderer;
+         Real32 _visibleFaceCost;
+         Real32 _invisibleFaceCost;
+         Real32 _drawPixelCost;
+         Real32 _readPixelCost;
+         Real32 _writePixelCost;
+    std::string _vendor;
+    std::string _renderer;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   helper                                     */
     /*! \{                                                                 */
 
-    double runFaceBench(UInt32 dlist,UInt32 width,
-                        UInt32 height,Real32 visible);
+    double runFaceBench(UInt32 dlist,
+                        UInt32 width,
+                        UInt32 height,
+                        Real32 visible);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -148,7 +148,7 @@ Log &osgLog()
 }
 
 inline 
-void indentLog(UInt32 indent, ostream &stream)
+void indentLog(UInt32 indent, std::ostream &stream)
 {
     for(UInt32 i = 0; i < indent; i++)
     {
@@ -157,11 +157,11 @@ void indentLog(UInt32 indent, ostream &stream)
 }
 
 inline 
-ostream &osgStartLog(      bool      logHeader,
-                           LogLevel  level, 
-                           const Char8    *module,
-                           const Char8    *file, 
-                           UInt32    line)
+std::ostream &osgStartLog(      bool      logHeader,
+                                LogLevel  level, 
+                          const Char8    *module,
+                          const Char8    *file, 
+                                UInt32    line)
 {
     initLog();
 
@@ -209,29 +209,29 @@ LogBuf & Log::getLogBuf(void)
 }
 
 inline
-ostream &Log::stream(LogLevel level)
+std::ostream &Log::stream(LogLevel level)
 {
     return *(_streamVec[level]); 
 }
 
 inline
-ostream &Log::nilstream(void)
+std::ostream &Log::nilstream(void)
 {
     return *_nilstreamP;
 }
 
 inline 
-ostream &Log::doHeader(      LogLevel  level, 
-                             const Char8    *module, 
-                             const Char8    *file, 
-                             UInt32    line)
+std::ostream &Log::doHeader(      LogLevel  level, 
+                            const Char8    *module, 
+                            const Char8    *file, 
+                                  UInt32    line)
 {
     LogOStream & sout = *(_streamVec[level]);
 
     if (_headerElem) 
     {
         if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
-            sout << endl;   
+            sout << std::endl;   
         
         if (_headerElem & LOG_TYPE_HEADER)
             sout << _levelName[level] << ":";
@@ -252,7 +252,7 @@ ostream &Log::doHeader(      LogLevel  level,
                 sout << " line:" << line;
 
         if (_headerElem & LOG_END_NEWLINE_HEADER)
-            sout << endl;   
+            sout << std::endl;   
         else
             sout << ' ';
     }
@@ -261,13 +261,13 @@ ostream &Log::doHeader(      LogLevel  level,
 }
 
 inline  
-ostream &endLog(ostream &strm)
+std::ostream &endLog(std::ostream &strm)
 {
     osg::initLog();
 
     osg::osgLogP->unlock();
     
-    strm << endl;
+    strm << std::endl;
     return strm;
 }
 

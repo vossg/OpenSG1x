@@ -128,19 +128,19 @@ SFBool *SortFirstWindowBase::getSFUseFaceDistribution(void)
 
 
 inline
-string &SortFirstWindowBase::getCompression(void)
+std::string &SortFirstWindowBase::getCompression(void)
 {
     return _sfCompression.getValue();
 }
 
 inline
-const string &SortFirstWindowBase::getCompression(void) const
+const std::string &SortFirstWindowBase::getCompression(void) const
 {
     return _sfCompression.getValue();
 }
 
 inline
-void SortFirstWindowBase::setCompression(const string &value)
+void SortFirstWindowBase::setCompression(const std::string &value)
 {
     _sfCompression.setValue(value);
 }

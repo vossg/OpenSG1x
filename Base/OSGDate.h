@@ -51,10 +51,13 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Date;
-OSG_BASE_DLLMAPPING bool operator==(const Date &v1, const Date &v2);
-OSG_BASE_DLLMAPPING bool operator< (const Date &v1, const Date &v2);
-OSG_BASE_DLLMAPPING ostream& operator<< (ostream & os, const Date &obj);
-OSG_BASE_DLLMAPPING istream& operator>> (istream & is, Date &obj);
+OSG_BASE_DLLMAPPING bool          operator ==(const Date &v1, const Date &v2);
+OSG_BASE_DLLMAPPING bool          operator < (const Date &v1, const Date &v2);
+
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream & os, 
+                                              const Date         &obj);
+OSG_BASE_DLLMAPPING std::istream &operator >>(      std::istream &is, 
+                                                    Date         &obj);
 #endif
 
 /** Date & Time.
@@ -124,18 +127,21 @@ class OSG_BASE_DLLMAPPING Date
     /*! \name                   Operators                                  */
     /*! \{                                                                 */
          
-    friend bool operator == (const Date &v1,const Date &v2);
-    friend bool operator < (const Date &v1,const Date &v2);
-    friend ostream &operator << (ostream &os, const Date &obj);
-    friend istream &operator >> (istream &is, Date &obj);
+    friend bool          operator ==(const Date &v1, const Date &v2);
+    friend bool          operator < (const Date &v1, const Date &v2);
+
+    friend std::ostream &operator <<(      std::ostream &os, 
+                                     const Date         &obj);
+    friend std::istream &operator >>(      std::istream &is, 
+                                           Date         &obj);
     
     /*! \}                                                                 */
 };
 
 typedef Date* DateP;
 
-ostream &operator << (ostream &outStream, const Date &obj);
-istream &operator >> (istream &inStream,        Date &obj);
+std::ostream &operator <<(std::ostream &outStream, const Date &obj);
+std::istream &operator >>(std::istream &inStream,        Date &obj);
 
 OSG_END_NAMESPACE
 

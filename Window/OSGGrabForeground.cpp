@@ -99,7 +99,7 @@ void GrabForeground::changed(BitVector whichField, UInt32 origin)
 void GrabForeground::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump GrabForeground NI" << endl;
+    SLOG << "Dump GrabForeground NI" << std::endl;
 }
 
 
@@ -153,7 +153,7 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.7 2002/08/07 04:04:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.8 2002/09/02 07:05:12 vossg Exp $";
     static char cvsid_hpp[] = OSGGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGGRABFOREGROUND_INLINE_CVSID;
 }

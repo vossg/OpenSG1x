@@ -420,7 +420,9 @@ void Geometry::handleGL( Window* win, UInt32 idstatus )
             p( win, this );
         else
         {
-            SWARNING << "Geometry::handleGL: no Pump found for geometry " << this << endl;
+            SWARNING << "Geometry::handleGL: no Pump found for geometry " 
+                     << this 
+                     << std::endl;
         }
         
         glEndList();
@@ -431,12 +433,12 @@ void Geometry::handleGL( Window* win, UInt32 idstatus )
     }
     else if ( mode == Window::finaldestroy )
     {
-        //SWARNING << "Last geometry user destroyed" << endl;
+        //SWARNING << "Last geometry user destroyed" << std::endl;
     }
     else
     {
         SWARNING << "Geometry(" << this << "::handleGL: Illegal mode: " 
-             << mode << " for id " << id << endl;
+             << mode << " for id " << id << std::endl;
     }
     
 }
@@ -464,25 +466,25 @@ void Geometry::dump(      UInt32    uiIndent,
          << _attachmentMap.getValue().size()
          << " attachments | "
          << this
-         << endl;
+         << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "[" << endl;
+    PLOG << "[" << std::endl;
 
     indentLog(uiIndent + 4, PLOG);
-    PLOG << "Parents : " << endl;
+    PLOG << "Parents : " << std::endl;
 
     for(i = 0; i < _parents.size(); i++)
     {
         indentLog(uiIndent + 4, PLOG);
-        PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
+        PLOG << "           " << i << ") " << &(*(_parents[i])) << std::endl;
     }
 
     indentLog(uiIndent, PLOG);
-    PLOG << "]" << endl;
+    PLOG << "]" << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     uiIndent += 4;
 
@@ -546,7 +548,7 @@ void Geometry::dump(      UInt32    uiIndent,
     AttachmentContainer::dump(uiIndent, bvFlags);
 
     indentLog(uiIndent, PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 }
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -811,7 +813,9 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
             p( action->getWindow(), this );
         else
         {
-            SWARNING << "draw: no Pump found for geometry " << this << endl;
+            SWARNING << "draw: no Pump found for geometry "
+                     << this
+                     << std::endl;
         }
     }
     

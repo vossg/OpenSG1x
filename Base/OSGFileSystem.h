@@ -90,16 +90,16 @@ namespace File
 namespace Directory
 {
     inline
-    static bool             tstAttr   (const Char8  *szFilename,
-                                             UInt32  uiAccessFlags);
+    static bool                  tstAttr   (const Char8  *szFilename,
+                                                  UInt32  uiAccessFlags);
     inline
-    static Char8           *getCurrent(void);
+    static Char8                *getCurrent(void);
 
     inline
-    static bool             setCurrent(const Char8 *szDirname);
+    static bool                  setCurrent(const Char8 *szDirname);
 
     inline
-    static vector<Char8 *> *getEntries(const Char8 *szDirname);
+    static std::vector<Char8 *> *getEntries(const Char8 *szDirname);
 }
 
 OSG_END_NAMESPACE

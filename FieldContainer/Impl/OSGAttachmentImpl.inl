@@ -415,10 +415,10 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
          << "(" 
          << thisP.getFieldContainerId()
          << ")" 
-         << endl;
+         << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     uiIndent += 4;
 
@@ -430,13 +430,13 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
              << const_cast<Self *>(this)->getField(
                      getType().getFieldDescription(i)->getFieldId())
              << ")"
-             << endl;
+             << std::endl;
     }
 
     uiIndent -= 4;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

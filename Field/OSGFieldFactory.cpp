@@ -59,14 +59,14 @@ FieldFactory FieldFactory::_the;
 
 //! Field type storage
 
-map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
+std::map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
 
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
 FieldFactory::~FieldFactory(void)
 {
-    SINFO << "INFO: Destroy Singleton FieldFactory" << endl;
+    SINFO << "INFO: Destroy Singleton FieldFactory" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -125,8 +125,8 @@ UInt32 FieldFactory::getNFieldTypes(void)
 
 FieldType *FieldFactory::getFieldType(const Char8 *szName)
 {
-    map<UInt32, FieldType *>::iterator  mIt;
-    FieldType                          *returnValue = NULL;
+    std::map<UInt32, FieldType *>::iterator  mIt;
+    FieldType                               *returnValue = NULL;
     
     if(_fieldTypeM != NULL) 
     {
@@ -151,7 +151,7 @@ FieldType *FieldFactory::getFieldType(const Char8 *szName)
 
 FieldType *FieldFactory::getFieldType(UInt32 typeId)
 {
-    map<UInt32, FieldType *>::iterator  mIt;
+    std::map<UInt32, FieldType *>::iterator  mIt;
 
     if(_fieldTypeM == NULL)
         return NULL;
@@ -212,7 +212,7 @@ void FieldFactory::addType(FieldType *pType)
         return;
 
     if(_fieldTypeM == NULL)
-        _fieldTypeM = new map<UInt32, FieldType *>();
+        _fieldTypeM = new std::map<UInt32, FieldType *>();
 
     (*_fieldTypeM)[pType->getId()] = pType;
 }

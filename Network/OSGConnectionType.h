@@ -66,7 +66,7 @@ class OSG_BASE_DLLMAPPING ConnectionType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ConnectionType(CreateFunction,const string &name);
+    ConnectionType(CreateFunction,const std::string &name);
     ConnectionType(const ConnectionType &source);
 
     /*! \}                                                                 */
@@ -81,7 +81,7 @@ class OSG_BASE_DLLMAPPING ConnectionType
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    string         getName          (void) const;
+    std::string    getName          (void) const;
     CreateFunction getCreateFunction(void) const;
 
     /*! \}                                                                 */
@@ -112,7 +112,7 @@ class OSG_BASE_DLLMAPPING ConnectionType
   protected:
 
     CreateFunction _createFunction;
-    string         _name;
+    std::string    _name;
 
     /*==========================  PRIVATE  ================================*/
   private:

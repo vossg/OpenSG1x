@@ -96,7 +96,7 @@ void CameraDecorator::changed(BitVector whichField, UInt32 origin)
 void CameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump CameraDecorator NI" << endl;
+    SLOG << "Dump CameraDecorator NI" << std::endl;
 }
 
 
@@ -146,7 +146,7 @@ void CameraDecorator::getViewing(Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.13 2002/08/07 04:04:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.14 2002/09/02 07:05:11 vossg Exp $";
     static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }

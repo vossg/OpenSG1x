@@ -44,15 +44,15 @@ OSG_BEGIN_NAMESPACE
  */
 
 inline       
-Int32 IndexDic::entry(vector<Int32> &indexVec)
+Int32 IndexDic::entry(Int32Vec &indexVec)
 {
-  std::map< std::vector<Int32>, Int32>::iterator iI;
-  pair< std::map< std::vector<Int32>,Int32>::iterator, bool > mapRes;
+             std::map< Int32Vec, Int32>::iterator         iI;
+  std::pair< std::map< Int32Vec, Int32>::iterator, bool > mapRes;
 
   iI = _indexMap.find(indexVec);
   if (iI == _indexMap.end())
     {
-      mapRes = _indexMap.insert (std::map< std::vector<Int32>, Int32>::value_type(indexVec,_indexVec.size()));
+      mapRes = _indexMap.insert (std::map< Int32Vec, Int32>::value_type(indexVec,_indexVec.size()));
       if (mapRes.second)
         {
           iI = mapRes.first;
@@ -67,7 +67,8 @@ Int32 IndexDic::entry(vector<Int32> &indexVec)
   return iI->second;
 }
     
-inline const vector<Int32> &IndexDic::entry(Int32 index)
+inline 
+const IndexDic::Int32Vec &IndexDic::entry(Int32 index)
 {
     return *(_indexVec[index]);
 }          

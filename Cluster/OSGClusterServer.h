@@ -67,11 +67,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ClusterServer(WindowPtr     window,
-                  const string &serviceName,
-                  const string &connectionType="StreamSock",
-                  const string &address="",
-                  UInt32 servicePort=8437);
+    ClusterServer(           WindowPtr  window,
+                  const std::string    &serviceName,
+                  const std::string    &connectionType = "StreamSock",
+                  const std::string    &address        = "",
+                             UInt32     servicePort    = 8437);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -115,16 +115,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    WindowPtr        _window;
-    Connection      *_connection;
-    string           _address;
-    ClusterWindowPtr _clusterWindow;
-    RemoteAspect    *_aspect;
-    string           _serviceName;
-    UInt32           _servicePort;
-    bool             _serviceAvailable;
-    UInt32           _serverId;
-    string           _connectionType;
+    WindowPtr         _window;
+    Connection       *_connection;
+    std::string       _address;
+    ClusterWindowPtr  _clusterWindow;
+    RemoteAspect     *_aspect;
+    std::string       _serviceName;
+    UInt32            _servicePort;
+    bool              _serviceAvailable;
+    UInt32            _serverId;
+    std::string       _connectionType;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

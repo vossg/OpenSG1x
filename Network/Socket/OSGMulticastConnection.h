@@ -91,12 +91,12 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \name                   your_category                              */
     /*! \{                                                                 */
 
-    string                bind            ( const string &address );
-    void                  accept          ( void                  );
-    void                  connect         ( const string &address );
-    UInt32                getChannelCount ( void                  );
-    void                  selectChannel   ( void                  );
-    const ConnectionType *getType         ( void                  );
+    std::string           bind           (const std::string &address);
+    void                  accept         (void                      );
+    void                  connect        (const std::string &address);
+    UInt32                getChannelCount(void                      );
+    void                  selectChannel  (void                      );
+    const ConnectionType *getType        (void                      );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,7 +143,7 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
         CLOSED
     };
 
-    typedef vector<vector<UInt8> > UDPBuffersT;
+    typedef std::vector< std::vector<UInt8> > UDPBuffersT;
 
     struct UDPBuffer;
     friend struct UDPBuffer;
@@ -180,17 +180,19 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*---------------------------------------------------------------------*/
     /*! \name                  address handling                            */
     /*! \{                                                                 */
-    void interpreteAddress(const string  &address,
-                                 string  &group,
+ 
+    void interpreteAddress(const std::string  &address,
+                                 std::string  &group,
                                  UInt32       &port,
                                  UInt32       &member);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    vector<SocketAddress>             _channelAddress;
-    vector<UInt32>                    _channelSeqNumber;
+    std::vector<SocketAddress>        _channelAddress;
+    std::vector<UInt32>               _channelSeqNumber;
     UInt32                            _channel;
     UInt32                            _seqNumber;
     UDPBuffersT                       _udpReadBuffers;

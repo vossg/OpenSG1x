@@ -48,9 +48,12 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class BoxVolume;
-OSG_BASE_DLLMAPPING bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
-OSG_BASE_DLLMAPPING bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
-OSG_BASE_DLLMAPPING ostream& operator<< (ostream & os, const BoxVolume &obj);
+OSG_BASE_DLLMAPPING bool          operator ==(const BoxVolume &b1, 
+                                              const BoxVolume &b2);
+OSG_BASE_DLLMAPPING bool          operator !=(const BoxVolume &b1, 
+                                              const BoxVolume &b2);
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
+                                              const BoxVolume    &obj);
 #endif
 
 /** 3D box defined by min and max point.

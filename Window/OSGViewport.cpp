@@ -210,17 +210,17 @@ void Viewport::draw( DrawAction * action )
 {
     if ( getCamera() == NullFC )
     {
-        SWARNING << "Viewport::draw: no camera!" << endl;
+        SWARNING << "Viewport::draw: no camera!" << std::endl;
         return;
     }
     if ( getBackground() == NullFC )
     {
-        SWARNING << "Viewport::draw: no background!" << endl;
+        SWARNING << "Viewport::draw: no background!" << std::endl;
         return;
     }
     if ( getRoot() == NullFC )
     {
-        SWARNING << "Viewport::draw: no root!" << endl;
+        SWARNING << "Viewport::draw: no root!" << std::endl;
         return;
     }
 
@@ -256,17 +256,17 @@ void Viewport::render( RenderAction * action )
 {
     if ( getCamera() == NullFC )
     {
-        SWARNING << "Viewport::render: no camera!" << endl;
+        SWARNING << "Viewport::render: no camera!" << std::endl;
         return;
     }
     if ( getBackground() == NullFC )
     {
-        SWARNING << "Viewport::render: no background!" << endl;
+        SWARNING << "Viewport::render: no background!" << std::endl;
         return;
     }
     if ( getRoot() == NullFC )
     {
-        SWARNING << "Viewport::render: no root!" << endl;
+        SWARNING << "Viewport::render: no root!" << std::endl;
         return;
     }
 
@@ -313,7 +313,7 @@ fprintf(stderr,"%p: node 0x%p startrender\n", Thread::getCurrent(),
 void Viewport::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                     const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump Viewport NI" << endl;
+    SLOG << "Dump Viewport NI" << std::endl;
 }
 
     

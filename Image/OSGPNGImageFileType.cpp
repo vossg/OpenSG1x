@@ -217,7 +217,7 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
     SWARNING <<
         getMimeType() <<
         " read is not compiled into the current binary " <<
-        endl;
+        std::endl;
     return false;
 #endif
 }

@@ -107,12 +107,12 @@ PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
 //------------------------------
 bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 {
-    bool        isBinary = true;
-    Int16       type = 0, width, height, lineSize, maxValue = 0, value, x, y;
-    UInt32      i, n;
-    UChar8      *imageData = 0;
-    UInt8       id, commentKey = '#';
-    ifstream    in(fileName, ios::in | ios::binary);
+    bool           isBinary = true;
+    Int16          type = 0, width, height, lineSize, maxValue=0, value, x, y;
+    UInt32         i, n;
+    UChar8        *imageData = 0;
+    UInt8          id, commentKey = '#';
+    std::ifstream  in(fileName, std::ios::in | std::ios::binary);
 
     if(in.rdbuf()->is_open())
     {
@@ -162,7 +162,7 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
             type <<
             " in " <<
             fileName <<
-            endl;
+            std::endl;
         break;
     }
 
@@ -177,7 +177,7 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
                 " in " <<
                 fileName <<
                 ", can't read the image" <<
-                endl;
+                std::endl;
             maxValue = 0;
         }
     }
@@ -194,7 +194,7 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
             width <<
             "x" <<
             height <<
-            endl;
+            std::endl;
 
         lineSize = width * image.getBpp();
         if(isBinary)
@@ -249,10 +249,10 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 //------------------------------
 bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
 {
-    Int16       p, y, x, lineSize;
-    ofstream    out(fileName, ios::out | ios::binary);
-    UInt16      bpp = image.getBpp();
-    UInt8       *data = 0;
+    Int16          p, y, x, lineSize;
+    std::ofstream  out(fileName, std::ios::out | std::ios::binary);
+    UInt16         bpp = image.getBpp();
+    UInt8         *data = 0;
 
     if(out.rdbuf()->is_open())
     {
@@ -260,17 +260,17 @@ bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
         {
         case 1:
         case 2:
-            out << "P5" << endl;
+            out << "P5" << std::endl;
             break;
         case 3:
         case 4:
-            out << "P6" << endl;
+            out << "P6" << std::endl;
             break;
         }
 
-        out << "# PNMImageFileType write" << endl;
-        out << image.getWidth() << " " << image.getHeight() << endl;
-        out << "255" << endl;
+        out << "# PNMImageFileType write" << std::endl;
+        out << image.getWidth() << " " << image.getHeight() << std::endl;
+        out << "255" << std::endl;
 
         if(bpp & 1)
         {

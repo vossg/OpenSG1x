@@ -97,7 +97,7 @@ void StereoBufferViewport::changed(BitVector whichField, UInt32 origin)
 void StereoBufferViewport::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump StereoBufferViewport NI" << endl;
+    SLOG << "Dump StereoBufferViewport NI" << std::endl;
 }
 
 
@@ -172,7 +172,7 @@ void StereoBufferViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.6 2002/08/07 04:04:14 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.7 2002/09/02 07:05:15 vossg Exp $";
     static char cvsid_hpp[] = OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTEREOBUFFERVIEWPORT_INLINE_CVSID;
 }

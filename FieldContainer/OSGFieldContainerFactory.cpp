@@ -143,7 +143,7 @@ bool FieldContainerFactory::initializePendingTypes(void)
     if(_bInitialized == false)
         return false;
 
-    SINFO << "OSGFieldContainerFactory init pending types" << endl;
+    SINFO << "OSGFieldContainerFactory init pending types" << std::endl;
 
     if(_pUnitTypesStore != NULL)
     {
@@ -199,7 +199,7 @@ bool FieldContainerFactory::initializePendingTypes(void)
                  << "|"
                  << _pUnitTypesStore->size()
                  << ")"
-                 << endl;
+                 << std::endl;
     }
 
     return returnValue;
@@ -332,7 +332,7 @@ AttachmentPtr FieldContainerFactory::createAttachment(
    no name, no out: output all types into separate files
 */
 
-void FieldContainerFactory::writeFCD(Char8 * name, ostream *out)
+void FieldContainerFactory::writeFCD(Char8 * name, std::ostream *out)
 {
           TypeIdMapIt         type;
     const FieldContainerType *pType = NULL;
@@ -347,7 +347,7 @@ void FieldContainerFactory::writeFCD(Char8 * name, ostream *out)
         if(pType == NULL)
         {
             SWARNING << "FieldContainerFactory::writeFCD: type " << name
-                     << " is unknown!" << endl;
+                     << " is unknown!" << std::endl;
             return;
         }
 
@@ -357,11 +357,11 @@ void FieldContainerFactory::writeFCD(Char8 * name, ostream *out)
         }
         else
         {
-            string s(pType->getCName());
+            std::string s(pType->getCName());
 
             s.append(".fcd");
 
-            ofstream f(s.c_str());
+            std::ofstream f(s.c_str());
 
             writeSingleTypeFCD(f, pType);
         }
@@ -372,7 +372,7 @@ void FieldContainerFactory::writeFCD(Char8 * name, ostream *out)
     // write header once?
     if(out != NULL)
     {
-        *out << "<?xml version=\"1.0\" ?>" << endl << endl;
+        *out << "<?xml version=\"1.0\" ?>" << std::endl << std::endl;
     }
 
     for(  type  = _pTypeIdMap->begin();
@@ -385,19 +385,20 @@ void FieldContainerFactory::writeFCD(Char8 * name, ostream *out)
         }
         else
         {
-            string s((*type).second->getCName());
+            std::string s((*type).second->getCName());
+
             s.append(".fcd");
 
-            ofstream f(s.c_str());
+            std::ofstream f(s.c_str());
 
-            f << "<?xml version=\"1.0\" ?>" << endl << endl;
+            f << "<?xml version=\"1.0\" ?>" << std::endl << std::endl;
 
             writeSingleTypeFCD(f, (*type).second);
         }
 
         if(out != NULL)
         {
-            *out << endl;
+            *out << std::endl;
         }
     }
 }
@@ -471,7 +472,7 @@ bool FieldContainerFactory::initialize(void)
     if(_bInitialized == true)
         return true;
 
-    SINFO << "init singleton FieldContainerFactory" << endl;
+    SINFO << "init singleton FieldContainerFactory" << std::endl;
 
     _pStoreLock = ThreadManager::the()->getLock(
         "OSGFieldContainerFactory::_pStoreLock");
@@ -497,7 +498,7 @@ bool FieldContainerFactory::terminate(void)
 {
     TypeIdMapIt typeIt;
 
-    SINFO << "terminate singleton FieldContainerFactory" << endl;
+    SINFO << "terminate singleton FieldContainerFactory" << std::endl;
 
     if(_bInitialized == false)
         return true;
@@ -562,7 +563,7 @@ UInt16 FieldContainerFactory::registerGroup(const Char8 *szName)
 
     if(szName == NULL || *szName == '\0')
     {
-        SWARNING << "Group without name" << endl;
+        SWARNING << "Group without name" << std::endl;
         return 0;
     }
 
@@ -618,29 +619,29 @@ void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 /*-------------------------------------------------------------------------*/
 /*                      Write Single FCD                                   */
 
-void FieldContainerFactory::writeSingleTypeFCD(      ostream            &out, 
+void FieldContainerFactory::writeSingleTypeFCD(      std::ostream       &out, 
                                                const FieldContainerType *t  )
 {
     FieldContainerType *parent = t->getParent();
 
-    out << "<FieldContainer"                          << endl;
-    out << "\tname=\""       << t->getCName() << "\"" << endl;
+    out << "<FieldContainer"                          << std::endl;
+    out << "\tname=\""       << t->getCName() << "\"" << std::endl;
 
     if(parent != NULL)
-        out << "\tparent=\"" << parent->getCName() << "\"" << endl;
+        out << "\tparent=\"" << parent->getCName() << "\"" << std::endl;
     
     out << "\tlibrary=\""
         << "???"
         << "\"" 
-        << endl;
+        << std::endl;
     out << "\tstructure=\"" 
         << ( t->isAbstract()?"abstract":"concrete" ) 
         << "\""
-        << endl;
+        << std::endl;
 
     // look for pointerfield types
-           string s;
-           Int32  pt        = 0;
+           std::string s;
+           Int32       pt        = 0;
     static Char8 *pftypes[] = {"none", "single", "multi", "both"};
 
     s  = "SF";
@@ -661,8 +662,8 @@ void FieldContainerFactory::writeSingleTypeFCD(      ostream            &out,
         pt |= 2;
     }
 
-    out << "\tpointerfieldtypes=\"" << pftypes[pt] << "\"" << endl;
-    out << ">"                                             << endl;
+    out << "\tpointerfieldtypes=\"" << pftypes[pt] << "\"" << std::endl;
+    out << ">"                                             << std::endl;
 
     // Print the fields in this FC, ignore the parents' fields
     // !!! This should start at 0, FIX ME
@@ -676,8 +677,8 @@ void FieldContainerFactory::writeSingleTypeFCD(      ostream            &out,
 
         ft = FieldFactory::the().getFieldType(f->getTypeId());
 
-        out << "\t<Field"                             << endl;
-        out << "\t\tname=\"" << f->getCName() << "\"" << endl;
+        out << "\t<Field"                             << std::endl;
+        out << "\t\tname=\"" << f->getCName() << "\"" << std::endl;
 
         // Filter the SF/MF from the type
         const Char8 *c = ft->getCName();
@@ -687,22 +688,22 @@ void FieldContainerFactory::writeSingleTypeFCD(      ostream            &out,
             c += 2;
         }
 
-        out << "\t\ttype=\"" << c << "\"" << endl;
+        out << "\t\ttype=\"" << c << "\"" << std::endl;
 
         out << "\t\tcardinality=\""
             << (ft->getCardinality() ? "multi" : "single")
-            << "\"" << endl;
+            << "\"" << std::endl;
 
         out << "\t\tvisibility=\"" 
             << (f->isInternal() ? "internal" : "external")
             << "\"" 
-            << endl;
+            << std::endl;
         
-        out << "\t>"        << endl;
-        out << "\t</Field>" << endl;
+        out << "\t>"        << std::endl;
+        out << "\t</Field>" << std::endl;
     }
 
-    out << "</FieldContainer>" << endl;
+    out << "</FieldContainer>" << std::endl;
 }
 
 

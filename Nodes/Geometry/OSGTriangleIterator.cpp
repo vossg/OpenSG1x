@@ -72,7 +72,7 @@ triangles, non-polygonal primitives like lines and points are ignored.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.15 2002/08/07 04:04:12 vossg Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.16 2002/09/02 07:04:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -209,7 +209,7 @@ void TriangleIterator::operator++ ()
     default:                SWARNING << "TriangleIterator::++: encountered " 
                                       << "unknown primitive type " 
                                       << _primIt.getType()
-                                      << ", ignoring!" << endl;
+                                      << ", ignoring!" << std::endl;
                             startPrim();
                             break;
     }           
@@ -248,7 +248,7 @@ void TriangleIterator::startPrim( void )
                                           << "encountered " 
                                           << "unknown primitive type " 
                                           << _primIt.getType()
-                                          << ", ignoring!" << endl;
+                                          << ", ignoring!" << std::endl;
                                 break;
         }
         

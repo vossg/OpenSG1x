@@ -80,7 +80,7 @@ class VRMLNodeFactory : public BaseT
     typedef hash_map<     const Char8 *,  VRMLNodeDesc *, 
                      hash<const Char8 *>, EQString      > NodeNameDescHash;
 #else
-    typedef map     <     const Char8 *,  VRMLNodeDesc *, 
+    typedef std::map<     const Char8 *,  VRMLNodeDesc *, 
                                           LTString      > NodeNameDescHash;
 #endif
 

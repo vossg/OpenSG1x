@@ -125,8 +125,8 @@ class OSG_BASE_DLLMAPPING Socket
 
     static int         getError();
     static int         getHostError();
-    static string      getErrorStr();
-    static string      getHostErrorStr();
+    static std::string getErrorStr();
+    static std::string getHostErrorStr();
 
     /*! \}                                                                 */
   protected:

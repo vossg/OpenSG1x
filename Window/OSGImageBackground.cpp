@@ -151,7 +151,7 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
 void ImageBackground::dump(      UInt32     , 
                            const BitVector  ) const
 {
-    SLOG << "Dump ImageBackground NI" << endl;
+    SLOG << "Dump ImageBackground NI" << std::endl;
 }
 
 
@@ -168,7 +168,7 @@ void ImageBackground::dump(      UInt32     ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.11 2002/08/11 13:30:28 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.12 2002/09/02 07:05:13 vossg Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }

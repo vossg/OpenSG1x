@@ -44,19 +44,27 @@ OSG_BEGIN_NAMESPACE
 //! Write FC to the given stream
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ostream &operator <<(
-          ostream                                  &os,
+std::ostream &operator <<(
+          std::ostream                             &os,
     const FCPtr<BasePtrTypeT, FieldContainerTypeT> &fc)
 {
     if(fc == NullFC)
     {
-        os << hex << "FCPtr 0x" << &fc << dec << ":NullFC";
+        os << std::hex << "FCPtr 0x" << &fc << std::dec << ":NullFC";
     }
     else
     {
-        os << hex << "FCPtr 0x"
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (&(*fc)) << dec << ")";
+        os << std::hex 
+           << "FCPtr 0x"
+           << &fc 
+           << std::dec 
+           << ":" 
+           << fc->getType().getName() 
+           << "Ptr(0x"
+           << std::hex 
+           << (&(*fc)) 
+           << std::dec 
+           << ")";
     }
 
     return os;

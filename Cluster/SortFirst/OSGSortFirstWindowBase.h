@@ -134,8 +134,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
            MFUInt32            *getMFRegion         (void);
            SFBool              *getSFUseFaceDistribution(void);
 
-           string              &getCompression    (void);
-     const string              &getCompression    (void) const;
+           std::string         &getCompression    (void);
+     const std::string         &getCompression    (void) const;
            UInt32              &getSubtileSize    (void);
      const UInt32              &getSubtileSize    (void) const;
            bool                &getCompose        (void);
@@ -151,10 +151,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setCompression    ( const string &value );
-     void setSubtileSize    ( const UInt32 &value );
-     void setCompose        ( const bool &value );
-     void setUseFaceDistribution( const bool &value );
+     void setCompression    ( const std::string &value );
+     void setSubtileSize    ( const      UInt32 &value );
+     void setCompose        ( const      bool &value );
+     void setUseFaceDistribution( const  bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -95,13 +95,13 @@ class OSG_BASE_DLLMAPPING SocketAddress {
     /*! \name                   Get/Set                                    */
     /*! \{                                                                 */
 
-    sockaddr       *getSockAddr    (                       ) const;
-    int             getSockAddrSize(                       ) const;
-    void            setPort        (int port               );
-    void            setHost        (const std::string &host);
-    int             getPort        (                       ) const;
-    std::string     getHost        (                       ) const;
-    std::string     getHostByName  (                       ) const;
+    sockaddr    *getSockAddr    (                       ) const;
+    int          getSockAddrSize(                       ) const;
+    void         setPort        (      int          port);
+    void         setHost        (const std::string &host);
+    int          getPort        (                       ) const;
+    std::string  getHost        (                       ) const;
+    std::string  getHostByName  (                       ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -159,8 +159,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
 //---------------------------------------------------------------------------
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &operator <<(      ostream                &os,
-                     const AttachmentContainerPtr &fc);
+std::ostream &operator <<(      std::ostream           &os,
+                          const AttachmentContainerPtr &fc);
 OSG_END_NAMESPACE
 
 #define OSGATTACHMENTCONTAINERPTR_HEADER_CVSID "@(#)$Id: $"

@@ -261,7 +261,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     typedef hash_map<     const Char8 *,  UInt32, 
                      hash<const Char8 *>, EQString> FieldNameTypeHash;
 #else
-    typedef map     <     const Char8 *,  UInt32, 
+    typedef std::map<     const Char8 *,  UInt32, 
                                           LTString> FieldNameTypeHash;
 #endif
 
@@ -280,7 +280,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 
            Field             *_pCurrField;
 
-           string             _szCurrentName;
+           std::string        _szCurrentName;
            bool               _bSaveOnEnd;
 
            UInt32             _uiOptions;

@@ -66,7 +66,8 @@ SceneFileType::SceneFileType(const Char8  *suffixArray[],
     FINFO(( "Init %s Scene File Type %d\n", suffixArray[0], this ));
 
     int count = (suffixByteCount / sizeof(const Char8 *)), i = 0;
-    list<IDString>::iterator sI;
+
+    std::list<IDString>::iterator sI;
 
     _suffixList.resize(count);
     for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
@@ -81,7 +82,7 @@ SceneFileType::SceneFileType(const SceneFileType &obj) :
     _override        (obj._override        ),
     _overridePriority(obj._overridePriority)
 {
-    SWARNING << "In SceneFileType copy constructor" << endl;
+    SWARNING << "In SceneFileType copy constructor" << std::endl;
 }
 
 //---------------------------------------------------------
@@ -93,7 +94,7 @@ SceneFileType::~SceneFileType(void)
 //---------------------------------------------------------
 void SceneFileType::print(void)
 {
-    list<IDString>::iterator sI;
+    std::list<IDString>::iterator sI;
 
     osgLog() << getName();
 
@@ -103,12 +104,12 @@ void SceneFileType::print(void)
         for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
             osgLog().stream(OSG::LOG_DEBUG) << sI->str() << " ";
 
-    osgLog() << endl;
+    osgLog() << std::endl;
 }
 
 //---------------------------------------------------------
 
-list<IDString> &SceneFileType::suffixList(void)
+std::list<IDString> &SceneFileType::suffixList(void)
 {
     return _suffixList;
 }
@@ -135,7 +136,7 @@ SceneFileType::FCPtrStore SceneFileType::readTopNodes(
 {
   FieldContainerPtr fcPtr = read(fileName, uiReplaceOptions);
 
-  vector<FieldContainerPtr> fcVec;
+  std::vector<FieldContainerPtr> fcVec;
 
   FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
 
@@ -151,7 +152,7 @@ SceneFileType::FCPtrStore SceneFileType::readTopNodes(
           UInt32  uiSubOptions) const
 {
   FieldContainerPtr fcPtr = read(fileName, uiAddOptions, uiSubOptions);
-  vector<FieldContainerPtr> fcVec;
+  std::vector<FieldContainerPtr> fcVec;
 
   FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
 

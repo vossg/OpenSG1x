@@ -124,7 +124,7 @@ void TexGenChunk::changed(BitVector whichField, UInt32 origin)
 void TexGenChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump TexGenChunk NI" << endl;
+    SLOG << "Dump TexGenChunk NI" << std::endl;
 }
 
 
@@ -297,7 +297,7 @@ bool TexGenChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGTexGenChunk.cpp,v 1.3 2002/06/30 05:04:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGTexGenChunk.cpp,v 1.4 2002/09/02 07:05:07 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGTEXGENCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGTEXGENCHUNK_INLINE_CVSID;
 }

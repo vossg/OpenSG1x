@@ -60,7 +60,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef vector<FieldContainerPtr> FCPtrStore;
+    typedef std::vector<FieldContainerPtr> FCPtrStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \{                                                                 */
 
     virtual SceneFileType *getFileType(const Char8 *fileName);
-    virtual int getSuffixList(list<const char*> & suffixList);
+
+    virtual int getSuffixList(std::list<const char*> & suffixList);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -120,8 +121,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef list<          SceneFileType *> FileTypeList;
-    typedef map <IDString, FileTypeList  *> FileTypeMap;
+    typedef std::list<          SceneFileType *> FileTypeList;
+    typedef std::map <IDString, FileTypeList  *> FileTypeMap;
 
     struct FindOverride
     {

@@ -136,7 +136,7 @@ StatRealElem::~StatRealElem(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void StatRealElem::putToString(string &str, const char *format)
+void StatRealElem::putToString(std::string &str, const char *format)
 {
     if(!format)
     {

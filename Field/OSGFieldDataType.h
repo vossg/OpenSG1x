@@ -104,7 +104,8 @@ struct FieldTraitsRecurseBase : public Traits
     static       UInt32    getBinSize (const FieldTypeT &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-        string value;
+
+        std::string value;
 
         MappedTrait::putToString(oObject,value);
         return value.length() + 1 + sizeof(UInt32);
@@ -128,7 +129,8 @@ struct FieldTraitsRecurseBase : public Traits
                           const FieldTypeT          &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-        string value;
+        
+        std::string value;
 
         MappedTrait::putToString(oObject,value);
     	pMem.putValue(value);
@@ -153,7 +155,8 @@ struct FieldTraitsRecurseBase : public Traits
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
         const Char8 *c;
-        string value;
+
+        std::string value;
 
         pMem.getValue(value);
         c=value.c_str();

@@ -82,7 +82,7 @@ void LogBuf::removeCallback ( void )
     _callback = 0;
 }
 
-void LogBuf::write (const char *buffer, streamsize size)
+void LogBuf::write (const char *buffer, std::streamsize size)
 {
     Chunk *chunk = 0;
     Callback cb;
@@ -115,7 +115,7 @@ int LogBuf::overflow(int c)
         pbump(1);
 
         // Flush write buffer
-        streamsize size = pptr() -  pbase();
+        std::streamsize size = pptr() -  pbase();
         if (size > 0) {
             write(pbase(), size);
             pbump(-size);
@@ -131,7 +131,7 @@ int LogBuf::sync(void)
         return EOF;
 
     // Flush write buffer
-    streamsize size = pptr() -  pbase();
+    std::streamsize size = pptr() -  pbase();
     if (size > 0) {
         write(pbase(), size);
         pbump(-size);
@@ -140,14 +140,14 @@ int LogBuf::sync(void)
     return 0;
 }
 
-streamsize LogBuf::xsputn(const char *buffer, streamsize size)
+std::streamsize LogBuf::xsputn(const char *buffer, std::streamsize size)
 {
     if (size > 0) {
 
         if (!pptr())
             return 0;
 
-        streamsize s = epptr() - pptr();
+        std::streamsize s = epptr() - pptr();
         if (s >= size) {
             // Put it into the write buffer
             memcpy(pptr(), buffer, size);
@@ -180,7 +180,7 @@ void LogBuf::clearChunkBag(void)
 }
 
 LogBuf::LogBuf(unsigned int bufferSize)
-    : streambuf(), _enabled(true), _callback(0), _clientData(0)
+    : std::streambuf(), _enabled(true), _callback(0), _clientData(0)
 {
     setg(0, 0, 0);
 
@@ -196,7 +196,7 @@ LogBuf::LogBuf(unsigned int bufferSize)
 LogBuf::LogBuf(const LogBuf &obj)
     : streambuf(obj)
 {
-    cerr << "ERROR: Running LogBug copy constructor\n" << endl;
+    cerr << "ERROR: Running LogBug copy constructor\n" << std::endl;
     cerr << flush;
 }
 */
@@ -239,8 +239,8 @@ OSG_END_NAMESPACE
 
 /*! \brief holds the nil buffer 
  */
-Log::nilbuf *Log::_nilbufP    = NULL;
-ostream     *Log::_nilstreamP = NULL;
+Log::nilbuf  *Log::_nilbufP    = NULL;
+std::ostream *Log::_nilstreamP = NULL;
 
 char Log::cvsid[] = "@(#)$Id: $";
 
@@ -279,7 +279,7 @@ const char *Log::_levelName[] = {
  */
 
 Log::Log(LogType logType, LogLevel logLevel) :
-    ostream( _nilbufP == NULL ? _nilbufP = new Log::nilbuf() : _nilbufP), 
+    std::ostream( _nilbufP == NULL ? _nilbufP = new Log::nilbuf() : _nilbufP), 
     _logType   (logType), 
     _logLevel  (logLevel), 
     _fileStream(),
@@ -288,7 +288,7 @@ Log::Log(LogType logType, LogLevel logLevel) :
 {   
 
     if(_nilstreamP == NULL)
-        _nilstreamP = new ostream(_nilbufP);
+        _nilstreamP = new std::ostream(_nilbufP);
 
     for(UInt32 i = 0; i < sizeof(_streamVec)/sizeof(LogOStream *); i++)
     {
@@ -309,7 +309,7 @@ Log::Log(LogType logType, LogLevel logLevel) :
  */
 
 Log::Log(const char *fileName, LogLevel logLevel) :
-    ostream( _nilbufP == NULL ? _nilbufP = new Log::nilbuf() : _nilbufP), 
+    std::ostream( _nilbufP == NULL ? _nilbufP = new Log::nilbuf() : _nilbufP), 
     _logType   (LOG_FILE), 
     _logLevel  (logLevel), 
     _fileStream(),
@@ -318,7 +318,7 @@ Log::Log(const char *fileName, LogLevel logLevel) :
 {
 
     if(_nilstreamP == NULL)
-        _nilstreamP = new ostream(_nilbufP);
+        _nilstreamP = new std::ostream(_nilbufP);
 
     for(UInt32 i = 0; i < sizeof(_streamVec)/sizeof(LogOStream *); i++)
     {
@@ -423,7 +423,7 @@ void Log::delModuleName(const Char8 *OSG_CHECK_ARG(module))
 bool Log::hasModule(const Char8 *module)
 {
     bool retCode = false;
-    list<Module>::iterator mI;
+    std::list<Module>::iterator mI;
 
     if (module && *module) {
         for (mI = _moduleList.begin();retCode || (mI != _moduleList.end()); ++mI) 
@@ -437,7 +437,7 @@ bool Log::hasModule(const Char8 *module)
 bool Log::checkModule(const Char8 *module)
 {
     bool retCode = false;
-    list<Module>::iterator mI;
+    std::list<Module>::iterator mI;
 
     if (_moduleHandling != LOG_MODULE_NONE) {
         if (_moduleHandling == LOG_MODULE_ALL) 
@@ -495,7 +495,7 @@ void Log::setLogType(LogType logType, bool force)
     if(!force && (this == osgLogP) && (et = getenv( "OSG_LOG_TYPE" ) ) )
     {
         osgLog() << "Log::setLogType: overriden by envvar OSG_LOG_TYPE '" 
-                 << et << "'." << endl; 
+                 << et << "'." << std::endl; 
 
         if(sscanf(et, "%d", &lt) != 1)
         {               
@@ -512,7 +512,7 @@ void Log::setLogType(LogType logType, bool force)
             {
                 _logType = LOG_STDERR;
                 osgLog() << "Log::setLogType: couldn't interpret envvar, "
-                         << "set to LOG_STDERR!" << endl;                      
+                         << "set to LOG_STDERR!" << std::endl;                      
             }
         }
         else 
@@ -562,7 +562,7 @@ void Log::setLogLevel(LogLevel logLevel, bool force)
     if(!force && (this == osgLogP) && (el = getenv( "OSG_LOG_LEVEL" ) ) )
     {
         osgLog() << "OSGLog::setLogLevel: overriden by envvar OSG_LOG_LEVEL '" 
-                 << el << "'." << endl; 
+                 << el << "'." << std::endl; 
 
         if(sscanf(el, "%d", &ll) != 1)
         {
@@ -580,7 +580,7 @@ void Log::setLogLevel(LogLevel logLevel, bool force)
             {
                 _logLevel = LOG_DEBUG;
                 osgLog() << "Log::setLogLevel: couldn't interpret envvar, "
-                         << "set to LOG_DEBUG!" << endl;                       
+                         << "set to LOG_DEBUG!" << std::endl;                       
             }
         }
         else 
@@ -634,7 +634,7 @@ void Log::setLogFile(const Char8 *fileName, bool force)
     if( !force && (this == osgLogP) && (name = getenv( "OSG_LOG_FILE" ))) 
     {
         osgLog() << "Log::setLogFile: overriden by envvar OSG_LOG_FILE '" 
-                 << name << "'." << endl;                                   
+                 << name << "'." << std::endl;                            
     }
     else
     {
@@ -643,7 +643,7 @@ void Log::setLogFile(const Char8 *fileName, bool force)
 
     if(name && *name) 
     {
-        _fileStream.open(name, ios::out);
+        _fileStream.open(name, std::ios::out);
 
 #ifdef OSG_STREAM_HAS_ISOPEN
         if (_fileStream.is_open()) 
@@ -703,10 +703,10 @@ void Log::connect(void)
     switch(_logType) 
     {
         case LOG_STDOUT:
-            this->bp = cout.rdbuf();
+            this->bp = std::cout.rdbuf();
             break;
         case LOG_STDERR:
-            this->bp = cerr.rdbuf();
+            this->bp = std::cerr.rdbuf();
             break;
         case LOG_FILE:
             this->bp = _fileStream.rdbuf();
@@ -723,10 +723,10 @@ void Log::connect(void)
     switch(_logType) 
     {
         case LOG_STDOUT:
-            this->rdbuf(cout.rdbuf());
+            this->rdbuf(std::cout.rdbuf());
             break;
         case LOG_STDERR:
-            this->rdbuf(cerr.rdbuf());
+            this->rdbuf(std::cerr.rdbuf());
             break;
         case LOG_FILE:
             this->rdbuf(_fileStream.rdbuf());
@@ -741,7 +741,7 @@ void Log::connect(void)
     }
 #endif
 
-    for (i = 0; i < int(sizeof(_streamVec)/sizeof(ostream*)); ++i) 
+    for (i = 0; i < int(sizeof(_streamVec)/sizeof(std::ostream*)); ++i) 
     {
         if (i <= _logLevel)
         {
@@ -800,7 +800,7 @@ void OSG::doInitLog(void)
         Log::_nilbufP = new Log::nilbuf();
 #else
     if(Log::_nilstreamP == NULL)
-        Log::_nilstreamP = new fstream("/dev/null", ios::out);
+        Log::_nilstreamP = new std::fstream("/dev/null", std::ios::out);
 #endif
 
     if(osgLogP == NULL)

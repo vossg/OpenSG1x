@@ -201,7 +201,7 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 
         if(rc != 0)
         {
-            SFATAL << "OSGPTB : pthread_create failed" << endl;
+            SFATAL << "OSGPTB : pthread_create failed" << std::endl;
             returnValue = false;
         }
 
@@ -422,7 +422,7 @@ bool BaseSprocBase::runFunction(ThreadFuncF  fThreadFunc,
         if(rc == -1)
         {
             SFATAL << "OSGSPB : sproc thread failed. Reason: " 
-                   << strerror(errno) << endl;
+                   << strerror(errno) << std::endl;
             returnValue = false;
         }
     }
@@ -626,7 +626,7 @@ bool BaseWinThreadBase::runFunction(ThreadFuncF  fThreadFunc,
         if(rc == NULL)
         {
             SFATAL << "OSGWTB : sproc thread failed. Reason: "  
-                   << strerror(errno) << endl;
+                   << strerror(errno) << std::endl;
             returnValue = false;
         }
     }

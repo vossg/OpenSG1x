@@ -110,18 +110,16 @@ char Window::cvsid[] = "@(#)$Id: $";
 
 /** global window list, need by static refreshGLObject */
 
-vector<WindowPtr>         Window::_allWindows;
+std::vector<WindowPtr         >  Window::_allWindows;
 
-// GLobject handling
-
-Lock                      *Window::_GLObjectLock;
-vector<Window::GLObject*>  Window::_glObjects;
-vector<UInt32>             Window::_glObjectDestroyList;
+Lock                            *Window::_GLObjectLock;
+std::vector<Window::GLObject *>  Window::_glObjects;
+std::vector<UInt32            >  Window::_glObjectDestroyList;
 
 // GL extension handling
 
-vector<IDStringLink>               Window::_registeredExtensions;
-vector<IDStringLink>               Window::_registeredFunctions;
+std::vector<IDStringLink      >  Window::_registeredExtensions;
+std::vector<IDStringLink      >  Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -206,9 +204,9 @@ void Window::onCreate( const Window * )
 
 void Window::onDestroy(void)
 {
-    vector<WindowPtr>::iterator it;
+    std::vector<WindowPtr>::iterator it;
 
-    it = find(_allWindows.begin(), _allWindows.end(), WindowPtr(this));
+    it = std::find(_allWindows.begin(), _allWindows.end(), WindowPtr(this));
     
     // prototype windowa re not added to the list, so they might not be found.
     if(it != _allWindows.end()) 
@@ -403,7 +401,7 @@ void Window::validateGLObject ( UInt32 id )
 {
     if ( id == 0 )
     {
-        SWARNING << "Window::validateGLObject: id is 0!" << endl;
+        SWARNING << "Window::validateGLObject: id is 0!" << std::endl;
             return;
     }
     
@@ -457,11 +455,11 @@ void Window::refreshGLObject( UInt32 id )
 {
     if ( id == 0 )
     {
-        SWARNING << "Window::refreshGLObject: id is 0!" << endl;
+        SWARNING << "Window::refreshGLObject: id is 0!" << std::endl;
         return;
     }
 
-    vector<WindowPtr>::iterator it;
+    std::vector<WindowPtr>::iterator it;
 
     for ( it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
@@ -484,11 +482,11 @@ void Window::reinitializeGLObject(UInt32 id)
 {
     if ( id == 0 )
     {
-        SWARNING << "Window::reinitializeGLObject: id is 0!" << endl;
+        SWARNING << "Window::reinitializeGLObject: id is 0!" << std::endl;
         return;
     }
 
-    vector<WindowPtr>::iterator it;
+    std::vector<WindowPtr>::iterator it;
 
     for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
@@ -512,11 +510,11 @@ void Window::initRegisterGLObject(UInt32 id, UInt32 num)
 {
     if ( id == 0 )
     {
-        SWARNING << "Window::initRegisterGLObject: id is 0!" << endl;
+        SWARNING << "Window::initRegisterGLObject: id is 0!" << std::endl;
         return;
     }
 
-    vector<WindowPtr>::iterator it;
+    std::vector<WindowPtr>::iterator it;
 
     for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
@@ -557,13 +555,13 @@ void Window::destroyGLObject(UInt32 id, UInt32 num)
 
 void Window::dumpExtensions ( void )
 {   
-    vector<IDString>::iterator it;
-    cout << "GL Extensions: ";
+    std::vector<IDString>::iterator it;
+    std::cout << "GL Extensions: ";
     for ( it = _extensions.begin(); it != _extensions.end(); it++ )
     {
-        cout << it->str() << ", ";
+        std::cout << it->str() << ", ";
     }
-    cout << endl;       
+    std::cout << std::endl;       
 }
 
 void Window::frameInit( void )
@@ -573,7 +571,7 @@ void Window::frameInit( void )
     {
         IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
         s.tokenize( _extensions );
-        sort( _extensions.begin(), _extensions.end() );
+        std::sort( _extensions.begin(), _extensions.end() );
         
         // if we don't have any extensions, add something anyway
         if(_extensions.empty())
@@ -586,11 +584,11 @@ void Window::frameInit( void )
         /* perform a binary search over the retrieved extension strings.
            Push back the result as an availability flag for the extension
            requested by the application */         
-        _availExtensions.push_back( binary_search( 
-                       _extensions.begin(),
-                       _extensions.end(),
-                       IDString(_registeredExtensions[
-                            _availExtensions.size()]) ) );
+        _availExtensions.push_back( 
+            std::binary_search( 
+                _extensions.begin(),
+                _extensions.end(),
+                IDString(_registeredExtensions[_availExtensions.size()]) ) );
     }
 
     // any new functions registered ? 
@@ -688,7 +686,7 @@ void Window::drawAllViewports( DrawAction * action )
     }
     else
     {
-        SWARNING << "Window::drawAllViewports: no action!" << endl;
+        SWARNING << "Window::drawAllViewports: no action!" << std::endl;
     }
 }
     
@@ -722,7 +720,7 @@ void Window::renderAllViewports( RenderAction * action )
     }
     else
     {
-        SWARNING << "Window::renderAllViewports: no action!" << endl;
+        SWARNING << "Window::renderAllViewports: no action!" << std::endl;
     }
 }
     
@@ -824,7 +822,7 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
 void Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump Window NI" << endl;
+    SLOG << "Dump Window NI" << std::endl;
 }
 
     

@@ -187,7 +187,7 @@ Action::ResultE LightBase::drawEnter(Action *action)
 
     if(beacon == NullFC)
     {
-        SINFO << "draw: no beacon set!" << endl;
+        SINFO << "draw: no beacon set!" << std::endl;
 
         glPushMatrix();
     }

@@ -191,11 +191,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     // access default functors
 
-    virtual vector<Functor>* getDefaultEnterFunctors( void );
-    virtual vector<Functor>* getDefaultLeaveFunctors( void );
+    virtual std::vector<Functor> *getDefaultEnterFunctors( void );
+    virtual std::vector<Functor> *getDefaultLeaveFunctors( void );
 
-    virtual Action::ResultE apply(vector<NodePtr>::iterator begin, 
-                                  vector<NodePtr>::iterator end);
+    virtual Action::ResultE apply(std::vector<NodePtr>::iterator begin, 
+                                  std::vector<NodePtr>::iterator end);
 
     virtual Action::ResultE apply(NodePtr node);
 
@@ -269,8 +269,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static VRMLWriteAction * _prototype;
 
     // default functors for instantiation
-    static vector<Functor> *_defaultEnterFunctors;
-    static vector<Functor> *_defaultLeaveFunctors;
+    static std::vector<Functor> *_defaultEnterFunctors;
+    static std::vector<Functor> *_defaultLeaveFunctors;
     
     static ActionInitializer _actionInitializer;
 
@@ -354,17 +354,17 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    MaterialPtr    _material;
+    MaterialPtr          _material;
 
-    UInt32         _uiIndent;
-    FILE          *_pFile;
+    UInt32               _uiIndent;
+    FILE                *_pFile;
 
-    TraversalMode  _eTraversalMode;    
-    bool           _currentUse;
-    UInt32         _uiOptions;
+    TraversalMode        _eTraversalMode;    
+    bool                 _currentUse;
+    UInt32               _uiOptions;
 
-    vector<FCInfo> _vFCInfos;
-
+    std::vector<FCInfo>  _vFCInfos;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------

@@ -86,7 +86,7 @@ BINWriter::FCInfo::FCInfo() :
 
 
 BINWriter::BinaryFileHandler::BinaryFileHandler(FILE *file)
-		: OSG::BinaryDataHandler(0), _file(file)
+		: BinaryDataHandler(0), _file(file)
 {
     _readMemory .resize(10000);
     _writeMemory.resize(10000);
@@ -111,7 +111,8 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
 {
     if (fcPtr==NullFC)
 	{
-		SWARNING<<"ERROR in BINWriter::addToIdMap : NullFC"<<endl;
+		SWARNING << "ERROR in BINWriter::addToIdMap : NullFC"
+                 << std::endl;
 		return;
 	}
 	FCTypeIdMap::iterator iIdMap;
@@ -119,13 +120,15 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
 	//add new ContainerType
 	if (_fcIdMap.find(fcPtr->getType().getCName())==_fcIdMap.end())
 	{
-		vector<UInt32> idVec;
+		std::vector<UInt32> idVec;
 		idVec.push_back(0);
-		if (!(_fcIdMap.insert(pair<std::string, vector<UInt32> >
+		if (!(_fcIdMap.insert(std::pair<std::string, std::vector<UInt32> >
                         (fcPtr->getType().getCName(), idVec)).second))
         {
-                SWARNING<<"BINWriter::addToIdMap(FieldContainerPtr):"<<endl
-                        <<"ERROR while inserting into _fcIdMap"<<endl;
+            SWARNING << "BINWriter::addToIdMap(FieldContainerPtr):"
+                     << std::endl
+                     << "ERROR while inserting into _fcIdMap"
+                     << std::endl;
         };
 	}
 	
@@ -157,8 +160,8 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
 
 void BINWriter::writeFileHeader()
 {
-	FCTypeIdMap    ::iterator iIdMap = _fcIdMap.begin();
-	vector<NodePtr>::iterator iRoots = _vec_pRootNodes.begin();
+	     FCTypeIdMap    ::iterator iIdMap = _fcIdMap.begin();
+	std::vector<NodePtr>::iterator iRoots = _vec_pRootNodes.begin();
     UInt32 mapSize    = _fcIdMap.size();
 	UInt32 numOfRoots = _vec_pRootNodes.size();
     UInt32 i = 0;
@@ -174,8 +177,8 @@ void BINWriter::writeFileHeader()
 	{
 		_outFileHandler.putValue(iIdMap->first);
 
-        vector<UInt32>::iterator intIt  = iIdMap->second.begin();
-        vector<UInt32>::iterator intEnd = iIdMap->second.end();
+        std::vector<UInt32>::iterator intIt  = iIdMap->second.begin();
+        std::vector<UInt32>::iterator intEnd = iIdMap->second.end();
 
         while(intIt != intEnd)
         {
@@ -188,13 +191,13 @@ void BINWriter::writeFileHeader()
 
 
 void BINWriter::BinaryFileHandler
-		::read(OSG::MemoryHandle mem, OSG::UInt32 size)
+		::read(MemoryHandle mem, UInt32 size)
 {
     fread(mem, size, 1, _file);
 }
 
 void BINWriter::BinaryFileHandler
-		::write(OSG::MemoryHandle mem, OSG::UInt32 size)
+		::write(MemoryHandle mem, UInt32 size)
 {
     fwrite(mem, size, 1, _file);
 }
@@ -215,7 +218,7 @@ void BINWriter::write(NodePtr node)
 	_outFileHandler.flush();
 }
 
-void BINWriter::write(vector<NodePtr> nodes)
+void BINWriter::write(std::vector<NodePtr> nodes)
 {
     //does the same as write(NodePtr) for every Node in the vector
 	_fcMap.clear();
@@ -223,7 +226,7 @@ void BINWriter::write(vector<NodePtr> nodes)
     _vec_pRootNodes.clear();
     _vec_pRootNodes = nodes;
 
-    vector<NodePtr>::const_iterator iter = nodes.begin();
+    std::vector<NodePtr>::const_iterator iter = nodes.begin();
     for(; iter != nodes.end(); ++iter)
     {
         doIndexFC( *iter );
@@ -246,8 +249,8 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
 	UInt32 i;
 
     // insert into map
-    pair< map<UInt32, FCInfo>::iterator, bool>
-        element = _fcMap.insert(pair<UInt32, FCInfo>(
+    std::pair< std::map<UInt32, FCInfo>::iterator, bool>
+        element = _fcMap.insert(std::pair<UInt32, FCInfo>(
             fieldConPtr.getFieldContainerId(),
             FCInfo()));
     // avoid loop. Element was already in the map
@@ -356,8 +359,14 @@ void BINWriter::doWriteIndexedFC()
 
     for( ; i != _fcMap.end(); ++i, ++count)
 	{
-        SINFO<<"writing container "<<setw(4)
-             <<count<<"/"<<mapSize<<"..."<<endl;
+        SINFO << "writing container "
+              << std::setw(4)
+              << count 
+              << "/"
+              << mapSize
+              << "..."
+              << std::endl;
+
         //for each entry in _fcMap
 	    //write ID
         _outFileHandler.putValue(i->first);

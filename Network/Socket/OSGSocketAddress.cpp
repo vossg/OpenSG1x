@@ -91,7 +91,7 @@ SocketAddress::SocketAddress(const char *host,int port)
     memset(&_sockaddr,0,sizeof(_sockaddr));
     _sockaddr.sin_family = AF_INET;
     if(host)
-        setHost(string(host));
+        setHost(std::string(host));
     setPort(port);
 }
 
@@ -114,7 +114,7 @@ SocketAddress::SocketAddress(SocketAddress::Type type,int port)
             break;
         case BROADCAST:
             _sockaddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
-//            setHost(string("192.168.0.255"));
+//            setHost(std::string("192.168.0.255"));
             break;
         default:
             _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -148,7 +148,7 @@ void SocketAddress::setPort(int port)
  *
  * \param host   Host as name or number
  */
-void SocketAddress::setHost(const string &host)
+void SocketAddress::setHost(const std::string &host)
 {
     struct hostent *hent;
     char const *c;
@@ -177,23 +177,23 @@ void SocketAddress::setHost(const string &host)
     }
 }
 
-/** \brief Get host as number string
+/** \brief Get host as number std::string
  *
  * \result   Host as number e.g. 133.33.44.55
  */
-string SocketAddress::getHost() const
+std::string SocketAddress::getHost() const
 {
-    return string(inet_ntoa(_sockaddr.sin_addr));
+    return std::string(inet_ntoa(_sockaddr.sin_addr));
 }
 
 /** \brief Get host as name
  *
- * \result   Hostname if found. Otherwise number string.
+ * \result   Hostname if found. Otherwise number std::string.
  */
-string SocketAddress::getHostByName() const
+std::string SocketAddress::getHostByName() const
 {
     struct hostent *hent;
-    string result;
+    std::string result;
 
     hent=gethostbyaddr((SocketAddrT*)getSockAddr(),
                        getSockAddrSize(),AF_INET);

@@ -75,12 +75,12 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.14 2002/02/27 17:36:54 dirk Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.15 2002/09/02 07:04:19 vossg Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 
-vector<Action::Functor> *IntersectAction::_defaultEnterFunctors;
-vector<Action::Functor> *IntersectAction::_defaultLeaveFunctors;
+std::vector<Action::Functor> *IntersectAction::_defaultEnterFunctors;
+std::vector<Action::Functor> *IntersectAction::_defaultLeaveFunctors;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -96,7 +96,7 @@ void IntersectAction::registerEnterDefault(     const FieldContainerType &type,
                                         const Action::Functor &func )
 {
     if ( ! _defaultEnterFunctors )
-        _defaultEnterFunctors = new vector<Action::Functor>;
+        _defaultEnterFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultEnterFunctors->size())
     {
@@ -114,7 +114,7 @@ void IntersectAction::registerLeaveDefault(     const FieldContainerType &type,
                                         const Action::Functor &func )
 {
     if ( ! _defaultLeaveFunctors )
-        _defaultLeaveFunctors = new vector<Action::Functor>;
+        _defaultLeaveFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
@@ -335,12 +335,14 @@ bool IntersectAction::operator != (const IntersectAction &other) const
 \*-------------------------------------------------------------------------*/
 
 
-vector<IntersectAction::Functor>* IntersectAction::getDefaultEnterFunctors( void )
+std::vector<IntersectAction::Functor> *
+    IntersectAction::getDefaultEnterFunctors(void)
 {
     return _defaultEnterFunctors;
 }
 
-vector<IntersectAction::Functor>* IntersectAction::getDefaultLeaveFunctors( void )
+std::vector<IntersectAction::Functor> *
+    IntersectAction::getDefaultLeaveFunctors(void)
 {
     return _defaultLeaveFunctors;
 }

@@ -95,7 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
 
     inline void dec (void);
 
-    virtual void putToString(string &str, const char *format = NULL);
+    virtual void putToString(std::string &str, const char *format = NULL);
 
     virtual bool getFromString(const Char8 *&inVal);
 

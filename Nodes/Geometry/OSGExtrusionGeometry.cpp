@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.4 2002/09/02 05:10:25 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.5 2002/09/02 07:04:54 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -690,17 +690,17 @@ static void subdivSurface(UInt32 subdivs, grid *grid_in)
 /*---------------------------------------------------------------------------*/
 
 
-static void createSCP( const vector<osg::Vec3f> &spine,
-                       bool *_spineClosed,
-                       bool *_pureRotation,
-                       vector<osg::Matrix> &SCP )
+static void createSCP(const std::vector<Vec3f>  &spine,
+                                 bool           *pSpineClosed,
+                                 bool           *pPureRotation,
+                            std::vector<Matrix> &SCP          )
 
 {
   /* This function makes quite heavy use of the .length() function   */
   /* For epsilon checks the 1-Norm or Inf.-Norm would probably suffice. */
   
-  osg::Vec3f yUnit(0.0 ,1.0, 0.0);
-  osg::Vec3f zUnit(0.0 ,0.0, 1.0);
+  Vec3f yUnit(0.0 ,1.0, 0.0);
+  Vec3f zUnit(0.0 ,0.0, 1.0);
   
   UInt32 sp_len = spine.size();
 
@@ -708,19 +708,19 @@ static void createSCP( const vector<osg::Vec3f> &spine,
   bool yFound = false;
   bool zFound = false;
   
-  *_pureRotation = false;
+  *pPureRotation = false;
 
   SCP.resize(sp_len);
   
   if ((spine[0] - spine[spine.size() - 1]).length() < EPS)
     {
       spineClosed = true;
-      *_spineClosed = true;
+      *pSpineClosed = true;
     }
   else
     {
       spineClosed = false;
-      *_spineClosed = false;
+      *pSpineClosed = false;
     }
             
   /* determine the SCPBaseTransformation for the first crosssection */
@@ -730,8 +730,8 @@ static void createSCP( const vector<osg::Vec3f> &spine,
       
       if(SCP[0][1].length() > EPS) /* translation */
         {
-          osg::Vec3f tmp1 = spine[1] - spine[0];
-          osg::Vec3f tmp2 = spine[sp_len - 2] - spine[sp_len - 1];
+          Vec3f tmp1 = spine[1] - spine[0];
+          Vec3f tmp2 = spine[sp_len - 2] - spine[sp_len - 1];
 
           yFound = true;
           
@@ -849,7 +849,7 @@ static void createSCP( const vector<osg::Vec3f> &spine,
                   /* One transformation for all spinepoints */
                   SCP.resize(1);
 
-                  *_pureRotation = true;
+                  *pPureRotation = true;
                 }
             }
         }
@@ -899,20 +899,20 @@ static void createSCP( const vector<osg::Vec3f> &spine,
     }
 }
    
-static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
-                              const vector<osg::Quaternion> &orientation,
-                              const vector<osg::Vec2f> &scale,
-                              const vector<osg::Vec3f> &spine,
-                              bool *uWrap, 
-                              bool *vWrap,
-                              vector<osg::Pnt3f> &vertices )
+static void calcHullVertices(const std::vector<Vec2f     > &crossSection,
+                             const std::vector<Quaternion> &orientation,
+                             const std::vector<Vec2f     > &scale,
+                             const std::vector<Vec3f     > &spine,
+                                        bool               *uWrap, 
+                                        bool               *vWrap,
+                                   std::vector<Pnt3f     > &vertices)
 {
   /* Closure detection in u-direction is not yet correct */
   /* Let u be the parameter of the hull surface in direction of the spine */
   /* then closure of the spine does not imply that the hull surface is */
   /* closed in u direction */
 
-  vector<osg::Matrix> SCPBaseTransform;
+  std::vector<Matrix> SCPBaseTransform;
 
   UInt32 sp_len = spine.size();
   UInt32 cs_len = crossSection.size();
@@ -951,7 +951,7 @@ static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
     /* spine points orientation/scale values */
     /* If that occurs we just go on with the last value we know */
 
-    osg::Matrix SCPRotation;
+    Matrix SCPRotation;
     SCPRotation.setIdentity();
 
     if(or_len > i)
@@ -974,7 +974,7 @@ static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
 
     if(sc_len >= sp_len)
       {
-        osg::Vec2f tmp;
+        Vec2f tmp;
 
         for(UInt32 j = 0; j < cs_lim; j++)
           {
@@ -995,7 +995,7 @@ static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
       {
         for(UInt32 j = 0; j < cs_lim; j++)
           {
-            osg::Vec2f tmp;
+            Vec2f tmp;
 
             if(j < sc_len)
               {
@@ -1039,21 +1039,17 @@ static void calcHullVertices( const vector<osg::Vec2f> &crossSection,
     }
 }
 
-static void calcHullNormals(  const vector<osg::Vec2f>&
-                                    OSG_CHECK_ARG(crossSection),
-                              const vector<osg::Quaternion>&
-                                    OSG_CHECK_ARG(orientation),
-                              const vector<osg::Vec2f> &
-                                    OSG_CHECK_ARG(scale),
-                              const vector<osg::Vec3f> &
-                                    OSG_CHECK_ARG(spine),
-                              const vector<osg::Pnt3f> &vertices,
-                              bool ccw,
-                              bool uWrap,
-                              bool vWrap,
-                              UInt32 uValues,
-                              UInt32 vValues,
-                              vector<osg::Vec3f> &normals )
+static void calcHullNormals(const std::vector<Vec2f     > &,
+                            const std::vector<Quaternion> &,
+                            const std::vector<Vec2f     > &,
+                            const std::vector<Vec3f     > &,
+                            const std::vector<Pnt3f     > &vertices,
+                                       bool                ccw,
+                                       bool                uWrap,
+                                       bool                vWrap,
+                                       UInt32              uValues,
+                                       UInt32              vValues,
+                                  std::vector<Vec3f     > &normals )
 {
   normals.resize(uValues*vValues);
 
@@ -1073,8 +1069,8 @@ static void calcHullNormals(  const vector<osg::Vec2f>&
         {
           for(j = 0; j < cs_len - 1; j++)
             {
-              osg::Vec3f n;
-              osg::Vec3f ds,dc;
+              Vec3f n;
+              Vec3f ds,dc;
               
               /* ll = lower left, ul = upper left ... */
               ll = i*cs_len + j;
@@ -1199,8 +1195,8 @@ static void calcHullNormals(  const vector<osg::Vec2f>&
         {
           for(j = 0; j < cs_len - 1; j++)
             {
-              osg::Vec3f n;
-              osg::Vec3f ds,dc;
+              Vec3f n;
+              Vec3f ds,dc;
               
               /* ll = lower left, ul = upper left ... */
               ll = i*cs_len + j;
@@ -1329,12 +1325,12 @@ static void calcHullNormals(  const vector<osg::Vec2f>&
 
   /* For transition only! To be removed during the next days, 
    specifically after subdivision cleanup */
-static void convertSubdivisionGrid( grid *ext_grid,
-                                    UInt32 *_uValues,
-                                    UInt32 *_vValues,                        
-                                    vector<osg::Pnt3f> & _vertices,
-                                    vector<osg::Vec3f> & _normals,
-                                    vector<osg::Vec2f> & _texCoords )
+static void convertSubdivisionGrid(     grid          *ext_grid,
+                                        UInt32        *_uValues,
+                                        UInt32        *_vValues,
+                                   std::vector<Pnt3f> &_vertices,
+                                   std::vector<Vec3f> &_normals,
+                                   std::vector<Vec2f> &_texCoords)
 
 
 {
@@ -1388,23 +1384,23 @@ static void convertSubdivisionGrid( grid *ext_grid,
   /* we know this condition */
   //if(numOfSubdivision > 0)
   freeGrid(ext_grid, false);
-};
+}
 
-static void generateHull( const vector<osg::Vec2f> &crossSection,
-                          const vector<osg::Quaternion> &orientation,
-                          const vector<osg::Vec2f> &scale,
-                          const vector<osg::Vec3f> &spine,
-                          bool ccw,
-                          bool buildNormal,
-                          bool buildTexCoord,
-                          UInt32 numOfSubdivision,
-                          bool *_uWrap,
-                          bool *_vWrap,
-                          UInt32 *_uValues,
-                          UInt32 *_vValues,
-                          vector<osg::Pnt3f> &vertices,
-                          vector<osg::Vec3f> &normals,
-                          vector<osg::Vec2f> &texCoords )
+static void generateHull(const std::vector<Vec2f     > & crossSection,
+                         const std::vector<Quaternion> & orientation,
+                         const std::vector<Vec2f     > & scale,
+                         const std::vector<Vec3f     > & spine,
+                                    bool                 ccw,
+                                    bool                 buildNormal,
+                                    bool                 buildTexCoord,
+                                    UInt32               numOfSubdivision,
+                                    bool               *_uWrap,
+                                    bool               *_vWrap,
+                                    UInt32             *_uValues,
+                                    UInt32             *_vValues,
+                               std::vector<Pnt3f     > & vertices,
+                               std::vector<Vec3f     > & normals,
+                               std::vector<Vec2f     > & texCoords       )
 {
   /* Note : The terminology concerning the parametrization of the hull */
   /* surface differs from the spec                                     */
@@ -1479,20 +1475,20 @@ static void generateHull( const vector<osg::Vec2f> &crossSection,
   *_vValues = vValues;
 }
 
-static void renderHull( const vector<osg::Pnt3f> &vertices,
-                        const vector<osg::Vec3f> &normals,
-                        const vector<osg::Vec2f> &texCoords,
-                        bool buildNormal, 
-                        bool buildTexCoord,
-                        bool uWrap,
-                        bool vWrap,
-                        UInt32 uValues,
-                        UInt32 vValues,
-                        GeoPositions3fPtr   &geoVertices,
-                        GeoNormals3fPtr     &geoNormals,
-                        GeoTexCoords2fPtr   &geoTexCoords,
-                        GeoPLengthsUI32Ptr  &geoLengths,
-                        GeoPTypesUI8Ptr     &geoTypes )
+static void renderHull(const std::vector<Pnt3f>      &vertices,
+                       const std::vector<Vec3f>      &normals,
+                       const std::vector<Vec2f>      &texCoords,
+                                  bool                buildNormal, 
+                                  bool                buildTexCoord,
+                                  bool                uWrap,
+                                  bool                vWrap,
+                                  UInt32              uValues,
+                                  UInt32              vValues,
+                                  GeoPositions3fPtr  &geoVertices,
+                                  GeoNormals3fPtr    &geoNormals,
+                                  GeoTexCoords2fPtr  &geoTexCoords,
+                                  GeoPLengthsUI32Ptr &geoLengths,
+                                  GeoPTypesUI8Ptr    &geoTypes)
 {
   GeoPositions3f::StoredFieldType  *geoVerticesPtr = geoVertices->getFieldPtr();
   GeoNormals3f::StoredFieldType    *geoNormalsPtr  = geoNormals->getFieldPtr();
@@ -1593,26 +1589,26 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
     }
 }
 
-void renderCap( const vector<osg::Vec2f> &crossSection,
-                const vector<osg::Pnt3f> &hullVertices,
-                bool ccw,
-                bool convex,
-                bool buildNormal,
-                bool buildTexCoord,
-                bool uWrap,
-                bool vWrap,
-                UInt32 numOfCap,
-                UInt32 uValues,
-                UInt32 vValues,
-                GeoPositions3fPtr   &geoVertices,
-                GeoNormals3fPtr     &geoNormals,
-                GeoTexCoords2fPtr   &geoTexCoords,
-                GeoPLengthsUI32Ptr  &geoLengths,
-                GeoPTypesUI8Ptr     &geoTypes )
+void renderCap(const std::vector<Vec2f>      &crossSection,
+               const std::vector<Pnt3f>      &hullVertices,
+                          bool                ccw,
+                          bool                convex,
+                          bool                buildNormal,
+                          bool                buildTexCoord,
+                          bool                uWrap,
+                          bool                vWrap,
+                          UInt32              numOfCap,
+                          UInt32              uValues,
+                          UInt32              vValues,
+                          GeoPositions3fPtr  &geoVertices,
+                          GeoNormals3fPtr    &geoNormals,
+                          GeoTexCoords2fPtr  &geoTexCoords,
+                          GeoPLengthsUI32Ptr &geoLengths,
+                          GeoPTypesUI8Ptr    &geoTypes)
 {
-  osg::Vec2f baryCenter(0.0f, 0.0f);
-  osg::Vec3f vertexBaryCenter(0.0f, 0.0f, 0.0f);
-  osg::Vec3f v;
+  Vec2f baryCenter(0.0f, 0.0f);
+  Vec3f vertexBaryCenter(0.0f, 0.0f, 0.0f);
+  Vec3f v;
 
   // UInt32 tot_uValues = uWrap ? uValues + 1 : uValues;
   UInt32 tot_vValues = vWrap ? vValues + 1 : vValues;
@@ -1664,15 +1660,15 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
 
   if(buildNormal)
     {
-      osg::Vec3f diff1;
-      osg::Vec3f diff2;
+      Vec3f diff1;
+      Vec3f diff2;
 
       diff1.setValue( hullVertices[(numOfCap % uValues)* vValues]   
                       -vertexBaryCenter );
       diff2.setValue( hullVertices[(numOfCap % uValues)* vValues +1]
                       -vertexBaryCenter );
 
-      osg::Vec3f normal;
+      Vec3f normal;
 
       /* I think it's ok if these crossproducts are zero */
       /* If anybody uses coincident crossSection points this makes trouble */
@@ -1703,7 +1699,7 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
       {
         for(UInt32 j = 0; j < v_limit + 1; j++)
           {
-            osg::Vec2f texCoord;
+            Vec2f texCoord;
 
             texCoord = Vec2f(0.0f, 0.0f);
             geoTexCoords->push_back(texCoord);
@@ -1714,17 +1710,17 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
 }
 
 
-NodePtr OSG::makeExtrusion( const vector<osg::Vec2f> &crossSection,
-                            const vector<osg::Quaternion> &orientation,
-                            const vector<osg::Vec2f> &scale,
-                            const vector<osg::Vec3f> &spine,
-                            bool beginCap,
-                            bool endCap,
-                            bool ccw,
-                            bool convex,
-                            bool buildNormal,
-                            bool buildTexCoord,
-                            UInt32 numOfSubdivision )
+NodePtr OSG::makeExtrusion(const std::vector<Vec2f     > &crossSection,
+                           const std::vector<Quaternion> &orientation,
+                           const std::vector<Vec2f     > &scale,
+                           const std::vector<Vec3f     > &spine,
+                                      bool                beginCap,
+                                      bool                endCap,
+                                      bool                ccw,
+                                      bool                convex,
+                                      bool                buildNormal,
+                                      bool                buildTexCoord,
+                                      UInt32              numOfSubdivision)
 {
 
   GeometryPtr pGeo = makeExtrusionGeo(crossSection, orientation,
@@ -1746,29 +1742,29 @@ NodePtr OSG::makeExtrusion( const vector<osg::Vec2f> &crossSection,
   return node;
 }
 
-GeometryPtr OSG::makeExtrusionGeo( const vector<osg::Vec2f> &crossSection,
-                                   const vector<osg::Quaternion> &orientation,
-                                   const vector<osg::Vec2f> &scale,
-                                   const vector<osg::Vec3f> &spine,
-                                   bool beginCap,
-                                   bool OSG_CHECK_ARG(endCap),
-                                   bool ccw,
-                                   bool convex,
-                                   bool buildNormal,
-                                   bool buildTexCoord,
-                                   UInt32 numOfSubdivision )
+GeometryPtr OSG::makeExtrusionGeo(const std::vector<Vec2f     > &crossSection,
+                                  const std::vector<Quaternion> &orientation,
+                                  const std::vector<Vec2f     > &scale,
+                                  const std::vector<Vec3f     > &spine,
+                                        bool                     beginCap,
+                                        bool ,
+                                        bool                     ccw,
+                                        bool                     convex,
+                                        bool                     buildNormal,
+                                        bool                     buildTexCoord,
+                                        UInt32                   numSubdivs)
 {
-  vector<osg::Pnt3f> hullVertices;
-  vector<osg::Vec3f> hullNormals;
-  vector<osg::Vec2f> hullTexCoords;
+    std::vector<Pnt3f> hullVertices;
+    std::vector<Vec3f> hullNormals;
+    std::vector<Vec2f> hullTexCoords;
   
-  vector<osg::Pnt3f> beginCapVertices;
-  vector<osg::Vec3f> beginCapNormals;
-  vector<osg::Vec2f> beginCaptexCoords;
+    std::vector<Pnt3f> beginCapVertices;
+    std::vector<Vec3f> beginCapNormals;
+    std::vector<Vec2f> beginCaptexCoords;
   
-  vector<osg::Pnt3f> endCapVertices;
-  vector<osg::Vec3f> endCapNormals;
-  vector<osg::Vec2f> endCaptexCoords;
+    std::vector<Pnt3f> endCapVertices;
+    std::vector<Vec3f> endCapNormals;
+    std::vector<Vec2f> endCaptexCoords;
 
   GeoPositions3fPtr   geoVertices = GeoPositions3f::create();
   GeoNormals3fPtr     geoNormals  = GeoNormals3f::create();
@@ -1792,7 +1788,7 @@ GeometryPtr OSG::makeExtrusionGeo( const vector<osg::Vec2f> &crossSection,
 
   FDEBUG(("entering hull generation\n"));
   generateHull(crossSection, orientation, scale, spine,
-               ccw, buildNormal, buildTexCoord, numOfSubdivision, 
+               ccw, buildNormal, buildTexCoord, numSubdivs, 
                &uWrap, &vWrap, &uValues, &vValues, hullVertices, 
                hullNormals, hullTexCoords);
 

@@ -172,7 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
     
-    void putToString(string &outVal) const;
+    void putToString(std::string &outVal) const;
      
     bool getFromString(const Char8 *&inVal);
    
@@ -201,17 +201,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
     /*! \name                 Creation Tools                               */
     /*! \{                                                                 */
 
-    UInt32 doBuild(vector<Int32>::iterator begin, 
-                   vector<Int32>::iterator end,
-                   UInt32 nodeindex,
-                   GeoPositionsPtr pos); 
+    UInt32 doBuild(std::vector<Int32>::iterator begin, 
+                   std::vector<Int32>::iterator end,
+                        UInt32                  nodeindex,
+                        GeoPositionsPtr         pos      ); 
 
     /*! \}                                                                 */
     
     /*==========================  PRIVATE  ================================*/
   private:
     
-    vector<ParticleBSPNode> _tree;
+    std::vector<ParticleBSPNode> _tree;
 };
 
 
@@ -240,8 +240,8 @@ struct FieldDataTraits<ParticleBSPTree> :
         return outVal.getFromString(inVal);
     }
 
-    static void           putToString   (const ParticleBSPTree &inVal,
-                                               string          &outVal)
+    static void           putToString   (const      ParticleBSPTree &inVal,
+                                               std::string          &outVal)
     {
         inVal.putToString(outVal);
     }
@@ -281,6 +281,6 @@ OSG_END_NAMESPACE
 
 #include <OSGParticleBSP.inl>
 
-#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.4 2002/05/24 09:48:39 vossg Exp $"
+#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.5 2002/09/02 07:05:00 vossg Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

@@ -142,8 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     // application
 
-    virtual ResultE apply(vector<NodePtr>::iterator begin, 
-                          vector<NodePtr>::iterator end);
+    virtual ResultE apply(std::vector<NodePtr>::iterator begin, 
+                          std::vector<NodePtr>::iterator end);
 
     virtual ResultE apply(NodePtr node);
 
@@ -242,8 +242,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     // access default functors
 
-    virtual vector<Functor>* getDefaultEnterFunctors( void );
-    virtual vector<Functor>* getDefaultLeaveFunctors( void );
+    virtual std::vector<Functor>* getDefaultEnterFunctors( void );
+    virtual std::vector<Functor>* getDefaultLeaveFunctors( void );
 
     // default function
     
@@ -253,8 +253,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     // functors
     // just protected, so that derived actions can access them
     
-    vector<Functor> _enterFunctors;
-    vector<Functor> _leaveFunctors;
+    std::vector<Functor> _enterFunctors;
+    std::vector<Functor> _leaveFunctors;
    
     // the node being traversed. Might be needed by the traversed core
     // needs to be set by the RenderAction, as the draw tree is traversed 
@@ -290,8 +290,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     static Action * _prototype;
     
     // default functors for instantiation
-    static vector<Functor> *_defaultEnterFunctors;
-    static vector<Functor> *_defaultLeaveFunctors;
+    static std::vector<Functor> *_defaultEnterFunctors;
+    static std::vector<Functor> *_defaultLeaveFunctors;
     
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -301,19 +301,20 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    NodePtr _actNode;           // the node being traversed right now
+    NodePtr               _actNode;   // the node being traversed right now
     
-    vector<NodePtr>* _actList;  // list of active objects for this level
-                                    // if empty, use the actNode's children
+    std::vector<NodePtr> *_actList;  // list of active objects for this level
+                                     // if empty, use the actNode's children
 
-    bool            _useNewList;// set by clearNodeList
-    vector<NodePtr> _newList;   // list of active object for this level
+    bool                  _useNewList;// set by clearNodeList
+    std::vector<NodePtr>  _newList;   // list of active object for this level
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
     
-    // helper functions for start/stop, that also call the results of start/stop
+    // helper functions for start/stop, that also call the results of 
+    // start/stop
     
     ResultE callStart( void );
     ResultE callStop( ResultE res );
@@ -345,7 +346,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE traverse(NodePtr               root, 
                          TraverseEnterFunctor  func);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(vector<NodePtr>      &nodeList, 
+Action::ResultE traverse(std::vector<NodePtr> &nodeList, 
                          TraverseEnterFunctor  func);
                             
 OSG_SYSTEMLIB_DLLMAPPING
@@ -353,7 +354,7 @@ Action::ResultE traverse(NodePtr               root,
                          TraverseEnterFunctor  enter, 
                          TraverseLeaveFunctor  leave);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(vector<NodePtr>      &nodeList, 
+Action::ResultE traverse(std::vector<NodePtr> &nodeList, 
                          TraverseEnterFunctor  enter, 
                          TraverseLeaveFunctor  leave);
                             

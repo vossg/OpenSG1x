@@ -166,14 +166,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
         IsAttachment
     };
 
-    typedef map   <IDStringLink, FieldDescription *> DescMap;
-    typedef vector<              FieldDescription *> DescVec;
+    typedef std::map   <IDStringLink, FieldDescription *> DescMap;
+    typedef std::vector<              FieldDescription *> DescVec;
 
-    typedef DescMap::iterator                        DescMapIt;
-    typedef DescVec::iterator                        DescVecIt;
+    typedef DescMap::iterator                             DescMapIt;
+    typedef DescVec::iterator                             DescVecIt;
 
-    typedef DescMap::const_iterator                  DescMapConstIt;
-    typedef DescVec::const_iterator                  DescVecConstIt;
+    typedef DescMap::const_iterator                       DescMapConstIt;
+    typedef DescVec::const_iterator                       DescVecConstIt;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */

@@ -89,8 +89,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
         return true;
     }
 
-    static       void      putToString  (const Color3f &inVal,
-                                               string  &outStr)
+    static       void      putToString  (const      Color3f &inVal,
+                                               std::string  &outStr)
     {
         typedef TypeConstants<Color3f::ValueType> TypeConst;
 
@@ -173,8 +173,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
         return true;
     }
 
-    static       void      putToString  (const Color4f &inVal,
-                                               string  &outStr)
+    static       void      putToString  (const      Color4f &inVal,
+                                               std::string  &outStr)
     {
         typedef TypeConstants<Color4f::ValueType> TypeConst;
 
@@ -261,8 +261,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
         return true;
     }
     
-    static       void       putToString  (const Color3ub &inVal,
-                                          string   &outStr)
+    static       void       putToString  (const      Color3ub &inVal,
+                                                std::string   &outStr)
     {
         typedef TypeConstants<Color3ub::ValueType> TypeConst;
 
@@ -343,8 +343,8 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
         return true;
     }
 
-    static       void      putToString  (const Color4ub &inVal,
-                                               string   &outStr)
+    static       void      putToString  (const      Color4ub &inVal,
+                                               std::string   &outStr)
     {
         typedef TypeConstants<Color4ub::ValueType> TypeConst;
 
@@ -409,24 +409,24 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 */
 
 template <>
-struct OSG_BASE_DLLMAPPING FieldDataTraits<string> : 
-    public FieldTraitsRecurseBase<string>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<std::string> : 
+    public FieldTraitsRecurseBase<std::string>
 {
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
                                            FromStringConvertable       };
 
-    static       DataType &getType      (void) { return _type;         }
+    static       DataType   &getType      (void) { return _type;         }
 
-    static const Char8    *getSName     (void) { return "SFString";    }
+    static const Char8      *getSName     (void) { return "SFString";    }
 
-    static const Char8    *getMName     (void) { return "MFString";    }
+    static const Char8      *getMName     (void) { return "MFString";    }
 
-    static       string    getDefault   (void) { return string();      }
+    static       std::string getDefault   (void) { return std::string(); }
 
-    static       bool      getFromString(      string  &target,
-                                         const Char8  *&source)
+    static       bool        getFromString(      std::string  &target,
+                                           const      Char8  *&source)
     {
         target.assign(source);
 
@@ -438,8 +438,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
         return true;
     }
 
-    static       void      putToString(const string &inVal,
-                                       string &outStr)
+    static       void      putToString(const std::string &inVal,
+                                             std::string &outStr)
     { 
         outStr.assign("\"");
         outStr.append(inVal);
@@ -447,13 +447,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     }
 
 
-    static       UInt32    getBinSize (const string &oObject)
+    static       UInt32    getBinSize (const std::string &oObject)
     {
         return oObject.length() + 1 + sizeof(UInt32);
     }
 
-    static       UInt32    getBinSize (const string *pObjectStore,
-                                             UInt32  uiNumObjects)
+    static       UInt32    getBinSize (const std::string *pObjectStore,
+                                                  UInt32  uiNumObjects)
     {
         UInt32 size=0;
 
@@ -466,15 +466,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     }
 
 
-    static void copyToBin(      BinaryDataHandler   &pMem, 
-                          const string              &oObject)
+    static void copyToBin(           BinaryDataHandler   &pMem, 
+                          const std::string              &oObject)
     {
     	pMem.putValue(oObject);
     }
 
-    static void copyToBin(      BinaryDataHandler &pMem, 
-                          const string            *pObjectStore,
-                                UInt32             uiNumObjects)
+    static void copyToBin(           BinaryDataHandler &pMem, 
+                          const std::string            *pObjectStore,
+                                     UInt32             uiNumObjects)
     {
         for(UInt32 i=0; i < uiNumObjects; ++i)
         {
@@ -482,15 +482,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
         }
     }
 
-    static void copyFromBin(BinaryDataHandler &pMem, 
-                            string            &oObject)
+    static void copyFromBin(     BinaryDataHandler &pMem, 
+                            std::string            &oObject)
     {
         pMem.getValue(oObject);
     }
 
-    static void copyFromBin(BinaryDataHandler &pMem, 
-                            string            *pObjectStore,
-                            UInt32             uiNumObjects)
+    static void copyFromBin(     BinaryDataHandler &pMem, 
+                            std::string            *pObjectStore,
+                                 UInt32             uiNumObjects)
     {
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
@@ -531,8 +531,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
         return true;
     }
 
-   static        void      putToString(const Time   &inVal,
-                                             string &outStr)
+   static        void      putToString(const      Time   &inVal,
+                                             std::string &outStr)
     {
         outStr.assign(TypeConstants<Time>::putToString(inVal));
     }
@@ -610,8 +610,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     
         if(length > 256)
         {
-            cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
-                 << "Input too long" << endl;
+            std::cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
+                      << "Input too long" << std::endl;
 
             return false;
         }
@@ -671,8 +671,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         }
     }
 
-    static void putToString(const DynamicVolume &inVal,
-                                  string        &outStr)
+    static void putToString(const      DynamicVolume &inVal,
+                                  std::string        &outStr)
     {
         Pnt3f min, max;
         outStr.erase();
@@ -734,7 +734,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 break;
 
             default :
-                SWARNING << "Unknown volume type in getBinSize" << endl;
+                SWARNING << "Unknown volume type in getBinSize" << std::endl;
         }
 
         return size;
@@ -788,7 +788,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
             }
 
             default:
-                SWARNING << "Unknown volume type in copyToBin" << endl;
+                SWARNING << "Unknown volume type in copyToBin" << std::endl;
         }
     }
 
@@ -846,7 +846,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
             }
 
             default:
-                SWARNING << "Unknown volume type in copyFronBin" << endl;
+                SWARNING << "Unknown volume type in copyFronBin" << std::endl;
         }
     }
 
@@ -962,8 +962,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
         return false;
     }
 
-    static       void      putToString  (const Plane  &inVal,
-                                               string &outStr)
+    static       void      putToString  (const      Plane  &inVal,
+                                               std::string &outStr)
     {
         typedef TypeConstants<Vec3f::ValueType> TypeConst;
         Vec3f  normal = inVal.getNormal();

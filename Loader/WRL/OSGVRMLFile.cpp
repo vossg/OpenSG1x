@@ -151,7 +151,7 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 
     if(szFilename != NULL)
     {
-        string tmpName;
+        std::string tmpName;
 
         _pathHandler.setBaseFile(szFilename);
 
@@ -189,7 +189,7 @@ void VRMLFile::scanFile(const Char8  *szFilename,
 
     if(szFilename != NULL)
     {
-        string tmpName;
+        std::string tmpName;
 
         _pathHandler.setBaseFile(szFilename);
 
@@ -231,7 +231,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "Begin Node " << szNodeTypename << endl;
+    PINFO << "Begin Node " << szNodeTypename << std::endl;
 
     VRMLNodeDesc::incIndent();
 #endif
@@ -244,7 +244,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             {
 #ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
-                PINFO << "Node named : " << szNodename << endl;
+                PINFO << "Node named : " << szNodename << std::endl;
 #endif
 
                 NodePtr pNode     = NodePtr::dcast(pNewNode);
@@ -269,7 +269,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 #ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
                     PINFO << "Fieldcontainer " << szNodename 
-                          << " added to map " << endl;
+                          << " added to map " << std::endl;
 #endif
                 }
             }
@@ -277,7 +277,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             {
 #ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
-                PINFO << "Nodecore named : " << szNodename << endl;
+                PINFO << "Nodecore named : " << szNodename << std::endl;
 #endif
                 NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
@@ -301,7 +301,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 #ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
                     PINFO << "Fieldcontainer " << szNodename 
-                          << " added to map " << endl;
+                          << " added to map " << std::endl;
 #endif
                 }
             }
@@ -310,7 +310,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 #ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
                 PINFO << "Fieldcontainer " << szNodeTypename 
-                      << " is neither node nor nodecore " << endl;
+                      << " is neither node nor nodecore " << std::endl;
 #endif
                 
                 NameContainerMap::iterator mIt = 
@@ -323,7 +323,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 #ifdef OSG_DEBUG_VRML
                     indentLog(VRMLNodeDesc::getIndent(), PINFO);
                     PINFO << "Fieldcontainer " << szNodename 
-                          << " added to map " << endl;
+                          << " added to map " << std::endl;
 #endif
                 }
                 
@@ -333,7 +333,10 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             
 #ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Desc for " << szNodename << " added to map " << endl;
+            PINFO << "Desc for " 
+                  << szNodename 
+                  << " added to map " 
+                  << std::endl;
 #endif
         }
         else
@@ -343,7 +346,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             PINFO << "Fieldcontainer " 
                   << szNodeTypename 
                   << "is empty, save on end " 
-                  << endl;
+                  << std::endl;
 #endif
 
             if(_pCurrNodeDesc != NULL)
@@ -353,7 +356,10 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             
 #ifdef OSG_DEBUG_VRML
             indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Desc for " << szNodename << " added to map " << endl;
+            PINFO << "Desc for " 
+                  << szNodename
+                  << " added to map "
+                  << std::endl;
 #endif
         }
     }
@@ -397,7 +403,7 @@ void VRMLFile::endNode(void)
         VRMLNodeDesc::decIndent();
 
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
-        PINFO << "End Node " << endl;
+        PINFO << "End Node " << std::endl;
 #endif
         return;
     }
@@ -407,7 +413,7 @@ void VRMLFile::endNode(void)
     if(_pCurrNodeDesc->getOnEndSave() == true)
     {
         SLOG << "Fieldcontainer " <<  _pCurrNodeDesc->getSavename()
-             << " on end Save " << endl;
+             << " on end Save " << std::endl;
 
         NameContainerMap::iterator mIt = 
             _nameFCMap.find(IDStringLink(_pCurrNodeDesc->getSavename()));
@@ -418,7 +424,7 @@ void VRMLFile::endNode(void)
                 _pCurrNodeDesc->getSaveFieldContainer();
             
             SLOG << "Fieldcontainer " << _pCurrNodeDesc->getSavename()
-                 << " added to map " << endl;
+                 << " added to map " << std::endl;
         }
 
         _pCurrNodeDesc->clearOnEndSave();
@@ -467,7 +473,7 @@ void VRMLFile::endNode(void)
     VRMLNodeDesc::decIndent();
 
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "End Node " << endl;
+    PINFO << "End Node " << std::endl;
 #endif
 }
 
@@ -498,7 +504,7 @@ void VRMLFile::beginField(const Char8  *szFieldname,
           << " | "
           << _pCurrentFieldDesc
           << ")"
-          << endl;
+          << std::endl;
 
     VRMLNodeDesc::incIndent();
 #endif
@@ -596,7 +602,7 @@ void VRMLFile::endField(void)
     VRMLNodeDesc::decIndent();
 
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "VRMLFile::endField " << endl;
+    PINFO << "VRMLFile::endField " << std::endl;
 #endif
 }
 
@@ -663,9 +669,9 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
           << _pCurrentFieldDesc << " ";
     
     if(_pCurrentField != NULL)
-        PINFO << _pCurrentField->getType().getName() << endl;
+        PINFO << _pCurrentField->getType().getName() << std::endl;
     else
-        PINFO << endl;
+        PINFO << std::endl;
 #endif
 
     return returnValue;
@@ -683,7 +689,7 @@ void VRMLFile::use(const Char8 *szName)
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "VRMLFile::use : looking for " 
           << szName 
-          << endl;
+          << std::endl;
 
     VRMLNodeDesc::incIndent();
 #endif
@@ -696,7 +702,7 @@ void VRMLFile::use(const Char8 *szName)
     {
         PWARNING << "No fieldContainer with name found to use" 
                  << szName 
-                 << endl; 
+                 << std::endl; 
     }
     else
     {

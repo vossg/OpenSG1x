@@ -345,7 +345,7 @@ void BinaryDataHandler::readBuffer(void)
         if(i == readBufEnd())
         {
             SFATAL << "Read buffer is to small. " << size
-                   << "bytes missing" << endl;
+                   << "bytes missing" << std::endl;
 
             throw ReadError("Read buffer to small for whole block");
         }
@@ -377,7 +377,7 @@ void BinaryDataHandler::read(MemoryHandle OSG_CHECK_ARG(src ),
                              UInt32       OSG_CHECK_ARG(size))
 {
     SWARNING << "BinaryDataHandler::read(MemoryHandle src,int size) called" 
-             << endl;
+             << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -424,7 +424,7 @@ void BinaryDataHandler::write(MemoryHandle OSG_CHECK_ARG(src ),
                               UInt32       OSG_CHECK_ARG(size))
 {
     SWARNING << "BinaryDataHandler::write(MemoryHandle mem,int size) called" 
-             << endl;
+             << std::endl;
 }
 
 

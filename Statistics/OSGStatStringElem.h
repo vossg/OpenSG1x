@@ -83,13 +83,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
 
     virtual ~StatStringElem(void); 
    
-    inline void set(const string & value);
+    inline void set(const std::string & value);
 
     inline void set(const Char8 * value);
 
     inline void reset(void);
 
-    virtual void putToString(string &str, const char *format = NULL);
+    virtual void putToString(std::string &str, const char *format = NULL);
 
     virtual bool getFromString(const Char8 *&inVal);
 
@@ -123,7 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
 
     static char cvsid[];
     
-    string _value;
+    std::string _value;
 
     StatStringElem(const StatStringElem &source);
 
@@ -142,6 +142,6 @@ OSG_END_NAMESPACE
 
 #include <OSGStatStringElem.inl>
 
-#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.3 2002/08/08 14:00:19 jbehr Exp $"
+#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.4 2002/09/02 07:05:10 vossg Exp $"
 
 #endif /* _OSGSTATSTRINGELEM_H_ */

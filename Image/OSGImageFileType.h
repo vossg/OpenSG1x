@@ -59,7 +59,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*==========================  PRIVATE  ================================*/
   private:
 
-    list<IDString> _suffixList;
+    std::list<IDString> _suffixList;
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -132,7 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     virtual const Char8  *getMimeType (void) = 0;
 
-    virtual list<IDString> & suffixList (void) { return _suffixList; }
+    virtual std::list<IDString> &suffixList(void) { return _suffixList; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

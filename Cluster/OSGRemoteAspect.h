@@ -85,11 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
                               FunctorArgs                      > Functor;
 
     /** Map of received containers **/
-    typedef map<UInt32,UInt32>    ReceivedFCT;
+    typedef std::map<UInt32,UInt32>    ReceivedFCT;
     /** Map of received types **/
-    typedef map<UInt32,UInt32>    ReceivedTypeT;
+    typedef std::map<UInt32,UInt32>    ReceivedTypeT;
     /** Field filter map **/
-    typedef map<UInt32,BitVector> FieldFilterT;
+    typedef std::map<UInt32,BitVector> FieldFilterT;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -130,12 +130,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     /** remote typeid mapping **/
     ReceivedTypeT                     _receivedType;
     /** is type mapped **/
-    set<UInt32>                       _sentType;
+    std::set<UInt32>                  _sentType;
     /** fild filter **/
     FieldFilterT                      _fieldFilter;
-    vector<Functor>                   _createdFunctors;
-    vector<Functor>                   _destroyedFunctors;
-    vector<Functor>                   _changedFunctors;
+    std::vector<Functor>              _createdFunctors;
+    std::vector<Functor>              _destroyedFunctors;
+    std::vector<Functor>              _changedFunctors;
     StatCollector                    *_statistics;
     
     void   send          ( Connection &connection    );

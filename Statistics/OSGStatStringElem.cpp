@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.3 2002/05/23 12:58:24 dirk Exp $";
+char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.4 2002/09/02 07:05:10 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -120,7 +120,7 @@ StatStringElem::~StatStringElem(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void StatStringElem::putToString(string &str, const char *format)
+void StatStringElem::putToString(std::string &str, const char *format)
 {
     if(!format)
     {
@@ -200,7 +200,7 @@ bool StatStringElem::operator < (const StatStringElem &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.3 2002/05/23 12:58:24 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.4 2002/09/02 07:05:10 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSTATSTRINGELEM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSTATSTRINGELEM_INLINE_CVSID;
 }

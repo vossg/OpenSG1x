@@ -341,7 +341,7 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
             else
             {
                 SLOG << "Fieldcontainer " << pNewNode->getType().getName()
-                     << "is neither Node nor NodeCore " << endl;
+                     << "is neither Node nor NodeCore " << std::endl;
             }
             pNode->addChild(pChildNode);
         }
@@ -363,13 +363,13 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
                     SLOG << "FieldContainer " 
                          << _pCurrentFC->getType().getName()
                          << "is no attachment container"
-                         << endl;
+                         << std::endl;
                 }
             }
             else
             {
                 SLOG << "FieldContainer : " << pNewNode->getType().getName()
-                     << " is no attachment" << endl;
+                     << " is no attachment" << std::endl;
             }
         }
         else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
@@ -492,7 +492,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         PINFO << szNodename;
     }
         
-    PINFO << endl;
+    PINFO << std::endl;
     
     pNewNode = 
         FieldContainerFactory::the()->createFieldContainer(szNodeTypename);
@@ -513,13 +513,14 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         {
             SLOG << "Fieldcontainer " << szNodeTypename 
                  << " is not derived from AttachmentContainer. "
-                 << "Can not use attachment to store Nodename " << endl
-                 << "Adding to _defMap instead. " << endl;
+                 << "Can not use attachment to store Nodename " << std::endl
+                 << "Adding to _defMap instead. " << std::endl;
 
             if( _defMap.insert(
-                make_pair(string(szNodename), pNewNode) ).second == true )
+                std::make_pair(std::string(szNodename), 
+                               pNewNode)).second == true )
             {
-                SLOG << "Success." << endl;
+                SLOG << "Success." << std::endl;
             }
         }
     }
@@ -546,7 +547,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         else
         {
             SLOG << "Fieldcontainer " << szNodeTypename 
-                 << "is neither Node nor NodeCore " << endl;
+                 << "is neither Node nor NodeCore " << std::endl;
         }
 
         if(_pRootNode == NullFC)
@@ -576,7 +577,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
     
 void OSGLoader::endNode(void)
 {
-    PINFO << "End Node" << endl;
+    PINFO << "End Node" << std::endl;
 
     if(_pCurrentFC != NullFC)
     {
@@ -615,7 +616,7 @@ void OSGLoader::use(const Char8 *szName)
 
     if(pUseNode == NullFC)
     {
-        SLOG << "No FieldContainer found with name " << szName << endl; 
+        SLOG << "No FieldContainer found with name " << szName << std::endl; 
     }
     else
     {
@@ -629,9 +630,9 @@ NodePtr OSGLoader::getRootNode(void)
     return _pRootNode;
 }
 
-vector<FieldContainerPtr> OSGLoader::getRootNodes(void)
+std::vector<FieldContainerPtr> OSGLoader::getRootNodes(void)
 {
-    vector<FieldContainerPtr> fcVec;
+    std::vector<FieldContainerPtr> fcVec;
 
     for( UInt32 i=0; i<_pRootNode->getNChildren(); ++i )
     {
@@ -642,7 +643,7 @@ vector<FieldContainerPtr> OSGLoader::getRootNodes(void)
 
 void OSGLoader::addFieldValue(const Char8 *szFieldVal)
 {
-    PINFO << "\t\tFV : " << szFieldVal << endl;
+    PINFO << "\t\tFV : " << szFieldVal << std::endl;
 
     if(_pCurrentField != NULL)
     {
@@ -662,7 +663,7 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
     {
         pField = _pCurrentFC->getField(szFieldname);
 
-        PINFO << "GF : " << szFieldname << " " << pField << endl;
+        PINFO << "GF : " << szFieldname << " " << pField << std::endl;
 
         if(pField != NULL)
         {
@@ -695,11 +696,11 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
             }
             */
 
-            PINFO << "FieldTypeId invalid, trying to fix. " << endl;
+            PINFO << "FieldTypeId invalid, trying to fix. " << std::endl;
             PINFO << oFieldType.getContentType().getCName()
                   << " comparing with "
                   << FieldDataTraits<FieldContainerPtr>::getType().getCName()
-                  << endl;
+                  << std::endl;
             
             
             if(strstr(oFieldType.getContentType().getCName(), 
@@ -707,7 +708,7 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
             {
                 PINFO << "FieldContainerPtr or derived class, "
                       << "parsing as Node"
-                      << endl;
+                      << std::endl;
                 
                 if(oFieldType.getCardinality() == FieldType::SINGLE_FIELD)
                 {
@@ -727,7 +728,11 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
 void OSGLoader::beginField(const Char8 *szFieldname,
                            const UInt32 )
 {
-    PINFO << "BeginField " << szFieldname << " " << _pCurrentField << endl;
+    PINFO << "BeginField " 
+          << szFieldname
+          << " " 
+          << _pCurrentField
+          << std::endl;
 
     if(szFieldname == NULL)
         return;
@@ -744,7 +749,7 @@ void OSGLoader::beginField(const Char8 *szFieldname,
         PINFO << "BF : "
               <<  szFieldname       << " " 
               << _pCurrentField     << " " 
-              << _pCurrentFieldDesc << endl;
+              << _pCurrentFieldDesc << std::endl;
 
         if(_pCurrentFieldDesc != NULL)
         {
@@ -762,7 +767,7 @@ void OSGLoader::beginField(const Char8 *szFieldname,
 
 void OSGLoader::endField(void)
 {
-    PINFO << "End Field" << endl;
+    PINFO << "End Field" << std::endl;
 
     _fStack.pop();
 
@@ -801,7 +806,7 @@ FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 {
     // search reference in this file
     // search the _defMap first then the tree for name attachments
-    NamedFCMap::iterator iter = _defMap.find(string(szName));
+    NamedFCMap::iterator iter = _defMap.find(std::string(szName));
     if( iter != _defMap.end() )
     {
         return (*iter).second;

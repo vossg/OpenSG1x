@@ -117,7 +117,7 @@ void SimpleStatisticsForeground::changed(BitVector whichField, UInt32 origin)
 void SimpleStatisticsForeground::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump SimpleStatisticsForeground NI" << endl;
+    SLOG << "Dump SimpleStatisticsForeground NI" << std::endl;
 }
 
 /** Convenience function for access
@@ -319,7 +319,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.12 2002/08/08 14:00:19 jbehr Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.13 2002/09/02 07:05:08 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }

@@ -322,13 +322,13 @@ void TileGeometryLoad::dump(void)
     {
         SLOG << "Min/Max     :"  
              << _min[0] << " " << _min[1] << " / "
-             << _max[0] << " " << _max[1] << endl;
+             << _max[0] << " " << _max[1] << std::endl;
     }
     else
     {
-        SLOG << "invisible " << endl; 
+        SLOG << "invisible " << std::endl; 
     }
-    SLOG << "Faces       :" << _faces << endl;
+    SLOG << "Faces       :" << _faces << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

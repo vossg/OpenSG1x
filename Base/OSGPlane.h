@@ -161,7 +161,8 @@ class OSG_BASE_DLLMAPPING Plane {
 
 };
 
-OSG_BASE_DLLMAPPING ostream &operator <<(ostream &os, const Plane &obj);
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
+                                              const Plane        &obj);
 
 OSG_END_NAMESPACE
 

@@ -86,7 +86,7 @@ void jpeg_mem_init_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 /* */
 boolean jpeg_mem_fill_input_buffer(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
-    SFATAL << "Missing data. Given data block to small." << endl;
+    SFATAL << "Missing data. Given data block to small." << std::endl;
     return false;
 }
 
@@ -118,7 +118,7 @@ void jpeg_mem_init_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
 /* */
 boolean jpeg_mem_empty_output_buffer(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
-    SFATAL << "Not enough space left in buffer." << endl;
+    SFATAL << "Not enough space left in buffer." << std::endl;
     return false;
 }
 
@@ -279,7 +279,7 @@ bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
     SWARNING <<
         getMimeType() <<
         " read is not compiled into the current binary " <<
-        endl;
+        std::endl;
     return false;
 #endif
 }
@@ -314,7 +314,7 @@ bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image),
         SWARNING <<
             getMimeType() <<
             " JPEG write only works for 2D 1 or 3 bpp images " <<
-            endl;
+            std::endl;
         return false;
     }
 
@@ -380,7 +380,7 @@ bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image),
     SWARNING <<
         getMimeType() <<
         " write is not compiled into the current binary " <<
-        endl;
+        std::endl;
     return false;
 #endif
 }
@@ -464,7 +464,7 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
     SWARNING <<
         getMimeType() <<
         " read is not compiled into the current binary " <<
-        endl;
+        std::endl;
     return false;
 #endif
 }
@@ -480,7 +480,7 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
         SWARNING <<
             getMimeType() <<
             " JPEG storeData only works for 2D 1 or 3 bpp images " <<
-            endl;
+            std::endl;
         return 0;
     }
 
@@ -535,7 +535,7 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
     SWARNING <<
         getMimeType() <<
         " write is not compiled into the current binary " <<
-        endl;
+        std::endl;
     return false;
 #endif
 }

@@ -107,7 +107,7 @@ void GLUTWindow::changed(BitVector whichField, UInt32 origin)
 void GLUTWindow::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump GLUTWindow NI" << endl;
+    SLOG << "Dump GLUTWindow NI" << std::endl;
 }
     
 /* ------------- Window functions -----------------------*/    

@@ -59,7 +59,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef vector<FieldContainerPtr> FCPtrStore;
+    typedef std::vector<FieldContainerPtr> FCPtrStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
@@ -79,10 +79,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual list<IDString> &suffixList         (void);
+    virtual std::list<IDString> &suffixList         (void);
 
-            bool            doOverride         (void);
-            UInt32          getOverridePriority(void);
+            bool                 doOverride         (void);
+            UInt32               getOverridePriority(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,10 +126,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    list<IDString> _suffixList;
+    std::list<IDString> _suffixList;
     
-    bool           _override;
-    UInt32         _overridePriority;
+    bool                _override;
+    UInt32              _overridePriority;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

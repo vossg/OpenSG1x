@@ -137,7 +137,7 @@ int Socket::getHostError()
 
 /** \brief Get last occured error as string
  */
-string Socket::getErrorStr()
+std::string Socket::getErrorStr()
 {
     const char *err=NULL;
 
@@ -192,14 +192,14 @@ string Socket::getErrorStr()
     err=strerror(getError());
 #endif
     if(err)
-        return string(err);
+        return std::string(err);
     else
-        return string("Unknown error");
+        return std::string("Unknown error");
 }
 
 /** \brief Get last occured host error as string
  */
-string Socket::getHostErrorStr()
+std::string Socket::getHostErrorStr()
 {
     const char *err;
 #if defined(WIN32) || defined(__hpux)
@@ -208,9 +208,9 @@ string Socket::getHostErrorStr()
     err = hstrerror(getHostError());
 #endif
     if(err)
-        return string(err);
+        return std::string(err);
     else
-        return string("Unknown error");
+        return std::string("Unknown error");
 }
 
 /** \brief Constructor

@@ -212,8 +212,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     DrawActionBase(const DrawActionBase &source);
     void operator =(const DrawActionBase &source);
 
-    virtual vector<Functor> *getDefaultEnterFunctors(void) = 0;
-    virtual vector<Functor> *getDefaultLeaveFunctors(void) = 0;
+    virtual std::vector<Functor> *getDefaultEnterFunctors(void) = 0;
+    virtual std::vector<Functor> *getDefaultLeaveFunctors(void) = 0;
 
   private:
 

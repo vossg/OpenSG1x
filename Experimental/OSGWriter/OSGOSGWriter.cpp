@@ -71,7 +71,7 @@ OSGWriter::FCInfoHelper::FCInfoHelper(void) :
 
 /*! Constructor. Set members to initial values.
  */
-OSGWriter::OSGWriter(ostream &stream, UInt32 indentStep) :
+OSGWriter::OSGWriter(std::ostream &stream, UInt32 indentStep) :
     _visitedFCMap(                 ),
     _state       (0, DefaultSFWidth),
     _indent      (0, indentStep    ),
@@ -99,7 +99,7 @@ void OSGWriter::write(FieldContainerPtr container)
     _visitedFCMap.clear();
     _indent.setIndent(0);
 
-    _outStream << "#OSG V1.0 " << endl;
+    _outStream << "#OSG V1.0 " << std::endl;
 
     visitContainer(container);
     writeContainer(container);
@@ -109,14 +109,14 @@ void OSGWriter::write(FieldContainerPtr container)
 /*! Write all FieldContainers in containers with their "children",
  *  i.e. everything that can be reached via Ptr-Fields.
  */
-void OSGWriter::write(vector<FieldContainerPtr> containers)
+void OSGWriter::write(std::vector<FieldContainerPtr> containers)
 {
     _visitedFCMap.clear();
     _indent.setIndent(0);
 
-    _outStream << "#OSG V1.0 " << endl;
+    _outStream << "#OSG V1.0 " << std::endl;
 
-    vector<FieldContainerPtr>::reverse_iterator iter;
+    std::vector<FieldContainerPtr>::reverse_iterator iter;
 
     for(iter = containers.rbegin(); iter != containers.rend(); ++iter)
     {
@@ -170,14 +170,14 @@ void OSGWriter::visitContainer(const FieldContainerPtr pFC)
         return;
     }
 
-    typedef pair<FCInfoHelperMap::iterator, bool> MapInsertInfo;
+    typedef std::pair<FCInfoHelperMap::iterator, bool> MapInsertInfo;
 
-    string containerName;
+    std::string containerName;
     const FieldContainerType& fcType    = pFC->getType();
     UInt32              numFields = fcType.getNumFieldDescs();
     MapInsertInfo       insertInfo;
 
-    insertInfo = _visitedFCMap.insert(make_pair(pFC, FCInfoHelper()));
+    insertInfo = _visitedFCMap.insert(std::make_pair(pFC, FCInfoHelper()));
     if(insertInfo.second == true)
     {
         //the FC was NOT visited before
@@ -199,7 +199,7 @@ void OSGWriter::visitContainer(const FieldContainerPtr pFC)
         if(iter == _visitedFCMap.end())
         {
             SWARNING << "OSGWriter::visitContainer(): FieldContainerPtr "
-                     << "not found in map" << endl;
+                     << "not found in map" << std::endl;
             return;
         }
         if(iter->second.hasName == false)
@@ -225,6 +225,7 @@ void OSGWriter::visitField(const Field* pF)
     if(strstr(fType.getCName(), "AttachmentMap") != NULL)
     {
         //visit the Attachment FCs
+
         const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
               AttachmentMap    attMap   = sfAttMap->getValue();
 
@@ -275,7 +276,7 @@ void OSGWriter::writeContainer(const FieldContainerPtr pFC)
     if(iter == _visitedFCMap.end())
     {
         SWARNING << "OSGWriter::writeContainer(): FieldContainerPtr "
-                 << "not found in map" << endl;
+                 << "not found in map" << std::endl;
         return;
     }
 
@@ -288,11 +289,11 @@ void OSGWriter::writeContainer(const FieldContainerPtr pFC)
             _outStream << _indent                    << "DEF "
                        << iter->second.containerName << " "
                        << pFC->getTypeName()         << " {"
-                       << endl;
+                       << std::endl;
         }
         else{
             _outStream << _indent <<  pFC->getTypeName() << " {"
-                       << endl;
+                       << std::endl;
         }
 
         _indent++;
@@ -308,7 +309,7 @@ void OSGWriter::writeContainer(const FieldContainerPtr pFC)
             writeField(pFC->getField(field), fieldDesc);
         }
         _indent--;
-        _outStream << _indent << "}" << endl;
+        _outStream << _indent << "}" << std::endl;
     }
     else
     {
@@ -317,11 +318,14 @@ void OSGWriter::writeContainer(const FieldContainerPtr pFC)
         {
             SWARNING << "OSGWriter::writeContainer(): FieldContainer is "
                      << "shared, but not named"
-                     << endl;
+                     << std::endl;
             return;
         }
 
-        _outStream << _indent << "USE " << iter->second.containerName << endl;
+        _outStream << _indent
+                   << "USE "
+                   << iter->second.containerName 
+                   << std::endl;
     }
 
 }
@@ -343,6 +347,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
     if(strstr(fType.getCName(), "AttachmentMap") != NULL)
     {
         //write Attachments
+
         const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
               AttachmentMap    attMap   = sfAttMap->getValue();
 
@@ -356,12 +361,12 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
         //if the Attachment Map is empty write [] as its content
         if(iter==end)
         {
-            _outStream << " ] " << endl;
+            _outStream << " ] " << std::endl;
             _indent--; 
         }
         else
         {
-            _outStream << endl;
+            _outStream << std::endl;
         
             for(; iter!=end; ++iter)
             {
@@ -372,7 +377,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
             }
             _indent--; 
             
-            _outStream << _indent << " ] " << endl;
+            _outStream << _indent << " ] " << std::endl;
         }
     }
     //else if(contentType.isDerivedFrom(FieldContainerPtr::getClassType()))
@@ -391,11 +396,11 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
                 (const SFFieldContainerPtr*) pF;
             if(sfFCPtr->getValue() == NullFC)
             {
-                _outStream << " NULL" << endl;
+                _outStream << " NULL" << std::endl;
             }
             else
             {
-                _outStream << endl;
+                _outStream << std::endl;
                 _indent++;
                 writeContainer(sfFCPtr->getValue());
                 _indent--;
@@ -403,7 +408,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
         }
         else if(pF->getCardinality() == FieldType::MULTI_FIELD)
         {
-            _outStream << " [" << endl;
+            _outStream << " [" << std::endl;
             _indent++;
             const MFFieldContainerPtr* mfFCPtr =
                 (const MFFieldContainerPtr*) pF;
@@ -412,7 +417,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
             {
                 if((*(mfFCPtr))[i] == NullFC)
                 {
-                    _outStream << _indent << "NULL" << endl;
+                    _outStream << _indent << "NULL" << std::endl;
                 }
                 else
                 {
@@ -420,7 +425,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
                 }
             }
             _indent--;
-            _outStream << _indent << "]" << endl;
+            _outStream << _indent << "]" << std::endl;
         }
     }
     else
@@ -430,7 +435,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
         _state.setIndent(_indent.getIndent());
         _outStream << _indent << fieldDesc->getName();
 
-        string fieldValue;
+        std::string fieldValue;
 
         //to access the content of a field via a Field*
         //one must know the cardinality
@@ -439,20 +444,20 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
             _state.setIndent(0);
             _state.setWidth(DefaultSFWidth);
             pF->getValueByStr(fieldValue, _state);
-            _outStream << " " << fieldValue << endl;
+            _outStream << " " << fieldValue << std::endl;
         }
         else if(pF->getCardinality() == FieldType::MULTI_FIELD)
         {
-            _outStream << " [" << endl;
+            _outStream << " [" << std::endl;
 
             _indent++;
             _state.setIndent(_indent.getIndent());
             _state.setWidth(DefaultMFWidth);
             pF->getValueByStr(fieldValue, _state);
-            _outStream << fieldValue << endl;
+            _outStream << fieldValue << std::endl;
             _indent--;
 
-            _outStream << _indent << "]" << endl;
+            _outStream << _indent << "]" << std::endl;
         }
     }
 }
@@ -471,6 +476,6 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.15 2002/09/02 05:10:25 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.16 2002/09/02 07:04:34 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }

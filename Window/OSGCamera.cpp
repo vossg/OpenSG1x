@@ -176,7 +176,7 @@ void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action),
 
     m.mult(t);
 
-    //SDEBUG << "Projection matrix: " << m << endl;
+    //SDEBUG << "Projection matrix: " << m << std::endl;
 
     glMatrixMode( GL_PROJECTION );
     glLoadMatrixf( m.getValues() );
@@ -185,7 +185,7 @@ void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action),
 
     getViewing( m, port.getPixelWidth(), port.getPixelHeight() );
 
-    //SDEBUG << "Viewing matrix: " << m << endl;
+    //SDEBUG << "Viewing matrix: " << m << std::endl;
     
     glMatrixMode( GL_MODELVIEW );
     glLoadMatrixf( m.getValues() );
@@ -203,7 +203,7 @@ void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
 
     m.mult(t);
 
-    //SDEBUG << "Projection matrix: " << m << endl;
+    //SDEBUG << "Projection matrix: " << m << std::endl;
 
     glMatrixMode( GL_PROJECTION );
     glLoadMatrixf( m.getValues() );
@@ -223,7 +223,7 @@ void Camera::getProjection(Matrix &OSG_CHECK_ARG(result),
                            UInt32  OSG_CHECK_ARG(width ),
                            UInt32  OSG_CHECK_ARG(height))
 {
-    SFATAL << "Camera::getProjection: NIY" << endl;
+    SFATAL << "Camera::getProjection: NIY" << std::endl;
     abort();
 }
 
@@ -240,7 +240,7 @@ void Camera::getViewing(Matrix &result,
 {
     if ( getBeacon() == NullFC )
     {
-        SWARNING << "Camera::setup: no beacon!" << endl;
+        SWARNING << "Camera::setup: no beacon!" << std::endl;
         return;
     }   
 
@@ -308,7 +308,7 @@ bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 void Camera::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump Camera NI" << endl;
+    SLOG << "Dump Camera NI" << std::endl;
 }
 
     

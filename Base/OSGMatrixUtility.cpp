@@ -107,22 +107,22 @@ OSG_BASE_DLLMAPPING bool MatrixPerspective(Matrix &result,
     if ( rNear > rFar )
     {
         SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
-                 << "!\n" << endl;
+                 << "!\n" << std::endl;
     }
     if(rFovy <= Eps)
     {
         SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
-                 << endl;
+                 << std::endl;
     }
     if(osgabs(rNear - rFar) < Eps)
     {
         SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
-                 << "!\n" << endl;
+                 << "!\n" << std::endl;
     }
     if(rAspect < Eps)
     {
         SWARNING << "MatrixPerspective: aspect ratio " << rAspect
-                 << " very small!\n" << endl;
+                 << " very small!\n" << std::endl;
     }
 
     MatrixFrustum(result, - rNear * ct * rAspect, rNear * ct * rAspect,
@@ -156,27 +156,27 @@ OSG_BASE_DLLMAPPING bool MatrixStereoPerspective(Matrix &projection,
     if ( rNear > rFar )
     {
         SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
-                 << "!\n" << endl;
+                 << "!\n" << std::endl;
     }
     if ( rFovy <= Eps )
     {
         SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
-                 << endl;
+                 << std::endl;
     }
     if ( osgabs( rNear - rFar ) < Eps )
     {
         SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
-                 << "!\n" << endl;
+                 << "!\n" << std::endl;
     }
     if ( rAspect < Eps )
     {
         SWARNING << "MatrixPerspective: aspect ratio " << rAspect
-                 << " very small!\n" << endl;
+                 << " very small!\n" << std::endl;
     }
     if ( rZeroparallax < Eps )
     {
         SWARNING << "MatrixPerspective: zero parallax " << rZeroparallax
-                 << " very small, setting to 1!\n" << endl;
+                 << " very small, setting to 1!\n" << std::endl;
         rZeroparallax = 1;
     }
     
@@ -280,7 +280,7 @@ OSG_BASE_DLLMAPPING bool MatrixProjection(Matrix &OSG_CHECK_ARG(result),
                                           Real32  OSG_CHECK_ARG(rNear),
                                           Real32  OSG_CHECK_ARG(rFar) )
 {
-    SFATAL << "MatrixProjection: Not yet implemented!" << endl;
+    SFATAL << "MatrixProjection: Not yet implemented!" << std::endl;
     abort();
 
     return false;

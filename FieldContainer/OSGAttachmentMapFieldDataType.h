@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-typedef map<UInt32, AttachmentPtr>  AttachmentMap;
+typedef std::map<UInt32, AttachmentPtr>  AttachmentMap;
 
 /*! \file OSGAttachmentMapFieldDataType.h
     \ingroup FieldLib
@@ -209,7 +209,7 @@ struct FieldDataTraits<AttachmentMap> :
     }
 
     static void      putToString    (const AttachmentMap &,
-                                           string        &outStr)
+                                           std::string   &outStr)
     {
         outStr.assign("AttachmentMap");
     }

@@ -81,8 +81,8 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HWND> :
         return true;
     }
 
-    static void      putToString  (const HWND &,
-                                         string   &outStr)
+    static void      putToString  (const      HWND   &,
+                                         std::string &outStr)
     {
         outStr.assign("HWND");
     }
@@ -108,8 +108,8 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HDC> :
         return true;
     }
 
-    static void      putToString  (const HDC &,
-                                         string    &outStr)
+    static void      putToString  (const      HDC    &,
+                                         std::string &outStr)
     {
         outStr.assign("HDC");
     }
@@ -135,8 +135,8 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HGLRC> :
         return true;
     }
 
-    static void      putToString  (const HGLRC &,
-                                         string     &outStr)
+    static void      putToString  (const       HGLRC &,
+                                         std::string &outStr)
     {
         outStr.assign("HGLRC");
     }
@@ -162,8 +162,8 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<PAINTSTRUCT> :
         return true;
     }
 
-    static void      putToString  (const PAINTSTRUCT &,
-                                         string     &outStr)
+    static void      putToString  (const      PAINTSTRUCT &,
+                                         std::string      &outStr)
     {
         outStr.assign("PAINTSTRUCT");
     }
@@ -232,7 +232,7 @@ OSG_DLLEXPORT_DECL1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.7 2002/06/17 14:52:51 mroth Exp $"
+#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.8 2002/09/02 07:05:18 vossg Exp $"
 
 #endif /* WIN32 */
 

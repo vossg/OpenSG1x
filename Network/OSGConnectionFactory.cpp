@@ -102,7 +102,7 @@ ConnectionFactory::~ConnectionFactory(void)
 /*! create connection by name
  */
 
-Connection *ConnectionFactory::create(const string &name)
+Connection *ConnectionFactory::create(const std::string &name)
 {
     TypeMap::iterator i=_map.find(name);
     if(i==_map.end())
@@ -130,7 +130,7 @@ ConnectionFactory &ConnectionFactory::the(void)
 void ConnectionFactory::addType(ConnectionType *type)
 {
     _map[type->getName()]=type;
-    SINFO << "Connection type " << type->getName() << " added" << endl;
+    SINFO << "Connection type " << type->getName() << " added" << std::endl;
 }
 
 /*! remove type
@@ -141,7 +141,7 @@ void ConnectionFactory::subType(ConnectionType *type)
     TypeMap::iterator i=_map.find(type->getName());
     if(i!=_map.end() && i->second==type)
         _map.erase(i);
-    SINFO << "Connection type " << type->getName() << " removed" << endl;
+    SINFO << "Connection type " << type->getName() << " removed" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

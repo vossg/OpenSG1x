@@ -75,7 +75,7 @@ class OSG_BASE_DLLMAPPING ConnectionFactory
     /*! \name                   interface                                  */
     /*! \{                                                                 */
 
-    Connection *create(const string &name);
+    Connection *create(const std::string &name);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

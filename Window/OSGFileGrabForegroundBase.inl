@@ -140,19 +140,19 @@ void FileGrabForegroundBase::setActive(const bool &value)
 }
 
 inline
-string &FileGrabForegroundBase::getName(void)
+std::string &FileGrabForegroundBase::getName(void)
 {
     return _sfName.getValue();
 }
 
 inline
-const string &FileGrabForegroundBase::getName(void) const
+const std::string &FileGrabForegroundBase::getName(void) const
 {
     return _sfName.getValue();
 }
 
 inline
-void FileGrabForegroundBase::setName(const string &value)
+void FileGrabForegroundBase::setName(const std::string &value)
 {
     _sfName.setValue(value);
 }
@@ -196,5 +196,5 @@ void FileGrabForegroundBase::setIncrement(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGFileGrabForegroundBase.inl,v 1.4 2002/06/20 13:02:17 vossg Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGFileGrabForegroundBase.inl,v 1.5 2002/09/02 07:05:11 vossg Exp $"
 

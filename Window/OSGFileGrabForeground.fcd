@@ -22,7 +22,7 @@ Background is the base class for all background clearing.
 	</Field>
 	<Field
 		name="name"
-		type="string"
+		type="std::string"
 		cardinality="single"
 		visibility="external"
 		access="public"

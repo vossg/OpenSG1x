@@ -118,9 +118,9 @@ OBJSceneFileType  OBJSceneFileType::_the         (_suffixA,
 NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
 {
   NodePtr rootPtr, nodePtr;
-  ifstream in(fileName);
-  string elem;
-  map<string, DataElem>::const_iterator elemI;
+  std::ifstream in(fileName);
+  std::string elem;
+  std::map<std::string, DataElem>::const_iterator elemI;
   Vec3f vec3f;
   Vec2f vec2f;
   Real32 x,y,z;
@@ -136,8 +136,8 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   Int32 strBufSize = sizeof(strBuf)/sizeof(Char8), index, indexType;
   Int32 i,j,n,primCount[3];
   std::list<Mesh> meshList;
-  map<string, SimpleTexturedMaterialPtr> mtlMap;
-  map<string, SimpleTexturedMaterialPtr>::iterator mtlI;
+  std::map<std::string, SimpleTexturedMaterialPtr> mtlMap;
+  std::map<std::string, SimpleTexturedMaterialPtr>::iterator mtlI;
   Mesh emptyMesh;
   Face emptyFace;
   TiePoint  emptyTie;
@@ -617,18 +617,18 @@ void OBJSceneFileType::initDataElemMap(void)
 
 Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                                   PathHandler &pathHandler,
-                                  map<string, SimpleTexturedMaterialPtr> & mtlMap )
+                                  std::map<std::string, SimpleTexturedMaterialPtr> & mtlMap )
   const
 {
   Int32 mtlCount = 0;
-  ifstream in(pathHandler.findFile(fileName).c_str());
+  std::ifstream in(pathHandler.findFile(fileName).c_str());
   SimpleTexturedMaterialPtr mtlPtr;
   Real32 a,b,c;
-  string elem;
-  map<string, DataElem>::const_iterator elemI;
+  std::string elem;
+  std::map<std::string, DataElem>::const_iterator elemI;
   DataElem dataElem;
-  std::map<string, osg::Image*> imageMap;
-  std::map<string, osg::Image*>::iterator iI;
+  std::map<std::string, osg::Image*> imageMap;
+  std::map<std::string, osg::Image*>::iterator iI;
   Image *image;
 
   if (in)
@@ -794,7 +794,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.29 2002/06/23 03:53:33 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.30 2002/09/02 07:04:44 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 

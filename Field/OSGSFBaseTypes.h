@@ -59,10 +59,10 @@ OSG_BEGIN_NAMESPACE
     \ingroup SingleFields
 */
 
-typedef SField<string> SFString;
+typedef SField<std::string> SFString;
 
 #ifndef OSG_COMPILEFIELDINST
-OSG_DLLEXPORT_DECL1(SField, string, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, std::string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 

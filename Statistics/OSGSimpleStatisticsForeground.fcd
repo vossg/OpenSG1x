@@ -13,7 +13,7 @@
 Simpe Statistics display. Just print all the selected elements in the upper right corner of the screen.
 	<Field
 		name="formats"
-		type="string"
+		type="std::string"
 		cardinality="multi"
 		visibility="external"
 		access="public"

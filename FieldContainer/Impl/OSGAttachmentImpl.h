@@ -372,12 +372,14 @@ typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 class AttachmentContainerPtr;
 
 OSG_SYSTEMLIB_DLLMAPPING
-const char   *getName( AttachmentContainerPtr container );
+const char   *getName(      AttachmentContainerPtr  container);
 
 OSG_SYSTEMLIB_DLLMAPPING
-      void    setName( AttachmentContainerPtr container, const string &name );
+      void    setName(      AttachmentContainerPtr  container, 
+                      const std::string            &name     );
 OSG_SYSTEMLIB_DLLMAPPING
-      void    setName( AttachmentContainerPtr container, const char *name );
+      void    setName(      AttachmentContainerPtr  container, 
+                      const char                   *name     );
  
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -460,9 +462,9 @@ class DynFieldAttachment :
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    FieldContainerType _localType;
+    FieldContainerType   _localType;
 
-    vector<Field *>    _dynFieldsV;
+    std::vector<Field *> _dynFieldsV;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -489,12 +491,12 @@ class DynFieldAttachment :
     void operator =(const DynFieldAttachment &source);
 };
 
-typedef map<UInt32, AttachmentPtr>  AttachmentMap;
+typedef std::map<UInt32, AttachmentPtr>  AttachmentMap;
 
 OSG_SYSTEMLIB_DLLMAPPING
 
-ostream &operator <<(      ostream       &stream,
-                     const AttachmentMap &amap);
+std::ostream &operator <<(      std::ostream  &stream,
+                          const AttachmentMap &amap);
 
 OSG_END_NAMESPACE
 

@@ -553,7 +553,7 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 # define OSG_USING_STD_NAMESPACE namespace std {} using namespace std;
 # define OSG_STD std
 
-OSG_USING_STD_NAMESPACE
+//OSG_USING_STD_NAMESPACE
 
 #endif
 

@@ -78,8 +78,8 @@ char DrawAction::cvsid[] = "@(#)$Id: $";
 
 DrawAction * DrawAction::_prototype = NULL;
 
-vector<Action::Functor> *DrawAction::_defaultEnterFunctors = NULL;
-vector<Action::Functor> *DrawAction::_defaultLeaveFunctors = NULL;
+std::vector<Action::Functor> *DrawAction::_defaultEnterFunctors = NULL;
+std::vector<Action::Functor> *DrawAction::_defaultLeaveFunctors = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -95,7 +95,7 @@ void DrawAction::registerEnterDefault(  const FieldContainerType &type,
                                         const Action::Functor &func )
 {
     if ( ! _defaultEnterFunctors )
-        _defaultEnterFunctors = new vector<Action::Functor>;
+        _defaultEnterFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultEnterFunctors->size())
     {
@@ -113,7 +113,7 @@ void DrawAction::registerLeaveDefault(  const FieldContainerType &type,
                                         const Action::Functor &func )
 {
     if ( ! _defaultLeaveFunctors )
-        _defaultLeaveFunctors = new vector<Action::Functor>;
+        _defaultLeaveFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
@@ -285,12 +285,12 @@ bool DrawAction::operator != (const DrawAction &other) const
 \*-------------------------------------------------------------------------*/
 
 
-vector<DrawAction::Functor>* DrawAction::getDefaultEnterFunctors( void )
+std::vector<DrawAction::Functor>* DrawAction::getDefaultEnterFunctors( void )
 {
     return _defaultEnterFunctors;
 }
 
-vector<DrawAction::Functor>* DrawAction::getDefaultLeaveFunctors( void )
+std::vector<DrawAction::Functor>* DrawAction::getDefaultLeaveFunctors( void )
 {
     return _defaultLeaveFunctors;
 }

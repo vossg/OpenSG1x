@@ -66,8 +66,8 @@ OSG_USING_NAMESPACE
  * \param createFunction  Pointer to the create function
  * \param name            Name of the connection
  */
-ConnectionType::ConnectionType(CreateFunction  createFunction, 
-                               const string   &name):
+ConnectionType::ConnectionType(      CreateFunction  createFunction, 
+                               const std::string    &name          ) :
     _createFunction(createFunction),
     _name(name)
 {
@@ -144,7 +144,7 @@ bool ConnectionType::operator != (const ConnectionType &other) const
 /*! get conneciton name
  */
 
-string ConnectionType::getName(void) const
+std::string ConnectionType::getName(void) const
 {
     return _name;
 }

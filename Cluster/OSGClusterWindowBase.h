@@ -133,15 +133,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
            SFUInt32            *getSFServicePort     (void);
            SFString            *getSFBroadcastAddress(void);
 
-           string              &getConnectionType  (void);
-     const string              &getConnectionType  (void) const;
+           std::string         &getConnectionType  (void);
+     const std::string         &getConnectionType  (void) const;
            WindowPtr           &getClientWindow    (void);
      const WindowPtr           &getClientWindow    (void) const;
            UInt32              &getServicePort     (void);
      const UInt32              &getServicePort     (void) const;
-           string              &getBroadcastAddress(void);
-     const string              &getBroadcastAddress(void) const;
-           string              &getServers         (const UInt32 index);
+           std::string         &getBroadcastAddress(void);
+     const std::string         &getBroadcastAddress(void) const;
+           std::string         &getServers         (const UInt32 index);
            MFString            &getServers         (void);
      const MFString            &getServers         (void) const;
 
@@ -150,10 +150,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setConnectionType  ( const string &value );
-     void setClientWindow    ( const WindowPtr &value );
-     void setServicePort     ( const UInt32 &value );
-     void setBroadcastAddress( const string &value );
+     void setConnectionType  ( const std::string &value );
+     void setClientWindow    ( const WindowPtr   &value );
+     void setServicePort     ( const UInt32      &value );
+     void setBroadcastAddress( const std::string &value );
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */

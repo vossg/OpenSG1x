@@ -121,7 +121,7 @@ const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 {
     NodePtr root;
-    ifstream in(fileName);
+    std::ifstream in(fileName);
     GeometryPtr geo;
     GeoPositions3f::PtrType points;
     GeoNormals3f::PtrType   normals;
@@ -221,7 +221,7 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
     }
 
     if (triCount)
-        SNOTICE << triCount << " triangle read " << endl;
+        SNOTICE << triCount << " triangle read " << std::endl;
 
     return root;
 }
@@ -397,7 +397,7 @@ RAWSceneFileType::~RAWSceneFileType (void )
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.14 2002/05/13 09:21:09 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.15 2002/09/02 07:04:45 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 

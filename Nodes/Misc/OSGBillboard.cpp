@@ -154,7 +154,7 @@ void Billboard::changed(BitVector whichField, UInt32 origin)
 void Billboard::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump Billboard NI" << endl;
+    SLOG << "Dump Billboard NI" << std::endl;
 }
 
 
@@ -200,8 +200,8 @@ void Billboard::calcMatrix(      DrawActionBase *pAction,
     
     mToWorld.mult(n);
 
-//    cerr << "XXXXX" << endl;
-//    cerr << mCamToWorld << endl << endl;
+//    cerr << "XXXXX" << std::endl;
+//    cerr << mCamToWorld << std::endl << std::endl;
 
     if(getAxisOfRotation() == Vec3f::Null)
     {
@@ -338,7 +338,7 @@ Action::ResultE Billboard::drawEnter(Action *action)
 
     Matrix mMat;
 
-//    cerr << "BB::draw" << endl;
+//    cerr << "BB::draw" << std::endl;
 
     calcMatrix(da,     
                da->getActNode()->getToWorld(),
@@ -383,7 +383,7 @@ Action::ResultE Billboard::renderEnter(Action *action)
 
     Matrix mMat;
 
-//    cerr << "BB::render" << endl;
+//    cerr << "BB::render" << std::endl;
 
     calcMatrix(pAction, pAction->top_matrix(), mMat);
 

@@ -78,7 +78,7 @@ is just too expensive and rarely useful.
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.14 2002/02/04 20:14:09 dirk Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.15 2002/09/02 07:04:54 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -219,7 +219,7 @@ void FaceIterator::operator++ ()
     default:                SWARNING << "FaceIterator::++: encountered " 
                                       << "unknown primitive type " 
                                       << _primIt.getType()
-                                      << ", ignoring!" << endl;
+                                      << ", ignoring!" << std::endl;
                             startPrim();
                             break;
     }           
@@ -287,7 +287,7 @@ void FaceIterator::startPrim( void )
         default:            SWARNING << "FaceIterator::startPrim: encountered " 
                                       << "unknown primitive type " 
                                       << _primIt.getType()
-                                      << ", ignoring!" << endl;
+                                      << ", ignoring!" << std::endl;
                             break;
         }   
         

@@ -80,7 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
     inline  StatElemDescBase * getDesc      (void);
 
-    virtual void               putToString  (string &str, 
+    virtual void               putToString  (      std::string &str, 
                                              const char *format = NULL) = 0;
 
     virtual bool               getFromString(const Char8 *&inVal) = 0;

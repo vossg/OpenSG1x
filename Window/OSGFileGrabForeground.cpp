@@ -95,7 +95,7 @@ void FileGrabForeground::changed(BitVector whichField, UInt32 origin)
 void FileGrabForeground::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump FileGrabForeground NI" << endl;
+    SLOG << "Dump FileGrabForeground NI" << std::endl;
 }
 
 
@@ -160,7 +160,7 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGFileGrabForeground.cpp,v 1.4 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGFileGrabForeground.cpp,v 1.5 2002/09/02 07:05:11 vossg Exp $";
     static char cvsid_hpp[] = OSGFILEGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGFILEGRABFOREGROUND_INLINE_CVSID;
 }

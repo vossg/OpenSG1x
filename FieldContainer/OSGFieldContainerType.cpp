@@ -196,9 +196,9 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
 
             _mDescMap[IDStringLink(pDesc->getCName())] = pDesc;
 
-            descVIt = find(_vDescVec.begin(),
-                           _vDescVec.end(),
-                           pNullDesc);
+            descVIt = std::find(_vDescVec.begin(),
+                                _vDescVec.end(),
+                                 pNullDesc);
 
             if(descVIt == _vDescVec.end())
             {
@@ -219,14 +219,14 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
             SWARNING << "ERROR: Double field description "
                         << "in " << _szName.str() << " from "
                         << desc.getCName() << " (id:"
-                        << desc.getTypeId() << ")" << endl;
+                        << desc.getTypeId() << ")" << std::endl;
         }
     }
     else
     {
         SWARNING << "ERROR: Invalid field description "
                     << "in " << _szName.str() << " from "
-                    << desc.getTypeId() << endl;
+                    << desc.getTypeId() << std::endl;
     }
 
     return returnValue;
@@ -253,7 +253,7 @@ bool FieldContainerType::subDescription(UInt32 uiFieldId)
         returnValue = false;
     }
 
-    descVIt = find(_vDescVec.begin(), _vDescVec.end(), pDesc);
+    descVIt = std::find(_vDescVec.begin(), _vDescVec.end(), pDesc);
 
     if(descVIt != _vDescVec.end())
     {
@@ -346,11 +346,11 @@ void FieldContainerType::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
          << ((_pPrototype != NullFC) ? "false" : "true")
          << " "
          << _vDescVec.size()
-         << endl;
+         << std::endl;
 
     for(UInt32 i = 0; i < _vDescVec.size(); i++)
     {
-        SLOG << "Desc : " << _vDescVec[i]->getCName() << endl;
+        SLOG << "Desc : " << _vDescVec[i]->getCName() << std::endl;
     }
 }
 
@@ -417,7 +417,7 @@ bool FieldContainerType::initFields(void)
                 SWARNING << "ERROR: Double field description "
                             << "in " << _szName.str() << " from "
                             << _pDesc[i]->getCName() << " (id:"
-                            << _pDesc[i]->getTypeId() << ")" << endl;
+                            << _pDesc[i]->getTypeId() << ")" << std::endl;
 
                 _bInitialized = false;
             }
@@ -426,14 +426,14 @@ bool FieldContainerType::initFields(void)
         {
             SWARNING << "ERROR: Invalid field description "
                         << "in " << _szName.str() << "from "
-                        << (_pDesc[i]?_pDesc[i]->getTypeId():0) << endl;
+                        << (_pDesc[i]?_pDesc[i]->getTypeId():0) << std::endl;
 
             _bInitialized = false;
         }
 
     }
 
-    sort(_vDescVec.begin(), _vDescVec.end(), FieldDescriptionPLT());
+    std::sort(_vDescVec.begin(), _vDescVec.end(), FieldDescriptionPLT());
 
     return _bInitialized;
 }
@@ -477,7 +477,7 @@ bool FieldContainerType::initParentFields(void)
                 {
                     SWARNING << "ERROR: Can't add field "
                                 << "description a second time: "
-                                << (*dPIt).first.str() << endl;
+                                << (*dPIt).first.str() << std::endl;
                 }
             }
 
@@ -490,7 +490,7 @@ bool FieldContainerType::initParentFields(void)
         {
             SWARNING << "ERROR: Can't find type with "
                         << "name " << _szParentName.str()
-                        << endl;
+                        << std::endl;
 
             _bInitialized = false;
         }

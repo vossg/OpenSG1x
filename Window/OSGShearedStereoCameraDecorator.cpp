@@ -99,7 +99,7 @@ void ShearedStereoCameraDecorator::changed(BitVector whichField, UInt32 origin)
 void ShearedStereoCameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump ShearedStereoCameraDecorator NI" << endl;
+    SLOG << "Dump ShearedStereoCameraDecorator NI" << std::endl;
 }
 
 
@@ -150,7 +150,7 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.7 2002/08/11 13:30:28 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.8 2002/09/02 07:05:15 vossg Exp $";
     static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

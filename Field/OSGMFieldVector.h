@@ -59,9 +59,9 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(__linux) || defined(__hpux) || defined(darwin)
 #    if __GNUC__ >= 3
-#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = allocator<TP>
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = std:;allocator<TP>
 #    elif defined (__ICL)
-#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = allocator<TP>
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = std::allocator<TP>
 #    elif defined (OSG_HPUX_ACC)
 #        define OSG_STL_DEFAULT_ALLOCATOR(TP) _RWSTD_COMPLEX_DEFAULT(allocator<TP>)
 #    else
@@ -75,11 +75,11 @@ template <class FieldTypeT, Int32 fieldNameSpace>
 class MField;
 
 template <class Tp, class Alloc OSG_STL_DEFAULT_ALLOCATOR(Tp) >
-class MFieldVector : public vector<Tp, Alloc> 
+class MFieldVector : public std::vector<Tp, Alloc> 
 {
   private:
     
-    typedef vector<Tp, Alloc> Inherited;
+    typedef std::vector<Tp, Alloc> Inherited;
 
     template <class FieldTypeT, Int32 fieldNameSpace>
     friend class MField;
@@ -125,12 +125,12 @@ class MFieldVector : public vector<Tp, Alloc>
 
 #elif defined(WIN32)
 
-template<class Ty, class A = allocator<Ty> >
-class MFieldVector : public vector<Ty, A>
+template<class Ty, class A = std::allocator<Ty> >
+class MFieldVector : public std::vector<Ty, A>
 {
   private :
 
-    typedef          vector<Ty, A>             Inherited;
+    typedef          std::vector<Ty, A>        Inherited;
 	typedef typename Inherited::const_iterator It;
 
 //    template <class FieldTypeT, Int32 fieldNameSpace>

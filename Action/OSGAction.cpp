@@ -74,8 +74,8 @@ char Action::cvsid[] = "@(#)$Id: $";
 
 Action * Action::_prototype = NULL;
 
-vector<Action::Functor> *Action::_defaultEnterFunctors;
-vector<Action::Functor> *Action::_defaultLeaveFunctors;
+std::vector<Action::Functor> *Action::_defaultEnterFunctors;
+std::vector<Action::Functor> *Action::_defaultLeaveFunctors;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -91,7 +91,7 @@ void Action::registerEnterDefault(  const FieldContainerType &type,
                                         const Action::Functor &func )
 {
     if ( ! _defaultEnterFunctors )
-        _defaultEnterFunctors = new vector<Action::Functor>;
+        _defaultEnterFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultEnterFunctors->size())
     {
@@ -109,7 +109,7 @@ void Action::registerLeaveDefault(  const FieldContainerType &type,
                                         const Action::Functor &func )
 {
     if ( ! _defaultLeaveFunctors )
-        _defaultLeaveFunctors = new vector<Action::Functor>;
+        _defaultLeaveFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
@@ -238,8 +238,8 @@ void Action::registerLeaveFunction( const FieldContainerType &type,
 
 // application entry points
 
-Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
-                              vector<NodePtr>::iterator end)
+Action::ResultE Action::apply(std::vector<NodePtr>::iterator begin,
+                              std::vector<NodePtr>::iterator end)
 {
     Action::ResultE res = Continue;
     
@@ -253,7 +253,7 @@ Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
     {
         if ( *begin == NullFC )
         {
-            SWARNING << "apply: encountered NullNode!" << endl;
+            SWARNING << "apply: encountered NullNode!" << std::endl;
             return Quit;            
         }
         else
@@ -271,18 +271,19 @@ Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
     return res;
 }
 
-Action::ResultE Action::apply( NodePtr node  )
+Action::ResultE Action::apply(NodePtr node)
 {
-    if ( node == NullFC )
+    if(node == NullFC)
     {
-        SWARNING << "apply: node is Null!" << endl;
+        SWARNING << "apply: node is Null!" << std::endl;
         return Quit;            
     }
 
-    vector<NodePtr> list;
-    list.push_back( node );
+    std::vector<NodePtr> nodeList;
 
-    return apply( list.begin(), list.end() );
+    nodeList.push_back(node);
+
+    return apply(nodeList.begin(), nodeList.end());
 }
 
 
@@ -302,7 +303,8 @@ Action::ResultE Action::recurse( NodePtr node  )
     
     if ( core == NullFC )
     {
-        SWARNING << "recurse: core is Null,  don't know what to do!" << endl;
+        SWARNING << "recurse: core is Null,  don't know what to do!" 
+                 << std::endl;
         return Quit;                    
     }
     
@@ -329,7 +331,7 @@ Action::ResultE Action::recurse( NodePtr node  )
     }
     else if ( ! _useNewList ) // new list is empty, but not used?
     {
-        vector<NodePtr>::iterator it;
+        std::vector<NodePtr>::iterator it;
 
         for ( it = node->getMFChildren()->begin(); it != node->getMFChildren()->end(); it ++ )
         {
@@ -352,22 +354,24 @@ Action::ResultE Action::recurse( NodePtr node  )
 }
 
 // call the _newList objects
-Action::ResultE Action::callNewList( void )
+Action::ResultE Action::callNewList(void)
 {
     Action::ResultE result = Continue;
 
     // need to make a copy, because the one in the action is cleared
 
-    vector<NodePtr> list;
-    list.swap( _newList );
-    vector<NodePtr>::iterator it;
-    _actList = &list;
+    std::vector<NodePtr> nodeList;
+    nodeList.swap(_newList);
 
-    for ( it = list.begin(); it != list.end(); it ++ )
+    std::vector<NodePtr>::iterator it;
+
+    _actList = &nodeList;
+
+    for(it = nodeList.begin(); it != nodeList.end(); ++it)
     {
-        result = recurse( *it );
+        result = recurse(*it);
 
-        if ( result != Continue )
+        if(result != Continue)
             break;
     }
     
@@ -479,12 +483,12 @@ bool Action::operator != (const Action &other)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-vector<Action::Functor>* Action::getDefaultEnterFunctors( void )
+std::vector<Action::Functor>* Action::getDefaultEnterFunctors( void )
 {
     return _defaultEnterFunctors;
 }
 
-vector<Action::Functor>* Action::getDefaultLeaveFunctors( void )
+std::vector<Action::Functor>* Action::getDefaultLeaveFunctors( void )
 {
     return _defaultLeaveFunctors;
 }
@@ -532,12 +536,13 @@ OSG_END_NAMESPACE
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(  vector<NodePtr>     &nodeList, 
-                                TraverseEnterFunctor func )
+Action::ResultE OSG::traverse(std::vector<NodePtr> &nodeList, 
+                              TraverseEnterFunctor  func    )
 {
     Action::ResultE res;
-    vector<NodePtr>::iterator it = nodeList.begin(),
-                              en = nodeList.end();
+
+    std::vector<NodePtr>::iterator it = nodeList.begin();
+    std::vector<NodePtr>::iterator en = nodeList.end  ();
     
     for ( ; it != en; ++it )
     {
@@ -575,13 +580,14 @@ Action::ResultE OSG::traverse( NodePtr              node,
     leave after leaving.
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(   vector<NodePtr>      &nodeList, 
-                                 TraverseEnterFunctor  enter, 
-                                 TraverseLeaveFunctor  leave )
+Action::ResultE OSG::traverse(std::vector<NodePtr> &nodeList, 
+                              TraverseEnterFunctor  enter, 
+                              TraverseLeaveFunctor  leave )
 {
     Action::ResultE res;
-    vector<NodePtr>::iterator it = nodeList.begin(),
-                              en = nodeList.end();
+
+    std::vector<NodePtr>::iterator it = nodeList.begin();
+    std::vector<NodePtr>::iterator en = nodeList.end  ();
     
     for ( ; it != en; ++it )
     {

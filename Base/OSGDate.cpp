@@ -332,20 +332,20 @@ Date::~Date (void )
     return;
 }
 
-ostream &OSG::operator << (ostream &outStream, const Date &obj)
+std::ostream &OSG::operator << (std::ostream &outStream, const Date &obj)
 {
-  return  outStream << setfill('0')
-                    << setw(2) << obj._day << '.'
-                    << setw(2) << obj._month << '.'
+  return  outStream << std::setfill('0')
+                    << std::setw(2) << obj._day << '.'
+                    << std::setw(2) << obj._month << '.'
                     << obj._year << ' '
-                    << setw(2) << obj._hour << ':'
-                    << setw(2) << obj._minute << ':'
-                    << setw(2) << obj._second;
+                    << std::setw(2) << obj._hour << ':'
+                    << std::setw(2) << obj._minute << ':'
+                    << std::setw(2) << obj._second;
 }
 
 #if 0
 
-istream &OSG::operator >>(istream &inStream, Date &obj)
+std::istream &OSG::operator >>(std::istream &inStream, Date &obj)
 {
   char c;
 

@@ -336,17 +336,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static char cvsid[];
 
     /*! global window list, needed by static refreshGLObject */
-    static vector<WindowPtr>          _allWindows;
+    static std::vector<WindowPtr> _allWindows;
 
     /*---------------------------------------------------------------------*/
     /*! \name   Static GL Object / Extension variables                     */
     /*! \{                                                                 */
 
-    static vector<IDStringLink>         _registeredExtensions;
-    static vector<IDStringLink>         _registeredFunctions;
-    static Lock                      *_GLObjectLock;
-    static vector<GLObject*>          _glObjects;
-    static vector<UInt32>             _glObjectDestroyList;
+    static std::vector<IDStringLink  >  _registeredExtensions;
+    static std::vector<IDStringLink  >  _registeredFunctions;
+    static Lock                        *_GLObjectLock;
+    static std::vector<GLObject     *>  _glObjects;
+    static std::vector<UInt32        >  _glObjectDestroyList;
 
     /*! \}                                                                 */
 
@@ -357,18 +357,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \{                                                                 */
 
     //! contains the last validate counter for the object
-    vector<UInt32>                    _lastValidate;
+    std::vector<UInt32  > _lastValidate;
   
     //! contains the split glGetString(GL_EXTENSIONS)
-    vector<IDString>                  _extensions;
+    std::vector<IDString> _extensions;
 
     /*! contains a boolean for every registered extension which
        indicates, whether an extensions is available for the Window's
        context or not  */
-    vector<bool>                      _availExtensions;
+    std::vector<bool    > _availExtensions;
 
     //! contains the GL extension functions registered by the application
-    vector<void*>                     _extFunctions;
+    std::vector<void   *> _extFunctions;
 
     //! register/unregister the instance with the global list
     void onCreate(  const Window *source = NULL );

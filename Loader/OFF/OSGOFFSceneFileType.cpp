@@ -108,12 +108,12 @@ OFFSceneFileType OFFSceneFileType:: _the(_suffixA, sizeof(_suffixA), false, 10);
 //------------------------------
 NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 {
-    typedef vector<int> Face;
+    typedef std::vector<int> Face;
 
-    vector<Face>        faceVec;
+    std::vector<Face>   faceVec;
 
     char                head[256];
-    ifstream            in(fileName);
+    std::ifstream       in(fileName);
     NodePtr             root;
     GeometryPtr         geo;
     Vec3f               point;
@@ -444,6 +444,6 @@ const Char8 *OFFSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.14 2002/05/13 09:21:09 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.15 2002/09/02 07:04:45 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }

@@ -65,7 +65,7 @@ void Switch::changed(BitVector whichField, UInt32 origin)
 void Switch::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump Switch NI" << endl;
+    SLOG << "Dump Switch NI" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

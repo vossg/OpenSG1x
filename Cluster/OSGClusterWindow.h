@@ -172,8 +172,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static map<UInt32,Connection*>   _connection;
-    static map<UInt32,RemoteAspect*> _remoteAspect;
+    static std::map<UInt32, Connection   *> _connection;
+    static std::map<UInt32, RemoteAspect *> _remoteAspect;
 
     friend class FieldContainer;
     friend class ClusterWindowBase;

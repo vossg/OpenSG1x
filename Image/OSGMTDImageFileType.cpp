@@ -104,8 +104,7 @@ bool MTDImageFileType::read (      Image &image   ,
                              const Char8 *fileName)
 {
   bool retCode = false;
-
-  ifstream in(fileName, ios::in | ios::binary);
+  std::ifstream in(fileName, std::ios::in | std::ios::binary);
   Head head;
   void *headData = (void*)(&head);
   unsigned dataSize, headSize = sizeof(Head);
@@ -150,7 +149,8 @@ bool MTDImageFileType::write(const Image &image   ,
 {
     bool retCode = false;
 
-    ofstream out(fileName, ios::out | ios::binary);
+    std::ofstream out(fileName, std::ios::out | std::ios::binary);
+
     Head head;
     const void *headData = (void*)(&head);
     unsigned dataSize = image.getSize(), headSize = sizeof(Head);

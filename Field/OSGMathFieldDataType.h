@@ -83,8 +83,8 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
         return true;
     }
 
-    static void      putToString  (const Matrix &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Matrix &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Matrix::ValueType> TypeConst;
 
@@ -194,8 +194,8 @@ struct FieldDataTraits<Quaternion> :
         return true;
     }
 
-    static void       putToString   (const Quaternion &inVal,
-                                           string     &outStr)
+    static void       putToString   (const      Quaternion &inVal,
+                                           std::string     &outStr)
     {
         typedef Quaternion::VectorType::ValueType ValueType;
         typedef TypeConstants<ValueType>          TypeConst;

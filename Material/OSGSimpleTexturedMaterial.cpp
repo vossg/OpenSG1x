@@ -184,7 +184,7 @@ bool SimpleTexturedMaterial::isTransparent(void) const
 void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                                   const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
-    SLOG << "Dump SimpleTexturedMaterial NI" << endl;
+    SLOG << "Dump SimpleTexturedMaterial NI" << std::endl;
 }
 
 
@@ -219,7 +219,7 @@ void SimpleTexturedMaterial::prepareLocalChunks(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.14 2002/09/02 03:11:06 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.15 2002/09/02 07:04:49 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }

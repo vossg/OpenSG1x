@@ -77,12 +77,15 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef map<UInt32,       FieldContainerType *>  TypeIdMap;
-    typedef map<IDStringLink, FieldContainerType *>  TypeNameMap;
-    typedef map<IDStringLink, UInt16              >  GroupMap;
+    typedef std::map   <UInt32,       
+                        FieldContainerType        *>  TypeIdMap;
+    typedef std::map   <IDStringLink, 
+                        FieldContainerType        *>  TypeNameMap;
+    typedef std::map   <IDStringLink, 
+                        UInt16                     >  GroupMap;
 
-    typedef vector<FieldContainerType            *>  UninitializedTypeStore;
-    typedef vector<FieldContainerPtr              >  FieldContainerStore;
+    typedef std::vector<FieldContainerType        *> UninitializedTypeStore;
+    typedef std::vector<FieldContainerPtr          > FieldContainerStore;
 
     typedef TypeIdMap             ::iterator         TypeIdMapIt;
     typedef TypeNameMap           ::iterator         TypeNameMapIt;
@@ -158,7 +161,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name               Write FCD From Name                            */
     /*! \{                                                                 */
 
-    void writeFCD(Char8 *name = NULL, ostream *out = NULL);
+    void writeFCD(Char8 *name = NULL, std::ostream *out = NULL);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -241,7 +244,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name                 Write FCD From Type                          */
     /*! \{                                                                 */
 
-    void writeSingleTypeFCD(ostream &out, const FieldContainerType *type);
+    void writeSingleTypeFCD(std::ostream &out, const FieldContainerType *type);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -102,7 +102,7 @@ void TextureTransformChunk::changed(BitVector whichField, UInt32 origin)
 void TextureTransformChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump TextureTransformChunk NI" << endl;
+    SLOG << "Dump TextureTransformChunk NI" << std::endl;
 }
 
 
@@ -154,7 +154,7 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.10 2002/06/30 05:04:22 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.11 2002/09/02 07:05:07 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }

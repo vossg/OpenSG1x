@@ -117,7 +117,7 @@ void ClipPlaneChunk::changed(BitVector, UInt32)
 void ClipPlaneChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump ClipPlaneChunk NI" << endl;
+    SLOG << "Dump ClipPlaneChunk NI" << std::endl;
 }
 
 
@@ -125,7 +125,7 @@ void ClipPlaneChunk::dump(      UInt32    ,
 
 void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
 {
-//    SWARNING << "ClipPlaneChunk::activate(idx:" << idx << ") : " << this << endl;
+//    SWARNING << "ClipPlaneChunk::activate(idx:" << idx << ") : " << this << std::endl;
 
     RenderAction *ra = dynamic_cast<RenderAction *>(action);
 
@@ -145,20 +145,20 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
 
     cameraMat.invert();
 
-//    SWARNING << "cameraMat:" << endl << cameraMat << endl;
+//    SWARNING << "cameraMat:" << std::endl << cameraMat << std::endl;
 
     if(getBeacon() != NullFC) 
     {
         getBeacon()->getToWorld(beaconMat);
-//	SWARNING << "beaconMat:" << endl << beaconMat << endl;
+//	SWARNING << "beaconMat:" << std::endl << beaconMat << std::endl;
     }
     else
     {
-        SWARNING << "NO beacon" << endl;
+        SWARNING << "NO beacon" << std::endl;
     }
 
     cameraMat.mult(beaconMat);
-//    SWARNING << "productMat:" << endl << cameraMat << endl;
+//    SWARNING << "productMat:" << std::endl << cameraMat << std::endl;
 
     
     if ( _sfEnable.getValue() != GL_FALSE )
@@ -179,7 +179,7 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
         
         glPopMatrix();
 	
-//	SWARNING << " - ENABLED plane" << endl;
+//	SWARNING << " - ENABLED plane" << std::endl;
     }
 }
 
@@ -188,7 +188,7 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
 
 void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk, UInt32 idx)
 {
-//    SWARNING << "ClipPlaneChunk::changeFrom(idx:" << idx << ") : " << this << endl;
+//    SWARNING << "ClipPlaneChunk::changeFrom(idx:" << idx << ") : " << this << std::endl;
 
     ClipPlaneChunk const *old = dynamic_cast<ClipPlaneChunk const*>(old_chunk);
 
@@ -215,25 +215,25 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
     Matrix cameraMat = action->getCameraToWorld();
 
     cameraMat.invert();
-//    SWARNING << "cameraMat:" << endl << cameraMat << endl;
+//    SWARNING << "cameraMat:" << std::endl << cameraMat << std::endl;
 
     if (getBeacon() != NullFC) 
     {
         getBeacon()->getToWorld(beaconMat);
-//	SWARNING << "beaconMat:" << endl << beaconMat << endl;
+//	SWARNING << "beaconMat:" << std::endl << beaconMat << std::endl;
     }
     else
     {
-        SWARNING << "ClipPlaneChunk::changeFrom: NO beacon" << endl;
+        SWARNING << "ClipPlaneChunk::changeFrom: NO beacon" << std::endl;
     }
     
     cameraMat.mult(beaconMat);
-//    SWARNING << "productMat:" << endl << cameraMat << endl;
+//    SWARNING << "productMat:" << std::endl << cameraMat << std::endl;
     
     
     if ( _sfEnable.getValue() != old->_sfEnable.getValue() )
     {
-//        SWARNING << " - SOMETHING is different" << endl;
+//        SWARNING << " - SOMETHING is different" << std::endl;
 	    
         if ( _sfEnable.getValue() != GL_FALSE )
         {
@@ -253,31 +253,31 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
 
 	    glPopMatrix();
 
-//            SWARNING << " - ENABLED plane" << endl;
+//            SWARNING << " - ENABLED plane" << std::endl;
 	}
         else  
         {
 	    glDisable( GL_CLIP_PLANE0 + idx );
 
-//            SWARNING << " - DISABLED plane" << endl;
+//            SWARNING << " - DISABLED plane" << std::endl;
         }
     }
     else
     {
-//        SWARNING << " - are the SAME" <<  endl;
+//        SWARNING << " - are the SAME" <<  std::endl;
     }
 }
 
 
 void ClipPlaneChunk::deactivate ( DrawActionBase *, UInt32 idx)
 {
-//    SWARNING << "ClipPlaneChunk::deactivate(idx:" << idx << ") : " << this << endl;
+//    SWARNING << "ClipPlaneChunk::deactivate(idx:" << idx << ") : " << this << std::endl;
 
     if ( _sfEnable.getValue() != GL_FALSE )
     {
         glDisable( GL_CLIP_PLANE0 + idx );
 
-//        SWARNING << " - DISABLED plane" << endl;
+//        SWARNING << " - DISABLED plane" << std::endl;
     }
 }
 
@@ -341,7 +341,7 @@ bool ClipPlaneChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneChunk.cpp,v 1.2 2002/08/26 07:38:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneChunk.cpp,v 1.3 2002/09/02 07:05:01 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANECHUNKBASE_INLINE_CVSID;
 

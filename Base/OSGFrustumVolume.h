@@ -59,7 +59,7 @@ OSG_BASE_DLLMAPPING
 inline
 bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
-ostream& operator<< (ostream & os, const FrustumVolume &obj);
+std::ostream &operator<< (std::ostream &os, const FrustumVolume &obj);
 #endif
 
 /** 

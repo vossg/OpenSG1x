@@ -74,9 +74,12 @@ class OSG_BASE_DLLMAPPING StringConversionStateBase
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-    virtual string &beginField (const Field  *pF,    string &outStr) = 0;
-    virtual string &addValueStr(      string &value, string &outStr) = 0;
-    virtual string &endField   (const Field  *pF,    string &outStr) = 0;
+    virtual std::string &beginField (const Field       *pF,    
+                                           std::string &outStr) = 0;
+    virtual std::string &addValueStr(      std::string &value, 
+                                           std::string &outStr) = 0;
+    virtual std::string &endField   (const Field  *pF,    
+                                           std::string &outStr) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -109,6 +112,6 @@ class OSG_BASE_DLLMAPPING StringConversionStateBase
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGCONVERSIONSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStringConversionStateBase.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
+#define OSGSTRINGCONVERSIONSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStringConversionStateBase.h,v 1.4 2002/09/02 07:04:34 vossg Exp $"
 
 #endif /* _StringConversionStateBase_H_ */

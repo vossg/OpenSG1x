@@ -92,7 +92,7 @@ faster; but not well tested code
   Int32 i, ni, pi, pN, p0, p1, p2, skipN = 0;
   TriangleIterator tI;
   Real32 x,y,z;
-  vector<Vec3f> normalVec;
+  std::vector<Vec3f> normalVec;
 
   if (geo != NullFC) {
 
@@ -214,9 +214,9 @@ faster; but not well tested code
 */
 
 {
-    GeoNormalsPtr   norms;
-    int             i;
-    set<UInt32>     used_indices;
+    GeoNormalsPtr    norms;
+    int              i;
+    std::set<UInt32> used_indices;
 
     if(geo->getNormals() == NullFC)
     {
@@ -241,10 +241,15 @@ faster; but not well tested code
             used_indices.insert(t.getPositionIndex(1));
             used_indices.insert(t.getPositionIndex(2));
         }
-        set<UInt32>::iterator end = used_indices.end();
-        for(set<UInt32>::iterator i = used_indices.begin(); i != end; ++i )
+
+        std::set<UInt32>::iterator i   = used_indices.begin();
+        std::set<UInt32>::iterator end = used_indices.end();
+
+        while(i != end)
         {
             norms->setValue( Vec3f( 0,0,0 ), *i );
+            
+            ++i;
         }
     }
     else // just one user, can clear all
@@ -273,12 +278,16 @@ faster; but not well tested code
 
     if( 1 /* cannot check that yet, be conservative*/)
     {
-        set<UInt32>::iterator end = used_indices.end();
-        for(set<UInt32>::iterator i = used_indices.begin(); i != end; ++i )
+        std::set<UInt32>::iterator i   = used_indices.begin();
+        std::set<UInt32>::iterator end = used_indices.end();
+
+        while(i != end)
         {
             Vec3f n = norms->getValue( *i );
             n.normalize();
             norms->setValue( n, *i );
+
+            ++i;
         }
     }
     else // just one user, can clear all
@@ -480,8 +489,8 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     // collect a map from points to faces using this point
     // collect the face normals in a separate vector
     
-    vector< Vec3f > faceNormals; 
-    multimap< Pnt3f, UInt32, vecless<Pnt3f> > pntMap;
+    std::vector< Vec3f > faceNormals; 
+    std::multimap< Pnt3f, UInt32, vecless<Pnt3f> > pntMap;
     TriangleIterator ti;
     
     for(ti = geo->beginTriangles(); ti != geo->endTriangles(); ++ti )
@@ -493,12 +502,12 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
         d1.normalize();
         faceNormals.push_back(d1);  
              
-        pntMap.insert(pair<Pnt3f, UInt32>(ti.getPosition(0),
-                                           faceNormals.size() - 1));
-        pntMap.insert(pair<Pnt3f, UInt32>(ti.getPosition(1),
-                                           faceNormals.size() - 1));
-        pntMap.insert(pair<Pnt3f, UInt32>(ti.getPosition(2),
-                                           faceNormals.size() - 1));
+        pntMap.insert(std::pair<Pnt3f, UInt32>(ti.getPosition(0),
+                                               faceNormals.size() - 1));
+        pntMap.insert(std::pair<Pnt3f, UInt32>(ti.getPosition(1),
+                                               faceNormals.size() - 1));
+        pntMap.insert(std::pair<Pnt3f, UInt32>(ti.getPosition(2),
+                                               faceNormals.size() - 1));
     }
     
     // now walk through the geometry again and calc the normals
@@ -515,7 +524,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
         Int32 tind = ti.getIndex();
         Vec3f mynorm = faceNormals[tind];        
         
-        multimap< Pnt3f, UInt32, vecless<Pnt3f> >::iterator st,en;  
+        std::multimap< Pnt3f, UInt32, vecless<Pnt3f> >::iterator st,en;  
         
         for(UInt16 i = 0; i < 3; ++i)
         {   
@@ -524,7 +533,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
             // doesn't work, as it depends on the triangulation
             // of the object. :(
             
-            set< Vec3f, vecless<Vec3f> > normset;
+            std::set< Vec3f, vecless<Vec3f> > normset;
              
             st = pntMap.lower_bound(ti.getPosition(i));
             en = pntMap.upper_bound(ti.getPosition(i));
@@ -536,10 +545,9 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
             }
             
             Vec3f norm(0, 0, 0);
-            
-            for(set< Vec3f, vecless<Vec3f> >::iterator it = normset.begin(); 
-                it != normset.end();
-                ++it)
+            typedef std::set< Vec3f, vecless<Vec3f> >::iterator NormSetIt;
+
+            for(NormSetIt it = normset.begin(); it != normset.end(); ++it)
             {
                 norm += (*it);
             }
@@ -655,20 +663,20 @@ NodePtr osg::getNormals ( GeometryPtr geo,
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
-                                vector<Int32> &coordIndex,
-                                vector<Int32> &normalIndex,
-                                vector<Int32> &colorIndex,
-                                vector<Int32> &texCoordIndex,
-                                  bool         OSG_CHECK_ARG(convex),
-                                  bool         ccw,
-                                  bool         normalPerVertex,
-                                  bool         colorPerVertex,
-                                  bool         OSG_CHECK_ARG(createNormal),
-                                  bool         faceSet)
+Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
+                                std::vector<Int32> &coordIndex,
+                                std::vector<Int32> &normalIndex,
+                                std::vector<Int32> &colorIndex,
+                                std::vector<Int32> &texCoordIndex,
+                                     bool           ,
+                                     bool           ccw,
+                                     bool           normalPerVertex,
+                                     bool           colorPerVertex,
+                                     bool           ,
+                                     bool           faceSet)
 {
   /** define the bag type */
-  typedef vector<Int32>* IndexBagP;
+  typedef std::vector<Int32>* IndexBagP;
 
   /** defines the Index Types */
   enum IndexType { UNKNOWN_IT = 0,
@@ -1138,13 +1146,13 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                                      bool       OSG_CHECK_ARG(colorCode      ))
 {
   NodeGraph graph;
-  vector<NodeGraph::Path> pathVec[2];
+  std::vector<NodeGraph::Path> pathVec[2];
   TriangleIterator tI;
   GeoPositionsPtr posPtr;
   Int32 cost = 0, startCost, bestCost = 0, worstCost = 0, best = 0;
   Int32 i, j, k, n, pN, index, indexMapSize;
   bool multiIndex;
-  vector<int> primitive;
+  std::vector<int> primitive;
   GeoPLengthsPtr lensPtr;
   GeoPTypesPtr geoTypePtr;
   GeoIndicesPtr indexPtr;
@@ -1152,7 +1160,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   UInt32 triN, lineN, pointN, triCount;
   Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
   Int32 t,typeN = sizeof(typeVec)/sizeof(Int32);
-  vector<Int32> indexVec;
+  std::vector<Int32> indexVec;
   Int32 v[3];
   IndexDic indexDic;
 
@@ -1391,7 +1399,7 @@ Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
   UInt8  *pData, *data;
   GeoIndicesPtr indexPtr;
   IndexDic indexDic;
-  vector<Int32> indexVec, sIndex;
+  std::vector<Int32> indexVec, sIndex;
   AbstractGeoPropertyInterface * pP = 0;
   
   if ( (geoPtr != NullFC) &&
@@ -1787,13 +1795,13 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::mergeGeometries(vector<NodePtr> &nodes,
-                          vector<NodePtr> &results)
+void osg::mergeGeometries(std::vector<NodePtr> &nodes,
+                          std::vector<NodePtr> &results)
 {
     FFATAL(( "Merge Geometries: Not implemented yet!\n"));
     results.clear();
 
-    for ( vector<NodePtr>::iterator n = nodes.begin();
+    for ( std::vector<NodePtr>::iterator n = nodes.begin();
           n != nodes.end(); ++n )
     {
         GeometryPtr actnode = GeometryPtr::dcast((*n)->getCore());
@@ -1805,7 +1813,7 @@ void osg::mergeGeometries(vector<NodePtr> &nodes,
         continue;
     }
 
-    vector<NodePtr>::iterator r;
+    std::vector<NodePtr>::iterator r;
     for ( r = nodes.begin(); r != nodes.end(); ++r )
     {
         GeometryPtr res = GeometryPtr::dcast((*r)->getCore());

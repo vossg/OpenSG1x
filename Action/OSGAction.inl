@@ -165,7 +165,8 @@ Action::ResultE Action::callEnter( NodePtr node )
     {
         // field container registered method after this action was instantiated
         // copy the new functors from default vector
-        vector<Functor> *defaultEnter = getDefaultEnterFunctors();
+        std::vector<Functor> *defaultEnter = getDefaultEnterFunctors();
+
         while ( defaultEnter->size() > _enterFunctors.size() )
         {
             _enterFunctors.push_back( (*defaultEnter)[_enterFunctors.size()] );
@@ -193,7 +194,8 @@ Action::ResultE Action::callLeave( NodePtr node )
     {
         // field container registered method after this action was instantiated
         // copy the new functors from default vector
-        vector<Functor> *defaultLeave = getDefaultLeaveFunctors();
+        std::vector<Functor> *defaultLeave = getDefaultLeaveFunctors();
+
         while ( defaultLeave->size() > _leaveFunctors.size() )
         {
             _leaveFunctors.push_back( (*defaultLeave)[_leaveFunctors.size()] );

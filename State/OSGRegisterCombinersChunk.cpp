@@ -160,7 +160,7 @@ bool RegisterCombinersChunk::isTransparent(void) const
 void RegisterCombinersChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump RegisterCombinersChunk NI" << endl;
+    SLOG << "Dump RegisterCombinersChunk NI" << std::endl;
 }
 
 
@@ -702,7 +702,7 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.7 2002/08/30 03:22:43 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.8 2002/09/02 07:05:05 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }

@@ -199,7 +199,7 @@ void BinaryDataHandler::putValue(const Real64 &value)
 }
 
 inline 
-void BinaryDataHandler::putValue(const string &value)
+void BinaryDataHandler::putValue(const std::string &value)
 {
     UInt32 len = strlen(value.c_str()) + 1;
 
@@ -387,7 +387,7 @@ void BinaryDataHandler::putValues(const Real64 *value, UInt32 size)
 
 
 inline 
-void BinaryDataHandler::putValues(const string *value, UInt32 size)
+void BinaryDataHandler::putValues(const std::string *value, UInt32 size)
 {
     UInt32 i;
     for(i = 0; i<size; ++i)
@@ -473,7 +473,7 @@ void BinaryDataHandler::getValue(Real64 &value)
 }
 
 inline 
-void BinaryDataHandler::getValue(string &value)
+void BinaryDataHandler::getValue(std::string &value)
 {
     UInt32  len;
     Char8  *str = NULL;
@@ -620,7 +620,7 @@ void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
 }
 
 inline 
-void BinaryDataHandler::getValues(string *value, UInt32 size)
+void BinaryDataHandler::getValues(std::string *value, UInt32 size)
 {
     UInt32 i;
     for(i = 0; i<size; ++i)

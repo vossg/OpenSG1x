@@ -173,9 +173,9 @@ class OSG_BASE_DLLMAPPING NormalQuantifier
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    UInt32 _numberSubdivisions;
+    UInt32             _numberSubdivisions;
 
-    vector<Vec3f> _normalTable;
+    std::vector<Vec3f> _normalTable;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -211,7 +211,7 @@ class OSG_BASE_DLLMAPPING NormalQuantifier
 
 OSG_END_NAMESPACE
 
-#define OSG_HEADER_CVSID "@(#)$Id: OSGNormalQuantifier.h,v 1.1 2002/04/24 17:23:25 jbehr Exp $"
+#define OSG_HEADER_CVSID "@(#)$Id: OSGNormalQuantifier.h,v 1.2 2002/09/02 07:04:26 vossg Exp $"
 
 #include "OSGNormalQuantifier.inl"
 

@@ -171,8 +171,8 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 #endif
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &operator <<(      ostream  &os,
-                     const NodePtr  &fc);
+std::ostream &operator <<(      std::ostream &os,
+                          const NodePtr      &fc);
 
 OSG_END_NAMESPACE
 

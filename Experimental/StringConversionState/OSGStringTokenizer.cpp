@@ -69,13 +69,14 @@ OSG_USING_NAMESPACE
 
 /*! Constructor documentation
  */
-StringTokenizer::StringTokenizer(string& toTokens) : _tokenString(toTokens)
+StringTokenizer::StringTokenizer(std::string &toTokens) : 
+    _tokenString(toTokens)
 {
     _currPos = 0;
-    string::size_type start, end;
+    std::string::size_type start, end;
     nextTokenPos(start, end);
-    if((start == string::npos) ||
-       (end   == string::npos)   )
+    if((start == std::string::npos) ||
+       (end   == std::string::npos)   )
     {
         _hasNext = false;
     }
@@ -112,35 +113,35 @@ bool StringTokenizer::hasNext(void)
     return _hasNext;
 }
 
-void StringTokenizer::nextTokenPos(string::size_type& start,
-                                   string::size_type& end)
+void StringTokenizer::nextTokenPos(std::string::size_type& start,
+                                   std::string::size_type& end)
 {
     start = _tokenString.find_first_not_of(" \t\n", _currPos);
-    if(start == string::npos)
+    if(start == std::string::npos)
     {
-        end = string::npos;
+        end = std::string::npos;
         return;
     }
     end   = _tokenString.find_first_of(" \t\n", start);
-    if(end == string::npos)
+    if(end == std::string::npos)
     {
         end = _tokenString.length();
     }
 }
 
 
-string StringTokenizer::getNext(void)
+std::string StringTokenizer::getNext(void)
 {
-    string retString = _nextToken;
+    std::string retString = _nextToken;
     if(!_hasNext)
     {
         return retString;
     }
-    string::size_type start;
-    string::size_type end;
+    std::string::size_type start;
+    std::string::size_type end;
     nextTokenPos(start, end);
-    if((start == string::npos) ||
-       (end   == string::npos)   )
+    if((start == std::string::npos) ||
+       (end   == std::string::npos)   )
     {
         _hasNext = false;
         return retString;
@@ -151,14 +152,14 @@ string StringTokenizer::getNext(void)
 } 
 
 
-void StringTokenizer::setString(string& toTokens)
+void StringTokenizer::setString(std::string &toTokens)
 {
     _currPos = 0;
     _tokenString = toTokens;
-    string::size_type start, end;
+    std::string::size_type start, end;
     nextTokenPos(start, end);
-    if((start == string::npos) ||
-       (end   == string::npos)   )
+    if((start == std::string::npos) ||
+       (end   == std::string::npos)   )
     {
         _hasNext = false;
     }
@@ -173,18 +174,18 @@ void StringTokenizer::setString(string& toTokens)
 
 UInt32 StringTokenizer::countTokens(void)
 {
-    string::size_type storePos = _currPos;     //need to save these
+    std::string::size_type storePos = _currPos;     //need to save these
     bool              storeHasNext = _hasNext;
 
     UInt32 count = 0;  //token counter
 
-    string::size_type start;
-    string::size_type end;
+    std::string::size_type start;
+    std::string::size_type end;
 
     _currPos = 0;
     nextTokenPos(start, end);
-    if((start == string::npos) ||
-       (end   == string::npos)   )
+    if((start == std::string::npos) ||
+       (end   == std::string::npos)   )
     {
         _hasNext = false;
     }
@@ -198,8 +199,8 @@ UInt32 StringTokenizer::countTokens(void)
     {
         count++;
         nextTokenPos(start, end);
-        if((start == string::npos) ||
-           (end   == string::npos)   )
+        if((start == std::string::npos) ||
+           (end   == std::string::npos)   )
         {
             _hasNext = false;
         }
@@ -230,7 +231,7 @@ UInt32 StringTokenizer::countTokens(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStringTokenizer.cpp,v 1.4 2002/04/30 09:29:07 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStringTokenizer.cpp,v 1.5 2002/09/02 07:04:34 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSTRINGTOKENIZER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSTRINGTOKENIZER_INLINE_CVSID;
 }

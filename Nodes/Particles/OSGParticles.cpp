@@ -185,7 +185,7 @@ void Particles::changed(BitVector whichField, UInt32 origin)
 void Particles::dump(      UInt32    ,
                          const BitVector ) const
 {
-    SLOG << "Dump Particles NI" << endl;
+    SLOG << "Dump Particles NI" << std::endl;
 }
 
 //! Adjust the given volume to enclose the particles
@@ -375,7 +375,7 @@ struct ColTraitSingle : public ColTraitBase
                 SWARNING << "Particles " << part << "have illegal "
                          << "colors: " << col->getDimension()
                          << "D " << formatNames[col->getFormat() - formatBase]
-                         << "!" << endl;
+                         << "!" << std::endl;
                 return;
             }
             else
@@ -421,7 +421,7 @@ struct ColTraitParticle : public ColTraitBase
             SWARNING << "Particles " << part << "have illegal "
                      << "colors: " << col->getDimension()
                      << "D " << formatNames[ col->getFormat() - formatBase ]
-                     << "!" << endl;
+                     << "!" << std::endl;
             return;
         }
     }
@@ -468,7 +468,7 @@ struct ColTraitGeneric : public ColTraitBase
                 SWARNING << "Particles " << part << "have illegal "
                          << "colors: " << col->getDimension()
                          << "D " << formatNames[ col->getFormat() - formatBase ]
-                         << "!" << endl;
+                         << "!" << std::endl;
                 return;
             }
             
@@ -1969,7 +1969,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
         size = pos->getSize();
     }
    
-    vector<sorter> list(size);
+    std::vector<sorter> sorterList(size);
     
     len = 0;
     UInt32 i;
@@ -1984,11 +1984,11 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
                    (*(indices))[i] > pos->size())
                     continue;
 
-                list[len]._index = (*(indices))[i];
+                sorterList[len]._index = (*(indices))[i];
 
                 pos->getValue(p,i);                
                 camera.mult(p);      
-                list[len]._value = p[2];
+                sorterList[len]._value = p[2];
 
                 len++;
             }
@@ -1997,11 +1997,11 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
         {
             for(i = 0; i < size; i++)
             {
-                list[len]._index = i;         
+                sorterList[len]._index = i;         
 
                 pos->getValue(p,i);       
                 camera.mult(p);      
-                list[len]._value = p[2];
+                sorterList[len]._value = p[2];
 
                 len++;
             }
@@ -2017,10 +2017,10 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
                    (*(indices))[i] > pos->size())
                     continue;
 
-                list[len]._index = (*(indices))[i];
+                sorterList[len]._index = (*(indices))[i];
 
                 pos->getValue(p,i);       
-                list[len]._value = - refpoint.dist2(p);
+                sorterList[len]._value = - refpoint.dist2(p);
 
                 len++;
             }
@@ -2029,17 +2029,17 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
         {
             for(i = 0; i < size; i++)
             {
-                list[len]._index = i;         
+                sorterList[len]._index = i;         
 
                 pos->getValue(p,i);       
-                list[len]._value = - refpoint.dist2(p);
+                sorterList[len]._value = - refpoint.dist2(p);
 
                 len++;
             }
         }
     }
     
-    sort(list.begin(),list.begin() + len);
+    std::sort(sorterList.begin(), sorterList.begin() + len);
     
     if(index == NULL)
         index=new Int32[len];
@@ -2048,14 +2048,14 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     {
         for(i = 0; i<len; i++)
         {
-            index[i] = list[len - 1 - i]._index;
+            index[i] = sorterList[len - 1 - i]._index;
         }
     }
     else
     {
         for(i = 0; i<len; i++)
         {
-            index[i] = list[i]._index;
+            index[i] = sorterList[i]._index;
         }
     }
        
@@ -2377,7 +2377,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.26 2002/08/26 07:38:54 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.27 2002/09/02 07:05:00 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

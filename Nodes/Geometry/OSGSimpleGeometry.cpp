@@ -139,7 +139,7 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     if(! hor || ! vert)
     {
         SWARNING << "makePlane: illegal parameters hor=" << hor << ", vert="
-                 << vert << endl;
+                 << vert << std::endl;
         return NullFC;
     }
     
@@ -333,7 +333,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
                  << ", topradius=" << topradius 
                  << ", botradius=" << botradius 
                  << ", sides=" << sides 
-                 << endl;
+                 << std::endl;
         return NullFC;
     }
     
@@ -534,7 +534,7 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
                  << ", outerRadius=" << outerRadius 
                  << ", sides=" << sides 
                  << ", rings=" << rings 
-                 << endl;
+                 << std::endl;
         return NullFC;
     }
     
@@ -901,7 +901,7 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
                  << "latres=" << latres 
                  << ", longres=" << longres 
                  << ", radius=" << radius 
-                 << endl;
+                 << std::endl;
         return NullFC;
     }
     
@@ -1037,7 +1037,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     if(! hor || ! vert || ! depth)
     {
         SWARNING << "makeBox: illegal parameters hor=" << hor << ", vert="
-                 << vert << ", depth=" << depth << endl;
+                 << vert << ", depth=" << depth << std::endl;
         return NullFC;
     }
     

@@ -87,7 +87,7 @@ inline void BinaryMessage::putInt8  (const Int8   value)
     _buffer.push_back(v);
 }
 
-inline void BinaryMessage::putString(const string &value)
+inline void BinaryMessage::putString(const std::string &value)
 {
     putUInt32(value.size());
     if(value.size())
@@ -146,7 +146,7 @@ inline void BinaryMessage::getInt8  (Int8   &value)
     value=_buffer[_pos++];
 }
 
-inline void BinaryMessage::getString(string &value)
+inline void BinaryMessage::getString(std::string &value)
 {
     UInt32 size;
     getUInt32(size);
@@ -210,9 +210,9 @@ inline Int8   BinaryMessage::getInt8  (void)
     return value;
 }
 
-inline string BinaryMessage::getString(void)
+inline std::string BinaryMessage::getString(void)
 {
-    string value;
+    std::string value;
     getString(value);
     return value;
 }

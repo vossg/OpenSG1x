@@ -203,10 +203,10 @@ class MField : public Field
     /*! \name                   String IO                                  */
     /*! \{                                                                 */
 
-    virtual void    pushValueByStr(const Char8               *str  );
-    virtual string &getValueByStr (string                    &str  ) const;
-    virtual string &getValueByStr (string                    &str,
-                                   StringConversionStateBase &state) const;
+    virtual void         pushValueByStr(const Char8              *str  );
+    virtual std::string &getValueByStr (      std::string        &str  ) const;
+    virtual std::string &getValueByStr (      std::string        &str,
+                                       StringConversionStateBase &state) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -94,7 +94,7 @@ class OSG_BASE_DLLMAPPING Indenter
     inline UInt32 getIndent(void) const;
     inline UInt32 getStep  (void) const;
 
-    inline string str      (void) const;
+    inline std::string str (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -194,12 +194,12 @@ class OSG_BASE_DLLMAPPING Indenter
     Indenter& operator =(const Indenter &source);
 };
 
-inline ostream& operator<<(ostream& stream, const Indenter& indent);
+inline std::ostream& operator<<(std::ostream& stream, const Indenter& indent);
 
 
 OSG_END_NAMESPACE
 
-#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.7 2002/05/13 12:33:31 vossg Exp $"
+#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.8 2002/09/02 07:04:34 vossg Exp $"
 
 #include "OSGIndenter.inl"
 

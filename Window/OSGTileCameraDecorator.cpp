@@ -75,7 +75,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.12 2002/08/11 13:30:28 dirk Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.13 2002/09/02 07:05:15 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -196,7 +196,7 @@ void TileCameraDecorator::getProjection( Matrix &result,
 void TileCameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                                const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump TileCameraDecorator NI" << endl;
+    SLOG << "Dump TileCameraDecorator NI" << std::endl;
 }
 
     

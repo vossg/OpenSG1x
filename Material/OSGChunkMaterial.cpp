@@ -76,7 +76,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.26 2002/09/02 03:11:06 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.27 2002/09/02 07:04:49 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -187,7 +187,7 @@ bool ChunkMaterial::subChunk(StateChunkPtr chunk)
     if(i == _mfChunks.end())
     {
         SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk "
-                 << chunk << endl;
+                 << chunk << std::endl;
     }
     else
     {
@@ -285,12 +285,12 @@ bool ChunkMaterial::isTransparent(void) const
 void ChunkMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "ChunkMaterial at " << this << endl;
-    SLOG << "Chunks: " << endl;
+    SLOG << "ChunkMaterial at " << this << std::endl;
+    SLOG << "Chunks: " << std::endl;
 
     for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin();
             i != _mfChunks.end(); i++ )
-        SLOG << *i << endl;
+        SLOG << *i << std::endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/

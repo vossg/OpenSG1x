@@ -125,7 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
 
     // typedef PARENTCLASS Inherited;
 
-    static vector<StatElemDescBase*> *_descVec;
+    static std::vector<StatElemDescBase*> *_descVec;
 
     static char cvsid[];
 

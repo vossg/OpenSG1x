@@ -158,10 +158,11 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
         return false;
     }
     
-    static void      putToString  (const FieldContainerPtr& inVal,
-                                         string           &outVal)
+    static void      putToString  (const FieldContainerPtr &inVal,
+                                         std::string       &outVal)
     {
         typedef TypeConstants<UInt16> TypeConst;
+
         outVal.assign( FieldContainerFactory::the()->findType(
                                 inVal.getFieldContainerId())->getName().str());
         outVal.append(" ");

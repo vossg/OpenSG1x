@@ -166,34 +166,34 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef map<IDString, FieldContainerPtr> NameContainerMap;
-    typedef map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
+    typedef std::map<IDString, FieldContainerPtr> NameContainerMap;
+    typedef std::map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
  
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
 //          NodePtr                    _pRoot;
-          NodePtr                    _pSceneRootNode;
+               NodePtr                    _pSceneRootNode;
 
-          NodePtr                    _pLightRoot;
-          NodePtr                    _pCurrentGlobalLight;
+               NodePtr                    _pLightRoot;
+               NodePtr                    _pCurrentGlobalLight;
 
-          VRMLNodeDesc *             _pCurrNodeDesc;
-    stack<VRMLNodeDesc *>            _sNodeDescs;
+               VRMLNodeDesc *             _pCurrNodeDesc;
+    std::stack<VRMLNodeDesc *>            _sNodeDescs;
 
-          FieldContainerPtr          _pCurrentFC;
-          Field                     *_pCurrentField;
-    const FieldDescription          *_pCurrentFieldDesc;
+               FieldContainerPtr          _pCurrentFC;
+               Field                     *_pCurrentField;
+    const      FieldDescription          *_pCurrentFieldDesc;
 
-    stack<      FieldContainerPtr >  _fcStack;
-    stack<      Field            *>  _fStack;
-    stack<const FieldDescription *>  _fdStack;
+    std::stack<      FieldContainerPtr >  _fcStack;
+    std::stack<      Field            *>  _fStack;
+    std::stack<const FieldDescription *>  _fdStack;
 
-         NameContainerMap            _nameFCMap;
-         NameDescriptionMap          _nameDescMap;
+               NameContainerMap            _nameFCMap;
+               NameDescriptionMap          _nameDescMap;
 
-         PathHandler                 _pathHandler;
+               PathHandler                 _pathHandler;
 
     void              initIntExtFieldTypeMapper(void);
     void              initExtIntFieldTypeMapper(void);

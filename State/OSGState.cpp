@@ -152,18 +152,18 @@ void State::changed(BitVector whichField, UInt32 origin)
 void State::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
                  const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
-    cerr << "State at " << this << endl;
+    std::cerr << "State at " << this << std::endl;
 
     MFStateChunkPtr::const_iterator it;
     UInt32 cind;
 
     for(it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); it++, cind++)
     {
-        cerr << StateChunkClass::getName(cind) << "\t";
+        std::cerr << StateChunkClass::getName(cind) << "\t";
         if(*it == NullFC)
-            cerr << "NullChunk" << endl;
+            std::cerr << "NullChunk" << std::endl;
         else
-            cerr << *it << endl;
+            std::cerr << *it << std::endl;
     }
 }
 
@@ -174,8 +174,12 @@ void State::addChunk(StateChunkPtr chunk, Int32 index)
 {
     if(index > 0 && index > chunk->getClass()->getNumSlots())
     {
-        SWARNING << "addChunk: index " << index << " > Numslots "
-                 << chunk->getClass()->getNumSlots() << ",  ignored!" << endl;
+        SWARNING << "addChunk: index " 
+                 << index
+                 << " > Numslots "
+                 << chunk->getClass()->getNumSlots()
+                 << ",  ignored!" 
+                 << std::endl;
         return;
     }
 
@@ -202,7 +206,7 @@ void State::addChunk(StateChunkPtr chunk, Int32 index)
             {
                 SWARNING << "addChunk: no free slot found for "
                          << chunk->getClass()->getName() 
-                         << " class, ignored!" << endl;
+                         << " class, ignored!" << std::endl;
                 return;
             }
             // use last slot
@@ -241,8 +245,12 @@ void State::subChunk(StateChunkPtr chunk, Int32 index)
 {
     if(index > 0 && index > chunk->getClass()->getNumSlots())
     {
-        SWARNING << "subChunk: index " << index << " > Numslots "
-                 << chunk->getClass()->getNumSlots() << ",  ignored!" << endl;
+        SWARNING << "subChunk: index "
+                 << index
+                 << " > Numslots "
+                 << chunk->getClass()->getNumSlots()
+                 << ",  ignored!" 
+                 << std::endl;
         return;
     }
 
@@ -265,8 +273,12 @@ void State::subChunk(StateChunkPtr chunk, Int32 index)
 
         if(ci >= cindex + nslots)    // no free slot found
         {
-            SWARNING << "subChunk: chunk " << chunk << " of class "
-                     << chunk->getClass()->getName() << " not found!" << endl;
+            SWARNING << "subChunk: chunk " 
+                     << chunk
+                     << " of class "
+                     << chunk->getClass()->getName()
+                     << " not found!" 
+                     << std::endl;
             return;
         }
 
@@ -286,7 +298,7 @@ void State::subChunk(UInt32 classid, Int32 index)
     {
         SWARNING << "subChunk: index " << index << " > Numslots "
                  << StateChunkClass::getNumSlots(classid)
-                 << ",  ignored!" << endl;
+                 << ",  ignored!" << std::endl;
         return;
     }
 
@@ -297,24 +309,24 @@ void State::subChunk(UInt32 classid, Int32 index)
     _mfChunks[classid + index] = NullFC;
 }
 
-struct ClearSlot : public unary_function<      StateChunkPtr         &, 
-                                         const NullFieldContainerPtr &>
+struct ClearSlot : public std::unary_function<      StateChunkPtr         &, 
+                                              const NullFieldContainerPtr &>
 {
-  const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
-  { 
-      subRefCP(slotPtr);
-
-      return NullFC;
-  }
+    const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
+    { 
+        subRefCP(slotPtr);
+        
+        return NullFC;
+    }
 };
 
 
 void State::clearChunks(void)
 {
-    transform(_mfChunks.begin(), 
-              _mfChunks.end  (), 
-              _mfChunks.begin(),
-              ClearSlot());
+    std::transform(_mfChunks.begin(), 
+                   _mfChunks.end  (), 
+                   _mfChunks.begin(),
+                    ClearSlot());
 }
 
 

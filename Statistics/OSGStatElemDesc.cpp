@@ -73,7 +73,8 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-vector<StatElemDescBase*> *StatElemDescBase::_descVec = 0;
+
+std::vector<StatElemDescBase*> *StatElemDescBase::_descVec = 0;
   
 char StatElemDescBase::cvsid[] = "@(#)$Id: $";
 
@@ -132,7 +133,7 @@ StatElemDescBase::StatElemDescBase(const Char8 *name, const Char8 *description)
   if (_descVec) 
     desc = findDescByName (name);
   else
-    _descVec = new vector<StatElemDescBase*>;
+    _descVec = new std::vector<StatElemDescBase*>;
   
   if (desc) {
     FFATAL (( "Try to register the StatElemDescBase name %s a second time\n",

@@ -158,18 +158,26 @@ AttachmentContainerPtr::AttachmentContainerPtr(
 //! Write FCPtr to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &OSG::operator <<(      ostream                 &os,
-                          const AttachmentContainerPtr  &fc)
+std::ostream &OSG::operator <<(      std::ostream            &os,
+                               const AttachmentContainerPtr  &fc)
 {
     if(fc == NullFC)
     {
-        os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
+        os << std::hex << "NodePtr 0x" << &fc << std::dec << ":NullFC";
     }
     else
     {
-        os << hex << "NodePtr 0x"
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (&(*fc)) << dec << ")";
+        os << std::hex 
+           << "NodePtr 0x"
+           << &fc 
+           << std::dec
+           << ":" 
+           << fc->getType().getName() 
+           << "Ptr(0x"
+           << std::hex
+           << (&(*fc))
+           << std::dec
+           << ")";
     }
 
     return os;

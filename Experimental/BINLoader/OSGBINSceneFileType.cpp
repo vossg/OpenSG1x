@@ -126,7 +126,11 @@ NodePtr BINSceneFileType::read(const Char8 *fileName, UInt32) const
     inFile = fopen(fileName, "rb");
 	if (inFile==NULL)
     {
-		cerr<<"ERROR: Cannot open file """<<fileName<<""""<<endl;
+		std::cerr << "ERROR: Cannot open file """ 
+                  << fileName 
+                  << """" 
+                  << std::endl;
+
         return NullFC;
     }
     else

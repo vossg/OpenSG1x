@@ -911,7 +911,7 @@ void GeoPump129(Window   *win,
     if(mandatory && name##Ptr == NullFC)                                    \
     {                                                                       \
         SWARNING << "masterPump: Geometry " << geo << " has no "            \
-                 << #name << "s!" << endl;                                  \
+                 << #name << "s!" << std::endl;                             \
         return;                                                             \
     }                                                                       \
     else if(name##Ptr != NullFC)                                            \
@@ -950,7 +950,7 @@ void GeoPump129(Window   *win,
                      << #name << "s: " << name##Ptr->getDimension()         \
                      << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
-                     << "!" << endl;                                        \
+                     << "!" << std::endl;                                   \
             return;                                                         \
         }                                                                   \
     }                                                                       \
@@ -983,7 +983,7 @@ void GeoPump129(Window   *win,
                      << #name << "s: " << name##Ptr->getDimension()         \
                      << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
-                     << "!" << endl;                                        \
+                     << "!" << std::endl;                                   \
             return;                                                         \
         }                                                                   \
         if(!(name##Func = (pumpFunc)win->getFunction(name##IDs              \
@@ -996,7 +996,7 @@ void GeoPump129(Window   *win,
                      << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
                      << " which are not supported by Window " << win        \
-                     <<  "!" << endl;                                       \
+                     <<  "!" << std::endl;                                  \
             return;                                                         \
         }                                                                   \
     }                                                                       \
@@ -1029,7 +1029,7 @@ void GeoPump129(Window   *win,
                      << #name << "s: " << name##Ptr->getDimension()         \
                      << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
-                     << "!" << endl;                                        \
+                     << "!" << std::endl;                                   \
             return;                                                         \
         }                                                                   \
         if(!(name##Func = (multiPumpFunc)win->getFunction(name##IDs         \
@@ -1042,7 +1042,7 @@ void GeoPump129(Window   *win,
                      << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
                      << "which are not supported by Window " << win         \
-                     <<  "!" << endl;                                       \
+                     <<  "!" << std::endl;                                  \
             return;                                                         \
         }                                                                   \
     }                                                                       \
@@ -1320,7 +1320,7 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
     if(! PositionData)
     {
         SWARNING << "masterPump: Geometry " << geo << " has no positions!?!"
-                 << endl;
+                 << std::endl;
         return;
     }
 
@@ -1348,8 +1348,10 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
 
         if(! PositionData)
         {
-            SWARNING << "masterPump: Geometry " << geo << "has no position index!?!"
-                     << endl;
+            SWARNING << "masterPump: Geometry " 
+                     << geo 
+                     << "has no position index!?!"
+                     << std::endl;
             return;
         }
 

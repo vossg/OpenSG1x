@@ -66,11 +66,11 @@ static const Char8 *suffixArray[] =
 
 DATImageFileType DATImageFileType::_the(suffixArray, sizeof(suffixArray) );
 
-map<std::string, DATImageFileType::KeyType> 
-DATImageFileType::_keyStrMap;
+std::map<std::string, 
+         DATImageFileType::KeyType   > DATImageFileType::_keyStrMap;
 
-map<std::string, DATImageFileType::FormatDesc> 
-DATImageFileType::_formatStrMap;
+std::map<std::string, 
+         DATImageFileType::FormatDesc> DATImageFileType::_formatStrMap;
 
 /*****************************
  *    Classvariables
@@ -111,7 +111,7 @@ bool DATImageFileType::read (      Image &image,
 {
   bool retCode = false;
 
-  ifstream inDat(fileName), inVol;
+  std::ifstream inDat(fileName), inVol;
   std::string keyStr, objectFileName;
   const UInt32 lineBufferSize = 1024;
   Char8 *value, *keySepPos, lineBuffer[lineBufferSize];
@@ -208,7 +208,8 @@ bool DATImageFileType::read (      Image &image,
         {
           if (formatType != UNKNOWN_FT) 
             {
-              inVol.open(objectFileName.c_str(), ios::in | ios::binary );
+              inVol.open(objectFileName.c_str(), 
+                         std::ios::in | std::ios::binary );
               if (inVol)
                 {
                   image.set ( pixelFormat, res[0], res[1], res[2]);
@@ -274,7 +275,7 @@ bool DATImageFileType::read (      Image &image,
 
 
   /* TODO
-  ifstream in(fileName);
+  std::ifstream in(fileName);
   Head head;
   void *headData = (void*)(&head);
   unsigned dataSize, headSize = sizeof(Head);

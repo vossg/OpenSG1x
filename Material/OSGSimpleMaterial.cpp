@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.32 2002/09/02 03:11:06 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.33 2002/09/02 07:04:49 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -318,41 +318,41 @@ void SimpleMaterial::dump(      UInt32    uiIndent,
     thisP.dump(uiIndent, FCDumpFlags::RefCount);
 
     indentLog(uiIndent, PLOG);
-    PLOG << "SimpleMaterial at " << this << endl;
+    PLOG << "SimpleMaterial at " << this << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\tambient: " << getAmbient() << endl;
+    PLOG << "\tambient: " << getAmbient() << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\tdiffuse: " << getDiffuse()  << endl;
+    PLOG << "\tdiffuse: " << getDiffuse()  << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\tspecular: " << getSpecular()  << endl;
+    PLOG << "\tspecular: " << getSpecular()  << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\tshininess: " << getShininess()  << endl;
+    PLOG << "\tshininess: " << getShininess()  << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\temission: " << getEmission()  << endl;
+    PLOG << "\temission: " << getEmission()  << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\ttransparency: " << getTransparency()  << endl;
+    PLOG << "\ttransparency: " << getTransparency()  << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\tlit: " << getLit() << endl;
+    PLOG << "\tlit: " << getLit() << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "\tChunks: " << endl;
+    PLOG << "\tChunks: " << std::endl;
 
     for(MFStateChunkPtr::const_iterator i = _mfChunks.begin();
             i != _mfChunks.end(); i++)
     {
         indentLog(uiIndent, PLOG);
-        PLOG << "\t" << *i << endl;
+        PLOG << "\t" << *i << std::endl;
     }
 
     indentLog(uiIndent, PLOG);
-    PLOG << "SimpleMaterial end " << this << endl;
+    PLOG << "SimpleMaterial end " << this << std::endl;
 }
 
 

@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.21 2002/07/08 05:58:01 dirk Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.22 2002/09/02 07:05:12 vossg Exp $";
 
 const OSG::BitVector  GradientBackground::LineFieldMask = 
     (GradientBackground::PositionFieldMask | 
@@ -260,7 +260,7 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
 void GradientBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                               const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump GradientBackground NI" << endl;
+    SLOG << "Dump GradientBackground NI" << std::endl;
 }
 
     

@@ -141,8 +141,8 @@ StandardStringConversionState::~StandardStringConversionState(void)
 /*! beginField. StandardStringConversionState adds the _indent many spaces
     before the values of a field. Also resets internal state variables.
 */
-string &StandardStringConversionState::beginField(
-    const Field *pF, string &outStr)
+std::string &StandardStringConversionState::beginField(
+    const Field *pF, std::string &outStr)
 {
     _lineLength     = 0;
     _lastMFSepStart = 0;
@@ -173,8 +173,8 @@ string &StandardStringConversionState::beginField(
     and a limitation on the width of the rows.
 */
 
-string &StandardStringConversionState::addValueStr(string &value, 
-                                                   string &outStr)
+std::string &StandardStringConversionState::addValueStr(std::string &value, 
+                                                        std::string &outStr)
 {
     UInt32 valLength = value.length();
 
@@ -193,7 +193,7 @@ string &StandardStringConversionState::addValueStr(string &value,
     else
     {
         StringTokenizer tokens(value);
-        string token;
+        std::string token;
         UInt32 tokenLength;
         bool first = true;
 
@@ -234,8 +234,9 @@ string &StandardStringConversionState::addValueStr(string &value,
 /*! endField. StandardStringConversionState removes the last MultiField-
     Separator-String appended to outStr.
 */
-string &StandardStringConversionState::endField(const Field *OSG_CHECK_ARG(pF),
-                                                string &outStr)
+std::string &StandardStringConversionState::endField(
+    const      Field  *OSG_CHECK_ARG(pF),
+          std::string &outStr)
 {
     if(_multiFieldHint)
     {
@@ -258,7 +259,7 @@ string &StandardStringConversionState::endField(const Field *OSG_CHECK_ARG(pF),
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStandardStringConversionState.cpp,v 1.4 2002/04/30 09:29:07 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStandardStringConversionState.cpp,v 1.5 2002/09/02 07:04:34 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSTANDARDSTRINGCONVERSIONSTATE_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSTANDARDSTRINGCONVERSIONSTATE_INLINE_CVSID;
 }

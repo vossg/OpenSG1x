@@ -169,7 +169,7 @@ MulticastConnection::~MulticastConnection(void)
         if(_destination.getPort()!=0)
         {
             UDPHeader closed={0,CLOSED};
-            SLOG << "Connection closed" << endl;
+            SLOG << "Connection closed" << std::endl;
             _socket.sendTo(&closed,sizeof(closed),_destination);
         }
         _socket.close();
@@ -199,12 +199,12 @@ Connection *MulticastConnection::create(void)
  *
  * \return port:id
  **/
-string MulticastConnection::bind( const string &address )
+std::string MulticastConnection::bind(const std::string &address)
 {
-    char bound[256];
-    string group;
-    UInt32 port;
-    UInt32 member;
+    char        bound[256];
+    std::string group;
+    UInt32      port;
+    UInt32      member;
     
     interpreteAddress(address,group,port,member);
     if(group.empty())
@@ -227,7 +227,7 @@ string MulticastConnection::bind( const string &address )
     }
     _member=member;
     sprintf(bound,"%.120s:%d:%d",group.c_str(),port,member);
-    SINFO << "Multicast bound to " << bound << endl;
+    SINFO << "Multicast bound to " << bound << std::endl;
     return bound;
 }
 
@@ -277,7 +277,7 @@ void MulticastConnection::accept( void )
     _channelAddress.push_back(destination);
     _channelSeqNumber.push_back(1);
     SLOG << "Connection accepted from " << destination.getHost()
-         << ":" << destination.getPort() << endl;
+         << ":" << destination.getPort() << std::endl;
 }
 
 /** connect a connection at the given address
@@ -285,26 +285,26 @@ void MulticastConnection::accept( void )
  * \param address    Host:Port:Id
  *
  **/
-void MulticastConnection::connect( const string &address )
+void MulticastConnection::connect(const std::string &address)
 {
     SocketAddress from;
-    UDPBuffer connectRequest;
-    UDPBuffer connectResponse;
-    string group;
-    UInt32 port;
-    UInt32 member;
-    UInt32 size;
+    UDPBuffer     connectRequest;
+    UDPBuffer     connectResponse;
+    std::string   group;
+    UInt32        port;
+    UInt32        member;
+    UInt32        size;
 
     interpreteAddress(address,group,port,member);
     _destination=SocketAddress(group.c_str(),port);
     if(member==0)
     {
-        SFATAL << "Connect to member and no member is given" << endl;
+        SFATAL << "Connect to member and no member is given" << std::endl;
         return;
     }
     if(group.empty())
     {
-        SFATAL << "No group given to connect" << endl;
+        SFATAL << "No group given to connect" << std::endl;
         return;
     }
     // prepare connection request
@@ -331,7 +331,7 @@ void MulticastConnection::connect( const string &address )
     _inSocket=_socket;
     SLOG << "Connected to " << from.getHost() 
          << ":" << from.getPort()
-         << ":" << member << endl;
+         << ":" << member << std::endl;
 }
 
 /** get number of links
@@ -454,7 +454,7 @@ void MulticastConnection::readBuffer()
                     {
                         SINFO << "missing" << pos << " " 
                               << _channelSeqNumber[_channel] << " "
-                              << seqNumber << endl;
+                              << seqNumber << std::endl;
                         responseAck.nack.missing[nacks++]=htonl(pos);
                     }
                 }
@@ -507,19 +507,19 @@ void MulticastConnection::readBuffer()
  **/
 void MulticastConnection::writeBuffer(void)
 {
-    vector<int>            send;
-    vector<int>::iterator  sendI;
-    BuffersT::iterator     bufferI;
-    UDPHeader              ackRequest;
-    set<SocketAddress>     receivers(_channelAddress.begin(),
-                                     _channelAddress.end());
-    set<SocketAddress>     missingAcks;
-    SocketSelection        selection;
-    UDPBuffer              responseAck;
-    Time                   waitTime,t0,t1;
-    SocketAddress          from;
-    UDPHeader             *header;
-    UInt32                 nacks;
+    std::vector<int>            send;
+    std::vector<int>::iterator  sendI;
+    BuffersT::iterator          bufferI;
+    UDPHeader                   ackRequest;
+    std::set<SocketAddress>     receivers(_channelAddress.begin(),
+                                          _channelAddress.end());
+    std::set<SocketAddress>     missingAcks;
+    SocketSelection             selection;
+    UDPBuffer                   responseAck;
+    Time                        waitTime,t0,t1;
+    SocketAddress               from;
+    UDPHeader                  *header;
+    UInt32                      nacks;
 
     for(bufferI=writeBufBegin() ; 
         bufferI!=writeBufEnd() && bufferI->getDataSize()>0 ;
@@ -601,7 +601,7 @@ void MulticastConnection::writeBuffer(void)
                             SINFO << "Missing package "
                                   << responseAck.nack.missing[i] << " "
                                   << from.getHost().c_str() << ":"
-                                  << from.getPort() << endl;
+                                  << from.getPort() << std::endl;
                             send[ntohl(responseAck.nack.missing[i])]=true;
                         }
                     }
@@ -694,10 +694,10 @@ void *MulticastConnection::aliveProc(void *arg)
  *
  **/
 
-void MulticastConnection::interpreteAddress(const string &address,
-                                                  string &group,
-                                                  UInt32 &port,
-                                                  UInt32 &member)
+void MulticastConnection::interpreteAddress(const std::string &address,
+                                                  std::string &group,
+                                                  UInt32      &port,
+                                                  UInt32      &member)
 {
     Int32 pos1=address.find(':',0);
     Int32 pos2;
@@ -725,7 +725,7 @@ void MulticastConnection::interpreteAddress(const string &address,
     }
     else
     {
-        string::const_iterator i;
+        std::string::const_iterator i;
         for(i =address.begin();
             i!=address.end() && isdigit(*i);
             i++);

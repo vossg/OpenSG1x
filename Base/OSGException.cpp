@@ -94,9 +94,10 @@ Exception& Exception::operator =(const Exception &source)
 
 OSG_BEGIN_NAMESPACE
 
-OSG_BASE_DLLMAPPING ostream &operator <<(ostream &os, const Exception &obj)
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
+                                              const Exception    &obj)
 {
-    return os << obj.what() << endl;
+    return os << obj.what() << std::endl;
 }
 
 OSG_END_NAMESPACE

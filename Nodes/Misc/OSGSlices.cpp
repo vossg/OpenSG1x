@@ -127,7 +127,7 @@ void Slices::changed(BitVector OSG_CHECK_ARG(whichField),
 void Slices::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump Slices NI" << endl;
+    SLOG << "Dump Slices NI" << std::endl;
 }
 
 Action::ResultE Slices::intersect(Action * OSG_CHECK_ARG(action) )
@@ -548,7 +548,7 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.5 2002/08/26 07:38:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.6 2002/09/02 07:05:00 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

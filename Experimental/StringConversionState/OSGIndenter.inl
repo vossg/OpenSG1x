@@ -97,9 +97,9 @@ inline UInt32 Indenter::getStep(void) const
  *
  */
 
-inline string Indenter::str(void) const
+inline std::string Indenter::str(void) const
 {
-    string indStr;
+    std::string indStr;
 
     for(UInt32 i=0; i<_indent; i++)
     {
@@ -131,7 +131,7 @@ inline void Indenter::setStep(UInt32 step)
 /*! write _indent spaces to stream
  *
  */
-inline ostream& operator << (ostream& stream, const Indenter& indent)
+inline std::ostream& operator << (std::ostream& stream, const Indenter& indent)
 {
     for(UInt32 i=0; i<indent.getIndent(); i++)
     {
@@ -142,5 +142,5 @@ inline ostream& operator << (ostream& stream, const Indenter& indent)
 
 OSG_END_NAMESPACE
 
-#define OSGINDENTER_INLINE_CVSID "@(#)$Id: OSGIndenter.inl,v 1.2 2002/02/23 01:02:08 dirk Exp $"
+#define OSGINDENTER_INLINE_CVSID "@(#)$Id: OSGIndenter.inl,v 1.3 2002/09/02 07:04:34 vossg Exp $"
 

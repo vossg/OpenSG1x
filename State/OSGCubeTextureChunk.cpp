@@ -148,7 +148,7 @@ void CubeTextureChunk::onCreate(const CubeTextureChunk *)
 void CubeTextureChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump CubeTextureChunk NI" << endl;
+    SLOG << "Dump CubeTextureChunk NI" << std::endl;
 }
 
 
@@ -172,7 +172,7 @@ void CubeTextureChunk::handleGL(Window *win, UInt32 idstatus)
     }
     else if(mode == Window::finaldestroy)
     {
-        //SWARNING << "Last texture user destroyed" << endl;
+        //SWARNING << "Last texture user destroyed" << std::endl;
     }
     else if(mode == Window::initialize || mode == Window::reinitialize)
     {
@@ -244,7 +244,7 @@ void CubeTextureChunk::handleGL(Window *win, UInt32 idstatus)
     {
         SWARNING << "Win:" << win << "TextureChunk(" << this 
                  << "::handleGL: Illegal mode: "
-                 << mode << " for id " << id << endl;
+                 << mode << " for id " << id << std::endl;
     }
 }
 
@@ -385,7 +385,7 @@ bool CubeTextureChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGCubeTextureChunk.cpp,v 1.3 2002/09/02 03:11:06 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGCubeTextureChunk.cpp,v 1.4 2002/09/02 07:05:02 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGCUBETEXTURECHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCUBETEXTURECHUNK_INLINE_CVSID;
 }

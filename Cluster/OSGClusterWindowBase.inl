@@ -128,19 +128,19 @@ SFString *ClusterWindowBase::getSFBroadcastAddress(void)
 
 
 inline
-string &ClusterWindowBase::getConnectionType(void)
+std::string &ClusterWindowBase::getConnectionType(void)
 {
     return _sfConnectionType.getValue();
 }
 
 inline
-const string &ClusterWindowBase::getConnectionType(void) const
+const std::string &ClusterWindowBase::getConnectionType(void) const
 {
     return _sfConnectionType.getValue();
 }
 
 inline
-void ClusterWindowBase::setConnectionType(const string &value)
+void ClusterWindowBase::setConnectionType(const std::string &value)
 {
     _sfConnectionType.setValue(value);
 }
@@ -182,25 +182,25 @@ void ClusterWindowBase::setServicePort(const UInt32 &value)
 }
 
 inline
-string &ClusterWindowBase::getBroadcastAddress(void)
+std::string &ClusterWindowBase::getBroadcastAddress(void)
 {
     return _sfBroadcastAddress.getValue();
 }
 
 inline
-const string &ClusterWindowBase::getBroadcastAddress(void) const
+const std::string &ClusterWindowBase::getBroadcastAddress(void) const
 {
     return _sfBroadcastAddress.getValue();
 }
 
 inline
-void ClusterWindowBase::setBroadcastAddress(const string &value)
+void ClusterWindowBase::setBroadcastAddress(const std::string &value)
 {
     _sfBroadcastAddress.setValue(value);
 }
 
 inline
-string &ClusterWindowBase::getServers(const UInt32 index)
+std::string &ClusterWindowBase::getServers(const UInt32 index)
 {
     return _mfServers[index];
 }

@@ -60,10 +60,10 @@ class ScanParseFieldTypeMapper : public BaseT
 
     typedef typename Inherited::BuildInFieldType BuildInFieldTypes;
 
-    typedef          map<BuildInFieldTypes, 
-                         UInt32           >      IntExtMap;
-    typedef          map<UInt32,        
-                         BuildInFieldTypes>      ExtIntMap;
+    typedef          std::map<BuildInFieldTypes, 
+                              UInt32           > IntExtMap;
+    typedef          std::map<UInt32,        
+                              BuildInFieldTypes> ExtIntMap;
 
     /*==========================  PUBLIC  =================================*/
   public :

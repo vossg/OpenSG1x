@@ -102,9 +102,12 @@ class OSG_BASE_DLLMAPPING StandardStringConversionState :
     /*! \name                   your_category                              */
     /*! \{                                                                 */
 
-    virtual string &beginField (const Field  *pF,    string &outStr);
-    virtual string &addValueStr(      string &value, string &outStr);
-    virtual string &endField   (const Field  *pF,    string &outStr);
+    virtual std::string &beginField (const      Field  *pF,    
+                                           std::string &outStr);
+    virtual std::string &addValueStr(      std::string &value, 
+                                           std::string &outStr);
+    virtual std::string &endField   (const      Field  *pF,    
+                                           std::string &outStr);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -132,7 +135,7 @@ class OSG_BASE_DLLMAPPING StandardStringConversionState :
     bool            _noLineBreakHint;
     bool            _multiFieldHint;
 
-    string          _mfSeparator;
+    std::string     _mfSeparator;
     UInt32          _mfSepLength;
     UInt32          _lastMFSepStart;
 
@@ -152,7 +155,7 @@ class OSG_BASE_DLLMAPPING StandardStringConversionState :
 
 OSG_END_NAMESPACE
 
-#define OSGSTANDARDSTRINGCONVERSIONSTATE_HEADER_CVSID "@(#)$Id: OSGStandardStringConversionState.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
+#define OSGSTANDARDSTRINGCONVERSIONSTATE_HEADER_CVSID "@(#)$Id: OSGStandardStringConversionState.h,v 1.4 2002/09/02 07:04:34 vossg Exp $"
 
 #include "OSGStandardStringConversionState.inl"
 

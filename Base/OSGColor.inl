@@ -797,8 +797,8 @@ bool Color4<ValueTypeT>::operator != (const Color4 &other) const
 }
 
 template <class ValueTypeT> inline
-ostream &operator <<(      ostream            &outStream,
-                     const Color3<ValueTypeT> &color)
+std::ostream &operator <<(      std::ostream       &outStream,
+                          const Color3<ValueTypeT> &color)
 {
     return outStream << color.red()   << ' '
                      << color.green() << ' '
@@ -806,8 +806,8 @@ ostream &operator <<(      ostream            &outStream,
 }
 
 template <class ValueTypeT> inline
-ostream &operator <<(      ostream            &outStream,
-                     const Color4<ValueTypeT> &color)
+std::ostream &operator <<(      std::ostream       &outStream,
+                          const Color4<ValueTypeT> &color)
 {
     return outStream << color.red()   << ' '
                      << color.green() << ' '

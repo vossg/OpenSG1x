@@ -53,20 +53,21 @@ OSG_BEGIN_NAMESPACE
 
 struct IndexDic 
 {
+    typedef std::vector<Int32> Int32Vec;
 
   public:
   
-    inline       Int32          entry     (vector<Int32> &indexVec);
+          Int32     entry     (Int32Vec &indexVec);
     
-    inline const vector<Int32> &entry     (Int32          index   );          
+    const Int32Vec &entry     (Int32     index   ); 
 
-    inline       UInt32         entryCount(void                   ) const;
+          UInt32    entryCount(void              ) const;
 
   private:
   
-    map   <      vector<Int32>  , Int32> _indexMap;
+    std::map   <      Int32Vec  , Int32> _indexMap;
   
-    vector<const vector<Int32> *       > _indexVec;
+    std::vector<const Int32Vec *       > _indexVec;
  
 };
 
@@ -97,17 +98,17 @@ NodePtr getNormals( GeometryPtr geo, Real32 length );
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 setIndexFromVRMLData ( GeometryPtr geo,
-                             vector<Int32> & coordIndex,
-                             vector<Int32> & normalIndex,
-                             vector<Int32> & colorIndex,
-                             vector<Int32> & texCoordIndex,
-                             bool convex = true,
-                             bool ccw = true,
-                             bool normalPerVertex = true,
-                             bool colorPerVertex = true,
-                             bool createNormal = true,
-                             bool faceSet = true );
+Int32 setIndexFromVRMLData(      GeometryPtr    geo,
+                            std::vector<Int32> &coordIndex,
+                            std::vector<Int32> &normalIndex,
+                            std::vector<Int32> &colorIndex,
+                            std::vector<Int32> &texCoordIndex,
+                                 bool           convex          = true,
+                                 bool           ccw             = true,
+                                 bool           normalPerVertex = true,
+                                 bool           colorPerVertex  = true,
+                                 bool           createNormal    = true,
+                                 bool           faceSet         = true);
 
 
 /*! \brief optimize the geo by creating strips and fans, 
@@ -116,12 +117,12 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 createOptimizedPrimitives ( GeometryPtr geo,
-                                  UInt32 iteration = 1,
-                                  bool createStrips = true,
-                                  bool createFans = true,
-                                  UInt32 minFanEdgeCount = 8,
-                                  bool colorCode = false );
+Int32 createOptimizedPrimitives (GeometryPtr geo,
+                                 UInt32      iteration       = 1,
+                                 bool        createStrips    = true,
+                                 bool        createFans      = true,
+                                 UInt32      minFanEdgeCount = 8,
+                                 bool        colorCode       = false );
 
 /*! \brief creates a single index geo from multi(interleave) geo.
  *  function will change (copy/resort) the property values.
@@ -142,7 +143,8 @@ UInt32 calcPrimitiveCount ( GeometryPtr geo,
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-void mergeGeometries( vector<NodePtr> & nodes, vector<NodePtr> & results );
+void mergeGeometries(std::vector<NodePtr> &nodes, 
+                     std::vector<NodePtr> &results);
 
 /*! \brief calculate face normals for the geometry
  *  \ingroup Geometry

@@ -266,10 +266,10 @@ class NodeGraph
         /*! \}                                                             */
     };
 
-    typedef vector<Edge *> EdgeMap;
+    typedef std::vector<Edge *> EdgeMap;
 
-    vector<Node> _nodeVec;
-    vector<EdgeMap> _edgeMapVec;
+    std::vector<Node> _nodeVec;
+    std::vector<EdgeMap> _edgeMapVec;
     
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -365,9 +365,9 @@ class NodeGraph
     {
         /*========================  PUBLIC  ===============================*/
       public:
-        int        type;
-        bool       flip;
-        list<int>  path;
+        int            type;
+        bool           flip;
+        std::list<int> path;
         
         /*-----------------------------------------------------------------*/
         /*! \name                 Constructors                             */
@@ -396,7 +396,7 @@ class NodeGraph
     /*! \name                   Construction                               */
     /*! \{                                                                 */
     
-    int createPathVec (vector<Path> &stripVec,
+    int createPathVec (std::vector<Path> &stripVec,
                        bool createStrips = true, bool createFans = true,
                        int minFanEdgeCount = 8);
     
@@ -431,16 +431,23 @@ class NodeGraph
     /*! \name                       Get                                    */
     /*! \{                                                                 */
     
-    int getPrimitive          (Path &path, vector <int> &primitive );        
-    int getEdges              (list <IndexEdge> & edgeList);
-    inline int getStartOfEdge (int index, int side)
-        { return _nodeVec[index].edgeVec[side]->vertexStart; }
-    inline int getEndOfEdge   (int index, int side)
-        { return _nodeVec[index].edgeVec[side]->vertexEnd; }
+    int getPrimitive  (     Path               &path, 
+                       std::vector <int      > &primitive );        
+    int getEdges      (std::list   <IndexEdge> &edgeList  );
+    int getStartOfEdge(     int                 index, 
+                            int                 side      )
+    { 
+        return _nodeVec[index].edgeVec[side]->vertexStart; 
+    }
+    int getEndOfEdge  (     int                 index, 
+                            int                 side      )
+    {
+        return _nodeVec[index].edgeVec[side]->vertexEnd; 
+    }
     
     /*! \}                                                                 */
     
-    void clear (void);
+    void clear        (void                               );
 };
 
 typedef NodeGraph* NodeGraphP;

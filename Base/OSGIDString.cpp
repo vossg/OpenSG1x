@@ -197,7 +197,7 @@ void IDString::set(const Char8 *str, MemType memType)
 // Description:
 //
 //----------------------------------------------------------------------
-void IDString::tokenize(vector <IDString*> &v)
+void IDString::tokenize(std::vector <IDString*> &v)
 {
     int l             = getLength(),
         oldpos        = 0,
@@ -300,7 +300,7 @@ void IDString::tokenize(vector <IDString*> &v)
     }
 }
 
-void IDString::tokenize(vector <IDString> &v)
+void IDString::tokenize(std::vector <IDString> &v)
 {
     int l        = getLength(),
         oldpos   = 0,
@@ -402,7 +402,8 @@ void IDString::tokenize(vector <IDString> &v)
 
 OSG_BEGIN_NAMESPACE
 
-OSG_BASE_DLLMAPPING ostream &operator <<(ostream &os, const IDString &obj)
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
+                                              const IDString     &obj)
 {
     return os << (obj.str() ? obj.str() : "0 IDString");
 }

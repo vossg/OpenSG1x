@@ -113,7 +113,7 @@ NodePtr BINLoader::getRootNode()
     return _vec_pRootNodes[0];
 }
 
-vector<NodePtr> BINLoader::getRootNodes()
+std::vector<NodePtr> BINLoader::getRootNodes()
 {
     return _vec_pRootNodes;
 }
@@ -136,12 +136,12 @@ UInt32 BINLoader::FCIdMapper::map(UInt32 uiId)
 }
 
 
-void BINLoader::BinaryFileHandler::read(OSG::MemoryHandle mem, OSG::UInt32 size)
+void BINLoader::BinaryFileHandler::read(MemoryHandle mem, UInt32 size)
 {
 	fread(mem, size, 1, _file);
 }
 
-void BINLoader::BinaryFileHandler::write(OSG::MemoryHandle mem, OSG::UInt32 size)
+void BINLoader::BinaryFileHandler::write(MemoryHandle mem, UInt32 size)
 {
 	fwrite(mem, size, 1, _file);
 }
@@ -154,9 +154,9 @@ void BINLoader::createFieldContainers()
            numOfRoots       = 0,
            currentId        = 0,
            i, j;
-	std::string    fcTypeCName;
-    FCInfoStruct   newFCInfo;	
-    set<UInt32>    setOfRootIds;
+	std::string         fcTypeCName;
+         FCInfoStruct   newFCInfo;	
+    std::set<UInt32>    setOfRootIds;
 	
     //fetch the number of roots
     _inFileHandler.getValue(numOfRoots);    
@@ -189,13 +189,19 @@ void BINLoader::createFieldContainers()
 			
 			newFCInfo.newId = newFCInfo.ptr.getFieldContainerId();
 
-			if (_fcInfoMap.insert(make_pair(oldFCId, newFCInfo)).second==false)
+			if (_fcInfoMap.insert(std::make_pair(oldFCId, 
+                                                 newFCInfo)).second==false)
 			{
-				cerr<<"ERROR in BINLoader::createFieldContainers()"<<endl;
+				std::cerr << "ERROR in BINLoader::createFieldContainers()"
+                          << std::endl;
 			}
 		}
 	}
-	SINFO<<"created "<<_countContainers<<" containers"<<endl;
+
+	SINFO << "created "
+          << _countContainers
+          << " containers"
+          << std::endl;
 }
 
 
@@ -216,8 +222,14 @@ void BINLoader::chargeFieldContainers()
     while(count < mapSize)
     {
         count++;
-        SINFO<<"loading container "<<setw(4)
-             <<count<<"/"<<mapSize<<"..."<<endl;
+
+        SINFO<<"loading container "
+             << std::setw(4)
+             << count
+             << "/" 
+             << mapSize
+             << "..." 
+             << std::endl;
 
         //fetch container id
         _inFileHandler.getValue(currentFieldContainerOldId);
@@ -225,24 +237,32 @@ void BINLoader::chargeFieldContainers()
         
         if (fcInfoIter == fcInfoEnd)
         {
-            SWARNING<<"ERROR in BINLoader::chargeFieldContainers():"<<endl
-                    <<"no matching container found for ID "
-                    <<currentFieldContainerOldId
-                    <<endl
-                    <<"THIS SHOULD NOT HAPPEN!!!"
-                    <<endl;
+            SWARNING << "ERROR in BINLoader::chargeFieldContainers():"
+                     << std::endl
+                     << "no matching container found for ID "
+                     << currentFieldContainerOldId
+                     << std::endl
+                     << "THIS SHOULD NOT HAPPEN!!!"
+                     << std::endl;
+
             continue;
         }
         
         if (fcInfoIter->second.read)
         {
-            SWARNING<<"ERROR in BINLoader::chargeFieldContainers():"<<endl
-                    <<"original ID: "<<currentFieldContainerOldId   <<endl
-                    <<"new ID     : "<<fcInfoIter->second.newId     <<endl
-                    <<"CONTAINER ALREADY WRITTEN! CONTAINER WILL BE OVERWRITTEN!"
-                    <<endl
-                    <<"THIS SHOULD NOT HAPPEN!!!"
-                    <<endl;
+            SWARNING << "ERROR in BINLoader::chargeFieldContainers():"
+                     << std::endl
+                     << "original ID: "
+                     << currentFieldContainerOldId   
+                     << std::endl
+                     << "new ID     : "
+                     << fcInfoIter->second.newId     
+                     << std::endl
+                     << "CONTAINER ALREADY WRITTEN! CONTAINER "
+                     << "WILL BE OVERWRITTEN!"
+                     << std::endl
+                     << "THIS SHOULD NOT HAPPEN!!!"
+                     << std::endl;
         }
         
         //fetch mask

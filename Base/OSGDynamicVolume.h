@@ -163,8 +163,8 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
 };
 
 OSG_BASE_DLLMAPPING
-ostream &operator <<(ostream &outStream,
-                     const DynamicVolume &vol);
+std::ostream &operator <<(      std::ostream  &outStream,
+                          const DynamicVolume &vol);
 
 typedef DynamicVolume* DynamicVolumeP;
 

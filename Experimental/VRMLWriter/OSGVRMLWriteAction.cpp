@@ -251,8 +251,8 @@ char VRMLWriteAction::cvsid[] = "@(#)$Id: $";
 
 VRMLWriteAction * VRMLWriteAction::_prototype = NULL;
 
-vector<Action::Functor> *VRMLWriteAction::_defaultEnterFunctors;
-vector<Action::Functor> *VRMLWriteAction::_defaultLeaveFunctors;
+std::vector<Action::Functor> *VRMLWriteAction::_defaultEnterFunctors;
+std::vector<Action::Functor> *VRMLWriteAction::_defaultLeaveFunctors;
 
 VRMLWriteAction::ActionInitializer VRMLWriteAction::_actionInitializer;
 
@@ -271,7 +271,7 @@ void VRMLWriteAction::registerEnterDefault(const FieldContainerType &type,
                                            const Action::Functor    &func)
 {
     if(!_defaultEnterFunctors)
-        _defaultEnterFunctors = new vector<Action::Functor>;
+        _defaultEnterFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultEnterFunctors->size())
     {
@@ -289,7 +289,7 @@ void VRMLWriteAction::registerLeaveDefault(const FieldContainerType &type,
                                            const Action::Functor    &func)
 {
     if(! _defaultLeaveFunctors)
-        _defaultLeaveFunctors = new vector<Action::Functor>;
+        _defaultLeaveFunctors = new std::vector<Action::Functor>;
 
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
@@ -1840,9 +1840,9 @@ Action::ResultE VRMLWriteAction::write(NodePtr node)
     
     _eTraversalMode = OSGCollectFC;
 
-    for_each(_vFCInfos.begin(), 
-             _vFCInfos.end(), 
-             mem_fun_ref(&FCInfo::clear));
+    std::for_each(_vFCInfos.begin(), 
+                  _vFCInfos.end(), 
+                  std::mem_fun_ref(&FCInfo::clear));
     
     _vFCInfos.resize(
         FieldContainerFactory::the()->getFieldContainerStore()->size());
@@ -1919,20 +1919,20 @@ bool VRMLWriteAction::operator != (const VRMLWriteAction &other) const
 \*-------------------------------------------------------------------------*/
 
 
-vector<VRMLWriteAction::Functor> *VRMLWriteAction::getDefaultEnterFunctors(
-    void)
+std::vector<VRMLWriteAction::Functor> *
+    VRMLWriteAction::getDefaultEnterFunctors(void)
 {
     return _defaultEnterFunctors;
 }
 
-vector<VRMLWriteAction::Functor> *VRMLWriteAction::getDefaultLeaveFunctors(
-    void)
+std::vector<VRMLWriteAction::Functor> *
+    VRMLWriteAction::getDefaultLeaveFunctors(void)
 {
     return _defaultLeaveFunctors;
 }
 
-Action::ResultE VRMLWriteAction::apply(vector<NodePtr>::iterator begin, 
-                                       vector<NodePtr>::iterator end)
+Action::ResultE VRMLWriteAction::apply(std::vector<NodePtr>::iterator begin, 
+                                       std::vector<NodePtr>::iterator end)
 {
     return Inherited::apply(begin, end);
 }

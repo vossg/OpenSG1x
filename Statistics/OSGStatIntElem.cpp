@@ -136,7 +136,7 @@ StatIntElem::~StatIntElem(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void StatIntElem::putToString(string &str, const char *format)
+void StatIntElem::putToString(std::string &str, const char *format)
 {
     if(!format)
     {

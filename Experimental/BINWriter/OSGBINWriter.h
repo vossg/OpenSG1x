@@ -78,8 +78,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*! \name                 Access                                       */
     /*! \{                                                                 */
 
-    void write(NodePtr         node );
-    void write(vector<NodePtr> nodes);
+    void write(            NodePtr  node );
+    void write(std::vector<NodePtr> nodes);
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -95,21 +95,21 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 		 FCInfo();
 	};
     //FieldContainerId is of type UInt32
-  	typedef map<UInt32, FCInfo> FCInfoMap;	
-    typedef map<std::string, vector<UInt32> > FCTypeIdMap;
+  	typedef std::map<     UInt32,             FCInfo  > FCInfoMap;	
+    typedef std::map<std::string, std::vector<UInt32> > FCTypeIdMap;
 
-	class BinaryFileHandler : public OSG::BinaryDataHandler
+	class BinaryFileHandler : public BinaryDataHandler
     {
 	  public:
 		BinaryFileHandler(FILE *file);
 		virtual ~BinaryFileHandler();
 	    
-		void read (OSG::MemoryHandle mem, OSG::UInt32 size);
-		void write(OSG::MemoryHandle mem, OSG::UInt32 size);
+		void read (MemoryHandle mem, UInt32 size);
+		void write(MemoryHandle mem, UInt32 size);
 	
 	  private:
-		vector<OSG::UInt8> _readMemory;
-		vector<OSG::UInt8> _writeMemory;
+		std::vector<UInt8> _readMemory;
+		std::vector<UInt8> _writeMemory;
 		FILE *_file;
 
         BinaryFileHandler(const BinaryFileHandler &source);
@@ -130,10 +130,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*==========================  PRIVATE  ================================*/
   private:
 
-	FCInfoMap         _fcMap;
-	FCTypeIdMap       _fcIdMap;
-	BinaryFileHandler _outFileHandler;
-    vector<NodePtr>   _vec_pRootNodes;
+	FCInfoMap            _fcMap;
+	FCTypeIdMap          _fcIdMap;
+	BinaryFileHandler    _outFileHandler;
+    std::vector<NodePtr> _vec_pRootNodes;
     
     BINWriter(const BINWriter &source);
     void operator =(const BINWriter &source);

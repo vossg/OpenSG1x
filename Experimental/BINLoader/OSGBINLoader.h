@@ -54,9 +54,9 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     /*==========================  PUBLIC  =================================*/
 
   public:
-    void read();
-    NodePtr         getRootNode();
-    vector<NodePtr> getRootNodes();
+                void     read();
+                NodePtr  getRootNode();
+    std::vector<NodePtr> getRootNodes();
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -85,7 +85,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
         FCInfoStruct();
     };
     //          oldID	newId + FCPtr
-    typedef map<UInt32, FCInfoStruct> IDLookupMap;
+    typedef std::map<UInt32, FCInfoStruct> IDLookupMap;
 
     struct FCIdMapper : public FieldContainerMapper
     {                                              
@@ -96,32 +96,34 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
         virtual UInt32 map(UInt32 uiId);
     };
 
-    class BinaryFileHandler : public OSG::BinaryDataHandler
+    class BinaryFileHandler : public BinaryDataHandler
     {
       public:
         BinaryFileHandler(FILE *file);
         virtual ~BinaryFileHandler();
 	    
-        void read (OSG::MemoryHandle mem, OSG::UInt32 size);
-        void write(OSG::MemoryHandle mem, OSG::UInt32 size);
+        void read (MemoryHandle mem, UInt32 size);
+        void write(MemoryHandle mem, UInt32 size);
 	
-      private:  
-        vector<OSG::UInt8> _readMemory;
-        vector<OSG::UInt8> _writeMemory;
-        FILE *_file;
+      private:
+  
+        std::vector<UInt8>  _readMemory;
+        std::vector<UInt8>  _writeMemory;
+             FILE          *_file;
     };
 
          
     /*==========================  PRIVATE  ================================*/
   private:
 
-    BinaryFileHandler _inFileHandler;
-    IDLookupMap       _fcInfoMap;
-    UInt32            _countContainers;
-    vector<NodePtr>   _vec_pRootNodes;
-    void createFieldContainers();
-    void chargeFieldContainers();
+         BinaryFileHandler _inFileHandler;
+         IDLookupMap       _fcInfoMap;
+         UInt32            _countContainers;
+    std::vector<NodePtr>   _vec_pRootNodes;
 
+
+    void createFieldContainers(void);
+    void chargeFieldContainers(void);
 };
 
 OSG_END_NAMESPACE

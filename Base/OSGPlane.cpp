@@ -334,7 +334,7 @@ bool operator ==(const Plane &p1, const Plane &p2)
 }
 
 OSG_BASE_DLLMAPPING
-ostream &operator << (ostream &outStream, const Plane &obj)
+std::ostream &operator << (std::ostream &outStream, const Plane &obj)
 {
   return  outStream << obj.getNormal() << ":" << obj.getDistanceFromOrigin();
 }

@@ -168,13 +168,13 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const UInt8 val)
+    static std::string putToString (const UInt8 val)
     {
         char buffer[10];
 
         sprintf(buffer, "%u", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -234,13 +234,13 @@ struct TypeTraits<Int8> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const Int8 val)
+    static std::string putToString (const Int8 val)
     {
         char buffer[10];
 
         sprintf(buffer, "%i", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -301,7 +301,7 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const UInt16 val)
+    static std::string putToString (const UInt16 val)
     {
         char buffer[10];
 
@@ -312,7 +312,7 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
         sprintf(buffer, "%u", val);
 #endif
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -372,13 +372,13 @@ struct TypeTraits<Int16> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const Int16 val)
+    static std::string putToString (const Int16 val)
     {
         char buffer[10];
 
         sprintf(buffer, "%i", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -439,13 +439,13 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString  (const UInt32 val)
+    static std::string putToString  (const UInt32 val)
     {
         char buffer[15];
 
         sprintf(buffer, "%u", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -506,13 +506,13 @@ struct TypeTraits<Int32> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const Int32 val)
+    static std::string putToString (const Int32 val)
     {
         char buffer[15];
 
         sprintf(buffer, "%i", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -599,13 +599,13 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const UInt64 val)
+    static std::string putToString (const UInt64 val)
     {
         char buffer[25];
 
         sprintf(buffer, "%llu", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -690,13 +690,13 @@ struct TypeTraits<Int64> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString (const Int64 val)
+    static std::string putToString (const Int64 val)
     {
         char buffer[25];
 
         sprintf(buffer, "%lli", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -746,13 +746,13 @@ struct TypeTraits<Real64> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString  (const Real64 val)
+    static std::string putToString  (const Real64 val)
     {
         char buffer[25];
 
         sprintf(buffer, "%e", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 };
 
@@ -801,13 +801,13 @@ struct TypeTraits<Real32> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static string putToString  (const Real32 val)
+    static std::string putToString  (const Real32 val)
     {
         char buffer[20];
 
         sprintf(buffer, "%e", val);
 
-        return string(buffer);
+        return std::string(buffer);
     }
 
 };

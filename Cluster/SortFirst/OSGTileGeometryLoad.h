@@ -158,7 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     UInt32                _faces;
     Int32                 _min[2];
     Int32                 _max[2];
-    vector<Real32>        _faceDistribution;
+    std::vector<Real32>   _faceDistribution;
     bool                  _visible;
     bool                  _useFaceDistribution;
     Real32                _areaSize;

@@ -360,10 +360,10 @@ bool Line::intersect(const FrustumVolume &frustum ,
     Pnt3f pointA,pointB;
                     
     if (!planes[0].intersectInfinite(lines[0],pointA))
-        cout << "This should never happen (A)!!!!";
+        std::cout << "This should never happen (A)!!!!";
                     
     if (!planes[1].intersectInfinite(lines[1],pointB))
-        cout << "This should never happen (B)!!!!";
+        std::cout << "This should never happen (B)!!!!";
 
     faces[0].point = pointA; faces[0].inner_vector = pointB - pointA;
     faces[1].point = pointB; faces[1].inner_vector = pointA - pointB;

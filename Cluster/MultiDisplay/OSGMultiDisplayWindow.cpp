@@ -103,7 +103,7 @@ void MultiDisplayWindow::dump(      UInt32    ,
                               const BitVector ) const
 {
     SLOG << "hServers:" << getHServers() << " "
-         << "vServers:" << getVServers() << endl;
+         << "vServers:" << getVServers() << std::endl;
 }
 
 /*----------------------------- server methods ----------------------------*/

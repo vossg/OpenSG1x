@@ -86,11 +86,11 @@ OSG_USING_NAMESPACE
  * \param servicePort     port to wait for connections
  *
  */
-ClusterServer::ClusterServer(WindowPtr window,
-                             const string &serviceName,
-                             const string &connectionType,
-                             const string &address,
-                             UInt32 servicePort):
+ClusterServer::ClusterServer(           WindowPtr  window,
+                             const std::string    &serviceName,
+                             const std::string    &connectionType,
+                             const std::string    &address,
+                                        UInt32    servicePort):
     _window(window),
     _connection(NULL),
     _address(address),
@@ -147,7 +147,7 @@ void ClusterServer::start()
     _connection = ConnectionFactory::the().create(_connectionType);
     if(_connection == NULL)
     {
-        SFATAL << "Unknown connection type " << _connectionType << endl;
+        SFATAL << "Unknown connection type " << _connectionType << std::endl;
         return;
     }
 
@@ -195,7 +195,9 @@ void ClusterServer::start()
         _connection->getValue(forceNetworkOrder);
         _connection->setNetworkOrder(forceNetworkOrder);
         _serviceAvailable=false;
-        SINFO << "Connection accepted " << _address << endl;
+
+        SINFO << "Connection accepted " << _address << std::endl;
+
         Thread::join(serviceThread);
     } 
     catch(...)
@@ -260,7 +262,8 @@ void ClusterServer::render(RenderAction *action)
             _serverId++);
         // server connected and cluster window found
         SINFO << "Start server " << _serviceName 
-              << " with id " << _serverId << endl;
+              << " with id "     << _serverId 
+              << std::endl;
         // initialize server window 
         _clusterWindow->setConnection(_connection);
         _clusterWindow->setRemoteAspect(_aspect);
@@ -288,7 +291,7 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
         if(window->getServers().find(_serviceName) == 
            window->getServers().end())
         {
-            SWARNING << "wrong window" << endl;
+            SWARNING << "wrong window" << std::endl;
         }
         else
         {
@@ -315,62 +318,82 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
 
 void *ClusterServer::serviceProc(void *arg)
 {
-    ClusterServer   *server=static_cast<ClusterServer*>(arg);
-    BinaryMessage    msg;
-    DgramSocket      serviceSock;
-    SocketAddress    addr;
-    string           service;
-    string           connectionType;
-    int              readable;
+    ClusterServer *server = static_cast<ClusterServer *>(arg);
+    BinaryMessage  msg;
+    DgramSocket    serviceSock;
+    SocketAddress  addr;
+    std::string    service;
+    std::string    connectionType;
+    UInt32         readable;
 
-    SINFO << "Waiting for request of " << server->_serviceName << " "
-          << server->_connection->getType()->getName() << endl;
+    SINFO << "Waiting for request of "
+          << server->_serviceName
+          << " "
+          << server->_connection->getType()->getName()
+          << std::endl;
+
     try
     {
         serviceSock.open();
         serviceSock.setReusePort(true);
         serviceSock.bind(SocketAddress(SocketAddress::ANY,
                                        server->_servicePort));
+
         while(server->_serviceAvailable)
         {        
             try
             {
                 do
                 {
-                    readable=serviceSock.waitReadable(.1);
+                    readable = serviceSock.waitReadable(.1);
                 }
-                while( (!readable) &&
-                       (server->_serviceAvailable) );
+                while((readable                  == false) && 
+                      (server->_serviceAvailable == true )  );
+
                 if(readable)
                 {
                     serviceSock.recvFrom(msg,addr);
-                    service       =msg.getString();
-                    connectionType=msg.getString();
-                    SINFO << "Request for " << service << " " 
-                          << connectionType << endl;
-                    if(service        == server->_serviceName &&
-                       connectionType == server->_connection->getType()->getName())
+
+                    service        = msg.getString();
+                    connectionType = msg.getString();
+
+                    SINFO << "Request for " 
+                          << service << " " 
+                          << connectionType 
+                          << std::endl;
+
+                    if(service        == 
+                                     server->_serviceName                    &&
+                       connectionType == 
+                                     server->_connection->getType()->getName())
                     {
-                        msg.clear();
-                        msg.putString(service);
+                        msg.clear    (                );
+                        msg.putString(service         );
                         msg.putString(server->_address);
-                        serviceSock.sendTo(msg,addr);
-                        SINFO << "Response " << server->_address << endl;
+
+                        serviceSock.sendTo(msg, addr);
+
+                        SINFO << "Response " 
+                              << server->_address 
+                              << std::endl;
                     }
                 }
             }
             catch(exception &e)
             {
-                SWARNING << e.what() << endl;
+                SWARNING << e.what() << std::endl;
             }
         }
+
         serviceSock.close();
     }
     catch(exception &e)
     {
-        SFATAL << e.what() << ": Server is now unknown" << endl;
+        SFATAL << e.what() << ": Server is now unknown" << std::endl;
     }
-    SINFO << "Stop service thread" << endl;
+
+    SINFO << "Stop service thread" << std::endl;
+
     return NULL;
 }
 

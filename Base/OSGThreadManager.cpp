@@ -340,12 +340,12 @@ bool ThreadManager::init(void)
 
     if(_pArena == NULL)
     {
-        SFATAL << "OSGTM : could not initialize arena " << errno << endl;
+        SFATAL << "OSGTM : could not initialize arena " << errno << std::endl;
         returnValue = false;
     }
     else
     {
-        SINFO << "OSGTM : got arena " << _pArena << endl;
+        SINFO << "OSGTM : got arena " << _pArena << std::endl;
     }
 #endif
 
@@ -359,13 +359,13 @@ bool ThreadManager::init(void)
     
     if(_storePLock == NULL)
     {
-        SFATAL << "OSGTM : could not get table lock" << endl;
+        SFATAL << "OSGTM : could not get table lock" << std::endl;
 
         returnValue = false;
     }
     else
     {
-        SINFO << "OSGTM : got table lock " << _storePLock << endl;
+        SINFO << "OSGTM : got table lock " << _storePLock << std::endl;
     }
 
     if(_szAppThreadType == NULL)

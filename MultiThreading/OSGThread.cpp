@@ -197,7 +197,7 @@ bool PThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
+        SFATAL << "OSGPTB : invalid aspect id" << std::endl;
         return false;
     }
 
@@ -391,7 +391,7 @@ bool SprocBase::runFunction(ThreadFuncF  fThreadFunc,
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
+        SFATAL << "OSGPTB : invalid aspect id" << std::endl;
         return false;
     }
 
@@ -524,7 +524,7 @@ bool WinThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
+        SFATAL << "OSGPTB : invalid aspect id" << std::endl;
         return false;
     }
 

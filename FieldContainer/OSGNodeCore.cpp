@@ -87,37 +87,37 @@ void NodeCore::dump(      UInt32    uiIndent,
 
     PLOG << "Core"
          << "("
-         << dec
+         << std::dec
          << thisP.getFieldContainerId()
          << ") : " << getType().getName()
          << " "
          << _attachmentMap.getValue().size()
          << " attachments | "
          << this
-         << endl;
+         << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "[" << endl;
+    PLOG << "[" << std::endl;
 
     indentLog(uiIndent + 4, PLOG);
-    PLOG << "Parents : " << endl;
+    PLOG << "Parents : " << std::endl;
 
     for(i = 0; i < _parents.size(); i++)
     {
         indentLog(uiIndent + 4, PLOG);
-        PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
+        PLOG << "           " << i << ") " << &(*(_parents[i])) << std::endl;
     }
 
     indentLog(uiIndent, PLOG);
-    PLOG << "]" << endl;
+    PLOG << "]" << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     Inherited::dump(uiIndent, bvFlags);
 
     indentLog(uiIndent, PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

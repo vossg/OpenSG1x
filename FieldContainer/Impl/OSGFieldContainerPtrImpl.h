@@ -722,8 +722,8 @@ class ConstFCPtr : public BasePtrTypeT
 #endif
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &operator <<(      ostream           &os,
-                     const FieldContainerPtr &fc);
+std::ostream &operator <<(      std::ostream      &os,
+                          const FieldContainerPtr &fc);
 
 extern OSG_SYSTEMLIB_DLLMAPPING const NullFieldContainerPtr NullFC;
 

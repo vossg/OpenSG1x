@@ -60,7 +60,7 @@ class OSG_BASE_DLLMAPPING StringTokenizer
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    StringTokenizer(string &toTokens);
+    StringTokenizer(std::string &toTokens);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -74,10 +74,10 @@ class OSG_BASE_DLLMAPPING StringTokenizer
     /*! \name                   your_category                              */
     /*! \{                                                                 */
    
-    bool   hasNext    (void            );
-    string getNext    (void            );
-    void   setString  (string &toTokens);
-    UInt32 countTokens(void            );
+    bool        hasNext    (void                 );
+    std::string getNext    (void                 );
+    void        setString  (std::string &toTokens);
+    UInt32      countTokens(void                 );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -92,17 +92,18 @@ class OSG_BASE_DLLMAPPING StringTokenizer
     /*! \name                      Helper                                  */
     /*! \{                                                                 */
 
-    void nextTokenPos(string::size_type& start, string::size_type& end);
+    void nextTokenPos(std::string::size_type &start, 
+                      std::string::size_type &end);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
     
-    bool              _hasNext;
-    string&           _tokenString;
-    string            _nextToken;
-    string::size_type _currPos;
+    bool                    _hasNext;
+    std::string            &_tokenString;
+    std::string             _nextToken;
+    std::string::size_type  _currPos;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -117,7 +118,7 @@ class OSG_BASE_DLLMAPPING StringTokenizer
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGTOKENIZER_HEADER_CVSID "@(#)$Id: OSGStringTokenizer.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
+#define OSGSTRINGTOKENIZER_HEADER_CVSID "@(#)$Id: OSGStringTokenizer.h,v 1.4 2002/09/02 07:04:34 vossg Exp $"
 
 #include "OSGStringTokenizer.inl"
 

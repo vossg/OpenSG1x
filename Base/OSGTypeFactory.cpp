@@ -75,14 +75,14 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
 
     if(pType == NULL)
     {
-		SWARNING << "no data store given" << endl;
+		SWARNING << "no data store given" << std::endl;
 
 		return returnValue;        
     }
 
 	if(pType->getName().isEmpty() == true) 
     {
-		SWARNING << "DataElementType without name" << endl;
+		SWARNING << "DataElementType without name" << std::endl;
 
 		return returnValue;
 	}
@@ -97,14 +97,14 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
             SWARNING << "ERROR: Can't add a second "
                      << "type with the name " << pType->getCName() 
                      << "(" << pType << ")"
-                     << endl;
+                     << std::endl;
         }
         else
         {
             SWARNING << "Do not run ctr twice "
                      << "type with the name " << pType->getCName() 
                      << "(" << pType << ")"
-                     << endl;
+                     << std::endl;
 
 
 ///            findType(uiTypeId)->dump();
@@ -123,7 +123,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     {
         _vTypeNameMaps.push_back(new TypeNameMap);
 
-        PINFO << "Added namespace : " << _vTypeNameMaps.size() << endl;
+        PINFO << "Added namespace : " << _vTypeNameMaps.size() << std::endl;
     }
 
     (*(_vTypeNameMaps[pType->getNameSpace()]))
@@ -133,7 +133,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
           << " | "              << returnValue 
           << "("                << pType 
           << ")"
-          << endl;
+          << std::endl;
 
     return returnValue;
 }

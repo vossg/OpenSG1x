@@ -108,17 +108,17 @@ enum LogModuleHandling
  *         plattforms
  */
 
-class OSG_BASE_DLLMAPPING LogOStream : public ostream
+class OSG_BASE_DLLMAPPING LogOStream : public std::ostream
 {
   public:
 
-    LogOStream(streambuf *buf) : ostream(buf) {};
+    LogOStream(std::streambuf *buf) : std::ostream(buf) {};
     virtual ~LogOStream(void) {};
 
 #ifdef OSG_STREAM_RDBUF_HAS_PARAM
-    void setrdbuf(streambuf *buf) { ostream::rdbuf(buf); };
+    void setrdbuf(std::streambuf *buf) { std::ostream::rdbuf(buf); };
 #else
-    void setrdbuf(streambuf *buf) { bp = buf; };
+    void setrdbuf(std::streambuf *buf) { bp = buf; };
 #endif
 };
 
@@ -127,7 +127,7 @@ class OSG_BASE_DLLMAPPING LogOStream : public ostream
  *         which can ge fetched by a application (e.g. gui)
  */
 
-class OSG_BASE_DLLMAPPING LogBuf : public streambuf
+class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
 {
 
 public:
@@ -184,7 +184,7 @@ private:
 
   bool _enabled;
  
-  list<Chunk*> _chunkBag;
+  std::list<Chunk*> _chunkBag;
   
   Callback _callback;
   void* _clientData; 
@@ -206,7 +206,7 @@ private:
  *  \brief Message logger class, handles info,warning and error messages
  */
 
-class OSG_BASE_DLLMAPPING Log : public ostream
+class OSG_BASE_DLLMAPPING Log : public std::ostream
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -272,13 +272,13 @@ class OSG_BASE_DLLMAPPING Log : public ostream
 
     inline LogBuf & getLogBuf(void);
 
-    inline ostream &stream   (LogLevel level);
-    inline ostream &nilstream(void);
+    inline std::ostream &stream   (LogLevel level);
+    inline std::ostream &nilstream(void);
 
-    inline ostream &doHeader (LogLevel  level,
-                              const Char8    *module,
-                              const Char8    *file,
-                                    UInt32    line);
+    inline std::ostream &doHeader (      LogLevel  level,
+                                   const Char8    *module,
+                                   const Char8    *file,
+                                          UInt32   line);
 
     void  doLog (const char * format, ...);
 
@@ -295,7 +295,7 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     /*! \}                                                                 */
   private:
 
-    typedef ostream Inherited;
+    typedef std::ostream Inherited;
 
     friend OSG_BASE_DLLMAPPING void doInitLog(void);
 
@@ -305,25 +305,25 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     /*! \name                     Fields                                   */
     /*! \{                                                                 */
     
-    class OSG_BASE_DLLMAPPING nilbuf : public streambuf {};
+    class OSG_BASE_DLLMAPPING nilbuf : public std::streambuf {};
 
-    static nilbuf  *_nilbufP;
-    static ostream *_nilstreamP;
+    static nilbuf       *_nilbufP;
+    static std::ostream *_nilstreamP;
 
     static const char *_levelName[];
 
-    LogType     _logType;
-    LogLevel    _logLevel;
+    LogType      _logType;
+    LogLevel     _logLevel;
 
-    fstream     _fileStream;
+    std::fstream _fileStream;
 
-    LogBuf      _logBuf;
+    LogBuf       _logBuf;
 
-    LogOStream *_streamVec[6];
+    LogOStream  *_streamVec[6];
 
-    UInt32      _headerElem;
+    UInt32       _headerElem;
 
-    UInt32      _moduleHandling;
+    UInt32       _moduleHandling;
 
     struct Module
     {
@@ -333,7 +333,7 @@ class OSG_BASE_DLLMAPPING Log : public ostream
         Module() : name(NULL), isStatic(true) {}
     };
 
-    list<Module> _moduleList;
+    std::list<Module> _moduleList;
 
     Time _refTime;
     
@@ -362,16 +362,17 @@ typedef Log *LogP;
 extern OSG_BASE_DLLMAPPING LogP osgLogP;
 
 
-       OSG_BASE_DLLMAPPING void     doInitLog  (void);
-inline OSG_BASE_DLLMAPPING void     initLog    (void);
-inline OSG_BASE_DLLMAPPING Log     &osgLog     (void);
-inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      bool      logHeader,
-                                                      LogLevel  level,
-                                                const Char8    *module,
-                                                const Char8    *file,
-                                                      UInt32    line);
-inline OSG_BASE_DLLMAPPING void  indentLog     (UInt32   indent,
-                                                ostream &stream);
+       OSG_BASE_DLLMAPPING void          doInitLog  (void);
+inline OSG_BASE_DLLMAPPING void          initLog    (void);
+inline OSG_BASE_DLLMAPPING Log          &osgLog     (void);
+inline OSG_BASE_DLLMAPPING std::ostream &osgStartLog(      bool      logHeader,
+                                                           LogLevel  level,
+                                                     const Char8    *module,
+                                                     const Char8    *file,
+                                                           UInt32    line);
+
+inline OSG_BASE_DLLMAPPING void          indentLog  (      UInt32    indent,
+                                                     std::ostream   &stream);
 
 #define SLOG \
 osgStartLog(true,OSG::LOG_LOG,OSG_LOG_MODULE, __FILE__, __LINE__)
@@ -481,7 +482,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
       << OSG_LOG_MODULE << ':' << __FILE__ << ':' << __LINE__ \
       << "FATAL ASSERT: " \
       << (doExit ? "exit system" : "try to keep running") \
-      << flush << endl; \
+      << std::flush << std::endl; \
     osg::osgLog().unlock(); \
       if (doExit) \
             exit(-1); \
@@ -497,7 +498,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
       << OSG_LOG_MODULE << ':' << __FILE__ << ':' << __LINE__ \
       << "FATAL ASSERT: " \
       << (doExit ? "exit system" : "try to keep running") \
-      << flush << endl; \
+      << std::flush << std::endl; \
       OSG::osgLogP->doLog par \
     OSG::osgLog().unlock(); \
       if (doExit) \
@@ -505,7 +506,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
     } \
 } \
 
-inline OSG_BASE_DLLMAPPING ostream &endLog(ostream &strm);
+inline OSG_BASE_DLLMAPPING std::ostream &endLog(std::ostream &strm);
 
 OSG_END_NAMESPACE
 

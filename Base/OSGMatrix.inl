@@ -978,7 +978,7 @@ void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
 
     if( w < Eps && w > -Eps)
     {
-        SINFO << "multFullMatrixPnt: w < Eps!" << endl;
+        SINFO << "multFullMatrixPnt: w < Eps!" << std::endl;
 
         dst.setValues(0, 0, 0);
 
@@ -1123,7 +1123,7 @@ void TransformationMatrix<ValueTypeT>::multPntFullMatrix(
 
     if( w < Eps && w > -Eps)
     {
-        SINFO << "multFullMatrixPnt: w < Eps!" << endl;
+        SINFO << "multFullMatrixPnt: w < Eps!" << std::endl;
 
         dst.setValues(0, 0, 0);
 
@@ -2686,8 +2686,8 @@ bool TransformationMatrix<ValueTypeT>::jacobi(
 //! write matrix to stream
 
 template<class ValueTypeT> inline
-ostream &operator <<(      ostream                          &os,
-                     const TransformationMatrix<ValueTypeT> &obj)
+std::ostream &operator <<(      std::ostream                     &os,
+                          const TransformationMatrix<ValueTypeT> &obj)
 {
     UInt32 i;
     UInt32 j;

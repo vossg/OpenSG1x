@@ -183,7 +183,8 @@ void ClusterViewBuffer::recv(Connection &connection)
                     componentCnt = 4;
                     break;
                 default:
-                    SFATAL << "Component combination not supported" << endl;
+                    SFATAL << "Component combination not supported"
+                           << std::endl;
                     return;
             }
             connection.getValue(dataSize);
@@ -269,7 +270,7 @@ void ClusterViewBuffer::send(Connection &connection,
             componentCnt = 4;
             break;
         default:
-            SFATAL << "Component combination not supported" << endl;
+            SFATAL << "Component combination not supported" << std::endl;
             return;
     }
     // resize image buffer
@@ -364,7 +365,7 @@ void ClusterViewBuffer::send(Connection &connection,
     connection.flush();
     connection.selectChannel();
     connection.getValue(sync);
-    cout << "IMG size" << imgtranssize << endl;
+    std::cout << "IMG size" << imgtranssize << std::endl;
 
 }
 

@@ -141,17 +141,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*==========================  PRIVATE  ================================*/
 private:
 
-    static ImageFileHandler            *_the;
+    static ImageFileHandler             *_the;
 
-    map    <IDString, ImageFileType *>  _suffixTypeMap;
+    std::map<IDString, ImageFileType *>  _suffixTypeMap;
 
     static bool addImageFileType (ImageFileType &fileType);
 
     PathHandler* _pPathHandler;
 
-    static const string _fileNameKey;
+    static const std::string _fileNameKey;
 
-    static const string _fullFilePathKey;
+    static const std::string _fullFilePathKey;
 
     /* prohibit default function (move to 'public' if needed) */
     ImageFileHandler(const ImageFileHandler &obj);

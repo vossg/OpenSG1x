@@ -71,7 +71,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    OSGWriter(ostream &stream, UInt32 indentStep=4);
+    OSGWriter(std::ostream &stream, UInt32 indentStep=4);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -85,8 +85,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    void write(FieldContainerPtr         container );
-    void write(vector<FieldContainerPtr> containers);
+    void write(            FieldContainerPtr  container );
+    void write(std::vector<FieldContainerPtr> containers);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -97,25 +97,25 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 
     struct FCInfoHelper
     {
-        bool   written;
-        bool   hasName;
-        string containerName;
+        bool        written;
+        bool        hasName;
+        std::string containerName;
         
-	void   setName(const FieldContainerPtr pFC);
+        void        setName      (const FieldContainerPtr pFC);
 		             
         FCInfoHelper(void);
     };
     
-    typedef map<FieldContainerPtr, FCInfoHelper> FCInfoHelperMap;
+    typedef std::map<FieldContainerPtr, FCInfoHelper> FCInfoHelperMap;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    FCInfoHelperMap               _visitedFCMap;
-    StandardStringConversionState _state;
-    Indenter                      _indent;
-    ostream&                      _outStream;
+    FCInfoHelperMap                _visitedFCMap;
+    StandardStringConversionState  _state;
+    Indenter                       _indent;
+    std::ostream                  &_outStream;
 
     void visitContainer(const FieldContainerPtr pFC      );
     void visitField    (const Field*            pF       );
@@ -136,7 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 
 OSG_END_NAMESPACE
 
-#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.7 2002/02/22 16:46:42 neumannc Exp $"
+#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.8 2002/09/02 07:04:34 vossg Exp $"
     
 #endif /* _OSGOSGWRITER_H_ */
 

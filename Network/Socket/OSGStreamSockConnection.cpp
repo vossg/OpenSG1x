@@ -164,7 +164,7 @@ void StreamSockConnection::read(MemoryHandle mem,UInt32 size)
     len=_readSocket.recv(mem,size);
     if(len==0)
     {
-        cout << size << endl;
+        std::cout << size << std::endl;
         throw ReadError("read got 0 bytes!");
     }
 }
@@ -239,12 +239,12 @@ void StreamSockConnection::writeBuffer(void)
  * \param address    Port number
  *
  **/
-string StreamSockConnection::bind( const string &address )
+std::string StreamSockConnection::bind(const std::string &address)
 {
-    char localhost[256];
-    char boundAddress[270];
-    string host;
-    UInt32 port=0;
+    char        localhost   [256];
+    char        boundAddress[270];
+    std::string host;
+    UInt32      port = 0;
 
     if(!address.empty())
     {
@@ -278,10 +278,10 @@ void StreamSockConnection::accept( void )
  * @param address    Host:Port
  *
  **/
-void StreamSockConnection::connect( const string &address )
+void StreamSockConnection::connect(const std::string &address)
 {
-    string host;
-    UInt32 port;
+    std::string  host;
+    UInt32       port;
     StreamSocket socket;
 
     interpreteAddress(address,host,port);
@@ -374,7 +374,7 @@ Connection *StreamSockConnection::create(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-/** \brief Interprete an address string
+/** \brief Interprete an address std::string
  *
  * Hoststring syntax is host:port or :port or port
  *
@@ -382,9 +382,9 @@ Connection *StreamSockConnection::create(void)
  * \param host     Hostname
  * \param port     Port number
  **/
-void StreamSockConnection::interpreteAddress(const string &address,
-                                             string       &host,
-                                             UInt32       &port)
+void StreamSockConnection::interpreteAddress(const std::string &address,
+                                                   std::string &host,
+                                                   UInt32      &port)
 {
     UInt32 pos=address.find(':',0);
     
@@ -395,7 +395,7 @@ void StreamSockConnection::interpreteAddress(const string &address,
     }
     else
     {
-        string::const_iterator i;
+        std::string::const_iterator i;
         for(i =address.begin();
             i!=address.end() && isdigit(*i);
             i++);

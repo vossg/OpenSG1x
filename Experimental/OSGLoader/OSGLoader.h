@@ -69,7 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
   private:
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel    > Inherited;
-    typedef map                     <string, 
+    typedef std::map                <std::string, 
                                      FieldContainerPtr> NamedFCMap;
     typedef OSGLoader                                   Self;
 
@@ -124,10 +124,10 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    virtual NodePtr                   getRootNode (void);
-    virtual vector<FieldContainerPtr> getRootNodes(void);
+    virtual      NodePtr                   getRootNode (void);
+    virtual std::vector<FieldContainerPtr> getRootNodes(void);
 
-    virtual FieldContainerPtr         getReference (const Char8 *szName);
+    virtual      FieldContainerPtr         getReference (const Char8 *szName);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -137,17 +137,17 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-          FieldContainerPtr                _pCurrentFC;
-          NodePtr                          _pRootNode;
-          Field                           *_pCurrentField;
-    const FieldDescription                *_pCurrentFieldDesc;
-          NamedFCMap                       _defMap;
+          FieldContainerPtr                     _pCurrentFC;
+          NodePtr                               _pRootNode;
+          Field                                *_pCurrentField;
+    const FieldDescription                     *_pCurrentFieldDesc;
+          NamedFCMap                            _defMap;
 
-          stack<      FieldContainerPtr >  _fcStack;
-          stack<      Field            *>  _fStack;
-          stack<const FieldDescription *>  _fdStack;
+          std::stack<      FieldContainerPtr >  _fcStack;
+          std::stack<      Field            *>  _fStack;
+          std::stack<const FieldDescription *>  _fdStack;
           
-          PathHandler                      _pathHandler;
+          PathHandler                           _pathHandler;
 
 
     void              initFieldTypeMapper   (      void                      );

@@ -1167,8 +1167,8 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-ostream &operator <<(ostream                                   &os,
-                     const   PointInterface<ValueTypeT,
+std::ostream &operator <<(        std::ostream                 &os,
+                          const   PointInterface<ValueTypeT,
                                             StorageInterfaceT> &obj)
 {
 
@@ -1773,8 +1773,8 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-ostream &operator <<(        ostream                            &os,
-                     const   VectorInterface<ValueTypeT,
+std::ostream &operator <<(        std::ostream                  &os,
+                          const   VectorInterface<ValueTypeT,
                                              StorageInterfaceT> &obj)
 {
     UInt32 i;

@@ -271,12 +271,12 @@ class Color4
 
 
 template <class ValueTypeT>
-ostream &operator <<(      ostream            &outStream,
-                     const Color3<ValueTypeT> &color);
+std::ostream &operator <<(      std::ostream       &outStream,
+                          const Color3<ValueTypeT> &color);
 
 template <class ValueTypeT>
-ostream &operator <<(      ostream            &outStream,
-                     const Color4<ValueTypeT> &color);
+std::ostream &operator <<(      std::ostream       &outStream,
+                          const Color4<ValueTypeT> &color);
 
 /*! \var Color3<Real32> Color3f;
  *  \ingroup BaseColors

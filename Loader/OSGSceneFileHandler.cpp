@@ -125,7 +125,7 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
     const Char8                  separator = '.';
           SceneFileType         *type = NULL;
           FileTypeMap::iterator  sI;
-          ifstream               fin;
+          std::ifstream          fin;
 
     if(fileName)
     {
@@ -156,7 +156,7 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
 #pragma warning (disable : 383)
 #endif
 
-Int32 SceneFileHandler::getSuffixList(list<const char *> & suffixList)
+Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList)
 {
     Int32                 count = 0;
     FileTypeMap::iterator sI;
@@ -204,30 +204,30 @@ NodePtr SceneFileHandler::readOptReplace(const Char8  *fileName,
 
     if(! fileName)
     {
-        SWARNING << "cannot read NULL file" << endl;
+        SWARNING << "cannot read NULL file" << std::endl;
         return node;
     }
 
     if (type)
     {
         SINFO << "try to read " << fileName
-              << " as "         << type->getName() << endl;
+              << " as "         << type->getName() << std::endl;
 
         node = type->read(fileName, uiReplaceOptions);
 
         if (node != NullFC)
         {
-            SINFO    << "read ok:"        << endl;
+            SINFO    << "read ok:"        << std::endl;
         }
         else
         {
-            SWARNING << "could not read " << endl;
+            SWARNING << "could not read " << std::endl;
         }
     }
     else
     {
         SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << endl;
+                 << "; unknown file format" << std::endl;
     }
 
     return node;
@@ -242,30 +242,30 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
 
     if(! fileName)
     {
-        SWARNING << "cannot read NULL file" << endl;
+        SWARNING << "cannot read NULL file" << std::endl;
         return node;
     }
 
     if (type)
     {
         SINFO << "try to read " << fileName
-              << " as "         << type->getName() << endl;
+              << " as "         << type->getName() << std::endl;
 
         node = type->read(fileName, uiAddOptions, uiSubOptions);
 
         if (node != NullFC)
         {
-            SINFO    << "read ok:"        << endl;
+            SINFO    << "read ok:"        << std::endl;
         }
         else
         {
-            SWARNING << "could not read " << endl;
+            SWARNING << "could not read " << std::endl;
         }
     }
     else
     {
         SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << endl;
+                 << "; unknown file format" << std::endl;
     }
 
     return node;
@@ -297,18 +297,19 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodesOptReplace(
           UInt32  uiReplaceOptions)
 {
     SceneFileType *type = getFileType(fileName);
-    vector<FieldContainerPtr> nodeVec;
+
+    std::vector<FieldContainerPtr> nodeVec;
 
     if(! fileName)
     {
-        SWARNING << "cannot read NULL file" << endl;
+        SWARNING << "cannot read NULL file" << std::endl;
         return nodeVec;
     }
 
     if (type)
     {
         SINFO << "try to read " << fileName
-              << " as "         << type->getName() << endl;
+              << " as "         << type->getName() << std::endl;
 
         nodeVec = type->readTopNodes(fileName, uiReplaceOptions);
 
@@ -316,16 +317,16 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodesOptReplace(
         {
             if( nodeVec[i] == NullFC )
             {
-                SWARNING << "could not read node " << i << endl;
+                SWARNING << "could not read node " << i << std::endl;
                 return nodeVec;
             }
         }
-        SWARNING << "read ok. " << endl;
+        SWARNING << "read ok. " << std::endl;
     }
     else
     {
         SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << endl;
+                 << "; unknown file format" << std::endl;
     }
 
     return nodeVec;
@@ -337,18 +338,19 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
            UInt32  uiSubOptions)
 {
     SceneFileType *type = getFileType(fileName);
-    vector<FieldContainerPtr> nodeVec;
+
+    std::vector<FieldContainerPtr> nodeVec;
 
     if(! fileName)
     {
-        SWARNING << "cannot read NULL file" << endl;
+        SWARNING << "cannot read NULL file" << std::endl;
         return nodeVec;
     }
 
     if (type)
     {
         SINFO << "try to read " << fileName
-              << " as "         << type->getName() << endl;
+              << " as "         << type->getName() << std::endl;
 
         nodeVec = type->readTopNodes(fileName, uiAddOptions, uiSubOptions);
 
@@ -356,16 +358,16 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
         {
             if( nodeVec[i] == NullFC )
             {
-                SWARNING << "could not read node " << i << endl;
+                SWARNING << "could not read node " << i << std::endl;
                 return nodeVec;
             }
         }
-        SWARNING << "read ok. " << endl;
+        SWARNING << "read ok. " << std::endl;
     }
     else
     {
         SWARNING << "could not read "       << fileName
-                 << "; unknown file format" << endl;
+                 << "; unknown file format" << std::endl;
     }
 
     return nodeVec;
@@ -397,12 +399,12 @@ bool SceneFileHandler::write ( const NodePtr node, const Char8 *fileName )
     SceneFileType *type = getFileType(fileName);
 
     if (type) {
-        SINFO << "try to write " << fileName << " as " << type->getName() << endl;
+        SINFO << "try to write " << fileName << " as " << type->getName() << std::endl;
         retCode = type->write(node,fileName);
     }
     else
         SWARNING << "can't write " << fileName << "; unknown scene format"
-                         << endl;
+                         << std::endl;
 
     return retCode;
 }
@@ -433,9 +435,9 @@ void SceneFileHandler::print (void )
 
     for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
     {
-        cerr << "suffix: " << sI->first.str()
-             << ", type: " << sI->second->front()->getName()
-             << endl;
+        std::cerr << "suffix: " << sI->first.str()
+                  << ", type: " << sI->second->front()->getName()
+                  << std::endl;
     }
 }
 
@@ -493,8 +495,8 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 {
     bool retCode = false;
 
-    list<IDString>::iterator sI;
-    FileTypeMap   ::iterator smI;
+    std::list<IDString>::iterator sI;
+         FileTypeMap   ::iterator smI;
 
     IDString suffix;
 
@@ -530,7 +532,7 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
                 SWARNING << "Added an file type with suffix "
                          << suffix
                          << " overriding "
-                         << endl;
+                         << std::endl;
             }
             else
             {
@@ -539,7 +541,7 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
                 SWARNING << "Added an file type with suffix "
                          << suffix
                          << " non overriding at the end of the list"
-                         << endl;
+                         << std::endl;
             }
         }
         else
@@ -622,7 +624,7 @@ SceneFileHandler::SceneFileHandler (void )
 //------------------------------
 SceneFileHandler::SceneFileHandler (const SceneFileHandler & )
 {
-    SWARNING << "In copy constructor; I shouldn't be in this corner" << endl;
+    SWARNING << "In copy constructor; I shouldn't be in this corner" << std::endl;
 }
 
 //----------------------------

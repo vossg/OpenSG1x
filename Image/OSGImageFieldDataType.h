@@ -73,17 +73,17 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
                                    const Char8   *&inVal)
     {
         outVal = new Image();
-        cerr << "Reading from File: " << inVal;
-        cerr << " " << outVal->read( inVal ) << endl;
+        std::cerr << "Reading from File: " << inVal;
+        std::cerr << " " << outVal->read( inVal ) << std::endl;
         return true;
     }
 
     //This image into a file and returns the name in outStr
-    static void             putToString(const ImageP &inVal,
-                                              string &outStr)
+    static void             putToString(const      ImageP &inVal,
+                                              std::string &outStr)
     {
-		string fileName;
-        static UInt32 counter = 0;
+		       std::string fileName;
+        static      UInt32 counter = 0;
 
 		if(inVal != NULL)
 		{

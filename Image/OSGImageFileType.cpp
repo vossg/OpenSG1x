@@ -103,7 +103,7 @@ ImageFileType::ImageFileType(const Char8 *suffixArray[], UInt16 suffixByteCount)
 {
     Int32              suffixCount = suffixByteCount / sizeof(const Char8 *);
     Int32              i = 0;
-    list<IDString>::iterator sI;
+    std::list<IDString>::iterator sI;
 
     _suffixList.resize(suffixCount);
     for(sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
@@ -125,7 +125,7 @@ ImageFileType::ImageFileType(const Char8 *suffixArray[], UInt16 suffixByteCount)
 ImageFileType::ImageFileType(const ImageFileType &obj) :
     _suffixList(obj._suffixList)
 {
-    SWARNING << "In ImageFileType copy constructor" << endl;
+    SWARNING << "In ImageFileType copy constructor" << std::endl;
 }
 
 //----------------------------------------------------------------------
@@ -333,6 +333,7 @@ UInt64 ImageFileType::maxBufferSize(const Image &image)
 {
   unsigned long size, attachmentSize, l;
   unsigned long imageSize = image.getSize(), headSize = sizeof(Head);
+
   std::map<std::string, std::string>::const_iterator aI;
 
   attachmentSize = 0;
@@ -360,9 +361,10 @@ UInt64 ImageFileType::maxBufferSize(const Image &image)
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
+
 void ImageFileType::print(void)
 {
-    list<IDString>::iterator    sI;
+    std::list<IDString>::iterator    sI;
 
     SLOG << getMimeType();
 
@@ -375,5 +377,5 @@ void ImageFileType::print(void)
         }
     }
 
-    cerr << endl;
+    std::cerr << std::endl;
 }

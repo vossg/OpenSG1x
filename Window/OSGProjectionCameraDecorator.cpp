@@ -103,7 +103,7 @@ void ProjectionCameraDecorator::changed(BitVector whichField, UInt32 origin)
 void ProjectionCameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump ProjectionCameraDecorator NI" << endl;
+    SLOG << "Dump ProjectionCameraDecorator NI" << std::endl;
 }
 
 //! update dependent data
@@ -306,7 +306,7 @@ static bool hack = true;
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.6 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.7 2002/09/02 07:05:14 vossg Exp $";
     static char cvsid_hpp[] = OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGPROJECTIONCAMERADECORATOR_INLINE_CVSID;
 }

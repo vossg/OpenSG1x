@@ -158,7 +158,7 @@ void TransformChunk::changed(BitVector whichField, UInt32 origin)
 void TransformChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                           const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump TransformChunk NI" << endl;
+    SLOG << "Dump TransformChunk NI" << std::endl;
 }
 
 

@@ -196,8 +196,8 @@ void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 //! Dump the field to a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-string &SField<FieldTypeT, 
-               fieldNameSpace>::getValueByStr(string &str) const
+std::string &SField<FieldTypeT, 
+                    fieldNameSpace>::getValueByStr(std::string &str) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
                              Traits::ToStringConvertable), 
@@ -210,17 +210,17 @@ string &SField<FieldTypeT,
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-string &SField<FieldTypeT, 
-               fieldNameSpace>::getValueByStr(string                    &str,
-                                              StringConversionStateBase &state)
-                                                                          const
+std::string &SField<FieldTypeT, 
+                    fieldNameSpace>::getValueByStr(
+                        std::string               &str,
+                        StringConversionStateBase &state) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
                              Traits::ToStringConvertable), 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
-    string valStr;
+    std::string valStr;
 
     state.beginField(this, str);
 
@@ -288,7 +288,7 @@ void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 {
-//    cerr << "Dump Field : " << _value << endl;
+//    std::cerr << "Dump Field : " << _value << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -71,7 +71,7 @@ A perspective camera with a symmetric frustum.
  *                           Class variables                               *
 \***************************************************************************/
 
-char MatrixCamera::cvsid[] = "@(#)$Id: OSGMatrixCamera.cpp,v 1.4 2002/08/07 04:04:13 vossg Exp $";
+char MatrixCamera::cvsid[] = "@(#)$Id: OSGMatrixCamera.cpp,v 1.5 2002/09/02 07:05:14 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -155,7 +155,7 @@ void MatrixCamera::changed(BitVector whichField, UInt32 origin)
 void MatrixCamera::dump(      UInt32     OSG_CHECK_ARG(uiIndent), 
                          const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
-	SLOG << "Dump MatrixCamera NI" << endl;
+	SLOG << "Dump MatrixCamera NI" << std::endl;
 }
 
 void MatrixCamera::draw( DrawAction *    OSG_CHECK_ARG(action), 

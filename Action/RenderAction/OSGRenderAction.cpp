@@ -101,8 +101,8 @@ RenderAction *RenderAction::_pPrototype = NULL;
 /*! \brief Default functors for instantiation
  */
 
-vector<Action::Functor> *RenderAction::_vDefaultEnterFunctors = NULL;
-vector<Action::Functor> *RenderAction::_vDefaultLeaveFunctors = NULL;
+std::vector<Action::Functor> *RenderAction::_vDefaultEnterFunctors = NULL;
+std::vector<Action::Functor> *RenderAction::_vDefaultLeaveFunctors = NULL;
 
 
 StatElemDesc<StatTimeElem> RenderAction::statDrawTime("drawTime", 
@@ -134,7 +134,7 @@ void RenderAction::registerEnterDefault(const FieldContainerType &type,
 {
     if(_vDefaultEnterFunctors == NULL)
     {
-        _vDefaultEnterFunctors = new vector<Action::Functor>;
+        _vDefaultEnterFunctors = new std::vector<Action::Functor>;
     }
 
     while(type.getId() >= _vDefaultEnterFunctors->size())
@@ -154,7 +154,7 @@ void RenderAction::registerLeaveDefault(const FieldContainerType &type,
 {
     if(_vDefaultLeaveFunctors == NULL)
     {
-        _vDefaultLeaveFunctors = new vector<Action::Functor>;
+        _vDefaultLeaveFunctors = new std::vector<Action::Functor>;
     }
 
     while(type.getId() >= _vDefaultLeaveFunctors->size())
@@ -427,8 +427,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         }
         else
         {
-            vector<DrawTreeNode *>::iterator treesIt  = it->second.begin();
-            vector<DrawTreeNode *>::iterator treesEnd = it->second.end();
+            std::vector<DrawTreeNode *>::iterator treesIt = it->second.begin();
+            std::vector<DrawTreeNode *>::iterator treesEnd= it->second.end();
             
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
@@ -553,8 +553,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         }
         else
         {
-            vector<DrawTreeNode *>::iterator treesIt  = it->second.begin();
-            vector<DrawTreeNode *>::iterator treesEnd = it->second.end();
+            std::vector<DrawTreeNode *>::iterator treesIt = it->second.begin();
+            std::vector<DrawTreeNode *>::iterator treesEnd= it->second.end();
             
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
@@ -589,7 +589,7 @@ void RenderAction::dropLight(LightBase *pLight)
 
         if(beacon == NullFC)
         {
-            SINFO << "draw: no beacon set!" << endl;
+            SINFO << "draw: no beacon set!" << std::endl;
         }
         else
         {
@@ -619,10 +619,10 @@ void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
              << "Geo : "    << pRoot->getGeometry()          << " | "
              << "State : "  << pRoot->getState()             << " | "
              << "Node : "   << pRoot->getNode()              << " | "
-             << "Matrix : " << pRoot->getMatrixStore().first << endl;
+             << "Matrix : " << pRoot->getMatrixStore().first << std::endl;
 
     indentLog(uiIndent, PWARNING);
-    PWARNING << "{" << endl;
+    PWARNING << "{" << std::endl;
 
     if(pRoot->getFirstChild() != NULL)
     {
@@ -630,7 +630,7 @@ void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
     }
 
     indentLog(uiIndent, PWARNING);
-    PWARNING << "}" << endl;
+    PWARNING << "}" << std::endl;
 
     if(pRoot->getBrother() != NULL)
     {
@@ -980,12 +980,12 @@ const Matrix &RenderAction::top_matrix(void)
 \*-------------------------------------------------------------------------*/
 
 
-vector<RenderAction::Functor> *RenderAction::getDefaultEnterFunctors(void)
+std::vector<RenderAction::Functor> *RenderAction::getDefaultEnterFunctors(void)
 {
     return _vDefaultEnterFunctors;
 }
 
-vector<RenderAction::Functor> *RenderAction::getDefaultLeaveFunctors(void)
+std::vector<RenderAction::Functor> *RenderAction::getDefaultLeaveFunctors(void)
 {
     return _vDefaultLeaveFunctors;
 }

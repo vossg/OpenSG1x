@@ -102,7 +102,7 @@ void SkyBackground::changed(BitVector whichField, UInt32 origin)
 void SkyBackground::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump SkyBackground NI" << endl;
+    SLOG << "Dump SkyBackground NI" << std::endl;
 }
 
 /*-------------------------- drawing ---------------------------------*/
@@ -395,7 +395,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.13 2002/07/02 15:13:51 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.14 2002/09/02 07:05:15 vossg Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }

@@ -138,17 +138,17 @@ void ParticleBSPTree::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
     if(!_tree.empty())
     {
-        for(vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
+        for(std::vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
             i != _tree.end(); ++i )
         {
             i->dump();
         }
     }   
     
-    PLOG << ")" << endl;
+    PLOG << ")" << std::endl;
 }
     
-void ParticleBSPTree::putToString(string &outVal) const
+void ParticleBSPTree::putToString(std::string &outVal) const
 {
     typedef TypeConstants<UInt32> TypeConst;
     
@@ -157,7 +157,7 @@ void ParticleBSPTree::putToString(string &outVal) const
     
     if(! _tree.empty())
     {
-        for(vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
+        for(std::vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
             i != _tree.end(); ++i )
         {
             outVal.append(TypeConstants<UInt8>::putToString(i->getAxis()));
@@ -378,7 +378,7 @@ void ParticleBSPTree::build(Particles *core)
         
     // 1. create list for particles
  
-    vector<Int32> order;
+    std::vector<Int32> order;
     order.reserve(pos->getSize());
     
     for(UInt32 i = 0; i < pos->getSize(); ++i )
@@ -409,7 +409,7 @@ void ParticleBSPTree::build(Particles *core)
     // done
 }
 
-struct ParticleCompare : public binary_function<Int32, Int32, bool> 
+struct ParticleCompare : public std::binary_function<Int32, Int32, bool> 
 {
     ParticleCompare(GeoPositionsPtr pos, UInt8 axis) : _pos(pos), _axis(axis)
     {}
@@ -427,10 +427,10 @@ struct ParticleCompare : public binary_function<Int32, Int32, bool>
     UInt8 _axis;
 };
     
-UInt32 ParticleBSPTree::doBuild(vector<Int32>::iterator begin, 
-                            vector<Int32>::iterator end,
-                            UInt32 nodeindex,
-                            GeoPositionsPtr pos)
+UInt32 ParticleBSPTree::doBuild(std::vector<Int32>::iterator begin, 
+                                std::vector<Int32>::iterator end,
+                                     UInt32                  nodeindex,
+                                     GeoPositionsPtr         pos)
 {
     // reached a leaf?
     
@@ -447,7 +447,7 @@ UInt32 ParticleBSPTree::doBuild(vector<Int32>::iterator begin,
     
     b.setEmpty();
     
-    for(vector<Int32>::iterator i = begin; i != end; ++i)
+    for(std::vector<Int32>::iterator i = begin; i != end; ++i)
     {
         pos->getValue(p,*i);     
         b.extendBy(p);
@@ -474,10 +474,10 @@ UInt32 ParticleBSPTree::doBuild(vector<Int32>::iterator begin,
     // sort in that axis
     ParticleCompare comp(pos, axis);
     
-    sort(begin,end,comp);
+    std::sort(begin,end,comp);
     
     // find median value
-    vector<Int32>::iterator mid = begin + (end - begin) / 2;
+    std::vector<Int32>::iterator mid = begin + (end - begin) / 2;
     
     Pnt3f p2;
     pos->getValue(p ,*mid);
@@ -522,7 +522,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.14 2002/08/07 04:04:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.15 2002/09/02 07:05:00 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

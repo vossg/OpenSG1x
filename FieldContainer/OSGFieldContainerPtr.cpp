@@ -88,27 +88,29 @@ void FieldContainerPtrBase::dump(      UInt32    uiIndent,
     if(this != NULL && _storeP != NULL)
     {
         indentLog(uiIndent, PLOG);
-        PLOG << "FCPtr Dump :" << endl;
+        PLOG << "FCPtr Dump :" << std::endl;
 
         uiIndent += 4;
 
         indentLog(uiIndent, PLOG);
-        PLOG << "Id       : " << dec << (*(getIdP())) << endl;
+        PLOG << "Id       : " << std::dec << (*(getIdP())) << std::endl;
 
         indentLog(uiIndent, PLOG);
-        PLOG << "Storage  : " << hex << (UInt32 *)getFirstElemP() << endl;
+        PLOG << "Storage  : " 
+             << std::hex << (UInt32 *)getFirstElemP() 
+             << std::endl;
 
         if(bvFlags & FCDumpFlags::RefCount)
         {
              indentLog(uiIndent, PLOG);
-             PLOG << "RefCount : " << *(getRefCountP()) << endl;
+             PLOG << "RefCount : " << *(getRefCountP()) << std::endl;
         }
 
 //        dumpContent();
     }
     else
     {
-        PLOG << "FCPtr Dump : (NULL)" << endl;
+        PLOG << "FCPtr Dump : (NULL)" << std::endl;
     }
 }
 
@@ -120,7 +122,7 @@ bool FieldContainerPtrBase::initialize(void)
     bool           returnValue = false;
     ThreadManager *pManager    = ThreadManager::the();
 
-    SINFO << "OSGFieldContainerPtrBase init" << endl;
+    SINFO << "OSGFieldContainerPtrBase init" << std::endl;
 
     if(pManager != NULL)
     {
@@ -139,7 +141,7 @@ bool FieldContainerPtrBase::terminate(void)
 {
     ThreadManager *pManager = ThreadManager::the();
 
-    SINFO << "OSGFieldContainerPtrBase terminate" << endl;
+    SINFO << "OSGFieldContainerPtrBase terminate" << std::endl;
 
     if(pManager == NULL)
         return false;
@@ -156,18 +158,22 @@ bool FieldContainerPtrBase::terminate(void)
 //! Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &OSG::operator <<(      ostream            &os,
-                          const FieldContainerPtr  &fc)
+std::ostream &OSG::operator <<(      std::ostream       &os,
+                               const FieldContainerPtr  &fc)
 {
     if(fc == NullFC)
     {
-        os << hex << "FieldContainerPtr 0x" << &fc << dec << ":NullFC";
+        os << std::hex 
+           << "FieldContainerPtr 0x" 
+           << &fc 
+           << std::dec 
+           << ":NullFC";
     }
     else
     {
-        os << hex << "FieldContainerPtr 0x"
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (&(*fc)) << dec << ")";
+        os << std::hex << "FieldContainerPtr 0x"
+           << &fc << std::dec << ":" << fc->getType().getName() << "Ptr(0x"
+           << std::hex << (&(*fc)) << std::dec << ")";
     }
 
     return os;

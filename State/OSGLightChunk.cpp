@@ -158,7 +158,7 @@ void LightChunk::changed(BitVector whichField, UInt32 origin)
 void LightChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump LightChunk NI" << endl;
+    SLOG << "Dump LightChunk NI" << std::endl;
 }
 
 

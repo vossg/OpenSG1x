@@ -100,7 +100,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     inline  T        *getElem      (StatElemDesc<T> &desc, bool create = true);
 
 
-            void      putToString  (string &outVal) const;
+            void      putToString  (std::string &outVal) const;
      
             bool      getFromString(const Char8 *&inVal);
             
@@ -142,7 +142,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*==========================  PRIVATE  ================================*/
   private:
 
-    vector<StatElem*> _elemVec;
+    std::vector<StatElem*> _elemVec;
 };
 
 typedef StatCollector *StatCollectorP;
@@ -174,7 +174,7 @@ struct FieldDataTraits<StatCollector> :
     }
 
     static void            putToString  (const StatCollector &inVal,
-                                               string        &outVal)
+                                               std::string   &outVal)
     {
         inVal.putToString(outVal);
     }

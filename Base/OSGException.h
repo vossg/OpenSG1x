@@ -54,8 +54,8 @@ OSG_BEGIN_NAMESPACE
 
 class Exception;
 
-OSG_BASE_DLLMAPPING ostream &operator <<(      ostream   &os,
-                                         const Exception &obj);
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
+                                              const Exception    &obj);
 
 class OSG_BASE_DLLMAPPING Exception : public exception
 {
@@ -100,15 +100,15 @@ class OSG_BASE_DLLMAPPING Exception : public exception
     /*! \name                    Class Specific                            */
     /*! \{                                                                 */
 
-    string _what;
+    std::string _what;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
     friend OSG_BASE_DLLMAPPING
-    ostream &operator <<(      ostream   &os,
-                         const Exception &obj);
+    std::ostream &operator <<(      std::ostream &os,
+                              const Exception    &obj);
 
 };
 

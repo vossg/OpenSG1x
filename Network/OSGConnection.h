@@ -73,14 +73,15 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
     /*! \name                   Connection functionaliy                    */
     /*! \{                                                                 */
 
-    virtual string                bind            ( const string &address )=0;
-    virtual void                  accept          ( void                  )=0;
-    virtual void                  connect         ( const string &address )=0;
-    virtual void                  wait            ( void                  );
-    virtual void                  signal          ( void                  );
-    virtual UInt32                getChannelCount ( void                  )=0;
-    virtual void                  selectChannel   ( void                  )=0;
-    virtual const ConnectionType *getType         ( void                  )=0;
+    virtual std::string    bind           (const std::string &address) = 0;
+    virtual void           accept         (      void                ) = 0;
+    virtual void           connect        (const std::string &address) = 0;
+    virtual void           wait           (      void                );
+    virtual void           signal         (      void                );
+    virtual UInt32         getChannelCount(      void                ) = 0;
+    virtual void           selectChannel  (      void                ) = 0;
+    virtual 
+     const ConnectionType *getType        (      void                ) = 0;
 
     /*! \}                                                                 */
 

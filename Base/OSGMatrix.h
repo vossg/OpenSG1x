@@ -458,8 +458,8 @@ typedef TransformationMatrix<Real32> Matrix;
 typedef TransformationMatrix<Real32> Matrix4f;
 
 template<class ValueTypeT> 
-ostream &operator <<(        ostream                          &os,
-                     const   TransformationMatrix<ValueTypeT> &obj);
+std::ostream &operator <<(        std::ostream                     &os,
+                          const   TransformationMatrix<ValueTypeT> &obj);
 
 OSG_END_NAMESPACE
 

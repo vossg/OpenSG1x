@@ -147,7 +147,7 @@ Field * FieldDescription::getField(FieldContainer &dataStore) const
     }
     else
     {
-        SWARNING << "No accessMethod for " << _szName.str() << endl;
+        SWARNING << "No accessMethod for " << _szName.str() << std::endl;
     }
 
     return pField;

@@ -84,9 +84,9 @@ class OSG_BASE_DLLMAPPING PathHandler
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    string findFile(const Char8 *fileName);
+          std::string  findFile   (const Char8 *fileName);
 
-    const string &getBaseFile (void) const;
+    const std::string &getBaseFile(      void           ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -135,8 +135,8 @@ class OSG_BASE_DLLMAPPING PathHandler
         TypeMask      = 0xFF00
     };
     
-    typedef list<string>           PathList;
-    typedef list<string>::iterator PathListIter;
+    typedef std::list<std::string>           PathList;
+    typedef std::list<std::string>::iterator PathListIter;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
@@ -155,36 +155,37 @@ class OSG_BASE_DLLMAPPING PathHandler
     static Char8 _pathSepOther;
 
 
-    PathList _pathList;
-    string   _baseFilePath;
+    PathList      _pathList;
+    std::string   _baseFilePath;
 
-    void     validateList        (void                     );
 
-    string   extractPath         (const Char8   *szFilename);
+    void          validateList        (void                           );
+
+    std::string   extractPath         (const Char8         *szFilename);
     
-    PathType analysePathList     (const Char8   *pathList  );
-    PathType analysePath         (const Char8   *path      );
+    PathType      analysePathList     (const Char8         *pathList  );
+    PathType      analysePath         (const Char8         *path      );
 
-    void     expandWin32Path     (      string   &path     );
-    void     expandUnixPath      (      string   &path     );
+    void          expandWin32Path     (      std::string   &path     );
+    void          expandUnixPath      (      std::string   &path     );
     
-    void     push_backPathList   (      PathList &pathList );
-    void     push_frontPathList  (      PathList &pathList );
+    void          push_backPathList   (      PathList      &pathList );
+    void          push_frontPathList  (      PathList      &pathList );
 
-    void     convertPath         (      string   &path     );
+    void          convertPath         (      std::string   &path     );
 
-    void     convertWin32PathList(      PathList &result   );
-    void     convertUnixPathList (      PathList &result   );
+    void          convertWin32PathList(      PathList      &result   );
+    void          convertUnixPathList (      PathList      &result   );
 
-    void     splitPathList       (const Char8    *pathList, 
-                                  const Char8     pathSep,
-                                        PathList &result   );
-    void     parsePathList       (const Char8    *pathList, 
-                                        PathList &result   );
-    void     parseUnixPathList   (const Char8    *pathList, 
-                                        PathList &result   );
-    void     parseWin32PathList  (const Char8    *pathList, 
-                                        PathList &result   );
+    void          splitPathList       (const Char8         *pathList, 
+                                       const Char8          pathSep,
+                                             PathList      &result   );
+    void          parsePathList       (const Char8         *pathList, 
+                                             PathList      &result   );
+    void          parseUnixPathList   (const Char8         *pathList, 
+                                             PathList      &result   );
+    void          parseWin32PathList  (const Char8         *pathList, 
+                                             PathList      &result   );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -198,5 +199,5 @@ OSG_END_NAMESPACE
 
 #endif /* _OSGPATHHANDLER_H */
 
-#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.6 2002/06/26 16:41:42 jbehr Exp $"
+#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.7 2002/09/02 07:04:26 vossg Exp $"
 

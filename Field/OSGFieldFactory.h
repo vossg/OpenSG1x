@@ -116,7 +116,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
 
     static FieldFactory              _the;
     
-    static map<UInt32, FieldType *> *_fieldTypeM;
+    static std::map<UInt32, FieldType *> *_fieldTypeM;
 
 
     static void addType(FieldType *pType);

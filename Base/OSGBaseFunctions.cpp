@@ -60,11 +60,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-static vector<InitFuncF> *osgInitFunctions       = NULL;
-static vector<ExitFuncF> *osgSystemExitFunctions = NULL;
+static std::vector<InitFuncF> *osgInitFunctions       = NULL;
+static std::vector<ExitFuncF> *osgSystemExitFunctions = NULL;
 
-static vector<InitFuncF> *osgPreMPInitFunctions  = NULL;
-static vector<ExitFuncF> *osgPostMPExitFunctions = NULL;
+static std::vector<InitFuncF> *osgPreMPInitFunctions  = NULL;
+static std::vector<ExitFuncF> *osgPostMPExitFunctions = NULL;
 
 OSG_BASE_DLLMAPPING 
 SystemState GlobalSystemState = Startup;
@@ -77,7 +77,7 @@ void OSG::addInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
     {
-        osgInitFunctions = new vector<InitFuncF>(0);
+        osgInitFunctions = new std::vector<InitFuncF>(0);
     }
 
     osgInitFunctions->push_back(initFunc);
@@ -87,7 +87,7 @@ void OSG::addSystemExitFunction(ExitFuncF exitFunc)
 {
     if(osgSystemExitFunctions == NULL)
     {
-        osgSystemExitFunctions = new vector<ExitFuncF>(0);
+        osgSystemExitFunctions = new std::vector<ExitFuncF>(0);
     }
     
     osgSystemExitFunctions->push_back(exitFunc);
@@ -97,7 +97,7 @@ void OSG::addPreMPInitFunction(InitFuncF initFunc)
 {
     if(osgPreMPInitFunctions == NULL)
     {
-        osgPreMPInitFunctions = new vector<InitFuncF>;
+        osgPreMPInitFunctions = new std::vector<InitFuncF>;
     }
 
     osgPreMPInitFunctions->push_back(initFunc);
@@ -107,7 +107,7 @@ void OSG::addPostMPExitFunction(ExitFuncF exitFunc)
 {
     if(osgPostMPExitFunctions == NULL)
     {
-        osgPostMPExitFunctions = new vector<ExitFuncF>;
+        osgPostMPExitFunctions = new std::vector<ExitFuncF>;
     }
     
     osgPostMPExitFunctions->push_back(exitFunc);

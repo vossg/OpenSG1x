@@ -188,8 +188,8 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
         return true;
     }
 
-    static void      putToString  (const Vec2f  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Vec2f  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Vec2f::ValueType> TypeConst;
         
@@ -233,8 +233,8 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
         return true;
     }
 
-    static void      putToString  (const Vec3f  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Vec3f  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Vec3f::ValueType> TypeConst;
 
@@ -279,8 +279,8 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
         return true;
     }
 
-    static void      putToString  (const Vec4f  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Vec4f  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Vec4f::ValueType> TypeConst;
 
@@ -326,8 +326,8 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
         return true;
     }
 
-    static void      putToString  (const Vec4ub &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Vec4ub &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Vec4ub::ValueType> TypeConst;
 
@@ -373,8 +373,8 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
         return true;
     }
 
-    static void      putToString  (const Pnt2f  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Pnt2f  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Pnt2f::ValueType> TypeConst;
         
@@ -417,8 +417,8 @@ struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
         return true;
     }
 
-    static void      putToString  (const Pnt2d  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Pnt2d  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Pnt2d::ValueType> TypeConst;
         
@@ -460,8 +460,8 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
         return false;
     }
 
-    static void      putToString  (const Pnt3f  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Pnt3f  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Pnt3f::ValueType> TypeConst;
         
@@ -505,8 +505,8 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
         return false;
     }
 
-    static void      putToString  (const Pnt3d  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Pnt3d  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Pnt3d::ValueType> TypeConst;
 
@@ -550,8 +550,8 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
         return false;
     }
 
-    static void      putToString  (const Pnt4f  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Pnt4f  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Pnt4f::ValueType> TypeConst;
 
@@ -597,8 +597,8 @@ struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore4Base<Pnt4d>
         return false;
     }
 
-    static void      putToString  (const Pnt4d  &inVal,
-                                         string &outStr)
+    static void      putToString  (const      Pnt4d  &inVal,
+                                         std::string &outStr)
     {
         typedef TypeConstants<Pnt4d::ValueType> TypeConst;
 

@@ -13,7 +13,7 @@
 Cluster rendering configuration for sort first image composition
 	<Field
 		name="compression"
-		type="string"
+		type="std::string"
 		cardinality="single"
 		visibility="external"
 		access="public"

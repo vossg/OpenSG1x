@@ -152,9 +152,9 @@ void StatCollector::refitElemNum (void)
   }
 }
 
-void StatCollector::putToString(string &str) const
+void StatCollector::putToString(std::string &str) const
 {
-    vector<StatElem*>::const_iterator it;
+    std::vector<StatElem*>::const_iterator it;
     bool first = true;
      
     str = "{";
@@ -163,7 +163,7 @@ void StatCollector::putToString(string &str) const
     {
         if(*it != NULL)
         {
-            string elem;
+            std::string elem;
             
             if(!first)
                 str.append("|");
@@ -199,7 +199,7 @@ bool StatCollector::getFromString(const Char8 *&inVal)
         if(*end == 0 || *end == '}' || *end == '|')
             return false;
         
-        string name(c, end - c);
+        std::string name(c, end - c);
         desc = StatElemDescBase::findDescByName(name.c_str());
         
         if(!desc)
@@ -214,7 +214,7 @@ bool StatCollector::getFromString(const Char8 *&inVal)
         if(*end == 0)
             return false;
 
-        string val(c, end - c);
+        std::string val(c, end - c);
         const Char8 *valp = val.c_str();
         if(!elem->getFromString(valp))
             return false;
@@ -226,7 +226,7 @@ bool StatCollector::getFromString(const Char8 *&inVal)
 
 void StatCollector::clearElems(void)
 {
-    for(vector<StatElem*>::iterator i = _elemVec.begin(); 
+    for(std::vector<StatElem*>::iterator i = _elemVec.begin(); 
         i != _elemVec.end();
         ++i)
     {

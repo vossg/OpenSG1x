@@ -72,16 +72,16 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
     static       Int32   getNumSlots ( UInt32 index ) ;
 
     // access to the class name list
-    typedef vector<string>::const_iterator iterator;
+    typedef std::vector<std::string>::const_iterator iterator;
 
     static iterator begin();
     static iterator end();
 
   private:
 
-    UInt32 _classId;
-    static vector<string>* _classNames;
-    static vector<UInt32>* _numslots;
+           UInt32                    _classId;
+    static std::vector<std::string> *_classNames;
+    static std::vector<     UInt32> *_numslots;
 };
 
 //! StateChunk base class

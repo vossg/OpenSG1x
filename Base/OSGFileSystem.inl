@@ -223,9 +223,9 @@ bool Directory::setCurrent(const Char8 *szDirname)
 }
 
 inline
-vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
+std::vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 {
-    vector<Char8 *> *returnValue = NULL;
+    std::vector<Char8 *> *returnValue = NULL;
 
     if(szDirname != NULL)
     {
@@ -238,7 +238,7 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 
             if(pDir != NULL)
             {
-                returnValue = new vector<Char8 *>;
+                returnValue = new std::vector<Char8 *>;
 
                 do
                 {
@@ -276,7 +276,7 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 
             if(INVALID_HANDLE_VALUE != pDir)
             {
-                returnValue = new vector<Char8 *>;
+                returnValue = new std::vector<Char8 *>;
 
                 do
                 {

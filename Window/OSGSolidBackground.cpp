@@ -79,7 +79,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.14 2002/06/30 05:04:24 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.15 2002/09/02 07:05:15 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -172,7 +172,7 @@ void SolidBackground::clear(DrawActionBase *, Viewport *)
 void SolidBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                            const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump SolidBackground NI" << endl;
+    SLOG << "Dump SolidBackground NI" << std::endl;
 }
 
     

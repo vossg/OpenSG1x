@@ -166,8 +166,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     // access default functors
 
-    virtual vector<Functor>* getDefaultEnterFunctors(void);
-    virtual vector<Functor>* getDefaultLeaveFunctors(void);
+    virtual std::vector<Functor>* getDefaultEnterFunctors(void);
+    virtual std::vector<Functor>* getDefaultLeaveFunctors(void);
 
   private:
 
@@ -199,8 +199,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     static DrawAction * _prototype;
 
     // default functors for instantiation
-    static vector<Functor> *_defaultEnterFunctors;
-    static vector<Functor> *_defaultLeaveFunctors;
+    static std::vector<Functor> *_defaultEnterFunctors;
+    static std::vector<Functor> *_defaultLeaveFunctors;
     
     //-----------------------------------------------------------------------
     //   class functions                                                     

@@ -95,7 +95,7 @@ void StatisticsForeground::changed(BitVector whichField, UInt32 origin)
 void StatisticsForeground::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump StatisticsForeground NI" << endl;
+    SLOG << "Dump StatisticsForeground NI" << std::endl;
 }
 
 
@@ -112,7 +112,7 @@ void StatisticsForeground::dump(      UInt32    ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.4 2002/06/30 05:04:23 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.5 2002/09/02 07:05:10 vossg Exp $";
     static char cvsid_hpp[] = OSGSTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTATISTICSFOREGROUND_INLINE_CVSID;
 }

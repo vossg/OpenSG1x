@@ -62,10 +62,10 @@ OSG_BEGIN_NAMESPACE
     \ingroup MultiFields
 */
 
-typedef MField<string> MFString;
+typedef MField<std::string> MFString;
 
 #ifndef OSG_COMPILEFIELDINST
-OSG_DLLEXPORT_DECL1(MField, string, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, std::string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 

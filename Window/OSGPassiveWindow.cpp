@@ -95,7 +95,7 @@ void PassiveWindow::changed(BitVector whichField, UInt32 origin)
 void PassiveWindow::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump PassiveWindow NI" << endl;
+    SLOG << "Dump PassiveWindow NI" << std::endl;
 }
 
 // init the window: create the context  
@@ -127,7 +127,7 @@ void PassiveWindow::swap( void )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.11 2002/08/29 16:24:44 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.12 2002/09/02 07:05:14 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
 }

@@ -96,7 +96,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
     {
         setSkel(this);
 
-        PNOTICE << "Loading : " << szFilename << endl;
+        PNOTICE << "Loading : " << szFilename << std::endl;
 
         OSGScanParseSkel_in = pInFile;
 
@@ -138,7 +138,7 @@ bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
 
     if(szHeader == NULL)
     {
-        SLOG << "Error Null Header String Read" << endl;
+        SLOG << "Error Null Header String Read" << std::endl;
         return false;
     }
     
@@ -150,14 +150,14 @@ bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
         {
             SLOG << "Error : Header [" << szHeader << "] does not "
                     << "match reference [" << _szReferenceHeader << "]" 
-                    << endl;
+                    << std::endl;
             
             returnValue = false;
         }
     }
     else
     {
-        SLOG << "Error Null Reference Header, Check disabled " << endl;
+        SLOG << "Error Null Reference Header, Check disabled " << std::endl;
         return true;
     }
 
@@ -236,7 +236,7 @@ void ScanParseSkel::endNode(void)
 
 void ScanParseSkel::use(const Char8 *szName)
 {
-    PINFO << "Use : " << szName << endl;
+    PINFO << "Use : " << szName << std::endl;
 }
 
 void ScanParseSkel::is(const Char8 *)

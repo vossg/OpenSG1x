@@ -95,7 +95,7 @@ void StereoCameraDecorator::changed(BitVector, UInt32)
 void StereoCameraDecorator::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump StereoCameraDecorator NI" << endl;
+    SLOG << "Dump StereoCameraDecorator NI" << std::endl;
 }
 
 
@@ -112,7 +112,7 @@ void StereoCameraDecorator::dump(      UInt32    ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoCameraDecorator.cpp,v 1.4 2002/08/07 04:04:14 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoCameraDecorator.cpp,v 1.5 2002/09/02 07:05:15 vossg Exp $";
     static char cvsid_hpp[] = OSGSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

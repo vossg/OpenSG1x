@@ -116,7 +116,7 @@ void SortFirstWindow::changed(BitVector whichField, UInt32 origin)
 void SortFirstWindow::dump(      UInt32    , 
                            const BitVector ) const
 {
-    SLOG << "Dump SortFirstWindow NI" << endl;
+    SLOG << "Dump SortFirstWindow NI" << std::endl;
 }
 
 /*----------------------------- server methods ----------------------------*/

@@ -102,7 +102,7 @@ void PassiveViewport::changed(BitVector whichField, UInt32 origin)
 void PassiveViewport::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump PassiveViewport NI" << endl;
+    SLOG << "Dump PassiveViewport NI" << std::endl;
 }
 
 
@@ -110,17 +110,17 @@ void PassiveViewport::draw( DrawAction * action )
 {
     if ( getCamera() == NullFC )
     {
-        SWARNING << "PassiveViewport::draw: no camera!" << endl;
+        SWARNING << "PassiveViewport::draw: no camera!" << std::endl;
         return;
     }
     if ( getBackground() == NullFC )
     {
-        SWARNING << "PassiveViewport::draw: no background!" << endl;
+        SWARNING << "PassiveViewport::draw: no background!" << std::endl;
         return;
     }
     if ( getRoot() == NullFC )
     {
-        SWARNING << "PassiveViewport::draw: no root!" << endl;
+        SWARNING << "PassiveViewport::draw: no root!" << std::endl;
         return;
     }
 
@@ -160,17 +160,17 @@ void PassiveViewport::render( RenderAction * action )
 {
     if ( getCamera() == NullFC )
     {
-        SWARNING << "Viewport::render: no camera!" << endl;
+        SWARNING << "Viewport::render: no camera!" << std::endl;
         return;
     }
     if ( getBackground() == NullFC )
     {
-        SWARNING << "Viewport::render: no background!" << endl;
+        SWARNING << "Viewport::render: no background!" << std::endl;
         return;
     }
     if ( getRoot() == NullFC )
     {
-        SWARNING << "Viewport::render: no root!" << endl;
+        SWARNING << "Viewport::render: no root!" << std::endl;
         return;
     }
 
@@ -228,7 +228,7 @@ void PassiveViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.8 2002/08/07 04:04:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.9 2002/09/02 07:05:14 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEVIEWPORT_INLINE_CVSID;
 }

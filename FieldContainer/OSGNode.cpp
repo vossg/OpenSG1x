@@ -330,7 +330,7 @@ void Node::subChild(const NodePtr &childP)
     else
     {
         SWARNING << "Node(" << this << ")::subChild: " << childP 
-                 << " is not one of my children!" << endl;
+                 << " is not one of my children!" << std::endl;
     }
 
     // TODO check if required (GV)
@@ -523,18 +523,18 @@ void Node::dump(      UInt32    uiIndent,
          << " children | "
          << _attachmentMap.getValue().size() 
          << " attachments | "
-         << "Parent : " << hex;
+         << "Parent : " << std::hex;
 
     if(_sfParent.getValue() != NullFC)
         PLOG << "0x" << &(*(_sfParent.getValue())) << " | ";
     else
         PLOG << "NULL | ";
 
-    PLOG << "0x" << this << dec << endl;
+    PLOG << "0x" << this << std::dec << std::endl;
 
     indentLog(uiIndent, PLOG);
 
-    PLOG << "[" << endl;
+    PLOG << "[" << std::endl;
 
     if(_sfCore.getValue() != NullFC)
     {
@@ -543,28 +543,28 @@ void Node::dump(      UInt32    uiIndent,
     else
     {
         indentLog(uiIndent + 4, PLOG);
-        PLOG << "Core : " << "NULL" << endl;
+        PLOG << "Core : " << "NULL" << std::endl;
     }
 
     Inherited::dump(uiIndent, bvFlags);
 
     indentLog(uiIndent, PLOG);
-    PLOG << "]" << endl;
+    PLOG << "]" << std::endl;
 
     indentLog(uiIndent, PLOG);
 
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     for(i = 0; i < _mfChildren.size(); i++)
     {
         _mfChildren[i]->dump(uiIndent + 4, bvFlags);
-        PLOG << endl;
+        PLOG << std::endl;
     }
 
 
     indentLog(uiIndent, PLOG);
 
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 
 /*
     for(i = 0; i < indent; i++)
@@ -599,7 +599,7 @@ void Node::dump(      UInt32    uiIndent,
         cerr << " ";
     }
 
-    cerr << "{" << endl;
+    cerr << "{" << std::endl;
 
 
     for(i = 0; i < indent; i++)
@@ -607,7 +607,7 @@ void Node::dump(      UInt32    uiIndent,
         cerr << " ";
     }
 
-    cerr << "}" << endl;
+    cerr << "}" << std::endl;
 */
 }
 

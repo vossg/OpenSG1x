@@ -105,7 +105,7 @@ void LineChunk::changed(BitVector whichField, UInt32 origin)
 void LineChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump LineChunk NI" << endl;
+    SLOG << "Dump LineChunk NI" << std::endl;
 }
 
 
@@ -205,7 +205,7 @@ bool LineChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.7 2002/06/30 05:04:22 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.8 2002/09/02 07:05:04 vossg Exp $";
     static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
 }

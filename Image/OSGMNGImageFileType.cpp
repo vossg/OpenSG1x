@@ -130,7 +130,7 @@ bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
   bool retCode;
 
     if ((fd = fopen(fileName, "rb")) == 0) {
-        cerr << "Could not open file " << fileName << endl;
+        cerr << "Could not open file " << fileName << std::endl;
         return false;
     }
 
@@ -210,7 +210,7 @@ bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
 
     SWARNING << getMimeType()
              << " read is not compiled into the current binary "
-             << endl;
+             << std::endl;
 
   return false;
 

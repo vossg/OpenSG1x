@@ -39,7 +39,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-inline void StatStringElem::set(const string & value) 
+inline void StatStringElem::set(const std::string & value) 
 { 
   _value = value; 
 }
@@ -59,4 +59,4 @@ inline void StatStringElem::reset(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATSTRINGELEM_INLINE_CVSID "@(#)$Id: OSGStatStringElem.inl,v 1.2 2002/08/08 14:00:19 jbehr Exp $"
+#define OSGSTATSTRINGELEM_INLINE_CVSID "@(#)$Id: OSGStatStringElem.inl,v 1.3 2002/09/02 07:05:10 vossg Exp $"

@@ -164,7 +164,7 @@ bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
             valid = true;
         else
         {
-            SWARNING << "Tiff reader failed: " << errorMessage << endl;
+            SWARNING << "Tiff reader failed: " << errorMessage << std::endl;
             valid = false;
         }
 
@@ -243,7 +243,7 @@ bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
     SWARNING <<
         getMimeType() <<
         " read is not compiled into the current binary " <<
-        endl;
+        std::endl;
 #endif
     return valid;
 }
@@ -330,7 +330,7 @@ bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
     SWARNING <<
         getMimeType() <<
         " write is not compiled into the current binary " <<
-        endl;
+        std::endl;
 #endif
     return retCode;
 }

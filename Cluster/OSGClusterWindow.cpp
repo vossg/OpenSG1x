@@ -74,17 +74,17 @@ OSG_USING_NAMESPACE
  *
  **/
 
-map<UInt32,Connection*>   ClusterWindow::_connection=
-                                     map<UInt32,Connection*>();
-map<UInt32,RemoteAspect*> ClusterWindow::_remoteAspect=
-                                     map<UInt32,RemoteAspect*>();
+std::map<UInt32, Connection  *> ClusterWindow::_connection   = 
+    std::map<UInt32, Connection   *>();
+std::map<UInt32, RemoteAspect*> ClusterWindow::_remoteAspect =
+    std::map<UInt32, RemoteAspect *>();
 
 /*----------------------- constructors & destructors ----------------------*/
 
 //! Constructor
 
 ClusterWindow::ClusterWindow(void) :
-    Inherited(),
+     Inherited(),
     _firstFrame(true),
     _connectionAndAspectOwner(false),
     _statistics(NULL)
@@ -108,20 +108,25 @@ ClusterWindow::~ClusterWindow(void)
     ClusterWindowPtr ptr(this);
     if(_connectionAndAspectOwner)
     {
-        map<UInt32,Connection*>::iterator cI=
-            _connection.find( ptr.getFieldContainerId() );
+        std::map<UInt32, Connection *>::iterator cI=
+            _connection.find(ptr.getFieldContainerId());
+
         if(cI!=_connection.end())
         {
             if(cI->second)
                 delete cI->second;
+
             _connection.erase(cI);
         }
-        map<UInt32,RemoteAspect*>::iterator aI=
-            _remoteAspect.find( ptr.getFieldContainerId() );
+
+        std::map<UInt32, RemoteAspect *>::iterator aI=
+            _remoteAspect.find(ptr.getFieldContainerId());
+
         if(aI!=_remoteAspect.end())
         {
             if(aI->second)
                 delete aI->second;
+
             _remoteAspect.erase(aI);
         }
     }
@@ -147,7 +152,7 @@ void ClusterWindow::changed(BitVector whichField, UInt32 origin)
 void ClusterWindow::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump ClusterWindow NI" << endl;
+    SLOG << "Dump ClusterWindow NI" << std::endl;
 }
 
 void (*ClusterWindow::getFunctionByName ( const Char8 * ))()
@@ -167,7 +172,7 @@ void ClusterWindow::init( void )
 
     if(getConnection())
     {
-        SWARNING << "init called twice" << endl;
+        SWARNING << "init called twice" << std::endl;
         return;
     }
     // delete on destroy
@@ -180,7 +185,9 @@ void ClusterWindow::init( void )
     connection=ConnectionFactory::the().create(getConnectionType());
     if(connection == NULL)
     {
-        SFATAL << "Unknown connection type " << getConnectionType() << endl;
+        SFATAL << "Unknown connection type " 
+               << getConnectionType() 
+               << std::endl;
     }
     setConnection(connection);
     // create remote aspect
@@ -196,11 +203,11 @@ void ClusterWindow::init( void )
     {
         DgramSocket      serviceSock;
         BinaryMessage    msg;
-        string           respServer;
-        string           respAddress;
+        std::string      respServer;
+        std::string      respAddress;
         bool             retry=true;
 
-        SINFO << "Connect to " << (*s) << endl;
+        SINFO << "Connect to " << (*s) << std::endl;
         serviceSock.open();
         while(retry)
         {
@@ -233,7 +240,7 @@ void ClusterWindow::init( void )
                 msg.getString(respAddress);
                 if(respServer == *s)
                 {
-                    SINFO << "Found at address " << respAddress << endl;
+                    SINFO << "Found at address " << respAddress << std::endl;
                     // connect to server
                     connection->connect(respAddress);
                     retry=false;
@@ -241,7 +248,7 @@ void ClusterWindow::init( void )
             }
             catch(exception &e)
             {
-                SINFO << e.what() << endl;
+                SINFO << e.what() << std::endl;
             }
         }
         serviceSock.close();
@@ -268,7 +275,7 @@ void ClusterWindow::init( void )
     connection->setNetworkOrder(forceNetworkOrder);
     if(forceNetworkOrder)
     {
-        SLOG << "Run clustering in network order mode" << endl;
+        SLOG << "Run clustering in network order mode" << std::endl;
     }
 }
 
@@ -347,7 +354,7 @@ void ClusterWindow::frameExit(void)
 
 Connection   *ClusterWindow::getConnection   ( void )
 {
-    map<UInt32,Connection*>::iterator cI=
+    std::map<UInt32, Connection *>::iterator cI=
         _connection.find( ClusterWindowPtr(this).getFieldContainerId() );
     if(cI!=_connection.end())
         return cI->second;
@@ -363,7 +370,7 @@ void ClusterWindow::setConnection ( Connection *connection )
 
 RemoteAspect *ClusterWindow::getRemoteAspect ( void )
 {
-    map<UInt32,RemoteAspect*>::iterator aI=
+    std::map<UInt32, RemoteAspect *>::iterator aI=
         _remoteAspect.find( ClusterWindowPtr(this).getFieldContainerId() );
     if(aI!=_remoteAspect.end())
         return aI->second;

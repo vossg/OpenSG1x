@@ -513,7 +513,7 @@ void clearRefP(T *&pObject)
 
 #if 1
 template <class T> inline
-void clearRefPVector(vector<T *> &gVector)
+void clearRefPVector(std::vector<T *> &gVector)
 {
     for(UInt32 i = 0; i < gVector.size(); i++)
         gVector[i]->subRef();
@@ -526,7 +526,7 @@ void clearRefPVector(vector<T *> &gVector)
  */
 
 template <class T> inline
-void clearRefPVectorP(vector<T *> *pVector)
+void clearRefPVectorP(std::vector<T *> *pVector)
 {
     if(pVector != NULL)
     {

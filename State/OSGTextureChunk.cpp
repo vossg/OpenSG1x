@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.46 2002/09/02 03:11:06 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.47 2002/09/02 07:05:07 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -287,7 +287,7 @@ void TextureChunk::onCreate(const TextureChunk *)
 void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                         const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump TextureChunk NI" << endl;
+    SLOG << "Dump TextureChunk NI" << std::endl;
 }
 
 
@@ -443,7 +443,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         break;
                    default:
                             SFATAL << "TextureChunk::initialize1: unknown target "
-                                   << imgtarget << "!!!" << endl;
+                                   << imgtarget << "!!!" << std::endl;
                             break;
                     }
                 }
@@ -466,7 +466,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                     {
                         SWARNING << "TextureChunk::initialize: can't mipmap "
                                  << "non-2D textures that are not 2^x !!!"
-                                 << endl;
+                                 << std::endl;
                     }
                     else
                     {
@@ -488,7 +488,8 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                 SWARNING << "TextureChunk::initialize: "
                                          << "gluScaleImage failed: "
                                          << gluErrorString(res) << "("
-                                         << res << ")!" << endl;
+                                         << res << ")!" 
+                                         << std::endl;
                                 free(data);
                                 data = NULL;
                             }
@@ -553,7 +554,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             break;
                     default:
                             SFATAL << "TextureChunk::initialize2: unknown target "
-                                   << imgtarget << "!!!" << endl;
+                                   << imgtarget << "!!!" << std::endl;
                     }
 
                     if(data != img->getData(0, frame))
@@ -592,7 +593,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                     {
                         SWARNING << "TextureChunk::initialize: can't scale "
                                  << "non-2D textures that are not 2^x !!!"
-                                 << endl;
+                                 << std::endl;
                     }
                     else
                     {
@@ -611,7 +612,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             SWARNING << "TextureChunk::initialize: "
                                      << "gluScaleImage failed: "
                                      << gluErrorString(res) << "("
-                                     << res << ")!" << endl;
+                                     << res << ")!" << std::endl;
                             free(data);
                             data = NULL;
                         }
@@ -655,7 +656,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         break;
                     default:
                         SFATAL << "TextureChunk::initialize3: unknown target "
-                               << imgtarget << "!!!" << endl;
+                               << imgtarget << "!!!" << std::endl;
                     }
                 }
             }
@@ -701,7 +702,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                     break;
                 default:
                         SFATAL << "TextureChunk::initialize4: unknown target "
-                               << imgtarget << "!!!" << endl;
+                               << imgtarget << "!!!" << std::endl;
                 }
 
             }
@@ -770,13 +771,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 break;
             default:
                     SFATAL << "TextureChunk::refresh: unknown target "
-                           << imgtarget << "!!!" << endl;
+                           << imgtarget << "!!!" << std::endl;
             }
         }
         else
         {
             SWARNING << "TextureChunk::refresh: not implemented yet for "
-                     << "scaling!!!" << endl;
+                     << "scaling!!!" << std::endl;
         }
 
         glErr("TextureChunk::refresh image");
@@ -800,7 +801,7 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
     }
     else if(mode == Window::finaldestroy)
     {
-        //SWARNING << "Last texture user destroyed" << endl;
+        //SWARNING << "Last texture user destroyed" << std::endl;
     }
     else if(mode == Window::initialize || mode == Window::reinitialize ||
             mode == Window::needrefresh )
@@ -831,7 +832,7 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
     else
     {
         SWARNING << "TextureChunk(" << this << "::handleGL: Illegal mode: "
-             << mode << " for id " << id << endl;
+             << mode << " for id " << id << std::endl;
     }
 
 }

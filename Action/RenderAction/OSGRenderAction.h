@@ -76,9 +76,9 @@ class LightChunk;
 //  Class
 //---------------------------------------------------------------------------
 
-typedef pair<UInt32      , Matrix                 > MatrixStore;
-typedef map <Material   *, vector<DrawTreeNode *> > MaterialMap;
-typedef pair<LightChunk *, Matrix                 > LightStore;
+typedef std::pair<UInt32      ,      Matrix                 > MatrixStore;
+typedef std::map <Material   *, std::vector<DrawTreeNode *> > MaterialMap;
+typedef std::pair<LightChunk *,      Matrix                 > LightStore;
 
 /*! \brief DrawAction class
  */
@@ -170,8 +170,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     static RenderAction    *_pPrototype;
 
-    static vector<Functor> *_vDefaultEnterFunctors;
-    static vector<Functor> *_vDefaultLeaveFunctors;
+    static std::vector<Functor> *_vDefaultEnterFunctors;
+    static std::vector<Functor> *_vDefaultLeaveFunctors;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -181,33 +181,33 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    Material            *_pMaterial;
+    Material                 *_pMaterial;
 
-    UInt32               _uiMatrixId;
+    UInt32                    _uiMatrixId;
 
-    MatrixStore          _currMatrix;
-    Matrix               _camInverse;
-    Matrix               _accMatrix;
+    MatrixStore               _currMatrix;
+    Matrix                    _camInverse;
+    Matrix                    _accMatrix;
 
-    vector<MatrixStore>  _vMatrixStack;
+    std::vector<MatrixStore>  _vMatrixStack;
 
-    MaterialMap          _mMatMap;
+    MaterialMap               _mMatMap;
     
-    DrawTreeNode        *_pRoot;
-    DrawTreeNode        *_pMatRoot;
-    DrawTreeNode        *_pTransMatRoot;
+    DrawTreeNode             *_pRoot;
+    DrawTreeNode             *_pMatRoot;
+    DrawTreeNode             *_pTransMatRoot;
 
-    UInt32               _uiActiveMatrix;
-    State               *_pActiveState;
+    UInt32                    _uiActiveMatrix;
+    State                    *_pActiveState;
 
-    UInt32               _uiNumMaterialChanges;
-    UInt32               _uiNumMatrixChanges;
-    UInt32               _uiNumGeometries;
-    UInt32               _uiNumTransGeometries;
+    UInt32                    _uiNumMaterialChanges;
+    UInt32                    _uiNumMatrixChanges;
+    UInt32                    _uiNumGeometries;
+    UInt32                    _uiNumTransGeometries;
+ 
+    bool                      _bSortTrans;
 
-    bool                 _bSortTrans;
-
-    vector<LightStore>   _vLights;
+    std::vector<LightStore>   _vLights;
 
 //    Time                 _tMatSlot
 
@@ -224,8 +224,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     // access default functors
 
-    virtual vector<Functor> *getDefaultEnterFunctors(void);
-    virtual vector<Functor> *getDefaultLeaveFunctors(void);
+    virtual std::vector<Functor> *getDefaultEnterFunctors(void);
+    virtual std::vector<Functor> *getDefaultLeaveFunctors(void);
 
     void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
     void draw(DrawTreeNode *pRoot);

@@ -265,37 +265,37 @@ void Attachment::dump(      UInt32                  uiIndent,
 
     PLOG << "Attachment"
          << "(" 
-         << dec
+         << std::dec
          << thisP.getFieldContainerId()
          << ") : " 
          << getType().getName()
          << "("       
          << this 
          << ")" 
-         << endl;
+         << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "[" << endl;
+    PLOG << "[" << std::endl;
 
     indentLog(uiIndent + 4, PLOG);
-    PLOG << "Parents : " << endl;
+    PLOG << "Parents : " << std::endl;
 
     for(i = 0; i < _parents.size(); i++)
     {
         indentLog(uiIndent + 4, PLOG);
-        PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
+        PLOG << "           " << i << ") " << &(*(_parents[i])) << std::endl;
     }
 
 //    thisP.dump(uiIndent, FCDumpFlags::RefCount);
 
     indentLog(uiIndent, PLOG);
-    PLOG << "]" << endl;
+    PLOG << "]" << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -356,10 +356,10 @@ void Attachment::executeSyncImpl(      Attachment *pOther,
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-ostream &OSG::operator <<(ostream             &stream,
-                          const AttachmentMap &OSG_CHECK_ARG(amap))
+std::ostream &OSG::operator <<(      std::ostream  &stream,
+                               const AttachmentMap &OSG_CHECK_ARG(amap))
 {
-    stream << "Attachment << NI" << endl;
+    stream << "Attachment << NI" << std::endl;
 
     return stream;
 }
@@ -391,7 +391,8 @@ const char *osg::getName( AttachmentContainerPtr container )
 
 //! Set the name attached to the container. If the container doesn't have a
 //! name attachement yet one is created. 
-void osg::setName( AttachmentContainerPtr container, const string &namestring )
+void OSG::setName(      AttachmentContainerPtr  container, 
+                  const std::string            &namestring)
 {
     if(container == NullFC)
     {
@@ -438,7 +439,7 @@ void osg::setName( AttachmentContainerPtr container, const char *name )
         }       
     }
     else
-        setName(container, string(name));
+        setName(container, std::string(name));
 }
 
 

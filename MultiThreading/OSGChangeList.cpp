@@ -259,7 +259,7 @@ void ChangeList::setAspect(UInt32 uiAspectId)
        _vSubRefdFieldContainers.size() != 0)
     {
         SWARNING << "Changing aspect on non empty changelist, all currrent "
-                    << "entries will be lost" << endl;          
+                    << "entries will be lost" << std::endl;          
     }
 
     clearAll();
@@ -283,13 +283,13 @@ void ChangeList::applyTo(UInt32 uiAspectId)
 
     if(uiAspectId == _uiAspectId)
     {
-        SWARNING << "Sync on the same aspect, ignored " << endl;
+        SWARNING << "Sync on the same aspect, ignored " << std::endl;
         return;
     }
 
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
-        SWARNING << "Invalid AspectId" << endl;
+        SWARNING << "Invalid AspectId" << std::endl;
     }
 
     _bReadOnly = true;

@@ -153,7 +153,7 @@ void SimpleStatisticsForegroundBase::setColor(const Color4f &value)
 
 
 inline
-string &SimpleStatisticsForegroundBase::getFormats(const UInt32 index)
+std::string &SimpleStatisticsForegroundBase::getFormats(const UInt32 index)
 {
     return _mfFormats[index];
 }
@@ -172,5 +172,5 @@ const MFString &SimpleStatisticsForegroundBase::getFormats(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.inl,v 1.4 2002/06/20 13:02:20 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.inl,v 1.5 2002/09/02 07:05:09 vossg Exp $"
 

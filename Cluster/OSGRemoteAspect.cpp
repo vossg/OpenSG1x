@@ -173,7 +173,7 @@ void RemoteAspect::receiveSync(Connection &connection)
                 fcType=FieldContainerFactory::the()->findType(name.c_str());
                 if(!fcType)
                 {
-                    SWARNING << "Unknown Type: " << name << endl; 
+                    SWARNING << "Unknown Type: " << name << std::endl; 
                 }
                 else
                 {
@@ -191,7 +191,9 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedTypeI=_receivedType.find(remoteTypeId);
                 if(receivedTypeI == _receivedType.end())
                 {
-                    SWARNING << "Unknown TypeID: " << remoteTypeId << endl; 
+                    SWARNING << "Unknown TypeID: " 
+                             << remoteTypeId 
+                             << std::endl; 
                 }
                 else
                 {
@@ -210,8 +212,9 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SWARNING << "Can't destroy unknown FC:" << remoteId 
-                             << endl; 
+                    SWARNING << "Can't destroy unknown FC:" 
+                             << remoteId 
+                             << std::endl; 
                 }
                 else
                 {
@@ -230,8 +233,9 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SFATAL << "Can't change unknown FC:" << remoteId 
-                           << endl; 
+                    SFATAL << "Can't change unknown FC:" 
+                           << remoteId 
+                           << std::endl; 
                     throw RemoteSyncError();
                 }
                 else
@@ -242,7 +246,7 @@ void RemoteAspect::receiveSync(Connection &connection)
                     {
                         FieldDescription *desc=fcPtr->getType().getFieldDescription(i+1);
                         if(desc->getFieldMask() & mask)
-                            cout<< "changed field: " << desc->getName() << endl;
+                            cout<< "changed field: " << desc->getName() << std::endl;
                     }
                     */
                     fcPtr->copyFromBin(connection,mask);
@@ -263,7 +267,7 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    FDEBUG (( "Can't addref unknown FC:%d\n", remoteId )); 
+                    FDEBUG(("Can't addref unknown FC:%d\n", remoteId)); 
                 }
                 else
                 {
@@ -281,7 +285,7 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    FDEBUG (( "Can't subref unknown FC:%d\n", remoteId )); 
+                    FDEBUG(("Can't subref unknown FC:%d\n", remoteId)); 
                 }
                 else
                 {
@@ -295,7 +299,7 @@ void RemoteAspect::receiveSync(Connection &connection)
             }
             default:
             {
-                SFATAL << "Unknown tag:" << (int)cmd << endl;
+                SFATAL << "Unknown tag:" << (int)cmd << std::endl;
                 throw RemoteSyncError();
             }
         }
@@ -331,7 +335,7 @@ void RemoteAspect::sendSync(Connection &connection,
     BitVector mask;
     UInt32 maskUInt32;
     UInt8 cmd;
-    string typeName;
+    std::string typeName;
 
     if(_statistics)
         _statistics->getElem(statSyncTime)->start();
@@ -646,7 +650,7 @@ UInt32 RemoteAspectFieldContainerMapper::map(UInt32 uiId)
     i=_remoteAspect->_receivedFC.find(uiId);
     if(i==_remoteAspect->_receivedFC.end())
     {
-        SWARNING << "Can't find container id:\n" << uiId << endl;
+        SWARNING << "Can't find container id:\n" << uiId << std::endl;
         mappedId=0;
     }
     else

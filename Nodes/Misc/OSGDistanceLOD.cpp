@@ -77,7 +77,7 @@ void DistanceLOD::changed(BitVector whichField, UInt32 origin)
 void DistanceLOD::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                        const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    SLOG << "Dump DistanceLOD NI" << endl;
+    SLOG << "Dump DistanceLOD NI" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -204,7 +204,7 @@ void DistanceLOD::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.24 2002/08/26 07:38:54 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.25 2002/09/02 07:04:59 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }
