@@ -119,6 +119,7 @@ EXPORTS
     ?getClassType@?$SField@V?$Color3@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ  @231
     ?getType@?$MField@V?$Color3@E@osg@@$0A@@osg@@UBEABVFieldType@2@XZ      @232
     ?getType@?$MField@V?$Color3@M@osg@@$0A@@osg@@UBEABVFieldType@2@XZ      @233
+    ?getType@?$SField@V?$Color3@M@osg@@$0A@@osg@@UBEABVFieldType@2@XZ      @234
 
     ?getClassType@?$MField@V?$Color3@E@osg@@$0A@@osg@@SAABVFieldType@2@XZ
 

@@ -25,11 +25,6 @@ EXPORTS
 
     ?getStaticType@?$GeoProperty@UGeoColor3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ     @50
 
-    ?getStaticType@?$GeoProperty@UGeoNormal3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ    @60
-
-
-
-
-
-
+    ?getClassType@?$SField@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoNormalPropertyDesc@osg@@@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @60
+    ?getStaticType@?$GeoProperty@UGeoNormal3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ                                                 @61
 
