@@ -67,6 +67,16 @@
 #define OSG_LOG_MODULE "VRMLLoader"
 #endif
 
+#ifndef OSG_DO_DOC
+#    ifdef OSG_DEBUG_VRML
+#        define OSG_VRML_ARG(ARG) ARG
+#    else
+#        define OSG_VRML_ARG(ARG)
+#    endif
+#else
+#    define OSG_VRML_ARG(ARG) ARG
+#endif
+
 OSG_USING_NAMESPACE
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
@@ -384,7 +394,7 @@ void VRMLNodeDesc::getFieldAndDesc(
 /*-------------------------------------------------------------------------*/
 /*                              Prototypes                                 */
 
-Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
+Bool VRMLNodeDesc::prototypeAddField(const Char8  *OSG_VRML_ARG(szFieldType),
                                      const UInt32  uiFieldTypeId,
                                      const Char8  *szFieldName)
 {
@@ -706,7 +716,7 @@ VRMLShapeDesc::~VRMLShapeDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLShapeDesc::init(const Char8 *szName)
+void VRMLShapeDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -997,7 +1007,7 @@ VRMLGeometryDesc::~VRMLGeometryDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLGeometryDesc::init(const Char8 *szName)
+void VRMLGeometryDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -1464,7 +1474,7 @@ VRMLGeometryPartDesc::~VRMLGeometryPartDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLGeometryPartDesc::init(const Char8 *szName)
+void VRMLGeometryPartDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -1638,7 +1648,7 @@ VRMLGeometryObjectDesc::~VRMLGeometryObjectDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLGeometryObjectDesc::init(const Char8 *szName)
+void VRMLGeometryObjectDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -1982,7 +1992,7 @@ VRMLAppearanceDesc::~VRMLAppearanceDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLAppearanceDesc::init(const Char8 *szName)
+void VRMLAppearanceDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -2253,7 +2263,7 @@ VRMLMaterialDesc::~VRMLMaterialDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLMaterialDesc::init(const Char8 *szName)
+void VRMLMaterialDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -2518,7 +2528,7 @@ VRMLImageTextureDesc::~VRMLImageTextureDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLImageTextureDesc::init(const Char8 *szName)
+void VRMLImageTextureDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -2759,7 +2769,7 @@ VRMLPixelTextureDesc::~VRMLPixelTextureDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLPixelTextureDesc::init(const Char8 *szName)
+void VRMLPixelTextureDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -2964,7 +2974,7 @@ VRMLLODDesc::~VRMLLODDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLLODDesc::init(const Char8 *szName)
+void VRMLLODDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -3152,7 +3162,7 @@ FieldContainerPtr VRMLLODDesc::beginNode(
     return pNode;
 }
 
-void VRMLLODDesc::endNode(FieldContainerPtr pFC)
+void VRMLLODDesc::endNode(FieldContainerPtr OSG_VRML_ARG(pFC))
 {    
 #ifdef OSG_DEBUG_VRML
     decIndent();
@@ -3197,7 +3207,7 @@ VRMLSwitchDesc::~VRMLSwitchDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLSwitchDesc::init(const Char8 *szName)
+void VRMLSwitchDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -3367,7 +3377,7 @@ FieldContainerPtr VRMLSwitchDesc::beginNode(
     return pNode;
 }
 
-void VRMLSwitchDesc::endNode(FieldContainerPtr pFC)
+void VRMLSwitchDesc::endNode(FieldContainerPtr OSG_VRML_ARG(pFC))
 {    
 #ifdef OSG_DEBUG_VRML
     decIndent();
@@ -3418,7 +3428,7 @@ VRMLGroupDesc::~VRMLGroupDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLGroupDesc::init(const Char8 *szName)
+void VRMLGroupDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -3604,7 +3614,7 @@ FieldContainerPtr VRMLGroupDesc::beginNode(
     return pNode;
 }
 
-void VRMLGroupDesc::endNode(FieldContainerPtr pFC)
+void VRMLGroupDesc::endNode(FieldContainerPtr OSG_VRML_ARG(pFC))
 {    
 #ifdef OSG_DEBUG_VRML
     decIndent();
@@ -3655,7 +3665,7 @@ VRMLInlineDesc::~VRMLInlineDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLInlineDesc::init(const Char8 *szName)
+void VRMLInlineDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -3827,7 +3837,7 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
     return pNode;
 }
 
-void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
+void VRMLInlineDesc::endNode(FieldContainerPtr OSG_VRML_ARG(pFC))
 {    
 #ifdef OSG_DEBUG_VRML
     decIndent();
@@ -3872,7 +3882,7 @@ VRMLViewpointDesc::~VRMLViewpointDesc(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-void VRMLViewpointDesc::init(const Char8 *szName)
+void VRMLViewpointDesc::init(const Char8 *OSG_VRML_ARG(szName))
 {
 #ifdef OSG_DEBUG_VRML
     PINFO << "Viewpoint init : " << szName << endl;
@@ -4071,7 +4081,7 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
     return pNode;
 }
 
-void VRMLViewpointDesc::endNode(FieldContainerPtr pFC)
+void VRMLViewpointDesc::endNode(FieldContainerPtr OSG_VRML_ARG(pFC))
 { 
 #ifdef OSG_DEBUG_VRML
     decIndent();

@@ -474,7 +474,7 @@ void VRMLFile::endScript(void)
 }
 
 void VRMLFile::beginField(const Char8  *szFieldname,
-                          const UInt32  uiFieldTypeId)
+                          const UInt32  OSG_VRML_ARG(uiFieldTypeId))
 {
     if(szFieldname == NULL)
         return;

@@ -47,6 +47,17 @@
 
 #include <iostream>
 
+#ifndef OSG_DO_DOC
+#    ifdef OSG_DEBUG_VRML
+#        define OSG_VRML_ARG(ARG) ARG
+#    else
+#        define OSG_VRML_ARG(ARG)
+#    endif
+#else
+#    define OSG_VRML_ARG(ARG) ARG
+#endif
+
+
 OSG_BEGIN_NAMESPACE
 
 /*! \class osg::VRMLNodeFactory
@@ -347,8 +358,8 @@ void VRMLNodeFactory<BaseT>::endProto  (void)
 
 template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::addEventInDecl(
-    const Char8 *szEventType,
-    const Char8 *szEventName)
+    const Char8 *OSG_VRML_ARG(szEventType),
+    const Char8 *OSG_VRML_ARG(szEventName))
 {
     if(_bIgnoreProto == true)
         return;
@@ -361,8 +372,8 @@ void VRMLNodeFactory<BaseT>::addEventInDecl(
 
 template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::addEventOutDecl(
-    const Char8 *szEventType,
-    const Char8 *szEventName)
+    const Char8 *OSG_VRML_ARG(szEventType),
+    const Char8 *OSG_VRML_ARG(szEventName))
 {
     if(_bIgnoreProto == true)
         return;
