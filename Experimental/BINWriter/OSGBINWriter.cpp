@@ -186,9 +186,15 @@ void BINWriter::writeFileHeader()
    	for(i=0; i<mapSize ; ++i, ++iIdMap)
 	{
 		_outFileHandler.putString(iIdMap->first);
-		for (j=0; &(iIdMap->second[j])!=iIdMap->second.end(); ++j)
-		{
-			_outFileHandler.putUInt32(iIdMap->second[j]);
+
+        vector<UInt32>::iterator intIt  = iIdMap->second.begin();
+        vector<UInt32>::iterator intEnd = iIdMap->second.end();
+
+        while(intIt != intEnd)
+        {
+			_outFileHandler.putUInt32(*intIt);
+
+            ++intIt;
 		}
 	}
 }
