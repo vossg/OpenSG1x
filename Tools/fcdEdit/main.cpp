@@ -1,7 +1,6 @@
 #include <qapp.h>
 #include <unistd.h>
 
-#include <ParseComandLine.h>
 #include <FieldContainerViewCtl.h>
 
 #include <string>

@@ -35,18 +35,18 @@ const char FieldContainer::_impFileSuffix[] = "cpp";
 const char FieldContainer::_nil[] = "nil";
 
 FieldContainer::KeyDic FieldContainer::_keyDic[] = {
-	{ FieldContainer::NAME_FIELD,         "name" },
-	{ FieldContainer::PARENT_FIELD,       "parent" },
-	{ FieldContainer::LIBRARY_FIELD,      "library" },	
-	{ FieldContainer::POINTERFIELDTYPES_FIELD,  "pointerfieldtypes" },
-	{ FieldContainer::TYPE_FIELD,         "type" },
-	{ FieldContainer::CARDINALITY_FIELD,  "cardinality" },
-	{ FieldContainer::VISIBILITY_FIELD,   "visibility" },
-	{ FieldContainer::DEFAULTVALUE_FIELD, "defaultValue" },
-	{ FieldContainer::ABSTRACT_FIELD,  "abstract" },
-	{ FieldContainer::HEADER_FIELD,  "header" },
-	{ FieldContainer::ACCESS_FIELD,  "access" },
-	{ FieldContainer::UNKNOWN_FIELD,      0 }
+	{ FieldContainer::NAME_FIELD,              "name" },
+	{ FieldContainer::PARENT_FIELD,            "parent" },
+	{ FieldContainer::LIBRARY_FIELD,           "library" },	
+	{ FieldContainer::STRUCTURE_FIELD,         "structure" },
+	{ FieldContainer::POINTERFIELDTYPES_FIELD, "pointerfieldtypes" },
+	{ FieldContainer::TYPE_FIELD,              "type" },
+	{ FieldContainer::CARDINALITY_FIELD,       "cardinality" },
+	{ FieldContainer::VISIBILITY_FIELD,        "visibility" },
+	{ FieldContainer::DEFAULTVALUE_FIELD,      "defaultValue" },
+	{ FieldContainer::HEADER_FIELD,            "header" },
+	{ FieldContainer::ACCESS_FIELD,            "access" },
+	{ FieldContainer::UNKNOWN_FIELD, 0}
 };
 
 const char *FieldContainer::_pointerFieldTypesName[] = {
@@ -54,7 +54,7 @@ const char *FieldContainer::_pointerFieldTypesName[] = {
 };
 
 const char *FieldContainer::_abstractName[] = {
-	"false", "true"
+	"concreate", "abstract"
 };
 
 //----------------------------------------------------------------------
@@ -186,7 +186,9 @@ const char *FieldContainer::pointerFieldTypesStr(int i)
 //----------------------------------------------------------------------
 const char *FieldContainer::abstractStr(int i)
 {
-	return i ? "abstract" : "concrete";
+	int vecSize = sizeof(_abstractName )/ sizeof(char*);
+
+	return (i >= 0 && i < vecSize) ? _abstractName[i] : 0;
 }
 
 //----------------------------------------------------------------------
@@ -302,11 +304,11 @@ void FieldContainer::setAbstract (const char* str )
 	int i, n = sizeof(_abstractName)/sizeof(const char *);
 
 	for (i = 0; i < n; ++i) 
-		if (!strcasecmp(str, _abstractName[i]))
-		{
-			_abstract = i;
-			break;
-		}
+		if (!strcasecmp(str, _abstractName[i])) 
+			{
+				_abstract = i;
+				break;
+			}
 
 	if ( i == n )
 	{
@@ -358,7 +360,7 @@ bool FieldContainer::readDesc (const char *fn)
 					case POINTERFIELDTYPES_FIELD:
 						setPointerFieldTypes(aI->second.c_str());
 						break;
-					case ABSTRACT_FIELD:
+					case STRUCTURE_FIELD:
 						setAbstract(aI->second.c_str());
 						break;
 					default:
@@ -487,8 +489,7 @@ bool FieldContainer::writeDesc (const char *fN)
     putField(out, nprefix, LIBRARY_FIELD, _library);
     putField(out, nprefix, POINTERFIELDTYPES_FIELD, 
 						 _pointerFieldTypesName[_pointerFieldTypes]);
-    putField(out, nprefix, ABSTRACT_FIELD, 
-						 _abstractName[_abstract]);
+    putField(out, nprefix, STRUCTURE_FIELD, _abstractName[_abstract]);
     out << ">" << endl;
     out << _description << endl;
  
@@ -592,7 +593,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	char *fcnameUpper = strdup( _name );
 	char *parentname = _parentFieldContainer;
 	char *parentnameUpper = strdup( _parentFieldContainer );
-	char *description = _description ? _description : "";
+	const char *description = _description ? _description : "";
 
 	for ( char *s = libnameUpper; s && *s; *s = toupper(*s), s++ ) {}
 	for ( char *s = fcnameUpper; s && *s; *s = toupper(*s), s++ ) {}
@@ -817,12 +818,12 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				char *key = s + strcspn( s, " \t");
 				key += strspn( key, " \t");
 				
-				bool not = false;				
+				bool notElem = false;				
 				if ( *key == '!' )
 				{
 					key++;
 					key += strspn( key, " \t");
-					not = true;
+					notElem = true;
 				}
 				
 				int i;
@@ -928,7 +929,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 								 << endl;
 							break;
 				}			
-				if ( not )
+				if ( notElem )
 					skipIf = 1 - skipIf;	
 			}
 			else if ( ! strcmp( s, "@@else" ) )

@@ -40,8 +40,11 @@
 // suitability for any purpose.
 
 // needed includes
-// #include <cstddef>            // for std::size_t
+#ifdef __sgi
 #include <c_locale.h>            // for std::size_t
+#else
+#include <cstddef>            // for std::size_t
+#endif
 #include <memory>             // for std::auto_ptr
 #include <algorithm>          // for std::swap
 #include <functional>         // for std::less

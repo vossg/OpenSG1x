@@ -5,23 +5,27 @@
 	parent="Transform"
 	library="MISC"
 	pointerfieldtypes="both"
+	structure="abstract"
 >
 This is the documentation for the VRMLTransform class.
 	<Field
 		name="center"
 		type="Vec3f"
 		cardinality="single"
-		visibility="external"
+		visibility="internal"
+		header="testheader.h"
+		access="protected"
 	>
-	The Center is ... 	 	
+	The Center is ... 	 	 	 	 	 	
 	</Field>
 	<Field
 		name="rotation"
 		type="Quaternion"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
-	The Rotation is ... 	 	
+	The Rotation is ... 	 	 	 	 	 	
 	</Field>
 	<Field
 		name="scale"
@@ -29,31 +33,35 @@ This is the documentation for the VRMLTransform class.
 		cardinality="single"
 		visibility="external"
 		defaultValue="1.,1.,1."
+		access="public"
 	>
-	The Scale is ... 	 	
+	The Scale is ... 	 	 	 	 	 	
 	</Field>
 	<Field
 		name="scaleOrientation"
 		type="Quaternion"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
-	The ScaleOrientation is ... 	 	
+	The ScaleOrientation is ... 	 	 	 	 	 	
 	</Field>
 	<Field
 		name="translation"
 		type="Vec3f"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
-	The Translation is ... 	 	
+	The Translation is ... 	 	 	 	 	 	
 	</Field>
 	<Field
 		name="knoedel"
 		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
+		access="public"
 	>
-	The Knoedel is a round squishy object. 	 	
+	The Knoedel is a round squishy object. 	 	 	 	 	 	
 	</Field>
 </FieldContainer>

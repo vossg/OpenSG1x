@@ -31,6 +31,13 @@ FieldContainerViewCtl::FieldContainerViewCtl( const char *file )
 			pointerFieldTypesCombo->insertItem(QString(FieldContainer::pointerFieldTypesStr(i)));
 		else
 			break;
+
+	for (i = 0; true; i++) 
+		if (FieldContainer::abstractStr(i))
+			structureCombo->insertItem(QString(FieldContainer::abstractStr(i)));
+		else
+			break;
+
 	
 	for (i = 0; true; i++) 
 		if (Field::typeStr(i))
@@ -47,6 +54,12 @@ FieldContainerViewCtl::FieldContainerViewCtl( const char *file )
 	for (i = 0; true; i++)
 		if (Field::visibilityStr(i))
 			partVisibilityCombo->insertItem(QString(Field::visibilityStr(i)));
+		else
+			break;
+
+	for (i = 0; true; i++)
+		if (Field::visibilityStr(i))
+			partAccessCombo->insertItem(QString(Field::accessStr(i)));
 		else
 			break;
 
@@ -103,7 +116,7 @@ void FieldContainerViewCtl::updateFieldContainerView(void)
 	nodeLibraryInput->setText(QString(_fieldContainer.library()));
 	nodeDescriptionInput->setText(QString(_fieldContainer.description()));
 	pointerFieldTypesCombo->setCurrentItem(_fieldContainer.pointerFieldTypes());
-		
+	structureCombo->setCurrentItem(_fieldContainer.abstract());
 }
 
 void FieldContainerViewCtl::updateActivePartView(void)
@@ -112,6 +125,8 @@ void FieldContainerViewCtl::updateActivePartView(void)
 		partNameInput->setText(QString(_activePart->name()));
 		partTypeCombo->setCurrentItem(int(_activePart->type()));
 		partVisibilityCombo->setCurrentItem(int(_activePart->visibility()));
+		partAccessCombo->setCurrentItem(int(_activePart->access()));
+		partIncludeInput->setText(QString(_activePart->header()));
 		partDefaultValueInput->setText(QString(_activePart->defaultValue()));
 		partDescriptionInput->setText(QString(_activePart->description()));
 	}
@@ -119,6 +134,8 @@ void FieldContainerViewCtl::updateActivePartView(void)
 		partNameInput->clear();
 		partTypeCombo->setCurrentItem(0);
 		partVisibilityCombo->setCurrentItem(0);
+		partAccessCombo->setCurrentItem(0);
+		partIncludeInput->clear();
 		partDefaultValueInput->clear();
 		partDescriptionInput->clear();
 	}
@@ -561,3 +578,29 @@ void FieldContainerViewCtl::pointerFieldTypesChanged(int index)
 {
 	_fieldContainer.setPointerFieldTypes(index);
 }
+
+void FieldContainerViewCtl::structureChanged(int index)
+{
+	cerr << "set abstract: " << index << endl;
+
+	_fieldContainer.setAbstract(index);
+}
+
+void FieldContainerViewCtl::partAccessChanged(int index)
+{
+	if (_activePart) {
+		_activePart->setAccess(index);
+		updateActiveListItem();
+	}
+}
+
+void FieldContainerViewCtl::partIncludeChanged(const QString &str)
+{
+	if (_activePart) {
+		_activePart->setHeader(str);
+		updateActiveListItem();
+	}
+}
+
+
+

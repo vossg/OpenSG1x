@@ -6,8 +6,8 @@ PROBACK = *.ui
 ######################################################################
 
 ### Build Flags ######################################################
-TMPBIN          = YES
-DEBUG           = YES
+#TMPBIN          = YES
+#DEBUG           = YES
 #PURIFYBIN       = YES
 #EFENCE					= YES
 #OGLDEBUG       = YES

@@ -1,0 +1,947 @@
+<!DOCTYPE UI><UI>
+<class>FieldContainerView</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>FieldContainerView</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>833</width>
+            <height>677</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>OpenSG Field Container editor</string>
+    </property>
+    <vbox>
+        <property stdset="1">
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property stdset="1">
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout8</cstring>
+            </property>
+            <hbox>
+                <property stdset="1">
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property stdset="1">
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QGroupBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>GroupBox1</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>title</name>
+                        <string>Field Container</string>
+                    </property>
+                    <property>
+                        <name>whatsThis</name>
+                        <string>Pointer Field Types</string>
+                    </property>
+                    <vbox>
+                        <property stdset="1">
+                            <name>margin</name>
+                            <number>11</number>
+                        </property>
+                        <property stdset="1">
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget>
+                            <class>QGroupBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>GroupBox17</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>title</name>
+                                <string>Type</string>
+                            </property>
+                            <grid>
+                                <property stdset="1">
+                                    <name>margin</name>
+                                    <number>11</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>spacing</name>
+                                    <number>6</number>
+                                </property>
+                                <widget row="0"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel2</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Name:</string>
+                                    </property>
+                                </widget>
+                                <widget row="1"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel3</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Parent:</string>
+                                    </property>
+                                </widget>
+                                <widget row="2"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Library:</string>
+                                    </property>
+                                </widget>
+                                <widget row="1"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>nodeParentInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="0"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>nodeNameInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="2"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>nodeLibraryInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="3"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1_4</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>PFTypes:</string>
+                                    </property>
+                                </widget>
+                                <widget row="4"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1_5</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Structure:</string>
+                                    </property>
+                                </widget>
+                                <widget row="3"  column="1" >
+                                    <class>QComboBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>pointerFieldTypesCombo</cstring>
+                                    </property>
+                                    <property>
+                                        <name>toolTip</name>
+                                        <string>Pointer Field Types</string>
+                                    </property>
+                                </widget>
+                                <widget row="4"  column="1" >
+                                    <class>QComboBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>structureCombo</cstring>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget>
+                            <class>QGroupBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>GroupBox7</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>title</name>
+                                <string>Description</string>
+                            </property>
+                            <vbox>
+                                <property stdset="1">
+                                    <name>margin</name>
+                                    <number>11</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>spacing</name>
+                                    <number>6</number>
+                                </property>
+                                <widget>
+                                    <class>QMultiLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>nodeDescriptionInput</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>wordWrap</name>
+                                        <enum>WidgetWidth</enum>
+                                    </property>
+                                </widget>
+                            </vbox>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget>
+                    <class>QGroupBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>GroupBox3</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>title</name>
+                        <string>Fields</string>
+                    </property>
+                    <vbox>
+                        <property stdset="1">
+                            <name>margin</name>
+                            <number>11</number>
+                        </property>
+                        <property stdset="1">
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget>
+                            <class>QListBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>partListBox</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>enabled</name>
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QFrame</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>partFrame</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>enabled</name>
+                                <bool>true</bool>
+                            </property>
+                            <property stdset="1">
+                                <name>frameShape</name>
+                                <enum>Box</enum>
+                            </property>
+                            <property stdset="1">
+                                <name>frameShadow</name>
+                                <enum>Raised</enum>
+                            </property>
+                            <grid>
+                                <property stdset="1">
+                                    <name>margin</name>
+                                    <number>11</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>spacing</name>
+                                    <number>6</number>
+                                </property>
+                                <widget row="1"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel3_2</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Type:</string>
+                                    </property>
+                                </widget>
+                                <widget row="1"  column="1" >
+                                    <class>QComboBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partTypeCombo</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="2"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel2_2</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Cardinality:</string>
+                                    </property>
+                                </widget>
+                                <widget row="0"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1_2</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Name:</string>
+                                    </property>
+                                </widget>
+                                <widget row="7"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel5</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Description:</string>
+                                    </property>
+                                </widget>
+                                <widget row="7"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partDescriptionInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="6"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel4_2</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>DefaultValue:</string>
+                                    </property>
+                                </widget>
+                                <widget row="2"  column="1" >
+                                    <class>QComboBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partCardinalityCombo</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="0"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partNameInput</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>enabled</name>
+                                        <bool>true</bool>
+                                    </property>
+                                </widget>
+                                <widget row="3"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel2_3</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Access:</string>
+                                    </property>
+                                </widget>
+                                <widget row="4"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1_3</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Visibility:</string>
+                                    </property>
+                                </widget>
+                                <widget row="5"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel3_3</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Header:</string>
+                                    </property>
+                                </widget>
+                                <widget row="3"  column="1" >
+                                    <class>QComboBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partAccessCombo</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="4"  column="1" >
+                                    <class>QComboBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partVisibilityCombo</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="5"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partIncludeInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="6"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partDefaultValueInput</cstring>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget>
+                            <class>QLayoutWidget</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>Layout3</cstring>
+                            </property>
+                            <hbox>
+                                <property stdset="1">
+                                    <name>margin</name>
+                                    <number>0</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>spacing</name>
+                                    <number>6</number>
+                                </property>
+                                <widget>
+                                    <class>QPushButton</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>newPart</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>New</string>
+                                    </property>
+                                    <property>
+                                        <name>toolTip</name>
+                                        <string>create a new node part</string>
+                                    </property>
+                                </widget>
+                                <widget>
+                                    <class>QPushButton</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>deletePart</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>enabled</name>
+                                        <bool>true</bool>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Delete</string>
+                                    </property>
+                                </widget>
+                                <widget>
+                                    <class>QPushButton</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>clonePart</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>enabled</name>
+                                        <bool>true</bool>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Clone</string>
+                                    </property>
+                                </widget>
+                                <widget>
+                                    <class>QPushButton</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>upPart</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Up</string>
+                                    </property>
+                                </widget>
+                                <widget>
+                                    <class>QPushButton</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>downPart</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Down</string>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout7</cstring>
+            </property>
+            <hbox>
+                <property stdset="1">
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property stdset="1">
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout6</cstring>
+                    </property>
+                    <grid>
+                        <property stdset="1">
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property stdset="1">
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget row="0"  column="4" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>writeNodeCode</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Write Field Container Base Code</string>
+                            </property>
+                        </widget>
+                        <widget row="1"  column="4" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>writeProcCode</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Write Field Container Code</string>
+                            </property>
+                        </widget>
+                        <widget row="1"  column="3" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>saveAs</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Save as</string>
+                            </property>
+                        </widget>
+                        <widget row="0"  column="1" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>load</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Load</string>
+                            </property>
+                        </widget>
+                        <widget row="0"  column="3" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>save</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Save</string>
+                            </property>
+                        </widget>
+                        <widget row="0"  column="2" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>PushButton15</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Reset Field Types</string>
+                            </property>
+                        </widget>
+                        <widget row="1"  column="2" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>PushButton16</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Load Field Types</string>
+                            </property>
+                        </widget>
+                        <widget row="1"  column="1" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>loadParent</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Load parent</string>
+                            </property>
+                        </widget>
+                        <widget row="0"  column="0" >
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>PushButton14</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>New</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property stdset="1">
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout4</cstring>
+                    </property>
+                    <vbox>
+                        <property stdset="1">
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property stdset="1">
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>about</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>About</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>exit</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Exit</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>load</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>loadSlot()</slot>
+    </connection>
+    <connection>
+        <sender>save</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>saveSlot()</slot>
+    </connection>
+    <connection>
+        <sender>newPart</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>newPartSlot()</slot>
+    </connection>
+    <connection>
+        <sender>deletePart</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>deletePartSlot()</slot>
+    </connection>
+    <connection>
+        <sender>clonePart</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>clonePartSlot()</slot>
+    </connection>
+    <connection>
+        <sender>nodeNameInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>nameChanged(const QString &amp;)</slot>
+    </connection>
+    <connection>
+        <sender>nodeParentInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>parentChanged(const QString &amp;)</slot>
+    </connection>
+    <connection>
+        <sender>partNameInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partNameChanged(const QString &amp;)</slot>
+    </connection>
+    <connection>
+        <sender>partDefaultValueInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partDefaultValueChanged(const QString &amp;)</slot>
+    </connection>
+    <connection>
+        <sender>partDescriptionInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partDescriptionChanged(const QString &amp;)</slot>
+    </connection>
+    <connection>
+        <sender>partVisibilityCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partVisibilityChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>loadParent</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>loadParentSlot()</slot>
+    </connection>
+    <connection>
+        <sender>saveAs</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>saveAsSlot()</slot>
+    </connection>
+    <connection>
+        <sender>exit</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>exitSlot()</slot>
+    </connection>
+    <connection>
+        <sender>upPart</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>upPartSlot()</slot>
+    </connection>
+    <connection>
+        <sender>downPart</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>downPartSlot()</slot>
+    </connection>
+    <connection>
+        <sender>partListBox</sender>
+        <signal>highlighted(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>activePartChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>about</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>aboutSlot()</slot>
+    </connection>
+    <connection>
+        <sender>writeNodeCode</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>writeFieldContainerBaseSlot()</slot>
+    </connection>
+    <connection>
+        <sender>writeProcCode</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>writeFieldContainerSlot()</slot>
+    </connection>
+    <connection>
+        <sender>pointerFieldTypesCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>pointerFieldTypesChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>partCardinalityCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partCardinalityChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>nodeLibraryInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>libraryChanged(const QString &amp;)</slot>
+    </connection>
+    <connection>
+        <sender>partTypeCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partTypeChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>PushButton14</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>newSlot()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton15</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>resetFieldTypesSlot()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton16</sender>
+        <signal>clicked()</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>loadFieldTypesSlot()</slot>
+    </connection>
+    <connection>
+        <sender>structureCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>structureChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>partAccessCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partAccessChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>partIncludeInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partIncludeChanged(const QString &amp;)</slot>
+    </connection>
+    <slot access="public">aboutSlot()</slot>
+    <slot access="public">activePartChanged(int)</slot>
+    <slot access="public">clonePartSlot()</slot>
+    <slot access="public">deletePartSlot()</slot>
+    <slot access="public">downPartSlot()</slot>
+    <slot access="public">exitSlot()</slot>
+    <slot access="public">libraryChanged(const QString &amp;)</slot>
+    <slot access="public">loadFieldTypesSlot()</slot>
+    <slot access="public">loadParentSlot()</slot>
+    <slot access="public">loadSlot()</slot>
+    <slot access="public">nameChanged(const QString &amp;)</slot>
+    <slot access="public">newPartSlot()</slot>
+    <slot access="public">newSlot()</slot>
+    <slot access="public">partIncludeChanged(const QString &amp;)</slot>
+    <slot access="public">parentChanged(const QString &amp;)</slot>
+    <slot access="public">partAccessChanged(int)</slot>
+    <slot access="public">partCardinalityChanged(int)</slot>
+    <slot access="public">partDefaultValueChanged(const QString &amp;)</slot>
+    <slot access="public">partDescriptionChanged(const QString &amp;)</slot>
+    <slot access="public">partNameChanged(const QString &amp;)</slot>
+    <slot access="public">partTypeChanged(int)</slot>
+    <slot access="public">partVisibilityChanged(int)</slot>
+    <slot access="public">pointerFieldTypesChanged(int)</slot>
+    <slot access="public">resetFieldTypesSlot()</slot>
+    <slot access="public">saveAsSlot()</slot>
+    <slot access="public">saveSlot()</slot>
+    <slot access="public">structureChanged(int)</slot>
+    <slot access="public">upPartSlot()</slot>
+    <slot access="public">writeFieldContainerBaseSlot()</slot>
+    <slot access="public">writeFieldContainerSlot()</slot>
+</connections>
+<tabstops>
+    <tabstop>nodeNameInput</tabstop>
+    <tabstop>nodeParentInput</tabstop>
+    <tabstop>nodeLibraryInput</tabstop>
+    <tabstop>pointerFieldTypesCombo</tabstop>
+    <tabstop>partListBox</tabstop>
+    <tabstop>partNameInput</tabstop>
+    <tabstop>partTypeCombo</tabstop>
+    <tabstop>partCardinalityCombo</tabstop>
+    <tabstop>partVisibilityCombo</tabstop>
+    <tabstop>partDefaultValueInput</tabstop>
+    <tabstop>partDescriptionInput</tabstop>
+    <tabstop>newPart</tabstop>
+    <tabstop>deletePart</tabstop>
+    <tabstop>clonePart</tabstop>
+    <tabstop>upPart</tabstop>
+    <tabstop>downPart</tabstop>
+    <tabstop>load</tabstop>
+    <tabstop>loadParent</tabstop>
+    <tabstop>save</tabstop>
+    <tabstop>saveAs</tabstop>
+    <tabstop>writeNodeCode</tabstop>
+    <tabstop>writeProcCode</tabstop>
+    <tabstop>about</tabstop>
+    <tabstop>exit</tabstop>
+    <tabstop>nodeDescriptionInput</tabstop>
+</tabstops>
+</UI>

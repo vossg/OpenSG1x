@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Wed Mar 28 15:00:05 2001
+** Created: Wed Apr 4 11:43:38 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -41,38 +41,44 @@ public:
     QLineEdit* nodeNameInput;
     QLineEdit* nodeLibraryInput;
     QLabel* TextLabel1_4;
+    QLabel* TextLabel1_5;
     QComboBox* pointerFieldTypesCombo;
+    QComboBox* structureCombo;
     QGroupBox* GroupBox7;
     QMultiLineEdit* nodeDescriptionInput;
     QGroupBox* GroupBox3;
     QListBox* partListBox;
     QFrame* partFrame;
-    QLineEdit* partNameInput;
-    QLabel* TextLabel1_2;
     QLabel* TextLabel3_2;
     QComboBox* partTypeCombo;
-    QLineEdit* partDescriptionInput;
-    QLabel* TextLabel5;
-    QLabel* TextLabel4_2;
-    QLineEdit* partDefaultValueInput;
-    QLabel* TextLabel1_3;
-    QComboBox* partVisibilityCombo;
     QLabel* TextLabel2_2;
+    QLabel* TextLabel1_2;
+    QLabel* TextLabel5;
+    QLineEdit* partDescriptionInput;
+    QLabel* TextLabel4_2;
     QComboBox* partCardinalityCombo;
+    QLineEdit* partNameInput;
+    QLabel* TextLabel2_3;
+    QLabel* TextLabel1_3;
+    QLabel* TextLabel3_3;
+    QComboBox* partAccessCombo;
+    QComboBox* partVisibilityCombo;
+    QLineEdit* partIncludeInput;
+    QLineEdit* partDefaultValueInput;
     QPushButton* newPart;
     QPushButton* deletePart;
     QPushButton* clonePart;
     QPushButton* upPart;
     QPushButton* downPart;
-    QPushButton* load;
-    QPushButton* save;
-    QPushButton* PushButton16;
-    QPushButton* loadParent;
-    QPushButton* PushButton15;
     QPushButton* writeNodeCode;
-    QPushButton* PushButton14;
     QPushButton* writeProcCode;
     QPushButton* saveAs;
+    QPushButton* load;
+    QPushButton* save;
+    QPushButton* PushButton15;
+    QPushButton* PushButton16;
+    QPushButton* loadParent;
+    QPushButton* PushButton14;
     QPushButton* about;
     QPushButton* exit;
 
@@ -90,8 +96,9 @@ public slots:
     virtual void nameChanged(const QString &);
     virtual void newPartSlot();
     virtual void newSlot();
-    virtual void resetFieldTypesSlot();
+    virtual void partIncludeChanged(const QString &);
     virtual void parentChanged(const QString &);
+    virtual void partAccessChanged(int);
     virtual void partCardinalityChanged(int);
     virtual void partDefaultValueChanged(const QString &);
     virtual void partDescriptionChanged(const QString &);
@@ -99,23 +106,25 @@ public slots:
     virtual void partTypeChanged(int);
     virtual void partVisibilityChanged(int);
     virtual void pointerFieldTypesChanged(int);
+    virtual void resetFieldTypesSlot();
     virtual void saveAsSlot();
     virtual void saveSlot();
+    virtual void structureChanged(int);
     virtual void upPartSlot();
     virtual void writeFieldContainerBaseSlot();
     virtual void writeFieldContainerSlot();
 
 protected:
     QVBoxLayout* FieldContainerViewLayout;
-    QHBoxLayout* Layout6;
+    QHBoxLayout* Layout8;
     QVBoxLayout* GroupBox1Layout;
     QGridLayout* GroupBox17Layout;
     QVBoxLayout* GroupBox7Layout;
     QVBoxLayout* GroupBox3Layout;
     QGridLayout* partFrameLayout;
     QHBoxLayout* Layout3;
-    QHBoxLayout* Layout8;
-    QGridLayout* Layout7;
+    QHBoxLayout* Layout7;
+    QGridLayout* Layout6;
     QVBoxLayout* Layout4;
 };
 

@@ -36,33 +36,36 @@ public:
 
 public slots:
 
-		void aboutSlot();
-    void activePartChanged(int);
-    void clonePartSlot();
-    void deletePartSlot();
-		void downPartSlot();		
-    void exitSlot();
-		void libraryChanged(const QString &);
-		void loadFieldTypesSlot();
-		void loadParentSlot();
-    void loadSlot();
-    void nameChanged(const QString &);
-    void newPartSlot();
-		void newSlot();
-    void resetFieldTypesSlot();
-    void parentChanged(const QString &);
-		void partCardinalityChanged(int);
-    void partTypeChanged(int);
-    void partDefaultValueChanged(const QString &);
-    void partDescriptionChanged(const QString &);
-    void partNameChanged(const QString &);
-		void partVisibilityChanged(int);		
-		void pointerFieldTypesChanged(int); 
-		void saveAsSlot();
-    void saveSlot();
-		void upPartSlot();
-    void writeFieldContainerBaseSlot();
-    void writeFieldContainerSlot();
+    virtual void aboutSlot();
+    virtual void activePartChanged(int);
+    virtual void clonePartSlot();
+    virtual void deletePartSlot();
+    virtual void downPartSlot();
+    virtual void exitSlot();
+    virtual void libraryChanged(const QString &);
+    virtual void loadFieldTypesSlot();
+    virtual void loadParentSlot();
+    virtual void loadSlot();
+    virtual void nameChanged(const QString &);
+    virtual void newPartSlot();
+    virtual void newSlot();
+    virtual void partIncludeChanged(const QString &);
+    virtual void parentChanged(const QString &);
+    virtual void partAccessChanged(int);
+    virtual void partCardinalityChanged(int);
+    virtual void partDefaultValueChanged(const QString &);
+    virtual void partDescriptionChanged(const QString &);
+    virtual void partNameChanged(const QString &);
+    virtual void partTypeChanged(int);
+    virtual void partVisibilityChanged(int);
+    virtual void pointerFieldTypesChanged(int);
+    virtual void resetFieldTypesSlot();
+    virtual void saveAsSlot();
+    virtual void saveSlot();
+    virtual void structureChanged(int);
+    virtual void upPartSlot();
+    virtual void writeFieldContainerBaseSlot();
+    virtual void writeFieldContainerSlot();
 
 };
 
