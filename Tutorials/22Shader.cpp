@@ -242,8 +242,8 @@ int main(int argc, char **argv)
         svp->setBackground(gbg);
         svp->setRoot(_scene);
         svp->setSize(0,0,1,1);
-        svp->setOffFactor(10);
-        svp->setOffBias(4);
+        svp->setOffFactor(10.0);
+        svp->setOffBias(4.0);
         svp->setShadowColor(Color4f(0.1, 0.1, 0.1, 1.0));
         svp->setMapSize(1024);
         // you can add the light sources here, as default all light source in

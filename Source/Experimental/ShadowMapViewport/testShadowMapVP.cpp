@@ -230,8 +230,8 @@ int main(int argc, char **argv)
         svp->setBackground(gbg);
         svp->setRoot(rootNode);
         svp->setSize(0,0,1,1);
-        svp->setOffFactor(10);
-        svp->setOffBias(4);
+        svp->setOffFactor(10.0);
+        svp->setOffBias(4.0);
         svp->setShadowColor(Color4f(0.1, 0.1, 0.1, 1.0));
         svp->setMapSize(1024);
         // you can add the light sources here, as default all light source in
@@ -387,7 +387,7 @@ void keyboard(unsigned char k, int x, int y)
 
         case 'w':
         {
-            int t = svp->getOffBias();
+            Real32 t = svp->getOffBias();
             
             beginEditCP(svp, ShadowMapViewport::OffBiasFieldMask);
                 svp->setOffBias(++t);
@@ -398,7 +398,7 @@ void keyboard(unsigned char k, int x, int y)
         
         case 's':
         {
-            int t = svp->getOffBias();
+            Real32 t = svp->getOffBias();
             
             beginEditCP(svp, ShadowMapViewport::OffBiasFieldMask);
                 svp->setOffBias(--t);
@@ -409,7 +409,7 @@ void keyboard(unsigned char k, int x, int y)
         
         case 'e':
         {
-            int t = svp->getOffFactor();
+            Real32 t = svp->getOffFactor();
             
             beginEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
                 svp->setOffFactor(++t);
@@ -420,7 +420,7 @@ void keyboard(unsigned char k, int x, int y)
         
         case 'd':
         {    
-            int t = svp->getOffFactor();    
+            Real32 t = svp->getOffFactor();    
             
             beginEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
                 svp->setOffFactor(--t);
