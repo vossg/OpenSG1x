@@ -29,6 +29,17 @@
 	The internal texture format.
 	</Field>
 	<Field
+		name="externalFormat"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_NONE"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	The external texture format - overwrites external format of image when set.
+	</Field>
+	<Field
 		name="scale"
 		type="bool"
 		cardinality="single"

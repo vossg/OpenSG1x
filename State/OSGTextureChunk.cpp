@@ -74,11 +74,12 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.32 2002/02/16 03:48:42 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.33 2002/02/19 14:37:33 dirk Exp $";
 
-StateChunkClass TextureChunk::_class("Texture");
+StateChunkClass TextureChunk::_class("Texture", 4);
 
 UInt32 TextureChunk::_extTex3D;
+UInt32 TextureChunk::_arbMultiTex;
 UInt32 TextureChunk::_funcTexImage3D    = TypeConstants<UInt32>::getMax();
 UInt32 TextureChunk::_funcTexSubImage3D = TypeConstants<UInt32>::getMax();
 
@@ -160,9 +161,10 @@ void TextureChunk::initMethod (void)
 TextureChunk::TextureChunk(void) :
     Inherited()
 {
-    _extTex3D          = Window::registerExtension("GL_EXT_texture3D");
-    _funcTexImage3D    = Window::registerFunction (GL_FUNC_TEXIMAGE3D);
-    _funcTexSubImage3D = Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D);
+    _extTex3D          = Window::registerExtension( "GL_EXT_texture3D" );
+    _arbMultiTex       = Window::registerExtension( "GL_ARB_multitexture" );
+    _funcTexImage3D    = Window::registerFunction ( GL_FUNC_TEXIMAGE3D );
+    _funcTexSubImage3D = Window::registerFunction ( GL_FUNC_TEXSUBIMAGE3D );
 }
 
 /** \brief Copy Constructor
@@ -186,9 +188,21 @@ TextureChunk::~TextureChunk(void)
 
 void TextureChunk::changed(BitVector fields, ChangeMode)
 {
-    if((fields & ~(FrameFieldMask | EnvModeFieldMask)) == 0)
+    if(fields & ImageFieldMask)
     {
-        Window::refreshGLObject(getGLId());
+        Window::reinitializeGLObject(getGLId());
+    }
+    else if((fields & ~(MinFilterFieldMask | MagFilterFieldId)) == 0)
+    {
+        if((getMinFilter() != GL_NEAREST) &&
+           (getMinFilter() != GL_LINEAR))
+        {
+	        Window::reinitializeGLObject(getGLId());
+        }
+        else
+        {
+            Window::refreshGLObject(getGLId());
+        }
     }
     else
     {
@@ -331,6 +345,9 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
         else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
         else                                    target = GL_TEXTURE_1D;
 
+
+        FDEBUG(("texture (re-)initialize\n"));
+
         // activate the texture
         glBindTexture(target, id);
 
@@ -370,9 +387,12 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
                             getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
                             getMinFilter() == GL_LINEAR_MIPMAP_LINEAR   ;
 
-        if(internalFormat == GL_NONE)
-            internalFormat = externalFormat;
+	if ( getExternalFormat() != GL_NONE )
+	    externalFormat = getExternalFormat();
 
+	if ( internalFormat == GL_NONE )
+            internalFormat = externalFormat;
+	
         // do we need mipmaps?
         if(needMipmaps)
         {
@@ -663,8 +683,6 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
     }
     else if(mode == Window::needrefresh)
     {
-        // TODO: mipmap recreation/handling
-
         void (*TexSubImage3D)
                           (GLenum target, GLint level, GLint xoffset, 
                            GLint yoffset, GLint zoffset, GLsizei width, 
@@ -681,6 +699,11 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
 #endif                         
 
         ImageP img = getImage();
+        GLenum externalFormat = img->getPixelFormat();
+
+	if ( getExternalFormat() != GL_NONE )
+	    externalFormat = getExternalFormat();
+
 
         if(! img) // no image ?
             return;
@@ -718,22 +741,22 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
             {
             case GL_TEXTURE_1D:
                 glTexSubImage1D(GL_TEXTURE_1D, 0, 0, img->getWidth(),
-                                img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                                img->getData(0, getFrame()));
+                                externalFormat, GL_UNSIGNED_BYTE,
+                                img->getData( 0, getFrame() ) );
                 break;
             case GL_TEXTURE_2D:
                 glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->getWidth(),
                                 img->getHeight(),
-                                img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                                img->getData(0, getFrame()));
+                                externalFormat, GL_UNSIGNED_BYTE,
+                                img->getData( 0, getFrame() ) );
                 break;
 #ifdef GL_TEXTURE_3D
             case GL_TEXTURE_3D:
                   TexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                 img->getWidth(),
                                 img->getHeight(), img->getDepth(),
-                                img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                                img->getData(0, getFrame()));
+                                externalFormat, GL_UNSIGNED_BYTE,
+                                img->getData( 0, getFrame() ) );
                 break;
 #endif
             default:
@@ -773,7 +796,11 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
         glEnable(genfunc);                                            \
     }
 
-void TextureChunk::activate(DrawActionBase *action, UInt32)
+#if defined(GL_ARB_multitexture)
+void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
+#else
+void TextureChunk::activate( DrawActionBase *action, UInt32 )
+#endif
 {
     action->getWindow()->validateGLObject(getGLId());
 
@@ -785,7 +812,14 @@ void TextureChunk::activate(DrawActionBase *action, UInt32)
 
     glErr("TextureChunk::activate precheck");
 
-    if(img->getDepth() > 1)
+    
+#if defined(GL_ARB_multitexture)
+    if ( action->getWindow()->hasExtension( _arbMultiTex ) )
+          glActiveTextureARB( GL_TEXTURE0_ARB + idx );
+#endif
+
+    
+    if ( img->getDepth() > 1 )
     {
 #ifdef GL_TEXTURE_3D
             if(action->getWindow()->hasExtension(_extTex3D))
@@ -808,10 +842,16 @@ void TextureChunk::activate(DrawActionBase *action, UInt32)
 
     glBindTexture(target, getGLId());
 
+    FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
+
     // texture env
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
     // register combiners etc. goes here
+
+    // min/mag filter
+    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, getMinFilter());
+    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, getMagFilter());
 
     // genfuncs
     setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
@@ -845,7 +885,11 @@ void TextureChunk::activate(DrawActionBase *action, UInt32)
 
 void TextureChunk::changeFrom(DrawActionBase *action, 
                               StateChunk     *old   , 
-                              UInt32               )
+#if defined(GL_ARB_multitexture)
+                              UInt32          idx )
+#else
+                              UInt32 )
+#endif
 {
     // change from me to me?
     // this assumes I haven't changed in the meantime. 
@@ -863,6 +907,13 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     glErr("TextureChunk::changeFrom precheck");
 
+    
+#if defined(GL_ARB_multitexture)
+    if ( action->getWindow()->hasExtension( _arbMultiTex ) )
+          glActiveTextureARB( GL_TEXTURE0_ARB + idx );
+#endif
+
+     
     if(img->getDepth() > 1)
     {
 #ifdef GL_TEXTURE_3D
@@ -928,6 +979,10 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     // just set them
     glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
+    // min/mag filter
+    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, getMinFilter());
+    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, getMagFilter());
+
     changeGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
     changeGenFunc(GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane);
     changeGenFunc(GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane);
@@ -943,7 +998,12 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     glErr("TextureChunk::changeFrom");
 }
 
-void TextureChunk::deactivate (DrawActionBase *action, UInt32)
+void TextureChunk::deactivate ( DrawActionBase *action,
+#if defined(GL_ARB_multitexture)
+                                UInt32 idx )
+#else
+                                UInt32 )
+#endif
 {
     ImageP img = getImage();
     GLenum target;
@@ -953,7 +1013,14 @@ void TextureChunk::deactivate (DrawActionBase *action, UInt32)
 
     glErr("TextureChunk::deactivate precheck");
 
-    if(img->getDepth() > 1)
+
+#if defined(GL_ARB_multitexture)
+    if ( action->getWindow()->hasExtension( _arbMultiTex ) )
+          glActiveTextureARB( GL_TEXTURE0_ARB + idx );
+#endif
+
+    
+    if ( img->getDepth() > 1 )
     {
 #ifdef GL_TEXTURE_3D
         if(action->getWindow()->hasExtension(_extTex3D))
