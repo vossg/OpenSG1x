@@ -754,7 +754,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CPEditor
   
     inline CPEditor(void);
     
-    inline CPEditor(const FieldContainerPtr fc, const BitVector mask);
+    inline CPEditor(const FieldContainerPtr fc, 
+                    const BitVector mask = FieldBits::AllFields);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -776,8 +777,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CPEditor
     Helper macro to simplify using CPEditor
  */
 
-#define CPEdit(fc,mask) \
+#define CPEdit(fc, mask) \
  CPEditor CPEdit_##fc((fc),(mask))
+
+#define CPEditAll(fc) \
+ CPEditor CPEdit_##fc((fc))
 
 #ifdef __sgi
 #pragma reset woff 1375
