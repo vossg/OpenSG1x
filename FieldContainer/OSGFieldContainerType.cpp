@@ -118,8 +118,7 @@ FieldContainerType::FieldContainerType(const Char8    *szName,
 
 FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
 
-     Inherited        (obj.getCName(), 
-                       obj.getCParentName()  ),
+     Inherited        (obj                   ),
     _uiGroupId        (obj._uiGroupId        ),
 
     _bInitialized     (false                 ),
