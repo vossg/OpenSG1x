@@ -61,8 +61,10 @@ bool ShaderParameterAccess::setParameter(const char *name, ValueType value)
             FWARNING(("Parameter '%s' has wrong type!\n", name));
             return false;
         }
-        p->setValue(value);
-        p->setChanged(true);
+        beginEditCP(p);
+            p->setValue(value);
+            p->setChanged(true);
+        endEditCP(p);
     }
     else
     {
@@ -70,9 +72,11 @@ bool ShaderParameterAccess::setParameter(const char *name, ValueType value)
         FCPtr<ShaderParameterPtr, ParameterType> p = ParameterType::create();
         if(p != NullFC)
         {
-            p->setName(name);
-            p->setValue(value);
-            p->setChanged(true);
+            beginEditCP(p);
+                p->setName(name);
+                p->setValue(value);
+                p->setChanged(true);
+            endEditCP(p);
             _parameters.push_back(p);
             _parametermap.insert(std::pair<std::string, UInt32>(name, _parameters.size()-1));
             _mapsize = _parameters.size();
@@ -83,4 +87,4 @@ bool ShaderParameterAccess::setParameter(const char *name, ValueType value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.4 2004/06/06 19:29:20 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.5 2004/06/09 19:37:59 a-m-z Exp $"

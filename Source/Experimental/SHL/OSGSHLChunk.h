@@ -216,6 +216,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
 
     void updateProgram(Window *win);
     void updateParameters(Window *win, bool all = false);
+    void resetParameters(void);
+
+    Int32 _reset;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -225,6 +228,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.7 2004/06/07 12:53:24 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.8 2004/06/09 19:37:59 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

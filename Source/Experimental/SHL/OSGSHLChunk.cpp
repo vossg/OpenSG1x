@@ -153,14 +153,16 @@ void SHLChunk::initMethod (void)
 SHLChunk::SHLChunk(void) :
     Inherited(),
     _programs(),
-    _parameter_access(NULL)
+    _parameter_access(NULL),
+    _reset(-1)
 {
 }
 
 SHLChunk::SHLChunk(const SHLChunk &source) :
     Inherited(source),
     _programs(source._programs),
-    _parameter_access(source._parameter_access)
+    _parameter_access(source._parameter_access),
+    _reset(source._reset)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     
@@ -567,6 +569,8 @@ void SHLChunk::updateParameters(Window *win, bool all)
     if(it == _programs.end())
         return;
 
+    _reset = 0;
+
     GLuint program = (*it).second;
         
     // get "glUseProgramObjectARB" function pointer
@@ -605,7 +609,6 @@ void SHLChunk::updateParameters(Window *win, bool all)
                     uniform1i(location, p->getValue());
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
-                p->setChanged(false);
             }
             break;
             case ShaderParameter::SHPTypeReal:
@@ -615,12 +618,12 @@ void SHLChunk::updateParameters(Window *win, bool all)
                 PFNGLUNIFORM1FARBPROC uniform1f = (PFNGLUNIFORM1FARBPROC)
                     win->getFunction(_funcUniform1f);
 
+                //printf("setting: %s %f\n", p->getName().c_str(), p->getValue());
                 GLint location = getUniformLocation(program, p->getName().c_str());
                 if(location != -1)
                     uniform1f(location, p->getValue());
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
-                p->setChanged(false);
             }
             break;
             case ShaderParameter::SHPTypeVec2f:
@@ -635,7 +638,6 @@ void SHLChunk::updateParameters(Window *win, bool all)
                     uniform2fv(location, 1, p->getValue().getValues());
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
-                p->setChanged(false);
             }
             break;
             case ShaderParameter::SHPTypeVec3f:
@@ -650,7 +652,6 @@ void SHLChunk::updateParameters(Window *win, bool all)
                     uniform3fv(location, 1, p->getValue().getValues());
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
-                p->setChanged(false);
             }
             break;
             case ShaderParameter::SHPTypeVec4f:
@@ -665,7 +666,6 @@ void SHLChunk::updateParameters(Window *win, bool all)
                     uniform4fv(location, 1, p->getValue().getValues());
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
-                p->setChanged(false);
             }
             break;
             case ShaderParameter::SHPTypeMatrix:
@@ -680,13 +680,39 @@ void SHLChunk::updateParameters(Window *win, bool all)
                     uniformMatrix4fv(location, 1, GL_FALSE, p->getValue().getValues());
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
-                p->setChanged(false);
             }
             break;
         }
     }
 
     useProgramObject(0);
+}
+
+void SHLChunk::resetParameters(void)
+{
+    // ok this is a HACK but I can't reset the changed field immediately
+    // this doesn't work with the cluster.
+    if(_reset == -1)
+        return;
+    
+    ++_reset;
+    
+    if(_reset <= 1)
+        return;
+    
+    _reset = -1;
+    
+    MFShaderParameterPtr &parameters = getParameters();
+    for(UInt32 i = 0; i < parameters.size(); ++i)
+    {
+        ShaderParameterPtr &parameter = parameters[i];
+        if(parameter->getChanged())
+        {
+            beginEditCP(parameter);
+                parameter->setChanged(false);
+            endEditCP(parameter);
+        }
+    }
 }
 
 /*---------------------------- Access ------------------------------------*/
@@ -823,6 +849,8 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     if(it == _programs.end())
         return;
 
+    resetParameters();
+
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         action->getWindow()->getFunction(_funcUseProgramObject);
@@ -855,6 +883,8 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     // deactivate the old one
     if(it != old->_programs.end())
         useProgramObject(0);
+
+    resetParameters();
 
     it = _programs.find(action->getWindow());
 
@@ -924,7 +954,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.12 2004/06/07 12:53:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.13 2004/06/09 19:37:59 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
