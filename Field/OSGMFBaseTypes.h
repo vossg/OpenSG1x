@@ -58,27 +58,27 @@ OSG_BEGIN_NAMESPACE
 /** \brief OSGMFString
  */
 
-typedef OSGMField<OSGString>  OSGMFString;
+typedef OSGMField<OSGString>        OSGMFString;
 
 /** \brief OSGMFTime
  */
 
-typedef OSGMField<OSGTime>    OSGMFTime;
+typedef OSGMField<OSGTime>          OSGMFTime;
 
 /** \brief OSGMFColor3f
  */
 
-typedef OSGMField<OSGColor3f> OSGMFColor3f;
+typedef OSGMField<OSGColor3f>       OSGMFColor3f;
 
 /** \brief OSGMFColor4f
  */
 
-typedef OSGMField<OSGColor4f> OSGMFColor4f;
+typedef OSGMField<OSGColor4f>       OSGMFColor4f;
 
 /** \brief OSGMFVolume
  */
 
-typedef OSGMField<OSGVolume>  OSGMFVolume;
+typedef OSGMField<OSGDynamicVolume> OSGMFVolume;
 
 OSG_END_NAMESPACE
 
