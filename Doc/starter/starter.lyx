@@ -25,6 +25,12 @@
 \layout Title
 
 OpenSG Starter guide
+\layout Author
+
+doc@opensg.org
+\layout Date
+
+Version 0.1
 \layout Standard
 
 
@@ -106,35 +112,62 @@ Makefile blabla
 test files
 \layout Chapter
 
-Working with OpenSG
-\layout Standard
-
-only overview, look at the doxygen files for detailed description blabla
-\layout Section
-
 Base types
 \layout Standard
 
+only overview, look at the doxygen files for detailed description blabla
+\layout Standard
+
 Platform Independence blabla
-\layout Subsection
+\layout Section
 
 Log
+\layout Standard
+
+Message logger class, handles info,warning and error messages
+\layout Section
+
+StringID
+\layout Standard
+
+Do not use it.
+ It is only for StringID which can have shared data.
+ Use std::string instead.
 \layout Subsection
+
+Functors
+\layout Standard
+
+Moving target.
+ Don not use it right now.
+\layout Section
+
+Multithreading
+\layout Section
+
+Time & Data
+\layout Section
+
+Color
+\layout Section
 
 Math (vector,point,matrix,quaternion)
-\layout Subsection
+\layout Section
+
+Line & Plane
+\layout Section
+
+Bounding Volume
+\layout Section
 
 Image
-\layout Subsection
-
-Threads
-\layout Section
+\layout Chapter
 
 Fields and FieldContainer
 \layout Standard
 
 container for everything that is thread-save
-\layout Subsection
+\layout Section
 
 Createing new Field Container classes
 \layout Standard
@@ -166,26 +199,41 @@ flags 9
 
 FcdEdit blabla
 \end_float 
- ) stuff
+) stuff
 \layout Subsection
+
+XML Description (Foo.fcd)
+\layout Subsection
+
+Field Types (FooFields.h)
+\layout Subsection
+
+Base/Meta Type (FooBase.h, FooBase.inl, FooBase.cpp)
+\layout Subsection
+
+'User Code' implementation (Foo.h, Foo.inl, Foo.cpp)
+\layout Section
 
 Creating a FieldContainer instance
 \layout Standard
 
 factory,prototype blabla
-\layout Subsection
+\layout Section
 
 Changing field values
 \layout Standard
 
 changelist blabla
-\layout Subsection
+\layout Section
 
 FieldContainer attachments
 \layout Standard
 
 attachment blabla
 \layout Section
+
+Destroying a FieldContainer
+\layout Chapter
 
 Nodes and NodeCores
 \layout Standard
@@ -245,25 +293,28 @@ flags 9
 Multi Parent Scene
 \end_float 
 ) stuff
-\layout Subsection
+\layout Section
 
 Node 
 \layout Standard
 
 volume stuff, toWord matrix
-\layout Subsection
+\layout Section
 
 NodeCore 
-\layout Subsubsection
+\layout Subsection
+
+Linking Node Cores
+\layout Subsection
 
 Special Node Cores
-\layout Description
+\layout Subsubsection
 
-Material chunk stuff
-\layout Description
+Material chunk 
+\layout Subsubsection
 
-Geometry property stuff
-\layout Section
+Geometry property 
+\layout Chapter
 
 Action and Traversals
 \layout Subsection
@@ -272,28 +323,177 @@ Usage
 \layout Subsection
 
 Write our own action handler
-\layout Subsubsection
+\layout Chapter
 
 Camera and Window
-\layout Section
+\layout Chapter
 
 Loader
 \layout Subsection
 
+Image
+\layout Subsubsection
+
 Usage
 \layout Subsubsection
 
-Scene
-\layout Subsubsection
-
-Image
+Write your own
 \layout Subsection
 
-Write our own
-\layout Subsubsection
-
 Scene
 \layout Subsubsection
 
-Image
+Usage
+\layout Subsubsection
+
+Write your own
+\layout Standard
+
+
+\begin_inset LatexCommand \listoffigures{}
+
+\end_inset 
+
+
+\layout Standard
+
+
+\latex latex 
+
+\backslash 
+begin{appendix}
+\layout Chapter
+
+Code Style
+\layout Chapter
+
+fcdEdit description
+\layout Standard
+
+Code Style
+\layout Standard
+\added_space_top 0.3cm \added_space_bottom 0.3cm \align center 
+
+\begin_inset Figure size 535 435
+file fcdEdit-numbered.eps
+width 3 90
+flags 11
+
+\end_inset 
+
+
+\layout Enumerate
+
+Node name; you don't have to include the OSG prefix
+\layout Enumerate
+
+System Component ?
+\layout Enumerate
+
+Parent field container; you dont have to include the OSG prefix
+\layout Enumerate
+
+Is Parent a System Component
+\layout Enumerate
+
+Library:
+\layout Enumerate
+
+PFTypes
+\layout Enumerate
+
+Structure
+\layout Enumerate
+
+Field list, shows all field description in a vertical list
+\layout Enumerate
+
+Name of the Field
+\layout Enumerate
+
+Type of the Field, can be changed/extended with the 'Load Field Types/Reset
+ Field Types' mechanisms
+\layout Enumerate
+
+Cardinality: defines the field to be a single or multifield (can hold one
+ value or any number (0-n))
+\layout Enumerate
+
+Access: private/protected/public c++ sty;e access definition
+\layout Enumerate
+
+Visibility: internal/external; will be used to create various styles of
+ documentation
+\layout Enumerate
+
+Header: defines the type header, if unset ...
+\layout Enumerate
+
+DefaultValue: The default field value, prototype ?
+\layout Enumerate
+
+DefaultHeader: ?
+\layout Enumerate
+
+Description: Text description of the Field
+\layout Enumerate
+
+New Field: creates a new field
+\layout Enumerate
+
+Delete Field: deletes the current field
+\layout Enumerate
+
+Clone Field: creates a new field description as clone of the current field
+\layout Enumerate
+
+Up: Moves the current field one position up
+\layout Enumerate
+
+Down: Movies the current field one position down
+\layout Enumerate
+
+New: Restarts the process 
+\layout Enumerate
+
+Load:
+\layout Enumerate
+
+Load Parent:
+\layout Enumerate
+
+ResetFieldTypes:
+\layout Enumerate
+
+LoadFieldTypes;
+\layout Enumerate
+
+Save:
+\layout Enumerate
+
+Save as:
+\layout Enumerate
+
+Write Field Container Base Code: Writes the current description as FooBase.h,
+ FooBase.inl and FooBase.cpp
+\layout Enumerate
+
+Write Field Container Code: Writes the current description as Foo.h Foo.inl
+ and Foo.cpp
+\layout Enumerate
+
+About
+\layout Enumerate
+
+Exit
+\layout Enumerate
+
+Node Description: HTML ?
+\layout Standard
+
+
+\latex latex 
+
+\backslash 
+end{appendix}
 \the_end
