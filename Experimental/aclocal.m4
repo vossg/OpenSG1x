@@ -204,7 +204,7 @@ AC_DEFUN(AC_GDZ_EXEEXT,
 
     esac
 
-    if [[ $ac_gdz_exe_suffix = "." ]] then
+    if [[ $ac_gdz_exe_suffix = "." ]]; then
         ac_gdz_exe_suffix=
     fi
 ])
