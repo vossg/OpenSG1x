@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CGChunk!
+ **     class CGParameterChunk!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -55,27 +55,27 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &CGChunkBase::getClassType(void)
+OSG::FieldContainerType &CGParameterChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 CGChunkBase::getClassTypeId(void) 
+OSG::UInt32 CGParameterChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
 inline
-CGChunkPtr CGChunkBase::create(void) 
+CGParameterChunkPtr CGParameterChunkBase::create(void) 
 {
-    CGChunkPtr fc; 
+    CGParameterChunkPtr fc; 
 
     if(getClassType().getPrototype() != OSG::NullFC) 
     {
-        fc = CGChunkPtr::dcast(
+        fc = CGParameterChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -84,9 +84,9 @@ CGChunkPtr CGChunkBase::create(void)
 
 //! create an empty new instance of the class, do not copy the prototype
 inline
-CGChunkPtr CGChunkBase::createEmpty(void) 
+CGParameterChunkPtr CGParameterChunkBase::createEmpty(void) 
 { 
-    CGChunkPtr returnValue; 
+    CGParameterChunkPtr returnValue; 
     
     newPtr(returnValue); 
 
@@ -96,93 +96,37 @@ CGChunkPtr CGChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the CGChunk::_sfVertexProfile field.
+//! Get the CGParameterChunk::_sfCGChunk field.
 inline
-SFUInt32 *CGChunkBase::getSFVertexProfile(void)
+SFCGChunkPtr *CGParameterChunkBase::getSFCGChunk(void)
 {
-    return &_sfVertexProfile;
-}
-
-//! Get the CGChunk::_sfFragmentProfile field.
-inline
-SFUInt32 *CGChunkBase::getSFFragmentProfile(void)
-{
-    return &_sfFragmentProfile;
-}
-
-//! Get the CGChunk::_sfGLId field.
-inline
-SFUInt32 *CGChunkBase::getSFGLId(void)
-{
-    return &_sfGLId;
+    return &_sfCGChunk;
 }
 
 
-//! Get the value of the CGChunk::_sfVertexProfile field.
+//! Get the value of the CGParameterChunk::_sfCGChunk field.
 inline
-UInt32 &CGChunkBase::getVertexProfile(void)
+CGChunkPtr &CGParameterChunkBase::getCGChunk(void)
 {
-    return _sfVertexProfile.getValue();
+    return _sfCGChunk.getValue();
 }
 
-//! Get the value of the CGChunk::_sfVertexProfile field.
+//! Get the value of the CGParameterChunk::_sfCGChunk field.
 inline
-const UInt32 &CGChunkBase::getVertexProfile(void) const
+const CGChunkPtr &CGParameterChunkBase::getCGChunk(void) const
 {
-    return _sfVertexProfile.getValue();
+    return _sfCGChunk.getValue();
 }
 
-//! Set the value of the CGChunk::_sfVertexProfile field.
+//! Set the value of the CGParameterChunk::_sfCGChunk field.
 inline
-void CGChunkBase::setVertexProfile(const UInt32 &value)
+void CGParameterChunkBase::setCGChunk(const CGChunkPtr &value)
 {
-    _sfVertexProfile.setValue(value);
-}
-
-//! Get the value of the CGChunk::_sfFragmentProfile field.
-inline
-UInt32 &CGChunkBase::getFragmentProfile(void)
-{
-    return _sfFragmentProfile.getValue();
-}
-
-//! Get the value of the CGChunk::_sfFragmentProfile field.
-inline
-const UInt32 &CGChunkBase::getFragmentProfile(void) const
-{
-    return _sfFragmentProfile.getValue();
-}
-
-//! Set the value of the CGChunk::_sfFragmentProfile field.
-inline
-void CGChunkBase::setFragmentProfile(const UInt32 &value)
-{
-    _sfFragmentProfile.setValue(value);
-}
-
-//! Get the value of the CGChunk::_sfGLId field.
-inline
-UInt32 &CGChunkBase::getGLId(void)
-{
-    return _sfGLId.getValue();
-}
-
-//! Get the value of the CGChunk::_sfGLId field.
-inline
-const UInt32 &CGChunkBase::getGLId(void) const
-{
-    return _sfGLId.getValue();
-}
-
-//! Set the value of the CGChunk::_sfGLId field.
-inline
-void CGChunkBase::setGLId(const UInt32 &value)
-{
-    _sfGLId.setValue(value);
+    _sfCGChunk.setValue(value);
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCGPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGParameterChunkBase.inl,v 1.1 2004/08/27 12:49:19 a-m-z Exp $"
 

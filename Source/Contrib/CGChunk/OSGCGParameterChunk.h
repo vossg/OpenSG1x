@@ -36,31 +36,31 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGCGCHUNK_H_
-#define _OSGCGCHUNK_H_
+#ifndef _OSGCGPARAMETERCHUNK_H_
+#define _OSGCGPARAMETERCHUNK_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-#include "OSGDrawActionBase.h"
-#include "OSGWindow.h"
+#include <OSGDrawActionBase.h>
+#include <OSGWindow.h>
 
-#include <map>
+#include "OSGCGChunk.h"
 
-#include <OSGCGChunkBase.h>
+#include "OSGCGParameterChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief CGChunk class. See \ref
-           PageKernelCGChunk for a description.
+/*! \brief CGParameterChunk class. See \ref
+           PageKernelCGParameterChunk for a description.
 */
 
-class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
+class OSG_CONTRIBLIB_DLLMAPPING CGParameterChunk : public CGParameterChunkBase
 {
   private:
 
-    typedef CGChunkBase Inherited;
+    typedef CGParameterChunkBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -81,13 +81,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
 
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Paramerters                            */
-    /*! \{                                                                 */
-
-    void updateParameters(Window *win, const MFShaderParameterPtr &parameters);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -117,24 +110,21 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in CGChunkBase.
-
-    void onCreate(const CGChunk *source = NULL);
-    void onDestroy(void);
+    // Variables should all be in CGParameterChunkBase.
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    CGChunk(void);
-    CGChunk(const CGChunk &source);
+    CGParameterChunk(void);
+    CGParameterChunk(const CGParameterChunk &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CGChunk(void);
+    virtual ~CGParameterChunk(void);
 
     /*! \}                                                                 */
 
@@ -142,50 +132,35 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
   private:
 
     friend class FieldContainer;
-    friend class CGChunkBase;
+    friend class CGParameterChunkBase;
 
     // class. Used for indexing in State
     static StateChunkClass _class;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name            OpenGL Extension Handling                         */
+    /*! \{                                                                 */
+
+    static UInt32 _shl_extension;
+
+    /*! \}                                                                 */
+
     static void initMethod(void);
 
-    void handleGL(Window *win, UInt32 id);
-
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CGChunk &source);
+    void operator =(const CGParameterChunk &source);
 
-    static void cgErrorCallback(void);
-
-    bool hasVP(void);
-    bool hasFP(void);
-
-    typedef struct _OSGCGcontext    *OSGCGcontext;
-    typedef struct _OSGCGprogram    *OSGCGprogram;
-    typedef struct _OSGCGparameter  *OSGCGparameter;
-
-    OSGCGcontext   _context;
-    OSGCGprogram   _vProgram;
-    bool           _vp_isvalid;
-    OSGCGprogram   _fProgram;
-    bool           _fp_isvalid;
-
-    void updateCGContext(void);
-
-#if 0
-    void parseProgramParams(OSGCGprogram prog);
-    void parseParams(OSGCGparameter param);
-#endif
-
-    static OSGCGcontext _current_context;
+    void updateProgram(Window *win);
+    void updateParameters(Window *win);
 };
 
-typedef CGChunk *CGChunkP;
+typedef CGParameterChunk *CGParameterChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGChunkBase.inl>
-#include <OSGCGChunk.inl>
+#include <OSGCGParameterChunkBase.inl>
+#include <OSGCGParameterChunk.inl>
 
-#define OSGCGCHUNK_HEADER_CVSID "@(#)$Id: OSGCGChunk.h,v 1.1 2003/06/25 14:22:43 amz Exp $"
+#define OSGCGPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGCGParameterChunk.h,v 1.1 2004/08/27 12:49:19 a-m-z Exp $"
 
-#endif /* _OSGCGCHUNK_H_ */
+#endif /* _OSGCGPARAMETERCHUNK_H_ */

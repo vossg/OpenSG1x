@@ -118,8 +118,7 @@ CGChunk::CGChunk(void) :
     _vProgram(NULL),
     _fProgram(NULL),
     _vp_isvalid(false),
-    _fp_isvalid(false),
-    _reset(-1)
+    _fp_isvalid(false)
 {
 }
 
@@ -129,8 +128,7 @@ CGChunk::CGChunk(const CGChunk &source) :
     _vProgram(source._vProgram),
     _fProgram(source._fProgram),
     _vp_isvalid(source._vp_isvalid),
-    _fp_isvalid(source._fp_isvalid),
-    _reset(source._reset)
+    _fp_isvalid(source._fp_isvalid)
 {
 }
 
@@ -145,8 +143,6 @@ void CGChunk::onCreate(const CGChunk *source)
     // ignore prototypes.
     if(GlobalSystemState == Startup)
         return;
-
-    printf("CG_PROFILE_UNKNOWN: %d\n", CG_PROFILE_UNKNOWN);
 
     // we need this for clustering without it handleGL is never called.
     RemoteAspect::addFieldFilter(CGChunk::getClassType().getId(),
@@ -231,7 +227,7 @@ void CGChunk::handleGL(Window *win, UInt32 idstatus)
             updateCGContext();
         }
 
-        updateParameters(win);
+        updateParameters(win, getParameters());
     }
     else
     {
@@ -298,16 +294,12 @@ void CGChunk::updateCGContext(void)
     }
 }
 
-void CGChunk::updateParameters(Window *win, bool all)
+void CGChunk::updateParameters(Window */*win*/,
+                               const MFShaderParameterPtr &parameters)
 {
-    _reset = 0;
-
-    for(UInt32 i = 0; i < getParameters().size(); ++i)
+    for(UInt32 i = 0; i < parameters.size(); ++i)
     {
-        ShaderParameterPtr parameter = getParameters()[i];
-        
-        if(!all && !parameter->getChanged())
-            continue;
+        ShaderParameterPtr parameter = parameters[i];
 
         // works also but is not possible with a switch and a switch is much faster.
         //UInt16 groupid = parameter->getType().getGroupId();
@@ -427,33 +419,6 @@ void CGChunk::updateParameters(Window *win, bool all)
     }
 }
 
-void CGChunk::resetParameters(void)
-{
-    // ok this is a HACK but I can't reset the changed field immediately
-    // this doesn't work with the cluster.
-    if(_reset == -1)
-        return;
-    
-    ++_reset;
-    
-    if(_reset <= 1)
-        return;
-    
-    _reset = -1;
-    
-    MFShaderParameterPtr &parameters = getParameters();
-    for(UInt32 i = 0; i < parameters.size(); ++i)
-    {
-        ShaderParameterPtr &parameter = parameters[i];
-        if(parameter->getChanged())
-        {
-            beginEditCP(parameter);
-                parameter->setChanged(false);
-            endEditCP(parameter);
-        }
-    }
-}
-
 /*------------------------------ State ------------------------------------*/
 
 void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
@@ -461,8 +426,6 @@ void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     _current_context = _context;
 
     action->getWindow()->validateGLObject(getGLId());
-
-    resetParameters();
 
     if(_vp_isvalid)
     {
@@ -511,8 +474,6 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         // unbinds program too
         cgGLDisableProfile((CGprofile) old->getVertexProfile());
     }
-
-    resetParameters();
 
     if(_vp_isvalid)
     {

@@ -45,116 +45,94 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CGChunk!
+ **     class CGParameterChunk!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#define OSG_COMPILECGCHUNKINST
+#define OSG_COMPILECGPARAMETERCHUNKINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include "OSGCGChunkBase.h"
-#include "OSGCGChunk.h"
+#include "OSGCGParameterChunkBase.h"
+#include "OSGCGParameterChunk.h"
 
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  CGChunkBase::VertexProfileFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::VertexProfileFieldId);
+const OSG::BitVector  CGParameterChunkBase::CGChunkFieldMask = 
+    (TypeTraits<BitVector>::One << CGParameterChunkBase::CGChunkFieldId);
 
-const OSG::BitVector  CGChunkBase::FragmentProfileFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::FragmentProfileFieldId);
-
-const OSG::BitVector  CGChunkBase::GLIdFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::GLIdFieldId);
-
-const OSG::BitVector CGChunkBase::MTInfluenceMask = 
+const OSG::BitVector CGParameterChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
 
-/*! \var UInt32          CGChunkBase::_sfVertexProfile
-    vertex profile
-*/
-/*! \var UInt32          CGChunkBase::_sfFragmentProfile
-    vertex profile
-*/
-/*! \var UInt32          CGChunkBase::_sfGLId
+/*! \var CGChunkPtr      CGParameterChunkBase::_sfCGChunk
     
 */
 
-//! CGChunk description
+//! CGParameterChunk description
 
-FieldDescription *CGChunkBase::_desc[] = 
+FieldDescription *CGParameterChunkBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "vertexProfile", 
-                     VertexProfileFieldId, VertexProfileFieldMask,
+    new FieldDescription(SFCGChunkPtr::getClassType(), 
+                     "CGChunk", 
+                     CGChunkFieldId, CGChunkFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFVertexProfile),
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "fragmentProfile", 
-                     FragmentProfileFieldId, FragmentProfileFieldMask,
-                     false,
-                     (FieldAccessMethod) &CGChunkBase::getSFFragmentProfile),
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "GLId", 
-                     GLIdFieldId, GLIdFieldMask,
-                     true,
-                     (FieldAccessMethod) &CGChunkBase::getSFGLId)
+                     (FieldAccessMethod) &CGParameterChunkBase::getSFCGChunk)
 };
 
 
-FieldContainerType CGChunkBase::_type(
-    "CGChunk",
-    "ShaderChunk",
+FieldContainerType CGParameterChunkBase::_type(
+    "CGParameterChunk",
+    "ShaderParameterChunk",
     NULL,
-    (PrototypeCreateF) &CGChunkBase::createEmpty,
-    CGChunk::initMethod,
+    (PrototypeCreateF) &CGParameterChunkBase::createEmpty,
+    CGParameterChunk::initMethod,
     _desc,
     sizeof(_desc));
 
-//OSG_FIELD_CONTAINER_DEF(CGChunkBase, CGChunkPtr)
+//OSG_FIELD_CONTAINER_DEF(CGParameterChunkBase, CGParameterChunkPtr)
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &CGChunkBase::getType(void) 
+FieldContainerType &CGParameterChunkBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &CGChunkBase::getType(void) const 
+const FieldContainerType &CGParameterChunkBase::getType(void) const 
 {
     return _type;
 } 
 
 
-FieldContainerPtr CGChunkBase::shallowCopy(void) const 
+FieldContainerPtr CGParameterChunkBase::shallowCopy(void) const 
 { 
-    CGChunkPtr returnValue; 
+    CGParameterChunkPtr returnValue; 
 
-    newPtr(returnValue, dynamic_cast<const CGChunk *>(this)); 
+    newPtr(returnValue, dynamic_cast<const CGParameterChunk *>(this)); 
 
     return returnValue; 
 }
 
-UInt32 CGChunkBase::getContainerSize(void) const 
+UInt32 CGParameterChunkBase::getContainerSize(void) const 
 { 
-    return sizeof(CGChunk); 
+    return sizeof(CGParameterChunk); 
 }
 
 
-void CGChunkBase::executeSync(      FieldContainer &other,
+void CGParameterChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGChunkBase *) &other, whichField);
+    this->executeSyncImpl((CGParameterChunkBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
@@ -163,10 +141,8 @@ void CGChunkBase::executeSync(      FieldContainer &other,
 #pragma warning (disable : 383)
 #endif
 
-CGChunkBase::CGChunkBase(void) :
-    _sfVertexProfile          (UInt32(6145)), 
-    _sfFragmentProfile        (UInt32(6145)), 
-    _sfGLId                   (), 
+CGParameterChunkBase::CGParameterChunkBase(void) :
+    _sfCGChunk                (CGChunkPtr(NullFC)), 
     Inherited() 
 {
 }
@@ -175,105 +151,67 @@ CGChunkBase::CGChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-CGChunkBase::CGChunkBase(const CGChunkBase &source) :
-    _sfVertexProfile          (source._sfVertexProfile          ), 
-    _sfFragmentProfile        (source._sfFragmentProfile        ), 
-    _sfGLId                   (source._sfGLId                   ), 
+CGParameterChunkBase::CGParameterChunkBase(const CGParameterChunkBase &source) :
+    _sfCGChunk                (source._sfCGChunk                ), 
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
 
-CGChunkBase::~CGChunkBase(void)
+CGParameterChunkBase::~CGParameterChunkBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 CGChunkBase::getBinSize(const BitVector &whichField)
+UInt32 CGParameterChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    if(FieldBits::NoField != (CGChunkFieldMask & whichField))
     {
-        returnValue += _sfVertexProfile.getBinSize();
-    }
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-    {
-        returnValue += _sfFragmentProfile.getBinSize();
-    }
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
-        returnValue += _sfGLId.getBinSize();
+        returnValue += _sfCGChunk.getBinSize();
     }
 
 
     return returnValue;
 }
 
-void CGChunkBase::copyToBin(      BinaryDataHandler &pMem,
+void CGParameterChunkBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    if(FieldBits::NoField != (CGChunkFieldMask & whichField))
     {
-        _sfVertexProfile.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-    {
-        _sfFragmentProfile.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
-        _sfGLId.copyToBin(pMem);
+        _sfCGChunk.copyToBin(pMem);
     }
 
 
 }
 
-void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+void CGParameterChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    if(FieldBits::NoField != (CGChunkFieldMask & whichField))
     {
-        _sfVertexProfile.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-    {
-        _sfFragmentProfile.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-    {
-        _sfGLId.copyFromBin(pMem);
+        _sfCGChunk.copyFromBin(pMem);
     }
 
 
 }
 
-void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
+void CGParameterChunkBase::executeSyncImpl(      CGParameterChunkBase *pOther,
                                         const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
-        _sfVertexProfile.syncWith(pOther->_sfVertexProfile);
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-        _sfFragmentProfile.syncWith(pOther->_sfFragmentProfile);
-
-    if(FieldBits::NoField != (GLIdFieldMask & whichField))
-        _sfGLId.syncWith(pOther->_sfGLId);
+    if(FieldBits::NoField != (CGChunkFieldMask & whichField))
+        _sfCGChunk.syncWith(pOther->_sfCGChunk);
 
 
 }
@@ -286,11 +224,11 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<CGChunkPtr>::_type("CGChunkPtr", "ShaderChunkPtr");
+DataType FieldDataTraits<CGParameterChunkPtr>::_type("CGParameterChunkPtr", "ShaderParameterChunkPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -308,10 +246,10 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
-    static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunkBase.cpp,v 1.1 2004/08/27 12:49:19 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGCGPARAMETERCHUNKBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCGPARAMETERCHUNKBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGCGCHUNKFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGCGPARAMETERCHUNKFIELDS_HEADER_CVSID;
 }
 

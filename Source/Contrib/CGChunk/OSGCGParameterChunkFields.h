@@ -4,6 +4,8 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -42,147 +44,88 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
- **     Do not change this file, changes should be done in the derived      **
- **     class CGChunk!
- **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
+
+#ifndef _OSGCGPARAMETERCHUNKFIELDS_H_
+#define _OSGCGPARAMETERCHUNKFIELDS_H_
+#ifdef __sgi
+#pragma once
+#endif
+
 #include <OSGConfig.h>
+
+#include <OSGFieldContainerPtr.h>
+#include <OSGNodeCoreFieldDataType.h>
+#include <OSGContribDef.h>
+
+#include <OSGShaderParameterChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
+class CGParameterChunk;
 
-//! access the type of the class
-inline
-OSG::FieldContainerType &CGChunkBase::getClassType(void)
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+//! CGParameterChunkPtr
+
+typedef FCPtr<ShaderParameterChunkPtr, CGParameterChunk> CGParameterChunkPtr;
+
+#endif
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpContribFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
+template <>
+struct FieldDataTraits<CGParameterChunkPtr> : 
+    public FieldTraitsRecurseMapper<CGParameterChunkPtr, true>
 {
-    return _type; 
-} 
+    static DataType             _type;                       
 
-//! access the numerical type of the class
-inline
-OSG::UInt32 CGChunkBase::getClassTypeId(void) 
-{
-    return _type.getId(); 
-} 
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
 
-//! create a new instance of the class
-inline
-CGChunkPtr CGChunkBase::create(void) 
-{
-    CGChunkPtr fc; 
+    static DataType &getType (void) { return _type;        }
 
-    if(getClassType().getPrototype() != OSG::NullFC) 
-    {
-        fc = CGChunkPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
+    static char     *getSName(void) { return "SFCGParameterChunkPtr"; }
+    static char     *getMName(void) { return "MFCGParameterChunkPtr"; }
+};
 
-//! create an empty new instance of the class, do not copy the prototype
-inline
-CGChunkPtr CGChunkBase::createEmpty(void) 
-{ 
-    CGChunkPtr returnValue; 
-    
-    newPtr(returnValue); 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<CGParameterChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
 
-    return returnValue; 
-}
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
-/*------------------------------ get -----------------------------------*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpContribFieldSingle */
 
-//! Get the CGChunk::_sfVertexProfile field.
-inline
-SFUInt32 *CGChunkBase::getSFVertexProfile(void)
-{
-    return &_sfVertexProfile;
-}
+typedef SField<CGParameterChunkPtr> SFCGParameterChunkPtr;
+#endif
 
-//! Get the CGChunk::_sfFragmentProfile field.
-inline
-SFUInt32 *CGChunkBase::getSFFragmentProfile(void)
-{
-    return &_sfFragmentProfile;
-}
+#ifndef OSG_COMPILECGPARAMETERCHUNKINST
+OSG_DLLEXPORT_DECL1(SField, CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
+#endif
 
-//! Get the CGChunk::_sfGLId field.
-inline
-SFUInt32 *CGChunkBase::getSFGLId(void)
-{
-    return &_sfGLId;
-}
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpContribFieldMulti */
 
+typedef MField<CGParameterChunkPtr> MFCGParameterChunkPtr;
+#endif
 
-//! Get the value of the CGChunk::_sfVertexProfile field.
-inline
-UInt32 &CGChunkBase::getVertexProfile(void)
-{
-    return _sfVertexProfile.getValue();
-}
-
-//! Get the value of the CGChunk::_sfVertexProfile field.
-inline
-const UInt32 &CGChunkBase::getVertexProfile(void) const
-{
-    return _sfVertexProfile.getValue();
-}
-
-//! Set the value of the CGChunk::_sfVertexProfile field.
-inline
-void CGChunkBase::setVertexProfile(const UInt32 &value)
-{
-    _sfVertexProfile.setValue(value);
-}
-
-//! Get the value of the CGChunk::_sfFragmentProfile field.
-inline
-UInt32 &CGChunkBase::getFragmentProfile(void)
-{
-    return _sfFragmentProfile.getValue();
-}
-
-//! Get the value of the CGChunk::_sfFragmentProfile field.
-inline
-const UInt32 &CGChunkBase::getFragmentProfile(void) const
-{
-    return _sfFragmentProfile.getValue();
-}
-
-//! Set the value of the CGChunk::_sfFragmentProfile field.
-inline
-void CGChunkBase::setFragmentProfile(const UInt32 &value)
-{
-    _sfFragmentProfile.setValue(value);
-}
-
-//! Get the value of the CGChunk::_sfGLId field.
-inline
-UInt32 &CGChunkBase::getGLId(void)
-{
-    return _sfGLId.getValue();
-}
-
-//! Get the value of the CGChunk::_sfGLId field.
-inline
-const UInt32 &CGChunkBase::getGLId(void) const
-{
-    return _sfGLId.getValue();
-}
-
-//! Set the value of the CGChunk::_sfGLId field.
-inline
-void CGChunkBase::setGLId(const UInt32 &value)
-{
-    _sfGLId.setValue(value);
-}
-
+#ifndef OSG_COMPILECGPARAMETERCHUNKINST
+OSG_DLLEXPORT_DECL1(MField, CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCGPARAMETERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkFields.h,v 1.1 2004/08/27 12:49:19 a-m-z Exp $"
 
+#endif /* _OSGCGPARAMETERCHUNKFIELDS_H_ */

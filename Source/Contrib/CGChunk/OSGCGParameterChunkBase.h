@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CGChunk
+ **     class CGParameterChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCGCHUNKBASE_H_
-#define _OSGCGCHUNKBASE_H_
+#ifndef _OSGCGPARAMETERCHUNKBASE_H_
+#define _OSGCGPARAMETERCHUNKBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,43 +63,37 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGShaderChunk.h> // Parent
+#include <OSGShaderParameterChunk.h> // Parent
 
-#include <OSGUInt32Fields.h> // VertexProfile type
-#include <OSGUInt32Fields.h> // FragmentProfile type
-#include <OSGUInt32Fields.h> // GLId type
+#include <OSGCGChunkFields.h> // CGChunk type
 
-#include <OSGCGChunkFields.h>
+#include <OSGCGParameterChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class CGChunk;
+class CGParameterChunk;
 class BinaryDataHandler;
 
-//! \brief CGChunk Base Class.
+//! \brief CGParameterChunk Base Class.
 
-class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
+class OSG_CONTRIBLIB_DLLMAPPING CGParameterChunkBase : public ShaderParameterChunk
 {
   private:
 
-    typedef ShaderChunk    Inherited;
+    typedef ShaderParameterChunk    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef CGChunkPtr  Ptr;
+    typedef CGParameterChunkPtr  Ptr;
 
     enum
     {
-        VertexProfileFieldId   = Inherited::NextFieldId,
-        FragmentProfileFieldId = VertexProfileFieldId   + 1,
-        GLIdFieldId            = FragmentProfileFieldId + 1,
-        NextFieldId            = GLIdFieldId            + 1
+        CGChunkFieldId = Inherited::NextFieldId,
+        NextFieldId    = CGChunkFieldId + 1
     };
 
-    static const OSG::BitVector VertexProfileFieldMask;
-    static const OSG::BitVector FragmentProfileFieldMask;
-    static const OSG::BitVector GLIdFieldMask;
+    static const OSG::BitVector CGChunkFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -126,25 +120,17 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFVertexProfile  (void);
-           SFUInt32            *getSFFragmentProfile(void);
-           SFUInt32            *getSFGLId           (void);
+           SFCGChunkPtr        *getSFCGChunk        (void);
 
-           UInt32              &getVertexProfile  (void);
-     const UInt32              &getVertexProfile  (void) const;
-           UInt32              &getFragmentProfile(void);
-     const UInt32              &getFragmentProfile(void) const;
-           UInt32              &getGLId           (void);
-     const UInt32              &getGLId           (void) const;
+           CGChunkPtr          &getCGChunk        (void);
+     const CGChunkPtr          &getCGChunk        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setVertexProfile  ( const UInt32 &value );
-     void setFragmentProfile( const UInt32 &value );
-     void setGLId           ( const UInt32 &value );
+     void setCGChunk        ( const CGChunkPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,8 +157,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  CGChunkPtr      create          (void); 
-    static  CGChunkPtr      createEmpty     (void); 
+    static  CGParameterChunkPtr      create          (void); 
+    static  CGParameterChunkPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -190,31 +176,29 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32            _sfVertexProfile;
-    SFUInt32            _sfFragmentProfile;
-    SFUInt32            _sfGLId;
+    SFCGChunkPtr        _sfCGChunk;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CGChunkBase(void);
-    CGChunkBase(const CGChunkBase &source);
+    CGParameterChunkBase(void);
+    CGParameterChunkBase(const CGParameterChunkBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CGChunkBase(void); 
+    virtual ~CGParameterChunkBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CGChunkBase *pOther,
+    void executeSyncImpl(      CGParameterChunkBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -228,7 +212,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CGChunkBase &source);
+    void operator =(const CGParameterChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -236,10 +220,10 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 //---------------------------------------------------------------------------
 
 
-typedef CGChunkBase *CGChunkBaseP;
+typedef CGParameterChunkBase *CGParameterChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.1 2004/08/27 12:49:19 a-m-z Exp $"
 
-#endif /* _OSGCGCHUNKBASE_H_ */
+#endif /* _OSGCGPARAMETERCHUNKBASE_H_ */

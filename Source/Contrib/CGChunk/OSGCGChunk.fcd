@@ -31,4 +31,12 @@
 	>
 	vertex profile
 	</Field>
+	<Field
+		name="GLId"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+	>
+	</Field>
 </FieldContainer>
