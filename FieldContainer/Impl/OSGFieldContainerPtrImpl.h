@@ -58,6 +58,7 @@ OSG_BEGIN_NAMESPACE
 
 class FieldContainer;
 class LockPool;
+class NullFieldContainerPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -78,37 +79,11 @@ class LockPool;
 //  Class
 //---------------------------------------------------------------------------
 
-//! NullPtr Class
-//! \ingroup FieldContainerLib
-
-class OSG_SYSTEMLIB_DLLMAPPING NullFieldContainerPtr 
-{
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    NullFieldContainerPtr(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    ~NullFieldContainerPtr(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-};
-
 #ifdef __sgi
 #pragma set woff 1375
 #endif
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase : 
-    public NullFieldContainerPtr
+class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -183,8 +158,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase :
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-
-    typedef NullFieldContainerPtr Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name             Intialization / Termination                      */
@@ -422,6 +395,34 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 };
 
 
+
+//! NullPtr Class
+//! \ingroup FieldContainerLib
+
+class OSG_SYSTEMLIB_DLLMAPPING NullFieldContainerPtr : 
+    public FieldContainerPtr 
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    typedef FieldContainerPtr Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    NullFieldContainerPtr(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    ~NullFieldContainerPtr(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+};
 
 
 //---------------------------------------------------------------------------

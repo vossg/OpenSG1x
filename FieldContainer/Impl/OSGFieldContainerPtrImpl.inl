@@ -63,7 +63,8 @@ OSG_BEGIN_NAMESPACE
 /*                            Constructors                                 */
 
 inline
-NullFieldContainerPtr::NullFieldContainerPtr(void)
+NullFieldContainerPtr::NullFieldContainerPtr(void) : 
+    Inherited()
 {
 }
 
@@ -165,7 +166,6 @@ Int32  FieldContainerPtrBase::getElemOff(UInt32 uiElemNum) const
 
 inline 
 FieldContainerPtrBase::FieldContainerPtrBase(void) :
-     Inherited    (                ),
     _containerSize(0               ),
     _uiParentEPos(InvalidParentEPos),
     _storeP      (NULL             ) 
@@ -179,7 +179,6 @@ inline
 FieldContainerPtrBase::FieldContainerPtrBase(
     const NullFieldContainerPtr &) :
 
-     Inherited    (                 ),
     _containerSize(0                ),
     _uiParentEPos (InvalidParentEPos),
     _storeP       (NULL             )
@@ -193,7 +192,6 @@ inline
 FieldContainerPtrBase::FieldContainerPtrBase(
     const FieldContainerPtrBase &source) :
 
-     Inherited    (                     ),
     _containerSize(source._containerSize),
     _uiParentEPos (source._uiParentEPos ),
     _storeP       (source._storeP       )
