@@ -31,23 +31,12 @@
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
-				CompileAs="0">
-				<IntelOptions
-					Optimization="2"
-					InlineFuncExpansion="1"
-					OmitFramePtrs="1"
-					StringPooling="1"
-					RuntimeLibrary="2"
-					BufferSecurityCheck="1"
-					FunctionLevelLinking="1"
-					RuntimeTypeInfo="1"
-					AllOptions="/c  /I &quot;..&quot; /I &quot;.&quot; /nologo /W1 /O2 /Ob1 /Oy /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D &quot;WINVER=0x0400&quot; /D &quot;_WIN32_WINDOWS=0x0410&quot; /D &quot;_WIN32_WINNT=0x0400&quot; /D &quot;_OSG_HAVE_CONFIGURED_H_&quot; /D &quot;OSG_BUILD_DLL&quot; /D &quot;OSG_COMPILEWINDOWWIN32LIB&quot; /D &quot;OSG_WITH_GLUT&quot; /D &quot;OSG_WITH_QT&quot; /D &quot;OSG_WITH_TIF&quot; /D &quot;OSG_WITH_JPG&quot; /D &quot;OSG_WITH_PNG&quot; /D &quot;OSG_WITH_GIF&quot; /D &quot;OSG_WITH_FREETYPE1&quot; /D &quot;QT_NO_STL&quot; /D &quot;QT_DLL&quot; /D &quot;QT_THREAD_SUPPORT&quot; /D &quot;QT_ACCESSIBILITY_SUPPORT&quot; /D &quot;QT_NO_DEBUG&quot; /D &quot;_WINDLL&quot; /GF /FD /EHsc /MD /GS /Gy /GR /Fp&quot;.\Release/WindowWIN32Lib.pch&quot; /Fo&quot;.\Release/&quot; /Fd&quot;.\Release/&quot; /Gd -Zm1200 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Experimental/Text -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/WIN32 /Zm1200"
-					MSOriginalAdditionalOptions="-Zm1200 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Experimental/Text -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/WIN32 /Zm1200"/>
-			</Tool>
+				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions=""
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
 				OutputFile="..\lib\opt\OSGWindowWIN32.dll"
 				LinkIncremental="1"
@@ -56,12 +45,7 @@
 				ProgramDatabaseFile=".\..\lib\opt/OSGWindowWIN32.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Release/OSGWindowWIN32.map"
-				ImportLibrary=".\..\lib\opt/OSGWindowWIN32.lib"
-				AdditionalOptions="">
-				<IntelOptions
-					AllOptions="/NOLOGO /DLL /OUT:&quot;..\lib\opt\OSGWindowWIN32.dll&quot; /INCREMENTAL:NO MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib /NODEFAULTLIB /PDB:&quot;.\..\lib\opt/OSGWindowWIN32.pdb&quot; /MAP:&quot;.\Release/OSGWindowWIN32.map&quot; /TLBID:1 /IMPLIB:&quot;.\..\lib\opt/OSGWindowWIN32.lib&quot;  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
-					MSOriginalAdditionalOptions=""/>
-			</Tool>
+				ImportLibrary=".\..\lib\opt/OSGWindowWIN32.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -83,8 +67,6 @@
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
 				Name="VCWebDeploymentTool"/>
-			<IntelOptions
-				CompilerName="1"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
@@ -95,7 +77,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm1200 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Experimental/Text -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/WIN32 /Zm1200"
+				AdditionalOptions="-Zm1000 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Experimental/Text -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/WIN32 /Zm1000"
 				Optimization="0"
 				AdditionalIncludeDirectories="..,."
 				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILEWINDOWWIN32LIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;OSG_WITH_FREETYPE1;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
@@ -107,20 +89,12 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				DebugInformationFormat="4"
-				CompileAs="0">
-				<IntelOptions
-					Optimization="0"
-					MinimalRebuild="1"
-					BasicRuntimeChecks="3"
-					RuntimeLibrary="3"
-					RuntimeTypeInfo="1"
-					AllOptions="/c  /I &quot;..&quot; /I &quot;.&quot; /ZI /nologo /W1 /Od /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D &quot;WINVER=0x0400&quot; /D &quot;_WIN32_WINDOWS=0x0410&quot; /D &quot;_WIN32_WINNT=0x0400&quot; /D &quot;_OSG_HAVE_CONFIGURED_H_&quot; /D &quot;OSG_BUILD_DLL&quot; /D &quot;_DEBUG&quot; /D &quot;OSG_COMPILEWINDOWWIN32LIB&quot; /D &quot;OSG_WITH_GLUT&quot; /D &quot;OSG_WITH_QT&quot; /D &quot;OSG_WITH_TIF&quot; /D &quot;OSG_WITH_JPG&quot; /D &quot;OSG_WITH_PNG&quot; /D &quot;OSG_WITH_GIF&quot; /D &quot;OSG_WITH_FREETYPE1&quot; /D &quot;QT_NO_STL&quot; /D &quot;QT_DLL&quot; /D &quot;QT_THREAD_SUPPORT&quot; /D &quot;QT_ACCESSIBILITY_SUPPORT&quot; /D &quot;QT_NO_DEBUG&quot; /D &quot;_WINDLL&quot; /Gm /EHsc /RTC1 /MDd /GR /Fp&quot;.\Debug/WindowWIN32Lib.pch&quot; /Fo&quot;.\Debug/&quot; /Fd&quot;.\Debug/&quot; /Gd -Zm1200 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Experimental/Text -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/WIN32 /Zm1200"
-					MSOriginalAdditionalOptions="-Zm1200 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Experimental/Text -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/WIN32 /Zm1200"/>
-			</Tool>
+				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions=""
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
 				OutputFile="..\lib\dbg\OSGWindowWIN32.dll"
 				LinkIncremental="2"
@@ -130,12 +104,7 @@
 				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Debug/OSGWindowWIN32.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32.lib"
-				AdditionalOptions="">
-				<IntelOptions
-					AllOptions="/NOLOGO /DLL /OUT:&quot;..\lib\dbg\OSGWindowWIN32.dll&quot; /INCREMENTAL MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib /NODEFAULTLIB /DEBUG /PDB:&quot;.\..\lib\dbg/OSGWindowWIN32.pdb&quot; /MAP:&quot;.\Debug/OSGWindowWIN32.map&quot; /TLBID:1 /IMPLIB:&quot;.\..\lib\dbg/OSGWindowWIN32.lib&quot;  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
-					MSOriginalAdditionalOptions=""/>
-			</Tool>
+				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -156,8 +125,6 @@
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
 				Name="VCWebDeploymentTool"/>
-			<IntelOptions
-				CompilerName="1"/>
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -168,15 +135,20 @@
 				Name="SourceWindowSystemWIN32 h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32Window.h"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32Window.h">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowBase.h"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowBase.h">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowDataFields.h"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowDataFields.h">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowFields.h"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowFields.h">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWindowWIN32Def.h"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWindowWIN32Def.h">
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -186,9 +158,11 @@
 				Name="SourceWindowSystemWIN32 inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32Window.inl"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32Window.inl">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowBase.inl"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowBase.inl">
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -198,11 +172,14 @@
 				Name="SourceWindowSystemWIN32 cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32Window.cpp"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32Window.cpp">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowBase.cpp"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowBase.cpp">
+				</File>
 				<File
-					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowDataFields.cpp"/>
+					RelativePath="..\..\..\Source\WindowSystem\WIN32\OSGWIN32WindowDataFields.cpp">
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -210,11 +187,14 @@
 			Filter="y;l">
 			<Filter
 				Name="SourceWindowSystemWIN32 ly"
-				Filter=""/>
+				Filter="">
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
+			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+		</Filter>
 	</Files>
-	<Globals/>
+	<Globals>
+	</Globals>
 </VisualStudioProject>
