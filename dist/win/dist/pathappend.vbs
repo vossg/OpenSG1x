@@ -12,7 +12,7 @@ osgpath=replace( script, "pathappend.vbs", "lib" )
 Set WSHShell = CreateObject("WScript.Shell")
 Path = WSHShell.Environment("USER").Item("PATH")
 'WScript.echo Path
-pos=InStr(Path,"OpenSG")
+pos=InStr(Path,osgpath)
 'WScript.echo pos
 If pos = 0 Then
 	Path = Path & ";" & osgpath

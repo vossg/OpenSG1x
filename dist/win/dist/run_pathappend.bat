@@ -1,1 +1,1 @@
-cscript.exe pathappend.vbs
+wscript.exe pathappend.vbs
