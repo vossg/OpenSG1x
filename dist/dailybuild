@@ -446,12 +446,12 @@ checkerror "Configure" $log_configure
 # start making the doc
 # takes forever, do it in parallel
 
-if type doxygen > /dev/null 2>&1 then 
+if type doxygen > /dev/null 2>&1
 then
-	has_doxygen=0
-else
 	has_doxygen=1
 	( rm -f $doc_flag ; make doc 1>$log_doc 2>&1 ; touch $doc_flag ) &
+else
+	has_doxygen=0
 fi
 
 # make the libs
