@@ -98,6 +98,15 @@ char ScanParseSkel::cvsid[] = "@(#)$Id: $";
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+extern int  OSGScanParseSkel_char;
+extern void resetScanner(void);
+
+void ScanParseSkel::reset(void)
+{
+    OSGScanParseSkel_char = -2;
+    resetScanner();
+}
+
 void ScanParseSkel::setMapTypeIds(Bool bVal)
 {
     _bMapTypeIds = bVal;
@@ -157,6 +166,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
         OSGScanParseSkel_in = pInFile;
 
+        reset();
         OSGScanParseSkel_parse();
 
         fclose(pInFile);

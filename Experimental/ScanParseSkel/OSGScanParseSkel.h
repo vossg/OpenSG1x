@@ -194,6 +194,8 @@ class OSG_SCANPARSE_DLLMAPPING ScanParseSkel
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+    void reset        (void);
+
     void setMapTypeIds(Bool bVal);
 
     void setReferenceHeader(const Char8 *szReferenceHeader);

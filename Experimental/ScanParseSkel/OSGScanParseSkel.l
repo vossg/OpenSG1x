@@ -905,3 +905,10 @@ void abortParser(void)
 {
     BEGIN EXTERROR;
 }
+
+void resetScanner(void)
+{
+    yy_flush_buffer( YY_CURRENT_BUFFER );
+}
+
+
