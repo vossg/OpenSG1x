@@ -380,7 +380,7 @@ NodePtr me      = Node::create();
 beginEditCP(grandpa);
     grandpa->addChild(aunt);
     grandpa->addChild(mother);
-endEditCP(root);
+endEditCP(grandpa);
 
 beginEditCP(mother);
     mother->addChild(me);
