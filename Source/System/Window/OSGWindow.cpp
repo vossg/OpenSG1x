@@ -221,6 +221,11 @@ std::vector<OSG::Window::GLObject *>  OSG::Window::_glObjects;
 
 // GL extension handling
 
+// The name of the dynamic library for OpenGL extension functions
+// By default it's NULL, which tries to find them in the current 
+// executable
+const Char8 *OSG::Window::_glLibraryName = NULL;    
+
 std::vector<std::string            >  OSG::Window::_registeredExtensions;
 std::vector<std::string            >  OSG::Window::_ignoredExtensions;
 std::vector<bool                   >  OSG::Window::_commonExtensions;
@@ -232,9 +237,7 @@ std::vector<Int32                  >  OSG::Window::_registeredFunctionExts;
 std::vector<GLenum                 >  OSG::Window::_registeredConstants;
 
 
-/*! Just a constant to indicate that the GL constant is unknown
-*/
-
+// Just a constant to indicate that the GL constant is unknown
 const Real32 OSG::Window::unknownConstant = -1e100;    
 
 /***************************************************************************\
@@ -1131,7 +1134,7 @@ void OSG::Window::frameInit(void)
                     *it, val[0], val[1]));
         }
         _numAvailConstants = _registeredConstants.size();
-        glErr("Constant Registration"); // clear the error flag 
+        glGetError(); // clear the error flag 
     }
 }
 
@@ -1238,7 +1241,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     if(libHandle == NULL) 
     { 
-        libHandle = dlopen(NULL, RTLD_NOW | RTLD_LOCAL); 
+        libHandle = dlopen(_glLibraryName, RTLD_NOW | RTLD_LOCAL); 
 
         if(!libHandle) 
         { 
@@ -1254,6 +1257,15 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
         if(__GetProcAddress == NULL) 
         { 
             __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddressARB"); 
+            
+            if(__GetProcAddress == NULL) 
+            {
+                FWARNING(("Neither glXGetProcAddress nor "
+                        "glXGetProcAddressARB found! Disabling all "
+                        " extensions for Window %p!")); 
+                _availExtensions.clear();
+                _availExtensions.resize(_registeredExtensions.size(), false);
+            } 
         } 
     } 
 
