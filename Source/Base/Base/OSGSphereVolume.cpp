@@ -46,6 +46,7 @@
 
 #include "OSGBaseTypes.h"
 
+#include "OSGQuaternion.h"
 #include "OSGLine.h"
 #include "OSGBoxVolume.h"
 
@@ -170,10 +171,24 @@ bool SphereVolume::isOnSurface (const Pnt3f &point) const
 #pragma set woff 1209
 #endif
 
-void SphereVolume::transform(const Matrix &OSG_CHECK_ARG(mat))
+void SphereVolume::transform(const Matrix &mat)
 {
-    // TODO; not impl.
-    assert(false);
+    // assume uniform scaling, otherways we get an ellipsoid
+    Pnt3f hull(_center);
+    hull += Vec3f(0, _radius, 0);
+
+    mat.mult(_center);
+    mat.mult(hull);
+    _radius = (hull - _center).length();
+
+/*
+    Vec3f translation, scaleFactor;
+    Quaternion rotation, scaleOrientation;
+    
+    mat.mult(_center);
+    mat.getTransform(translation, rotation, scaleFactor, scaleOrientation);
+    _radius *= scaleFactor[0];
+*/
 }
 
 #ifdef __sgi
