@@ -12,6 +12,8 @@
 #include <OpenSG/OSGGradientBackground.h>
 #include <OpenSG/OSGImageBackground.h>
 #include <OpenSG/OSGImage.h>
+#include <OpenSG/OSGImageForeground.h>
+#include <OpenSG/OSGFileGrabForeground.h>
 
 OSG_USING_NAMESPACE
 
@@ -114,9 +116,6 @@ NodePtr createScenegraph(){
 		root->addChild(lightBeacon);
 	endEditCP(root);
 	
-	//and the render action - more on that later
-	renderAction = RenderAction::create();
-	
 	return root;
 }
 
@@ -189,10 +188,39 @@ int main(int argc, char **argv)
 
 	// add an logo foreground to the right viwport
 	
+	//load the logo image file
+	ImagePtr frgImage = Image::create();
+	beginEditCP(frgImage);
+		frgImage->read("data/logo.png");
+	endEditCP(frgImage);
+	
 	ImageForegroundPtr imgFrg = ImageForeground::create();
 	beginEditCP(imgFrg);
-		imgFrg
+		//NOTE: the position values are between 0 and 1
+		//and are relative to the viewport!
+		imgFrg->addImage(frgImage,Pnt2f(0.1,0));
 	endEditCP(imgFrg);
+	
+	//add the created foreground by appending it to
+	//the vieports foreground multifield
+	rightViewport->getMFForegrounds()->push_back(imgFrg);
+	
+	//create the foreground for screenshot functionality
+	FileGrabForegroundPtr fileGrab = FileGrabForeground::create();
+	beginEditCP(fileGrab);
+		fileGrab->setActive(false);
+		fileGrab->setName("data/screenshot%04d.jpg");
+	endEditCP(fileGrab);
+	
+	//add this one to the right viewport, too
+	rightViewport->getMFForegrounds()->push_back(fileGrab);
+	
+	//to make a screenshot the foreground has to be set to active
+	//were doing that if the user pressen the 's' key
+	//have a look at the keyboard callback function
+	
+	//and the render action - more on that later
+	renderAction = RenderAction::create();
 
 	//create the window now
 	
@@ -239,6 +267,31 @@ void motion(int x, int y)
     glutPostRedisplay();
 }
 
+void keyboard(unsigned char k, int x, int y){
+    switch(k){
+        case 27:    {
+            osgExit();
+            exit(1);
+        }
+        break;
+		
+		case 's':
+			// The return value is actually a pointer to on osgPtr class
+			// I don't know if that makes much sense at all...
+			MFForegroundPtr foregrounds = *(window->getPort(1)->getMFForegrounds());
+			FileGrabForegroundPtr fg = FileGrabForegroundPtr::dcast(foregrounds[1]);
+			
+			if (!fg->getActive()){
+				std::cout << "start recording..." << std::endl;
+				fg->setActive(true);
+			}else{
+				std::cout << "stopped" << std::endl;
+				fg->setActive(false);
+			}
+		break;
+	}
+}
+
 int setupGLUT(int *argc, char *argv[])
 {
     glutInit(argc, argv);
@@ -250,6 +303,7 @@ int setupGLUT(int *argc, char *argv[])
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutReshapeFunc(reshape);
+	glutKeyboardFunc(keyboard);
     glutIdleFunc(display);
     return winid;
 }
