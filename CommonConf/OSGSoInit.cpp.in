@@ -7,7 +7,7 @@ extern "C"
 
 void osgInitSharedObject@ac_gdz_package_name_out@(void)
 {
-    SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endl;
+    OSG::SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endLog;
 
     OSG::FieldContainerFactory::the()->initializePendingTypes();
 }    
