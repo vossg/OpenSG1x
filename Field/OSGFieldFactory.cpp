@@ -169,6 +169,18 @@ Field * FieldFactory::createField(const char *szName)
 
 /*---------------------------------- type -----------------------------------*/
 
+/** \Brief Get numer of field types
+ */
+
+UInt32 FieldFactory::getNFieldTypes( void )
+{
+	if(_fieldTypeM != NULL) 
+ 		return _fieldTypeM->size();
+
+	return 0;
+}
+	
+
 /** \Brief Get type by name
  */
 

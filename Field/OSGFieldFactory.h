@@ -102,6 +102,8 @@ class OSG_FIELD_DLLMAPPING FieldFactory
 
     /*------------------------------ type -----------------------------------*/
 
+	static UInt32     getNFieldTypes( void );
+	
 	static FieldType *getFieldType(UInt32   typeId);
 	static FieldType *getFieldType(const char *szName);
 
