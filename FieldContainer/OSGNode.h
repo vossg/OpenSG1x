@@ -168,7 +168,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
 
     /*--------------------------- access fields ----------------------------*/
 
-    SFVolume        *getSFVolume     (void);
+    SFDynamicVolume	*getSFVolume     (void);
 
     SFNodePtr       *getSFParent     (void);
     SFNodeCorePtr   *getSFCore       (void);
@@ -184,13 +184,13 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     
     /*------------------------------ volume -------------------------------*/
     
-    const Volume &getVolume       (void)             const;
+    const DynamicVolume &getVolume       (void)             const;
     
-          void    getWorldVolume  (Volume &result);
+          void			 getWorldVolume  (DynamicVolume &result);
     
-          void    updateVolume    (void);
+          void			 updateVolume    (void);
 
-          void    invalidateVolume(void);
+          void			 invalidateVolume(void);
 
     /*------------------------------ changed -------------------------------*/
 
@@ -284,7 +284,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    SFVolume        _volume;
+    SFDynamicVolume	_volume;
 
     SFNodePtr       _parent;
     MFNodePtr       _children;

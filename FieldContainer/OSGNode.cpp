@@ -91,7 +91,7 @@ OSG_FC_LAST_FIELD_IDM_DEF (Node, AttachmentsField)
 
 FieldDescription Node::_desc[] = 
 {
-	FieldDescription(SFVolume::getClassType(), 
+	FieldDescription(SFDynamicVolume::getClassType(), 
                         "volume", 
                         OSG_FC_FIELD_IDM_DESC(VolumeField),
                         false,
@@ -472,7 +472,7 @@ NodePtr Node::getChild(UInt32 childIndex)
 
 /*---------------------------- properties ---------------------------------*/
 
-SFVolume *Node::getSFVolume(void) 
+SFDynamicVolume *Node::getSFVolume(void) 
 {
     return &_volume; 
 }
@@ -529,7 +529,7 @@ void Node::getToWorld(Matrix &result)
 
 /*-------------------------- assignment -----------------------------------*/
 
-void Node::getWorldVolume(Volume &result)
+void Node::getWorldVolume(DynamicVolume &result)
 {	
 	Matrix m;
 	
