@@ -576,7 +576,7 @@ static UInt32 TexCoords1IDs[numFormats][4];
 // the master pump function
 
 #ifdef __sgi
-#pragma set woff 1174
+#pragma set woff 1174,1209
 #endif
 
 void GeoPumpFactory::masterGeoPump(Window   *win, 
@@ -845,6 +845,9 @@ void GeoPumpFactory::masterPartialInterfacePump(
         ("GeoPumpFactory::masterPartialInterfacePump not implemented yet!\n"));
 }
 
+#ifdef __sgi
+#pragma reset woff 1174,1209
+#endif
 
 bool GeoPumpFactory::glextInitFunction(void)
 {
@@ -870,6 +873,3 @@ bool GeoPumpFactory::glextInitFunction(void)
     return true;
 }
 
-#ifdef __sgi
-#pragma reset woff 1174
-#endif

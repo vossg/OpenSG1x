@@ -1373,7 +1373,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
 {
   Int16 mask, maskID, finalMask;
-  Int32 indexMapSize, indexCount, i, j,  vCount = 0, pCount;
+  Int32 indexMapSize, indexCount, i, j,  vCount = 0;
   Int32 index;
   Int32 memSize, valueSize;
   UInt8  *pData, *data;

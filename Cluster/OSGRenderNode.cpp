@@ -367,8 +367,6 @@ void RenderNode::copyToBin(BinaryDataHandler &handle)
 
 void RenderNode::copyFromBin(BinaryDataHandler &handle)
 {
-    UInt32 count;
-    
     handle.getReal32(_invisibleFaceCost);
     handle.getReal32(_visibleFaceCost);
     handle.getReal32(_drawPixelCost);

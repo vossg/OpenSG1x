@@ -316,7 +316,6 @@ void TileLoadBalancer::splitRegion(UInt32          rnFrom,
                                    Int32           wmax[2],
                                    ResultT        &result)
 {
-    UInt32 i;
     Int32  axis,cut;
     Int32  maxA[2];
     Int32  minB[2];
@@ -350,8 +349,8 @@ void TileLoadBalancer::splitRegion(UInt32          rnFrom,
     }
 
     // search for best cut
-    Real32 cost=findBestCut(*renderNodeA,*renderNodeB,
-                            visible,wmin,wmax,axis,cut);
+    /*Real32 cost=*/findBestCut(*renderNodeA,*renderNodeB,
+                                visible,wmin,wmax,axis,cut);
     // create new regions
     maxA[axis  ]=cut;
     maxA[axis^1]=wmax[axis^1];

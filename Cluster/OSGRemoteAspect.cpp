@@ -97,8 +97,6 @@ RemoteAspect::RemoteAspect():
     _changedFunctors(),
     _statistics(NULL)
 {
-    FieldContainerType  *type;
-
     // initialize field filter
     _fieldFilter[Geometry::getClassType().getId()] 
     = Geometry::GLIdFieldMask;

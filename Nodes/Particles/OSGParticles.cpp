@@ -2156,12 +2156,14 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     // check if the used types are common cases
     
+/*
     bool normalIs3f = (getNormals()   != NullFC && 
                        getNormals()->getFormat()      == GL_FLOAT);
                         
     bool colorIs3f  = (getColors()    != NullFC && 
                        getColors()->getFormat()       == GL_FLOAT && 
                        getColors()->getDimension()    == 3);
+ */
                         
     bool posIs3f    = (getPositions() != NullFC && 
                        getPositions()->getFormat()    == GL_FLOAT && 
@@ -2286,7 +2288,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.21 2002/06/09 08:09:14 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.22 2002/06/13 11:02:51 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
