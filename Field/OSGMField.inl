@@ -689,24 +689,24 @@ string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(
 {
     string tmpString;
 
-	typedef osgIF< (MFieldTraits::StringConvertable &
-					Traits::FromStringConvertable),
-					MFieldTraits,
-					ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    typedef osgIF< (MFieldTraits::StringConvertable &
+                    Traits::FromStringConvertable),
+                    MFieldTraits,
+                    ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
-	for(UInt32 i = 0; i < getSize(); ++i)
-	{
-		Converter::putToString( _values[i], tmpString );
+    for(UInt32 i = 0; i < getSize(); ++i)
+    {
+        Converter::putToString( _values[i], tmpString );
 
-		stringVal.append( tmpString );
+        stringVal.append( tmpString );
 
-		if( i < (getSize()-1) )
-		{
-			stringVal.append( ", " );
-		}
-	}
+        if( i < (getSize()-1) )
+        {
+            stringVal.append( ", " );
+        }
+    }
 
-	return stringVal;
+    return stringVal;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

@@ -133,7 +133,7 @@ WIN32Window::WIN32Window( void ) :
 }
 
 WIN32Window::WIN32Window( const WIN32Window& source ) :
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -142,7 +142,7 @@ WIN32Window::WIN32Window( const WIN32Window& source ) :
 
 WIN32Window::~WIN32Window(void)
 {
-	// delete the ports and the context
+    // delete the ports and the context
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -159,13 +159,13 @@ void WIN32Window::init( void )
 
     if ( ! ( _glcx = wglCreateContext( _hdc ) ) )
     {
-		cout << "WIN32Window::init: failed: " << GetLastError() << endl;   	
+        cout << "WIN32Window::init: failed: " << GetLastError() << endl;        
     }
 
     ReleaseDC(_hwin,_hdc);
     activate();
-	setupGL();
-	deactivate();
+    setupGL();
+    deactivate();
 }
 
 // activate the window: bind the OGL context
@@ -175,16 +175,16 @@ void WIN32Window::activate( void )
 
     if ( ! wglMakeCurrent( _hdc, _glcx ) )
     {
-    	cout << "WIN32Window::activate: failed: " << GetLastError() << endl;   	
+        cout << "WIN32Window::activate: failed: " << GetLastError() << endl;        
     }
 }
 
 void WIN32Window::deactivate ( void )
 {
-	// unbind the context
-	wglMakeCurrent(NULL, NULL);
+    // unbind the context
+    wglMakeCurrent(NULL, NULL);
 
-	// release the hardware device context
+    // release the hardware device context
     ReleaseDC(_hwin,_hdc);
 }
 
@@ -215,7 +215,7 @@ void WIN32Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-#endif	// Windows compile?
+#endif  // Windows compile?
 
 
 ///---------------------------------------------------------------------------

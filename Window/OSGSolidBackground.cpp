@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::SolidBackground
     \ingroup Backgrounds
 
-A single colored background. 	
+A single colored background.    
 
 */
 
@@ -79,7 +79,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.9 2001/10/15 03:10:25 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.10 2001/10/15 04:52:17 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -158,9 +158,9 @@ void SolidBackground::changed(BitVector, ChangeMode)
 
 void SolidBackground::clear(DrawActionBase *, ViewportP)
 {
-	Color3f col = getColor();
-	glClearColor( col[0], col[1], col[2], 1.0);
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    Color3f col = getColor();
+    glClearColor( col[0], col[1], col[2], 1.0);
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 
 /*------------------------------- dump ----------------------------------*/
@@ -171,7 +171,7 @@ void SolidBackground::clear(DrawActionBase *, ViewportP)
 void SolidBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                            const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump SolidBackground NI" << endl;
+    SLOG << "Dump SolidBackground NI" << endl;
 }
 
     

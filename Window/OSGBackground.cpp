@@ -168,7 +168,7 @@ void Background::changed(BitVector, ChangeMode)
 void Background::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump Background NI" << endl;
+    SLOG << "Dump Background NI" << endl;
 }
 
     

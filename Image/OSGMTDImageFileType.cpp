@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //-------------------------------
-// 	Includes 					 			    
+//      Includes                                    
 //-------------------------------
 
 #include <stdlib.h>
@@ -61,18 +61,18 @@ OSG_USING_NAMESPACE
 
 static const Char8 *suffixArray[] = 
 {
-	"mtd","opensg","opensgImage"
+    "mtd","opensg","opensgImage"
 };
 
 MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 
 /*****************************
- *	  Classvariables
+ *    Classvariables
  *****************************/
 
 
 /********************************
- *	  Class methodes
+ *    Class methodes
  *******************************/
 
 
@@ -150,32 +150,32 @@ Bool MTDImageFileType::read (      Image &OSG_CHECK_ARG(image   ),
 Bool MTDImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
-	Bool retCode = false;
+    Bool retCode = false;
 
-  	/*
-  	ofstream out(fileName);
-  	Head head;
-  	const void *headData = (void*)(&head);
-  	unsigned dataSize = image.getSize(), headSize = sizeof(Head);
+    /*
+    ofstream out(fileName);
+    Head head;
+    const void *headData = (void*)(&head);
+    unsigned dataSize = image.getSize(), headSize = sizeof(Head);
 
-  	head.pixelFormat  = image.getPixelFormat();
-  	head.width        = image.getWidth();
-  	head.height       = image.getHeight();
-  	head.depth        = image.getDepth();
-  	head.mipmapCount  = image.getMipMapCount();
-  	head.frameCount   = image.getFrameCount();
-  	head.frameDelay   = short(image.getFrameDelay() * 1000.0);
-  	head.hostToNet();
+    head.pixelFormat  = image.getPixelFormat();
+    head.width        = image.getWidth();
+    head.height       = image.getHeight();
+    head.depth        = image.getDepth();
+    head.mipmapCount  = image.getMipMapCount();
+    head.frameCount   = image.getFrameCount();
+    head.frameDelay   = short(image.getFrameDelay() * 1000.0);
+    head.hostToNet();
   
-  	if ( out && out.write(static_cast<const char *>(headData), headSize) && 
-    	 dataSize &&
-       	 out.write((char *)(image.getData()), dataSize) )
-    		retCode = true;
-  	else
-    	retCode = false;    
-  	*/
+    if ( out && out.write(static_cast<const char *>(headData), headSize) && 
+         dataSize &&
+             out.write((char *)(image.getData()), dataSize) )
+            retCode = true;
+    else
+        retCode = false;    
+    */
 
-  	return retCode;
+    return retCode;
 }
 
 //----------------------------------------------------------------------
@@ -189,9 +189,9 @@ UInt64 MTDImageFileType::restoreData(      Image  &image,
                                      const UChar8 *buffer,
                                            Int32   OSG_CHECK_ARG(memSize) )
 {
-  	image.setData(buffer);
+    image.setData(buffer);
 
-  	return true;
+    return true;
 }
 
 //----------------------------------------------------------------------
@@ -205,13 +205,13 @@ UInt64 MTDImageFileType::storeData(const Image  &image,
                                          UChar8 *buffer,
                                          Int32   OSG_CHECK_ARG(memSize))
 {
-  	unsigned dataSize = image.getSize();
-  	const UChar8 *src = image.getData();
+    unsigned dataSize = image.getSize();
+    const UChar8 *src = image.getData();
 
-  	if ( dataSize && src && buffer )
-    	memcpy( buffer, src, dataSize);
+    if ( dataSize && src && buffer )
+        memcpy( buffer, src, dataSize);
   
-  	return dataSize;
+    return dataSize;
 } 
 
 /******************************
@@ -220,7 +220,7 @@ UInt64 MTDImageFileType::storeData(const Image  &image,
 
 
 /******************************
-*private	
+*private    
 ******************************/
 
 
@@ -258,10 +258,10 @@ UInt64 MTDImageFileType::storeData(const Image  &image,
 //
 //------------------------------
 MTDImageFileType::MTDImageFileType ( const Char8 *suffixArray[], 
-									 UInt16 suffixByteCount )
-	: ImageFileType ( suffixArray, suffixByteCount )
+                                     UInt16 suffixByteCount )
+    : ImageFileType ( suffixArray, suffixByteCount )
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -285,9 +285,9 @@ MTDImageFileType::MTDImageFileType ( const Char8 *suffixArray[],
 //
 //------------------------------
 MTDImageFileType::MTDImageFileType (const MTDImageFileType &obj )
-	: ImageFileType(obj)
+    : ImageFileType(obj)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -312,7 +312,7 @@ MTDImageFileType::MTDImageFileType (const MTDImageFileType &obj )
 //------------------------------
 MTDImageFileType::~MTDImageFileType (void )
 {
-	return;
+    return;
 }
 
 /*------------access----------------*/
@@ -326,7 +326,7 @@ MTDImageFileType::~MTDImageFileType (void )
 
 
 /****************************
-*protected	
+*protected  
 ****************************/
 
 

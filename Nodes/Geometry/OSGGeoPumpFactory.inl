@@ -59,7 +59,7 @@ OSG_BEGIN_NAMESPACE
 inline
 GeoPumpFactory& GeoPumpFactory::the(void)
 {
-	return _the;
+    return _the;
 }
 
 /*! \}                                                                 */

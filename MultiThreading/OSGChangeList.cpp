@@ -103,7 +103,7 @@ char ChangeList::cvsid[] = "@(#)$Id: $";
  */
 
 ChangeList::ChangeList(void) :
-	Inherited(),
+    Inherited(),
     _bReadOnly(false),
     _uiAspectId(Thread::getAspect()),
     _listMode(Public),

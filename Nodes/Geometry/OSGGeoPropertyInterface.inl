@@ -47,7 +47,7 @@ GeoPropertyInterface<GeoPropertyDesc>::GeoPropertyInterface(void)
 
 template <class GeoPropertyDesc> inline
 GeoPropertyInterface<GeoPropertyDesc>::GeoPropertyInterface(
-    const GeoPropertyInterface &source)
+    const GeoPropertyInterface &)
 {
 }
 

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::GradientBackground
     \ingroup Backgrounds
 
-A background showing a vertical color gradient. The colors and positions correspond to each other, so both have to have the same number of elements. 	
+A background showing a vertical color gradient. The colors and positions correspond to each other, so both have to have the same number of elements.    
 
 */
 
@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.11 2001/10/15 03:10:25 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.12 2001/10/15 04:52:17 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -159,91 +159,91 @@ void GradientBackground::changed(BitVector, ChangeMode)
 void GradientBackground::clear(DrawActionBase *, ViewportP)
 {
 
-	if (_mfPosition.getSize() < 2)
-	{
-		if (_mfPosition.getSize() == 1)
-		{
-			Color3f col = _mfColor.getValue( 0 );
-			Real32 r, g, b;
-			col.getValuesRGB(r, g, b);
-			glClearColor( r, g, b, 1);
-			glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		}
-		else
-		{
-			glClearColor( 0, 0, 0, 1);
-			glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		}
-	}
-	else
-	{
-		Bool light = glIsEnabled(GL_LIGHTING);
-		if (light)	glDisable(GL_LIGHTING);
+    if (_mfPosition.getSize() < 2)
+    {
+        if (_mfPosition.getSize() == 1)
+        {
+            Color3f col = _mfColor.getValue( 0 );
+            Real32 r, g, b;
+            col.getValuesRGB(r, g, b);
+            glClearColor( r, g, b, 1);
+            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        }
+        else
+        {
+            glClearColor( 0, 0, 0, 1);
+            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        }
+    }
+    else
+    {
+        Bool light = glIsEnabled(GL_LIGHTING);
+        if (light)  glDisable(GL_LIGHTING);
 
-		GLint fill;
-		glGetIntegerv(GL_POLYGON_MODE, &fill);
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+        GLint fill;
+        glGetIntegerv(GL_POLYGON_MODE, &fill);
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
 
-		Bool depth = glIsEnabled( GL_DEPTH_TEST );
-		glDisable( GL_DEPTH_TEST );
+        Bool depth = glIsEnabled( GL_DEPTH_TEST );
+        glDisable( GL_DEPTH_TEST );
 
-		Bool colmat = glIsEnabled( GL_COLOR_MATERIAL );
-		glDisable( GL_COLOR_MATERIAL );
+        Bool colmat = glIsEnabled( GL_COLOR_MATERIAL );
+        glDisable( GL_COLOR_MATERIAL );
 
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
 
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		glOrtho(0, 1, 0, 1, 0, 1);
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0, 1, 0, 1, 0, 1);
 
-		Real32 r1, g1, b1;
-		UInt32 size = _mfPosition.getSize();
+        Real32 r1, g1, b1;
+        UInt32 size = _mfPosition.getSize();
 
-		glBegin( GL_QUAD_STRIP );
-		
-		Real32 pos = _mfPosition.getValue(0);
-		if ( pos > 0 ) 
-		{
-			glColor3f( 0.0, 0.0, 0.0);
-			glVertex3f(0, 0, 0);
-			glVertex3f(1, 0, 0);
-		}
+        glBegin( GL_QUAD_STRIP );
+        
+        Real32 pos = _mfPosition.getValue(0);
+        if ( pos > 0 ) 
+        {
+            glColor3f( 0.0, 0.0, 0.0);
+            glVertex3f(0, 0, 0);
+            glVertex3f(1, 0, 0);
+        }
 
-		for( int i = 0; i < size; i++)
-		{
-			pos = _mfPosition.getValue(i);
+        for( int i = 0; i < size; i++)
+        {
+            pos = _mfPosition.getValue(i);
 
-			Color3f col1 = _mfColor.getValue(i);
-			col1.getValuesRGB(r1, g1, b1);
+            Color3f col1 = _mfColor.getValue(i);
+            col1.getValuesRGB(r1, g1, b1);
 
-			glColor3f( r1, g1, b1);
-			glVertex3f(0, pos, 0);
-			glVertex3f(1, pos, 0);
-		}
+            glColor3f( r1, g1, b1);
+            glVertex3f(0, pos, 0);
+            glVertex3f(1, pos, 0);
+        }
 
-		if ( pos < 1 ) 
-		{
-			glColor3f( 0.0, 0.0, 0.0);
-			glVertex3f(0, 1, 0);
-			glVertex3f(1, 1, 0);
-		}
-		
-		glEnd();
+        if ( pos < 1 ) 
+        {
+            glColor3f( 0.0, 0.0, 0.0);
+            glVertex3f(0, 1, 0);
+            glVertex3f(1, 1, 0);
+        }
+        
+        glEnd();
 
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
 
-		if ( depth )	glEnable( GL_DEPTH_TEST );
-		if ( light )	glEnable( GL_LIGHTING );
-		if ( colmat )	glEnable( GL_COLOR_MATERIAL );
-		glPolygonMode( GL_FRONT_AND_BACK, fill );
+        if ( depth )    glEnable( GL_DEPTH_TEST );
+        if ( light )    glEnable( GL_LIGHTING );
+        if ( colmat )   glEnable( GL_COLOR_MATERIAL );
+        glPolygonMode( GL_FRONT_AND_BACK, fill );
 
-		glClear( GL_DEPTH_BUFFER_BIT );
-	}
+        glClear( GL_DEPTH_BUFFER_BIT );
+    }
 }
 
 /*------------------------------- dump ----------------------------------*/
@@ -254,7 +254,7 @@ void GradientBackground::clear(DrawActionBase *, ViewportP)
 void GradientBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                               const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump GradientBackground NI" << endl;
+    SLOG << "Dump GradientBackground NI" << endl;
 }
 
     

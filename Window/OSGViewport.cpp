@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
     \ingroup Windows
 
 A Viewport is a part of the Window it is attached to used for rendering. Every 
-Window can hold an arbitrary number of viewports. 	
+Window can hold an arbitrary number of viewports.   
 
 */
 
@@ -161,144 +161,144 @@ void Viewport::changed(BitVector, ChangeMode)
 
 Int32 Viewport::getPixelLeft( void ) const
 {
-	if ( getLeft() > 1 )
-		return getLeft();
+    if ( getLeft() > 1 )
+        return getLeft();
 
-	return getParent()->getWidth() * getLeft();
+    return getParent()->getWidth() * getLeft();
 }
 
 Int32 Viewport::getPixelRight( void ) const
 {
-	// >1: pixel
-	if ( getRight() > 1 )
-		return getRight();
+    // >1: pixel
+    if ( getRight() > 1 )
+        return getRight();
 
-	// <=1: partial screen, use 1 less to not overlap other windows
-	return getParent()->getWidth() * getRight() - 1;
+    // <=1: partial screen, use 1 less to not overlap other windows
+    return getParent()->getWidth() * getRight() - 1;
 }
 
 Int32 Viewport::getPixelBottom( void ) const
 {
-	if ( getBottom() > 1 )
-		return getBottom();
+    if ( getBottom() > 1 )
+        return getBottom();
 
-	return getParent()->getHeight() * getBottom();
+    return getParent()->getHeight() * getBottom();
 }
 
 Int32 Viewport::getPixelTop( void ) const
 {
-	// >1: pixel
-	if ( getTop() > 1 )
-		return getTop();
+    // >1: pixel
+    if ( getTop() > 1 )
+        return getTop();
 
-	// <=1: partial screen, use 1 less to not overlap other windows
-	return getParent()->getHeight() * getTop() - 1;
+    // <=1: partial screen, use 1 less to not overlap other windows
+    return getParent()->getHeight() * getTop() - 1;
 }
 
 Bool Viewport::isFullWindow( void ) const
 {
-	return	getPixelBottom() == 0 &&
-			getPixelLeft()   == 0 &&
-			getPixelTop()    == getParent()->getHeight() - 1 &&
-			getPixelRight()  == getParent()->getWidth() - 1;
+    return  getPixelBottom() == 0 &&
+            getPixelLeft()   == 0 &&
+            getPixelTop()    == getParent()->getHeight() - 1 &&
+            getPixelRight()  == getParent()->getWidth() - 1;
 }
 
 /*-------------------------- your_category---------------------------------*/
 
 void Viewport::draw( DrawAction * action )
 {
-	if ( getCamera() == NullFC )
-	{
-		SWARNING << "Viewport::draw: no camera!" << endl;
-		return;
-	}
-	if ( getBackground() == NullFC )
-	{
-		SWARNING << "Viewport::draw: no background!" << endl;
-		return;
-	}
-	if ( getRoot() == NullFC )
-	{
-		SWARNING << "Viewport::draw: no root!" << endl;
-		return;
-	}
+    if ( getCamera() == NullFC )
+    {
+        SWARNING << "Viewport::draw: no camera!" << endl;
+        return;
+    }
+    if ( getBackground() == NullFC )
+    {
+        SWARNING << "Viewport::draw: no background!" << endl;
+        return;
+    }
+    if ( getRoot() == NullFC )
+    {
+        SWARNING << "Viewport::draw: no root!" << endl;
+        return;
+    }
 
-	GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-		  pt=getPixelTop();
-	GLint pw=pr-pl+1,ph=pt-pb+1;
-	Bool full = isFullWindow();
+    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
+          pt=getPixelTop();
+    GLint pw=pr-pl+1,ph=pt-pb+1;
+    Bool full = isFullWindow();
 
-	glViewport( pl, pb, pw, ph );
-	glScissor( pl, pb, pw, ph );
-	
-	if ( ! full )
-		glEnable( GL_SCISSOR_TEST );
+    glViewport( pl, pb, pw, ph );
+    glScissor( pl, pb, pw, ph );
+    
+    if ( ! full )
+        glEnable( GL_SCISSOR_TEST );
 
-	action->setViewport( this );
-	action->setCamera( getCamera().getCPtr() );
-	action->setBackground( getBackground().getCPtr() );
-	
-	getCamera()->setup( action, *this );
-	getBackground()->clear( action, this );
+    action->setViewport( this );
+    action->setCamera( getCamera().getCPtr() );
+    action->setBackground( getBackground().getCPtr() );
+    
+    getCamera()->setup( action, *this );
+    getBackground()->clear( action, this );
 
-	action->apply( getRoot() );
+    action->apply( getRoot() );
 
-	for ( UInt16 i=0; i < getForegrounds().getSize(); i++ )
-		getForegrounds( i )->draw( action, this );
+    for ( UInt16 i=0; i < getForegrounds().getSize(); i++ )
+        getForegrounds( i )->draw( action, this );
 
-	if ( ! full )
-		glDisable( GL_SCISSOR_TEST );
+    if ( ! full )
+        glDisable( GL_SCISSOR_TEST );
 }
 
 
 void Viewport::render( RenderAction * action )
 {
-	if ( getCamera() == NullFC )
-	{
-		SWARNING << "Viewport::render: no camera!" << endl;
-		return;
-	}
-	if ( getBackground() == NullFC )
-	{
-		SWARNING << "Viewport::render: no background!" << endl;
-		return;
-	}
-	if ( getRoot() == NullFC )
-	{
-		SWARNING << "Viewport::render: no root!" << endl;
-		return;
-	}
+    if ( getCamera() == NullFC )
+    {
+        SWARNING << "Viewport::render: no camera!" << endl;
+        return;
+    }
+    if ( getBackground() == NullFC )
+    {
+        SWARNING << "Viewport::render: no background!" << endl;
+        return;
+    }
+    if ( getRoot() == NullFC )
+    {
+        SWARNING << "Viewport::render: no root!" << endl;
+        return;
+    }
 
 /*
-	GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-		  pt=getPixelTop();
-	GLint pw=pr-pl+1,ph=pt-pb+1;
-	Bool full = isFullWindow();
+    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
+          pt=getPixelTop();
+    GLint pw=pr-pl+1,ph=pt-pb+1;
+    Bool full = isFullWindow();
 
-	glViewport( pl, pb, pw, ph );
-	glScissor( pl, pb, pw, ph );
+    glViewport( pl, pb, pw, ph );
+    glScissor( pl, pb, pw, ph );
 
-	if ( ! full )
-		glEnable( GL_SCISSOR_TEST );
+    if ( ! full )
+        glEnable( GL_SCISSOR_TEST );
     */
 
-	action->setCamera    (getCamera    ().getCPtr());
-	action->setBackground(getBackground().getCPtr());
-	action->setViewport  (this                     );
+    action->setCamera    (getCamera    ().getCPtr());
+    action->setBackground(getBackground().getCPtr());
+    action->setViewport  (this                     );
 
-//	getCamera()->setup( action, *this );
-//	getBackground()->clear( action, this );
+//  getCamera()->setup( action, *this );
+//  getBackground()->clear( action, this );
 
     
 
-	action->apply( getRoot() );
+    action->apply( getRoot() );
 
-	for(UInt16 i=0; i < getForegrounds().getSize(); i++)
-		getForegrounds(i)->draw(action, this);
+    for(UInt16 i=0; i < getForegrounds().getSize(); i++)
+        getForegrounds(i)->draw(action, this);
 
 /*
-	if ( ! full )
-		glDisable( GL_SCISSOR_TEST );
+    if ( ! full )
+        glDisable( GL_SCISSOR_TEST );
         */
 }
 
@@ -310,7 +310,7 @@ void Viewport::render( RenderAction * action )
 void Viewport::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                     const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump Viewport NI" << endl;
+    SLOG << "Dump Viewport NI" << endl;
 }
 
     

@@ -85,7 +85,7 @@ FieldContainerType QTWindow::_type(
 #ifdef WIN32
     "WIN32Window",
 #else
-	"XWindow",
+    "XWindow",
 #endif
     0,
     (PrototypeCreateF) &QTWindow::createEmpty,
@@ -137,7 +137,7 @@ QTWindow::QTWindow( void ) :
 }
 
 QTWindow::QTWindow(const QTWindow& source) :
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -146,7 +146,7 @@ QTWindow::QTWindow(const QTWindow& source) :
 
 QTWindow::~QTWindow(void)
 {
-	// delete the ports and the context
+    // delete the ports and the context
 }
 
 
@@ -157,8 +157,8 @@ QTWindow::~QTWindow(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-	
-// init the window: create the context	
+    
+// init the window: create the context  
 void QTWindow::init( void )
 {
 #ifdef WIN32
@@ -172,34 +172,34 @@ void QTWindow::init( void )
 #else
     XVisualInfo *vi;
 
-	///// create a new GLX context
-	setDisplay( XOpenDisplay(NULL) );
-	setWindow( ((QWidget*)_glWidget)->winId() );
+    ///// create a new GLX context
+    setDisplay( XOpenDisplay(NULL) );
+    setWindow( ((QWidget*)_glWidget)->winId() );
 
-	// get the existing glWidget's visual-id and a visual for the new context
-	XVisualInfo visInfo;
-	memset( &visInfo, 0, sizeof(XVisualInfo) );
-	visInfo.visualid = XVisualIDFromVisual( ((Visual*)_glWidget->context()->device()->x11Visual()) );
-	int nvis;
-	vi = XGetVisualInfo( getDisplay(), VisualIDMask, &visInfo, &nvis );
+    // get the existing glWidget's visual-id and a visual for the new context
+    XVisualInfo visInfo;
+    memset( &visInfo, 0, sizeof(XVisualInfo) );
+    visInfo.visualid = XVisualIDFromVisual( ((Visual*)_glWidget->context()->device()->x11Visual()) );
+    int nvis;
+    vi = XGetVisualInfo( getDisplay(), VisualIDMask, &visInfo, &nvis );
 
-	// is the visual GL-capable ?
-	int useGL;
-	glXGetConfig( getDisplay(), 
-				  vi, 
-				  GLX_USE_GL, 
-				  &useGL );
-	if ( !useGL )
-	{
-	    SFATAL << "Visual is not OpenGL-capable!" << endl;
-	}    
+    // is the visual GL-capable ?
+    int useGL;
+    glXGetConfig( getDisplay(), 
+                  vi, 
+                  GLX_USE_GL, 
+                  &useGL );
+    if ( !useGL )
+    {
+        SFATAL << "Visual is not OpenGL-capable!" << endl;
+    }    
 
-	// create the new context
-	setGlContext(  glXCreateContext( getDisplay(), vi, None, GL_TRUE )  );
+    // create the new context
+    setGlContext(  glXCreateContext( getDisplay(), vi, None, GL_TRUE )  );
 #endif
-	
-	activate();
-	setupGL();
+    
+    activate();
+    setupGL();
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -211,7 +211,7 @@ void QTWindow::init( void )
 void QTWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                     const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump QTWindow NI" << endl;
+    SLOG << "Dump QTWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

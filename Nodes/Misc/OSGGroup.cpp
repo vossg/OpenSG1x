@@ -140,20 +140,20 @@ OSG::Action::ResultE Group::GroupDrawLeave(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE Group::GroupIntEnter(CNodePtr &cnode,
-										  Action   *pAction)
+                                          Action   *pAction)
 {
-	NodeCore *pNC = cnode.getCPtr();
-	Group    *pSC = dynamic_cast<Group *>(pNC);
-	
-	if(pSC == NULL )
-	{
-		fprintf(stderr, "MDIE: core NULL\n");
-		return Action::Skip;
-	}
-	else
-	{
-		return pSC->intersect(pAction);
-	}
+    NodeCore *pNC = cnode.getCPtr();
+    Group    *pSC = dynamic_cast<Group *>(pNC);
+    
+    if(pSC == NULL )
+    {
+        fprintf(stderr, "MDIE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->intersect(pAction);
+    }
 }
 
 #endif
@@ -181,11 +181,11 @@ void Group::initMethod (void)
                                 CNodePtr,  
                                 GroupPtr, 
                                 Action *>(&Group::drawLeave));
-	IntersectAction::registerEnterDefault( getClassType(),
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,
-								GroupPtr,
-								Action *>(&Group::intersect));
+    IntersectAction::registerEnterDefault( getClassType(),
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,
+                                GroupPtr,
+                                Action *>(&Group::intersect));
 #else
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
@@ -199,9 +199,9 @@ void Group::initMethod (void)
     RenderAction::registerLeaveDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         Group::GroupDrawLeave));
-	IntersectAction::registerEnterDefault(getClassType(),
-									Action::osgFunctionFunctor2(
-										Group::GroupIntEnter));
+    IntersectAction::registerEnterDefault(getClassType(),
+                                    Action::osgFunctionFunctor2(
+                                        Group::GroupIntEnter));
 #endif
 }
 
@@ -270,8 +270,8 @@ Action::ResultE Group::drawEnter(Action * action)
     DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
 
     if ( da->selectVisibles() == 0 )
-    	return Action::Skip;
-	
+        return Action::Skip;
+    
     return Action::Continue;
 }
 
@@ -282,15 +282,15 @@ Action::ResultE Group::drawLeave(Action *)
 
 Action::ResultE Group::intersect(Action * action)
 {
-	IntersectAction 	*ia = dynamic_cast<IntersectAction*>(action);
-	const DynamicVolume &dv = ia->getActNode()->getVolume();
-	
-	if( dv.isValid() && !dv.intersect(ia->getLine()) )
-	{
-		return Action::Skip;  //bv missed -> can not hit children
-	}
-	
-	return Action::Continue;
+    IntersectAction     *ia = dynamic_cast<IntersectAction*>(action);
+    const DynamicVolume &dv = ia->getActNode()->getVolume();
+    
+    if( dv.isValid() && !dv.intersect(ia->getLine()) )
+    {
+        return Action::Skip;  //bv missed -> can not hit children
+    }
+    
+    return Action::Continue;
 }
 
 

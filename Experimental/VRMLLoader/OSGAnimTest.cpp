@@ -5,12 +5,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-//Animation *_animations = 0;	 		//!< list of _animations
+//Animation *_animations = 0;           //!< list of _animations
 
 /*! Add/Create a animation
-	\param objname name of the destination object
-	\param destNr number of the destination field/matrix
-	\return v2a animation object
+    \param objname name of the destination object
+    \param destNr number of the destination field/matrix
+    \return v2a animation object
 */
 
 Animation *addAnim(InterpolatorBase::InterpolType  type, 
@@ -18,59 +18,59 @@ Animation *addAnim(InterpolatorBase::InterpolType  type,
                    char                           *objname,
                    int                             destNr, 
                    float                           duration)
-{		
-	cerr << "addAnim(type=" << InterpolatorBase::type2String(type)
-		 << ", name="       << name
-		 << ", target="     <<  objname
-		 << ", duration="   << duration 
-		 << " )"            << endl;
-		 
-	InterpolatorBase*			interpol   = 0;
-	PositionInterpolatorPtr 	posInterpol=0;
-	OrientationInterpolatorPtr 	oriInterpol=0;
+{       
+    cerr << "addAnim(type=" << InterpolatorBase::type2String(type)
+         << ", name="       << name
+         << ", target="     <<  objname
+         << ", duration="   << duration 
+         << " )"            << endl;
+         
+    InterpolatorBase*           interpol   = 0;
+    PositionInterpolatorPtr     posInterpol=0;
+    OrientationInterpolatorPtr      oriInterpol=0;
 
-	string					    sname   (name);
-	string                      sobjname(objname);
+    string                      sname   (name);
+    string                      sobjname(objname);
 
-	if(type == InterpolatorBase::Position)
-	{
-		posInterpol = new PositionInterpolator(type);
+    if(type == InterpolatorBase::Position)
+    {
+        posInterpol = new PositionInterpolator(type);
 
-		interpol    = posInterpol;
-	}
-	else if( type == InterpolatorBase::Orientation )
-	{
-		oriInterpol = new OrientationInterpolator(type);
+        interpol    = posInterpol;
+    }
+    else if( type == InterpolatorBase::Orientation )
+    {
+        oriInterpol = new OrientationInterpolator(type);
 
-		interpol    = oriInterpol;
-	}	
-	
-	if(interpol)
-	{
-		interpol->setName      (sname   );
-		interpol->setTargetName(sobjname);
-		interpol->setDuration  (duration);
+        interpol    = oriInterpol;
+    }   
+    
+    if(interpol)
+    {
+        interpol->setName      (sname   );
+        interpol->setTargetName(sobjname);
+        interpol->setDuration  (duration);
 
-		if(destNr >= 0)	//hack: is a position interpolator
+        if(destNr >= 0)     //hack: is a position interpolator
         {
-			interpol->setScaleInterpol(false);
+            interpol->setScaleInterpol(false);
         }
-		else if(destNr == -1)
+        else if(destNr == -1)
         {
-			interpol->setScaleInterpol(true);
-        }		
+            interpol->setScaleInterpol(true);
+        }       
 
-		if(Animation::getAnim())
+        if(Animation::getAnim())
         {
-			Animation::getAnim()->addInterpolator(interpol);
+            Animation::getAnim()->addInterpolator(interpol);
         }
-		else
+        else
         {
-			cerr << "OSGAnimTest::addAnim()\t Animation::getAnim() is NULL\n";
+            cerr << "OSGAnimTest::addAnim()\t Animation::getAnim() is NULL\n";
         }
-	} 
-	
-	return Animation::getAnim();
+    } 
+    
+    return Animation::getAnim();
 }
 
 OSG_END_NAMESPACE

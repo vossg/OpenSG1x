@@ -160,13 +160,13 @@ int main (int argc, char **argv)
 
     nc1.dump();
 
-	// double children
+    // double children
 
     cout << "Double add: before:" << endl;
 
     p2->dump();
 
-	p2->addChild( p5 );
+    p2->addChild( p5 );
 
     cout << "Double add: after:" << endl;
 

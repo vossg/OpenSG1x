@@ -33,23 +33,23 @@ class MyOSGQGLWidget : public OSGQGLWidget
     public:
         MyOSGQGLWidget( QWidget *parent=0, const char *name=0 );
 
-		SimpleSceneManager _manager;
+        SimpleSceneManager _manager;
  
-    protected:		
+    protected:      
         virtual void initializeGL (void);
         virtual void paintGL (void);
         virtual void resizeGL (int w, int h);
-		virtual void mousePressEvent ( QMouseEvent* );
-		virtual void mouseReleaseEvent ( QMouseEvent* );
-		virtual void mouseMoveEvent ( QMouseEvent* );
-		virtual void keyPressEvent ( QKeyEvent* );
-		
+        virtual void mousePressEvent ( QMouseEvent* );
+        virtual void mouseReleaseEvent ( QMouseEvent* );
+        virtual void mouseMoveEvent ( QMouseEvent* );
+        virtual void keyPressEvent ( QKeyEvent* );
+        
 };
 
 MyOSGQGLWidget  *glWidgets[nwindows];
 QApplication    *a;
 
-NodePtr		    scene;
+NodePtr             scene;
 
 MyOSGQGLWidget::MyOSGQGLWidget ( QWidget *parent, const char *name ) :
     OSGQGLWidget( parent, name )
@@ -58,7 +58,7 @@ MyOSGQGLWidget::MyOSGQGLWidget ( QWidget *parent, const char *name ) :
 
 void MyOSGQGLWidget::initializeGL ( void )
 {
-	_manager.getWindow()->init(); 	// create the context
+    _manager.getWindow()->init();   // create the context
 }
 
 void MyOSGQGLWidget::paintGL ( void )
@@ -101,7 +101,7 @@ void MyOSGQGLWidget::mouseReleaseEvent ( QMouseEvent *me )
 }
 
 void MyOSGQGLWidget::mouseMoveEvent ( QMouseEvent *me )
-{				
+{               
     _manager.mouseMove( me->pos().x(), me->pos().y() );
     repaint();
 }
@@ -109,39 +109,39 @@ void MyOSGQGLWidget::mouseMoveEvent ( QMouseEvent *me )
 
 void MyOSGQGLWidget::keyPressEvent ( QKeyEvent *ke )
 {
-	if ( ke->key() == Key_Escape )
-	{
-		a->quit();
-	}
+    if ( ke->key() == Key_Escape )
+    {
+        a->quit();
+    }
     repaint();
 }
 
 
 int main( int argc, char **argv )
 {
- 	// OSG init
+    // OSG init
 
     osgInit(argc, argv);
-	
-	// QT init
+    
+    // QT init
 
     QApplication::setColorSpec( QApplication::CustomColor );
-	a = new QApplication( argc, argv );
+    a = new QApplication( argc, argv );
 
-	if ( !QGLFormat::hasOpenGL() )
+    if ( !QGLFormat::hasOpenGL() )
     {
-	    qWarning( "This system has no OpenGL support. Exiting." );
-		return -1;
+        qWarning( "This system has no OpenGL support. Exiting." );
+        return -1;
     }
 
     // Create Windows
- 	
+    
     for(int i = 0; i < nwindows; ++i)
     {
-	    glWidgets[i] = new MyOSGQGLWidget();
+        glWidgets[i] = new MyOSGQGLWidget();
 
         QTWindowPtr win = QTWindow::create();
-	    win->setGlWidget( glWidgets[i] );
+        win->setGlWidget( glWidgets[i] );
 
         // note: you can't share the scene between the windows, as the SSM
         // adds it to his lightsource, and that can only be done for one
@@ -156,12 +156,12 @@ int main( int argc, char **argv )
 
         a->processEvents();
 
-	    glWidgets[i]->show();
-	}
+        glWidgets[i]->show();
+    }
 
-	a->setMainWidget( glWidgets[0] );
+    a->setMainWidget( glWidgets[0] );
     
-	return ( a->exec() );    // execute QT main loop
+    return ( a->exec() );    // execute QT main loop
 }
 
 #include "testWindowQTSSM_qt_moc.cpp"

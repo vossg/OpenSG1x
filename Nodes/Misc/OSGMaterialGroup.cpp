@@ -70,7 +70,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.13 2001/10/15 03:10:23 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.14 2001/10/15 04:52:16 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -278,7 +278,7 @@ Action::ResultE MaterialGroup::drawEnter(Action * action)
     }
 
     da->selectVisibles();
-	
+    
     return Action::Continue;
 }
 

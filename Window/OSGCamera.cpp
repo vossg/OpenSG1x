@@ -156,7 +156,7 @@ Camera::~Camera(void)
 void Camera::changed(BitVector, ChangeMode)
 {
 }
-	
+    
 
 /*-------------------------- your_category---------------------------------*/
 
@@ -165,43 +165,43 @@ void Camera::changed(BitVector, ChangeMode)
 void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action), 
                    const Viewport       &port                 )
 {
-	Matrix m;
+    Matrix m;
 
-	// set the projection
+    // set the projection
 
-	getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
+    getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
 
-	//SDEBUG << "Projection matrix: " << m << endl;
+    //SDEBUG << "Projection matrix: " << m << endl;
 
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	glLoadMatrixf( m.getValues() );
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glLoadMatrixf( m.getValues() );
 
-	// set the viewing
+    // set the viewing
 
-	getViewing( m, port.getPixelWidth(), port.getPixelHeight() );
+    getViewing( m, port.getPixelWidth(), port.getPixelHeight() );
 
-	//SDEBUG << "Viewing matrix: " << m << endl;
-	
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	glLoadMatrixf( m.getValues() );
+    //SDEBUG << "Viewing matrix: " << m << endl;
+    
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    glLoadMatrixf( m.getValues() );
 }
 
 void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
                              const Viewport       &port                 )
 {
-	Matrix m;
+    Matrix m;
 
-	// set the projection
+    // set the projection
 
-	getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
+    getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
 
-	//SDEBUG << "Projection matrix: " << m << endl;
+    //SDEBUG << "Projection matrix: " << m << endl;
 
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	glLoadMatrixf( m.getValues() );
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glLoadMatrixf( m.getValues() );
 }
 
 
@@ -218,71 +218,71 @@ void Camera::getProjection(Matrix &OSG_CHECK_ARG(result),
                            UInt32  OSG_CHECK_ARG(width ),
                            UInt32  OSG_CHECK_ARG(height))
 {
-	SFATAL << "Camera::getProjection: NIY" << endl;
-	abort();
+    SFATAL << "Camera::getProjection: NIY" << endl;
+    abort();
 }
 
 void Camera::getProjectionTranslation(Matrix &result, 
                                       UInt32  OSG_CHECK_ARG(width ), 
                                       UInt32  OSG_CHECK_ARG(height))
 {
-	result.setIdentity();
+    result.setIdentity();
 }
 
 void Camera::getViewing(Matrix &result, 
                         UInt32  OSG_CHECK_ARG(width ),
                         UInt32  OSG_CHECK_ARG(height))
 {
-	if ( getBeacon() == NullFC )
-	{
-		SWARNING << "Camera::setup: no beacon!" << endl;
-		return;
-	}	
+    if ( getBeacon() == NullFC )
+    {
+        SWARNING << "Camera::setup: no beacon!" << endl;
+        return;
+    }   
 
-	getBeacon()->getToWorld( result );	
-	result.invert();
+    getBeacon()->getToWorld( result );  
+    result.invert();
 }
 
 void Camera::getFrustum( FrustumVolume& result, const Viewport& port )
 {
     Matrix mv,prt,pr;
-	
-	getProjection( pr, port.getPixelWidth(), port.getPixelHeight() );
-	getViewing   ( mv, port.getPixelWidth(), port.getPixelHeight() );
+    
+    getProjection( pr, port.getPixelWidth(), port.getPixelHeight() );
+    getViewing   ( mv, port.getPixelWidth(), port.getPixelHeight() );
 
     pr.mult( mv );
-	
+    
     result.setPlanes( pr );
 }
 
 Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 {
-	Matrix proj, projtrans, view;
+    Matrix proj, projtrans, view;
 
-	getProjection( proj, port.getPixelWidth(), port.getPixelHeight() );
-	getProjectionTranslation( projtrans, port.getPixelWidth(), 
-	    	    	    	    port.getPixelHeight() );
-	getViewing( view, port.getPixelWidth(), port.getPixelHeight() );
-	
-	Matrix wctocc = proj;
-	wctocc.mult( projtrans );
-	wctocc.mult( view );
+    getProjection( proj, port.getPixelWidth(), port.getPixelHeight() );
+    getProjectionTranslation( projtrans, port.getPixelWidth(), 
+                                port.getPixelHeight() );
+    getViewing( view, port.getPixelWidth(), port.getPixelHeight() );
+    
+    Matrix wctocc = proj;
+    wctocc.mult( projtrans );
+    wctocc.mult( view );
 
-	Matrix cctowc;
-	cctowc.invertFrom( wctocc );
-	
-	Real32  rx = ( x / (Real32) port.getPixelWidth() ) * 2. - 1.,
-			ry = 1.f - ( y / (Real32) port.getPixelHeight() ) * 2.;
-	
-	view.invert();
-	Pnt3f from( view[3][0], view[3][1], view[3][2] );
-			
-	Pnt3f at;
-	cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );
-	
-	line.setValue( from, at-from );
-	
-	return true;
+    Matrix cctowc;
+    cctowc.invertFrom( wctocc );
+    
+    Real32  rx = ( x / (Real32) port.getPixelWidth() ) * 2. - 1.,
+            ry = 1.f - ( y / (Real32) port.getPixelHeight() ) * 2.;
+    
+    view.invert();
+    Pnt3f from( view[3][0], view[3][1], view[3][2] );
+            
+    Pnt3f at;
+    cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );
+    
+    line.setValue( from, at-from );
+    
+    return true;
 }
 
 /*------------------------------- dump ----------------------------------*/
@@ -293,7 +293,7 @@ Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 void Camera::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump Camera NI" << endl;
+    SLOG << "Dump Camera NI" << endl;
 }
 
     

@@ -631,7 +631,7 @@ void WinThreadBase::freeAspect(void)
 
     pUint = (UInt32 *) TlsGetValue(_aspectKey);
 
-	delete pUint;
+    delete pUint;
 }
 
 void WinThreadBase::freeChangeList(void)
@@ -640,7 +640,7 @@ void WinThreadBase::freeChangeList(void)
 
     pCList = (ChangeList **) TlsGetValue(_changeListKey);
 
-	delete pCList;
+    delete pCList;
 }
 #endif
 
@@ -648,7 +648,7 @@ void WinThreadBase::init(void)
 {
     Inherited::init();
 
-	setupAspect();
+    setupAspect();
     setupChangeList();        
 }
 
@@ -666,7 +666,7 @@ UInt32 WinThreadBase::getAspect(void)
     return *pUint;
 #endif
 #ifdef OSG_ASPECT_USE_DECLSPEC
-	return _uiAspectLocal;
+    return _uiAspectLocal;
 #endif
 }
 
@@ -680,7 +680,7 @@ ChangeList *WinThreadBase::getCurrentChangeList(void)
     return *pCList;
 #endif
 #ifdef OSG_ASPECT_USE_DECLSPEC
-	return _pChangeListLocal;
+    return _pChangeListLocal;
 #endif
 }
 
@@ -724,14 +724,14 @@ void WinThreadBase::setupAspect(void)
 #endif
 
 #ifdef OSG_ASPECT_USE_DECLSPEC
-	_uiAspectLocal = Inherited::_uiAspectId;
+    _uiAspectLocal = Inherited::_uiAspectId;
 #endif
 }
 
 void WinThreadBase::setupChangeList(void)
 {
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-	ChangeList **pChangeList = new ChangeList *;
+    ChangeList **pChangeList = new ChangeList *;
 
    if(Inherited::_pChangeList == NULL)
     {
@@ -747,7 +747,7 @@ void WinThreadBase::setupChangeList(void)
     }
 
     (*pChangeList)->setAspect(Inherited::_uiAspectId);
-	TlsSetValue(_changeListKey, pChangeList);
+    TlsSetValue(_changeListKey, pChangeList);
 #endif
 
 #if defined (OSG_ASPECT_USE_DECLSPEC)
@@ -871,15 +871,15 @@ void Thread::initThreading(void)
     }
 #endif
 
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
-	Thread::_aspectKey     = TlsAlloc();
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)       
+    Thread::_aspectKey     = TlsAlloc();
 
-	FFASSERT((Thread::_aspectKey != 0xFFFFFFFF), 1, 
+    FFASSERT((Thread::_aspectKey != 0xFFFFFFFF), 1, 
              ("Failed to alloc aspect key local storage\n");)
 
-	Thread::_changeListKey = TlsAlloc();
+    Thread::_changeListKey = TlsAlloc();
 
-	FFASSERT((Thread::_changeListKey != 0xFFFFFFFF), 1, 
+    FFASSERT((Thread::_changeListKey != 0xFFFFFFFF), 1, 
              ("Failed to alloc changelist key local storage\n");)
 #endif
 

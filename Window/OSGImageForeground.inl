@@ -47,8 +47,8 @@ OSG_BEGIN_NAMESPACE
 
 inline void ImageForeground::addImage(ImageP image, Pnt2f position)
 {
-	getImages().addValue( image );
-	getPositions().addValue( position );
+    getImages().addValue( image );
+    getPositions().addValue( position );
 }
 
 

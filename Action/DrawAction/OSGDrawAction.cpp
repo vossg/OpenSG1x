@@ -91,45 +91,45 @@ vector<Action::Functor> *DrawAction::_defaultLeaveFunctors = NULL;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void DrawAction::registerEnterDefault(	const FieldContainerType &type, 
-										const Action::Functor &func )
+void DrawAction::registerEnterDefault(  const FieldContainerType &type, 
+                                        const Action::Functor &func )
 {
-	if ( ! _defaultEnterFunctors )
-		_defaultEnterFunctors = new vector<Action::Functor>;
+    if ( ! _defaultEnterFunctors )
+        _defaultEnterFunctors = new vector<Action::Functor>;
 
-	while(type.getId() >= _defaultEnterFunctors->size())
-	{
-		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultEnterFunction));
-	}
-	
-	(*_defaultEnterFunctors)[ type.getId() ] = func;
+    while(type.getId() >= _defaultEnterFunctors->size())
+    {
+        _defaultEnterFunctors->push_back( 
+                osgFunctionFunctor2(&Action::_defaultEnterFunction));
+    }
+    
+    (*_defaultEnterFunctors)[ type.getId() ] = func;
 }
 
-void DrawAction::registerLeaveDefault(	const FieldContainerType &type, 
-										const Action::Functor &func )
+void DrawAction::registerLeaveDefault(  const FieldContainerType &type, 
+                                        const Action::Functor &func )
 {
-	if ( ! _defaultLeaveFunctors )
-		_defaultLeaveFunctors = new vector<Action::Functor>;
+    if ( ! _defaultLeaveFunctors )
+        _defaultLeaveFunctors = new vector<Action::Functor>;
 
-	while(type.getId() >= _defaultLeaveFunctors->size())
-	{
-		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultLeaveFunction));
-	}
-	
-	(*_defaultLeaveFunctors)[ type.getId() ] = func;
+    while(type.getId() >= _defaultLeaveFunctors->size())
+    {
+        _defaultLeaveFunctors->push_back( 
+                osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+    }
+    
+    (*_defaultLeaveFunctors)[ type.getId() ] = func;
 }
 
 
 void DrawAction::setPrototype( DrawAction * proto )
 {
-	_prototype = proto;
+    _prototype = proto;
 }
 
 DrawAction *DrawAction::getPrototype( void )
 {
-	return _prototype;
+    return _prototype;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -161,11 +161,11 @@ DrawAction::DrawAction(void) :
     _material  (NULL),
     _lightCount(0)
 {
-	if ( _defaultEnterFunctors )
-		_enterFunctors = *_defaultEnterFunctors;
+    if ( _defaultEnterFunctors )
+        _enterFunctors = *_defaultEnterFunctors;
 
-	if ( _defaultLeaveFunctors )
-		_leaveFunctors = *_defaultLeaveFunctors;
+    if ( _defaultLeaveFunctors )
+        _leaveFunctors = *_defaultLeaveFunctors;
 }
 
 
@@ -184,14 +184,14 @@ DrawAction::DrawAction( const DrawAction & source ) :
 
 DrawAction * DrawAction::create( void )
 {
-	DrawAction * act;
-	
-	if ( _prototype )
-		act = new DrawAction( *_prototype );
-	else
-		act = new DrawAction();
-	
-	return act;
+    DrawAction * act;
+    
+    if ( _prototype )
+        act = new DrawAction( *_prototype );
+    else
+        act = new DrawAction();
+    
+    return act;
 }
 
 
@@ -205,7 +205,7 @@ DrawAction::~DrawAction(void)
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
-	
+    
 void DrawAction::setMaterial(Material *material)
 {
     _material = material;
@@ -232,17 +232,17 @@ Action::ResultE DrawAction::start( void )
 
 DrawAction& DrawAction::operator = (const DrawAction &source)
 {
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 
-	// free mem alloced by members of 'this'
+    // free mem alloced by members of 'this'
 
-	// alloc new mem for members
+    // alloc new mem for members
 
-	// copy 
+    // copy 
 }
 
 */
@@ -270,7 +270,7 @@ Bool DrawAction::operator == (const DrawAction &OSG_CHECK_ARG(other)) const
 
 Bool DrawAction::operator != (const DrawAction &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 
@@ -281,12 +281,12 @@ Bool DrawAction::operator != (const DrawAction &other) const
 
 vector<DrawAction::Functor>* DrawAction::getDefaultEnterFunctors( void )
 {
-	return _defaultEnterFunctors;
+    return _defaultEnterFunctors;
 }
 
 vector<DrawAction::Functor>* DrawAction::getDefaultLeaveFunctors( void )
 {
-	return _defaultLeaveFunctors;
+    return _defaultLeaveFunctors;
 }
 
 /*-------------------------------------------------------------------------*\

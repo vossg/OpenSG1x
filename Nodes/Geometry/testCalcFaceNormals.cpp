@@ -75,73 +75,73 @@ void animate(void)
 
 void key(unsigned char key, int x, int y)
 {
-	switch ( key )
-	{
-        case 27:	osgExit(); exit(0);
-        case 'a':	glDisable( GL_LIGHTING );
+    switch ( key )
+    {
+        case 27:    osgExit(); exit(0);
+        case 'a':   glDisable( GL_LIGHTING );
             cerr << "Lighting disabled." << endl;
             break;
-        case 's':	glEnable( GL_LIGHTING );
+        case 's':   glEnable( GL_LIGHTING );
             cerr << "Lighting enabled." << endl;
             break;
-        case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
+        case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
             cerr << "PolygonMode: Point." << endl;
             break;
-        case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+        case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
             cerr << "PolygonMode: Line." << endl;
             break;
-        case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+        case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
             cerr << "PolygonMode: Fill." << endl;
             break;
-	case 'q': 
-	  if( activeIndex != 0 )
-	    {
-	      beginEditCP(root);
-	      root->replaceChild( activeObj, objects[0] );
-	      root->replaceChild( activeNorm, normals[0] );
-	      activeObj = root->findChild( objects[0] );
-	      activeNorm = root->findChild( normals[0] );
-	      endEditCP(root);
-	      activeIndex = 0;
-	    }
-	  break;
-	case 'w':
-	  if( activeIndex != 1 )
-	    {
-	      beginEditCP(root);
-	      root->replaceChild( activeObj, objects[1] );
-	      root->replaceChild( activeNorm, normals[1] );
-	      activeObj = root->findChild( objects[1] );
-	      activeNorm = root->findChild( normals[1] );
-	      endEditCP(root);
-	      activeIndex = 1;
-	    }
-	  break;
-	case 'e':
-	  if( activeIndex != 2 )
-	    {
-	      beginEditCP(root);
-	      root->replaceChild( activeObj, objects[2] );
-	      root->replaceChild( activeNorm, normals[2] );
-	      activeObj = root->findChild( objects[2] );
-	      activeNorm = root->findChild( normals[2] );
-	      endEditCP(root);
-	      activeIndex = 2;
-	    }
-	  break;
-	case 'r':
-	  if( activeIndex != 3 )
-	    {
-	      beginEditCP(root);
-	      root->replaceChild( activeObj, objects[3] );
-	      root->replaceChild( activeNorm, normals[3] );
-	      activeObj = root->findChild( objects[3] );
-	      activeNorm = root->findChild( normals[3] );
-	      endEditCP(root);
-	      activeIndex = 3;
-	    }
-	  break;
-	}
+    case 'q': 
+      if( activeIndex != 0 )
+        {
+          beginEditCP(root);
+          root->replaceChild( activeObj, objects[0] );
+          root->replaceChild( activeNorm, normals[0] );
+          activeObj = root->findChild( objects[0] );
+          activeNorm = root->findChild( normals[0] );
+          endEditCP(root);
+          activeIndex = 0;
+        }
+      break;
+    case 'w':
+      if( activeIndex != 1 )
+        {
+          beginEditCP(root);
+          root->replaceChild( activeObj, objects[1] );
+          root->replaceChild( activeNorm, normals[1] );
+          activeObj = root->findChild( objects[1] );
+          activeNorm = root->findChild( normals[1] );
+          endEditCP(root);
+          activeIndex = 1;
+        }
+      break;
+    case 'e':
+      if( activeIndex != 2 )
+        {
+          beginEditCP(root);
+          root->replaceChild( activeObj, objects[2] );
+          root->replaceChild( activeNorm, normals[2] );
+          activeObj = root->findChild( objects[2] );
+          activeNorm = root->findChild( normals[2] );
+          endEditCP(root);
+          activeIndex = 2;
+        }
+      break;
+    case 'r':
+      if( activeIndex != 3 )
+        {
+          beginEditCP(root);
+          root->replaceChild( activeObj, objects[3] );
+          root->replaceChild( activeNorm, normals[3] );
+          activeObj = root->findChild( objects[3] );
+          activeNorm = root->findChild( normals[3] );
+          endEditCP(root);
+          activeIndex = 3;
+        }
+      break;
+    }
 }
 
 
@@ -151,26 +151,26 @@ void resize(int w, int h )
 }
 
 void motion(int x, int y)
-{	
+{   
   Real32 w = window->getWidth(), h = window->getHeight();
   
   
-  Real32	a = -2. * ( lastX / w - .5 ),
+  Real32    a = -2. * ( lastX / w - .5 ),
     b = -2. * ( .5 - lastY / h ),
     c = -2. * ( x / w - .5 ),
     d = -2. * ( .5 - y / h );
   
   if ( mouseb & ( 1 << GLUT_LEFT_BUTTON ) )
     {
-      tball.updateRotation( a, b, c, d );	
+      tball.updateRotation( a, b, c, d );   
     }
   else if ( mouseb & ( 1 << GLUT_MIDDLE_BUTTON ) )
     {
-      tball.updatePosition( a, b, c, d );	
+      tball.updatePosition( a, b, c, d );   
     }
   else if ( mouseb & ( 1 << GLUT_RIGHT_BUTTON ) )
     {
-      tball.updatePositionNeg( a, b, c, d );	
+      tball.updatePositionNeg( a, b, c, d );    
     }
   lastX = x;
   lastY = y;
@@ -182,27 +182,27 @@ void mouse(int button, int state, int x, int y)
   if ( state == 0 )
     {
       switch ( button )
-	{
-	case GLUT_LEFT_BUTTON:	break;
-	case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(true);
-	  break;
-	case GLUT_RIGHT_BUTTON:	tball.setAutoPositionNeg(true);
-	  break;
-	}
+    {
+    case GLUT_LEFT_BUTTON:  break;
+    case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(true);
+      break;
+    case GLUT_RIGHT_BUTTON:     tball.setAutoPositionNeg(true);
+      break;
+    }
       mouseb |= 1 << button;
     }
   else if ( state == 1 )
-	{
-	  switch ( button )
-	    {
-	    case GLUT_LEFT_BUTTON:	break;
-	    case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(false);
-	      break;
-	    case GLUT_RIGHT_BUTTON:	tball.setAutoPositionNeg(false);
-	      break;
-	    }		
-	  mouseb &= ~(1 << button);
-	}
+    {
+      switch ( button )
+        {
+        case GLUT_LEFT_BUTTON:  break;
+        case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(false);
+          break;
+        case GLUT_RIGHT_BUTTON:     tball.setAutoPositionNeg(false);
+          break;
+        }       
+      mouseb &= ~(1 << button);
+    }
   lastX = x;
   lastY = y;
 }
@@ -320,7 +320,7 @@ int main (int argc, char **argv)
   beginEditCP( obj3Colors );
   for( UInt32 i=0; i<obj3Pnts->getSize(); ++i )
   {
-	  obj3Colors->addValue( Color3f(.7,.7,.7) );
+      obj3Colors->addValue( Color3f(.7,.7,.7) );
   }
   endEditCP( obj3Colors );
   

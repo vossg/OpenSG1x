@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.17 2001/10/15 03:10:24 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.18 2001/10/15 04:52:16 vossg Exp $";
     static char cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
@@ -96,10 +96,10 @@ const OSG::BitVector  BlendChunkBase::ColorFieldMask =
 // Field descriptions
 
 /*! \var UInt32          BlendChunkBase::_sfSrcFactor
-    The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
+    The incoming pixel is multiplied by the source factor. Legal values are directly    taken from the glBlendFunc() manpage.
 */
 /*! \var UInt32          BlendChunkBase::_sfDestFactor
-    The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
+    The frame buffer pixel is multiplied by the destination factor. Legal values are    directly taken from the glBlendFunc() manpage.
 */
 /*! \var Color4f         BlendChunkBase::_sfColor
     This is the constant color used by blend modes *_CONSTANT_*.

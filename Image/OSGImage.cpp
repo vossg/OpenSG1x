@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 //-------------------------------
-// 	Includes 					 			
+//      Includes                                
 //-------------------------------
 #define OSG_COMPILEIMAGEINST
 
@@ -95,11 +95,11 @@ OSG_USING_NAMESPACE Int32 Image::_formatMap[][2] =
  *****************************/
 
 /*****************************
- *	  Classvariables
+ *    Classvariables
  *****************************/
 
 /********************************
- *	  Class methodes
+ *    Class methodes
  *******************************/
 
 /*******************************
@@ -854,7 +854,7 @@ UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 ******************************/
 
 /******************************
-*private	
+*private    
 ******************************/
 
 //----------------------------
@@ -966,7 +966,7 @@ Bool Image::scaleData(UChar8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
     Real32  sz = Real32(srcD) / Real32(destD);
     Int32   srcSize = srcW * srcH * srcD;
 
-    //	Int32 destDize = destW * destH * destD;
+    //  Int32 destDize = destW * destH * destD;
     Int32   x, y, z, p;
     UChar8  *slice, *line, *pixel;
 
@@ -1284,7 +1284,7 @@ Bool Image::operator<(const Image &image)
 }
 
 /****************************
-*protected	
+*protected  
 ****************************/
 /****************************
 *private

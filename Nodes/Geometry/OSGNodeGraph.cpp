@@ -32,7 +32,7 @@ OSG_USING_NAMESPACE
 //----------------------------------------------------------------------
 NodeGraph::NodeGraph (void)
 {
-	;
+    ;
 }          
 
 //----------------------------------------------------------------------
@@ -43,9 +43,9 @@ NodeGraph::NodeGraph (void)
 //         Copy Constructor
 //----------------------------------------------------------------------
 NodeGraph::NodeGraph (const NodeGraph &obj )
-	: _nodeVec(obj._nodeVec), _edgeMapVec(obj._edgeMapVec)
+    : _nodeVec(obj._nodeVec), _edgeMapVec(obj._edgeMapVec)
 {
-	return;
+    return;
 }
 
 //----------------------------------------------------------------------
@@ -57,7 +57,7 @@ NodeGraph::NodeGraph (const NodeGraph &obj )
 //----------------------------------------------------------------------
 NodeGraph::~NodeGraph (void )
 {
-	clear();
+    clear();
 }
 
 //----------------------------------------------------------------------
@@ -71,8 +71,8 @@ void NodeGraph::init ( int vertexNum, int nodeNum, int reserveEdges )
 {
   int i;
 
-	_nodeVec.resize(nodeNum); 
-	_edgeMapVec.resize(vertexNum); 
+    _nodeVec.resize(nodeNum); 
+    _edgeMapVec.resize(vertexNum); 
 
   if (reserveEdges > 0) 
     for (i = 0; i < vertexNum; i++) 
@@ -89,30 +89,30 @@ void NodeGraph::init ( int vertexNum, int nodeNum, int reserveEdges )
 //----------------------------------------------------------------------
 Bool NodeGraph::verify (Bool printInfo )
 {
-	Bool retCode = true;
-	int i, n = _nodeVec.size(); 
-	int nodeDegree[4];
-	int edgeCount = 0;
-	map< int, int > connectionMap;
-	map< int, int >::iterator connectionI;
-	int connectionCount;
+    Bool retCode = true;
+    int i, n = _nodeVec.size(); 
+    int nodeDegree[4];
+    int edgeCount = 0;
+    map< int, int > connectionMap;
+    map< int, int >::iterator connectionI;
+    int connectionCount;
 
-	for (i = 0; i < 4; i++)
-		nodeDegree[i] = 0;
-	
-	for (i = 0; i < n; i++)
-		if (_nodeVec[i].index == i)
-			nodeDegree[_nodeVec[i].degree]++;
-		else
-			if (_nodeVec[i].index == -1)
-				nodeDegree[3]++;
-			else {
+    for (i = 0; i < 4; i++)
+        nodeDegree[i] = 0;
+    
+    for (i = 0; i < n; i++)
+        if (_nodeVec[i].index == i)
+            nodeDegree[_nodeVec[i].degree]++;
+        else
+            if (_nodeVec[i].index == -1)
+                nodeDegree[3]++;
+            else {
         FFATAL (( "Invalid node index %d for face %d\n",
                   _nodeVec[i].index, i ));
-				retCode = false;
-			}
+                retCode = false;
+            }
 
-	if (printInfo) {
+    if (printInfo) {
     FNOTICE (( "NodeDegree: %d %d %d %d\n",
              nodeDegree[0], nodeDegree[1], nodeDegree[2], nodeDegree[3] ));
 
@@ -132,7 +132,7 @@ Bool NodeGraph::verify (Bool printInfo )
                  connectionI->first, connectionI->second ));
   } 
  
-	return retCode;
+    return retCode;
 }
 
 // macro to compile randomization in and out -- just for debuging
@@ -156,28 +156,28 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
                               Bool OSG_CHECK_ARG(createFans     ),
                               int  OSG_CHECK_ARG(minFanEdgeCount))
 {
-	NodeList nodeList[4], nonManifoldList, *down = 0;
+    NodeList nodeList[4], nonManifoldList, *down = 0;
   int i,n = _nodeVec.size();
-	int frontToBackCost, backToFrontCost, cost = 0, nodeLeft = 0;
-	WalkCase walkCase = START, firstTurn = START;
-	int degree, lowDegree, entrySide, exitSide;
-	int pathI = -1;
-	Node *currentNode = 0, *nextNode = 0;
-	Edge *firstEdge = 0, *lastEdge = 0, *brotherEdge = 0;
-	Bool tryFlip = true;
-	int stayCounter = 0, reverseCounter = 0;
-	list<int>::iterator listI;
-	list<int>::reverse_iterator listRI;
-	int pathCost = 0;
-	int pathEntrySide, pathExitSide;
-	Bool pathWalkRight;
+    int frontToBackCost, backToFrontCost, cost = 0, nodeLeft = 0;
+    WalkCase walkCase = START, firstTurn = START;
+    int degree, lowDegree, entrySide, exitSide;
+    int pathI = -1;
+    Node *currentNode = 0, *nextNode = 0;
+    Edge *firstEdge = 0, *lastEdge = 0, *brotherEdge = 0;
+    Bool tryFlip = true;
+    int stayCounter = 0, reverseCounter = 0;
+    list<int>::iterator listI;
+    list<int>::reverse_iterator listRI;
+    int pathCost = 0;
+    int pathEntrySide, pathExitSide;
+    Bool pathWalkRight;
 
-	down = 0;
-	for (i = 0; i < 4; i++) {
-		nodeList[i].setDown(down);
-		nodeList[i].setDegree(i);
-		down = &nodeList[i];
-	}
+    down = 0;
+    for (i = 0; i < 4; i++) {
+        nodeList[i].setDown(down);
+        nodeList[i].setDegree(i);
+        down = &nodeList[i];
+    }
 
   for (i = 0; i < n; i++)
     if (_nodeVec[i].index >= 0) {
@@ -191,174 +191,174 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
       }
     }
 
-	if ((nodeList[1].size() + nodeList[2].size() + nodeList[3].size()) == 0) {
-		FWARNING (("Geometry without any shared vertex, skipping opt.\n"));
-		nodeLeft = 0;
-	}
+    if ((nodeList[1].size() + nodeList[2].size() + nodeList[3].size()) == 0) {
+        FWARNING (("Geometry without any shared vertex, skipping opt.\n"));
+        nodeLeft = 0;
+    }
 
-	while(nodeLeft || (walkCase == FINISH)) {
-		switch (walkCase) {
-		case START:
-			pathI++;
-			tryFlip = true;
-			pathVec[pathI].clear();
-			// find first node
-			for (lowDegree = 0; lowDegree < 4; lowDegree++)
-				if ((currentNode = nodeList[lowDegree].first()))
-					break;
-			// write node
-			pathVec[pathI].add(currentNode->index);
-			currentNode->release();
-			currentNode->dropNeighbors( RANDBOOL );
-			cost += 3;
-			walkCase = NEW;
-			nodeLeft--;
-			break;
-		case NEW:
-		  nextNode = 0;
-			for (i = 0; i < 3; i++) {
-				brotherEdge = currentNode->edgeVec[i]->brotherEdge;
-				if (brotherEdge)
-					if ( brotherEdge->node->list &&
-							 (!nextNode || (nextNode->list->degree() 
-															> brotherEdge->node->list->degree()))) {
-						nextNode = brotherEdge->node;
-						lastEdge = brotherEdge;
-						firstEdge = lastEdge->brotherEdge;
-					}
-			}
-			if (nextNode) {
+    while(nodeLeft || (walkCase == FINISH)) {
+        switch (walkCase) {
+        case START:
+            pathI++;
+            tryFlip = true;
+            pathVec[pathI].clear();
+            // find first node
+            for (lowDegree = 0; lowDegree < 4; lowDegree++)
+                if ((currentNode = nodeList[lowDegree].first()))
+                    break;
+            // write node
+            pathVec[pathI].add(currentNode->index);
+            currentNode->release();
+            currentNode->dropNeighbors( RANDBOOL );
+            cost += 3;
+            walkCase = NEW;
+            nodeLeft--;
+            break;
+        case NEW:
+          nextNode = 0;
+            for (i = 0; i < 3; i++) {
+                brotherEdge = currentNode->edgeVec[i]->brotherEdge;
+                if (brotherEdge)
+                    if ( brotherEdge->node->list &&
+                             (!nextNode || (nextNode->list->degree() 
+                                                            > brotherEdge->node->list->degree()))) {
+                        nextNode = brotherEdge->node;
+                        lastEdge = brotherEdge;
+                        firstEdge = lastEdge->brotherEdge;
+                    }
+            }
+            if (nextNode) {
         // triangle strip
         pathVec[pathI].type = GL_TRIANGLE_STRIP;
-				pathVec[pathI].add(firstEdge->edgeSide);	
-				pathVec[pathI].add(lastEdge->edgeSide);					
-				pathVec[pathI].add(nextNode->index);
-				nextNode->release();
-				nextNode->dropNeighbors( RANDBOOL );
-				cost++;
-				walkCase = RIGHT;
-				nodeLeft--;
-				firstTurn = START;
-			}
-			else {
+                pathVec[pathI].add(firstEdge->edgeSide);    
+                pathVec[pathI].add(lastEdge->edgeSide);                     
+                pathVec[pathI].add(nextNode->index);
+                nextNode->release();
+                nextNode->dropNeighbors( RANDBOOL );
+                cost++;
+                walkCase = RIGHT;
+                nodeLeft--;
+                firstTurn = START;
+            }
+            else {
         // single triangle 
         pathVec[pathI].type = GL_TRIANGLES;
-				walkCase = START;
-			}
-			break;			
-		case LEFT:
-		case RIGHT:
-			currentNode = lastEdge->node;
-			entrySide = lastEdge->edgeSide;
-			for (i = 0; i < 2; i++) {
-				exitSide = ( entrySide + 1 + ((i + int(walkCase)) & 1)  ) % 3;
-				if ( (brotherEdge = currentNode->edgeVec[exitSide]->brotherEdge) &&
-						 (nextNode = brotherEdge->node) && nextNode->list ) {
-					// write node
-					lastEdge = currentNode->edgeVec[exitSide]->brotherEdge;
-					pathVec[pathI].add(exitSide);
-					pathVec[pathI].add(lastEdge->edgeSide);
-					pathVec[pathI].add(nextNode->index);
-					nextNode->release();
-					nextNode->dropNeighbors( RANDBOOL );
-					walkCase = i ? walkCase : WalkCase((int(walkCase)+1) & 1);
-					nodeLeft--;
-					if (firstTurn == START) 
-						firstTurn = ((exitSide+2)%3 == entrySide) ? LEFT : RIGHT;
-					break;
-				}
-			}		
-			if (i == 2) {
-				if (tryFlip) {
-					walkCase = firstTurn;
-					lastEdge = firstEdge;
-					pathVec[pathI].flip = true;
-					tryFlip = false;
-				}
-				else 
-					walkCase = FINISH;
-			}
-			else 
-				if (!nodeLeft)
-					walkCase = FINISH;
-			break;
-		case FINISH:
-			// check front to back
-			pathCost = 0;
-			listI = pathVec[pathI].path.begin();
-			listI++;
-			listI++;
-			pathEntrySide = *listI++;
-			listI++;
-			pathWalkRight = true;
-			pathCost += 3;
-			while ( listI != pathVec[pathI].path.end()) {
-				pathCost++;
-				pathExitSide = *listI++;
-				if (pathWalkRight == true) {
-					if (((pathEntrySide+1)%3 == pathExitSide)) 
-						pathCost++;
-					else
-						pathWalkRight = false;
-				}
-				else {
-					if ((pathEntrySide+1)%3 == pathExitSide) 
-						pathWalkRight = true;
-					else 
-						pathCost++;
-				}
-				pathEntrySide = *listI++;
-				*listI++;
-			}
-			frontToBackCost = ++pathCost;
-			
-			// check back to front
-			pathCost = 0;
-			listRI = pathVec[pathI].path.rbegin();
-			listRI++;
-			listRI++;
-			pathEntrySide = *listRI++;
-			listRI++;
-			pathWalkRight = true;
-			pathCost += 3;
-			while ( listRI != pathVec[pathI].path.rend()) {
-				pathCost++;
-				pathExitSide = *listRI++;
-				if (pathWalkRight == true) {
-					if (((pathEntrySide+1)%3 == pathExitSide)) 
-						pathCost++;
-					else 
-						pathWalkRight = false;
-				}
-				else {
-					if ((pathEntrySide+1)%3 == pathExitSide) 
-						pathWalkRight = true;
-					else 
-						pathCost++;
-				}
-				pathEntrySide = *listRI++;
-				*listRI++;
-			}
-			backToFrontCost = ++pathCost;
-			
-			// select the best direction
-			if (frontToBackCost > backToFrontCost) {
-				reverseCounter++;
-				pathVec[pathI].flip = true;
-				//pathVec[pathI].reverse();
-				cost += backToFrontCost - 4;
-			}
-			else {
-				stayCounter++;
-				pathVec[pathI].flip = false;
-				cost += frontToBackCost - 4;
-			}
-			walkCase = START;
-			break;
-		default:
-			break;
-		}
-	}
+                walkCase = START;
+            }
+            break;          
+        case LEFT:
+        case RIGHT:
+            currentNode = lastEdge->node;
+            entrySide = lastEdge->edgeSide;
+            for (i = 0; i < 2; i++) {
+                exitSide = ( entrySide + 1 + ((i + int(walkCase)) & 1)  ) % 3;
+                if ( (brotherEdge = currentNode->edgeVec[exitSide]->brotherEdge) &&
+                         (nextNode = brotherEdge->node) && nextNode->list ) {
+                    // write node
+                    lastEdge = currentNode->edgeVec[exitSide]->brotherEdge;
+                    pathVec[pathI].add(exitSide);
+                    pathVec[pathI].add(lastEdge->edgeSide);
+                    pathVec[pathI].add(nextNode->index);
+                    nextNode->release();
+                    nextNode->dropNeighbors( RANDBOOL );
+                    walkCase = i ? walkCase : WalkCase((int(walkCase)+1) & 1);
+                    nodeLeft--;
+                    if (firstTurn == START) 
+                        firstTurn = ((exitSide+2)%3 == entrySide) ? LEFT : RIGHT;
+                    break;
+                }
+            }       
+            if (i == 2) {
+                if (tryFlip) {
+                    walkCase = firstTurn;
+                    lastEdge = firstEdge;
+                    pathVec[pathI].flip = true;
+                    tryFlip = false;
+                }
+                else 
+                    walkCase = FINISH;
+            }
+            else 
+                if (!nodeLeft)
+                    walkCase = FINISH;
+            break;
+        case FINISH:
+            // check front to back
+            pathCost = 0;
+            listI = pathVec[pathI].path.begin();
+            listI++;
+            listI++;
+            pathEntrySide = *listI++;
+            listI++;
+            pathWalkRight = true;
+            pathCost += 3;
+            while ( listI != pathVec[pathI].path.end()) {
+                pathCost++;
+                pathExitSide = *listI++;
+                if (pathWalkRight == true) {
+                    if (((pathEntrySide+1)%3 == pathExitSide)) 
+                        pathCost++;
+                    else
+                        pathWalkRight = false;
+                }
+                else {
+                    if ((pathEntrySide+1)%3 == pathExitSide) 
+                        pathWalkRight = true;
+                    else 
+                        pathCost++;
+                }
+                pathEntrySide = *listI++;
+                *listI++;
+            }
+            frontToBackCost = ++pathCost;
+            
+            // check back to front
+            pathCost = 0;
+            listRI = pathVec[pathI].path.rbegin();
+            listRI++;
+            listRI++;
+            pathEntrySide = *listRI++;
+            listRI++;
+            pathWalkRight = true;
+            pathCost += 3;
+            while ( listRI != pathVec[pathI].path.rend()) {
+                pathCost++;
+                pathExitSide = *listRI++;
+                if (pathWalkRight == true) {
+                    if (((pathEntrySide+1)%3 == pathExitSide)) 
+                        pathCost++;
+                    else 
+                        pathWalkRight = false;
+                }
+                else {
+                    if ((pathEntrySide+1)%3 == pathExitSide) 
+                        pathWalkRight = true;
+                    else 
+                        pathCost++;
+                }
+                pathEntrySide = *listRI++;
+                *listRI++;
+            }
+            backToFrontCost = ++pathCost;
+            
+            // select the best direction
+            if (frontToBackCost > backToFrontCost) {
+                reverseCounter++;
+                pathVec[pathI].flip = true;
+                //pathVec[pathI].reverse();
+                cost += backToFrontCost - 4;
+            }
+            else {
+                stayCounter++;
+                pathVec[pathI].flip = false;
+                cost += frontToBackCost - 4;
+            }
+            walkCase = START;
+            break;
+        default:
+            break;
+        }
+    }
 
   if (cost) {
     if ((currentNode = nonManifoldList.first())) {
@@ -371,7 +371,7 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
     pathVec[++pathI].clear();
   }
 
-	return cost;
+    return cost;
 }                                                  
 
 //----------------------------------------------------------------------
@@ -383,13 +383,13 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
 //----------------------------------------------------------------------
 int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
 {
-	int pi;
+    int pi;
     unsigned j, cost = 0;
-	int index, firstIndex, firstSide, entrySide, exitSide;
-	Node *node;
-	Bool walkRight;
-	list<int>::iterator listI;
-	list<int>::reverse_iterator listRI;
+    int index, firstIndex, firstSide, entrySide, exitSide;
+    Node *node;
+    Bool walkRight;
+    list<int>::iterator listI;
+    list<int>::reverse_iterator listRI;
 
   primitive.clear();
 
@@ -528,7 +528,7 @@ int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
     }
   }
   
-	return cost;
+    return cost;
 }
 
 
@@ -541,24 +541,24 @@ int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
 //----------------------------------------------------------------------
 int NodeGraph::getEdges (list <IndexEdge> & edgeList)
 {
-	int i, n;
-	EdgeMap::iterator eMI;
-	int vs, ve;
-	n = _edgeMapVec.size();
-	int edgeCount = 0;
+    int i, n;
+    EdgeMap::iterator eMI;
+    int vs, ve;
+    n = _edgeMapVec.size();
+    int edgeCount = 0;
 
-	for (i = 0; i < n; i++)
-		for ( eMI = _edgeMapVec[i].begin(); eMI != _edgeMapVec[i].end(); ++eMI) {
-			vs = (*eMI)->vertexStart;
-			ve = (*eMI)->vertexEnd;
+    for (i = 0; i < n; i++)
+        for ( eMI = _edgeMapVec[i].begin(); eMI != _edgeMapVec[i].end(); ++eMI) {
+            vs = (*eMI)->vertexStart;
+            ve = (*eMI)->vertexEnd;
 
-			if (!(*eMI)->brotherEdge || (ve < vs)) {
-				edgeList.push_back ( IndexEdge(ve,vs) );
-				edgeCount++;
-			}
-		}
+            if (!(*eMI)->brotherEdge || (ve < vs)) {
+                edgeList.push_back ( IndexEdge(ve,vs) );
+                edgeCount++;
+            }
+        }
 
-	return edgeCount;
+    return edgeCount;
 }
 
 //----------------------------------------------------------------------
@@ -578,6 +578,6 @@ void NodeGraph::clear (void)
       delete (*eI);
   }                
 
-	_edgeMapVec.clear();
-	_nodeVec.clear();
+    _edgeMapVec.clear();
+    _nodeVec.clear();
 }

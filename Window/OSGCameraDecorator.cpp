@@ -69,7 +69,7 @@ The base class for the camera.
  *                           Class variables                               *
 \***************************************************************************/
 
-char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.4 2001/10/15 03:10:25 vossg Exp $";
+char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.5 2001/10/15 04:52:17 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -149,20 +149,20 @@ void CameraDecorator::changed(BitVector, ChangeMode)
 // this is simple, just copying data
 
 void CameraDecorator::getProjection( Matrix& result, UInt32 width, 
-    	    	    	    	    UInt32 height )
+                                    UInt32 height )
 {
-	getCamera()->getProjection( result, width, height );
+    getCamera()->getProjection( result, width, height );
 }
 
 void CameraDecorator::getProjectionTranslation( Matrix& result, UInt32 width, 
-    	    	    	    	    UInt32 height )
+                                    UInt32 height )
 {
-	getCamera()->getProjectionTranslation( result, width, height );
+    getCamera()->getProjectionTranslation( result, width, height );
 }
 
 void CameraDecorator::getViewing( Matrix& result, UInt32 width, UInt32 height )
 {
-	getCamera()->getViewing( result, width, height );
+    getCamera()->getViewing( result, width, height );
 }
 
 
@@ -174,7 +174,7 @@ void CameraDecorator::getViewing( Matrix& result, UInt32 width, UInt32 height )
 void CameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                            const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump CameraDecorator NI" << endl;
+    SLOG << "Dump CameraDecorator NI" << endl;
 }
 
     

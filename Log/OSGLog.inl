@@ -135,9 +135,9 @@ OSG_BEGIN_NAMESPACE
 inline 
 Log &osgLog() 
 {
-	initLog();
+    initLog();
 
-	return *osgLogP;
+    return *osgLogP;
 }
 
 inline 
@@ -156,31 +156,31 @@ ostream &osgStartLog(      Bool      logHeader,
                            const Char8    *file, 
                            UInt32    line)
 {
-	initLog();
+    initLog();
 
-	osgLogP->lock();
+    osgLogP->lock();
 
-	if(osgLogP->checkModule(module)) 
+    if(osgLogP->checkModule(module)) 
     {
-		if(logHeader)
+        if(logHeader)
             osgLogP->doHeader(level,module,file,line);
 
-		return osgLogP->stream(level);
-	}
-	else
-		return osgLogP->nilstream();
+        return osgLogP->stream(level);
+    }
+    else
+        return osgLogP->nilstream();
 }
 
 inline 
 Bool Log::checkLevel(LogLevel level)
 {
-	return (_logLevel >= level) ? true : false;
+    return (_logLevel >= level) ? true : false;
 }
 
 inline
 Time Log::getRefTime(void)
 {
-	return _refTime;
+    return _refTime;
 }
 
 inline
@@ -204,13 +204,13 @@ LogBuf & Log::getLogBuf(void)
 inline
 ostream &Log::stream(LogLevel level)
 {
-	return *(_streamVec[level]); 
+    return *(_streamVec[level]); 
 }
 
 inline
 ostream &Log::nilstream(void)
 {
-	return *_nilstreamP;
+    return *_nilstreamP;
 }
 
 inline 
@@ -219,49 +219,49 @@ ostream &Log::doHeader(      LogLevel  level,
                              const Char8    *file, 
                              UInt32    line)
 {
-	LogOStream & sout = *(_streamVec[level]);
+    LogOStream & sout = *(_streamVec[level]);
 
-	if (_headerElem) 
+    if (_headerElem) 
     {
-		if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
-			sout << endl;	
-		
-		if (_headerElem & LOG_TYPE_HEADER)
-			sout << _levelName[level] << ":";
+        if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
+            sout << endl;   
+        
+        if (_headerElem & LOG_TYPE_HEADER)
+            sout << _levelName[level] << ":";
 
-		if (_headerElem & LOG_TIMESTAMP_HEADER) 
-			sout << " ts: " << (osg::getSystemTime() - _refTime);
+        if (_headerElem & LOG_TIMESTAMP_HEADER) 
+            sout << " ts: " << (osg::getSystemTime() - _refTime);
 
-		if (module && *module && (_headerElem & LOG_MODULE_HEADER))
-			sout << " mod: " << module;
+        if (module && *module && (_headerElem & LOG_MODULE_HEADER))
+            sout << " mod: " << module;
 
-		if ( file && *file && (_headerElem & LOG_FILE_HEADER)) {
-			sout << " file: " << file;
-			if (_headerElem & LOG_LINE_HEADER)
-				sout << ':' << line;
-		}
-		else
-			if (_headerElem & LOG_LINE_HEADER)
-				sout << " line:" << line;
+        if ( file && *file && (_headerElem & LOG_FILE_HEADER)) {
+            sout << " file: " << file;
+            if (_headerElem & LOG_LINE_HEADER)
+                sout << ':' << line;
+        }
+        else
+            if (_headerElem & LOG_LINE_HEADER)
+                sout << " line:" << line;
 
-		if (_headerElem & LOG_END_NEWLINE_HEADER)
-			sout << endl;	
-		else
-			sout << ' ';
-	}
+        if (_headerElem & LOG_END_NEWLINE_HEADER)
+            sout << endl;   
+        else
+            sout << ' ';
+    }
 
-	return sout;
+    return sout;
 }
 
 inline  
 ostream &endLog(ostream &strm)
 {
-	osg::initLog();
+    osg::initLog();
 
-	osg::osgLogP->unlock();
-	
-	strm << endl;
-	return strm;
+    osg::osgLogP->unlock();
+    
+    strm << endl;
+    return strm;
 }
 
 OSG_END_NAMESPACE

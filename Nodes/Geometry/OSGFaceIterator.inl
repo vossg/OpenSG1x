@@ -48,152 +48,152 @@
 OSG_BEGIN_NAMESPACE
 
 /*! Return the index of the current face. The index runs from 0 to the
-	number of faces in the geometry. Its main use is as an input to seek().
+    number of faces in the geometry. Its main use is as an input to seek().
 */
-inline		 
+inline       
 Int32 FaceIterator::getIndex( void ) const
 {
-	return _faceIndex;
+    return _faceIndex;
 }
 
 /*! Return the type of the current primitive. Mainly useful to be able
-	to treat e.g. polygons differently than other triangle-generating
-	primitives.
+    to treat e.g. polygons differently than other triangle-generating
+    primitives.
 */
-inline		 
+inline       
 UInt32 FaceIterator::getType( void ) const
 {
-	return _primIt.getType();
+    return _primIt.getType();
 }
 
 
 /*! Return the length of the current face. 3 or 4, depending on the current 
-	primitive.
+    primitive.
 */
-inline		 
+inline       
 UInt32 FaceIterator::getLength( void) const
 {
-	return _facePntIndex[3] == -1 ? 3 : 4;
+    return _facePntIndex[3] == -1 ? 3 : 4;
 }
 
 
 /*! Return the position index of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
-inline		 
+inline       
 Int32 FaceIterator::getPositionIndex( Int32 which ) const
 {
-	if ( _facePntIndex[which] >= 0 )
-		return _primIt.getPositionIndex( _facePntIndex[which] );
-	else 
-		return -1;
+    if ( _facePntIndex[which] >= 0 )
+        return _primIt.getPositionIndex( _facePntIndex[which] );
+    else 
+        return -1;
 }
 
 
 /*! Return the position of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
-inline		 
+inline       
 Pnt3f FaceIterator::getPosition( Int32 which ) const
 {
-	Int32 ind = getPositionIndex( which );
-	
-	if ( ind < 0 )
-		return NullPnt3f;
-	
-	return _geo->getPositions()->getValue( ind );
+    Int32 ind = getPositionIndex( which );
+    
+    if ( ind < 0 )
+        return NullPnt3f;
+    
+    return _geo->getPositions()->getValue( ind );
 }
 
 /*! Return the normal index of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
-inline		 
+inline       
 Int32 FaceIterator::getNormalIndex( Int32 which ) const
 {
-	if ( _facePntIndex[which] >= 0 )
-		return _primIt.getNormalIndex( _facePntIndex[which] );
-	else 
-		return -1;
+    if ( _facePntIndex[which] >= 0 )
+        return _primIt.getNormalIndex( _facePntIndex[which] );
+    else 
+        return -1;
 }
 
 /*! Return the normal of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
 inline 
 Vec3f FaceIterator::getNormal( Int32 which ) const
-{	
-	Int32 ind = getNormalIndex( which );
-	
-	if ( ind < 0 )
-		return NullVec3f;
-		
-	return _geo->getNormals()->getValue( ind );
+{   
+    Int32 ind = getNormalIndex( which );
+    
+    if ( ind < 0 )
+        return NullVec3f;
+        
+    return _geo->getNormals()->getValue( ind );
 }
 
 /*! Return the color index of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
-inline		 
+inline       
 Int32 FaceIterator::getColorIndex( Int32 which ) const
 {
-	if ( _facePntIndex[which] >= 0 )
-		return _primIt.getColorIndex( _facePntIndex[which] );
-	else 
-		return -1;
+    if ( _facePntIndex[which] >= 0 )
+        return _primIt.getColorIndex( _facePntIndex[which] );
+    else 
+        return -1;
 }
 
 /*! Return the color of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
 inline 
 Color3f FaceIterator::getColor( Int32 which ) const
-{	
-	Int32 ind = getColorIndex( which );
-	
-	if ( ind < 0 )
-		return NullColor3f;
-		
-	return _geo->getColors()->getValue( ind );
+{   
+    Int32 ind = getColorIndex( which );
+    
+    if ( ind < 0 )
+        return NullColor3f;
+        
+    return _geo->getColors()->getValue( ind );
 }
 
 
 /*! Return the texture coordinate index of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
-inline		 
+inline       
 Int32 FaceIterator::getTexCoordsIndex( Int32 which ) const
 {
-	if ( _facePntIndex[which] >= 0 )
-		return _primIt.getTexCoordsIndex( _facePntIndex[which] );
-	else 
-		return -1;
+    if ( _facePntIndex[which] >= 0 )
+        return _primIt.getTexCoordsIndex( _facePntIndex[which] );
+    else 
+        return -1;
 }
 
 /*! Return the texture coordinate of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
 inline 
 Vec2f FaceIterator::getTexCoords( Int32 which ) const
-{	
-	Int32 ind = getTexCoordsIndex( which );
-	
-	if ( ind < 0 )
-		return NullVec2f;
-		
-	return _geo->getTexCoords()->getValue( ind );
+{   
+    Int32 ind = getTexCoordsIndex( which );
+    
+    if ( ind < 0 )
+        return NullVec2f;
+        
+    return _geo->getTexCoords()->getValue( ind );
 }
 
 
 /*! Return the index index of a point in the current face. 
-	\param which the point to access. Must be between 0 and getLength().
+    \param which the point to access. Must be between 0 and getLength().
 */
-inline		 
+inline       
 Int32 FaceIterator::getIndexIndex( Int32 which ) const
 {
-	if ( _facePntIndex[which] >= 0 )
-		return _primIt.getIndexIndex( _facePntIndex[which] );
-	else 
-		return -1;
+    if ( _facePntIndex[which] >= 0 )
+        return _primIt.getIndexIndex( _facePntIndex[which] );
+    else 
+        return -1;
 }
 
 OSG_END_NAMESPACE

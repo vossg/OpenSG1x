@@ -74,7 +74,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.5 2001/10/15 03:10:25 vossg Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.6 2001/10/15 04:52:17 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -151,12 +151,12 @@ void TileCameraDecorator::changed(BitVector, ChangeMode)
 
 
 void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right, 
-						Real32 top )
+                        Real32 top )
 {
-	_sfLeft.setValue( left );
-	_sfRight.setValue( right );
-	_sfBottom.setValue( bottom );
-	_sfTop.setValue( top );
+    _sfLeft.setValue( left );
+    _sfRight.setValue( right );
+    _sfBottom.setValue( bottom );
+    _sfTop.setValue( top );
 }
 
 
@@ -165,20 +165,20 @@ void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right,
 void TileCameraDecorator::getProjection( Matrix &result, 
                                          UInt32 width, UInt32 height)
 {
-	getCamera()->getProjection( result, 
-				( getFullWidth()  == 0 )? width  : getFullWidth(), 
-				( getFullHeight() == 0 )? height : getFullHeight() );
-	
-	// scale the wanted part from the projection matrix
-	Real32  xs = 1.f / ( getRight() - getLeft() ),
-			ys = 1.f / ( getTop() - getBottom() );
-	Matrix sm(  xs, 0, 0, -(getLeft()*2-1)*xs-1,  
-				0, ys, 0, -(getBottom()*2-1)*ys-1,  
-				0, 0, 1, 0, 
-				0, 0, 0, 1);
-	
-	result.multLeft( sm );
-}										
+    getCamera()->getProjection( result, 
+                ( getFullWidth()  == 0 )? width  : getFullWidth(), 
+                ( getFullHeight() == 0 )? height : getFullHeight() );
+    
+    // scale the wanted part from the projection matrix
+    Real32  xs = 1.f / ( getRight() - getLeft() ),
+            ys = 1.f / ( getTop() - getBottom() );
+    Matrix sm(  xs, 0, 0, -(getLeft()*2-1)*xs-1,  
+                0, ys, 0, -(getBottom()*2-1)*ys-1,  
+                0, 0, 1, 0, 
+                0, 0, 0, 1);
+    
+    result.multLeft( sm );
+}                                       
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -188,7 +188,7 @@ void TileCameraDecorator::getProjection( Matrix &result,
 void TileCameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                                const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump TileCameraDecorator NI" << endl;
+    SLOG << "Dump TileCameraDecorator NI" << endl;
 }
 
     

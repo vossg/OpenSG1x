@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \defgroup PumpFactory
-	\ingroup GeometryLib
+    \ingroup GeometryLib
 
 The PumpFactory is responsible for selecting the most appropriate pump
 function to send the geometry's data to OpenGL.
@@ -143,40 +143,40 @@ GeoPumpFactory::~GeoPumpFactory(void)
 
 GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * )
 {
-	return 0;
+    return 0;
 }
-	
+    
 
 GeoPumpFactory::GeoPump GeoPumpFactory::getGeoPump( 
-				Window * , 
-				GeoPumpFactory::Index  )
+                Window * , 
+                GeoPumpFactory::Index  )
 {
-	return &masterGeoPump;
+    return &masterGeoPump;
 }
 
 GeoPumpFactory::PartialGeoPump GeoPumpFactory::getPartialGeoPump( 
-				Window * , 
-				GeoPumpFactory::Index  )
+                Window * , 
+                GeoPumpFactory::Index  )
 {
-    	FWARNING(("GeoPumpFactory::getPartialGeoPump: not implemented yet!\n"));
-	return NULL;
+        FWARNING(("GeoPumpFactory::getPartialGeoPump: not implemented yet!\n"));
+    return NULL;
 }
 
 GeoPumpFactory::InterfacePump GeoPumpFactory::getInterfacePump( 
-				Window * , 
-				GeoPumpFactory::Index  )
+                Window * , 
+                GeoPumpFactory::Index  )
 {
-    	FWARNING(("GeoPumpFactory::getInterfacePump: not implemented yet!\n"));
-	return NULL;
+        FWARNING(("GeoPumpFactory::getInterfacePump: not implemented yet!\n"));
+    return NULL;
 }
 
 GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump( 
-				Window * , 
-				GeoPumpFactory::Index  )
+                Window * , 
+                GeoPumpFactory::Index  )
 {
-    	FWARNING(("GeoPumpFactory::getPartialInterfacePump: not "
-	    	    "implemented yet!\n"));
-	return NULL;
+        FWARNING(("GeoPumpFactory::getPartialInterfacePump: not "
+                "implemented yet!\n"));
+    return NULL;
 }
 
 
@@ -188,10 +188,10 @@ GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump(
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-	
+    
 GeoPumpFactory::Index GeoPumpFactory::numIndices( void )
 {
-	return 1;
+    return 1;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -209,82 +209,82 @@ static const int formatBase = GL_BYTE;
 static const int numFormats = GL_DOUBLE - GL_BYTE + 1;
 
 static char *formatNames[] = 
-{	"GL_BYTE", "GL_UNSIGNED_BYTE", "GL_SHORT", "GL_UNSIGNED_SHORT", 
-	"GL_INT", "GL_UNSIGNED_INT", "GL_FLOAT", "GL_2_BYTES", 
-	"GL_3_BYTES", "GL_4_BYTES", "GL_DOUBLE"
+{   "GL_BYTE", "GL_UNSIGNED_BYTE", "GL_SHORT", "GL_UNSIGNED_SHORT", 
+    "GL_INT", "GL_UNSIGNED_INT", "GL_FLOAT", "GL_2_BYTES", 
+    "GL_3_BYTES", "GL_4_BYTES", "GL_DOUBLE"
 };
 
 static pumpFunc PositionFuncs[numFormats][4] = {
-	{ NULL, NULL, NULL, NULL },							// GL_BYTE
-	{ NULL, NULL, NULL, NULL },							// GL_UNSIGNED_BYTE
-	{ NULL, (pumpFunc)glVertex2sv, 
-	  (pumpFunc)glVertex3sv, (pumpFunc)glVertex4sv },	// GL_SHORT
-	{ NULL, NULL, NULL, NULL },							// GL_UNSIGNED_SHORT
-	{ NULL, (pumpFunc)glVertex2iv, 
-	  (pumpFunc)glVertex3iv, (pumpFunc)glVertex4iv },	// GL_INT
-	{ NULL, NULL, NULL, NULL },							// GL_UNSIGNED_INT
-	{ NULL, (pumpFunc)glVertex2fv,
-	  (pumpFunc)glVertex3fv, (pumpFunc)glVertex4fv }, 	// GL_FLOAT
-	{ NULL, NULL, NULL, NULL },							// GL_2_BYTES
-	{ NULL, NULL, NULL, NULL },							// GL_3_BYTES
-	{ NULL, NULL, NULL, NULL },							// GL_4_BYTES
-	{ NULL, (pumpFunc)glVertex2dv, 
-	  (pumpFunc)glVertex3dv, (pumpFunc)glVertex4dv },	// GL_DOUBLE
+    { NULL, NULL, NULL, NULL },                             // GL_BYTE
+    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_BYTE
+    { NULL, (pumpFunc)glVertex2sv, 
+      (pumpFunc)glVertex3sv, (pumpFunc)glVertex4sv },   // GL_SHORT
+    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_SHORT
+    { NULL, (pumpFunc)glVertex2iv, 
+      (pumpFunc)glVertex3iv, (pumpFunc)glVertex4iv },   // GL_INT
+    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_INT
+    { NULL, (pumpFunc)glVertex2fv,
+      (pumpFunc)glVertex3fv, (pumpFunc)glVertex4fv },   // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                             // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                             // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                             // GL_4_BYTES
+    { NULL, (pumpFunc)glVertex2dv, 
+      (pumpFunc)glVertex3dv, (pumpFunc)glVertex4dv },   // GL_DOUBLE
 };
 
 static pumpFunc NormalFuncs[numFormats][4] = {
-	{ NULL, NULL, (pumpFunc)glNormal3sv, NULL },		// GL_BYTE
-	{ NULL, NULL, NULL, NULL },							// GL_UNSIGNED_BYTE
-	{ NULL, NULL, (pumpFunc)glNormal3sv, NULL },		// GL_SHORT
-	{ NULL, NULL, NULL, NULL },							// GL_UNSIGNED_SHORT
-	{ NULL, NULL, (pumpFunc)glNormal3iv, NULL },		// GL_INT
-	{ NULL, NULL, NULL, NULL },							// GL_UNSIGNED_INT
-	{ NULL, NULL, (pumpFunc)glNormal3fv, NULL },		// GL_FLOAT
-	{ NULL, NULL, NULL, NULL },							// GL_2_BYTES
-	{ NULL, NULL, NULL, NULL },							// GL_3_BYTES
-	{ NULL, NULL, NULL, NULL },							// GL_4_BYTES
-	{ NULL, NULL, (pumpFunc)glNormal3dv, NULL },		// GL_DOUBLE
+    { NULL, NULL, (pumpFunc)glNormal3sv, NULL },        // GL_BYTE
+    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_BYTE
+    { NULL, NULL, (pumpFunc)glNormal3sv, NULL },        // GL_SHORT
+    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_SHORT
+    { NULL, NULL, (pumpFunc)glNormal3iv, NULL },        // GL_INT
+    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_INT
+    { NULL, NULL, (pumpFunc)glNormal3fv, NULL },        // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                             // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                             // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                             // GL_4_BYTES
+    { NULL, NULL, (pumpFunc)glNormal3dv, NULL },        // GL_DOUBLE
 };
 
 static pumpFunc ColorFuncs[numFormats][4] = {
-	{ NULL, NULL, 
-	  (pumpFunc)glColor3bv, (pumpFunc)glColor4bv },		// GL_BYTE
-	{ NULL, NULL, 
-	  (pumpFunc)glColor3ubv, (pumpFunc)glColor4ubv },	// GL_UNSIGNED_BYTE
-	{ NULL, NULL, 
-	  (pumpFunc)glColor3sv, (pumpFunc)glColor4sv },		// GL_SHORT
-	{ NULL, NULL,  
-	  (pumpFunc)glColor3usv, (pumpFunc)glColor4usv },	// GL_UNSIGNED_SHORT
-	{ NULL, NULL,  
-	  (pumpFunc)glColor3iv, (pumpFunc)glColor4iv },		// GL_INT
-	{ NULL, NULL,  
-	  (pumpFunc)glColor3uiv, (pumpFunc)glColor4uiv },	// GL_UNSIGNED_INT
-	{ NULL, NULL,  
-	  (pumpFunc)glColor3fv, (pumpFunc)glColor4fv },		// GL_FLOAT
-	{ NULL, NULL, NULL, NULL },							// GL_2_BYTES
-	{ NULL, NULL, NULL, NULL },							// GL_3_BYTES
-	{ NULL, NULL, NULL, NULL },							// GL_4_BYTES
-	{ NULL, NULL,  
-	  (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },		// GL_DOUBLE
+    { NULL, NULL, 
+      (pumpFunc)glColor3bv, (pumpFunc)glColor4bv },         // GL_BYTE
+    { NULL, NULL, 
+      (pumpFunc)glColor3ubv, (pumpFunc)glColor4ubv },   // GL_UNSIGNED_BYTE
+    { NULL, NULL, 
+      (pumpFunc)glColor3sv, (pumpFunc)glColor4sv },         // GL_SHORT
+    { NULL, NULL,  
+      (pumpFunc)glColor3usv, (pumpFunc)glColor4usv },   // GL_UNSIGNED_SHORT
+    { NULL, NULL,  
+      (pumpFunc)glColor3iv, (pumpFunc)glColor4iv },         // GL_INT
+    { NULL, NULL,  
+      (pumpFunc)glColor3uiv, (pumpFunc)glColor4uiv },   // GL_UNSIGNED_INT
+    { NULL, NULL,  
+      (pumpFunc)glColor3fv, (pumpFunc)glColor4fv },         // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                             // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                             // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                             // GL_4_BYTES
+    { NULL, NULL,  
+      (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },         // GL_DOUBLE
 };
 
 
 static pumpFunc TexCoordsFuncs[numFormats][4] = {
-	{ NULL, NULL, NULL, NULL },							 // GL_BYTE
-	{ NULL, NULL, NULL, NULL },							 // GL_UNSIGNED_BYTE
-	{ (pumpFunc)glTexCoord1sv, (pumpFunc)glTexCoord2sv, 
-	  (pumpFunc)glTexCoord3sv, (pumpFunc)glTexCoord4sv },// GL_SHORT
-	{ NULL, NULL, NULL, NULL },							 // GL_UNSIGNED_SHORT
-	{ (pumpFunc)glTexCoord1iv, (pumpFunc)glTexCoord2iv, 
-	  (pumpFunc)glTexCoord3iv, (pumpFunc)glTexCoord4iv },// GL_INT
-	{ NULL, NULL, NULL, NULL },							 // GL_UNSIGNED_INT
-	{ (pumpFunc)glTexCoord1fv, (pumpFunc)glTexCoord2fv, 
-	  (pumpFunc)glTexCoord3fv, (pumpFunc)glTexCoord4fv },// GL_FLOAT
-	{ NULL, NULL, NULL, NULL },							 // GL_2_BYTES
-	{ NULL, NULL, NULL, NULL },							 // GL_3_BYTES
-	{ NULL, NULL, NULL, NULL },							 // GL_4_BYTES
-	{ (pumpFunc)glTexCoord1dv, (pumpFunc)glTexCoord2dv, 
-	  (pumpFunc)glTexCoord3dv, (pumpFunc)glTexCoord4dv },// GL_DOUBLE
+    { NULL, NULL, NULL, NULL },                              // GL_BYTE
+    { NULL, NULL, NULL, NULL },                              // GL_UNSIGNED_BYTE
+    { (pumpFunc)glTexCoord1sv, (pumpFunc)glTexCoord2sv, 
+      (pumpFunc)glTexCoord3sv, (pumpFunc)glTexCoord4sv },// GL_SHORT
+    { NULL, NULL, NULL, NULL },                              // GL_UNSIGNED_SHORT
+    { (pumpFunc)glTexCoord1iv, (pumpFunc)glTexCoord2iv, 
+      (pumpFunc)glTexCoord3iv, (pumpFunc)glTexCoord4iv },// GL_INT
+    { NULL, NULL, NULL, NULL },                              // GL_UNSIGNED_INT
+    { (pumpFunc)glTexCoord1fv, (pumpFunc)glTexCoord2fv, 
+      (pumpFunc)glTexCoord3fv, (pumpFunc)glTexCoord4fv },// GL_FLOAT
+    { NULL, NULL, NULL, NULL },                              // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                              // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                              // GL_4_BYTES
+    { (pumpFunc)glTexCoord1dv, (pumpFunc)glTexCoord2dv, 
+      (pumpFunc)glTexCoord3dv, (pumpFunc)glTexCoord4dv },// GL_DOUBLE
 };
 
 
@@ -301,65 +301,65 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 
 // define and initialize the variables needed to access the data
 
-#define pumpInternalSetup( name, typename, getmethod, mandatory )			\
-	GLubyte * name##Data;													\
-	UInt32 name##Stride;													\
-	UInt32 name##Ind = 0;												\
-	typename name##Ptr;														\
-																			\
-	name##Ptr = geo->getmethod();											\
-	if ( mandatory && name##Ptr == NullFC )								\
-	{																		\
-		SWARNING << "masterPump: Geometry " << geo << " has no " 			\
-				 << #name << "s!" << endl;									\
-		return;																\
-	}																		\
-	else if ( name##Ptr != NullFC )										\
-	{																		\
-		name##Data = name##Ptr->getData();									\
-		if ( ! ( name##Stride = name##Ptr->getStride() ) )					\
-			name##Stride =	name##Ptr->getFormatSize() *					\
-							name##Ptr->getDimension();						\
-	}																		\
-	else																	\
-	{																		\
-		name##Data = NULL;													\
-		name##Stride = 0;													\
-	}
+#define pumpInternalSetup( name, typename, getmethod, mandatory )           \
+    GLubyte * name##Data;                                                   \
+    UInt32 name##Stride;                                                    \
+    UInt32 name##Ind = 0;                                               \
+    typename name##Ptr;                                                         \
+                                                                            \
+    name##Ptr = geo->getmethod();                                           \
+    if ( mandatory && name##Ptr == NullFC )                                 \
+    {                                                                       \
+        SWARNING << "masterPump: Geometry " << geo << " has no "            \
+                 << #name << "s!" << endl;                                  \
+        return;                                                                 \
+    }                                                                       \
+    else if ( name##Ptr != NullFC )                                         \
+    {                                                                       \
+        name##Data = name##Ptr->getData();                                  \
+        if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
+            name##Stride =  name##Ptr->getFormatSize() *                    \
+                            name##Ptr->getDimension();                      \
+    }                                                                       \
+    else                                                                    \
+    {                                                                       \
+        name##Data = NULL;                                                  \
+        name##Stride = 0;                                                   \
+    }
 
-#define pumpGLSetup( name, typename, getmethod )							\
-	GLubyte * name##Data;													\
-	UInt32 name##Stride;													\
-	UInt32 name##Ind = 0;												\
-	typename name##Ptr;														\
-	pumpFunc name##Func;													\
-																			\
-	name##Ptr = geo->getmethod();											\
-	if ( name##Ptr != NullFC )											\
-	{																		\
-		name##Data = name##Ptr->getData();									\
-		if ( ! ( name##Stride = name##Ptr->getStride() ) )					\
-			name##Stride = name##Ptr->getFormatSize() *						\
-			name##Ptr->getDimension();										\
-		if ( ! ( name##Func = name##Funcs[ name##Ptr->getFormat() -			\
-											formatBase ]					\
-										 [ name##Ptr->getDimension() - 1 ]	\
-		   )   )															\
-		{																	\
-			SWARNING << "masterPump: Geometry " << geo << "has illegal " 	\
-					 << #name << "s: " << name##Ptr->getDimension() 		\
-					 << "D " << formatNames[ name##Ptr->getFormat() -		\
-											formatBase ]					\
-					 << "!" << endl;										\
-			return;															\
-		}																	\
-	}																		\
-	else																	\
-	{																		\
-		name##Data = NULL;													\
-		name##Func = NULL;													\
-		name##Stride = 0;													\
-	}
+#define pumpGLSetup( name, typename, getmethod )                            \
+    GLubyte * name##Data;                                                   \
+    UInt32 name##Stride;                                                    \
+    UInt32 name##Ind = 0;                                               \
+    typename name##Ptr;                                                         \
+    pumpFunc name##Func;                                                    \
+                                                                            \
+    name##Ptr = geo->getmethod();                                           \
+    if ( name##Ptr != NullFC )                                          \
+    {                                                                       \
+        name##Data = name##Ptr->getData();                                  \
+        if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
+            name##Stride = name##Ptr->getFormatSize() *                         \
+            name##Ptr->getDimension();                                      \
+        if ( ! ( name##Func = name##Funcs[ name##Ptr->getFormat() -             \
+                                            formatBase ]                    \
+                                         [ name##Ptr->getDimension() - 1 ]  \
+           )   )                                                            \
+        {                                                                   \
+            SWARNING << "masterPump: Geometry " << geo << "has illegal "    \
+                     << #name << "s: " << name##Ptr->getDimension()         \
+                     << "D " << formatNames[ name##Ptr->getFormat() -       \
+                                            formatBase ]                    \
+                     << "!" << endl;                                        \
+            return;                                                             \
+        }                                                                   \
+    }                                                                       \
+    else                                                                    \
+    {                                                                       \
+        name##Data = NULL;                                                  \
+        name##Func = NULL;                                                  \
+        name##Stride = 0;                                                   \
+    }
 
 // the master pump function
 
@@ -370,122 +370,122 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win), 
                                    Geometry *geo               )
 {
-	// Setup: get all the data
-	
-	pumpInternalSetup( Type, GeoPTypesPtr, getTypes, true );
-	pumpInternalSetup( Length, GeoPLengthsPtr, getLengths, true );
-	pumpInternalSetup( Index, GeoIndicesPtr, getIndices, false );
+    // Setup: get all the data
+    
+    pumpInternalSetup( Type, GeoPTypesPtr, getTypes, true );
+    pumpInternalSetup( Length, GeoPLengthsPtr, getLengths, true );
+    pumpInternalSetup( Index, GeoIndicesPtr, getIndices, false );
 
-	pumpGLSetup( Position, GeoPositionsPtr, getPositions );
-	pumpGLSetup( Color, GeoColorsPtr, getColors );
-	pumpGLSetup( Normal, GeoNormalsPtr, getNormals );
-	pumpGLSetup( TexCoords, GeoTexCoordsPtr, getTexCoords );
-	
-	if ( ! PositionData )
-	{
-		SWARNING << "masterPump: Geometry " << geo << " has no positions!?!"
-				 << endl;
-		return;
-	}
-	
-	// find the mapping indices
-	UInt16 nmappings = geo->getIndexMapping().size();
-	Int16 PositionIndex = -1, 
-	      NormalIndex = -1, 
-	      ColorIndex = -1, 
-	      TexCoordsIndex = -1;
+    pumpGLSetup( Position, GeoPositionsPtr, getPositions );
+    pumpGLSetup( Color, GeoColorsPtr, getColors );
+    pumpGLSetup( Normal, GeoNormalsPtr, getNormals );
+    pumpGLSetup( TexCoords, GeoTexCoordsPtr, getTexCoords );
+    
+    if ( ! PositionData )
+    {
+        SWARNING << "masterPump: Geometry " << geo << " has no positions!?!"
+                 << endl;
+        return;
+    }
+    
+    // find the mapping indices
+    UInt16 nmappings = geo->getIndexMapping().size();
+    Int16 PositionIndex = -1, 
+          NormalIndex = -1, 
+          ColorIndex = -1, 
+          TexCoordsIndex = -1;
 
-    	if ( nmappings )
-	{
-	    PositionIndex  = geo->calcMappingIndex( Geometry::MapPosition );
-	    NormalIndex    = geo->calcMappingIndex( Geometry::MapNormal );
-	    ColorIndex     = geo->calcMappingIndex( Geometry::MapColor );
-	    TexCoordsIndex = geo->calcMappingIndex( Geometry::MapTexcoords );
-	    
-	    if ( ! PositionData )
-	    {
-		    SWARNING << "masterPump: Geometry " << geo << "has no position index!?!"
-				     << endl;
-		    return;
-	    }
-	    
-	}
-	else if ( IndexData )
-	{
-	    nmappings = 1;
-	    PositionIndex = 
-	    NormalIndex =
-	    ColorIndex =
-	    TexCoordsIndex = 0;
-	}
-	
-	// overall color?
-	if ( ColorData && ColorPtr->getSize() == 1 )
-		ColorFunc( ColorData );
+        if ( nmappings )
+    {
+        PositionIndex  = geo->calcMappingIndex( Geometry::MapPosition );
+        NormalIndex    = geo->calcMappingIndex( Geometry::MapNormal );
+        ColorIndex     = geo->calcMappingIndex( Geometry::MapColor );
+        TexCoordsIndex = geo->calcMappingIndex( Geometry::MapTexcoords );
+        
+        if ( ! PositionData )
+        {
+            SWARNING << "masterPump: Geometry " << geo << "has no position index!?!"
+                     << endl;
+            return;
+        }
+        
+    }
+    else if ( IndexData )
+    {
+        nmappings = 1;
+        PositionIndex = 
+        NormalIndex =
+        ColorIndex =
+        TexCoordsIndex = 0;
+    }
+    
+    // overall color?
+    if ( ColorData && ColorPtr->getSize() == 1 )
+        ColorFunc( ColorData );
 
-	UInt32 LengthSize = LengthPtr->getSize();
+    UInt32 LengthSize = LengthPtr->getSize();
 
-	for ( LengthInd = 0; LengthInd < LengthSize; LengthInd++ )
-	{
-		glBegin( *(TypeData + TypeInd++ * TypeStride) );
-		
-		for ( UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride); 
-					   l > 0; l-- )
-		{
-			if ( IndexData )
-			{
-				UInt32 * vind;
-			
-				vind = (UInt32*)(IndexData + IndexStride * IndexInd);
-				IndexInd += nmappings;
-				
-				if ( ColorData && ColorIndex >= 0 )
-				{
-					ColorFunc( ColorData + ColorStride * vind[ColorIndex] );
-				}		
-				
-				if ( NormalData && NormalIndex >= 0 )
-				{
-					NormalFunc( NormalData + NormalStride * vind[NormalIndex] );
-				}		
-				
-				if ( TexCoordsData && TexCoordsIndex >= 0  )
-				{
-					TexCoordsFunc( TexCoordsData + TexCoordsStride * vind[TexCoordsIndex] );
-				}		
-					
-				PositionFunc( PositionData + PositionStride * vind[PositionIndex] );
-			}
-			else
-			{	
-				if ( ColorData )
-				{
-					ColorFunc( ColorData + ColorStride * PositionInd );
-				}		
-				
-				if ( NormalData )
-				{
-					NormalFunc( NormalData + NormalStride * PositionInd );
-				}		
-				
-				if ( TexCoordsData  )
-				{
-					TexCoordsFunc( TexCoordsData + TexCoordsStride * 
-													PositionInd );
-				}		
-					
-				PositionFunc( PositionData + PositionStride * PositionInd );
-				
-				PositionInd++;
-			}
-		}
-		
-		glEnd();
-	}
+    for ( LengthInd = 0; LengthInd < LengthSize; LengthInd++ )
+    {
+        glBegin( *(TypeData + TypeInd++ * TypeStride) );
+        
+        for ( UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride); 
+                       l > 0; l-- )
+        {
+            if ( IndexData )
+            {
+                UInt32 * vind;
+            
+                vind = (UInt32*)(IndexData + IndexStride * IndexInd);
+                IndexInd += nmappings;
+                
+                if ( ColorData && ColorIndex >= 0 )
+                {
+                    ColorFunc( ColorData + ColorStride * vind[ColorIndex] );
+                }       
+                
+                if ( NormalData && NormalIndex >= 0 )
+                {
+                    NormalFunc( NormalData + NormalStride * vind[NormalIndex] );
+                }       
+                
+                if ( TexCoordsData && TexCoordsIndex >= 0  )
+                {
+                    TexCoordsFunc( TexCoordsData + TexCoordsStride * vind[TexCoordsIndex] );
+                }       
+                    
+                PositionFunc( PositionData + PositionStride * vind[PositionIndex] );
+            }
+            else
+            {   
+                if ( ColorData )
+                {
+                    ColorFunc( ColorData + ColorStride * PositionInd );
+                }       
+                
+                if ( NormalData )
+                {
+                    NormalFunc( NormalData + NormalStride * PositionInd );
+                }       
+                
+                if ( TexCoordsData  )
+                {
+                    TexCoordsFunc( TexCoordsData + TexCoordsStride * 
+                                                    PositionInd );
+                }       
+                    
+                PositionFunc( PositionData + PositionStride * PositionInd );
+                
+                PositionInd++;
+            }
+        }
+        
+        glEnd();
+    }
 
 }
 
-		
+        
 void GeoPumpFactory::masterPartialGeoPump(Window   *OSG_CHECK_ARG(win      ), 
                                           Geometry *OSG_CHECK_ARG(geo      ),
                                           UInt32    OSG_CHECK_ARG(primtype ), 
@@ -494,7 +494,7 @@ void GeoPumpFactory::masterPartialGeoPump(Window   *OSG_CHECK_ARG(win      ),
 {
     FWARNING(("GeoPumpFactory::masterPartialGeoPump: not implemented yet!\n"));
 }
-	
+    
 void GeoPumpFactory::masterInterfacePump(
     Window                *OSG_CHECK_ARG(win       ), 
     GeoPositionsInterface *OSG_CHECK_ARG(pos       ), 
@@ -512,7 +512,7 @@ void GeoPumpFactory::masterInterfacePump(
 {
     FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
 }
-	
+    
 void GeoPumpFactory::masterPartialInterfacePump( 
     Window                *OSG_CHECK_ARG(win       ), 
     GeoPositionsInterface *OSG_CHECK_ARG(pos       ), 

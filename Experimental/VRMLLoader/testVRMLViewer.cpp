@@ -910,8 +910,8 @@ void dumpUserAnim()
     
     if( !f.fail() )
     {
-    	int i;
-    	
+        int i;
+        
         f << "/* FHS animation file. Created by OpenSG testVRMLViewer. */\n";
         f << "\nduration 10\n";
         
@@ -1456,8 +1456,8 @@ int main (int argc, char **argv)
     cam->setBeacon(t1n                );
     cam->setFov   (60                 );
 
-	cerr << "Scene size: " << size.length() << endl;
-	
+    cerr << "Scene size: " << size.length() << endl;
+    
     if((size.length() * 4.5) > 10000.)
     {
         cam->setNear( 10 );
@@ -1477,9 +1477,9 @@ int main (int argc, char **argv)
 
     cam->setFar(size.length() * 4.5);
     
-	if ( setNear > 0 )
-		cam->setNear(setNear);
-		
+    if ( setNear > 0 )
+        cam->setNear(setNear);
+        
     // Solid Background
     OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
     bkgnd->setColor( bkgndgcol );

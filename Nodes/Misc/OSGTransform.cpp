@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::Transform
 
 The basic Transformation class. Just keeps a single matrix. For more complex 
-behaviour, see its descendents. 	
+behaviour, see its descendents.     
 
 */
 
@@ -268,7 +268,7 @@ Transform::~Transform(void)
 
 void Transform::changed(BitVector, ChangeMode)
 {
-	invalidateVolume();
+    invalidateVolume();
 }
 
 /*------------------------------- dump ----------------------------------*/
@@ -322,31 +322,31 @@ Action::ResultE Transform::drawLeave(Action *  )
 // transform it into the local coordinate space
 Action::ResultE Transform::intersectEnter( Action *action )
 {
-	IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
-	Matrix m = this->getMatrix();
-	m.invert();
-	
-	Pnt3f pos;
-	Vec3f dir;
-	m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-	m.multMatrixVec( ia->getLine().getDirection(), dir );
-	
-	ia->setLine( Line( pos, dir ), ia->getMaxDist() );
+    IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
+    Matrix m = this->getMatrix();
+    m.invert();
+    
+    Pnt3f pos;
+    Vec3f dir;
+    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
+    m.multMatrixVec( ia->getLine().getDirection(), dir );
+    
+    ia->setLine( Line( pos, dir ), ia->getMaxDist() );
 
-	return Action::Continue; 
+    return Action::Continue; 
 }
 
 Action::ResultE Transform::intersectLeave( Action *action )
 {
-	IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
-	Matrix m = this->getMatrix();
-	
-	Pnt3f pos;
-	Vec3f dir;
-	m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-	m.multMatrixVec( ia->getLine().getDirection(), dir );
-	
-	ia->setLine( Line( pos, dir ), ia->getMaxDist() );
+    IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
+    Matrix m = this->getMatrix();
+    
+    Pnt3f pos;
+    Vec3f dir;
+    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
+    m.multMatrixVec( ia->getLine().getDirection(), dir );
+    
+    ia->setLine( Line( pos, dir ), ia->getMaxDist() );
 
     return Action::Continue;
 }

@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::ImageForeground
 
-Background is the base class for all background clearing.  	
+Background is the base class for all background clearing.       
 
 */
 
@@ -78,7 +78,7 @@ Background is the base class for all background clearing.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.4 2001/10/15 03:10:25 vossg Exp $";
+char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.5 2001/10/15 04:52:17 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -161,7 +161,7 @@ void ImageForeground::changed(BitVector, ChangeMode)
 void ImageForeground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                            const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump ImageForeground NI" << endl;
+    SLOG << "Dump ImageForeground NI" << endl;
 }
 
 
@@ -171,7 +171,7 @@ void ImageForeground::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 void ImageForeground::draw(DrawActionBase *, ViewportP)
 {
     Bool light = glIsEnabled(GL_LIGHTING);
-//		if (light)	glDisable(GL_LIGHTING);
+//      if (light)  glDisable(GL_LIGHTING);
 
     GLint fill;
     glGetIntegerv(GL_POLYGON_MODE, &fill);
@@ -195,31 +195,31 @@ void ImageForeground::draw(DrawActionBase *, ViewportP)
     glOrtho(0, 1, 0, 1, 0, 1);
 
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-	glEnable( GL_BLEND );
+    glEnable( GL_BLEND );
 
-	for ( UInt16 i = 0; i < getPositions().getSize(); i++ )
-	{
-		ImageP img = getImages( i );
+    for ( UInt16 i = 0; i < getPositions().getSize(); i++ )
+    {
+        ImageP img = getImages( i );
 
-		if ( ! img )
-			continue;
+        if ( ! img )
+            continue;
 
-		Pnt2f p = getPositions( i );
-		glRasterPos2f( p[0], p[1] );
-		glDrawPixels( img->getWidth(), img->getHeight(),
+        Pnt2f p = getPositions( i );
+        glRasterPos2f( p[0], p[1] );
+        glDrawPixels( img->getWidth(), img->getHeight(),
                       img->getPixelFormat(), GL_UNSIGNED_BYTE,
                       img->getData() );
-	}
-	glDisable( GL_BLEND );
-		
+    }
+    glDisable( GL_BLEND );
+        
 
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    if ( depth )	glEnable( GL_DEPTH_TEST );
-    if ( light )	glEnable( GL_LIGHTING );
-    if ( colmat )	glEnable( GL_COLOR_MATERIAL );
+    if ( depth )    glEnable( GL_DEPTH_TEST );
+    if ( light )    glEnable( GL_LIGHTING );
+    if ( colmat )   glEnable( GL_COLOR_MATERIAL );
     glPolygonMode( GL_FRONT_AND_BACK, fill );
 }
 

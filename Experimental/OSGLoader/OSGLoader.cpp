@@ -151,7 +151,7 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfFloat);
 
     setIntExtMapping(SFImageP::getClassType().getId(),
-					 ScanParseSkel::OSGsfString);
+                     ScanParseSkel::OSGsfString);
 
     setIntExtMapping(SFInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
@@ -174,9 +174,9 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(SFColor4f::getClassType().getId(),
                      ScanParseSkel::OSGsfColor4f);
-	
-	setIntExtMapping(SFColor3f::getClassType().getId(),
-					 ScanParseSkel::OSGsfColor3f);
+    
+    setIntExtMapping(SFColor3f::getClassType().getId(),
+                     ScanParseSkel::OSGsfColor3f);
 
 /*
     setIntExtMapping(ScanParseSkel::OSGmfColor, 
@@ -218,8 +218,8 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfInt32);
     setIntExtMapping(MFUInt8::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
-	
-	setIntExtMapping(SFUInt16::getClassType().getId(),
+    
+    setIntExtMapping(SFUInt16::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
     setIntExtMapping(MFUInt16::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
@@ -232,7 +232,7 @@ void OSGLoader::initFieldTypeMapper(void)
 
     /* To Node Mappings */
 
-	setIntExtMapping(SFAttachmentMap::getClassType().getId(),
+    setIntExtMapping(SFAttachmentMap::getClassType().getId(),
                      ScanParseSkel::OSGmfNode);
 
     /* extended types */
@@ -245,13 +245,13 @@ void OSGLoader::initFieldTypeMapper(void)
     
     setIntExtMapping(MFPnt3f::getClassType().getId(),
                      ScanParseSkel::OSGmfPnt3f);
-	setIntExtMapping(SFDynamicVolume::getClassType().getId(),
-					 ScanParseSkel::OSGmfFloat);
-	
-	setIntExtMapping(SFPlane::getClassType().getId(),
-					 ScanParseSkel::OSGsfPlane);
-	setIntExtMapping(MFPlane::getClassType().getId(),
-					 ScanParseSkel::OSGmfPlane);
+    setIntExtMapping(SFDynamicVolume::getClassType().getId(),
+                     ScanParseSkel::OSGmfFloat);
+    
+    setIntExtMapping(SFPlane::getClassType().getId(),
+                     ScanParseSkel::OSGsfPlane);
+    setIntExtMapping(MFPlane::getClassType().getId(),
+                     ScanParseSkel::OSGmfPlane);
 }
 
 /* remove this, if there is a general methode to find containers */
@@ -494,14 +494,14 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         {
             SLOG << "Fieldcontainer " << szNodeTypename 
                  << " is neither Node nor NodeCore. "
-				 << "Can not use attachment to store Nodename " << endl
-			     << "Adding to _defMap instead. " << endl;
+                 << "Can not use attachment to store Nodename " << endl
+                 << "Adding to _defMap instead. " << endl;
 
-			if( _defMap.insert(
-				make_pair(string(szNodename), pNewNode) ).second == true )
-			{
-				SLOG << "Success." << endl;
-			}
+            if( _defMap.insert(
+                make_pair(string(szNodename), pNewNode) ).second == true )
+            {
+                SLOG << "Success." << endl;
+            }
         }
     }
 
@@ -603,13 +603,13 @@ NodePtr OSGLoader::getRootNode(void)
 
 vector<FieldContainerPtr> OSGLoader::getRootNodes(void)
 {
-	vector<FieldContainerPtr> fcVec;
+    vector<FieldContainerPtr> fcVec;
 
-	for( UInt32 i=0; i<_pRootNode->getNChildren(); ++i )
-	{
-		fcVec.push_back( _pRootNode->getChild(i) );
-	}
-	return fcVec;
+    for( UInt32 i=0; i<_pRootNode->getNChildren(); ++i )
+    {
+        fcVec.push_back( _pRootNode->getChild(i) );
+    }
+    return fcVec;
 }
 
 void OSGLoader::addFieldValue(const Char8 *szFieldVal)
@@ -651,7 +651,7 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
     Int32 returnValue = Inherited::mapExtIntFieldType(szFieldname,
                                                       iFieldTypeId);
 
-	if(returnValue < 0 && szFieldname != NULL && _pCurrentFC != NullFC)
+    if(returnValue < 0 && szFieldname != NULL && _pCurrentFC != NullFC)
     {
         Field *pField = _pCurrentFC->getField(szFieldname);
 
@@ -764,12 +764,12 @@ void OSGLoader::endField(void)
 FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 {
     // search reference in this file
-	// search the _defMap first then the tree for name attachments
-	NamedFCMap::iterator iter = _defMap.find(string(szName));
-	if( iter != _defMap.end() )
-	{
-		return (*iter).second;
-	}
+    // search the _defMap first then the tree for name attachments
+    NamedFCMap::iterator iter = _defMap.find(string(szName));
+    if( iter != _defMap.end() )
+    {
+        return (*iter).second;
+    }
     return findFCByName(szName, getRootNode());
 }
 

@@ -46,8 +46,8 @@ OSG_BEGIN_NAMESPACE
 
 inline void TileCameraDecorator::setFullSize( UInt32 width, UInt32 height )
 {
-	setFullWidth( width );
-	setFullHeight( height );
+    setFullWidth( width );
+    setFullHeight( height );
 }
 
 OSG_END_NAMESPACE

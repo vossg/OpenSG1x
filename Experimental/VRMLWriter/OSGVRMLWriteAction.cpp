@@ -798,18 +798,18 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
                 {
                     pWriter->printIndent();
                     fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex]);
-					if ( uiCurrentIndex & 1 )
-					{
-                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
-                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
-					}
-					else
-					{
-                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
-                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
-					}
-					uiCurrentIndex++;
-					
+                    if ( uiCurrentIndex & 1 )
+                    {
+                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
+                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
+                    }
+                    else
+                    {
+                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
+                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
+                    }
+                    uiCurrentIndex++;
+                    
                     if(j == (*pLengthField)[i] - 4)
                     {
                         fprintf(pFile, "-1\n");

@@ -58,12 +58,12 @@ Trackball::Trackball(Real32 rSize) :
     _bSum(false),
     _bAutoPosition(false),
     _gMode(OSGCamera),
-	_gTransMode(OSGFixedZ),
+    _gTransMode(OSGFixedZ),
     _gTransGen (OSGAbsoluteTranslation),
     _rAutoPositionStep(1.),
     _rAutoPositionIncrement(1.),
     _rTrackballSize(rSize),
-	_rTranslationScale(1.),
+    _rTranslationScale(1.),
     _qVal(),
     _pVal(),
     _qValStart(),
@@ -78,12 +78,12 @@ Trackball::~Trackball(void)
 
 void Trackball::setSize( Real32 s )
 {
-	_rTrackballSize = s;
+    _rTrackballSize = s;
 }
 
 Real32 Trackball::getSize() const
 {
-	return _rTrackballSize;
+    return _rTrackballSize;
 }
 
 Real32 Trackball::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
@@ -130,13 +130,13 @@ void Trackball::updateRotation(Real32 rLastX,    Real32 rLastY,
          * deformed sphere
          */
         
-        gP1.setValues(	rLastX,
-						rLastY,
-						 projectToSphere(_rTrackballSize, rLastX, rLastY));
+        gP1.setValues(  rLastX,
+                        rLastY,
+                         projectToSphere(_rTrackballSize, rLastX, rLastY));
 
-        gP2.setValues(	rCurrentX,
-						rCurrentY,
-						projectToSphere(_rTrackballSize, rCurrentX, rCurrentY));
+        gP2.setValues(  rCurrentX,
+                        rCurrentY,
+                        projectToSphere(_rTrackballSize, rCurrentX, rCurrentY));
         
         /*
          *  Now, we want the cross product of P1 and P2
@@ -210,7 +210,7 @@ void Trackball::updatePosition(Real32 rLastX,    Real32 rLastY,
             _pVal[1] += tmpVec[1];
             _pVal[2] += tmpVec[2];
         }
-    }	
+    }   
 }
 
 void Trackball::updatePositionNeg(Real32 /*rLastX*/,    Real32 rLastY, 
@@ -313,13 +313,13 @@ void Trackball::setStartPosition(Vec3f &gStartPos, Bool bUpdate)
 
 Vec3f &Trackball::getPosition(void)
 {
-	/*
+    /*
     if(_bAutoPosition == true)
         _pVal[2] += _rAutoPositionStep;
 
     return _pVal;
-	*/    
-	if(_bAutoPosition == true)
+    */    
+    if(_bAutoPosition == true)
     {
         switch(_gTransMode)
         {

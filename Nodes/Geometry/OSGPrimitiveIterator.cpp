@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \defgroup GeoIterators
-	\ingroup GeometryLib
+    \ingroup GeometryLib
 
 Access to Geometry is complicated by its flexibility and the fact that it is
 somewhat heavily OpenGL-centric.
@@ -88,7 +88,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.14 2001/10/15 03:10:23 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.15 2001/10/15 04:52:16 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -126,46 +126,46 @@ char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.14 2001
  */
 
 PrimitiveIterator::PrimitiveIterator(void) :
-	_geo(), _primIndex(), _actPrimType(), _actPrimLength(),
-	_actPointIndex(), _types(), _lengths(), _indices(), _ended(),
-	_nmappings(0),
-	_positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
+    _geo(), _primIndex(), _actPrimType(), _actPrimLength(),
+    _actPointIndex(), _types(), _lengths(), _indices(), _ended(),
+    _nmappings(0),
+    _positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
 {
 }
 
 PrimitiveIterator::PrimitiveIterator( const GeometryPtr& geo ) :
-	_geo(), _primIndex(), _actPrimType(), _actPrimLength(),
-	_actPointIndex(), _types(), _lengths(), _indices(), _ended(),
-	_nmappings(0),
-	_positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
+    _geo(), _primIndex(), _actPrimType(), _actPrimLength(),
+    _actPointIndex(), _types(), _lengths(), _indices(), _ended(),
+    _nmappings(0),
+    _positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
 {
-	setGeo( geo );
+    setGeo( geo );
 }
 
 PrimitiveIterator::PrimitiveIterator( const NodePtr& geo ) :
-	_geo(), _primIndex(), _actPrimType(), _actPrimLength(),
-	_actPointIndex(), _types(), _lengths(), _indices(), _ended(),
-	_nmappings(0),
-	_positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
+    _geo(), _primIndex(), _actPrimType(), _actPrimLength(),
+    _actPointIndex(), _types(), _lengths(), _indices(), _ended(),
+    _nmappings(0),
+    _positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
 {
-	setGeo( geo );
+    setGeo( geo );
 }
 
 
 PrimitiveIterator::PrimitiveIterator(const PrimitiveIterator &source) :
-	_geo(source._geo),
-	_primIndex(source._primIndex), _actPrimType(source._actPrimType), 
-	_actPointIndex(source._actPointIndex),
-	_actPrimLength(source._actPrimLength),  
-	_types(source._types), 
-	_lengths(source._lengths), _indices(source._indices), 
-	_ended(source._ended),
-	_nmappings(source._nmappings),
-	_positionIndex(source._positionIndex),
-	_normalIndex(source._normalIndex),
-	_colorIndex(source._colorIndex),
-	_texcoordsIndex(source._texcoordsIndex)
-	
+    _geo(source._geo),
+    _primIndex(source._primIndex), _actPrimType(source._actPrimType), 
+    _actPointIndex(source._actPointIndex),
+    _actPrimLength(source._actPrimLength),  
+    _types(source._types), 
+    _lengths(source._lengths), _indices(source._indices), 
+    _ended(source._ended),
+    _nmappings(source._nmappings),
+    _positionIndex(source._positionIndex),
+    _normalIndex(source._normalIndex),
+    _colorIndex(source._colorIndex),
+    _texcoordsIndex(source._texcoordsIndex)
+    
 {
 }
 
@@ -184,17 +184,17 @@ PrimitiveIterator::~PrimitiveIterator(void)
 
 void PrimitiveIterator::setGeo( const GeometryPtr& geo )
 {
-	_geo = geo;
-	_types = geo->getTypes();
-	_lengths = geo->getLengths();
-	_indices = geo->getIndices();
-	
-	setToBegin();
+    _geo = geo;
+    _types = geo->getTypes();
+    _lengths = geo->getLengths();
+    _indices = geo->getIndices();
+    
+    setToBegin();
 }
 
 void PrimitiveIterator::setGeo( const NodePtr& geo )
 {
-	setGeo(GeometryPtr::dcast(geo->getCore()));
+    setGeo(GeometryPtr::dcast(geo->getCore()));
 }
 
 /** \brief increment
@@ -202,81 +202,81 @@ void PrimitiveIterator::setGeo( const NodePtr& geo )
 
 void PrimitiveIterator::operator++ ()
 {
-	if ( isAtEnd() )
-	{
-		return;
-	}
+    if ( isAtEnd() )
+    {
+        return;
+    }
 
-	_actPointIndex += _actPrimLength;
-	
-	++_primIndex;
+    _actPointIndex += _actPrimLength;
+    
+    ++_primIndex;
 
-	if ( _primIndex >= _types->getSize() )
-	{
-		_ended = true;
-	}
-	else
-	{
-		_actPrimType = _types->getValue( _primIndex );
-		_actPrimLength = _lengths->getValue( _primIndex );
-	}
+    if ( _primIndex >= _types->getSize() )
+    {
+        _ended = true;
+    }
+    else
+    {
+        _actPrimType = _types->getValue( _primIndex );
+        _actPrimLength = _lengths->getValue( _primIndex );
+    }
 }
 
 void PrimitiveIterator::setToBegin( void )
 {
-	_primIndex = 0;
-	_actPointIndex = 0;
-	_ended = false;
-	_nmappings      = _geo->getIndexMapping().getSize();
-	_positionIndex  = _geo->calcMappingIndex( Geometry::MapPosition );
-	_normalIndex    = _geo->calcMappingIndex( Geometry::MapNormal );
-	_colorIndex     = _geo->calcMappingIndex( Geometry::MapColor );
-	_texcoordsIndex = _geo->calcMappingIndex( Geometry::MapTexcoords );
+    _primIndex = 0;
+    _actPointIndex = 0;
+    _ended = false;
+    _nmappings      = _geo->getIndexMapping().getSize();
+    _positionIndex  = _geo->calcMappingIndex( Geometry::MapPosition );
+    _normalIndex    = _geo->calcMappingIndex( Geometry::MapNormal );
+    _colorIndex     = _geo->calcMappingIndex( Geometry::MapColor );
+    _texcoordsIndex = _geo->calcMappingIndex( Geometry::MapTexcoords );
 
-	if ( _nmappings == 0 )
-		_nmappings = 1;
-				  
-	if ( _types != NullFC && _types->getSize() > 0 )
-	{
-		_actPrimType = _types->getValue( _primIndex );
-		_actPrimLength = _lengths->getValue( _primIndex );
-	}
-	else
-	{
-		setToEnd();
-	}
+    if ( _nmappings == 0 )
+        _nmappings = 1;
+                  
+    if ( _types != NullFC && _types->getSize() > 0 )
+    {
+        _actPrimType = _types->getValue( _primIndex );
+        _actPrimLength = _lengths->getValue( _primIndex );
+    }
+    else
+    {
+        setToEnd();
+    }
 }
 
 void PrimitiveIterator::setToEnd( void )
 {
-	if ( _types != NullFC )
-		_primIndex = _types->getSize();
-	else
-		_primIndex = 0;
-	_actPointIndex = 0;
-	_ended = true;
+    if ( _types != NullFC )
+        _primIndex = _types->getSize();
+    else
+        _primIndex = 0;
+    _actPointIndex = 0;
+    _ended = true;
 }
 
 void PrimitiveIterator::seek( Int32 index )
-{	
-	_actPointIndex = 0;
-	_ended = false;
+{   
+    _actPointIndex = 0;
+    _ended = false;
 
-	if ( index >= _types->getSize() )
-	{
-		_primIndex = _types->getSize();
-		_ended = true;
-	}
-	else
-	{
-		_primIndex = max( 0, index );	
-		
-		for ( int j = 0; j < _primIndex; j++ )
-			_actPointIndex += _lengths->getValue( j );
-			
-		_actPrimType = _types->getValue( _primIndex );
-		_actPrimLength = _lengths->getValue( _primIndex );
-	}
+    if ( index >= _types->getSize() )
+    {
+        _primIndex = _types->getSize();
+        _ended = true;
+    }
+    else
+    {
+        _primIndex = max( 0, index );   
+        
+        for ( int j = 0; j < _primIndex; j++ )
+            _actPointIndex += _lengths->getValue( j );
+            
+        _actPrimType = _types->getValue( _primIndex );
+        _actPrimLength = _lengths->getValue( _primIndex );
+    }
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -286,31 +286,31 @@ void PrimitiveIterator::seek( Int32 index )
 
 PrimitiveIterator& PrimitiveIterator::operator = (const PrimitiveIterator &source)
 {
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
-	// free mem alloced by members of 'this'
+    // free mem alloced by members of 'this'
 
-	// alloc new mem for members
+    // alloc new mem for members
 
-	// copy 
-	
-	this->_geo 				= source._geo;
-	this->_primIndex 		= source._primIndex;
-	this->_actPrimType 		= source._actPrimType;
-	this->_actPrimLength 	= source._actPrimLength;
-	this->_actPointIndex 	= source._actPointIndex;
-	this->_types 			= source._types;
-	this->_lengths 			= source._lengths;
-	this->_indices 			= source._indices;
-	this->_ended 			= source._ended;
-	this->_nmappings 		= source._nmappings;
-	this->_positionIndex 		= source._positionIndex;
-	this->_normalIndex 		= source._normalIndex;
-	this->_colorIndex 		= source._colorIndex;
-	this->_texcoordsIndex 		= source._texcoordsIndex;
+    // copy 
+    
+    this->_geo                  = source._geo;
+    this->_primIndex        = source._primIndex;
+    this->_actPrimType          = source._actPrimType;
+    this->_actPrimLength    = source._actPrimLength;
+    this->_actPointIndex    = source._actPointIndex;
+    this->_types            = source._types;
+    this->_lengths              = source._lengths;
+    this->_indices              = source._indices;
+    this->_ended            = source._ended;
+    this->_nmappings        = source._nmappings;
+    this->_positionIndex        = source._positionIndex;
+    this->_normalIndex          = source._normalIndex;
+    this->_colorIndex       = source._colorIndex;
+    this->_texcoordsIndex       = source._texcoordsIndex;
 
-	return *this;
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -321,7 +321,7 @@ PrimitiveIterator& PrimitiveIterator::operator = (const PrimitiveIterator &sourc
 Bool PrimitiveIterator::operator < (const PrimitiveIterator &other) const
 {
     return _geo == other._geo &&
-		   _primIndex <= other._primIndex;
+           _primIndex <= other._primIndex;
 }
 
 /** \brief equal
@@ -330,8 +330,8 @@ Bool PrimitiveIterator::operator < (const PrimitiveIterator &other) const
 Bool PrimitiveIterator::operator == (const PrimitiveIterator &other) const
 {
     return _ended == other._ended &&
-			_geo == other._geo &&
-			_primIndex == other._primIndex;
+            _geo == other._geo &&
+            _primIndex == other._primIndex;
 }
 
 /** \brief unequal
@@ -339,7 +339,7 @@ Bool PrimitiveIterator::operator == (const PrimitiveIterator &other) const
 
 Bool PrimitiveIterator::operator != (const PrimitiveIterator &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 

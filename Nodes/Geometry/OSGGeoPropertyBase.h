@@ -170,7 +170,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef typename GeoPropertyDesc::Inherited Inherited;
+    typedef typename GeoPropertyDesc::Inherited     Inherited;
+    typedef typename GeoPropertyDesc::InheritedDesc InheritDesc;
 
     /*==========================  PUBLIC  =================================*/
   public:

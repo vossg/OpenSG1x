@@ -38,7 +38,7 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
     : QWidget( parent, name, fl )
 {
     if ( !name )
-	setName( "OSGSceneView" );
+    setName( "OSGSceneView" );
     resize( 773, 744 ); 
     setCaption( trUtf8( "Form1", "" ) );
     OSGSceneViewLayout = new QHBoxLayout( this ); 

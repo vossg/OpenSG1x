@@ -51,13 +51,13 @@
 using namespace osg;
 
 
-HWND	       hwnd;
+HWND           hwnd;
 
 WIN32WindowPtr win;
 
 DrawAction     *ract;
-NodePtr	       root;
-NodePtr	       file;
+NodePtr            root;
+NodePtr            file;
 PerspectiveCameraPtr cam;
 ViewportPtr    vp;
 TransformPtr   cam_trans;
@@ -84,7 +84,7 @@ void display ( void )
     cam_trans->getSFMatrix()->setValue( m1 );
 
     glClearColor( 0.f, 0.f, 1.0, 1.0);
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 
     win->draw( ract );
@@ -97,104 +97,104 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
     RECT clientRect;
     int  eventThread = 0, x, y, i;
 
-    PIXELFORMATDESCRIPTOR	pfd;	
-    HDC	  	  hDC;
+    PIXELFORMATDESCRIPTOR   pfd;    
+    HDC           hDC;
 
     int iPixelFormat;
 
     switch(uMsg)
-    {		
+    {       
         case WM_LBUTTONDOWN:
-		    mouseb |= 1 << 1;
-			lastx = (int)LOWORD(lParam);
-			lasty = (int)HIWORD(lParam);
-			break;
+            mouseb |= 1 << 1;
+            lastx = (int)LOWORD(lParam);
+            lasty = (int)HIWORD(lParam);
+            break;
         case WM_MBUTTONDOWN:
-		    tball.setAutoPosition(true);
-			mouseb |= 1 << 2;
-			lastx = (int)LOWORD(lParam);
-			lasty = (int)HIWORD(lParam);
-			break;
+            tball.setAutoPosition(true);
+            mouseb |= 1 << 2;
+            lastx = (int)LOWORD(lParam);
+            lasty = (int)HIWORD(lParam);
+            break;
         case WM_RBUTTONDOWN:
-		    tball.setAutoPositionNeg(true);	
-			mouseb |= 1 << 3;
-			lastx = (int)LOWORD(lParam);
-			lasty = (int)HIWORD(lParam);
-			break;	 
+            tball.setAutoPositionNeg(true);     
+            mouseb |= 1 << 3;
+            lastx = (int)LOWORD(lParam);
+            lasty = (int)HIWORD(lParam);
+            break;   
         case WM_LBUTTONUP:
-		    mouseb &= ~(1 << 1);
-			lastx = (int)LOWORD(lParam);
-			lasty = (int)HIWORD(lParam);
-			break;	    	    
+            mouseb &= ~(1 << 1);
+            lastx = (int)LOWORD(lParam);
+            lasty = (int)HIWORD(lParam);
+            break;              
         case WM_MBUTTONUP:
-		    tball.setAutoPositionNeg(false); 
-			mouseb &= ~(1 << 2);
-			lastx = (int)LOWORD(lParam);
-			lasty = (int)HIWORD(lParam);
-			break;
+            tball.setAutoPositionNeg(false); 
+            mouseb &= ~(1 << 2);
+            lastx = (int)LOWORD(lParam);
+            lasty = (int)HIWORD(lParam);
+            break;
         case WM_RBUTTONUP:
-		    tball.setAutoPositionNeg(false); 
-			mouseb &= ~(1 << 3);
-			lastx = (int)LOWORD(lParam);
-			lasty = (int)HIWORD(lParam);
-			break;
+            tball.setAutoPositionNeg(false); 
+            mouseb &= ~(1 << 3);
+            lastx = (int)LOWORD(lParam);
+            lasty = (int)HIWORD(lParam);
+            break;
 
         case WM_MOUSEMOVE:
-        	{
-        	Real32 w,h,a,b,c,d;
-        	
-		    x = (int)LOWORD(lParam);
-			y = (int)HIWORD(lParam);
-			w = win->getWidth();
-			h = win->getHeight();
-	
-			a = -2. * ( lastx / w - .5 );
-			b = -2. * ( .5 - lasty / h );
-			c = -2. * ( x / w - .5 );
-			d = -2. * ( .5 - y / h );
-					
-			if ( mouseb & ( 1 << 1 ) )
-			{
-			    dpr << "Left button dragged" << endl;
-				tball.updateRotation( a, b, c, d );
-				display();
-			}
-			else if ( mouseb & ( 1 << 2 ) )
-			{
-			    dpr << "Middle button dragged" << endl;
-				tball.updatePosition( a, b, c, d );
-				display();
-			}
-			else if ( mouseb & ( 1 << 3 ) )
-			{
-			    dpr << "Right button dragged" << endl;
-				tball.updatePositionNeg( a, b, c, d );
-				display();
-			}
-			}
-			lastx = x;
-			lasty = y;
-			break;
-									
+            {
+            Real32 w,h,a,b,c,d;
+            
+            x = (int)LOWORD(lParam);
+            y = (int)HIWORD(lParam);
+            w = win->getWidth();
+            h = win->getHeight();
+    
+            a = -2. * ( lastx / w - .5 );
+            b = -2. * ( .5 - lasty / h );
+            c = -2. * ( x / w - .5 );
+            d = -2. * ( .5 - y / h );
+                    
+            if ( mouseb & ( 1 << 1 ) )
+            {
+                dpr << "Left button dragged" << endl;
+                tball.updateRotation( a, b, c, d );
+                display();
+            }
+            else if ( mouseb & ( 1 << 2 ) )
+            {
+                dpr << "Middle button dragged" << endl;
+                tball.updatePosition( a, b, c, d );
+                display();
+            }
+            else if ( mouseb & ( 1 << 3 ) )
+            {
+                dpr << "Right button dragged" << endl;
+                tball.updatePositionNeg( a, b, c, d );
+                display();
+            }
+            }
+            lastx = x;
+            lasty = y;
+            break;
+                                    
         case WM_KEYDOWN:
-		    dpr << "Key pressed: " << wParam << endl;
-			if ( (int)wParam == VK_ESCAPE )
-			{
-			    exit(0);
-			}
-			break;
-									
+            dpr << "Key pressed: " << wParam << endl;
+            if ( (int)wParam == VK_ESCAPE )
+            {
+                exit(0);
+            }
+            break;
+                                    
         case WM_SIZE:
-		    dpr << "Resize: " << wParam << " " << LOWORD(lParam)
-		    	<< " " << HIWORD( lParam ) << endl;
-		    if ( win != NullFC)
-		    	win->resize( LOWORD(lParam), HIWORD( lParam ) );
-			break;
-									
+            dpr << "Resize: " << wParam << " " << LOWORD(lParam)
+                << " " << HIWORD( lParam ) << endl;
+            if ( win != NullFC)
+                win->resize( LOWORD(lParam), HIWORD( lParam ) );
+            break;
+                                    
         case WM_PAINT:
-		    if ( win != NullFC)
-		    	display();
-			break;
+            if ( win != NullFC)
+                display();
+            break;
 
         case WM_CREATE:
             dpr << "Create " << endl;
@@ -208,21 +208,21 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                 PFD_DOUBLEBUFFER;
             pfd.iPixelType = PFD_TYPE_RGBA;
             pfd.iLayerType = PFD_MAIN_PLANE;
-            pfd.cDepthBits = 16;   	    
+            pfd.cDepthBits = 16;            
 
             win->setWindow ( hwnd2 );
 
 
-            // init the OSG window	
+            // init the OSG window  
             hDC = GetDC(hwnd2);
 
             iPixelFormat = ChoosePixelFormat(hDC, &pfd);
-            SetPixelFormat(hDC, iPixelFormat, &pfd);	
+            SetPixelFormat(hDC, iPixelFormat, &pfd);    
             
 //            win->setHDC ( hDC );
             
             win->init();
-	
+    
             // some manual init, will be moved into StateChunks later
             win->activate();
             glEnable( GL_LIGHTING );
@@ -231,9 +231,9 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             win->deactivate();
             break;
 
-	    case WM_CLOSE:
-		    return DefWindowProc(hwnd2,uMsg,wParam,lParam);
-			break;
+        case WM_CLOSE:
+            return DefWindowProc(hwnd2,uMsg,wParam,lParam);
+            break;
 
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -248,8 +248,8 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 int main (int argc, char **argv)
 {   
     WNDCLASS  wndClass;
-    MSG		  msg;
-    Int32	  i,
+    MSG           msg;
+    Int32     i,
                   iPixelFormat,
                   eventThread,
                   dummy;
@@ -263,7 +263,7 @@ int main (int argc, char **argv)
 
     // create the graph
 
-    // beacon for camera and light	
+    // beacon for camera and light  
     NodePtr b1n = Node::create();
     GroupPtr b1 = Group::create();
     beginEditCP(b1n);
@@ -281,14 +281,14 @@ int main (int argc, char **argv)
     cam_trans = t1;
 
     // light
-	
+    
     NodePtr dlight = Node::create();
     DirectionalLightPtr dl = DirectionalLight::create();
     
     beginEditCP(dlight);
     dlight->setCore( dl );
     endEditCP(dlight);
-	
+    
     beginEditCP(dl);
     dl->setAmbient( .3, .3, .3, 1 );
     dl->setDiffuse( 1, 1, 1, 1 );
@@ -305,25 +305,25 @@ int main (int argc, char **argv)
     root->addChild( dlight );
     endEditCP(root);
     
-   	// Load the file
+        // Load the file
 
-	NodePtr file = NullFC;
-	
-	if ( argc > 1 )
-		file = SceneFileHandler::the().read(argv[1]);
-	
-	if ( file == NullFC )
-	{
-		cerr << "Couldn't load file, ignoring" << endl;
-		file = makeTorus( .5, 2, 16, 16 );
-	}
-	
-	file->updateVolume();
+    NodePtr file = NullFC;
+    
+    if ( argc > 1 )
+        file = SceneFileHandler::the().read(argv[1]);
+    
+    if ( file == NullFC )
+    {
+        cerr << "Couldn't load file, ignoring" << endl;
+        file = makeTorus( .5, 2, 16, 16 );
+    }
+    
+    file->updateVolume();
 
-	Vec3f min,max;
-	file->getVolume().getBounds( min, max );
-	
-	cout << "Volume: from " << min << " to " << max << endl;
+    Vec3f min,max;
+    file->getVolume().getBounds( min, max );
+    
+    cout << "Volume: from " << min << " to " << max << endl;
 
     beginEditCP(dlight);
     dlight->addChild( file );
@@ -342,9 +342,9 @@ int main (int argc, char **argv)
     
     // Background
     SolidBackgroundPtr bkgnd = SolidBackground::create();
-	
+    
     // Action
-	
+    
     ract = DrawAction::create();
 
     // tball
@@ -353,8 +353,8 @@ int main (int argc, char **argv)
 
     tball.setMode( Trackball::OSGObject );
     tball.setStartPosition( pos, true );
-	tball.setSum( true );
-	tball.setTranslationMode( Trackball::OSGFree );
+    tball.setSum( true );
+    tball.setTranslationMode( Trackball::OSGFree );
  
     // Win32 Init
 
@@ -376,33 +376,33 @@ int main (int argc, char **argv)
     
     // Create a Window
     hwnd = CreateWindow( "testWindowWIN32", "testWindowWIN32",
-	  		        WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-			        CW_USEDEFAULT, 
-			        0, 
-			        CW_USEDEFAULT, 
-			        0,
-			        NULL, 
-			        NULL, 
-			        GetModuleHandle(NULL), 
-			        0 );
+                    WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+                    CW_USEDEFAULT, 
+                    0, 
+                    CW_USEDEFAULT, 
+                    0,
+                    NULL, 
+                    NULL, 
+                    GetModuleHandle(NULL), 
+                    0 );
 
-	ShowWindow( hwnd, SW_SHOWNORMAL );
-	SetActiveWindow( hwnd );
-	
+    ShowWindow( hwnd, SW_SHOWNORMAL );
+    SetActiveWindow( hwnd );
+    
 
-	// Viewport
-	ViewportPtr vp = Viewport::create();
-	vp->setCamera( cam );
-	vp->setBackground( bkgnd );
-	vp->setRoot( root );
-	vp->setSize( 0,0, 1,1 );				
-	win->addPort( vp );
+    // Viewport
+    ViewportPtr vp = Viewport::create();
+    vp->setCamera( cam );
+    vp->setBackground( bkgnd );
+    vp->setRoot( root );
+    vp->setSize( 0,0, 1,1 );                
+    win->addPort( vp );
 
 
     // main loop 
     while ( GetMessage(&msg, NULL, 0, 0) )
         DispatchMessage(&msg);
-	
+    
     return (0);
 }
 

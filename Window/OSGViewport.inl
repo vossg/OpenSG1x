@@ -44,23 +44,23 @@ OSG_BEGIN_NAMESPACE
                                                                           /*------------------------------- size ----------------------------------*/
 inline Int32 Viewport::getPixelWidth( void ) const
 {
-	return getPixelRight() - getPixelLeft() + 1;
+    return getPixelRight() - getPixelLeft() + 1;
 }
 
 inline Int32 Viewport::getPixelHeight( void ) const
 {
-	return getPixelTop() - getPixelBottom() + 1;
+    return getPixelTop() - getPixelBottom() + 1;
 }
 
 /*---------------------------- properties ---------------------------------*/
 
 inline void Viewport::setSize( Real32 left, Real32 bottom, Real32 right, 
-						Real32 top )
+                        Real32 top )
 {
-	_sfLeft.setValue( left );
-	_sfRight.setValue( right );
-	_sfBottom.setValue( bottom );
-	_sfTop.setValue( top );
+    _sfLeft.setValue( left );
+    _sfRight.setValue( right );
+    _sfBottom.setValue( bottom );
+    _sfTop.setValue( top );
 }
 
 

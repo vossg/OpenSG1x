@@ -52,86 +52,86 @@ int main (int argc, char **argv)
 
     GeoPositions3f::getClassType();
 
-	p1->setCore( g1 );
+    p1->setCore( g1 );
 
-	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
+    cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
-	GeoPositions3f::PtrType pnts = GeoPositions3f::create();
-	GeoPositionsPtr pnt = pnts;
+    GeoPositions3f::PtrType pnts = GeoPositions3f::create();
+    GeoPositionsPtr pnt = pnts;
 
-	cerr << "Positions: " << endl;
-	cerr << "Dim:" << pnts->getDimension() << ", Format:" 
-		 << hex << pnts->getFormat() << dec
-		 << ", Stride:" << pnts->getStride() << ", Data:" 
-		 << hex << (int)pnts->getData() << dec 
-		 << ", Size " << (int)pnts->getSize()
-		 << endl;
+    cerr << "Positions: " << endl;
+    cerr << "Dim:" << pnts->getDimension() << ", Format:" 
+         << hex << pnts->getFormat() << dec
+         << ", Stride:" << pnts->getStride() << ", Data:" 
+         << hex << (int)pnts->getData() << dec 
+         << ", Size " << (int)pnts->getSize()
+         << endl;
 
-	g1->setPositions( pnts );
+    g1->setPositions( pnts );
 
-	beginEditCP(g1, FieldBits::AllFields);
+    beginEditCP(g1, FieldBits::AllFields);
 
-	MFPnt3f *p = pnts->getFieldPtr();		// The p pointer is not MT-safe!!
-	// generic access
-	pnts->addValue( Pnt3f( -1, -1, -1) );
-	// via the property
-	pnts->getFieldPtr()->addValue( Pnt3f(  1, -1, -1) );
-	// via the field
-	p->addValue( Pnt3f( -1,  1, -1) );
-	p->addValue( Pnt3f(  1,  1, -1) );
-	p->addValue( Pnt3f( -2, -1,  1) );
-	p->addValue( Pnt3f(  1, -1,  1) );
-	p->addValue( Pnt3f( -2,  1,  1) );
-	p->addValue( Pnt3f(  1,  1,  1) );
+    MFPnt3f *p = pnts->getFieldPtr();       // The p pointer is not MT-safe!!
+    // generic access
+    pnts->addValue( Pnt3f( -1, -1, -1) );
+    // via the property
+    pnts->getFieldPtr()->addValue( Pnt3f(  1, -1, -1) );
+    // via the field
+    p->addValue( Pnt3f( -1,  1, -1) );
+    p->addValue( Pnt3f(  1,  1, -1) );
+    p->addValue( Pnt3f( -2, -1,  1) );
+    p->addValue( Pnt3f(  1, -1,  1) );
+    p->addValue( Pnt3f( -2,  1,  1) );
+    p->addValue( Pnt3f(  1,  1,  1) );
 
-	endEditCP(g1, FieldBits::AllFields);
+    endEditCP(g1, FieldBits::AllFields);
     
-	cerr << "Positions: " << endl;
-	cerr << "Dim:" << pnts->getDimension() << ", Format:" 
-		 << hex << pnts->getFormat() << dec
-		 << ", Stride:" << pnts->getStride() << ", Data:" 
-		 << hex << (int)pnts->getData() << dec 
-		 << ", Size " << (int)pnts->getSize()
-		 << endl;
+    cerr << "Positions: " << endl;
+    cerr << "Dim:" << pnts->getDimension() << ", Format:" 
+         << hex << pnts->getFormat() << dec
+         << ", Stride:" << pnts->getStride() << ", Data:" 
+         << hex << (int)pnts->getData() << dec 
+         << ", Size " << (int)pnts->getSize()
+         << endl;
 
-	cerr << "Positions: " << endl;
-	cerr << "Dim:" << pnt->getDimension() << ", Format:" 
-		 << hex << pnt->getFormat() << dec
-		 << ", Stride:" << pnt->getStride() << ", Data:" 
-		 << hex << (int)pnt->getData() << dec 
-		 << ", Size " << (int)pnt->getSize()
-		 << endl;
+    cerr << "Positions: " << endl;
+    cerr << "Dim:" << pnt->getDimension() << ", Format:" 
+         << hex << pnt->getFormat() << dec
+         << ", Stride:" << pnt->getStride() << ", Data:" 
+         << hex << (int)pnt->getData() << dec 
+         << ", Size " << (int)pnt->getSize()
+         << endl;
 
-	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
-	cerr << p->size() << " Points: " << endl;
+    cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
+    cerr << p->size() << " Points: " << endl;
 
-	for(i = 0; i < p->size(); i++ )
-	{
-		cerr << "Point " << i << " " << p->getValue( i ) << endl;
-	}
+    for(i = 0; i < p->size(); i++ )
+    {
+        cerr << "Point " << i << " " << p->getValue( i ) << endl;
+    }
 
-	cerr << "Generic Access" << endl;
-	cerr << pnts->getSize() << " Points: " << endl;
-	for(i = 0; i < pnts->getSize(); i++ )
-	{
-		Pnt3f pp;
-		pnts->getValue(pp,i);
-		cerr << "Point " << i << " " << pnts->getValue(i) << " " << pp << endl;
-	}
+    cerr << "Generic Access" << endl;
+    cerr << pnts->getSize() << " Points: " << endl;
+    for(i = 0; i < pnts->getSize(); i++ )
+    {
+        Pnt3f pp;
+        pnts->getValue(pp,i);
+        cerr << "Point " << i << " " << pnts->getValue(i) << " " << pp << endl;
+    }
 
-	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
+    cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
 
     Pnt3f mean = calcMean(*p);
 
     cerr << "Mean " << mean << endl;
 
-	p1->updateVolume();
+    p1->updateVolume();
 
-	Vec3f center;
-	p1->getVolume().getCenter(center);
+    Vec3f center;
+    p1->getVolume().getCenter(center);
 
-	cerr << "Volume: center " << center << ", volume "
-		 << p1->getVolume().getScalarVolume() << endl;
+    cerr << "Volume: center " << center << ", volume "
+         << p1->getVolume().getScalarVolume() << endl;
 
     return 0;
 }

@@ -47,75 +47,75 @@ TransformPtr tr;
 void 
 display(void)
 {
-	float a = glutGet( GLUT_ELAPSED_TIME );
+    float a = glutGet( GLUT_ELAPSED_TIME );
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	Matrix m;
+    Matrix m;
 
-	m.setTranslate( sin(a/1500), cos(a/1500), sin(a/1000) + 1 );
+    m.setTranslate( sin(a/1500), cos(a/1500), sin(a/1000) + 1 );
 
-	beginEditCP(tr);
-	tr->getSFMatrix()->setValue( m );
-	endEditCP(tr);
-	
+    beginEditCP(tr);
+    tr->getSFMatrix()->setValue( m );
+    endEditCP(tr);
+    
 
-	dact->apply( root );
+    dact->apply( root );
 
-	glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 void key( unsigned char key, int x, int y )
 {
     printf("Key: %d\n", key );
 
-	switch (key )
-	{
-	case 27:	exit(1);	
-				break;
-	case 'z':	beginEditCP(root);
-				root->replaceChild( 1, dlight );
-				endEditCP(root);
-				beginEditCP(dlight);
-				dlight->addChild( slight2 );
-				endEditCP(dlight);
-				// root->dump();
-				break;
-	case 'x':	beginEditCP(root);
-				root->replaceChild( 1, plight );
-				endEditCP(root);
-				beginEditCP(plight);
-				plight->addChild( slight2 );
-				endEditCP(plight);
-				// root->dump();
-				break;
-	case 'c':	beginEditCP(root);
-				root->replaceChild( 1, slight );
-				endEditCP(root);
-				beginEditCP(slight);
-				slight->addChild( slight2 );
-				endEditCP(slight);
-				// root->dump();
-				break;
-	case 'a':	beginEditCP(dl);
-				dl->setOn( ! dl->getOn() );
-				endEditCP(dl);
-				break;
-	case 's':	beginEditCP(pl);
-				pl->setOn( ! pl->getOn() );
-				endEditCP(pl);
-				break;
-	case 'd':	beginEditCP(sl);
-				sl->setOn( ! sl->getOn() );
-				endEditCP(sl);
-				break;
-				
-	}
+    switch (key )
+    {
+    case 27:    exit(1);    
+                break;
+    case 'z':   beginEditCP(root);
+                root->replaceChild( 1, dlight );
+                endEditCP(root);
+                beginEditCP(dlight);
+                dlight->addChild( slight2 );
+                endEditCP(dlight);
+                // root->dump();
+                break;
+    case 'x':   beginEditCP(root);
+                root->replaceChild( 1, plight );
+                endEditCP(root);
+                beginEditCP(plight);
+                plight->addChild( slight2 );
+                endEditCP(plight);
+                // root->dump();
+                break;
+    case 'c':   beginEditCP(root);
+                root->replaceChild( 1, slight );
+                endEditCP(root);
+                beginEditCP(slight);
+                slight->addChild( slight2 );
+                endEditCP(slight);
+                // root->dump();
+                break;
+    case 'a':   beginEditCP(dl);
+                dl->setOn( ! dl->getOn() );
+                endEditCP(dl);
+                break;
+    case 's':   beginEditCP(pl);
+                pl->setOn( ! pl->getOn() );
+                endEditCP(pl);
+                break;
+    case 'd':   beginEditCP(sl);
+                sl->setOn( ! sl->getOn() );
+                endEditCP(sl);
+                break;
+                
+    }
 }
 
 int main (int argc, char **argv)
 {
-	// GLUT init
+    // GLUT init
 
     osgInit(argc, argv);
 
@@ -128,186 +128,186 @@ int main (int argc, char **argv)
         pGeoProto->setDlistCache(false);
     }
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	glutCreateWindow("OpenSG");
-	glutKeyboardFunc(key);
-	// glutReshapeFunc(resize);
-	glutDisplayFunc(display);       
-	// glutMouseFunc(mouse);   
-	// glutMotionFunc(motion); 
-	
-	glutIdleFunc(display);
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutCreateWindow("OpenSG");
+    glutKeyboardFunc(key);
+    // glutReshapeFunc(resize);
+    glutDisplayFunc(display);       
+    // glutMouseFunc(mouse);   
+    // glutMotionFunc(motion); 
+    
+    glutIdleFunc(display);
 
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	gluPerspective( 60, 1, 0.1, 10 );
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
-	
-	glEnable( GL_DEPTH_TEST );
-	glEnable( GL_LIGHTING );
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 10 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
+    
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHTING );
 
-	// the root node
+    // the root node
     root = Node::create();
 
-	// Geometry
+    // Geometry
 
-	g1 = makePlane( 3, 3, 20, 20 );
-	addRefCP( g1 ); // add a ref to prevent its disappearing when subtracted
-	
-	// Light Position Inidcator
-	NodePtr g2;
-	g2 = makePlane( .2, .2, 1, 1 );
+    g1 = makePlane( 3, 3, 20, 20 );
+    addRefCP( g1 ); // add a ref to prevent its disappearing when subtracted
+    
+    // Light Position Inidcator
+    NodePtr g2;
+    g2 = makePlane( .2, .2, 1, 1 );
 
-	// Transform
+    // Transform
 
     NodePtr tnode = Node::create();
-	tr = Transform::create();
-	beginEditCP(tnode);
-	tnode->setCore( tr );
-	tnode->addChild( g2 );
-	endEditCP(tnode);
+    tr = Transform::create();
+    beginEditCP(tnode);
+    tnode->setCore( tr );
+    tnode->addChild( g2 );
+    endEditCP(tnode);
 
-	// Create Lights
+    // Create Lights
 
-	dlight = Node::create();
-	dl = DirectionalLight::create();
-	addRefCP( dlight ); // add a reference to keep it alive when removing from tree
+    dlight = Node::create();
+    dl = DirectionalLight::create();
+    addRefCP( dlight ); // add a reference to keep it alive when removing from tree
 
-	beginEditCP(dlight);
-	dlight->setCore( dl );
-	endEditCP(dlight);
-	
-	beginEditCP(dl);
-	dl->setAmbient( .2, .2, .2, .2 );
-	dl->setDiffuse( 1, 0, 0, 1 );
-	dl->setDirection(0,0,1);
-	dl->setBeacon( tnode );
-	endEditCP(dl);
-
-
-	plight = Node::create();
-	pl = PointLight::create();
-	addRefCP( plight ); // add a reference to keep it alive when removing from tree
-
-	beginEditCP(plight);
-	plight->setCore( pl );
-	endEditCP(plight);
-	
-	beginEditCP(pl);
-	pl->setAmbient( .2, .2, .2, .2 );
-	pl->setDiffuse( 0, 1, 0, 1 );
-	pl->setConstantAttenuation(.5);
-	pl->setLinearAttenuation(.5);
-	pl->setQuadraticAttenuation(2);	
-	pl->setPosition(0,0,0);
-	pl->setBeacon( tnode );
-	endEditCP(pl);
+    beginEditCP(dlight);
+    dlight->setCore( dl );
+    endEditCP(dlight);
+    
+    beginEditCP(dl);
+    dl->setAmbient( .2, .2, .2, .2 );
+    dl->setDiffuse( 1, 0, 0, 1 );
+    dl->setDirection(0,0,1);
+    dl->setBeacon( tnode );
+    endEditCP(dl);
 
 
-	slight = Node::create();
-	sl = SpotLight::create();
-	addRefCP( slight ); // add a reference to keep it alive when removing from tree
+    plight = Node::create();
+    pl = PointLight::create();
+    addRefCP( plight ); // add a reference to keep it alive when removing from tree
 
-	beginEditCP(slight);
-	slight->setCore( sl );
-	endEditCP(slight);
-	
-	beginEditCP(sl);
-	sl->setAmbient( .2, .2, .2, .2 );
-	sl->setDiffuse( 0, 0, 1, 1 );
-	sl->setPosition(0,0,0);
-	sl->setSpotDirection(0,0,-1);
-	sl->setSpotExponent(10);
-	sl->setSpotCutOffDeg(45);
-	sl->setBeacon( tnode );
-	endEditCP(sl);
-
-
-	// Second set of Lights
-
-	dlight2 = Node::create();
-	dl = DirectionalLight::create();
-	addRefCP( dlight2 ); // add a reference to keep it alive when removing from tree
-
-	beginEditCP(dlight2);
-	dlight2->setCore( dl );
-	dlight2->addChild( g1 );
-	endEditCP(dlight2);
-	
-	beginEditCP(dl);
-	dl->setAmbient( 0,0,0,0 );
-	dl->setDiffuse( .5, .5, 0, 1 );
-	dl->setDirection(0,0,1);
-	dl->setBeacon( root );
-	dl->setOn( false );
-	endEditCP(dl);
+    beginEditCP(plight);
+    plight->setCore( pl );
+    endEditCP(plight);
+    
+    beginEditCP(pl);
+    pl->setAmbient( .2, .2, .2, .2 );
+    pl->setDiffuse( 0, 1, 0, 1 );
+    pl->setConstantAttenuation(.5);
+    pl->setLinearAttenuation(.5);
+    pl->setQuadraticAttenuation(2);     
+    pl->setPosition(0,0,0);
+    pl->setBeacon( tnode );
+    endEditCP(pl);
 
 
-	plight2 = Node::create();
-	pl = PointLight::create();
-	addRefCP( plight2 ); // add a reference to keep it alive when removing from tree
+    slight = Node::create();
+    sl = SpotLight::create();
+    addRefCP( slight ); // add a reference to keep it alive when removing from tree
 
-	beginEditCP(plight2);
-	plight2->setCore( pl );
-	plight2->addChild( dlight2 );
-	endEditCP(plight2);
-	
-	beginEditCP(pl);
-	pl->setAmbient( 0,0,0,0 );
-	pl->setDiffuse( 0, .5, .5, 1 );
-	pl->setPosition(1,1,1);
-	pl->setBeacon( root );
-	pl->setOn( false );
-	endEditCP(pl);
-
-
-	slight2 = Node::create();
-	sl = SpotLight::create();
-	addRefCP( slight2 ); // add a reference to keep it alive when removing from tree
-
-	beginEditCP(slight2);
-	slight2->setCore( sl );
-	slight2->addChild( plight2 );
-	endEditCP(slight2);
-	
-	beginEditCP(sl);
-	sl->setAmbient( 0,0,0,0 );
-	sl->setDiffuse( 0, .5, .5, 1 );
-	sl->setPosition(1,1,1);
-	sl->setSpotDirection(-1,-1,-1);
-	sl->setSpotExponent(10);
-	sl->setSpotCutOffDeg(45);
-	sl->setBeacon( root );
-	sl->setOn( false );
-	endEditCP(sl);
+    beginEditCP(slight);
+    slight->setCore( sl );
+    endEditCP(slight);
+    
+    beginEditCP(sl);
+    sl->setAmbient( .2, .2, .2, .2 );
+    sl->setDiffuse( 0, 0, 1, 1 );
+    sl->setPosition(0,0,0);
+    sl->setSpotDirection(0,0,-1);
+    sl->setSpotExponent(10);
+    sl->setSpotCutOffDeg(45);
+    sl->setBeacon( tnode );
+    endEditCP(sl);
 
 
-	//
+    // Second set of Lights
 
-	beginEditCP(dlight);
-	dlight->addChild( slight2 );
-	endEditCP(dlight);
+    dlight2 = Node::create();
+    dl = DirectionalLight::create();
+    addRefCP( dlight2 ); // add a reference to keep it alive when removing from tree
+
+    beginEditCP(dlight2);
+    dlight2->setCore( dl );
+    dlight2->addChild( g1 );
+    endEditCP(dlight2);
+    
+    beginEditCP(dl);
+    dl->setAmbient( 0,0,0,0 );
+    dl->setDiffuse( .5, .5, 0, 1 );
+    dl->setDirection(0,0,1);
+    dl->setBeacon( root );
+    dl->setOn( false );
+    endEditCP(dl);
+
+
+    plight2 = Node::create();
+    pl = PointLight::create();
+    addRefCP( plight2 ); // add a reference to keep it alive when removing from tree
+
+    beginEditCP(plight2);
+    plight2->setCore( pl );
+    plight2->addChild( dlight2 );
+    endEditCP(plight2);
+    
+    beginEditCP(pl);
+    pl->setAmbient( 0,0,0,0 );
+    pl->setDiffuse( 0, .5, .5, 1 );
+    pl->setPosition(1,1,1);
+    pl->setBeacon( root );
+    pl->setOn( false );
+    endEditCP(pl);
+
+
+    slight2 = Node::create();
+    sl = SpotLight::create();
+    addRefCP( slight2 ); // add a reference to keep it alive when removing from tree
+
+    beginEditCP(slight2);
+    slight2->setCore( sl );
+    slight2->addChild( plight2 );
+    endEditCP(slight2);
+    
+    beginEditCP(sl);
+    sl->setAmbient( 0,0,0,0 );
+    sl->setDiffuse( 0, .5, .5, 1 );
+    sl->setPosition(1,1,1);
+    sl->setSpotDirection(-1,-1,-1);
+    sl->setSpotExponent(10);
+    sl->setSpotCutOffDeg(45);
+    sl->setBeacon( root );
+    sl->setOn( false );
+    endEditCP(sl);
+
+
+    //
+
+    beginEditCP(dlight);
+    dlight->addChild( slight2 );
+    endEditCP(dlight);
 
     GroupPtr gr = Group::create();
-	beginEditCP(root);
-	root->setCore( gr );
-	root->addChild( tnode );
-	root->addChild( dlight );
-	endEditCP(root);
-	
-	
-	
+    beginEditCP(root);
+    root->setCore( gr );
+    root->addChild( tnode );
+    root->addChild( dlight );
+    endEditCP(root);
+    
+    
+    
 
 
-	dact = DrawAction::create();
+    dact = DrawAction::create();
 
     dact->setFrustumCulling(false);
-	
-	glutMainLoop();
-	
+    
+    glutMainLoop();
+    
     return 0;
 }
 

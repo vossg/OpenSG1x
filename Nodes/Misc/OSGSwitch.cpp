@@ -123,18 +123,18 @@ void Switch::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
 
-	DrawAction::registerEnterDefault(
+    DrawAction::registerEnterDefault(
         getClassType(),
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								  CNodePtr            ,
-								  SwitchPtr           ,
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr            ,
+                                  SwitchPtr           ,
                                   Action *            >(&Switch::draw));
 
-	RenderAction::registerEnterDefault(
+    RenderAction::registerEnterDefault(
         getClassType(),
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								  CNodePtr            ,
-								  SwitchPtr           ,
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr            ,
+                                  SwitchPtr           ,
                                   Action *            >(&Switch::draw));
 
 #else
@@ -200,24 +200,24 @@ void Switch::changed(BitVector, ChangeMode)
 void Switch::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump Switch NI" << endl;
+    SLOG << "Dump Switch NI" << endl;
 }
 
     
 Action::ResultE Switch::draw(Action* action)
 {
-	DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
+    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
 
     da->useNodeList();
 
-	if((getChoice() >= 0                 ) && 
+    if((getChoice() >= 0                 ) && 
        (getChoice() < action->getNNodes()))
     {
-		if ( da->isVisible( action->getNode(getChoice()).getCPtr() ) )
-			da->addNode(action->getNode(getChoice()));
+        if ( da->isVisible( action->getNode(getChoice()).getCPtr() ) )
+            da->addNode(action->getNode(getChoice()));
     }
-	
-	return Action::Continue;
+    
+    return Action::Continue;
 }
  
 /*-------------------------------------------------------------------------*\

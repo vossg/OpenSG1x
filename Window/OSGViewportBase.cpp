@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.20 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.21 2001/10/15 04:52:17 vossg Exp $";
     static char cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
@@ -131,16 +131,16 @@ const OSG::BitVector  ViewportBase::ForegroundsFieldMask =
 // Field descriptions
 
 /*! \var Real32          ViewportBase::_sfLeft
-    The left edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	left border. All other values are illegal.
+    The left edge of the viewport. Values between 0 and 1 are relative to the size of   the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the     left border. All other values are illegal.
 */
 /*! \var Real32          ViewportBase::_sfRight
-    The right edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	right border. All other values are illegal.
+    The right edge of the viewport. Values between 0 and 1 are relative to the size of      the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the     right border. All other values are illegal.
 */
 /*! \var Real32          ViewportBase::_sfBottom
-    The bottom edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	bottom border. All other values are illegal.
+    The bottom edge of the viewport. Values between 0 and 1 are relative to the size of     the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the     bottom border. All other values are illegal.
 */
 /*! \var Real32          ViewportBase::_sfTop
-    The top edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	top border. All other values are illegal.
+    The top edge of the viewport. Values between 0 and 1 are relative to the size of    the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the     top border. All other values are illegal.
 */
 /*! \var WindowPtr       ViewportBase::_sfParent
     The Window this viewport is contained in.

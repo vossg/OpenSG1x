@@ -267,6 +267,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
             depth  = _depth >> mipmapNum;
         }
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
     inline UInt32 calcMipmapLevelCount ( void )
         {
             UInt32  w = _width, h = _height, d = _depth;
@@ -286,6 +290,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
             return level;
         }
 
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
            UInt32 calcFrameNum(Time time, Bool loop = true);
 

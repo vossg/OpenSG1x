@@ -75,7 +75,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.14 2001/10/15 03:10:21 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.15 2001/10/15 04:52:15 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -302,7 +302,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                     }
               }
           else
-						{
+                        {
               FWARNING (("Mesh with empty faceList\n"));
             }
           

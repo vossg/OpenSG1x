@@ -87,44 +87,44 @@ vector<Action::Functor> *Action::_defaultLeaveFunctors;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void Action::registerEnterDefault(	const FieldContainerType &type, 
-										const Action::Functor &func )
+void Action::registerEnterDefault(  const FieldContainerType &type, 
+                                        const Action::Functor &func )
 {
-	if ( ! _defaultEnterFunctors )
-		_defaultEnterFunctors = new vector<Action::Functor>;
+    if ( ! _defaultEnterFunctors )
+        _defaultEnterFunctors = new vector<Action::Functor>;
 
-	while(type.getId() >= _defaultEnterFunctors->size())
-	{
-		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultEnterFunction));
-	}
-	
-	(*_defaultEnterFunctors)[ type.getId() ] = func;
+    while(type.getId() >= _defaultEnterFunctors->size())
+    {
+        _defaultEnterFunctors->push_back( 
+                osgFunctionFunctor2(&Action::_defaultEnterFunction));
+    }
+    
+    (*_defaultEnterFunctors)[ type.getId() ] = func;
 }
 
-void Action::registerLeaveDefault(	const FieldContainerType &type, 
-										const Action::Functor &func )
+void Action::registerLeaveDefault(  const FieldContainerType &type, 
+                                        const Action::Functor &func )
 {
-	if ( ! _defaultLeaveFunctors )
-		_defaultLeaveFunctors = new vector<Action::Functor>;
+    if ( ! _defaultLeaveFunctors )
+        _defaultLeaveFunctors = new vector<Action::Functor>;
 
-	while(type.getId() >= _defaultLeaveFunctors->size())
-	{
-		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultLeaveFunction));
-	}
-	
-	(*_defaultLeaveFunctors)[ type.getId() ] = func;
+    while(type.getId() >= _defaultLeaveFunctors->size())
+    {
+        _defaultLeaveFunctors->push_back( 
+                osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+    }
+    
+    (*_defaultLeaveFunctors)[ type.getId() ] = func;
 }
 
 void Action::setPrototype( Action * proto )
 {
-	_prototype = proto;
+    _prototype = proto;
 }
 
 Action *Action::getPrototype( void )
 {
-	return _prototype;
+    return _prototype;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -153,19 +153,19 @@ Action *Action::getPrototype( void )
 
 Action::Action(void)
 {
-	if ( _defaultEnterFunctors )
-		_enterFunctors = *_defaultEnterFunctors;
+    if ( _defaultEnterFunctors )
+        _enterFunctors = *_defaultEnterFunctors;
 
-	if ( _defaultLeaveFunctors )
-		_leaveFunctors = *_defaultLeaveFunctors;
+    if ( _defaultLeaveFunctors )
+        _leaveFunctors = *_defaultLeaveFunctors;
 }
 
 /** \brief Copy-Constructor
  */
 
 Action::Action( const Action & source ) :
-	_enterFunctors( source._enterFunctors ),
-	_leaveFunctors( source._leaveFunctors )
+    _enterFunctors( source._enterFunctors ),
+    _leaveFunctors( source._leaveFunctors )
 {
 }
 
@@ -175,14 +175,14 @@ Action::Action( const Action & source ) :
 
 Action * Action::create( void )
 {
-	Action * act;
-	
-	if ( _prototype )
-		act = new Action( *_prototype );
-	else
-		act = new Action();
-	
-	return act;
+    Action * act;
+    
+    if ( _prototype )
+        act = new Action( *_prototype );
+    else
+        act = new Action();
+    
+    return act;
 }
 
 /** \brief Destructor
@@ -199,27 +199,27 @@ Action::~Action(void)
 /*-------------------------- your_category---------------------------------*/
 
 void Action::registerEnterFunction( const FieldContainerType &type, 
-		const Action::Functor& func )
+        const Action::Functor& func )
 {
-	while ( type.getId() >= _enterFunctors.size() )
-	{
-		_enterFunctors.push_back(
+    while ( type.getId() >= _enterFunctors.size() )
+    {
+        _enterFunctors.push_back(
             osgFunctionFunctor2(&Action::_defaultEnterFunction));
-	}
-	
-	_enterFunctors[ type.getId() ] = func;
+    }
+    
+    _enterFunctors[ type.getId() ] = func;
 }
 
 void Action::registerLeaveFunction( const FieldContainerType &type, 
-		const Action::Functor& func )
+        const Action::Functor& func )
 {
-	while ( type.getId() >= _leaveFunctors.size() )
-	{
-		_leaveFunctors.push_back(
+    while ( type.getId() >= _leaveFunctors.size() )
+    {
+        _leaveFunctors.push_back(
             osgFunctionFunctor2(&Action::_defaultLeaveFunction));
-	}
-	
-	_leaveFunctors[ type.getId() ] = func;
+    }
+    
+    _leaveFunctors[ type.getId() ] = func;
 }
 
 
@@ -229,46 +229,46 @@ void Action::registerLeaveFunction( const FieldContainerType &type,
 Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
                               vector<NodePtr>::iterator end)
 {
-	Action::ResultE res = Continue;
-	
-	// call the start function and its' returns
-	if ( ( res = callStart() ) != Continue )
-		return res;	
-	
-	// call the given nodes
-	
-	for ( ; begin != end; begin ++ )
-	{
-		if ( *begin == NullFC )
-		{
-			SWARNING << "apply: encountered NullNode!" << endl;
-			return Quit;			
-		}
-		else
-		{
-			res = recurse( *begin );
-			
-			if ( res != Continue )
-				break;
-		}
-	}
-		
-	// call the stop function and its' returns
-	res = callStop( res );	
-	
-	return res;
+    Action::ResultE res = Continue;
+    
+    // call the start function and its' returns
+    if ( ( res = callStart() ) != Continue )
+        return res;     
+    
+    // call the given nodes
+    
+    for ( ; begin != end; begin ++ )
+    {
+        if ( *begin == NullFC )
+        {
+            SWARNING << "apply: encountered NullNode!" << endl;
+            return Quit;            
+        }
+        else
+        {
+            res = recurse( *begin );
+            
+            if ( res != Continue )
+                break;
+        }
+    }
+        
+    // call the stop function and its' returns
+    res = callStop( res );  
+    
+    return res;
 }
 
 Action::ResultE Action::apply( NodePtr node  )
 {
-	if ( node == NullFC )
-	{
-		SWARNING << "apply: node is Null!" << endl;
-		return Quit;			
-	}
+    if ( node == NullFC )
+    {
+        SWARNING << "apply: node is Null!" << endl;
+        return Quit;            
+    }
 
-	vector<NodePtr> list;
-	list.push_back( node );
+    vector<NodePtr> list;
+    list.push_back( node );
 
     return apply( list.begin(), list.end() );
 }
@@ -283,80 +283,80 @@ Action::ResultE Action::recurse( NodePtr node  )
     if ( node == NullFC )
         return Continue;
 
-	NodeCorePtr core = node->getCore();
-	
-	if ( core == NullFC )
-	{
-		SWARNING << "recurse: core is Null,  don't know what to do!" << endl;
-		return Quit;					
-	}
-	
-	Action::ResultE result;
-	
-	_actList = NULL;
-	_actNode = node;
-	_newList.clear();
-	_useNewList = false;
-	
-	result = callEnter( node );
+    NodeCorePtr core = node->getCore();
+    
+    if ( core == NullFC )
+    {
+        SWARNING << "recurse: core is Null,  don't know what to do!" << endl;
+        return Quit;                    
+    }
+    
+    Action::ResultE result;
+    
+    _actList = NULL;
+    _actNode = node;
+    _newList.clear();
+    _useNewList = false;
+    
+    result = callEnter( node );
 
-	if ( result != Continue )
-	{
-		if ( result == Skip )
-			return Continue;
-	
-		return result;
-	}
-	
-	if ( ! _newList.empty() )
-	{
-		result = callNewList();
-	}
-	else if ( ! _useNewList ) // new list is empty, but not used?
-	{
-		vector<NodePtr>::iterator it;
+    if ( result != Continue )
+    {
+        if ( result == Skip )
+            return Continue;
+    
+        return result;
+    }
+    
+    if ( ! _newList.empty() )
+    {
+        result = callNewList();
+    }
+    else if ( ! _useNewList ) // new list is empty, but not used?
+    {
+        vector<NodePtr>::iterator it;
 
-		for ( it = node->getMFChildren()->begin(); it != node->getMFChildren()->end(); it ++ )
-		{
-			result = recurse( *it );
-			
-			if ( result != Continue )
-				break;
-		}
-	}	
-	
-	if ( result == Continue )
-		result = callLeave( node );
-	else
-		callLeave( node );
+        for ( it = node->getMFChildren()->begin(); it != node->getMFChildren()->end(); it ++ )
+        {
+            result = recurse( *it );
+            
+            if ( result != Continue )
+                break;
+        }
+    }   
+    
+    if ( result == Continue )
+        result = callLeave( node );
+    else
+        callLeave( node );
 
-	if ( result == Skip )
-		return Continue;
-		
-	return result;
+    if ( result == Skip )
+        return Continue;
+        
+    return result;
 }
 
 // call the _newList objects
 Action::ResultE Action::callNewList( void )
 {
-	Action::ResultE result = Continue;
+    Action::ResultE result = Continue;
 
-	// need to make a copy, because the one in the action is cleared
+    // need to make a copy, because the one in the action is cleared
 
-	vector<NodePtr> list;
-	list.swap( _newList );
-	vector<NodePtr>::iterator it;
-	_actList = &list;
+    vector<NodePtr> list;
+    list.swap( _newList );
+    vector<NodePtr>::iterator it;
+    _actList = &list;
 
-	for ( it = list.begin(); it != list.end(); it ++ )
-	{
-		result = recurse( *it );
+    for ( it = list.begin(); it != list.end(); it ++ )
+    {
+        result = recurse( *it );
 
-		if ( result != Continue )
-			break;
-	}
-	
-	return result;
+        if ( result != Continue )
+            break;
+    }
+    
+    return result;
 }
 
 
@@ -364,40 +364,40 @@ Action::ResultE Action::callNewList( void )
 
 Action::ResultE Action::callStart( void )
 {
-	Action::ResultE res = Continue;
-	
-	// call the start and see if it returns some nodes
-	
-	_newList.clear();
+    Action::ResultE res = Continue;
+    
+    // call the start and see if it returns some nodes
+    
+    _newList.clear();
 
-	if ( ( res = start() ) != Continue )
-		return res;	
-	
-	// got some nodes? call them
-	
-	if ( ! _newList.empty() )
-		res = callNewList();
-	
-	// return the result
+    if ( ( res = start() ) != Continue )
+        return res;     
+    
+    // got some nodes? call them
+    
+    if ( ! _newList.empty() )
+        res = callNewList();
+    
+    // return the result
 
-	return res;
+    return res;
 }
 
 // call the stop function and its results
 
 Action::ResultE Action::callStop( ResultE res )
 {
-	// call the start and see if it returns some nodes
-	
-	_newList.clear();
+    // call the start and see if it returns some nodes
+    
+    _newList.clear();
 
-	if ( ( res = stop( res ) ) != Continue )
-		return res;	
-			
-	if ( ! _newList.empty() )
-		res = callNewList();
+    if ( ( res = stop( res ) ) != Continue )
+        return res;     
+            
+    if ( ! _newList.empty() )
+        res = callNewList();
 
-	return res;
+    return res;
 }
 
 // default start/stop, does nothing
@@ -420,17 +420,17 @@ Action::ResultE Action::stop( ResultE res )
 
 Action& Action::operator = (const Action &source)
 {
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
-	// free mem alloced by members of 'this'
+    // free mem alloced by members of 'this'
 
-	
-	// alloc new mem for members
+    
+    // alloc new mem for members
 
-	// copy 
+    // copy 
 
-	return *this;
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -448,7 +448,7 @@ Bool Action::operator < (const Action &other)
 
 Bool Action::operator == (const Action &OSG_CHECK_ARG(other))
 {
-	return false;
+    return false;
 }
 
 /** \brief unequal
@@ -456,7 +456,7 @@ Bool Action::operator == (const Action &OSG_CHECK_ARG(other))
 
 Bool Action::operator != (const Action &other)
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 
@@ -466,12 +466,12 @@ Bool Action::operator != (const Action &other)
 
 vector<Action::Functor>* Action::getDefaultEnterFunctors( void )
 {
-	return _defaultEnterFunctors;
+    return _defaultEnterFunctors;
 }
 
 vector<Action::Functor>* Action::getDefaultLeaveFunctors( void )
 {
-	return _defaultLeaveFunctors;
+    return _defaultLeaveFunctors;
 }
 
 
@@ -484,13 +484,13 @@ vector<Action::Functor>* Action::getDefaultLeaveFunctors( void )
 Action::ResultE Action::_defaultEnterFunction(CNodePtr &OSG_CHECK_ARG(node  ), 
                                               Action   *OSG_CHECK_ARG(action))
 {
-	return Continue;
+    return Continue;
 }
 
 Action::ResultE Action::_defaultLeaveFunction(CNodePtr &OSG_CHECK_ARG(node  ), 
                                               Action   *OSG_CHECK_ARG(action))
 {
-	return Continue;
+    return Continue;
 }
 
 /*************** Functions ******************/

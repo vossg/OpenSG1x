@@ -86,14 +86,14 @@ int main(int argc, char **argv)
         All properties have only one field, which has the same name for every
         property, thus the mask is also called the same for each property.
     */
-    GeoPTypesPtr type = GeoPTypesUI8::create();	   
+    GeoPTypesPtr type = GeoPTypesUI8::create();        
     beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
     {
-	    type->addValue(GL_POLYGON  );
-	    type->addValue(GL_TRIANGLES);
-	    type->addValue(GL_QUADS    );
+        type->addValue(GL_POLYGON  );
+        type->addValue(GL_TRIANGLES);
+        type->addValue(GL_QUADS    );
     }
-	endEditCP  (type, GeoPTypesUI8::GeoPropDataFieldMask);
+    endEditCP  (type, GeoPTypesUI8::GeoPropDataFieldMask);
     
     /*
         The second part: the primtive lengths.
@@ -101,13 +101,13 @@ int main(int argc, char **argv)
         primitive. Thus there have to be at least as many entries as in the
         types property.
     */
-	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
-	beginEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
+    GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
+    beginEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
     {
-	    lens->addValue(4);
-	    lens->addValue(6);
-	    lens->addValue(8);
-	}
+        lens->addValue(4);
+        lens->addValue(6);
+        lens->addValue(8);
+    }
     endEditCP  (lens, GeoPLengthsUI32::GeoPropDataFieldMask);
        
     /*
@@ -119,42 +119,42 @@ int main(int argc, char **argv)
         set of operations they can handle. Vectors (e.g. Vec3f) are the more
         general kind.
     */
-	GeoPositions3fPtr pnts = GeoPositions3f::create();
- 	beginEditCP(pnts, GeoPositions3f::GeoPropDataFieldMask);
+    GeoPositions3fPtr pnts = GeoPositions3f::create();
+    beginEditCP(pnts, GeoPositions3f::GeoPropDataFieldMask);
     {
         // the 4 points of the polygon
-	    pnts->addValue(Pnt3f(-1, -1, -1));
-	    pnts->addValue(Pnt3f(-1, -1,  1));
-	    pnts->addValue(Pnt3f( 1, -1,  1));
-	    pnts->addValue(Pnt3f( 1, -1, -1));
+        pnts->addValue(Pnt3f(-1, -1, -1));
+        pnts->addValue(Pnt3f(-1, -1,  1));
+        pnts->addValue(Pnt3f( 1, -1,  1));
+        pnts->addValue(Pnt3f( 1, -1, -1));
 
         // the 6 points of the two triangles
-	    pnts->addValue(Pnt3f( 1,  0, -1));
-	    pnts->addValue(Pnt3f(-1,  0, -1));
-	    pnts->addValue(Pnt3f( 0,  1, -1));
+        pnts->addValue(Pnt3f( 1,  0, -1));
+        pnts->addValue(Pnt3f(-1,  0, -1));
+        pnts->addValue(Pnt3f( 0,  1, -1));
 
-	    pnts->addValue(Pnt3f(-1,  0,  1));
-	    pnts->addValue(Pnt3f( 1,  0,  1));
-	    pnts->addValue(Pnt3f( 0,  1,  1));
+        pnts->addValue(Pnt3f(-1,  0,  1));
+        pnts->addValue(Pnt3f( 1,  0,  1));
+        pnts->addValue(Pnt3f( 0,  1,  1));
 
         // the 8 points of the two quads
-	    pnts->addValue(Pnt3f(-1,  -1,  1));    
-	    pnts->addValue(Pnt3f( 1,  -1,  1));    
-	    pnts->addValue(Pnt3f( 1,   0,  1));    
-	    pnts->addValue(Pnt3f(-1,   0,  1));    
+        pnts->addValue(Pnt3f(-1,  -1,  1));    
+        pnts->addValue(Pnt3f( 1,  -1,  1));    
+        pnts->addValue(Pnt3f( 1,   0,  1));    
+        pnts->addValue(Pnt3f(-1,   0,  1));    
 
-	    pnts->addValue(Pnt3f( 1,  -1, -1));    
-	    pnts->addValue(Pnt3f(-1,  -1, -1));    
-	    pnts->addValue(Pnt3f(-1,   0, -1));    
-	    pnts->addValue(Pnt3f( 1,   0, -1));    
+        pnts->addValue(Pnt3f( 1,  -1, -1));    
+        pnts->addValue(Pnt3f(-1,  -1, -1));    
+        pnts->addValue(Pnt3f(-1,   0, -1));    
+        pnts->addValue(Pnt3f( 1,   0, -1));    
     }
-	endEditCP  (pnts, GeoPositions3f::GeoPropDataFieldMask);
+    endEditCP  (pnts, GeoPositions3f::GeoPropDataFieldMask);
    
     /*
        Put it all together into a Geometry NodeCore.
     */
     GeometryPtr geo=Geometry::create();
- 	beginEditCP(geo, Geometry::TypesFieldMask     |
+    beginEditCP(geo, Geometry::TypesFieldMask     |
                      Geometry::LengthsFieldMask   |
                      Geometry::PositionsFieldMask |
                      Geometry::MaterialFieldMask  );
@@ -167,7 +167,7 @@ int main(int argc, char **argv)
         // of materials are defined later.
         geo->setMaterial(getDefaultUnlitMaterial());   
     }
- 	endEditCP  (geo, Geometry::TypesFieldMask     |
+    endEditCP  (geo, Geometry::TypesFieldMask     |
                      Geometry::LengthsFieldMask   |
                      Geometry::PositionsFieldMask |
                      Geometry::MaterialFieldMask  );

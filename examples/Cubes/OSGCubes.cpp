@@ -86,7 +86,7 @@ A test node for directly rendering to OpenGL.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.4 2001/07/10 14:01:50 dirk Exp $";
+char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.5 2001/10/15 04:52:18 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -117,11 +117,11 @@ char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.4 2001/07/10 14:01:50 dirk Exp 
 
 void Cubes::initMethod (void)
 {
-	DrawAction::registerEnterDefault( getClassType(), 
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,  
-								CubesPtr,
-								Action *>(&Cubes::draw));
+    DrawAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                CubesPtr,
+                                Action *>(&Cubes::draw));
 }
 
 /***************************************************************************\
@@ -174,112 +174,112 @@ void Cubes::changed(BitVector, ChangeMode)
 void Cubes::dump(      UInt32     uiIndent, 
                          const BitVector &bvFlags) const
 {
-	SLOG << "Dump Cubes NI" << endl;
+    SLOG << "Dump Cubes NI" << endl;
 }
 
     
 Action::ResultE Cubes::draw(Action * action )
 {
-	DrawAction * da = dynamic_cast<DrawAction *>(action);
+    DrawAction * da = dynamic_cast<DrawAction *>(action);
 
-	if ( getMFPosition()->getSize() != getMFLength()->getSize() ||
-		 getMFPosition()->getSize() != getMFColor()->getSize() )
-	{
-		SWARNING << "Cubes::draw: inconsistent attributes!" << endl;
-		return Action::Continue;
-	}
+    if ( getMFPosition()->getSize() != getMFLength()->getSize() ||
+         getMFPosition()->getSize() != getMFColor()->getSize() )
+    {
+        SWARNING << "Cubes::draw: inconsistent attributes!" << endl;
+        return Action::Continue;
+    }
 
-	// Setup the material
-	StatePtr st = getMaterial()->makeState();
-	addRefCP( st );	
-	st->activate( da );
+    // Setup the material
+    StatePtr st = getMaterial()->makeState();
+    addRefCP( st );     
+    st->activate( da );
 
 
-	// some variables for faster access
-	MFPnt3f   *pos = getMFPosition();
-	MFColor3f *col = getMFColor();
-	MFReal32  *len = getMFLength();
-	
-	glBegin( GL_QUADS );
-	
-	// draw the cubes
-	for ( UInt32 i = 0; i < pos->getSize(); i++ )
-	{
-		glColor3fv( (GLfloat*) &col->getValue(i) );
-		
-		Pnt3f p = pos->getValue( i );		
-		Real32 l = len->getValue( i ) / 2.f;
-		
-		glNormal3f( 0, 0, -1 );
-		glVertex3f( p[0] - l, p[1] - l, p[2] - l );
-		glVertex3f( p[0] + l, p[1] - l, p[2] - l );
-		glVertex3f( p[0] + l, p[1] + l, p[2] - l );
-		glVertex3f( p[0] - l, p[1] + l, p[2] - l );
-		
-		glNormal3f( 0, 0, 1 );
-		glVertex3f( p[0] - l, p[1] - l, p[2] + l );
-		glVertex3f( p[0] + l, p[1] - l, p[2] + l );
-		glVertex3f( p[0] + l, p[1] + l, p[2] + l );
-		glVertex3f( p[0] - l, p[1] + l, p[2] + l );
-		
-		glNormal3f( -1, 0, 0 );
-		glVertex3f( p[0] - l, p[1] - l, p[2] - l );
-		glVertex3f( p[0] - l, p[1] - l, p[2] + l );
-		glVertex3f( p[0] - l, p[1] + l, p[2] + l );
-		glVertex3f( p[0] - l, p[1] + l, p[2] - l );
-		
-		glNormal3f( 1, 0, 0 );
-		glVertex3f( p[0] + l, p[1] - l, p[2] + l );
-		glVertex3f( p[0] + l, p[1] - l, p[2] - l );
-		glVertex3f( p[0] + l, p[1] + l, p[2] - l );
-		glVertex3f( p[0] + l, p[1] + l, p[2] + l );
-		
-		glNormal3f( 0, 1, 0 );
-		glVertex3f( p[0] - l, p[1] + l, p[2] + l );
-		glVertex3f( p[0] + l, p[1] + l, p[2] + l );
-		glVertex3f( p[0] + l, p[1] + l, p[2] - l );
-		glVertex3f( p[0] - l, p[1] + l, p[2] - l );
-		
-		glNormal3f( 0, -1, 0 );
-		glVertex3f( p[0] - l, p[1] - l, p[2] - l );
-		glVertex3f( p[0] + l, p[1] - l, p[2] - l );
-		glVertex3f( p[0] + l, p[1] - l, p[2] + l );
-		glVertex3f( p[0] - l, p[1] - l, p[2] + l );
-	}
-	
-	glEnd();
+    // some variables for faster access
+    MFPnt3f   *pos = getMFPosition();
+    MFColor3f *col = getMFColor();
+    MFReal32  *len = getMFLength();
+    
+    glBegin( GL_QUADS );
+    
+    // draw the cubes
+    for ( UInt32 i = 0; i < pos->getSize(); i++ )
+    {
+        glColor3fv( (GLfloat*) &col->getValue(i) );
+        
+        Pnt3f p = pos->getValue( i );       
+        Real32 l = len->getValue( i ) / 2.f;
+        
+        glNormal3f( 0, 0, -1 );
+        glVertex3f( p[0] - l, p[1] - l, p[2] - l );
+        glVertex3f( p[0] + l, p[1] - l, p[2] - l );
+        glVertex3f( p[0] + l, p[1] + l, p[2] - l );
+        glVertex3f( p[0] - l, p[1] + l, p[2] - l );
+        
+        glNormal3f( 0, 0, 1 );
+        glVertex3f( p[0] - l, p[1] - l, p[2] + l );
+        glVertex3f( p[0] + l, p[1] - l, p[2] + l );
+        glVertex3f( p[0] + l, p[1] + l, p[2] + l );
+        glVertex3f( p[0] - l, p[1] + l, p[2] + l );
+        
+        glNormal3f( -1, 0, 0 );
+        glVertex3f( p[0] - l, p[1] - l, p[2] - l );
+        glVertex3f( p[0] - l, p[1] - l, p[2] + l );
+        glVertex3f( p[0] - l, p[1] + l, p[2] + l );
+        glVertex3f( p[0] - l, p[1] + l, p[2] - l );
+        
+        glNormal3f( 1, 0, 0 );
+        glVertex3f( p[0] + l, p[1] - l, p[2] + l );
+        glVertex3f( p[0] + l, p[1] - l, p[2] - l );
+        glVertex3f( p[0] + l, p[1] + l, p[2] - l );
+        glVertex3f( p[0] + l, p[1] + l, p[2] + l );
+        
+        glNormal3f( 0, 1, 0 );
+        glVertex3f( p[0] - l, p[1] + l, p[2] + l );
+        glVertex3f( p[0] + l, p[1] + l, p[2] + l );
+        glVertex3f( p[0] + l, p[1] + l, p[2] - l );
+        glVertex3f( p[0] - l, p[1] + l, p[2] - l );
+        
+        glNormal3f( 0, -1, 0 );
+        glVertex3f( p[0] - l, p[1] - l, p[2] - l );
+        glVertex3f( p[0] + l, p[1] - l, p[2] - l );
+        glVertex3f( p[0] + l, p[1] - l, p[2] + l );
+        glVertex3f( p[0] - l, p[1] - l, p[2] + l );
+    }
+    
+    glEnd();
 
-	// deactivate and free the state
-	st->deactivate( da );
-	subRefCP( st );
-	
-	return Action::Continue;
+    // deactivate and free the state
+    st->deactivate( da );
+    subRefCP( st );
+    
+    return Action::Continue;
 }
 
 
 void Cubes::adjustVolume( Volume & volume )
-{	
-	volume.setValid();
-	volume.setEmpty();
+{   
+    volume.setValid();
+    volume.setEmpty();
 
-	MFPnt3f   *pos = getMFPosition();
-	MFReal32  *len = getMFLength();
-	
-	// go through all the cubes adjusting the volume
-	for ( int i = 0; i < pos->getSize(); i++ )
-	{
-		Pnt3f center = pos->getValue( i );
-		
-		Real32 l = len->getValue( i ) / 2;
-		
-		// create the corners of the cube
-		for ( Int16 z = -1; z <= 1; z += 2 )
-		for ( Int16 y = -1; y <= 1; y += 2 )
-		for ( Int16 x = -1; x <= 1; x += 2 )
-			volume.extendBy( Pnt3f( center[0] + x * l, 
-									center[1] + y * l, 
-									center[2] + z * l )  );
-	}
+    MFPnt3f   *pos = getMFPosition();
+    MFReal32  *len = getMFLength();
+    
+    // go through all the cubes adjusting the volume
+    for ( int i = 0; i < pos->getSize(); i++ )
+    {
+        Pnt3f center = pos->getValue( i );
+        
+        Real32 l = len->getValue( i ) / 2;
+        
+        // create the corners of the cube
+        for ( Int16 z = -1; z <= 1; z += 2 )
+        for ( Int16 y = -1; y <= 1; y += 2 )
+        for ( Int16 x = -1; x <= 1; x += 2 )
+            volume.extendBy( Pnt3f( center[0] + x * l, 
+                                    center[1] + y * l, 
+                                    center[2] + z * l )  );
+    }
 }
 
 /*-------------------------------------------------------------------------*\

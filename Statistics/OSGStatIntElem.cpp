@@ -129,8 +129,8 @@ String &StatIntElem::putToString ( String &str)
 }
 
 //StatIntElem::StatIntElem(const StatIntElem &source) :
-//	Inherited(source),
-//	  // TODO: initialize members
+//  Inherited(source),
+//    // TODO: initialize members
 //{
 //}
 
@@ -154,17 +154,17 @@ StatIntElem::~StatIntElem(void)
 
 StatIntElem& StatIntElem::operator = (const StatIntElem &source)
 {
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
-	// copy parts inherited from parent
-	//*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    //*(static_cast<Inherited *>(this)) = source;
 
-	// free mem alloced by members of 'this'
+    // free mem alloced by members of 'this'
 
-	// alloc new mem for members
+    // alloc new mem for members
 
-	// copy 
+    // copy 
 
   return *this;
 }

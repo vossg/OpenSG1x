@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::PerspectiveCamera
     \ingroup Cameras
 
-A perspective camera with a symmetric frustum. 	
+A perspective camera with a symmetric frustum.      
 
 */
 
@@ -163,19 +163,19 @@ void PerspectiveCamera::draw(      DrawAction *OSG_CHECK_ARG(action),
 }
 
 void PerspectiveCamera::getProjection( Matrix& result, 
-	UInt32 width, UInt32 height )
+    UInt32 width, UInt32 height )
 {
-	Real32 fov = getFov();
+    Real32 fov = getFov();
 
-	// try to be nice to people giving degrees...
-	if ( fov > Pi )
-		fov = osgdegree2rad( fov );
+    // try to be nice to people giving degrees...
+    if ( fov > Pi )
+        fov = osgdegree2rad( fov );
 
-	MatrixPerspective( result, fov / 2, 
-			width / (float) height, 
-			getNear(), getFar() );
+    MatrixPerspective( result, fov / 2, 
+            width / (float) height, 
+            getNear(), getFar() );
 }
-	
+    
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -185,7 +185,7 @@ void PerspectiveCamera::getProjection( Matrix& result,
 void PerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                              const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump PerspectiveCamera NI" << endl;
+    SLOG << "Dump PerspectiveCamera NI" << endl;
 }
 
     

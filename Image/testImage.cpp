@@ -25,12 +25,12 @@ int main (int argc, char **argv)
     OSG::ImageFileHandler::the().print();
 
     if (argc > 1)
-	{
+    {
         image.read(argv[1]);
         image.write( (argc > 2) ? argv[2] : defaultOutImage);
     }
     else
-	{
+    {
         FLOG (("usage: %s inputimage [ouputimage]\n", argv[0]));
         retCode = -1;
     }

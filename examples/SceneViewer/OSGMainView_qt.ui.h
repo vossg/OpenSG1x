@@ -40,7 +40,7 @@ void OSGMainView::destroy()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileExit()
 {
-	this->close();
+    this->close();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -97,10 +97,10 @@ void OSGMainView::fileSaveAs()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::helpAbout()
 {
-	 QMessageBox::about ( this, "About SceneView",
- 	                      "OpenSG Scene Viewer\n"
- 	                      "http://www.opensg.org"
- 	                      );
+     QMessageBox::about ( this, "About SceneView",
+                          "OpenSG Scene Viewer\n"
+                          "http://www.opensg.org"
+                          );
 }
 
 //////////////////////////////////////////////////////////////////

@@ -262,12 +262,12 @@ void DirectionalLight::dump(      UInt32    uiIndent,
 Action::ResultE DirectionalLight::drawEnter(Action * action )
 {   
     if ( ! getOn() )
-    	return Action::Continue;
+        return Action::Continue;
 
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
     GLenum light = GL_LIGHT0 + da->getLightCount();
-	
+    
     LightBase::drawEnter( action );
 
     Vec4f dir( _sfDirection.getValue() );
@@ -284,7 +284,7 @@ Action::ResultE DirectionalLight::drawEnter(Action * action )
 Action::ResultE DirectionalLight::drawLeave(Action * action )
 {
     if ( ! getOn() )
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::drawLeave( action );
 }
@@ -293,7 +293,7 @@ Action::ResultE DirectionalLight::drawLeave(Action * action )
 Action::ResultE DirectionalLight::renderEnter(Action *action)
 {
     if(! getOn())
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::renderEnter(action);
 }
@@ -301,7 +301,7 @@ Action::ResultE DirectionalLight::renderEnter(Action *action)
 Action::ResultE DirectionalLight::renderLeave(Action *action)
 {
     if(! getOn())
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::renderLeave(action);
 }

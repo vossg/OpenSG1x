@@ -137,7 +137,7 @@ XWindow::XWindow( void ) :
 }
 
 XWindow::XWindow( const XWindow& source ) :
-	Inherited()
+    Inherited(source)
 {
 }
 
@@ -146,7 +146,7 @@ XWindow::XWindow( const XWindow& source ) :
 
 XWindow::~XWindow(void)
 {
-	// delete the ports and the context
+    // delete the ports and the context
 }
 
 
@@ -156,50 +156,50 @@ XWindow::~XWindow(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-// init the window: create the context	
+// init the window: create the context  
 void XWindow::init( void )
 {    
     XVisualInfo       *vi, visInfo;
     XWindowAttributes winAttr;
 
-	XGetWindowAttributes( _dpy, _hwin, &winAttr );
+    XGetWindowAttributes( _dpy, _hwin, &winAttr );
 
-	// get the existing glWidget's visual-id
-	memset( &visInfo, 0, sizeof(XVisualInfo) );
-	visInfo.visualid = XVisualIDFromVisual( winAttr.visual );
+    // get the existing glWidget's visual-id
+    memset( &visInfo, 0, sizeof(XVisualInfo) );
+    visInfo.visualid = XVisualIDFromVisual( winAttr.visual );
 
-	// get new display-variable
-	_dpy = XOpenDisplay(NULL);	
+    // get new display-variable
+    _dpy = XOpenDisplay(NULL);  
 
-	// get a visual for the glx context
-	int nvis;
-	vi = XGetVisualInfo( _dpy, VisualIDMask, &visInfo, &nvis );
+    // get a visual for the glx context
+    int nvis;
+    vi = XGetVisualInfo( _dpy, VisualIDMask, &visInfo, &nvis );
 
-	// is the visual GL-capable ?
-	int useGL;
-	glXGetConfig( _dpy, 
-				  vi, 
-				  GLX_USE_GL, 
-				  &useGL );
-	if ( !useGL )
-	{
-	    SFATAL << "Visual is not OpenGL-capable!" << endl;
-	}    
+    // is the visual GL-capable ?
+    int useGL;
+    glXGetConfig( _dpy, 
+                  vi, 
+                  GLX_USE_GL, 
+                  &useGL );
+    if ( !useGL )
+    {
+        SFATAL << "Visual is not OpenGL-capable!" << endl;
+    }    
   
-	// create the new context
-	_glcx = glXCreateContext( _dpy, vi, None, GL_TRUE );
+    // create the new context
+    _glcx = glXCreateContext( _dpy, vi, None, GL_TRUE );
 
     glXMakeCurrent( _dpy, _hwin, _glcx );
-	setupGL();
+    setupGL();
 }
-	
-// activate the window: bind the OGL context	
+    
+// activate the window: bind the OGL context    
 void XWindow::activate( void )
 {
     glXMakeCurrent( _dpy, _hwin, _glcx );
 }
-	
-// swap front and back buffers	
+    
+// swap front and back buffers  
 void XWindow::swap( void )
 {
     glXSwapBuffers( _dpy, _hwin );
@@ -209,12 +209,12 @@ void XWindow::swap( void )
 void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 {
 #ifdef __sgi
-	void *libHandle = dlopen("libgl.so", RTLD_LAZY);
-	void *func = dlsym( libHandle, s );
-	dlclose(libHandle);
-	return (void (*)(void))func;   	 
+    void *libHandle = dlopen("libgl.so", RTLD_LAZY);
+    void *func = dlsym( libHandle, s );
+    dlclose(libHandle);
+    return (void (*)(void))func;         
 #else
-	return glXGetProcAddressARB((const GLubyte *) s);
+    return glXGetProcAddressARB((const GLubyte *) s);
 #endif
 }
 
@@ -226,10 +226,10 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 
 /*------------------------------- dump ----------------------------------*/
 
-void XWindow::dump(      UInt32     uiIndent, 
-                   const BitVector &bvFlags) const
+void XWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump XWindow NI" << endl;
+    SLOG << "Dump XWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

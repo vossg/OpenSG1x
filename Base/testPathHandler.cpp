@@ -55,13 +55,14 @@ int main( int argc, char** argv )
 
     ph.setBaseFile("../../../Experimental/VRMLLoader/tie.wrl");
     ph.push_frontCurrentDir();
+    ph.push_backPath("~/tmpx");
 
     ph.dump();
   
-	ph.push_backPath( "~" );
-	ph.dump();
+    ph.push_backPath( "~" );
+    ph.dump();
 
-	
+    
     SLOG << "Looking for tie.wrl: "
          << endl
          << ph.findFile("../../../Experimental/VRMLLoader/tie.wrl")
@@ -70,6 +71,11 @@ int main( int argc, char** argv )
     SLOG << "Looking for std.wrl: "
          << endl
          << ph.findFile("std.wrl")
+         << endl;
+
+    SLOG << "Looking for polyp.tif: "
+         << endl
+         << ph.findFile("polyp.tif")
          << endl;
 
 //  SLOG << "Looking for testCalcFaceNormals.cpp: "

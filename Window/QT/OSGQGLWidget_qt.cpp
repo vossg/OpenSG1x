@@ -111,15 +111,15 @@ The OSGQGLWidget class.
 
 
 OSGQGLWidget::OSGQGLWidget( QWidget *parent, const char *name, 
-					const QGLWidget * shareWidget, WFlags f ) :
+                    const QGLWidget * shareWidget, WFlags f ) :
     QGLWidget( parent, name, shareWidget, f ) 
 {
 }
-					
+                    
 OSGQGLWidget::OSGQGLWidget( const QGLFormat & format,
-				  QWidget *parent, const char *name, 
-				  const QGLWidget * shareWidget, WFlags f		
-				) :
+                  QWidget *parent, const char *name, 
+                  const QGLWidget * shareWidget, WFlags f       
+                ) :
     QGLWidget( format, parent, name, shareWidget, f ) 
 {
 }

@@ -148,29 +148,29 @@ void PointLight::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
 
-	DrawAction::registerEnterDefault( getClassType(), 
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,  
-								PointLightPtr, 
-								Action *>(&PointLight::drawEnter));
+    DrawAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                PointLightPtr, 
+                                Action *>(&PointLight::drawEnter));
 
-	DrawAction::registerLeaveDefault( getClassType(), 
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,  
-								PointLightPtr, 
-								Action *>(&PointLight::drawLeave));
+    DrawAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                PointLightPtr, 
+                                Action *>(&PointLight::drawLeave));
 
-	RenderAction::registerEnterDefault( getClassType(), 
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,  
-								PointLightPtr, 
-								Action *>(&PointLight::renderEnter));
+    RenderAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                PointLightPtr, 
+                                Action *>(&PointLight::renderEnter));
 
-	RenderAction::registerLeaveDefault( getClassType(), 
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,  
-								PointLightPtr, 
-								Action *>(&PointLight::renderLeave));
+    RenderAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                PointLightPtr, 
+                                Action *>(&PointLight::renderLeave));
 
 #else
 
@@ -284,11 +284,11 @@ void PointLight::dump(      UInt32    uiIndent,
 Action::ResultE PointLight::drawEnter(Action * action )
 {   
     if ( ! getOn() )
-    	return Action::Continue;
+        return Action::Continue;
 
     DrawAction *da = (DrawAction *)action;
     GLenum light = GL_LIGHT0 + da->getLightCount();
-	
+    
     LightBase::drawEnter( action );
 
     Vec4f pos( _sfPosition.getValue() );
@@ -305,7 +305,7 @@ Action::ResultE PointLight::drawEnter(Action * action )
 Action::ResultE PointLight::drawLeave(Action * action )
 {
     if ( ! getOn() )
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::drawLeave( action );
 }
@@ -314,7 +314,7 @@ Action::ResultE PointLight::drawLeave(Action * action )
 Action::ResultE PointLight::renderEnter(Action *action)
 {
     if(! getOn())
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::renderEnter(action);
 }
@@ -322,7 +322,7 @@ Action::ResultE PointLight::renderEnter(Action *action)
 Action::ResultE PointLight::renderLeave(Action *action)
 {
     if(! getOn())
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::renderLeave(action);
 }

@@ -33,33 +33,33 @@ OSG_USING_NAMESPACE
 
 int main (int argc, char *argv[])
 {
-	for ( int i = 0; i < argc; i++ )
-		cout << "Param " << i << ":" << argv[i] << endl;
+    for ( int i = 0; i < argc; i++ )
+        cout << "Param " << i << ":" << argv[i] << endl;
 
     osgInit(argc, argv);
-	
-   	char *inFileName  = "osgWriterInput.osg";
-	char *outFileName = "osgWriterOutput.osg";
-	
-		if( argc > 2 )
-	{
-		inFileName = argv[1];
-		outFileName = argv[2];
-	}
-	
-	NodePtr root = SceneFileHandler::the().read(inFileName,0);
-  	
-	ofstream outFileStream( outFileName );
-	if( !outFileStream )
-	{
-		cerr << "Can not open output stream to file: " << outFileName << endl;
-		return -1;
-	}
+    
+        char *inFileName  = "osgWriterInput.osg";
+    char *outFileName = "osgWriterOutput.osg";
+    
+        if( argc > 2 )
+    {
+        inFileName = argv[1];
+        outFileName = argv[2];
+    }
+    
+    NodePtr root = SceneFileHandler::the().read(inFileName,0);
+    
+    ofstream outFileStream( outFileName );
+    if( !outFileStream )
+    {
+        cerr << "Can not open output stream to file: " << outFileName << endl;
+        return -1;
+    }
 
-	cerr << "STARTING PRINTOUT:" << endl;
-	OSGWriter writer( outFileStream, 4 );
-	writer.write( root );
-				
-	return 0;
+    cerr << "STARTING PRINTOUT:" << endl;
+    OSGWriter writer( outFileStream, 4 );
+    writer.write( root );
+                
+    return 0;
 }
 

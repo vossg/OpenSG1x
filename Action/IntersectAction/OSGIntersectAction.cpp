@@ -75,7 +75,7 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.9 2001/10/15 03:10:19 vossg Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.10 2001/10/15 04:52:15 vossg Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 
@@ -92,45 +92,45 @@ vector<Action::Functor> *IntersectAction::_defaultLeaveFunctors;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void IntersectAction::registerEnterDefault(	const FieldContainerType &type, 
-										const Action::Functor &func )
+void IntersectAction::registerEnterDefault(     const FieldContainerType &type, 
+                                        const Action::Functor &func )
 {
-	if ( ! _defaultEnterFunctors )
-		_defaultEnterFunctors = new vector<Action::Functor>;
+    if ( ! _defaultEnterFunctors )
+        _defaultEnterFunctors = new vector<Action::Functor>;
 
-	while(type.getId() >= _defaultEnterFunctors->size())
-	{
-		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&IntersectAction::_defaultEnterFunction));
-	}
-	
-	(*_defaultEnterFunctors)[ type.getId() ] = func;
+    while(type.getId() >= _defaultEnterFunctors->size())
+    {
+        _defaultEnterFunctors->push_back( 
+                osgFunctionFunctor2(&IntersectAction::_defaultEnterFunction));
+    }
+    
+    (*_defaultEnterFunctors)[ type.getId() ] = func;
 }
 
-void IntersectAction::registerLeaveDefault(	const FieldContainerType &type, 
-										const Action::Functor &func )
+void IntersectAction::registerLeaveDefault(     const FieldContainerType &type, 
+                                        const Action::Functor &func )
 {
-	if ( ! _defaultLeaveFunctors )
-		_defaultLeaveFunctors = new vector<Action::Functor>;
+    if ( ! _defaultLeaveFunctors )
+        _defaultLeaveFunctors = new vector<Action::Functor>;
 
-	while(type.getId() >= _defaultLeaveFunctors->size())
-	{
-		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&IntersectAction::_defaultLeaveFunction));
-	}
-	
-	(*_defaultLeaveFunctors)[ type.getId() ] = func;
+    while(type.getId() >= _defaultLeaveFunctors->size())
+    {
+        _defaultLeaveFunctors->push_back( 
+                osgFunctionFunctor2(&IntersectAction::_defaultLeaveFunction));
+    }
+    
+    (*_defaultLeaveFunctors)[ type.getId() ] = func;
 }
 
 
 void IntersectAction::setPrototype( IntersectAction * proto )
 {
-	_prototype = proto;
+    _prototype = proto;
 }
 
 IntersectAction *IntersectAction::getPrototype( void )
 {
-	return _prototype;
+    return _prototype;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -158,24 +158,24 @@ IntersectAction *IntersectAction::getPrototype( void )
  */
 
 IntersectAction::IntersectAction(void) :
-	_line(), _maxdist(), 
-	_hit(false), _enterT(-1), _leaveT(-1), _hitT(-1), _hitObject(),
-	_hitTriangle(-1)
+    _line(), _maxdist(), 
+    _hit(false), _enterT(-1), _leaveT(-1), _hitT(-1), _hitObject(),
+    _hitTriangle(-1)
 {
-	if ( _defaultEnterFunctors )
-		_enterFunctors = *_defaultEnterFunctors;
+    if ( _defaultEnterFunctors )
+        _enterFunctors = *_defaultEnterFunctors;
 
-	if ( _defaultLeaveFunctors )
-		_leaveFunctors = *_defaultLeaveFunctors;
+    if ( _defaultLeaveFunctors )
+        _leaveFunctors = *_defaultLeaveFunctors;
 }
 
 
 IntersectAction::IntersectAction( const IntersectAction& source ) :
-	Inherited( source ),
-	_line( source._line ), _maxdist( source._maxdist ), 
-	_hit(source._hit), _enterT(source._enterT), _leaveT(source._leaveT), 
-	_hitT(source._hitT), _hitObject(source._hitObject),
-	_hitTriangle(source._hitTriangle)
+    Inherited( source ),
+    _line( source._line ), _maxdist( source._maxdist ), 
+    _hit(source._hit), _enterT(source._enterT), _leaveT(source._leaveT), 
+    _hitT(source._hitT), _hitObject(source._hitObject),
+    _hitTriangle(source._hitTriangle)
 {
 }
 
@@ -185,14 +185,14 @@ IntersectAction::IntersectAction( const IntersectAction& source ) :
 
 IntersectAction * IntersectAction::create( void )
 {
-	IntersectAction * act;
-	
-	if ( _prototype )
-		act = new IntersectAction( *_prototype );
-	else
-		act = new IntersectAction();
-	
-	return act;
+    IntersectAction * act;
+    
+    if ( _prototype )
+        act = new IntersectAction( *_prototype );
+    else
+        act = new IntersectAction();
+    
+    return act;
 }
 
 
@@ -200,18 +200,18 @@ IntersectAction * IntersectAction::create( void )
  */
 
 IntersectAction * IntersectAction::create(  const Line &line, 
-											const Real32 maxdist )
+                                            const Real32 maxdist )
 {
-	IntersectAction * act;
-	
-	if ( _prototype )
-		act = new IntersectAction( *_prototype );
-	else
-		act = new IntersectAction();
-	
-	act->setLine( line, maxdist );
+    IntersectAction * act;
+    
+    if ( _prototype )
+        act = new IntersectAction( *_prototype );
+    else
+        act = new IntersectAction();
+    
+    act->setLine( line, maxdist );
 
-	return act;
+    return act;
 }
 
 /** \brief Destructor
@@ -227,28 +227,28 @@ IntersectAction::~IntersectAction(void)
 
 void IntersectAction::setLine( const Line &line, const Real32 maxdist )
 {
-	_line = line;
-	_maxdist = maxdist;
+    _line = line;
+    _maxdist = maxdist;
 }
-	
+    
 Action::ResultE  IntersectAction::setEnterLeave( Real32 enter, Real32 leave )
 {
-	if ( leave < 0 || enter > _maxdist ||
-		( _hit && enter > _hitT ) )
-		return Action::Skip;
+    if ( leave < 0 || enter > _maxdist ||
+        ( _hit && enter > _hitT ) )
+        return Action::Skip;
 
-	return Action::Continue;
+    return Action::Continue;
 }
 
 void IntersectAction::setHit( Real32 t, NodePtr obj, Int32 triIndex )
 {
-	if ( t < 0 || t > _hitT )
-		return;
-		
-	_hitT = t;
-	_hitObject = obj;
-	_hitTriangle = triIndex;
-	_hit = true;
+    if ( t < 0 || t > _hitT )
+        return;
+        
+    _hitT = t;
+    _hitObject = obj;
+    _hitTriangle = triIndex;
+    _hit = true;
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -256,10 +256,10 @@ void IntersectAction::setHit( Real32 t, NodePtr obj, Int32 triIndex )
 
 Action::ResultE IntersectAction::start( void )
 {
-	_hitT = Inf;
-	_hitObject = NullFC;
-	_hitTriangle = -1;
-	_hit = false;
+    _hitT = Inf;
+    _hitObject = NullFC;
+    _hitTriangle = -1;
+    _hit = false;
     return Continue;
 }
 
@@ -273,17 +273,17 @@ Action::ResultE IntersectAction::start( void )
 
 IntersectAction& IntersectAction::operator = (const IntersectAction &source)
 {
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 
-	// free mem alloced by members of 'this'
+    // free mem alloced by members of 'this'
 
-	// alloc new mem for members
+    // alloc new mem for members
 
-	// copy 
+    // copy 
 }
 
 */
@@ -312,7 +312,7 @@ Bool IntersectAction::operator == (
 
 Bool IntersectAction::operator != (const IntersectAction &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 
@@ -323,12 +323,12 @@ Bool IntersectAction::operator != (const IntersectAction &other) const
 
 vector<IntersectAction::Functor>* IntersectAction::getDefaultEnterFunctors( void )
 {
-	return _defaultEnterFunctors;
+    return _defaultEnterFunctors;
 }
 
 vector<IntersectAction::Functor>* IntersectAction::getDefaultLeaveFunctors( void )
 {
-	return _defaultLeaveFunctors;
+    return _defaultLeaveFunctors;
 }
 
 /*-------------------------------------------------------------------------*\

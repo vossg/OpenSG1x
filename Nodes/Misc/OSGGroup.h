@@ -75,8 +75,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
                                           Action   *pAction);
     static Action::ResultE GroupDrawLeave(CNodePtr &cnode,
                                           Action   *pAction);
-	static Action::ResultE GroupIntEnter(CNodePtr  &cnode,
-										 Action    *pAction);
+    static Action::ResultE GroupIntEnter(CNodePtr  &cnode,
+                                         Action    *pAction);
 #endif
 
     /*! \}                                                                 */
@@ -97,7 +97,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
-	Action::ResultE intersect(Action * action );
+    Action::ResultE intersect(Action * action );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

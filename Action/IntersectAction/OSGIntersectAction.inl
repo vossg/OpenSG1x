@@ -102,49 +102,49 @@ OSG_BEGIN_NAMESPACE
 
 inline const Line& IntersectAction::getLine( void ) const
 {
-	return _line;
+    return _line;
 }
 
 inline Real32 IntersectAction::getMaxDist( void ) const
 {
-	return _maxdist;
+    return _maxdist;
 }
 
 inline Bool IntersectAction::didHit( void ) const
 {
-	return _hit;
+    return _hit;
 }
 
 inline Real32 IntersectAction::getHitT( void ) const
 {
-	if ( ! didHit() )
-		return -1;
-	return _hitT;
+    if ( ! didHit() )
+        return -1;
+    return _hitT;
 }
 
 inline Pnt3f IntersectAction::getHitPoint( void ) const
 {
-	if ( ! didHit() )
-		return NullPnt3f;
-	
-	Pnt3f res;
-	res = _line.getPosition() + getHitT() * _line.getDirection();
-	return res;
+    if ( ! didHit() )
+        return NullPnt3f;
+    
+    Pnt3f res;
+    res = _line.getPosition() + getHitT() * _line.getDirection();
+    return res;
 }
 
 inline NodePtr IntersectAction::getHitObject( void ) const
 {
-	if ( ! didHit() )
-		return NullFC;
+    if ( ! didHit() )
+        return NullFC;
 
-	return _hitObject;
+    return _hitObject;
 }
 
 inline Int32 IntersectAction::getHitTriangle( void ) const
 {
-	if ( ! didHit() )
-		return -1;
-	return _hitTriangle;
+    if ( ! didHit() )
+        return -1;
+    return _hitTriangle;
 }
 
 /*---------------------------- properties ---------------------------------*/

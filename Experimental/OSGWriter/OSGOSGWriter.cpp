@@ -48,7 +48,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.5 2001/10/15 03:10:20 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.6 2001/10/15 04:52:15 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
 
@@ -82,50 +82,50 @@ OSGWriter::~OSGWriter(void)
 
 void OSGWriter::write(NodePtr node)
 {
-	_fcmap.clear();
+    _fcmap.clear();
 
-	_sharedFCCount = 0;
-	_indention     = 0;
+    _sharedFCCount = 0;
+    _indention     = 0;
 
-	_outstream << "#OSG V1.0 " << endl;
-	
-	doListFC(node);
-	doPrintListedFC(node);
+    _outstream << "#OSG V1.0 " << endl;
+    
+    doListFC(node);
+    doPrintListedFC(node);
 }
 
 void OSGWriter::write(vector<NodePtr> nodes)
 {
-	_fcmap.clear();
+    _fcmap.clear();
 
-	_sharedFCCount = 0;
-	_indention = 0;
+    _sharedFCCount = 0;
+    _indention = 0;
 
-	_outstream << "#OSG V1.0 " << endl;
-	
-	vector<NodePtr>::iterator iter = nodes.begin();
+    _outstream << "#OSG V1.0 " << endl;
+    
+    vector<NodePtr>::iterator iter = nodes.begin();
 
-	for(; iter != nodes.end(); ++iter)
-	{
-		doListFC( *iter );
-	}
+    for(; iter != nodes.end(); ++iter)
+    {
+        doListFC( *iter );
+    }
 
-	for(iter = nodes.begin(); iter != nodes.end(); ++iter)
-	{
-		doPrintListedFC( *iter );
-	}
+    for(iter = nodes.begin(); iter != nodes.end(); ++iter)
+    {
+        doPrintListedFC( *iter );
+    }
 }
 
 void OSGWriter::indentLine(void)
 {
-	for(UInt32 k = 0; k < _indention; ++k)
-	{
-		_outstream << " ";
-	}
+    for(UInt32 k = 0; k < _indention; ++k)
+    {
+        _outstream << " ";
+    }
 }
 
 void OSGWriter::setIndentStep(UInt32 newStep)
 {
-	_indentStep = newStep;
+    _indentStep = newStep;
 }
 
 #if defined(OSG_WIN32_ICL)
@@ -134,63 +134,63 @@ void OSGWriter::setIndentStep(UInt32 newStep)
 
 void OSGWriter::doListFC(FieldContainerPtr fieldConPtr)
 {
-	if(fieldConPtr == NullFC)
-		return;
-	
-	if(_fcmap.insert(make_pair(fieldConPtr, 
+    if(fieldConPtr == NullFC)
+        return;
+    
+    if(_fcmap.insert(make_pair(fieldConPtr, 
                                SharedFCInfoHelper())).second == true)
-	{
-		FieldContainerType &fcType = fieldConPtr->getType();
+    {
+        FieldContainerType &fcType = fieldConPtr->getType();
 
-		for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
-		{
-			FieldDescription *fDesc    = fcType.getFieldDescription(i);
-			Field            *fieldPtr = fieldConPtr->getField(i);
+        for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+        {
+            FieldDescription *fDesc    = fcType.getFieldDescription(i);
+            Field            *fieldPtr = fieldConPtr->getField(i);
 
-			const FieldType &fType = fieldPtr->getType();
+            const FieldType &fType = fieldPtr->getType();
 
-			if(!fDesc->isInternal())
-			{
-				if( strstr(fType.getCName(), "Ptr") != NULL )
-				{
-					if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
-					{
-						doListFC(
+            if(!fDesc->isInternal())
+            {
+                if( strstr(fType.getCName(), "Ptr") != NULL )
+                {
+                    if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
+                    {
+                        doListFC(
                             ((SFFieldContainerPtr *) fieldPtr)->getValue());
-					}
-					else if(fieldPtr->getCardinality() == 
+                    }
+                    else if(fieldPtr->getCardinality() == 
                             FieldType::MULTI_FIELD       )
-					{
+                    {
                         UInt32 j;
 
-						for(  j = 0;
-							  j < ((MFFieldContainerPtr*)fieldPtr)->getSize();
-							++j)
-						{
-							doListFC( 
+                        for(  j = 0;
+                              j < ((MFFieldContainerPtr*)fieldPtr)->getSize();
+                            ++j)
+                        {
+                            doListFC( 
                                 ((MFFieldContainerPtr*)fieldPtr)->getValue(j));
-						}
-					}
-				}
-			}
-		}
-	}
-	else
-	{
-		SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
 
-		if(iter == _fcmap.end())
-		{
-			cerr << "ERROR: This should not happen!" << endl;
-		}
-		if(iter->second.named == false)
-		{
-			iter->second.name = 
+        if(iter == _fcmap.end())
+        {
+            cerr << "ERROR: This should not happen!" << endl;
+        }
+        if(iter->second.named == false)
+        {
+            iter->second.name = 
                 SharedFCInfoHelper::buildName(iter->first, 
                                               _sharedFCCount++);
-			iter->second.named = true;
-		}
-	}
+            iter->second.named = true;
+        }
+    }
 }
 
 #if defined(OSG_WIN32_ICL)
@@ -199,138 +199,138 @@ void OSGWriter::doListFC(FieldContainerPtr fieldConPtr)
 
 void OSGWriter::doPrintListedFC(FieldContainerPtr fieldConPtr)
 {
-	if(fieldConPtr == NullFC)
-	{
-		indentLine(); _outstream << "NULL" << endl;
-		return;
-	}
+    if(fieldConPtr == NullFC)
+    {
+        indentLine(); _outstream << "NULL" << endl;
+        return;
+    }
 
-	SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
+    SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
 
-	if(iter == _fcmap.end())
-	{
-		cerr << "ERROR: This should not happen!" << endl;
-	}
+    if(iter == _fcmap.end())
+    {
+        cerr << "ERROR: This should not happen!" << endl;
+    }
 
-	if(iter->second.printed == false)
-	{
-		iter->second.printed = true;
+    if(iter->second.printed == false)
+    {
+        iter->second.printed = true;
 
-		FieldContainerType& fcType = fieldConPtr->getType();
+        FieldContainerType& fcType = fieldConPtr->getType();
 
-		indentLine();
+        indentLine();
 
-		if(iter->second.named == true)
-		{
-			_outstream << "DEF " << (*iter).second.name << " ";
-		}
+        if(iter->second.named == true)
+        {
+            _outstream << "DEF " << (*iter).second.name << " ";
+        }
 
-		_outstream << fieldConPtr->getTypeName()
-				   << " {" 
+        _outstream << fieldConPtr->getTypeName()
+                   << " {" 
                    << endl;
 
-		for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
-		{
-			FieldDescription *fDesc    = fcType.getFieldDescription(i);
-			Field            *fieldPtr = fieldConPtr->getField(i);
+        for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+        {
+            FieldDescription *fDesc    = fcType.getFieldDescription(i);
+            Field            *fieldPtr = fieldConPtr->getField(i);
 
-			const FieldType& fType = fieldPtr->getType();
+            const FieldType& fType = fieldPtr->getType();
 
-			if(!fDesc->isInternal())
-			{
-				indentLine(); 
+            if(!fDesc->isInternal())
+            {
+                indentLine(); 
                 _outstream << fDesc->getName();
 
-				if(strstr(fType.getCName(), "Ptr") != NULL)
-				{
-					if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
-					{
-						_outstream << endl;
-						_indention += _indentStep;
+                if(strstr(fType.getCName(), "Ptr") != NULL)
+                {
+                    if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
+                    {
+                        _outstream << endl;
+                        _indention += _indentStep;
 
-						doPrintListedFC( 
+                        doPrintListedFC( 
                             ((SFFieldContainerPtr *) fieldPtr)->getValue());
 
-						_indention -= _indentStep;
-					}
-					else if(fieldPtr->getCardinality() ==
+                        _indention -= _indentStep;
+                    }
+                    else if(fieldPtr->getCardinality() ==
                             FieldType::MULTI_FIELD       )
-					{
+                    {
                         UInt32 j;
 
-						_outstream << " [" << endl;
-						_indention += _indentStep;
+                        _outstream << " [" << endl;
+                        _indention += _indentStep;
 
-						for(  j = 0;
+                        for(  j = 0;
                               j < ((MFFieldContainerPtr*)fieldPtr)->getSize();
                             ++j)
-						{
-							doPrintListedFC( ((MFFieldContainerPtr *)
-										  fieldPtr)->getValue(j) );
-						}
+                        {
+                            doPrintListedFC( ((MFFieldContainerPtr *)
+                                          fieldPtr)->getValue(j) );
+                        }
 
-						_indention -= _indentStep;
+                        _indention -= _indentStep;
 
-						indentLine(); 
+                        indentLine(); 
 
                         _outstream << "]" <<endl;
-					}	
-				}
-				else
-				{
-					string val;
+                    }   
+                }
+                else
+                {
+                    string val;
 
-					fieldPtr->getValueByStr(val);
+                    fieldPtr->getValueByStr(val);
 
-					if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
-					{
-						_outstream << " " << val <<endl;
-					}
-					else
-					{
-						_outstream << " [" << endl;
+                    if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
+                    {
+                        _outstream << " " << val <<endl;
+                    }
+                    else
+                    {
+                        _outstream << " [" << endl;
 
-						_indention += _indentStep;
+                        _indention += _indentStep;
 
-						indentLine(); 
+                        indentLine(); 
 
                         _outstream << val <<endl;
 
-						_indention -= _indentStep;
+                        _indention -= _indentStep;
 
-						indentLine(); 
+                        indentLine(); 
                         
                         _outstream << "]" << endl;
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
         
-		indentLine(); 
+        indentLine(); 
 
         _outstream << "}" << endl;
-	}
-	else
-	{
-		if(iter->second.named == false)
-		{
-			cerr << "WARNING: FC is shared, but was not named!" << endl;
-		}
+    }
+    else
+    {
+        if(iter->second.named == false)
+        {
+            cerr << "WARNING: FC is shared, but was not named!" << endl;
+        }
 
-		indentLine(); 
+        indentLine(); 
         
         _outstream << "USE " << iter->second.name << endl;
-	}
+    }
 }
 
 
 string OSGWriter::SharedFCInfoHelper::buildName(FieldContainerPtr ,
                                                 UInt32            num)
 {
-	string temp;
+    string temp;
 
-	temp.assign("FCName");
-	temp.append(TypeConstants<UInt32>::putToString(num));
+    temp.assign("FCName");
+    temp.append(TypeConstants<UInt32>::putToString(num));
 
-	return temp;
+    return temp;
 }

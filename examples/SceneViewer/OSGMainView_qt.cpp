@@ -968,7 +968,7 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     QPixmap image4( ( const char** ) image4_data );
     QPixmap image5( ( const char** ) image5_data );
     if ( !name )
-	setName( "OSGMainView" );
+    setName( "OSGMainView" );
     resize( 715, 553 ); 
     setCaption( trUtf8( "OpenSG Scene Viewer", "" ) );
     setIcon( image0 );

@@ -46,26 +46,26 @@ OSG_BEGIN_NAMESPACE
 /*------------------------------- size ----------------------------------*/
 inline void Window::setSize( UInt16 width, UInt16 height )
 {
-	setHeight( height );
-	setWidth( width );
+    setHeight( height );
+    setWidth( width );
 }
 
 inline Bool Window::isResizePending ( void )
 {
-	return _sfResizePending.getValue();
+    return _sfResizePending.getValue();
 }
 
 /** GL extension stuff **/
 inline UInt32 Window::registerExtension( const Char8 *s )
 {
-	UInt32 r = _registeredExtensions.size();
+    UInt32 r = _registeredExtensions.size();
     _registeredExtensions.push_back( IDStringLink(s) );
     return ( r );
 }
 
 inline UInt32 Window::registerFunction( const Char8 *s )
 {
-	UInt32 r = _registeredFunctions.size();
+    UInt32 r = _registeredFunctions.size();
     _registeredFunctions.push_back( IDStringLink(s) );
     return ( r );
 }
@@ -83,7 +83,7 @@ inline Bool Window::hasExtension( UInt32 id )
 */
 inline void* Window::getFunction ( UInt32 id )
 {
-	return _extFunctions[ id ];
+    return _extFunctions[ id ];
 }
 
 /** check the status of the indicated object 
@@ -91,7 +91,7 @@ inline void* Window::getFunction ( UInt32 id )
 */
 inline Window::GLObjectStatusE Window::getGLObjectStatus ( UInt32 id )
 {
-	return (GLObjectStatusE)_mfGlObjectStatus[ id ];
+    return (GLObjectStatusE)_mfGlObjectStatus[ id ];
 }
 
 

@@ -148,7 +148,7 @@ FieldContainerType GeoProperty<GeoPropertyDesc>::_type =
 template <class GeoPropertyDesc>
 FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
         GeoPropertyDesc::getTypeName(),
-        InheritDesc::getTypeName(),
+        InheritDesc    ::getTypeName(),
         GeoPropertyDesc::getGroupName(),
         (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
         GeoPropertyDesc::getInitMethod(),
@@ -344,21 +344,21 @@ template <class propertyDesc> inline
 GeoProperty<propertyDesc>::StoredGenericType
     GeoProperty<propertyDesc>::getValue(const UInt32 index)
 {
-	return _field.getValue( index );
+    return _field.getValue( index );
 }
 
 template <class propertyDesc> inline 
 GeoProperty<propertyDesc>::StoredGenericType
     GeoProperty<propertyDesc>::getValue(const UInt32 index) const
 {
-	return _field.getValue( index );
+    return _field.getValue( index );
 }
 
 template <class propertyDesc> inline 
 void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
                                          const UInt32             index)
 {
-	val = _field.getValue( index );
+    val = _field.getValue( index );
 }
 
 
@@ -366,38 +366,38 @@ template <class propertyDesc> inline
 void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
                                          const UInt32             index) const
 {
-	val = _field.getValue( index );
+    val = _field.getValue( index );
 }
 
 template <class propertyDesc> inline 
 void GeoProperty<propertyDesc>::setValue(const StoredGenericType &value,
                                          const UInt32             index)
 {
-	_field.setValue( value, index );
+    _field.setValue( value, index );
 }
 
 template <class propertyDesc> inline 
 void GeoProperty<propertyDesc>::addValue(const StoredGenericType & value)
 {
-	_field.addValue( value );
+    _field.addValue( value );
 }
 
 template <class propertyDesc> 
 inline void GeoProperty<propertyDesc>::clear( void )
 {
-	_field.clear();
+    _field.clear();
 }
 
 template <class propertyDesc> 
 inline void GeoProperty<propertyDesc>::push_back(const StoredGenericType &value)
 {
-	addValue( value );
+    addValue( value );
 }
 
 template <class propertyDesc> 
 inline void GeoProperty<propertyDesc>::resize( size_t newsize )
 {
-	_field.resize( newsize );
+    _field.resize( newsize );
 }
 
 template <class GeoPropertyDesc> inline

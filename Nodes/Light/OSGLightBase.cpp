@@ -59,8 +59,8 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::LightBase
- *	\defgroup LightNodes
- *	\ingroup NodesLib
+ *  \defgroup LightNodes
+ *  \ingroup NodesLib
  *  LightBase is the base class for all the light source nodes.
  *  It contains the field for the general light source attributes 
  *  (AmbientColor, DiffuseColor, SpecularColor, Beacon). The Beacon 

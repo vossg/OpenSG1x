@@ -53,11 +53,19 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.4 2001/10/15 03:10:26 vossg Exp $";
-    char cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.5 2001/10/15 04:52:17 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
@@ -139,8 +147,8 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
 
 
 //OSGQGLManagedWidget::OSGQGLManagedWidget(const OSGQGLManagedWidget &source) :
-//	Inherited(source),
-//	  // TODO: initialize members
+//  Inherited(source),
+//    // TODO: initialize members
 //{
 //}
 
@@ -164,9 +172,9 @@ OSGQGLManagedWidget::~OSGQGLManagedWidget(void)
 
 OSGQGLManagedWidget& OSGQGLManagedWidget::operator = (const OSGQGLManagedWidget &source)
 {
-	if (this != &source)
+    if (this != &source)
     {
-      ;	// TODO; copy parts inherited from parent
+      ;     // TODO; copy parts inherited from parent
     }
 
   return *this;
@@ -242,7 +250,7 @@ void OSGQGLManagedWidget::mousePressEvent ( QMouseEvent *me )
   FDEBUG (("OSGQGLManagedWidget::mousePressEvent()\n"));
   
   switch ( me->button() ) 
-	{
+    {
     case LeftButton:
       _manager.mouseButtonPress ( SimpleSceneManager::MouseLeft, 
                                   me->x(), me->y()  );
@@ -255,7 +263,7 @@ void OSGQGLManagedWidget::mousePressEvent ( QMouseEvent *me )
       _manager.mouseButtonPress ( SimpleSceneManager::MouseRight, 
                                   me->x(), me->y() );
       break;
-	}
+    }
   
   paintGL();
 }
@@ -268,7 +276,7 @@ void OSGQGLManagedWidget::mouseReleaseEvent ( QMouseEvent *me )
   FDEBUG (("OSGQGLManagedWidget::mouseReleaseEvent()\n"));
   
   switch ( me->button() ) 
-	{
+    {
     case LeftButton:
       _manager.mouseButtonRelease ( SimpleSceneManager::MouseLeft, 
                                   me->x(), me->y()  );
@@ -281,7 +289,7 @@ void OSGQGLManagedWidget::mouseReleaseEvent ( QMouseEvent *me )
       _manager.mouseButtonRelease ( SimpleSceneManager::MouseRight, 
                                   me->x(), me->y() );
       break;
-	}
+    }
   
   paintGL();
 }

@@ -266,11 +266,11 @@ void SpotLight::dump(      UInt32    uiIndent,
 Action::ResultE SpotLight::drawEnter(Action * action )
 {   
     if ( ! getOn() )
-    	return Action::Continue;
+        return Action::Continue;
 
     DrawAction *da = (DrawAction *)action;
     GLenum light = GL_LIGHT0 + da->getLightCount();
-	
+    
     LightBase::drawEnter( action );
 
     Vec4f dir( _sfDirection.getValue() );
@@ -281,8 +281,8 @@ Action::ResultE SpotLight::drawEnter(Action * action )
 
     glLightfv( light, GL_POSITION, pos.getValues() );
     glLightfv( light, GL_SPOT_DIRECTION, dir.getValues() );
-	Real32 deg=rad2deg(_sfSpotCutOff.getValue());
-	if ( deg > 90 ) deg = 180;
+    Real32 deg=rad2deg(_sfSpotCutOff.getValue());
+    if ( deg > 90 ) deg = 180;
     glLightf( light, GL_SPOT_CUTOFF, deg );
     glLightf( light, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
 
@@ -294,7 +294,7 @@ Action::ResultE SpotLight::drawEnter(Action * action )
 Action::ResultE SpotLight::drawLeave(Action * action )
 {
     if ( ! getOn() )
-    	return Action::Continue;
+        return Action::Continue;
 
     return LightBase::drawLeave( action );
 }
@@ -303,7 +303,7 @@ Action::ResultE SpotLight::drawLeave(Action * action )
 Action::ResultE SpotLight::renderEnter(Action *action)
 {
     if(! getOn())
-    	return Action::Continue;
+        return Action::Continue;
 
     return PointLight::renderEnter(action);
 }
@@ -311,7 +311,7 @@ Action::ResultE SpotLight::renderEnter(Action *action)
 Action::ResultE SpotLight::renderLeave(Action *action)
 {
     if(! getOn())
-    	return Action::Continue;
+        return Action::Continue;
 
     return PointLightBase::renderLeave(action);
 }

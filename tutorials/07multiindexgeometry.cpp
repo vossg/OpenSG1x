@@ -75,56 +75,56 @@ int main(int argc, char **argv)
     /*
         The initial setup is the same as in the single indexed geometry...
     */
-    GeoPTypesPtr type = GeoPTypesUI8::create();	   
+    GeoPTypesPtr type = GeoPTypesUI8::create();        
     beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
     {
-	    type->addValue(GL_POLYGON  );
-	    type->addValue(GL_TRIANGLES);
-	    type->addValue(GL_QUADS    );
+        type->addValue(GL_POLYGON  );
+        type->addValue(GL_TRIANGLES);
+        type->addValue(GL_QUADS    );
     }
-	endEditCP  (type, GeoPTypesUI8::GeoPropDataFieldMask);
+    endEditCP  (type, GeoPTypesUI8::GeoPropDataFieldMask);
 
-	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
-	beginEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
+    GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
+    beginEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
     {
-	    lens->addValue(4);
-	    lens->addValue(6);
-	    lens->addValue(8);
-	}
+        lens->addValue(4);
+        lens->addValue(6);
+        lens->addValue(8);
+    }
     endEditCP  (lens, GeoPLengthsUI32::GeoPropDataFieldMask);
        
-	GeoPositions3fPtr pnts = GeoPositions3f::create();
- 	beginEditCP(pnts, GeoPositions3f::GeoPropDataFieldMask);
+    GeoPositions3fPtr pnts = GeoPositions3f::create();
+    beginEditCP(pnts, GeoPositions3f::GeoPropDataFieldMask);
     {
         // the base
-	    pnts->addValue(Pnt3f(-1, -1, -1));
-	    pnts->addValue(Pnt3f(-1, -1,  1));
-	    pnts->addValue(Pnt3f( 1, -1,  1));
-	    pnts->addValue(Pnt3f( 1, -1, -1));
+        pnts->addValue(Pnt3f(-1, -1, -1));
+        pnts->addValue(Pnt3f(-1, -1,  1));
+        pnts->addValue(Pnt3f( 1, -1,  1));
+        pnts->addValue(Pnt3f( 1, -1, -1));
 
         // the roof base
-	    pnts->addValue(Pnt3f(-1,  0, -1));
-	    pnts->addValue(Pnt3f(-1,  0,  1));
-	    pnts->addValue(Pnt3f( 1,  0,  1));
-	    pnts->addValue(Pnt3f( 1,  0, -1));
+        pnts->addValue(Pnt3f(-1,  0, -1));
+        pnts->addValue(Pnt3f(-1,  0,  1));
+        pnts->addValue(Pnt3f( 1,  0,  1));
+        pnts->addValue(Pnt3f( 1,  0, -1));
 
         // the gable
-	    pnts->addValue(Pnt3f( 0,  1, -1));
-	    pnts->addValue(Pnt3f( 0,  1,  1));
+        pnts->addValue(Pnt3f( 0,  1, -1));
+        pnts->addValue(Pnt3f( 0,  1,  1));
     }
-	endEditCP  (pnts, GeoPositions3f::GeoPropDataFieldMask);
+    endEditCP  (pnts, GeoPositions3f::GeoPropDataFieldMask);
    
- 	GeoColors3fPtr colors = GeoColors3f::create();
- 	beginEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
+    GeoColors3fPtr colors = GeoColors3f::create();
+    beginEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
     {
-	    colors->addValue(Color3f(1, 1, 0));
-	    colors->addValue(Color3f(1, 0, 0));
-	    colors->addValue(Color3f(1, 0, 0));
-	    colors->addValue(Color3f(1, 1, 0));
-	    colors->addValue(Color3f(0, 1, 1));
-	    colors->addValue(Color3f(1, 0, 1));
+        colors->addValue(Color3f(1, 1, 0));
+        colors->addValue(Color3f(1, 0, 0));
+        colors->addValue(Color3f(1, 0, 0));
+        colors->addValue(Color3f(1, 1, 0));
+        colors->addValue(Color3f(0, 1, 1));
+        colors->addValue(Color3f(1, 0, 1));
     }
-	endEditCP  (colors, GeoPositions3f::GeoPropDataFieldMask);
+    endEditCP  (colors, GeoPositions3f::GeoPropDataFieldMask);
 
     /*
         A new property: normals.
@@ -132,17 +132,17 @@ int main(int argc, char **argv)
         They are used for lighting calculations and have to point away from the
         surface. Normals are standard vectors.
     */
-	GeoNormals3fPtr norms = GeoNormals3f::create();
- 	beginEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
+    GeoNormals3fPtr norms = GeoNormals3f::create();
+    beginEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
     {
-	    norms->addValue(Vec3f(-1,  0,  0));
-	    norms->addValue(Vec3f( 1,  0,  0));
-	    norms->addValue(Vec3f( 0, -1,  0));
-	    norms->addValue(Vec3f( 0,  1,  0));
-	    norms->addValue(Vec3f( 0,  0, -1));
-	    norms->addValue(Vec3f( 0,  0,  1));
+        norms->addValue(Vec3f(-1,  0,  0));
+        norms->addValue(Vec3f( 1,  0,  0));
+        norms->addValue(Vec3f( 0, -1,  0));
+        norms->addValue(Vec3f( 0,  1,  0));
+        norms->addValue(Vec3f( 0,  0, -1));
+        norms->addValue(Vec3f( 0,  0,  1));
     }
-	endEditCP  (norms, GeoNormals3f::GeoPropDataFieldMask);
+    endEditCP  (norms, GeoNormals3f::GeoPropDataFieldMask);
     
   
     /*
@@ -154,8 +154,8 @@ int main(int argc, char **argv)
         property. The meaning of every index is defined by the indexMapping
         given below.
     */
-  	GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
- 	beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
+    GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
+    beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
     {
         // indices for the polygon
         indices->addValue(0);   // position index
@@ -201,13 +201,13 @@ int main(int argc, char **argv)
         indices->addValue(7);   // position index
         indices->addValue(4);   // color/normal index
     }
- 	endEditCP  (indices, GeoIndicesUI32::GeoPropDataFieldMask);
+    endEditCP  (indices, GeoIndicesUI32::GeoPropDataFieldMask);
     
     /*
        Put it all together into a Geometry NodeCore.
     */
     GeometryPtr geo=Geometry::create();
- 	beginEditCP(geo, Geometry::TypesFieldMask          |
+    beginEditCP(geo, Geometry::TypesFieldMask          |
                      Geometry::LengthsFieldMask        |
                      Geometry::IndicesFieldMask        |
                      Geometry::IndexMappingFieldMask   |
@@ -244,7 +244,7 @@ int main(int argc, char **argv)
         */
         geo->setMaterial (getDefaultMaterial());   
     }
- 	endEditCP  (geo, Geometry::TypesFieldMask          |
+    endEditCP  (geo, Geometry::TypesFieldMask          |
                      Geometry::LengthsFieldMask        |
                      Geometry::IndicesFieldMask        |
                      Geometry::IndexMappingFieldMask   |

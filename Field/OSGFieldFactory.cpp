@@ -126,7 +126,7 @@ map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
 
 FieldFactory::~FieldFactory(void )
 {
-	SINFO << "INFO: Destroy Singleton FieldFactory" << endl;
+    SINFO << "INFO: Destroy Singleton FieldFactory" << endl;
 }
 
 /*------------------------------ create ------------------------------------*/
@@ -139,14 +139,14 @@ Field * FieldFactory::createField(UInt32 typeId)
     FieldType *pType = getFieldType(typeId);
 
 
-	if((pType                != NULL) &&
+    if((pType                != NULL) &&
        (pType->_createMethod != NULL))
     {
-		return pType->_createMethod();
+        return pType->_createMethod();
     }
-	else
+    else
     {
-		return NULL;
+        return NULL;
     }
 }
 
@@ -155,16 +155,16 @@ Field * FieldFactory::createField(UInt32 typeId)
 
 Field * FieldFactory::createField(const Char8 *szName)
 {
-	FieldType *pType          = getFieldType(szName);
+    FieldType *pType          = getFieldType(szName);
 
-	if((pType                != NULL) &&
+    if((pType                != NULL) &&
        (pType->_createMethod != NULL))
     {
-		return pType->_createMethod();
+        return pType->_createMethod();
     }
-	else
+    else
     {
-		return NULL;
+        return NULL;
     }
 }
 
@@ -175,12 +175,12 @@ Field * FieldFactory::createField(const Char8 *szName)
 
 UInt32 FieldFactory::getNFieldTypes( void )
 {
-	if(_fieldTypeM != NULL) 
- 		return _fieldTypeM->size();
+    if(_fieldTypeM != NULL) 
+        return _fieldTypeM->size();
 
-	return 0;
+    return 0;
 }
-	
+    
 
 /** \Brief Get type by name
  */
@@ -188,9 +188,9 @@ UInt32 FieldFactory::getNFieldTypes( void )
 FieldType * FieldFactory::getFieldType (const Char8 *szName)
 {
     map<UInt32, FieldType *>::iterator  mIt;
-	FieldType                          *returnValue = NULL;
-	
-	if(_fieldTypeM != NULL) 
+    FieldType                          *returnValue = NULL;
+    
+    if(_fieldTypeM != NULL) 
     {
         mIt = _fieldTypeM->begin();
 
@@ -198,15 +198,15 @@ FieldType * FieldFactory::getFieldType (const Char8 *szName)
         {
             if(strcmp(szName, (*mIt).second->getCName()) == 0)
             {
-				returnValue = (*mIt).second;
-				break;
-			}
+                returnValue = (*mIt).second;
+                break;
+            }
             
             mIt++;
         }
-	}
+    }
 
-	return returnValue;
+    return returnValue;
 }
 
 /** \brief Get type by data type
@@ -239,9 +239,9 @@ FieldType *FieldFactory::getFieldType(UInt32 typeId)
 
 const Char8 *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
-	FieldType *pFieldType = getFieldType(typeId);
+    FieldType *pFieldType = getFieldType(typeId);
 
-	return pFieldType ? pFieldType->getCName() : NULL;
+    return pFieldType ? pFieldType->getCName() : NULL;
 }
 
 /*---------------------------------- instance -------------------------------*/

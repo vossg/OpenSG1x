@@ -78,7 +78,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.14 2001/10/15 03:10:23 vossg Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.15 2001/10/15 04:52:16 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -130,17 +130,17 @@ void DistanceLOD::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
 
-	DrawAction::registerEnterDefault( getClassType(),
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,
-								DistanceLODPtr,
-								Action*>(&DistanceLOD::draw));
+    DrawAction::registerEnterDefault( getClassType(),
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,
+                                DistanceLODPtr,
+                                Action*>(&DistanceLOD::draw));
 
-	RenderAction::registerEnterDefault(getClassType(),
-		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-								CNodePtr,
-								DistanceLODPtr,
-								Action*>(&DistanceLOD::draw));
+    RenderAction::registerEnterDefault(getClassType(),
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,
+                                DistanceLODPtr,
+                                Action*>(&DistanceLOD::draw));
 
 #else
 
@@ -205,35 +205,35 @@ void DistanceLOD::changed(BitVector, ChangeMode)
 void DistanceLOD::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                        const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump DistanceLOD NI" << endl;
+    SLOG << "Dump DistanceLOD NI" << endl;
 }
 
 
 
 Action::ResultE DistanceLOD::draw(Action* action)
 {
-	DrawActionBase* da = dynamic_cast<DrawActionBase *>(action);
-	UInt32 numLevels = action->getNNodes();
-	UInt32 numRanges = getMFRange()->getSize();
-	UInt32 limit = osgMin( numLevels, numRanges ); 
-	
-	Int32 index = -1;
+    DrawActionBase* da = dynamic_cast<DrawActionBase *>(action);
+    UInt32 numLevels = action->getNNodes();
+    UInt32 numRanges = getMFRange()->getSize();
+    UInt32 limit = osgMin( numLevels, numRanges ); 
+    
+    Int32 index = -1;
 
-	Pnt3f eyepos;
-	Pnt3f objpos;
+    Pnt3f eyepos;
+    Pnt3f objpos;
 
-	da->getCamera()->getBeacon()->getToWorld().transform(
+    da->getCamera()->getBeacon()->getToWorld().transform(
         Pnt3f(0.0, 0.0, 0.0), eyepos);
 
-	da->getActNode()->getToWorld().transform(getCenter(), objpos);
-		
-	
-	Real32 dist = osgsqrt( (eyepos[0]-objpos[0])*(eyepos[0]-objpos[0]) +
-						   (eyepos[1]-objpos[1])*(eyepos[1]-objpos[1]) +
-						   (eyepos[2]-objpos[2])*(eyepos[2]-objpos[2]) );
-	
-	da->useNodeList();
-	
+    da->getActNode()->getToWorld().transform(getCenter(), objpos);
+        
+    
+    Real32 dist = osgsqrt( (eyepos[0]-objpos[0])*(eyepos[0]-objpos[0]) +
+                           (eyepos[1]-objpos[1])*(eyepos[1]-objpos[1]) +
+                           (eyepos[2]-objpos[2])*(eyepos[2]-objpos[2]) );
+    
+    da->useNodeList();
+    
     if(numRanges != 0)
     {
         if( dist < getMFRange()->getValue(0) )
@@ -256,11 +256,11 @@ Action::ResultE DistanceLOD::draw(Action* action)
             
             index = osgMin(i, limit-1);
         } 
-		
+        
         if ( da->isVisible( action->getNode( index ).getCPtr() ) )
-			da->addNode( action->getNode( index ) );
-	}
-	return Action::Continue;
+            da->addNode( action->getNode( index ) );
+    }
+    return Action::Continue;
 }
     
 

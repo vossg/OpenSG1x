@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.19 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.20 2001/10/15 04:52:17 vossg Exp $";
     static char cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
@@ -113,7 +113,7 @@ const OSG::BitVector  CameraBase::FarFieldMask =
 // Field descriptions
 
 /*! \var NodePtr         CameraBase::_sfBeacon
-    The object that define's the camera's coordinate system. The camera is positioned 	at the origin of the system and looks doen the negative z-axis (OpenGL-style).
+    The object that define's the camera's coordinate system. The camera is positioned   at the origin of the system and looks doen the negative z-axis (OpenGL-style).
 */
 /*! \var Real32          CameraBase::_sfNear
     The near distance of the camera.

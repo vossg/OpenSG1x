@@ -143,8 +143,8 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
   protected:
 
@@ -173,6 +173,7 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
     //-----------------------------------------------------------------------
 
     XWindow(void);
+    XWindow(const XWindow &source);
     virtual ~XWindow(void); 
 
   private:
@@ -224,8 +225,6 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
     //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
-
-    XWindow(const XWindow &source);
     void operator =(const XWindow &source);
 };
 

@@ -50,8 +50,8 @@ void OSGSceneView::addListItem( osg::NodePtr node, QListViewItem *parentItem )
       core = node->getCore();
       if (core == osg::NullFC)
         {
-					coreTypeName = notSet;
-					qstr.setNum(0);
+                    coreTypeName = notSet;
+                    qstr.setNum(0);
         }
       else
         {

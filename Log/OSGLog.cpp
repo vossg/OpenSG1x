@@ -669,8 +669,8 @@ void Log::doLog(char * format, ...)
 #endif
 
     lock();
-	*this << buffer;
-	*this << std::flush;
+    *this << buffer;
+    *this << std::flush;
     unlock();
 
     va_end( args );

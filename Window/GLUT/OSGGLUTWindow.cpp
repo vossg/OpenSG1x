@@ -157,12 +157,12 @@ OSG_FIELD_CONTAINER_DEF(GLUTWindow, GLUTWindowPtr)
  */
 
 GLUTWindow::GLUTWindow( void ) :
-	Inherited(), _winid( 0 )
+    Inherited(), _winid( 0 )
 {
 }
 
 GLUTWindow::GLUTWindow( const GLUTWindow& source ) :
-	Inherited( source ), _winid( source._winid )
+    Inherited( source ), _winid( source._winid )
 {
 }
 
@@ -171,7 +171,7 @@ GLUTWindow::GLUTWindow( const GLUTWindow& source ) :
 
 GLUTWindow::~GLUTWindow(void)
 {
-	// delete the ports and the context
+    // delete the ports and the context
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -180,24 +180,24 @@ GLUTWindow::~GLUTWindow(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-	
-// init the window: create the context	
+    
+// init the window: create the context  
 void GLUTWindow::init( void )
 {
-	setupGL();
+    setupGL();
 }
-	
-// activate the window: bind the OGL context	
+    
+// activate the window: bind the OGL context    
 void GLUTWindow::activate( void )
 {
-	if ( glutGetWindow() != _winid )
-		glutSetWindow( _winid );
+    if ( glutGetWindow() != _winid )
+        glutSetWindow( _winid );
 }
-	
-// swap front and back buffers	
+    
+// swap front and back buffers  
 void GLUTWindow::swap( void )
 {
-	glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 
@@ -205,14 +205,14 @@ void GLUTWindow::swap( void )
 GLUTWindow::GLExtensionFunc GLUTWindow::getFunctionByName(const Char8 *s)
 {
 #ifdef sgi
-	static void *libHandle = NULL;
-	if ( ! libHandle ) 
-		libHandle = dlopen("libgl.so", RTLD_LAZY);
-	return (void (*)(void)) dlsym( libHandle, s);
+    static void *libHandle = NULL;
+    if ( ! libHandle ) 
+        libHandle = dlopen("libgl.so", RTLD_LAZY);
+    return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
-	return GLExtensionFunc(wglGetProcAddress(s));
+    return GLExtensionFunc(wglGetProcAddress(s));
 #else
-	return (  glXGetProcAddressARB((const GLubyte *)s )  );
+    return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif
 }
 
@@ -225,7 +225,7 @@ GLUTWindow::GLExtensionFunc GLUTWindow::getFunctionByName(const Char8 *s)
 void GLUTWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-	SLOG << "Dump GLUTWindow NI" << endl;
+    SLOG << "Dump GLUTWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

@@ -19,11 +19,11 @@ OSG_USING_NAMESPACE
 
 int main (int argc, char **argv)
 {
-	NodePtr  node;
+    NodePtr  node;
 
-	const char *fileName = (argc > 1) ? argv[1] : "tie.wrl";
-	
-	osgInit(argc, argv);
+    const char *fileName = (argc > 1) ? argv[1] : "tie.wrl";
+    
+    osgInit(argc, argv);
 
     NodePtr  pScene      = Node::create();
     GroupPtr pSceneGroup = Group::create();
@@ -36,15 +36,15 @@ int main (int argc, char **argv)
 
     pFile->scanFile(fileName, 0);
 
-	node = pFile->getRoot();
+    node = pFile->getRoot();
 
-	node->updateVolume();
+    node->updateVolume();
 
-	Vec3f center;
-	node->getVolume().getCenter(center);
+    Vec3f center;
+    node->getVolume().getCenter(center);
 
-	cerr << "Volume: center " << center << ", volume "
-		 << node->getVolume().getScalarVolume() << endl;
+    cerr << "Volume: center " << center << ", volume "
+         << node->getVolume().getScalarVolume() << endl;
 
 
     pScene->addChild(node);
@@ -57,5 +57,5 @@ int main (int argc, char **argv)
 
     pWriter->close();
  
-	return 0;
+    return 0;
 }

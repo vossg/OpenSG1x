@@ -57,100 +57,100 @@ static char *tmpChar = yy_full_match;
 
 
 %%
-"#".*               	{prompt; }
-"//".*              	{prompt; }
-"/*"					{prompt; BEGIN(comment); }
+"#".*                   {prompt; }
+"//".*                  {prompt; }
+"/*"                    {prompt; BEGIN(comment); }
 <comment>[^*\n]*        /* eat anything that's not a '*' */
 <comment>"*"+[^*/\n]*   /* eat up '*'s not followed by '/'s */
 <comment>\n             ++v2aLineNumber;
 <comment>"*"+"/"        BEGIN(INITIAL);
 
-"Position"		{prompt; return (POSITION);}
-"position"		{prompt; return (POSITION);}
-"POSITION"		{prompt; return (POSITION);}
-"Orientation"	{prompt; return (ORIENTATION);}
-"orientation"	{prompt; return (ORIENTATION);}
-"ORIENTATION"	{prompt; return (ORIENTATION);}
-"Coordinate"	{prompt; return (COORDINATE);}
-"coordinate"	{prompt; return (COORDINATE);}
-"COORDINATE"	{prompt; return (COORDINATE);}
-"Scalar"		{prompt; return (SCALAR);}
-"scalar"		{prompt; return (SCALAR);}
-"SCALAR"		{prompt; return (SCALAR);}
-"Color" 		{prompt; return (COLOR);}
-"color" 		{prompt; return (COLOR);}
-"COLOR" 		{prompt; return (COLOR);}
-"Normal" 		{prompt; return (NORMAL);}
-"normal" 		{prompt; return (NORMAL);}
-"NORMAL" 		{prompt; return (NORMAL);}
-"["				{prompt; return (E_OPEN);}
-"]"				{prompt; return (E_CLOSE);}
-"{"				{prompt; return (C_OPEN);}
-"}"				{prompt; return (C_CLOSE);}
-","				{prompt; return (COMMA);}
-"key"			{prompt; return (KEY);}
-"Key"			{prompt; return (KEY);}
-"KEY"			{prompt; return (KEY);}
-"keyValue"		{prompt; return (KEYVALUE);}
-"keyvalue"		{prompt; return (KEYVALUE);}
-"KEYVALUE"		{prompt; return (KEYVALUE);}
-"Duration"		{prompt; return (DURATION);}
-"duration"		{prompt; return (DURATION);}
-"DURATION"		{prompt; return (DURATION);}
-"KEYSIZE"		{prompt; return (KEYSIZE);}
-"keySize"		{prompt; return (KEYSIZE);}
-"keysize"		{prompt; return (KEYSIZE);}
+"Position"      {prompt; return (POSITION);}
+"position"      {prompt; return (POSITION);}
+"POSITION"      {prompt; return (POSITION);}
+"Orientation"   {prompt; return (ORIENTATION);}
+"orientation"   {prompt; return (ORIENTATION);}
+"ORIENTATION"   {prompt; return (ORIENTATION);}
+"Coordinate"    {prompt; return (COORDINATE);}
+"coordinate"    {prompt; return (COORDINATE);}
+"COORDINATE"    {prompt; return (COORDINATE);}
+"Scalar"        {prompt; return (SCALAR);}
+"scalar"        {prompt; return (SCALAR);}
+"SCALAR"        {prompt; return (SCALAR);}
+"Color"         {prompt; return (COLOR);}
+"color"         {prompt; return (COLOR);}
+"COLOR"         {prompt; return (COLOR);}
+"Normal"        {prompt; return (NORMAL);}
+"normal"        {prompt; return (NORMAL);}
+"NORMAL"        {prompt; return (NORMAL);}
+"["             {prompt; return (E_OPEN);}
+"]"             {prompt; return (E_CLOSE);}
+"{"             {prompt; return (C_OPEN);}
+"}"             {prompt; return (C_CLOSE);}
+","             {prompt; return (COMMA);}
+"key"           {prompt; return (KEY);}
+"Key"           {prompt; return (KEY);}
+"KEY"           {prompt; return (KEY);}
+"keyValue"      {prompt; return (KEYVALUE);}
+"keyvalue"      {prompt; return (KEYVALUE);}
+"KEYVALUE"      {prompt; return (KEYVALUE);}
+"Duration"      {prompt; return (DURATION);}
+"duration"      {prompt; return (DURATION);}
+"DURATION"      {prompt; return (DURATION);}
+"KEYSIZE"       {prompt; return (KEYSIZE);}
+"keySize"       {prompt; return (KEYSIZE);}
+"keysize"       {prompt; return (KEYSIZE);}
 
-[+-]?([0-9]+"."?[0-9]*|[0-9]*"."?[0-9]+)([eE][+-]?[0-9]+)?	{ 
-		    prompt;
-		    v2a_lval.fval = atof(v2a_text);
-		    return (NUMBER);
-   		}
+[+-]?([0-9]+"."?[0-9]*|[0-9]*"."?[0-9]+)([eE][+-]?[0-9]+)?  { 
+            prompt;
+            v2a_lval.fval = atof(v2a_text);
+            return (NUMBER);
+        }
 
-\<([^\>"]*)\>	{
-		    prompt; 
-		    strcpy(v2a_lval.sval,v2a_text);    
-		    return (STRING);
-		}
-		
-\"([^"]|"\\\""|\"[ \t\n]*\")*\"		{
-			 char *c;
-			 int l;
-			 prompt; 
-			 strncpy(v2a_lval.sval,v2a_text+1, y_min(255-1, strlen(v2a_text+1)));
-			 v2a_lval.sval[y_min(255-1, strlen(v2a_text+1))]='\0';
-			 *(strchr(v2a_lval.sval, 0)-1)=0;
-			 c=v2a_lval.sval; l=strlen(v2a_lval.sval);
-			 while (strchr(c, '"'))
-			 {
-				 if (c[-1]=='\\')
-				 {
-					 memmove(c-1, c, l-(c-v2a_lval.sval));
-					 l--;
-				 }
-				 else if (c[1]==' ' || c[1]=='\t' || c[1]=='\n')
-				 {
-					 char *d=strchr(c, '"')+1;
-					 
-					 memmove(c, d+1, l-(d-v2a_lval.sval));
-					 l-=d-c;
-				 }
-			 }	 
-			 return (STRING);}
-			 
+\<([^\>"]*)\>   {
+            prompt; 
+            strcpy(v2a_lval.sval,v2a_text);    
+            return (STRING);
+        }
+        
+\"([^"]|"\\\""|\"[ \t\n]*\")*\"     {
+             char *c;
+             int l;
+             prompt; 
+             strncpy(v2a_lval.sval,v2a_text+1, y_min(255-1, strlen(v2a_text+1)));
+             v2a_lval.sval[y_min(255-1, strlen(v2a_text+1))]='\0';
+             *(strchr(v2a_lval.sval, 0)-1)=0;
+             c=v2a_lval.sval; l=strlen(v2a_lval.sval);
+             while (strchr(c, '"'))
+             {
+                 if (c[-1]=='\\')
+                 {
+                     memmove(c-1, c, l-(c-v2a_lval.sval));
+                     l--;
+                 }
+                 else if (c[1]==' ' || c[1]=='\t' || c[1]=='\n')
+                 {
+                     char *d=strchr(c, '"')+1;
+                     
+                     memmove(c, d+1, l-(d-v2a_lval.sval));
+                     l-=d-c;
+                 }
+             }   
+             return (STRING);}
+             
 [~/a-zA-Z!@#$%^&*._=|':;?][~/a-zA-Z0-9+!@#$%^&<>._\[\]|':;?-]*    {
-		    strcpy(v2a_lval.sval,v2a_text); 
-		    return (STRING);
-		}
+            strcpy(v2a_lval.sval,v2a_text); 
+            return (STRING);
+        }
 
 [ \t]+          /* eat up */;
 
 \n              { 
 #ifdef v2a_DEBUG
-		    printf("\n");
+            printf("\n");
 #endif
-		    v2aLineNumber++; 
-		}
+            v2aLineNumber++; 
+        }
 
 %%
 
