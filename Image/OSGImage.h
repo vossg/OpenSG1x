@@ -188,7 +188,7 @@ public:
 		}
 
   /** get method for attribute data */
-  inline UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0)
+  inline UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
 		{
 			UChar8 *data = _data;
 

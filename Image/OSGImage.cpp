@@ -72,21 +72,6 @@
 
 OSG_USING_NAMESPACE
 
-
-#if defined(__sgi)
-
-#pragma instantiate SField<Image*>::_fieldType
-#pragma instantiate MField<Image*>::_fieldType
-
-#else
-
-/* jbehr; shouldn't this be done outside of OSGImage ?!?
-OSG_DLLEXPORT_DEF1(SField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
-*/
-
-#endif
-
 Int32 Image::_formatMap[][2] = {
 	{ OSG_L_PF, 1 },
 	{ OSG_LA_PF, 2 },
@@ -525,7 +510,7 @@ Bool Image::createData (const UChar8 *data )
 	Int32 i, byteCount = 0, mapSize = sizeof(_formatMap)/sizeof(UInt32[2]);
 
 	// set bbp
-	for (i = 0; i < mapSize; mapSize++)
+	for (i = 0; i < mapSize; i++)
 		if (_formatMap[i][0] == _pixelFormat)
 			_bpp = _formatMap[i][1];
 
