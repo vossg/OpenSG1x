@@ -91,6 +91,8 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
         _defaultMaterial->setSpecular(Color3f(1,1,1));
         _defaultMaterial->setShininess(20);
         endEditCP  (_defaultMaterial);
+
+		addRefCP(_defaultMaterial);
     }
     
     return _defaultMaterial;
@@ -107,7 +109,9 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
         _defaultUnlitMaterial->setDiffuse(Color3f(1,1,.5));
         _defaultUnlitMaterial->setLit(false);
         endEditCP  (_defaultUnlitMaterial);
-    }
+
+		addRefCP(_defaultUnlitMaterial);
+	}
     
     return _defaultUnlitMaterial;
 }

@@ -567,7 +567,10 @@ bool Geometry::merge( const GeometryPtr other )
         // indices
         GeoIndicesPtr ind  =        getIndices();
         GeoIndicesPtr oind = other->getIndices();
-    
+
+        indBase = ind->getSize();
+        ind->resize( indBase + oind->getSize() ); 
+
         beginEditCP( ind );
         
         // single index?
@@ -602,8 +605,11 @@ bool Geometry::merge( const GeometryPtr other )
             // bump every index by its offset
             for ( i = 0, j = 0; i < oind->getSize(); 
                   i++, j = ( j + 1 ) % nmap )
-                ind->setValue( oind->getValue(i) + offsets[j], indBase + i );
-            
+            {
+                ind->setValue(oind->getValue(i) + offsets[j], 
+                              indBase + i );
+            }
+
             delete [] offsets;
         }
         
