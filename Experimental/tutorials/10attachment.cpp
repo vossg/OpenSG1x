@@ -6,7 +6,7 @@
 //
 
 // Headers
-#include <GL/glut.h>
+#include <OpenSG/OSGGLUT.h>
 #include <string>
 #include <OpenSG/OSGConfig.h>
 #include <OpenSG/OSGSimpleGeometry.h>

@@ -2,7 +2,7 @@
 // Synced Threads: use a synchronized producer to create the geometry in
 // parallel to the renderer
 
-#include <GL/glut.h>
+#include <OpenSG/OSGGLUT.h>
 
 #include <OpenSG/OSGConfig.h>
 #include <OpenSG/OSGLog.h>
@@ -95,6 +95,9 @@ key(unsigned char key, int x, int y)
     }
 }
 
+#undef FLOG
+#define FLOG(a) 
+
 void *produce(void *arg)
 {
     GeoPositions3fPtr pos = GeoPositions3fPtr::dcast(plane->getPositions());
@@ -172,9 +175,9 @@ int main (int argc, char **argv)
     
     plane = makePlaneGeo( 6, 6, 32, 32 );
 
-    //beginEditCP(plane);
-    //plane->setDlistCache(false);
-    //endEditCP(plane);
+    beginEditCP(plane);
+    plane->setDlistCache(false);
+    endEditCP(plane);
     
     NodePtr scene = Node::create();   
     beginEditCP(scene);
@@ -201,7 +204,7 @@ int main (int argc, char **argv)
     Thread::getCurrent()->getChangeList()->clearAll();
     
     // run it, using a separate aspect
-    producer->run(produce, 1, (void *) NULL );
+    producer->runFunction(produce, 1, (void *) NULL );
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
