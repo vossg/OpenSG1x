@@ -230,7 +230,7 @@ for (UInt32 k=0; k<LENGTH; k++)                                         \
                 offsets[ mind ] = t2ni[geoIndex][tex2Ind];										   \
             if ( ( mind = geos[geoIndex]->calcMappingIndex( Geometry::MapTexCoords3 ) ) >= 0 )     \
                 offsets[ mind ] = t3ni[geoIndex][tex3Ind];										   \
-            for (UInt32 j=0; j<geos[geoIndex]->getIndexMapping().size(); j++)						   \
+            for (UInt32 j=0; j<geos[geoIndex]->getIndexMapping().size(); j++)					   \
                 indices[geoIndex]->push_back(offsets[j]);										   \
             delete [] offsets;																	   \
         }																						   \
@@ -241,8 +241,9 @@ for (UInt32 k=0; k<LENGTH; k++)                                         \
 if (geo->getmethod()!=NullFC && geo->getmethod()->size()>0)                         \
 {                                                                                   \
     arr1[i]    = type::dcast(geo->getmethod()->getType().createFieldContainer());   \
+    beginEditCP(arr1[i]);                                                           \
     arr2[i]    = new int[geo->getmethod()->size()];                                 \
-    for (UInt32 j=0; j<geo->getmethod()->size(); j++)                                  \
+    for (UInt32 j=0; j<geo->getmethod()->size(); j++)                               \
         arr2[i][j]=-1;                                                              \
 } else { arr2[i]=0; arr1[i]=NullFC; }
 
@@ -401,22 +402,26 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
     {
         geos[i]  = Geometry::create();
 
-        beginEditCP(geos[i]);
+        beginEditCP(geos[i]); // Keep open until the end
 
         geos[i]->setMaterial(geo->getMaterial());
 
         if(geo->getMFIndexMapping() != NULL)
             geos[i]->getMFIndexMapping()->setValues(*(geo->getMFIndexMapping()));
 
-        endEditCP(geos[i]);
-
         types[i]   = GeoPTypesPtr::dcast(geo->getTypes()->getType().createFieldContainer());
         lens[i]    = GeoPLengthsPtr::dcast(geo->getLengths()->getType().createFieldContainer());
 
         if (geo->getIndices()!=NullFC)
+        {
             indices[i]  = GeoIndicesPtr::dcast(geo->getIndices()->getType().createFieldContainer());
+            beginEditCP(indices[i]); // Keep open until the end
+        }
         else
             indices[i]  = NullFC;
+
+        beginEditCP(types[i]); // Keep open until the end
+        beginEditCP(lens[i]); // Keep open until the end
 
         setupAttr( GeoPositionsPtr , pnts    , pni  , getPositions       );
         setupAttr( GeoNormalsPtr   , normals , nni  , getNormals         );
@@ -446,13 +451,8 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             {
                 int geoIndex=order[ind]/_max_polygons;
 
-                beginEditCP(types[geoIndex]);
                 types[geoIndex]->push_back(it.getType());
-                endEditCP(types[geoIndex]);
-
-                beginEditCP(lens[geoIndex]);
                 lens[geoIndex]->push_back(it.getLength());
-                endEditCP(lens[geoIndex]);
 
                 addPoints( 0 , it.getLength() );
                 ++ind;
@@ -518,22 +518,15 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
                     if (types[geoIndex]->size()>0 && types[geoIndex]->getValue(types[geoIndex]->size()-1) == GL_TRIANGLES)
                     {
                         int lind;
-                        beginEditCP(lens[geoIndex]);
                         if ((lind=lens[geoIndex]->size()-1)>=0)
                             lens[geoIndex]->setValue(lens[geoIndex]->getValue(lind)+3, lind);
                         else
                             lens[geoIndex]->push_back(3);
-                        endEditCP(lens[geoIndex]);
                     }
                     else
                     {
-                        beginEditCP(types[geoIndex]);
                         types[geoIndex]->push_back(GL_TRIANGLES);
-                        endEditCP(types[geoIndex]);
-
-                        beginEditCP(lens[geoIndex]);
                         lens[geoIndex]->push_back(3);
-                        endEditCP(lens[geoIndex]);
                     }
 
                     addPoints( i ,3 );
@@ -602,22 +595,15 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
                     if (types[geoIndex]->size()>0 && types[geoIndex]->getValue(types[geoIndex]->size()-1) == GL_QUADS)
                     {
                         int lind;
-                        beginEditCP(lens[geoIndex]);
                         if ((lind=lens[geoIndex]->size()-1)>=0)
                             lens[geoIndex]->setValue(lens[geoIndex]->getValue(lind)+4, lind);
                         else
                             lens[geoIndex]->push_back(4);
-                        endEditCP(lens[geoIndex]);
                     }
                     else
                     {
-                        beginEditCP(types[geoIndex]);
                         types[geoIndex]->push_back(GL_QUADS);
-                        endEditCP(types[geoIndex]);
-
-                        beginEditCP(lens[geoIndex]);
                         lens[geoIndex]->push_back(4);
-                        endEditCP(lens[geoIndex]);
                     }
 
                     addPoints( i , 4 );
@@ -638,35 +624,63 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
 
     for (Int32 i=0; i<ngeos; i++)
     {
-        beginEditCP(geos[i]);
-
         geos[i]->setTypes(types[i]);
         geos[i]->setLengths(lens[i]);
         geos[i]->setPositions(pnts[i]);
 
+        // Now close the open FCs
+        
+        endEditCP(types[i]);
+        endEditCP(lens[i]);
+        endEditCP(pnts[i]);
+
         if (indices[i]!=NullFC)
-            geos[i]->setIndices(indices[i]);        
+        {
+            geos[i]->setIndices(indices[i]);   
+            endEditCP(indices[i]);
+        }     
 
         if (normals[i]!=NullFC)
+        {
             geos[i]->setNormals(normals[i]);
+            endEditCP(normals[i]);
+        }     
 
         if (colors[i]!=NullFC)
+        {
             geos[i]->setColors(colors[i]);
+            endEditCP(colors[i]);
+        }     
         
         if (scolors[i]!=NullFC)
+        {
             geos[i]->setSecondaryColors(scolors[i]);
+            endEditCP(scolors[i]);
+        }     
         
         if (tex[i]!=NullFC)
+        {
             geos[i]->setTexCoords(tex[i]);
-        
+             endEditCP(tex[i]);
+        }     
+       
         if (tex1[i]!=NullFC)
+        {
             geos[i]->setTexCoords1(tex1[i]);
+            endEditCP(tex1[i]);
+        }     
         
         if (tex2[i]!=NullFC)
+        {
             geos[i]->setTexCoords2(tex2[i]);
+            endEditCP(tex2[i]);
+        }     
         
         if (tex3[i]!=NullFC)
+        {
             geos[i]->setTexCoords3(tex3[i]);
+            endEditCP(tex3[i]);
+        }     
 
         endEditCP(geos[i]);        
         
