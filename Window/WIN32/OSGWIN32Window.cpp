@@ -78,7 +78,7 @@ The WIN32Window class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char WIN32Window::cvsid[] = "@(#)$Id: $";
 
 // Static Class Varible implementations: 
 

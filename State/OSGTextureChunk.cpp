@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.12 2001/07/30 08:50:10 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.13 2001/07/30 22:17:45 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 

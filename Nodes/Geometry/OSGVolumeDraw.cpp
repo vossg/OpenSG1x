@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.3 2001/07/30 22:17:45 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174

@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.10 2001/07/30 20:32:54 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.11 2001/07/30 22:17:45 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174

@@ -448,7 +448,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
     Field *pField = getField(_pNodeProto, 
                              _pNodeCoreProto,
                              _pGenAtt,
-                             szFieldName);
+                              szFieldName);
 
     
     indentLog(getIndent(), PNOTICE);
@@ -515,11 +515,16 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
     }
     else
     {
-        PWARNING << "VRMLNodeDesc::prototypeAddField | "
-                 << "Could not add field " 
-                 << szFieldName 
-                 << " a second time"
-                 << endl;
+        if((_pGenAtt != GenericAtt::NullPtr        ) &&
+           (_pGenAtt->getField(szFieldName) != NULL))
+        {
+            PWARNING << "VRMLNodeDesc::prototypeAddField | "
+                     << "Could not add field " 
+                     << szFieldName 
+                     << " a second time"
+                     << endl;
+        }
+
         return false;
     }
 }
