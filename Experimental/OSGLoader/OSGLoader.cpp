@@ -215,11 +215,23 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfInt32);
     setIntExtMapping(MFUInt8::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
+
+    setIntExtMapping(SFInt8::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+    setIntExtMapping(MFInt8::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
     
+
     setIntExtMapping(SFUInt16::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
     setIntExtMapping(MFUInt16::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
+
+    setIntExtMapping(SFInt16::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+    setIntExtMapping(MFInt16::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
+
 
     setIntExtMapping(SFUInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
