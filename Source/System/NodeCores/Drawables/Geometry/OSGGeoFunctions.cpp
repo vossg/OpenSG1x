@@ -1734,8 +1734,8 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
       }
       else
       {
-        FFATAL (("Invalid masterProp %d, mask: %d, block: %d\n", 
-                 int(masterProp), propMask, indexBlock ));
+        FFATAL (("Invalid masterProp %p, mask: %d, block: %d\n", 
+                 masterProp, propMask, indexBlock ));
       }
       
       FNOTICE (("Create sharedIndex: %d/%d pass; data/index remap: %d/%d \n",
