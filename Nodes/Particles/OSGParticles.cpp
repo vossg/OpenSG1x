@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.8 2002/01/16 15:14:00 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.9 2002/01/18 22:51:55 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -971,19 +971,23 @@ struct drawViewDirQuads : public ParticlesDrawer
                           Int32 *index, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
-        Matrix modelview;
-        action->getCamera()->getBeacon()->getToWorld(modelview);
-        modelview.invert();
-        modelview.mult(action->getActNode()->getToWorld());
-        modelview.transpose();
+        Matrix camera,toworld;
+        action->getCamera()->getBeacon()->getToWorld(camera);
+        action->getActNode()->getToWorld(toworld);
+        // normalize them, we don't want to neutralize scales in toworld
+        toworld[0].normalize();
+        toworld[1].normalize();
+        toworld[2].normalize();       
+        toworld.transpose();
+        camera.multLeft(toworld);
 
         // Direction vectors
         Vec4f  d1, d2, d3, d4;
 
-        d1 = -1.0f * modelview[0] + -1.0f * modelview[1];
-        d2 =  1.0f * modelview[0] + -1.0f * modelview[1];
-        d3 =  1.0f * modelview[0] +  1.0f * modelview[1];
-        d4 = -1.0f * modelview[0] +  1.0f * modelview[1];
+        d1 = -1.0f * camera[0] + -1.0f * camera[1];
+        d2 =  1.0f * camera[0] + -1.0f * camera[1];
+        d3 =  1.0f * camera[0] +  1.0f * camera[1];
+        d4 = -1.0f * camera[0] +  1.0f * camera[1];
 
         // some variables for faster access
         GeoPositionsPtr  pos  = part->getPositions();

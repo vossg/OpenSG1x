@@ -144,10 +144,10 @@ int main(int argc, char **argv)
     scene->addChild(pnode);
     endEditCP(scene);
     
-    // transforsm don't work yet, ignore for now
     beginEditCP(trans);
-    trans->setTranslation(Vec3f(0,0,0));
-    trans->setRotation(Quaternion(Vec3f(0,1,0),0));
+    trans->setTranslation(Vec3f(2,0,0));
+    trans->setRotation(Quaternion(Vec3f(0,1,0),Pi/2));
+    trans->setScale(Vec3f(2,2,2));
     endEditCP(trans);
     
     
@@ -209,13 +209,13 @@ int main(int argc, char **argv)
     endEditCP(particles);
  
     // set volume static to prevent constant update
-    beginEditCP(scene, Node::VolumeFieldMask);
-    Volume &v=scene->getVolume().getInstance();
+    beginEditCP(pnode, Node::VolumeFieldMask);
+    Volume &v=pnode->getVolume().getInstance();
     v.setEmpty();
     v.extendBy(Pnt3f(0,0,0));
     v.extendBy(Pnt3f(1,1,1));
     v.setStatic();
-    endEditCP  (scene, Node::VolumeFieldMask);
+    endEditCP  (pnode, Node::VolumeFieldMask);
   
     SimpleTexturedMaterialPtr tm;
 

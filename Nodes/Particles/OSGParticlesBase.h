@@ -78,6 +78,7 @@
 #include <OSGMaterialFields.h> // Material type
 #include <OSGUInt32Fields.h> // DrawOrder type
 #include <OSGBoolFields.h> // Dynamic type
+#include <OSGUInt32Fields.h> // Pump type
 #include <OSGParticleBSP.h> // Bsp type
 
 #include <OSGParticlesFields.h>
@@ -111,7 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
         MaterialFieldId     = TextureZsFieldId    + 1,
         DrawOrderFieldId    = MaterialFieldId     + 1,
         DynamicFieldId      = DrawOrderFieldId    + 1,
-        BspFieldId          = DynamicFieldId      + 1,
+        PumpFieldId         = DynamicFieldId      + 1,
+        BspFieldId          = PumpFieldId         + 1,
         NextFieldId         = BspFieldId          + 1
     };
 
@@ -126,6 +128,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     static const osg::BitVector MaterialFieldMask;
     static const osg::BitVector DrawOrderFieldMask;
     static const osg::BitVector DynamicFieldMask;
+    static const osg::BitVector PumpFieldMask;
     static const osg::BitVector BspFieldMask;
 
     /*---------------------------------------------------------------------*/
@@ -295,6 +298,30 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFUInt32            _sfPump;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+    inline       SFUInt32            *getSFPump           (void);
+
+    inline       UInt32              &getPump           (void);
+    inline const UInt32              &getPump           (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setPump           (const UInt32 &value);
+
+    /*! \}                                                                 */
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const ParticlesBase &source);
@@ -309,6 +336,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.4 2002/01/16 15:14:00 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.5 2002/01/18 22:51:55 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */
