@@ -83,9 +83,9 @@ MaterialDrawable::~MaterialDrawable(void)
 
 //! initialize the static features of the class, e.g. action callbacks
 
-Action::ResultE MaterialDrawable::drawPrimitives (DrawActionBase *action)
+Action::ResultE MaterialDrawable::drawPrimitives (DrawActionBase *)
 {
-  FWARNING (("You should overload drawPrimitives in our code\n"));
+  FWARNING (("You should overload drawPrimitives in your code\n"));
 
   return Action::Continue;
 }
@@ -175,7 +175,7 @@ void MaterialDrawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.3 2002/10/10 15:08:26 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.4 2002/10/14 07:47:50 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 
