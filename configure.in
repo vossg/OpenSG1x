@@ -243,8 +243,8 @@ else
 
 	ac_gdz_sed_exe=sed
 
-	ac_gdz_systen_incl_dir=
-	ac_gdz_system_lib_dir=
+	ac_gdz_systen_incl_dir_e1=
+	ac_gdz_system_lib_dir_e1=
 
 	ac_gdz_base_system_libs='-lm'
 
@@ -324,7 +324,7 @@ AC_SUBST(ac_gdz_ln_exe)
 AC_SUBST(ac_gdz_sed_exe)
 
 AC_SUBST(ac_gdz_system_incl_dir_e1)
-AC_SUBST(ac_gdz_system_lib_dir)
+AC_SUBST(ac_gdz_system_lib_dir_e1)
 
 AC_SUBST(ac_gdz_compiler_incl)
 AC_SUBST(ac_gdz_compiler_lib)
