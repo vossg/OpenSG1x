@@ -123,18 +123,43 @@ case $system in
 
     mips-sgi-* )
 
-        glut_dir="/igd/a4/software/IRIX"
-        glut_lib="libglut.a"
-        glut_args="--with-glut=$glut_dir"
-        qt_dir=${qt_dir:="/igd/a4/software/IRIX/packages/qt-3.0"}
-        qt_lib=libqt.so
-        qt_args="--with-qt=$qt_dir"
-        tif_args="--with-tif"
-        jpeg_args="--with-jpeg"
-        png_args=""
-        par_jobs=6
         compiler=${compiler:=CC}
-        export PATH=/igd/a4/software/IRIX/bin/:$PATH
+        
+        case "$compiler" in
+        
+            CC)
+                # IGD Irix settings
+                
+                qt_dir=${qt_dir:="/igd/a4/software/IRIX/packages/qt-3.0"}
+                qt_args="--with-qt=${qt_dir}"
+                glut_dir="/igd/a4/software/IRIX"
+                glut_lib="libglut.a"
+                glut_args="--with-glut=$glut_dir"             
+                tif_args="--with-tif"
+                jpg_args="--with-jpg"
+                png_args=""
+                par_jobs=6
+                build_make=/sgi/bin/gmake
+                export PATH=/igd/a4/software/IRIX/bin/:$PATH
+                ;;
+            
+            CC64)
+                 # VRAC Irix settings
+                 
+                qt_dir=${qt_dir:="/home/users/dreiners"}
+                qt_args="--with-qt=${qt_dir}"
+                glut_dir="/usr/freeware/lib64"
+                glut_lib="libglut.a"
+                glut_args="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib64"             
+                tif_args="--with-tif"
+                jpg_args="--with-jpg"
+                png_args=""
+                par_jobs=6
+                build_make=/home/users/dreiners/bin/IRIX64/make
+                export PATH=${qt_dir}/bin/:$PATH
+                ;;           
+        esac
+
         distname=sgi
         ;;
 
@@ -258,7 +283,7 @@ fi
 if test x$OSG_DIST_NO_RECONFIGURE = x
 then
     $config_shell ./configure --prefix=BUILD --with-compiler=$compiler        \
-       $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args $gif_args \
+       $stl_args $glut_args $qt_args $tif_args $jpg_args $png_args $gif_args \
        $freetype_args $add_inc_dirs $add_lib_dirs $platform_args $config_args \
        $compiler_args
 else
