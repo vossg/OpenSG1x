@@ -335,7 +335,7 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     
 	Cardinality getCardinality (void) const;
 
-	// MField has a vector<> interface and an  interface, so both are 
+	// MField has a vector<> interface and an OSG interface, so both are 
 	// sensible
     virtual UInt32     size    (void) const;
             UInt32     getSize (void) const;
