@@ -68,8 +68,8 @@
 #include <OSGNodeCore.h> // Parent
 
 #include <OSGVec3fFields.h> // AxisOfRotation type
-#include <OSGBoolFields.h> // DontGiveAFuckWhatTheSpecSaysAndPointToTheCamera type
-#include <OSGBoolFields.h> // DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec type
+#include <OSGBoolFields.h> // FocusOnCamera type
+#include <OSGBoolFields.h> // AlignToScreen type
 
 #include <OSGBillboardFields.h>
 
@@ -91,15 +91,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
 
     enum
     {
-        AxisOfRotationFieldId                                  = Inherited::NextFieldId,
-        DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldId = AxisOfRotationFieldId                                  + 1,
-        DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldId = DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldId + 1,
-        NextFieldId                                            = DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldId + 1
+        AxisOfRotationFieldId = Inherited::NextFieldId,
+        FocusOnCameraFieldId  = AxisOfRotationFieldId + 1,
+        AlignToScreenFieldId  = FocusOnCameraFieldId  + 1,
+        NextFieldId           = AlignToScreenFieldId  + 1
     };
 
     static const osg::BitVector AxisOfRotationFieldMask;
-    static const osg::BitVector DontGiveAFuckWhatTheSpecSaysAndPointToTheCameraFieldMask;
-    static const osg::BitVector DoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpecFieldMask;
+    static const osg::BitVector FocusOnCameraFieldMask;
+    static const osg::BitVector AlignToScreenFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -124,15 +124,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     inline       SFVec3f             *getSFAxisOfRotation (void);
-    inline       SFBool              *getSFDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void);
-    inline       SFBool              *getSFDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void);
+    inline       SFBool              *getSFFocusOnCamera  (void);
+    inline       SFBool              *getSFAlignToScreen  (void);
 
     inline       Vec3f               &getAxisOfRotation (void);
     inline const Vec3f               &getAxisOfRotation (void) const;
-    inline       Bool                &getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void);
-    inline const Bool                &getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void) const;
-    inline       Bool                &getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void);
-    inline const Bool                &getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void) const;
+    inline       Bool                &getFocusOnCamera  (void);
+    inline const Bool                &getFocusOnCamera  (void) const;
+    inline       Bool                &getAlignToScreen  (void);
+    inline const Bool                &getAlignToScreen  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,8 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     inline void setAxisOfRotation ( const Vec3f &value );
-    inline void setDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera( const Bool &value );
-    inline void setDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec( const Bool &value );
+    inline void setFocusOnCamera  ( const Bool &value );
+    inline void setAlignToScreen  ( const Bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -188,8 +188,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     SFVec3f             _sfAxisOfRotation;
-    SFBool              _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera;
-    SFBool              _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec;
+    SFBool              _sfFocusOnCamera;
+    SFBool              _sfAlignToScreen;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

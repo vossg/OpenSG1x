@@ -99,15 +99,15 @@ SFVec3f *BillboardBase::getSFAxisOfRotation(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFBool *BillboardBase::getSFDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void)
+SFBool *BillboardBase::getSFFocusOnCamera(void)
 {
-    return &_sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera;
+    return &_sfFocusOnCamera;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFBool *BillboardBase::getSFDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void)
+SFBool *BillboardBase::getSFAlignToScreen(void)
 {
-    return &_sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec;
+    return &_sfAlignToScreen;
 }
 
 
@@ -130,39 +130,39 @@ void BillboardBase::setAxisOfRotation(const Vec3f &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &BillboardBase::getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void)
+Bool &BillboardBase::getFocusOnCamera(void)
 {
-    return _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getValue();
+    return _sfFocusOnCamera.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &BillboardBase::getDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(void) const
+const Bool &BillboardBase::getFocusOnCamera(void) const
 {
-    return _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getValue();
+    return _sfFocusOnCamera.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BillboardBase::setDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera(const Bool &value)
+void BillboardBase::setFocusOnCamera(const Bool &value)
 {
-    _sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.setValue(value);
+    _sfFocusOnCamera.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &BillboardBase::getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void)
+Bool &BillboardBase::getAlignToScreen(void)
 {
-    return _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getValue();
+    return _sfAlignToScreen.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &BillboardBase::getDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(void) const
+const Bool &BillboardBase::getAlignToScreen(void) const
 {
-    return _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getValue();
+    return _sfAlignToScreen.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BillboardBase::setDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec(const Bool &value)
+void BillboardBase::setAlignToScreen(const Bool &value)
 {
-    _sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.setValue(value);
+    _sfAlignToScreen.setValue(value);
 }
 
 

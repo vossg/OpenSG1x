@@ -19,23 +19,21 @@
 	>
 	</Field>
 	<Field
-		name="dontGiveAFuckWhatTheSpecSaysAndPointToTheCamera"
+		name="focusOnCamera"
 		type="Bool"
 		cardinality="single"
 		visibility="internal"
 		defaultValue="true"
 		access="public"
 	>
-	name until I find a better one
 	</Field>
 	<Field
-		name="doGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec"
+		name="alignToScreen"
 		type="Bool"
 		cardinality="single"
 		visibility="internal"
 		defaultValue="false"
 		access="public"
 	>
-	name until I find a better one
 	</Field>
 </FieldContainer>

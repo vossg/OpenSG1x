@@ -187,8 +187,7 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
     if(getAxisOfRotation() == Vec3f::Null)
     {
-        if(_sfDontGiveAFuckWhatTheSpecSaysAndPointToTheCamera.getValue() ==
-           true)
+        if(_sfFocusOnCamera.getValue() == true)
         {
             Vec3f vUp;
             Vec3f uW;
@@ -225,8 +224,7 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
         }
         else
         {
-            if(_sfDoGiveAFuckWhatTheSpecSaysIfYouCareAboutTheSpec.getValue() ==
-               true)
+            if(_sfAlignToScreen.getValue() == false)
             {
                 Vec3f u  (0.f, 1.f, 0.f);
                 Vec3f vUp;
