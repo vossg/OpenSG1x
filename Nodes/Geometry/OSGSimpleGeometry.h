@@ -58,8 +58,17 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 OSG_GEOMETRY_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize, 
-                                          UInt16 hor,   UInt16 vert);
+                                		  UInt16 hor,   UInt16 vert);
 
+
+OSG_GEOMETRY_DLLMAPPING NodePtr makeCone( Real32 height, Real32 radius, 
+										  UInt16 sides );
+
+OSG_GEOMETRY_DLLMAPPING NodePtr makeTorus( Real32 innerRadius, 
+										   Real32 outerRadius, 
+										   UInt16 sides, UInt16 rings );
+
+OSG_GEOMETRY_DLLMAPPING NodePtr makeSphere( UInt16 depth, Real32 radius );
 
 OSG_END_NAMESPACE
 
