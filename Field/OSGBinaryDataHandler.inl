@@ -56,12 +56,14 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+inline
 BinaryDataHandler::ReadError::ReadError(const string &reson) : 
     Exception() 
 {
     _what += "BinaryDataHandler ReadError: " + reson;
 }
 
+inline
 BinaryDataHandler::WriteError::WriteError(const string &reson) : 
     Exception() 
 {
@@ -72,7 +74,8 @@ BinaryDataHandler::WriteError::WriteError(const string &reson) :
 /** \brief store 8 bit
  **/
 
-inline void BinaryDataHandler::putUInt8(const UInt8 &value)
+inline 
+void BinaryDataHandler::putUInt8(const UInt8 &value)
 {
     put(&value,sizeof(value));
 }
@@ -81,12 +84,14 @@ inline void BinaryDataHandler::putUInt8(const UInt8 &value)
  *  \bug network order?
  **/
 
-inline void BinaryDataHandler::putUInt32(const UInt32 &value)
+inline 
+void BinaryDataHandler::putUInt32(const UInt32 &value)
 {
     put(&value,sizeof(value));
 }
 
-inline void BinaryDataHandler::putString(const string &value)
+inline 
+void BinaryDataHandler::putString(const string &value)
 {
     UInt32 len;
 
@@ -95,17 +100,20 @@ inline void BinaryDataHandler::putString(const string &value)
     put(value.c_str(),len);
 }
 
-inline void BinaryDataHandler::getUInt8(UInt8 &value)
+inline 
+void BinaryDataHandler::getUInt8(UInt8 &value)
 {
     get(&value,sizeof(value));
 }
 
-inline void BinaryDataHandler::getUInt32(UInt32 &value)
+inline 
+void BinaryDataHandler::getUInt32(UInt32 &value)
 {
     get(&value,sizeof(value));
 }
 
-inline void BinaryDataHandler::getString(string &value)
+inline 
+void BinaryDataHandler::getString(string &value)
 {
     UInt32 len;
     char *str;
@@ -117,6 +125,7 @@ inline void BinaryDataHandler::getString(string &value)
     delete str;
 }
 
+inline
 BinaryDataHandler::MemoryBlock::MemoryBlock(MemoryHandle m, UInt32 s) : 
     mem (m),
     size(s)

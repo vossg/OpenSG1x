@@ -48,6 +48,7 @@
 #include "OSGConfig.h"
 #include "OSGLog.h"
 #include "OSGBinaryDataHandler.h"
+#include "OSGBaseFunctions.h"
 
 OSG_USING_NAMESPACE
 
@@ -147,12 +148,12 @@ void BinaryDataHandler::put(void const *src,UInt32 size)
                     pushBuffer();
                 _currentWriteBuffer->dataSize=0;
             }
-            copySize=std::min(_currentWriteBuffer->size-
-                              _currentWriteBuffer->dataSize,
-                              size);
-            memcpy(_currentWriteBuffer->mem+_currentWriteBuffer->dataSize,
-                   data,
-                   copySize);
+            copySize=osgMin(_currentWriteBuffer->size    -
+                            _currentWriteBuffer->dataSize,
+                             size);
+            memcpy(_currentWriteBuffer->mem + _currentWriteBuffer->dataSize,
+                    data,
+                    copySize);
             size                         -=copySize;
             _currentWriteBuffer->dataSize+=copySize;
             data                         +=copySize;
@@ -209,9 +210,9 @@ void BinaryDataHandler::get(void *dst,UInt32 size)
                 }
                 _currentReadBufferPos=0;
             }
-            copySize=min(_currentReadBuffer->dataSize-
-                         _currentReadBufferPos,
-                         size);
+            copySize=osgMin(_currentReadBuffer->dataSize -
+                            _currentReadBufferPos,
+                            size);
             memcpy(data,
                    _currentReadBuffer->mem+_currentReadBufferPos,
                    copySize);
@@ -285,7 +286,7 @@ BinaryDataHandler::BuffersT::iterator BinaryDataHandler::read()
     // read rest of buffer
     for(;size;++i)
     {
-        readSize=std::min(size,i->size);
+        readSize=osgMin(size, i->size);
         read(i->mem,readSize);
         i->dataSize=readSize;
         size-=readSize;
