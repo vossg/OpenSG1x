@@ -24,13 +24,13 @@ ac_help="$ac_help
 ac_help="$ac_help
   --with-stl=DIR                     Where to find the stl to use, incompatible with stlport options"
 ac_help="$ac_help
-  --enable-stlport                   Build with stlport support, incompatible with --with-stl "
+  --enable-stlport                   Build with stlport support, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-stlport          =DIR       Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl "
+  --with-stlport          =DIR       Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-stlportincludedir=DIR       Use stlport includes from the given directory, incompatible with --with-stl "
+  --with-stlportincludedir=DIR       Use stlport includes from the given directory, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
-  --with-stlportlibdir    =DIR       Use stlport library from the given directory, incompatible with --with-stl "
+  --with-stlportlibdir    =DIR       Use stlport library from the given directory, incompatible with --with-stl, VS7 only "
 ac_help="$ac_help
   --with-gl=DIR                      Use gl, if DIR is given use the file from the give directory"
 ac_help="$ac_help

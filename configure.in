@@ -108,16 +108,16 @@ fi
 
 dnl ############# STLPort Settings #####################
 
-AC_ARG_ENABLE(stlport,     [  --enable-stlport                   Build with stlport support, incompatible with --with-stl ],
+AC_ARG_ENABLE(stlport,     [  --enable-stlport                   Build with stlport support, incompatible with --with-stl, VS7 only ],
 			,enable_stlport=no) 
 
-AC_ARG_WITH(stlport,     [  --with-stlport          =DIR       Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl ],
+AC_ARG_WITH(stlport,     [  --with-stlport          =DIR       Use DIR/lib DIR/include to find the stlport files, incompatible with --with-stl, VS7 only ],
 			,with_stlport=) 
 
-AC_ARG_WITH(stlportincludedir,     [  --with-stlportincludedir=DIR       Use stlport includes from the given directory, incompatible with --with-stl ],
+AC_ARG_WITH(stlportincludedir,     [  --with-stlportincludedir=DIR       Use stlport includes from the given directory, incompatible with --with-stl, VS7 only ],
 			,with_stlportincludedir=) 
 
-AC_ARG_WITH(stlportlibdir,     [  --with-stlportlibdir    =DIR       Use stlport library from the given directory, incompatible with --with-stl ],
+AC_ARG_WITH(stlportlibdir,     [  --with-stlportlibdir    =DIR       Use stlport library from the given directory, incompatible with --with-stl, VS7 only ],
 			,with_stlportlibdir=) 
 
 if test "$enable_stlport" = no && test "$with_stlport" = yes; then
