@@ -277,6 +277,8 @@ void ChangeList::setReadOnly(bool bReadOnly)
 /*-------------------------------------------------------------------------*/
 /*                               Apply                                     */
 
+#ifndef OSG_DISABLE_DEPRECIATED
+
 void ChangeList::applyTo(UInt32 uiAspectId)
 {
     UInt32 i;
@@ -342,6 +344,69 @@ void ChangeList::applyTo(UInt32 uiAspectId)
 void ChangeList::applyToCurrent(void)
 {
     applyTo(Thread::getAspect());
+}
+
+#endif
+
+void ChangeList::apply(void)
+{
+    UInt32 i;
+
+    if(OSG::Thread::getCurrentChangeList() == this)
+    {
+        SWARNING << "try to apply current changelist : ignored" << std::endl;
+    }
+
+    _bReadOnly = true;
+
+    OSG::Thread::getCurrentChangeList()->setReadOnly(true);
+
+    FieldContainerPtr pTmp;
+
+    for(i = 0; i < _vChangedFieldContainers.size(); i++)
+    {
+        pTmp = FieldContainerFactory::the()->getContainer(
+            _vChangedFieldContainers[i].first);
+
+        if(pTmp == NullFC)
+            continue;
+
+        pTmp.executeSync(_uiAspectId,
+                          Thread::getAspect(),
+                         _vChangedFieldContainers[i].second);
+    }
+
+    for(i = 0; i < _vAddRefdFieldContainers.size(); i++)
+    {
+        pTmp = FieldContainerFactory::the()->getContainer(
+            _vAddRefdFieldContainers[i]);
+
+        if(pTmp == NullFC)
+            continue;
+
+        addRefCP(pTmp);
+    }
+
+    for(i = 0; i < _vSubRefdFieldContainers.size(); i++)
+    {
+        pTmp = FieldContainerFactory::the()->getContainer(
+            _vSubRefdFieldContainers[i]);
+
+        if(pTmp == NullFC)
+            continue;
+
+        subRefCP(pTmp);
+    }
+
+    _bReadOnly = false;
+
+     OSG::Thread::getCurrentChangeList()->setReadOnly(false);
+}
+
+void ChangeList::applyAndClear(void)
+{
+    apply   ();
+    clearAll();
 }
 
 /*-------------------------------------------------------------------------*/
