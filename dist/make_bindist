@@ -96,7 +96,7 @@ case $system in
     glut_dir="`pwd`/../packages/glut_3.7"
     glut_lib="glut32.dll"
     glut_args="--with-glut=$glut_dir"
-    qt_dir="/f/qt"
+    qt_dir="`pwd`/../packages/qt-3.0"
     qt_lib=qt-mt300.dll
     qt_args="--with-qt=$qt_dir"
     tif_args=""

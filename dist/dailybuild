@@ -92,7 +92,7 @@ send_mail ()
     cat << EOF > $out_mail
 System: $system
 Compiler: $compiler
-Log: http://www.opensg.org/dailybuild_logs/$link_html.Main.html
+Log: http://www.opensg.org/dailybuild_logs/$link_html.Main.html.gz
 
 Failed in $subsys.
 

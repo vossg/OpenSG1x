@@ -89,8 +89,12 @@ do
  
     status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||'`
     
-    echo "<td style=status>$status</td>" >> $outfile
-   
+		if test "x$status" == "x"
+		then
+				echo "<td style=status>No errors.</td>" >> $outfile
+    else
+				echo "<td style=status>$status</td>" >> $outfile
+		fi				
     echo "</tr>" >> $outfile
 
 done
