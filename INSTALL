@@ -133,7 +133,7 @@ Windows
 =======
 
 Compiler : Intel C++ > 4.5 + latest patchset
-Cygwin   : >= 1.1.4
+Cygwin   : any quite current version should work
 gmake    : > 3.79.1
 glut     : 3.7
 autoconf : > 2.13 (only needed when you want to work on the configure scripts)
@@ -149,13 +149,30 @@ MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
                   compiler. Two current problems :
 
                   - OpenSG must be configured using --enable-win-localstorage
-                  - The dependendies do not work as I havent figured out
+                  - The dependendies do not work as I haven't figured out
                     how to get some usefull information from the compiler,
-                    so OSGNODEPS has to be set.
+                    so OSGNODEPS=1 (env var) has to be set.
    
                   If you want to try it, keep in mind to contact me in
                   case of troubles (vossg@camtech.ntu.edu.sg) as this is 
                   still some kind of experimental
+
+INCLUDE/LIB : As these env vars are the MS way to pass default directories
+              to the compiler they must be setup correctly. As there are to 
+              many compiler/include dir/lib dir configurations we rely on them
+              being set as wanted.
+
+MS SDK : last time I checked there were some problems using the MS SDK
+         headers in combination with intels c++ compiler. In case you
+         get some errors check if the following might help :
+
+         replace line 1175 within Microsoft SDK/Include/WinBase.h with the
+         following : 
+
+         return((LONG)InterlockedCompareExchange((VOID volatile *)Destination, ExChange, Comperand)); 
+
+         but please check beforehand if the orginal line contains the 
+         InterlockedCompareExchange call too.
 
 MacOSX 
 =======

@@ -1,5 +1,5 @@
 
-SUB_DIR     := Experimental/Gerrit/Functors
+SUB_DIR     := Functors
 PACKAGENAME := Functors
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)

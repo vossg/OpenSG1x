@@ -591,17 +591,25 @@ if test $build_os = cygwin; then
 
 		ac_gdz_ln_exe="cp"
 
-		ac_gdz_system_incl_dir_e1=`cygpath -w "$ac_gdz_system_incl_dir"`
-		ac_gdz_system_lib_dir_e1=`cygpath -w "$ac_gdz_system_lib_dir"`
+		ac_gdz_system_incl_dir_e1=
+dnl `cygpath -w "$ac_gdz_system_incl_dir"`
+		ac_gdz_system_lib_dir_e1=
+dnl `cygpath -w "$ac_gdz_system_lib_dir"`
 
-		ac_gdz_system_incl_dir_e1='"'$ac_gdz_system_incl_dir_e1'"'
-		ac_gdz_system_lib_dir_e1='"'$ac_gdz_system_lib_dir_e1'"'
+		ac_gdz_system_incl_dir_e1=
+dnl '"'$ac_gdz_system_incl_dir_e1'"'
+		ac_gdz_system_lib_dir_e1=
+dnl '"'$ac_gdz_system_lib_dir_e1'"'
 
-		ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
-		ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
+		ac_gdz_compiler_incl=
+dnl `cygpath -w "$ac_gdz_compiler_incl"`
+		ac_gdz_compiler_lib=
+dnl `cygpath -w "$ac_gdz_compiler_lib"`
 
-		ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
-		ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
+		ac_gdz_compiler_incl=
+dnl '"'$ac_gdz_compiler_incl'"'
+		ac_gdz_compiler_lib=
+dnl '"'$ac_gdz_compiler_lib'"'
 	else
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
 

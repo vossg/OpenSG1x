@@ -2552,17 +2552,17 @@ echo "configure:2481: checking system dir" >&5
 
 		ac_gdz_ln_exe="cp"
 
-		ac_gdz_system_incl_dir_e1=`cygpath -w "$ac_gdz_system_incl_dir"`
-		ac_gdz_system_lib_dir_e1=`cygpath -w "$ac_gdz_system_lib_dir"`
+		ac_gdz_system_incl_dir_e1=
+		ac_gdz_system_lib_dir_e1=
 
-		ac_gdz_system_incl_dir_e1='"'$ac_gdz_system_incl_dir_e1'"'
-		ac_gdz_system_lib_dir_e1='"'$ac_gdz_system_lib_dir_e1'"'
+		ac_gdz_system_incl_dir_e1=
+		ac_gdz_system_lib_dir_e1=
 
-		ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
-		ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
+		ac_gdz_compiler_incl=
+		ac_gdz_compiler_lib=
 
-		ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
-		ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
+		ac_gdz_compiler_incl=
+		ac_gdz_compiler_lib=
 	else
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
 

@@ -51,10 +51,10 @@ if test -w Base/tmp_gv; then
         mv Base/OSGTypeFactory.cpp Base/tmp_gv
     fi
 
-    if test -w Base/OSGConfig.h; then
-        echo "mv Base/OSGConfig.h Base/tmp_gv"
-        mv Base/OSGConfig.h Base/tmp_gv
-    fi
+#    if test -w Base/OSGConfig.h; then
+#        echo "mv Base/OSGConfig.h Base/tmp_gv"
+#        mv Base/OSGConfig.h Base/tmp_gv
+#    fi
 
 #    if test -w Base/OSGBaseTypeTraits.h; then
 #        echo "mv Base/OSGBaseTypeTraits.h Base/tmp_gv"
