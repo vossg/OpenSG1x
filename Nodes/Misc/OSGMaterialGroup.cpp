@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.9 2001/09/01 19:10:03 jbehr Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.10 2001/09/02 18:31:58 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
