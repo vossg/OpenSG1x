@@ -53,6 +53,8 @@
 
 #include "OSGParticles.h"
 
+#include <algorithm>
+
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -61,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.6 2002/01/11 00:23:01 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.7 2002/01/11 05:32:52 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -635,7 +637,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     vector<sorter> list(size);
     
     len = 0;
-    UInt32 i
+    UInt32 i;
     for(i = 0; i<size; i++)
     {
         if(indices->getSize() > 0)
