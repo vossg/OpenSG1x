@@ -172,13 +172,13 @@ UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ),
 UInt64 ImageFileType::restore( Image &image, 
                                const UChar8 *buffer, Int32 memSize)
 {
-    UInt32          imageSize, headSize = sizeof(Head);
+    unsigned long   imageSize, headSize = sizeof(Head);
+    unsigned long   size, i, attachmentSize;
     Head            *head = (Head *) const_cast<UChar8*>((buffer));
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
     char            *attData, *attKey, *attValue;
     ImageFileType   *type;
     const char      *mimeType;
-    unsigned int    i,attachmentSize;
 
 
     if(head && data && head->netToHost() && (mimeType = head->mimeType))
@@ -189,6 +189,32 @@ UInt64 ImageFileType::restore( Image &image,
                     head->height, head->depth, head->mipmapCount,
                     head->frameCount, float(head->frameDelay) / 1000.0, 0);
           imageSize = type->restoreData(image, data, memSize - headSize);
+
+          if ((attachmentSize = head->attachmentSize))
+            {
+              attData = (char*)(buffer + headSize + imageSize);
+              attKey = attData;
+              attValue = 0;
+              for (i = 0; i < attachmentSize; i++) {
+                if (attData[i] == 0) 
+                  if (attKey) {
+                    attValue = &(attData[i+1]);
+                    image.setAttachment (attKey,attValue);
+                    attKey = attValue = 0;
+                  }
+                  else
+                    attKey = &(attData[i+1]);
+              }
+              if (attKey || attValue) {
+                FFATAL (("Attachment restore error\n"));
+              }
+            }
+          
+          size = headSize + imageSize + attachmentSize;
+      
+          FLOG (( "Restore image data: %lu (%lu/%lu/%lu)\n",
+                  size, headSize, imageSize, attachmentSize ));
+
         }
       else
         {
@@ -197,28 +223,10 @@ UInt64 ImageFileType::restore( Image &image,
                     mimeType ? mimeType : "Unknown"));
         }
 
-      if ((attachmentSize = head->attachmentSize))
-        {
-          attData = (char*)(buffer + headSize + imageSize);
-          attKey = attData;
-          attValue = 0;
-          for (i = 0; i < attachmentSize; i++) {
-            if (attData[i] == 0) 
-              if (attKey) {
-                attValue = &(attData[i+1]);
-                image.setAttachment (attKey,attValue);
-                attKey = attValue = 0;
-              }
-              else
-                attKey = &(attData[i+1]);
-          }
-          if (attKey || attValue) {
-            FFATAL (("Attachment restore error\n"));
-          }
-        }
+      
     }
 
-    return (headSize + imageSize + attachmentSize);
+    return size;
 }
 
 //----------------------------------------------------------------------
@@ -246,12 +254,12 @@ UInt64 ImageFileType::store(const Image &image, const char *mimeType,
 UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 {
   Head            *head;
-  unsigned        dataSize = 0, headSize = sizeof(Head);
+  unsigned long   size, dataSize = 0, headSize = sizeof(Head);
+  unsigned long   attachmentSize;
   char            *strData;           
   UChar8          *dest;
   const UChar8    *src = image.getData();
   std::map<std::string, std::string>::const_iterator aI;
-  unsigned int    attachmentSize;
   unsigned int    i,l;
   attachmentSize = 0;
 
@@ -303,8 +311,10 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
             }
         }     
 
-      FLOG (( "Store image data: (%d/%d/%d byte)\n",
-              headSize, dataSize, attachmentSize ));
+      size = headSize + dataSize + attachmentSize;
+      
+      FLOG (( "Store image data: %lu (%lu/%lu/%lu)\n",
+              size, headSize, dataSize, attachmentSize ));
     }
   else {
     FFATAL (("Invalid buffer in ImageFileType::store()\n"));
@@ -323,11 +333,11 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 //----------------------------------------------------------------------
 UInt64 ImageFileType::maxBufferSize(const Image &image)
 {
-  UInt64        size;
-  unsigned int  imageSize = image.getSize(), headSize = sizeof(Head);
-  unsigned int  attachmentSize = 0, l;
+  unsigned long size, attachmentSize, l;
+  unsigned long imageSize = image.getSize(), headSize = sizeof(Head);
   std::map<std::string, std::string>::const_iterator aI;
 
+  attachmentSize = 0;
   for ( aI = image._attachmentMap.begin();
         aI != image._attachmentMap.end(); ++aI )
     {
@@ -339,7 +349,7 @@ UInt64 ImageFileType::maxBufferSize(const Image &image)
   
   size = headSize + imageSize + attachmentSize;
   
-  FLOG (( "ImageFileType::maxBufferSize(): %d (%d/%d/%d)\n", 
+  FLOG (( "ImageFileType::maxBufferSize(): %lu (%lu/%lu/%lu)\n", 
           size, headSize, imageSize, attachmentSize ));
   
   return size;
