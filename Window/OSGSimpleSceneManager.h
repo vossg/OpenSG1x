@@ -99,45 +99,45 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    inline NodePtr             getRoot       ( void );
-    inline WindowPtr           getWindow     ( void );
-    inline NodePtr             getHighlight  ( void );
-    inline DrawActionBase     *getAction     ( void );
+    virtual NodePtr             getRoot       ( void );
+    virtual WindowPtr           getWindow     ( void );
+    virtual NodePtr             getHighlight  ( void );
+    virtual DrawActionBase     *getAction     ( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    inline void  setRoot          ( NodePtr root );
-    inline void  setWindow        ( WindowPtr win );
-    inline void  setHighlight     ( NodePtr obj );
-    inline void  setHeadlight     ( Bool on );
-    inline void  turnHeadlightOn  ( void );
-    inline void  turnHeadlightOff ( void );
+    virtual void  setRoot          ( NodePtr root );
+    virtual void  setWindow        ( WindowPtr win );
+    virtual void  setHighlight     ( NodePtr obj );
+    virtual void  setHeadlight     ( Bool on );
+    virtual void  turnHeadlightOn  ( void );
+    virtual void  turnHeadlightOff ( void );
 
-           void  showAll          ( void );
+    virtual void  showAll          ( void );
 
-           void  useOpenSGLogo    ( void );
+    virtual void  useOpenSGLogo    ( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Interaction handling                           */
     /*! \{                                                                 */
 
-    void resize(UInt16 width, UInt16 height);
-    void mouseMove(Int16 x, Int16 y);
-    void mouseButtonPress(UInt16 button, Int16 x, Int16 y);
-    void mouseButtonRelease(UInt16 button, Int16 x, Int16 y);
+    virtual void resize(UInt16 width, UInt16 height);
+    virtual void mouseMove(Int16 x, Int16 y);
+    virtual void mouseButtonPress(UInt16 button, Int16 x, Int16 y);
+    virtual void mouseButtonRelease(UInt16 button, Int16 x, Int16 y);
 
-    Line calcViewRay(Int16 x, Int16 y);
+            Line calcViewRay(Int16 x, Int16 y);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Actions                                  */
     /*! \{                                                                 */
 
-    void redraw( void );
+    virtual void redraw( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -157,9 +157,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                     Updates                                  */
     /*! \{                                                                 */
 
-    void  initialize      (void);
-    void  highlightChanged(void);
-    void  updateHighlight (void);
+            void  initialize      (void);
+    virtual void  highlightChanged(void);
+    virtual void  updateHighlight (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -211,6 +211,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.7 2001/10/16 13:22:25 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.8 2001/10/22 11:35:05 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

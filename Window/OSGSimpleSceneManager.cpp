@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.13 2001/10/16 18:37:45 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.14 2001/10/22 11:35:05 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -199,6 +199,13 @@ SimpleSceneManager::SimpleSceneManager(void) :
 }
 
 
+/*! pseudo constructor. Standard interface for OpenSG object creation.
+ */
+SimpleSceneManager* SimpleSceneManager::create(void)
+{
+    return new SimpleSceneManager;
+}
+
 /*! Destructor
  */
 
@@ -206,6 +213,111 @@ SimpleSceneManager::~SimpleSceneManager(void)
 {
     if(_action)
         delete _action;
+}
+
+
+/*! get the window to be used for display
+ */
+WindowPtr SimpleSceneManager::getWindow(void)
+{
+    return _win;
+}
+
+/*! get the root of the displayed tree
+ */
+NodePtr SimpleSceneManager::getRoot(void)
+{
+    return _root;
+}
+
+/*! set the window to be used for display
+ */
+void SimpleSceneManager::setWindow(WindowPtr win)
+{
+    _win = win;
+}
+
+/*! get the highlight object
+ */
+NodePtr SimpleSceneManager::getHighlight(void)
+{
+    return _highlight;
+}
+
+/*! get the action used to render the scene
+ */
+DrawActionBase *SimpleSceneManager::getAction(void)
+{
+    return _action;
+}
+
+/*! set the root of the displayed tree
+ */
+void SimpleSceneManager::setRoot(NodePtr root)
+{
+    if(_root != NullFC)
+    {
+        _internalRoot->subChild(_root);
+        subRefCP(_root);
+    }
+    
+    if(_internalRoot == NullFC)
+    {
+        initialize();
+    }
+
+    _root = root;
+
+    addRefCP(_root);
+    _internalRoot->addChild(_root);
+}
+
+/*! set the headlight setting
+ */
+void SimpleSceneManager::setHeadlight(Bool on)
+{
+    if(_headlight != NullFC)
+        _headlight->setOn(on);
+}
+
+/*! turn headlight on.
+ */
+void SimpleSceneManager::turnHeadlightOn(void)
+{
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
+    if(_headlight != NullFC)
+        _headlight->setOn(true);
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
+}
+
+/*! turn headlight off.
+ */
+void SimpleSceneManager::turnHeadlightOff(void)
+{
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
+    if(_headlight != NullFC)
+        _headlight->setOn(false);
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
+}
+
+/*! set the highlight object
+ */
+void SimpleSceneManager::setHighlight(NodePtr highlight)
+{
+    _highlight = highlight;
+    highlightChanged();
 }
 
 /*-------------------------------------------------------------------------*/
