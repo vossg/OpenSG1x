@@ -121,6 +121,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindow : public SortLastWindowBase
     };
     typedef std::vector<DrawableInfo> DrawableListT;
 
+    friend struct DrawableInfo;
+
     /*---------------------------------------------------------------------*/
     /*! \name      protected types                                         */
     /*! \{                                                                 */

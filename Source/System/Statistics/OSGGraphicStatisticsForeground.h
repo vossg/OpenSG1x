@@ -179,15 +179,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     std::string real2String(Real32 value, char* format = 0);
 
     
-    void calcPosAndSize(const UInt32& ID, 
+    void calcPosAndSize(const UInt32& elementID, 
                         Viewport* port, 
                         Vec2f* Position, 
                         Vec2f* Size);
 
     //! Calculate the "real" value based on the value and the Flags
-    inline void processValue( Real32& value, const UInt32& ID );
-    inline void processOnlyValue( Real32& value, const UInt32& ID );
-    inline void addValueToHistory( Real32& value, const UInt32& ID );
+    inline void processValue( Real32& value, const UInt32& elementID );
+    inline void processOnlyValue( Real32& value, const UInt32& elementID );
+    inline void addValueToHistory( Real32& value, const UInt32& elementID );
 
 
 

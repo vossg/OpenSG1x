@@ -328,7 +328,7 @@ void GraphicStatisticsForeground::removeElement(StatElemDescBase &desc)
 }
 
 /*******************************************************/
-void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
+void GraphicStatisticsForeground::drawAnalog(UInt32 elementID, StatElem *el,
                                              DrawActionBase *base, Viewport *)
 {
     // helper Var
@@ -340,17 +340,17 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 
     //std::cout << "Analog value: " << value << std::endl;
     // process this value according to the flags
-    processValue(value, ID);
-    processOnlyValue(vsave, ID);
+    processValue(value, elementID);
+    processOnlyValue(vsave, elementID);
 
     // calculate minimum value and maximun value
-    Real32  minV = getMinValue()[ID];
-    Real32  maxV = getMaxValue()[ID];
+    Real32  minV = getMinValue()[elementID];
+    Real32  maxV = getMaxValue()[elementID];
 
     // get the colors
-    Color4f minColor = getColorMin()[ID];
-    Color4f currentColor = getColorCurrent()[ID];
-    Color4f maxColor = getColorMax()[ID];
+    Color4f minColor = getColorMin()[elementID];
+    Color4f currentColor = getColorCurrent()[elementID];
+    Color4f maxColor = getColorMax()[elementID];
 
     // xdist helps to calculate the real size[0] of the quadstrip and the colors
     xdist = (value - minV) / (maxV - minV);
@@ -460,7 +460,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 
     /* draw a line representing the real current value if the value is
 	   smoothed */
-    UInt32  flags = getFlags()[ID];
+    UInt32  flags = getFlags()[elementID];
     if(flags & OSG_SMOOTH)
     {
         glMatrixMode(GL_MODELVIEW);
@@ -520,7 +520,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 // end of drawAnalog
 
 /*******************************************************/
-void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
+void GraphicStatisticsForeground::drawChart(UInt32 elementID, StatElem *el,
                                             DrawActionBase *base, Viewport *port)
 {
     // The amount of the display to be used for the text on the bottom
@@ -538,12 +538,12 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
 
     /* Get the current value and process it */
     Real32  value = Real32(el->getValue());
-    processValue(value, ID);
+    processValue(value, elementID);
 
     //std::cout << "Chart value: " << value << std::endl;
     /* calculate minimum value and maximun value */
-    Real32  minV = getMinValue()[ID];
-    Real32  maxV = getMaxValue()[ID];
+    Real32  minV = getMinValue()[elementID];
+    Real32  maxV = getMaxValue()[elementID];
 
     // draw a rectangle with alpha value
     Color3f c = getBackgroundColor();
@@ -566,15 +566,17 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
     }
 
     /* Number of elements in the cycle buffer */
-    UInt32  number = _history[ID].size();
+    UInt32  number = _history[elementID].size();
 
     /* width of each Bar */
     Real32  step = (1.0f - textWidth) / number;
 
     /* The collor of the chart is set by the currentColor of this
        statistics Element */
-    glColor4f(getColorCurrent()[ID][0], getColorCurrent()[ID][1],
-                  getColorCurrent()[ID][2], getColorCurrent()[ID][3]);
+    glColor4f(getColorCurrent()[elementID][0], 
+              getColorCurrent()[elementID][1],
+              getColorCurrent()[elementID][2], 
+              getColorCurrent()[elementID][3]);
 
     /* Base coordiantes for the chart (lower left corner) 
        Will be set to the current base coordinates of each bar in the
@@ -590,7 +592,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
     for(UInt32 i = 0; i < number; i++)
     {
         /* get the current value out of the cycle Buffer */
-        value = _history[ID][((_historyID[ID]) + i) % number];
+        value = _history[elementID][((_historyID[elementID]) + i) % number];
 
         /* calculate the height of the quad to be drawn in this
                iteration */
@@ -614,7 +616,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
         // create some Strings to be drawn
         std::string minstr = real2String(minV, "%.0f");
         std::string maxstr = real2String(maxV, "%.0f");
-        std::string valstr = getDescription()[ID] + " " + real2String(value);
+        std::string valstr = getDescription()[elementID] + " " + real2String(value);
 
         // set color to draw the text with
         glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
@@ -655,7 +657,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
 }
 
 /*******************************************************/
-void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
+void GraphicStatisticsForeground::drawBar(UInt32 elementID, StatElem *el,
                                           DrawActionBase *base, Viewport *port)
 {
     // The amount of the display to be used for the text on the bottom
@@ -669,15 +671,15 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
     }
 
     Real32  xdist = 0;                      // helper Var
-    Real32  minV = getMinValue()[ID];
-    Real32  maxV = getMaxValue()[ID];
+    Real32  minV = getMinValue()[elementID];
+    Real32  maxV = getMaxValue()[elementID];
 
     Real32  value = Real32(el->getValue());
     Real32  vsave = value;
 
     //std::cout << "Bar value: " << value << std::endl;
-    processValue(value, ID);
-    processOnlyValue(vsave, ID);
+    processValue(value, elementID);
+    processOnlyValue(vsave, elementID);
 
     // draw a rectangle with alpha value
     Color3f c = getBackgroundColor();
@@ -700,9 +702,9 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
     }
 
     // get the Colors into private vars
-    Color4f MinColor = getColorMin()[ID];
-    Color4f CurrentColor = getColorCurrent()[ID];
-    Color4f MaxColor = getColorMax()[ID];
+    Color4f MinColor = getColorMin()[elementID];
+    Color4f CurrentColor = getColorCurrent()[elementID];
+    Color4f MaxColor = getColorMax()[elementID];
 
     // xdist helps to calculate the real size[0] of the quadstrip and the colors
     xdist = (value - minV) / (maxV - minV) * (1.0f - 2 * textWidth) + textWidth;
@@ -710,14 +712,14 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
     /* draw the quads */
     if(xdist < 0.5)
     {
-        glColor4f(MinColor[0], MinColor[1], MinColor[2], getColorMin()[ID][3]);
+        glColor4f(MinColor[0], MinColor[1], MinColor[2], getColorMin()[elementID][3]);
         glBegin(GL_QUADS);
         glVertex2f(textWidth, textHeight);
         glVertex2f(textWidth, 1.0);
         glColor4f(CurrentColor[0] * 2 * xdist + MinColor[0] * (1 - (2 * xdist)),
                   CurrentColor[1] * 2 * xdist + MinColor[1] * (1 - (2 * xdist)),
                   CurrentColor[2] * 2 * xdist + MinColor[2] * (1 - (2 * xdist)),
-                  getColorCurrent()[ID][3]);
+                  getColorCurrent()[elementID][3]);
         glVertex2f(xdist, 1.0);
         glVertex2f(xdist, textHeight);
         glEnd();
@@ -727,11 +729,11 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         glBegin(GL_QUADS);
 
         // draw first quad
-        glColor4f(MinColor[0], MinColor[1], MinColor[2], getColorMin()[ID][3]);
+        glColor4f(MinColor[0], MinColor[1], MinColor[2], getColorMin()[elementID][3]);
         glVertex2f(textWidth, textHeight);
         glVertex2f(textWidth, 1.0);
         glColor4f(CurrentColor[0], CurrentColor[1], CurrentColor[2],
-                  getColorCurrent()[ID][3]);
+                  getColorCurrent()[elementID][3]);
         glVertex2f(0.5, 1.0);
         glVertex2f(0.5, textHeight);
 
@@ -743,7 +745,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
                   MaxColor[1] * ((xdist - 0.5f) * 2) + CurrentColor[1] * 
                     (1 - ((xdist - 0.5f) * 2)),
                   MaxColor[2] * ((xdist - 0.5f) * 2) + CurrentColor[2] *
-                    (1 - ((xdist - 0.5f) * 2)), getColorMax()[ID][3]);
+                    (1 - ((xdist - 0.5f) * 2)), getColorMax()[elementID][3]);
         glVertex2f(0.5f + ((xdist - 0.5f)), 1.0);
         glVertex2f(0.5f + ((xdist - 0.5f)), textHeight);
         glEnd();
@@ -751,7 +753,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
 
     /* draw a line representing the real current value 
 	   if the value to be digitized is smoothed */
-    if(_history[ID].size() > 0)
+    if(_history[elementID].size() > 0)
     {
         glColor4f(1.0, 1.0, 0.0, 1.0);
         glBegin(GL_LINES);
@@ -767,7 +769,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
     if(getTextEnabled())
     {
         // create some Strings to be drawn
-        std::string valstr = getDescription()[ID] + " " + real2String(value);
+        std::string valstr = getDescription()[elementID] + " " + real2String(value);
         std::string minstr = real2String(minV, "%.0f");
         std::string maxstr = real2String(maxV, "%.0f");
 
@@ -812,7 +814,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
 /*******************************************************/
 
 //begin drawlinechart
-void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
+void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
                                                 DrawActionBase *base,
                                                 Viewport *port)
 {
@@ -830,18 +832,18 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     Real32  currHeight = 0.0;
 
     /* Flags for check whether points should be drawn or not */
-    UInt32  flags = getFlags()[ID];
+    UInt32  flags = getFlags()[elementID];
 
     /* Get the current value and process it */
     Real32  value = Real32(el->getValue());
     Real32  realValue = (flags & OSG_RECIPROC) ? 1.f / value : value;
 
-    processValue(value, ID);
+    processValue(value, elementID);
 
     //std::cout << "LineChart value: " << value << std::endl;
     /* calculate minimum value and maximun value */
-    Real32  minV = getMinValue()[ID];
-    Real32  maxV = getMaxValue()[ID];
+    Real32  minV = getMinValue()[elementID];
+    Real32  maxV = getMaxValue()[elementID];
 
     // draw a rectangle with alpha value
     Color3f c = getBackgroundColor();
@@ -864,15 +866,15 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     }
 
     /* Number of elements in the cycle buffer */
-    UInt32  number = _history[ID].size();
+    UInt32  number = _history[elementID].size();
 
     /* width of each Bar */
     Real32  step = (1.0f - textWidth) / number;
 
     /* The collor of the chart is set by the currentColor of this
        statistics Element */
-    glColor4f(getColorCurrent()[ID][0], getColorCurrent()[ID][1],
-              getColorCurrent()[ID][2], getColorCurrent()[ID][3]);
+    glColor4f(getColorCurrent()[elementID][0], getColorCurrent()[elementID][1],
+              getColorCurrent()[elementID][2], getColorCurrent()[elementID][3]);
 
     /* Base coordiantes for the chart (lower left corner) 
        Will be set to the current base coordinates of each bar in the
@@ -885,7 +887,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     glScalef(1.0f, 1.0f - textHeight, 1.0f);
 
     /* loop over all entries in the cycle buffer */
-    value = _history[ID][_historyID[ID]];
+    value = _history[elementID][_historyID[elementID]];
 
     /* save the last x und y value to draw the line in the next
        iterarion */
@@ -895,7 +897,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     for(UInt32 i = 0; i < number; i++)
     {
         /* get the current value out of the cycle Buffer */
-        value = _history[ID][((_historyID[ID]) + i) % number];
+        value = _history[elementID][((_historyID[elementID]) + i) % number];
 
         /* calculate the height of the quad to be drawn in this
                iteration */
@@ -942,7 +944,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     if(getTextEnabled())
     {
         // create some Strings to be drawn
-        std::string valstr = getDescription()[ID] + " " + 
+        std::string valstr = getDescription()[elementID] + " " + 
 					real2String(realValue);
 
         // set color to draw the text with
@@ -992,21 +994,21 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
 }
 
 /* */
-void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
+void GraphicStatisticsForeground::drawText(UInt32 elementID, StatElem *el,
                                            DrawActionBase *base, Viewport *port)
 {
     /* Get the current value and process it */
     Real32  value = Real32(el->getValue());
-    processOnlyValue(value, ID);
+    processOnlyValue(value, elementID);
 
     //std::cout << "TextChart value: " << value << std::endl;
     /* get value, calculate minimum value and maximun value and
    convert into a string*/
-    Real32      minV = getMinValue()[ID];
-    Real32      maxV = getMaxValue()[ID];
+    Real32      minV = getMinValue()[elementID];
+    Real32      maxV = getMaxValue()[elementID];
     std::string minstr = real2String(minV, "%.0f");
     std::string maxstr = real2String(maxV, "%.0f");
-    std::string valstr = getDescription()[ID] + " " + real2String(value);
+    std::string valstr = getDescription()[elementID] + " " + real2String(value);
 
     // draw a rectangle with alpha value
     Color3f     c = getBackgroundColor();
