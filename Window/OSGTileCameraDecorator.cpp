@@ -46,6 +46,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGTileCameraDecorator.h"
 
 OSG_USING_NAMESPACE
@@ -74,7 +75,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.10 2002/06/30 05:04:24 vossg Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.11 2002/08/07 04:04:14 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

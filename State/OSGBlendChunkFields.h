@@ -76,7 +76,7 @@ typedef FCPtr<StateChunkPtr, BlendChunk> BlendChunkPtr;
 
 template <>
 struct FieldDataTraits<BlendChunkPtr> : 
-    public FieldTraitsRecurseMapper<BlendChunkPtr>
+    public FieldTraitsRecurseMapper<BlendChunkPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<BlendChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGBlendChunkFields.h,v 1.10 2002/06/20 13:02:19 vossg Exp $"
+#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGBlendChunkFields.h,v 1.11 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKFIELDS_H_ */

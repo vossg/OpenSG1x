@@ -266,6 +266,24 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
 
 #if defined(__sgi) || defined(__linux) || defined(__sun) || defined(darwin) ||\
     defined(__hpux)
+
+struct TrueType  {};
+struct FalseType {};
+
+template<class IConditionV, class IThenT, class IElseT>
+struct osgTypeIF
+{
+    typedef IThenT _IRet;
+    typedef IElseT _IDummyRef;
+};
+
+template<class IThenT, class IElseT>
+struct osgTypeIF<FalseType, IThenT, IElseT>
+{
+    typedef IElseT _IRet;
+    typedef IThenT _IDummyRef;
+};
+
 /*
  *  \brief osgIF
  */

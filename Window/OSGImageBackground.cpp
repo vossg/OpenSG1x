@@ -45,6 +45,7 @@
 
 #include <OSGConfig.h>
 
+#include <OSGNodePtr.h>
 #include <OSGViewport.h>
 #include <OSGDrawActionBase.h>
 
@@ -167,7 +168,7 @@ void ImageBackground::dump(      UInt32     ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.9 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.10 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }

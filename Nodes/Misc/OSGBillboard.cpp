@@ -47,6 +47,7 @@
 
 #include <OSGGL.h>
 
+#include "OSGNodePtr.h"
 #include "OSGBillboard.h"
 #include "OSGDrawAction.h"
 #include "OSGIntersectAction.h"

@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 
 template <>
 struct FieldDataTraits<NodeCorePtr> : 
-    public FieldTraitsRecurseMapper<NodeCorePtr>
+    public FieldTraitsRecurseMapper<NodeCorePtr, true>
 {
     static DataType                  _type;
 

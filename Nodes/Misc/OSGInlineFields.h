@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Inline> InlinePtr;
 
 template <>
 struct FieldDataTraits<InlinePtr> : 
-    public FieldTraitsRecurseMapper<InlinePtr>
+    public FieldTraitsRecurseMapper<InlinePtr, true>
 {
     static DataType             _type;                       
 

@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 #include <OSGGL.h>
 
+#include "OSGNodePtr.h"
 #include "OSGStereoBufferViewport.h"
 
 OSG_USING_NAMESPACE
@@ -171,7 +172,7 @@ void StereoBufferViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.5 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.6 2002/08/07 04:04:14 vossg Exp $";
     static char cvsid_hpp[] = OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTEREOBUFFERVIEWPORT_INLINE_CVSID;
 }

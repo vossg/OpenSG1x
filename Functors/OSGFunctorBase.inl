@@ -61,16 +61,17 @@ OSG_BEGIN_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-/*
+
+#if defined(__hpux)
 template <class SizeTraitsT>
-const UInt8 FunctorBase<SizeTraitsT>::ObjectValid     = 0x01;
+const UInt8 FunctorBase<SizeTraitsT>::ObjectValid;
 
 template <class SizeTraitsT>
-const UInt8 FunctorBase<SizeTraitsT>::FuncPtrValid    = 0x02;
+const UInt8 FunctorBase<SizeTraitsT>::FuncPtrValid;
 
 template <class SizeTraitsT>
-const UInt8 FunctorBase<SizeTraitsT>::FunctorActive   = 0x80;
-*/
+const UInt8 FunctorBase<SizeTraitsT>::FunctorActive;
+#endif
 
 /***************************************************************************\
  *                           Class methods                                 *

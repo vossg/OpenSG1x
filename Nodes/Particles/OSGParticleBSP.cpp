@@ -49,6 +49,7 @@
 
 #include <OSGBaseFunctions.h>
 
+#include "OSGNodePtr.h"
 #include "OSGParticleBSP.h"
 
 #include "OSGParticles.h"
@@ -521,7 +522,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.13 2002/06/17 14:52:51 mroth Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.14 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

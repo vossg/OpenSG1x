@@ -1,4 +1,4 @@
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include <iostream>
 #include <OSGLog.h>

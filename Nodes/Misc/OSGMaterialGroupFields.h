@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, MaterialGroup> MaterialGroupPtr;
 
 template <>
 struct FieldDataTraits<MaterialGroupPtr> : 
-    public FieldTraitsRecurseMapper<MaterialGroupPtr>
+    public FieldTraitsRecurseMapper<MaterialGroupPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialGroupFields.h,v 1.11 2002/05/24 09:48:38 vossg Exp $"
+#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialGroupFields.h,v 1.12 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUPFIELDS_H_ */

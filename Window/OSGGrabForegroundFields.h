@@ -78,7 +78,7 @@ typedef FCPtr<ForegroundPtr, GrabForeground> GrabForegroundPtr;
 
 template <>
 struct FieldDataTraits<GrabForegroundPtr> : 
-    public FieldTraitsRecurseMapper<GrabForegroundPtr>
+    public FieldTraitsRecurseMapper<GrabForegroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGrabForegroundFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
+#define OSGGRABFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGrabForegroundFields.h,v 1.3 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGGRABFOREGROUNDFIELDS_H_ */

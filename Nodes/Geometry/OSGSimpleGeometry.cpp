@@ -686,7 +686,8 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
                                    )                                       \
                                   / Pi /2 + .5                              \
                )       );                                                 \
-    p->push_back(norm * radius);                                           \
+    norm *= radius;                                                       \
+    p->push_back(norm.addToZero());                                       \
 }
 
     
@@ -724,6 +725,7 @@ static void subdivideTriangle(UInt32 i1,
     
     UInt32 i12 = z++, i23 = z++, i31 = z++;
     
+
     addPoint(v12,i12);
     addPoint(v23,i23);
     addPoint(v31,i31);
@@ -802,7 +804,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         setVecLen(pnt, radius);
         norm.normalize();
         //addPoint(pnt, j);
-        p->push_back(pnt);
+        p->push_back(pnt.addToZero());
         n->push_back(norm);
         tx->push_back(Vec2f(   osgatan2(-(pnt)[0], -(pnt)[2]) / Pi / 2 + .5,
                                 osgatan2(-(pnt)[1],

@@ -57,6 +57,7 @@
 #include <dlfcn.h>
 #endif
 
+#include "OSGNodePtr.h"
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 #include "OSGBackground.h"

@@ -78,7 +78,7 @@ typedef FCPtr<StateChunkPtr, TextureChunk> TextureChunkPtr;
 
 template <>
 struct FieldDataTraits<TextureChunkPtr> : 
-    public FieldTraitsRecurseMapper<TextureChunkPtr>
+    public FieldTraitsRecurseMapper<TextureChunkPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureChunkFields.h,v 1.11 2002/05/24 09:48:39 vossg Exp $"
+#define OSGTEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureChunkFields.h,v 1.12 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKFIELDS_H_ */

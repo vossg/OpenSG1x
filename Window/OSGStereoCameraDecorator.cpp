@@ -45,6 +45,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGStereoCameraDecorator.h"
 
 OSG_USING_NAMESPACE
@@ -111,7 +112,7 @@ void StereoCameraDecorator::dump(      UInt32    ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoCameraDecorator.cpp,v 1.3 2002/06/01 10:37:26 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoCameraDecorator.cpp,v 1.4 2002/08/07 04:04:14 vossg Exp $";
     static char cvsid_hpp[] = OSGSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

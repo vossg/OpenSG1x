@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGSimpleStatisticsForegroundBase.h"
 #include "OSGSimpleStatisticsForeground.h"
 
@@ -311,7 +312,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.10 2002/06/18 08:17:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.11 2002/08/07 04:04:13 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

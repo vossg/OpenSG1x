@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGBillboardBase.h"
 #include "OSGBillboard.h"
 

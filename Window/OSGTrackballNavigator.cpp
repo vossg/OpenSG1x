@@ -41,6 +41,7 @@
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
 
+#include "OSGNodePtr.h"
 #include "OSGTrackballNavigator.h"
 
 OSG_USING_NAMESPACE
@@ -262,7 +263,7 @@ void TrackballNavigator::updateFinalMatrix()
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.6 2002/08/02 11:13:30 istoynov Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.7 2002/08/07 04:04:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

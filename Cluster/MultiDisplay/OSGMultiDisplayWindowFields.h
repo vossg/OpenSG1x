@@ -76,7 +76,7 @@ typedef FCPtr<ClusterWindowPtr, MultiDisplayWindow> MultiDisplayWindowPtr;
 
 template <>
 struct FieldDataTraits<MultiDisplayWindowPtr> : 
-    public FieldTraitsRecurseMapper<MultiDisplayWindowPtr>
+    public FieldTraitsRecurseMapper<MultiDisplayWindowPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };

@@ -51,7 +51,7 @@
 #include <GL/glx.h>
 #endif
 
-#ifdef __sgi
+#if defined(__sgi) || defined(darwin) || defined(__hpux)
 #include <dlfcn.h>
 #endif
 
@@ -170,7 +170,7 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.9 2002/07/03 10:06:13 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.10 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
 }

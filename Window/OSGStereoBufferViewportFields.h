@@ -78,7 +78,7 @@ typedef FCPtr<ViewportPtr, StereoBufferViewport> StereoBufferViewportPtr;
 
 template <>
 struct FieldDataTraits<StereoBufferViewportPtr> : 
-    public FieldTraitsRecurseMapper<StereoBufferViewportPtr>
+    public FieldTraitsRecurseMapper<StereoBufferViewportPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
+#define OSGSTEREOBUFFERVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportFields.h,v 1.3 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORTFIELDS_H_ */

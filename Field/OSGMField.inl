@@ -495,7 +495,7 @@ typename MField<FieldTypeT, fieldNameSpace>::reference
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::const_reference
+typename MField<FieldTypeT, fieldNameSpace>::const_reference
     MField<FieldTypeT, fieldNameSpace>::getValue (const UInt32 index) const
 {
     return operator[](index);

@@ -113,7 +113,7 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
 
 template <>
 struct FieldDataTraits<GenericAttPtr> : 
-    public FieldTraitsRecurseMapper<GenericAttPtr>
+    public FieldTraitsRecurseMapper<GenericAttPtr, true>
 {
     static DataType                 _type;
     enum                            { StringConvertable = 0x00  };

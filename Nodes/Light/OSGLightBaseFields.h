@@ -76,7 +76,7 @@ typedef FCPtr<NodeCorePtr, LightBase> LightBasePtr;
 
 template <>
 struct FieldDataTraits<LightBasePtr> : 
-    public FieldTraitsRecurseMapper<LightBasePtr>
+    public FieldTraitsRecurseMapper<LightBasePtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<LightBasePtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.10 2002/06/20 13:02:21 vossg Exp $"
+#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.11 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEFIELDS_H_ */

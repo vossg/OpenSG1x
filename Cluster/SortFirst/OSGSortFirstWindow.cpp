@@ -44,6 +44,7 @@
 #include <stdio.h>
 #include <OSGConfig.h>
 #include <OSGGL.h>
+#include <OSGNodePtr.h>
 #include <OSGTileCameraDecorator.h>
 #include <OSGViewport.h>
 #include <OSGGeometry.h>
@@ -124,6 +125,7 @@ void SortFirstWindow::dump(      UInt32    ,
 void SortFirstWindow::serverInit( WindowPtr serverWindow,
                                   UInt32 id)
 {
+#if 0
     UInt32 sync;
     RenderNode renderNode;
     Connection *connection=getConnection();
@@ -138,6 +140,7 @@ void SortFirstWindow::serverInit( WindowPtr serverWindow,
     connection->flush();
     connection->selectChannel();
     connection->getValue(sync);
+#endif
 }
 
 /** update server window
@@ -274,6 +277,7 @@ void SortFirstWindow::serverSwap( WindowPtr window,
 
 void SortFirstWindow::clientInit( void )
 {
+#if 0
     UInt32 id;
     RenderNode renderNode;
     Connection *connection = getConnection();
@@ -291,6 +295,7 @@ void SortFirstWindow::clientInit( void )
     // sync servers
     connection->putValue(id);
     connection->flush();
+#endif
 }
 
 /*! client frame init
@@ -341,6 +346,7 @@ void SortFirstWindow::clientPreSync( void )
     
     beginEditCP(ptr,SortFirstWindow::RegionFieldMask);
     getRegion().clear();
+#if 0
     for(cv=0;cv<getPort().size();cv++)
     {
         _tileLoadBalancer->update( getPort()[cv]->getRoot() );
@@ -355,6 +361,19 @@ void SortFirstWindow::clientPreSync( void )
             getRegion().push_back(region[4*i+3]);
         }
     }
+#else
+    for(cv=0;cv<getPort().size();cv++)
+    {
+        int s=getServers().size();
+        for(i=0;i<s;i++)
+        {
+            getRegion().push_back(i/float(s)*getWidth());
+            getRegion().push_back(0);
+            getRegion().push_back((i+1)/float(s)*getWidth());
+            getRegion().push_back(1*getHeight());
+        }
+    }
+#endif
 
     endEditCP(ptr,SortFirstWindow::RegionFieldMask);
 }

@@ -78,7 +78,7 @@ typedef FCPtr<WindowPtr, ClusterWindow> ClusterWindowPtr;
 
 template <>
 struct FieldDataTraits<ClusterWindowPtr> : 
-    public FieldTraitsRecurseMapper<ClusterWindowPtr>
+    public FieldTraitsRecurseMapper<ClusterWindowPtr, true>
 {
     static DataType             _type;                       
 

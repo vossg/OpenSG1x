@@ -51,6 +51,7 @@
 #include <strstream>
 #endif
 
+#include <OSGNodePtr.h>
 #include <OSGTXFFont.h>
 #include <OSGViewport.h>
 
@@ -317,7 +318,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.10 2002/06/30 05:04:23 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.11 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }

@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Slices> SlicesPtr;
 
 template <>
 struct FieldDataTraits<SlicesPtr> : 
-    public FieldTraitsRecurseMapper<SlicesPtr>
+    public FieldTraitsRecurseMapper<SlicesPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESFIELDS_HEADER_CVSID "@(#)$Id: OSGSlicesFields.h,v 1.1 2002/07/16 21:10:42 jbehr Exp $"
+#define OSGSLICESFIELDS_HEADER_CVSID "@(#)$Id: OSGSlicesFields.h,v 1.2 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGSLICESFIELDS_H_ */

@@ -59,7 +59,7 @@ OSG_BEGIN_NAMESPACE
 
 template <>
 struct FieldDataTraits<AttachmentContainerPtr> : 
-    public FieldTraitsRecurseMapper<AttachmentContainerPtr>
+    public FieldTraitsRecurseMapper<AttachmentContainerPtr, true>
 {
     static DataType                  _type;
 

@@ -43,6 +43,7 @@
 
 #include <OSGGL.h>
 
+#include "OSGNodePtr.h"
 #include "OSGDirectionalLight.h"
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>

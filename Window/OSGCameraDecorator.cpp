@@ -45,6 +45,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGCameraDecorator.h"
 
 OSG_USING_NAMESPACE
@@ -145,7 +146,7 @@ void CameraDecorator::getViewing(Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.12 2002/06/30 05:04:23 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.13 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }

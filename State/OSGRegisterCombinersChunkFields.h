@@ -78,7 +78,7 @@ typedef FCPtr<StateChunkPtr, RegisterCombinersChunk> RegisterCombinersChunkPtr;
 
 template <>
 struct FieldDataTraits<RegisterCombinersChunkPtr> : 
-    public FieldTraitsRecurseMapper<RegisterCombinersChunkPtr>
+    public FieldTraitsRecurseMapper<RegisterCombinersChunkPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunkFields.h,v 1.1 2002/06/10 22:10:47 dirk Exp $"
+#define OSGREGISTERCOMBINERSCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunkFields.h,v 1.2 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGREGISTERCOMBINERSCHUNKFIELDS_H_ */

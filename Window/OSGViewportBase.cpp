@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGViewportBase.h"
 #include "OSGViewport.h"
 
@@ -497,7 +498,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.35 2002/06/18 08:17:56 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.36 2002/08/07 04:04:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

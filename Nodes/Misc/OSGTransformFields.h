@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 
 template <>
 struct FieldDataTraits<TransformPtr> : 
-    public FieldTraitsRecurseMapper<TransformPtr>
+    public FieldTraitsRecurseMapper<TransformPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.12 2002/05/24 09:48:39 vossg Exp $"
+#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.13 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGTRANSFORMFIELDS_H_ */

@@ -92,7 +92,7 @@ char *FCPtrTemplate_h[]={
 "",
 "template <>",
 "struct FieldDataTraits<@!Classname!@Ptr> : ",
-"    public FieldTraitsRecurseMapper<@!Classname!@Ptr>",
+"    public FieldTraitsRecurseMapper<@!Classname!@Ptr, true>",
 "{",
 "@@if Pointerfield",
 "    static DataType             _type;                       ",
@@ -137,7 +137,7 @@ char *FCPtrTemplate_h[]={
 "@@endif",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.16 2002/06/20 13:02:16 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.17 2002/08/07 04:04:13 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@FIELDS_H_ */",
 NULL };

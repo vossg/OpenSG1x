@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGTransformBase.h"
 #include "OSGTransform.h"
 
@@ -249,7 +250,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.31 2002/06/18 08:17:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.32 2002/08/07 04:04:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 

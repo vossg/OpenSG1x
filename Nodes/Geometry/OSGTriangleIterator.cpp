@@ -44,6 +44,7 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
+#include "OSGNodePtr.h"
 #include "OSGTriangleIterator.h"
 
 OSG_USING_NAMESPACE
@@ -71,7 +72,7 @@ triangles, non-polygonal primitives like lines and points are ignored.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.14 2002/02/04 20:14:09 dirk Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.15 2002/08/07 04:04:12 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

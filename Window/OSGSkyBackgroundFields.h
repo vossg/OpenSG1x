@@ -77,7 +77,7 @@ typedef FCPtr<BackgroundPtr, SkyBackground> SkyBackgroundPtr;
 
 template <>
 struct FieldDataTraits<SkyBackgroundPtr> : 
-    public FieldTraitsRecurseMapper<SkyBackgroundPtr>
+    public FieldTraitsRecurseMapper<SkyBackgroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -101,6 +101,6 @@ OSG_DLLEXPORT_DECL1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
+#define OSGSKYBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundFields.h,v 1.3 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDFIELDS_H_ */

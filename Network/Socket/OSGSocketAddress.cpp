@@ -114,6 +114,7 @@ SocketAddress::SocketAddress(SocketAddress::Type type,int port)
             break;
         case BROADCAST:
             _sockaddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+//            setHost(string("192.168.0.255"));
             break;
         default:
             _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);

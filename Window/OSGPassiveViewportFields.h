@@ -78,7 +78,7 @@ typedef FCPtr<ViewportPtr, PassiveViewport> PassiveViewportPtr;
 
 template <>
 struct FieldDataTraits<PassiveViewportPtr> : 
-    public FieldTraitsRecurseMapper<PassiveViewportPtr>
+    public FieldTraitsRecurseMapper<PassiveViewportPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveViewportFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
+#define OSGPASSIVEVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveViewportFields.h,v 1.3 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGPASSIVEVIEWPORTFIELDS_H_ */

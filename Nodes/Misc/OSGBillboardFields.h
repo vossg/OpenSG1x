@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Billboard> BillboardPtr;
 
 template <>
 struct FieldDataTraits<BillboardPtr> : 
-    public FieldTraitsRecurseMapper<BillboardPtr>
+    public FieldTraitsRecurseMapper<BillboardPtr, true>
 {
     static DataType             _type;                       
 

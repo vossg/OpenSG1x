@@ -78,7 +78,7 @@ typedef FCPtr<AttachmentContainerPtr, Foreground> ForegroundPtr;
 
 template <>
 struct FieldDataTraits<ForegroundPtr> : 
-    public FieldTraitsRecurseMapper<ForegroundPtr>
+    public FieldTraitsRecurseMapper<ForegroundPtr, true>
 {
     static DataType             _type;                       
 

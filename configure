@@ -3243,6 +3243,7 @@ else
     case $build_os in
         hpux*)
             ac_gdz_compiler_exe_exe='$(CC) +DA2.0N -AA +ESnolit +inst_auto -Wf,-o'
+        	ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread'
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'
@@ -3291,7 +3292,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:3295: checking project config common.project.in" >&5
+echo "configure:3296: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3302,7 +3303,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:3306: checking package config common.libs.in" >&5
+echo "configure:3307: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3314,7 +3315,7 @@ fi
 
 
 echo $ac_n "checking additional package configs""... $ac_c" 1>&6
-echo "configure:3318: checking additional package configs" >&5
+echo "configure:3319: checking additional package configs" >&5
 
 for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
 do

@@ -76,6 +76,11 @@ OSG_BEGIN_NAMESPACE
     \brief Value store
 */
 
+#if defined(__hpux)
+template<class ValueTypeT> 
+const UInt32 TransformationMatrix<ValueTypeT>::JacobiRank;
+#endif
+
 template<class ValueTypeT>
 TransformationMatrix<ValueTypeT> 
     TransformationMatrix<ValueTypeT>::_identityMatrix;

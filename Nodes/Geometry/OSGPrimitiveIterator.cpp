@@ -44,6 +44,7 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
+#include "OSGNodePtr.h"
 #include "OSGPrimitiveIterator.h"
 
 OSG_USING_NAMESPACE
@@ -88,7 +89,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.22 2002/06/10 22:08:18 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.23 2002/08/07 04:04:12 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

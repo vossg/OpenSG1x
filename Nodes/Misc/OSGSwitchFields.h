@@ -78,7 +78,7 @@ typedef FCPtr<GroupPtr, Switch> SwitchPtr;
 
 template <>
 struct FieldDataTraits<SwitchPtr> : 
-    public FieldTraitsRecurseMapper<SwitchPtr>
+    public FieldTraitsRecurseMapper<SwitchPtr, true>
 {
     static DataType             _type;                       
 

@@ -47,6 +47,7 @@
 
 #include <OSGMatrixUtility.h>
 
+#include "OSGNodePtr.h"
 #include "OSGPerspectiveCamera.h"
 #include "OSGShearedStereoCameraDecorator.h"
 
@@ -143,7 +144,7 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.5 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.6 2002/08/07 04:04:14 vossg Exp $";
     static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

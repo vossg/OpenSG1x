@@ -76,7 +76,7 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 template <>
 struct FieldDataTraits<GeometryPtr> : 
-    public FieldTraitsRecurseMapper<GeometryPtr>
+    public FieldTraitsRecurseMapper<GeometryPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<GeometryPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.11 2002/06/20 13:02:21 vossg Exp $"
+#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.12 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGGEOMETRYFIELDS_H_ */

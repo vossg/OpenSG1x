@@ -55,6 +55,7 @@
 #include <sys/endian.h>
 #elif defined(__hpux)
 #include <arpa/nameser.h>
+#include <pthread.h>
 #elif defined(darwin)
 #include <machine/endian.h>
 #elif defined(__linux)

@@ -76,7 +76,7 @@ typedef FCPtr<GroupPtr, DistanceLOD> DistanceLODPtr;
 
 template <>
 struct FieldDataTraits<DistanceLODPtr> : 
-    public FieldTraitsRecurseMapper<DistanceLODPtr>
+    public FieldTraitsRecurseMapper<DistanceLODPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<DistanceLODPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.8 2002/06/20 13:02:22 vossg Exp $"
+#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.9 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGDISTANCELODFIELDS_H_ */

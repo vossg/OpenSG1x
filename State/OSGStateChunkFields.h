@@ -78,7 +78,7 @@ typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
 template <>
 struct FieldDataTraits<StateChunkPtr> : 
-    public FieldTraitsRecurseMapper<StateChunkPtr>
+    public FieldTraitsRecurseMapper<StateChunkPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStateChunkFields.h,v 1.13 2002/05/24 09:48:39 vossg Exp $"
+#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStateChunkFields.h,v 1.14 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKFIELDS_H_ */

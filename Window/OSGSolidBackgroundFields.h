@@ -77,7 +77,7 @@ typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 
 template <>
 struct FieldDataTraits<SolidBackgroundPtr> : 
-    public FieldTraitsRecurseMapper<SolidBackgroundPtr>
+    public FieldTraitsRecurseMapper<SolidBackgroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -100,6 +100,6 @@ OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundFields.h,v 1.13 2002/05/24 09:48:40 vossg Exp $"
+#define OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundFields.h,v 1.14 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDFIELDS_H_ */

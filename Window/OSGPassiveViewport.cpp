@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 
 #include <OSGGL.h>
+#include <OSGNodePtr.h>
 #include <OSGCamera.h>
 #include <OSGBackground.h>
 #include <OSGForeground.h>
@@ -227,7 +228,7 @@ void PassiveViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.7 2002/08/02 17:31:37 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.8 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEVIEWPORT_INLINE_CVSID;
 }

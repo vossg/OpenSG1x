@@ -77,7 +77,7 @@ typedef FCPtr<BackgroundPtr, PassiveBackground> PassiveBackgroundPtr;
 
 template <>
 struct FieldDataTraits<PassiveBackgroundPtr> : 
-    public FieldTraitsRecurseMapper<PassiveBackgroundPtr>
+    public FieldTraitsRecurseMapper<PassiveBackgroundPtr, true>
 {
     static DataType             _type;                       
 

@@ -44,6 +44,7 @@
 #include <stdio.h>
 
 #include <OSGConfig.h>
+#include <OSGNodePtr.h>
 #include <OSGWindow.h>
 #include <OSGCamera.h>
 #include <OSGViewport.h>

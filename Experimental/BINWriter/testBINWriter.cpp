@@ -1,12 +1,7 @@
 #include <OSGConfig.h>
  
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
 #include <fstream>
-#else
-#include <iostream.h>
-#include <fstream.h>
-#endif
 
 #include <OSGNode.h>
 #include <OSGBaseFunctions.h>

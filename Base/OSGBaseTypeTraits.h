@@ -70,6 +70,11 @@ struct TypeTraits : public TypeTraitsBase
 #endif
 };
 
+#if defined(__hpux)
+template <class LookupTypeT> 
+const bool TypeTraits<LookupTypeT>::IsPOD;
+#endif
+
 template <>
 struct TypeTraits<bool> : public TypeTraitsBase
 {

@@ -1043,6 +1043,7 @@ dnl a symlink from gmake to make
     case $build_os in
         hpux*)
             ac_gdz_compiler_exe_exe='$(CC) +DA2.0N -AA +ESnolit +inst_auto -Wf,-o'
+        	ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread'
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'

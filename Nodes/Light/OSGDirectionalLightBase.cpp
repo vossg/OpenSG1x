@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGDirectionalLightBase.h"
 #include "OSGDirectionalLight.h"
 
@@ -236,7 +237,7 @@ void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.23 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.24 2002/08/07 04:04:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 

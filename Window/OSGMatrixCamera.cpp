@@ -47,6 +47,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGMatrixCamera.h"
 
 OSG_USING_NAMESPACE
@@ -70,7 +71,7 @@ A perspective camera with a symmetric frustum.
  *                           Class variables                               *
 \***************************************************************************/
 
-char MatrixCamera::cvsid[] = "@(#)$Id: OSGMatrixCamera.cpp,v 1.3 2002/06/30 05:04:24 vossg Exp $";
+char MatrixCamera::cvsid[] = "@(#)$Id: OSGMatrixCamera.cpp,v 1.4 2002/08/07 04:04:13 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

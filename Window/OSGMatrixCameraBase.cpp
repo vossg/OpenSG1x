@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGMatrixCameraBase.h"
 #include "OSGMatrixCamera.h"
 
@@ -280,7 +281,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.13 2002/06/18 08:17:56 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.14 2002/08/07 04:04:13 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERABASE_INLINE_CVSID;
 

@@ -77,7 +77,7 @@ typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
 
 template <>
 struct FieldDataTraits<GradientBackgroundPtr> : 
-    public FieldTraitsRecurseMapper<GradientBackgroundPtr>
+    public FieldTraitsRecurseMapper<GradientBackgroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -101,6 +101,6 @@ OSG_DLLEXPORT_DECL1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundFields.h,v 1.13 2002/05/24 09:48:40 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundFields.h,v 1.14 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDFIELDS_H_ */

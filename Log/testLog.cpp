@@ -4,13 +4,8 @@
 #define __EXTENSIONS__  // ??? what's this ???
 #include <stdlib.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
 #include <fstream>
-#else
-#include <iostream.h>
-#include <fstream.h>
-#endif
 
 #define OSG_LOG_MODULE "LOG-TEST"
 

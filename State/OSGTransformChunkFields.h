@@ -76,7 +76,7 @@ typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
 
 template <>
 struct FieldDataTraits<TransformChunkPtr> : 
-    public FieldTraitsRecurseMapper<TransformChunkPtr>
+    public FieldTraitsRecurseMapper<TransformChunkPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<TransformChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformChunkFields.h,v 1.10 2002/06/20 13:02:20 vossg Exp $"
+#define OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformChunkFields.h,v 1.11 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGTRANSFORMCHUNKFIELDS_H_ */

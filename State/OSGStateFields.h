@@ -78,7 +78,7 @@ typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
 template <>
 struct FieldDataTraits<StatePtr> : 
-    public FieldTraitsRecurseMapper<StatePtr>
+    public FieldTraitsRecurseMapper<StatePtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.12 2002/05/24 09:48:39 vossg Exp $"
+#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.13 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGSTATEFIELDS_H_ */

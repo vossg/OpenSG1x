@@ -1,5 +1,5 @@
-#include <GL/glut.h>
-#include <GL/glu.h>
+#include <OSGGLUT.h>
+#include <OSGGLU.h>
 #include <OSGConfig.h>
 #include <iostream>
 #include <OSGLog.h>

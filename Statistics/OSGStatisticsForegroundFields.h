@@ -78,7 +78,7 @@ typedef FCPtr<ForegroundPtr, StatisticsForeground> StatisticsForegroundPtr;
 
 template <>
 struct FieldDataTraits<StatisticsForegroundPtr> : 
-    public FieldTraitsRecurseMapper<StatisticsForegroundPtr>
+    public FieldTraitsRecurseMapper<StatisticsForegroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundFields.h,v 1.2 2002/05/24 09:48:39 vossg Exp $"
+#define OSGSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundFields.h,v 1.3 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUNDFIELDS_H_ */

@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGTileCameraDecoratorBase.h"
 #include "OSGTileCameraDecorator.h"
 
@@ -404,7 +405,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.29 2002/06/18 08:17:56 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.30 2002/08/07 04:04:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 

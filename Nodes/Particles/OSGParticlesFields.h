@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Particles> ParticlesPtr;
 
 template <>
 struct FieldDataTraits<ParticlesPtr> : 
-    public FieldTraitsRecurseMapper<ParticlesPtr>
+    public FieldTraitsRecurseMapper<ParticlesPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: OSGParticlesFields.h,v 1.4 2002/05/24 09:48:39 vossg Exp $"
+#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: OSGParticlesFields.h,v 1.5 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGPARTICLESFIELDS_H_ */

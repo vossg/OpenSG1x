@@ -77,7 +77,7 @@ typedef FCPtr<BackgroundPtr, ImageBackground> ImageBackgroundPtr;
 
 template <>
 struct FieldDataTraits<ImageBackgroundPtr> : 
-    public FieldTraitsRecurseMapper<ImageBackgroundPtr>
+    public FieldTraitsRecurseMapper<ImageBackgroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -100,6 +100,6 @@ OSG_DLLEXPORT_DECL1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.5 2002/05/24 09:48:40 vossg Exp $"
+#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.6 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDFIELDS_H_ */

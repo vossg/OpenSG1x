@@ -76,7 +76,7 @@ typedef FCPtr<StateChunkPtr, LineChunk> LineChunkPtr;
 
 template <>
 struct FieldDataTraits<LineChunkPtr> : 
-    public FieldTraitsRecurseMapper<LineChunkPtr>
+    public FieldTraitsRecurseMapper<LineChunkPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<LineChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLineChunkFields.h,v 1.3 2002/06/20 13:02:19 vossg Exp $"
+#define OSGLINECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLineChunkFields.h,v 1.4 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGLINECHUNKFIELDS_H_ */

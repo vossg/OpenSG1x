@@ -40,6 +40,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
+#include <OSGNodePtr.h>
 #include <OSGCamera.h>
 #include <OSGTransform.h>
 
@@ -639,7 +640,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.11 2002/07/10 16:18:26 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.12 2002/08/07 04:04:13 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

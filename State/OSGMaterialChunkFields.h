@@ -76,7 +76,7 @@ typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 
 template <>
 struct FieldDataTraits<MaterialChunkPtr> : 
-    public FieldTraitsRecurseMapper<MaterialChunkPtr>
+    public FieldTraitsRecurseMapper<MaterialChunkPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<MaterialChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialChunkFields.h,v 1.10 2002/06/20 13:02:19 vossg Exp $"
+#define OSGMATERIALCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialChunkFields.h,v 1.11 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKFIELDS_H_ */

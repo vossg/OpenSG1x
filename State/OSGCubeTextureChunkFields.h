@@ -78,7 +78,7 @@ typedef FCPtr<TextureChunkPtr, CubeTextureChunk> CubeTextureChunkPtr;
 
 template <>
 struct FieldDataTraits<CubeTextureChunkPtr> : 
-    public FieldTraitsRecurseMapper<CubeTextureChunkPtr>
+    public FieldTraitsRecurseMapper<CubeTextureChunkPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkFields.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
+#define OSGCUBETEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkFields.h,v 1.2 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGCUBETEXTURECHUNKFIELDS_H_ */

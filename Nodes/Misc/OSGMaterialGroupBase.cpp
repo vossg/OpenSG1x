@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGMaterialGroupBase.h"
 #include "OSGMaterialGroup.h"
 
@@ -249,7 +250,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.31 2002/06/18 08:17:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.32 2002/08/07 04:04:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 

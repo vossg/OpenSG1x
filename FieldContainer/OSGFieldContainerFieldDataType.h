@@ -59,8 +59,8 @@ OSG_BEGIN_NAMESPACE
     \ingroup MultiFields
 */
 
-template <>
-struct FieldTraitsRecurseMapper<FieldContainerPtr> : 
+template <bool bHasParentT>
+struct FieldTraitsRecurseMapper<FieldContainerPtr, bHasParentT> : 
     public FieldTraitsRecurseBase<FieldContainerPtr>
 {
     enum                    { bHasParent = 0x00       };
@@ -140,7 +140,7 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
 
 template <>
 struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> : 
-    public FieldTraitsRecurseMapper<FieldContainerPtr>
+    public FieldTraitsRecurseMapper<FieldContainerPtr, false>
 {
     static DataType                 _type;
 

@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGPerspectiveCameraBase.h"
 #include "OSGPerspectiveCamera.h"
 
@@ -249,7 +250,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.32 2002/06/18 08:17:56 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.33 2002/08/07 04:04:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 

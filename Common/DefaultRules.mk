@@ -172,13 +172,13 @@ define hpux_make_depend
 	@echo "# Building dependency $(@F) from $(<F)"
 	@-rm -f $@
 	@echo '# Module dependencies' > $@
-	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
-	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). 							\
-	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
-	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
-	 		  -e 's/\/usr\/Software\/[^ ]*//g'						\
-	 		  -e 's/\/opt\/[^ ]*//g'								\
-			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
+	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(DEPFLAGS) $(CCLOCALFLAGS) \
+	 $(INCL) $(INC_OPTION)$(OBJDIR) $(INC_OPTION).   				  \
+	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					  \
+	 		  -e 's/\/usr\/include\/[^ ]*//g'						  \
+	 		  -e 's/\/usr\/Software\/[^ ]*//g'						  \
+	 		  -e 's/\/opt\/[^ ]*//g'								  \
+			  -e 's/.*\.\.\/Base\/[^ ]*//g'							  \
 			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
 			>> $@ 
 endef

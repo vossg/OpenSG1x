@@ -54,6 +54,7 @@
 
 #include <OSGConfig.h>
 #include <OSGTXFFont.h>
+#include <OSGNodePtr.h>
 #include <OSGViewport.h>
 #include "OSGGraphicStatisticsFont.h"
 
@@ -1409,7 +1410,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.11 2002/07/31 07:39:45 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.12 2002/08/07 04:04:13 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

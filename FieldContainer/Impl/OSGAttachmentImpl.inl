@@ -57,11 +57,10 @@ OSG_BEGIN_NAMESPACE
 
 OSG_FIELD_CONTAINER_INL_DEF(Attachment, AttachmentPtr)
 
-/*
+#if defined(__hpux)
 template <class AttachmentDescT>
-const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
-    (1 << SimpleAttachment<AttachmentDescT>::SimpleFieldId);
-    */
+const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask;
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                           Type Information                              */

@@ -100,7 +100,7 @@ void MField<bool, 2>::copyFromBin(BinaryDataHandler &pMem)
     _values.clear ( );
 
 #ifdef __hpux
-    FieldTypeT tmpVal;
+    bool tmpVal;
 
     _values.resize(n, tmpVal);
 #else

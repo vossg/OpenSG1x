@@ -713,6 +713,14 @@ class VectorInterface :
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                      Conv                                    */
+    /*! \{                                                                 */
+
+          PntInterface   &addToZero (void);
+    const PntInterface   &addToZero (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Math                                    */
     /*! \{                                                                 */
 

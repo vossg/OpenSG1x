@@ -78,7 +78,7 @@ typedef FCPtr<CameraPtr, MatrixCamera> MatrixCameraPtr;
 
 template <>
 struct FieldDataTraits<MatrixCameraPtr> : 
-    public FieldTraitsRecurseMapper<MatrixCameraPtr>
+    public FieldTraitsRecurseMapper<MatrixCameraPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATRIXCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGMatrixCameraFields.h,v 1.3 2002/05/24 09:48:40 vossg Exp $"
+#define OSGMATRIXCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGMatrixCameraFields.h,v 1.4 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGMATRIXCAMERAFIELDS_H_ */

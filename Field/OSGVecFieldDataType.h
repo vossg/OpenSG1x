@@ -111,6 +111,11 @@ struct FieldTraitsRecurseVecStoreBase : public Traits
     }
 };
 
+#if defined(__hpux)
+template<class ValueTypeT> 
+const UInt32 FieldTraitsRecurseVecStoreBase<ValueTypeT>::uiTest;
+#endif
+
 /*! \brief VecStorage2 field traits recurse base
     \ingroup FieldLib
     \ingroup SingleFields
@@ -121,7 +126,7 @@ template<class ValueTypeT>
 struct FieldTraitsRecurseVecStore2Base : 
     public FieldTraitsRecurseVecStoreBase<ValueTypeT> 
 {
-    enum { bHasParent = 0x00 };
+    enum               { bHasParent = 0x00 };
 };
 
 /*! \brief VecStorage3 field traits recurse base
@@ -134,7 +139,7 @@ template<class ValueTypeT>
 struct FieldTraitsRecurseVecStore3Base : 
     public FieldTraitsRecurseVecStoreBase<ValueTypeT>
 {
-    enum { bHasParent = 0x00 };
+    enum              { bHasParent = 0x00 };
 };
 
 /*! \brief VecStorage4 field traits recurse base
@@ -147,7 +152,7 @@ template<class ValueTypeT>
 struct FieldTraitsRecurseVecStore4Base : 
     public FieldTraitsRecurseVecStoreBase<ValueTypeT>
 {
-    enum { bHasParent = 0x00 };
+    enum              { bHasParent = 0x00 };
 };
 
 /*! \brief Vec2f field traits 

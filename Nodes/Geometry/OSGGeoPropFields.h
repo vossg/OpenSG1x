@@ -50,7 +50,7 @@ typedef GeoPositions::PtrType GeoPositionsPtr;
 
 template <>
 struct FieldDataTraits<GeoPositionsPtr> :
-    public FieldTraitsRecurseMapper<GeoPositionsPtr>
+    public FieldTraitsRecurseMapper<GeoPositionsPtr, true>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                                 */
@@ -86,7 +86,7 @@ typedef GeoNormals::PtrType GeoNormalsPtr;
 
 template <>
 struct FieldDataTraits<GeoNormalsPtr> :
-    public FieldTraitsRecurseMapper<GeoNormalsPtr>
+    public FieldTraitsRecurseMapper<GeoNormalsPtr, true>
 {
     static DataType                  _type;
     enum                            { StringConvertable = 0x00  };
@@ -109,7 +109,7 @@ typedef GeoColors::PtrType GeoColorsPtr;
 
 template <>
 struct FieldDataTraits<GeoColorsPtr> :
-    public FieldTraitsRecurseMapper<GeoColorsPtr>
+    public FieldTraitsRecurseMapper<GeoColorsPtr, true>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00 };
@@ -133,7 +133,7 @@ typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
 
 template <>
 struct FieldDataTraits<GeoTexCoordsPtr> :
-    public FieldTraitsRecurseMapper<GeoTexCoordsPtr>
+    public FieldTraitsRecurseMapper<GeoTexCoordsPtr, true>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00    };
@@ -156,7 +156,7 @@ typedef GeoIndices::PtrType GeoIndicesPtr;
 
 template <>
 struct FieldDataTraits<GeoIndicesPtr> :
-    public FieldTraitsRecurseMapper<GeoIndicesPtr>
+    public FieldTraitsRecurseMapper<GeoIndicesPtr, true>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00 };
@@ -180,7 +180,7 @@ typedef GeoPTypes::PtrType GeoPTypesPtr;
 
 template <>
 struct FieldDataTraits<GeoPTypesPtr> :
-    public FieldTraitsRecurseMapper<GeoPTypesPtr>
+    public FieldTraitsRecurseMapper<GeoPTypesPtr, true>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00 };
@@ -203,7 +203,7 @@ typedef GeoPLengths::PtrType GeoPLengthsPtr;
 
 template <>
 struct FieldDataTraits<GeoPLengthsPtr> :
-    public FieldTraitsRecurseMapper<GeoPLengthsPtr>
+    public FieldTraitsRecurseMapper<GeoPLengthsPtr, true>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00  };

@@ -45,7 +45,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef sgi
+#if defined(sgi) || defined(__hpux)
 #include <dlfcn.h>
 #endif
 

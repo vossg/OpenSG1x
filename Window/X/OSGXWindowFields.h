@@ -78,7 +78,7 @@ typedef FCPtr<WindowPtr, XWindow> XWindowPtr;
 
 template <>
 struct FieldDataTraits<XWindowPtr> : 
-    public FieldTraitsRecurseMapper<XWindowPtr>
+    public FieldTraitsRecurseMapper<XWindowPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowFields.h,v 1.2 2002/05/24 09:48:41 vossg Exp $"
+#define OSGXWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowFields.h,v 1.3 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGXWINDOWFIELDS_H_ */

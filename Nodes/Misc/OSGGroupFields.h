@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
 template <>
 struct FieldDataTraits<GroupPtr> : 
-    public FieldTraitsRecurseMapper<GroupPtr>
+    public FieldTraitsRecurseMapper<GroupPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.13 2002/05/24 09:48:38 vossg Exp $"
+#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.14 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGGROUPFIELDS_H_ */

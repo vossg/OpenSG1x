@@ -47,6 +47,7 @@
 
 #include <OSGGL.h>
 
+#include <OSGAttachmentContainerPtr.h>
 #include <OSGState.h>
 #include <OSGDrawActionBase.h>
 #include <OSGGeometry.h>
@@ -75,7 +76,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.24 2002/06/30 05:04:21 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.25 2002/08/07 04:04:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -78,7 +78,7 @@ typedef FCPtr<WindowPtr, PassiveWindow> PassiveWindowPtr;
 
 template <>
 struct FieldDataTraits<PassiveWindowPtr> : 
-    public FieldTraitsRecurseMapper<PassiveWindowPtr>
+    public FieldTraitsRecurseMapper<PassiveWindowPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveWindowFields.h,v 1.3 2002/05/24 09:48:40 vossg Exp $"
+#define OSGPASSIVEWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveWindowFields.h,v 1.4 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGPASSIVEWINDOWFIELDS_H_ */

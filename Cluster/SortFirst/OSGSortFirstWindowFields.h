@@ -76,7 +76,7 @@ typedef FCPtr<ClusterWindowPtr, SortFirstWindow> SortFirstWindowPtr;
 
 template <>
 struct FieldDataTraits<SortFirstWindowPtr> : 
-    public FieldTraitsRecurseMapper<SortFirstWindowPtr>
+    public FieldTraitsRecurseMapper<SortFirstWindowPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };

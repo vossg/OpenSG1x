@@ -78,7 +78,7 @@ typedef FCPtr<ForegroundPtr, ImageForeground> ImageForegroundPtr;
 
 template <>
 struct FieldDataTraits<ImageForegroundPtr> : 
-    public FieldTraitsRecurseMapper<ImageForegroundPtr>
+    public FieldTraitsRecurseMapper<ImageForegroundPtr, true>
 {
     static DataType             _type;                       
 

@@ -116,6 +116,11 @@ FieldAccessMethod GeoProperty<GeoPropertyDesc>::getFPtrAccessMethod(void)
 }
 #endif
 
+#if defined(__hpux)
+template <class GeoPropertyDesc> 
+const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask;
+#endif
+
 /** \brief Constructor
  */
 

@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGParticlesBase.h"
 #include "OSGParticles.h"
 
@@ -621,7 +622,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.17 2002/06/18 08:17:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.18 2002/08/07 04:04:13 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 

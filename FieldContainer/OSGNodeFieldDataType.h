@@ -40,7 +40,7 @@
 #define _OSG_NODEFIELDDATATYPE_H_
 
 #include <OSGFieldDataType.h>
-#include <OSGFieldContainerFieldDataType.h>
+#include <OSGAttachmentContainerFieldDataType.h>
 #include <OSGFieldContainerPtrForward.h>
 
 OSG_BEGIN_NAMESPACE
@@ -59,7 +59,8 @@ OSG_BEGIN_NAMESPACE
 */
 
 template <>
-struct FieldDataTraits<NodePtr> : public FieldTraitsRecurseMapper<NodePtr>
+struct FieldDataTraits<NodePtr> : 
+    public FieldTraitsRecurseMapper<NodePtr, true>
 {
     static DataType                  _type;
 

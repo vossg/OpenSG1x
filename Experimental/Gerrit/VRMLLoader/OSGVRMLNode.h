@@ -51,6 +51,7 @@
 #include <OSGFieldType.h>
 #include <OSGMField.h>
 #include <OSGSField.h>
+#include <OSGNodePtr.h>
 #include <OSGVRMLObjectType.h>
 #include <OSGIDString.h>
 

@@ -69,6 +69,11 @@ OSG_BEGIN_NAMESPACE
     \brief Value store
 */
 
+#if defined(__hpux)
+template <class ValueTypeT> 
+const UInt32 VecStorage2<ValueTypeT>::_iSize;
+#endif
+	
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
@@ -140,6 +145,11 @@ ValueTypeT VecStorage2<ValueTypeT>::y(void) const
 /*! \var ValueTypeT VecStorage3::_values[iSize];
     \brief Value store
 */
+
+#if defined(__hpux)
+template <class ValueTypeT> 
+const UInt32 VecStorage3<ValueTypeT>::_iSize;
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -222,6 +232,11 @@ ValueTypeT VecStorage3<ValueTypeT>::z(void) const
 /*! \var ValueTypeT VecStorage4::_values[iSize];
     \brief Value store
 */
+
+#if defined(__hpux)
+template <class ValueTypeT> inline
+const UInt32 VecStorage4<ValueTypeT>::_iSize;
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -1558,6 +1573,30 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     }
 
     return rDot;
+}
+
+//! Returns the corrosponding point by adding it to zero
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename VectorInterface<ValueTypeT, 
+                         StorageInterfaceT>::PntInterface &
+    VectorInterface<ValueTypeT, 
+                    StorageInterfaceT>::addToZero(void)
+{
+    return *(static_cast<PntInterface *>(this));
+}
+
+//! Returns the corrosponding point by adding it to zero
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+const typename VectorInterface<ValueTypeT, 
+                               StorageInterfaceT>::PntInterface &
+    VectorInterface<ValueTypeT, 
+                    StorageInterfaceT>::addToZero(void) const
+{
+    return *(static_cast<const PntInterface *>(this));
 }
 
 /*-------------------------------------------------------------------------*/

@@ -58,6 +58,8 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
+
 #include "OSGGeometryBase.h"
 #include "OSGGeometry.h"
 
@@ -670,7 +672,7 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.29 2002/06/10 22:08:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.30 2002/08/07 04:04:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 

@@ -51,6 +51,7 @@
 
 #include "OSGVRMLObject.h"
 #include "OSGVRMLObjectFactory.h"
+#include "OSGField.h"
 
 OSG_USING_NAMESPACE
 

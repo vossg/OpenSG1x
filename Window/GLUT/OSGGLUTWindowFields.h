@@ -78,7 +78,7 @@ typedef FCPtr<WindowPtr, GLUTWindow> GLUTWindowPtr;
 
 template <>
 struct FieldDataTraits<GLUTWindowPtr> : 
-    public FieldTraitsRecurseMapper<GLUTWindowPtr>
+    public FieldTraitsRecurseMapper<GLUTWindowPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGGLUTWindowFields.h,v 1.2 2002/05/24 09:48:41 vossg Exp $"
+#define OSGGLUTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGGLUTWindowFields.h,v 1.3 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGGLUTWINDOWFIELDS_H_ */

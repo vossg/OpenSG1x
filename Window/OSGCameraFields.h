@@ -78,7 +78,7 @@ typedef FCPtr<AttachmentContainerPtr, Camera> CameraPtr;
 
 template <>
 struct FieldDataTraits<CameraPtr> : 
-    public FieldTraitsRecurseMapper<CameraPtr>
+    public FieldTraitsRecurseMapper<CameraPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraFields.h,v 1.14 2002/05/24 09:48:40 vossg Exp $"
+#define OSGCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraFields.h,v 1.15 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGCAMERAFIELDS_H_ */

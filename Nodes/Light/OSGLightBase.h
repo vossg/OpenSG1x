@@ -45,6 +45,7 @@
 
 #include <OSGConfig.h>
 #include <OSGLightBaseBase.h>
+#include <OSGNodePtr.h>
 #include <OSGAction.h>
 #include <OSGLightChunk.h>
 

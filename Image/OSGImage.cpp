@@ -740,7 +740,7 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 //s:
 //
 //------------------------------
-bool Image::scaleNextPower2 ( Image *destination )
+bool Image::scaleNextPower2(Image *destination)
 {
   return scale ( osgnextpower2(_width), 
                  osgnextpower2(_height),

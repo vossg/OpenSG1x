@@ -78,7 +78,7 @@ typedef FCPtr<CameraDecoratorPtr, TileCameraDecorator> TileCameraDecoratorPtr;
 
 template <>
 struct FieldDataTraits<TileCameraDecoratorPtr> : 
-    public FieldTraitsRecurseMapper<TileCameraDecoratorPtr>
+    public FieldTraitsRecurseMapper<TileCameraDecoratorPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorFields.h,v 1.9 2002/05/24 09:48:40 vossg Exp $"
+#define OSGTILECAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorFields.h,v 1.10 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORFIELDS_H_ */

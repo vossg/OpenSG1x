@@ -47,6 +47,7 @@
 
 #include <OSGGL.h>
 
+#include <OSGNodePtr.h>
 #include <OSGViewport.h>
 
 #include "OSGGrabForeground.h"
@@ -152,7 +153,7 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.6 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.7 2002/08/07 04:04:13 vossg Exp $";
     static char cvsid_hpp[] = OSGGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGGRABFOREGROUND_INLINE_CVSID;
 }

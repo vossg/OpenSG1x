@@ -76,7 +76,7 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 template <>
 struct FieldDataTraits<SpotLightPtr> : 
-    public FieldTraitsRecurseMapper<SpotLightPtr>
+    public FieldTraitsRecurseMapper<SpotLightPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -85,6 +85,6 @@ struct FieldDataTraits<SpotLightPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.10 2002/06/20 13:02:21 vossg Exp $"
+#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.11 2002/08/07 04:04:12 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTFIELDS_H_ */

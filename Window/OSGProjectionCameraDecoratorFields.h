@@ -78,7 +78,7 @@ typedef FCPtr<StereoCameraDecoratorPtr, ProjectionCameraDecorator> ProjectionCam
 
 template <>
 struct FieldDataTraits<ProjectionCameraDecoratorPtr> : 
-    public FieldTraitsRecurseMapper<ProjectionCameraDecoratorPtr>
+    public FieldTraitsRecurseMapper<ProjectionCameraDecoratorPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLM
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
+#define OSGPROJECTIONCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorFields.h,v 1.3 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORFIELDS_H_ */

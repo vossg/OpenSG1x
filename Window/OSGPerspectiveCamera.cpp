@@ -52,6 +52,7 @@
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
 
+#include "OSGNodePtr.h"
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 #include "OSGWindow.h"

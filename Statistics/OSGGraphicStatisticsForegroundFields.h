@@ -78,7 +78,7 @@ typedef FCPtr<StatisticsForegroundPtr, GraphicStatisticsForeground> GraphicStati
 
 template <>
 struct FieldDataTraits<GraphicStatisticsForegroundPtr> : 
-    public FieldTraitsRecurseMapper<GraphicStatisticsForegroundPtr>
+    public FieldTraitsRecurseMapper<GraphicStatisticsForegroundPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMP
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundFields.h,v 1.3 2002/07/30 16:30:32 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundFields.h,v 1.4 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_H_ */

@@ -78,7 +78,7 @@ typedef FCPtr<AttachmentContainerPtr, Viewport> ViewportPtr;
 
 template <>
 struct FieldDataTraits<ViewportPtr> : 
-    public FieldTraitsRecurseMapper<ViewportPtr>
+    public FieldTraitsRecurseMapper<ViewportPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGViewportFields.h,v 1.14 2002/05/24 09:48:40 vossg Exp $"
+#define OSGVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGViewportFields.h,v 1.15 2002/08/07 04:04:14 vossg Exp $"
 
 #endif /* _OSGVIEWPORTFIELDS_H_ */

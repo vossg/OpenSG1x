@@ -75,7 +75,7 @@ typedef FCPtr<StateChunkPtr, ClipPlaneChunk> ClipPlaneChunkPtr;
 
 template <>
 struct FieldDataTraits<ClipPlaneChunkPtr> : 
-    public FieldTraitsRecurseMapper<ClipPlaneChunkPtr>
+    public FieldTraitsRecurseMapper<ClipPlaneChunkPtr, true>
 {
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -84,6 +84,6 @@ struct FieldDataTraits<ClipPlaneChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGClipPlaneChunkFields.h,v 1.1 2002/07/17 13:39:37 dirk Exp $"
+#define OSGCLIPPLANECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGClipPlaneChunkFields.h,v 1.2 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGCLIPPLANECHUNKFIELDS_H_ */

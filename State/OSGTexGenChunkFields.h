@@ -78,7 +78,7 @@ typedef FCPtr<StateChunkPtr, TexGenChunk> TexGenChunkPtr;
 
 template <>
 struct FieldDataTraits<TexGenChunkPtr> : 
-    public FieldTraitsRecurseMapper<TexGenChunkPtr>
+    public FieldTraitsRecurseMapper<TexGenChunkPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXGENCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTexGenChunkFields.h,v 1.1 2002/06/10 22:10:47 dirk Exp $"
+#define OSGTEXGENCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTexGenChunkFields.h,v 1.2 2002/08/07 04:04:13 vossg Exp $"
 
 #endif /* _OSGTEXGENCHUNKFIELDS_H_ */

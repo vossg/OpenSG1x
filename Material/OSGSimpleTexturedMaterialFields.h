@@ -78,7 +78,7 @@ typedef FCPtr<SimpleMaterialPtr, SimpleTexturedMaterial> SimpleTexturedMaterialP
 
 template <>
 struct FieldDataTraits<SimpleTexturedMaterialPtr> : 
-    public FieldTraitsRecurseMapper<SimpleTexturedMaterialPtr>
+    public FieldTraitsRecurseMapper<SimpleTexturedMaterialPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.5 2002/05/24 09:48:37 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.6 2002/08/07 04:04:11 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALFIELDS_H_ */

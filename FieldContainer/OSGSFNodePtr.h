@@ -45,6 +45,7 @@
 #include <OSGSFNodePtrImpl.h>
 #include <OSGNode.h>
 #include <OSGSFNodePtrDepImpl.h>
+#include <OSGNodePtr.h>
 
 #endif
 

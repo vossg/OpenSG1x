@@ -58,6 +58,7 @@
 
 #include <OSGConfig.h>
 
+#include "OSGNodePtr.h"
 #include "OSGSpotLightBase.h"
 #include "OSGSpotLight.h"
 
@@ -298,7 +299,7 @@ void SpotLightBase::executeSyncImpl(      SpotLightBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.23 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.24 2002/08/07 04:04:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 

@@ -63,8 +63,8 @@ typedef map<UInt32, AttachmentPtr>  AttachmentMap;
     \ingroup MultiFields
 */
 
-template <>
-struct FieldTraitsRecurseMapper<AttachmentMap> : 
+template <bool bHasParentT>
+struct FieldTraitsRecurseMapper<AttachmentMap, bHasParentT> : 
     public FieldTraitsRecurseBase<AttachmentMap>
 {
     enum                    { bHasParent        = 0x00   };
@@ -191,7 +191,7 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
 
 template <>
 struct FieldDataTraits<AttachmentMap> : 
-    public FieldTraitsRecurseMapper<AttachmentMap>
+    public FieldTraitsRecurseMapper<AttachmentMap, true>
 {
     static DataType                  _type;
 
