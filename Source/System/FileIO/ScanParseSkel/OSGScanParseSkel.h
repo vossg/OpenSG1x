@@ -42,13 +42,14 @@
 #pragma once
 #endif
 
-#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-#include <iosfwd>
-#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.tab.h>
+
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
+#include <iosfwd>
+#endif
 
 OSG_BEGIN_NAMESPACE
 
