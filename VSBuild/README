@@ -18,12 +18,12 @@ Current Requirements :
 
     You need to configure your VStudio to 
 
-        use Intels icl compiler
+        use Intels icl compiler (> 5.0.1)
         find the glut headers and libs
         find the tif headers and libs
         find the qt headers and libs (qt-mt301.lib) and the moc executable
-        find a flex executable (at least version 2.5.4)
-        find a bison executable (at least version 1.30)
+        find a flex executable  (> version 2.5.4)
+        find a bison executable (> version 1.30)
 
 What works :
 
