@@ -110,13 +110,16 @@ endif
 ### Object and source files ##########################################
 
 HEADERS  := $(wildcard *.h *.H *.hh *.hxx *.ui)
+# all ui files that neads moc 
+UI_IN   := $(wildcard *.ui)
+UI_CPP  := $(addsuffix .cpp, $(basename $(UI_IN))) 
 # all qt files that neads moc 
 MOC_IN   := $(shell grep -l Q_OBJECT *.[hH])
 MOC_CPP  := $(addsuffix .cpp, $(basename $(addprefix moc_,$(MOC_IN)))) 
 # all source files without generated sources
-SOURCES  := $(filter-out $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
+SOURCES  := $(filter-out $(UI_CPP) $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
 # all object files
-BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(MOC_CPP) $(SOURCES) ))
+BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(UI_CPP) $(MOC_CPP) $(SOURCES) ))
 # all object files without main object
 LIBOBJS  := $(filter-out main.*.o ,$(BINOBJS))
 # required dependencies
@@ -187,6 +190,7 @@ moc_%.cpp: %.h
 	@echo "Updating " $@ 
 	@echo "THIS OPERATION IS DISABLED RIGHT NOW !!"
 	@echo 
+	touch $@
 #	@$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
 
 %.$(SYSDEP).o: %.cc
