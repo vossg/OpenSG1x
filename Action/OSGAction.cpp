@@ -41,6 +41,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEACTION
+
 #include <OSGLog.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>

@@ -51,6 +51,16 @@
 #include <OSGBaseTypes.h>
 #include <OSGAction.h>
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEDRAWACTION
+#       define OSG_DRAWACTION_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_DRAWACTION_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_DRAWACTION_DLLMAPPING
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -77,7 +87,7 @@ class Action;
  *  detailed
  */
 
-class OSG_DLLEXPORT DrawAction : public Action
+class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
 {
   public:
 

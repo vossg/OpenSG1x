@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEDRAWACTION
+
 #include <OSGLog.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
