@@ -36,6 +36,12 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_DOC_FILES_IN_MODULE
+/*! \file OSGStringTokenizer.inl
+    \ingroup GrpBaseStringConversion
+ */
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 OSG_END_NAMESPACE

@@ -39,10 +39,12 @@
 #ifndef _OSGMFNODEPTRDEPIMPL_H_
 #define _OSGMFNODEPTRDEPIMPL_H_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGMFNodePtrDepImpl.h
     \ingroup GrpSystemField
     \ingroup GrpSystemFieldMulti
 */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

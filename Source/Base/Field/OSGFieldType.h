@@ -50,9 +50,11 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGFieldType.h
     \ingroup GrpBaseField
  */
+#endif
 
 class Field;
 

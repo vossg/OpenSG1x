@@ -34,9 +34,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGNodeCore.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

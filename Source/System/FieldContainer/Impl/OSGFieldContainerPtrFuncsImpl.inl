@@ -39,10 +39,12 @@
 #ifndef _OSGFIELDCONTAINERFUNCSIMPL_INL_
 #define _OSGFIELDCONTAINERFUNCSIMPL_INL_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGFieldContainerPtrFuncsImpl.inl
     \ingroup GrpSystemFieldContainer
     \ingroup GrpSystemFieldContainerFuncs
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

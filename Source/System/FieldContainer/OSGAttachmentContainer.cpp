@@ -34,9 +34,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachmentContainer.cpp
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

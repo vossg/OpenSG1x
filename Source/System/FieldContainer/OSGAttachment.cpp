@@ -34,9 +34,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachment.cpp
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #define OSG_COMPILEATTACHMENTINST
 

@@ -54,10 +54,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSField.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldSingle
  */
+#endif
 
 class BinaryDataHandler;
 

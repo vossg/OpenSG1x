@@ -47,10 +47,12 @@
 #include <OSGImage.h>
 #include <OSGImageFieldDataType.h>
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGMFImageTypes.h
     \ingroup GrpSystemField
     \ingroup GrpSystemFieldMulti
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

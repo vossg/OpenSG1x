@@ -39,9 +39,11 @@
 #ifndef _OSGATTACHMENTCONTAINERPTRDEPIMPL_H_
 #define _OSGATTACHMENTCONTAINERPTRDEPIMPL_H_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachmentContainerPtrDepImpl.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

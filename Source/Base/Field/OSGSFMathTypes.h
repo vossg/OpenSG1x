@@ -46,10 +46,12 @@
 #include <OSGSField.h>
 #include <OSGMathFieldDataType.h>
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFMathTypes.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldSingle
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

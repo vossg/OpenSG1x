@@ -39,9 +39,11 @@
 #ifndef _OSGCNODEPTRIMPL_INL_
 #define _OSGCNODEPTRIMPL_INL_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGCNodePtrImpl.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

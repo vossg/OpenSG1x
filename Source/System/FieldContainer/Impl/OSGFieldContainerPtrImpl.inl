@@ -39,9 +39,11 @@
 #ifndef _OSGFIELDCONTAINERPTRIMPL_INL_
 #define _OSGFIELDCONTAINERPTRIMPL_INL_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGFieldContainerPtrImpl.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

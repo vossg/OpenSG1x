@@ -42,10 +42,12 @@
 #pragma once
 #endif
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFNodePtrDepImpl.h
     \ingroup GrpSystemField
     \ingroup GrpSystemFieldSingle
 */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,11 @@
 #pragma once
 #endif
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachmentContainerPtrImpl.h
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>

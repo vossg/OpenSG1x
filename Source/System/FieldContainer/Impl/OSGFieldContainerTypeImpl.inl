@@ -39,9 +39,11 @@
 #ifndef _OSGFIELDCONTAINERTYPEIMPL_INL_
 #define _OSGFIELDCONTAINERTYPEIMPL_INL_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGFieldContainerTypeImpl.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

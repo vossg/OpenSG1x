@@ -36,9 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGContainerTypeInst.cpp
     \ingroup GrpSystemField
  */
+#endif
 
 #define OSG_COMPILECONTAINERFIELDINST
 

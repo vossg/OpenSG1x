@@ -48,10 +48,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGMFieldVector.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldMulti
  */
+#endif
 
 #if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
 

@@ -37,9 +37,11 @@
 #ifndef _OSGATTACHMENTIMPL_INL_
 #define _OSGATTACHMENTIMPL_INL_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachmentImpl.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

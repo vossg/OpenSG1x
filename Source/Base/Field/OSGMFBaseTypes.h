@@ -50,10 +50,12 @@
 #include <OSGMField.h>
 #include <OSGBaseFieldDataType.h>
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGMFBaseTypes.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldMulti
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,10 +42,12 @@
 #pragma once
 #endif
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFNodeCorePtr.h
     \ingroup GrpSystemField
     \ingroup GrpSystemFieldSingle
 */
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGSField.h>

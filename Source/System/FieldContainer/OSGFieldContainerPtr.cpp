@@ -56,9 +56,11 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGFieldContainerPtr.cpp
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 const NullFieldContainerPtr NullFC;

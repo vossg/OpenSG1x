@@ -37,9 +37,11 @@
 #ifndef _OSGNODEIMPL_INL_
 #define _OSGNODEIMPL_INL_
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGNodeImpl.inl
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

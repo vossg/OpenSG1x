@@ -48,9 +48,11 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGStringTokenizer.h
     \ingroup GrpBaseStringConversion
  */
+#endif
 
 /*! \ingroup GrpBaseStringConversion
  */

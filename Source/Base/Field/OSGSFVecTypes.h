@@ -50,10 +50,12 @@
 #include <OSGSField.h>
 #include <OSGVecFieldDataType.h>
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFVecTypes.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldSingle
  */
+#endif
 
 OSG_BEGIN_NAMESPACE
 

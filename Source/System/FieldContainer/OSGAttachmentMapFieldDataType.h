@@ -52,10 +52,12 @@ typedef std::map<UInt32, AttachmentPtr>  AttachmentMap;
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachmentMapFieldDataType.h
     \ingroup GrpSystemField
     \ingroup GrpSystemFieldTraits
  */
+#endif
 
 /*! \ingroup GrpSystemFieldTraits
  */

@@ -46,9 +46,11 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGAttachmentContainerPtr.cpp
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

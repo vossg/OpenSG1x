@@ -54,10 +54,12 @@ OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGBaseFieldDataType.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldTraits
 */
+#endif
 
 
 /*! \ingroup GrpBaseFieldTraits

@@ -42,9 +42,11 @@
 #pragma once
 #endif
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGThread.h
     \ingroup GrpSystemMultithreading
  */
+#endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>

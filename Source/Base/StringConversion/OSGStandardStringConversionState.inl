@@ -36,8 +36,13 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-OSG_BEGIN_NAMESPACE
+#ifdef OSG_DOC_FILES_IN_MODULE
+/*! \file OSGStandardStringConversionState.inl
+    \ingroup GrpBaseStringConversion
+ */
+#endif
 
+OSG_BEGIN_NAMESPACE
 
 inline 
 UInt32 StandardStringConversionState::getIndent(void) const

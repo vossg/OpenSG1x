@@ -36,9 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGChangeList.cpp
     \ingroup GrpSystemMultithreading
  */
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

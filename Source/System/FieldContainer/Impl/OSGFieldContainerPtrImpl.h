@@ -42,9 +42,11 @@
 #pragma once
 #endif
 
+#ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGFieldContainerPtrImpl.h
     \ingroup GrpSystemFieldContainer
  */
+#endif
 
 #include <OSGConceptPropertyChecks.h>
 #include <OSGFieldContainerProperties.h>
