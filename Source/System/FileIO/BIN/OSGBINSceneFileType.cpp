@@ -102,7 +102,7 @@ NodePtr BINSceneFileType::read(std::istream &is) const
     return loader.getRootNode();
 }
 
-NodePtr BINSceneFileType::read(const Char8 *fileName) const
+NodePtr BINSceneFileType::read(const Char8 *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;
@@ -124,8 +124,8 @@ bool BINSceneFileType::write(const NodePtr &node,
     return writer.write(node);
 }
 
-bool BINSceneFileType::write(const NodePtr &node,
-                             const Char8 *fileName) const
+bool BINSceneFileType::write(const NodePtr &,
+                             const Char8   *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return false;

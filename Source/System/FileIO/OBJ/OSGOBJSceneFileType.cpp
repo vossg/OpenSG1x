@@ -456,7 +456,7 @@ NodePtr OBJSceneFileType::read(std::istream &is) const
   return rootPtr;
 }
 
-NodePtr OBJSceneFileType::read(const Char8 *fileName) const
+NodePtr OBJSceneFileType::read(const Char8 *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;

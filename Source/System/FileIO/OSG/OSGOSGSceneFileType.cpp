@@ -120,7 +120,7 @@ NodePtr OSGSceneFileType::read(std::istream &is) const
     return _pFile->getRootNode();
 }
 
-NodePtr OSGSceneFileType::read(const Char8 *fileName) const
+NodePtr OSGSceneFileType::read(const Char8 *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;
@@ -140,8 +140,8 @@ bool OSGSceneFileType::write(const NodePtr &root, std::ostream &os) const
     return true;
 }
 
-bool OSGSceneFileType::write(const NodePtr &node,
-                             const Char8 *fileName) const
+bool OSGSceneFileType::write(const NodePtr &,
+                             const Char8   *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return false;

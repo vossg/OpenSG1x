@@ -108,7 +108,7 @@ NodePtr A3DSSceneFileType::read(std::istream &is) const
  * \param
  * \return
  */
-NodePtr A3DSSceneFileType::read(const Char8 *fileName) const
+NodePtr A3DSSceneFileType::read(const Char8 *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;
