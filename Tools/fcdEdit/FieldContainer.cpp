@@ -686,9 +686,9 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	char *fcnameUpper = strdup( _name );
 	char *parentname = _parentFieldContainer;
 	char *parentnameUpper = strdup( _parentFieldContainer );
-	char *description = _description ? _description : "";
-	char *headerPrefix = _systemComponent ? "" : "OpenSG/";
-	char *parentHeaderPrefix = 
+	const char *description = _description ? _description : "";
+	const char *headerPrefix = _systemComponent ? "" : "OpenSG/";
+	const char *parentHeaderPrefix = 
 			( _parentSystemComponent == _systemComponent ) ? "" : "OpenSG/";
 
 	char *s;
@@ -744,7 +744,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			fieldname = fieldIt->name();
 			fieldtype = fieldIt->typeStr();
 			fieldcardinality = cardnames[ fieldIt->cardinality() ];
-			fielddescription = fieldIt->description() ? fieldIt->description() : "" ;
+			fielddescription = (char*)( fieldIt->description() ? 
+                                  fieldIt->description() : "" );
 			
 			if ( fieldnameCaps ) free( fieldnameCaps );
 			fieldnameCaps = strdup( fieldname );
@@ -1078,9 +1079,9 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			values[3] = libnameUpper;
 			values[4] = parentname;
 			values[5] = parentnameUpper;
-			values[14] = description;
-			values[18] = headerPrefix;
-			values[19] = parentHeaderPrefix;
+			values[14] = (char*)(description);
+			values[18] = (char*)(headerPrefix);
+			values[19] = (char*)(parentHeaderPrefix);
 
 			if ( inFieldLoop )
 			{
@@ -1091,7 +1092,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				values[8] = strdup(fieldname);
 				values[9] = fieldnameCaps;
 				values[10] = fieldnameUpper;
-				values[11] = fieldIt->visibility() ? "false" : "true";
+				values[11] = (char*)(fieldIt->visibility() ? "false" : "true");
 				if ( fieldIt->defaultValue() )
 				{
 					s = new char [ strlen(fieldtype) + 
