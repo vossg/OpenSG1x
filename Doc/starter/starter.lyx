@@ -2266,7 +2266,7 @@ glTexParameter()
 .
  The most useful ones are 
 \family typewriter 
-GL_POINT
+GL_NEAREST
 \family default 
  or 
 \family typewriter 
