@@ -49,7 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Brief
+//! \brief Factory for Connections, see 
 //! \ingroup GrpBaseNetwork
 
 class OSG_BASE_DLLMAPPING ConnectionFactory 
