@@ -532,9 +532,9 @@ void GeoPump128(Window   *win,
         if (win->hasExtension(GeoPumpFactory::_extSecondaryColor))
         {
             glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
-             void (*_glSecondaryColorPointerEXT)
+             void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
                   (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
-            (void (*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
+            (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
              win->getFunction(GeoPumpFactory::_funcglSecondaryColorPointer);
 
             _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
@@ -558,8 +558,8 @@ void GeoPump128(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE0_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
@@ -578,8 +578,8 @@ void GeoPump128(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE1_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
@@ -594,8 +594,8 @@ void GeoPump128(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE2_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
@@ -610,8 +610,8 @@ void GeoPump128(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE3_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
@@ -656,8 +656,8 @@ void GeoPump128(Window   *win,
 
     if (win->hasExtension(GeoPumpFactory::_extMultitexture))
     {
-        void (*_glClientActiveTextureARB) (GLenum type)=
-        (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
 
         if(modified&(1<<4))
         {
@@ -730,9 +730,9 @@ void GeoPump129(Window   *win,
         if (win->hasExtension(GeoPumpFactory::_extSecondaryColor))
         {
             glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
-             void (*_glSecondaryColorPointerEXT)
+             void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
                   (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
-            (void (*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
+            (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
              win->getFunction(GeoPumpFactory::_funcglSecondaryColorPointer);
 
             _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
@@ -756,8 +756,8 @@ void GeoPump129(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE0_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
@@ -776,8 +776,8 @@ void GeoPump129(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE1_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
@@ -792,8 +792,8 @@ void GeoPump129(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE2_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
@@ -808,8 +808,8 @@ void GeoPump129(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
-            void (*_glClientActiveTextureARB) (GLenum type)=
-            (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE3_ARB);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
@@ -855,8 +855,8 @@ void GeoPump129(Window   *win,
 
     if (win->hasExtension(GeoPumpFactory::_extMultitexture))
     {
-        void (*_glClientActiveTextureARB) (GLenum type)=
-        (void (*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
 
         if(modified&(1<<4))
         {
@@ -1136,146 +1136,143 @@ void GeoPump##func( Window   *win,                                          \
 }
 
 
-/*
-   Defining all multi-indexed Geometry pumps (127:))
-*/
-
-#define doMultiGeoPumps() \
-defMultiGeoPump(   1 , iC;                            , rC;                             ) \
-defMultiGeoPump(   2 ,     iS;                        ,     rS;                         ) \
-defMultiGeoPump(   3 , iC; iS;                        , rC; rS;                         ) \
-defMultiGeoPump(   4 ,         iN;                    ,         rN;                     ) \
-defMultiGeoPump(   5 , iC;     iN;                    , rC;     rN;                     ) \
-defMultiGeoPump(   6 ,     iS; iN;                    ,     rS; rN;                     ) \
-defMultiGeoPump(   7 , iC; iS; iN;                    , rC; rS; rN;                     ) \
-defMultiGeoPump(   8 ,             iT;                ,             rT;                 ) \
-defMultiGeoPump(   9 , iC;         iT;                , rC;         rT;                 ) \
-defMultiGeoPump(  10 ,     iS;     iT;                ,     rS;     rT;                 ) \
-defMultiGeoPump(  11 , iC; iS;     iT;                , rC; rS;     rT;                 ) \
-defMultiGeoPump(  12 ,         iN; iT;                ,         rN; rT;                 ) \
-defMultiGeoPump(  13 , iC;     iN; iT;                , rC;     rN; rT;                 ) \
-defMultiGeoPump(  14 ,     iS; iN; iT;                ,     rS; rN; rT;                 ) \
-defMultiGeoPump(  15 , iC; iS; iN; iT;                , rC; rS; rN; rT;                 ) \
-defMultiGeoPump(  16 ,                 iT1;           ,                 rT1;            ) \
-defMultiGeoPump(  17 , iC;             iT1;           , rC;             rT1;            ) \
-defMultiGeoPump(  18 ,     iS;         iT1;           ,     rS;         rT1;            ) \
-defMultiGeoPump(  19 , iC; iS;         iT1;           , rC; rS;         rT1;            ) \
-defMultiGeoPump(  20 ,         iN;     iT1;           ,         rN;     rT1;            ) \
-defMultiGeoPump(  21 , iC;     iN;     iT1;           , rC;     rN;     rT1;            ) \
-defMultiGeoPump(  22 ,     iS; iN;     iT1;           ,     rS; rN;     rT1;            ) \
-defMultiGeoPump(  23 , iC; iS; iN;     iT1;           , rC; rS; rN;     rT1;            ) \
-defMultiGeoPump(  24 ,             iT; iT1;           ,             rT; rT1;            ) \
-defMultiGeoPump(  25 , iC;         iT; iT1;           , rC;         rT; rT1;            ) \
-defMultiGeoPump(  26 ,     iS;     iT; iT1;           ,     rS;     rT; rT1;            ) \
-defMultiGeoPump(  27 , iC; iS;     iT; iT1;           , rC; rS;     rT; rT1;            ) \
-defMultiGeoPump(  28 ,         iN; iT; iT1;           ,         rN; rT; rT1;            ) \
-defMultiGeoPump(  29 , iC;     iN; iT; iT1;           , rC;     rN; rT; rT1;            ) \
-defMultiGeoPump(  30 ,     iS; iN; iT; iT1;           ,     rS; rN; rT; rT1;            ) \
-defMultiGeoPump(  31 , iC; iS; iN; iT; iT1;           , rC; rS; rN; rT; rT1;            ) \
-defMultiGeoPump(  32 ,                      iT2;      ,                      rT2;       ) \
-defMultiGeoPump(  33 , iC;                  iT2;      , rC;                  rT2;       ) \
-defMultiGeoPump(  34 ,     iS;              iT2;      ,     rS;              rT2;       ) \
-defMultiGeoPump(  35 , iC; iS;              iT2;      , rC; rS;              rT2;       ) \
-defMultiGeoPump(  36 ,         iN;          iT2;      ,         rN;          rT2;       ) \
-defMultiGeoPump(  37 , iC;     iN;          iT2;      , rC;     rN;          rT2;       ) \
-defMultiGeoPump(  38 ,     iS; iN;          iT2;      ,     rS; rN;          rT2;       ) \
-defMultiGeoPump(  39 , iC; iS; iN;          iT2;      , rC; rS; rN;          rT2;       ) \
-defMultiGeoPump(  40 ,             iT;      iT2;      ,             rT;      rT2;       ) \
-defMultiGeoPump(  41 , iC;         iT;      iT2;      , rC;         rT;      rT2;       ) \
-defMultiGeoPump(  42 ,     iS;     iT;      iT2;      ,     rS;     rT;      rT2;       ) \
-defMultiGeoPump(  43 , iC; iS;     iT;      iT2;      , rC; rS;     rT;      rT2;       ) \
-defMultiGeoPump(  44 ,         iN; iT;      iT2;      ,         rN; rT;      rT2;       ) \
-defMultiGeoPump(  45 , iC;     iN; iT;      iT2;      , rC;     rN; rT;      rT2;       ) \
-defMultiGeoPump(  46 ,     iS; iN; iT;      iT2;      ,     rS; rN; rT;      rT2;       ) \
-defMultiGeoPump(  47 , iC; iS; iN; iT;      iT2;      , rC; rS; rN; rT;      rT2;       ) \
-defMultiGeoPump(  48 ,                 iT1; iT2;      ,                 rT1; rT2;       ) \
-defMultiGeoPump(  49 , iC;             iT1; iT2;      , rC;             rT1; rT2;       ) \
-defMultiGeoPump(  50 ,     iS;         iT1; iT2;      ,     rS;         rT1; rT2;       ) \
-defMultiGeoPump(  51 , iC; iS;         iT1; iT2;      , rC; rS;         rT1; rT2;       ) \
-defMultiGeoPump(  52 ,         iN;     iT1; iT2;      ,         rN;     rT1; rT2;       ) \
-defMultiGeoPump(  53 , iC;     iN;     iT1; iT2;      , rC;     rN;     rT1; rT2;       ) \
-defMultiGeoPump(  54 ,     iS; iN;     iT1; iT2;      ,     rS; rN;     rT1; rT2;       ) \
-defMultiGeoPump(  55 , iC; iS; iN;     iT1; iT2;      , rC; rS; rN;     rT1; rT2;       ) \
-defMultiGeoPump(  56 ,             iT; iT1; iT2;      ,             rT; rT1; rT2;       ) \
-defMultiGeoPump(  57 , iC;         iT; iT1; iT2;      , rC;         rT; rT1; rT2;       ) \
-defMultiGeoPump(  58 ,     iS;     iT; iT1; iT2;      ,     rS;     rT; rT1; rT2;       ) \
-defMultiGeoPump(  59 , iC; iS;     iT; iT1; iT2;      , rC; rS;     rT; rT1; rT2;       ) \
-defMultiGeoPump(  60 ,         iN; iT; iT1; iT2;      ,         rN; rT; rT1; rT2;       ) \
-defMultiGeoPump(  61 , iC;     iN; iT; iT1; iT2;      , rC;     rN; rT; rT1; rT2;       ) \
-defMultiGeoPump(  62 ,     iS; iN; iT; iT1; iT2;      ,     rS; rN; rT; rT1; rT2;       ) \
-defMultiGeoPump(  63 , iC; iS; iN; iT; iT1; iT2;      , rC; rS; rN; rT; rT1; rT2;       ) \
-defMultiGeoPump(  64 ,                           iT3; ,                           rT3;  ) \
-defMultiGeoPump(  65 , iC;                       iT3; , rC;                       rT3;  ) \
-defMultiGeoPump(  66 ,     iS;                   iT3; ,     rS;                   rT3;  ) \
-defMultiGeoPump(  67 , iC; iS;                   iT3; , rC; rS;                   rT3;  ) \
-defMultiGeoPump(  68 ,         iN;               iT3; ,         rN;               rT3;  ) \
-defMultiGeoPump(  69 , iC;     iN;               iT3; , rC;     rN;               rT3;  ) \
-defMultiGeoPump(  70 ,     iS; iN;               iT3; ,     rS; rN;               rT3;  ) \
-defMultiGeoPump(  71 , iC; iS; iN;               iT3; , rC; rS; rN;               rT3;  ) \
-defMultiGeoPump(  72 ,             iT;           iT3; ,             rT;           rT3;  ) \
-defMultiGeoPump(  73 , iC;         iT;           iT3; , rC;         rT;           rT3;  ) \
-defMultiGeoPump(  74 ,     iS;     iT;           iT3; ,     rS;     rT;           rT3;  ) \
-defMultiGeoPump(  75 , iC; iS;     iT;           iT3; , rC; rS;     rT;           rT3;  ) \
-defMultiGeoPump(  76 ,         iN; iT;           iT3; ,         rN; rT;           rT3;  ) \
-defMultiGeoPump(  77 , iC;     iN; iT;           iT3; , rC;     rN; rT;           rT3;  ) \
-defMultiGeoPump(  78 ,     iS; iN; iT;           iT3; ,     rS; rN; rT;           rT3;  ) \
-defMultiGeoPump(  79 , iC; iS; iN; iT;           iT3; , rC; rS; rN; rT;           rT3;  ) \
-defMultiGeoPump(  80 ,                 iT1;      iT3; ,                 rT1;      rT3;  ) \
-defMultiGeoPump(  81 , iC;             iT1;      iT3; , rC;             rT1;      rT3;  ) \
-defMultiGeoPump(  82 ,     iS;         iT1;      iT3; ,     rS;         rT1;      rT3;  ) \
-defMultiGeoPump(  83 , iC; iS;         iT1;      iT3; , rC; rS;         rT1;      rT3;  ) \
-defMultiGeoPump(  84 ,         iN;     iT1;      iT3; ,         rN;     rT1;      rT3;  ) \
-defMultiGeoPump(  85 , iC;     iN;     iT1;      iT3; , rC;     rN;     rT1;      rT3;  ) \
-defMultiGeoPump(  86 ,     iS; iN;     iT1;      iT3; ,     rS; rN;     rT1;      rT3;  ) \
-defMultiGeoPump(  87 , iC; iS; iN;     iT1;      iT3; , rC; rS; rN;     rT1;      rT3;  ) \
-defMultiGeoPump(  88 ,             iT; iT1;      iT3; ,             rT; rT1;      rT3;  ) \
-defMultiGeoPump(  89 , iC;         iT; iT1;      iT3; , rC;         rT; rT1;      rT3;  ) \
-defMultiGeoPump(  90 ,     iS;     iT; iT1;      iT3; ,     rS;     rT; rT1;      rT3;  ) \
-defMultiGeoPump(  91 , iC; iS;     iT; iT1;      iT3; , rC; rS;     rT; rT1;      rT3;  ) \
-defMultiGeoPump(  92 ,         iN; iT; iT1;      iT3; ,         rN; rT; rT1;      rT3;  ) \
-defMultiGeoPump(  93 , iC;     iN; iT; iT1;      iT3; , rC;     rN; rT; rT1;      rT3;  ) \
-defMultiGeoPump(  94 ,     iS; iN; iT; iT1;      iT3; ,     rS; rN; rT; rT1;      rT3;  ) \
-defMultiGeoPump(  95 , iC; iS; iN; iT; iT1;      iT3; , rC; rS; rN; rT; rT1;      rT3;  ) \
-defMultiGeoPump(  96 ,                      iT2; iT3; ,                      rT2; rT3;  ) \
-defMultiGeoPump(  97 , iC;                  iT2; iT3; , rC;                  rT2; rT3;  ) \
-defMultiGeoPump(  98 ,     iS;              iT2; iT3; ,     rS;              rT2; rT3;  ) \
-defMultiGeoPump(  99 , iC; iS;              iT2; iT3; , rC; rS;              rT2; rT3;  ) \
-defMultiGeoPump( 100 ,         iN;          iT2; iT3; ,         rN;          rT2; rT3;  ) \
-defMultiGeoPump( 101 , iC;     iN;          iT2; iT3; , rC;     rN;          rT2; rT3;  ) \
-defMultiGeoPump( 102 ,     iS; iN;          iT2; iT3; ,     rS; rN;          rT2; rT3;  ) \
-defMultiGeoPump( 103 , iC; iS; iN;          iT2; iT3; , rC; rS; rN;          rT2; rT3;  ) \
-defMultiGeoPump( 104 ,             iT;      iT2; iT3; ,             rT;      rT2; rT3;  ) \
-defMultiGeoPump( 105 , iC;         iT;      iT2; iT3; , rC;         rT;      rT2; rT3;  ) \
-defMultiGeoPump( 106 ,     iS;     iT;      iT2; iT3; ,     rS;     rT;      rT2; rT3;  ) \
-defMultiGeoPump( 107 , iC; iS;     iT;      iT2; iT3; , rC; rS;     rT;      rT2; rT3;  ) \
-defMultiGeoPump( 108 ,         iN; iT;      iT2; iT3; ,         rN; rT;      rT2; rT3;  ) \
-defMultiGeoPump( 109 , iC;     iN; iT;      iT2; iT3; , rC;     rN; rT;      rT2; rT3;  ) \
-defMultiGeoPump( 110 ,     iS; iN; iT;      iT2; iT3; ,     rS; rN; rT;      rT2; rT3;  ) \
-defMultiGeoPump( 111 , iC; iS; iN; iT;      iT2; iT3; , rC; rS; rN; rT;      rT2; rT3;  ) \
-defMultiGeoPump( 112 ,                 iT1; iT2; iT3; ,                 rT1; rT2; rT3;  ) \
-defMultiGeoPump( 113 , iC;             iT1; iT2; iT3; , rC;             rT1; rT2; rT3;  ) \
-defMultiGeoPump( 114 ,     iS;         iT1; iT2; iT3; ,     rS;         rT1; rT2; rT3;  ) \
-defMultiGeoPump( 115 , iC; iS;         iT1; iT2; iT3; , rC; rS;         rT1; rT2; rT3;  ) \
-defMultiGeoPump( 116 ,         iN;     iT1; iT2; iT3; ,         rN;     rT1; rT2; rT3;  ) \
-defMultiGeoPump( 117 , iC;     iN;     iT1; iT2; iT3; , rC;     rN;     rT1; rT2; rT3;  ) \
-defMultiGeoPump( 118 ,     iS; iN;     iT1; iT2; iT3; ,     rS; rN;     rT1; rT2; rT3;  ) \
-defMultiGeoPump( 119 , iC; iS; iN;     iT1; iT2; iT3; , rC; rS; rN;     rT1; rT2; rT3;  ) \
-defMultiGeoPump( 120 ,             iT; iT1; iT2; iT3; ,             rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 121 , iC;         iT; iT1; iT2; iT3; , rC;         rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 122 ,     iS;     iT; iT1; iT2; iT3; ,     rS;     rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 123 , iC; iS;     iT; iT1; iT2; iT3; , rC; rS;     rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 124 ,         iN; iT; iT1; iT2; iT3; ,         rN; rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 125 , iC;     iN; iT; iT1; iT2; iT3; , rC;     rN; rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 126 ,     iS; iN; iT; iT1; iT2; iT3; ,     rS; rN; rT; rT1; rT2; rT3;  ) \
-defMultiGeoPump( 127 , iC; iS; iN; iT; iT1; iT2; iT3; , rC; rS; rN; rT; rT1; rT2; rT3;  )
-
-// the master pump function
-
 #ifdef __sgi
 #pragma set woff 1174,1209
 #endif
 
-doMultiGeoPumps()
+/*
+   Defining all multi-indexed Geometry pumps (127:))
+*/
+
+defMultiGeoPump(   1 , iC;                            , rC;                             ) 
+defMultiGeoPump(   2 ,     iS;                        ,     rS;                         ) 
+defMultiGeoPump(   3 , iC; iS;                        , rC; rS;                         ) 
+defMultiGeoPump(   4 ,         iN;                    ,         rN;                     ) 
+defMultiGeoPump(   5 , iC;     iN;                    , rC;     rN;                     ) 
+defMultiGeoPump(   6 ,     iS; iN;                    ,     rS; rN;                     ) 
+defMultiGeoPump(   7 , iC; iS; iN;                    , rC; rS; rN;                     ) 
+defMultiGeoPump(   8 ,             iT;                ,             rT;                 ) 
+defMultiGeoPump(   9 , iC;         iT;                , rC;         rT;                 ) 
+defMultiGeoPump(  10 ,     iS;     iT;                ,     rS;     rT;                 ) 
+defMultiGeoPump(  11 , iC; iS;     iT;                , rC; rS;     rT;                 ) 
+defMultiGeoPump(  12 ,         iN; iT;                ,         rN; rT;                 ) 
+defMultiGeoPump(  13 , iC;     iN; iT;                , rC;     rN; rT;                 ) 
+defMultiGeoPump(  14 ,     iS; iN; iT;                ,     rS; rN; rT;                 ) 
+defMultiGeoPump(  15 , iC; iS; iN; iT;                , rC; rS; rN; rT;                 ) 
+defMultiGeoPump(  16 ,                 iT1;           ,                 rT1;            ) 
+defMultiGeoPump(  17 , iC;             iT1;           , rC;             rT1;            ) 
+defMultiGeoPump(  18 ,     iS;         iT1;           ,     rS;         rT1;            ) 
+defMultiGeoPump(  19 , iC; iS;         iT1;           , rC; rS;         rT1;            ) 
+defMultiGeoPump(  20 ,         iN;     iT1;           ,         rN;     rT1;            ) 
+defMultiGeoPump(  21 , iC;     iN;     iT1;           , rC;     rN;     rT1;            ) 
+defMultiGeoPump(  22 ,     iS; iN;     iT1;           ,     rS; rN;     rT1;            ) 
+defMultiGeoPump(  23 , iC; iS; iN;     iT1;           , rC; rS; rN;     rT1;            ) 
+defMultiGeoPump(  24 ,             iT; iT1;           ,             rT; rT1;            ) 
+defMultiGeoPump(  25 , iC;         iT; iT1;           , rC;         rT; rT1;            ) 
+defMultiGeoPump(  26 ,     iS;     iT; iT1;           ,     rS;     rT; rT1;            ) 
+defMultiGeoPump(  27 , iC; iS;     iT; iT1;           , rC; rS;     rT; rT1;            ) 
+defMultiGeoPump(  28 ,         iN; iT; iT1;           ,         rN; rT; rT1;            ) 
+defMultiGeoPump(  29 , iC;     iN; iT; iT1;           , rC;     rN; rT; rT1;            ) 
+defMultiGeoPump(  30 ,     iS; iN; iT; iT1;           ,     rS; rN; rT; rT1;            ) 
+defMultiGeoPump(  31 , iC; iS; iN; iT; iT1;           , rC; rS; rN; rT; rT1;            ) 
+defMultiGeoPump(  32 ,                      iT2;      ,                      rT2;       ) 
+defMultiGeoPump(  33 , iC;                  iT2;      , rC;                  rT2;       ) 
+defMultiGeoPump(  34 ,     iS;              iT2;      ,     rS;              rT2;       ) 
+defMultiGeoPump(  35 , iC; iS;              iT2;      , rC; rS;              rT2;       ) 
+defMultiGeoPump(  36 ,         iN;          iT2;      ,         rN;          rT2;       ) 
+defMultiGeoPump(  37 , iC;     iN;          iT2;      , rC;     rN;          rT2;       ) 
+defMultiGeoPump(  38 ,     iS; iN;          iT2;      ,     rS; rN;          rT2;       ) 
+defMultiGeoPump(  39 , iC; iS; iN;          iT2;      , rC; rS; rN;          rT2;       ) 
+defMultiGeoPump(  40 ,             iT;      iT2;      ,             rT;      rT2;       ) 
+defMultiGeoPump(  41 , iC;         iT;      iT2;      , rC;         rT;      rT2;       ) 
+defMultiGeoPump(  42 ,     iS;     iT;      iT2;      ,     rS;     rT;      rT2;       ) 
+defMultiGeoPump(  43 , iC; iS;     iT;      iT2;      , rC; rS;     rT;      rT2;       ) 
+defMultiGeoPump(  44 ,         iN; iT;      iT2;      ,         rN; rT;      rT2;       ) 
+defMultiGeoPump(  45 , iC;     iN; iT;      iT2;      , rC;     rN; rT;      rT2;       ) 
+defMultiGeoPump(  46 ,     iS; iN; iT;      iT2;      ,     rS; rN; rT;      rT2;       ) 
+defMultiGeoPump(  47 , iC; iS; iN; iT;      iT2;      , rC; rS; rN; rT;      rT2;       ) 
+defMultiGeoPump(  48 ,                 iT1; iT2;      ,                 rT1; rT2;       ) 
+defMultiGeoPump(  49 , iC;             iT1; iT2;      , rC;             rT1; rT2;       ) 
+defMultiGeoPump(  50 ,     iS;         iT1; iT2;      ,     rS;         rT1; rT2;       ) 
+defMultiGeoPump(  51 , iC; iS;         iT1; iT2;      , rC; rS;         rT1; rT2;       ) 
+defMultiGeoPump(  52 ,         iN;     iT1; iT2;      ,         rN;     rT1; rT2;       ) 
+defMultiGeoPump(  53 , iC;     iN;     iT1; iT2;      , rC;     rN;     rT1; rT2;       ) 
+defMultiGeoPump(  54 ,     iS; iN;     iT1; iT2;      ,     rS; rN;     rT1; rT2;       ) 
+defMultiGeoPump(  55 , iC; iS; iN;     iT1; iT2;      , rC; rS; rN;     rT1; rT2;       ) 
+defMultiGeoPump(  56 ,             iT; iT1; iT2;      ,             rT; rT1; rT2;       ) 
+defMultiGeoPump(  57 , iC;         iT; iT1; iT2;      , rC;         rT; rT1; rT2;       ) 
+defMultiGeoPump(  58 ,     iS;     iT; iT1; iT2;      ,     rS;     rT; rT1; rT2;       ) 
+defMultiGeoPump(  59 , iC; iS;     iT; iT1; iT2;      , rC; rS;     rT; rT1; rT2;       ) 
+defMultiGeoPump(  60 ,         iN; iT; iT1; iT2;      ,         rN; rT; rT1; rT2;       ) 
+defMultiGeoPump(  61 , iC;     iN; iT; iT1; iT2;      , rC;     rN; rT; rT1; rT2;       ) 
+defMultiGeoPump(  62 ,     iS; iN; iT; iT1; iT2;      ,     rS; rN; rT; rT1; rT2;       ) 
+defMultiGeoPump(  63 , iC; iS; iN; iT; iT1; iT2;      , rC; rS; rN; rT; rT1; rT2;       ) 
+defMultiGeoPump(  64 ,                           iT3; ,                           rT3;  ) 
+defMultiGeoPump(  65 , iC;                       iT3; , rC;                       rT3;  ) 
+defMultiGeoPump(  66 ,     iS;                   iT3; ,     rS;                   rT3;  ) 
+defMultiGeoPump(  67 , iC; iS;                   iT3; , rC; rS;                   rT3;  ) 
+defMultiGeoPump(  68 ,         iN;               iT3; ,         rN;               rT3;  ) 
+defMultiGeoPump(  69 , iC;     iN;               iT3; , rC;     rN;               rT3;  ) 
+defMultiGeoPump(  70 ,     iS; iN;               iT3; ,     rS; rN;               rT3;  ) 
+defMultiGeoPump(  71 , iC; iS; iN;               iT3; , rC; rS; rN;               rT3;  ) 
+defMultiGeoPump(  72 ,             iT;           iT3; ,             rT;           rT3;  ) 
+defMultiGeoPump(  73 , iC;         iT;           iT3; , rC;         rT;           rT3;  ) 
+defMultiGeoPump(  74 ,     iS;     iT;           iT3; ,     rS;     rT;           rT3;  ) 
+defMultiGeoPump(  75 , iC; iS;     iT;           iT3; , rC; rS;     rT;           rT3;  ) 
+defMultiGeoPump(  76 ,         iN; iT;           iT3; ,         rN; rT;           rT3;  ) 
+defMultiGeoPump(  77 , iC;     iN; iT;           iT3; , rC;     rN; rT;           rT3;  ) 
+defMultiGeoPump(  78 ,     iS; iN; iT;           iT3; ,     rS; rN; rT;           rT3;  ) 
+defMultiGeoPump(  79 , iC; iS; iN; iT;           iT3; , rC; rS; rN; rT;           rT3;  ) 
+defMultiGeoPump(  80 ,                 iT1;      iT3; ,                 rT1;      rT3;  ) 
+defMultiGeoPump(  81 , iC;             iT1;      iT3; , rC;             rT1;      rT3;  ) 
+defMultiGeoPump(  82 ,     iS;         iT1;      iT3; ,     rS;         rT1;      rT3;  ) 
+defMultiGeoPump(  83 , iC; iS;         iT1;      iT3; , rC; rS;         rT1;      rT3;  ) 
+defMultiGeoPump(  84 ,         iN;     iT1;      iT3; ,         rN;     rT1;      rT3;  ) 
+defMultiGeoPump(  85 , iC;     iN;     iT1;      iT3; , rC;     rN;     rT1;      rT3;  ) 
+defMultiGeoPump(  86 ,     iS; iN;     iT1;      iT3; ,     rS; rN;     rT1;      rT3;  ) 
+defMultiGeoPump(  87 , iC; iS; iN;     iT1;      iT3; , rC; rS; rN;     rT1;      rT3;  ) 
+defMultiGeoPump(  88 ,             iT; iT1;      iT3; ,             rT; rT1;      rT3;  ) 
+defMultiGeoPump(  89 , iC;         iT; iT1;      iT3; , rC;         rT; rT1;      rT3;  ) 
+defMultiGeoPump(  90 ,     iS;     iT; iT1;      iT3; ,     rS;     rT; rT1;      rT3;  ) 
+defMultiGeoPump(  91 , iC; iS;     iT; iT1;      iT3; , rC; rS;     rT; rT1;      rT3;  ) 
+defMultiGeoPump(  92 ,         iN; iT; iT1;      iT3; ,         rN; rT; rT1;      rT3;  ) 
+defMultiGeoPump(  93 , iC;     iN; iT; iT1;      iT3; , rC;     rN; rT; rT1;      rT3;  ) 
+defMultiGeoPump(  94 ,     iS; iN; iT; iT1;      iT3; ,     rS; rN; rT; rT1;      rT3;  ) 
+defMultiGeoPump(  95 , iC; iS; iN; iT; iT1;      iT3; , rC; rS; rN; rT; rT1;      rT3;  ) 
+defMultiGeoPump(  96 ,                      iT2; iT3; ,                      rT2; rT3;  ) 
+defMultiGeoPump(  97 , iC;                  iT2; iT3; , rC;                  rT2; rT3;  ) 
+defMultiGeoPump(  98 ,     iS;              iT2; iT3; ,     rS;              rT2; rT3;  ) 
+defMultiGeoPump(  99 , iC; iS;              iT2; iT3; , rC; rS;              rT2; rT3;  ) 
+defMultiGeoPump( 100 ,         iN;          iT2; iT3; ,         rN;          rT2; rT3;  ) 
+defMultiGeoPump( 101 , iC;     iN;          iT2; iT3; , rC;     rN;          rT2; rT3;  ) 
+defMultiGeoPump( 102 ,     iS; iN;          iT2; iT3; ,     rS; rN;          rT2; rT3;  ) 
+defMultiGeoPump( 103 , iC; iS; iN;          iT2; iT3; , rC; rS; rN;          rT2; rT3;  ) 
+defMultiGeoPump( 104 ,             iT;      iT2; iT3; ,             rT;      rT2; rT3;  ) 
+defMultiGeoPump( 105 , iC;         iT;      iT2; iT3; , rC;         rT;      rT2; rT3;  ) 
+defMultiGeoPump( 106 ,     iS;     iT;      iT2; iT3; ,     rS;     rT;      rT2; rT3;  ) 
+defMultiGeoPump( 107 , iC; iS;     iT;      iT2; iT3; , rC; rS;     rT;      rT2; rT3;  ) 
+defMultiGeoPump( 108 ,         iN; iT;      iT2; iT3; ,         rN; rT;      rT2; rT3;  ) 
+defMultiGeoPump( 109 , iC;     iN; iT;      iT2; iT3; , rC;     rN; rT;      rT2; rT3;  ) 
+defMultiGeoPump( 110 ,     iS; iN; iT;      iT2; iT3; ,     rS; rN; rT;      rT2; rT3;  ) 
+defMultiGeoPump( 111 , iC; iS; iN; iT;      iT2; iT3; , rC; rS; rN; rT;      rT2; rT3;  ) 
+defMultiGeoPump( 112 ,                 iT1; iT2; iT3; ,                 rT1; rT2; rT3;  ) 
+defMultiGeoPump( 113 , iC;             iT1; iT2; iT3; , rC;             rT1; rT2; rT3;  ) 
+defMultiGeoPump( 114 ,     iS;         iT1; iT2; iT3; ,     rS;         rT1; rT2; rT3;  ) 
+defMultiGeoPump( 115 , iC; iS;         iT1; iT2; iT3; , rC; rS;         rT1; rT2; rT3;  ) 
+defMultiGeoPump( 116 ,         iN;     iT1; iT2; iT3; ,         rN;     rT1; rT2; rT3;  ) 
+defMultiGeoPump( 117 , iC;     iN;     iT1; iT2; iT3; , rC;     rN;     rT1; rT2; rT3;  ) 
+defMultiGeoPump( 118 ,     iS; iN;     iT1; iT2; iT3; ,     rS; rN;     rT1; rT2; rT3;  ) 
+defMultiGeoPump( 119 , iC; iS; iN;     iT1; iT2; iT3; , rC; rS; rN;     rT1; rT2; rT3;  ) 
+defMultiGeoPump( 120 ,             iT; iT1; iT2; iT3; ,             rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 121 , iC;         iT; iT1; iT2; iT3; , rC;         rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 122 ,     iS;     iT; iT1; iT2; iT3; ,     rS;     rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 123 , iC; iS;     iT; iT1; iT2; iT3; , rC; rS;     rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 124 ,         iN; iT; iT1; iT2; iT3; ,         rN; rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 125 , iC;     iN; iT; iT1; iT2; iT3; , rC;     rN; rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 126 ,     iS; iN; iT; iT1; iT2; iT3; ,     rS; rN; rT; rT1; rT2; rT3;  ) 
+defMultiGeoPump( 127 , iC; iS; iN; iT; iT1; iT2; iT3; , rC; rS; rN; rT; rT1; rT2; rT3;  )
+
+// the master pump function
 
 GeoPumpFactory::GeoPump GeoPumpFactory::GeoPumps[130]={&GeoPump0,
 &GeoPump1,&GeoPump2,&GeoPump3,&GeoPump4,&GeoPump5,&GeoPump6,&GeoPump7,&GeoPump8,
