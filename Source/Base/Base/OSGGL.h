@@ -50,6 +50,8 @@
 #include <GL/gl.h>
 #endif
 
+#include <OSGGLU.h>
+
 #ifdef OSG_DEBUG
 #define glErr(text)                                 \
 {                                                   \

@@ -108,7 +108,7 @@ std::string PathHandler::findFile(const Char8 *fileName)
     {
         if((pType & TypeMask) == AbsPath)
         {
-            PNOTICE << "Check abs : " << tmpList.front() << std::endl;
+            SNOTICE << "Check abs : " << tmpList.front() << std::endl;
 
             if(File::tstAttr(tmpList.front().c_str(),
                              AccessFlags::IsReadable))
@@ -124,7 +124,7 @@ std::string PathHandler::findFile(const Char8 *fileName)
 
                 returnValue.append(tmpList.front());
 
-                PNOTICE << "Check base : " << returnValue << std::endl;
+                SNOTICE << "Check base : " << returnValue << std::endl;
 
                 if(File::tstAttr(returnValue.c_str(),
                                  AccessFlags::IsReadable) == false)
@@ -144,7 +144,7 @@ std::string PathHandler::findFile(const Char8 *fileName)
                     returnValue.assign(*iter);
                     returnValue.append(tmpList.front());
 
-                    PNOTICE << "Check from pl : " << returnValue << std::endl;
+                    SNOTICE << "Check from pl : " << returnValue << std::endl;
 
                     if(File::tstAttr(returnValue.c_str(),
                                      AccessFlags::IsReadable) == true)

@@ -44,6 +44,8 @@
 
 #include <OSGConfig.h>
 
+#include <OSGGL.h>
+
 #ifdef OSG_NOGLSUBDIR
 #include <glu.h>
 #else
@@ -54,7 +56,11 @@
 #if defined(WIN32)
 typedef void (CALLBACK *OSGGLUfuncptr)();
 #elif defined(__linux)
+#  ifdef GLAPIENTRY
 typedef void (GLAPIENTRY *OSGGLUfuncptr)();
+#  else
+typedef void (APIENTRY *OSGGLUfuncptr)();
+#  endif
 #else
 typedef void (*OSGGLUfuncptr)();
 #endif
