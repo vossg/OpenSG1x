@@ -376,8 +376,7 @@ case $system in
 
         # copy OpenSG stuff
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/include/OpenSG ./include
-        cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/opt/* lib
-        cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/dbg/* lib
+        cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/* lib
 
     else
         echo "OSG_DIST_NO_DISTASSEMBLY  set, skipping assembly"

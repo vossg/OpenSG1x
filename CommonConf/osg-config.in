@@ -475,9 +475,14 @@ if test "$lib_Base" = "yes"; then
     system_libs="$system_libs $base_libs"
 fi;
 
-if test "$echo_lflags" = "yes"; then
 
+if test "$system_win" = "yes"; then
+    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib${linkdir_suf}
+else
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
+fi
+
+if test "$echo_lflags" = "yes"; then
 
     echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $opensg_lib_path $lib_add_path
 
@@ -485,15 +490,11 @@ fi
 
 if test "$echo_llibs" = "yes"; then
 
-    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
-
     echo $opensg_libs $img_libs $system_libs $stl_libs
 
 fi      
 
 if test "$echo_libs" = "yes"; then
-
-    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
     echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $opensg_lib_path $lib_add_path $opensg_libs $img_libs $system_libs $stl_libs
 

@@ -318,77 +318,39 @@ install-includes-gabe: install-test
 	    -o -type f -name '*\.inl'                                           \
 	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
 
+
+ifeq ($(OS_BASE),cygwin)
+INSTALL_LIB_SUFFIXES := $(SO_SEARCH_SUFFIX) $(LNK_LIB_SUFFIX) $(LIB_SEARCH_SUFFIX)
+INSTALL_LIB_DIR := ""
+else
+INSTALL_LIB_SUFFIXES := $(SO_SEARCH_SUFFIX) $(LNK_LIB_SUFFIX)
+INSTALL_LIB_DIR := "$$d"
+endif
+
 install-libs: install-test
-	@echo $(SO_SEARCH_SUFFIX)
 	@if [ ! -w $(INSTALL_DIR)/lib ]; then mkdir $(INSTALL_DIR)/lib; fi
+ifneq ($(OS_BASE),cygwin)
 	@if [ ! -w $(INSTALL_DIR)/lib/dbg ]; then mkdir $(INSTALL_DIR)/lib/dbg; fi
 	@if [ ! -w $(INSTALL_DIR)/lib/opt ]; then mkdir $(INSTALL_DIR)/lib/opt; fi
-	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-dbg'                       \
-                 -exec find {} -name '*\$(SO_SEARCH_SUFFIX)' -print \;` ;   \
-	cd $(INSTALL_DIR)/lib/dbg;                                              \
-	rm -f *$(SO_SEARCH_SUFFIX);                                             \
-	for t in $$BUILDLIBS;                                                   \
-	do                                                                      \
-	    echo $$t;                                                           \
-	    $(INSTLINK) $$t .;                                                  \
-	done;                                                                   \
-	cd $$CURRDIR;
-	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-opt'                       \
-                 -exec find {} -name '*\$(SO_SEARCH_SUFFIX)' -print \;` ;   \
-	cd $(INSTALL_DIR)/lib/opt;                                              \
-	rm -f *$(SO_SEARCH_SUFFIX);                                             \
-	for t in $$BUILDLIBS;                                                   \
-	do                                                                      \
-	    echo $$t;                                                           \
-	    $(INSTLINK) $$t .;                                                  \
-	done;                                                                   \
-	cd $$CURRDIR;
-	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-dbglnk'                    \
-	                -exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;  \
-	cd $(INSTALL_DIR)/lib/dbg;                                              \
-	rm -f *$(LNK_LIB_SUFFIX);                                               \
-	for t in $$BUILDLIBS;                                                   \
-	do                                                                      \
-	    echo $$t;                                                           \
-	    $(INSTLINK) $$t .;                                                  \
-	done;                                                                   \
-	cd $$CURRDIR;
-	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-optlnk'                    \
-	                -exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;  \
-	cd $(INSTALL_DIR)/lib/opt;                                              \
-	rm -f *$(LNK_LIB_SUFFIX);                                               \
-	for t in $$BUILDLIBS;                                                   \
-	do                                                                      \
-	    echo $$t;                                                           \
-	    $(INSTLINK) $$t .;                                                  \
-	done;                                                                   \
-	cd $$CURRDIR;
-ifeq ($(OS_BASE),cygwin)
-	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-dbg'                       \
-	             -exec find {} -name '*\$(LIB_SEARCH_SUFFIX)' -print \;` ;  \
-	cd $(INSTALL_DIR)/lib/dbg;                                              \
-	for t in $$BUILDLIBS;                                                   \
-	do                                                                      \
-	    echo  $$t;                                                          \
-	    $(INSTLINK) $$t .;                                                  \
-	done;                                                                   \
-	cd $$CURRDIR;
-	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-opt'                       \
-	             -exec find {} -name '*\$(LIB_SEARCH_SUFFIX)' -print \;` ;  \
-	cd $(INSTALL_DIR)/lib/opt;                                              \
-	for t in $$BUILDLIBS;                                                   \
-	do                                                                      \
-	    echo  $$t;                                                          \
-	    $(INSTLINK) $$t .;                                                  \
-	done;                                                                   \
-	cd $$CURRDIR;
 endif
+	CURRDIR=`pwd`;								\
+	for s in $(INSTALL_LIB_SUFFIXES);					\
+	do									\
+		for d in dbg opt;						\
+		do								\
+			BUILDLIBS=`find $$CURRDIR -follow -name "lib-$$d"	\
+                		 -exec find {} -name "*$$s" -print \;` ;	\
+			cd $(INSTALL_DIR)/lib/$(INSTALL_LIB_DIR);		\
+			rm -f *$$s;                                             \
+			for t in $$BUILDLIBS;					\
+			do							\
+			    echo $$t;						\
+			    $(INSTLINK) $$t .;					\
+			done;							\
+		done;								\
+	done;									\
+	cd $$CURRDIR;
+	
 
 
 fcdToBase:
