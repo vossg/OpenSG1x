@@ -216,6 +216,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     inline bool isValid        (void) const;
            bool hasAlphaChannel(void);
+           bool hasColorChannel(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

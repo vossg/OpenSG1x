@@ -2182,6 +2182,14 @@ bool Image::hasAlphaChannel(void)
     || getPixelFormat() == OSG_LA_PF;
 }
 
+/*! Method to check, whether the object data defines a color channel or not
+ */
+bool Image::hasColorChannel(void)
+{
+    return !( getPixelFormat() == OSG_L_PF
+    || getPixelFormat() == OSG_LA_PF);
+}
+
 /*! Method returns the right frame data for the given time.
  */
 UInt8 *Image::getDataByTime(Time   time, UInt32)
