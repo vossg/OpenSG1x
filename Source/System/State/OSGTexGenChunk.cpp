@@ -142,7 +142,7 @@ void TexGenChunk::dump(      UInt32    ,
 static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func, 
                               Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
 {
-    if(beacon != NullFC && func == GL_EYE_LINEAR)
+    if(beacon != NullFC)
     {
         Matrix beaconMat;
         beacon->getToWorld(beaconMat);
@@ -312,8 +312,13 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
         return;        
     }
  
-    Matrix cameraMat = action->getCameraToWorld();
-    cameraMat.invert();
+    Matrix cameraMat;   
+    Viewport *vp = action->getViewport();
+	if(vp != NULL)
+	{
+		action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
+                                        vp->getPixelHeight());
+	}
    
     TextureChunk::activateTexture(win, idx);
 
