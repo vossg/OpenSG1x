@@ -905,7 +905,7 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
         if(name != NULL)
             share.push_back(name);
     }
-    return OSG::deepCloneAttachments(src, dst, share);
+    OSG::deepCloneAttachments(src, dst, share);
 }
 
 // shareString is a comma separated FieldContainer type list
@@ -927,7 +927,7 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
         curPos = ++nextComma;
     }
     
-    return OSG::deepCloneAttachments(src, dst, share);
+    OSG::deepCloneAttachments(src, dst, share);
 }
 
 // deep clone of nodes.
