@@ -4,3 +4,8 @@ ii_files
 implist.*
 objlist.*
 declist.*
+.prefix.*
+*.dep
+moc_*.cpp
+FieldContainerView.*
+fcdEdit
