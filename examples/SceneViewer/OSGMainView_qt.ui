@@ -347,7 +347,7 @@
 </variables>
 <slots>
     <slot>init()</slot>
-    <slot>destroy()</slot>
+    <slot>destroyMainView()</slot>
     <slot>fileExit()</slot>
     <slot>fileNew()</slot>
     <slot>fileOpen()</slot>

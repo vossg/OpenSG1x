@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Wed Oct 17 15:38:11 2001
+** Created: Wed Nov 7 19:37:49 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -1089,7 +1089,6 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
  */
 OSGMainView::~OSGMainView()
 {
-    destroy();
     // no need to delete child widgets, Qt does it all for us
 }
 

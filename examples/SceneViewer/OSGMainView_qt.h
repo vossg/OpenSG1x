@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Wed Oct 17 15:37:52 2001
+** Created: Wed Nov 7 19:37:35 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -50,7 +50,7 @@ public:
 
 public slots:
     virtual void init();
-    virtual void destroy();
+    virtual void destroyMainView();
     virtual void fileExit();
     virtual void fileNew();
     virtual void fileOpen();

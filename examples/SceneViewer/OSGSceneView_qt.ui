@@ -319,7 +319,7 @@
 <slots>
     <slot>addListItem(osg::NodePtr node, QListViewItem * parentItem)</slot>
     <slot>init()</slot>
-    <slot>destroy()</slot>
+    <slot>destroyView()</slot>
     <slot>setRootNode(osg::NodePtr root)</slot>
     <slot>setActiveNode(osg::NodePtr node)</slot>
     <slot>setActiveNodeFromListItem(QListViewItem * item)</slot>

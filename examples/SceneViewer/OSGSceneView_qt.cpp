@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Wed Oct 17 13:32:10 2001
+** Created: Wed Nov 7 19:37:57 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -132,7 +132,6 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
  */
 OSGSceneView::~OSGSceneView()
 {
-    destroy();
     // no need to delete child widgets, Qt does it all for us
 }
 
