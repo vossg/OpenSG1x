@@ -161,6 +161,15 @@ void MField<FieldTypeT, fieldNameSpace>::setValues(const StorageType &value)
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::setValues(
+    const StorageTypeParent &value)
+{
+    // Hack probably move it to MFieldVector (GV)
+
+    *(static_cast<StorageTypeParent *>(&_values)) = value;
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValues(const Self &obj)
 {
     _values = obj._values;

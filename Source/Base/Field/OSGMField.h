@@ -74,6 +74,7 @@ class MField : public Field
   public:
 
     typedef          MFieldVector<FieldTypeT>     StorageType;
+    typedef typename StorageType::Inherited       StorageTypeParent;
 
     typedef typename StorageType::iterator        iterator;
     typedef typename StorageType::const_iterator  const_iterator;
@@ -141,17 +142,18 @@ class MField : public Field
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-            void setValues    (const StorageType &value);
-            void setValues    (const Self        &obj  );
+            void setValues    (const StorageType       &value);
+            void setValues    (const StorageTypeParent &value);
+            void setValues    (const Self              &obj  );
 
-    virtual void setAbstrValue(const Field       &obj  );
+    virtual void setAbstrValue(const Field             &obj  );
 
     
 #ifndef OSG_DISABLE_DEPRECIATED
-            void setValue     (      ArgumentType value,
-                               const UInt32       index);
+            void setValue     (      ArgumentType       value,
+                               const UInt32             index);
 
-            void addValue     (      ArgumentType value);
+            void addValue     (      ArgumentType       value);
 #endif
 
     /*! \}                                                                 */
