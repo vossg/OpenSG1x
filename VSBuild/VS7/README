@@ -25,7 +25,7 @@ Current Requirements :
              into the class definition, worked for me
 
 	To configure the path settings in VS7 go to Tools->Options.
-	Open Porjects->VC++ Directories and include the header/lib/bin
+	Open Projects->VC++ Directories and include the header/lib/bin
 	path for glut/qt/...
 
     If you want to edit any .l or .y file your VStudio additionally has to
