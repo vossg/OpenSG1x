@@ -133,7 +133,7 @@ void Log::setRefTime(Time refTime)
 inline
 void Log::resetRefTime(void)
 {
-    _refTime = osg::getSystemTime();
+    _refTime = getSystemTime();
 }
 
 
@@ -179,7 +179,7 @@ std::ostream &Log::doHeader(      LogLevel  level,
             sout << _levelName[level] << ":";
 
         if(_headerElem & LOG_TIMESTAMP_HEADER) 
-            sout << " ts: " << (osg::getSystemTime() - _refTime);
+            sout << " ts: " << (getSystemTime() - _refTime);
 
         if(module && *module && (_headerElem & LOG_MODULE_HEADER))
             sout << " mod: " << module;
@@ -246,9 +246,9 @@ std::ostream &osgStartLog(      bool      logHeader,
 inline  
 std::ostream &endLog(std::ostream &strm)
 {
-    osg::initLog();
+    initLog();
 
-    osg::osgLogP->unlock();
+    osgLogP->unlock();
     
     strm << std::endl;
     return strm;

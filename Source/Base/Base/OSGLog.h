@@ -408,17 +408,17 @@ extern OSG_BASE_DLLMAPPING LogP osgLogP;
 
 
 OSG_BASE_DLLMAPPING void          doInitLog  (      void                   );
-OSG_BASE_DLLMAPPING void          initLog    (      void                   );
-OSG_BASE_DLLMAPPING Log          &osgLog     (      void                   );
-OSG_BASE_DLLMAPPING std::ostream &osgStartLog(      bool          logHeader,
+inline              void          initLog    (      void                   );
+inline              Log          &osgLog     (      void                   );
+inline              std::ostream &osgStartLog(      bool          logHeader,
                                                     LogLevel      level,
                                               const Char8        *module,
                                               const Char8        *file,
                                                     UInt32        line     );
 
-OSG_BASE_DLLMAPPING std::ostream &endLog      (     std::ostream &strm     );
+inline              std::ostream &endLog      (     std::ostream &strm     );
 
-OSG_BASE_DLLMAPPING void          indentLog   (     UInt32        indent,
+inline              void          indentLog   (     UInt32        indent,
                                                     std::ostream &stream   );
 
 
