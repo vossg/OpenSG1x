@@ -99,6 +99,9 @@ private:
 	void putField ( ofstream &out, const char *prefix,
 								  FieldKey key, const char *value);
 
+    /// last save name
+    char *_fcdFileName;
+    
 protected:
 
 public:

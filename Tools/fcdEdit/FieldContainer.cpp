@@ -74,7 +74,8 @@ const char *FieldContainer::_abstractName[] = {
 FieldContainer::FieldContainer (void )
 : _name(0), _parentFieldContainer(0), _description(0),
 	_library(0), _pointerFieldTypes(0), _abstract(0),
-	_systemComponent(false), _parentSystemComponent(true)
+	_systemComponent(false), _parentSystemComponent(true),
+    _fcdFileName(0)
 {
 	return;
 }
@@ -89,7 +90,8 @@ FieldContainer::FieldContainer (void )
 FieldContainer::FieldContainer (FieldContainer &obj )
 : _name(0), _parentFieldContainer(0), _description(0),
 	_library(0), _pointerFieldTypes(0), _abstract(0),
-	_systemComponent(false), _parentSystemComponent(true)
+	_systemComponent(false), _parentSystemComponent(true),
+    _fcdFileName(0)
 {
 	return;
 }
@@ -126,6 +128,9 @@ void FieldContainer::clear (void)
 	
 	_fieldList.clear();
 
+    if(_fcdFileName)   free(_fcdFileName);
+    _fcdFileName = 0;
+    
 	return;
 }
 
@@ -511,6 +516,10 @@ bool FieldContainer::readDesc (const char *fn)
 				cout << '^' << endl;
 			}
 		istr.close();
+        
+        if(_fcdFileName)
+            free(_fcdFileName);
+        _fcdFileName=strdup(fn);
 	}
 
 	return retCode;
@@ -534,8 +543,21 @@ bool FieldContainer::writeDesc (const char *fN)
   const char *nprefix = "\t", *pprefix = "\t\t";
  
   if (fN)
+  {
+    if(_fcdFileName)
+    {
+        free(_fcdFileName);
+        _fcdFileName=0;
+    }
+    _fcdFileName = strdup(fN);
     out.open(fN);
-  else {
+  }
+  else if(_fcdFileName)
+  {
+    out.open(_fcdFileName);
+  }
+  else
+  {
     sprintf (fileName,"%s%s.%s", filePrefix(), name(), _descFileSuffix);
     out.open(fileName);
   }
