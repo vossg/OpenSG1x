@@ -234,7 +234,17 @@ extension, i.e. it also supports per-stage constants.
 
 The osg::TexGenChunk wraps texture coordinate generation functions. The
 texture coordinate generation for all 4 coordinates is wrapped in a single
-chunk, including the optional plane parameters.
+chunk, including the optional plane parameters. It supports the standard OpenGL
+texture generation functions like object linear, eye linear, sphere map etc. In
+addition to those it is possible to specify a beacon (one of each coordinate 
+axis). If the beacon is set, the plane parameter are interepreted to be in the
+local coordinate system of the beacon. The main use for this is to move the
+reference coordinate system for the texture coordinates around by moving
+another Node. It can also serve for generating texture coordinate relative to 
+an object's position in the world, but independent of the camera. It is something
+between object linear, which uses the local coordinates before any 
+transformations, and eye linear, which includes all transformations including
+the camera.
 
 \section PageSystemTextureChunk TextureChunk
 

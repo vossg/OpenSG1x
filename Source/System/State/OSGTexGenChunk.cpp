@@ -53,6 +53,8 @@
 #include "OSGTextureChunk.h"
 
 #include "OSGTexGenChunk.h"
+#include "OSGCamera.h"
+#include "OSGViewport.h"
 
 OSG_USING_NAMESPACE
 
@@ -140,26 +142,26 @@ void TexGenChunk::dump(      UInt32    ,
 static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func, 
                               Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
 {
-    if(func != GL_NONE)                                         
+    if(beacon != NullFC)
+    {
+        Matrix beaconMat;
+        beacon->getToWorld(beaconMat);
+        beaconMat.multLeft(cameraMat);
+        glPushMatrix();
+        glLoadMatrixf(beaconMat.getValues());
+        glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
+        glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+        glPopMatrix();
+        glEnable(gen);
+    }        
+    else if(func != GL_NONE)                                         
     {                                                                   
         glTexGeni(coord, GL_TEXTURE_GEN_MODE, func);
-        
-        if(beacon != NullFC)
-        {
-            Matrix beaconMat;
-            beacon->getToWorld(beaconMat);
-            beaconMat.multLeft(cameraMat);
-            glPushMatrix();
-            glLoadMatrixf(beaconMat.getValues());
-        }
         
         if(func == GL_OBJECT_LINEAR)
             glTexGenfv(coord, GL_OBJECT_PLANE, (GLfloat*)plane.getValues());
         else if(func == GL_EYE_LINEAR)
             glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
-        
-        if(beacon != NullFC)
-            glPopMatrix();
             
         glEnable(gen);
     }
@@ -173,8 +175,10 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 
     FDEBUG(("TexGenChunk::activate\n"));
 
-    Matrix cameraMat = action->getCameraToWorld();
-    cameraMat.invert();
+    Matrix cameraMat;   
+    Viewport *vp = action->getViewport();
+    action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
+                                               vp->getPixelHeight());
 
     // genfuncs
     setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS(), getGenFuncSPlane(),
@@ -195,26 +199,27 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 static inline void changeGenFunc(GLenum oldfunc, GLenum coord, GLenum gen, 
                 GLenum func, Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
 {
-    if(func != GL_NONE)                                         
+    if(beacon != NullFC)
+    {
+        Matrix beaconMat;
+        beacon->getToWorld(beaconMat);
+        beaconMat.multLeft(cameraMat);
+        glPushMatrix();
+        glLoadMatrixf(beaconMat.getValues());
+        glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
+        glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+        glPopMatrix();
+        if(oldfunc == GL_NONE) 
+            glEnable(gen);
+    }
+    else if(func != GL_NONE)                                         
     {                                                                   
-        glTexGeni(coord, GL_TEXTURE_GEN_MODE, func);
-        
-        if(beacon != NullFC)
-        {
-            Matrix beaconMat;
-            beacon->getToWorld(beaconMat);
-            beaconMat.multLeft(cameraMat);
-            glPushMatrix();
-            glLoadMatrixf(beaconMat.getValues());
-        }
+        glTexGeni(coord, GL_TEXTURE_GEN_MODE, func);        
         
         if(func == GL_OBJECT_LINEAR)
             glTexGenfv(coord, GL_OBJECT_PLANE, (GLfloat*)plane.getValues());
         else if(func == GL_EYE_LINEAR)
             glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
-        
-        if(beacon != NullFC)
-            glPopMatrix();
             
         if(oldfunc == GL_NONE) 
             glEnable(gen);
@@ -269,16 +274,16 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
 
     TextureChunk::activateTexture(action->getWindow(), idx);
 
-    if(getGenFuncS() != GL_NONE)
+    if(getGenFuncS() != GL_NONE || getSBeacon() != NullFC)
         glDisable(GL_TEXTURE_GEN_S);
 
-    if(getGenFuncT() != GL_NONE)
+    if(getGenFuncT() != GL_NONE || getTBeacon() != NullFC)
         glDisable(GL_TEXTURE_GEN_T);
 
-    if(getGenFuncR() != GL_NONE)
+    if(getGenFuncR() != GL_NONE || getRBeacon() != NullFC)
         glDisable(GL_TEXTURE_GEN_R);
 
-    if(getGenFuncQ() != GL_NONE)
+    if(getGenFuncQ() != GL_NONE || getQBeacon() != NullFC)
         glDisable(GL_TEXTURE_GEN_Q);
 
     glErr("TexGenChunk::deactivate");
