@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>FieldContainerView</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>856</width>
-            <height>671</height>
+            <width>934</width>
+            <height>684</height>
         </rect>
     </property>
     <property name="caption">
@@ -18,214 +18,190 @@
     <property name="toolTip" stdset="0">
         <string>Use "" for lib-related includes</string>
     </property>
-    <widget class="QLayoutWidget">
+    <vbox>
         <property name="name">
-            <cstring>Layout7</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>11</x>
-                <y>590</y>
-                <width>834</width>
-                <height>70</height>
-            </rect>
-        </property>
-        <hbox>
+        <widget class="QSplitter">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>splitter3</cstring>
             </property>
-            <property name="margin">
-                <number>0</number>
+            <property name="orientation">
+                <enum>Horizontal</enum>
             </property>
-            <property name="spacing">
-                <number>6</number>
-            </property>
-            <widget class="QLayoutWidget">
+            <widget class="QGroupBox">
                 <property name="name">
-                    <cstring>Layout6</cstring>
+                    <cstring>GroupBox1</cstring>
                 </property>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="spacing">
-                        <number>6</number>
-                    </property>
-                    <widget class="QPushButton" row="0" column="4">
-                        <property name="name">
-                            <cstring>writeNodeCode</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Write Field Container Base Code</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="1" column="4">
-                        <property name="name">
-                            <cstring>writeProcCode</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Write Field Container Code</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="1" column="3">
-                        <property name="name">
-                            <cstring>saveAs</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Save as</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="0" column="1">
-                        <property name="name">
-                            <cstring>load</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Load</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="0" column="3">
-                        <property name="name">
-                            <cstring>save</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Save</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="0" column="2">
-                        <property name="name">
-                            <cstring>PushButton15</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Reset Field Types</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="1" column="2">
-                        <property name="name">
-                            <cstring>PushButton16</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Load Field Types</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="1" column="1">
-                        <property name="name">
-                            <cstring>loadParent</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Load parent</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="0" column="0">
-                        <property name="name">
-                            <cstring>PushButton14</cstring>
-                        </property>
-                        <property name="text">
-                            <string>New</string>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <spacer>
-                <property name="name" stdset="0">
-                    <cstring>Spacer1</cstring>
+                <property name="title">
+                    <string>Field Container</string>
                 </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>20</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QLayoutWidget">
-                <property name="name">
-                    <cstring>Layout4</cstring>
+                <property name="whatsThis" stdset="0">
+                    <string>Pointer Field Types</string>
                 </property>
                 <vbox>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="spacing">
-                        <number>6</number>
-                    </property>
-                    <widget class="QPushButton">
+                    <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>about</cstring>
+                            <cstring>GroupBox17</cstring>
                         </property>
-                        <property name="text">
-                            <string>About</string>
+                        <property name="title">
+                            <string>Type</string>
                         </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Name:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Parent:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="4" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Library:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="2" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>nodeParentInput</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>nodeNameInput</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="4" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>nodeLibraryInput</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="5" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1_4</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>PFTypes:</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="5" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>pointerFieldTypesCombo</cstring>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Pointer Field Types</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="6" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>structureCombo</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="6" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1_5</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Structure:</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="2">
+                                <property name="name">
+                                    <cstring>decoratableSwitch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Decoratable?</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
+                                <property name="name">
+                                    <cstring>parentSysComp</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Is Parent a System Component?</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="7" column="0" rowspan="1" colspan="3">
+                                <property name="name">
+                                    <cstring>localIncludes</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="text">
+                                    <string>Use Local Includes?</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>sysComp</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>System Component?</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
-                    <widget class="QPushButton">
+                    <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>exit</cstring>
+                            <cstring>GroupBox7</cstring>
                         </property>
-                        <property name="text">
-                            <string>Exit</string>
+                        <property name="title">
+                            <string>Description</string>
                         </property>
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>11</number>
+                            </property>
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <widget class="QMultiLineEdit">
+                                <property name="name">
+                                    <cstring>nodeDescriptionInput</cstring>
+                                </property>
+                                <property name="wordWrap">
+                                    <enum>WidgetWidth</enum>
+                                </property>
+                            </widget>
+                        </vbox>
                     </widget>
                 </vbox>
             </widget>
-        </hbox>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>GroupBox3</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>396</x>
-                <y>12</y>
-                <width>448</width>
-                <height>571</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Fields</string>
-        </property>
-        <vbox>
-            <property name="name">
-                <cstring>unnamed</cstring>
-            </property>
-            <property name="margin">
-                <number>11</number>
-            </property>
-            <property name="spacing">
-                <number>6</number>
-            </property>
-            <widget class="QListBox">
+            <widget class="QGroupBox">
                 <property name="name">
-                    <cstring>partListBox</cstring>
+                    <cstring>GroupBox3</cstring>
                 </property>
-                <property name="enabled">
-                    <bool>true</bool>
+                <property name="title">
+                    <string>Fields</string>
                 </property>
-            </widget>
-            <widget class="QFrame">
-                <property name="name">
-                    <cstring>partFrame</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>true</bool>
-                </property>
-                <property name="frameShape">
-                    <enum>Box</enum>
-                </property>
-                <property name="frameShadow">
-                    <enum>Raised</enum>
-                </property>
-                <grid>
+                <vbox>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
@@ -235,489 +211,384 @@
                     <property name="spacing">
                         <number>6</number>
                     </property>
-                    <widget class="QLabel" row="1" column="0">
+                    <widget class="QListBox">
                         <property name="name">
-                            <cstring>TextLabel3_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Type:</string>
-                        </property>
-                    </widget>
-                    <widget class="QComboBox" row="1" column="1">
-                        <property name="name">
-                            <cstring>partTypeCombo</cstring>
-                        </property>
-                        <property name="editable">
-                            <bool>true</bool>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="2" column="0">
-                        <property name="name">
-                            <cstring>TextLabel2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Cardinality:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>TextLabel1_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Name:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="6" column="0">
-                        <property name="name">
-                            <cstring>TextLabel4_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>DefaultValue:</string>
-                        </property>
-                    </widget>
-                    <widget class="QComboBox" row="2" column="1">
-                        <property name="name">
-                            <cstring>partCardinalityCombo</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="0" column="1">
-                        <property name="name">
-                            <cstring>partNameInput</cstring>
+                            <cstring>partListBox</cstring>
                         </property>
                         <property name="enabled">
                             <bool>true</bool>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="3" column="0">
+                    <widget class="QFrame">
                         <property name="name">
-                            <cstring>TextLabel2_3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Access:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="4" column="0">
-                        <property name="name">
-                            <cstring>TextLabel1_3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Visibility:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="5" column="0">
-                        <property name="name">
-                            <cstring>TextLabel3_3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Header:</string>
-                        </property>
-                    </widget>
-                    <widget class="QComboBox" row="3" column="1">
-                        <property name="name">
-                            <cstring>partAccessCombo</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QComboBox" row="4" column="1">
-                        <property name="name">
-                            <cstring>partVisibilityCombo</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="5" column="1">
-                        <property name="name">
-                            <cstring>partIncludeInput</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="6" column="1">
-                        <property name="name">
-                            <cstring>partDefaultValueInput</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="8" column="1">
-                        <property name="name">
-                            <cstring>partDescriptionInput</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="8" column="0">
-                        <property name="name">
-                            <cstring>TextLabel5</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Description:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="7" column="0">
-                        <property name="name">
-                            <cstring>TextLabel1_6</cstring>
-                        </property>
-                        <property name="text">
-                            <string>DefaultHeader:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="7" column="1">
-                        <property name="name">
-                            <cstring>partDefaultHeaderInput</cstring>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QLayoutWidget">
-                <property name="name">
-                    <cstring>Layout3</cstring>
-                </property>
-                <hbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="spacing">
-                        <number>6</number>
-                    </property>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>newPart</cstring>
-                        </property>
-                        <property name="text">
-                            <string>New</string>
-                        </property>
-                        <property name="toolTip" stdset="0">
-                            <string>create a new node part</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>deletePart</cstring>
+                            <cstring>partFrame</cstring>
                         </property>
                         <property name="enabled">
                             <bool>true</bool>
                         </property>
-                        <property name="text">
-                            <string>Delete</string>
+                        <property name="frameShape">
+                            <enum>Box</enum>
                         </property>
+                        <property name="frameShadow">
+                            <enum>Raised</enum>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>11</number>
+                            </property>
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel3_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Type:</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="1" column="1">
+                                <property name="name">
+                                    <cstring>partTypeCombo</cstring>
+                                </property>
+                                <property name="editable">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Cardinality:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Name:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="6" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel4_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>DefaultValue:</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="2" column="1">
+                                <property name="name">
+                                    <cstring>partCardinalityCombo</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="0" column="1">
+                                <property name="name">
+                                    <cstring>partNameInput</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="3" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel2_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Access:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="4" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Visibility:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="5" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel3_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Header:</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="3" column="1">
+                                <property name="name">
+                                    <cstring>partAccessCombo</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="4" column="1">
+                                <property name="name">
+                                    <cstring>partVisibilityCombo</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="5" column="1">
+                                <property name="name">
+                                    <cstring>partIncludeInput</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="6" column="1">
+                                <property name="name">
+                                    <cstring>partDefaultValueInput</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="8" column="1">
+                                <property name="name">
+                                    <cstring>partDescriptionInput</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="8" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel5</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Description:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="7" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1_6</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>DefaultHeader:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="7" column="1">
+                                <property name="name">
+                                    <cstring>partDefaultHeaderInput</cstring>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
-                    <widget class="QPushButton">
+                    <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>clonePart</cstring>
+                            <cstring>Layout3</cstring>
                         </property>
-                        <property name="enabled">
-                            <bool>true</bool>
-                        </property>
-                        <property name="text">
-                            <string>Clone</string>
-                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>0</number>
+                            </property>
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>newPart</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>New</string>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>create a new node part</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>deletePart</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="text">
+                                    <string>Delete</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>clonePart</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="text">
+                                    <string>Clone</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>upPart</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Up</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>downPart</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Down</string>
+                                </property>
+                            </widget>
+                        </hbox>
                     </widget>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>upPart</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Up</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>downPart</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Down</string>
-                        </property>
-                    </widget>
-                </hbox>
-            </widget>
-        </vbox>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>GroupBox1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>12</x>
-                <y>12</y>
-                <width>378</width>
-                <height>571</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Field Container</string>
-        </property>
-        <property name="whatsThis" stdset="0">
-            <string>Pointer Field Types</string>
-        </property>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>GroupBox17</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>11</x>
-                    <y>23</y>
-                    <width>356</width>
-                    <height>280</height>
-                </rect>
-            </property>
-            <property name="title">
-                <string>Type</string>
-            </property>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>23</y>
-                        <width>73</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Name:</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel3</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>83</y>
-                        <width>73</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Parent:</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>143</y>
-                        <width>73</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Library:</string>
-                </property>
-            </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>nodeParentInput</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>83</y>
-                        <width>255</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>nodeNameInput</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>23</y>
-                        <width>255</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>nodeLibraryInput</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>143</y>
-                        <width>255</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel1_4</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>174</y>
-                        <width>73</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>PFTypes:</string>
-                </property>
-            </widget>
-            <widget class="QComboBox">
-                <property name="name">
-                    <cstring>pointerFieldTypesCombo</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>174</y>
-                        <width>255</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="toolTip" stdset="0">
-                    <string>Pointer Field Types</string>
-                </property>
-            </widget>
-            <widget class="QComboBox">
-                <property name="name">
-                    <cstring>structureCombo</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>207</y>
-                        <width>255</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel1_5</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>207</y>
-                        <width>73</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Structure:</string>
-                </property>
-            </widget>
-            <widget class="QCheckBox">
-                <property name="name">
-                    <cstring>decoratableSwitch</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>220</x>
-                        <y>54</y>
-                        <width>120</width>
-                        <height>23</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Decoratable?</string>
-                </property>
-            </widget>
-            <widget class="QCheckBox">
-                <property name="name">
-                    <cstring>parentSysComp</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>114</y>
-                        <width>334</width>
-                        <height>23</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Is Parent a System Component?</string>
-                </property>
-                <property name="checked">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QCheckBox">
-                <property name="name">
-                    <cstring>localIncludes</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>true</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>245</y>
-                        <width>334</width>
-                        <height>23</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Use Local Includes?</string>
-                </property>
-                <property name="checked">
-                    <bool>false</bool>
-                </property>
-            </widget>
-            <widget class="QCheckBox">
-                <property name="name">
-                    <cstring>sysComp</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>54</y>
-                        <width>180</width>
-                        <height>23</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>System Component?</string>
-                </property>
+                </vbox>
             </widget>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>GroupBox7</cstring>
+                <cstring>Layout7</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>11</x>
-                    <y>306</y>
-                    <width>356</width>
-                    <height>240</height>
-                </rect>
-            </property>
-            <property name="title">
-                <string>Description</string>
-            </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
                 <property name="margin">
-                    <number>11</number>
+                    <number>0</number>
                 </property>
                 <property name="spacing">
                     <number>6</number>
                 </property>
-                <widget class="QMultiLineEdit">
+                <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>nodeDescriptionInput</cstring>
+                        <cstring>Layout6</cstring>
                     </property>
-                    <property name="wordWrap">
-                        <enum>WidgetWidth</enum>
-                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QPushButton" row="0" column="4">
+                            <property name="name">
+                                <cstring>writeNodeCode</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Write Field Container Base Code</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="4">
+                            <property name="name">
+                                <cstring>writeProcCode</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Write Field Container Code</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="3">
+                            <property name="name">
+                                <cstring>saveAs</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Save as</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="0" column="1">
+                            <property name="name">
+                                <cstring>load</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Load</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="0" column="3">
+                            <property name="name">
+                                <cstring>save</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Save</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="0" column="2">
+                            <property name="name">
+                                <cstring>PushButton15</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Reset Field Types</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="2">
+                            <property name="name">
+                                <cstring>PushButton16</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Load Field Types</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="1">
+                            <property name="name">
+                                <cstring>loadParent</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Load parent</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="0" column="0">
+                            <property name="name">
+                                <cstring>PushButton14</cstring>
+                            </property>
+                            <property name="text">
+                                <string>New</string>
+                            </property>
+                        </widget>
+                    </grid>
                 </widget>
-            </vbox>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout4</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>about</cstring>
+                            </property>
+                            <property name="text">
+                                <string>About</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>exit</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Exit</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
         </widget>
-    </widget>
+    </vbox>
 </widget>
 <connections>
     <connection>
@@ -969,9 +840,6 @@
     <tabstop>about</tabstop>
     <tabstop>exit</tabstop>
 </tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">FieldContainerView.ui.h</include>
-</includes>
 <slots>
     <slot>aboutSlot()</slot>
     <slot>activePartChanged( int )</slot>

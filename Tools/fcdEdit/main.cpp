@@ -5,7 +5,7 @@
 
 #ifndef FCD_TERM
 
-#include <qapp.h>
+#include <qapplication.h>
 
 int main( int argc, char **argv )
 { 
