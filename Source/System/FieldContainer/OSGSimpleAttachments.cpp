@@ -144,7 +144,7 @@ void setName(      AttachmentContainerPtr  container,
 {
     if(container == NullFC)
     {
-        FFATAL(("setName: no container?!?"));
+        FFATAL(("setName: no container?!?\n"));
         return;
     }
    
@@ -169,7 +169,7 @@ void setName(      AttachmentContainerPtr  container,
 
         if(name == NullFC)
         {
-            FFATAL(("setName: Name Attachment is not castable to Name?!?"));
+            FFATAL(("setName: Name Attachment is not castable to Name?!?\n"));
             return;
         }
     }
@@ -247,7 +247,7 @@ void setVoidP(AttachmentContainerPtr  container,
 {
     if(container == NullFC)
     {
-        FFATAL(("setVoidP: no container?!?"));
+        FFATAL(("setVoidP: no container?!?\n"));
         return;
     }
    
@@ -269,7 +269,7 @@ void setVoidP(AttachmentContainerPtr  container,
         if(pVoid == NullFC)
         {
             FFATAL(("setVoidP: VoidP Attachment is not castable "
-                    "to VoidPAttachment?!?"));
+                    "to VoidPAttachment?!?\n"));
             return;
         }
     }

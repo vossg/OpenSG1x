@@ -99,7 +99,7 @@ In addition to the above-mentioned data there are some other osg::GeoProperty.
 OpenSG allows multiple primitive types per geometry, i.e. you can freely mix
 triangles, triangle strips and polygons in a single geometry node. The
 osg::GeoPTypes property defines the type of the primitives used. Right now, it only
-exists as a osg::GeoPTypesUI32 variant, but others may follow. The number of
+exists as a osg::GeoPTypesUI8 variant, but others may follow. The number of
 vertices per primitive is defined by another property, the osg::GeoPLengths
 property. This, too, only exists in a osg::GeoPLengthsUI32 variant right now. 
 

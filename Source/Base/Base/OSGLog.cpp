@@ -691,9 +691,13 @@ void Log::doLog(const Char8 * format, ...)
     vsprintf(buffer, format, args);
 #endif
 
-    *this << buffer;
-    *this << std::flush;
-
+    //*this << buffer;
+    //*this << std::flush;
+    // Work around VC71. Patch by Chad Austin.
+    std::ostream& os = *this;
+    os << buffer;
+    os << std::flush;
+ 
     va_end(args);
 }
 
