@@ -35,14 +35,11 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 // System declarations
 #include <OSGConfig.h>
 #include <iostream>
 
-
 // Application declarations
-
 // to get ntons/ntohs
 #ifdef WIN32
 #include <winsock.h>
@@ -50,13 +47,10 @@
 #include <arpa/inet.h>
 #endif
 
-
 // Class declarations
-
 #include "OSGImageFileType.h"
 #include "OSGImageFileHandler.h"
 #include "OSGLog.h"
-
 
 OSG_USING_NAMESPACE
 
@@ -64,28 +58,28 @@ OSG_USING_NAMESPACE
 
 Bool ImageFileType::Head::netToHost(void)
 {
-  pixelFormat  = ntohs(pixelFormat);
-  width        = ntohs(width);
-  height       = ntohs(height);
-  depth        = ntohs(depth);
-  mipmapCount  = ntohs(mipmapCount);
-  frameCount   = ntohs(frameCount);
-  frameDelay   = ntohs(frameDelay);
+    pixelFormat  = ntohs(pixelFormat);
+    width        = ntohs(width);
+    height       = ntohs(height);
+    depth        = ntohs(depth);
+    mipmapCount  = ntohs(mipmapCount);
+    frameCount   = ntohs(frameCount);
+    frameDelay   = ntohs(frameDelay);
 
-  return true;
+    return true;
 }
 
 Bool ImageFileType::Head::hostToNet(void)
 {
-  pixelFormat  = htons(pixelFormat);
-  width        = htons(width);
-  height       = htons(height);
-  depth        = htons(depth);
-  mipmapCount  = htons(mipmapCount);
-  frameCount   = htons(frameCount);
-  frameDelay   = htons(frameDelay);
+    pixelFormat  = htons(pixelFormat);
+    width        = htons(width);
+    height       = htons(height);
+    depth        = htons(depth);
+    mipmapCount  = htons(mipmapCount);
+    frameCount   = htons(frameCount);
+    frameDelay   = htons(frameDelay);
 
-  return true;
+    return true;
 }
 
 //----------------------------------------------------------------------
@@ -95,20 +89,20 @@ Bool ImageFileType::Head::hostToNet(void)
 // Description:
 //         Default Constructor
 //----------------------------------------------------------------------
-ImageFileType::ImageFileType ( const Char8 * suffixArray[], 
-                               UInt16 suffixByteCount )
+ImageFileType::ImageFileType(const Char8 *suffixArray[], UInt16 suffixByteCount)
 {
-	Int32 suffixCount = suffixByteCount / sizeof(const Char8 *);
-  Int32 i = 0;
-	list<IDString>::iterator sI;
+    Int32              suffixCount = suffixByteCount / sizeof(const Char8 *);
+    Int32              i = 0;
+    list<IDString>::iterator sI;
 
-	_suffixList.resize(suffixCount);
-	for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) {
-		sI->set(suffixArray[i++]);
-    SINFO << "add image suffix: " << *sI << endLog;
-  }
+    _suffixList.resize(suffixCount);
+    for(sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
+    {
+        sI->set(suffixArray[i++]);
+        SINFO << "add image suffix: " << *sI << endLog;
+    }
 
-	ImageFileHandler::addImageFileType(*this);
+    ImageFileHandler::addImageFileType(*this);
 }
 
 //----------------------------------------------------------------------
@@ -118,10 +112,10 @@ ImageFileType::ImageFileType ( const Char8 * suffixArray[],
 // Description:
 //         Copy Constructor
 //----------------------------------------------------------------------
-ImageFileType::ImageFileType (const ImageFileType &obj )
-	: _suffixList(obj._suffixList)
+ImageFileType::ImageFileType(const ImageFileType &obj) :
+    _suffixList(obj._suffixList)
 {
-	SWARNING << "In ImageFileType copy constructor" << endl;
+    SWARNING << "In ImageFileType copy constructor" << endl;
 }
 
 //----------------------------------------------------------------------
@@ -131,29 +125,28 @@ ImageFileType::ImageFileType (const ImageFileType &obj )
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-ImageFileType::~ImageFileType (void )
+ImageFileType::~ImageFileType(void)
 {
-	return;
+    return;
 }
 
 /** fill the given image with the content of the mem 'buffer' */
-UInt64 ImageFileType::restoreData ( Image &image, const UChar8 *buffer, 
-                                    Int32 memSize )
+UInt64 ImageFileType::restoreData(Image &image, const UChar8 *buffer,
+                                  Int32 memSize)
 {
-  FWARNING (( "ImageXFileType::restoreData() not impl. for mimeType %s\n",
-              getMimeType() ));
-  
-  return 0;
+    FWARNING(("ImageXFileType::restoreData() not impl. for mimeType %s\n",
+             getMimeType()));
+
+    return 0;
 }
 
 /** store the given image to the mem 'buffer' */
-UInt64 ImageFileType::storeData ( const Image &image, UChar8 *buffer,
-                                  Int32 memSize )
+UInt64 ImageFileType::storeData(const Image &image, UChar8 *buffer, Int32 memSize)
 {
-  FWARNING (( "ImageXFileType::storeData() not impl. for mimeType %s\n",
-              getMimeType() ));
+    FWARNING(("ImageXFileType::storeData() not impl. for mimeType %s\n",
+             getMimeType()));
 
-  return 0;
+    return 0;
 }
 
 //----------------------------------------------------------------------
@@ -163,29 +156,31 @@ UInt64 ImageFileType::storeData ( const Image &image, UChar8 *buffer,
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
-                                Int32 memSize )
+UInt64 ImageFileType::restore(Image &image, const UChar8 *buffer, Int32 memSize)
 {
-  UInt32 headSize = sizeof(Head);
-  Head *head = (Head*)(buffer);
-  const UChar8 *data = buffer ? (buffer + headSize) : 0;
-  ImageFileType *type;
-  const char* mimeType;
+    UInt32          headSize = sizeof(Head);
+    Head            *head = (Head *) (buffer);
+    const UChar8    *data = buffer ? (buffer + headSize) : 0;
+    ImageFileType   *type;
+    const char      *mimeType;
 
-  if ( head && data && head->netToHost() && (mimeType = head->mimeType)) {  
-    if ((type = ImageFileHandler::the().getFileType(mimeType,0))) {
-      image.set ( Image::PixelFormat(head->pixelFormat), 
-                  head->width, head->height, head->depth, head->mipmapCount, 
-                  head->frameCount, float(head->frameDelay) / 1000.0, 0 );
-      type->restoreData ( image, data, memSize - headSize);
+    if(head && data && head->netToHost() && (mimeType = head->mimeType))
+    {
+        if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
+        {
+            image.set(Image::PixelFormat(head->pixelFormat), head->width,
+                      head->height, head->depth, head->mipmapCount,
+                      head->frameCount, float(head->frameDelay) / 1000.0, 0);
+            type->restoreData(image, data, memSize - headSize);
+        }
+        else
+        {
+            FWARNING(("Can not restore image data, invalid mimeType: %s\n",
+                     mimeType ? mimeType : "Unknown"));
+        }
     }
-    else {
-      FWARNING (( "Can not restore image data, invalid mimeType: %s\n",
-                  mimeType ? mimeType : "Unknown" ));
-    }
-  }
 
-  return (headSize + image.getSize());
+    return headSize + image.getSize();
 }
 
 //----------------------------------------------------------------------
@@ -195,12 +190,12 @@ UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 ImageFileType::store ( const Image &image, const char *mimeType,
-                              UChar8 *buffer, Int32 memSize )
+UInt64 ImageFileType::store(const Image &image, const char *mimeType,
+                            UChar8 *buffer, Int32 memSize)
 {
-  ImageFileType *type = ImageFileHandler::the().getFileType(mimeType);
+    ImageFileType   *type = ImageFileHandler::the().getFileType(mimeType);
 
-  return type ?  type->store(image,buffer,memSize) : 0;
+    return type ? type->store(image, buffer, memSize) : 0;
 }
 
 //----------------------------------------------------------------------
@@ -210,13 +205,12 @@ UInt64 ImageFileType::store ( const Image &image, const char *mimeType,
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
-                              Int32 memSize )
+UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 {
-  Head *head = (Head*)(buffer);
-  unsigned dataSize=0, headSize = sizeof(Head);
-  UChar8 *dest = (UChar8*)(buffer ? (buffer + headSize) : 0);
-  const UChar8 *src = image.getData();
+    Head            *head = (Head *) (buffer);
+    unsigned        dataSize = 0, headSize = sizeof(Head);
+    UChar8          *dest = (UChar8 *) (buffer ? (buffer + headSize) : 0);
+    const UChar8    *src = image.getData();
 
   head->pixelFormat  = image.getPixelFormat();
   head->width        = image.getWidth();
@@ -227,12 +221,14 @@ UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
   head->frameDelay   = short(image.getFrameDelay() * 1000.0);
   head->hostToNet();
 
-  strcpy (head->mimeType, getMimeType());
+    strcpy(head->mimeType, getMimeType());
 
-  if ( src && dest )
-      dataSize=storeData(image,dest,memSize - headSize);
+    if(src && dest)
+    {
+        dataSize = storeData(image, dest, memSize - headSize);
+    }
 
-  return (headSize + dataSize);
+    return headSize + dataSize;
 }
 
 //----------------------------------------------------------------------
@@ -242,13 +238,13 @@ UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 ImageFileType::maxBufferSize(const Image &image )
+UInt64 ImageFileType::maxBufferSize(const Image &image)
 {
-  UInt64 size = sizeof(Head) + image.getSize();
+    UInt64  size = sizeof(Head) + image.getSize();
 
-  FDEBUG (( "ImageFileType::maxBufferSize(): %d\n", size ));
+    FDEBUG(("ImageFileType::maxBufferSize(): %d\n", size));
 
-  return size;
+    return size;
 }
 
 //----------------------------------------------------------------------
@@ -260,17 +256,18 @@ UInt64 ImageFileType::maxBufferSize(const Image &image )
 //----------------------------------------------------------------------
 void ImageFileType::print(void)
 {
-	list<IDString>::iterator sI;
+    list<IDString>::iterator    sI;
 
-	SLOG << getMimeType();
+    SLOG << getMimeType();
 
-	if (_suffixList.empty())
+    if(_suffixList.empty())
     {
-      SLOG << ": Suffix: ";
-			for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) 
-				Log().stream(OSG::LOG_DEBUG) << sI->str() << " ";
+        SLOG << ": Suffix: ";
+        for(sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
+        {
+            Log().stream(OSG::LOG_DEBUG) << sI->str() << " ";
+        }
     }
 
-	cerr << endl;
+    cerr << endl;
 }
-

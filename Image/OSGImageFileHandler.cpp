@@ -35,11 +35,9 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 //-------------------------------
-// 	Includes 					 			    
+//  Includes          
 //-------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -57,46 +55,31 @@ OSG_USING_NAMESPACE
 /* enum VecBase::VectorSizeE
  * brief 
 */
-
-
 /* var VecBase::VectorSizeE VecBase::_iSize
  *
 */
-
-
 /* const char *VecBase::getClassName(void)
  *  brief Classname
 */
-
-
 /* var ValueTypeT VecBase:: _value[Size];
  * brief value store
 */
-
-
 /*****************************
  *   Types
  *****************************/
-
-
 /*****************************
- *	  Classvariables
+ *   Classvariables
  *****************************/
-
-
-ImageFileHandler * ImageFileHandler::_the = 0;
-
+ImageFileHandler *ImageFileHandler::_the = 0;
 
 /********************************
- *	  Class methodes
+ *   Class methodes
  *******************************/
-
 
 /*******************************
 *public
 *******************************/
 
-
 //----------------------------
 // Function name: getFileType
 //----------------------------
@@ -104,62 +87,65 @@ ImageFileHandler * ImageFileHandler::_the = 0;
 //Parameters:
 //p: const char *mimeType, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:ImageFileType
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: getFileType
 //SeeAlso:
 //s:
 //
 //------------------------------
-ImageFileType * ImageFileHandler::getFileType ( const char *mimeType,
-                                                const char *fileName )
+ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
+                                             const char *fileName)
 {
-	IDString suffix;
-	ImageFileType *type = 0;
-	map <IDString, ImageFileType *>::iterator sI;
-	const char separator = '.';
-	int i, l;
-	ifstream fin;
+    IDString                                    suffix;
+    ImageFileType                               *type = 0;
+    map<IDString, ImageFileType *>::iterator    sI;
+    const char                                  separator = '.';
+    int                                         i, l;
+    ifstream                                    fin;
 
-  if (mimeType && *mimeType) {
-
-    // check mime type
-    for ( sI = _suffixTypeMap.begin(); 
-          sI != _suffixTypeMap.end(); ++sI ) {
-      if (!strcmp(sI->second->getMimeType(),mimeType)) {
-        type = sI->second;
-        break;
-      }
+    if(mimeType && *mimeType)
+    {
+        // check mime type
+        for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
+        {
+            if(!strcmp(sI->second->getMimeType(), mimeType))
+            {
+                type = sI->second;
+                break;
+            }
+        }
     }
 
-  }
+    if(!type && fileName && *fileName)
+    {
+        // check file suffix
+        if(!type)
+        {
+            l = strlen(fileName);
+            for(i = l - 1; i >= 0; i--)
+            {
+                if(fileName[i] == separator)
+                    break;
+            }
 
-	if (!type && fileName && *fileName) {
+            if(i >= 0)
+            {
+                suffix.set(&(fileName[i + 1]));
+                suffix.toLower();
+                sI = _suffixTypeMap.find(suffix);
+                type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
+            }
+        }
+    }
 
-		// check file suffix
-		if (!type) {
-			l = strlen(fileName);
-			for (i = l - 1; i >= 0; i--) {
-				if (fileName[i] == separator) 
-					break;
-			}
-			if (i >= 0) {
-				suffix.set(&(fileName[i+1]));
-				suffix.toLower();
-				sI = _suffixTypeMap.find(suffix);
-				type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
-			}
-		}
-
-	}
-		
-	return type;
+    return type;
 }
 
 //----------------------------
@@ -169,31 +155,33 @@ ImageFileType * ImageFileHandler::getFileType ( const char *mimeType,
 //Parameters:
 //p: const char *mimeType, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:ImageFileType
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: getFileType
 //SeeAlso:
 //s:
 //
 //------------------------------
-ImageFileType * ImageFileHandler::getDefaultType (void)
+ImageFileType *ImageFileHandler::getDefaultType(void)
 {
-  IDString dSuffix("opensg");
-  map <IDString, ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
-  ImageFileType *type =(sI == _suffixTypeMap.end()) ? 0 : sI->second;
+    IDString        dSuffix("opensg");
+    map<IDString, ImageFileType *>::iterator    
+                            sI = _suffixTypeMap.find(dSuffix);
+    ImageFileType   *type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
 
-  if (!type) {
-    FFATAL (( "Can not find any default (suffix:%s) image handler\n",
-              dSuffix.str() ));
-  }
-  
-  return type;
+    if(!type)
+    {
+        FFATAL(("Can not find any default (suffix:%s) image handler\n",
+               dSuffix.str()));
+    }
+
+    return type;
 }
 
 //----------------------------
@@ -203,29 +191,30 @@ ImageFileType * ImageFileHandler::getDefaultType (void)
 //Parameters:
 //p: Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-Image * ImageFileHandler::read ( const char *fileName, const char *mimeType )
+Image *ImageFileHandler::read(const char *fileName, const char *mimeType)
 {
-	Image *image = new Image;
+    Image   *image = new Image;
 
-	if (read(*image,fileName,mimeType) == false) {
-		delete image;
-		image = 0;
-	}
+    if(read(*image, fileName, mimeType) == false)
+    {
+        delete image;
+        image = 0;
+    }
 
-	return image;
+    return image;
 }
 
 //----------------------------
@@ -235,40 +224,47 @@ Image * ImageFileHandler::read ( const char *fileName, const char *mimeType )
 //Parameters:
 //p: Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool ImageFileHandler::read (Image &image, 
-                             const char *fileName, const char *mimeType)
+Bool ImageFileHandler::read(Image &image, const char *fileName,
+                            const char *mimeType)
 {
-	Bool retCode = false;
-	ImageFileType *type = getFileType(mimeType, fileName);
+    Bool            retCode = false;
+    ImageFileType   *type = getFileType(mimeType, fileName);
 
-	if (type) {
-		SINFO << "try to read " << fileName << " as " << type->getMimeType() 
-          << endl;
-		retCode = type->read(image,fileName);
-		if (retCode) 
-			SINFO << "image: " << image.getWidth() << "x" << image.getHeight()
-							<< endl;
-		else
-			SWARNING << "could not read " << fileName << endl;
-	}
-	else
-		SWARNING << "could not read " << fileName 
-						 << "; unknown image format" << endl;
+    if(type)
+    {
+        SINFO << "try to read " << fileName << " as " 
+              << type->getMimeType() << endl;
+        retCode = type->read(image, fileName);
+        if(retCode)
+        {
+            SINFO << "image: " << image.getWidth() << "x" 
+                  << image.getHeight() << endl;
+        }
+        else
+        {
+            SWARNING << "could not read " << fileName << endl;
+        }
+    }
+    else
+    {
+        SWARNING << "could not read " << fileName
+                 << "; unknown image format" << endl;
+    }
 
-	return retCode;
+    return retCode;
 }
 
 //----------------------------
@@ -278,35 +274,38 @@ Bool ImageFileHandler::read (Image &image,
 //Parameters:
 //p: const Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool ImageFileHandler::write ( const Image &image, 
-                               const char *fileName,
-                               const char *mimeType )
+Bool ImageFileHandler::write(const Image &image, const char *fileName,
+                             const char *mimeType)
 {
-	Bool retCode = false;
-	ImageFileType *type = getFileType(mimeType,fileName);
+    Bool            retCode = false;
+    ImageFileType   *type = getFileType(mimeType, fileName);
 
-	if (type) {
-		SINFO << "try to write " << fileName << " as " << type->getMimeType() 
-          << endl;
-		retCode = type->write(image,fileName);
-	}
-	else
-		SWARNING << "can't write " << fileName << "; unknown image format" <<                         endl;
+    if(type)
+    {
+        SINFO << "try to write " << fileName << " as "
+              << type->getMimeType() << endl;
+        retCode = type->write(image, fileName);
+    }
+    else
+    {
+        SWARNING << "can't write " << fileName 
+                 << "; unknown image format" << endl;
+    }
 
-	return retCode;
+    return retCode;
 }
 
 //----------------------------
@@ -316,23 +315,23 @@ Bool ImageFileHandler::write ( const Image &image,
 //Parameters:
 //p: const Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-UInt64 ImageFileHandler::restore ( Image &image, 
-                                   const UChar8 *buffer, UInt32 memSize )
+UInt64 ImageFileHandler::restore(Image &image, const UChar8 *buffer,
+                                 UInt32 memSize)
 {
-	return ImageFileType::restore (image,buffer,memSize);
+    return ImageFileType::restore(image, buffer, memSize);
 }
 
 //----------------------------
@@ -342,27 +341,27 @@ UInt64 ImageFileHandler::restore ( Image &image,
 //Parameters:
 //p: const Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-UInt64 ImageFileHandler::store ( const Image &image, const char *mimeType,
-                                 UChar8 *buffer, UInt32 memSize )
+UInt64 ImageFileHandler::store(const Image &image, const char *mimeType,
+                               UChar8 *buffer, UInt32 memSize)
 {
-	ImageFileType *type;
+    ImageFileType   *type;
 
-  type = mimeType ? getFileType(mimeType) : getDefaultType();
+    type = mimeType ? getFileType(mimeType) : getDefaultType();
 
-  return type->store(image,buffer,memSize);
+    return type->store(image, buffer, memSize);
 }
 
 //----------------------------
@@ -372,38 +371,39 @@ UInt64 ImageFileHandler::store ( const Image &image, const char *mimeType,
 //Parameters:
 //p: const Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-UChar8* ImageFileHandler::store ( const Image &image,
-                                  UInt64 &memSize,
-                                  const char *mimeType)
+UChar8 *ImageFileHandler::store(const Image &image, UInt64 &memSize,
+                                const char *mimeType)
 {
-  ImageFileType *type = 0;
-  UChar8 *mem = 0;
- 
-  type = mimeType ? getFileType(mimeType) : getDefaultType();
-  memSize = type->maxBufferSize(image);
-  
-  if (memSize) {
-    mem = new UChar8[memSize];
-    memSize = type->store(image,mem,memSize);
-  } 
-  else {
-    FFATAL (("Can not store the image as %s\n", type->getMimeType()));
-  }   
-    
-  return mem;
+    ImageFileType   *type = 0;
+    UChar8          *mem = 0;
+
+    type = mimeType ? getFileType(mimeType) : getDefaultType();
+    memSize = type->maxBufferSize(image);
+
+    if(memSize)
+    {
+        mem = new UChar8[memSize];
+        memSize = type->store(image, mem, memSize);
+    }
+    else
+    {
+        FFATAL(("Can not store the image as %s\n", type->getMimeType()));
+    }
+
+    return mem;
 }
 
 //----------------------------
@@ -413,38 +413,37 @@ UChar8* ImageFileHandler::store ( const Image &image,
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:void
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: print debug info to cerr
 //SeeAlso:
 //s:
 //
 //------------------------------
-void ImageFileHandler::print (void )
+void ImageFileHandler::print(void)
 {
-	map <IDString, ImageFileType *>::iterator sI;
+    map<IDString, ImageFileType *>::iterator    sI;
 
-	for (sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
-		cerr << "Image suffix: " << sI->first.str() 
-				 << ", mime type: " << sI->second->getMimeType()
-				 << endl;
+    for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
+    {
+        cerr << "Image suffix: " << sI->first.str() << ", mime type: " 
+             << sI->second->getMimeType() << endl;
+    }
 }
 
 /******************************
 *protected
 ******************************/
 
-
 /******************************
-*private	
+*private 
 ******************************/
-
 
 //----------------------------
 // Function name: addImageFileType
@@ -453,59 +452,59 @@ void ImageFileHandler::print (void )
 //Parameters:
 //p: ImageFileType *fileType
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
+Bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
 {
-	Bool retCode = false;
-	list<IDString>::iterator sI;
-	map <IDString, ImageFileType *>::iterator smI;
-	IDString suffix;
+    Bool                                        retCode = false;
+    list<IDString>::iterator                    sI;
+    map<IDString, ImageFileType *>::iterator    smI;
+    IDString                                    suffix;
 
-	if (!_the)
-		_the = new ImageFileHandler;
-  
-  for ( sI = fileType.suffixList().begin();
-        sI != fileType.suffixList().end(); ++sI) {
-    suffix.set(sI->str());
-    suffix.toLower();
-    smI = _the->_suffixTypeMap.find(suffix);
-    if (smI != _the->_suffixTypeMap.end()) {
-      SWARNING << "Can't add an image file type with suffix "
-               << suffix << " a second time" << endl;
-    }
-    else {
-      _the->_suffixTypeMap[suffix] = &fileType;
-      retCode = true;
-    }
-  }
+    if(!_the)
+        _the = new ImageFileHandler;
 
-	return retCode;
+    for(sI = fileType.suffixList().begin(); sI != fileType.suffixList().end();
+        ++sI)
+    {
+        suffix.set(sI->str());
+        suffix.toLower();
+        smI = _the->_suffixTypeMap.find(suffix);
+        if(smI != _the->_suffixTypeMap.end())
+        {
+            SWARNING << "Can't add an image file type with suffix "
+                     << suffix << " a second time" << endl;
+        }
+        else
+        {
+            _the->_suffixTypeMap[suffix] = &fileType;
+            retCode = true;
+        }
+    }
+
+    return retCode;
 }
 
 /***************************
 *instance methodes 
 ***************************/
 
-
 /***************************
 *public
 ***************************/
 
-
 /**constructors & destructors**/
-
 
 //----------------------------
 // Function name: ImageFileHandler
@@ -514,22 +513,22 @@ Bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-ImageFileHandler::ImageFileHandler (void )
+ImageFileHandler::ImageFileHandler(void)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -539,22 +538,22 @@ ImageFileHandler::ImageFileHandler (void )
 //Parameters:
 //p: const ImageFileHandler &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-ImageFileHandler::ImageFileHandler (const ImageFileHandler &obj )
+ImageFileHandler::ImageFileHandler(const ImageFileHandler &obj)
 {
-	SWARNING << "In copy constructor; I shouldn't be in this corner" << endl; 
+    SWARNING << "In copy constructor; I shouldn't be in this corner" << endl;
 }
 
 //----------------------------
@@ -564,41 +563,31 @@ ImageFileHandler::ImageFileHandler (const ImageFileHandler &obj )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-ImageFileHandler::~ImageFileHandler (void )
+ImageFileHandler::~ImageFileHandler(void)
 {
-	return;
+    return;
 }
 
 /*------------access----------------*/
-
 /*------------properies-------------*/
-
 /*------------your Category---------*/
-
 /*------------Operators-------------*/
-
-
-
 /****************************
-*protected	
+*protected 
 ****************************/
-
-
 /****************************
 *private
 ****************************/
-
-

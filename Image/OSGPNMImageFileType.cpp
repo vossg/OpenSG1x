@@ -35,11 +35,9 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 //-------------------------------
-// 	Includes 					 			    
+//  Includes
 //-------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,6 +51,7 @@
 #include "OSGPNMImageFileType.h"
 
 #ifdef OSG_SGI_STL
+
 //#include <limits>
 #ifndef INT_MAX
 #define INT_MAX numeric_limits<int>::max()
@@ -60,31 +59,27 @@
 #else
 #include <limits.h>
 #endif
-
 OSG_USING_NAMESPACE
 
 /*****************************
  *   Types
  *****************************/
-// Static Class Varible implementations: 
-static const Char8 *suffixArray[] = 
+// Static Class Varible implementations:
+static const Char8 *suffixArray[] =
 {
-	"pnm", "pbm", "pgm", "ppm"
+    "pnm", "pbm", "pgm", "ppm"
 };
 
-PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
-                                            sizeof(suffixArray) );
 
+PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
 
 /*****************************
- *	  Classvariables
+ *    Classvariables
  *****************************/
 
-
 /********************************
- *	  Class methodes
+ *    Class methodes
  *******************************/
-
 
 /*******************************
 *public
@@ -97,109 +92,129 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //Parameters:
 //p: Image &image, const Char8 *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: read the image from the given file
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool PNMImageFileType::read (Image &image, const Char8 *fileName )
+Bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 {
-  Bool isBinary = true;
-	Int16 type = 0, width, height, lineSize, maxValue = 0, value, x, y;
-	UInt32 i,n;
-	UChar8 *imageData = 0;
-  UInt8 id, commentKey = '#';
-	ifstream in(fileName, ios::in | ios::binary );
-	
-	if (in.rdbuf()->is_open()) 
+    Bool        isBinary = true;
+    Int16       type = 0, width, height, lineSize, maxValue = 0, value, x, y;
+    UInt32      i, n;
+    UChar8      *imageData = 0;
+    UInt8       id, commentKey = '#';
+    ifstream    in(fileName, ios::in | ios::binary);
+
+    if(in.rdbuf()->is_open())
     {
-      in >> id >> type;
-      in.ignore(INT_MAX, '\n');
-      while (in.peek() == commentKey) 
+        in >> id >> type;
         in.ignore(INT_MAX, '\n');
-      in >> width >> height;
-      isBinary = (type > 3) ? true : false;
+        while(in.peek() == commentKey)
+            in.ignore(INT_MAX, '\n');
+        in >> width >> height;
+        isBinary = (type > 3) ? true : false;
     }
-  else
+    else
     {
-      FWARNING(( "Error opening PNM file %s!\n", fileName ));
-      return false;
+        FWARNING(("Error opening PNM file %s!\n", fileName));
+        return false;
     }
-  
-	switch (type) {
-	case 1:
-	case 4:
-		maxValue = 1;
-		image.set (Image::OSG_L_PF,width, height);
-		break;
-	case 2:
-	case 5:
-		maxValue = 0;
-		image.set( Image::OSG_L_PF,width, height );
-		break;
-	case 3:
-	case 6:
-		maxValue = 0;
-		image.set( Image::OSG_RGB_PF, width, height );
-		break;
-	default:
-		SWARNING << "unknown image format type " << type << " in " << fileName
-						 << endl;
-		break;
-	}
-	
-	if (!maxValue) {
-		in >> maxValue;
-		if (maxValue != 255) {
-			SWARNING << "unknown max value " << maxValue << " in " << fileName 
-							 << ", can't read the image"
-							 << endl;
-			maxValue = 0;
-		}
-	}
-  
-	// eat the endline
-	in.ignore(INT_MAX, '\n');
-	
-	if (maxValue && (imageData = image.getData()))
+
+    switch(type)
     {
-      SINFO << "Read pnm file of type " << type << ", "
-            << width << "x" << height << endl;
-      
-      lineSize = width * image.getBpp();
-      if (isBinary) 
-        { // image is binary
-          for (y = height - 1; y >= 0; y--) 
-            in.read((Char8 *) &(imageData[y * lineSize]), lineSize);
+    case 1:
+    case 4:
+        maxValue = 1;
+        image.set(Image::OSG_L_PF, width, height);
+        break;
+    case 2:
+    case 5:
+        maxValue = 0;
+        image.set(Image::OSG_L_PF, width, height);
+        break;
+    case 3:
+    case 6:
+        maxValue = 0;
+        image.set(Image::OSG_RGB_PF, width, height);
+        break;
+    default:
+        SWARNING <<
+            "unknown image format type " <<
+            type <<
+            " in " <<
+            fileName <<
+            endl;
+        break;
+    }
+
+    if(!maxValue)
+    {
+        in >> maxValue;
+        if(maxValue != 255)
+        {
+            SWARNING <<
+                "unknown max value " <<
+                maxValue <<
+                " in " <<
+                fileName <<
+                ", can't read the image" <<
+                endl;
+            maxValue = 0;
         }
-      else 
-        { // image is ascii
-          for (y = height - 1; y >= 0; y--) 
+    }
+
+    // eat the endline
+    in.ignore(INT_MAX, '\n');
+
+    if(maxValue && (imageData = image.getData()))
+    {
+        SINFO <<
+            "Read pnm file of type " <<
+            type <<
+            ", " <<
+            width <<
+            "x" <<
+            height <<
+            endl;
+
+        lineSize = width * image.getBpp();
+        if(isBinary)
+        {   // image is binary
+            for(y = height - 1; y >= 0; y--)
             {
-              for (x = 0; x < lineSize; x++) 
+                in.read((Char8 *) &(imageData[y * lineSize]), lineSize);
+            }
+        }
+        else
+        {   // image is ascii
+            for(y = height - 1; y >= 0; y--)
+            {
+                for(x = 0; x < lineSize; x++)
                 {
-                  in >> value;
-                  imageData[y * lineSize + x] = UChar8(value);
+                    in >> value;
+                    imageData[y * lineSize + x] = UChar8(value);
                 }
             }
         }
-      
-      if (maxValue == 1) {
-        n = image.getSize();
-        for ( i = 0; i < n; i++)
-          imageData[0] *= 255;
-      }
+
+        if(maxValue == 1)
+        {
+            n = image.getSize();
+            for(i = 0; i < n; i++)
+                imageData[0] *= 255;
+        }
     }
-  
-	return true;
+
+    return true;
 }
 
 //----------------------------
@@ -209,89 +224,92 @@ Bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 //Parameters:
 //p: Image &image, const Char8 *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: write the image to the given file
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool PNMImageFileType::write (const Image &image, const Char8 *fileName )
-{	
-	Int16  p, y, x, lineSize;
-	ofstream  out(fileName, ios::out | ios::binary );
-	UInt16 bpp = image.getBpp();
-	UInt8  *data = 0;
+Bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
+{
+    Int16       p, y, x, lineSize;
+    ofstream    out(fileName, ios::out | ios::binary);
+    UInt16      bpp = image.getBpp();
+    UInt8       *data = 0;
 
-	if (out.rdbuf()->is_open()) {
-		switch (bpp) {
-		case 1:
-		case 2:
-			out << "P5" << endl;
-			break;
-		case 3:
-		case 4:
-			out << "P6" << endl;
-			break;
-		}
+    if(out.rdbuf()->is_open())
+    {
+        switch(bpp)
+        {
+        case 1:
+        case 2:
+            out << "P5" << endl;
+            break;
+        case 3:
+        case 4:
+            out << "P6" << endl;
+            break;
+        }
 
-		out << "# PNMImageFileType write" << endl;
-		out << image.getWidth() << " " << image.getHeight() << endl;
-		out << "255" << endl;
+        out << "# PNMImageFileType write" << endl;
+        out << image.getWidth() << " " << image.getHeight() << endl;
+        out << "255" << endl;
 
-		if (bpp & 1) {
-			// with alpha
-			lineSize = image.getBpp() * image.getWidth();		
-			for (y = image.getHeight() - 1; y >= 0; y--) 
-				out.write( (char*) (image.getData() + (lineSize * y)), lineSize);
-		}
-		else {
-			// skip alpha
-			lineSize = image.getBpp() * image.getWidth();		
-			for (y = image.getHeight() - 1; y >= 0; y--) {
-				data = (UInt8*)(image.getData() + (lineSize * y));
-				for ( x = 0; x < image.getWidth(); x++) {
-					for (p = bpp-1; p--; ) 
-						out << *data++;
-					data++;
-				}
-			}
-		}
+        if(bpp & 1)
+        {
+            // with alpha
+            lineSize = image.getBpp() * image.getWidth();
+            for(y = image.getHeight() - 1; y >= 0; y--)
+            {
+                out.write((char *) (image.getData() + (lineSize * y)), lineSize);
+            }
+        }
+        else
+        {
+            // skip alpha
+            lineSize = image.getBpp() * image.getWidth();
+            for(y = image.getHeight() - 1; y >= 0; y--)
+            {
+                data = (UInt8 *) (image.getData() + (lineSize * y));
+                for(x = 0; x < image.getWidth(); x++)
+                {
+                    for(p = bpp - 1; p--;)
+                        out << *data++;
+                    data++;
+                }
+            }
+        }
 
-		out.close();
-	}
+        out.close();
+    }
 
-	return data ? true : false;
+    return data ? true : false;
 }
 
 /******************************
 *protected
 ******************************/
 
-
 /******************************
-*private	
+*private
 ******************************/
 
-
 /***************************
-*instance methodes 
+*instance methodes
 ***************************/
-
 
 /***************************
 *public
 ***************************/
 
-
 /**constructors & destructors**/
-
 
 //----------------------------
 // Function name: PNMImageFileType
@@ -300,24 +318,24 @@ Bool PNMImageFileType::write (const Image &image, const Char8 *fileName )
 //Parameters:
 //p: const Char8 *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-PNMImageFileType::PNMImageFileType ( const Char8 *suffixArray[], 
-																					 UInt16 suffixByteCount )
-	: ImageFileType ( suffixArray, suffixByteCount )
+PNMImageFileType::PNMImageFileType(const Char8 *suffixArray[],
+                                   UInt16 suffixByteCount) :
+    ImageFileType(suffixArray, suffixByteCount)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -327,23 +345,23 @@ PNMImageFileType::PNMImageFileType ( const Char8 *suffixArray[],
 //Parameters:
 //p: const PNMImageFileType &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-PNMImageFileType::PNMImageFileType (const PNMImageFileType &obj )
-	: ImageFileType(obj)
+PNMImageFileType::PNMImageFileType(const PNMImageFileType &obj) :
+    ImageFileType(obj)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -353,41 +371,31 @@ PNMImageFileType::PNMImageFileType (const PNMImageFileType &obj )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-PNMImageFileType::~PNMImageFileType (void )
+PNMImageFileType::~PNMImageFileType(void)
 {
-	return;
+    return;
 }
 
 /*------------access----------------*/
-
 /*------------properies-------------*/
-
 /*------------your Category---------*/
-
 /*------------Operators-------------*/
-
-
-
 /****************************
-*protected	
+*protected
 ****************************/
-
-
 /****************************
 *private
 ****************************/
-
-

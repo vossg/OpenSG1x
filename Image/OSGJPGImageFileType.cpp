@@ -35,11 +35,9 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 //-------------------------------
-// 	Includes 					 			    
+// Includes  
 //-------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -48,73 +46,79 @@
 #ifdef   OSG_SGI_LIB
 #include <limits>
 #endif
-
 #ifdef OSG_WITH_JPG
 extern "C" {
 #include <setjmp.h>
 #include <jpeglib.h>
 }
-#endif     
-
+#endif
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>
 
 OSG_USING_NAMESPACE
-
 #ifdef OSG_WITH_JPG
-
-struct {
+struct
+{
     struct jpeg_destination_mgr dest;
-    struct jpeg_source_mgr src;
-    UChar8 *buffer;
-    UInt32 memSize;
-    UInt32 dataSize;
+    struct jpeg_source_mgr      src;
+    UChar8                      *buffer;
+    UInt32                      memSize;
+    UInt32                      dataSize;
 } jpeg_mem;
 
+/* */
 void jpeg_mem_init_source(j_decompress_ptr cinfo)
 {
-    jpeg_mem.src.next_input_byte  = (JOCTET *)jpeg_mem.buffer;
-    jpeg_mem.src.bytes_in_buffer  = (size_t  )jpeg_mem.dataSize;
+    jpeg_mem.src.next_input_byte = (JOCTET *) jpeg_mem.buffer;
+    jpeg_mem.src.bytes_in_buffer = (size_t) jpeg_mem.dataSize;
 }
 
+/* */
 boolean jpeg_mem_fill_input_buffer(j_decompress_ptr cinfo)
 {
     SFATAL << "Missing data. Given data block to small." << endl;
     return false;
 }
 
+/* */
 void jpeg_mem_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
 {
 }
 
+/* */
 boolean jpeg_mem_resync_to_restart(j_decompress_ptr cinfo, int desired)
 {
     return false;
 }
 
+/* */
 void jpeg_mem_term_source(j_decompress_ptr cinfo)
 {
 }
 
+/* */
 void jpeg_mem_init_destination(j_compress_ptr cinfo)
 {
-    jpeg_mem.dest.next_output_byte = (JOCTET *)jpeg_mem.buffer;
-    jpeg_mem.dest.free_in_buffer   = (size_t  )jpeg_mem.memSize;
+    jpeg_mem.dest.next_output_byte = (JOCTET *) jpeg_mem.buffer;
+    jpeg_mem.dest.free_in_buffer = (size_t) jpeg_mem.memSize;
 }
+
+/* */
 boolean jpeg_mem_empty_output_buffer(j_compress_ptr cinfo)
 {
     SFATAL << "Not enough space left in buffer." << endl;
     return false;
 }
+
+/* */
 void jpeg_mem_term_destination(j_compress_ptr cinfo)
 {
-    jpeg_mem.dataSize = 
-        ((UChar8*)jpeg_mem.dest.next_output_byte) -
-        ((UChar8*)jpeg_mem.buffer);
+    jpeg_mem.dataSize = ((UChar8 *) jpeg_mem.dest.next_output_byte) - ((UChar8 *) jpeg_mem.buffer);
 }
 
-void jpeg_memory_dest(	struct jpeg_compress_struct *cinfo,
-                        UChar8 *buffer ,UInt32 memSize )
+/* */
+void jpeg_memory_dest(struct jpeg_compress_struct *cinfo, UChar8 *buffer,
+                      UInt32 memSize)
 {
     jpeg_mem.buffer=buffer;
     jpeg_mem.memSize=memSize;
@@ -124,41 +128,35 @@ void jpeg_memory_dest(	struct jpeg_compress_struct *cinfo,
     cinfo->dest=&jpeg_mem.dest;
 }
 
-void jpeg_memory_src(	struct jpeg_decompress_struct *cinfo,
-                        const UChar8 *buffer ,UInt32 dataSize )
+/* */
+void jpeg_memory_src(struct jpeg_decompress_struct *cinfo, const UChar8 *buffer,
+                     UInt32 dataSize)
 {
-    jpeg_mem.buffer=const_cast<UChar8*>(buffer);
-    jpeg_mem.dataSize=dataSize;
+    jpeg_mem.buffer = const_cast < UChar8 * > (buffer);
+    jpeg_mem.dataSize = dataSize;
     jpeg_mem.src.init_source       = jpeg_mem_init_source;
     jpeg_mem.src.fill_input_buffer = jpeg_mem_fill_input_buffer;
     jpeg_mem.src.skip_input_data   = jpeg_mem_skip_input_data;
     jpeg_mem.src.resync_to_restart = jpeg_mem_resync_to_restart;
     jpeg_mem.src.term_source       = jpeg_mem_term_source;
-    cinfo->src=&jpeg_mem.src;
+    cinfo->src = &jpeg_mem.src;
 }
-
-#endif     
+#endif
 
 /*****************************
  *   Types
  *****************************/
-
-
 /*****************************
- *	  Classvariables
+ *  Classvariables
  *****************************/
-
 // Static Class Varible implementations:
-static const Char8 *suffixArray[] = {
-  "jpg", "jpeg"
-};
+static const Char8                  *suffixArray[] = { "jpg", "jpeg" };
 
-JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
+JPGImageFileType JPGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 
 /********************************
- *	  Class methodes
+ *  Class methodes
  *******************************/
-
 
 /*******************************
 *public
@@ -171,241 +169,58 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //Parameters:
 //p: Image &image, const Char8 *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: read the the image from the given filename
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool JPGImageFileType::read (Image &image, const Char8 *fileName )
+Bool JPGImageFileType::read(Image &image, const Char8 *fileName)
 {
-
 #ifdef OSG_WITH_JPG
-
-  Bool retCode = false;
-
-  struct local_error_mgr {
-    struct jpeg_error_mgr pub;
-    jmp_buf setjmp_buffer;
-  };
-
-  unsigned char *destData;
-	Image::PixelFormat pixelFormat;
-
-  int imageSize;
-  typedef struct local_error_mgr * local_error_ptr;
-  struct local_error_mgr jerr;
-  struct jpeg_decompress_struct cinfo;
-  FILE * infile;
-  JSAMPARRAY buffer;
-
-  int row_stride;
-
-  if ((infile = fopen(fileName, "rb"))) {
-
-    cinfo.err = jpeg_std_error(&jerr.pub);
-    if (setjmp(jerr.setjmp_buffer)) {
-      jpeg_destroy_decompress(&cinfo);
-      fclose(infile);
-      return 0;
-    }
-    jpeg_create_decompress(&cinfo);
-    jpeg_stdio_src(&cinfo, infile);
-    jpeg_read_header(&cinfo, TRUE);
-    jpeg_start_decompress(&cinfo);
-    
-    switch (cinfo.output_components) {
-    case 1:
-      pixelFormat = Image::OSG_L_PF;
-      break;
-    case 2:
-      pixelFormat = Image::OSG_LA_PF;
-      break;
-    case 3:
-      pixelFormat = Image::OSG_RGB_PF;
-      break;
-    case 4:
-      pixelFormat = Image::OSG_RGBA_PF;
-      break;
+    Bool    retCode = false;
+    struct local_error_mgr
+    {
+        struct jpeg_error_mgr   pub;
+        jmp_buf                 setjmp_buffer;
     };
-    
-    if (image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
-      imageSize = image.getSize();
-      destData = image.getData() + imageSize;
-      row_stride = cinfo.output_width * cinfo.output_components;
-      buffer = (*cinfo.mem->alloc_sarray)
-        ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );
-      while (cinfo.output_scanline < cinfo.output_height) {
-        destData -= row_stride;
-        jpeg_read_scanlines(&cinfo, buffer,1);
-        memcpy(destData, *buffer, row_stride);
-      }
-      retCode = true;
-    }
-    else
-      retCode = false;
-    
-    jpeg_finish_decompress(&cinfo);
-    jpeg_destroy_decompress(&cinfo);
-    fclose(infile);
-  }
-    
-  return retCode;
 
-#else
+    unsigned char                   *destData;
+    Image::PixelFormat              pixelFormat;
 
-	SWARNING << getMimeType() 
-					 << " read is not compiled into the current binary " 
-					 << endl;
+    int                             imageSize;
+    typedef struct local_error_mgr  *local_error_ptr;
+    struct local_error_mgr          jerr;
+    struct jpeg_decompress_struct   cinfo;
+    FILE                            *infile;
+    JSAMPARRAY                      buffer;
 
-  return false;
+    int                             row_stride;
 
-#endif                     
+    if((infile = fopen(fileName, "rb")))
+    {
+        cinfo.err = jpeg_std_error(&jerr.pub);
+        if(setjmp(jerr.setjmp_buffer))
+        {
+            jpeg_destroy_decompress(&cinfo);
+            fclose(infile);
+            return 0;
+        }
 
-}
+        jpeg_create_decompress(&cinfo);
+        jpeg_stdio_src(&cinfo, infile);
+        jpeg_read_header(&cinfo, TRUE);
+        jpeg_start_decompress(&cinfo);
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const Char8 *fileName
-//GlobalVars:
-//g: 
-//Returns:
-//r:Bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: write the the image to the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
-Bool JPGImageFileType::write (const Image &image, const Char8 *fileName )
-{
-#ifdef OSG_WITH_JPG
-
-	if ( ( image.getBpp() != 1 && image.getBpp() != 3 ) ||
-         image.getDepth() != 1
-	   )
-	{
-		SWARNING 	<< getMimeType() 
-		 			<< " JPEG write only works for 2D 1 or 3 bpp images " 
-		 			<< endl;
-		return false;
-	}
-
-	Bool retCode = false;
-
-	struct local_error_mgr 
-	{
-		struct jpeg_error_mgr pub;
-		jmp_buf setjmp_buffer;
-	};
-	typedef struct local_error_mgr * local_error_ptr;
-
-	struct local_error_mgr jerr;
-	struct jpeg_compress_struct cinfo;
-	FILE * outfile;
-	JSAMPARRAY buffer;
-	UChar8 * data;
-
-	
-	if ((outfile = fopen(fileName, "wb")) == NULL) 
-	{
-		fprintf(stderr, "can't open %s\n", fileName);
-		return retCode;
-	}
-
-	cinfo.err = jpeg_std_error(&jerr.pub);
-	if (setjmp(jerr.setjmp_buffer)) 
-	{
-		jpeg_destroy_compress(&cinfo);
-		fclose(outfile);
-		return 0;
-	}
-	jpeg_create_compress(&cinfo);
-	jpeg_stdio_dest(&cinfo, outfile);
-
-	cinfo.image_width = image.getWidth();
-	cinfo.image_height = image.getHeight();
-	cinfo.input_components = image.getBpp();	
-	cinfo.in_color_space = (image.getBpp()==1)?JCS_GRAYSCALE:JCS_RGB;
-
-	jpeg_set_defaults(&cinfo);
-	jpeg_set_quality(&cinfo, 90, TRUE);
-	jpeg_start_compress(&cinfo, TRUE);
-
-	buffer = &data;
-	while (cinfo.next_scanline < cinfo.image_height) 
-	{
-		data = image.getData() + ( image.getHeight() - 1 - cinfo.next_scanline ) * 
-					image.getWidth() * image.getBpp();
-		jpeg_write_scanlines(&cinfo, buffer,1);
-	}
-
-	jpeg_finish_compress(&cinfo);
-	jpeg_destroy_compress(&cinfo);
-	fclose(outfile);
-
-	return true;
-
-#else
-
-	SWARNING << getMimeType() 
-					 << " write is not compiled into the current binary " 
-					 << endl;
-
-  return false;
-
-#endif                     
-
-}
-
-UInt64 JPGImageFileType::restoreData ( Image &image, const UChar8 *buffer,
-                                       Int32 memSize )
-{
-#ifdef OSG_WITH_JPG
-
-  Bool retCode = false;
-
-  struct local_error_mgr {
-    struct jpeg_error_mgr pub;
-    jmp_buf setjmp_buffer;
-  };
-
-  unsigned char *destData;
-	Image::PixelFormat pixelFormat;
-
-  int imageSize;
-  typedef struct local_error_mgr * local_error_ptr;
-  struct local_error_mgr jerr;
-  struct jpeg_decompress_struct cinfo;
-  JSAMPARRAY imagebuffer;
-
-  int row_stride;
-
-  cinfo.err = jpeg_std_error(&jerr.pub);
-  if (setjmp(jerr.setjmp_buffer)) {
-      jpeg_destroy_decompress(&cinfo);
-      return 0;
-  }
-  jpeg_create_decompress(&cinfo);
-  jpeg_memory_src(&cinfo, buffer, memSize);
-  jpeg_read_header(&cinfo, TRUE);
-  jpeg_start_decompress(&cinfo);
-    
-    switch (cinfo.output_components) {
+        switch(cinfo.output_components)
+        {
         case 1:
             pixelFormat = Image::OSG_L_PF;
             break;
@@ -418,135 +233,313 @@ UInt64 JPGImageFileType::restoreData ( Image &image, const UChar8 *buffer,
         case 4:
             pixelFormat = Image::OSG_RGBA_PF;
             break;
+        };
+
+        if(image.set(pixelFormat, cinfo.output_width, cinfo.output_height))
+        {
+            imageSize = image.getSize();
+            destData = image.getData() + imageSize;
+            row_stride = cinfo.output_width * cinfo.output_components;
+            buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
+            while(cinfo.output_scanline < cinfo.output_height)
+            {
+                destData -= row_stride;
+                jpeg_read_scanlines(&cinfo, buffer, 1);
+                memcpy(destData, *buffer, row_stride);
+            }
+
+            retCode = true;
+        }
+        else
+            retCode = false;
+
+        jpeg_finish_decompress(&cinfo);
+        jpeg_destroy_decompress(&cinfo);
+        fclose(infile);
+    }
+
+    return retCode;
+
+#else
+    SWARNING <<
+        getMimeType() <<
+        " read is not compiled into the current binary " <<
+        endl;
+    return false;
+#endif
+}
+
+//----------------------------
+// Function name: write
+//----------------------------
+//
+//Parameters:
+//p: const Image &image, const Char8 *fileName
+//GlobalVars:
+//g:
+//Returns:
+//r:Bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d: write the the image to the given filename
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool JPGImageFileType::write(const Image &image, const Char8 *fileName)
+{
+#ifdef OSG_WITH_JPG
+    if((image.getBpp() != 1 && image.getBpp() != 3) || image.getDepth() != 1)
+    {
+        SWARNING <<
+            getMimeType() <<
+            " JPEG write only works for 2D 1 or 3 bpp images " <<
+            endl;
+        return false;
+    }
+
+    Bool    retCode = false;
+
+    struct local_error_mgr
+    {
+        struct jpeg_error_mgr   pub;
+        jmp_buf                 setjmp_buffer;
     };
-    
-    if (image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
+
+    typedef struct local_error_mgr  *local_error_ptr;
+
+    struct local_error_mgr          jerr;
+    struct jpeg_compress_struct     cinfo;
+    FILE                            *outfile;
+    JSAMPARRAY                      buffer;
+    UChar8                          *data;
+
+    if((outfile = fopen(fileName, "wb")) == NULL)
+    {
+        fprintf(stderr, "can't open %s\n", fileName);
+        return retCode;
+    }
+
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    if(setjmp(jerr.setjmp_buffer))
+    {
+        jpeg_destroy_compress(&cinfo);
+        fclose(outfile);
+        return 0;
+    }
+
+    jpeg_create_compress(&cinfo);
+    jpeg_stdio_dest(&cinfo, outfile);
+
+    cinfo.image_width = image.getWidth();
+    cinfo.image_height = image.getHeight();
+    cinfo.input_components = image.getBpp();
+    cinfo.in_color_space = (image.getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
+
+    jpeg_set_defaults(&cinfo);
+    jpeg_set_quality(&cinfo, 90, TRUE);
+    jpeg_start_compress(&cinfo, TRUE);
+
+    buffer = &data;
+    while(cinfo.next_scanline < cinfo.image_height)
+    {
+        data = image.getData() +
+            (image.getHeight() - 1 - cinfo.next_scanline) *
+            image.getWidth() *
+            image.getBpp();
+        jpeg_write_scanlines(&cinfo, buffer, 1);
+    }
+
+    jpeg_finish_compress(&cinfo);
+    jpeg_destroy_compress(&cinfo);
+    fclose(outfile);
+
+    return true;
+
+#else
+    SWARNING <<
+        getMimeType() <<
+        " write is not compiled into the current binary " <<
+        endl;
+    return false;
+#endif
+}
+
+/* */
+UInt64 JPGImageFileType::restoreData(Image &image, const UChar8 *buffer,
+                                     Int32 memSize)
+{
+#ifdef OSG_WITH_JPG
+    Bool    retCode = false;
+    struct local_error_mgr
+    {
+        struct jpeg_error_mgr   pub;
+        jmp_buf                 setjmp_buffer;
+    };
+
+    unsigned char                   *destData;
+    Image::PixelFormat              pixelFormat;
+
+    int                             imageSize;
+    typedef struct local_error_mgr  *local_error_ptr;
+    struct local_error_mgr          jerr;
+    struct jpeg_decompress_struct   cinfo;
+    JSAMPARRAY                      imagebuffer;
+
+    int                             row_stride;
+
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    if(setjmp(jerr.setjmp_buffer))
+    {
+        jpeg_destroy_decompress(&cinfo);
+        return 0;
+    }
+
+    jpeg_create_decompress(&cinfo);
+    jpeg_memory_src(&cinfo, buffer, memSize);
+    jpeg_read_header(&cinfo, TRUE);
+    jpeg_start_decompress(&cinfo);
+
+    switch(cinfo.output_components)
+    {
+    case 1:
+        pixelFormat = Image::OSG_L_PF;
+        break;
+    case 2:
+        pixelFormat = Image::OSG_LA_PF;
+        break;
+    case 3:
+        pixelFormat = Image::OSG_RGB_PF;
+        break;
+    case 4:
+        pixelFormat = Image::OSG_RGBA_PF;
+        break;
+    };
+
+    if(image.set(pixelFormat, cinfo.output_width, cinfo.output_height))
+    {
         imageSize = image.getSize();
         destData = image.getData() + imageSize;
         row_stride = cinfo.output_width * cinfo.output_components;
-        imagebuffer = (*cinfo.mem->alloc_sarray)
-            ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );
-        while (cinfo.output_scanline < cinfo.output_height) {
+        imagebuffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
+        while(cinfo.output_scanline < cinfo.output_height)
+        {
             destData -= row_stride;
-            jpeg_read_scanlines(&cinfo, imagebuffer,1);
+            jpeg_read_scanlines(&cinfo, imagebuffer, 1);
             memcpy(destData, *imagebuffer, row_stride);
         }
+
         retCode = true;
     }
     else
         retCode = false;
-    
+
     jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
 
     return retCode;
 
 #else
-
-	SWARNING << getMimeType() 
-					 << " read is not compiled into the current binary " 
-					 << endl;
-
+    SWARNING <<
+        getMimeType() <<
+        " read is not compiled into the current binary " <<
+        endl;
     return false;
-
-#endif                     
+#endif
 }
 
-UInt64 JPGImageFileType::storeData ( const Image &image, UChar8 *buffer,
-                                     Int32 memSize )
+/* */
+UInt64 JPGImageFileType::storeData(const Image &image, UChar8 *buffer,
+                                   Int32 memSize)
 {
 #ifdef OSG_WITH_JPG
+    if((image.getBpp() != 1 && image.getBpp() != 3) || image.getDepth() != 1)
+    {
+        SWARNING <<
+            getMimeType() <<
+            " JPEG storeData only works for 2D 1 or 3 bpp images " <<
+            endl;
+        return 0;
+    }
 
-	if ( ( image.getBpp() != 1 && image.getBpp() != 3 ) ||
-         image.getDepth() != 1
-	   )
-	{
-		SWARNING 	<< getMimeType() 
-		 			<< " JPEG storeData only works for 2D 1 or 3 bpp images " 
-		 			<< endl;
-		return 0;
-	}
+    bool    retCode = false;
 
-	bool retCode = false;
+    struct local_error_mgr
+    {
+        struct jpeg_error_mgr   pub;
+        jmp_buf                 setjmp_buffer;
+    };
 
-	struct local_error_mgr 
-	{
-		struct jpeg_error_mgr pub;
-		jmp_buf setjmp_buffer;
-	};
-	typedef struct local_error_mgr * local_error_ptr;
+    typedef struct local_error_mgr  *local_error_ptr;
 
-	struct local_error_mgr jerr;
-	struct jpeg_compress_struct cinfo;
-	JSAMPARRAY imagebuffer;
-	UChar8 * data;
+    struct local_error_mgr          jerr;
+    struct jpeg_compress_struct     cinfo;
+    JSAMPARRAY                      imagebuffer;
+    UChar8                          *data;
 
-	cinfo.err = jpeg_std_error(&jerr.pub);
-	if (setjmp(jerr.setjmp_buffer)) 
-	{
-		jpeg_destroy_compress(&cinfo);
-		return 0;
-	}
-	jpeg_create_compress(&cinfo);
-	jpeg_memory_dest(&cinfo, buffer, memSize);
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    if(setjmp(jerr.setjmp_buffer))
+    {
+        jpeg_destroy_compress(&cinfo);
+        return 0;
+    }
 
-	cinfo.image_width = image.getWidth();
-	cinfo.image_height = image.getHeight();
-	cinfo.input_components = image.getBpp();	
-	cinfo.in_color_space = (image.getBpp()==1)?JCS_GRAYSCALE:JCS_RGB;
+    jpeg_create_compress(&cinfo);
+    jpeg_memory_dest(&cinfo, buffer, memSize);
 
-	jpeg_set_defaults(&cinfo);
-	jpeg_set_quality(&cinfo, 90, TRUE);
-	jpeg_start_compress(&cinfo, TRUE);
+    cinfo.image_width = image.getWidth();
+    cinfo.image_height = image.getHeight();
+    cinfo.input_components = image.getBpp();
+    cinfo.in_color_space = (image.getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
-	imagebuffer = &data;
-	while (cinfo.next_scanline < cinfo.image_height) 
-	{
-		data = image.getData() + ( image.getHeight() - 1 - cinfo.next_scanline ) * 
-					image.getWidth() * image.getBpp();
-		jpeg_write_scanlines(&cinfo, imagebuffer,1);
-	}
+    jpeg_set_defaults(&cinfo);
+    jpeg_set_quality(&cinfo, 90, TRUE);
+    jpeg_start_compress(&cinfo, TRUE);
 
-	jpeg_finish_compress(&cinfo);
-	jpeg_destroy_compress(&cinfo);
+    imagebuffer = &data;
+    while(cinfo.next_scanline < cinfo.image_height)
+    {
+        data = image.getData() +
+            (image.getHeight() - 1 - cinfo.next_scanline) *
+            image.getWidth() *
+            image.getBpp();
+        jpeg_write_scanlines(&cinfo, imagebuffer, 1);
+    }
 
-	return jpeg_mem.dataSize;
+    jpeg_finish_compress(&cinfo);
+    jpeg_destroy_compress(&cinfo);
+
+    return jpeg_mem.dataSize;
 
 #else
-
-	SWARNING << getMimeType() 
-					 << " write is not compiled into the current binary " 
-					 << endl;
-
-  return false;
-
-#endif                     
-
-} 
-
+    SWARNING <<
+        getMimeType() <<
+        " write is not compiled into the current binary " <<
+        endl;
+    return false;
+#endif
+}
 
 /******************************
 *protected
 ******************************/
 
-
 /******************************
-*private	
+*private
 ******************************/
-
 
 /***************************
 *instance methodes 
 ***************************/
 
-
 /***************************
 *public
 ***************************/
 
-
 /**constructors & destructors**/
-
 
 //----------------------------
 // Function name: JPGImageFileType
@@ -555,24 +548,24 @@ UInt64 JPGImageFileType::storeData ( const Image &image, UChar8 *buffer,
 //Parameters:
 //p: cinst char *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-JPGImageFileType::JPGImageFileType ( const Char8 *suffixArray[], 
-																					 UInt16 suffixByteCount)
-  : ImageFileType ( suffixArray, suffixByteCount )
+JPGImageFileType::JPGImageFileType(const Char8 *suffixArray[],
+                                   UInt16 suffixByteCount) :
+    ImageFileType(suffixArray, suffixByteCount)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -582,23 +575,23 @@ JPGImageFileType::JPGImageFileType ( const Char8 *suffixArray[],
 //Parameters:
 //p: const JPGImageFileType &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-JPGImageFileType::JPGImageFileType (const JPGImageFileType &obj )
-	: ImageFileType(obj)
+JPGImageFileType::JPGImageFileType(const JPGImageFileType &obj) :
+    ImageFileType(obj)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -608,41 +601,31 @@ JPGImageFileType::JPGImageFileType (const JPGImageFileType &obj )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-JPGImageFileType::~JPGImageFileType (void )
+JPGImageFileType::~JPGImageFileType(void)
 {
-	return;
+    return;
 }
 
 /*------------access----------------*/
-
 /*------------properies-------------*/
-
 /*------------your Category---------*/
-
 /*------------Operators-------------*/
-
-
-
 /****************************
-*protected	
+*protected
 ****************************/
-
-
 /****************************
 *private
 ****************************/
-
-

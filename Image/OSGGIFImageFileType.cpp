@@ -35,11 +35,9 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 //-------------------------------
-// 	Includes 					 			    
+//      Includes                                
 //-------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <setjmp.h>
@@ -51,97 +49,103 @@
 #ifdef   OSG_SGI_LIB
 #include <limits>
 #endif
-
 #include "OSGGIFImageFileType.h"
 #include <OSGLog.h>
-
 
 #ifdef OSG_WITH_GIF
 
 //--- GIF-INCLUDE START ----------------------------------------------------
+#define GIF_MAXCOLORS   256
 
-#define GIF_MAXCOLORS	256
-
-typedef enum {
-	gif_image, gif_comment, gif_text
+typedef enum
+{
+    gif_image,
+    gif_comment,
+    gif_text
 } GIFStreamType;
 
-typedef enum {
-	gif_no_disposal = 0, gif_keep_disposal = 1, 
-	gif_color_restore = 2, gif_image_restore = 3
-} GIFDisposalType;
+typedef enum
+{
+    gif_no_disposal     = 0,
+    gif_keep_disposal   = 1,
+    gif_color_restore   = 2,
+    gif_image_restore   = 3
+}
+GIFDisposalType;
 
-typedef struct {
-	int		transparent;	/* transparency index */
-	int		delayTime;	/* Time in 1/100 of a second */
-	int		inputFlag;	/* wait for input after display */
-	GIFDisposalType	disposal;
+typedef struct
+{
+    int             transparent;    /* transparency index */
+    int             delayTime;      /* Time in 1/100 of a second */
+    int             inputFlag;      /* wait for input after display */
+    GIFDisposalType disposal;
 } GIF89info;
 
-typedef struct GIFData {
-	GIF89info	info;
-	int		x, y;
-	int		width, height;
-	GIFStreamType	type;
-	union {
-		struct {
-			int		cmapSize;
-			unsigned char	cmapData[GIF_MAXCOLORS][3];
-			unsigned char	*data;
-			int		interlaced;
-		} image;
-		struct {
-			int	fg, bg;
-			int	cellWidth, cellHeight;
-			int	len;
-			char	*text;
-		} text;
-		struct {
-			int	len;
-			char	*text;
-		} comment;
-	} data;
+typedef struct  GIFData
+{
+    GIF89info       info;
+    int             x, y;
+    int             width, height;
+    GIFStreamType   type;
+    union
+    {
+        struct
+        {
+            int             cmapSize;
+            unsigned char   cmapData[GIF_MAXCOLORS][3];
+            unsigned char   *data;
+            int             interlaced;
+        } image;
+        struct
+        {
+            int     fg, bg;
+            int     cellWidth, cellHeight;
+            int     len;
+            char    *text;
+        } text;
+        struct
+        {
+            int     len;
+            char    *text;
+        } comment;
+    } data;
 
-	struct GIFData	*next;
+    struct GIFData  *next;
 } GIFData;
 
-typedef struct {
-	int		width, height;
+typedef struct
+{
+    int             width, height;
 
-	int		colorResolution;
-	int		colorMapSize;
-	int		cmapSize;
-	unsigned char	cmapData[GIF_MAXCOLORS][3];
+    int             colorResolution;
+    int             colorMapSize;
+    int             cmapSize;
+    unsigned char   cmapData[GIF_MAXCOLORS][3];
 
-	int		background;
-	int		aspectRatio;
+    int             background;
+    int             aspectRatio;
 
-	GIFData		*data;
+    GIFData         *data;
 } GIFStream;
 
 
-static GIFStream*	GIFRead(char *), *GIFReadFP(FILE *);
-       int		GIFTest(char *);
-       int		GIFWrite(char *, GIFStream *, int);
-static int		GIFWriteFP(FILE *, GIFStream *, int);
-static int 	GIFFree (GIFStream *);
+static GIFStream*   GIFRead(char *), *GIFReadFP(FILE *);
+       int      GIFTest(char *);
+       int      GIFWrite(char *, GIFStream *, int);
+static int      GIFWriteFP(FILE *, GIFStream *, int);
+static int      GIFFree (GIFStream *);
 
 #endif
 
 //--- GIF INCLUDE END ----------------------------------------------------
-
-
 OSG_USING_NAMESPACE
 
 /*****************************
  *   Types
  *****************************/
-
-
 /*****************************
- *	  Classvariables
+ *    Classvariables
  *****************************/
-
 // Static Class Varible implementations:
 static const Char8 *suffixArray[] = {
     "gif"
@@ -150,9 +154,8 @@ static const Char8 *suffixArray[] = {
 GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 
 /********************************
- *	  Class methodes
+ *    Class methodes
  *******************************/
-
 
 /*******************************
 *public
@@ -165,219 +168,259 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //Parameters:
 //p: Image &image, const Char8 *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: read the the image from the given filename
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool GIFImageFileType::read (Image &image, const Char8 *fileName )
+Bool GIFImageFileType::read(Image &image, const Char8 *fileName)
 {
-	Bool retCode = false;
+    Bool                retCode = false;
 
 #ifdef OSG_WITH_GIF
+    Image::PixelFormat  pixelFormat;
+    GIFStream           *gifStream = GIFRead(const_cast < char * > (fileName));
+    GIFData             *gifData = 0;
+    Bool                isColor;
+    int                 i, j, destI, lineSize;
+    unsigned            red, green, blue;
+    int                 transparentIndex;
+    int                 width = 0, height = 0, channel = 0;
+    unsigned char       *srcData = 0, *destData = 0;
+    int                 colorIndex;
+    unsigned            frameCount = 0, currentFrame = 0;
+    unsigned char       *colorMap = 0;
 
-	Image::PixelFormat pixelFormat;
-	GIFStream *gifStream = GIFRead(const_cast<char*>(fileName));
-	GIFData   *gifData = 0;
-	Bool isColor;
-	int i, j, destI, lineSize;
-	unsigned red, green, blue;
-	int transparentIndex;
-    int width = 0, height = 0, channel = 0;
-	unsigned char *srcData = 0, *destData = 0;
-	int colorIndex;
-	unsigned frameCount = 0, currentFrame = 0;
-	unsigned char *colorMap = 0;
-//    int imageSize = 0;
-	int colorMapSize;
-    Time frameDelay;
+    //    int imageSize = 0;
+    int                 colorMapSize;
+    Time                frameDelay;
 
-	if (gifStream) {
-		frameCount = 0;
-		for (gifData = gifStream->data; gifData; gifData = gifData->next)
-			if (gifData->type == gif_image)
-				frameCount++;
-	}
+    if(gifStream)
+    {
+        frameCount = 0;
+        for(gifData = gifStream->data; gifData; gifData = gifData->next)
+        {
+            if(gifData->type == gif_image)
+                frameCount++;
+        }
+    }
 
-	FDEBUG (("GIF Frames: %d\n", frameCount));
+    FDEBUG(("GIF Frames: %d\n", frameCount));
 
-	if (gifStream) {
-		for (gifData = gifStream->data; gifData; gifData = gifData->next ) {
-			switch (gifData->type) {
-                case gif_image:
-        
-                    if (frameCount) {
-                        FDEBUG (( "Try to copy GIF Anim Frame %d/%d\n", 
-                                  (currentFrame+1), frameCount ));
+    if(gifStream)
+    {
+        for(gifData = gifStream->data; gifData; gifData = gifData->next)
+        {
+            switch(gifData->type)
+            {
+            case gif_image:
+                if(frameCount)
+                {
+                    FDEBUG(("Try to copy GIF Anim Frame %d/%d\n",
+                           (currentFrame + 1), frameCount));
+                }
+
+                // get the att.
+                transparentIndex = gifData->info.transparent;
+                frameDelay = float(gifData->info.delayTime) / 100.0f;
+                width = gifData->width;
+                height = gifData->height;
+
+                // check if the movie is color or greyscale
+                isColor = false;
+                if(gifData->data.image.cmapSize > 0)
+                {
+                    colorMapSize = gifData->data.image.cmapSize;
+                    colorMap = (unsigned char *) gifData->data.image.cmapData;
+
+                    // cout << "INFO: Use gifData colorMap" << endl;
+                }
+                else if(gifStream->cmapSize > 0)
+                {
+                    colorMapSize = gifStream->cmapSize;
+                    colorMap = (unsigned char *) gifStream->cmapData;
+
+                    // cout << "INFO: Use gifStream colorMap" << endl;
+                }
+                else
+                {
+                    FWARNING(("Invalid color map in GIFImageFileType::read()\n"));
+                    colorMapSize = 0;
+                }
+
+                for(i = 0; i < colorMapSize; i++)
+                {
+                    if(i != transparentIndex)
+                    {
+                        red = colorMap[i * 3 + 0];
+                        green = colorMap[i * 3 + 1];
+                        blue = colorMap[i * 3 + 2];
+                        if(red != green || red != blue)
+                        {
+                            isColor = true;
+                            break;
+                        }
                     }
+                }
 
-                    // get the att. 
-                    transparentIndex = gifData->info.transparent;
-                    frameDelay = float(gifData->info.delayTime) / 100.0f;
-                    width = gifData->width;
-                    height = gifData->height;
+                // calculate the movie channel
+                channel = (isColor ? 3 : 1) + (transparentIndex >= 0 ? 1 : 0);
 
-                    // check if the movie is color or greyscale
-                    isColor = false;
-                    if (gifData->data.image.cmapSize > 0) {
-                        colorMapSize = gifData->data.image.cmapSize;
-                        colorMap = (unsigned char *)gifData->data.image.cmapData;
-                        // cout << "INFO: Use gifData colorMap" << endl;
+                if(currentFrame)
+                {
+                    // is not the first frame
+                    if((channel == image.getBpp()) &&
+                       (width == image.getWidth()) &&
+                       (height == image.getHeight()))
+                    {
+                        destData = image.getData(0, currentFrame);
                     }
                     else
-                        if (gifStream->cmapSize > 0) { 
-                            colorMapSize = gifStream->cmapSize;
-                            colorMap = (unsigned char *)gifStream->cmapData;
-                            // cout << "INFO: Use gifStream colorMap" << endl;
-                        }
-                        else {
-                            FWARNING (("Invalid color map in GIFImageFileType::read()\n"));
-                            colorMapSize = 0;
-                        }
-					
-                    for (i = 0; i < colorMapSize; i++) { 
-                        if (i != transparentIndex) {
-                            red   = colorMap[i * 3 + 0];
-                            green = colorMap[i * 3 + 1];
-                            blue  = colorMap[i * 3 + 2];
-                            if (red != green || red != blue) {
-                                isColor = true;
-                                break;
-                            }
+                    {
+                        FWARNING(("GIF Anim with miscellaneous image dimensions\n"));
+                        return false;
+                    }
+                }
+                else
+                {
+                    switch(channel)
+                    {
+                    case 1:
+                        pixelFormat = Image::OSG_L_PF;
+                        break;
+                    case 2:
+                        pixelFormat = Image::OSG_LA_PF;
+                        break;
+                    case 3:
+                        pixelFormat = Image::OSG_RGB_PF;
+                        break;
+                    case 4:
+                        pixelFormat = Image::OSG_RGBA_PF;
+                        break;
+                    };
+                    image.set(pixelFormat, width, height, 1, 1, frameCount,
+                              frameDelay);
+                    destData = image.getData();
+                }
+
+                // copy the image data)
+                lineSize = width * channel;
+                srcData = gifData->data.image.data;
+                destData = destData + ((height - 1) * lineSize);
+
+                switch(channel)
+                {
+                case 1: // Greyscale without Alpha
+                    destI = 0;
+                    for(i = width * height; i--;)
+                    {
+                        destData[destI++] = colorMap[*srcData++ *3];
+                        if(destI >= lineSize)
+                        {
+                            destI = 0;
+                            destData -= lineSize;
                         }
                     }
-
-                    // calculate the movie channel
-                    channel = (isColor ? 3 : 1) + (transparentIndex >= 0 ? 1 : 0);
-
-                    if (currentFrame) {
-                        // is not the first frame
-                        if ( (channel == image.getBpp()) &&
-                             (width == image.getWidth()) && 
-                             (height == image.getHeight()) )
-                            destData = image.getData(0,currentFrame);
-                        else {
-                            FWARNING (("GIF Anim with miscellaneous image dimensions\n"));
-                            return false;
-                        }
-                    }
-                    else {
-                        switch (channel) {
-                            case 1:
-                                pixelFormat = Image::OSG_L_PF;
-                                break;
-                            case 2:
-                                pixelFormat = Image::OSG_LA_PF;
-                                break;
-                            case 3:
-                                pixelFormat = Image::OSG_RGB_PF;
-                                break;
-                            case 4:
-                                pixelFormat = Image::OSG_RGBA_PF;
-                                break;
-                        };
-                        image.set(pixelFormat, width, height,1,1,frameCount,frameDelay);
-                        destData = image.getData();
-                    }
-					
-                    // copy the image data)
-                    lineSize = width * channel;
-                    srcData = gifData->data.image.data;
-                    destData = destData + ((height - 1) * lineSize);
-				
-                    switch (channel) {
-                        case 1: // Greyscale without Alpha
-                            destI = 0;
-                            for (i = width * height; i--; ) {
-                                destData[destI++] = colorMap[*srcData++ * 3];
-                                if (destI >= lineSize) {
-                                    destI = 0;
-                                    destData -= lineSize;
-                                }
-                            }
-                            break;
-					
-                        case 2: // Greyscale with Alpha
-                            destI = 0;
-                            for (i = width * height; i--; ) {
-                                colorIndex = *srcData++;
-                                if (colorIndex == transparentIndex) {
-                                    destData[destI++] = 0;
-                                    destData[destI++] = 0;
-                                }
-                                else {
-                                    destData[destI++] = colorMap[colorIndex * 3];
-                                    destData[destI++] = 255;
-                                }
-                                if (destI >= lineSize) {
-                                    destI = 0;
-                                    destData -= lineSize;
-                                }
-                            }
-                            break;
-					
-                        case 3: // RGB without Alpha
-                            destI = 0;
-                            for (i = width * height; i--; ) {
-                                colorIndex = *srcData++;
-                                for (j = 0; j < 3; j++)
-                                    destData[destI++] = colorMap[colorIndex * 3 + j];
-                                if (destI >= lineSize) {
-                                    destI = 0;
-                                    destData -= lineSize;
-                                }							
-                            }
-                            break;
-					
-                        case 4: // RGB with Alpha
-                            destI = 0;
-                            for (i = width * height; i--; ) {
-                                colorIndex = *srcData++;
-                                if (colorIndex == transparentIndex) {
-                                    for (j = 0; j < 3; j++) 
-                                        destData[destI++] = 0; // RGB
-                                    destData[destI++] = 0; // ALPHA
-                                }						
-                                else {
-                                    for (j = 0; j < 3; j++)
-                                        destData[destI++] = colorMap[colorIndex * 3 + j]; // RGB
-                                    destData[destI++] = 255;   // ALPHA
-                                }
-                                if (destI >= lineSize) {
-                                    destI = 0;
-                                    destData -= lineSize;
-                                }
-                            }
-                            break;
-                    }
-                    retCode = true;
-
-                    currentFrame++;
-
                     break;
-                case gif_comment:
-                    break;
-                case gif_text:
-                    break;
-			}
-		}
-		GIFFree (gifStream);
-	}
-	else
-		retCode = false;
 
+                case 2: // Greyscale with Alpha
+                    destI = 0;
+                    for(i = width * height; i--;)
+                    {
+                        colorIndex = *srcData++;
+                        if(colorIndex == transparentIndex)
+                        {
+                            destData[destI++] = 0;
+                            destData[destI++] = 0;
+                        }
+                        else
+                        {
+                            destData[destI++] = colorMap[colorIndex * 3];
+                            destData[destI++] = 255;
+                        }
+
+                        if(destI >= lineSize)
+                        {
+                            destI = 0;
+                            destData -= lineSize;
+                        }
+                    }
+                    break;
+
+                case 3: // RGB without Alpha
+                    destI = 0;
+                    for(i = width * height; i--;)
+                    {
+                        colorIndex = *srcData++;
+                        for(j = 0; j < 3; j++)
+                        {
+                            destData[destI++] = colorMap[colorIndex * 3 + j];
+                        }
+
+                        if(destI >= lineSize)
+                        {
+                            destI = 0;
+                            destData -= lineSize;
+                        }
+                    }
+                    break;
+
+                case 4: // RGB with Alpha
+                    destI = 0;
+                    for(i = width * height; i--;)
+                    {
+                        colorIndex = *srcData++;
+                        if(colorIndex == transparentIndex)
+                        {
+                            for(j = 0; j < 3; j++)
+                                destData[destI++] = 0;                              // RGB
+                            destData[destI++] = 0;                                  // ALPHA
+                        }
+                        else
+                        {
+                            for(j = 0; j < 3; j++)
+                            {
+                                destData[destI++] = colorMap[colorIndex * 3 + j];   // RGB
+                            }
+
+                            destData[destI++] = 255;                                // ALPHA
+                        }
+
+                        if(destI >= lineSize)
+                        {
+                            destI = 0;
+                            destData -= lineSize;
+                        }
+                    }
+                    break;
+                }
+
+                retCode = true;
+
+                currentFrame++;
+
+                break;
+            case gif_comment:
+                break;
+            case gif_text:
+                break;
+            }
+        }
+
+        GIFFree(gifStream);
+    }
+    else
+        retCode = false;
 #endif
-	
-	return retCode;
-
+    return retCode;
 }
 
 //----------------------------
@@ -387,36 +430,30 @@ Bool GIFImageFileType::read (Image &image, const Char8 *fileName )
 //Parameters:
 //p: const Image &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: write the the image to the given filename
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool GIFImageFileType::write (const Image &image, const Char8 *fileName )
+Bool GIFImageFileType::write(const Image &image, const Char8 *fileName)
 {
-
 #ifdef OSG_WITH_GIF
-
-	SWARNING << getMimeType() 
-             << " write is not implemented "
-             << endLog;
+    SWARNING << getMimeType() << " write is not implemented " << endLog;
 
 #else
-
-	SWARNING << getMimeType() 
-             << " write is not compiled into the current binary " 
-             << endLog;
-
-#endif                     
-
+    SWARNING <<
+        getMimeType() <<
+        " write is not compiled into the current binary " <<
+        endLog;
+#endif
     return false;
 }
 
@@ -424,24 +461,19 @@ Bool GIFImageFileType::write (const Image &image, const Char8 *fileName )
 *protected
 ******************************/
 
-
 /******************************
-*private	
+*private    
 ******************************/
-
 
 /***************************
 *instance methodes 
 ***************************/
 
-
 /***************************
 *public
 ***************************/
 
-
 /**constructors & destructors**/
-
 
 //----------------------------
 // Function name: GIFImageFileType
@@ -450,24 +482,24 @@ Bool GIFImageFileType::write (const Image &image, const Char8 *fileName )
 //Parameters:
 //p: cinst char *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-GIFImageFileType::GIFImageFileType ( const Char8 *suffixArray[], 
-                                     UInt16 suffixByteCount)
-    : ImageFileType ( suffixArray, suffixByteCount )
+GIFImageFileType::GIFImageFileType(const Char8 *suffixArray[],
+                                   UInt16 suffixByteCount) :
+    ImageFileType(suffixArray, suffixByteCount)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -477,23 +509,23 @@ GIFImageFileType::GIFImageFileType ( const Char8 *suffixArray[],
 //Parameters:
 //p: const GIFImageFileType &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-GIFImageFileType::GIFImageFileType (const GIFImageFileType &obj )
-	: ImageFileType(obj)
+GIFImageFileType::GIFImageFileType(const GIFImageFileType &obj) :
+    ImageFileType(obj)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -503,47 +535,37 @@ GIFImageFileType::GIFImageFileType (const GIFImageFileType &obj )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-GIFImageFileType::~GIFImageFileType (void )
+GIFImageFileType::~GIFImageFileType(void)
 {
-	return;
+    return;
 }
 
 /*------------access----------------*/
-
 /*------------properies-------------*/
-
 /*------------your Category---------*/
-
 /*------------Operators-------------*/
-
-
-
 /****************************
-*protected	
+*protected  
 ****************************/
-
-
 /****************************
 *private
 ****************************/
-
 #ifdef OSG_WITH_GIF
 
 //--- GIF-READ START ----------------------------------------------------
-
 /*
 **  Copyright 1994, Home Pages, Inc.
 **
@@ -559,7 +581,6 @@ GIFImageFileType::~GIFImageFileType (void )
 **    EMail: support@homepages.com
 ** 
 */
- 
 /* +-------------------------------------------------------------------+ */
 /* | Copyright 1990 - 1994, David Koblas. (koblas@netcom.com)          | */
 /* |   Permission to use, copy, modify, and distribute this software   | */
@@ -569,20 +590,18 @@ GIFImageFileType::~GIFImageFileType (void )
 /* |   notice appear in supporting documentation.  This software is    | */
 /* |   provided "as is" without express or implied warranty.           | */
 /* +-------------------------------------------------------------------+ */
+#define GIF_TRUE                    1
+#define GIF_FALSE                   0
 
-#define        GIF_TRUE    1
-#define        GIF_FALSE   0
+#define MAX_LWZ_BITS                12
 
-#define        MAX_LWZ_BITS            12
+#define INTERLACE                   0x40
+#define LOCALCOLORMAP               0x80
 
-#define INTERLACE		0x40
-#define LOCALCOLORMAP		0x80
-
-#define BitSet(byte, bit)	(((byte) & (bit)) == (bit))
-#define	ReadOK(file,buffer,len) (fread(buffer, len, 1, file) != 0)
-#define MKINT(a,b)		(((b)<<8)|(a))
-#define NEW(x)			((x *)malloc(sizeof(x)))
-
+#define BitSet(byte, bit)           (((byte) & (bit)) == (bit))
+#define ReadOK(file, buffer, len)   (fread(buffer, len, 1, file) != 0)
+#define MKINT(a, b)                 (((b) << 8) | (a))
+#define NEW(x)                      ((x *) malloc(sizeof(x)))
 /***************************************************************************
 *
 *  ERROR()    --  should not return
@@ -591,15 +610,15 @@ GIFImageFileType::~GIFImageFileType (void )
 ***************************************************************************/
 
 #if 0
-#define INFO_MSG(fmt)	pm_message fmt 
-#define ERROR(str)	pm_error(str)
+#define INFO_MSG(fmt)   pm_message fmt 
+#define ERROR(str)  pm_error(str)
 #else
 #if 0 
-#define INFO_MSG(fmt)	
-#define ERROR(str) 	do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
+#define INFO_MSG(fmt)   
+#define ERROR(str)      do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
 #else
-#define INFO_MSG(fmt)	
-#define ERROR(str) 	longjmp(setjmp_buffer, 1)
+#define INFO_MSG(fmt)   
+#define ERROR(str)      longjmp(setjmp_buffer, 1)
 #endif
 #endif
 
@@ -632,285 +651,347 @@ int     GIFTest(char *file)
     return ret;
 }
 
+/* */
 GIFStream *GIFReadFP(FILE *fd)
 {
-	unsigned char   buf[256];
-	unsigned char   c;
-	GIFStream	*gifStream = 0;
-	GIFData		*cur, **end;
-	GIF89info	info;
-	int		resetInfo = GIF_TRUE;
-	int		n;
+    unsigned char   buf[256];
+    unsigned char   c;
+    GIFStream       *gifStream = 0;
+    GIFData         *cur, **end;
+    GIF89info       info;
+    int             resetInfo = GIF_TRUE;
+    int             n;
 
-	if (fd == NULL)
-		return NULL;
+    if(fd == NULL)
+        return NULL;
 
-	if (setjmp(setjmp_buffer))
-		goto out;
+    if(setjmp(setjmp_buffer))
+        goto out;
 
-	if (! ReadOK(fd,buf,6)) 
-        ERROR("error reading magic number" );
+    if(!ReadOK(fd, buf, 6))
+    {
+        ERROR("error reading magic number");
+    }
 
-	if (strncmp((char*)buf,"GIF",3) != 0) 
-        ERROR("not a GIF file" );
+    if(strncmp((char *) buf, "GIF", 3) != 0)
+        ERROR("not a GIF file");
 
-	if ((strncmp(((char*)(buf)) + 3, "87a", 3) != 0) && 
-	    (strncmp(((char*)(buf)) + 3, "89a", 3) != 0)) 
-		ERROR("bad version number, not '87a' or '89a'" );
+    if((strncmp(((char *) (buf)) + 3, "87a", 3) != 0) &&
+       (strncmp(((char *) (buf)) + 3, "89a", 3) != 0))
+    {
+        ERROR("bad version number, not '87a' or '89a'");
+    }
 
-	if (! ReadOK(fd,buf,7))
-		ERROR("failed to read screen descriptor");
+    if(!ReadOK(fd, buf, 7))
+    {
+        ERROR("failed to read screen descriptor");
+    }
 
-	gifStream = NEW(GIFStream);
+    gifStream = NEW(GIFStream);
 
-	gifStream->width           = MKINT(buf[0], buf[1]);
-	gifStream->height          = MKINT(buf[2], buf[3]);
+    gifStream->width = MKINT(buf[0], buf[1]);
+    gifStream->height = MKINT(buf[2], buf[3]);
 
-	gifStream->cmapSize        = 2 << (buf[4] & 0x07);
-	gifStream->colorMapSize    = gifStream->cmapSize;
-	gifStream->colorResolution = ((int)(buf[4] & 0x70) >> 3) + 1;
-	gifStream->background      = buf[5];
-	gifStream->aspectRatio     = buf[6];
+    gifStream->cmapSize = 2 << (buf[4] & 0x07);
+    gifStream->colorMapSize = gifStream->cmapSize;
+    gifStream->colorResolution = ((int) (buf[4] & 0x70) >> 3) + 1;
+    gifStream->background = buf[5];
+    gifStream->aspectRatio = buf[6];
 
-	gifStream->data            = NULL;
+    gifStream->data = NULL;
 
-	end = &gifStream->data;
+    end = &gifStream->data;
 
-	/*
-	**  Global colormap is present.
-	*/
-	if (BitSet(buf[4], LOCALCOLORMAP)) {
-		if (readColorMap(fd, gifStream->cmapSize, gifStream->cmapData))
-			ERROR("unable to get global colormap");
-	} else {
-		gifStream->cmapSize   = 0;
-		gifStream->background = -1;
-	}
+    /*
+    **  Global colormap is present.
+    */
+    if(BitSet(buf[4], LOCALCOLORMAP))
+    {
+        if(readColorMap(fd, gifStream->cmapSize, gifStream->cmapData))
+        {
+            ERROR("unable to get global colormap");
+        }
+    }
+    else
+    {
+        gifStream->cmapSize = 0;
+        gifStream->background = -1;
+    }
 
-	if (gifStream->aspectRatio != 0 && gifStream->aspectRatio != 49) {
-		INFO_MSG(("warning - non-square pixels"));
-	}
+    if(gifStream->aspectRatio != 0 && gifStream->aspectRatio != 49)
+    {
+        INFO_MSG(("warning - non-square pixels"));
+    }
 
-	while (ReadOK(fd, &c, 1) && c != ';') {
-		if (resetInfo) {
-			info.disposal    = (GIFDisposalType) 0;      
-			info.inputFlag   = 0;
-			info.delayTime   = 0;
-			info.transparent = -1;
-			resetInfo = GIF_FALSE;
-		}
-		cur = NULL;
+    while(ReadOK(fd, &c, 1) && c != ';')
+    {
+        if(resetInfo)
+        {
+            info.disposal = (GIFDisposalType) 0;
+            info.inputFlag = 0;
+            info.delayTime = 0;
+            info.transparent = -1;
+            resetInfo = GIF_FALSE;
+        }
 
-		if (c == '!') {		/* Extension */
-			if (! ReadOK(fd,&c,1))
-				ERROR("EOF / read error on extention function code");
-			if (c == 0xf9) {	/* graphic control */
-				(void) GetDataBlock(fd, buf);
-				info.disposal    = (GIFDisposalType)( (buf[0] >> 2) & 0x7);
-				info.inputFlag   = (buf[0] >> 1) & 0x1;
-				info.delayTime   = MKINT(buf[1],buf[2]);
-				if (BitSet(buf[0], 0x1))
-					info.transparent = buf[3];
+        cur = NULL;
 
-				while (GetDataBlock(fd,  buf) != 0)
-					;
-			} else if (c == 0xfe || c == 0x01) {
-				int		len = 0;
-				int		size = 256;
-				char		*text = NULL;
+        if(c == '!')
+        {           /* Extension */
+            if(!ReadOK(fd, &c, 1))
+            {
+                ERROR("EOF / read error on extention function code");
+            }
 
-				/* 
-				**  Comment or Plain Text
-				*/
+            if(c == 0xf9)
+            {       /* graphic control */
+                (void) GetDataBlock(fd, buf);
+                info.disposal = (GIFDisposalType) ((buf[0] >> 2) & 0x7);
+                info.inputFlag = (buf[0] >> 1) & 0x1;
+                info.delayTime = MKINT(buf[1], buf[2]);
+                if(BitSet(buf[0], 0x1))
+                    info.transparent = buf[3];
 
-				cur = NEW(GIFData);
+                while(GetDataBlock(fd, buf) != 0)
+                    ;
+            }
+            else if(c == 0xfe || c == 0x01)
+            {
+                int     len = 0;
+                int     size = 256;
+                char    *text = NULL;
 
-				if (c == 0x01) {
-					(void)GetDataBlock(fd, buf);
-						
-					cur->type   = gif_text;
-					cur->info   = info;
-					cur->x      = MKINT(buf[0],buf[1]);
-					cur->y      = MKINT(buf[2],buf[3]);
-					cur->width  = MKINT(buf[4],buf[5]);
-					cur->height = MKINT(buf[6],buf[7]);
+                /* 
+                **  Comment or Plain Text
+                */
+                cur = NEW(GIFData);
 
-					cur->data.text.cellWidth  = buf[8];
-					cur->data.text.cellHeight = buf[9];
-					cur->data.text.fg         = buf[10];
-					cur->data.text.bg         = buf[11];
+                if(c == 0x01)
+                {
+                    (void) GetDataBlock(fd, buf);
 
-					resetInfo = GIF_TRUE;
-				} else {
-					cur->type    = gif_comment;
-				}
+                    cur->type = gif_text;
+                    cur->info = info;
+                    cur->x = MKINT(buf[0], buf[1]);
+                    cur->y = MKINT(buf[2], buf[3]);
+                    cur->width = MKINT(buf[4], buf[5]);
+                    cur->height = MKINT(buf[6], buf[7]);
 
-				text = (char*)malloc(size);
+                    cur->data.text.cellWidth = buf[8];
+                    cur->data.text.cellHeight = buf[9];
+                    cur->data.text.fg = buf[10];
+                    cur->data.text.bg = buf[11];
 
-				while ((n = GetDataBlock(fd, buf)) != 0) {
-					if (n + len >= size) 
-						text = (char*)realloc(text, size += 256);
-					memcpy(text + len, buf, n);
-					len += n;
-				}
+                    resetInfo = GIF_TRUE;
+                }
+                else
+                {
+                    cur->type = gif_comment;
+                }
 
-				if (c == 0x01) {
-					cur->data.text.len  = len;
-					cur->data.text.text = text;
-				} else {
-					cur->data.comment.len  = len;
-					cur->data.comment.text = text;
-				}
-			} else {
-				/*
-				**  Unrecogonized extension, consume it.
-				*/
-				while (GetDataBlock(fd, buf) > 0)
-					;
-			}
-		} else if (c == ',') {
-			if (! ReadOK(fd,buf,9))
+                text = (char *) malloc(size);
+
+                while((n = GetDataBlock(fd, buf)) != 0)
+                {
+                    if(n + len >= size)
+                    {
+                        text = (char *) realloc(text, size += 256);
+                    }
+
+                    memcpy(text + len, buf, n);
+                    len += n;
+                }
+
+                if(c == 0x01)
+                {
+                    cur->data.text.len = len;
+                    cur->data.text.text = text;
+                }
+                else
+                {
+                    cur->data.comment.len = len;
+                    cur->data.comment.text = text;
+                }
+            }
+            else
+            {
+                /*
+                **  Unrecogonized extension, consume it.
+                */
+                while(GetDataBlock(fd, buf) > 0)
+                    ;
+            }
+        }
+        else if(c == ',')
+        {
+            if(!ReadOK(fd, buf, 9))
+            {
                 ERROR("couldn't read left/top/width/height");
+            }
 
-			cur = NEW(GIFData);
+            cur = NEW(GIFData);
 
-			cur->type   = gif_image;
-			cur->info   = info;
-			cur->x      = MKINT(buf[0], buf[1]);
-			cur->y      = MKINT(buf[2], buf[3]);
-			cur->width  = MKINT(buf[4], buf[5]);
-			cur->height = MKINT(buf[6], buf[7]);
-			cur->data.image.cmapSize = 1 << ((buf[8] & 0x07) + 1);
-			if (BitSet(buf[8], LOCALCOLORMAP)) {
-				if (readColorMap(fd, cur->data.image.cmapSize, 
-					             cur->data.image.cmapData))
-					ERROR("unable to get local colormap");
-			} else {
-				cur->data.image.cmapSize = 0;
+            cur->type = gif_image;
+            cur->info = info;
+            cur->x = MKINT(buf[0], buf[1]);
+            cur->y = MKINT(buf[2], buf[3]);
+            cur->width = MKINT(buf[4], buf[5]);
+            cur->height = MKINT(buf[6], buf[7]);
+            cur->data.image.cmapSize = 1 << ((buf[8] & 0x07) + 1);
+            if(BitSet(buf[8], LOCALCOLORMAP))
+            {
+                if(readColorMap(fd, cur->data.image.cmapSize,
+                                         cur->data.image.cmapData))
+                {
+                    ERROR("unable to get local colormap");
+                }
+            }
+            else
+            {
+                cur->data.image.cmapSize = 0;
+            }
 
-			}
-			cur->data.image.data = (unsigned char *)malloc(cur->width * cur->height);
-			cur->data.image.interlaced = BitSet(buf[8], INTERLACE);
-			readImage(fd, BitSet(buf[8], INTERLACE), 
-                      cur->width, cur->height, cur->data.image.data);
+            cur->data.image.data = (unsigned char *) malloc(cur->width * cur->height);
+            cur->data.image.interlaced = BitSet(buf[8], INTERLACE);
+            readImage(fd, BitSet(buf[8], INTERLACE), cur->width, cur->height,
+                      cur->data.image.data);
 
-			resetInfo = GIF_TRUE;
-		} else {
-			INFO_MSG(("bogus character 0x%02x, ignoring", (int)c));
-		}
+            resetInfo = GIF_TRUE;
+        }
+        else
+        {
+            INFO_MSG(("bogus character 0x%02x, ignoring", (int) c));
+        }
 
-		if (cur != NULL) {
-			*end = cur;
-			end = &cur->next;
-			cur->next = NULL;
-		}
-	}
+        if(cur != NULL)
+        {
+            *end = cur;
+            end = &cur->next;
+            cur->next = NULL;
+        }
+    }
 
-	if (c != ';')
-		ERROR("EOF / data stream" );
+    if(c != ';')
+        ERROR("EOF / data stream");
 
- out:
-
-	return gifStream;
+out:
+    return gifStream;
 }
 
+/* */
 GIFStream *GIFRead(char *file)
 {
-	FILE		*fp = fopen(file, "rb");
-	GIFStream	*gifStream = NULL;
+    FILE        *fp = fopen(file, "rb");
+    GIFStream   *gifStream = NULL;
 
-	if (fp != NULL) {
-		gifStream = GIFReadFP(fp);
-		fclose(fp);
-	}
-	return gifStream;
+    if(fp != NULL)
+    {
+        gifStream = GIFReadFP(fp);
+        fclose(fp);
+    }
+
+    return gifStream;
 }
 
-int	GIFFreeData (GIFData *gifData)
+/* */
+int GIFFreeData(GIFData *gifData)
 {
-	int retCode = 0;
+    int retCode = 0;
 
-	if (gifData) {
-		switch (gifData->type) {
-            case gif_image:
-                if (gifData->data.image.data) {
-                    free (gifData->data.image.data);
-                }
-                break;
-            case gif_comment:
-                if (gifData->data.comment.text) {
-                    free (gifData->data.comment.text);
-                }
-                break;
-            case gif_text:
-                if (gifData->data.text.text) {
-                    free (gifData->data.text.text);
-                }
-                break;
-		}
-		retCode = 1;
-	}
-	else
-		retCode = 0;
+    if(gifData)
+    {
+        switch(gifData->type)
+        {
+        case gif_image:
+            if(gifData->data.image.data)
+            {
+                free(gifData->data.image.data);
+            }
+            break;
+        case gif_comment:
+            if(gifData->data.comment.text)
+            {
+                free(gifData->data.comment.text);
+            }
+            break;
+        case gif_text:
+            if(gifData->data.text.text)
+            {
+                free(gifData->data.text.text);
+            }
+            break;
+        }
 
-	return retCode;
+        retCode = 1;
+    }
+    else
+        retCode = 0;
+
+    return retCode;
 }
 
-int GIFFree (GIFStream *gifStream)
+/* */
+int GIFFree(GIFStream *gifStream)
 {
-	int	retCode = 1; 
- 	GIFData *gifData, *gifNext;
+    int     retCode = 1;
+    GIFData *gifData, *gifNext;
 
-	if (gifStream) {
-		gifData = gifStream->data;
-		while (gifData) {
-			gifNext = gifData->next;
-			GIFFreeData(gifData);
-			free(gifData);
-			gifData = gifNext;
-		}
-	}
+    if(gifStream)
+    {
+        gifData = gifStream->data;
+        while(gifData)
+        {
+            gifNext = gifData->next;
+            GIFFreeData(gifData);
+            free(gifData);
+            gifData = gifNext;
+        }
+    }
 
-	return retCode;
+    return retCode;
 }
 
-static int readColorMap(FILE *fd, int size, 
-                        unsigned char data[GIF_MAXCOLORS][3])
+/* */
+static int readColorMap(FILE *fd, int size, unsigned char data[GIF_MAXCOLORS][3])
 {
-	int             i;
-	unsigned char   rgb[3 * GIF_MAXCOLORS];
-	unsigned char	*cp = rgb;
+    int             i;
+    unsigned char   rgb[3 * GIF_MAXCOLORS];
+    unsigned char   *cp = rgb;
 
-	if (! ReadOK(fd, rgb, size * 3))
-		return GIF_TRUE;
+    if(!ReadOK(fd, rgb, size * 3))
+        return GIF_TRUE;
 
-	for (i = 0; i < size; i++) {
-		data[i][0] = *cp++;
-		data[i][1] = *cp++;
-		data[i][2] = *cp++;
-	}
+    for(i = 0; i < size; i++)
+    {
+        data[i][0] = *cp++;
+        data[i][1] = *cp++;
+        data[i][2] = *cp++;
+    }
 
-	return GIF_FALSE;
+    return GIF_FALSE;
 }
 
 /*
 **
 */
+static int  ZeroDataBlock = GIF_FALSE;
 
-static int    ZeroDataBlock = GIF_FALSE;
+/* */
 
 static int GetDataBlock(FILE *fd, unsigned char *buf)
 {
     unsigned char   count;
 
-    if (! ReadOK(fd,&count,1)) {
+    if(!ReadOK(fd, &count, 1))
+    {
         INFO_MSG(("error in getting DataBlock size"));
         return -1;
     }
 
     ZeroDataBlock = count == 0;
 
-    if ((count != 0) && (! ReadOK(fd, buf, count))) {
+    if((count != 0) && (!ReadOK(fd, buf, count)))
+    {
         INFO_MSG(("error in reading DataBlock"));
         return -1;
     }
@@ -922,160 +1003,203 @@ static int GetDataBlock(FILE *fd, unsigned char *buf)
 **
 **
 */
-
 /*
 **  Pulled out of nextCode
 */
-static	int		curbit, lastbit, get_done, last_byte;
-static	int		return_clear;
+static int  curbit, lastbit, get_done, last_byte;
+static int  return_clear;
+
 /*
 **  Out of nextLWZ
 */
-static int      stack[(1<<(MAX_LWZ_BITS))*2], *sp;
-static int      code_size, set_code_size;
-static int      max_code, max_code_size;
-static int      clear_code, end_code;
+static int  stack[(1 << (MAX_LWZ_BITS)) * 2], *sp;
+static int  code_size, set_code_size;
+static int  max_code, max_code_size;
+static int  clear_code, end_code;
+
+/* */
 
 static void initLWZ(int input_code_size)
 {
-//	static int	inited = GIF_FALSE;
+//  static int  inited = GIF_FALSE;
 
-	set_code_size = input_code_size;
-	code_size     = set_code_size + 1;
-	clear_code    = 1 << set_code_size ;
-	end_code      = clear_code + 1;
-	max_code_size = 2 * clear_code;
-	max_code      = clear_code + 2;
+    set_code_size = input_code_size;
+    code_size     = set_code_size + 1;
+    clear_code    = 1 << set_code_size ;
+    end_code      = clear_code + 1;
+    max_code_size = 2 * clear_code;
+    max_code      = clear_code + 2;
 
-	curbit = lastbit = 0;
-	last_byte = 2;
-	get_done = GIF_FALSE;
+    curbit = lastbit = 0;
+    last_byte = 2;
+    get_done = GIF_FALSE;
 
-	return_clear = GIF_TRUE;
+    return_clear = GIF_TRUE;
 
-	sp = stack;
+    sp = stack;
 }
 
+/* */
 static int nextCode(FILE *fd, int code_size)
 {
-	static unsigned char    buf[280];
-	static int maskTbl[16] = {
-		0x0000, 0x0001, 0x0003, 0x0007, 
-		0x000f, 0x001f, 0x003f, 0x007f,
-		0x00ff, 0x01ff, 0x03ff, 0x07ff,
-		0x0fff, 0x1fff, 0x3fff, 0x7fff,
-	};
-	int                     i, j, ret, end;
+    static unsigned char    buf[280];
+    static int              maskTbl[16] =
+    {
+        0x0000,
+        0x0001,
+        0x0003,
+        0x0007,
+        0x000f,
+        0x001f,
+        0x003f,
+        0x007f,
+        0x00ff,
+        0x01ff,
+        0x03ff,
+        0x07ff,
+        0x0fff,
+        0x1fff,
+        0x3fff,
+        0x7fff,
+    };
+    int                     i, j, ret, end;
 
-	if (return_clear) {
-		return_clear = GIF_FALSE;
-		return clear_code;
-	}
+    if(return_clear)
+    {
+        return_clear = GIF_FALSE;
+        return clear_code;
+    }
 
-	end = curbit + code_size;
+    end = curbit + code_size;
 
-	if (end >= lastbit) {
-		int	count;
+    if(end >= lastbit)
+    {
+        int count;
 
-		if (get_done) {
-			if (curbit >= lastbit)
-				ERROR("ran off the end of my bits" );
-			return -1;
-		}
-		buf[0] = buf[last_byte-2];
-		buf[1] = buf[last_byte-1];
+        if(get_done)
+        {
+            if(curbit >= lastbit)
+            {
+                ERROR("ran off the end of my bits");
+            }
 
-		if ((count = GetDataBlock(fd, &buf[2])) == 0)
-			get_done = GIF_TRUE;
+            return -1;
+        }
 
-		last_byte = 2 + count;
-		curbit = (curbit - lastbit) + 16;
-		lastbit = (2+count)*8 ;
+        buf[0] = buf[last_byte - 2];
+        buf[1] = buf[last_byte - 1];
 
-		end = curbit + code_size;
-	}
+        if((count = GetDataBlock(fd, &buf[2])) == 0)
+            get_done = GIF_TRUE;
 
-	j = end / 8;
-	i = curbit / 8;
+        last_byte = 2 + count;
+        curbit = (curbit - lastbit) + 16;
+        lastbit = (2 + count) * 8;
 
-    if (i == j) 
+        end = curbit + code_size;
+    }
+
+    j = end / 8;
+    i = curbit / 8;
+
+    if(i == j)
         ret = buf[i];
-    else if (i + 1 == j) 
-        ret = buf[i] | (buf[i+1] << 8);
-    else 
-        ret = buf[i] | (buf[i+1] << 8) | (buf[i+2] << 16);
+    else if(i + 1 == j)
+        ret = buf[i] | (buf[i + 1] << 8);
+    else
+    {
+        ret = buf[i] | (buf[i + 1] << 8) | (buf[i + 2] << 16);
+    }
 
     ret = (ret >> (curbit % 8)) & maskTbl[code_size];
 
-	curbit += code_size;
-	
-	return ret;
+    curbit += code_size;
+
+    return ret;
 }
 
 #define readLWZ(fd) ((sp > stack) ? *--sp : nextLWZ(fd))
 
+/* */
 static int nextLWZ(FILE *fd)
 {
-    static int	table[2][(1<< MAX_LWZ_BITS)];
-    static int	firstcode, oldcode;
-    int		code, incode;
-    register int	i;
+    static int      table[2][(1 << MAX_LWZ_BITS)];
+    static int      firstcode, oldcode;
+    int             code, incode;
+    register int    i;
 
-    while ((code = nextCode(fd, code_size)) >= 0) {
-        if (code == clear_code) {
-            for (i = 0; i < clear_code; ++i) {
+    while((code = nextCode(fd, code_size)) >= 0)
+    {
+        if(code == clear_code)
+        {
+            for(i = 0; i < clear_code; ++i)
+            {
                 table[0][i] = 0;
                 table[1][i] = i;
             }
-            for (; i < (1<<MAX_LWZ_BITS); ++i)
-                table[0][i] = table[1][i] = 0;
-            code_size = set_code_size+1;
-            max_code_size = 2*clear_code;
-            max_code = clear_code+2;
-            sp = stack;
-			do {
-                firstcode = oldcode = nextCode(fd, code_size);
-			} while (firstcode == clear_code);
 
-			return firstcode;
+            for(; i < (1 << MAX_LWZ_BITS); ++i)
+                table[0][i] = table[1][i] = 0;
+            code_size = set_code_size + 1;
+            max_code_size = 2 * clear_code;
+            max_code = clear_code + 2;
+            sp = stack;
+            do
+            {
+                firstcode = oldcode = nextCode(fd, code_size);
+            } while(firstcode == clear_code);
+
+            return firstcode;
         }
-        if (code == end_code) {
+
+        if(code == end_code)
+        {
             int             count;
             unsigned char   buf[260];
 
-            if (ZeroDataBlock)
+            if(ZeroDataBlock)
                 return -2;
 
-            while ((count = GetDataBlock(fd, buf)) > 0)
+            while((count = GetDataBlock(fd, buf)) > 0)
                 ;
 
-            if (count != 0)
+            if(count != 0)
+            {
                 INFO_MSG(("missing EOD in data stream"));
+            }
+
             return -2;
         }
 
         incode = code;
 
-        if (code >= max_code) {
+        if(code >= max_code)
+        {
             *sp++ = firstcode;
             code = oldcode;
         }
 
-        while (code >= clear_code) {
+        while(code >= clear_code)
+        {
             *sp++ = table[1][code];
-            if (code == table[0][code])
+            if(code == table[0][code])
+            {
                 ERROR("circular table entry BIG ERROR");
+            }
+
             code = table[0][code];
         }
 
         *sp++ = firstcode = table[1][code];
 
-        if ((code = max_code) <(1<<MAX_LWZ_BITS)) {
+        if((code = max_code) < (1 << MAX_LWZ_BITS))
+        {
             table[0][code] = oldcode;
             table[1][code] = firstcode;
             ++max_code;
-            if ((max_code >= max_code_size) &&
-                (max_code_size < (1<<MAX_LWZ_BITS))) {
+            if((max_code >= max_code_size) &&
+               (max_code_size < (1 << MAX_LWZ_BITS)))
+            {
                 max_code_size *= 2;
                 ++code_size;
             }
@@ -1083,75 +1207,91 @@ static int nextLWZ(FILE *fd)
 
         oldcode = incode;
 
-        if (sp > stack)
+        if(sp > stack)
             return *--sp;
     }
+
     return code;
 }
 
-static void readImage(FILE *fd, int interlace, int width, int height, 
+/* */
+static void readImage(FILE *fd, int interlace, int width, int height,
                       unsigned char *data)
 {
-    unsigned char	*dp, c;      
+    unsigned char   *dp, c;
 
-    int		v, xpos = 0, ypos = 0;
-//    int pass = 0;
+    int             v, xpos = 0, ypos = 0;
 
-	/*
-	**  Initialize the Compression routines
-	*/
-	if (! ReadOK(fd,&c,1))
-		ERROR("EOF / read error on image data" );
+    //    int pass = 0;
+    /*
+    **  Initialize the Compression routines
+    */
+    if(!ReadOK(fd, &c, 1))
+    {
+        ERROR("EOF / read error on image data");
+    }
 
-	initLWZ(c);
+    initLWZ(c);
 
-	if (verbose)
-		INFO_MSG(("reading %d by %d%s GIF image",
-                  width, height, interlace ? " interlaced" : ""));
+    if(verbose)
+    {
+        INFO_MSG(("reading %d by %d%s GIF image", width, height, interlace ?
+                 " interlaced" : ""));
+    }
 
-	if (interlace) {
-		int	i;
-		int	pass = 0, step = 8;
+    if(interlace)
+    {
+        int i;
+        int pass = 0, step = 8;
 
-		for (i = 0; i < height; i++) {
-			dp = &data[width * ypos];
-			for (xpos = 0; xpos < width; xpos++) {
-				if ((v = readLWZ(fd)) < 0)
-					goto fini;
+        for(i = 0; i < height; i++)
+        {
+            dp = &data[width * ypos];
+            for(xpos = 0; xpos < width; xpos++)
+            {
+                if((v = readLWZ(fd)) < 0)
+                    goto fini;
 
-				*dp++ = v;
-			}
-			if ((ypos += step) >= height) {
-				do {
-					if (pass++ > 0)
-						step /= 2;
-					ypos = step / 2;
-				} while (ypos > height);
-			}
-		}
-	} else {
-		dp = data;
-		for (ypos = 0; ypos < height; ypos++) {
-			for (xpos = 0; xpos < width; xpos++) {
-				if ((v = readLWZ(fd)) < 0)
-					goto fini;
+                *dp++ = v;
+            }
 
-				*dp++ = v;
-			}
-		}
-	}
+            if((ypos += step) >= height)
+            {
+                do
+                {
+                    if(pass++ > 0)
+                        step /= 2;
+                    ypos = step / 2;
+                } while(ypos > height);
+            }
+        }
+    }
+    else
+    {
+        dp = data;
+        for(ypos = 0; ypos < height; ypos++)
+        {
+            for(xpos = 0; xpos < width; xpos++)
+            {
+                if((v = readLWZ(fd)) < 0)
+                    goto fini;
 
- fini:
-    if (readLWZ(fd) >= 0)
+                *dp++ = v;
+            }
+        }
+    }
+
+fini:
+    if(readLWZ(fd) >= 0)
+    {
         INFO_MSG(("too much input data, ignoring extra..."));
+    }
 
     return;
 }
 
 //--- GIF-READ END ------------------------------------------------------
-
 //--- GIF-WRITE START ---------------------------------------------------
-
 /*
 **  Copyright 1994, Home Pages, Inc.
 **
@@ -1167,7 +1307,6 @@ static void readImage(FILE *fd, int interlace, int width, int height,
 **    EMail: support@homepages.com
 ** 
 */
- 
 /* +-------------------------------------------------------------------+ */
 /* | Copyright 1993, David Koblas (koblas@netcom.com)                  | */
 /* |                                                                   | */
@@ -1181,7 +1320,6 @@ static void readImage(FILE *fd, int interlace, int width, int height,
 /* | or implied warranty.                                              | */
 /* |                                                                   | */
 /* +-------------------------------------------------------------------+ */
-
 /* ppmtogif.c - read a portable pixmap and produce a GIF file
 **
 ** Based on GIFENCOD by David Rowley <mgardi@watdscu.waterloo.edu>.A
@@ -1200,362 +1338,399 @@ static void readImage(FILE *fd, int interlace, int width, int height,
 ** CompuServe Incorporated.  GIF(sm) is a Service Mark property of
 ** CompuServe Incorporated.
 */
+#define GIF_TRUE        1
+#define GIF_FALSE       0
 
-#define GIF_TRUE 1
-#define GIF_FALSE 0
-
-#define	PUTBYTE(v, fp)	putc(v, fp)
-#define PUTWORD(v, fp)	do { 	\
-				putc(((v) & 0xff), fp); \
-				putc((((v) >> 8) & 0xff), fp); \
-			} while (0)
-
+#define PUTBYTE(v, fp)  putc(v, fp)
+#define PUTWORD(v, fp) \
+    do \
+    { \
+        putc(((v) & 0xff), fp); \
+        putc((((v) >> 8) & 0xff), fp); \
+    } while(0)
 /*
  * a code_int must be able to hold 2**BITS values of type int, and also -1
  */
-typedef int             code_int;
+    typedef int     code_int;
 
-typedef long int          count_int;
+typedef long int    count_int;
 
-static void putImage(FILE *, int, int, int, int, unsigned char *);
-static void putColorMap(FILE *, int, unsigned char [GIF_MAXCOLORS][3]);
-static void putDataBlocks(FILE *fp, int, unsigned char *);
-static void putGif89Info(FILE *, GIF89info *);
+static void         putImage(FILE *, int, int, int, int, unsigned char *);
+static void         putColorMap(FILE *, int, unsigned char[GIF_MAXCOLORS][3]);
+static void         putDataBlocks(FILE *fp, int, unsigned char *);
+static void         putGif89Info(FILE *, GIF89info *);
 
-static void output ( code_int code );
-static void cl_block ( void );
-static void cl_hash ( count_int hsize );
-static void char_init ( void );
-static void char_out ( int c );
-static void flush_char ( void );
+static void         output(code_int code);
+static void         cl_block(void);
+static void         cl_hash(count_int hsize);
+static void         char_init(void);
+static void         char_out(int c);
+static void         flush_char(void);
 
 /*
 **
 */
-struct cval { 
-	int idx, cnt;
+struct cval
+{
+    int idx, cnt;
 };
 
+/* */
 static int cvalCMP(struct cval *a, struct cval *b)
 {
-	return b->cnt - a->cnt;
+    return b->cnt - a->cnt;
 }
 
+/* */
 static int optimizeCMAP(GIFStream *stream)
 {
-	GIFData	*cur = 0, *img = 0;
-	int	count = 0;
+    GIFData *cur = 0, *img = 0;
+    int     count = 0;
 
-	for (cur = stream->data; cur != NULL; cur = cur->next) {
-		if (cur->type == gif_image) {
-			img = cur;
-			count++;
-		}
-	}
-	/*
-	**  No images, no optimizations...
-	**   or too many images...
-	*/
-	if (count == 0 || count > 1)
-		return 0;
-	
-	/*
-	**  One image, nice and simple...
-	**    Insure there is a global colormap, and optimize the
-	**    image too it.
-	*/
-	{
-		int		size;
-		unsigned char	*dp = img->data.image.data;
-		unsigned char	*ep = dp + img->width * img->height;
-		struct cval 	vals[256];
-		int		i;
-//        int  j;
-		unsigned char	tmap[256][3], rmap[256];
+    for(cur = stream->data; cur != NULL; cur = cur->next)
+    {
+        if(cur->type == gif_image)
+        {
+            img = cur;
+            count++;
+        }
+    }
 
+    /*
+    **  No images, no optimizations...
+    **   or too many images...
+    */
+    if(count == 0 || count > 1)
+        return 0;
 
-		if ((size = img->data.image.cmapSize) == 0)
-			size = stream->cmapSize;
+    /*
+    **  One image, nice and simple...
+    **    Insure there is a global colormap, and optimize the
+    **    image too it.
+    */
+    {
+        int             size;
+        unsigned char   *dp = img->data.image.data;
+        unsigned char   *ep = dp + img->width * img->height;
+        struct cval     vals[256];
+        int             i;
 
-		for (i = 0; i < size; i++) {
-			vals[i].idx = i;
-			vals[i].cnt = 0;
-		}
-		for (dp = img->data.image.data, i = 0; dp < ep; i++, dp++)
-			vals[*dp].cnt++;
-		
-		/*
-		**  Quite, I'm doing a bubble sort... ACK!
-		*/
-		qsort ( vals, size, sizeof(vals[0]), 
-                (int (*)(const void *, const void *))cvalCMP );
+        //        int  j;
+        unsigned char   tmap[256][3], rmap[256];
 
-		for (i = 0; i < size; i++) 
-			if (vals[i].idx != i)
-				break;
-		/*
-		**  Already sorted, no change!
-		*/
-		if (i == size)
-			return 1;
-		for (i = 0; i < size; i++) 
-			rmap[vals[i].idx] = i;
+        if((size = img->data.image.cmapSize) == 0)
+            size = stream->cmapSize;
 
-		/*
-		**  Now reorder the colormap, and the image
-		*/
-		for (dp = img->data.image.data, i = 0; dp < ep; i++, dp++)
-			*dp = rmap[*dp];
-		if (img->info.transparent != -1)
-			img->info.transparent = rmap[img->info.transparent];
-		/*
-		**  Toast the local colormap
-		*/
-		if (img->data.image.cmapSize != 0) {
-			for (i = 0; i < size; i++) {
-				stream->cmapData[i][0] = 
-                    img->data.image.cmapData[i][0];
-				stream->cmapData[i][1] = 
-                    img->data.image.cmapData[i][1];
-				stream->cmapData[i][2] = 
-                    img->data.image.cmapData[i][2];
-			}
-			img->data.image.cmapSize = 0;
-			stream->cmapSize = size;
-		}
+        for(i = 0; i < size; i++)
+        {
+            vals[i].idx = i;
+            vals[i].cnt = 0;
+        }
 
-		/*
-		**  Now finally reorer the colormap
-		*/
-		for (i = 0; i < size; i++) {
-			tmap[i][0] = stream->cmapData[i][0];
-			tmap[i][1] = stream->cmapData[i][1];
-			tmap[i][2] = stream->cmapData[i][2];
-		}
-		for (i = 0; i < size; i++) {
-			stream->cmapData[rmap[i]][0] = tmap[i][0];
-			stream->cmapData[rmap[i]][1] = tmap[i][1];
-			stream->cmapData[rmap[i]][2] = tmap[i][2];
-		}
-	}
-	return 1;
+        for(dp = img->data.image.data, i = 0; dp < ep; i++, dp++)
+            vals[*dp].cnt++;
+
+        /*
+        **  Quite, I'm doing a bubble sort... ACK!
+        */
+        qsort(vals, size, sizeof(vals[0]),
+              (int(*) (const void *, const void *)) cvalCMP);
+
+        for(i = 0; i < size; i++)
+            if(vals[i].idx != i)
+                break;
+
+        /*
+        **  Already sorted, no change!
+        */
+        if(i == size)
+            return 1;
+        for(i = 0; i < size; i++)
+            rmap[vals[i].idx] = i;
+
+        /*
+        **  Now reorder the colormap, and the image
+        */
+        for(dp = img->data.image.data, i = 0; dp < ep; i++, dp++)
+            *dp = rmap[*dp];
+        if(img->info.transparent != -1)
+        {
+            img->info.transparent = rmap[img->info.transparent];
+        }
+
+        /*
+        **  Toast the local colormap
+        */
+        if(img->data.image.cmapSize != 0)
+        {
+            for(i = 0; i < size; i++)
+            {
+                stream->cmapData[i][0] = img->data.image.cmapData[i][0];
+                stream->cmapData[i][1] = img->data.image.cmapData[i][1];
+                stream->cmapData[i][2] = img->data.image.cmapData[i][2];
+            }
+
+            img->data.image.cmapSize = 0;
+            stream->cmapSize = size;
+        }
+
+        /*
+        **  Now finally reorer the colormap
+        */
+        for(i = 0; i < size; i++)
+        {
+            tmap[i][0] = stream->cmapData[i][0];
+            tmap[i][1] = stream->cmapData[i][1];
+            tmap[i][2] = stream->cmapData[i][2];
+        }
+
+        for(i = 0; i < size; i++)
+        {
+            stream->cmapData[rmap[i]][0] = tmap[i][0];
+            stream->cmapData[rmap[i]][1] = tmap[i][1];
+            stream->cmapData[rmap[i]][2] = tmap[i][2];
+        }
+    }
+
+    return 1;
 }
-
 
 /*
 **  Return the ceiling log of n 
 */
-static int	binaryLog(int val)
+static int binaryLog(int val)
 {
-	int	i;
+    int i;
 
-	if (val == 0)
-		return 0;
+    if(val == 0)
+        return 0;
 
-	for (i = 1; i <= 8; i++)
-		if (val <= (1 << i))
-			return i;
-	return 8;
+    for(i = 1; i <= 8; i++)
+        if(val <= (1 << i))
+            return i;
+    return 8;
 }
 
-int	GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
+/* */
+int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 {
-	GIFData	*cur;
-	int	flag = GIF_FALSE;
-	int	c;
-	int	globalBitsPP = 0;
-	int	resolution;
+    GIFData *cur;
+    int     flag = GIF_FALSE;
+    int     c;
+    int     globalBitsPP = 0;
+    int     resolution;
 
-	if (fp == NULL)
-		return GIF_TRUE;
-	if (stream == NULL)
-		return GIF_FALSE;
+    if(fp == NULL)
+        return GIF_TRUE;
+    if(stream == NULL)
+        return GIF_FALSE;
 
-	/*
-	**  First find if this is a 87A or an 89A GIF image
-	**    also, figure out the color resolution of the image.
-	*/
-	resolution = binaryLog(stream->cmapSize) - 1;
-	for (cur = stream->data; !flag && cur != NULL; cur = cur->next) {
-		if (cur->type == gif_text || cur->type == gif_comment) {
-			flag = GIF_TRUE;
-		} else if (cur->type == gif_image) {
-			int	v = binaryLog(cur->data.image.cmapSize);
+    /*
+    **  First find if this is a 87A or an 89A GIF image
+    **    also, figure out the color resolution of the image.
+    */
+    resolution = binaryLog(stream->cmapSize) - 1;
+    for(cur = stream->data; !flag && cur != NULL; cur = cur->next)
+    {
+        if(cur->type == gif_text || cur->type == gif_comment)
+        {
+            flag = GIF_TRUE;
+        }
+        else if(cur->type == gif_image)
+        {
+            int v = binaryLog(cur->data.image.cmapSize);
 
-			if (v > resolution)
-				resolution = v;
+            if(v > resolution)
+                resolution = v;
 
-			/*
-			**  Uses one of the 89 extensions.
-			*/
-			if (cur->info.transparent != -1 ||
-			    cur->info.delayTime   != 0 ||
-			    cur->info.inputFlag   != 0 ||
-			    cur->info.disposal    != 0)
-				flag = GIF_TRUE;
-		}
-	}
-	/*
-	**
-	*/
-	if (optimize) 
-		optimize = optimizeCMAP(stream);
+            /*
+            **  Uses one of the 89 extensions.
+            */
+            if(cur->info.transparent != -1 ||
+               cur->info.delayTime != 0 ||
+               cur->info.inputFlag != 0 ||
+               cur->info.disposal != 0)
+                flag = GIF_TRUE;
+        }
+    }
 
-	fwrite(flag ? "GIF89a" : "GIF87a", 1, 6, fp);
+    /*
+    **
+    */
+    if(optimize)
+        optimize = optimizeCMAP(stream);
 
-	PUTWORD(stream->width,  fp);
-	PUTWORD(stream->height, fp);
+    fwrite(flag ? "GIF89a" : "GIF87a", 1, 6, fp);
 
-	/* 
-	** assume 256 entry color resution, and non sorted colormap 
-	*/
-	c = ((resolution & 0x07) << 5) | 0x00;	
-	if (stream->cmapSize != 0) {
-		globalBitsPP = binaryLog(stream->cmapSize);
-		c |= 0x80;
-		c |= globalBitsPP - 1;
-	}
-	/*
-	**  Is the global colormap optimized?
-	*/
-	if (optimize)
-		c |= 0x08;
-	PUTBYTE(c, fp);
+    PUTWORD(stream->width, fp);
+    PUTWORD(stream->height, fp);
 
-	PUTBYTE(stream->background, fp);
-	PUTBYTE(stream->aspectRatio, fp);
+    /* 
+    ** assume 256 entry color resution, and non sorted colormap 
+    */
+    c = ((resolution & 0x07) << 5) | 0x00;
+    if(stream->cmapSize != 0)
+    {
+        globalBitsPP = binaryLog(stream->cmapSize);
+        c |= 0x80;
+        c |= globalBitsPP - 1;
+    }
 
-	putColorMap(fp, stream->cmapSize, stream->cmapData);
+    /*
+    **  Is the global colormap optimized?
+    */
+    if(optimize)
+        c |= 0x08;
+    PUTBYTE(c, fp);
 
-	for (cur = stream->data; cur != NULL; cur = cur->next) {
-		if (cur->type == gif_image) {
-			int	bpp;
+    PUTBYTE(stream->background, fp);
+    PUTBYTE(stream->aspectRatio, fp);
 
-			putGif89Info(fp, &cur->info);
+    putColorMap(fp, stream->cmapSize, stream->cmapData);
 
-			PUTBYTE(0x2c, fp);
-			PUTWORD(cur->x, fp);
-			PUTWORD(cur->y, fp);
-			PUTWORD(cur->width, fp);
-			PUTWORD(cur->height, fp);
+    for(cur = stream->data; cur != NULL; cur = cur->next)
+    {
+        if(cur->type == gif_image)
+        {
+            int bpp;
 
-			c = cur->data.image.interlaced ? 0x40 : 0x00;
-			if (cur->data.image.cmapSize != 0) {
-				bpp = binaryLog(cur->data.image.cmapSize);
-				c |= 0x80;
-				c |= bpp;
-			} else {
-				bpp = globalBitsPP;
-			}
+            putGif89Info(fp, &cur->info);
 
-			PUTBYTE(c, fp);
+            PUTBYTE(0x2c, fp);
+            PUTWORD(cur->x, fp);
+            PUTWORD(cur->y, fp);
+            PUTWORD(cur->width, fp);
+            PUTWORD(cur->height, fp);
 
-			putColorMap(fp, cur->data.image.cmapSize,
-                        cur->data.image.cmapData);
+            c = cur->data.image.interlaced ? 0x40 : 0x00;
+            if(cur->data.image.cmapSize != 0)
+            {
+                bpp = binaryLog(cur->data.image.cmapSize);
+                c |= 0x80;
+                c |= bpp;
+            }
+            else
+            {
+                bpp = globalBitsPP;
+            }
 
-			putImage(fp, cur->data.image.interlaced, bpp,
-                     cur->width, cur->height, 
-                     cur->data.image.data);
-		} else if (cur->type == gif_comment) {
-			PUTBYTE('!', fp);
-			PUTBYTE(0xfe, fp);
-			putDataBlocks(fp, cur->data.comment.len, 
-                          (unsigned char*)cur->data.comment.text);
-		} else if (cur->type == gif_text) {
-			putGif89Info(fp, &cur->info);
+            PUTBYTE(c, fp);
 
-			PUTBYTE('!', fp);
-			PUTBYTE(0x01, fp);
+            putColorMap(fp, cur->data.image.cmapSize, cur->data.image.cmapData);
 
-			PUTWORD(cur->x, fp);
-			PUTWORD(cur->y, fp);
-			PUTWORD(cur->width, fp);
-			PUTWORD(cur->height, fp);
+            putImage(fp, cur->data.image.interlaced, bpp, cur->width,
+                     cur->height, cur->data.image.data);
+        }
+        else if(cur->type == gif_comment)
+        {
+            PUTBYTE('!', fp);
+            PUTBYTE(0xfe, fp);
+            putDataBlocks(fp, cur->data.comment.len,
+                          (unsigned char *) cur->data.comment.text);
+        }
+        else if(cur->type == gif_text)
+        {
+            putGif89Info(fp, &cur->info);
 
-			PUTBYTE(cur->data.text.cellWidth, fp);
-			PUTBYTE(cur->data.text.cellHeight, fp);
-			PUTBYTE(cur->data.text.fg, fp);
-			PUTBYTE(cur->data.text.bg, fp);
+            PUTBYTE('!', fp);
+            PUTBYTE(0x01, fp);
 
-			putDataBlocks(fp, cur->data.text.len, 
-                          (unsigned char*)cur->data.text.text);
-		}
-	}
+            PUTWORD(cur->x, fp);
+            PUTWORD(cur->y, fp);
+            PUTWORD(cur->width, fp);
+            PUTWORD(cur->height, fp);
 
-	/*
-	**  Write termination
-	*/
-	PUTBYTE(';', fp);
+            PUTBYTE(cur->data.text.cellWidth, fp);
+            PUTBYTE(cur->data.text.cellHeight, fp);
+            PUTBYTE(cur->data.text.fg, fp);
+            PUTBYTE(cur->data.text.bg, fp);
 
-	return GIF_FALSE;
+            putDataBlocks(fp, cur->data.text.len,
+                          (unsigned char *) cur->data.text.text);
+        }
+    }
+
+    /*
+    **  Write termination
+    */
+    PUTBYTE(';', fp);
+
+    return GIF_FALSE;
 }
 
-int	GIFWrite(char *file, GIFStream *stream, int optimize)
+/* */
+int GIFWrite(char *file, GIFStream *stream, int optimize)
 {
-	if (stream != NULL) {
-		FILE	*fp = fopen(file, "wb");
+    if(stream != NULL)
+    {
+        FILE    *fp = fopen(file, "wb");
 
-		if (fp != NULL) {
-			int	s = GIFWriteFP(fp, stream, optimize);
-			fclose(fp);
-			return s;
-		}
-	}
-	return GIF_TRUE;
+        if(fp != NULL)
+        {
+            int s = GIFWriteFP(fp, stream, optimize);
+            fclose(fp);
+            return s;
+        }
+    }
+
+    return GIF_TRUE;
 }
 
+/* */
 static void putColorMap(FILE *fp, int size, unsigned char data[GIF_MAXCOLORS][3])
 {
-	int	i;
+    int i;
 
-	for (i = 0; i < size; i++) {
-		PUTBYTE(data[i][0], fp);
-		PUTBYTE(data[i][1], fp);
-		PUTBYTE(data[i][2], fp);
-	}
+    for(i = 0; i < size; i++)
+    {
+        PUTBYTE(data[i][0], fp);
+        PUTBYTE(data[i][1], fp);
+        PUTBYTE(data[i][2], fp);
+    }
 }
 
+/* */
 static void putDataBlocks(FILE *fp, int size, unsigned char *data)
 {
-	int	n;
+    int n;
 
-	while (size > 0) {
-		n = size > 255 ? 255 : size;
+    while(size > 0)
+    {
+        n = size > 255 ? 255 : size;
 
-		PUTBYTE(n, fp);
-		fwrite(data, 1, n, fp);
-		data += n;
-		size -= n;
-	}
-	PUTBYTE(0, fp);	/* End Block */
+        PUTBYTE(n, fp);
+        fwrite(data, 1, n, fp);
+        data += n;
+        size -= n;
+    }
+
+    PUTBYTE(0, fp); /* End Block */
 }
 
+/* */
 static void putGif89Info(FILE *fp, GIF89info *info)
 {
-	unsigned char	c;
+    unsigned char   c;
 
-	if (info->transparent == -1 &&
-	    info->delayTime == 0 &&
-	    info->inputFlag == 0 &&
-	    info->disposal == 0)
-		return;
-	
-	PUTBYTE('!', fp);
-	PUTBYTE(0xf9, fp);
-	PUTBYTE(4, fp);
-	c = (info->inputFlag ? 0x02 : 0x00) |
-	    ((info->disposal & 0x07) << 2) |
-	    ((info->transparent != -1) ? 0x01 : 0x00);
-	PUTBYTE(c, fp);
-	PUTWORD(info->delayTime, fp);
-	PUTBYTE(info->transparent, fp);
+    if(info->transparent == -1 &&
+       info->delayTime == 0 &&
+       info->inputFlag == 0 &&
+       info->disposal == 0)
+        return;
 
-	/*
-	**  End
-	*/
-	PUTBYTE(0, fp);
+    PUTBYTE('!', fp);
+    PUTBYTE(0xf9, fp);
+    PUTBYTE(4, fp);
+    c = (info->inputFlag ? 0x02 : 0x00) | ((info->disposal & 0x07) << 2) | ((info->transparent != -1) ? 0x01 : 0x00);
+    PUTBYTE(c, fp);
+    PUTWORD(info->delayTime, fp);
+    PUTBYTE(info->transparent, fp);
+
+    /*
+    **  End
+    */
+    PUTBYTE(0, fp);
 }
-
 
 /***************************************************************************
  *
@@ -1565,7 +1740,6 @@ static void putGif89Info(FILE *fp, GIF89info *info)
  *  David Rowley (mgardi@watdcsu.waterloo.edu)
  *
  ***************************************************************************/
-
 /*
  * General DEFINEs
  */
@@ -1594,24 +1768,21 @@ typedef        unsigned char   char_type;
  *              Joe Orost               (decvax!vax135!petsd!joe)
  *
  */
-
-#define ARGVAL() (*++(*argv) || (--argc && *++argv))
-
-static int n_bits;                      /* number of bits/code */
-static int maxbits;                	/* user settable max # bits/code */
-static code_int maxcode;                /* maximum code, given n_bits */
-static code_int maxmaxcode; 		/* should NEVER generate this code */
-# define MAXCODE(n_bits)        	(((code_int) 1 << (n_bits)) - 1)
-
-static count_int htab [HSIZE];
-static unsigned short codetab [HSIZE];
-#define HashTabOf(i)       htab[i]
+#define ARGVAL()    (*++(*argv) || (--argc && *++argv))
+static int              n_bits;     /* number of bits/code */
+static int              maxbits;    /* user settable max # bits/code */
+static code_int         maxcode;    /* maximum code, given n_bits */
+static code_int         maxmaxcode; /* should NEVER generate this code */
+#define MAXCODE(n_bits) (((code_int) 1 << (n_bits)) - 1)
+static count_int        htab[HSIZE];
+static unsigned short   codetab[HSIZE];
+#define HashTabOf(i)    htab[i]
 #define CodeTabOf(i)    codetab[i]
 
-static code_int hsize;                 	/* for dynamic table sizing */
+static code_int         hsize;      /* for dynamic table sizing */
 
-static unsigned long cur_accum;
-static int cur_bits;
+static unsigned long    cur_accum;
+static int              cur_bits;
 
 /*
  * To save much memory, we overlay the table used by compress() with those
@@ -1621,21 +1792,18 @@ static int cur_bits;
  * of htab, and contains characters.  There is plenty of room for any
  * possible stack (stack used to be 8000 characters).
  */
-
 #define tab_prefixof(i) CodeTabOf(i)
-#define tab_suffixof(i)        ((char_type*)(htab))[i]
-#define de_stack               ((char_type*)&tab_suffixof((code_int)1<<BITS))
-
-static code_int free_ent;              /* first unused entry */
+#define tab_suffixof(i) ((char_type *) (htab))[i]
+#define de_stack        ((char_type *) &tab_suffixof((code_int) 1 << BITS))
+static code_int free_ent;           /* first unused entry */
 
 /*
  * block compression parameters -- after all codes are used up,
  * and compression rate changes, start over.
  */
-static int clear_flg;
+static int      clear_flg;
 
 // static int offset = 0;
-
 /*
  * compress stdin to stdout
  *
@@ -1651,166 +1819,186 @@ static int clear_flg;
  * file size for noticeable speed improvement on small files.  Please direct
  * questions about this implementation to ames!jaw.
  */
+static int      g_init_bits;
+static FILE     *g_outfile;
 
-static int g_init_bits;
-static FILE* g_outfile;
+static int      ClearCode;
+static int      EOFCode;
 
-static int ClearCode;
-static int EOFCode;
+/* */
 
-static void putImage(FILE *fp, int interlaced, int bpp, int width, int height, 
+static void putImage(FILE *fp, int interlaced, int bpp, int width, int height,
                      unsigned char *data)
 {
-//	unsigned char	*end = data + width * height;
-	int		left = interlaced ? width : width * height;
-	int		cury = 0, pass = 0;
-	unsigned char	*dp = data;
-	long		fcode;
-	code_int	v, i, ent, disp, hsize_reg;
-	int		c, hshift;
-//	int		skip = 8;
+    //  unsigned char   *end = data + width * height;
+    int             left = interlaced ? width : width * height;
+    int             cury = 0, pass = 0;
+    unsigned char   *dp = data;
+    long            fcode;
+    code_int        v, i, ent, disp, hsize_reg;
+    int             c, hshift;
 
-	if (bpp <= 1) {
-		g_init_bits = 3;
-		PUTBYTE(2, fp);
-	} else {
-		g_init_bits = bpp + 1;
-		PUTBYTE(bpp, fp);
-	}
+    //  int         skip = 8;
+    if(bpp <= 1)
+    {
+        g_init_bits = 3;
+        PUTBYTE(2, fp);
+    }
+    else
+    {
+        g_init_bits = bpp + 1;
+        PUTBYTE(bpp, fp);
+    }
 
-	/*
-	** Set up the globals:  g_init_bits - initial number of bits
-	**                      g_outfile   - pointer to output file
-	*/
-	g_outfile   = fp;
+    /*
+    ** Set up the globals:  g_init_bits - initial number of bits
+    **                      g_outfile   - pointer to output file
+    */
+    g_outfile = fp;
 
-	/*
-	** Set up the necessary values
-	*/
-	// offset = 0;
-	clear_flg = GIF_FALSE;
-	maxbits = BITS;
-	maxmaxcode = 1 << BITS;
-	maxcode = MAXCODE(n_bits = g_init_bits);
-	hsize = HSIZE;
-	cur_accum = 0;
-	cur_bits  = 0;
+    /*
+    ** Set up the necessary values
+    */
+    // offset = 0;
+    clear_flg = GIF_FALSE;
+    maxbits = BITS;
+    maxmaxcode = 1 << BITS;
+    maxcode = MAXCODE(n_bits = g_init_bits);
+    hsize = HSIZE;
+    cur_accum = 0;
+    cur_bits = 0;
 
-	ClearCode = (1 << (g_init_bits - 1));
-	EOFCode   = ClearCode + 1;
-	free_ent  = ClearCode + 2;
+    ClearCode = (1 << (g_init_bits - 1));
+    EOFCode = ClearCode + 1;
+    free_ent = ClearCode + 2;
 
-	char_init();	/* clear the output accumulator */
+    char_init();                                /* clear the output accumulator */
 
-	hshift = 0;
-	for (fcode = (long)hsize;  fcode < 65536; fcode *= 2)
-		++hshift;
-	hshift = 8 - hshift;                /* set hash code range bound */
+    hshift = 0;
+    for(fcode = (long) hsize; fcode < 65536; fcode *= 2)
+        ++hshift;
+    hshift = 8 - hshift;                        /* set hash code range bound */
 
-	hsize_reg = hsize;
-	cl_hash((count_int)hsize);            /* clear hash table */
+    hsize_reg = hsize;
+    cl_hash((count_int) hsize);                 /* clear hash table */
 
-	output((code_int)ClearCode);
+    output((code_int) ClearCode);
 
-	ent = *dp++;
-	do {
- again:
-		/*
-		**  Fetch the next pixel
-		*/
-		c = *dp++;
-		if (--left == 0) {
-			if (interlaced) {
-				do {
-					switch (pass) {
-                        case 0:
-                            cury += 8;
-                            if (cury >= height) {
-                                pass++;
-                                cury = 4;
-                            }
-                            break;
-                        case 1:
-                            cury += 8;
-                            if (cury >= height) {
-                                pass++;
-                                cury = 2;
-                            }
-                            break;
-                        case 2:
-                            cury += 4;
-                            if (cury >= height) {
-                                pass++;
-                                cury = 1;
-                            }
-                            break;
-                        case 3:
-                            cury += 2;
-                            break;
-					}
-				} while (pass < 3 && cury >= height);
-				if (cury >= height)
-					goto done;
-				dp = data + cury * width;
-				left = width;
-				c = *dp++;
-			} else {
-				goto done;
-			}
-		}
+    ent = *dp++;
+    do
+    {
+again:
+        /*
+        **  Fetch the next pixel
+        */
+        c = *dp++;
+        if(--left == 0)
+        {
+            if(interlaced)
+            {
+                do
+                {
+                    switch(pass)
+                    {
+                    case 0:
+                        cury += 8;
+                        if(cury >= height)
+                        {
+                            pass++;
+                            cury = 4;
+                        }
+                        break;
+                    case 1:
+                        cury += 8;
+                        if(cury >= height)
+                        {
+                            pass++;
+                            cury = 2;
+                        }
+                        break;
+                    case 2:
+                        cury += 4;
+                        if(cury >= height)
+                        {
+                            pass++;
+                            cury = 1;
+                        }
+                        break;
+                    case 3:
+                        cury += 2;
+                        break;
+                    }
+                } while(pass < 3 && cury >= height);
+                if(cury >= height)
+                    goto done;
+                dp = data + cury * width;
+                left = width;
+                c = *dp++;
+            }
+            else
+            {
+                goto done;
+            }
+        }
 
+        /*
+        **  Now output it...
+        */
+        fcode = (long) (((long) c << maxbits) + ent);
 
-		/*
-		**  Now output it...
-		*/
+        i = (((code_int) c << hshift) ^ ent);   /* xor hashing */
+        v = HashTabOf(i);
 
-		fcode = (long) (((long) c << maxbits) + ent);
+        if(v == fcode)
+        {
+            ent = CodeTabOf(i);
+            goto again;
+        }
+        else if(v >= 0)
+        {
+            /* 
+            ** secondary hash (after G. Knott) 
+            */
+            disp = hsize_reg - i;
+            if(i == 0)
+                disp = 1;
+            do
+            {
+                if((i -= disp) < 0)
+                    i += hsize_reg;
 
-		i = (((code_int)c << hshift) ^ ent);	/* xor hashing */
-		v = HashTabOf(i);
+                v = HashTabOf(i);
+                if(v == fcode)
+                {
+                    ent = CodeTabOf(i);
+                    goto again;
+                }
+            } while(v > 0);
+        }
 
-		if (v == fcode) {
-			ent = CodeTabOf (i);
-			goto again;
-		} else if (v >= 0) {
-			/* 
-			** secondary hash (after G. Knott) 
-			*/
-			disp = hsize_reg - i;           
-			if (i == 0)
-				disp = 1;
-			do {
-				if ((i -= disp) < 0)
-					i += hsize_reg;
-			
-				v = HashTabOf(i);
-				if (v == fcode) {
-					ent = CodeTabOf(i);
-					goto again;
-				}
-			} while (v > 0);
-		}
+        output((code_int) ent);
+        ent = c;
+        if(free_ent < maxmaxcode)
+        {
+            CodeTabOf(i) = free_ent++;          /* code -> hashtable */
+            HashTabOf(i) = fcode;
+        }
+        else
+        {
+            cl_block();
+        }
+    } while(1);
+done:
+    /*
+    ** Put out the final code.
+    **/
+    output((code_int) ent);
+    output((code_int) EOFCode);
 
-		output((code_int)ent);
-		ent = c;
-		if (free_ent < maxmaxcode) {
-			CodeTabOf(i) = free_ent++; /* code -> hashtable */
-			HashTabOf(i) = fcode;
-		} else {
-			cl_block();
-		}
-	} while (1);
- done:
-	/*
-	** Put out the final code.
-	**/
-	output((code_int)ent);
-	output((code_int)EOFCode);
-
-	/*
-	**  End block byte
-	*/
-	PUTBYTE(0x00, fp);
+    /*
+    **  End block byte
+    */
+    PUTBYTE(0x00, fp);
 }
 
 /*****************************************************************
@@ -1838,73 +2026,82 @@ static unsigned long masks[] = {  0x0000,
 
 static void output(code_int code)
 {
-	cur_accum &= masks[ cur_bits ];
+    cur_accum &= masks[cur_bits];
 
-	if( cur_bits > 0 )
-		cur_accum |= ((long)code << cur_bits);
-	else
-		cur_accum = code;
+    if(cur_bits > 0)
+    {
+        cur_accum |= ((long) code << cur_bits);
+    }
+    else
+        cur_accum = code;
 
-	cur_bits += n_bits;
+    cur_bits += n_bits;
 
-	while( cur_bits >= 8 ) {
-		char_out( (unsigned int)(cur_accum & 0xff) );
-		cur_accum >>= 8;
-		cur_bits -= 8;
-	}
-
-	/*
-	** If the next entry is going to be too big for the code size,
-	** then increase it, if possible.
-	*/
-	if (free_ent > maxcode || clear_flg) {
-		if( clear_flg ) {
-			maxcode = MAXCODE (n_bits = g_init_bits);
-			clear_flg = GIF_FALSE;
-		} else {
-			++n_bits;
-			if ( n_bits == maxbits )
-				maxcode = maxmaxcode;
-			else
-				maxcode = MAXCODE(n_bits);
-		}
+    while(cur_bits >= 8)
+    {
+        char_out((unsigned int) (cur_accum & 0xff));
+        cur_accum >>= 8;
+        cur_bits -= 8;
     }
 
-	if (code == EOFCode) {
-		/*
-		** At EOF, write the rest of the buffer.
-		*/
-		while (cur_bits > 0) {
-			char_out((unsigned int)(cur_accum & 0xff));
-			cur_accum >>= 8;
-			cur_bits -= 8;
-		}
+    /*
+    ** If the next entry is going to be too big for the code size,
+    ** then increase it, if possible.
+    */
+    if(free_ent > maxcode || clear_flg)
+    {
+        if(clear_flg)
+        {
+            maxcode = MAXCODE(n_bits = g_init_bits);
+            clear_flg = GIF_FALSE;
+        }
+        else
+        {
+            ++n_bits;
+            if(n_bits == maxbits)
+                maxcode = maxmaxcode;
+            else
+                maxcode = MAXCODE(n_bits);
+        }
+    }
 
-		flush_char();
+    if(code == EOFCode)
+    {
+        /*
+        ** At EOF, write the rest of the buffer.
+        */
+        while(cur_bits > 0)
+        {
+            char_out((unsigned int) (cur_accum & 0xff));
+            cur_accum >>= 8;
+            cur_bits -= 8;
+        }
 
-		fflush(g_outfile);
-	}
+        flush_char();
+
+        fflush(g_outfile);
+    }
 }
 
 /*
  * Clear out the hash table
  */
-static void cl_block()
+static void cl_block(void)
 {
-
-    cl_hash((count_int)hsize);
+    cl_hash((count_int) hsize);
     free_ent = ClearCode + 2;
     clear_flg = GIF_TRUE;
 
-    output((code_int)ClearCode);
+    output((code_int) ClearCode);
 }
 
-static void cl_hash(count_int hsize)          /* reset code table */
+/* */
+static void cl_hash(count_int hsize)    /* reset code table */
 {
-	int	i;
+    int i;
 
-	for (i = 0; i < hsize; i++) 
-		htab[i] = -1;
+    for(i = 0; i < hsize; i++)
+        htab[i] = -1;
 }
 
 /******************************************************************************
@@ -1912,22 +2109,20 @@ static void cl_hash(count_int hsize)          /* reset code table */
  * GIF Specific routines
  *
  ******************************************************************************/
-
 /*
 ** Number of characters so far in this 'packet'
 */
-static int a_count;
+static int  a_count;
 
 /*
 ** Define the storage for the packet accumulator
 */
 static char accum[256];
 
-
 /*
 ** Set up the 'byte output' routine
 */
-static void char_init()
+static void char_init(void)
 {
     a_count = 0;
 }
@@ -1939,23 +2134,22 @@ static void char_init()
 static void char_out(int c)
 {
     accum[a_count++] = c;
-    if (a_count == 255)
+    if(a_count == 255)
         flush_char();
 }
 
 /*
 ** Flush the packet to disk, and reset the accumulator
 */
-static void flush_char()
+static void flush_char(void)
 {
-    if (a_count != 0) {
+    if(a_count != 0)
+    {
         PUTBYTE(a_count, g_outfile);
         fwrite(accum, 1, a_count, g_outfile);
         a_count = 0;
     }
 }
 
-
 //--- GIF-WRITE END -----------------------------------------------------
-
 #endif

@@ -35,11 +35,9 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 //-------------------------------
-// 	Includes 					 			    
+// Includes  
 //-------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -63,17 +61,14 @@
 #include "OSGOFFSceneFileType.h"
 
 OSG_USING_NAMESPACE
-
 #ifdef __sgi
 #pragma set woff 1174
 #endif
-
-namespace 
+namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.8 2001/10/10 10:42:55 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
+static Char8    cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.9 2001/10/11 21:17:51 dirk Exp $";
+static Char8    cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
-
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
@@ -81,24 +76,18 @@ namespace
 /*****************************
  *   Types
  *****************************/
-// Static Class Varible implementations: 
+// Static Class Varible implementations:
+const Char8 *OFFSceneFileType::     _suffixA[] = { "off" };
 
-const Char8            *OFFSceneFileType::_suffixA[] = {"off"};
-
-      OFFSceneFileType  OFFSceneFileType::_the(_suffixA, 
-                                               sizeof(_suffixA),
-                                               false,
-                                               10);
+OFFSceneFileType OFFSceneFileType:: _the(_suffixA, sizeof(_suffixA), false, 10);
 
 /*****************************
- *	  Classvariables
+ *  Classvariables
  *****************************/
 
-
 /********************************
- *	  Class methodes
+ *  Class methodes
  *******************************/
-
 
 /*******************************
 *public
@@ -111,13 +100,13 @@ const Char8            *OFFSceneFileType::_suffixA[] = {"off"};
 //Parameters:
 //p: Scene &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: read the image from the given file
 //SeeAlso:
@@ -126,172 +115,191 @@ const Char8            *OFFSceneFileType::_suffixA[] = {"off"};
 //------------------------------
 NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 {
-  typedef vector<int> Face;
+    typedef vector<int> Face;
 
-  vector<Face> faceVec;
+    vector<Face>        faceVec;
 
-  char head[256];
-	ifstream in(fileName);
-	NodePtr root;
-	GeometryPtr geo;
-  Vec3f point;
-  GeoPositions3fPtr points;
- 	GeoIndicesUI32Ptr index;
-	GeoPLengthsPtr lens;
-	GeoPTypesPtr type;   
-  SimpleMaterialPtr mat;
-  Int32 i,j,k,n,vN,fN,pType;
-  Int32 triCount = 0, vertexCount, faceCount, uk;
-  Real64 x, y, z;
+    char                head[256];
+    ifstream            in(fileName);
+    NodePtr             root;
+    GeometryPtr         geo;
+    Vec3f               point;
+    GeoPositions3fPtr   points;
+    GeoIndicesUI32Ptr   index;
+    GeoPLengthsPtr      lens;
+    GeoPTypesPtr        type;
+    SimpleMaterialPtr   mat;
+    Int32               i, j, k, n, vN, fN, pType;
+    Int32               triCount = 0, vertexCount, faceCount, uk;
+    Real64              x, y, z;
 
-  if (in) {
-    in >> head >> vertexCount >> faceCount >> uk;
+    if(in)
+    {
+        in >> head >> vertexCount >> faceCount >> uk;
 
-    FDEBUG (( "OFF Head/vertexCount/faceCount: %s/%d/%d\n",
-              head, vertexCount, faceCount ));
- 
-    if (vertexCount && faceCount) {
+        FDEBUG(("OFF Head/vertexCount/faceCount: %s/%d/%d\n", head,
+               vertexCount, faceCount));
 
-      //-------------------------------------------------------------------
-      // create the OSG objects
-      root = Node::create();
-      geo = Geometry::create();
-      points = GeoPositions3f::create();
-      index = GeoIndicesUI32::create();  
-      lens = GeoPLengthsUI32::create();  
-      type = GeoPTypesUI8::create();
-      mat = SimpleMaterial::create();
-      
-      beginEditCP(mat);
-      {
-         mat->setDiffuse( Color3f( 0.42, 0.42, 0.52 ) );
-         mat->setSpecular( Color3f( 1, 1, 1 ) );
-         mat->setShininess( 20 );
-      }
-      endEditCP(mat);
-		
-      
-      beginEditCP ( root, Node::CoreFieldMask);
-      {
-        root->setCore( geo );
-      }
-      endEditCP ( root, Node::CoreFieldMask);
-      
-      beginEditCP ( geo );
-      {
-        geo->setPositions ( points );
-        geo->setIndices   ( index );
-        geo->setLengths   ( lens );
-        geo->setTypes     ( type );
-        geo->setMaterial  ( mat ); 
-      }
-      
-      //-------------------------------------------------------------------
-      // read/set the points
-      beginEditCP ( points );
-      {
-        for (i = 0; (!in.eof()) && (i < vertexCount); i++) {
-          in >> x >> y >> z;
-          point.setValues (x,y,z);
-          points->push_back(point);
-        }
-      }
-      beginEditCP ( points );
-      
-      //-------------------------------------------------------------------
-      // read the faces
-      // TODO; should we 'reserve' some index mem (3,4,..) ?
-      faceVec.resize(faceCount);
-      triCount = 0;
-      for (i = 0; (!in.eof()) && (i < faceCount); i++) {
-        in >> n;
-        if (n >= 0) {
-          triCount += n - 2;
-          for (j = 0; (!in.eof()) && (j < n); j++) {
-            in >> k;
-            if ((k >= 0) && (k < vertexCount))
-              faceVec[i].push_back(k);
-            else {
-              FFATAL (("Invalid vertex index %d in face %d\n", k, i));
-            }     
-          }
-        }
-        else {
-          FFATAL (("Invalid face vec num %d\n",n));
-        }
-      }
-      
-      //-------------------------------------------------------------------
-      // set the faces
-      for (i = 3; i <= 5; i++) {
-        n = 0;
-        for (j = 0; j < faceCount; j++) {
-          fN = faceVec[j].size();
-          if (fN >= 5)
-            fN = 5;
-          if (fN == i) {
-            n += vN = faceVec[j].size();
-            for (k = vN-1; k >= 0; k--) {
-              index->getFieldPtr()->addValue( faceVec[j][k] );    
-            }       
-            if (i == 5) {
-              beginEditCP(lens);
-              {
-                lens->addValue( n );
-              }
-              endEditCP(lens);
-              
-              beginEditCP(type, FieldBits::AllFields);
-              {
-                type->addValue( GL_POLYGON );
-              }
-            endEditCP(type, FieldBits::AllFields);
-            }
-          }
-        }
-        if (n) { 
-          switch (i) {
-          case 3:
-            pType = GL_TRIANGLES;
-            break;
-          case 4:
-            pType = GL_QUADS;
-            break;
-          default:
-            pType = 0;
-            break;
-          }
-          if (pType) {
-            beginEditCP(lens);
+        if(vertexCount && faceCount)
+        {
+            //-------------------------------------------------------------------
+            // create the OSG objects
+            root = Node::create();
+            geo = Geometry::create();
+            points = GeoPositions3f::create();
+            index = GeoIndicesUI32::create();
+            lens = GeoPLengthsUI32::create();
+            type = GeoPTypesUI8::create();
+            mat = SimpleMaterial::create();
+
+            beginEditCP(mat);
             {
-              lens->addValue( n );
+                mat->setDiffuse(Color3f(0.42, 0.42, 0.52));
+                mat->setSpecular(Color3f(1, 1, 1));
+                mat->setShininess(20);
             }
-            endEditCP(lens);
-            
-            beginEditCP(type, FieldBits::AllFields);
+            endEditCP(mat);
+
+            beginEditCP(root, Node::CoreFieldMask);
             {
-              type->addValue( pType );
+                root->setCore(geo);
             }
-            endEditCP(type, FieldBits::AllFields);
-          }
+            endEditCP(root, Node::CoreFieldMask);
+
+            beginEditCP(geo);
+            {
+                geo->setPositions(points);
+                geo->setIndices(index);
+                geo->setLengths(lens);
+                geo->setTypes(type);
+                geo->setMaterial(mat);
+            }
+            endEditCP(geo);
+
+            //-------------------------------------------------------------------
+            // read/set the points
+            beginEditCP(points);
+            {
+                for(i = 0; (!in.eof()) && (i < vertexCount); i++)
+                {
+                    in >> x >> y >> z;
+                    point.setValues(x, y, z);
+                    points->push_back(point);
+                }
+            }
+            endEditCP(points);
+
+            //-------------------------------------------------------------------
+            // read the faces
+            // TODO; should we 'reserve' some index mem (3,4,..) ?
+            faceVec.resize(faceCount);
+            triCount = 0;
+            for(i = 0; (!in.eof()) && (i < faceCount); i++)
+            {
+                in >> n;
+                if(n >= 0)
+                {
+                    triCount += n - 2;
+                    for(j = 0; (!in.eof()) && (j < n); j++)
+                    {
+                        in >> k;
+                        if((k >= 0) && (k < vertexCount))
+                            faceVec[i].push_back(k);
+                        else
+                        {
+                            FFATAL(("Invalid vertex index %d in face %d\n", k, i
+                                   ));
+                        }
+                    }
+                }
+                else
+                {
+                    FFATAL(("Invalid face vec num %d\n", n));
+                }
+            }
+
+            //-------------------------------------------------------------------
+            // set the faces
+            for(i = 3; i <= 5; i++)
+            {
+                n = 0;
+                for(j = 0; j < faceCount; j++)
+                {
+                    fN = faceVec[j].size();
+                    if(fN >= 5)
+                        fN = 5;
+                    if(fN == i)
+                    {
+                        n += vN = faceVec[j].size();
+                        for(k = vN - 1; k >= 0; k--)
+                        {
+                            index->getFieldPtr()->addValue(faceVec[j][k]);
+                        }
+
+                        if(i == 5)
+                        {
+                            beginEditCP(lens);
+                            {
+                                lens->addValue(n);
+                            }
+                            endEditCP(lens);
+
+                            beginEditCP(type, FieldBits::AllFields);
+                            {
+                                type->addValue(GL_POLYGON);
+                            }
+                            endEditCP(type, FieldBits::AllFields);
+                        }
+                    }
+                }
+
+                if(n)
+                {
+                    switch(i)
+                    {
+                    case 3:
+                        pType = GL_TRIANGLES;
+                        break;
+                    case 4:
+                        pType = GL_QUADS;
+                        break;
+                    default:
+                        pType = 0;
+                        break;
+                    }
+
+                    if(pType)
+                    {
+                        beginEditCP(lens);
+                        {
+                            lens->addValue(n);
+                        }
+                        endEditCP(lens);
+
+                        beginEditCP(type, FieldBits::AllFields);
+                        {
+                            type->addValue(pType);
+                        }
+                        endEditCP(type, FieldBits::AllFields);
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
-  FNOTICE (("Number of triangle read: %d\n", triCount));
+    FNOTICE(("Number of triangle read: %d\n", triCount));
 
-  calcVertexNormals(geo);
-  createOptimizedPrimitives(geo);
+    calcVertexNormals(geo);
+    createOptimizedPrimitives(geo);
 
-	return root;
+    return root;
 }
 
-NodePtr OFFSceneFileType::read(const Char8  *fileName, 
-                                     UInt32  uiAddOptions,
-                                     UInt32  uiSubOptions) const
+/* */
+NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32 uiAddOptions,
+                               UInt32 uiSubOptions) const
 {
-    return read(fileName, uiAddOptions & ~uiSubOptions);
+    return read(fileName, uiAddOptions &~uiSubOptions);
 }
 
 //----------------------------
@@ -301,48 +309,42 @@ NodePtr OFFSceneFileType::read(const Char8  *fileName,
 //Parameters:
 //p: Scene &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: write the image to the given file
 //SeeAlso:
 //s:
 //
 //------------------------------
-Bool OFFSceneFileType::write(const NodePtr  node, 
-                             const Char8   *fileName) const
-{	
-    FFATAL (("OFFSceneFileType::write() is not impl.\n"));
-	return false;
+Bool OFFSceneFileType::write(const NodePtr node, const Char8 *fileName) const
+{
+    FFATAL(("OFFSceneFileType::write() is not impl.\n"));
+    return false;
 }
 
 /******************************
 *protected
 ******************************/
 
-
 /******************************
-*private	
+*private
 ******************************/
-
 
 /***************************
 *instance methodes 
 ***************************/
 
-
 /***************************
 *public
 ***************************/
 
-
 /**constructors & destructors**/
-
 
 //----------------------------
 // Function name: OFFSceneFileType
@@ -351,28 +353,23 @@ Bool OFFSceneFileType::write(const NodePtr  node,
 //Parameters:
 //p: const char *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-
-OFFSceneFileType::OFFSceneFileType(const Char8  *suffixArray[], 
-                                         UInt16  suffixByteCount,
-                                         Bool    override,
-                                         UInt32  overridePriority) :
-	SceneFileType(suffixArray, 
-                  suffixByteCount,
-                  override,
-                  overridePriority)
+OFFSceneFileType::OFFSceneFileType(const Char8 *suffixArray[],
+                                   UInt16 suffixByteCount, Bool override,
+                                   UInt32 overridePriority) :
+    SceneFileType(suffixArray, suffixByteCount, override, overridePriority)
 {
 }
 
@@ -383,24 +380,23 @@ OFFSceneFileType::OFFSceneFileType(const Char8  *suffixArray[],
 //Parameters:
 //p: const OFFSceneFileType &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-
 OFFSceneFileType::OFFSceneFileType(const OFFSceneFileType &obj) :
-	SceneFileType(obj)
+    SceneFileType(obj)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -410,52 +406,43 @@ OFFSceneFileType::OFFSceneFileType(const OFFSceneFileType &obj) :
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
 //s:
 //
 //------------------------------
-
 OFFSceneFileType &OFFSceneFileType::the(void)
 {
     return _the;
 }
 
+/* */
 OFFSceneFileType::~OFFSceneFileType(void)
 {
-	return;
+    return;
 }
 
-const Char8 *OFFSceneFileType::getName(void) const 
+/* */
+const Char8 *OFFSceneFileType::getName(void) const
 {
     return "OFF GEOMETRY";
 }
 
 /*------------access----------------*/
-
 /*------------properies-------------*/
-
 /*------------your Category---------*/
-
 /*------------Operators-------------*/
-
-
-
 /****************************
- *protected	
+ *protected
  ****************************/
-
-
 /****************************
  *private
  ****************************/
-
-
