@@ -64,6 +64,17 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::PNMImageFileType 
     \ingroup GrpSystemImage
+
+Image File Type to read/write and store/restore Image objects as
+PNM data. Should work with binary and ascii pnm/pbm/pgm/ppm data.
+
+All the type specific code is included in the class. Does
+not depend on external libs.
+        
+*/
+
+/*! \class osg::PNMImageFileType 
+    \ingroup GrpSystemImage
     
 */
 
@@ -91,26 +102,11 @@ PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: read the image from the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 {
     bool           isBinary = true;
@@ -152,23 +148,23 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
         maxValue = 0;
         image.set(Image::OSG_RGB_PF, width, height);
         break;
-		case 7: // LA extention 
-				FWARNING (("Read PNM type %d: LA-ascii extention\n",type ));
+    case 7: // LA extention 
+        FWARNING (("Read PNM type %d: LA-ascii extention\n",type ));
         maxValue = 0;
         image.set(Image::OSG_LA_PF, width, height);
         break;
-		case 8: // 
-				FWARNING (("Read PNM type %d: RGBA-ascii extention\n",type ));
+    case 8: // RGBA extention
+        FWARNING (("Read PNM type %d: RGBA-ascii extention\n",type ));
         maxValue = 0;
         image.set(Image::OSG_RGBA_PF, width, height);
         break;
     default:
         SWARNING <<
-            "unknown image format type " <<
-            type <<
-            " in " <<
-            fileName <<
-            std::endl;
+          "unknown image format type " <<
+          type <<
+          " in " <<
+          fileName <<
+          std::endl;
         break;
     }
 
@@ -233,26 +229,11 @@ bool PNMImageFileType::read(Image &image, const Char8 *fileName)
     return true;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
 {
     Int16          p, y, x, lineSize;
@@ -327,26 +308,10 @@ bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
 
 /**constructors & destructors**/
 
-//----------------------------
-// Function name: PNMImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 PNMImageFileType::PNMImageFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
     ImageFileType(suffixArray, suffixByteCount)
@@ -354,64 +319,21 @@ PNMImageFileType::PNMImageFileType(const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: PNMImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const PNMImageFileType &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 PNMImageFileType::PNMImageFileType(const PNMImageFileType &obj) :
     ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~PNMImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 PNMImageFileType::~PNMImageFileType(void)
 {
     return;
 }
-
-/*------------access----------------*/
-/*------------properies-------------*/
-/*------------your Category---------*/
-/*------------Operators-------------*/
-/****************************
-*protected
-****************************/
-/****************************
-*private
-****************************/

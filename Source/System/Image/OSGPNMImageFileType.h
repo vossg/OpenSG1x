@@ -48,6 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief PNM File Handler. Used to read/write PNM files.
+See \ref PageSystemImage for a detailed description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING PNMImageFileType : public ImageFileType
 {

@@ -62,6 +62,13 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::TGAImageFileType 
     \ingroup GrpSystemImage
+
+Image File Type to read/write and store/restore Image objects as 
+TGA data.
+
+All the type specific code is included in the class. Does
+not depend on external libs.
+        
     
 */
 
@@ -174,6 +181,12 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image)
 
 TGAImageFileType TGAImageFileType::_the(suffixArray, sizeof(suffixArray));
 
+
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool TGAImageFileType::read(      Image &image, 
                             const Char8 *fileName)
 {
@@ -288,6 +301,11 @@ bool TGAImageFileType::read(      Image &image,
     return true;
 }
 
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool TGAImageFileType::write(const Image &OSG_CHECK_ARG(image),
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
@@ -299,7 +317,10 @@ bool TGAImageFileType::write(const Image &OSG_CHECK_ARG(image),
     return true;
 }
 
-
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 TGAImageFileType::TGAImageFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
     ImageFileType(suffixArray, suffixByteCount)
@@ -307,12 +328,20 @@ TGAImageFileType::TGAImageFileType(const Char8 *suffixArray[],
     return;
 }
 
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 TGAImageFileType::TGAImageFileType(const TGAImageFileType &obj) :
     ImageFileType(obj)
 {
     return;
 }
 
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 TGAImageFileType::~TGAImageFileType(void)
 {
     return;

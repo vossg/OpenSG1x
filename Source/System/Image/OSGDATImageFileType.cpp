@@ -56,6 +56,12 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::DATImageFileType 
     \ingroup GrpSystemImage
+
+Image File Type to read/write and store/restore Image objects as
+PNM/RAW data.
+
+All the type specific code is included in the class. Does
+not depend on external libs.
     
  */
 
@@ -91,26 +97,12 @@ std::map<std::string,
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g: c
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: read the image from the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool DATImageFileType::read (      Image &image, 
                                    const Char8 *fileName )
 {
@@ -301,26 +293,11 @@ bool DATImageFileType::read (      Image &image,
   return retCode;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g: 
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool DATImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
@@ -352,13 +329,12 @@ bool DATImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
     return retCode;
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
+/*!
+Tries to restore the image data from the given memblock.
+Returns the amount of data read.
+*/
 UInt64 DATImageFileType::restoreData(      Image  &image, 
                                      const UChar8 *buffer,
                                            Int32   OSG_CHECK_ARG(memSize) )
@@ -368,13 +344,11 @@ UInt64 DATImageFileType::restoreData(      Image  &image,
     return image.getSize();
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to store the image data to the given memblock.
+Returns the amount of data written.
+*/
 UInt64 DATImageFileType::storeData(const Image  &image, 
                                          UChar8 *buffer,
                                          Int32   OSG_CHECK_ARG(memSize))
@@ -388,49 +362,11 @@ UInt64 DATImageFileType::storeData(const Image  &image,
     return dataSize;
 } 
 
-/******************************
-*protected
-******************************/
 
-
-/******************************
-*private    
-******************************/
-
-
-/***************************
-*instance methodes 
-***************************/
-
-
-/***************************
-*public
-***************************/
-
-
-/**constructors & destructors**/
-
-
-//----------------------------
-// Function name: DATImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 DATImageFileType::DATImageFileType ( const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount )
     : ImageFileType ( suffixArray, suffixByteCount )
@@ -438,76 +374,29 @@ DATImageFileType::DATImageFileType ( const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: DATImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const DATImageFileType &obj
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 DATImageFileType::DATImageFileType (const DATImageFileType &obj )
     : ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~DATImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 DATImageFileType::~DATImageFileType (void )
 {
     return;
 }
 
-/*------------access----------------*/
-
-/*------------properies-------------*/
-
-/*------------your Category---------*/
-
-/*------------Operators-------------*/
-
-
-
-/****************************
-*protected  
-****************************/
-
-
-/****************************
-*private
-****************************/
-
+//-------------------------------------------------------------------------
+/*!
+Helper to initialize the type map;
+*/
 void DATImageFileType::initTypeMap(void)
 {
   FormatDesc *desc;

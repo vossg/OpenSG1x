@@ -48,6 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief TIFF File Handler. Used to read/write TIFF files.
+See \ref PageSystemImage for a detailed description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
 {

@@ -71,7 +71,17 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::TIFImageFileType 
     \ingroup GrpSystemImage
-    
+  
+Image File Type to read/write and store/restore Image objects as
+TIF (tif/tiff suffix) data.
+
+To be able to load TIFF images you need the IJG TIFF library, 
+(check the Prerequisites page on www.opensg.org). 
+The lib comes with all Linux distributions.
+
+You have to --enable-tif in the configure line to enable
+the singleton object.
+      
 */
 
 // Static Class Varible implementations:
@@ -113,26 +123,11 @@ TIFImageFileType TIFImageFileType:: _the(suffixArray, sizeof(suffixArray));
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: read the image from the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image), 
                             const Char8 *OSG_TIF_ARG(fileName))
 {
@@ -259,26 +254,11 @@ bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
     return valid;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
                              const Char8 *OSG_TIF_ARG(fileName))
 {
@@ -364,26 +344,10 @@ bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
 
 /**constructors & destructors**/
 
-//----------------------------
-// Function name: TIFImageFileType
-//----------------------------
-//
-//Parameters:
-//p: cinst char *suffixArray[], UInit16 suffixByteCount, Init16 majorMagic, Init minorMagic
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 TIFImageFileType::TIFImageFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
     ImageFileType(suffixArray, suffixByteCount)
@@ -391,64 +355,21 @@ TIFImageFileType::TIFImageFileType(const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: TIFImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const TIFImageFileType &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 TIFImageFileType::TIFImageFileType(const TIFImageFileType &obj) :
     ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~TIFImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 TIFImageFileType::~TIFImageFileType(void)
 {
     return;
 }
-
-/*------------access----------------*/
-/*------------properies-------------*/
-/*------------your Category---------*/
-/*------------Operators-------------*/
-/****************************
-*protected
-****************************/
-/****************************
-*private
-****************************/

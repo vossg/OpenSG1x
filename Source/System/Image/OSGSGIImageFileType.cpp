@@ -67,7 +67,13 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::SGIImageFileType 
     \ingroup GrpSystemImage
-    
+
+Image File Type to read/write and store/restore Image objects as
+SGI data. 
+
+All the type specific code is included in the class. Does
+not depend on external libs.
+        
 */
 
 
@@ -338,26 +344,11 @@ SGIImageFileType SGIImageFileType::_the ( suffixArray,
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const char *fileName
-//GlobalVars:
-//g: 
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: read the image from the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool SGIImageFileType::read (Image &image, const char *fileName )
 {
  
@@ -436,26 +427,11 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
     return true;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const char *fileName
-//GlobalVars:
-//g: 
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const char  *OSG_CHECK_ARG(fileName))
 { 
@@ -486,26 +462,10 @@ bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
 /**constructors & destructors**/
 
 
-//----------------------------
-// Function name: SGIImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const char *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 SGIImageFileType::SGIImageFileType ( const char *suffixArray[], 
                                                                                      UInt16 suffixByteCount )
     : ImageFileType ( suffixArray, suffixByteCount )
@@ -513,74 +473,21 @@ SGIImageFileType::SGIImageFileType ( const char *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: SGIImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const SGIImageFileType &obj
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 SGIImageFileType::SGIImageFileType (const SGIImageFileType &obj )
     : ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~SGIImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 SGIImageFileType::~SGIImageFileType (void )
 {
     return;
 }
-
-/*------------access----------------*/
-
-/*------------properies-------------*/
-
-/*------------your Category---------*/
-
-/*------------Operators-------------*/
-
-
-
-/****************************
-*protected  
-****************************/
-
-
-/****************************
-*private
-****************************/
-
-

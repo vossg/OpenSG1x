@@ -48,6 +48,11 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief MTD File Handler. Used to read/write MTD files.
+MTD is the OpenSG native image format (Multi (frame/layer) Texture Data)
+See \ref PageSystemImage for a detailed description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
 {
     /*==========================  PUBLIC  =================================*/

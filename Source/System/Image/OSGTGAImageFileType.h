@@ -48,6 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief TGA File Handler. Used to read/write TGA files.
+See \ref PageSystemImage for a detailed description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING TGAImageFileType : public ImageFileType
 {

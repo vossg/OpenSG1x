@@ -57,7 +57,13 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::MTDImageFileType 
     \ingroup GrpSystemImage
-    
+
+Image File Type to read/write and store/restore Image objects as
+MTD data.
+
+All the type specific code is included in the class. Does
+not depend on external libs.
+        
 */
 
 /*****************************
@@ -86,26 +92,11 @@ MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g: c
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: read the image from the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool MTDImageFileType::read (      Image &image   , 
                              const Char8 *fileName)
 {
@@ -130,26 +121,11 @@ bool MTDImageFileType::read (      Image &image   ,
   return retCode;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g: 
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool MTDImageFileType::write(const Image &image   , 
                              const Char8 *fileName)
 {
@@ -179,13 +155,12 @@ bool MTDImageFileType::write(const Image &image   ,
     return retCode;
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
+/*!
+Tries to restore the image data from the given memblock.
+Returns the amount of data read.
+*/
 UInt64 MTDImageFileType::restoreData(      Image  &image, 
                                      const UChar8 *buffer,
                                            Int32   OSG_CHECK_ARG(memSize) )
@@ -195,13 +170,11 @@ UInt64 MTDImageFileType::restoreData(      Image  &image,
     return image.getSize();
 }
 
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to store the image data to the given memblock.
+Returns the amount of data written.
+*/
 UInt64 MTDImageFileType::storeData(const Image  &image, 
                                          UChar8 *buffer,
                                          Int32   OSG_CHECK_ARG(memSize))
@@ -215,49 +188,11 @@ UInt64 MTDImageFileType::storeData(const Image  &image,
     return dataSize;
 } 
 
-/******************************
-*protected
-******************************/
 
-
-/******************************
-*private    
-******************************/
-
-
-/***************************
-*instance methodes 
-***************************/
-
-
-/***************************
-*public
-***************************/
-
-
-/**constructors & destructors**/
-
-
-//----------------------------
-// Function name: MTDImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const Char8 *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 MTDImageFileType::MTDImageFileType ( const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount )
     : ImageFileType ( suffixArray, suffixByteCount )
@@ -265,74 +200,21 @@ MTDImageFileType::MTDImageFileType ( const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: MTDImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const MTDImageFileType &obj
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 MTDImageFileType::MTDImageFileType (const MTDImageFileType &obj )
     : ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~MTDImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 MTDImageFileType::~MTDImageFileType (void )
 {
     return;
 }
-
-/*------------access----------------*/
-
-/*------------properies-------------*/
-
-/*------------your Category---------*/
-
-/*------------Operators-------------*/
-
-
-
-/****************************
-*protected  
-****************************/
-
-
-/****************************
-*private
-****************************/
-
-

@@ -48,6 +48,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief DAT File Handler. Used to read/write DAT/RAW files.
+See \ref PageSystemImage for a detailed description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
 {
     /*==========================  PUBLIC  =================================*/

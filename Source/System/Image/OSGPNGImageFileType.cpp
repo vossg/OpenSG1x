@@ -67,7 +67,17 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::PNGImageFileType 
     \ingroup GrpSystemImage
-    
+
+Image File Type to read/write and store/restore Image objects as
+PNG data.
+
+To be able to load PNG images you need the PNG library, 
+(check the Prerequisites page on www.opensg.org). 
+The lib comes with all Linux distributions.
+
+You have to --enable-png in the configure line to enable
+the singleton object.
+        
 */
 
 /*****************************
@@ -112,26 +122,11 @@ PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 *public
 *******************************/
 
-//----------------------------
-// Function name: read
-//----------------------------
-//
-//Parameters:
-//p: Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: read the the image from the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given fileName. Returns true on success.
+*/
 bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image), 
                             const Char8 *OSG_PNG_ARG(fileName))
 {
@@ -255,26 +250,11 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
 
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: const Image &image, const Char8 *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the the image to the given filename
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given fileName.
+Returns true on success.
+*/
 bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
@@ -290,44 +270,10 @@ bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
 #endif
 }
 
-/******************************
-*protected
-******************************/
-
-/******************************
-*private
-******************************/
-
-/***************************
-*instance methodes 
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
-
-//----------------------------
-// Function name: PNGImageFileType
-//----------------------------
-//
-//Parameters:
-//p: cinst Char8 *suffixArray[], UInit16 suffixByteCount
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Constructor used for the singleton object
+*/
 PNGImageFileType::PNGImageFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
     ImageFileType(suffixArray, suffixByteCount)
@@ -335,64 +281,22 @@ PNGImageFileType::PNGImageFileType(const Char8 *suffixArray[],
     return;
 }
 
-//----------------------------
-// Function name: PNGImageFileType
-//----------------------------
-//
-//Parameters:
-//p: const PNGImageFileType &obj
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+//-------------------------------------------------------------------------
+/*!
+Dummy Copy Constructor
+*/
 PNGImageFileType::PNGImageFileType(const PNGImageFileType &obj) :
     ImageFileType(obj)
 {
     return;
 }
 
-//----------------------------
-// Function name: ~PNGImageFileType
-//----------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g:
-//Returns:
-//r:
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
-//------------------------------
+
+//-------------------------------------------------------------------------
+/*!
+Destructor
+*/
 PNGImageFileType::~PNGImageFileType(void)
 {
     return;
 }
-
-/*------------access----------------*/
-/*------------properies-------------*/
-/*------------your Category---------*/
-/*------------Operators-------------*/
-/****************************
-*protected
-****************************/
-/****************************
-*private
-****************************/

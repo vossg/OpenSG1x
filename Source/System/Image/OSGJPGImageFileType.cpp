@@ -66,8 +66,6 @@ extern "C" {
 #endif
 
 OSG_USING_NAMESPACE
-#ifdef OSG_WITH_JPG
-
 
 /*! \class osg::JPGImageFileType 
     \ingroup GrpSystemImage
@@ -76,12 +74,15 @@ Image File Type to read/write and store/restore Image objects as
 JPEG data.
 
 To be able to load JPEG images you need the IJG JPEG library, 
-version 6 or later. This comes with all Linux distributions.
+version 6 or later (check the Prerequisites page on www.opensg.org). 
+The lib comes with all Linux distributions.
 
 You have to --enable-jpg in the configure line to enable
 the singleton object.
     
 */
+
+#ifdef OSG_WITH_JPG
 
 struct
 {
@@ -457,7 +458,7 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
 //-------------------------------------------------------------------------
 /*!
 Tries to restore the image data from the given memblock.
-Returns the amount of data read
+Returns the amount of data read.
 */
 UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ), 
                                          UChar8 *OSG_JPG_ARG(buffer ),
@@ -558,14 +559,3 @@ JPGImageFileType::~JPGImageFileType(void)
 {
     return;
 }
-
-/*------------access----------------*/
-/*------------properies-------------*/
-/*------------your Category---------*/
-/*------------Operators-------------*/
-/****************************
-*protected
-****************************/
-/****************************
-*private
-****************************/
