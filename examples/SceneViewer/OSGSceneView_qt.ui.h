@@ -150,10 +150,13 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
   osg::OSGQGLManagedWidget *w;
   
   activeNode = node;
-  
+	
   for (wI = viewList.begin(); wI != viewList.end(); ++wI)
     if ((w = dynamic_cast<osg::OSGQGLManagedWidget*>(*wI)))
-      w->getManager().setHighlight(node);
+      {
+				cerr << "update one manager" << endl;
+				w->getManager().setHighlight(node);
+			}
    
   if (node != osg::NullFC) 
     {
@@ -224,6 +227,7 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
           infoTable->setText(row,0,qval);
         }
     } 
+	updateAllViews();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -251,12 +255,12 @@ void OSGSceneView::createView( osg::NodePtr node )
   if ((viewList.size() < maxViewNum) && (node != osg::NullFC))
     {
       widget = new osg::OSGQGLManagedWidget(0,"OSG View");    
+      widget->getManager().setRoot( node );
+      widget->getManager().showAll();
+      // widget->getManager().useOpenSGLogo();
       viewList.push_back(widget);
       connect ( widget, SIGNAL ( closed     (QWidget *) ),
                 this,   SLOT   ( removeView (QWidget *) ) );
-           widget->getManager().setRoot( node );
-      widget->getManager().showAll();
-      // widget->getManager().useOpenSGLogo();
       widget->show();
     }  
 }
@@ -279,12 +283,8 @@ void OSGSceneView::updateAllViews(void)
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::closeAllViews(void)
 {
-  std::list<QWidget*>::iterator wI;
-  QWidget *w;
-  
-  for (wI = viewList.begin(); wI != viewList.end(); ++wI)
-    if ((w = *wI))
-      w->close();
+	while (viewList.empty() == false)
+		viewList.front()->close();
 }
 
 //////////////////////////////////////////////////////////////////

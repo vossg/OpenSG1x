@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.12 2001/10/16 13:22:24 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.13 2001/10/16 18:37:45 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -353,6 +353,9 @@ void SimpleSceneManager::redraw(void)
  */
 void SimpleSceneManager::highlightChanged(void)
 {
+
+  // FDEBUG (("SimpleSceneManager::updateHightlight() called\n"));
+
     // init as needed
     if(_highlightMaterial == NullFC)
     {
@@ -458,6 +461,8 @@ void SimpleSceneManager::updateHighlight(void)
 {
     if(_highlight==NullFC)
         return;
+
+    // FDEBUG (("SimpleSceneManager::updateHightlight() called\n"));
 
     // calc the world bbox of the highlight object
     DynamicVolume vol;

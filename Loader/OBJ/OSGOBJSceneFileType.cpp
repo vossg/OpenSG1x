@@ -62,8 +62,6 @@
 #include <OSGImageFileHandler.h>
 #include <OSGGroup.h>
 
-#include <OSGPathHandler.h>
-
 #include "OSGOBJSceneFileType.h"
 
 OSG_USING_NAMESPACE
@@ -78,7 +76,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.19 2001/10/16 12:06:54 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.20 2001/10/16 18:37:45 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -210,7 +208,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 break;
               case MTL_LIB_DE:
                 in >> elem;
-                readMTL ( ph.findFile(elem.c_str()).c_str(), mtlMap);
+                readMTL ( elem.c_str(), ph, mtlMap );
                 in.ignore(INT_MAX, '\n'); 
                 break;
               case USE_MTL_DE:
@@ -617,11 +615,12 @@ void OBJSceneFileType::initDataElemMap(void)
 }
 
 Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
+                                  PathHandler &pathHandler,
                                   map<string, SimpleTexturedMaterialPtr> & mtlMap )
   const
 {
   Int32 mtlCount = 0;
-  ifstream in(fileName);
+  ifstream in(pathHandler.findFile(fileName).c_str());
   SimpleTexturedMaterialPtr mtlPtr;
   Real32 a,b,c;
   string elem;
@@ -747,6 +746,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                   iI = imageMap.find(elem);
                   if (iI == imageMap.end())
                     {
+                      elem = pathHandler.findFile(elem.c_str());
                       image = osg::ImageFileHandler::the().read(elem.c_str());
                       imageMap[elem] = image;
                     }                     

@@ -43,6 +43,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <unistd.h>
+
 #include "OSGConfig.h"
 
 #include "OSGQTWindow.h"
@@ -57,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.7 2001/10/16 01:42:18 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.8 2001/10/16 18:37:45 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
@@ -128,12 +130,10 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
                                            const char *name) 
   : Inherited(parent,name)
 {
-  osg::QTWindowPtr qtWinPtr;
+  FDEBUG (("OSGQGLManagedWidget constructor called\n"));
 
-  FDEBUG (("Run OSGQGLManagedWidget constructor; create qtWinPtr\n"));
+  osg::QTWindowPtr qtWinPtr = osg::QTWindow::create();
 
-  qtWinPtr = osg::QTWindow::create();
-  
   osg::beginEditCP(qtWinPtr);
   {
     qtWinPtr->setGlWidget( this );
@@ -144,17 +144,17 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
 }
 
 
-//OSGQGLManagedWidget::OSGQGLManagedWidget(const OSGQGLManagedWidget &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
+OSGQGLManagedWidget::OSGQGLManagedWidget(const OSGQGLManagedWidget &source) 
+{
+  FDEBUG (("OSGQGLManagedWidget copy constructor called\n"));
+}
 
 /** Destructor
  */
 
 OSGQGLManagedWidget::~OSGQGLManagedWidget(void)
 {
+  FDEBUG (("OSGQGLManagedWidget destructor called\n"));
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -203,8 +203,11 @@ void OSGQGLManagedWidget::initializeGL ( void )
 {
   FDEBUG (("OSGQGLManagedWidget::initializeGL()\n"));
 
-  _manager.getWindow()->init();  // create the context
-  _manager.getWindow()->activate(); // and activate it
+  _manager.getWindow()->init();      // create the context
+ 
+  FDEBUG (("after init()\n"));
+
+  _manager.getWindow()->activate();  // and activate it
 
   // some manual init, will be moved into StateChunks later
   glEnable( GL_LIGHTING );

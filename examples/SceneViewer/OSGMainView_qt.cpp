@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fri Oct 12 10:45:24 2001
+** Created: Tue Oct 16 18:13:36 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -968,7 +968,7 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     QPixmap image4( ( const char** ) image4_data );
     QPixmap image5( ( const char** ) image5_data );
     if ( !name )
-    setName( "OSGMainView" );
+	setName( "OSGMainView" );
     resize( 715, 553 ); 
     setCaption( trUtf8( "OpenSG Scene Viewer", "" ) );
     setIcon( image0 );

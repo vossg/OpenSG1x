@@ -130,7 +130,6 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
 
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-
     OSGQGLManagedWidget(const OSGQGLManagedWidget &source);
     OSGQGLManagedWidget & operator =(const OSGQGLManagedWidget &source);
 };
@@ -145,6 +144,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.3 2001/10/15 17:26:21 vossg Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.4 2001/10/16 18:37:45 jbehr Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */
