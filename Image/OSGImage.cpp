@@ -938,9 +938,6 @@ Bool Image::operator < (const Image &image )
 #pragma instantiate SField<ImageP>::_fieldType
 #pragma instantiate MField<ImageP>::_fieldType
 
-#pragma instantiate SField<Plane>::_fieldType
-#pragma instantiate MField<Plane>::_fieldType
-
 #else
 
 OSG_DLLEXPORT_DEF1(SField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
