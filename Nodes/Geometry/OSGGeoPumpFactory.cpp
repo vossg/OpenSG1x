@@ -380,6 +380,11 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     pumpGLSetup( Normal, GeoNormalsPtr, getNormals );
     pumpGLSetup( TexCoords, GeoTexCoordsPtr, getTexCoords );
     
+    // check if the node is empty
+    if ( ! TypeData || TypePtr->getSize() == 0 )
+        return;
+    
+    // if it's not empty we need positions
     if ( ! PositionData )
     {
         SWARNING << "masterPump: Geometry " << geo << " has no positions!?!"
