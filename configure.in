@@ -290,6 +290,8 @@ AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors
 
 dnl ############# Helper #####################
 
+sinclude(./acinclude.m4)
+
 FK_GDZ_CREATE_PACKAGE_DIRS ()
 {
     ac_gdz_package_dir_build=${1}Lib
@@ -495,8 +497,8 @@ dnl a symlink from gmake to make
 
 	ac_gdz_base_system_libs='-lm'
 
-    if $ac_gdz_conf_package_efence = "1"; then
-        if "x"$ac_gdz_efence_dir = "x" ; then
+    if test $ac_gdz_conf_package_efence = "1"; then
+        if test "x"$ac_gdz_efence_dir = "x" ; then
             ac_gdz_test_debug_libs=' -lefence'
         else
             ac_gdz_test_debug_libs=" -L$ac_gdz_efence_dir -lefence"
@@ -630,7 +632,7 @@ elif test "$prefix" = ""; then
 else
     prefix_f=${prefix#\/}
 
-    if $prefix = $prefix_f; then
+    if test $prefix = $prefix_f; then
         echo 'Local Path'
         ac_gdz_install_prefix=$ac_gdz_src_dir/$prefix
     else

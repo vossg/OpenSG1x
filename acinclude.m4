@@ -967,7 +967,7 @@ dnl e10
     ac_gdz_jpg_libdir_e10=
 
     if test "$with_jpg" = yes; then
-        if $build_os = cygwin; then
+        if test $build_os = cygwin; then
            ac_gdz_jpg_lib_e10='jpg32.lib'
         else
            ac_gdz_jpg_lib_e10='-ljpeg'
