@@ -79,7 +79,7 @@ Int32              createOptimizedPrimitives(GeometryPtr geo,
                                              UInt32 iteration       = 1,
                                              bool createStrips      = true,
                                              bool createFans        = true,
-                                             UInt32 minFanEdgeCount = 8,
+                                             UInt32 minFanEdgeCount = 16,
                                              bool colorCode         = false);
 
 OSG_SYSTEMLIB_DLLMAPPING 
