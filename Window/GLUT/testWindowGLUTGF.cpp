@@ -333,7 +333,7 @@ int main (int argc, char **argv)
     vp = Viewport::create();
     vp->setCamera( cam );
     vp->setBackground( bkgnd );
-    vp->getForegrounds().addValue( fgnd );
+    vp->getForegrounds().push_back( fgnd );
     vp->setRoot( root );
     vp->setSize( 0,0, 1,1 );
 
