@@ -76,7 +76,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.25 2002/08/07 04:04:11 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.26 2002/09/02 03:11:06 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -133,6 +133,15 @@ ChunkMaterial::ChunkMaterial(const ChunkMaterial &source) :
 
 ChunkMaterial::~ChunkMaterial(void)
 {
+    MFStateChunkPtr::iterator matIt  = _mfChunks.begin();
+    MFStateChunkPtr::iterator matEnd = _mfChunks.end  ();
+    
+    while(matIt != matEnd)
+    {
+          subRefCP(*matIt);
+
+        ++matIt;
+    }
 }
 
 
@@ -141,31 +150,50 @@ ChunkMaterial::~ChunkMaterial(void)
 
 void ChunkMaterial::changed(BitVector whichField, UInt32 origin)
 {
+    if(origin & ChangedOrigin::Abstract)
+    {
+        MFStateChunkPtr::iterator matIt  = _mfChunks.begin();
+        MFStateChunkPtr::iterator matEnd = _mfChunks.end  ();
+        
+        while(matIt != matEnd)
+        {
+             addRefCP(*matIt);
+           
+            ++matIt;
+        }
+    }
+
     Inherited::changed(whichField, origin);
 }
 
 
 /*-------------------------- your_category---------------------------------*/
 
-bool ChunkMaterial::addChunk( StateChunkPtr chunk )
+bool ChunkMaterial::addChunk(StateChunkPtr chunk)
 {
-    _mfChunks.push_back( chunk );
+    _mfChunks.push_back(chunk);
+
+    addRefCP(chunk);
+
     return true;
 }
 
-bool ChunkMaterial::subChunk( StateChunkPtr chunk )
+bool ChunkMaterial::subChunk(StateChunkPtr chunk)
 {
     MFStateChunkPtr::iterator i;
 
-    i = _mfChunks.find( chunk );
+    i = _mfChunks.find(chunk);
 
-    if (i == _mfChunks.end())
+    if(i == _mfChunks.end())
     {
         SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk "
                  << chunk << endl;
     }
     else
-        _mfChunks.erase( i );
+    {
+         subRefCP      (chunk);
+        _mfChunks.erase(i    );
+    }
 
     return true;
 }

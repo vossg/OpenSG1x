@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.31 2002/06/30 05:04:21 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.32 2002/09/02 03:11:06 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -98,6 +98,30 @@ const SimpleMaterialPtr SimpleMaterial::NullPtr;
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+void SimpleMaterial::prepareLocalChunks(void)
+{
+    if(_materialChunk == NullFC)
+    {
+        _materialChunk = MaterialChunk::create();
+
+        addRefCP(_materialChunk);
+    }
+
+    if(_blendChunk == NullFC)
+    {
+        _blendChunk    = BlendChunk   ::create();
+
+        beginEditCP(_blendChunk);
+        {
+            _blendChunk->setSrcFactor (GL_SRC_ALPHA);
+            _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+        }
+        endEditCP  (_blendChunk);
+
+        addRefCP   (_blendChunk);
+    }
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
@@ -124,7 +148,9 @@ void SimpleMaterial::initMethod (void)
  */
 
 SimpleMaterial::SimpleMaterial(void) :
-    Inherited()
+    Inherited(),
+    _materialChunk(NullFC),
+    _blendChunk   (NullFC)
 {
 }
 
@@ -132,15 +158,10 @@ SimpleMaterial::SimpleMaterial(void) :
  */
 
 SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
-    Inherited(source)
+     Inherited    (source               ),
+    _materialChunk(source._materialChunk),
+    _blendChunk   (source._blendChunk   )
 {
-    _materialChunk = MaterialChunk::create();
-    _blendChunk    = BlendChunk::create();
-
-    beginEditCP(_blendChunk);
-    _blendChunk->setSrcFactor (GL_SRC_ALPHA);
-    _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
-    endEditCP  (_blendChunk);
 }
 
 /** \brief Destructor
@@ -149,7 +170,7 @@ SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
 SimpleMaterial::~SimpleMaterial(void)
 {
     subRefCP(_materialChunk);
-    subRefCP(_blendChunk);    
+    subRefCP(_blendChunk   );    
 }
 
 
@@ -171,31 +192,46 @@ StatePtr SimpleMaterial::makeState(void)
     Color4f v4;
     float alpha = 1.f - getTransparency();
 
+    prepareLocalChunks();
+
     beginEditCP(_materialChunk);
+    {
+         v3 = getAmbient(); 
+         v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        _materialChunk->setAmbient(v4);
 
-    v3 = getAmbient(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-    _materialChunk->setAmbient(v4);
-    v3 = getDiffuse(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-    _materialChunk->setDiffuse(v4);
-    v3 = getSpecular(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-    _materialChunk->setSpecular(v4);
-    _materialChunk->setShininess(getShininess());
-    v3 = getEmission(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-    _materialChunk->setEmission(v4);
+         v3 = getDiffuse(); 
+         v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        _materialChunk->setDiffuse(v4);
 
-    _materialChunk->setLit(getLit());
-    _materialChunk->setColorMaterial(getColorMaterial());
+         v3 = getSpecular(); 
+         v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        _materialChunk->setSpecular(v4);
 
-    endEditCP(_materialChunk);
+        _materialChunk->setShininess(getShininess());
+
+         v3 = getEmission(); 
+         v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        _materialChunk->setEmission(v4);
+        
+        _materialChunk->setLit(getLit());
+        _materialChunk->setColorMaterial(getColorMaterial());
+    }
+    endEditCP  (_materialChunk);
 
     state->addChunk(_materialChunk);
 
     if(isTransparent())
+    {
         state->addChunk(_blendChunk);
-    
-    for(MFStateChunkPtr::iterator i = _mfChunks.begin();
-            i != _mfChunks.end(); ++i)
+    }
+
+    for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
+                                  i != _mfChunks.end(); 
+                                ++i)
+    {
         state->addChunk(*i);
+    }
 
     return state;
 }
@@ -217,39 +253,43 @@ void SimpleMaterial::rebuildState(void)
         addRefCP(_pState);
     }
 
+    prepareLocalChunks();
+
     beginEditCP(_materialChunk);
+    {
+        v3 = getAmbient();
+        v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
 
-    v3 = getAmbient();
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        _materialChunk->setAmbient(v4);
 
-    _materialChunk->setAmbient(v4);
-
-    v3 = getDiffuse();
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-
-    _materialChunk->setDiffuse(v4);
-
-    v3 = getSpecular();
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-
-    _materialChunk->setSpecular(v4);
-
-    _materialChunk->setShininess(getShininess());
-
-    v3 = getEmission();
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
-
-    _materialChunk->setEmission(v4);
-
-    _materialChunk->setLit(getLit());
-    _materialChunk->setColorMaterial(getColorMaterial());
-
-    endEditCP(_materialChunk);
+        v3 = getDiffuse();
+        v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        
+        _materialChunk->setDiffuse(v4);
+        
+        v3 = getSpecular();
+        v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        
+        _materialChunk->setSpecular(v4);
+        
+        _materialChunk->setShininess(getShininess());
+        
+        v3 = getEmission();
+        v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+        
+        _materialChunk->setEmission(v4);
+        
+        _materialChunk->setLit(getLit());
+        _materialChunk->setColorMaterial(getColorMaterial());
+    }
+    endEditCP  (_materialChunk);
 
     _pState->addChunk(_materialChunk);
 
     if(isTransparent())
+    {
         _pState->addChunk(_blendChunk);
+    }
 
     MFStateChunkPtr::iterator it        = _mfChunks.begin();
     MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();

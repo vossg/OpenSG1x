@@ -56,6 +56,25 @@ OSG_USING_NAMESPACE
 
 void MaterialGroup::changed(BitVector whichField, UInt32 origin)
 {
+    if(whichField & MaterialFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfMaterial.getValue());
+            }
+            else
+            {
+                MaterialPtr pMat = _sfMaterial.getValue();
+                
+                _sfMaterial.setValue(NullFC);
+                
+                setMaterial(pMat);
+            }
+        }
+    }
+ 
     Inherited::changed(whichField, origin);
 }
 
@@ -86,6 +105,7 @@ MaterialGroup::MaterialGroup(const MaterialGroup &source) :
 
 MaterialGroup::~MaterialGroup(void)
 {
+    subRefCP(_sfMaterial.getValue());
 }
 
 /*-------------------------------------------------------------------------*/
@@ -196,7 +216,7 @@ void MaterialGroup::initMethod(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.20 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.21 2002/09/02 03:11:06 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
 }

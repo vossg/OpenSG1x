@@ -156,7 +156,18 @@ void Node::changed(BitVector  whichField,
             if(origin & ChangedOrigin::AbstrIncRefCount)
             {
                 addRefCP(_sfCore.getValue());
+            }
+        }
+    }
+    
+    if(whichField & ChildrenFieldMask)
+    {
+        invalidateVolume();
 
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
                 MFNodePtr::iterator       vChildIt    = _mfChildren.begin();
                 MFNodePtr::const_iterator endChildren = _mfChildren.end  ();
                 
@@ -168,11 +179,6 @@ void Node::changed(BitVector  whichField,
                 }
             }
         }
-    }
-    
-    if(whichField & ChildrenFieldMask)
-    {
-        invalidateVolume();
     }
 }
 

@@ -46,6 +46,7 @@
 #include <OSGLog.h>
 #include <OSGBaseTypes.h>
 #include <OSGPathHandler.h>
+#include <OSGBaseFunctions.h>
 
 #include "OSGImageFileHandler.h"
 
@@ -209,12 +210,13 @@ ImageFileType *ImageFileHandler::getDefaultType(void)
 //------------------------------
 Image *ImageFileHandler::read(const char *fileName, const char *mimeType)
 {
-    Image   *image = new Image;
+    Image *image = new Image;
 
     if(read(*image, fileName, mimeType) == false)
     {
-        delete image;
-        image = 0;
+        subRefP(image);
+
+        image = NULL;
     }
 
     return image;

@@ -106,6 +106,7 @@ SField<FieldTypeT, fieldNameSpace>::~SField(void)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename SField<FieldTypeT, fieldNameSpace>::reference 
     SField<FieldTypeT, fieldNameSpace>::getValue(void)
+
 {
     return _value;
 }

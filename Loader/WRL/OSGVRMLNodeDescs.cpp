@@ -3286,7 +3286,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                          << " !!!" 
                          << endl;
                 
-                delete pImage;
+                subRefP(pImage);
             }
         }
         else
@@ -3297,7 +3297,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                      << " !!!" 
                      << endl;
             
-            delete pImage;
+            subRefP(pImage);
         }
     }
     else

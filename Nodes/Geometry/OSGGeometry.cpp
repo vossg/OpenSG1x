@@ -1248,6 +1248,14 @@ void Geometry::changed(BitVector whichField,
             {
                 addRefCP(_sfMaterial.getValue());
             }
+            else
+            {
+                MaterialPtr pMat = _sfMaterial.getValue();
+                
+                _sfMaterial.setValue(NullFC);
+                
+                setMaterial(pMat);
+            }
         }
     }
 

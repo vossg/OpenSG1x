@@ -49,7 +49,57 @@ const StateChunkClass *CubeTextureChunk::getClass( void ) const
     return TextureChunk::getClass();
 }
 
+inline
+void CubeTextureChunk::setPosZImage(ImageP &pImage)
+{
+     addRefP(pImage);
+
+     subRefP(_sfPosZImage.getValue());
+
+    _sfPosZImage.setValue(pImage);
+}
+
+inline
+void CubeTextureChunk::setPosXImage(ImageP &pImage)
+{
+     addRefP(pImage);
+
+     subRefP(_sfPosXImage.getValue());
+
+    _sfPosXImage.setValue(pImage);
+}
+
+inline
+void CubeTextureChunk::setNegXImage(ImageP &pImage)
+{
+     addRefP(pImage);
+
+     subRefP(_sfNegXImage.getValue());
+
+    _sfNegXImage.setValue(pImage);
+}
+
+inline
+void CubeTextureChunk::setPosYImage(ImageP &pImage)
+{
+     addRefP(pImage);
+
+     subRefP(_sfPosYImage.getValue());
+
+    _sfPosYImage.setValue(pImage);
+}
+
+inline
+void CubeTextureChunk::setNegYImage(ImageP &pImage)
+{
+     addRefP(pImage);
+
+     subRefP(_sfNegYImage.getValue());
+
+    _sfNegYImage.setValue(pImage);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNK_INLINE_CVSID "@(#)$Id: OSGCubeTextureChunk.inl,v 1.1 2002/06/10 22:10:46 dirk Exp $"
+#define OSGCUBETEXTURECHUNK_INLINE_CVSID "@(#)$Id: OSGCubeTextureChunk.inl,v 1.2 2002/09/02 03:11:06 vossg Exp $"
 

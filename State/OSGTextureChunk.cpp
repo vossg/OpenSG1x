@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.45 2002/08/29 16:10:39 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.46 2002/09/02 03:11:06 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -188,6 +188,7 @@ TextureChunk::TextureChunk(const TextureChunk &source) :
 
 TextureChunk::~TextureChunk(void)
 {
+    subRefP(_sfImage.getValue());
 }
 
 
@@ -213,6 +214,26 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
     else
     {
         Window::reinitializeGLObject(getGLId());
+    }
+
+
+    if(whichField & ImageFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefP(_sfImage.getValue());
+            }
+            else
+            {
+                ImageP pImage = _sfImage.getValue();
+                
+                _sfImage.setValue(NULL);
+                
+                setImage(pImage);
+            }
+        }
     }
 
     Inherited::changed(whichField, origin);

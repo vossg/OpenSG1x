@@ -78,13 +78,11 @@ SimpleTexturedMaterial::SimpleTexturedMaterial(void) :
 
 //! Copy Constructor
 
-SimpleTexturedMaterial::SimpleTexturedMaterial(const SimpleTexturedMaterial &source) :
+SimpleTexturedMaterial::SimpleTexturedMaterial(
+    const SimpleTexturedMaterial &source) :
+
     Inherited(source)
 {
-    _textureChunk = TextureChunk::create();
-    _texGenChunk  = TexGenChunk::create();
-    addRefCP(_textureChunk);
-    addRefCP(_texGenChunk);
 }
 
 //! Destructor
@@ -92,14 +90,14 @@ SimpleTexturedMaterial::SimpleTexturedMaterial(const SimpleTexturedMaterial &sou
 SimpleTexturedMaterial::~SimpleTexturedMaterial(void)
 {
     subRefCP(_textureChunk);
-    subRefCP(_texGenChunk);
+    subRefCP(_texGenChunk );
 }
 
 /*----------------------------- class specific ----------------------------*/
 
 //! initialize the static features of the class, e.g. action callbacks
 
-void SimpleTexturedMaterial::initMethod (void)
+void SimpleTexturedMaterial::initMethod(void)
 {
 }
 
@@ -113,6 +111,9 @@ void SimpleTexturedMaterial::changed(BitVector whichField, UInt32 origin)
 {
     // these two are very expensive, as they need to regenerate the
     // texture object, do only if really needed
+
+    prepareLocalChunks();
+
     if(whichField & ImageFieldMask)
     {
         _textureChunk->setImage( getImage() );
@@ -152,8 +153,10 @@ StatePtr SimpleTexturedMaterial::makeState( void )
 {
     StatePtr state = Inherited::makeState();
 
-    state->addChunk( _textureChunk );
-    state->addChunk( _texGenChunk );
+    prepareLocalChunks();
+
+    state->addChunk(_textureChunk);
+    state->addChunk(_texGenChunk );
 
     return state;
 }
@@ -162,8 +165,10 @@ void SimpleTexturedMaterial::rebuildState(void)
 {
     Inherited::rebuildState();
 
+    prepareLocalChunks();
+
     _pState->addChunk(_textureChunk);
-    _pState->addChunk(_texGenChunk);
+    _pState->addChunk(_texGenChunk );
 }
 
 bool SimpleTexturedMaterial::isTransparent(void) const
@@ -183,6 +188,24 @@ void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 
+void SimpleTexturedMaterial::prepareLocalChunks(void)
+{
+    if(_textureChunk == NullFC)
+    {
+        _textureChunk = TextureChunk::create();
+
+         addRefCP(_textureChunk);
+    }
+
+    if(_texGenChunk == NullFC)
+    {
+        _texGenChunk  = TexGenChunk::create();
+
+        addRefCP(_texGenChunk);
+    }
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -196,7 +219,7 @@ void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.13 2002/07/02 14:38:22 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.14 2002/09/02 03:11:06 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }

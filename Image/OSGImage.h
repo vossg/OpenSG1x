@@ -49,6 +49,7 @@
 #include <OSGSystemDef.h>
 #include <OSGTime.h>
 #include <OSGBaseTypes.h>
+#include <OSGMemoryObject.h>
 
 #include <string>
 #include <map>
@@ -67,7 +68,8 @@ class ImageFileType;
 
 //! Image
 
-class OSG_SYSTEMLIB_DLLMAPPING Image {
+class OSG_SYSTEMLIB_DLLMAPPING Image : public MemoryObject 
+{
 
   friend class ImageFileType;
 
@@ -104,13 +106,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \{                                                                 */
 
     Image (const Image &obj);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~Image (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -346,6 +341,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     std::map<std::string, std::string> _attachmentMap;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~Image (void);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 

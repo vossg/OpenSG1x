@@ -102,6 +102,11 @@ CubeTextureChunk::CubeTextureChunk(const CubeTextureChunk &source) :
 
 CubeTextureChunk::~CubeTextureChunk(void)
 {
+    subRefP(_sfPosZImage.getValue());
+    subRefP(_sfPosXImage.getValue());
+    subRefP(_sfNegXImage.getValue());
+    subRefP(_sfPosYImage.getValue());
+    subRefP(_sfNegYImage.getValue());
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -380,7 +385,7 @@ bool CubeTextureChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGCubeTextureChunk.cpp,v 1.2 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGCubeTextureChunk.cpp,v 1.3 2002/09/02 03:11:06 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGCUBETEXTURECHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCUBETEXTURECHUNK_INLINE_CVSID;
 }

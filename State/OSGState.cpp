@@ -132,6 +132,7 @@ State::State(const State &source) :
 
 State::~State(void)
 {
+    clearChunks();
 }
 
 
@@ -178,8 +179,8 @@ void State::addChunk(StateChunkPtr chunk, Int32 index)
         return;
     }
 
-    UInt32 cindex = chunk->getClassID();
-    UInt32 csize = _mfChunks.size();
+    UInt32 cindex =  chunk->getClassID();
+    UInt32 csize  = _mfChunks.size();
 
     // special case: find empty slot automatically
     if(index == AutoSlot || index == AutoSlotReplace)
@@ -188,8 +189,12 @@ void State::addChunk(StateChunkPtr chunk, Int32 index)
         UInt8 ci;
 
         for(ci = cindex; ci < cindex + nslots && ci < csize; ++ci)
+        {
             if(_mfChunks[ci] == NullFC)
+            {
                 break;
+            }
+        }
 
         if(ci >= cindex + nslots)    // no free slot found
         {
@@ -203,24 +208,32 @@ void State::addChunk(StateChunkPtr chunk, Int32 index)
             // use last slot
             --ci;
         }
+
         cindex = ci;
     }
     else
+    {
         cindex += index;
+    }
 
     // add the chunk to the state at cindex
     if(cindex >= csize)
     {
-        UInt32 oldsize = csize,
-                  newsize = cindex + 1;
+        UInt32 oldsize = csize;
+        UInt32 newsize = cindex + 1;
 
         _mfChunks.resize(newsize);
 
         for(UInt32 i = oldsize; i < newsize; i++)
+        {
             _mfChunks[i] = NullFC;
+        }
     }
 
-    _mfChunks[cindex] = chunk;
+    if(_mfChunks[cindex] != chunk)
+    {
+        setRefdCP(_mfChunks[cindex], chunk);
+    }
 }
 
 
@@ -233,8 +246,8 @@ void State::subChunk(StateChunkPtr chunk, Int32 index)
         return;
     }
 
-    UInt32 cindex = chunk->getClassID();
-    UInt32 csize = _mfChunks.size();
+    UInt32 cindex =  chunk->getClassID();
+    UInt32 csize  = _mfChunks.size();
 
     // special case: find it in the slots
     if(index < 0)
@@ -243,8 +256,12 @@ void State::subChunk(StateChunkPtr chunk, Int32 index)
         UInt8 ci;
 
         for(ci = cindex; ci < cindex + nslots && ci < csize; ci++)
+        {
             if(_mfChunks[ci] == chunk)
+            {
                 break;
+            }
+        }
 
         if(ci >= cindex + nslots)    // no free slot found
         {
@@ -252,10 +269,13 @@ void State::subChunk(StateChunkPtr chunk, Int32 index)
                      << chunk->getClass()->getName() << " not found!" << endl;
             return;
         }
+
         cindex = ci;
     }
 
     // remove the chunk from the state
+
+     subRefCP(_mfChunks[cindex]);
 
     _mfChunks[cindex] = NullFC;
 }
@@ -272,12 +292,29 @@ void State::subChunk(UInt32 classid, Int32 index)
 
     // remove the chunk from the state
 
+    subRefCP(_mfChunks[classid + index]);
+
     _mfChunks[classid + index] = NullFC;
 }
 
+struct ClearSlot : public unary_function<      StateChunkPtr         &, 
+                                         const NullFieldContainerPtr &>
+{
+  const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
+  { 
+      subRefCP(slotPtr);
+
+      return NullFC;
+  }
+};
+
+
 void State::clearChunks(void)
 {
-    fill(_mfChunks.begin(), _mfChunks.end(), NullFC);
+    transform(_mfChunks.begin(), 
+              _mfChunks.end  (), 
+              _mfChunks.begin(),
+              ClearSlot());
 }
 
 

@@ -198,7 +198,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setImage          ( const ImageP &value );
+     void setImage          (       ImageP &value );
      void setInternalFormat ( const UInt32 &value );
      void setExternalFormat ( const UInt32 &value );
      void setScale          ( const bool &value );
@@ -316,6 +316,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.27 2002/08/29 16:10:40 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.28 2002/09/02 03:11:06 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

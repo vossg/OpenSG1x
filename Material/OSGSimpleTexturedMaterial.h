@@ -118,8 +118,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
 
     virtual ~SimpleTexturedMaterial(void); 
 
+    /*! \}                                                                 */ 
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Helper                                   */
+    /*! \{                                                                 */
+
+    void prepareLocalChunks(void);
+
     /*! \}                                                                 */
-    
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -140,6 +146,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterialBase.inl>
 #include <OSGSimpleTexturedMaterial.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.9 2002/06/10 21:56:40 dirk Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.10 2002/09/02 03:11:06 vossg Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

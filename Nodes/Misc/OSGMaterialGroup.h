@@ -64,6 +64,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+    
+    void setMaterial(const MaterialPtr &value);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
@@ -128,6 +135,6 @@ OSG_END_NAMESPACE
 #include <OSGMaterialGroupBase.inl>
 #include <OSGMaterialGroup.inl>
 
-#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.14 2002/06/01 10:37:23 vossg Exp $"
+#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.15 2002/09/02 03:11:06 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUP_H_ */

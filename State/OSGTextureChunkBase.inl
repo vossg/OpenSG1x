@@ -188,7 +188,7 @@ const ImageP &TextureChunkBase::getImage(void) const
 }
 
 inline
-void TextureChunkBase::setImage(const ImageP &value)
+void TextureChunkBase::setImage(ImageP &value)
 {
     _sfImage.setValue(value);
 }
@@ -412,5 +412,5 @@ void TextureChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.18 2002/08/29 16:10:40 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.19 2002/09/02 03:11:06 vossg Exp $"
 

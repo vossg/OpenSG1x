@@ -106,16 +106,16 @@ ClusterViewBuffer::~ClusterViewBuffer(void)
  */
 void ClusterViewBuffer::recv(Connection &connection)
 {
-    UInt32             tx,ty,tw,th;
-    UInt32             missing=connection.getChannelCount();
-    Image              image;
-    BufferT            data;
-    BufferT            imageData;
-    UInt32             dataSize;
-    UInt32             component;
-    GLenum             glformat;
-    int                componentCnt;
-    UInt32             sync;
+    UInt32              tx,ty,tw,th;
+    UInt32              missing = connection.getChannelCount();
+    Image              *pImage;
+    BufferT             data;
+    BufferT             imageData;
+    UInt32              dataSize;
+    UInt32              component;
+    GLenum              glformat;
+    int                 componentCnt;
+    UInt32              sync;
 
     glPushMatrix();
     glLoadIdentity();
@@ -190,11 +190,19 @@ void ClusterViewBuffer::recv(Connection &connection)
             // compression ?
             if(dataSize>0)
             {
+                pImage = new Image;
+
                 data.resize(dataSize);
                 connection.get(&data[0],dataSize);
                 imageData.resize(tw*th*componentCnt);
-                ImageFileType::restore(image,(UChar8*)&data[0],dataSize);
-                glDrawPixels(tw,th,glformat,GL_UNSIGNED_BYTE,image.getData());
+                ImageFileType::restore(*pImage,(UChar8*)&data[0],dataSize);
+                glDrawPixels(tw,
+                             th,
+                             glformat,
+                             GL_UNSIGNED_BYTE,
+                             pImage->getData());
+
+                subRefP(pImage);
             }
             else
             {
@@ -237,16 +245,16 @@ void ClusterViewBuffer::send(Connection &connection,
                              UInt32     toX,
                              UInt32     toY)
 {
-    UInt32             tx,ty,tw,th;
-    Image              image;
-    BufferT            data;
-    BufferT            imageData;
-    UInt32             dataSize;
-    GLenum             glformat;
-    Image::PixelFormat imgformat;
-    int                componentCnt;
-    int                imgtranssize=0;
-    UInt32             sync;
+    UInt32              tx,ty,tw,th;
+    Image              *pImage;
+    BufferT             data;
+    BufferT             imageData;
+    UInt32              dataSize;
+    GLenum              glformat;
+    Image::PixelFormat  imgformat;
+    int                 componentCnt;
+    int                 imgtranssize=0;
+    UInt32              sync;
 
     switch(component&RGBA)
     {
@@ -311,22 +319,28 @@ void ClusterViewBuffer::send(Connection &connection,
                 if(_imgTransType)
                 {
                     // set image size
-                    image.set(imgformat,
-                              tw,th,1,
-                              1,1,0.0,
-                              (UChar8*)&imageData[0],false);
+
+                    pImage = new Image;
+
+                    pImage->set(imgformat,
+                                tw,th,1,
+                                1,1,0.0,
+                                (UChar8*)&imageData[0],false);
+
                     // read buffer data into image
                     glReadPixels(tx,ty,tw,th,
                                  glformat,GL_UNSIGNED_BYTE,
-                                 image.getData());
+                                 pImage->getData());
                     // bug maxsize is not big enugh
-                    data.resize(_imgTransType->maxBufferSize(image)+1000);
-                    dataSize=_imgTransType->store(image,
+                    data.resize(_imgTransType->maxBufferSize(*pImage)+1000);
+                    dataSize=_imgTransType->store(*pImage,
                                                   (UChar8*)&data[0],
                                                   data.size());
                     connection.putValue(dataSize);
                     connection.put(&data[0],dataSize);
                     imgtranssize+=dataSize;
+
+                    subRefP(pImage);
                 }
                 else
                 {

@@ -47,5 +47,17 @@ int main( int argc, char *argv[] )
 
     b->dump();
 
+    OSG::beginEditCP(b);
+    OSG::endEditCP  (b);
+
+    b->getState();
+    b->getState();
+
+    fprintf(stderr, "start subref\n");
+
+    subRefCP(b);
+
+    fprintf(stderr, "end subref\n");
+
     return 0;
 }

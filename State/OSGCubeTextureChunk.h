@@ -104,7 +104,18 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     /*! \name                Texture specific                              */
     /*! \{                                                                 */
 
-    inline void imageContentChanged( void );
+    void imageContentChanged( void );
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Image specific                              */
+    /*! \{                                                                 */
+
+     void setPosZImage(ImageP &value);
+     void setPosXImage(ImageP &value);
+     void setNegXImage(ImageP &value);
+     void setPosYImage(ImageP &value);
+     void setNegYImage(ImageP &value);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -168,6 +179,6 @@ OSG_END_NAMESPACE
 #include <OSGCubeTextureChunkBase.inl>
 #include <OSGCubeTextureChunk.inl>
 
-#define OSGCUBETEXTURECHUNK_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunk.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
+#define OSGCUBETEXTURECHUNK_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunk.h,v 1.2 2002/09/02 03:11:06 vossg Exp $"
 
 #endif /* _OSGCUBETEXTURECHUNK_H_ */

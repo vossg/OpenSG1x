@@ -41,6 +41,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void MaterialGroup::setMaterial(const MaterialPtr &value)
+{
+     addRefCP(value);
+
+     subRefCP(_sfMaterial.getValue());
+
+    _sfMaterial.setValue(value);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUP_INLINE_CVSID "@(#)$Id: OSGMaterialGroup.inl,v 1.4 2001/11/05 11:15:31 vossg Exp $"
+#define OSGMATERIALGROUP_INLINE_CVSID "@(#)$Id: OSGMaterialGroup.inl,v 1.5 2002/09/02 03:11:06 vossg Exp $"

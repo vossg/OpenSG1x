@@ -39,6 +39,7 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -52,30 +53,45 @@ const StateChunkClass *TextureChunk::getClass( void ) const
     return &_class;
 }
 
+inline
+void TextureChunk::setImage(ImageP &pImage)
+{
+     addRefP(pImage);
 
-inline void TextureChunk::imageContentChanged( void )
+     subRefP(_sfImage.getValue());
+
+    _sfImage.setValue(pImage);
+}
+
+
+inline 
+void TextureChunk::imageContentChanged( void )
 {
     Window::refreshGLObject(getGLId());
 }
 
 
-inline bool TextureChunk::hasMultiTexture(Window *win)
+inline 
+bool TextureChunk::hasMultiTexture(Window *win)
 {
     return win->hasExtension(_arbMultiTex);
 }
 
 //! call glActiveTexture via the extension mechanism
-inline void TextureChunk::activeTexture(Window *win, UInt16 texture)
+inline 
+void TextureChunk::activeTexture(Window *win, UInt16 texture)
 {
-    void (OSG_APIENTRY*ActiveTexture)(GLenum target) = 
-            (void (OSG_APIENTRY*)(GLenum target))
+    void (OSG_APIENTRY *ActiveTexture)(GLenum target) = 
+        (void (OSG_APIENTRY*)(GLenum target))
             win->getFunction(_funcActiveTexture);
+
     ActiveTexture(GL_TEXTURE0_ARB + texture);
 }
 
 //! call glActiveTexture via the extension mechanism, if MultiTextures
 //! are supported
-inline void TextureChunk::activateTexture(Window *win, UInt16 texture)
+inline 
+void TextureChunk::activateTexture(Window *win, UInt16 texture)
 {
     if(hasMultiTexture(win))
         activeTexture(win, texture);

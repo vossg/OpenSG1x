@@ -111,16 +111,18 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                Texture specific                              */
     /*! \{                                                                 */
 
-    inline void imageContentChanged( void );
+    void imageContentChanged(void          );
+
+    void setImage           (ImageP &pImage);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name             Multitexture handling                            */
     /*! \{                                                                 */
 
-    static inline bool hasMultiTexture(Window *win);
-    static inline void activeTexture  (Window *win, UInt16 texture);
-    static inline void activateTexture(Window *win, UInt16 texture);
+    static bool hasMultiTexture(Window *win);
+    static void activeTexture  (Window *win, UInt16 texture);
+    static void activateTexture(Window *win, UInt16 texture);
 
     /*! \}                                                                 */
 

@@ -169,24 +169,32 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
-                            ImageP       &oObject)
+                            ImageP            &oObject)
     {
         ImageFileType *type;
         UInt32 imgSize=0;
 
         type = ImageFileHandler::the().getFileType("MTD");
+
         if(oObject)
         {
-            delete oObject;
-            oObject=NULL;
+            subRefP(oObject);
+
+            oObject = NULL;
         }
+
         pMem.getValue(imgSize);
+
         if(imgSize)
         {
             UInt8 *image;
-            oObject=new Image();
-            pMem.getAndAlloc(image,imgSize);
-            type->restore(*oObject,image);
+
+            oObject = new Image();
+
+            pMem.getAndAlloc(image, imgSize);
+
+            type->restore(*oObject, image);
+
             delete [] image;
         }
     }
