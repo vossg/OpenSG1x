@@ -232,6 +232,7 @@ RenderAction::RenderAction(void) :
     _uiNumTransGeometries(0),
 
     _bSortTrans          (true),
+    _bZWriteTrans        (false),
 
     _vLights()
 {
@@ -269,6 +270,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _uiNumTransGeometries(source._uiNumTransGeometries),
 
     _bSortTrans          (source._bSortTrans),
+    _bZWriteTrans        (source._bZWriteTrans),
     _vLights             (source._vLights)
 {
 }
@@ -775,6 +777,8 @@ Action::ResultE RenderAction::start(void)
     _currMatrix.first = 1;
     _currMatrix.second.setIdentity();
 
+    bool full;
+    
     if(_viewport != NULL)
     {
         GLint pl  = _viewport->getPixelLeft();
@@ -783,13 +787,14 @@ Action::ResultE RenderAction::start(void)
         GLint pt  = _viewport->getPixelTop();
         GLint pw  = pr - pl + 1;
         GLint ph  = pt - pb + 1;
-        bool full = _viewport->isFullWindow();
+        
+        full = _viewport->isFullWindow();
 
         glViewport(pl, pb, pw, ph);
-        glScissor (pl, pb, pw, ph);
 
         if (full == false)
         {
+            glScissor (pl, pb, pw, ph);
             glEnable(GL_SCISSOR_TEST);
         }
 
@@ -855,6 +860,11 @@ Action::ResultE RenderAction::start(void)
 
     _vLights.clear();
 
+    if(_viewport != NULL && full == false)
+    {
+        glDisable(GL_SCISSOR_TEST);
+    }
+
     return Action::Continue;
 }
 
@@ -877,15 +887,13 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     draw(_pMatRoot->getFirstChild());
 
-// GL stuff handled by chunks now
-//    glEnable   (GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glDepthMask(false);
+    if(!_bZWriteTrans)
+        glDepthMask(false);
 
     draw(_pTransMatRoot->getFirstChild());
 
-//    glDisable  (GL_BLEND);
-//    glDepthMask(true);
+    if(!_bZWriteTrans)
+        glDepthMask(true);
 
     if(_pActiveState != NULL)
     {

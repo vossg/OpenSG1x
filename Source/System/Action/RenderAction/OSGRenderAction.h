@@ -151,6 +151,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);
+    void setZWriteTrans(bool bVal);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -211,6 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     UInt32                    _uiNumTransGeometries;
  
     bool                      _bSortTrans;
+    bool                      _bZWriteTrans;
 
     std::vector<LightStore>   _vLights;
 
@@ -232,8 +234,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     virtual std::vector<Functor> *getDefaultEnterFunctors(void);
     virtual std::vector<Functor> *getDefaultLeaveFunctors(void);
 
-    void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
-    void draw(DrawTreeNode *pRoot);
+            void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
+    virtual void draw(DrawTreeNode *pRoot);
 
   private:
 
