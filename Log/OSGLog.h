@@ -117,24 +117,24 @@ enum LogLevel
 
 enum LogHeaderElem 
 {
-	  LOG_NONE_HEADER          = 0,
-		LOG_BEGIN_NEWLINE_HEADER = 1,
-		LOG_TYPE_HEADER          = 2,
-	  LOG_TIMESTAMP_HEADER     = 4,
-		LOG_MODULE_HEADER        = 8,
-		LOG_FILE_HEADER          = 16,
-		LOG_LINE_HEADER          = 32,
-		LOG_END_NEWLINE_HEADER   = 64,
-		LOG_ALL_HEADER           = 127
+    LOG_NONE_HEADER          = 0,
+    LOG_BEGIN_NEWLINE_HEADER = 1,
+    LOG_TYPE_HEADER          = 2,
+    LOG_TIMESTAMP_HEADER     = 4,
+    LOG_MODULE_HEADER        = 8,
+    LOG_FILE_HEADER          = 16,
+    LOG_LINE_HEADER          = 32,
+    LOG_END_NEWLINE_HEADER   = 64,
+    LOG_ALL_HEADER           = 127
 };
-			
+            
 enum LogModuleHandling 
 {
-	  LOG_MODULE_NONE           = 0,
-		LOG_MODULE_KNOWN          = 1,
-		LOG_MODULE_UNKNOWN        = 2,
-		LOG_MODULE_UNDEFINED      = 4,
-		LOG_MODULE_ALL            = 7,	
+    LOG_MODULE_NONE           = 0,
+    LOG_MODULE_KNOWN          = 1,
+    LOG_MODULE_UNKNOWN        = 2,
+    LOG_MODULE_UNDEFINED      = 4,
+    LOG_MODULE_ALL            = 7
 };
 
 //---------------------------------------------------------------------------
@@ -205,47 +205,47 @@ class OSG_LOG_DLLMAPPING Log : public ostream
 
     /*------------------------- your_category -------------------------------*/
 
-		void lock(void) {;}   // TODO: implement
+        void lock(void) {;}   // TODO: implement
 
-		void unlock(void) {;} // TODO: implement
+        void unlock(void) {;} // TODO: implement
 
-		virtual void addHeaderElem(LogHeaderElem elem);
+        virtual void addHeaderElem(LogHeaderElem elem);
 
-		virtual void delHeaderElem(LogHeaderElem elem);
+        virtual void delHeaderElem(LogHeaderElem elem);
 
-		virtual void addModuleHandling  (LogModuleHandling handling);
+        virtual void addModuleHandling  (LogModuleHandling handling);
 
-		virtual void delModuleHandling  (LogModuleHandling handling);
+        virtual void delModuleHandling  (LogModuleHandling handling);
 
-		virtual void addModuleName(const char *module, bool isStatic = false);
+        virtual void addModuleName(const char *module, bool isStatic = false);
 
-		virtual void delModuleName(const char *module);
+        virtual void delModuleName(const char *module);
 
-		bool hasModule(const char *module);
+        bool hasModule(const char *module);
 
-		bool checkModule(const char *module);
+        bool checkModule(const char *module);
 
-		LogType getLogType(void);
-		void       setLogType(LogType logType);
+        LogType getLogType(void);
+        void       setLogType(LogType logType);
 
-		LogLevel getLogLevel(void);
-		void        setLogLevel(LogLevel logLevel); 
-		bool checkLevel(LogLevel logLevel);
+        LogLevel getLogLevel(void);
+        void        setLogLevel(LogLevel logLevel); 
+        bool checkLevel(LogLevel logLevel);
 
-		void        setLogFile (const Char8 *fileName);
+        void        setLogFile (const Char8 *fileName);
 
-		inline
-		ostream &stream(LogLevel level);
+        inline
+        ostream &stream(LogLevel level);
 
-		inline
-		ostream &nilstream(void);
+        inline
+        ostream &nilstream(void);
 
-	  inline 
-		ostream &doHeader ( LogLevel level, const char *module, 
-												const char *file, int line );
+      inline 
+        ostream &doHeader ( LogLevel level, const char *module, 
+                                                const char *file, int line );
 
-  	void  doLog (char * format, ...);
-									
+    void  doLog (char * format, ...);
+                                    
     /*------------------------- your_operators ------------------------------*/
 
     /*------------------------- assignment ----------------------------------*/
@@ -278,7 +278,7 @@ class OSG_LOG_DLLMAPPING Log : public ostream
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	void connect(void );
+    void connect(void );
 
   private:
 
@@ -306,7 +306,7 @@ class OSG_LOG_DLLMAPPING Log : public ostream
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -316,38 +316,38 @@ class OSG_LOG_DLLMAPPING Log : public ostream
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	/** defines a nil buffer */
-	class OSG_LOG_DLLMAPPING nilbuf : public streambuf {	};
+    /** defines a nil buffer */
+    class OSG_LOG_DLLMAPPING nilbuf : public streambuf {    };
 
-	static nilbuf  *_nilbufP;
-	static ostream *_nilstreamP;
+    static nilbuf  *_nilbufP;
+    static ostream *_nilstreamP;
 
-		static const char *_levelName[];
+        static const char *_levelName[];
 
-	LogType     _logType;
-	LogLevel    _logLevel;
+    LogType     _logType;
+    LogLevel    _logLevel;
 
-	fstream        _fileStream;
+    fstream        _fileStream;
 
-	LogOStream *_streamVec[6];
+    LogOStream *_streamVec[6];
 
-	int _headerElem;
+    int _headerElem;
 
-	int _moduleHandling;
+    int _moduleHandling;
 
-	struct Module {
-		const char *name;
-		bool isStatic;
-		Module() :name(0),isStatic(true) {;}
-	};
-			
-	list<Module> _moduleList;
-	
+    struct Module {
+        const char *name;
+        bool isStatic;
+        Module() :name(0),isStatic(true) {;}
+    };
+            
+    list<Module> _moduleList;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     Log(const Log &source);
     void operator =(const Log &source);
@@ -373,10 +373,10 @@ extern OSG_LOG_DLLMAPPING LogP osgLogP;
 inline OSG_LOG_DLLMAPPING void    initLog   (void);
 inline OSG_LOG_DLLMAPPING Log     &osgLog    (void);
 inline OSG_LOG_DLLMAPPING ostream &osgStartLog ( bool logHeader,
-																								 LogLevel level, 
-																								 const char *module,
-																								 const char *file, 
-																								 int line);
+                                                                                                 LogLevel level, 
+                                                                                                 const char *module,
+                                                                                                 const char *file, 
+                                                                                                 int line);
 
 inline OSG_LOG_DLLMAPPING void  indentLog (UInt32 indent, ostream &stream);
 
@@ -418,60 +418,60 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 // use the (( )) convention instead
 
 #define FLOG( par ) \
-{	\
-		osg::initLog(); \
-	 osgStartLog(true,OSG::LOG_LOG,OSG_LOG_MODULE,__FILE__,__LINE__); \
-   osg::osgLogP->doLog par;	\
+{   \
+        osg::initLog(); \
+     osg::osgStartLog(true,OSG::LOG_LOG,OSG_LOG_MODULE,__FILE__,__LINE__); \
+   osg::osgLogP->doLog par; \
    osg::osgLogP->unlock(); \
 }
 
-#define FFATAL( par )											\
-{																	\
+#define FFATAL( par )                                           \
+{                                                                   \
   osg::initLog(); \
   if (osg::osgLogP->checkLevel(osg::LOG_FATAL)) { \
-    osgStartLog(true,osg::LOG_FATAL,OSG_LOG_MODULE,__FILE__,__LINE__); \
-    osg::osgLogP->doLog par;	\
+    osg::osgStartLog(true,osg::LOG_FATAL,OSG_LOG_MODULE,__FILE__,__LINE__); \
+    osg::osgLogP->doLog par;    \
     osg::osgLogP->unlock(); \
   } \
 }
 
-#define FWARNING( par )											\
-{																	\
+#define FWARNING( par )                                         \
+{                                                                   \
   osg::initLog(); \
   if (osg::osgLogP->checkLevel(osg::LOG_WARNING)) { \
-    osgStartLog(true,osg::LOG_WARNING,OSG_LOG_MODULE,__FILE__,__LINE__); \
-    osg::osgLogP->doLog par;	\
+    osg::osgStartLog(true,osg::LOG_WARNING,OSG_LOG_MODULE,__FILE__,__LINE__); \
+    osg::osgLogP->doLog par;    \
     osg::osgLogP->unlock(); \
   } \
 }
 
-#define FNOTICE( par )											\
-{																	\
+#define FNOTICE( par )                                          \
+{                                                                   \
   osg::initLog(); \
   if (osg::osgLogP->checkLevel(osg::LOG_NOTICE)) { \
-    osgStartLog(true,osg::LOG_NOTICE,OSG_LOG_MODULE,__FILE__,__LINE__); \
-    osg::osgLogP->doLog par;	\
+    osg::osgStartLog(true,osg::LOG_NOTICE,OSG_LOG_MODULE,__FILE__,__LINE__); \
+    osg::osgLogP->doLog par;    \
     osg::osgLogP->unlock(); \
   } \
 }
 
-#define FINFO( par )												\
-{																	\
+#define FINFO( par )                                                \
+{                                                                   \
   osg::initLog(); \
   if (osg::osgLogP->checkLevel(osg::LOG_INFO)) { \
-    osgStartLog(true,osg::LOG_INFO,OSG_LOG_MODULE,__FILE__,__LINE__); \
-    osg::osgLogP->doLog par;	\
+    osg::osgStartLog(true,osg::LOG_INFO,OSG_LOG_MODULE,__FILE__,__LINE__); \
+    osg::osgLogP->doLog par;    \
     osg::osgLogP->unlock(); \
   } \
 }
 
 #ifdef OSG_DEBUG
-#define FDEBUG( par )											\
-{																	\
+#define FDEBUG( par )                                           \
+{                                                                   \
   osg::initLog(); \
   if (osg::osgLogP->checkLevel(osg::LOG_DEBUG)) { \
-    osgStartLog(true,osg::LOG_DEBUG,OSG_LOG_MODUL,__FILE__,__LINE__) \
-    osg::osgLogP->doLog par;	\
+    osg::osgStartLog(true,osg::LOG_DEBUG,OSG_LOG_MODUL,__FILE__,__LINE__) \
+    osg::osgLogP->doLog par;    \
     osg::osgLogP->unlock(); \
   } \
 }
@@ -481,7 +481,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 
 #define FASSERT( condition, doExit )   \
 {        \
-	if (!condition)  \
+    if (!condition)  \
   {                \
     osg::osgLog().lock(); \
     osg::osgLog().stream(osg::LOG_FATAL) \
@@ -490,14 +490,14 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
       << (doExit ? "exit system" : "try to keep running") \
       << flush << endl; \
     osg::osgLog().unlock(); \
-	  if (doExit) \
-			exit(-1); \
-	} \
+      if (doExit) \
+            exit(-1); \
+    } \
 } \
 
 #define FFASSERT( condition, doExit, par )   \
 {        \
-	if (!condition)  \
+    if (!condition)  \
   {                \
     OSG::osgLog().lock(); \
     OSG::osgLog().stream(OSG::LOG_FATAL) \
@@ -505,11 +505,11 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
       << "FATAL ASSERT: " \
       << (doExit ? "exit system" : "try to keep running") \
       << flush << endl; \
-	  OSG::osgLogP->doLog par \
+      OSG::osgLogP->doLog par \
     OSG::osgLog().unlock(); \
-	  if (doExit) \
-			exit(-1); \
-	} \
+      if (doExit) \
+            exit(-1); \
+    } \
 } \
 
 OSG_END_NAMESPACE
