@@ -40,15 +40,14 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include "OSGConfig.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 
-#define __EXTENSIONS__ 1
 #include <string.h>
 
-#include "OSGConfig.h"
 
 #include <vector>
 

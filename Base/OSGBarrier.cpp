@@ -42,10 +42,11 @@
 
 #define OSG_COMPILEBASELIB
 
+#include "OSGConfig.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
 
 #include <iostream>
 

@@ -368,10 +368,15 @@ then
 	ac_gdz_gmake_exe=gmake
 
 else 
-	ac_gdz_compiler_exe_shared='$(CC) -shared'
 
-	ac_gdz_flex_exe=/usr/bin/flex
-	ac_gdz_bison_exe=/usr/bin/bison
+	if [[ $build_os = solaris2.7 ]]; then
+		ac_gdz_compiler_exe_shared="$CC -shared"
+	else
+		ac_gdz_compiler_exe_shared='$(CC) -shared'
+	fi
+
+	ac_gdz_flex_exe=flex
+	ac_gdz_bison_exe=bison
 
 	ac_gdz_gmake_exe=gmake
 

@@ -350,9 +350,9 @@
 # define OSG_USE_GLX
 #endif
 
+
 #if defined __sun
 # define OSG_SUNOS_TYPES
-		 //# define __EXTENSIONS__
 /* name SunPro Compiler */ 
 # if defined(__SUNPRO_CC) 
 #   ifdef _REENTRANT
@@ -870,7 +870,7 @@ OSG_USING_STD_NAMESPACE
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
 
-#elif defined (__linux)
+#elif defined (__linux) || defined(__sun)
 
 #define OSG_EXTERN_EXPORT
 

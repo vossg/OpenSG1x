@@ -49,13 +49,15 @@
 
 #include <math.h>
 
-#define __EXTENSIONS__ 1
-
 #include <string.h>
 
 #ifndef WIN32
 #include <strings.h>
 #include <unistd.h>
+#endif
+
+#ifdef __sun
+#include <stdlib.h>
 #endif
 
 #include <OSGConfig.h>
@@ -194,7 +196,7 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
 
-#if defined(__sgi) || defined(__linux)
+#if defined(__sgi) || defined(__linux) || defined(__sun)
 
 /*
  *  \brief osgIF
