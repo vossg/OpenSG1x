@@ -1010,7 +1010,7 @@ struct TypeTraits<GLenum> : public TypeTraitsBase
 
 OSG_END_NAMESPACE
 
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
 #define TypeConstants TypeTraits
 #define getAllSet()   BitsSet
 #endif

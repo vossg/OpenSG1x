@@ -279,7 +279,7 @@ void ChangeList::setReadOnly(bool bReadOnly)
 /*-------------------------------------------------------------------------*/
 /*                               Apply                                     */
 
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
 
 void ChangeList::applyTo(UInt32 uiAspectId)
 {

@@ -166,7 +166,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     /*! \name                      Apply                                   */
     /*! \{                                                                 */
 
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
     void applyTo       (UInt32 uiAspectId);
     void applyToCurrent(void);
 #endif

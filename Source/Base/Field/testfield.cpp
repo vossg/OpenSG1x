@@ -115,7 +115,7 @@ int main (int argc, char **argv)
     testBField[0] = true;
     testBField[1] = false;
 
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
     testBField.getValue(0);
     testBField.setValue(true, 0);
 

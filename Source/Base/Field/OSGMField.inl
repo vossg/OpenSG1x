@@ -468,7 +468,7 @@ typename MField<FieldTypeT, fieldNameSpace>::const_reference
     return _values[index];
 }
 
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, fieldNameSpace>::reference 
     MField<FieldTypeT, fieldNameSpace>::getValue (const UInt32 index)

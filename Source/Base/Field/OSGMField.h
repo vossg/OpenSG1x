@@ -136,7 +136,7 @@ class MField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
           reference            getValue (const UInt32 index);
     const_reference            getValue (const UInt32 index) const;
 #endif
@@ -162,7 +162,7 @@ class MField : public Field
     virtual void setAbstrValue(const Field             &obj  );
 
     
-#ifndef OSG_DISABLE_DEPRECIATED
+#ifndef OSG_DISABLE_DEPRECATED
             void setValue     (      ArgumentType       value,
                                const UInt32             index);
 

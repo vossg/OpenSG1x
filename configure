@@ -10130,7 +10130,7 @@ fi
 
 if test "$disable_depreciated" = yes; then
     cat >> confdefs.h <<\EOF
-#define OSG_DISABLE_DEPRECIATED 1
+#define OSG_DISABLE_DEPRECATED 1
 EOF
 
 fi
