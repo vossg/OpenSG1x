@@ -1343,8 +1343,6 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         pCreaseAngle = static_cast<SFReal32 *>(pField);
     }
 
-    beginEditCP(pGeo);
-
     if(_bIsFaceSet == true)
     {
         if(pCoordIndex         != NULL &&
@@ -1358,6 +1356,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pColorPerVertex     != NULL &&
            pCreaseAngle        != NULL)
         {
+            beginEditCP(pGeo);
 #ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "Geo create faceset " << &(*pNode) << std::endl;
@@ -1404,7 +1403,9 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
             // this makes pGeo invalid!
             while(parentsIt != endParents)
             {
-                (*parentsIt)->setCore(pGr);
+                beginEditCP(*parentsIt, Node::CoreFieldMask);
+                    (*parentsIt)->setCore(pGr);
+                endEditCP(*parentsIt, Node::CoreFieldMask);
 
                 ++parentsIt;
             }
@@ -1421,6 +1422,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pColorIndex         != NULL &&
            pColorPerVertex     != NULL)
         {
+            beginEditCP(pGeo);
 #ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
             PINFO << "Geo create lineset " << &(*pNode) << std::endl;
@@ -1448,12 +1450,16 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
             MFNodePtr::iterator parentsIt   = pGeoParents.begin();
             MFNodePtr::iterator endParents  = pGeoParents.end  ();
 
+            // this makes pGeo invalid!
             while(parentsIt != endParents)
             {
-                (*parentsIt)->setCore(pGr);
+                beginEditCP(*parentsIt, Node::CoreFieldMask);
+                    (*parentsIt)->setCore(pGr);
+                endEditCP(*parentsIt, Node::CoreFieldMask);
 
                 ++parentsIt;
             }
+            pGeo = NullFC;
         }
     }
 
