@@ -131,7 +131,7 @@ void DgramSocket::open()
         throw SocketError("setsockopt(,SOL_SOCKET,SO_BROADCAST)");
     }
     // by default, multicast only in local network
-    setTTL(1);
+    setTTL(2);
 }
 
 /*-------------------------------------------------------------------------*/
