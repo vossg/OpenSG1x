@@ -484,6 +484,19 @@ void Color4<ValueTypeT>::setValue( char *szString )
 
 /*-------------------------- your_category---------------------------------*/
 
+template <class ValueTypeT> inline
+Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (UInt32 uiIndex)
+{
+    return _rgb[uiIndex];
+}
+
+template <class ValueTypeT> inline
+const Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (
+    UInt32 uiIndex) const
+{
+    return _rgb[uiIndex];
+}
+
 /*-------------------------- assignment -----------------------------------*/
 
 /** \brief assignment
@@ -781,6 +794,20 @@ const Color4<ValueTypeT>::ValueType *
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (UInt32 uiIndex)
+{
+    return _rgba[uiIndex];
+}
+
+template <class ValueTypeT> inline
+const Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (
+    UInt32 uiIndex) const
+{
+    return _rgba[uiIndex];
+}
+
 
 /*-------------------------- assignment -----------------------------------*/
 
