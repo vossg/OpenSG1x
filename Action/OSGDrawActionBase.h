@@ -48,6 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
+#include <OSGFrustumVolume.h>
 #include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
@@ -60,6 +61,7 @@ class Camera;
 class Background;
 class Window;
 class Node;
+class Viewport;
 
 
 //---------------------------------------------------------------------------
@@ -106,6 +108,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 
     // rendering state handling
     
+    Viewport   *getViewport  (void                  ) const;    
+    void        setViewport  (Viewport   *viewport  );
+    
     Camera     *getCamera    (void                  ) const;    
     void        setCamera    (Camera     *cam       );
     
@@ -115,6 +120,32 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     Window     *getWindow    (void                  ) const;
     void        setWindow    (Window * window       );
 
+    // frustum culling functions
+    // these are just temporary, sooner or later they'll move into a 
+    // cacaded action
+    
+    // control activation of frustum culling
+    Bool            getFrustumCulling( void ) const;
+    void            setFrustumCulling( Bool val = true );
+    
+    // control drawing of checked volumes
+    Bool            getVolumeDrawing( void ) const;
+    void            setVolumeDrawing( Bool val = false );
+    
+    // control automatic frustum calculation
+    Bool            getAutoFrustum( void ) const;
+    void            setAutoFrustum( Bool val = true );
+
+    // control frustum
+    const FrustumVolume & getFrustum( void ) const;
+    void            setFrustum( FrustumVolume & frust );    
+    
+    // test a single node
+    Bool            isVisible( Node* node );
+    
+    // select all visible nodes
+    UInt32          selectVisibles( void );
+    
     /*------------------------- your_operators ------------------------------*/
 
     // initialisation
@@ -150,7 +181,15 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     Camera     *_camera;
     Background *_background;
     Window     *_window;
+    Viewport   *_viewport;
 
+    // frustum culling attributes
+    
+    Bool          _frustumCulling;
+    Bool          _volumeDrawing;
+    Bool          _autoFrustum;
+    FrustumVolume _frustum;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------

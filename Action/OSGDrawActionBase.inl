@@ -108,6 +108,36 @@ Window *DrawActionBase::getWindow(void) const
 {
     return _window;
 }
+    
+inline
+Viewport *DrawActionBase::getViewport(void) const
+{
+    return _viewport;
+}
+    
+inline
+Bool DrawActionBase::getFrustumCulling(void) const
+{
+    return _frustumCulling;
+}
+    
+inline
+Bool DrawActionBase::getVolumeDrawing(void) const
+{
+    return _volumeDrawing;
+}
+    
+inline
+Bool DrawActionBase::getAutoFrustum(void) const
+{
+    return _autoFrustum;
+}
+    
+inline
+const FrustumVolume& DrawActionBase::getFrustum(void) const
+{
+    return _frustum;
+}
 
 /*---------------------------- properties ---------------------------------*/
 
