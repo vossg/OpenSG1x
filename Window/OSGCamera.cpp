@@ -250,14 +250,16 @@ void Camera::getViewing(Matrix &result,
     result.invert();
 }
 
-void Camera::getFrustum( FrustumVolume& result, const Viewport& port )
+void Camera::getFrustum( FrustumVolume& result, const Viewport& p )
 {
     Matrix mv,prt,pr;
     
-    getProjection( pr, port.getPixelWidth(), port.getPixelHeight() );
-    getViewing   ( mv, port.getPixelWidth(), port.getPixelHeight() );
+    getProjection           ( pr , p.getPixelWidth(), p.getPixelHeight() );
+    getProjectionTranslation( prt, p.getPixelWidth(), p.getPixelHeight() );
+    getViewing              ( mv , p.getPixelWidth(), p.getPixelHeight() );
 
-    pr.mult( mv );
+    pr.mult( prt );
+    pr.mult( mv  );
     
     result.setPlanes( pr );
 }
