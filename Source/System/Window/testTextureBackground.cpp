@@ -19,6 +19,9 @@ OSG_USING_NAMESPACE
 
 SimpleSceneManager *mgr;
 
+ImagePtr img;
+TextureChunkPtr tex;
+
 // redraw the window
 void display(void)
 {
@@ -77,6 +80,23 @@ void keyboard(unsigned char k, int, int)
     {
     case 27:    osgExit();
                 exit(1);
+    case ' ':   // Example for changing the texture dynamically
+                {
+                // Change the image data (e.g. copy from vid capture)
+                beginEditCP(img, Image::PixelFieldMask);
+                
+                UInt8 *d = img->getData();
+                
+                for(Int32 i = img->getPixel().size(); i >= 0; --i)
+                    *d++ = (rand()%128+128);
+                    
+                endEditCP(img, Image::PixelFieldMask);
+                
+                // Notify hte texture that the image data (not size) has
+                // changed
+                tex->imageContentChanged();
+                }
+                break;
     }
 }
 
@@ -116,7 +136,7 @@ int main(int argc, char **argv)
     UChar8 imgdata[] =
       {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
    
-    ImagePtr img = Image::create();
+    img = Image::create();
     beginEditCP(img);
     if(argc > 1)
         img->read(argv[1]);
@@ -125,7 +145,7 @@ int main(int argc, char **argv)
     endEditCP(img);
     addRefCP(img);
    
-    TextureChunkPtr tex = TextureChunk::create();
+    tex = TextureChunk::create();
     beginEditCP(tex);
     tex->setImage(img);
     tex->setMinFilter(GL_NEAREST);
