@@ -196,7 +196,9 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
         // already somebody else's child?
         if(childP->getParent() != NullFC)
         {
+            beginEditCP(childP, Node::ChildrenFieldMask);
             childP->getParent()->subChild(childP);
+            endEditCP(childP, Node::ChildrenFieldMask);
         }
 
         childIt += childIndex;
@@ -235,7 +237,9 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         // already somebody else's child?
         if(childP->getParent() != NullNode)
         {
+            beginEditCP(childP, Node::ChildrenFieldMask);
             childP->getParent()->subChild(childP);
+            endEditCP(childP, Node::ChildrenFieldMask);
         }
 
         // set the new child
@@ -281,7 +285,9 @@ bool Node::replaceChildBy(const NodePtr &childP,
             // already somebody else's child?
             if(newChildP->getParent() != NullFC)
             {
+                beginEditCP(newChildP, Node::ChildrenFieldMask);
                 newChildP->getParent()->subChild(newChildP);
+                endEditCP(newChildP, Node::ChildrenFieldMask);
             }
 
             (*childIt) = newChildP;
