@@ -5,21 +5,25 @@
 
 OBJEXT       :=  obj
 LIBEXT       :=  lib
+SOEXT        :=  dll
+EXEEXT       := .exe
 OBJNAMEFLAG  := /Fo
 COMPONLYFLAG := /c
+LIBCIO       := libCio.lib
 
 ### Binaries #######################################################
 
 CC         = $(ICL_BIN)/icl /nologo
 C          = $(ICL_BIN)/icl /nologo
-AR         = $(ICL_BIN)/xilink /nologo -lib -qv
-CPP        = #$(KCC_DIR)/cpp 
-LD         = $(ICL_BIN)/xilink 
-MOC        = #$(QT_DIR)/bin/moc
-FLEX       = #/usr/bin/flex
-BISON      = #/usr/bin/bison
-STRIP      = #strip
-LINK       = cp 
+AR         = $(ICL_BIN)/xilink /nologo /lib
+CPP        =  
+LD_SHARED  = $(ICL_BIN)/xilink /nologo /dll
+LD         = $(ICL_BIN)/xilink /nologo
+MOC        = $(QTDIR)/bin/moc
+FLEX       = $(CYNWINCONTRIBBIN)/flex
+BISON      = $(CYNWINCONTRIBBIN)/bison
+STRIP      = strip
+LINK       = cp
 MAKEDEPEND = /QM
 
 XDEBUGER	=	ddd
@@ -27,8 +31,7 @@ EDIT		= emacs
 XTERM		= xterm
 BINSET      = touch
 
-LIBCIO = 
-
+INCPRE      = /I
 
 ### Defines #######################################################
 
@@ -59,7 +62,7 @@ WARNINGS_CPP_OFF 	=
 ### Language #######################################################
 
 LANG_FLAGS          = 
-COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /Od /FD /GZ /GR
+COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /ZI /Od /FD /GZ 
 
 ### Optimize / Debug ###############################################
 
@@ -72,7 +75,7 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = /Z7 /DOSG_DEBUG
+	COMP_DEBUG       = 
 endif
 
 ### Compiler Flags ################################################
@@ -111,11 +114,14 @@ ifeq ($(DEBUG_VERSION), 0)
 	LINK_DEBUG       = 
 else
 	LINK_OPTIMIZE    =
-	LINK_DEBUG       = /Debug 
+	LINK_DEBUG       = /Debug
 endif
 
 LD_FLAGS = /subsystem:console /incremental:no /machine:I386			\
-		   $(LINK_OPTIMIZE) $(LINK_DEBUG)
+		  /LIBPATH:$(LINK_STL) $(LINK_OPTIMIZE) $(LINK_DEBUG)
+
+LD_SHARED_FLAGS = /incremental:no /machine:I386			\
+		          /LIBPATH:$(LINK_STL) $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
 ### ii files ######################################################
@@ -147,18 +153,13 @@ ifneq ($(INCLUDE_SYSTEM_CC),)
 INCL$(OS) += /I$(INCLUDE_SYSTEM_CC)
 endif
 
-POST_LINK_LIBS$(OS) :=          \
-	/LIBPATH:$(LIB_SYSTEM)		\
-	/LIBPATH:$(LIB_COMPILER)
-
-ifneq ($(LINK_STL),)
-POST_LINK_LIBS$(OS) := 			\
-	$(POST_LINK_LIBS$(OS))		\
-	/LIBPATH:$(LINK_STL) 
+ifneq ($(INCLUDE_XDR),)
+INCL$(OS) += /I$(INCLUDE_XDR)
 endif
 
-POST_LINK_LIBS$(OS) := 			\
-	$(POST_LINK_LIBS$(OS))		\
+POST_LINK_LIBS$(OS) := \
+	/LIBPATH:$(LIB_SYSTEM)		\
+	/LIBPATH:$(LIB_COMPILER)	\
 	kernel32.lib 				\
 	user32.lib      			\
 	gdi32.lib 					\
@@ -170,7 +171,9 @@ POST_LINK_LIBS$(OS) := 			\
 	oleaut32.lib 				\
 	uuid.lib 					\
 	odbc32.lib 					\
-	odbccp32.lib
+	odbccp32.lib				\
+								\
+	wsock32.lib
 
 # Jo
 #-D$(OS)_OS -DNATIVE_CC -DSTL_HSUFFIX

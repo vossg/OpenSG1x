@@ -107,9 +107,8 @@ OSGJPGImageFileType OSGJPGImageFileType::_the ( suffixArray,
 //------------------------------
 bool OSGJPGImageFileType::read (OSGImage &image, const char *fileName )
 {
-	  bool retCode = false;
-
 #ifdef JPEG_LIB
+    bool retCode = false;
 
   struct my_error_mgr {
     struct jpeg_error_mgr pub;

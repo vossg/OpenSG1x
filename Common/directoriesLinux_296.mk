@@ -1,35 +1,21 @@
 
 SOFTDIR              = /usr/Software
-MEDSOFTDIR           = /igd/a4/op2010/Software/Linux
 
-INCLUDE_SYSTEM		  = /usr/include
+INCLUDE_SYSTEM		 = /usr/include
 
-#EGCS_VERSION         = 2.95.2
-EGCS_VERSION         = 2.96
+GCC_VERSION          = 2.96
 
-EGCS_BASEDIR         = $(SOFTDIR)/egcs/$(EGCS_VERSION)
+GCC_BASEDIR          = $(SOFTDIR)/gcc/$(GCC_VERSION)
 
-INCLUDE_SYSTEM_CC	 	 = $(EGCS_BASEDIR)/include/g++-3
+INCLUDE_SYSTEM_CC    = $(GCC_BASEDIR)/include/g++-3
 
-EGCS_ARCH            = $(PROC)-pc-linux
+GCC_ARCH             = $(PROC)-pc-linux-gnu
 
-EGCS_DIR             = $(EGCS_BASEDIR)/lib/gcc-lib/$(EGCS_ARCH)/$(EGCS_VERSION)
+GCC_DIR              = $(GCC_BASEDIR)/lib/gcc-lib/$(GCC_ARCH)/$(GCC_VERSION)
 
-EGCS_BIN             = $(EGCS_BASEDIR)/bin
+GCC_BIN              = $(GCC_BASEDIR)/bin
 
-INCLUDE_COMPILER     = $(EGCS_DIR)/include
+INCLUDE_COMPILER     = $(GCC_DIR)/include
 
-INCLUDE_STL          = $(INCLUDE_SYSTEM_CC)
-
-#LINK_GLUT            
-#INCLUDE_GLUT
-
-#LINK_GL
-#INCLUDE_GL
-
-LINK_X11             = /usr/X11R6/lib
-
-
-INCLUDE_STL          = $(MEDSOFTDIR)/stdlib
-LINK_STL             = $(MEDSOFTDIR)/stdlib
-#/usr/Software/egcs/2.95.2/include/g++-3/
+INCLUDE_STL          = $(SOFTDIR)/Linux/stdlib
+LINK_STL             = $(SOFTDIR)/Linux/stdlib

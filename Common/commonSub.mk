@@ -12,14 +12,18 @@ MAKECMDGOAL  := $(filter-out $(INTERNALTARGETS),$(MAKECMDGOALS))
 # Set Sources | Headers | Objects | Sublib
 #########################################################################
 
-getBisonSources := $(wildcard *.y)
-getFlexSources  := $(wildcard *.l)
+getBisonSources  = $(wildcard *.y)
+getFlexSources   = $(wildcard *.l)
+getQTSources     = $(wildcard *_qt.cpp)
 
-LIBSOURCES := $(call getSourceFiles)
+createMocSources = $(subst _qt,_qt_moc,$(1))
 
-LIBFLEXSOURCES  := $(call getFlexSources)
-LIBBISONSOURCES := $(call getBisonSources)
+LIBSOURCES       := $(call getSourceFiles)
 
+LIBFLEXSOURCES   := $(call getFlexSources)
+LIBBISONSOURCES  := $(call getBisonSources)
+
+LIBQTSOURCES     := $(call getQTSources)
 
 
 
@@ -30,7 +34,6 @@ LIBFLEXSOURCESTMP_CPP  := lex.$(LIBFLEXSOURCES_CPP)
 
 FLEX_INTERNAL := $(strip $(basename $(LIBFLEXSOURCES_CPP)))_
 FLEX_EXTERNAL := $(LIBFLEXTARGET_CPP)
-
 endif
 
 ifneq ($(LIBBISONSOURCES),)
@@ -43,8 +46,16 @@ BISON_EXTERNAL := $(strip $(basename $(LIBBISONSOURCES_CPP)))
 LIBHEADERS := $(call getSourceHeaderFiles)
 endif
 
+ifneq ($(LIBQTSOURCES),)
+LIBQTSOURCES_CPP := $(LIBQTSOURCES)
+LIBQTSOURCES_CPP := $(LIBQTSOURCES_CPP) \
+					$(call createMocSources, $(LIBQTSOURCES))
+LIBQTSOURCES_CPP := $(strip $(LIBQTSOURCES_CPP))
+endif
+
 LIBSOURCES := $(filter-out $(LIBBISONTARGET_CPP),$(LIBSOURCES))
 LIBSOURCES := $(filter-out $(LIBFLEXTARGET_CPP),$(LIBSOURCES))
+LIBSOURCES := $(filter-out $(LIBQTSOURCES_CPP),$(LIBSOURCES))
 
 LIBOBJECTS  := $(call cnvSourceToObject,$(LIBSOURCES))
 
@@ -56,8 +67,17 @@ ifneq ($(LIBFLEXSOURCES),)
 LIBOBJECTS += $(call cnvSourceToObject,$(LIBFLEXTARGET_CPP))
 endif
 
+ifneq ($(LIBQTSOURCES),)
+LIBOBJECTS += $(call cnvSourceToObject,$(LIBQTSOURCES_CPP))
+endif
+
+ifeq ($(OSGMAKESO),1)
+SUB_SO      = $(call createSubSoName)
+SUB_SO_LINK = $(call createSubSoLink)
+else
 SUB_LIB      = $(call createSublibName)
 SUB_LIB_LINK = $(call createSublibLink)
+endif
 
 # Used for depend call only
 TESTSOURCES := $(call   getTestSourceFiles)
@@ -83,9 +103,14 @@ TESTSOURCES := $(strip $(TESTSOURCES))
 TESTOBJECTS := $(call   cnvSourceToObject,$(TESTSOURCES))
 
 ifneq ($(TESTSOURCES),)
-TESTPROGS     := $(CMDGOALS)
-TESTPROGRAMMS := $(CMDGOALS).$(OS)
+TESTPROGSTARG := $(CMDGOALS)
+TESTPROGS     := $(CMDGOALS)$(EXEEXT)
+TESTPROGRAMMS := $(CMDGOALS).$(OS)$(EXEEXT)
+
+TESTPROGSTARG := $(strip $(TESTPROGSTARG))
+TESTPROGS     := $(strip $(TESTPROGS))
 else
+TESTPROGSTARG := $(CMDGOALS)
 TESTPROGS     := $(CMDGOALS)
 TESTPROGRAMMS := 
 PROGSWARNING  += "Error could not create rule for target $(CMDGOALS) !!"
@@ -96,11 +121,23 @@ endif
 
 endif # MAKECMDGOAL
 
-REQUIRED_PACKAGES := $(CURRENTDIR) $(REQUIRED_PACKAGES)
+ifeq ($(OSGIGNORECURRDIR),1)
+REQUIRED_INCPACKAGES := $(REQUIRED_INCPACKAGES)
+REQUIRED_LNKPACKAGES := $(REQUIRED_LNKPACKAGES)
+else
+REQUIRED_INCPACKAGES := $(CURRENTDIR) $(REQUIRED_INCPACKAGES)
+REQUIRED_LNKPACKAGES := $(CURRENTDIR) $(REQUIRED_LNKPACKAGES)
+endif
+
+REQUIRED_PACKAGES := $(REQUIRED_INCPACKAGES) $(REQUIRED_LNKPACKAGES)
+REQUIRED_PACKAGES := $(sort $(REQUIRED_PACKAGES))
 
 ifneq ($(REQUIRED_PACKAGES),)
 
-PACKAGE_INCLUDE := $(call includePackages,$(REQUIRED_PACKAGES))
+PACKAGE_INCLUDE := $(call includePackagesProj,$(REQUIRED_PACKAGES))
+PACKAGE_INCLUDE += $(call includePackages,$(REQUIRED_PACKAGES))
+
+PACKAGE_INCLUDE := $(call verifyIncPackages,$(PACKAGE_INCLUDE))
 
 include $(PACKAGE_INCLUDE) 
 
@@ -114,7 +151,7 @@ TESTCLEANBASE  := $(foreach file,$(TESTCLEANALL), $(basename $(file)))
 TESTCLEANSYSTEM    := $(addsuffix .$(OS),$(TESTCLEANBASE))
 
 TESTCLEANSYSTEMS   := \
-	$(foreach sys,$(SYSTEMS), $(addsuffix .$(sys),$(TESTCLEANBASE)))
+	$(foreach sys,$(SYSTEMS), $(addsuffix .$(sys)*,$(TESTCLEANBASE)))
 
 #########################################################################
 # Include the rest
@@ -126,7 +163,10 @@ TESTCLEANSYSTEMS   := \
 
 
 INCL                 := $(INCL$(OS))
-PROJLIBS             := $(PROJLIBS$(OS))
+
+PROJLIBSDEP          := $(call createProjLibsDep, $(REQUIRED_LNKPACKAGES))
+PROJLIBS             := $(call createProjLibs,    $(REQUIRED_LNKPACKAGES))
+
 REQUIRED_SYSTEM_LIBS := $(REQUIRED_SYSTEM_LIBS$(OS))
 
 ifdef LINK_X11
@@ -160,8 +200,11 @@ endif # ifneq ($(PROJLIBSCHECK),$(PROJLIBSSTRIP))
 
 endif # ifneq ($(MAKECMDGOAL),)
 
-
 include $(DEFAULTRULES)
 
 
 -include $(DEP_MAKEFILE)
+
+
+
+

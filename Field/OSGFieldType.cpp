@@ -123,8 +123,6 @@ OSGFieldType::OSGFieldType(const char           *szName,
     _szName(NULL), 
     _createMethod(createMethod)
 {	
-	int i, n;
-
 	if((szName       != NULL        ) && 
        (*szName      != '\0'        ) && 
        (createMethod != NULL))

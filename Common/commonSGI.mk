@@ -17,13 +17,15 @@ CC         = CC
 C          = cc
 AR         = CC -ar -o
 CPP        = $(CC) -E
+LD_SHARED  = CC -shared
 LD         = CC -all -demangle
-MOC        = moc
-FLEX       = /igd/a4/op2001/Tools/bin/flex
-BISON      = /igd/a4/op2001/Tools/bin/bison
+MOC        = $(QTDIR)/bin/moc
+FLEX       = /igd/a4/software/bin/flex
+BISON      = /igd/a4/software/bin/bison
 STRIP      = strip
 LINK       = ln -s
 MAKEDEPEND = -M
+INCPRE     = -I
 
 XDEBUGER	=	ddd
 EDIT		= xemacs
@@ -62,13 +64,14 @@ WARNINGS_C_OFF		= # -woff 835
 
 WARNINGS_CPP_OFF 	= #-woff 1110,1174,1375,1682,1424,3322
 
-#,1116 (STLBUG)
+WARN_ERR_CPP        = -diag_error 1548,1116,1681,1552,3303,1682,1551,1197	\
+					  -diag_error 1174,1375
 
-WARN_ERR_CPP        =  -diag_error 1548,1681,1552,3303,1682,1551
 
 ### Language #######################################################
 
-LANG_FLAGS          = -LANG:restrict -LANG:exception=OFF
+LANG_FLAGS          = -LANG:ansi-for-init-scope=off -LANG:restrict			\
+					  -LANG:exceptions=off
 
 
 ifeq ($(COMPILERVERSION),730)
@@ -93,7 +96,7 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -g -INLINE:none -DOSG_DEBUG
+	COMP_DEBUG       = -g -INLINE:none 
 endif
 
 ### Compiler Flags ################################################
@@ -106,12 +109,13 @@ DEFINES     = $(SOURCE_DEFINES) $(SYSTEM_DEFINES)
 NO_STD_INC     = -I
 NO_STD_INC_DEP = -Y
 
-CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
-		   $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) $(NO_STD_INC)
+CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ 						\
+		   $(DEFINES) $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) 			\
+		   $(NO_STD_INC)
 
 # CPP Compiler Flags
 
-CCFLAGS   = $(WARNINGS) $(WARNINGS_CPP_OFF) $(WARN_ERR_CPP) $(DEFINES) 		\
+CCFLAGS   = $(WARNINGS) $(WARNINGS_CPP_OFF) $(WARN_ERR_CPP) $(DEFINES) \
 		    $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) $(NO_STD_INC)
 
 # Assembler Flags
@@ -140,7 +144,15 @@ LD_FLAGS = -L
 ifdef LINK_STL
 LD_FLAGS += -L$(LINK_STL)
 endif
- 
+
+ifdef LINK_GLUT
+LD_FLAGS += -L$(LINK_GLUT)
+endif
+
+ifdef LINK_QT
+LD_FLAGS += -L$(LINK_QT)
+endif
+
 LD_FLAGS += -L$(LINK_ISA) -L$(LINK_INTERNAL) 						\
 		    -L$(LINK_CPLUSPLUS) 									\
 			-$(ABI) -$(ISA) $(LINK_OPTIMIZE) $(LINK_DEBUG)
@@ -167,6 +179,13 @@ endif
 
 INCL$(OS) := $(INCL$(OS)) -I$(INCLUDE_SYSTEM_CC)
 
+ifdef INCLUDE_QT
+INCL$(OS) := $(INCL$(OS)) -I$(INCLUDE_QT)
+endif
+
+ifdef INCLUDE_GLUT
+INCL$(OS) := $(INCL$(OS)) -I$(INCLUDE_GLUT)
+endif
 
 # Jo
 #-D$(OS)_OS -DNATIVE_CC -DSTL_HSUFFIX

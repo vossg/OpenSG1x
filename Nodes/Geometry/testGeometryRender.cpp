@@ -91,7 +91,7 @@ int main (int argc, char **argv)
 
 	root->setCore( g1 );
 
-	cerr << "Geometry Node: " << hex << (OSGGeometry*) g1 << endl;
+	cerr << "Geometry Node: " << hex << (OSGGeometry*) g1.getCPtr() << endl;
 
 	OSGGeoPosition3f::OSGPtrType pnts = OSGGeoPosition3f::create();
 	g1->setPositions( pnts );

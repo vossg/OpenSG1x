@@ -3,24 +3,23 @@
 
 ### Binaries #######################################################
 
-CC         = $(EGCS_BIN)/gcc 
-C          = $(EGCS_BIN)/gcc 
-AR         = $(EGCS_BIN)/gcc -shared -o
-CPP        = $(EGCS_DIR)/cpp 
-LD         = $(EGCS_BIN)/g++
-MOC        = $(QT_DIR)/bin/moc
+CC         = $(GCC_BIN)/gcc 
+C          = $(GCC_BIN)/gcc 
+AR         = ar -car -o
+CPP        = $(GCC_DIR)/cpp 
+LD         = $(GCC_BIN)/g++
+MOC        = $(QTDIR)/bin/moc
 FLEX       = /usr/bin/flex
 BISON      = /usr/bin/bison
 STRIP      = strip
 LINK       = ln -s
 MAKEDEPEND = -M
+INCPRE     = -I
 
 XDEBUGER	=	ddd
 EDIT		= emacs
 XTERM		= xterm
 BINSET      = touch
-
-#LIBCIO = -lCio
 
 ### Defines #######################################################
 
@@ -33,7 +32,11 @@ SYSTEM_DEFINES   =
 
 ### Warnings #######################################################
 
-WARNINGS	   		= -Wall -pedantic 
+WARNINGS	   	:= -Wall -W  -Wshadow -Wpointer-arith 			\
+				   -Wcast-qual -Wcast-align   -Wconversion   	\
+				   -Wsign-compare 						  		\
+				   -Wmissing-declarations -Wmissing-noreturn    \
+				   -Winline 
 
 WARNINGS_C_OFF		= # -woff 835
 
@@ -50,9 +53,8 @@ WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long
 
 ### Language #######################################################
 
-#-fno-implicit-templates -frepo 
-
-LANG_FLAGS          = -ftemplate-depth-25
+LANG_FLAGS          = 
+#-frepo  -fno-implicit-templates
 COMPILER    		= -ansi  -use_readonly_const
 
 ### Optimize / Debug ###############################################
@@ -66,7 +68,7 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -g -DOSG_DEBUG
+	COMP_DEBUG       = -g 
 endif
 
 ### Compiler Flags ################################################
@@ -84,7 +86,7 @@ CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
 
 # CPP Compiler Flags
 
-CCFLAGS   = $(WARNINGS)   $(WARNINGS_CPP_OFF) $(DEFINES) 		\
+CCFLAGS   = $(WARNINGS)   $(WARNINGS_CPP_OFF) $(DEFINES)		\
 		    $(COMPILER)   $(LANG_FLAGS)       $(COMP_OPTIMIZE) 	\
 			$(COMP_DEBUG) $(NO_STD_INC)
 
@@ -109,15 +111,7 @@ else
 	LINK_DEBUG       = -g 
 endif
 
-ifneq ($(LINK_STL),)
-LD_FLAGS = -L$(LINK_STL) 
-endif
-
-ifneq ($(LINK_GL),)
-LD_FLAGS += -L$(LINK_GL)
-endif
-
-LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
+LD_FLAGS = -L$(LINK_STL) $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
 ### ii files ######################################################
@@ -134,10 +128,6 @@ ifneq ($(INCLUDE_STL),)
 INCL$(OS) += -I$(INCLUDE_STL)
 endif
 
-ifneq ($(INCLUDE_GL),)
-INCL$(OS) += -I$(INCLUDE_GL)
-endif
-
 INCL$(OS) += -I$(INCLUDE_SYSTEM_CC)
 
 # Jo
@@ -148,7 +138,3 @@ INCL$(OS) += -I$(INCLUDE_SYSTEM_CC)
 #OPTFLAG =
 #LDFLAGS = -o $(SYSTARGET) 
 #SYSTMP	= /tmp/
-
-
-
-

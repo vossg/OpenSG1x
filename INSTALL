@@ -44,8 +44,8 @@ Plattform :
         
 
         Compiler : Intel C++ 4.5 + latest patchset
-        Cygwin   : > B20
-        gmake    : > gmake 3.78.1
+        Cygwin   : >= 1.1.4
+        gmake    : >  gmake 3.78.1
         glut     : 3.7
 
         STL      : SGI stdlib_20000608.zip 
@@ -78,6 +78,10 @@ Plattform :
             glut : set LINK_GLUT and INCLUDE_GLUT to define where we find your
                    glut package in Common/directoriesSGI.mk.
 
+            stl  : Te sgi version is used by default now, set the
+                   environment variable OSGCOMPEXT to _CCSTL to change the
+                   stl used.
+
     Linux : 
     -------
     
@@ -103,26 +107,26 @@ Plattform :
         --------
             
             glut   : set LINK_GLUT and INCLUDE_GLUT to define where we find 
-                     your glut package. (Common/directoriesNT40ICL.mk)
+                     your glut package. (Common/directoriesNT40_ICL.mk)
 
             stdlib : set LINK_STL and INCLUDE_STL to define where we find 
-                     your C++ StdLib package. (Common/directoriesNT40ICL.mk)
+                     your C++ StdLib package. (Common/directoriesNT40_ICL.mk)
                      If you want to use the M$ version you do not need to 
                      set anything here.
 
-            Intel C++ : Set the SOFTDIR / MEDSOFTDIR to define the base
-                        compiler directory. (Common/directoriesNT40ICL.mk)
+            Intel C++ : Set the SOFTDIR to define the base
+                        compiler directory. (Common/directoriesNT40_ICL.mk)
 
                         IMPORTANT:
 
-                        Set the environment variable OSGCOMPEXT to ICL,
+                        Set the environment variable OSGCOMPEXT to _ICL,
                         otherwise the M$ compiler is used and you will see
                         a lot of strange errors running through your shell :-(
         
             MSVC   : Set INCLUDE_SYSTEM to define where the compiler should
                      look for the windows include files, this has to be done
                      independent of the compiler you actually use. 
-                     (Common/directoriesNT40ICL.mk) 
+                     (Common/directoriesNT40_ICL.mk) 
 
 Compilation :
 =============

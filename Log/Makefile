@@ -1,12 +1,14 @@
 #!gmake -r -k
 
-OSGCOMMON ?= Common
+OSGCOMMON     ?= Common
+OSGCOMMONPACK ?= CommonPackages
 
-#ifndef OSGPOOL
-OSGPOOL         = $(shell pwd)/..
-#endif
+ifndef OSGPOOL
+OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
+endif
 
-REQUIRED_PACKAGES := Base FieldContainer Field
+REQUIRED_INCPACKAGES := Base 
+REQUIRED_LNKPACKAGES := Base FieldContainer Field
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 include $(OSGPOOL)/$(OSGCOMMON)/commonSub.mk

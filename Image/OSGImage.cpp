@@ -354,7 +354,7 @@ bool OSGImage::scale (int width, int height, int depth,
 											OSGImage *destination )
 {
 	bool retCode = true;
-	unsigned char *data, *src, *dest, *slice, *line, *pixel;
+	unsigned char *data, *dest, *slice, *line, *pixel;
 	float sx, sy, sz, p;
 	int x,y,z;
   

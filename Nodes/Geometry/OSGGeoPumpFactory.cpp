@@ -237,6 +237,7 @@ static pumpFunc ColorFuncs[numFormats][4] = {
 	  (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },		// GL_DOUBLE
 };
 
+/*
 static pumpFunc TexCoordFuncs[numFormats][4] = {
 	{ NULL, NULL, NULL, NULL },							 // GL_BYTE
 	{ NULL, NULL, NULL, NULL },							 // GL_UNSIGNED_BYTE
@@ -254,6 +255,7 @@ static pumpFunc TexCoordFuncs[numFormats][4] = {
 	{ (pumpFunc)glTexCoord1dv, (pumpFunc)glTexCoord2dv, 
 	  (pumpFunc)glTexCoord3dv, (pumpFunc)glTexCoord4dv },// GL_DOUBLE
 };
+*/
 
 // TODO: Multitexture
 

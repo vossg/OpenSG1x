@@ -13,6 +13,8 @@
 #include "OSGBaseFunctions.h"
 #include "OSGSFBaseTypes.h"
 #include "OSGMFBaseTypes.h"
+#include "OSGSFMathTypes.h"
+#include "OSGMFMathTypes.h"
 
 OSG_USING_NAMESPACE
 
@@ -20,6 +22,9 @@ int main (int argc, char **argv)
 {
 	OSGField *fieldP;
 	OSGSFVec3f vec3f, *vec3fP;
+
+    OSGSFQuaternion sfquad;
+    OSGMFQuaternion mfquad;
 
 	OSGSFInt32  *int32P;
 	OSGSFUInt32 *uint32P;

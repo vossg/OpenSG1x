@@ -73,8 +73,15 @@ OSG_USING_NAMESPACE
  *  \brief Value store
  */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 static char cvsid[] = "@(#)$Id: $";
 
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 OSGNodePtr OSG::osgMakePlane( OSGReal32 xsize, OSGReal32 ysize, OSGUInt16 hor, OSGUInt16 vert )
 {
