@@ -679,13 +679,13 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 		    texCoords = GeoTexCoords2f::create();
     }
 
-    GeoPTypesPtr ftypes;
-	ftypes = GeoPTypesPtr::dcast(mesh.getTypes());
+    GeoPTypesUI8Ptr ftypes;
+	ftypes = GeoPTypesUI8Ptr::dcast(mesh.getTypes());
 	if (ftypes == NullFC)
 	    ftypes = GeoPTypesUI8::create();
 
-    GeoPLengthsPtr flengths;
-    flengths = GeoPLengthsPtr::dcast(mesh.getLengths());
+    GeoPLengthsUI32Ptr flengths;
+    flengths = GeoPLengthsUI32Ptr::dcast(mesh.getLengths());
 	if (flengths == NullFC)
 	    flengths = GeoPLengthsUI32::create();
 
@@ -1039,8 +1039,6 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
         beginEditCP(mesh.getPtr(), FieldBits::AllFields);
 
 		//mesh.invalidateVolume();
-		//if (mesh.getDlistCache())
-		//	mesh.setDlistCache(false);
 
         mesh.setPositions(points);
         mesh.setNormals(normals);
@@ -1078,7 +1076,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 		endEditCP(faces, FieldBits::AllFields);
 
 		endEditCP(mesh.getPtr(), FieldBits::AllFields);
-        
+
         return true;
     }
 
