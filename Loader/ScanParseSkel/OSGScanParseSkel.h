@@ -136,26 +136,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     virtual Bool verifyHeader          (const Char8 *szHeader);
 
-    virtual void beginProtoInterface   (const Char8 *szProtoname);
-    virtual void endProtoInterface     (void);
+    virtual void beginProto            (const Char8 *szProtoname);
+    virtual void endProto              (void);
 
-    virtual void addProtoEventIn       (const Char8 *szEventType,
+    virtual void beginScript           (const Char8 *szProtoname);
+    virtual void endScript             (void);
+
+    virtual void addEventInDecl        (const Char8 *szEventType,
                                         const Char8 *szEventName); 
 
-    virtual void addProtoEventOut      (const Char8 *szEventType,
+    virtual void addEventOutDecl       (const Char8 *szEventType,
                                         const Char8 *szEventName); 
 
-    virtual void beginProtoField       (const Char8  *szFieldType,
+    virtual void beginFieldDecl        (const Char8  *szFieldType,
                                         const UInt32  uiFieldTypeId,
                                         const Char8  *szFieldName); 
 
-    virtual void endProtoField         (void);
+    virtual void endFieldDecl          (void);
 
-    virtual void beginProtoExposedField(const Char8  *szFieldType,
+    virtual void beginExposedFieldDecl (const Char8  *szFieldType,
                                         const UInt32  uiFieldTypeId,
                                         const Char8  *szFieldName); 
 
-    virtual void endProtoExposedField  (void);
+    virtual void endExposedFieldDecl   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

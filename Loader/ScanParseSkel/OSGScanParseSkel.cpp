@@ -178,41 +178,49 @@ Bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
     return returnValue;
 }
 
-void ScanParseSkel::beginProtoInterface(const Char8 *)
+void ScanParseSkel::beginProto(const Char8 *)
 {
 }
 
-void ScanParseSkel::endProtoInterface(void)
+void ScanParseSkel::endProto(void)
 {
 }
 
-void ScanParseSkel::addProtoEventIn (const Char8 *,
-                                        const Char8 *)
+void ScanParseSkel::beginScript(const Char8 *)
 {
 }
 
-void ScanParseSkel::addProtoEventOut(const Char8 *,
-                                        const Char8 *)
+void ScanParseSkel::endScript(void)
 {
 }
 
-void ScanParseSkel::beginProtoField(const Char8  *,
-                                       const UInt32  ,
-                                       const Char8  *)
+void ScanParseSkel::addEventInDecl (const Char8 *,
+                                    const Char8 *)
 {
 }
 
-void ScanParseSkel::endProtoField(void)
+void ScanParseSkel::addEventOutDecl(const Char8 *,
+                                    const Char8 *)
 {
 }
 
-void ScanParseSkel::beginProtoExposedField(const Char8  *,
-                                              const UInt32  ,
-                                              const Char8  *)
+void ScanParseSkel::beginFieldDecl(const Char8  *,
+                                   const UInt32  ,
+                                   const Char8  *)
 {
 }
 
-void ScanParseSkel::endProtoExposedField(void)
+void ScanParseSkel::endFieldDecl(void)
+{
+}
+
+void ScanParseSkel::beginExposedFieldDecl(const Char8  *,
+                                          const UInt32  ,
+                                          const Char8  *)
+{
+}
+
+void ScanParseSkel::endExposedFieldDecl(void)
 {
 }
 

@@ -223,16 +223,16 @@ protoStatements : protoStatements protoStatement
 ;
 
 protoId : nodeTypeId { if(_pSkel != NULL) 
-                        _pSkel->beginProtoInterface(OSGScanParseSkel_text); }
+                        _pSkel->beginProto(OSGScanParseSkel_text); }
         | SCRIPT     { if(_pSkel != NULL) 
-                        _pSkel->beginProtoInterface(OSGScanParseSkel_text); }
+                        _pSkel->beginProto(OSGScanParseSkel_text); }
 
 proto : PROTO 
         protoId 
         OPENBRACKET 
         interfaceDeclarationsORempty 
         CLOSEBRACKET { if(_pSkel != NULL) 
-                        _pSkel->endProtoInterface(); }
+                        _pSkel->endProto(); }
         OPENBRACE 
         protoBodyORempty
         CLOSEBRACE
@@ -258,7 +258,7 @@ restrictedInterfaceDeclaration : EVENTIN
                                  fieldType  { setName(szName1, 
                                                       OSGScanParseSkel_text); }
                                  eventInId  { if(_pSkel != NULL)
-                                               _pSkel->addProtoEventIn(
+                                               _pSkel->addEventInDecl(
                                                 szName1,
                                                 OSGScanParseSkel_text); 
                                               freeName(szName1); }
@@ -266,7 +266,7 @@ restrictedInterfaceDeclaration : EVENTIN
                                  fieldType  { setName(szName1, 
                                                       OSGScanParseSkel_text); }
                                  eventOutId { if(_pSkel != NULL)
-                                               _pSkel->addProtoEventOut(
+                                               _pSkel->addEventOutDecl(
                                                 szName1,
                                                 OSGScanParseSkel_text); 
                                               freeName(szName1); }
@@ -275,14 +275,14 @@ restrictedInterfaceDeclaration : EVENTIN
                                                       OSGScanParseSkel_text); }
                                  fieldId    { expectType(nextType); 
                                               if(_pSkel != NULL)
-                                               _pSkel->beginProtoField(
+                                               _pSkel->beginFieldDecl(
                                                 szName1,
                                                 nextType,
                                                 OSGScanParseSkel_text); 
                                               freeName(szName1); } 
                                  fieldValue { nextType = 0; 
                                               if(_pSkel != NULL)
-                                               _pSkel->endProtoField();
+                                               _pSkel->endFieldDecl();
                                              }
 ;
 
@@ -292,14 +292,14 @@ interfaceDeclaration : restrictedInterfaceDeclaration
                                               OSGScanParseSkel_text); }
                        fieldId      { expectType(nextType);  
                                       if(_pSkel != NULL)
-                                       _pSkel->beginProtoExposedField(
+                                       _pSkel->beginExposedFieldDecl(
                                         szName1,
                                         nextType,
                                         OSGScanParseSkel_text); 
                                        freeName(szName1); }
                        fieldValue   { nextType = 0; 
                                       if(_pSkel != NULL)
-                                       _pSkel->endProtoExposedField(); }
+                                       _pSkel->endExposedFieldDecl(); }
 ;
 
 externproto : EXTERNPROTO 
@@ -389,7 +389,7 @@ resInterfaceDeclarationScriptEvent : EVENTIN
                                      fieldType  { setName(szName1, 
                                                      OSGScanParseSkel_text); } 
                                      eventInId  { if(_pSkel != NULL)
-                                                     _pSkel->addProtoEventIn(
+                                                     _pSkel->addEventInDecl(
                                                        szName1,
                                                        OSGScanParseSkel_text); 
 
@@ -398,7 +398,7 @@ resInterfaceDeclarationScriptEvent : EVENTIN
                                      fieldType  { setName(szName1, 
                                                       OSGScanParseSkel_text); }
                                      eventOutId { if(_pSkel != NULL)
-                                                     _pSkel->addProtoEventOut(
+                                                     _pSkel->addEventOutDecl(
                                                        szName1,
                                                        OSGScanParseSkel_text); 
 
@@ -416,7 +416,7 @@ resInterfaceDeclarationScriptField : FIELD
                                      fieldId   { expectType(nextType); 
                                               
                                                  if(_pSkel != NULL)
-                                                     _pSkel->beginProtoField(
+                                                     _pSkel->beginFieldDecl(
                                                        szName1,
                                                        nextType,
                                                        OSGScanParseSkel_text); 
@@ -432,13 +432,13 @@ resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0;
                                                        _pSkel->is(
                                                         OSGScanParseSkel_text);
 
-                                                       _pSkel->endProtoField();
+                                                       _pSkel->endFieldDecl();
                                                      }
                                                    } 
                                       | fieldValue { nextType = 0; 
 
                                                      if(_pSkel != NULL)
-                                                       _pSkel->endProtoField();
+                                                       _pSkel->endFieldDecl();
 
                                                    }
 ;
