@@ -937,20 +937,21 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
         cosTheta = cos(theta);
         sinTheta = sin(theta);
 
-        for(b = 0, phi = 0; b <= longres; b++, phi += longDelta) 
+        for(b = 0, phi = -Pi; b <= longres; b++, phi += longDelta) 
         {
             GLfloat cosPhi, sinPhi;
 
             cosPhi = cos(phi);
             sinPhi = sin(phi);
  
-            n->addValue(Vec3f( cosTheta * cosPhi, 
+            n->addValue(Vec3f( cosTheta * sinPhi, 
                                sinTheta,
-                               cosTheta * sinPhi));
-            p->addValue(Pnt3f( cosTheta * cosPhi * radius, 
+                               cosTheta * cosPhi));
+            p->addValue(Pnt3f( cosTheta * sinPhi * radius, 
                                sinTheta          * radius, 
-                               cosTheta * sinPhi * radius));
-            tx->addValue(Vec2f(b / (Real32)longres, a / (Real32)latres));
+                               cosTheta * cosPhi * radius));
+            tx->addValue(Vec2f(b / (Real32)longres, 
+                               a / (Real32)latres));
         }
     }   
 
@@ -975,8 +976,8 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
         
         for(b = 0; b <= latres; b++)
         {
-            i->addValue(b * (longres+1) + a + 1);
             i->addValue(b * (longres+1) + a);
+            i->addValue(b * (longres+1) + a + 1);
         }
     }
 
