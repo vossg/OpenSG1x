@@ -1395,6 +1395,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         }
         else
         {
+#if 0  // What's the point of doing that?
             PWARNING << "Invalid geometry replaced by a group" << std::endl;
 
             GroupPtr pGr = Group::create();
@@ -1413,6 +1414,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                 ++parentsIt;
             }
             pGeo = NullFC;
+#endif
         }
     }
     else
@@ -1445,6 +1447,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         }
         else
         {
+#if 0  // What's the point of doing that?
             PWARNING << "Invalid geometry replaced by a group" << std::endl;
 
             GroupPtr pGr = Group::create();
@@ -1463,6 +1466,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                 ++parentsIt;
             }
             pGeo = NullFC;
+#endif
         }
     }
 
@@ -1922,6 +1926,7 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
         }
         else
         {
+#if 0  // What's the point of doing that?
             PWARNING << "Invalid geometry replaced by a group" << std::endl;
 
             GroupPtr pGr = Group::create();
@@ -1936,6 +1941,7 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
 
                 ++parentsIt;
             }
+#endif
         }
     }
     else
@@ -1967,6 +1973,8 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
         }
         else
         {
+#if 0  // What's the point of doing that?
+
             PWARNING << "Invalid geometry replaced by a group" << std::endl;
 
             GroupPtr pGr = Group::create();
@@ -1981,6 +1989,7 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
 
                 ++parentsIt;
             }
+#endif
         }
     }
 
