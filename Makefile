@@ -11,7 +11,7 @@ DOCCODEDIR := Code
 DOCDIR     := $(DOCBASEDIR)/$(DOCCODEDIR)
 
 DOC_PROJECT_NAME = OpenSG
-DOC_PROJECT_NUMBER = "0.2 beta"
+DOC_PROJECT_NUMBER = $(shell cat VERSION)
 
 DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material 	\
               MultiThreading Nodes/OSGNodes.doxygen Nodes/Geometry 	\
