@@ -356,6 +356,19 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
                                                  "Choose a scene" );
   if (!fName.isEmpty())
     {
+
+// Hack as qt returns a screwed up windows path
+#ifdef WIN32
+
+        for(OSG::UInt32 ui = 0; ui < fName.length(); ui++)
+        {
+            if(fName[ui] == '/')
+            {
+                fName[ui] = '\\';
+            }
+        }
+#endif
+        
       node = osg::SceneFileHandler::the().read(fName);
       if (node != osg::NullFC) 
         {

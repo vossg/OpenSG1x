@@ -164,22 +164,22 @@ lists: declist implist objlist depend
 
 declist:
 	@echo "make declist.mk"
-	@rm -rf declist.mk
+	@rm -r declist.mk
 	@echo *.[hH] *.hh *.hxx *.ui " " | \
 	sed 's/\*\.[a-zA-Z]* //g' | \
 	cat >declist.mk
 
 implist: $(PROSRCS)
 	@echo "make implist.mk"
-	@rm -rf implist.mk
-	@rm -rf moc_*.cpp
+	@rm -r implist.mk
+	@rm -r moc_*.cpp
 	@echo *.y *.l *.c *.C *.cc *.cxx *.cpp " " | \
 	sed 's/\*\.[a-zA-Z]* //g' | \
 	cat >implist.mk
 
 objlist: implist.mk
 	@echo "make objlist.$(SYSDEP).mk"
-	@rm -rf objlist.$(SYSDEP).mk
+	@rm -r objlist.$(SYSDEP).mk
 	@grep -l Q_OBJECT *.[hH] | sed 's/^/moc_/g' > objlist.mk
 	@cat implist.mk >> objlist.mk
 	@cat < objlist.mk | \
@@ -218,11 +218,11 @@ install: $(SYSTARGET)
 	cp $(SYSTARGET) $(PPOOL)/bin/$(OS)/$(TARGET)$(BINSUF)
 
 lib: $(LIBOBJS)
-	rm -rf $(LIBTARGET).a
+	rm -r $(LIBTARGET).a
 	$(AR) $(LIBTARGET).a $(LIBOBJS)
 
 so: $(LIBOBJS)
-	rm -rf $(LIBTARGET).so
+	rm -r $(LIBTARGET).so
 	$(SOLD) -o $(LIBTARGET).so $(LIBOBJS)
 
 ulibinstall: lib
@@ -259,8 +259,7 @@ clean:
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
 
 Clean: clean
-	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
-	-rm -rf $(DOCDIR)
+	-rm -r *.o *.mk OOBR* *.dep TAGS tags *.bin
 
 run: $(RUN)
 

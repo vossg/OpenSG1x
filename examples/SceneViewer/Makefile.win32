@@ -73,29 +73,31 @@ endif
 
 ### Object and source files ##########################################
 
-HEADERS := $(shell cat declist.mk 2> /dev/null)
-SOURCES := $(shell cat implist.mk 2> /dev/null)
-BINOBJS := $(shell cat objlist.$(SYSDEP).mk 2> /dev/null ) 
-LIBOBJS := $(shell sed 2> /dev/null < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g' )
+HEADERS = $(shell cat declist.mk 2> /dev/null)
+SOURCES = $(shell cat implist.mk 2> /dev/null)
+BINOBJS = $(shell cat objlist.$(SYSDEP).mk 2> /dev/null ) 
+LIBOBJS = $(shell sed 2> /dev/null < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g' )
 
-ifeq ($(strip $(HEADERS)),)
-$(warning HEADERS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-endif
+#ifeq ($(strip $(HEADERS)),)
+#$(warning HEADERS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
 
-ifeq ($(strip $(SOURCES)),)
-$(warning SOURCES empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-endif
+#ifeq ($(strip $(SOURCES)),)
+#$(warning SOURCES empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
 
-ifeq ($(strip $(BINOBJS)),)
-$(warning BINOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-endif
+#ifeq ($(strip $(BINOBJS)),)
+#$(warning BINOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
 
-ifeq ($(strip $(LIBOBJS)),)
-$(warning LIBOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-endif
+#ifeq ($(strip $(LIBOBJS)),)
+#$(warning LIBOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#endif
 
 
 ######################################################################
+
+allstuff : lists $(TARGET)$(BINSUF) lists
 
 ### TARGET build rules ###############################################
 $(TARGET)$(BINSUF): $(SYSTARGET)
@@ -162,22 +164,22 @@ lists: declist implist objlist depend
 
 declist:
 	@echo "make declist.mk"
-	@rm -rf declist.mk
+	@rm -r declist.mk
 	@echo *.[hH] *.hh *.hxx *.ui " " | \
 	sed 's/\*\.[a-zA-Z]* //g' | \
 	cat >declist.mk
 
 implist: $(PROSRCS)
 	@echo "make implist.mk"
-	@rm -rf implist.mk
-	@rm -rf moc_*.cpp
+	@rm -r implist.mk
+	@rm -r moc_*.cpp
 	@echo *.y *.l *.c *.C *.cc *.cxx *.cpp " " | \
 	sed 's/\*\.[a-zA-Z]* //g' | \
 	cat >implist.mk
 
 objlist: implist.mk
 	@echo "make objlist.$(SYSDEP).mk"
-	@rm -rf objlist.$(SYSDEP).mk
+	@rm -r objlist.$(SYSDEP).mk
 	@grep -l Q_OBJECT *.[hH] | sed 's/^/moc_/g' > objlist.mk
 	@cat implist.mk >> objlist.mk
 	@cat < objlist.mk | \
@@ -216,11 +218,11 @@ install: $(SYSTARGET)
 	cp $(SYSTARGET) $(PPOOL)/bin/$(OS)/$(TARGET)$(BINSUF)
 
 lib: $(LIBOBJS)
-	rm -rf $(LIBTARGET).a
+	rm -r $(LIBTARGET).a
 	$(AR) $(LIBTARGET).a $(LIBOBJS)
 
 so: $(LIBOBJS)
-	rm -rf $(LIBTARGET).so
+	rm -r $(LIBTARGET).so
 	$(SOLD) -o $(LIBTARGET).so $(LIBOBJS)
 
 ulibinstall: lib
@@ -257,8 +259,7 @@ clean:
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
 
 Clean: clean
-	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
-	-rm -rf $(DOCDIR)
+	-rm -r *.o *.mk OOBR* *.dep TAGS tags *.bin
 
 run: $(RUN)
 
