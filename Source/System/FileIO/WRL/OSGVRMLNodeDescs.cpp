@@ -4847,7 +4847,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 
     pVRMLLoader->createStandardPrototypes();
 
-    pVRMLLoader->scanFile((*pUrl)[0].c_str(), 0, 0);
+    pVRMLLoader->scanFile((*pUrl)[0].c_str());
 
     NodePtr pFile = pVRMLLoader->getRoot();
 
