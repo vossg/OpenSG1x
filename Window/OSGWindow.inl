@@ -115,14 +115,28 @@ inline UInt32 Window::registerFunction( const Char8 *s )
     return ( r );
 }
 
+/** check if the window has the indicated extension
+\warning No error checks are done on the passed index!
+*/
 inline Bool Window::hasExtension( UInt32 id )
 {
     return _availExtensions[ id ];
 }
 
+/** get the indicated extension function
+\warning No error checks are done on the passed index!
+*/
 inline void* Window::getFunction ( UInt32 id )
 {
 	return _extFunctions[ id ];
+}
+
+/** check the status of the indicated object 
+\warning No error checks are done on the passed index!
+*/
+inline Window::GLObjectStatusE Window::getGLObjectStatus ( UInt32 id )
+{
+	return (GLObjectStatusE)_mfGlObjectStatus[ id ];
 }
 
 /*-------------------------------------------------------------------------*\

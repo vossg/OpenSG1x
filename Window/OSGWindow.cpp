@@ -382,6 +382,12 @@ void Window::validateGLObject ( UInt32 id )
 {
 	UInt32 s;
 
+    	if ( id == 0 )
+	{
+	    SWARNING << "Window::validateGLObject: id is 0!" << endl;
+    	    return;
+	}
+	
 	s = _mfGlObjectStatus.size();
 	while ( s <= id ) 
 	{
@@ -393,13 +399,14 @@ void Window::validateGLObject ( UInt32 id )
 	{
 	case initialized:   // initialized and up to date
 	    	    	    break;
-	case notused:	    _mfGlObjectStatus[id] = initialized;
+	case notused:	    _mfGlObjectStatus[id] = initialize;
 		    	    _glObjects[id]->incRefCounter();
-		    	    _glObjects[id]->getFunctor().call( initialize, id );
-			    break;
-	case needrefresh:   _mfGlObjectStatus[id] = initialized;
-		    	    _glObjects[id]->getFunctor().call( needrefresh, id );
-			    break;
+		    	    _glObjects[id]->getFunctor().call( this, id );
+			    _mfGlObjectStatus[id] = initialized;
+		    	    break;
+	case needrefresh:   _glObjects[id]->getFunctor().call( this, id );
+			    _mfGlObjectStatus[id] = initialized;
+		    	    break;
 	default:
 		SWARNING << "Window::validateGLObject: id " << id
 				 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
@@ -509,13 +516,13 @@ void Window::frameExit( void )
 		{			
 		
 			_mfGlObjectStatus[ i ] = destroy;
-			_glObjects[ i ]->getFunctor().call( destroy, i );			
+			_glObjects[ i ]->getFunctor().call( this, i );			
 
 			if ( ! ( rc = _glObjects[ i ]->decRefCounter() )  )
 			{			
 				// call functor with the final-flag
 				_mfGlObjectStatus[ i ] = finaldestroy;
-				_glObjects[ i ]->getFunctor().call( finaldestroy, i );
+				_glObjects[ i ]->getFunctor().call( this, i );
 			}
 
 			_mfGlObjectStatus[ i ] = notused;			

@@ -93,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     //-----------------------------------------------------------------------
 
 #ifdef OSG_NOFUNCTORS
-    typedef void (*FunctorFunc)(GLObjectStatusE, UInt32);
+    typedef void (*FunctorFunc)(Window*, UInt32);
 
     struct GLObjectFunctor
     {
@@ -101,9 +101,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
         FunctorFunc _func;
 
-        virtual void call(GLObjectStatusE status, UInt32 uiOpt)
+        virtual void call(Window *win, UInt32 uiOpt)
         {
-            _func(status, uiOpt);
+            _func(win, uiOpt);
         }
     };
 
@@ -116,7 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         return result;
     }
 #else
-	typedef Functor2Base<void,GLObjectStatusE,UInt32> GLObjectFunctor;
+	typedef Functor2Base<void,Window*,UInt32> GLObjectFunctor;
 #endif
 
     //-----------------------------------------------------------------------
@@ -157,11 +157,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
 	static UInt32	registerGLObject ( GLObjectFunctor functor, UInt32 num );
 	void			validateGLObject ( UInt32 id );	
+	GLObjectStatusE	getGLObjectStatus( UInt32 id );	
 	static void	    refreshGLObject  ( UInt32 id );	
 	static void 	destroyGLObject  ( UInt32 id, UInt32 num );
  
-    virtual void draw   			(DrawAction *action);
- 	virtual void drawAllViewports 	(DrawAction *action);
+    virtual void    draw   			 (DrawAction *action = NULL );
+ 	virtual void    drawAllViewports (DrawAction *action = NULL);
     virtual void    frameInit	     (void);
     virtual void    frameExit  	     (void);
    
