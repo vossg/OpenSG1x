@@ -135,6 +135,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     /*------------------------- comparison ----------------------------------*/
 
+    void setSortTrans(Bool bVal);
+
   protected:
 
     //-----------------------------------------------------------------------
@@ -210,8 +212,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
     void draw(DrawTreeNode *pRoot);
-
-    void setSortTrans(Bool bVal);
 
   private:
 
