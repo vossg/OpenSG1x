@@ -16,10 +16,11 @@ using OSG::osgLog;
 using OSG::initLog;
 using OSG::endLog;
 
-void MyLogCallback(const char *pszText, int OSG_CHECK_ARG(size), void
+void MyLogCallback(const char *pszText, int size, void
 *OSG_CHECK_ARG(pData))
 {
-    std::cerr << "MyLogCallback: " << pszText << std::endl;
+    std::string str(pszText, size);
+    std::cerr << "MyLogCallback: " << str << std::endl;
 }
 
 int main (int argc, char **argv)
