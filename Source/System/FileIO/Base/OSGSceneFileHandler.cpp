@@ -237,10 +237,13 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtensio
             startReadProgressThread(is);
             zip_istream unzipper(is);
             scene = type->read(unzipper, fileNameOrExtension);
-            if(unzipper.check_crc())
-                SINFO << "Compressed stream has correct checksum." << std::endl;
-            else
-                SFATAL << "Compressed stream has wrong checksum." << std::endl;
+            if(scene != NullFC)
+            {
+                if(unzipper.check_crc())
+                    SINFO << "Compressed stream has correct checksum." << std::endl;
+                else
+                    SFATAL << "Compressed stream has wrong checksum." << std::endl;
+            }
             stopReadProgressThread();
 #else
             SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;

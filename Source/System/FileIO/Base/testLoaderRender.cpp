@@ -21,6 +21,8 @@
 #include <OSGPathHandler.h>
 
 #include <OSGSceneFileHandler.h>
+#include <OSGGraphOpSeq.h>
+#include <OSGVerifyGeoGraphOp.h>
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -135,7 +137,9 @@ int main (int argc, char **argv)
     scene = SceneFileHandler::the().read(in, fileName);
     in.close();
 #else
-    scene = SceneFileHandler::the().read(fileName);
+    GraphOpSeq graphop;
+    graphop.addGraphOp(new VerifyGeoGraphOp);
+    scene = SceneFileHandler::the().read(fileName, &graphop);
 #endif
 
     if(scene == NullFC)
