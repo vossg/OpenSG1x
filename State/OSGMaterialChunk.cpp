@@ -363,7 +363,7 @@ void MaterialChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
 										_emission.getValue().getValueRef() );
 	// adjust shininess only if it differs enough
-	if ( abs( _shininess.getValue() - old->getShininess() ) > 1e-4 )
+	if ( osgabs( _shininess.getValue() - old->getShininess() ) > 1e-4 )
 		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _shininess.getValue() );
 }
 
