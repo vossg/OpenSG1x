@@ -43,6 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGGL.h>
 
 // Defines needed to support some OpenGL extensions
 // There's no way to get these from OpenGL. The system just has to make sure they 

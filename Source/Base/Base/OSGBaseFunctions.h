@@ -458,6 +458,10 @@ void osgsleep(UInt32 millisecs);
 inline
 Real32 osgrand(void);
 
+/*! \brief return true if the current system is big endian
+ *  \ingroup GrpBaseFunctions
+ */
+
 inline
 bool osgIsBigEndian(void);
 

@@ -314,7 +314,7 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
         if(_quat[3] > 1.0 + Eps || _quat[3] < -1.0 - Eps)
         {
             fprintf(stderr,
-                    "\nMatToQuat: BUG: |quat[4]| (%lf) >> 1.0 !\n\n",
+                    "\nMatToQuat: BUG: |quat[4]| (%f) >> 1.0 !\n\n",
                     _quat[3]);
         }
 

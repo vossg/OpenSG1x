@@ -57,6 +57,11 @@ class VectorInterface;
 template<class ValueTypeT, class StorageInterfaceT>
 class PointInterface;
 
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -888,6 +893,11 @@ typedef Pnt4d *Pnt4dP;
 OSG_END_NAMESPACE
 
 #include <OSGVector.inl>
+
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 #define OSGVECTOR_HEADER_CVSID "@(#)$Id: $"
 

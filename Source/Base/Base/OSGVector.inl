@@ -1873,6 +1873,7 @@ std::ostream &operator <<(        std::ostream                  &os,
     return os;
 }
 
+
 OSG_END_NAMESPACE
 
 #define OSGVECTOR_INLINE_CVSID "@(#)$Id: $"
