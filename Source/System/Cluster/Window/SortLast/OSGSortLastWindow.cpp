@@ -74,6 +74,23 @@ void SortLastWindow::buildGroups(void)
     DrawableListT     drawables;
     SortLastWindowPtr ptr(this);
     UInt32            groupCount;
+    bool              rebuild=false;
+
+    // check for new nodes.
+    FieldContainerFactory *fcFactory = FieldContainerFactory::the();
+    FieldContainerPtr fcPtr;
+    ChangeList::idrefd_const_iterator createdI;
+    ChangeList *changeList = OSG::Thread::getCurrentChangeList();
+    for(createdI = changeList->beginCreated();
+        createdI != changeList->endCreated(); createdI++)
+    {
+        fcPtr = fcFactory->getContainer(*createdI);
+        if(fcPtr != osg::NullFC && osg::NodePtr::dcast(fcPtr) != NullFC)
+            rebuild = true;
+    }
+    // is rebuild neccessary ?
+    if(!rebuild && getGroupNodes().size())
+        return;
 
     groupCount = getComposer()->getUsableServers();
     if(getComposer()->getClientRendering())
@@ -89,7 +106,8 @@ void SortLastWindow::buildGroups(void)
         NodePtr      root       = vp->getRoot();
         drawables.clear();
         collectDrawables(root,drawables);
-        splitDrawables(drawables,groupCount,false);
+        if(drawables.size())
+            splitDrawables(drawables,groupCount,false);
     }
     endEditCP(ptr,GroupNodesFieldMask|GroupLengthsFieldMask);
 }
@@ -251,6 +269,14 @@ void SortLastWindow::clientPreSync( void )
                       SortLastWindow::WidthFieldMask |
                       SortLastWindow::HeightFieldMask);
         }
+        getClientWindow()->activate();
+        getClientWindow()->frameInit();
+    }
+
+    if(getComposer() != NullFC)
+    {
+        // rebuild node groups
+        buildGroups();
     }
 }
 
@@ -272,8 +298,10 @@ void SortLastWindow::clientRender( RenderActionBase *action )
         if(getClientWindow()!=NullFC)
         {
             setupNodes(groupId);
+/*
             getClientWindow()->activate();
             getClientWindow()->frameInit();
+*/
             action->setWindow( getClientWindow().getCPtr() );
             // render all viewports
             for(p = 0; p < getPort().size() ; ++p)
@@ -519,7 +547,7 @@ void SortLastWindow::setupNodes(UInt32 groupId)
     UInt32  nI,gnI,gI,group;
     UInt32  groupCount;
 
-    if(!getGroupsChanged())
+    if(!getGroupsChanged() || !getComposer())
         return;
 
     // client and no client rendering 
