@@ -1,22 +1,22 @@
 #! /bin/sh
 
-if ! test -w Loader/OBJ/tmp_gv; then 
-    echo "Need Loader/OBJ/tmp_gv"
-	echo "mkdir Loader/OBJ/tmp_gv"
+if ! test -w Source/System/FileIO/OBJ/tmp_gv; then 
+    echo "Need Source/System/FileIO/OBJ/tmp_gv"
+	echo "mkdir Source/System/FileIO/OBJ/tmp_gv"
 
-    mkdir Loader/OBJ/tmp_gv
+    mkdir Source/System/FileIO/OBJ/tmp_gv
 fi
 
-if test -w Loader/OBJ/tmp_gv; then
+if test -w Source/System/FileIO/OBJ/tmp_gv; then
 	echo "Moving stuff out of the way"
 
-    if test -w Loader/OBJ/OSGOBJSceneFileType.hpp; then
-        echo "mv Loader/OBJ/OSGOBJSceneFileType.hpp Loader/OBJ/tmp_gv"
-        mv Loader/OBJ/OSGOBJSceneFileType.hpp Loader/OBJ/tmp_gv
+    if test -w Source/System/FileIO/OBJ/OSGOBJSceneFileType.hpp; then
+        echo "mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.hpp Source/System/FileIO/OBJ/tmp_gv"
+        mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.hpp Source/System/FileIO/OBJ/tmp_gv
     fi
 
-    if test -w Loader/OBJ/OSGOBJSceneFileType.cpp; then
-        echo "mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv"
-        mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv
+    if test -w Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp; then
+        echo "mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv"
+        mv Source/System/FileIO/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv
     fi
 fi

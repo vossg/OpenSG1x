@@ -1,54 +1,54 @@
 #! /bin/sh
 
-if ! test -w Base/tmp_gv; then 
-    echo "Need Base/tmp_gv"
-	echo "mkdir Base/tmp_gv"
+if ! test -w Source/Base/Base/tmp_gv; then 
+    echo "Need Source/Base/Base/tmp_gv"
+	echo "mkdir Source/Base/Base/tmp_gv"
 
-    mkdir Base/tmp_gv
+    mkdir Source/Base/Base/tmp_gv
 fi
 
-if ! test -w Field/tmp_gv; then 
-    echo "Need Field/tmp_gv"
-	echo "mkdir Field/tmp_gv"
+if ! test -w Source/Base/Field/tmp_gv; then 
+    echo "Need Source/Base/Field/tmp_gv"
+	echo "mkdir Source/Base/Field/tmp_gv"
 
-    mkdir Field/tmp_gv
+    mkdir Source/Base/Field/tmp_gv
 fi
 
-if ! test -w Loader/OBJ/tmp_gv; then 
-    echo "Need Loader/OBJ/tmp_gv"
-	echo "mkdir Loader/OBJ/tmp_gv"
+if ! test -w Source/System/FileIO/OBJ/tmp_gv; then 
+    echo "Need Source/System/FileIO/OBJ/tmp_gv"
+	echo "mkdir Source/System/FileIO/OBJ/tmp_gv"
 
-    mkdir Loader/OBJ/tmp_gv
+    mkdir Source/System/FileIO/OBJ/tmp_gv
 fi
 
-if ! test -w Loader/WRL/tmp_gv; then 
-    echo "Need Loader/WRL/tmp_gv"
-	echo "mkdir Loader/WRL/tmp_gv"
+if ! test -w Source/System/FileIO/WRL/tmp_gv; then 
+    echo "Need Source/System/FileIO/WRL/tmp_gv"
+	echo "mkdir Source/System/FileIO/WRL/tmp_gv"
 
-    mkdir Loader/WRL/tmp_gv
+    mkdir Source/System/FileIO/WRL/tmp_gv
 fi
 
-if test -w Base/tmp_gv; then
+if test -w Source/Base/Base/tmp_gv; then
 	echo "Moving stuff out of the way"
 
-    if test -w Base/OSGTypeBase.h; then
-        echo "mv Base/OSGTypeBase.h Base/tmp_gv"
-        mv Base/OSGTypeBase.h Base/tmp_gv
+    if test -w Source/Base/Base/OSGTypeBase.h; then
+        echo "mv Source/Base/Base/OSGTypeBase.h Source/Base/Base/tmp_gv"
+        mv Source/Base/Base/OSGTypeBase.h Source/Base/Base/tmp_gv
     fi
 
-    if test -w Base/OSGTypeBase.cpp; then
-        echo "mv Base/OSGTypeBase.cpp Base/tmp_gv"
-        mv Base/OSGTypeBase.cpp Base/tmp_gv
+    if test -w Source/Base/Base/OSGTypeBase.cpp; then
+        echo "mv Source/Base/Base/OSGTypeBase.cpp Source/Base/Base/tmp_gv"
+        mv Source/Base/Base/OSGTypeBase.cpp Source/Base/Base/tmp_gv
     fi
 
-    if test -w Base/OSGTypeFactory.h; then
-        echo "mv Base/OSGTypeFactory.h Base/tmp_gv"
-        mv Base/OSGTypeFactory.h Base/tmp_gv
+    if test -w Source/Base/Base/OSGTypeFactory.h; then
+        echo "mv Source/Base/Base/OSGTypeFactory.h Source/Base/Base/tmp_gv"
+        mv Source/Base/Base/OSGTypeFactory.h Source/Base/Base/tmp_gv
     fi
 
-    if test -w Base/OSGTypeFactory.cpp; then
-        echo "mv Base/OSGTypeFactory.cpp Base/tmp_gv"
-        mv Base/OSGTypeFactory.cpp Base/tmp_gv
+    if test -w Source/Base/Base/OSGTypeFactory.cpp; then
+        echo "mv Source/Base/Base/OSGTypeFactory.cpp Source/Base/Base/tmp_gv"
+        mv Source/Base/Base/OSGTypeFactory.cpp Source/Base/Base/tmp_gv
     fi
 
 #    if test -w Base/OSGConfig.h; then
@@ -98,24 +98,24 @@ if test -w Base/tmp_gv; then
 #    fi
 
 
-    if test -w Loader/OBJ/OSGOBJSceneFileType.hpp; then
-        echo "mv Loader/OBJ/OSGOBJSceneFileType.hpp Loader/OBJ/tmp_gv"
-        mv Loader/OBJ/OSGOBJSceneFileType.hpp Loader/OBJ/tmp_gv
+    if test -w Source/System/FileIO/OBJ/OSGOBJSceneFileType.hpp; then
+        echo "mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.hpp Source/System/FileIO/OBJ/tmp_gv"
+        mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.hpp Source/System/FileIO/OBJ/tmp_gv
     fi
 
-    if test -w Loader/OBJ/OSGOBJSceneFileType.cpp; then
-        echo "mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv"
-        mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv
+    if test -w Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp; then
+        echo "mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv"
+        mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv
     fi
 
 
-    if test -w Loader/WRL/OSGVRMLSceneFileType.hpp; then
-        echo "mv Loader/WRL/OSGVRMLSceneFileType.hpp Loader/WRL/tmp_gv"
-        mv Loader/WRL/OSGVRMLSceneFileType.hpp Loader/WRL/tmp_gv
+    if test -w Source/System/FileIO/WRL/OSGVRMLSceneFileType.hpp; then
+        echo "mv Source/System/FileIO/WRL/OSGVRMLSceneFileType.hpp Source/System/FileIO/WRL/tmp_gv"
+        mv Source/System/FileIO/WRL/OSGVRMLSceneFileType.hpp Source/System/FileIO/WRL/tmp_gv
     fi
 
-    if test -w Loader/WRL/OSGVRMLSceneFileType.cpp; then
-        echo "mv Loader/WRL/OSGVRMLSceneFileType.cpp Loader/WRL/tmp_gv"
-        mv Loader/WRL/OSGVRMLSceneFileType.cpp Loader/WRL/tmp_gv
+    if test -w Source/System/FileIO/WRL/OSGVRMLSceneFileType.cpp; then
+        echo "mv Source/System/FileIO/WRL/OSGVRMLSceneFileType.cpp Source/System/FileIO/WRL/tmp_gv"
+        mv Source/System/FileIO/WRL/OSGVRMLSceneFileType.cpp Source/System/FileIO/WRL/tmp_gv
     fi
 fi
