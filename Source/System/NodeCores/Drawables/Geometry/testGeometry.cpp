@@ -38,6 +38,81 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
     return returnValue;
 }
 
+// try to create instances of all property types, to make sure they all work
+// on Windows (MS compiler is pretty braindead about this) :((
+
+#define DOTEST(name, etype)\
+{\
+    UInt16 i;\
+    \
+    FLOG(("Type:%s\n", #name));\
+    \
+    FLOG(("static ClassType: %s\n", name##::getClassType().getCName() ));\
+   \
+    name##::PtrType p = name::create();\
+    FLOG(("dynamic ClassType: %s\n", p->getType().getCName() ));\
+    \
+    SLOG << "Resize...";\
+    p->resize(32);\
+    MF##etype *f = p->getFieldPtr();\
+    PLOG << "FieldPtr push_back...";\
+    for(i = 0; i < 128; ++i)\
+    {\
+		f->push_back( etype() );\
+	}\
+    PLOG << "Property push_back" << endLog;\
+    for(i = 0; i < 128; ++i)\
+    {\
+		p->getField().push_back( etype() );\
+	}\
+	SLOG << "Dim:" << p->getDimension() << " Format: " << p->getFormat() \
+		 << " FormatSize: " << p->getFormatSize \
+	     << " Stride:" << p->getStride() << " Size: " << p->getSize() << "," << p->size() \
+	     << " Data:" << p->getData() << endLog; \
+	name##::GenericType g;\
+	SLOG << "Generic getValue...";\
+	g = p->getValue(0);\
+	PLOG << "Generic getValueTo...";\
+	p->getValue(g, 0);\
+	PLOG << "Generic setValue...";\
+	p->setValue(g, 0);\
+	PLOG << "Generic addValue" << endLog;\
+	p->addValue(g);\
+	SLOG << "Clone" << endLog;\
+	name##Ptr q = name##Ptr::dcast(p->clone());\
+	if(q == NullFC)\
+		SLOG << "DCast failed" << endLog;\
+	SLOG << "Clear" << endLog;\
+	p->clear();\
+	SLOG << "Destruct" << endLog;\
+	subRefCP(p);\
+	subRefCP(q);\
+}
+
+void testTypes(void)
+{
+
+	SLOG << "Testing type completeness" << endLog;
+	DOTEST(GeoPTypesUI8, UInt8);
+	DOTEST(GeoPLengthsUI32, UInt32);
+	DOTEST(GeoIndicesUI32, UInt32);
+	DOTEST(GeoPositions2f, Pnt2f);
+	DOTEST(GeoPositions3f, Pnt3f);
+	DOTEST(GeoPositions4f, Pnt4f);
+	DOTEST(GeoPositions2d, Pnt2d);
+	DOTEST(GeoPositions3d, Pnt3d);
+	DOTEST(GeoPositions4d, Pnt4d);
+	DOTEST(GeoTexCoords1f, Real32);
+	DOTEST(GeoTexCoords2f, Vec2f);
+	DOTEST(GeoTexCoords3f, Vec3f);
+	DOTEST(GeoNormals3f, Vec3f);
+	DOTEST(GeoColors3ub, Color3ub);
+	DOTEST(GeoColors4ub, Color4ub);
+	DOTEST(GeoColors3f, Color3f);
+	DOTEST(GeoColors4f, Color4f);
+	SLOG << "Types done" << endLog;
+}
+
 int main (int argc, char **argv)
 {
     UInt32 i;
@@ -59,7 +134,7 @@ int main (int argc, char **argv)
     std::cerr << "Dim:" << pnts->getDimension() << ", Format:" 
          << std::hex << pnts->getFormat() << std::dec
          << ", Stride:" << pnts->getStride() << ", Data:" 
-         << std::hex << pnts->getData() << std::dec 
+ //        << std::hex << pnts->getData() << std::dec 
          << ", getSize " << pnts->getSize()
          << ", size " << pnts->size()
          << std::endl;
@@ -125,6 +200,8 @@ int main (int argc, char **argv)
     std::cerr << "Volume: center " << center << ", volume "
          << p1->getVolume().getScalarVolume() << std::endl;
 
+	testTypes();
+	
     return 0;
 }
 
