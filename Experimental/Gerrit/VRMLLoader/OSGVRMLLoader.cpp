@@ -451,7 +451,7 @@ void VRMLLoader::use(const Char8 *szName)
 }
 
 void VRMLLoader::beginField(const Char8 *szFieldname,
-                            const UInt32 uiFieldTypeId)
+                            const UInt32            )
 {
     if(szFieldname == NULL)
         return;
@@ -552,10 +552,10 @@ void VRMLLoader::addFieldValue(const Char8 *szFieldVal)
     }
 }
 
-void VRMLLoader::addRoute(const Char8 *szOutNodename,
-                          const Char8 *szOutFieldname,
-                          const Char8 *szInNodename,
-                          const Char8 *szInFieldname)
+void VRMLLoader::addRoute(const Char8 */*szOutNodename*/,
+                          const Char8 */*szOutFieldname*/,
+                          const Char8 */*szInNodename*/,
+                          const Char8 */*szInFieldname*/)
 {
 #if 0
     if(_pNameNodeMap == NULL)
@@ -754,6 +754,13 @@ void VRMLLoader::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 
     Inherited::scanFile(szFilename, uiOptions);
 }
+
+/*
+void scanFile(const Char8  *szFilename, 
+  UInt32  uiAddOptions, 
+  UInt32  uiSubOptions);
+ */
+
 
 VRMLLoader::ResultStore &VRMLLoader::getResultStore(void)
 {

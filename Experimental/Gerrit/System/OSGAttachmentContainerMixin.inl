@@ -208,25 +208,25 @@ void AttachmentContainerMixin<AttachmentDescT>::addAttachment(
 
     uiKey = (UInt32 (pContainer->getGroupId()) << 16) | uiBinding;
 
-    addRef(pContainer);
+    OSG::addRef(pContainer);
 
     AttachmentObjMap::iterator amIt = _sfAttachments.getValue().find(uiKey);
 
-    beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
+    OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
     {
-        pContainer->addParent(Desc::getPtr(this));
+        pContainer->addParent(Desc::getDownCastPtr(this));
     }
-    endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
+    OSG::endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
 
     if(amIt != _sfAttachments.getValue().end())
     {
-        beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
         {
-            (*amIt).second->subParent(Desc::getPtr(this));
+            (*amIt).second->subParent(Desc::getDownCastPtr(this));
         }
-        endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
 
-        subRef((*amIt).second);
+        OSG::subRef((*amIt).second);
 
         (*amIt).second = pContainer;
     }
@@ -254,13 +254,13 @@ void AttachmentContainerMixin<AttachmentDescT>::subAttachment(
 
     if(amIt != _sfAttachments.getValue().end())
     {
-        beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
         {
-            (*amIt).second->subParent(Desc::getPtr(this));
+            (*amIt).second->subParent(Desc::getDownCastPtr(this));
         }
-        endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
 
-        subRef((*amIt).second);
+        OSG::subRef((*amIt).second);
 
         _sfAttachments.getValue().erase(amIt);
     }

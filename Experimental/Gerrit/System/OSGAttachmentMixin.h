@@ -76,7 +76,7 @@ class AttachmentMixin : public AttachmentDescT::Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef AttachmentDescT::Parent Inherited;
+    typedef typename AttachmentDescT::Parent Inherited;
 
   public:
 
@@ -87,7 +87,7 @@ class AttachmentMixin : public AttachmentDescT::Parent
     typedef       AttachmentMixin *Ptr;
     typedef const AttachmentMixin *ConstPtr;
 
-    typedef AttachmentDescT            Desc;
+    typedef          AttachmentDescT   Desc;
 
     typedef typename Desc::ParentPtr   ParentPtr;
     typedef typename Desc::MFParentPtr MFParentPtr;

@@ -66,11 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 struct VRMLNodeAttachmentDesc
 {
-    typedef VRMLObject    Parent;
+    typedef VRMLObject                     Parent;
 
-    typedef VRMLNode     *ParentPtr;
-    typedef MFVRMLNode    MFParentPtr;
-
+    typedef VRMLNode                      *ParentPtr;
+    typedef MFVRMLNode                     MFParentPtr;
+    
     static void descInserter(ReflexiveContainerType *pType)
     {
         typedef AttachmentMixin<VRMLNodeAttachmentDesc> AM;

@@ -66,6 +66,8 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+class VRMLNode;
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -92,6 +94,11 @@ struct VRMLNodeAttachmentContainerDesc
     static AttachmentContainer *getPtr(AttachmentContainer *pContainer)
     {
         return pContainer;
+    }
+
+    static VRMLNode *getDownCastPtr(AttachmentContainer *pContainer)
+    {
+        return reinterpret_cast<VRMLNode *>(pContainer);
     }
 
     static Char8 *getTypeName(void)

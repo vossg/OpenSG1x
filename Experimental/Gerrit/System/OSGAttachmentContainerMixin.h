@@ -76,7 +76,7 @@ class AttachmentContainerMixin : public AttachmentDescT::Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef AttachmentDescT::Parent Inherited;
+    typedef typename AttachmentDescT::Parent Inherited;
 
   public:
 
@@ -84,18 +84,18 @@ class AttachmentContainerMixin : public AttachmentDescT::Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef       AttachmentContainerMixin      *Ptr;
-    typedef const AttachmentContainerMixin      *ConstPtr;
+    typedef          AttachmentContainerMixin      *Ptr;
+    typedef const    AttachmentContainerMixin      *ConstPtr;
 
-    typedef       AttachmentDescT                Desc;
+    typedef          AttachmentDescT                Desc;
 
-    typedef       Desc::AttachmentObjPtr         AttachmentObjPtr;
-    typedef       Desc::AttachmentObj            AttachmentObj;
-    typedef       Desc::SFAttachmentObjMap       SFAttachmentObjMap;
+    typedef typename Desc::AttachmentObjPtr         AttachmentObjPtr;
+    typedef typename Desc::AttachmentObj            AttachmentObj;
+    typedef typename Desc::SFAttachmentObjMap       SFAttachmentObjMap;
 
-    typedef       Desc::ObjectType               ObjectType;
+    typedef typename Desc::ObjectType               ObjectType;
 
-    typedef       SFAttachmentObjMap::StoredType AttachmentObjMap;
+    typedef typename SFAttachmentObjMap::StoredType AttachmentObjMap;
 
     //-----------------------------------------------------------------------
     //   constants                                                           

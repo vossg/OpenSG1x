@@ -183,7 +183,7 @@ lib_base=yes
 
 valid_print=no
 lib_suf=dbg
-
+dbg_char=D
 while test $# -gt 0; do
   case "$1" in
   -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
@@ -251,9 +251,11 @@ while test $# -gt 0; do
       ;;
     --opt)
       lib_suf=opt
+      dbg_char=
       ;;
     --dbg)
       lib_suf=dbg
+      dbg_char=D
       ;;
     Base)
       lib_Base=yes
@@ -334,7 +336,7 @@ fi
 
 if test "$lib_QT" = "yes"; then
     if test "$have_qt" = "yes"; then
-        opensg_libs="$opensg_libs ${link_pre}OSGWindowQT${link_suf}"
+        opensg_libs="$opensg_libs ${link_pre}OSGWindowQT${dbg_char}${link_suf}"
         system_libs="$system_libs $qt_libs"
         if test "yes$lib_qt_path" != "yes"; then
             system_libs_path="$system_libs_path $linkdir_pre$lib_qt_path$linkdir_suf"
@@ -350,7 +352,7 @@ fi;
 
 if test "$lib_GLUT" = "yes"; then
     if test "$have_glut" = "yes"; then
-        opensg_libs="$opensg_libs ${link_pre}OSGWindowGLUT${link_suf}"
+        opensg_libs="$opensg_libs ${link_pre}OSGWindowGLUT${dbg_char}${link_suf}"
         system_libs="$system_libs $glut_libs"
         if test "yes$lib_glut_path" != "yes"; then
             system_libs_path="$system_libs_path $linkdir_pre$lib_glut_path$linkdir_suf"
@@ -366,7 +368,7 @@ fi;
 
 if test "$lib_X" = "yes"; then
     if test "$system_unix" = "yes"; then
-        opensg_libs="$opensg_libs ${link_pre}OSGWindowX${link_suf}"
+        opensg_libs="$opensg_libs ${link_pre}OSGWindowX${dbg_char}${link_suf}"
     else
         echo "Warning X not available on win32 plattforms, ignoring request"
     fi;
@@ -374,7 +376,7 @@ fi;
 
 if test "$lib_Win32" = "yes"; then
     if test "$system_win" = "yes"; then
-        opensg_libs="$opensg_libs ${link_pre}OSGWindowWin32${link_suf}"
+        opensg_libs="$opensg_libs ${link_pre}OSGWindowWin32${dbg_char}${link_suf}"
     else
         echo "Warning Win32 not available on unix plattforms, ignoring request"
     fi;
@@ -387,7 +389,7 @@ img_defs=
 sys_defs=
 
 if test "$lib_System" = "yes"; then
-    opensg_libs="$opensg_libs ${link_pre}OSGSystem${link_suf}"
+    opensg_libs="$opensg_libs ${link_pre}OSGSystem${dbg_char}${link_suf}"
     system_libs="$system_libs $sys_libs"
     img_libs_path=$image_libs_path
     img_incs_path=$image_incs_path
@@ -397,7 +399,7 @@ if test "$lib_System" = "yes"; then
 fi;
 
 if test "$lib_Base" = "yes"; then
-    opensg_libs="$opensg_libs ${link_pre}OSGBase${link_suf}"
+    opensg_libs="$opensg_libs ${link_pre}OSGBase${dbg_char}${link_suf}"
     system_libs="$system_libs $base_libs"
 fi;
 

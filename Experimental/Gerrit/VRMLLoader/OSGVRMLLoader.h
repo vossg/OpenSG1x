@@ -252,6 +252,10 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
 
     virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
 
+    virtual void scanFile(const Char8  *szFilename, 
+                                UInt32  uiAddOptions, 
+                                UInt32  uiSubOptions);
+
     /*---------------------------- result -----------------------------------*/
 
     ResultStore &getResultStore(void);

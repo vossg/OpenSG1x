@@ -383,7 +383,7 @@ class ContainerStoreFactoryMixin : public ParentT
 
 
     typedef          vector<ContainerPtr     > ContainerStore;
-    typedef          ContainerStore::iterator  ContainerStoreIt;
+    typedef typename ContainerStore::iterator  ContainerStoreIt;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
