@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CameraDecorator
+ **     class StereoBufferViewport
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCAMERADECORATORBASE_H_
-#define _OSGCAMERADECORATORBASE_H_
+#ifndef _OSGSTEREOBUFFERVIEWPORTBASE_H_
+#define _OSGSTEREOBUFFERVIEWPORTBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,35 +65,39 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGCamera.h> // Parent
+#include <OSGViewport.h> // Parent
 
-#include <OSGCameraFields.h> // Decoratee type
+#include <OSGBoolFields.h> // LeftBuffer type
+#include <OSGBoolFields.h> // RightBuffer type
 
-#include <OSGCameraDecoratorFields.h>
+#include <OSGStereoBufferViewportFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class CameraDecorator;
+class StereoBufferViewport;
 class BinaryDataHandler;
 
-//! \brief CameraDecorator Base Class.
+//! \brief StereoBufferViewport Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
+class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
 {
   private:
 
-    typedef Camera Inherited;
+    typedef Viewport Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        DecorateeFieldId        = Inherited::NextFieldId,
-        NextFieldId             = DecorateeFieldId          + 1
+        LeftBufferFieldId  = Inherited::NextFieldId,
+        RightBufferFieldId = LeftBufferFieldId  + 1,
+        NextFieldId        = RightBufferFieldId + 1
     };
 
-    static const osg::BitVector DecorateeFieldMask;
+    static const osg::BitVector LeftBufferFieldMask;
+    static const osg::BitVector RightBufferFieldMask;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -117,29 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFCameraPtr *getSFDecoratee(void);
-    inline       SFNodePtr           *getSFBeacon         (void);
-    inline       SFReal32            *getSFNear           (void);
-    inline       SFReal32            *getSFFar            (void);
+    inline       SFBool              *getSFLeftBuffer     (void);
+    inline       SFBool              *getSFRightBuffer    (void);
 
-    inline       CameraPtr &getDecoratee(void);
-    inline const CameraPtr &getDecoratee(void) const;
-    inline       NodePtr             &getBeacon         (void);
-    inline const NodePtr             &getBeacon         (void) const;
-    inline       Real32              &getNear           (void);
-    inline const Real32              &getNear           (void) const;
-    inline       Real32              &getFar            (void);
-    inline const Real32              &getFar            (void) const;
+    inline       bool                &getLeftBuffer     (void);
+    inline const bool                &getLeftBuffer     (void) const;
+    inline       bool                &getRightBuffer    (void);
+    inline const bool                &getRightBuffer    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDecoratee      ( const CameraPtr &value );
-    inline void setBeacon         ( const NodePtr &value );
-    inline void setNear           ( const Real32 &value );
-    inline void setFar            ( const Real32 &value );
+    inline void setLeftBuffer     ( const bool &value );
+    inline void setRightBuffer    ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -162,6 +158,22 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
+
+    static  StereoBufferViewportPtr      create          (void); 
+    static  StereoBufferViewportPtr      createEmpty     (void); 
+
+    /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -169,29 +181,30 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFCameraPtr   _sfDecoratee;
+    SFBool              _sfLeftBuffer;
+    SFBool              _sfRightBuffer;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CameraDecoratorBase(void);
-    CameraDecoratorBase(const CameraDecoratorBase &source);
+    StereoBufferViewportBase(void);
+    StereoBufferViewportBase(const StereoBufferViewportBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CameraDecoratorBase(void); 
+    virtual ~StereoBufferViewportBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CameraDecoratorBase *pOther,
+    void executeSyncImpl(      StereoBufferViewportBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -205,7 +218,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CameraDecoratorBase &source);
+    void operator =(const StereoBufferViewportBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -213,10 +226,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 //---------------------------------------------------------------------------
 
 
-typedef CameraDecoratorBase *CameraDecoratorBaseP;
+typedef StereoBufferViewportBase *StereoBufferViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.16 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
 
-#endif /* _OSGCAMERADECORATORBASE_H_ */
+#endif /* _OSGSTEREOBUFFERVIEWPORTBASE_H_ */

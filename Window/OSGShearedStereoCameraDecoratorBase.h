@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CameraDecorator
+ **     class ShearedStereoCameraDecorator
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCAMERADECORATORBASE_H_
-#define _OSGCAMERADECORATORBASE_H_
+#ifndef _OSGSHEAREDSTEREOCAMERADECORATORBASE_H_
+#define _OSGSHEAREDSTEREOCAMERADECORATORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,35 +65,39 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGCamera.h> // Parent
+#include <OSGStereoCameraDecorator.h> // Parent
 
-#include <OSGCameraFields.h> // Decoratee type
+#include <OSGReal32Fields.h> // ZeroParallaxDistance type
+#include <OSGReal32Fields.h> // Overlap type
 
-#include <OSGCameraDecoratorFields.h>
+#include <OSGShearedStereoCameraDecoratorFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class CameraDecorator;
+class ShearedStereoCameraDecorator;
 class BinaryDataHandler;
 
-//! \brief CameraDecorator Base Class.
+//! \brief ShearedStereoCameraDecorator Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
+class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoCameraDecorator
 {
   private:
 
-    typedef Camera Inherited;
+    typedef StereoCameraDecorator Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        DecorateeFieldId        = Inherited::NextFieldId,
-        NextFieldId             = DecorateeFieldId          + 1
+        ZeroParallaxDistanceFieldId = Inherited::NextFieldId,
+        OverlapFieldId              = ZeroParallaxDistanceFieldId + 1,
+        NextFieldId                 = OverlapFieldId              + 1
     };
 
-    static const osg::BitVector DecorateeFieldMask;
+    static const osg::BitVector ZeroParallaxDistanceFieldMask;
+    static const osg::BitVector OverlapFieldMask;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -117,29 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFCameraPtr *getSFDecoratee(void);
-    inline       SFNodePtr           *getSFBeacon         (void);
-    inline       SFReal32            *getSFNear           (void);
-    inline       SFReal32            *getSFFar            (void);
+    inline       SFReal32            *getSFZeroParallaxDistance(void);
+    inline       SFReal32            *getSFOverlap        (void);
 
-    inline       CameraPtr &getDecoratee(void);
-    inline const CameraPtr &getDecoratee(void) const;
-    inline       NodePtr             &getBeacon         (void);
-    inline const NodePtr             &getBeacon         (void) const;
-    inline       Real32              &getNear           (void);
-    inline const Real32              &getNear           (void) const;
-    inline       Real32              &getFar            (void);
-    inline const Real32              &getFar            (void) const;
+    inline       Real32              &getZeroParallaxDistance(void);
+    inline const Real32              &getZeroParallaxDistance(void) const;
+    inline       Real32              &getOverlap        (void);
+    inline const Real32              &getOverlap        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDecoratee      ( const CameraPtr &value );
-    inline void setBeacon         ( const NodePtr &value );
-    inline void setNear           ( const Real32 &value );
-    inline void setFar            ( const Real32 &value );
+    inline void setZeroParallaxDistance( const Real32 &value );
+    inline void setOverlap        ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -162,6 +158,22 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
+
+    static  ShearedStereoCameraDecoratorPtr      create          (void); 
+    static  ShearedStereoCameraDecoratorPtr      createEmpty     (void); 
+
+    /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -169,29 +181,30 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFCameraPtr   _sfDecoratee;
+    SFReal32            _sfZeroParallaxDistance;
+    SFReal32            _sfOverlap;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CameraDecoratorBase(void);
-    CameraDecoratorBase(const CameraDecoratorBase &source);
+    ShearedStereoCameraDecoratorBase(void);
+    ShearedStereoCameraDecoratorBase(const ShearedStereoCameraDecoratorBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CameraDecoratorBase(void); 
+    virtual ~ShearedStereoCameraDecoratorBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CameraDecoratorBase *pOther,
+    void executeSyncImpl(      ShearedStereoCameraDecoratorBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -205,7 +218,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CameraDecoratorBase &source);
+    void operator =(const ShearedStereoCameraDecoratorBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -213,10 +226,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 //---------------------------------------------------------------------------
 
 
-typedef CameraDecoratorBase *CameraDecoratorBaseP;
+typedef ShearedStereoCameraDecoratorBase *ShearedStereoCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.16 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
 
-#endif /* _OSGCAMERADECORATORBASE_H_ */
+#endif /* _OSGSHEAREDSTEREOCAMERADECORATORBASE_H_ */

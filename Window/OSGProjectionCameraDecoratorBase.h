@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CameraDecorator
+ **     class ProjectionCameraDecorator
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCAMERADECORATORBASE_H_
-#define _OSGCAMERADECORATORBASE_H_
+#ifndef _OSGPROJECTIONCAMERADECORATORBASE_H_
+#define _OSGPROJECTIONCAMERADECORATORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,35 +65,54 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGCamera.h> // Parent
+#include <OSGStereoCameraDecorator.h> // Parent
 
-#include <OSGCameraFields.h> // Decoratee type
+#include <OSGNodeFields.h> // User type
+#include <OSGPnt3fFields.h> // Surface type
+#include <OSGPlaneFields.h> // Left type
+#include <OSGPlaneFields.h> // Bottom type
+#include <OSGPlaneFields.h> // Normal type
+#include <OSGReal32Fields.h> // Width type
+#include <OSGReal32Fields.h> // Height type
 
-#include <OSGCameraDecoratorFields.h>
+#include <OSGProjectionCameraDecoratorFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class CameraDecorator;
+class ProjectionCameraDecorator;
 class BinaryDataHandler;
 
-//! \brief CameraDecorator Base Class.
+//! \brief ProjectionCameraDecorator Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
+class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCameraDecorator
 {
   private:
 
-    typedef Camera Inherited;
+    typedef StereoCameraDecorator Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        DecorateeFieldId        = Inherited::NextFieldId,
-        NextFieldId             = DecorateeFieldId          + 1
+        UserFieldId    = Inherited::NextFieldId,
+        SurfaceFieldId = UserFieldId    + 1,
+        LeftFieldId    = SurfaceFieldId + 1,
+        BottomFieldId  = LeftFieldId    + 1,
+        NormalFieldId  = BottomFieldId  + 1,
+        WidthFieldId   = NormalFieldId  + 1,
+        HeightFieldId  = WidthFieldId   + 1,
+        NextFieldId    = HeightFieldId  + 1
     };
 
-    static const osg::BitVector DecorateeFieldMask;
+    static const osg::BitVector UserFieldMask;
+    static const osg::BitVector SurfaceFieldMask;
+    static const osg::BitVector LeftFieldMask;
+    static const osg::BitVector BottomFieldMask;
+    static const osg::BitVector NormalFieldMask;
+    static const osg::BitVector WidthFieldMask;
+    static const osg::BitVector HeightFieldMask;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -117,29 +136,29 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFCameraPtr *getSFDecoratee(void);
-    inline       SFNodePtr           *getSFBeacon         (void);
-    inline       SFReal32            *getSFNear           (void);
-    inline       SFReal32            *getSFFar            (void);
+    inline       SFNodePtr           *getSFUser           (void);
+    inline       MFPnt3f             *getMFSurface        (void);
+    inline       SFReal32            *getSFWidth          (void);
+    inline       SFReal32            *getSFHeight         (void);
 
-    inline       CameraPtr &getDecoratee(void);
-    inline const CameraPtr &getDecoratee(void) const;
-    inline       NodePtr             &getBeacon         (void);
-    inline const NodePtr             &getBeacon         (void) const;
-    inline       Real32              &getNear           (void);
-    inline const Real32              &getNear           (void) const;
-    inline       Real32              &getFar            (void);
-    inline const Real32              &getFar            (void) const;
+    inline       NodePtr             &getUser           (void);
+    inline const NodePtr             &getUser           (void) const;
+    inline       Real32              &getWidth          (void);
+    inline const Real32              &getWidth          (void) const;
+    inline       Real32              &getHeight         (void);
+    inline const Real32              &getHeight         (void) const;
+    inline       Pnt3f               &getSurface        (UInt32 index);
+    inline       MFPnt3f             &getSurface        (void);
+    inline const MFPnt3f             &getSurface        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDecoratee      ( const CameraPtr &value );
-    inline void setBeacon         ( const NodePtr &value );
-    inline void setNear           ( const Real32 &value );
-    inline void setFar            ( const Real32 &value );
+    inline void setUser           ( const NodePtr &value );
+    inline void setWidth          ( const Real32 &value );
+    inline void setHeight         ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -162,6 +181,22 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
+
+    static  ProjectionCameraDecoratorPtr      create          (void); 
+    static  ProjectionCameraDecoratorPtr      createEmpty     (void); 
+
+    /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -169,29 +204,60 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFCameraPtr   _sfDecoratee;
+    SFNodePtr           _sfUser;
+    MFPnt3f             _mfSurface;
+    SFPlane             _sfLeft;
+    SFPlane             _sfBottom;
+    SFPlane             _sfNormal;
+    SFReal32            _sfWidth;
+    SFReal32            _sfHeight;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CameraDecoratorBase(void);
-    CameraDecoratorBase(const CameraDecoratorBase &source);
+    ProjectionCameraDecoratorBase(void);
+    ProjectionCameraDecoratorBase(const ProjectionCameraDecoratorBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CameraDecoratorBase(void); 
+    virtual ~ProjectionCameraDecoratorBase(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+    inline       SFPlane             *getSFLeft           (void);
+    inline       SFPlane             *getSFBottom         (void);
+    inline       SFPlane             *getSFNormal         (void);
+
+    inline       Plane               &getLeft           (void);
+    inline const Plane               &getLeft           (void) const;
+    inline       Plane               &getBottom         (void);
+    inline const Plane               &getBottom         (void) const;
+    inline       Plane               &getNormal         (void);
+    inline const Plane               &getNormal         (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setLeft           (const Plane &value);
+    inline void setBottom         (const Plane &value);
+    inline void setNormal         (const Plane &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CameraDecoratorBase *pOther,
+    void executeSyncImpl(      ProjectionCameraDecoratorBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -205,7 +271,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CameraDecoratorBase &source);
+    void operator =(const ProjectionCameraDecoratorBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -213,10 +279,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 //---------------------------------------------------------------------------
 
 
-typedef CameraDecoratorBase *CameraDecoratorBaseP;
+typedef ProjectionCameraDecoratorBase *ProjectionCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.16 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
 
-#endif /* _OSGCAMERADECORATORBASE_H_ */
+#endif /* _OSGPROJECTIONCAMERADECORATORBASE_H_ */

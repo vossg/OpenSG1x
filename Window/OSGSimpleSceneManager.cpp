@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.19 2002/02/18 06:28:55 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.20 2002/02/22 17:08:05 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -230,11 +230,20 @@ NodePtr SimpleSceneManager::getRoot(void)
     return _root;
 }
 
+/*! get the navigator
+ */
+Navigator *SimpleSceneManager::getNavigator(void)
+{
+    return &_navigator;
+}
+
 /*! set the window to be used for display
  */
 void SimpleSceneManager::setWindow(WindowPtr win)
 {
     _win = win;
+    if(_win->getMFPort()->getSize() > 0 && _win->getPort(0) != NullFC)
+        _navigator.setViewport(_win->getPort(0));      
 }
 
 /*! get the highlight object
@@ -376,7 +385,7 @@ void SimpleSceneManager::initialize(void)
     endEditCP(_camera);
 
     // need a viewport?
-    if(_win->getPort().getSize() == 0)
+    if(_win != NullFC && _win->getPort().getSize() == 0)
     {
         // I'd like this to be a gradient background, but it still has
         // problems on Linux/nVidia

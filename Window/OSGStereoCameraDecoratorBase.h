@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CameraDecorator
+ **     class StereoCameraDecorator
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCAMERADECORATORBASE_H_
-#define _OSGCAMERADECORATORBASE_H_
+#ifndef _OSGSTEREOCAMERADECORATORBASE_H_
+#define _OSGSTEREOCAMERADECORATORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,35 +65,39 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGCamera.h> // Parent
+#include <OSGCameraDecorator.h> // Parent
 
-#include <OSGCameraFields.h> // Decoratee type
+#include <OSGBoolFields.h> // LeftEye type
+#include <OSGReal32Fields.h> // EyeSeparation type
 
-#include <OSGCameraDecoratorFields.h>
+#include <OSGStereoCameraDecoratorFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class CameraDecorator;
+class StereoCameraDecorator;
 class BinaryDataHandler;
 
-//! \brief CameraDecorator Base Class.
+//! \brief StereoCameraDecorator Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
+class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecoratorBase : public CameraDecorator
 {
   private:
 
-    typedef Camera Inherited;
+    typedef CameraDecorator Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        DecorateeFieldId        = Inherited::NextFieldId,
-        NextFieldId             = DecorateeFieldId          + 1
+        LeftEyeFieldId       = Inherited::NextFieldId,
+        EyeSeparationFieldId = LeftEyeFieldId       + 1,
+        NextFieldId          = EyeSeparationFieldId + 1
     };
 
-    static const osg::BitVector DecorateeFieldMask;
+    static const osg::BitVector LeftEyeFieldMask;
+    static const osg::BitVector EyeSeparationFieldMask;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -117,29 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFCameraPtr *getSFDecoratee(void);
-    inline       SFNodePtr           *getSFBeacon         (void);
-    inline       SFReal32            *getSFNear           (void);
-    inline       SFReal32            *getSFFar            (void);
+    inline       SFBool              *getSFLeftEye        (void);
+    inline       SFReal32            *getSFEyeSeparation  (void);
 
-    inline       CameraPtr &getDecoratee(void);
-    inline const CameraPtr &getDecoratee(void) const;
-    inline       NodePtr             &getBeacon         (void);
-    inline const NodePtr             &getBeacon         (void) const;
-    inline       Real32              &getNear           (void);
-    inline const Real32              &getNear           (void) const;
-    inline       Real32              &getFar            (void);
-    inline const Real32              &getFar            (void) const;
+    inline       bool                &getLeftEye        (void);
+    inline const bool                &getLeftEye        (void) const;
+    inline       Real32              &getEyeSeparation  (void);
+    inline const Real32              &getEyeSeparation  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDecoratee      ( const CameraPtr &value );
-    inline void setBeacon         ( const NodePtr &value );
-    inline void setNear           ( const Real32 &value );
-    inline void setFar            ( const Real32 &value );
+    inline void setLeftEye        ( const bool &value );
+    inline void setEyeSeparation  ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,29 +165,30 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFCameraPtr   _sfDecoratee;
+    SFBool              _sfLeftEye;
+    SFReal32            _sfEyeSeparation;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CameraDecoratorBase(void);
-    CameraDecoratorBase(const CameraDecoratorBase &source);
+    StereoCameraDecoratorBase(void);
+    StereoCameraDecoratorBase(const StereoCameraDecoratorBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CameraDecoratorBase(void); 
+    virtual ~StereoCameraDecoratorBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CameraDecoratorBase *pOther,
+    void executeSyncImpl(      StereoCameraDecoratorBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -205,7 +202,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CameraDecoratorBase &source);
+    void operator =(const StereoCameraDecoratorBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -213,10 +210,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 //---------------------------------------------------------------------------
 
 
-typedef CameraDecoratorBase *CameraDecoratorBaseP;
+typedef StereoCameraDecoratorBase *StereoCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.16 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
 
-#endif /* _OSGCAMERADECORATORBASE_H_ */
+#endif /* _OSGSTEREOCAMERADECORATORBASE_H_ */

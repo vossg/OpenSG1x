@@ -102,6 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual WindowPtr           getWindow     ( void );
     virtual NodePtr             getHighlight  ( void );
     virtual DrawActionBase     *getAction     ( void );
+    virtual Navigator          *getNavigator  ( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -215,6 +216,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.12 2002/02/04 20:14:12 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.13 2002/02/22 17:08:05 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */
