@@ -1,0 +1,72 @@
+#include <OpenSG/OSGConfig.h>
+
+OSG_USING_NAMESPACE;
+
+/*! 
+\page Solutions Appendix A - Solutions
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+    
+<HR>
+
+\section SolBasicEx1 Chapter Basics - Exercise 1 
+Solution to \ref TutorialBasicExercises1
+
+The result is simpy the same. The order of the commands seem to have no impact on the result. If you understand how these methods work it becomes obvious.
+The setTranslate command for instance will overwrite the appropiate three entries in a matrix that define the translation but will leave all others untouched.
+The same is with the setRotate command. The matrix is the same in both ways.
+
+
+\section SolBasicEx2 Chapter Basics - Exercise 2
+Solution to \ref TutorialBasicExercises2
+
+You need to alter the createScenegrapg method in the following way
+
+\code
+
+NodePtr createScenegraph(int argc, char **argv){
+    // the scene must be created here
+    
+    //first we create a group root node which all loaded
+    //files will be attached to
+    NodePtr root = Node::create();
+    beginEditCP(root);
+        root->setCore(Group::create());
+    endEditCP(root);
+    
+    //we assume that all given parameters are filename
+    for (int i = 1;i < argc; i++){
+        NodePtr n = SceneFileHandler::the().read(argv[i]);
+    
+        //we check the result
+        if (n != NullFC){
+            // add the loaded node to the root
+            beginEditCP(root);
+                root->addChild(n);
+            endEditCP(root);
+        }else
+            cout << "Loading the specified file (" << argv[i] << ") was not possible!" << endl;
+    }
+    
+    return root;
+}
+
+\endcode
+
+Notice that you need to change the interface of this method as you need to pass the arguments from the command line. This implies that you also change
+one line in the main method from
+<PRE>
+    scene = createScenegraph();
+</PRE>
+to
+\code
+    scene = createScenegraph(argc, argv);
+\endcode
+
+Instead of loading just a single file and returning that node we node create one root node which will be parent to all loaded files. In a loop we load
+all given files and add them to the root node. Notice that our loop begins with one and not zero, as the very first argument is always the program name.
+Also note that you have to provide the complete relative path to the source files.
+
+*/

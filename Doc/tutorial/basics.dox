@@ -1473,16 +1473,16 @@ beginEditCP(tRoof, Transform::MatrixFieldMask);
 endEditCP(tRoof, Transform::MatrixFieldMask);
 \endcode
 
+What would happen if we swap the "setTranslate" and the "setRotate" commands? After you found out: why did it happen that way?
+
 \subsection TutorialBasicExercises2 Ex. Loading
 
 Modify the loading/saving tutorial (\ref TutorialBasicLoadingSaving) in that way, files can be loaded from the command line. If you type
 <PRE>
     ./05loading file1.wrl file2.wrl file3.wrl
 </PRE>
-the application should loat the three specified files. Also check if the file was successfully loaded and if not throw an appropiate error 
+the application should load the three specified files. Also check if the file was successfully loaded and if not throw an appropiate error 
 (the application should continue to run!).
-
-What would happen if we swap the "setTranslate" and the "setRotate" commands? After you found out: why did it happen that way?
 
 Next Chapter: \ref NodeCores
 */

@@ -8,7 +8,12 @@ OSG_USING_NAMESPACE;
 
 Chapter Overview
 <HR>
+    \ref TutorialLightPointLight <BR>
+    \ref TutorialLightDirectionalLight <BR>
+    \ref TutorialLightSpotLight <BR>
     \ref TutorialLightGeneral <BR>
+    \ref TutorialLightTutorial <BR>
+    \ref TutorialLightExercises
 <HR>
 
 This chapter is dedicated to another very important aspect of computer graphics: light sources. Well, most scenes have at least one, but

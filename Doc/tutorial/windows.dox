@@ -1,0 +1,229 @@
+#include <OpenSG/OSGConfig.h>
+
+OSG_USING_NAMESPACE;
+
+/*! 
+\page Windows Windows and Viewports
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+    \ref TutorialWindowsWindows
+    \ref TutorialWindowsViewports
+<HR>
+
+This chapter is all about windows and viewports. A window is self explaining, as of course, OpenSG needs a window which it will render in. Viewports are
+rectangular areas within the window. Every application has exactly one window and one or more viewports. All applications you have seen so far had one
+window with one viewport which were provided by the simple scene manager. I will also introduce foregrounds and backgrounds as these are closly related to
+windows and viewports. Foregrounds can be used to display some sort of logo or even to capture a screenshot where as backgrounds do exactly what you expect
+them to do.
+
+\section TutorialWindowsWindows Windows
+
+As I mentioned above every application needs a window. We alway have created a simple GLUTWindow right at the very beginning of the main method. 
+
+\code
+int main(int argc, char **argv)
+{
+    osgInit(argc,argv);
+        
+    int winid = setupGLUT(&argc, argv);
+    GLUTWindowPtr gwin= GLUTWindow::create();
+    gwin->setId(winid);
+    gwin->init();
+
+    scene =createScenegraph();
+
+    // ....
+\endcode
+
+Of course the GLUT Window is not the only one. Here is a list of all available windows
+
+<UL>
+<LI>GLUTWindow</LI>
+<LI>QTWindow</LI>
+<LI>XWindow</LI>
+<LI>Win32Window</LI>
+<LI>PassiveWindow</LI>
+<LI>ClusterWindow</LI>
+<LI>MultiDisplayWindow</LI>
+<LI>SortFirstWindow</LI>
+</UL>
+
+The first four windows are providing a connection between OpenSG and the windowing system you are using. GLUT and QT windows
+actually do have some advantages compared to the others, because both work on many different platforms where as X Windows are restricted to UNIX boxes and
+Win32 windows are really restricted to the Microsoft platform. Additionally GLUT and QT windows might be a bit easier to use as there are wrapper classes 
+that may help you out. We have used GLUT windows all the way, so you should be familiar with that. For QT you can have a look at [TODO: QT example]
+
+So what does a window actally do? First of all it is responsible for output and output only. So is no handling of input events or similar things. A window
+keeps it's instances of viewports and manages OpenGL context creation and activation/deactivation. It also handles detection of OpenGL extensions. 
+
+The passive window is a bit different from the others. A passive window does not handle OpenGL context. It's purpose is to fit seamlessly into other OpenGL
+programs. Passive windows can be used with any window system and GUI.
+
+The last three windows, cluster, multi display and sort fist windows are used for clustering. These will be discussed in more detail in Chapter(xxx).
+
+At the end of this chapter there will be a tutorial where we will set up an application from scratch, without the simple scene manager. This tutorial
+may explain the usage of windows and viewports better that thousands words could say...
+
+\section TutorialWindowsViewports Viewports
+
+A Window must at least have one viewport, but can have more. A viewport represents a part of the scene that is being rendered into. One or more viewports
+can, but have not to, cover the whole window. Every viewport can only be attached to one window. A typical use of multiple viewports is the 
+perspective/front/left/right view you might know from a modelling package or other applications
+
+\image html 4ports.png "Typical use of four viewports"
+\image latex 4ports.eps "Typical use of four viewports" width = 8cm
+
+The size of a viewport is definied by providing values for left, right, top and bottom paramters. These can either be bewtween 0 and 1 or greater than 1. The
+first variant means the size of the viewport is relative to the window whereas values above 1 specify the size in pixels. You should decide which variant to
+use depending on wether the viewports shall scale together with the window if it is resized or not. Here is an example showing a window with two viewports,
+one defined relativly and the other absolute.
+
+\image html viewports_new.png "Resizing window with two different viewports"
+\image latex viewports_new.eps "Resizing window with two different viewports" width = 8cm
+
+<I>
+    The yellow viewport is defined relativly to the window whereas the red vieport's values are given absolutly in pixels. When the window is resized the 
+    yellow viewports changes it's size to, but the red one doesn't change shape and position at all.
+</I>
+
+You can also pass a -1 to one or more parameters which means that the most possible space is taken by the viewport. An exception to these sizing rules is the
+passiveViewport which simply ingnores all given values as it takes it size from the current active OpenGL context. 
+
+In order to use a viewport correctly you need not only to define it's size but some things more are needed: A root node of the scenegraph (or only part of it)
+which should be rendered, a camera and a background are needed. Optional you can provide a foreground. 
+
+As you might guess there are also differnt types of viewports. The one that came along with the simple scene manager was a standard viewport. Here is a list
+of all available viewports
+
+<UL>
+<LI>Viewport</LI>
+<LI>PassiveViewport</LI>
+<LI>ColorBufferViewport</LI>
+<LI>StereoBufferViewport</LI>
+</UL>
+
+Well, the default Vieport is what you want in most cases. Passive viewports are needed to integrate OpenSG into existing OpenGL programs. The color buffer
+viewport allows rendering of specific color channels and finally the stero buffer viewport is used mostly for active stereo applications. Stero with
+shutter glasses for example need four buffers which are provided by osg::StereoBufferViewport. Passive stero can be achived with default viewports. 
+More on that in Chapter(xxx)
+
+\section TutorialWindowsCamera Cameras
+
+A camera is of course needed for every application. The camera defines what is actually being rendered. The same way as you can have multiple viewports, you
+can also have multiple cameras. However, one camera can be attachted to more than one viewport. The most important parameters of a camera are it's position
+and orientation. Cameras in OpenSG behave in a similar way like light sources - their position is definied by the transformation of a beacon they are assigned
+to. In most cases you will have a transformation node right below the root node and use it as a beacon for the camera. However, if you want the user to
+drive a car it would make sense to attach the camera to the car geometry node thus using the same transformations.
+
+Good news is that we only need one matrix to describe the position and orientation of the camera, but bad news is that often you are given two points in
+space, one where the camera is located and on where it is looking at and another vector telling you where "up" is from the camera's point of view. 
+Whenever you want to use these values you would have to calculate the matrix in order to use them with OpenSG. Well, luckily that has been done for you
+already: the osg::MatrixLookAt function from OSGMatrixUtility.h does that job!
+
+OpenSG cameras are using the same coordinate system conventions like OpenGL: the camera is looking along the negative z-axis, y points up and x points right.
+
+In addition to position and orientation there are some internal camera parameters which may differ from camera to camera. However, the near- and far clipping 
+planes are needed by every camera. 
+
+In OpenGL you have two matrices that are responsible for transforming the world onto the rectangluar area which is you screen: GL_MODELVIEW and
+GL_PROJECTION matrix. OpenSG stores internally three matrices, because the projection matrix is split up into two: one for the real projection and another
+for a projection transformation. The last one is needed for non-coplanar multi-screen projections like a CAVE. However, we don't need to pay special attention
+to that for now.
+
+Here is a short overview of the different cameras you can use with OpenSG
+
+\subsection TutorialWindowsCameraPerspective Perspective Camera
+
+This is the most common camera. The osg::PerspectiveCamera is the same kind of camera OpenGL uses for rendering. Unless you are doing something special you 
+will be fine with this camera. There is only one additional attribute, the vertical field of view defines the opening angle of the camera. The horizontal 
+field of view is automatically adjusted to create a square aspect ratio. The value is given in radians not in degrees!
+
+Here is an example on how to setup a camera
+
+\code
+    PerspectiveCameraPtr camera = PerspectiveCamera::create();
+    beginEditCP(camera);
+        camera->setBeacon( some_node );
+        camera->setFov( deg2rad( 60 ) );
+        camera->setNear( 0.5 );
+        camera->setFar( 8000 );
+    endEditCP(camera);
+\endcode
+<I>
+Let us assume that one centimeter equals one unit, then we would have created a camera with an opening angle of 60 degrees, a far clipping plane half a
+centimeter in front of the camera and the far clipping plane 80 meters away
+</I>
+
+\image html camera.png "Clipping Planes and Vertical Field of View"
+\image latex camera.eps "Clipping Planes and Vertical Field of View" width = 4cm
+
+\subsection TutorialWindowsCameraMatrix Matrix Camera
+
+Sorry, the matrix camera is not related to the movie trilogy and hence cannot procduce that matrix camera effect called bullet time. However if you want
+to help the development of OpenSG... ;-) 
+
+The matrix camera is a very simple one as it keeps the modelview and perspective matrices directly and ignores all other attributes it may have. Under
+certain cicumstances this may be very usefull, especially if you are integrating OpenSG into an existing OpenGL program by using a passive window as well
+as passive viewports. With the camera you are very close to standard OpenGL behaviour.
+
+\subsection TutorialWindowsCameraDecorators Camera Decorators
+
+A decorator can be used insted of the original object where as the decorator enhances the original in some way. Here is an example: For an stero application
+you need two cameras and if you are moving the camera around you normally would have to do things twice. With camera decorators you can use two
+osg::ShearedSteroCameraDecorator which will point both to the same camera. The decorators will be assigned to the viewports instead of the camera. If
+you now move the camera both virtual cameras represtened by the decorators will move simultanously. And again, more on stereo in Chapter(xxx)
+
+A big advantage of decorators in general is, that you can easily change the object which is decorated by some another and maintain the enhancements the
+decorators provide. In our example you could exchange a perspective camera with a matrix camera and the stero setup won't be destroyed!
+
+Here is an overview of the decorators currently available
+
+\subsubsection TutorialWindowsCameraDecoratorsStero Stereo Decorators
+
+There are actually to different decorators for stero solutions. Both have some attributes in common. The eye seperation defines the distance between the
+two eyes and is provided in modell units. You should be very careful with this value as too small or big values will destroy the stereo effect (and may
+make people sick...). Finally you need to tell the decorator if it is the left or the right one. This is handed by a simple boolean variable where true
+indicates the left eye.
+
+OSG::ShearedSteroCameraDecorators are used for typical passive stereo applications where two beamer are projecting the image and the audience is wearing
+polarising glasses. They add one additional attribute, the distance to the zero parallax plane. The zero parallax plane is a plane where the left and 
+right image perectly overlap, i.e. the parallax is zero. This value should reflect the distance from the user's point of view to the image plane.
+
+The following code creates a decorator for the right eye and a corresponding vieport
+
+\code
+    cameraDecorator = ShearedStereoCameraDecorator::create();
+    beginEditCP(cameraDecorator);
+        cameraDecorator->setLeftEye(false);
+        cameraDecorator->setEyeSeparation(6);
+        cameraDecorator->setDecoratee(some_camera);
+        cameraDecorator->setZeroParallaxDistance(200);
+        rightViewport = OSG::Viewport::create();
+        beginEditCP(rightViewport);
+            rightViewport->setCamera    ( cameraDecorator );
+            rightViewport->setBackground( some_background );
+            rightViewport->setRoot      ( root );
+            rightViewport->setSize      ( .5,0,1,1 );
+        endEditCP(rightViewport);
+    endEditCP(cameraDecorator);
+\endcode 
+
+<I>
+    I choose 6 for the eye separation and 200 for the distance to the image plane. The would make only sense if one unit is equal to one centimeter. You
+    might have to adjust these values according to your units. 
+</I>
+
+OSG::ProjectionSteroCameraDecorators are mainly used for tracked stereo applicaions like a CAVE. I will not discuss this decorator here unless there
+is a public demand for it ;-)
+
+\subsubsection TutorialWindowsCameraDecoratorsTile Tile Camera Decorator
+
+This kind of decorator is used to scale some rectangular area up to full viewport size. It's mainly use is to divide a large rendering area into some small
+areas which are displayed on a dfifferent sceen each. The parameters of the camera can be set up as if you were using one large viewport. This is much easier
+than placing several cameras side by side to achieve the same effect. 
+
+In Darmstadt, Germany there is a wall of screens, called HEye Wall, with 6 * 4 screens which is capable of stereo rendering. An 48 + 1 cluster running 
+OpenSG is driving the HEye Wall. Instead of using 48 cameras it is sufficient to use only one single camera and let the decorators do the rest!
+*/
