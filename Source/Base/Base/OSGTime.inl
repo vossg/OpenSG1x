@@ -36,8 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-OSG_BEGIN_NAMESPACE
-
 #ifdef WIN32
   #include <time.h>
 #else
@@ -45,6 +43,7 @@ OSG_BEGIN_NAMESPACE
   #include <sys/time.h>
 #endif
 
+OSG_BEGIN_NAMESPACE
 
 inline
 Time getSystemTime (void)
