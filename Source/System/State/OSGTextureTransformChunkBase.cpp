@@ -64,10 +64,30 @@
 
 OSG_USING_NAMESPACE
 
+const OSG::BitVector  TextureTransformChunkBase::UseCameraBeaconFieldMask = 
+    (TypeTraits<BitVector>::One << TextureTransformChunkBase::UseCameraBeaconFieldId);
+
 const OSG::BitVector TextureTransformChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
+
+// Field descriptions
+
+/*! \var bool            TextureTransformChunkBase::_sfUseCameraBeacon
+    If enabled it uses the camera beacon matrix (for cube textures)
+*/
+
+//! TextureTransformChunk description
+
+FieldDescription *TextureTransformChunkBase::_desc[] = 
+{
+    new FieldDescription(SFBool::getClassType(), 
+                     "useCameraBeacon", 
+                     UseCameraBeaconFieldId, UseCameraBeaconFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureTransformChunkBase::getSFUseCameraBeacon)
+};
 
 
 FieldContainerType TextureTransformChunkBase::_type(
@@ -76,8 +96,8 @@ FieldContainerType TextureTransformChunkBase::_type(
     NULL,
     (PrototypeCreateF) &TextureTransformChunkBase::createEmpty,
     TextureTransformChunk::initMethod,
-    NULL,
-    0);
+    _desc,
+    sizeof(_desc));
 
 //OSG_FIELD_CONTAINER_DEF(TextureTransformChunkBase, TextureTransformChunkPtr)
 
@@ -122,6 +142,7 @@ void TextureTransformChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 TextureTransformChunkBase::TextureTransformChunkBase(void) :
+    _sfUseCameraBeacon        (bool(false)), 
     Inherited() 
 {
 }
@@ -131,6 +152,7 @@ TextureTransformChunkBase::TextureTransformChunkBase(void) :
 #endif
 
 TextureTransformChunkBase::TextureTransformChunkBase(const TextureTransformChunkBase &source) :
+    _sfUseCameraBeacon        (source._sfUseCameraBeacon        ), 
     Inherited                 (source)
 {
 }
@@ -147,6 +169,11 @@ UInt32 TextureTransformChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (UseCameraBeaconFieldMask & whichField))
+    {
+        returnValue += _sfUseCameraBeacon.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -156,6 +183,11 @@ void TextureTransformChunkBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (UseCameraBeaconFieldMask & whichField))
+    {
+        _sfUseCameraBeacon.copyToBin(pMem);
+    }
+
 
 }
 
@@ -163,6 +195,11 @@ void TextureTransformChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (UseCameraBeaconFieldMask & whichField))
+    {
+        _sfUseCameraBeacon.copyFromBin(pMem);
+    }
 
 
 }
@@ -172,6 +209,9 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (UseCameraBeaconFieldMask & whichField))
+        _sfUseCameraBeacon.syncWith(pOther->_sfUseCameraBeacon);
 
 
 }
@@ -201,7 +241,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
 

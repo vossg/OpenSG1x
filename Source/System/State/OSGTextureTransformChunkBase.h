@@ -65,6 +65,7 @@
 
 #include <OSGTransformChunk.h> // Parent
 
+#include <OSGBoolFields.h> // UseCameraBeacon type
 
 #include <OSGTextureTransformChunkFields.h>
 
@@ -86,6 +87,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
 
     typedef TextureTransformChunkPtr  Ptr;
 
+    enum
+    {
+        UseCameraBeaconFieldId = Inherited::NextFieldId,
+        NextFieldId            = UseCameraBeaconFieldId + 1
+    };
+
+    static const OSG::BitVector UseCameraBeaconFieldMask;
+
 
     static const OSG::BitVector MTInfluenceMask;
 
@@ -105,6 +114,23 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFBool              *getSFUseCameraBeacon(void);
+
+           bool                &getUseCameraBeacon(void);
+     const bool                &getUseCameraBeacon(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setUseCameraBeacon( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,6 +173,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFBool              _sfUseCameraBeacon;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -174,6 +207,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 

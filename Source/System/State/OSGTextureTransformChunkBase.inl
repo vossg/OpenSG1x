@@ -96,6 +96,34 @@ TextureTransformChunkPtr TextureTransformChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+SFBool *TextureTransformChunkBase::getSFUseCameraBeacon(void)
+{
+    return &_sfUseCameraBeacon;
+}
+
+
+//! Get the value of the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+bool &TextureTransformChunkBase::getUseCameraBeacon(void)
+{
+    return _sfUseCameraBeacon.getValue();
+}
+
+//! Get the value of the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+const bool &TextureTransformChunkBase::getUseCameraBeacon(void) const
+{
+    return _sfUseCameraBeacon.getValue();
+}
+
+//! Set the value of the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+void TextureTransformChunkBase::setUseCameraBeacon(const bool &value)
+{
+    _sfUseCameraBeacon.setValue(value);
+}
 
 
 OSG_END_NAMESPACE

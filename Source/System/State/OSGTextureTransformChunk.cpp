@@ -50,6 +50,7 @@
 #include "OSGTextureTransformChunk.h"
 #include <OSGWindow.h>
 #include <OSGDrawActionBase.h>
+#include <OSGCamera.h>
 #include <OSGTextureChunk.h>
 
 OSG_USING_NAMESPACE
@@ -157,7 +158,18 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
     TextureChunk::activateTexture(win, idx);
   
     glMatrixMode(GL_TEXTURE);
-    glLoadMatrixf(getMatrix().getValues());
+    if(getUseCameraBeacon())
+    {
+        Matrix m;
+        NodePtr beacon = action->getCamera()->getBeacon();
+        beacon->getToWorld(m);
+        m[3].setValues(0, 0, 0, 1);
+        glLoadMatrixf(m.getValues());
+    }
+    else
+    {
+        glLoadMatrixf(getMatrix().getValues());
+    }
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -194,7 +206,18 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
-    glLoadMatrixf(getMatrix().getValues());
+    if(getUseCameraBeacon())
+    {
+        Matrix m;
+        NodePtr beacon = action->getCamera()->getBeacon();
+        beacon->getToWorld(m);
+        m[3].setValues(0, 0, 0, 1);
+        glLoadMatrixf(m.getValues());
+    }
+    else
+    {
+        glLoadMatrixf(getMatrix().getValues());
+    }
     glMatrixMode(GL_MODELVIEW);
 }
 
