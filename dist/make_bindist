@@ -465,7 +465,7 @@ case $system in
     # Build the installer
 
     echo "Building Installer"
-    #cd ../..
+    cd ..
 
     echo `pwd`
     var_expand $OSGPOOL/dist/win/opensg_bindist.iss opensg_bindist.iss.raw
