@@ -58,6 +58,7 @@ public slots:
     virtual void partNameChanged(const QString &);
     virtual void partTypeChanged(int);
     virtual void partVisibilityChanged(int);
+    virtual void partDefaultHeaderChanged(const QString &);
     virtual void pointerFieldTypesChanged(int);
     virtual void resetFieldTypesSlot();
     virtual void saveAsSlot();

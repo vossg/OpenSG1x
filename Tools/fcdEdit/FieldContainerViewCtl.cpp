@@ -128,6 +128,7 @@ void FieldContainerViewCtl::updateActivePartView(void)
 		partAccessCombo->setCurrentItem(int(_activePart->access()));
 		partIncludeInput->setText(QString(_activePart->header()));
 		partDefaultValueInput->setText(QString(_activePart->defaultValue()));
+		partDefaultHeaderInput->setText(QString(_activePart->defaultHeader()));
 		partDescriptionInput->setText(QString(_activePart->description()));
 	}
 	else {
@@ -419,13 +420,19 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 	sync();
 
 	if (_fieldContainer.name()) {
-		 sprintf(fldFile,"%s%sFields.%s", _fieldContainer.filePrefix(), 
+		QString s( QFileDialog::getExistingDirectory( QString::null, NULL,
+			"name", QString("Choose directory to save base files to"), true ) );
+
+		if ( s.isEmpty() )
+			return;
+
+		 sprintf(fldFile,"%s/%s%sFields.%s", s.ascii(), _fieldContainer.filePrefix(), 
 						_fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( decFile,"%s%sBase.%s", _fieldContainer.filePrefix(),
+		sprintf( decFile,"%s/%s%sBase.%s", s.ascii(), _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( inlFile,"%s%sBase.%s",  _fieldContainer.filePrefix(),
+		sprintf( inlFile,"%s/%s%sBase.%s", s.ascii(),  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
-		sprintf( impFile,"%s%sBase.%s",  _fieldContainer.filePrefix(),
+		sprintf( impFile,"%s/%s%sBase.%s", s.ascii(),  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
 		if (_fieldContainer.writeCodeFields(fldFile))
 		if (_fieldContainer.writeBaseCodeDec(decFile))
@@ -465,11 +472,17 @@ void FieldContainerViewCtl::writeFieldContainerSlot()
 	sync();
 
 	if (_fieldContainer.name()) {
-		sprintf( decFile,"%s%s.%s",  _fieldContainer.filePrefix(),
+		QString s( QFileDialog::getExistingDirectory( QString::null, NULL,
+			"name", QString("Choose directory to save code files to"), true ) );
+
+		if ( s.isEmpty() )
+			return;
+
+		sprintf( decFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( inlFile,"%s%s.%s",  _fieldContainer.filePrefix(),
+		sprintf( inlFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
-		sprintf( impFile,"%s%s.%s",  _fieldContainer.filePrefix(),
+		sprintf( impFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
 		if (_fieldContainer.writeCodeDec(decFile))
 			if (_fieldContainer.writeCodeInl(inlFile))
@@ -605,6 +618,14 @@ void FieldContainerViewCtl::partIncludeChanged(const QString &str)
 {
 	if (_activePart) {
 		_activePart->setHeader(str);
+		updateActiveListItem();
+	}
+}
+
+void FieldContainerViewCtl::partDefaultHeaderChanged(const QString &str)
+{
+	if (_activePart) {
+		_activePart->setDefaultHeader(str);
 		updateActiveListItem();
 	}
 }

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="VRMLTransform"
 	parent="Transform"
-	library="MISC"
+	library="Hugo"
 	pointerfieldtypes="both"
 	structure="abstract"
 >

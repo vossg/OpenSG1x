@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Wed Apr 4 11:43:38 2001
+** Created: Wed Apr 25 17:32:41 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -53,8 +53,6 @@ public:
     QComboBox* partTypeCombo;
     QLabel* TextLabel2_2;
     QLabel* TextLabel1_2;
-    QLabel* TextLabel5;
-    QLineEdit* partDescriptionInput;
     QLabel* TextLabel4_2;
     QComboBox* partCardinalityCombo;
     QLineEdit* partNameInput;
@@ -65,6 +63,10 @@ public:
     QComboBox* partVisibilityCombo;
     QLineEdit* partIncludeInput;
     QLineEdit* partDefaultValueInput;
+    QLineEdit* partDescriptionInput;
+    QLabel* TextLabel5;
+    QLabel* TextLabel1_6;
+    QLineEdit* partDefaultHeaderInput;
     QPushButton* newPart;
     QPushButton* deletePart;
     QPushButton* clonePart;
@@ -96,12 +98,13 @@ public slots:
     virtual void nameChanged(const QString &);
     virtual void newPartSlot();
     virtual void newSlot();
-    virtual void partIncludeChanged(const QString &);
+    virtual void partDefaultHeaderChanged(const QString &);
     virtual void parentChanged(const QString &);
     virtual void partAccessChanged(int);
     virtual void partCardinalityChanged(int);
     virtual void partDefaultValueChanged(const QString &);
     virtual void partDescriptionChanged(const QString &);
+    virtual void partIncludeChanged(const QString &);
     virtual void partNameChanged(const QString &);
     virtual void partTypeChanged(int);
     virtual void partVisibilityChanged(int);
@@ -116,7 +119,7 @@ public slots:
 
 protected:
     QVBoxLayout* FieldContainerViewLayout;
-    QHBoxLayout* Layout8;
+    QHBoxLayout* Layout6;
     QVBoxLayout* GroupBox1Layout;
     QGridLayout* GroupBox17Layout;
     QVBoxLayout* GroupBox7Layout;
@@ -124,7 +127,7 @@ protected:
     QGridLayout* partFrameLayout;
     QHBoxLayout* Layout3;
     QHBoxLayout* Layout7;
-    QGridLayout* Layout6;
+    QGridLayout* Layout6_2;
     QVBoxLayout* Layout4;
 };
 

@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>833</width>
-            <height>677</height>
+            <width>865</width>
+            <height>671</height>
         </rect>
     </property>
     <property stdset="1">
@@ -32,7 +32,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout8</cstring>
+                <cstring>Layout6</cstring>
             </property>
             <hbox>
                 <property stdset="1">
@@ -312,24 +312,6 @@
                                         <string>Name:</string>
                                     </property>
                                 </widget>
-                                <widget row="7"  column="0" >
-                                    <class>QLabel</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>TextLabel5</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Description:</string>
-                                    </property>
-                                </widget>
-                                <widget row="7"  column="1" >
-                                    <class>QLineEdit</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>partDescriptionInput</cstring>
-                                    </property>
-                                </widget>
                                 <widget row="6"  column="0" >
                                     <class>QLabel</class>
                                     <property stdset="1">
@@ -418,6 +400,42 @@
                                     <property stdset="1">
                                         <name>name</name>
                                         <cstring>partDefaultValueInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="8"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partDescriptionInput</cstring>
+                                    </property>
+                                </widget>
+                                <widget row="8"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel5</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Description:</string>
+                                    </property>
+                                </widget>
+                                <widget row="7"  column="0" >
+                                    <class>QLabel</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>TextLabel1_6</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>DefaultHeader:</string>
+                                    </property>
+                                </widget>
+                                <widget row="7"  column="1" >
+                                    <class>QLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>partDefaultHeaderInput</cstring>
                                     </property>
                                 </widget>
                             </grid>
@@ -886,6 +904,12 @@
         <receiver>FieldContainerView</receiver>
         <slot>partIncludeChanged(const QString &amp;)</slot>
     </connection>
+    <connection>
+        <sender>partDefaultHeaderInput</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partDefaultHeaderChanged(const QString &amp;)</slot>
+    </connection>
     <slot access="public">aboutSlot()</slot>
     <slot access="public">activePartChanged(int)</slot>
     <slot access="public">clonePartSlot()</slot>
@@ -899,12 +923,13 @@
     <slot access="public">nameChanged(const QString &amp;)</slot>
     <slot access="public">newPartSlot()</slot>
     <slot access="public">newSlot()</slot>
-    <slot access="public">partIncludeChanged(const QString &amp;)</slot>
+    <slot access="public">partDefaultHeaderChanged(const QString &amp;)</slot>
     <slot access="public">parentChanged(const QString &amp;)</slot>
     <slot access="public">partAccessChanged(int)</slot>
     <slot access="public">partCardinalityChanged(int)</slot>
     <slot access="public">partDefaultValueChanged(const QString &amp;)</slot>
     <slot access="public">partDescriptionChanged(const QString &amp;)</slot>
+    <slot access="public">partIncludeChanged(const QString &amp;)</slot>
     <slot access="public">partNameChanged(const QString &amp;)</slot>
     <slot access="public">partTypeChanged(int)</slot>
     <slot access="public">partVisibilityChanged(int)</slot>

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Wed Apr 4 11:44:07 2001
+** Created: Wed Apr 25 17:32:43 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -33,15 +33,15 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
 {
     if ( !name )
 	setName( "FieldContainerView" );
-    resize( 833, 677 ); 
+    resize( 865, 671 ); 
     setCaption( tr( "OpenSG Field Container editor" ) );
     FieldContainerViewLayout = new QVBoxLayout( this ); 
     FieldContainerViewLayout->setSpacing( 6 );
     FieldContainerViewLayout->setMargin( 11 );
 
-    Layout8 = new QHBoxLayout; 
-    Layout8->setSpacing( 6 );
-    Layout8->setMargin( 0 );
+    Layout6 = new QHBoxLayout; 
+    Layout6->setSpacing( 6 );
+    Layout6->setMargin( 0 );
 
     GroupBox1 = new QGroupBox( this, "GroupBox1" );
     GroupBox1->setTitle( tr( "Field Container" ) );
@@ -125,7 +125,7 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     nodeDescriptionInput->setWordWrap( QMultiLineEdit::WidgetWidth );
     GroupBox7Layout->addWidget( nodeDescriptionInput );
     GroupBox1Layout->addWidget( GroupBox7 );
-    Layout8->addWidget( GroupBox1 );
+    Layout6->addWidget( GroupBox1 );
 
     GroupBox3 = new QGroupBox( this, "GroupBox3" );
     GroupBox3->setTitle( tr( "Fields" ) );
@@ -167,15 +167,6 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     TextLabel1_2->setText( tr( "Name:" ) );
 
     partFrameLayout->addWidget( TextLabel1_2, 0, 0 );
-
-    TextLabel5 = new QLabel( partFrame, "TextLabel5" );
-    TextLabel5->setText( tr( "Description:" ) );
-
-    partFrameLayout->addWidget( TextLabel5, 7, 0 );
-
-    partDescriptionInput = new QLineEdit( partFrame, "partDescriptionInput" );
-
-    partFrameLayout->addWidget( partDescriptionInput, 7, 1 );
 
     TextLabel4_2 = new QLabel( partFrame, "TextLabel4_2" );
     TextLabel4_2->setText( tr( "DefaultValue:" ) );
@@ -221,6 +212,24 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partDefaultValueInput = new QLineEdit( partFrame, "partDefaultValueInput" );
 
     partFrameLayout->addWidget( partDefaultValueInput, 6, 1 );
+
+    partDescriptionInput = new QLineEdit( partFrame, "partDescriptionInput" );
+
+    partFrameLayout->addWidget( partDescriptionInput, 8, 1 );
+
+    TextLabel5 = new QLabel( partFrame, "TextLabel5" );
+    TextLabel5->setText( tr( "Description:" ) );
+
+    partFrameLayout->addWidget( TextLabel5, 8, 0 );
+
+    TextLabel1_6 = new QLabel( partFrame, "TextLabel1_6" );
+    TextLabel1_6->setText( tr( "DefaultHeader:" ) );
+
+    partFrameLayout->addWidget( TextLabel1_6, 7, 0 );
+
+    partDefaultHeaderInput = new QLineEdit( partFrame, "partDefaultHeaderInput" );
+
+    partFrameLayout->addWidget( partDefaultHeaderInput, 7, 1 );
     GroupBox3Layout->addWidget( partFrame );
 
     Layout3 = new QHBoxLayout; 
@@ -250,62 +259,62 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     downPart->setText( tr( "Down" ) );
     Layout3->addWidget( downPart );
     GroupBox3Layout->addLayout( Layout3 );
-    Layout8->addWidget( GroupBox3 );
-    FieldContainerViewLayout->addLayout( Layout8 );
+    Layout6->addWidget( GroupBox3 );
+    FieldContainerViewLayout->addLayout( Layout6 );
 
     Layout7 = new QHBoxLayout; 
     Layout7->setSpacing( 6 );
     Layout7->setMargin( 0 );
 
-    Layout6 = new QGridLayout; 
-    Layout6->setSpacing( 6 );
-    Layout6->setMargin( 0 );
+    Layout6_2 = new QGridLayout; 
+    Layout6_2->setSpacing( 6 );
+    Layout6_2->setMargin( 0 );
 
     writeNodeCode = new QPushButton( this, "writeNodeCode" );
     writeNodeCode->setText( tr( "Write Field Container Base Code" ) );
 
-    Layout6->addWidget( writeNodeCode, 0, 4 );
+    Layout6_2->addWidget( writeNodeCode, 0, 4 );
 
     writeProcCode = new QPushButton( this, "writeProcCode" );
     writeProcCode->setText( tr( "Write Field Container Code" ) );
 
-    Layout6->addWidget( writeProcCode, 1, 4 );
+    Layout6_2->addWidget( writeProcCode, 1, 4 );
 
     saveAs = new QPushButton( this, "saveAs" );
     saveAs->setText( tr( "Save as" ) );
 
-    Layout6->addWidget( saveAs, 1, 3 );
+    Layout6_2->addWidget( saveAs, 1, 3 );
 
     load = new QPushButton( this, "load" );
     load->setText( tr( "Load" ) );
 
-    Layout6->addWidget( load, 0, 1 );
+    Layout6_2->addWidget( load, 0, 1 );
 
     save = new QPushButton( this, "save" );
     save->setText( tr( "Save" ) );
 
-    Layout6->addWidget( save, 0, 3 );
+    Layout6_2->addWidget( save, 0, 3 );
 
     PushButton15 = new QPushButton( this, "PushButton15" );
     PushButton15->setText( tr( "Reset Field Types" ) );
 
-    Layout6->addWidget( PushButton15, 0, 2 );
+    Layout6_2->addWidget( PushButton15, 0, 2 );
 
     PushButton16 = new QPushButton( this, "PushButton16" );
     PushButton16->setText( tr( "Load Field Types" ) );
 
-    Layout6->addWidget( PushButton16, 1, 2 );
+    Layout6_2->addWidget( PushButton16, 1, 2 );
 
     loadParent = new QPushButton( this, "loadParent" );
     loadParent->setText( tr( "Load parent" ) );
 
-    Layout6->addWidget( loadParent, 1, 1 );
+    Layout6_2->addWidget( loadParent, 1, 1 );
 
     PushButton14 = new QPushButton( this, "PushButton14" );
     PushButton14->setText( tr( "New" ) );
 
-    Layout6->addWidget( PushButton14, 0, 0 );
-    Layout7->addLayout( Layout6 );
+    Layout6_2->addWidget( PushButton14, 0, 0 );
+    Layout7->addLayout( Layout6_2 );
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
     Layout7->addItem( spacer );
 
@@ -354,6 +363,7 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     connect( structureCombo, SIGNAL( activated(int) ), this, SLOT( structureChanged(int) ) );
     connect( partAccessCombo, SIGNAL( activated(int) ), this, SLOT( partAccessChanged(int) ) );
     connect( partIncludeInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partIncludeChanged(const QString &) ) );
+    connect( partDefaultHeaderInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultHeaderChanged(const QString &) ) );
 
     // tab order
     setTabOrder( nodeNameInput, nodeParentInput );
@@ -455,9 +465,9 @@ void FieldContainerView::newSlot()
     qWarning( "FieldContainerView::newSlot(): Not implemented yet!" );
 }
 
-void FieldContainerView::partIncludeChanged(const QString &)
+void FieldContainerView::partDefaultHeaderChanged(const QString &)
 {
-    qWarning( "FieldContainerView::partIncludeChanged(const QString &): Not implemented yet!" );
+    qWarning( "FieldContainerView::partDefaultHeaderChanged(const QString &): Not implemented yet!" );
 }
 
 void FieldContainerView::parentChanged(const QString &)
@@ -483,6 +493,11 @@ void FieldContainerView::partDefaultValueChanged(const QString &)
 void FieldContainerView::partDescriptionChanged(const QString &)
 {
     qWarning( "FieldContainerView::partDescriptionChanged(const QString &): Not implemented yet!" );
+}
+
+void FieldContainerView::partIncludeChanged(const QString &)
+{
+    qWarning( "FieldContainerView::partIncludeChanged(const QString &): Not implemented yet!" );
 }
 
 void FieldContainerView::partNameChanged(const QString &)
