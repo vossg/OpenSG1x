@@ -17,7 +17,7 @@ Chapter Overview
 
 One very important aspect when creating virtual environments is modeling. A powerfull scenegraph system like OpenSG is not that usefull at all, if there is 
 nothing to render. So in many cases you have to feed your scenegraph with models designed with the help of a modeling package - I am sure you agree, that 
-(hopfully) no one will create a realistic character by using standard primitve geometries...
+(hopefully) no one will create a realistic character by using standard primitve geometries...
 
 <B>Note:</B>
 
@@ -85,8 +85,8 @@ Be careful with textures! Depending on your cleverness of your exporter you can 
 of course) several times it can happen that OpenSG loads this textures as often into memory as you have assigned it. As far as I know that is the case with
 Studio Max, but not with Cinema 4D. 
 
-If you are working with Studio Max and have assigned a texure a hundred times, you either have to expand your memory our to use the osg::MaterialMergeGraphOp
-(see TutorialTraversalGraphOps) as this graph operator is designed to find identical textures and reference them correctly. 
+If you are working with Studio Max and have assigned a texure a hundred times, you either have to expand your memory or you have to use to use the 
+osg::MaterialMergeGraphOp (see TutorialTraversalGraphOps). This graph operator is designed to find identical textures and reference them correctly. 
 
 \section TutorialModelingUsingBINFiles Using BIN/OSB Files
 
@@ -203,6 +203,6 @@ The BIN file use the reflective interface to be independent of additions to the 
 
 In versions after 1.2 there is a new binary file format called OSB which is not quite as sensitive to changes to the library as BIN. I still wouldn't use it as a storage format, but it doesn't need rewriting files every time the library changes a little bit.
 
-Next Chapter : \ref QT
+Next Chapter : \ref Solutions
 
 */

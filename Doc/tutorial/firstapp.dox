@@ -17,7 +17,7 @@ Chapter Overview
 <HR>
 
 I personally like doing things and watch what happens, before I actually understand what I am doing. This is why a want to begin with a little OpenSG application
-right away. This one will give you a basic felling of how things work in OpenSG and will already show you some curiosities found in OpenSG...
+right away. This one will give you a basic feeling of how things work in OpenSG and will already show you some curiosities found in OpenSG...
 
 \section FirstAppTutorial First Tutorial
 
@@ -305,7 +305,7 @@ the light sources you can easily do that.
 
 \subsection FirstAppTutorialSSMUsage How to use the Simple Scene Manager
 
-In most cases you need a global instance of the simple scene manager. So like in the \ref FirstAppTutorial we define a global variable mgr as aw
+In most cases you need a global instance of the simple scene manager. So like in the \ref FirstAppTutorial we define a global variable "mgr" as a
 pointer. Of course we need to include the header file for the SSM
 
 \code

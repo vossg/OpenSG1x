@@ -67,7 +67,8 @@ A window
 keeps its instances of viewports and manages OpenGL context creation and activation/deactivation. It also handles detection of OpenGL extensions. 
 
 The passive window is a bit different from the others. A passive window does not handle an OpenGL context. It's purpose is to fit seamlessly into other OpenGL
-programs. Passive windows can be used with any window and GUI system that supports OpenGL.
+programs. Passive windows can be used with any window and GUI system that supports OpenGL. See section \ref TutorialQTPassiveWindow for an example using 
+passive windows.
 
 The last three windows, cluster, multi display and sort fist windows are used for clustering. These will be discussed in more detail in chapter \ref Clustering.
 

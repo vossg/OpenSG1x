@@ -439,8 +439,11 @@ within Visual Studio. There is a template project file provided. Use this templa
 folder. Of course all those settings can be done by hand, but you should only do that, if you have no other choice (i.e. extend an existing project with
 OpenSG Functionality)
 
-[TODO: List all the entries that have to be done...]
-[TODO : MFC Example]
+When I started writing the online tutorial it was planned to have a MFC example. However this made it not into the tutorial as I am not used to MFC and
+as far as I know products of Microsoft it would have taken an considerable amount of time to work myself into it, so I decided to focus on other important
+topics which I am more comfortable with. However, in a future version of this documentation there may be an MFC example... If you want to have a GUI, there
+still is another possibility: you can use a passive window which can be integrated seamlessly into any window manager. See section \ref TutorialWindowsWindows
+for more an passive windows and/or section \ref TutorialQTPassiveWindow for an passive window example application.
 
 \subsection TutorialCompilationLinux Projects on Linux
 
