@@ -224,8 +224,10 @@ class OSGPThreadLockBase : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void aquire (void);
-    void release(void);
+    void    aquire (void);
+    void    release(void);
+
+    OSGBool request(void);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -355,8 +357,10 @@ class OSGSprocLockBase : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void aquire (void);
-    void release(void);
+    void    aquire (void);
+    void    release(void);
+
+    OSGBool request(void);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -486,8 +490,10 @@ class OSGWinThreadLockBase : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void aquire (void);
-    void release(void);
+    void    aquire (void);
+    void    release(void);
+
+    OSGBool request(void);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -640,8 +646,10 @@ class OSGLockPool : public OSGLockCommonBase
 
     /*------------------------- your_category -------------------------------*/
 
-    void aquire (void *keyP);
-    void release(void *keyP);
+    void    aquire (void *keyP);
+    void    release(void *keyP);
+
+    OSGBool request(void *keyP);
 
     /*------------------------- your_operators ------------------------------*/
 

@@ -251,6 +251,9 @@ class OSGPThreadBase : public OSGThreadCommonBase
                 OSGUInt32      aspectId,
                 void          *threadArgP);
 
+    void block  (void);
+    void unblock(void);
+
     void print(void);
 
     /*------------------------- your_operators ------------------------------*/
@@ -364,6 +367,9 @@ class OSGPThreadBase : public OSGThreadCommonBase
     void      *_threadDataA[3];
 	pthread_t *_threadDescP;
 
+    pthread_cond_t  *_blockCondP;
+    pthread_mutex_t *_blockMutexP;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -371,6 +377,7 @@ class OSGPThreadBase : public OSGThreadCommonBase
     void  setupAspect     (void);
     void  setupThreadP    (void);
     void  setupChangeListP(void);
+    void  setupBlockCond  (void);
 
     OSGPThreadBase(const OSGPThreadBase &source);
     void operator =(const OSGPThreadBase &source);
@@ -427,6 +434,8 @@ class OSGSprocBase : public OSGThreadCommonBase
                 OSGUInt32      aspectId,
                 void          *threadArgP);
 
+    void block  (void);
+    void unblock(void);
 
     void print(void);
 
@@ -582,6 +591,9 @@ class OSGWinThreadBase : public OSGThreadCommonBase
     OSGBool run(OSGThreadFuncF  gThreadFunc, 
                 OSGUInt32       aspectId,
                 void           *threadArgP);
+
+    void block  (void);
+    void unblock(void);
 
     void print(void);
 

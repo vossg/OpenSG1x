@@ -1,15 +1,18 @@
 
 #include <stdio.h>
-#include <unistd.h>
 
-//#include <OSGBaseTypes.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
 
-#include <OSGBaseFunctions.h>
 #include <OSGThread.h>
 #include <OSGThreadManager.h>
+#include <OSGLock.h>
+#include <OSGBaseFunctions.h>
 
 #ifndef WIN32
 pthread_key_t     saved_time_key;
+#include <unistd.h>
 #endif
 
 OSG_USING_NAMESPACE
@@ -18,6 +21,8 @@ OSG_USING_NAMESPACE
 
 OSGThread *gThreads[NUM_THREADS];
 OSGUInt32  gLocalId[NUM_THREADS];
+
+OSGLock *pLock;
 
 #if 0
 void mapAspect(int id)
@@ -78,25 +83,50 @@ void *thread_routine(void *arg)
     
     what_time_did_i_save();
 #endif
+
+    OSGThread::getCurrent()->block();
     
-	fprintf(stderr, "BS\n");
-#ifdef WIN32
-	Sleep(2000);
-#else
-    sleep(2);
-#endif
-	fprintf(stderr, "AS\n");
+	fprintf(stderr, "Try Lock %d\n", *my_id);
+
+    if(pLock->request() == true)
+    {
+        fprintf(stderr, "Got Lock %d\n", *my_id);
+        osg_sleep(3000);
+
+        pLock->release();
+
+        fprintf(stderr, "Release Lock %d\n", *my_id);
+    }
+    else
+    {
+        fprintf(stderr, "No Lock %d\n", *my_id);
+
+        pLock->aquire();
+
+        fprintf(stderr, "Got Lock %d\n", *my_id);
+        osg_sleep(3000);
+
+        pLock->release();
+
+        fprintf(stderr, "Release Lock %d\n", *my_id);
+    }
 
     return(NULL); 
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
+    OSGUInt32 j;
+
     fprintf(stderr, "Thread test started %x\n", thread_routine);
 
-    osgInit(0, NULL);
+    osgInit(argc, argv);
 
     OSGThreadManager *gThreadManager = OSGThreadManager::the();
+
+//	pthread_key_create(&saved_time_key, free_time);
+
+    pLock = gThreadManager->getLock(NULL);
 
     for(OSGUInt32 i = 0; i < NUM_THREADS; i++)
     {
@@ -117,7 +147,15 @@ int main(void)
         }
     }
 
-    for(OSGUInt32 j = 0; j < NUM_THREADS; j++)
+    osg_sleep(2000);
+
+    for(j = 0; j < NUM_THREADS; j++)
+    {
+		fprintf(stderr, "Unblock for %d\n", j);
+        gThreads[j]->unblock();
+    }
+
+    for(j = 0; j < NUM_THREADS; j++)
     {
 		fprintf(stderr, "Wait for %d\n", j);
         OSGThread::join(gThreads[j]);

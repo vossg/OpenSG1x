@@ -349,6 +349,7 @@ void OSGPThreadBase::init(OSGThread *thisP)
     thisP->setupAspect     ();        
     thisP->setupThreadP    ();        
     thisP->setupChangeListP();        
+    thisP->setupBlockCond  ();
 }
 
 OSGPThreadBase *OSGPThreadBase::create(const OSGChar8 *szName)
@@ -448,6 +449,18 @@ OSGBool OSGPThreadBase::run(OSGThreadFuncF threadFunc,
     return true;
 }
 
+void OSGPThreadBase::block(void)
+{
+    pthread_mutex_lock  (_blockMutexP);
+    pthread_cond_wait   (_blockCondP, _blockMutexP);
+    pthread_mutex_unlock(_blockMutexP);
+}
+
+void VSCPThreadBase::unblock(void)
+{
+    pthread_cond_broadcast(_blockCondP);
+}
+
 void OSGPThreadBase::print(void)
 {
     fprintf(stderr, "OSGPThreadBase -%s-%d-\n", _szName, _threadId);
@@ -464,7 +477,10 @@ void OSGPThreadBase::print(void)
 OSGPThreadBase::OSGPThreadBase(const OSGChar8 *szName) :
     Inherited(szName),
 
-    _threadDescP(NULL)
+    _threadDescP(NULL),
+    _blockCondP (NULL),
+    _blockMutexP(NULL)
+
 {
     _threadDataA[0] = NULL;
     _threadDataA[1] = NULL;
@@ -591,6 +607,15 @@ void OSGPThreadBase::setupChangeListP(void)
     changeListP->setAspect(Inherited::_aspectId);
     _changelistsA[threadId] = changeListP;
 #endif
+}
+
+void OSGPThreadBase::setupBlockCond(void)
+{
+    _blockCond P = new pthread_cond_t;
+    _blockMutexP = new pthread_mutex_t;
+
+    pthread_cond_init (_blockCondP, NULL);
+    pthread_mutex_init(_blockMutexP, NULL);
 }
 
 #endif /* OSG_USE_PTHREADS */
@@ -736,6 +761,16 @@ OSGBool OSGSprocBase::run(OSGThreadFuncF threadFunc,
     }
 
     return returnValue;
+}
+
+void OSGSprocBase::block(void)
+{
+    blockproc(_pid);
+}
+
+void OSGSprocBase::unblock(void)
+{
+    unblockproc(_pid);
 }
 
 void OSGSprocBase::print(void)
@@ -1033,6 +1068,16 @@ OSGBool OSGWinThreadBase::run(OSGThreadFuncF  threadFunc,
     }
 
     return returnValue;
+}
+
+void OSGWinThreadBase::block(void)
+{
+    SuspendThread(_threadHandle);
+}
+
+void OSGWinThreadBase::unblock(void)
+{
+    ResumeThread(_externalHandle);
 }
 
 void OSGWinThreadBase::print(void)

@@ -44,6 +44,7 @@
 
 #ifndef WIN32
 #include <strings.h>
+#include <unistd.h>
 #endif
 
 #include <OSGConfig.h>
@@ -547,6 +548,33 @@ struct OSGLTString
         return strcmp(s1, s2) < 0;
     }
 };
+
+/*@}*/
+
+/*! @name Sleep
+ */
+
+/*@{*/
+
+inline
+void osg_sleep(OSGUInt32 usecs)
+{
+#ifdef WIN32
+    Sleep(usecs);
+#else
+    
+    // Rough aproximation, have to find a better way soon (GV)
+
+    if( (usecs * 1000) > 1000000)
+    {
+        sleep(usecs / 1000);
+    }
+    else
+    {
+        usleep(usecs * 1000);
+    }
+#endif
+}
 
 /*@}*/
 

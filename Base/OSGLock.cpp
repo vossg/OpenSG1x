@@ -237,6 +237,11 @@ void OSGPThreadLockBase::release(void)
     pthread_mutex_unlock(&(_lowLevelLock));               
 }
 
+OSGBool OSGPThreadLockBase::request(void)
+{
+    return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY); 
+}
+
 /*-------------------------- assignment -----------------------------------*/
 
 /*-------------------------- comparison -----------------------------------*/
@@ -361,6 +366,19 @@ void OSGSprocLockBase::release(void)
 {
     if(_lowLevelLock != NULL)
         usunsetlock(_lowLevelLock);
+}
+
+OSGBool OSGSprocLockBase::request(void)
+{
+    OSGBool  returnValue = false;
+    OSGInt32 rc          = 0;
+
+    if(_lowLevelLock != NULL)
+        rc = uscsetlock(_lowLevelLock, 0);
+
+    returnValue = (rc == 1);
+
+    return returnValue;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -512,6 +530,20 @@ void OSGWinThreadLockBase::release(void)
 	ReleaseMutex(_mutex);
 }
 
+VSCBool VSCWinThreadLockBase::request(void)
+{
+    DWORD rc = WaitForSingleObject(_mutex, 0);
+
+    if(rc == WAIT_OBJECT_0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 /*-------------------------- assignment -----------------------------------*/
 
 /*-------------------------- comparison -----------------------------------*/
@@ -637,6 +669,11 @@ void OSGLockPool::aquire(void *keyP)
 void OSGLockPool::release(void *keyP)
 {
     _locksA[(((OSGUInt32) keyP) & uiLockPoolMask) >> 7].release();
+}
+
+OSGBool OSGLockPool::request(void *keyP)
+{
+    return _locksA[(((OSGUInt32) keyP) & uiLockPoolMask) >> 7].request();
 }
 
 /*---------------------------- properties ---------------------------------*/
