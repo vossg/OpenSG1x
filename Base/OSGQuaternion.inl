@@ -354,15 +354,15 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x, 
                                                    const ValueTypeT y, 
-                                                    const ValueTypeT z, 
-                                                    const ValueTypeT w)
+                                                   const ValueTypeT z, 
+                                                   const ValueTypeT w)
 {
     ValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
 
     if(rTmp > Eps)
     {
         rTmp = osgsin(w / 2.0f) / rTmp;
-
+        
         _quat[0] = x * rTmp;
         _quat[1] = y * rTmp;
         _quat[2] = z * rTmp;
@@ -648,8 +648,19 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const char *str)
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const char *str)
 {
-  setValueAsQuat(str); 
-  setValueAsAxisRad (_quat[0],_quat[1],_quat[2],_quat[3]);
+    setValueAsQuat(str); 
+    
+    if(finite(_quat[0]) == 0 ||
+       finite(_quat[1]) == 0 ||
+       finite(_quat[2]) == 0 ||
+       finite(_quat[3]) == 0   )
+    {
+        setIdentity();
+    }
+    else
+    {
+        setValueAsAxisRad (_quat[0],_quat[1],_quat[2],_quat[3]);
+    }
 }
 
 /** \brief Sets rotation by a given str (like "0.0 1.0 0.0 180"), be aware
@@ -659,8 +670,19 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const char *str)
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const char *str)
 {
-  setValueAsQuat(str); 
-  setValueAsAxisRad (_quat[0],_quat[1],_quat[2],_quat[3]);
+    setValueAsQuat(str); 
+    
+    if(finite(_quat[0]) == 0 ||
+       finite(_quat[1]) == 0 ||
+       finite(_quat[2]) == 0 ||
+       finite(_quat[3]) == 0   )
+    {
+        setIdentity();
+    }
+    else
+    {
+        setValueAsAxisRad (_quat[0],_quat[1],_quat[2],_quat[3]);
+    }
 }
 
 /** \brief Sets rotation by three given euler angles
