@@ -92,6 +92,18 @@ const OSG::BitVector  TexGenChunkBase::GenFuncRPlaneFieldMask =
 const OSG::BitVector  TexGenChunkBase::GenFuncQPlaneFieldMask = 
     (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncQPlaneFieldId);
 
+const OSG::BitVector  TexGenChunkBase::SBeaconFieldMask = 
+    (TypeTraits<BitVector>::One << TexGenChunkBase::SBeaconFieldId);
+
+const OSG::BitVector  TexGenChunkBase::TBeaconFieldMask = 
+    (TypeTraits<BitVector>::One << TexGenChunkBase::TBeaconFieldId);
+
+const OSG::BitVector  TexGenChunkBase::RBeaconFieldMask = 
+    (TypeTraits<BitVector>::One << TexGenChunkBase::RBeaconFieldId);
+
+const OSG::BitVector  TexGenChunkBase::QBeaconFieldMask = 
+    (TypeTraits<BitVector>::One << TexGenChunkBase::QBeaconFieldId);
+
 const OSG::BitVector TexGenChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -121,6 +133,18 @@ const OSG::BitVector TexGenChunkBase::MTInfluenceMask =
     
 */
 /*! \var Vec4f           TexGenChunkBase::_sfGenFuncQPlane
+    
+*/
+/*! \var NodePtr         TexGenChunkBase::_sfSBeacon
+    
+*/
+/*! \var NodePtr         TexGenChunkBase::_sfTBeacon
+    
+*/
+/*! \var NodePtr         TexGenChunkBase::_sfRBeacon
+    
+*/
+/*! \var NodePtr         TexGenChunkBase::_sfQBeacon
     
 */
 
@@ -167,7 +191,27 @@ FieldDescription *TexGenChunkBase::_desc[] =
                      "genFuncQPlane", 
                      GenFuncQPlaneFieldId, GenFuncQPlaneFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncQPlane)
+                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncQPlane),
+    new FieldDescription(SFNodePtr::getClassType(), 
+                     "sBeacon", 
+                     SBeaconFieldId, SBeaconFieldMask,
+                     false,
+                     (FieldAccessMethod) &TexGenChunkBase::getSFSBeacon),
+    new FieldDescription(SFNodePtr::getClassType(), 
+                     "tBeacon", 
+                     TBeaconFieldId, TBeaconFieldMask,
+                     false,
+                     (FieldAccessMethod) &TexGenChunkBase::getSFTBeacon),
+    new FieldDescription(SFNodePtr::getClassType(), 
+                     "rBeacon", 
+                     RBeaconFieldId, RBeaconFieldMask,
+                     false,
+                     (FieldAccessMethod) &TexGenChunkBase::getSFRBeacon),
+    new FieldDescription(SFNodePtr::getClassType(), 
+                     "qBeacon", 
+                     QBeaconFieldId, QBeaconFieldMask,
+                     false,
+                     (FieldAccessMethod) &TexGenChunkBase::getSFQBeacon)
 };
 
 
@@ -231,6 +275,10 @@ TexGenChunkBase::TexGenChunkBase(void) :
     _sfGenFuncTPlane          (), 
     _sfGenFuncRPlane          (), 
     _sfGenFuncQPlane          (), 
+    _sfSBeacon                (), 
+    _sfTBeacon                (), 
+    _sfRBeacon                (), 
+    _sfQBeacon                (), 
     Inherited() 
 {
 }
@@ -248,6 +296,10 @@ TexGenChunkBase::TexGenChunkBase(const TexGenChunkBase &source) :
     _sfGenFuncTPlane          (source._sfGenFuncTPlane          ), 
     _sfGenFuncRPlane          (source._sfGenFuncRPlane          ), 
     _sfGenFuncQPlane          (source._sfGenFuncQPlane          ), 
+    _sfSBeacon                (source._sfSBeacon                ), 
+    _sfTBeacon                (source._sfTBeacon                ), 
+    _sfRBeacon                (source._sfRBeacon                ), 
+    _sfQBeacon                (source._sfQBeacon                ), 
     Inherited                 (source)
 {
 }
@@ -304,6 +356,26 @@ UInt32 TexGenChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGenFuncQPlane.getBinSize();
     }
 
+    if(FieldBits::NoField != (SBeaconFieldMask & whichField))
+    {
+        returnValue += _sfSBeacon.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TBeaconFieldMask & whichField))
+    {
+        returnValue += _sfTBeacon.getBinSize();
+    }
+
+    if(FieldBits::NoField != (RBeaconFieldMask & whichField))
+    {
+        returnValue += _sfRBeacon.getBinSize();
+    }
+
+    if(FieldBits::NoField != (QBeaconFieldMask & whichField))
+    {
+        returnValue += _sfQBeacon.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -351,6 +423,26 @@ void TexGenChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
     {
         _sfGenFuncQPlane.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SBeaconFieldMask & whichField))
+    {
+        _sfSBeacon.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TBeaconFieldMask & whichField))
+    {
+        _sfTBeacon.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RBeaconFieldMask & whichField))
+    {
+        _sfRBeacon.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (QBeaconFieldMask & whichField))
+    {
+        _sfQBeacon.copyToBin(pMem);
     }
 
 
@@ -401,6 +493,26 @@ void TexGenChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGenFuncQPlane.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SBeaconFieldMask & whichField))
+    {
+        _sfSBeacon.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TBeaconFieldMask & whichField))
+    {
+        _sfTBeacon.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RBeaconFieldMask & whichField))
+    {
+        _sfRBeacon.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (QBeaconFieldMask & whichField))
+    {
+        _sfQBeacon.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -433,6 +545,18 @@ void TexGenChunkBase::executeSyncImpl(      TexGenChunkBase *pOther,
 
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
         _sfGenFuncQPlane.syncWith(pOther->_sfGenFuncQPlane);
+
+    if(FieldBits::NoField != (SBeaconFieldMask & whichField))
+        _sfSBeacon.syncWith(pOther->_sfSBeacon);
+
+    if(FieldBits::NoField != (TBeaconFieldMask & whichField))
+        _sfTBeacon.syncWith(pOther->_sfTBeacon);
+
+    if(FieldBits::NoField != (RBeaconFieldMask & whichField))
+        _sfRBeacon.syncWith(pOther->_sfRBeacon);
+
+    if(FieldBits::NoField != (QBeaconFieldMask & whichField))
+        _sfQBeacon.syncWith(pOther->_sfQBeacon);
 
 
 }
@@ -467,7 +591,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXGENCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXGENCHUNKBASE_INLINE_CVSID;
 

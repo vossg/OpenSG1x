@@ -73,6 +73,10 @@
 #include <OSGVec4fFields.h> // GenFuncTPlane type
 #include <OSGVec4fFields.h> // GenFuncRPlane type
 #include <OSGVec4fFields.h> // GenFuncQPlane type
+#include <OSGNodeFields.h> // SBeacon type
+#include <OSGNodeFields.h> // TBeacon type
+#include <OSGNodeFields.h> // RBeacon type
+#include <OSGNodeFields.h> // QBeacon type
 
 #include <OSGTexGenChunkFields.h>
 
@@ -104,7 +108,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
         GenFuncTPlaneFieldId = GenFuncSPlaneFieldId + 1,
         GenFuncRPlaneFieldId = GenFuncTPlaneFieldId + 1,
         GenFuncQPlaneFieldId = GenFuncRPlaneFieldId + 1,
-        NextFieldId          = GenFuncQPlaneFieldId + 1
+        SBeaconFieldId       = GenFuncQPlaneFieldId + 1,
+        TBeaconFieldId       = SBeaconFieldId       + 1,
+        RBeaconFieldId       = TBeaconFieldId       + 1,
+        QBeaconFieldId       = RBeaconFieldId       + 1,
+        NextFieldId          = QBeaconFieldId       + 1
     };
 
     static const OSG::BitVector GenFuncSFieldMask;
@@ -115,6 +123,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     static const OSG::BitVector GenFuncTPlaneFieldMask;
     static const OSG::BitVector GenFuncRPlaneFieldMask;
     static const OSG::BitVector GenFuncQPlaneFieldMask;
+    static const OSG::BitVector SBeaconFieldMask;
+    static const OSG::BitVector TBeaconFieldMask;
+    static const OSG::BitVector RBeaconFieldMask;
+    static const OSG::BitVector QBeaconFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -149,6 +161,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
            SFVec4f             *getSFGenFuncTPlane  (void);
            SFVec4f             *getSFGenFuncRPlane  (void);
            SFVec4f             *getSFGenFuncQPlane  (void);
+           SFNodePtr           *getSFSBeacon        (void);
+           SFNodePtr           *getSFTBeacon        (void);
+           SFNodePtr           *getSFRBeacon        (void);
+           SFNodePtr           *getSFQBeacon        (void);
 
            GLenum              &getGenFuncS       (void);
      const GLenum              &getGenFuncS       (void) const;
@@ -166,6 +182,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
      const Vec4f               &getGenFuncRPlane  (void) const;
            Vec4f               &getGenFuncQPlane  (void);
      const Vec4f               &getGenFuncQPlane  (void) const;
+           NodePtr             &getSBeacon        (void);
+     const NodePtr             &getSBeacon        (void) const;
+           NodePtr             &getTBeacon        (void);
+     const NodePtr             &getTBeacon        (void) const;
+           NodePtr             &getRBeacon        (void);
+     const NodePtr             &getRBeacon        (void) const;
+           NodePtr             &getQBeacon        (void);
+     const NodePtr             &getQBeacon        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -180,6 +204,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
      void setGenFuncTPlane  ( const Vec4f &value );
      void setGenFuncRPlane  ( const Vec4f &value );
      void setGenFuncQPlane  ( const Vec4f &value );
+     void setSBeacon        ( const NodePtr &value );
+     void setTBeacon        ( const NodePtr &value );
+     void setRBeacon        ( const NodePtr &value );
+     void setQBeacon        ( const NodePtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,6 +261,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     SFVec4f             _sfGenFuncTPlane;
     SFVec4f             _sfGenFuncRPlane;
     SFVec4f             _sfGenFuncQPlane;
+    SFNodePtr           _sfSBeacon;
+    SFNodePtr           _sfTBeacon;
+    SFNodePtr           _sfRBeacon;
+    SFNodePtr           _sfQBeacon;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +312,6 @@ typedef TexGenChunkBase *TexGenChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGTEXGENCHUNKBASE_H_ */

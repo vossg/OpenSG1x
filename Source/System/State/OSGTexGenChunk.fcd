@@ -83,4 +83,36 @@ Chunk for texture coordinate generation functions.
 		access="public"
 	>
 	</Field>
+	<Field
+		name="sBeacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="tBeacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="rBeacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="qBeacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

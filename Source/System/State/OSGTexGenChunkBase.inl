@@ -152,6 +152,34 @@ SFVec4f *TexGenChunkBase::getSFGenFuncQPlane(void)
     return &_sfGenFuncQPlane;
 }
 
+//! Get the TexGenChunk::_sfSBeacon field.
+inline
+SFNodePtr *TexGenChunkBase::getSFSBeacon(void)
+{
+    return &_sfSBeacon;
+}
+
+//! Get the TexGenChunk::_sfTBeacon field.
+inline
+SFNodePtr *TexGenChunkBase::getSFTBeacon(void)
+{
+    return &_sfTBeacon;
+}
+
+//! Get the TexGenChunk::_sfRBeacon field.
+inline
+SFNodePtr *TexGenChunkBase::getSFRBeacon(void)
+{
+    return &_sfRBeacon;
+}
+
+//! Get the TexGenChunk::_sfQBeacon field.
+inline
+SFNodePtr *TexGenChunkBase::getSFQBeacon(void)
+{
+    return &_sfQBeacon;
+}
+
 
 //! Get the value of the TexGenChunk::_sfGenFuncS field.
 inline
@@ -321,8 +349,92 @@ void TexGenChunkBase::setGenFuncQPlane(const Vec4f &value)
     _sfGenFuncQPlane.setValue(value);
 }
 
+//! Get the value of the TexGenChunk::_sfSBeacon field.
+inline
+NodePtr &TexGenChunkBase::getSBeacon(void)
+{
+    return _sfSBeacon.getValue();
+}
+
+//! Get the value of the TexGenChunk::_sfSBeacon field.
+inline
+const NodePtr &TexGenChunkBase::getSBeacon(void) const
+{
+    return _sfSBeacon.getValue();
+}
+
+//! Set the value of the TexGenChunk::_sfSBeacon field.
+inline
+void TexGenChunkBase::setSBeacon(const NodePtr &value)
+{
+    _sfSBeacon.setValue(value);
+}
+
+//! Get the value of the TexGenChunk::_sfTBeacon field.
+inline
+NodePtr &TexGenChunkBase::getTBeacon(void)
+{
+    return _sfTBeacon.getValue();
+}
+
+//! Get the value of the TexGenChunk::_sfTBeacon field.
+inline
+const NodePtr &TexGenChunkBase::getTBeacon(void) const
+{
+    return _sfTBeacon.getValue();
+}
+
+//! Set the value of the TexGenChunk::_sfTBeacon field.
+inline
+void TexGenChunkBase::setTBeacon(const NodePtr &value)
+{
+    _sfTBeacon.setValue(value);
+}
+
+//! Get the value of the TexGenChunk::_sfRBeacon field.
+inline
+NodePtr &TexGenChunkBase::getRBeacon(void)
+{
+    return _sfRBeacon.getValue();
+}
+
+//! Get the value of the TexGenChunk::_sfRBeacon field.
+inline
+const NodePtr &TexGenChunkBase::getRBeacon(void) const
+{
+    return _sfRBeacon.getValue();
+}
+
+//! Set the value of the TexGenChunk::_sfRBeacon field.
+inline
+void TexGenChunkBase::setRBeacon(const NodePtr &value)
+{
+    _sfRBeacon.setValue(value);
+}
+
+//! Get the value of the TexGenChunk::_sfQBeacon field.
+inline
+NodePtr &TexGenChunkBase::getQBeacon(void)
+{
+    return _sfQBeacon.getValue();
+}
+
+//! Get the value of the TexGenChunk::_sfQBeacon field.
+inline
+const NodePtr &TexGenChunkBase::getQBeacon(void) const
+{
+    return _sfQBeacon.getValue();
+}
+
+//! Set the value of the TexGenChunk::_sfQBeacon field.
+inline
+void TexGenChunkBase::setQBeacon(const NodePtr &value)
+{
+    _sfQBeacon.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGTEXGENCHUNKBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGTEXGENCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
