@@ -29,6 +29,7 @@
 #include <OSGMaterialGroup.h>
 #include <OSGSortLastWindow.h>
 #include <OSGImageComposer.h>
+#include <OSGProxyGroup.h>
 #ifdef FRAMEINTERLEAVE
 #include <OSGFrameInterleaveWindow.h>
 #endif
@@ -81,6 +82,7 @@ UInt32                   sum_triangles=0;
 bool                     info = false;
 std::string              connectionDestination="";
 std::string              connectionInterface="";
+OSG::SolidBackgroundPtr  bkgnd;
 
 /*! Simple show text function
  */
@@ -211,6 +213,16 @@ void prepareSceneGraph(NodePtr &node)
                         cmat->addChunk(polygonChunk);
                         endEditCP(cmat);
                     }
+                }
+            }
+            else
+            {
+                ProxyGroupPtr proxy = ProxyGroupPtr::dcast(core);
+                if(proxy != NullFC)
+                {
+                    sum_triangles += proxy->getTriangles();
+                    sum_positions += proxy->getPositions();
+                    sum_geometries += proxy->getGeometries();
                 }
             }
         }
@@ -574,6 +586,14 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                 _enablecc = true;
             setHEyeWallParameter(_dsFactor, _enablecc);
             break;
+        case 'B':
+            beginEditCP(bkgnd);
+            if(bkgnd->getColor()[0] == 0.0)
+                bkgnd->setColor( OSG::Color3f(1,1,1) );
+            else
+                bkgnd->setColor( OSG::Color3f(0,0,0) );
+            endEditCP(bkgnd);
+            break;
         case 27:	// should kill the clients here
             // exit
 //            subRefCP(clusterWindow);
@@ -749,11 +769,11 @@ void init(std::vector<std::string> &filenames)
     endEditCP(cam);
 
     // Solid Background
-    OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
+    bkgnd = OSG::SolidBackground::create();
     beginEditCP(bkgnd);
-//    bkgnd->setColor( OSG::Color3f(.8,.8,.8) );
-//    bkgnd->setColor( OSG::Color3f(.1,.1,.6) );
     bkgnd->setColor( OSG::Color3f(0,0,0) );
+//    bkgnd->setColor( OSG::Color3f(.1,.1,.6) );
+//    bkgnd->setColor( OSG::Color3f(1,1,1) );
     endEditCP(bkgnd);
 
     // Viewport
@@ -917,11 +937,9 @@ int main(int argc,char **argv)
     bool                     clientRendering=true;
     bool                     compose=false;
 
-    //int                      subtilesize=32;
-    //UInt32                   balanceType=0;
-    //bool                     sortPipe=true;
     std::string              composerType="";
     ImageComposerPtr         composer=NullFC;
+    std::string              autostart;
     
     for(i=1;i<argc;i++)
     {
@@ -929,11 +947,15 @@ int main(int argc,char **argv)
         {
             switch(argv[i][1])
             {
+                case 'A':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    autostart = opt;
+                    break;
                 case 'D':
                     opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
                     if(sscanf(opt,"%f,%f,%f",&ca,&cb,&cc)!=3)
                     {
-                        std::cout << "Copy opton -C x,y,z" << std::endl;
+                        std::cout << "Copy opton -D x,y,z" << std::endl;
                         return 1;
                     }
                     break;
@@ -979,14 +1001,6 @@ int main(int argc,char **argv)
                     int lpos=2;
                     while(argv[i][lpos])
                     {
-                        /*
-                        if(argv[i][lpos] == 'v')
-                            balanceType=1;
-                        if(argv[i][lpos] == 'p')
-                            balanceType=2;
-                        if(argv[i][lpos] == 's')
-                            sortPipe=true;
-                        */
                         if(argv[i][lpos] == 'B') 
                             composerType = "BinarySwapComposer";
                         if(argv[i][lpos] == 'P')
@@ -1087,7 +1101,8 @@ int main(int argc,char **argv)
                               << "-x  server x resolution" << std::endl
                               << "-y  server y resolution" << std::endl
                               << "-t  subtile size for img composition" << std::endl
-                              << "-D  x,y,z duplicate geometry" << std::endl;
+                              << "-D  x,y,z duplicate geometry" << std::endl
+                              << "-A  Autostart command" << std::endl;
                     return 0;
             }
         }
@@ -1146,7 +1161,7 @@ int main(int argc,char **argv)
                         beginEditCP(icPtr);
 //                        icPtr->setTileSize(subtilesize);
                         icPtr->setStatistics(info);
-//                    icPtr->setShort(false);
+//                        icPtr->setShort(false);
                         sortlast->setComposer(icPtr);
                         endEditCP(icPtr);
                     }
@@ -1174,6 +1189,8 @@ int main(int argc,char **argv)
         }
         beginEditCP(clusterWindow);
         {
+            clusterWindow->getAutostart().push_back(autostart);
+
             for(i=0 ; i<servers.size() ; ++i)
                 clusterWindow->getServers().push_back(servers[i]);
             switch(type)
