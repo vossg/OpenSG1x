@@ -129,8 +129,8 @@ endif
 
 install-includes: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then                               \
-            mkdir $(INSTALL_DIR)/include;                                   \
-        fi;                                                                 \
+            mkdir $(INSTALL_DIR)/include;                                       \
+        fi;                                                                     \
 	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                         \
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                               \
 	fi;                                                                     \
@@ -164,8 +164,8 @@ install-includes: install-test
 
 update-includes: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then                                \
-            mkdir $(INSTALL_DIR)/include;                                    \
-        fi;                                                                  \
+            mkdir $(INSTALL_DIR)/include;                                        \
+        fi;                                                                      \
 	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                          \
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                                \
 	fi;                                                                      \
@@ -231,7 +231,7 @@ install-libs: install-test
 	@if [ ! -w $(INSTALL_DIR)/lib/dbg ]; then mkdir $(INSTALL_DIR)/lib/dbg; fi
 	@if [ ! -w $(INSTALL_DIR)/lib/opt ]; then mkdir $(INSTALL_DIR)/lib/opt; fi
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg'                               \
+	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-dbg'                       \
 	                    -exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;   \
 	cd $(INSTALL_DIR)/lib/dbg;                                              \
 	rm -f *$(SO_SUFFIX);                                                    \
@@ -242,7 +242,7 @@ install-libs: install-test
 	done;                                                                   \
 	cd $$CURRDIR;
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-opt'                               \
+	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-opt'                       \
 	                    -exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;   \
 	cd $(INSTALL_DIR)/lib/opt;                                              \
 	rm -f *$(SO_SUFFIX);                                                    \
@@ -253,7 +253,7 @@ install-libs: install-test
 	done;                                                                   \
 	cd $$CURRDIR;
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbglnk'                            \
+	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-dbglnk'                    \
 	                -exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;  \
 	cd $(INSTALL_DIR)/lib/dbg;                                              \
 	rm -f *$(LNK_LIB_SUFFIX);                                               \
@@ -264,7 +264,7 @@ install-libs: install-test
 	done;                                                                   \
 	cd $$CURRDIR;
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-optlnk'                            \
+	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-optlnk'                    \
 	                -exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;  \
 	cd $(INSTALL_DIR)/lib/opt;                                              \
 	rm -f *$(LNK_LIB_SUFFIX);                                               \
@@ -276,7 +276,7 @@ install-libs: install-test
 	cd $$CURRDIR;
 ifeq ($(OS_BASE),cygwin)
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg'                               \
+	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-dbg'                       \
 	                    -exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;  \
 	cd $(INSTALL_DIR)/lib/dbg;                                              \
 	for t in $$BUILDLIBS;                                                   \
@@ -286,7 +286,7 @@ ifeq ($(OS_BASE),cygwin)
 	done;                                                                   \
 	cd $$CURRDIR;
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-opt'                               \
+	BUILDLIBS=`find $$CURRDIR -follow -name 'lib-opt'                       \
 	                    -exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;  \
 	cd $(INSTALL_DIR)/lib/opt;                                              \
 	for t in $$BUILDLIBS;                                                   \
@@ -302,7 +302,7 @@ fcdToBase:
 	@FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;                          \
 	CURRDIRBASE=`pwd` ;                                                     \
 	cd $($(PROJ)POOL) ;                                                     \
-	for i in `find .                                                        \
+	for i in `find . -follow                                                \
 	    \( -type d \( -name CVS -o -name Test -o -name Builds -o            \
 	       -name Tools -o -name examples -o -name '*/.*' \) -prune \)       \
 	    -o -type f -name '*\.fcd' -print` ;                                 \
