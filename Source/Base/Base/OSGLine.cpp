@@ -727,3 +727,39 @@ bool Line::intersect(const Pnt3f  &v0,
     return true;
 }
 
+/* Check this against Peter Shirleys code:
+
+float a = v1.x() - v2.x();
+float b = v1.y() - v2.y();
+float c = v1.z() - v2.z();
+
+float d = v1.x() - v3.x();
+float e = v1.y() - v3.y();
+float f = v1.z() - v3.z();
+
+float g = _d.x();
+float h = _d.y();
+float i = _d.z();
+
+float j = v1.x() - _s.x();
+float k = v1.y() - _s.y();
+float l = v1.z() - _s.z();
+
+float ei_hf = e*i-h*f;
+float gf_di = g*f-d*i;
+float dh_eg = d*h-e*g;
+float ak_jb = a*k-j*b;
+float jc_al = j*c-a*l;
+float bl_kc = b*l-k*c;
+
+float M = a*(ei_hf) + b*(gf_di) + c*(dh_eg);
+float beta = ( j*(ei_hf)+ k*(gf_di) + l*(dh_eg) ) / M;
+float gamma = ( i*(ak_jb) + h*(jc_al) + g*(bl_kc) ) / M;
+float t = -( f*(ak_jb) + e*(jc_al) + d*(bl_kc) ) / M;
+
+/// Intersects?
+return (beta+gamma < 1.0f)
+        && (beta > 0.0f) && (gamma > 0.0f)
+        && (t >= 0.0f) && (t <= 1.0f);
+
+*/

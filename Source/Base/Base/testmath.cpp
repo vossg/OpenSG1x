@@ -592,6 +592,18 @@ void vectorMathTests(void)
     std::cout << v3f1 << " \n";
     std::cout << v4f1 << " \n";
 
+    v2f1 = 2.f * v2f2;
+    v3f1 = 2.f * v3f2;
+    v4f1 = 2.f * v4f2;
+
+    std::cout << v2f1 << " \n";
+    std::cout << v3f1 << " \n";
+    std::cout << v4f1 << " \n";
+
+    std::cout << v2f2 << " \n";
+    std::cout << v3f2 << " \n";
+    std::cout << v4f2 << " \n";
+
     v2f1 = 0.5f * v2f2;
     v3f1 = 0.5f * v3f2;
     v4f1 = 0.5f * v4f2;

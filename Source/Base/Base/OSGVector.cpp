@@ -156,7 +156,7 @@ const PointInterface< UInt8, VecStorage3<UInt8> >
 
 template <>
 const PointInterface< UInt8, VecStorage4<UInt8> >
-    PointInterface< UInt8, VecStorage4<UInt8> >::Null(0, 0, 0, 0);
+    PointInterface< UInt8, VecStorage4<UInt8> >::Null(0, 0, 0, 1);
 
 template <>
 const PointInterface< Int8, VecStorage2<Int8> >
@@ -168,7 +168,7 @@ const PointInterface< Int8, VecStorage3<Int8> >
 
 template <>
 const PointInterface< Int8, VecStorage4<Int8> >
-    PointInterface< Int8, VecStorage4<Int8> >::Null(0, 0, 0, 0);
+    PointInterface< Int8, VecStorage4<Int8> >::Null(0, 0, 0, 1);
 
 template <>
 const PointInterface< UInt16, VecStorage2<UInt16> >
@@ -180,7 +180,7 @@ const PointInterface< UInt16, VecStorage3<UInt16> >
 
 template <>
 const PointInterface< UInt16, VecStorage4<UInt16> >
-    PointInterface< UInt16, VecStorage4<UInt16> >::Null(0, 0, 0, 0);
+    PointInterface< UInt16, VecStorage4<UInt16> >::Null(0, 0, 0, 1);
 
 template <>
 const PointInterface< Int16, VecStorage2<Int16> >
@@ -192,7 +192,7 @@ const PointInterface< Int16, VecStorage3<Int16> >
 
 template <>
 const PointInterface< Int16, VecStorage4<Int16> >
-    PointInterface< Int16, VecStorage4<Int16> >::Null(0, 0, 0, 0);
+    PointInterface< Int16, VecStorage4<Int16> >::Null(0, 0, 0, 1);
 
 template <>
 const PointInterface< Real32, VecStorage2<Real32> >
@@ -204,7 +204,7 @@ const PointInterface< Real32, VecStorage3<Real32> >
 
 template <>
 const PointInterface< Real32, VecStorage4<Real32> >
-    PointInterface< Real32, VecStorage4<Real32> >::Null(0.f, 0.f, 0.f, 0.f);
+    PointInterface< Real32, VecStorage4<Real32> >::Null(0.f, 0.f, 0.f, 1.f);
 
 template <>
 const PointInterface< Real64, VecStorage2<Real64> >
@@ -216,7 +216,7 @@ const PointInterface< Real64, VecStorage3<Real64> >
 
 template <>
 const PointInterface< Real64, VecStorage4<Real64> >
-    PointInterface< Real64, VecStorage4<Real64> >::Null(0.f, 0.f, 0.f, 0.f);
+    PointInterface< Real64, VecStorage4<Real64> >::Null(0.f, 0.f, 0.f, 1.f);
 
 template <>
 const PointInterface< Real128, VecStorage2<Real128> >
@@ -228,7 +228,7 @@ const PointInterface< Real128, VecStorage3<Real128> >
 
 template <>
 const PointInterface< Real128, VecStorage4<Real128> >
-    PointInterface< Real128, VecStorage4<Real128> >::Null(0.f, 0.f, 0.f, 0.f);
+    PointInterface< Real128, VecStorage4<Real128> >::Null(0.f, 0.f, 0.f, 1.f);
 
 /*
 template <>

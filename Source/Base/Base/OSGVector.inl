@@ -1050,6 +1050,26 @@ PointInterface <ValueTypeT, StorageInterfaceT>
     return returnValue;
 }
 
+
+//! Component wise binary scalar multiplication
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+PointInterface <ValueTypeT, StorageInterfaceT>
+    operator * (
+        const PointInterface <ValueTypeT, StorageInterfaceT> &vec,
+        const ValueTypeT rVal)
+{
+    PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
+
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
+    {
+        returnValue[i] = vec._values[i] * rVal;
+    }
+
+    return returnValue;
+}
+
 //! Nondestructive unary negation, returns new point
 
 template <class ValueTypeT,
