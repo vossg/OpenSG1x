@@ -179,7 +179,7 @@ void AttachmentMixin<AttachmentDescT>::addParent(ParentPtr pParent)
 template <class AttachmentDescT> inline
 void AttachmentMixin<AttachmentDescT>::subParent(ParentPtr pParent)
 {
-    MFParentPtr::iterator parentIt = _mfParents.find(pParent);
+    typename MFParentPtr::iterator parentIt = _mfParents.find(pParent);
 
     if(parentIt != _mfParents.end())
     {

@@ -168,10 +168,10 @@ AttachmentContainerMixin<AttachmentDescT>::AttachmentContainerMixin(
 
     _sfAttachments(      )
 {
-    AttachmentObjMap::const_iterator amIt   =
+    typename AttachmentObjMap::const_iterator amIt   =
         source._sfAttachments.getValue().begin();
 
-    AttachmentObjMap::const_iterator amEnd =
+    typename AttachmentObjMap::const_iterator amEnd =
         source._sfAttachments.getValue().end  ();
 
     while(amIt != amEnd)
@@ -210,7 +210,8 @@ void AttachmentContainerMixin<AttachmentDescT>::addAttachment(
 
     OSG::addRef(pContainer);
 
-    AttachmentObjMap::iterator amIt = _sfAttachments.getValue().find(uiKey);
+    typename AttachmentObjMap::iterator amIt = 
+        _sfAttachments.getValue().find(uiKey);
 
     OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
     {
@@ -243,7 +244,7 @@ void AttachmentContainerMixin<AttachmentDescT>::subAttachment(
 {
     UInt32 uiKey;
 
-    AttachmentObjMap::iterator amIt;
+    typename AttachmentObjMap::iterator amIt;
 
     if(pContainer == Desc::getNullPtr())
         return;
@@ -274,7 +275,8 @@ AttachmentContainerMixin<AttachmentDescT>::AttachmentObjPtr
 {
     UInt32 uiKey = (UInt32(uiGroupId) << 16) | uiBinding;
 
-    AttachmentObjMap::iterator amIt = _sfAttachments.getValue().find(uiKey);
+    typename AttachmentObjMap::iterator amIt = 
+        _sfAttachments.getValue().find(uiKey);
 
     return (amIt == _sfAttachments.getValue().end()) ? 
         Desc::getNullPtr() : (*amIt).second;
