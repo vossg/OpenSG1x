@@ -424,9 +424,9 @@ You have to increase the reference count via addRefCP first, before you delete t
 the correct code 
 
 \code
-    Node a = Node::create();
-    Node b = Node::create();
-    Node c = Node::create();
+    NodePtr a = Node::create();
+    NodePtr b = Node::create();
+    NodePtr c = Node::create();
     // all reference counts of a,b and c are 0
     
     // we add "a" as a child to "b"
@@ -512,5 +512,84 @@ parent. That will be repeated until the root node is reached.
 
 \section BasicCores Cores
 
+Cores in OpenSG are one of the most important datatypes. I hope you got a feeling how to create and use nodes throughout the last sections,
+but all we did so far was not really visible on screen except for the firsst complete tutorial. Anyway, rembember that we used
+<PRE>NodePtr scene = makeTorus(.5, 2, 16, 16);</PRE>
+to create the scenegraph. The makeTorus is a high level command which creates a node already connected with a geometry core containing the
+data for the torus. If you want to fill your scene with live you will need to assign cores to every of your nodes.
 
+IMPORTANT:\n
+A node without a core should not be attached to your graph. If your scene is beeing rendered and an "empty" node is encountered, the rendering 
+routine will break at this point. The next figure will show what I mean.
+
+\image html empty_core_example.png "A graph with an empty node"
+\image latex empty_core_example.eps "A graph with an empty node" width = 8cm
+
+<I>
+    The nodes in green color are geometry, whereas the red one indicates a node with a missing core. The numbers to the right are showing
+    the order of traversal. The rendering traversal of the graph is depth-first, left-first (see Chapter[xxx]). The result in this situation 
+    here is that the house will be correctly rendered, but the house, car and trees will be skipped. In this case you will get an error 
+    message on your terminal like that: Recurse core is null, don't know what to do!
+</I>
+
+I will introduce all important cores in Chapter (xxx), but for now I want to present only two of them. 
+
+\subsection BasicCoresGroup Group core
+
+The first one is the simplest of all 
+of them: the group core. A group core does nothing in special it just makes it possible to have a node and attach several children to it. You 
+see, this is the solution to our empty node problem from above. Like every other class derived from Field Container, cores too, need to be
+created via the static ::create() method of it's pointer class. This example demonstrate how you can create a node containing a group core
+
+\code
+NodePtr n = Node::create();
+// the group core is created just like the nodes were
+GroupPtr g = Group::create();
+
+beginEditCP(n);
+    n->setCore(g);
+endEditCP(n);
+
+\endcode
+
+That's all! The "setCore()" method is used to assign a core to the node. As explained in \ref FirstAppTutorialScenegraphCompared these cores
+can be referenced by as many nodes as you want to - and this is way it is called a scenegrah and not a scenetree ;)
+
+The group core has no interesting methods as it does really nothing
+
+\subsection basicCoresTransform Transform core
+
+The other one is the transform core, which is most likely one of the most important. As you might expect this one is needed to move your geometry
+around. Creation, of course, is just the same as ever, but you have some more methods to play with compared to the group core. Here is an example
+how you can create a node containing a transformation, which will translate all its children by five units along the z-axis
+
+\code
+    NodePtr n = Node::create();
+    TransformPtr t = Transform::create();
+    
+    // we want to modify our fresh transform object 
+    // so we need to call begin-/ and endEditCP on it
+    beginEditCP(t);
+        t->setTranslation(Vec3f(0,0,5));
+    endEditCP(t);
+    
+    beginEditCP(n);
+        n->setCore(t);
+    endEditCP(n);
+\endcode
+
+If you now add children to this node they all will be translated by this core. 
+
+IMPORTANT:\n
+I suppose that you expected it that way, but just to make sure you know: In OpenSG, like in most other scenegraph systems, all states are 
+derived to all children only, but never are they passed to neighbours. 
+
+\image html inheritance_example.png "A graph demonstratning the kind of inheritance"
+\image latex inheritance_example.eps "A graph demonstarting the kind of inheritance" width = 6cm
+
+<I>
+    Here we have two different transformation nodes A and B. All states are inherited by children only, so the terrain has 
+    transformation A assigned to it, where the house is transformed by B. The car and trees are not transformed at all, because
+    there is no parent which has a transformation assigned to it.
+</I>
 */
