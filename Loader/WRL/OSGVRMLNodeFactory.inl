@@ -153,7 +153,7 @@ void VRMLNodeFactory<BaseT>::beginProto(
             stringDup(szProtoname, szName);
 
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("vector",
-                                                         "Normals",
+                                                         "normals",
                                                          "GeoNormals3f");
 
             _pCurrentNodeDesc->init(szProtoname);
@@ -165,7 +165,7 @@ void VRMLNodeFactory<BaseT>::beginProto(
             stringDup(szProtoname, szName);
 
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("color",
-                                                         "Colors",
+                                                         "colors",
                                                          "GeoColors3f");
 
             _pCurrentNodeDesc->init(szProtoname);
