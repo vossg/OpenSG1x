@@ -4,7 +4,8 @@
 #include <OSGLock.h>
 #include <OSGLog.h>
 #include <OSGBaseFunctions.h>
-#include <OSGConnection.h>
+#include <OSGGroupConnection.h>
+#include <OSGPointConnection.h>
 #include <OSGConnectionFactory.h>
 
 using namespace OSG;
@@ -23,8 +24,8 @@ void connectProc(void *)
     UInt32 i,j,c;
     try
     {
-        Connection *connection = 
-            ConnectionFactory::the().create(connectionType);
+        GroupConnection *connection = 
+            ConnectionFactory::the().createGroup(connectionType);
         if(!connection)
         {
             SFATAL << "Unknown connection " << connectionType << std::endl;
@@ -34,7 +35,7 @@ void connectProc(void *)
         for(i=0;i<recvAddress.size();++i)
         {
             FLOG(("Connect to %s\n",recvAddress[i].c_str()));
-            connection->connect(recvAddress[i]);
+            connection->connectPoint(recvAddress[i]);
             FLOG(("Connect to %s OK\n",recvAddress[i].c_str()));
         }
         for(i=0;i<dataCount;i++)
@@ -74,14 +75,14 @@ void acceptProc(void *)
 
     try
     {
-        Connection *connection = ConnectionFactory::the().create(connectionType);
+        PointConnection *connection = ConnectionFactory::the().createPoint(connectionType);
         addressLock->aquire();
         std::string address=connection->bind("");
         recvAddress.push_back(address);
         addressLock->release();
         mybarrier->enter(recvCount+1);
         FLOG(("Accept connection %s\n",address.c_str()));
-        connection->accept();
+        connection->acceptGroup();
         connection->selectChannel();
         FLOG(("Accept connection %sOK\n",address.c_str()));
         for(i=0;i<dataCount;i++)
