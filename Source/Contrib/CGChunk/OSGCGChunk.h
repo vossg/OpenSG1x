@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGCGPROGRAMCHUNK_H_
-#define _OSGCGPROGRAMCHUNK_H_
+#ifndef _OSGCGCHUNK_H_
+#define _OSGCGCHUNK_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -48,21 +48,21 @@
 
 #include <map>
 
-#include <OSGCGProgramChunkBase.h>
+#include <OSGCGChunkBase.h>
 
 #include <Cg/cgGL.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief CGProgramChunk class. See \ref
-           PageKernelCGProgramChunk for a description.
+/*! \brief CGChunk class. See \ref
+           PageKernelCGChunk for a description.
 */
 
-class OSG_CONTRIBLIB_DLLMAPPING CGProgramChunk : public CGProgramChunkBase
+class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
 {
   private:
 
-    typedef CGProgramChunkBase Inherited;
+    typedef CGChunkBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -86,11 +86,13 @@ class OSG_CONTRIBLIB_DLLMAPPING CGProgramChunk : public CGProgramChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 CGProgramChunk Commands                             */
+    /*! \name                 CGChunk Commands                             */
     /*! \{                                                                 */
 
-                 bool    readProgram        (const char   *file);
-                 bool    readProgram        (std::istream &stream);
+                 bool    readVertexProgram        (const char   *file);
+                 bool    readVertexProgram        (std::istream &stream);
+                 bool    readFragmentProgram      (const char   *file);
+                 bool    readFragmentProgram      (std::istream &stream);
     
                  bool    addParameter(const char   *name, 
                                             Int16   index);                                     
@@ -106,9 +108,22 @@ class OSG_CONTRIBLIB_DLLMAPPING CGProgramChunk : public CGProgramChunkBase
     inline       bool    setParameter(const char  *name,  const Vec4f& value);
     inline       bool    setParameter(const std::string &name, 
                                       const Vec4f       & value);
+    
 
     inline       Int16   findParameter(const char        *name);
                  Int16   findParameter(const std::string &name);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       State                                  */
+    /*! \{                                                                 */
+
+    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
+
+    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
+                             UInt32 index = 0 );
+
+    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,58 +141,69 @@ class OSG_CONTRIBLIB_DLLMAPPING CGProgramChunk : public CGProgramChunkBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in CGProgramChunkBase.
+    // Variables should all be in CGChunkBase.
 
-    void onCreate(const CGProgramChunk *source = NULL);
+    void onCreate(const CGChunk *source = NULL);
     void onDestroy(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    CGProgramChunk(void);
-    CGProgramChunk(const CGProgramChunk &source);
+    CGChunk(void);
+    CGChunk(const CGChunk &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CGProgramChunk(void);
+    virtual ~CGChunk(void);
 
     /*! \}                                                                 */
-
-    CGcontext   _context;
-
-    static CGcontext _current_context;
 
     /*==========================  PRIVATE  ================================*/
   private:
 
     friend class FieldContainer;
-    friend class CGProgramChunkBase;
+    friend class CGChunkBase;
 
     // class. Used for indexing in State
     static StateChunkClass _class;
 
     static void initMethod(void);
 
+    void handleGL(Window *win, UInt32 id);
+
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CGProgramChunk &source);
-    
+    void operator =(const CGChunk &source);
+
     static void cgErrorCallback(void);
 
+    bool hasVP(void);
+    bool hasFP(void);
+
+    CGcontext   _context;
+    CGprogram   _vProgram;
+    bool        _vp_isvalid;
+    CGprogram   _fProgram;
+    bool        _fp_isvalid;
+    
+    void updateCGContext(void);
+    
     void parseProgramParams(CGprogram prog);
     void parseParams(CGparameter param);
+
+    static CGcontext _current_context;
 };
 
-typedef CGProgramChunk *CGProgramChunkP;
+typedef CGChunk *CGChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGProgramChunkBase.inl>
-#include <OSGCGProgramChunk.inl>
+#include <OSGCGChunkBase.inl>
+#include <OSGCGChunk.inl>
 
-#define OSGCGPROGRAMCHUNK_HEADER_CVSID "@(#)$Id: OSGCGProgramChunk.h,v 1.1 2004/02/29 18:40:35 a-m-z Exp $"
+#define OSGCGCHUNK_HEADER_CVSID "@(#)$Id: OSGCGChunk.h,v 1.1 2003/06/25 14:22:43 amz Exp $"
 
-#endif /* _OSGCGPROGRAMCHUNK_H_ */
+#endif /* _OSGCGCHUNK_H_ */

@@ -24,8 +24,7 @@
 #include <OSGChunkMaterial.h>
 #include <OSGMaterialChunk.h>
 #include <OSGTextureChunk.h>
-#include <OSGCGVertexProgramChunk.h>
-#include <OSGCGFragmentProgramChunk.h>
+#include <OSGCGChunk.h>
 
 // vertex shader program
 static std::string _vp_program =
@@ -179,17 +178,14 @@ int main(int argc, char **argv)
 
     // we use the glstate in the cg program so we force
     // to use the CG_PROFILE_ARBVP1 and CG_PROFILE_ARBFP1 extensions.
-    CGVertexProgramChunkPtr cgvc = CGVertexProgramChunk::create();
-    beginEditCP(cgvc);
-        cgvc->setProfile(CG_PROFILE_ARBVP1);
-        cgvc->setProgram(_vp_program);
-    endEditCP(cgvc);
 
-    CGFragmentProgramChunkPtr cgfc = CGFragmentProgramChunk::create();
-    beginEditCP(cgfc);
-        cgfc->setProfile(CG_PROFILE_ARBFP1);
-        cgfc->setProgram(_fp_program);
-    endEditCP(cgfc);
+    CGChunkPtr cg = CGChunk::create();
+    beginEditCP(cg);
+        cg->setVertexProfile(CG_PROFILE_ARBVP1);
+        cg->setVertexProgram(_vp_program);
+        cg->setFragmentProfile(CG_PROFILE_ARBFP1);
+        cg->setFragmentProgram(_fp_program);
+    endEditCP(cg);
 
     TextureChunkPtr tex_base = TextureChunk::create();
     beginEditCP(tex_base);
@@ -213,8 +209,7 @@ int main(int argc, char **argv)
 
     beginEditCP(cmat);
         cmat->addChunk(matc);
-        cmat->addChunk(cgvc);
-        cmat->addChunk(cgfc);
+        cmat->addChunk(cg);
         cmat->addChunk(tex_base);
         cmat->addChunk(tex_normal_map);
     endEditCP(cmat);

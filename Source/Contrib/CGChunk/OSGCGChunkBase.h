@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CGVertexProgramChunk
+ **     class CGChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCGVERTEXPROGRAMCHUNKBASE_H_
-#define _OSGCGVERTEXPROGRAMCHUNKBASE_H_
+#ifndef _OSGCGCHUNKBASE_H_
+#define _OSGCGCHUNKBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,28 +63,55 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGCGProgramChunk.h> // Parent
+#include <OSGStateChunk.h> // Parent
 
+#include <OSGStringFields.h> // VertexProgram type
+#include <OSGStringFields.h> // FragmentProgram type
+#include <OSGStringFields.h> // ParamNames type
+#include <OSGVec4fFields.h> // ParamValues type
+#include <OSGUInt32Fields.h> // GLId type
+#include <OSGUInt32Fields.h> // VertexProfile type
+#include <OSGUInt32Fields.h> // FragmentProfile type
 
-#include <OSGCGVertexProgramChunkFields.h>
+#include <OSGCGChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class CGVertexProgramChunk;
+class CGChunk;
 class BinaryDataHandler;
 
-//! \brief CGVertexProgramChunk Base Class.
+//! \brief CGChunk Base Class.
 
-class OSG_CONTRIBLIB_DLLMAPPING CGVertexProgramChunkBase : public CGProgramChunk
+class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 {
   private:
 
-    typedef CGProgramChunk    Inherited;
+    typedef StateChunk    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef CGVertexProgramChunkPtr  Ptr;
+    typedef CGChunkPtr  Ptr;
+
+    enum
+    {
+        VertexProgramFieldId   = Inherited::NextFieldId,
+        FragmentProgramFieldId = VertexProgramFieldId   + 1,
+        ParamNamesFieldId      = FragmentProgramFieldId + 1,
+        ParamValuesFieldId     = ParamNamesFieldId      + 1,
+        GLIdFieldId            = ParamValuesFieldId     + 1,
+        VertexProfileFieldId   = GLIdFieldId            + 1,
+        FragmentProfileFieldId = VertexProfileFieldId   + 1,
+        NextFieldId            = FragmentProfileFieldId + 1
+    };
+
+    static const OSG::BitVector VertexProgramFieldMask;
+    static const OSG::BitVector FragmentProgramFieldMask;
+    static const OSG::BitVector ParamNamesFieldMask;
+    static const OSG::BitVector ParamValuesFieldMask;
+    static const OSG::BitVector GLIdFieldMask;
+    static const OSG::BitVector VertexProfileFieldMask;
+    static const OSG::BitVector FragmentProfileFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -105,6 +132,47 @@ class OSG_CONTRIBLIB_DLLMAPPING CGVertexProgramChunkBase : public CGProgramChunk
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFString            *getSFVertexProgram  (void);
+           SFString            *getSFFragmentProgram(void);
+           MFString            *getMFParamNames     (void);
+           MFVec4f             *getMFParamValues    (void);
+           SFUInt32            *getSFGLId           (void);
+           SFUInt32            *getSFVertexProfile  (void);
+           SFUInt32            *getSFFragmentProfile(void);
+
+           std::string         &getVertexProgram  (void);
+     const std::string         &getVertexProgram  (void) const;
+           std::string         &getFragmentProgram(void);
+     const std::string         &getFragmentProgram(void) const;
+           UInt32              &getGLId           (void);
+     const UInt32              &getGLId           (void) const;
+           UInt32              &getVertexProfile  (void);
+     const UInt32              &getVertexProfile  (void) const;
+           UInt32              &getFragmentProfile(void);
+     const UInt32              &getFragmentProfile(void) const;
+           std::string         &getParamNames     (const UInt32 index);
+           MFString            &getParamNames     (void);
+     const MFString            &getParamNames     (void) const;
+           Vec4f               &getParamValues    (const UInt32 index);
+           MFVec4f             &getParamValues    (void);
+     const MFVec4f             &getParamValues    (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setVertexProgram  ( const std::string &value );
+     void setFragmentProgram( const std::string &value );
+     void setGLId           ( const UInt32 &value );
+     void setVertexProfile  ( const UInt32 &value );
+     void setFragmentProfile( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,8 +199,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGVertexProgramChunkBase : public CGProgramChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  CGVertexProgramChunkPtr      create          (void); 
-    static  CGVertexProgramChunkPtr      createEmpty     (void); 
+    static  CGChunkPtr      create          (void); 
+    static  CGChunkPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -147,25 +215,38 @@ class OSG_CONTRIBLIB_DLLMAPPING CGVertexProgramChunkBase : public CGProgramChunk
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFString            _sfVertexProgram;
+    SFString            _sfFragmentProgram;
+    MFString            _mfParamNames;
+    MFVec4f             _mfParamValues;
+    SFUInt32            _sfGLId;
+    SFUInt32            _sfVertexProfile;
+    SFUInt32            _sfFragmentProfile;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CGVertexProgramChunkBase(void);
-    CGVertexProgramChunkBase(const CGVertexProgramChunkBase &source);
+    CGChunkBase(void);
+    CGChunkBase(const CGChunkBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CGVertexProgramChunkBase(void); 
+    virtual ~CGChunkBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      CGVertexProgramChunkBase *pOther,
+    void executeSyncImpl(      CGChunkBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -174,11 +255,12 @@ class OSG_CONTRIBLIB_DLLMAPPING CGVertexProgramChunkBase : public CGProgramChunk
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CGVertexProgramChunkBase &source);
+    void operator =(const CGChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -186,10 +268,10 @@ class OSG_CONTRIBLIB_DLLMAPPING CGVertexProgramChunkBase : public CGProgramChunk
 //---------------------------------------------------------------------------
 
 
-typedef CGVertexProgramChunkBase *CGVertexProgramChunkBaseP;
+typedef CGChunkBase *CGChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCGVERTEXPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGVertexProgramChunkBase.h,v 1.1 2004/02/29 18:40:35 a-m-z Exp $"
+#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
-#endif /* _OSGCGVERTEXPROGRAMCHUNKBASE_H_ */
+#endif /* _OSGCGCHUNKBASE_H_ */
