@@ -114,7 +114,7 @@ OSG_USING_NAMESPACE
 
 StatCollector::StatCollector(void)
 {
-  _elemVec.resize(StatElemDescBase::getNumOfDescs());
+  refitElemNum();
 }
 
 StatCollector::StatCollector(const StatCollector &source) :
@@ -141,6 +141,16 @@ StatCollector::~StatCollector(void)
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
+
+void StatCollector::refitElemNum (void)
+{
+  unsigned eN = _elemVec.size(), dN = StatElemDescBase::getNumOfDescs();
+
+  if (eN != dN)
+  {
+    _elemVec.resize(dN,0);
+  }
+}
 
 void StatCollector::putToString(string &str) const
 {

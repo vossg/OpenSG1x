@@ -325,31 +325,32 @@ void GraphicStatisticsForeground::addElement( StatElemDescBase &desc,
 void GraphicStatisticsForeground::removeElement(StatElemDescBase &desc)
 {
     UInt32 id = desc.getID();
-    UInt32 i = 0;
-    for(i = 0; i < getElementIDs().size(); i++)
-        {
-            if(getElementIDs()[i] == id)
-                {
-                    break;
-                }
-        }
+    UInt32 i = 0, n = getElementIDs().size();
+
+    for(i = 0; n; i++)
+      if(getElementIDs()[i] == id)
+        break;
+
     /* Now i is the id of the Element in the MFields. */
 
-    /* Erase these entries in the MFields */
-    getElementIDs().erase(getElementIDs().begin() + i);
-    getDisplayType().erase(getDisplayType().begin() + i);
-    getPos().erase(getPos().begin() + i);
-    getSize().erase(getSize().begin() + i);
-    getColorMax().erase(getColorMax().begin() + i);
-    getColorMin().erase(getColorMin().begin() + i);
-    getColorCurrent().erase(getColorCurrent().begin() + i);
-    getMinValue().erase(getMinValue().begin() + i);
-    getMaxValue().erase(getMaxValue().begin() + i);
-    getFlags().erase(getFlags().begin() + i);
-    getHistorySize().erase(getHistorySize().begin() + i);
-    
-    _history.erase   (_history.begin() + i);
-    _historyID.erase (_historyID.begin() + i);
+    if (i != n) 
+    {
+      /* Erase these entries in the MFields */
+      getElementIDs().erase(getElementIDs().begin() + i);
+      getDisplayType().erase(getDisplayType().begin() + i);
+      getPos().erase(getPos().begin() + i);
+      getSize().erase(getSize().begin() + i);
+      getColorMax().erase(getColorMax().begin() + i);
+      getColorMin().erase(getColorMin().begin() + i);
+      getColorCurrent().erase(getColorCurrent().begin() + i);
+      getMinValue().erase(getMinValue().begin() + i);
+      getMaxValue().erase(getMaxValue().begin() + i);
+      getFlags().erase(getFlags().begin() + i);
+      getHistorySize().erase(getHistorySize().begin() + i);
+      
+      _history.erase   (_history.begin() + i);
+      _historyID.erase (_historyID.begin() + i);
+    }
 
 }
 
@@ -896,13 +897,10 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 
 
     if( getTextEnabled() )
-        {
-            /*textHeight=0.2;
-		textWidth = 0.25;
-		*/
-            textHeight=0.1;
-		textWidth = 0.1;
-        }
+    {
+        textHeight=0.2;
+        textWidth = 0.25;
+    }
 
     /* Height of the current quad */
     Real32 currHeight  =  0.0;
@@ -920,7 +918,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
-    Real32 maxV  =  getMaxValue() [ID];
+    Real32 maxV  =  getMaxValue()[ID];
 
     // draw a rectangle with alpha value
     Color3f c  =  getColorBackground();
@@ -1410,7 +1408,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.13 2002/08/07 08:27:35 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.14 2002/08/07 20:25:25 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

@@ -98,7 +98,7 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32&  value,
     /* Smooth the value, if asked for */
     UInt32 hSize = _history.size();
     UInt32 size = (ID < hSize) ? _history[ID].size() : 0;
-  
+    
     if(size > 0)
         {
             UInt32 queueEnd = _historyID[ID];
@@ -107,19 +107,54 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32&  value,
             _historyID[ID]  =  (_historyID[ID] + 1) % size;
       
             /* check whether the value should be smoothed */
-            if(flags & STATISTICS_SMOOTH)
+            if ( (flags & STATISTICS_SMOOTH) ||
+                 (flags & STATISTICS_OVERFLOW_RESIZE) ||
+                 (flags & STATISTICS_UNDERFLOW_RESIZE) ) 
+              {
+                Real32 v, max, min, sum = 0.0;
+
+                for(UInt32 i = 0; i < size; i++)
                 {
-                    Real32 sum = 0.0;
-                    for(UInt32 i = 0; i<size; i++)
-                        {
-                            sum += _history[ID][i];
-                        }
-                    value = sum / size;
+                  v = _history[ID][i];
+                  
+                  if (i) 
+                  {
+                    if (v > max)
+                      max = v;
+                    else
+                      if (v < min)
+                        min = v;
+                  }
+                  else
+                    min = max = v;
+
+                  sum += v;
                 }
+                if (flags & STATISTICS_SMOOTH)
+                {
+                  value = sum / size;
+                  //_history[ID][queueEnd] = value;
+                }
+
+                if ( (flags & STATISTICS_OVERFLOW_RESIZE) &&
+                     (max < getMaxValue()[ID]) ) 
+                {
+                  max += (getMaxValue()[ID] - max) / 2.0;
+                  getMaxValue()[ID] = osgMax(v,max);
+                }
+                
+                if ( (flags & STATISTICS_UNDERFLOW_RESIZE) &&
+                     (min > getMinValue()[ID]) ) 
+                {
+                  min -= (min - getMinValue()[ID]) / 2.0;
+                  getMinValue()[ID] = osgMin(v,min);
+                }
+
+              }
         }
   
 }
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUND_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.inl,v 1.2 2002/07/30 16:30:32 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUND_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.inl,v 1.3 2002/08/07 20:25:25 jbehr Exp $"
 

@@ -80,7 +80,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
+    
     inline  UInt32   getNumOfElems (void);
+
+            void     refitElemNum  (void);
 
     inline  bool     isValidID     (Int32 id);
 
