@@ -939,6 +939,21 @@ Int32 stringcasecmp(const Char8 *string1,
 #endif
 }
 
+// Indirector
+
+template <class ContentT, class IndexT>
+indirector<ContentT, IndexT>::indirector(ContentT cont) : _cont(cont)
+{}
+        
+template <class ContentT, class IndexT>
+bool indirector<ContentT, IndexT>::operator()(IndexT a, IndexT b)
+{
+    if(cont[a] < cont[b])
+        return true;
+
+    return false;
+}
+
 //---------------------------------------------------------------------------
 // Misc Functions
 //---------------------------------------------------------------------------

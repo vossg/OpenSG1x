@@ -435,6 +435,43 @@ struct OSG_BASE_DLLMAPPING string_token_iterator :
           std::string::size_type   _end;
 };
 
+
+
+/*! Indirector
+    \ingroup GrpBaseSTLHelpers
+    \ingroup GrpBaseBaseStringFn 
+    
+    Allows using an indirection field for STL algorithms, e.g. sort.
+    
+    The idea is to sort an index field instead of the actual data, as the data
+    might be large or immovable.
+    
+    Example:<tt>
+    
+    std::vector<float> contv;
+    std::vector<int>   indv;
+    indirector<std::vector<float>, int>  ind(contv);
+    
+    std::sort(indv.begin(), indv.end(), ind);
+    </tt>
+ */
+
+template <class ContentT, class IndexT>
+class indirector
+{
+    public:
+    
+        indirector(ContentT cont);
+        
+        bool operator()(IndexT a, IndexT b);
+       
+    private:
+    
+        ContentT _cont;
+};
+
+
+
 /*---------------------------------------------------------------------*/
 /*                    Miscellaneous Functions                          */
 

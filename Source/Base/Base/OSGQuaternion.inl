@@ -797,16 +797,41 @@ const QuaternionBase<ValueTypeT>QuaternionBase<ValueTypeT>::inverse(void) const
 //! Puts the given vector through this rotation
 
 // this one should be optimized a little bit too (GV)
+// Luckily somebody did it for us. ;) Thanks to Daniel Grest
+// (grest@mip.informatik.uni-kiel.de) for the code. (DR, 20030626)
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::multVec(const VectorType &src,
                                                VectorType &dst) const
 {
-    Matrix mat;
+    ValueTypeT rx,ry,rz;
+    ValueTypeT QwQx, QwQy, QwQz, QxQy, QxQz, QyQz;
+    
+    QwQx = _quat[3] * _quat[0]; 
+    QwQy = _quat[3] * _quat[1]; 
+    QwQz = _quat[3] * _quat[2];
+    QxQy = _quat[0] * _quat[1]; 
+    QxQz = _quat[0] * _quat[2]; 
+    QyQz = _quat[1] * _quat[2];
+    
+    ValueTypeT Vx = src[0], Vy = src[1], Vz = src[2];
+    
+    rx = 2* (Vy * (-QwQz + QxQy) + Vz *( QwQy + QxQz));
+    ry = 2* (Vx * ( QwQz + QxQy) + Vz *(-QwQx + QyQz));
+    rz = 2* (Vx * (-QwQy + QxQz) + Vy *( QwQx + QyQz));
+    
+    ValueTypeT QwQw, QxQx, QyQy, QzQz;
 
-    getValue(mat);
+    QwQw = _quat[3] * _quat[3]; 
+    QxQx = _quat[0] * _quat[0]; 
+    QyQy = _quat[1] * _quat[1]; 
+    QzQz = _quat[2] * _quat[2];
 
-    mat.mult(src, dst);
+    rx+= Vx * (QwQw + QxQx - QyQy - QzQz);
+    ry+= Vy * (QwQw - QxQx + QyQy - QzQz);
+    rz+= Vz * (QwQw - QxQx - QyQy + QzQz);
+    
+    dst.setValues(rx,ry,rz);
 }
 
 /*! \brief Keep the axis the same. Multiply the angle of rotation by

@@ -1198,34 +1198,32 @@ void quattest(void)
 
     m1.mult(m2);
 
-    std::cout << m3;
-    std::cout << m1;
+    std::cout << "\n mat(X/60 * Y/60): " << m3;
+    std::cout << "\n : " << m1;
 
-    return;
+#if 1
+    q1.setValueAsAxisRad(v1, 0.);
+    q2.setValueAsAxisRad(v1, Pi);
 
-#if 0
-    q1.setValue(v1, 0.);
-    q2.setValue(v1, Pi);
-
-    std::cout << "\n" << q2 << "\n";
+    std::cout << "\n X:Pi: " << q2 << "\n";
 
     q1 = Quaternion::slerp(q1, q2, 0.5);
 
-    std::cout <<  "\n" << q1 << "\n";
+    std::cout <<  "\n slerp(X:0, X:Pi, .5) " << q1 << "\n";
 
     q1.setValue(Pi/2., 0., 0.);
 
-    std::cout <<  "\n" << q1 << "\n";
+    std::cout <<  "\n (Pi/2,0,0) " << q1 << "\n";
 
     Matrix m;
 
     q1.getValue(m);
 
-    std::cout <<  "\n" << m << "\n";
+    std::cout <<  "\n Matrix get " << m << "\n";
 
     q2.setValue(m);
 
-    std::cout <<  "\n" << q2 << "\n";
+    std::cout <<  "\n Matrix set " << q2 << "\n";
 
     fprintf(stderr, "\n %f %f %f %f\n",
             q2.getValues()[0],
@@ -1235,55 +1233,62 @@ void quattest(void)
 
     q3 = q1.inverse();
 
-    std::cout << q3 << "\n";
+    std::cout << "\n slerp^-1 " << q3 << "\n";
 
 
-    q1.setValue(1., 0., 0., Pi);
+    q1.setValueAsAxisRad(1., 0., 0., Pi);
     q1.normalize();
 
-    std::cout << q1 << "\n";
+    std::cout << "\n norm(X:Pi) " << q1 << "\n\n";
 
     v1.setValues(1., 0., 0.);
 
-    q1.setValue(0., 1., 0., Pi/2.);
+    q1.setValueAsAxisRad(0., 1., 0., Pi/2.);
 
     q1.multVec(v1, v2);
 
-    std::cout << v1 << "\n" << v2 << "\n";
+    std::cout << v1 << " * Y:Pi/2 = " << v2 << "\n";
 
     q1.scaleAngle(2.);
 
-    q1.mult(v1, v2);
+    q1.multVec(v1, v2);
 
-    std::cout << v1 << "\n" << v2 << "\n";
+    std::cout << v1 << " * Y:Pi   = " << v2 << "\n\n";
 
-    q1.setValue(0., 1., 0., Pi/2.);
-    q2.setValue(0., 0., 1., Pi/2.);
+    q1.setValueAsAxisRad(0., 1., 0., Pi/2.);
+    q2.setValueAsAxisRad(0., 0., 1., Pi/2.);
 
     q3 = q1;
     q3.mult(q2);
 
-    std::cout << q3 << "\n";
+    std::cout << " Y:Pi/2 * Z:Pi/2 = "<< q3 << "\n";
 
     q1.multVec(v1, v2);
     q2.multVec(v2, v3);
     q3.multVec(v1, v4);
 
-    std::cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
+    std::cout << "  X                    = " << v1 
+              << "\n  Y:Pi/2 * X           = " << v2
+              << "\n (Y:Pi/2 * X) * Z:Pi/2 = " << v3 
+              << "\n (Y:Pi/2 * Z:Pi/2) * X = " << v4 << "\n\n";
 
-    q1.setValue(0., 1., 0., Pi/2.);
-    q2.setValue(0., 0., 1., Pi/2.);
+    q1.setValueAsAxisRad(0., 1., 0., Pi/2.);
+    q2.setValueAsAxisRad(0., 0., 1., Pi/2.);
 
     q3 = q1;
     q3.multLeft(q2);
 
-    std::cout << q3 << "\n";
+    std::cout << " Z:Pi/2 * Y:Pi/2 = " << q3 << "\n";
 
     q1.multVec(v1, v2);
     q2.multVec(v2, v3);
     q3.multVec(v1, v4);
 
-    std::cout << "\n" << v1 << "\n" << v2 << "\n" << v3 << "\n" << v4 << "\n";
+    std::cout << " X                     = " << v1 
+              << "\n Y:Pi/2 * X            = " << v2
+              << "\n (Y:Pi/2 * X) * Z:Pi/2 = " << v3 
+              << "\n (Z:Pi/2 * Y:Pi/2) * X = " << v4 << "\n";
+
 #endif
 }
 
@@ -1643,7 +1648,7 @@ int main(void)
 //    vectorTestConstructAndSetTest();
 //    vectorMathTests();
 //    matrixTest();
-//    quattest();
+      quattest();
 //    matutilitytest();
 //    matNSMTest();
 
@@ -1651,7 +1656,7 @@ int main(void)
 
 //    vec2pnttest();
 
-    testfactor();
+//    testfactor();
 
     return 0;
 }

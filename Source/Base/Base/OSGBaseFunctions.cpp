@@ -270,7 +270,7 @@ StaticInitFuncWrapper::StaticInitFuncWrapper(const InitFuncF func)
     from http://www.codeproject.com/string/stringsplitter.asp
 
     Useable to iterate over tokens in a std::string, separated by a specifiable
-    separator character.
+    set of separator characters.
  */
 
 string_token_iterator::string_token_iterator() : _str(0), _start(0), _end(0) 
