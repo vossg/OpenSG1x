@@ -345,8 +345,6 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
                     AttachmentPtr pAtt  = AttachmentPtr::dcast(pNewNode);
 
                     pAttContainer->addAttachment(pAtt);
-                    
-                    SLOG << "Added attachment" << endl;
                 }
                 else
                 {
@@ -489,28 +487,20 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
 
     if(szNodename != NULL && pNewNode != NullFC)
     {
-        if(pNewNode->getType().isNode() == true)
+        AttachmentContainerPtr ap = AttachmentContainerPtr::dcast(pNewNode);
+        
+        if(ap != NullFC)
         {
-            NodePtr pNode     = NodePtr::dcast(pNewNode);
             NamePtr pNodename = Name::create();
 
             pNodename->getFieldPtr()->getValue().assign(szNodename);
   
-            pNode->addAttachment(pNodename);
-        }
-        else if(pNewNode->getType().isNodeCore() == true)
-        {
-            NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
-            NamePtr     pNodename = Name::create();
-
-            pNodename->getFieldPtr()->getValue().assign(szNodename);
-  
-            pNodeCore->addAttachment(pNodename);           
+            ap->addAttachment(pNodename);
         }
         else
         {
             SLOG << "Fieldcontainer " << szNodeTypename 
-                 << " is neither Node nor NodeCore. "
+                 << " is not derived from AttachmentContainer. "
                  << "Can not use attachment to store Nodename " << endl
                  << "Adding to _defMap instead. " << endl;
 
