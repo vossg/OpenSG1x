@@ -71,7 +71,6 @@
 #include <OSGUInt32Fields.h>	// SrcFactor type
 #include <OSGUInt32Fields.h>	// DestFactor type
 #include <OSGColor4fFields.h>	// Color type
-#include <OSGUInt32Fields.h>	// GLId type
 
 #include <OSGBlendChunkFields.h>
 
@@ -109,14 +108,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     {
         SrcFactorFieldId = Inherited::NextFieldId,
         DestFactorFieldId = SrcFactorFieldId + 1,
-        ColorFieldId = DestFactorFieldId + 1,
-        GLIdFieldId = ColorFieldId + 1
+        ColorFieldId = DestFactorFieldId + 1
     };
 
     static const osg::BitVector SrcFactorFieldMask;
     static const osg::BitVector DestFactorFieldMask;
     static const osg::BitVector ColorFieldMask;
-    static const osg::BitVector GLIdFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -166,7 +163,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     inline SFUInt32	*getSFSrcFactor(void);
     inline SFUInt32	*getSFDestFactor(void);
     inline SFColor4f	*getSFColor(void);
-    inline SFUInt32	*getSFGLId(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -181,9 +177,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     inline       Color4f	&getColor(void);
     inline const Color4f	&getColor(void) const;
     inline       void	             setColor( Color4f value );
-    inline       UInt32	&getGLId(void);
-    inline const UInt32	&getGLId(void) const;
-    inline       void	             setGLId( UInt32 value );
 
 
     //!@}
@@ -227,9 +220,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! This is the constant color used by blend modes *_CONSTANT_*.
      */
     SFColor4f	_sfColor;
-    /*! 
-     */
-    SFUInt32	_sfGLId;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

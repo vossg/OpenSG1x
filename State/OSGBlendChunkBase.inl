@@ -150,12 +150,6 @@ SFColor4f *BlendChunkBase::getSFColor(void)
 	return &_sfColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFUInt32 *BlendChunkBase::getSFGLId(void)
-{
-	return &_sfGLId;
-}
-
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getSrcFactor(void)
@@ -209,24 +203,6 @@ OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setColor( Color4f value )
 {
 	_sfColor.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-UInt32 &BlendChunkBase::getGLId(void)
-{
-	return _sfGLId.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const UInt32 &BlendChunkBase::getGLId(void) const
-{
-	return _sfGLId.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setGLId( UInt32 value )
-{
-	_sfGLId.setValue(value);
 }
 
 

@@ -77,9 +77,12 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.3 2001/07/03 14:16:32 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.4 2001/07/28 15:03:45 dirk Exp $";
 
 StateChunkClass BlendChunk::_class(String("Blend"));
+
+UInt32 BlendChunk::_extBlend;
+UInt32 BlendChunk::_funcBlendColor;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -129,8 +132,8 @@ void BlendChunk::initMethod (void)
 BlendChunk::BlendChunk(void) :
     Inherited()
 {
-//	_GLId = Window::registerExtension( "EXT_blend_color" );
-	_sfGLId.setValue( Window::registerFunction( String("glBlendColorEXT") ) );
+	_extBlend       = Window::registerExtension( "EXT_blend_color" );
+	_funcBlendColor = Window::registerFunction ( "glBlendColorEXT" );
 }
 
 /** \brief Copy Constructor
@@ -171,26 +174,35 @@ void BlendChunk::dump(      UInt32     uiIndent,
 
 void BlendChunk::activate ( DrawAction *action, UInt32 )
 {
-	// get "glBlendFuncEXT" function pointer	
 	
 	if ( _sfSrcFactor.getValue() != GL_NONE )
 	{
-		void *p = action->getWindow()->getFunction( _sfGLId.getValue() );
-
 		glBlendFunc( _sfSrcFactor.getValue(), _sfDestFactor.getValue() );
-			
-		( (void (*)(GLclampf red,GLclampf green,GLclampf blue,GLclampf alpha )) 		    
-			   p  )( _sfColor.getValue().red(), 
-					 _sfColor.getValue().green(), 
-				 _sfColor.getValue().blue(), 
-				 _sfColor.getValue().alpha() );	
+		
+		if ( action->getWindow()->hasExtension( _extBlend ) )
+		{
+			// get "glBlendColorEXT" function pointer	
+			 
+			void * blendcolor = 
+			    action->getWindow()->getFunction( _funcBlendColor );
+
+			((void (*)(GLclampf red,GLclampf green,GLclampf blue,
+			     GLclampf alpha )) 
+			     blendcolor )
+			    ( _sfColor.getValue().red(),  
+			      _sfColor.getValue().green(), 
+			      _sfColor.getValue().blue(), 
+			      _sfColor.getValue().alpha() );	
+		}
 
 		glEnable( GL_BLEND );
 	} 	
 }
 
-void BlendChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
+void BlendChunk::changeFrom( DrawAction *act, StateChunk * old_chunk, UInt32 index )
 {
+	old_chunk->deactivate( act, index );
+	activate( act, index );
 }
 
 void BlendChunk::deactivate ( DrawAction *, UInt32 )
@@ -203,7 +215,7 @@ void BlendChunk::deactivate ( DrawAction *, UInt32 )
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 BlendChunk::switchCost( StateChunk * chunk )
+Real32 BlendChunk::switchCost( StateChunk * )
 {
 	return 0;
 }

@@ -38,11 +38,4 @@ are combined with the pixel already in the frame buffer.
 	>
 	This is the constant color used by blend modes *_CONSTANT_*.  
 	</Field>
-	<Field
-		name="GLId"
-		type="UInt32"
-		cardinality="single"
-		visibility="internal"
-	>
-	</Field>
 </FieldContainer>

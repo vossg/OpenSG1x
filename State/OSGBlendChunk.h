@@ -204,6 +204,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
 	// class. Used for indexing in State
 	static StateChunkClass _class;
 
+	// indices for used extensions and functions
+	static UInt32 _extBlend;
+	static UInt32 _funcBlendColor;
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
