@@ -1,6 +1,6 @@
-// OpenSG Tutorial Example: Move An Object
+// OpenSG Tutorial Example: Hierarchical Transformation
 //
-// This example shows how to use Transform nodes to move objects aroung
+// This example demonstrates how transformations accumulate through the graph.
 //
 
 // Headers
@@ -9,20 +9,18 @@
 #include <OpenSG/OSGSimpleGeometry.h>
 #include <OpenSG/OSGGLUTWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
-
-// new headers: 
-
-// some wrappers for standard functions for platform independence, e.g. 
-// osgsin, osgcos, osgtan
 #include <OpenSG/OSGBaseFunctions.h>
-
-// the transformation node core
 #include <OpenSG/OSGTransform.h>
+#include <OpenSG/OSGGroup.h>
+
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
 
-// The pointer to the transformation
+// number of copies to create
+const UInt16 ncopies = 10;
+
+// just use a single transformation that is shared
 TransformPtr trans;
 
 
@@ -35,47 +33,19 @@ int setupGLUT( int *argc, char *argv[] );
 // redraw the window
 void display( void )
 {
-    // create the matrix
     Matrix m;
     Real32 t = glutGet(GLUT_ELAPSED_TIME );
     
-    m.setTransform(Vec3f(      osgsin(t / 1000.f), 
-                               osgcos(t / 1000.f), 
-                               osgsin(t / 1000.f)),
-                   Quaternion( Vec3f(0,1,0), 
-                               t / 1000.f));
+    m.setTransform(Vec3f(0, .9, 0),
+                   Quaternion( Vec3f(1,1,0), osgsin(t / 1000.f) / 2.f));
     
     // set the transform's matrix
-    
-    /*
-       When manipulating OpenSG structures, they need to be informed  of what
-       you're going to do, so they can create copies of the data if needed for
-       thread safety. Use beginEditCP to do that. It takes the changing object
-       (FieldContainer, to be exact) and a bitmask describing which fields are
-       going to be changed. 
-
-       Every field of a FieldContainer has an associated constant that can be
-       or-ed together to create the field mask. If you don't know beforehand
-       what's going to change you can just ignore it. In that case the system
-       will assume that you're going to change everything. That's safe, but if
-       you do know what's going to change, using the mask is more efficient.
-
-       The following style is just a suggestion how to structure the code to
-       visualize what's happening, there's no programmatic reason to do it.
-    */
-    
     beginEditCP(trans, Transform::MatrixFieldMask);
     {
         trans->setMatrix(m);
     }   
-    /*
-       After the object has been changed, the system has to be informed about
-       it, so it knows that the object is done now and necessary updates can
-       be done. endEditCP needs to be passed the same field mask as
-       beginEditCP.
-    */
     endEditCP  (trans, Transform::MatrixFieldMask);
-   
+     
     mgr->redraw();
 }
 
@@ -95,31 +65,75 @@ int main(int argc, char **argv)
 
     // create the scene
 
-    NodePtr torus = makeTorus( .5, 2, 16, 16 );
+    /*
+        Transformation accumulate through the graph, i.e. all nodes below
+        a Transformation are influenced by it, even other Transformations.
+        
+        This can be used to create models of objects that move together and
+        in relation to each other, the prime examples being a robot arm and
+        a planetary system. This example does something not quite unlike a
+        robot arm.
+    */    
 
-    // create the transformation node
-    // scenegraph nodes are split into 2 parts: the node and its core
+    // create the scene
     
-    // 1. create the Node
-    NodePtr scene = Node::create();
+    /*
+       This time the graph is not wide, but deep, i.e. every Transformation
+       only has two children, a Geometry and another transformation.
+       The end resulting motion of the geometry is the accumulation of
+       all the Transformations above it.
+    */
+     
+    // use a cylinder this time
+    GeometryPtr cyl = makeCylinderGeo( 1, .3, 8, true, true, true );
     
-    // 2. create the core
+    // the single transformation Core used
     trans = Transform::create();
     
-    // 3. associate the core with the node
- 
-    // OpenSG objects need to be informed when they are being changed, 
-    // that's what beginEditCP() and endEditCP() do
-    beginEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
-    {
-        scene->setCore(trans);
- 
-        // add the torus as a child
-        scene->addChild(torus);
-    }
-    endEditCP  (scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
-    
+    // setup an intial transformation
+    Matrix m;
+    m.setTransform(Vec3f(0, .9, 0));
 
+    beginEditCP(trans, Transform::MatrixFieldMask);
+    {
+        trans->setMatrix(m);
+    }   
+    endEditCP  (trans, Transform::MatrixFieldMask);
+
+    
+    /*
+       NullFC is the generic NULL value for FieldContainer pointer.
+    */
+    NodePtr last = NullFC;
+    
+    // create the copied transformations and their geometry nodes
+    for(UInt16 i = 1; i < ncopies; ++i)
+    {
+        // create the shared Geometry
+        NodePtr geonode = Node::create();
+        beginEditCP(geonode, Node::CoreFieldMask );
+        {
+            geonode->setCore(cyl);
+        }
+        endEditCP  (geonode, Node::CoreFieldMask );
+
+        // add a transformation to the Geometry
+        NodePtr transnode = Node::create();
+
+        beginEditCP(transnode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+        {
+            transnode->setCore (trans);
+            transnode->addChild(geonode );
+            if(last != NullFC)
+                transnode->addChild(last);       
+        }
+        endEditCP  (transnode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+       
+        last = transnode;
+    }
+ 
+    NodePtr scene = last;
+    
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
