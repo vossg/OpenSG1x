@@ -173,7 +173,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     void handleTexture(Window *win, UInt32 id, GLenum bindtarget,
                        GLenum paramtarget,
                        GLenum imgtarget, 
-                       Window::GLObjectStatusE mode, ImagePtr img);
+                       Window::GLObjectStatusE mode, 
+                       ImagePtr img, int side = 0);
 
     void handleTextureShader(Window *win, GLenum bindtarget);
 
@@ -188,12 +189,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     static UInt32 _nvTextureShader3;
     static UInt32 _sgisGenerateMipmap;
     static UInt32 _extTextureLodBias;
+    static UInt32 _arbTextureCompression;
     
     // extension indices for used fucntions;
     static UInt32 _funcTexImage3D;
     static UInt32 _funcTexSubImage3D;
     static UInt32 _funcActiveTexture;
     static UInt32 _arbCubeTex;
+    static UInt32 _funcCompressedTexImage1D;
+    static UInt32 _funcCompressedTexSubImage1D;
+    static UInt32 _funcCompressedTexImage2D;
+    static UInt32 _funcCompressedTexSubImage2D;
+    static UInt32 _funcCompressedTexImage3D;
+    static UInt32 _funcCompressedTexSubImage3D;
 
     // class. Used for indexing in State
     // protected to give CubeTextureChunk access

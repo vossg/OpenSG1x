@@ -20,11 +20,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifndef GL_ARB_texture_cube_map
-#define GL_NORMAL_MAP_ARB                 0x8511
-#define GL_REFLECTION_MAP_ARB             0x8512
-#endif
-
 TransformChunkPtr tchunk1, tchunk2;
 MaterialChunkPtr mchunk1, mchunk2;
 TextureChunkPtr xchunk1, xchunk2;
