@@ -23,7 +23,7 @@
 #include <OSGMFVecTypes.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
-//#include <OSGGeometry.h>
+#include <OSGSimpleGeometry.h>
 #include <OSGSceneFileHandler.h>
 
 #include <OSGDirectionalLight.h>
@@ -32,7 +32,6 @@
 #include "OSGCamera.h"
 #include "OSGWindow.h"
 #include "OSGGLUTWindow.h"
-//#include "OSGPipe.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
@@ -287,15 +286,21 @@ int main (int argc, char **argv)
 
 	// Load the file
 
-	NodePtr file = SceneFileHandler::the().read(argv[1]);
-
+	NodePtr file = NullNode;
+	
+	if ( argc > 1 )
+		file = SceneFileHandler::the().read(argv[1]);
+	
+	if ( file == NullNode )
+	{
+		cerr << "Couldn't load file, ignoring" << endl;
+		file = makeTorus( .5, 2, 16, 16 );
+	}
+	
 	file->updateVolume();
 
-	// should check first. ok for now.
-	const BoxVolume *vol = (BoxVolume *)&file->getVolume();
-
 	Vec3f min,max;
-	vol->getBounds( min, max );
+	file->getVolume().getBounds( min, max );
 	
 	cout << "Volume: from " << min << " to " << max << endl;
 
@@ -316,8 +321,6 @@ int main (int argc, char **argv)
 
 	// Background
 	BackgroundPtr bkgnd = Background::create();
-	
-	//bkgnd->setColor( 0,0,1 );
 
 	// Viewport
 
@@ -345,7 +348,7 @@ int main (int argc, char **argv)
 
 	// Action
 	
-	ract = new DrawAction;
+	ract = DrawAction::create();
 
 	// tball
 
@@ -357,14 +360,6 @@ int main (int argc, char **argv)
 	tball.setTranslationMode( Trackball::OSGFree );
 
 	// run...
-
-    FieldContainerPtr pc;
-
-    pc.dump();
-
-    pc = FieldContainerFactory::the().createFieldContainer("Camera");
-
-    pc.dump();
 	
 	glutMainLoop();
 	

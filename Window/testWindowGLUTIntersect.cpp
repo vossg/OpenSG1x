@@ -19,6 +19,7 @@
 #include <OSGGroup.h>
 #include <OSGThread.h>
 #include <OSGTransform.h>
+#include <OSGSimpleGeometry.h>
 #include <OSGAttachment.h>
 #include <OSGMFVecTypes.h>
 #include <OSGAction.h>
@@ -212,30 +213,30 @@ void key(unsigned char key, int x, int y)
 				cam->calcViewRay( l, x, y, *vp );
 				cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
 	
-				IntersectAction act;
+				IntersectAction *act = IntersectAction::create();
 				
-				act.setLine( l );
+				act->setLine( l );
 			
-				act.apply( iroot );
+				act->apply( iroot );
 			
 				osgBeginEditCP(isect_points);
 				isect_points->setValue( l.getPosition(), 0 );
 				isect_points->setValue( l.getPosition() + l.getDirection(), 1 );
 			
-				if ( act.didHit() )
+				if ( act->didHit() )
 				{
-					cerr << " object " << act.getHitObject() 
-						 << " tri " << act.getHitTriangle() 
-						 << " at " << act.getHitPoint();
+					cerr << " object " << act->getHitObject() 
+						 << " tri " << act->getHitTriangle() 
+						 << " at " << act->getHitPoint();
 			
 					isect_points->setValue( l.getPosition() + 
-							l.getDirection() * act.getHitT(), 1 );
+							l.getDirection() * act->getHitT(), 1 );
 					
-					TriangleIterator it( act.getHitObject() );
-					it.seek( act.getHitTriangle() );
+					TriangleIterator it( act->getHitObject() );
+					it.seek( act->getHitTriangle() );
 					
 					Matrix m;
-					act.getHitObject()->getToWorld(m);
+					act->getHitObject()->getToWorld(m);
 			
 					Pnt3f p = it.getPosition(0);
 					m.multMatrixPnt( p );
@@ -397,15 +398,21 @@ int main (int argc, char **argv)
 
 	// Load the file
 
-	NodePtr file = SceneFileHandler::the().read(argv[1]);
-
+	NodePtr file = NullNode;
+	
+	if ( argc > 1 )
+		file = SceneFileHandler::the().read(argv[1]);
+	
+	if ( file == NullNode )
+	{
+		cerr << "Couldn't load file, ignoring" << endl;
+		file = makeTorus( .5, 2, 16, 16 );
+	}
+	
 	file->updateVolume();
 
-	// should check first. ok for now.
-	const BoxVolume *vol = (BoxVolume *)&file->getVolume();
-
 	Vec3f min,max;
-	vol->getBounds( min, max );
+	file->getVolume().getBounds( min, max );
 	
 	cout << "Volume: from " << min << " to " << max << endl;
 
@@ -458,7 +465,7 @@ int main (int argc, char **argv)
 
 	// Action
 	
-	ract = new DrawAction;
+	ract = DrawAction::create();
 
 	// tball
 

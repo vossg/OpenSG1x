@@ -316,7 +316,6 @@ int main (int argc, char **argv)
 	cam->setFar( 10000 );
 
 	// Background
-	BackgroundPtr bkgnd = Background::create();
 	GradientBackgroundPtr gbkgnd = GradientBackground::create();
 
 	gbkgnd->addColor( Color3f(1, 0, 0), 0.0 );
@@ -334,7 +333,7 @@ int main (int argc, char **argv)
 
 	vp = Viewport::create();
 	vp->setCamera( cam );
-	vp->setBackground( bkgnd );
+	vp->setBackground( gbkgnd );
 	vp->setRoot( root );
 	vp->setSize( 0,0, 1,1 );
 
