@@ -1,7 +1,7 @@
 # trivial makefile for OpenSG tutorials
 
 # use debug or opt libs?
-LIBTYPE := dbg
+LIBTYPE ?= dbg
 
 # set the path to the installed osg-config executable here
 # if you don't set it, the makefile tries to guess
