@@ -130,6 +130,7 @@ bool intersect(const BoxVolume &vol1, const Volume         &vol2);
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const SphereVolume &vol1, const BoxVolume      &vol2);
 
 /*! \brief intersect SphereVolume / Sphere
@@ -167,12 +168,14 @@ bool intersect(const SphereVolume &vol1, const Volume         &vol2);
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const CylinderVolume &vol1, const BoxVolume      &vol2);
 
 /*! \brief intersect CylinderVolume / Sphere
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const CylinderVolume &vol1, const SphereVolume   &vol2);
 
 /*! \brief intersect CylinderVolume / Cylinder
@@ -203,18 +206,21 @@ bool intersect(const CylinderVolume &vol1, const Volume         &vol2);
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const FrustumVolume &vol1, const BoxVolume      &vol2);
 
 /*! \brief intersect FrustumVolume / Sphere
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const FrustumVolume &vol1, const SphereVolume   &vol2);
 
 /*! \brief intersect FrustumVolume / Cylinder
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const FrustumVolume  &vol1, const CylinderVolume &vol2);
 
 /*! \brief intersect FrustumVolume / Frustum
@@ -238,24 +244,28 @@ bool intersect(const FrustumVolume &vol1, const Volume          &vol2);
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const Volume &srcVol, const BoxVolume      &vol);
 
 /*! \brief extend volume / Sphere
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const Volume &srcVol, const SphereVolume   &vol);
 
 /*! \brief extend volume / Cylinder
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const Volume &srcVol, const CylinderVolume &vol);
 
 /*! \brief extend volume / Frustum
  *  \ingroup BaseBaseVolume
  */
 
+inline
 bool intersect(const Volume &srcVol, const FrustumVolume  &vol);
 
 
