@@ -89,6 +89,48 @@ endif
 
 
 #########################################################################
+# Normal lib Targets
+#########################################################################
+
+ifdef RECURSE
+dbg: 
+	@echo "LASTDBG=DBG" > .lastdbg
+	@DBG=DBG $(MAKE) SubLib
+
+opt: 
+	@echo "LASTDBG=OPT" > .lastdbg
+	@DBG=OPT $(MAKE) SubLib
+else
+ifdef OSG_BUILD_DLL
+dbg: 
+	@echo "LASTDBG=DBG" > .lastdbg
+	@echo Local Make
+	@echo ================== LIBPASS ==========================
+	@DBG=DBG MAKEPASS=LIBPASS $(MAKE) SubLib
+	@echo ================== LIBPASS FINISHED =================
+	@echo ================== DLLPASS ==========================
+	@DBG=DBG MAKEPASS=DLLPASS $(MAKE) SubLib
+	@echo ================== LIBPASS FINISHED =================
+opt: 
+	@echo "LASTDBG=OPT" > .lastdbg
+	@echo ================== LIBPASS ==========================
+	@DBG=DBG MAKEPASS=LIBPASS $(MAKE) SubLib
+	@echo ================== LIBPASS FINISHED =================
+	@echo ================== DLLPASS ==========================
+	@DBG=DBG MAKEPASS=DLLPASS $(MAKE) SubLib
+	@echo ================== LIBPASS FINISHED =================
+else
+dbg: 
+	@echo "LASTDBG=DBG" > .lastdbg
+	@DBG=DBG $(MAKE) SubLib
+
+opt: 
+	@echo "LASTDBG=OPT" > .lastdbg
+	@DBG=OPT $(MAKE) SubLib
+endif
+endif
+
+#########################################################################
 # Automatic Targets
 #########################################################################
 
@@ -113,9 +155,10 @@ SubLib: $(SUB_LIB)
 	@echo "LASTDBG=$(DBG)" > .lastdbg
 	@if [ -w $(SUB_LIB) ]; 									\
 	 then 						 							\
-		rm -f $(SUB_LIB_LINK)              2> /dev/null;	\
-		$(LINK) $(SUB_LIB) $(SUB_LIB_LINK) 2> /dev/null;	\
+		rm -f $(SUB_LIB_LINK)                         2> /dev/null;	\
+		$(LINK) $(SUB_LIB_UNIX) $(SUB_LIB_LINK_UNIX)  2> /dev/null;	\
 	 fi
+	@echo Done SubLib
 endif
 
 ifneq ($(SUB_SO),)
@@ -139,7 +182,7 @@ endif
 $(SUB_SO): $(LIBOBJECTS) $(PROJLIBSDEP)
 	@echo $(LIBOBJECTS) $(AR_FLAGS)
 	$(LD_SHARED) /out:"$(SUB_SO)" $(LD_SHARED_FLAGS) $(LIBOBJECTS) 	\
-		     $(PROJLIBS) 
+		     $(PROJLIBS) $(POST_LINK_LIBS)
 
 else
 
@@ -171,17 +214,6 @@ $(LIBBISONTARGET_CPP): $(LIBBISONSOURCES)
 	@echo B: $@ $<
 endif
 
-#########################################################################
-# Normal lib Targets
-#########################################################################
-
-dbg: 
-	@echo "LASTDBG=DBG" > .lastdbg
-	@DBG=DBG $(MAKE) SubLib
-
-opt: 
-	@echo "LASTDBG=OPT" > .lastdbg
-	@DBG=OPT $(MAKE) SubLib
 
 #########################################################################
 # clean

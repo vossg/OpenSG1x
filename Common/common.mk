@@ -24,6 +24,11 @@ OS_TYPE := NT50
 OS_BASE := NT
 endif
 
+ifndef RECURSE
+ifeq ($(OS_BASE), NT)
+MULTIPASS = 1
+endif
+endif
 
 PROC    := $(shell uname -m)
 
@@ -159,7 +164,15 @@ endif
 # Create Libname
 #########################################################################
 
+ifeq ($(OS_BASE), NT)
+
+LIBPRAEFIX = $(if $(OBJDIR),$(OBJDIR)\\lib$(PROJECTPSD),lib$(PROJECTPSD))
+
+else
+
 LIBPRAEFIX = $(if $(OBJDIR),$(OBJDIR)/lib$(PROJECTPSD),lib$(PROJECTPSD))
+
+endif
 
 createSublibName = $(addprefix $(LIBPRAEFIX), \
 	               $(addsuffix .$(LIBEXT), $(CURRENTDIR)))

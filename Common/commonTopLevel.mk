@@ -3,11 +3,56 @@
 # Normal lib Targets
 #########################################################################
 
+MMAKEPASS:=
+
+ifeq ($(MULTIPASS), 1)
+ifdef OSG_BUILD_DLL
+dbg: SUB_TARGET += dbg
+dbg: 
+	@echo ================== LIBPASS ==========================
+	$(SUB_MAKE) dbg_lib
+	@echo ================== LIBPASS FINISHED =================
+	@echo ================== DLLPASS ==========================
+	$(SUB_MAKE) dbg_dll 
+	@echo ================== LIBPASS FINISHED =================
+
+dbg_lib: MMAKEPASS:=LIBPASS
+dbg_lib: $(SUBLIBTARGETS)
+	@echo done libs
+
+dbg_dll: MMAKEPASS:=DLLPASS
+dbg_dll: $(SUBLIBTARGETS)
+	@echo done dlls
+else
 dbg: SUB_TARGET += dbg
 dbg: $(SUBLIBTARGETS) 
+endif
+else
+dbg: SUB_TARGET += dbg
+dbg: $(SUBLIBTARGETS) 
+endif
 
+ifeq ($(MULTIPASS), 1)
+opt: SUB_TARGET += opt
+opt: 
+	@echo ================== LIBPASS ==========================
+	$(SUB_MAKE) opt_lib
+	@echo ================== LIBPASS FINISHED =================
+	@echo ================== DLLPASS ==========================
+	$(SUB_MAKE) opt_dll 
+	@echo ================== LIBPASS FINISHED =================
+
+opt_lib: MMAKEPASS:=LIBPASS
+opt_lib: $(SUBLIBTARGETS)
+	@echo done libs
+
+opt_dll: MMAKEPASS:=DLLPASS
+opt_dll: $(SUBLIBTARGETS)
+	@echo done dlls
+else
 opt: SUB_TARGET += opt
 opt: $(SUBLIBTARGETS) 
+endif
 
 all: libs
 
@@ -103,6 +148,21 @@ install-libs:
 		done																\
 	fi;																		\
 	cd $($(PROJECTPSD)POOL);
+ifeq ($(OS_BASE),NT)
+	@BUILDLIBS=`find $($(PROJECTPSD)POOL) -name '$(OBJDIR)'					\
+						-exec find {} -name '*\.$(SOEXT)' -print \;` ;		\
+	if [ -w lib/$(OS)$(DBG) ];												\
+	 then																	\
+		cd lib/$(OS)$(DBG);													\
+		rm -f *.$(SOEXT);													\
+		for t in $$BUILDLIBS; 												\
+		do																	\
+			$(LINK) $$t .;													\
+			echo  $$t;														\
+		done																\
+	fi;																		\
+	cd $($(PROJECTPSD)POOL);
+endif
 
 install: install-includes install-libs
 endif
@@ -134,9 +194,17 @@ include $(COMMONINCLUDE)
 
 .SUFFIXES:	.src .prj
 
+ifeq ($(MULTIPASS), 1)
+%.src:
+	@cd $*; \
+		$(SUB_MAKE) -f $(SUB_MAKEFILE) MAKEPASS=$(MMAKEPASS) RECURSE=1	\
+		$(SUB_TARGET); \
+		cd ..;
+else
 %.src:
 	@cd $*; \
 		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET); cd ..;
+endif
 
 %.prj:
 	@cd $*; \

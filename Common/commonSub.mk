@@ -71,12 +71,44 @@ ifneq ($(LIBQTSOURCES),)
 LIBOBJECTS += $(call cnvSourceToObject,$(LIBQTSOURCES_CPP))
 endif
 
+ifeq ($(OS_BASE), NT)
+ifdef OSG_BUILD_DLL
+ifeq ($(MAKEPASS), DLLPASS)
+SUB_SO      = $(call createSubSoName)
+SUB_SO_LINK = $(call createSubSoLink)
+endif
+ifeq ($(MAKEPASS), LIBPASS)
+SUB_LIB      = $(call createSublibName)
+SUB_LIB_LINK = $(call createSublibLink)
+SUB_LIB_UNIX      := $(call convWinUnix,$(SUB_LIB))
+SUB_LIB_LINK_UNIX := $(call convWinUnix,$(SUB_LIB_LINK))
+endif
+else
 ifeq ($(OSGMAKESO),1)
 SUB_SO      = $(call createSubSoName)
 SUB_SO_LINK = $(call createSubSoLink)
 else
 SUB_LIB      = $(call createSublibName)
 SUB_LIB_LINK = $(call createSublibLink)
+
+SUB_LIB_UNIX      := $(SUB_LIB)
+SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)
+
+endif
+endif
+
+else
+ifeq ($(OSGMAKESO),1)
+SUB_SO      = $(call createSubSoName)
+SUB_SO_LINK = $(call createSubSoLink)
+else
+SUB_LIB      = $(call createSublibName)
+SUB_LIB_LINK = $(call createSublibLink)
+
+SUB_LIB_UNIX      := $(SUB_LIB)
+SUB_LIB_LINK)UNIX := $(SUB_LIB_LINK)
+
+endif
 endif
 
 # Used for depend call only

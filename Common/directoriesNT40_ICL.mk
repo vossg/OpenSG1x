@@ -19,11 +19,11 @@ ICL_BIN              = $(ICL_BASEDIR)/bin
 INCLUDE_COMPILER     = $(ICL_BASEDIR)/include
 INCLUDE_COMPILER    := "$(shell cygpath -w $(INCLUDE_COMPILER))"
 
-INCLUDE_STL          = /cygdrive/q/Windows/NT/ICL/stdlib_0608
-INCLUDE_STL         := "$(shell cygpath -w $(INCLUDE_STL))"
+#INCLUDE_STL          = /cygdrive/q/Windows/NT/ICL/stdlib_0608
+#INCLUDE_STL         := "$(shell cygpath -w $(INCLUDE_STL))"
 
-LINK_STL             = /cygdrive/q/Windows/NT/ICL/stdlib_0608/Debug
-LINK_STL            := "$(shell cygpath -w $(LINK_STL))"
+#LINK_STL             = /cygdrive/q/Windows/NT/ICL/stdlib_0608/Debug
+#LINK_STL            := "$(shell cygpath -w $(LINK_STL))"
 
 LIB_SYSTEM           = $(MSDIR)/VC98/lib
 LIB_SYSTEM          := "$(shell cygpath -w $(LIB_SYSTEM))"

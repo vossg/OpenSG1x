@@ -9,16 +9,24 @@ SOEXT        :=  dll
 EXEEXT       := .exe
 OBJNAMEFLAG  := /Fo
 COMPONLYFLAG := /c
-LIBCIO       := libCio.lib
+#LIBCIO       := libCio.lib
+LIBCIO       := 
 
 ### Binaries #######################################################
 
-CC         = $(ICL_BIN)/icl /nologo
+ifdef OSG_BUILD_DLL
+CC         = $(ICL_BIN)/icl /nologo  
 C          = $(ICL_BIN)/icl /nologo
-AR         = $(ICL_BIN)/xilink /nologo /lib
+AR         = $(ICL_BIN)/xilink /nologo /lib /DEF /NODEFAULTLIB 
+else
+CC         = $(ICL_BIN)/icl /nologo  
+C          = $(ICL_BIN)/icl /nologo
+AR         = $(ICL_BIN)/xilink /nologo /lib /NODEFAULTLIB 
+endif
+
 CPP        =  
-LD_SHARED  = $(ICL_BIN)/xilink /nologo /dll
-LD         = $(ICL_BIN)/xilink /nologo
+LD_SHARED  = $(ICL_BIN)/xilink /nologo /dll  /NODEFAULTLIB 
+LD         = $(ICL_BIN)/xilink /nologo /NODEFAULTLIB
 MOC        = $(QTDIR)/bin/moc
 FLEX       = $(CYNWINCONTRIBBIN)/flex
 BISON      = $(CYNWINCONTRIBBIN)/bison
@@ -63,7 +71,12 @@ WARNINGS_CPP_OFF 	=
 ### Language #######################################################
 
 LANG_FLAGS          = 
+
+ifdef OSG_BUILD_DLL
 COMPILER    		= -Qvc6 /MD /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
+else
+COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
+endif
 
 ### Optimize / Debug ###############################################
 
@@ -119,11 +132,18 @@ else
 endif
 
 LD_FLAGS = /subsystem:console /incremental:no /machine:I386			\
-		  /LIBPATH:$(LINK_STL) $(LINK_OPTIMIZE) $(LINK_DEBUG)
+		   $(LINK_OPTIMIZE) $(LINK_DEBUG)
+
+ifneq ($(LINK_STL),)
+LD_FLAGS += /LIBPATH:$(LINK_STL)
+endif
 
 LD_SHARED_FLAGS = /incremental:no /machine:I386			\
-		          /LIBPATH:$(LINK_STL) $(LINK_OPTIMIZE) $(LINK_DEBUG)
+		  	      $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
+ifneq ($(LINK_STL),)
+LD_SHARED_FLAGS += /LIBPATH:$(LINK_STL)
+endif
 
 ### ii files ######################################################
 
@@ -162,19 +182,36 @@ POST_LINK_LIBS$(OS) := \
 	/LIBPATH:$(LIB_SYSTEM)		\
 	/LIBPATH:$(LIB_COMPILER)	\
 	kernel32.lib 				\
-	user32.lib      			\
-	gdi32.lib 					\
-	winspool.lib 				\
-	comdlg32.lib 				\
-	advapi32.lib				\
-	shell32.lib 				\
-	ole32.lib 					\
-	oleaut32.lib 				\
-	uuid.lib 					\
-	odbc32.lib 					\
-	odbccp32.lib				\
-								\
-	wsock32.lib
+	libCPMT.lib					\
+	libCMT.lib					\
+
+
+
+#	MSVCPRT.lib					\
+#	MSVCRT.lib					\
+#	libmmd.lib					\
+#	winmm.lib					\
+
+
+#	..\\Log\\libOSGLog.lib		\
+#	..\\Field\\libOSGField.lib		\
+#	..\\Base\\libOSGBase.lib		\
+#
+#	..\\FieldContainer\\libOSGFieldContainer.lib		\
+#
+#	libmmt.lib					\
+#	user32.lib      			\
+#	gdi32.lib 					\
+#	winspool.lib 				\
+#	comdlg32.lib 				\
+#	advapi32.lib				\
+#	shell32.lib 				\
+#	ole32.lib 					\
+#	oleaut32.lib 				\
+#	uuid.lib 					\
+#	odbc32.lib 					\
+#	odbccp32.lib				\
+#	wsock32.lib					\
 
 
 ifneq ($(LINK_GLUT),)
