@@ -203,15 +203,26 @@ int SocketSelection::select(double duration)
         tVal.tv_usec = int( (duration-tVal.tv_sec)*1000000 );
         tValP=&tVal;
     }
-    count=::select(FD_SETSIZE, 
-                   &_fdSetRead, 
-                   &_fdSetWrite,
-                   NULL,
-                   tValP);
-    if(count < 0)
+    do
     {
-        throw SocketError("select()");
+        count=::select(FD_SETSIZE, 
+                       &_fdSetRead, 
+                       &_fdSetWrite,
+                       NULL,
+                       tValP);
+        if(count < 0)
+        {
+#ifndef WIN32
+            // select was interrupted by a signal. Ignore this
+            // and retry to select
+            if(errno != EINTR)
+                throw SocketError("select()");
+#else
+            throw SocketError("select()");
+#endif
+        }
     }
+    while(count < 0);
     return count;
 }
 
