@@ -264,7 +264,7 @@ void DataElementDesc::setIndexGetMethod(
 /*-------------------------- comparison -----------------------------------*/
 
 void DataElementDesc::dump(      UInt32     uiIndent, 
-                           const BitVector &bvFlags ) const
+                           const BitVector &        ) const
 {
     indentLog(uiIndent, PLOG);
     PLOG << "Desc : " 

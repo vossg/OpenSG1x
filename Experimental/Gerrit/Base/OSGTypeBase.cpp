@@ -287,7 +287,7 @@ bool TypeBase::operator !=(const TypeBase &other) const
 /*------------------------- comparison ----------------------------------*/
 
 void TypeBase::dump(      UInt32    uiIndent, 
-                    const BitVector bvFlags) const
+                    const BitVector         ) const
 {
     indentLog(uiIndent, PLOG);
     PLOG << "TypeBase : " << getId() << " | " << getCName() << endl;

@@ -141,16 +141,16 @@ ReflexiveContainer::~ReflexiveContainer(void)
 {
 }
 
-void ReflexiveContainer::beginEdit(BitVector whichElement)
+void ReflexiveContainer::beginEdit(BitVector)
 {
 }
 
-void ReflexiveContainer::endEdit(BitVector whichElement)
+void ReflexiveContainer::endEdit(BitVector)
 {
 }
 
-void ReflexiveContainer::changed(BitVector  whichField, 
-                                 ChangeMode from)
+void ReflexiveContainer::changed(BitVector, 
+                                 ChangeMode)
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
