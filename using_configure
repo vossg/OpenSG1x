@@ -31,6 +31,7 @@ make
 
 
 Linux (RH 7.0, including patch gcc/RHBA-2000-132, glibc/RHBA-2000-079) 
+      (SuSe 7.1, out of the box)
 
 ./configure --with-compiler=g++ --with-glut --with-qt=<qtdir>
 			--prefix=<install-dir>
