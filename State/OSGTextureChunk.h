@@ -87,7 +87,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     //-----------------------------------------------------------------------
 
 #ifdef OSG_NOFUNCTORS
-    typedef void (TextureChunk::*FunctorFunc)(Window::GLObjectFlagE, UInt32);
+    typedef void (TextureChunk::*FunctorFunc)(Window *, UInt32);
 
     struct TexGLObjectFunctor : public Window::GLObjectFunctor
     {
@@ -96,9 +96,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
         TextureChunkPtr _pObj;
         FunctorFunc     _func;
 
-        virtual void call(Window::GLObjectFlagE flagsGL, UInt32 uiOpt)
+        virtual void call(Window *win, UInt32 uiOpt)
         {
-            (_pObj.getCPtr()->*_func)(flagsGL, uiOpt);
+            (_pObj.getCPtr()->*_func)(win, uiOpt);
         }
     };
 
@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     {
         TexGLObjectFunctor result;
 
+		result._pObj = pTexChunk;
         result._func = func;
 
         return result;
