@@ -149,7 +149,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     /*------------------------- your_operators ------------------------------*/
 
     // initialisation
-    virtual Action::ResultE start(void) = 0;
+    virtual Action::ResultE start(void);
+ 	virtual Action::ResultE stop( Action::ResultE res );
 
     /*------------------------- assignment ----------------------------------*/
 

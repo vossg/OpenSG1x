@@ -102,7 +102,7 @@ char DrawActionBase::cvsid[] = "@(#)$Id: $";
  */
 
 DrawActionBase::DrawActionBase(void) :
-	Inherited  (),
+        Inherited  (),
     _camera         (NULL),
     _background     (NULL),
     _window         (NULL),
@@ -110,13 +110,13 @@ DrawActionBase::DrawActionBase(void) :
     _volumeDrawing  (false),
     _frustumCulling (true),
     _autoFrustum    (true),
-    _frustum  	    ()
+    _frustum        ()
 {
 }
 
 
 DrawActionBase::DrawActionBase(const DrawActionBase &source) :
-	Inherited   (source            	    ),
+        Inherited   (source                 ),
     _camera         (source._camera         ),
     _background     (source._background     ),
     _window         (source._window         ),
@@ -124,7 +124,7 @@ DrawActionBase::DrawActionBase(const DrawActionBase &source) :
     _volumeDrawing  (source._volumeDrawing ),
     _frustumCulling (source._frustumCulling ),
     _autoFrustum    (source._autoFrustum    ),
-    _frustum  	    (source._frustum	    )
+    _frustum        (source._frustum        )
 {
 }
 
@@ -140,15 +140,23 @@ DrawActionBase::~DrawActionBase(void)
 
 Action::ResultE DrawActionBase::start(void)
 {
-    if(getFrustumCulling() == true && 
+    if(getFrustumCulling() == true &&
        getAutoFrustum   () == true &&
        getCamera        () != NULL &&
        getViewport      () != NULL)
     {
-    	getCamera()->getFrustum( _frustum, *getViewport() );
-    }	
-   
+        getCamera()->getFrustum( _frustum, *getViewport() );
+    }
+
     return Action::Continue;
+}
+
+Action::ResultE DrawActionBase::stop(ResultE res)
+{
+    if ( getVolumeDrawing() )
+        drawVolume( _frustum );  
+        
+    return res; 
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -162,21 +170,21 @@ void DrawActionBase::setCamera(Camera *cam)
 {
     _camera = cam;
 }
-		
+
 void DrawActionBase::setBackground(Background *background)
 {
     _background = background;
 }
-		
+
 void DrawActionBase::setWindow(Window *window)
 {
     _window = window;
 }
-		
+
 
 // do frustum culling at all?
 // default true
-		
+
 void DrawActionBase::setFrustumCulling(Bool frustumCulling)
 {
     _frustumCulling = frustumCulling;
@@ -198,8 +206,8 @@ void DrawActionBase::setVolumeDrawing(Bool volumeDrawing)
     _volumeDrawing = volumeDrawing;
 }
 
-// explicitly set the frustum 
-		
+// explicitly set the frustum
+
 void DrawActionBase::setFrustum(FrustumVolume &frustum)
 {
     _frustum = frustum;
@@ -212,52 +220,52 @@ void DrawActionBase::setFrustum(FrustumVolume &frustum)
 Bool DrawActionBase::isVisible( Node* node )
 {
     if ( getFrustumCulling() == false )
-    	return true;
+        return true;
 
     DynamicVolume vol;
     node->getWorldVolume( vol );
-    
+
     if ( _frustum.intersect( vol ) )
-    	return true;
-    
+        return true;
+
     return false;
 }
-    
+
 // select all visible nodes
 UInt32 DrawActionBase::selectVisibles( void )
 {
     if ( getFrustumCulling() == false )
-    	return getNNodes();
+        return getNNodes();
 
     useNodeList();
-    
+
     UInt32 count = 0;
     for ( UInt32 i = 0; i < getNNodes(); i++ )
     {
-    	Bool l;
-	Bool d = getVolumeDrawing();
-	if ( d )
-	{
-    	    l = glIsEnabled( GL_LIGHTING );
-	    glDisable( GL_LIGHTING );
-    	}
-	
-    	if ( isVisible( getNode(i).getCPtr() ) )
-	{
-	    if ( d ) glColor3f( 0,1,0 );
-	    addNode( getNode(i) );
-	    ++count;
-	}
-	else
-	    if ( d ) glColor3f( 1,0,0 );
-	
-	if ( d )
-	{ 
-	    drawVolume( getNode(i)->getVolume() );
-	    if ( l ) glEnable( GL_LIGHTING );
-    	}
+        Bool l;
+        Bool d = getVolumeDrawing();
+        if ( d )
+        {
+            l = glIsEnabled( GL_LIGHTING );
+            glDisable( GL_LIGHTING );
+        }
+
+        if ( isVisible( getNode(i).getCPtr() ) )
+        {
+            if ( d ) glColor3f( 0,1,0 );
+            addNode( getNode(i) );
+            ++count;
+        }
+        else
+            if ( d ) glColor3f( 1,0,0 );
+
+        if ( d )
+        {
+            drawVolume( getNode(i)->getVolume() );
+            if ( l ) glEnable( GL_LIGHTING );
+        }
     }
-    
+
     return count;
 }
 
