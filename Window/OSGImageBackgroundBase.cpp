@@ -86,16 +86,19 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.3 2001/11/09 08:17:07 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
+    static char cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.4 2001/11/16 13:12:09 dirk Exp $";
+    static char cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID;
+    static char cvsid_fields_hpp[] = OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
+const OSG::BitVector  ImageBackgroundBase::ColorFieldMask = 
+    (1 << ImageBackgroundBase::ColorFieldId);
 
 const OSG::BitVector  ImageBackgroundBase::ImageFieldMask = 
     (1 << ImageBackgroundBase::ImageFieldId);
@@ -107,6 +110,9 @@ const OSG::BitVector  ImageBackgroundBase::ScaleFieldMask =
 
 // Field descriptions
 
+/*! \var Color3f         ImageBackgroundBase::_sfColor
+    The background color for the areas without image.
+*/
 /*! \var ImageP          ImageBackgroundBase::_sfImage
     The image to put in the background.
 */
@@ -117,6 +123,11 @@ const OSG::BitVector  ImageBackgroundBase::ScaleFieldMask =
 
 FieldDescription *ImageBackgroundBase::_desc[] = 
 {
+    new FieldDescription(SFColor3f::getClassType(), 
+                     "color", 
+                     ColorFieldId, ColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBackgroundBase::getSFColor),
     new FieldDescription(SFImageP::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
@@ -185,6 +196,7 @@ void ImageBackgroundBase::executeSync(      FieldContainer &other,
 #endif
 
 ImageBackgroundBase::ImageBackgroundBase(void) :
+    _sfColor                  (Color3f(0,0,0)), 
     _sfImage                  (), 
     _sfScale                  (), 
     Inherited() 
@@ -198,6 +210,7 @@ ImageBackgroundBase::ImageBackgroundBase(void) :
 //! Copy Constructor
 
 ImageBackgroundBase::ImageBackgroundBase(const ImageBackgroundBase &source) :
+    _sfColor                  (source._sfColor                  ), 
     _sfImage                  (source._sfImage                  ), 
     _sfScale                  (source._sfScale                  ), 
     Inherited                 (source)
@@ -218,6 +231,11 @@ UInt32 ImageBackgroundBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        returnValue += _sfColor.getBinSize();
+    }
+
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
         returnValue += _sfImage.getBinSize();
@@ -237,6 +255,11 @@ void ImageBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        _sfColor.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
         _sfImage.copyToBin(pMem);
@@ -254,6 +277,11 @@ void ImageBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        _sfColor.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
@@ -273,6 +301,9 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+        _sfColor.syncWith(pOther->_sfColor);
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
         _sfImage.syncWith(pOther->_sfImage);

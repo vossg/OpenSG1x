@@ -68,10 +68,9 @@ class ImageBackground;
 
 typedef FCPtr<BackgroundPtr, ImageBackground> ImageBackgroundPtr;
 
-/*! \brief ImageBackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-*/
+/*! \ingroup FieldLib ImageBackground
+ *  ImageBackgroundPtr field traits 
+ */
 
 template <>
 struct FieldDataTraits<ImageBackgroundPtr> : 
@@ -88,7 +87,6 @@ struct FieldDataTraits<ImageBackgroundPtr> :
 };
 
 //! SFImageBackgroundPtr
-//! \ingroup SingleFields
 
 typedef SField<ImageBackgroundPtr> SFImageBackgroundPtr;
 
@@ -106,6 +104,6 @@ OSG_DLLEXPORT_DECL1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.2 2001/11/09 08:17:07 vossg Exp $"
+#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.3 2001/11/16 13:12:09 dirk Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDFIELDS_H_ */

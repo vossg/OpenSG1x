@@ -10,6 +10,15 @@
 	parentsystemcomponent="true"
 >
 A single colored background. 	
+        <Field
+                name="color"
+                type="Color3f"
+                cardinality="single"
+                visibility="external"
+                defaultValue="0,0,0"
+        >
+        The background color for the areas without image.
+        </Field>
 	<Field
 		name="image"
 		type="ImageP"

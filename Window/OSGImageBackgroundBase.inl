@@ -93,6 +93,12 @@ inline ImageBackgroundPtr ImageBackgroundBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
+SFColor3f *ImageBackgroundBase::getSFColor(void)
+{
+    return &_sfColor;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFImageP *ImageBackgroundBase::getSFImage(void)
 {
     return &_sfImage;
@@ -104,6 +110,24 @@ SFBool *ImageBackgroundBase::getSFScale(void)
     return &_sfScale;
 }
 
+
+OSG_SYSTEMLIB_DLLMAPPING
+Color3f &ImageBackgroundBase::getColor(void)
+{
+    return _sfColor.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Color3f &ImageBackgroundBase::getColor(void) const
+{
+    return _sfColor.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ImageBackgroundBase::setColor(const Color3f &value)
+{
+    _sfColor.setValue(value);
+}
 
 OSG_SYSTEMLIB_DLLMAPPING
 ImageP &ImageBackgroundBase::getImage(void)
@@ -145,5 +169,5 @@ void ImageBackgroundBase::setScale(const Bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.1 2001/10/29 16:46:56 dirk Exp $"
+#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.2 2001/11/16 13:12:09 dirk Exp $"
 

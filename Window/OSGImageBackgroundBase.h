@@ -67,6 +67,7 @@
 
 #include <OSGBackground.h> // Parent
 
+#include <OSGColor3fFields.h> // Color type
 #include <OSGImagePFields.h> // Image type
 #include <OSGBoolFields.h> // Scale type
 
@@ -90,11 +91,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
 
     enum
     {
-        ImageFieldId = Inherited::NextFieldId,
+        ColorFieldId = Inherited::NextFieldId,
+        ImageFieldId = ColorFieldId + 1,
         ScaleFieldId = ImageFieldId + 1,
         NextFieldId  = ScaleFieldId + 1
     };
 
+    static const osg::BitVector ColorFieldMask;
     static const osg::BitVector ImageFieldMask;
     static const osg::BitVector ScaleFieldMask;
 
@@ -120,9 +123,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+    inline       SFColor3f           *getSFColor          (void);
     inline       SFImageP            *getSFImage          (void);
     inline       SFBool              *getSFScale          (void);
 
+    inline       Color3f             &getColor          (void);
+    inline const Color3f             &getColor          (void) const;
     inline       ImageP              &getImage          (void);
     inline const ImageP              &getImage          (void) const;
     inline       Bool                &getScale          (void);
@@ -133,6 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+    inline void setColor          ( const Color3f &value );
     inline void setImage          ( const ImageP &value );
     inline void setScale          ( const Bool &value );
 
@@ -180,6 +187,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
+    SFColor3f           _sfColor;
     SFImageP            _sfImage;
     SFBool              _sfScale;
 
@@ -229,6 +237,6 @@ typedef ImageBackgroundBase *ImageBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.2 2001/11/09 08:17:07 vossg Exp $"
+#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.3 2001/11/16 13:12:09 dirk Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDBASE_H_ */
