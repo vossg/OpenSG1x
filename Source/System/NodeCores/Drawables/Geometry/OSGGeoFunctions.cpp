@@ -619,16 +619,29 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     for( ti = geo->beginTriangles(), i = 0; 
          ti != geo->endTriangles(); ++ti, ++i )
     {
-        Vec3f d1 = ti.getPosition(1) - ti.getPosition(0);
-        Vec3f d2 = ti.getPosition(2) - ti.getPosition(0);        
-        d1.crossThis(d2);
+        Int32 v0 = ti.getPositionIndex(0);
+        Int32 v1 = ti.getPositionIndex(1);
+        Int32 v2 = ti.getPositionIndex(2);
+
+        if (v0 != v1 && v0 != v2) {
         
-        d1.normalize();
-        faceNormals.push_back(d1);  
-             
-        pntFaceDic [ ti.getPositionIndex(0) ].push_back(i);
-        pntFaceDic [ ti.getPositionIndex(1) ].push_back(i);
-        pntFaceDic [ ti.getPositionIndex(2) ].push_back(i);
+          Vec3f d1 = ti.getPosition(1) - ti.getPosition(0);
+          Vec3f d2 = ti.getPosition(2) - ti.getPosition(0);        
+          d1.crossThis(d2);
+          
+          d1.normalize();
+          faceNormals.push_back(d1);  
+          
+          pntFaceDic [ ti.getPositionIndex(0) ].push_back(i);
+          pntFaceDic [ ti.getPositionIndex(1) ].push_back(i);
+          pntFaceDic [ ti.getPositionIndex(2) ].push_back(i);
+
+        }        
+        else
+        {
+          // invalid Triangle
+          faceNormals.push_back( Vec3f(0,0,0) );
+        }
     }
     
     // now walk through the geometry again and calc the normals
@@ -651,56 +664,61 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     {
         Int32 tind = ti.getIndex();
         Vec3f mynorm(faceNormals[tind]);
+        Int32 v0 = ti.getPositionIndex(0);
+        Int32 v1 = ti.getPositionIndex(1);
+        Int32 v2 = ti.getPositionIndex(2);
 
-        for(UInt16 i = 0; i < 3; ++i)
-        {   
-            // calculate the normal: average all different normals
-            // that use a point. Simple addition or weighted addition
-            // doesn't work, as it depends on the triangulation
-            // of the object. :(
-
-            UInt32 p = ti.getPositionIndex(i);
-            UInt32 pf, f, fN = pntFaceDic[p].size();
-            UInt32 n, nN;
-
-            normset.clear();
-            for (f = 0; f < fN; f++) {
-              pf = pntFaceDic[p][f];
-              if (mynorm.dot(faceNormals[pf]) > cosCrease)
-                normset.push_back(pf);
-            }
-            
-            if ((nN = normset.size())) 
-            {
-              // find normal
-              //std::sort ( normset.begin(), normset.end() );
-              ndI = normDic[p].find(normset);
-              if (ndI == normDic[p].end()) 
-              {
-                norm = faceNormals[normset[0]];
-                for (n = 1; n < nN; ++n) 
-                  norm += faceNormals[normset[n]];
-                norm.normalize();
-                normalIndex = norms->size();
-                norms->push_back(norm);
-                normDic[p][normset] = normalIndex;
+        if (v0 != v1 && v0 != v2)
+          for(UInt16 i = 0; i < 3; ++i)
+            {   
+              // calculate the normal: average all different normals
+              // that use a point. Simple addition or weighted addition
+              // doesn't work, as it depends on the triangulation
+              // of the object. :(
+              
+              UInt32 p = ti.getPositionIndex(i);
+              UInt32 pf, f, fN = pntFaceDic[p].size();
+              UInt32 n, nN;
+              
+              normset.clear();
+              for (f = 0; f < fN; f++) {
+                pf = pntFaceDic[p][f];
+                if (mynorm.dot(faceNormals[pf]) > cosCrease)
+                  normset.push_back(pf);
               }
-              else 
-              {
-                normalIndex = ndI->second;
-              }
-            }
-            else
-            {
-              // keep normalIndex
-              FFATAL (("Empty normset !\n"));
-            }
-
-            
-            ip->setValue ( normalIndex, ti.getIndexIndex(i) + ni );
-
-        }
-        
+              
+              if ((nN = normset.size())) 
+                {
+                  // find normal
+                  //std::sort ( normset.begin(), normset.end() );
+                  ndI = normDic[p].find(normset);
+                  if (ndI == normDic[p].end()) 
+                    {
+                      norm = faceNormals[normset[0]];
+                      for (n = 1; n < nN; ++n) 
+                        norm += faceNormals[normset[n]];
+                      norm.normalize();
+                      normalIndex = norms->size();
+                      norms->push_back(norm);
+                      normDic[p][normset] = normalIndex;
+                    }
+                  else 
+                    {
+                      normalIndex = ndI->second;
+                    }
+                }
+              else
+                {
+                  // keep normalIndex
+                  FWARNING (( "Empty normset for %d faces pos %d: %f/%f/%f\n",
+                              fN, i, 
+                              ti.getPosition(i).x(), ti.getPosition(i).y(),
+                              ti.getPosition(i).z() ));                  
+                }
+              
+              ip->setValue ( normalIndex, ti.getIndexIndex(i) + ni );
+              
+            }       
     }   
 
     endEditCP(ip);
@@ -1311,6 +1329,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   std::vector<Int32> indexVec;
   Int32 v[3];
   IndexDic indexDic;
+  bool invalidTriCount = 0;
 
   if (geoPtr != NullFC) 
     {
@@ -1344,6 +1363,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
       inputT = getSystemTime();
 
       triCount = 0;
+      invalidTriCount = 0;
       if (multiIndex) 
         {
           graph.init(triN * 3, triN, 8);
@@ -1358,7 +1378,8 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                     indexVec[j] = indexPtr->getValue(index + j);
                   v[i] = indexDic.entry(indexVec);
                 }
-              graph.setNode ( triCount++, v[0], v[1], v[2] );
+              invalidTriCount +=
+                graph.setNode ( triCount++, v[0], v[1], v[2] ) ? 0 : 1;
             }
           FNOTICE (( "Multi-index dic entry: %d/%d\n", 
                      indexDic.entryCount(), (triN * 3) ));
@@ -1368,12 +1389,19 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
           graph.init(pN,triN,8); 
           for ( tI = geoPtr->beginTriangles(); 
                 tI != geoPtr->endTriangles(); ++tI)
-            graph.setNode( triCount++,
-                           tI.getPositionIndex(0),
-                           tI.getPositionIndex(1),
-                           tI.getPositionIndex(2) );
+            invalidTriCount += graph.setNode( triCount++,
+                                              tI.getPositionIndex(0),
+                                              tI.getPositionIndex(1),
+                                              tI.getPositionIndex(2) )
+              ? 0 : 1;
         }
       
+      if (invalidTriCount)
+        {
+          FWARNING (("%d invalid tri during halfegde construction found\n",
+                     invalidTriCount ));
+        }
+
       graph.verify(true);
       if (triN != triCount) 
         {
@@ -1697,9 +1725,7 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
                 }
                 else 
                 {
-                  // invalid slave data
-                  FWARNING (("Slave data mismatch; cannot remap index %d\n",
-                             index ));    
+                  // invalid slave data; cannot remap index
                   indexRemap[index] = index;
                 }
             }

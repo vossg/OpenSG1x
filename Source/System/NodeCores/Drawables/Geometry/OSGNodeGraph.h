@@ -336,7 +336,7 @@ class NodeGraph
     void init(int vertexNum, int nodeNum, int reserveEdges );
 
     inline
-    void setNode (int index, int v0, int v1, int v2)
+    bool setNode (int index, int v0, int v1, int v2)
     {
         if (v0 != v1 && v1 != v2 && v2 != v1)
         {
@@ -351,10 +351,11 @@ class NodeGraph
             {
                 _nodeVec[index].init(index,-1,v0,v1,v2);
             }
+            return true;
         }
         else
         {
-            FWARNING (("Invalid triangle: %d/%d/%d\n", v0,v1,v2));
+            return false;
         }
     }
     /*! \}                                                                 */        

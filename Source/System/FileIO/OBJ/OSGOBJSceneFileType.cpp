@@ -260,19 +260,18 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
       endEditCP(normalPtr);
 
 #if 0
-      cerr << "--------------------------------------------------------" << endl;
       i = 0;
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++) {
-        cerr << "Mesh " << i << " faceCount :" 
-             << meshI->faceList.size() << endl;
+        std::cerr << "Mesh " << i << " faceCount :" 
+             << meshI->faceList.size() << std::endl;
         j = 0 ;
         for ( faceI = meshI->faceList.begin(); faceI != meshI->faceList.end();
               faceI++)
-          cerr << "MESH " <<  i << "face: " << j++ << "tie num: " 
-               << faceI->tieVec.size() << endl;
+          std::cerr << "MESH " <<  i << "face: " << j++ << "tie num: " 
+               << faceI->tieVec.size() << std::endl;
         i++;
       }
-      cerr << "--------------------------------------------------------" << endl;
+
 #endif
       // create Geometry objects
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++)
@@ -294,12 +293,13 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 for (i = 0; i < n; i++)
                   for (j = 0; j < 3; j++)
                   { 
-                    if ((index = (faceI->tieVec[i].index[j])) >= 0)
+                    if ((index = (faceI->tieVec[i].index[j])) >= 0) {
                       indexMask |= (1 << j);
-                    if (j)
-                      isSingleIndex &= (posIndex == index);
-                    else
-                      posIndex = index;
+                      if (j)
+                        isSingleIndex &= (posIndex == index);
+                      else
+                        posIndex = index;
+                    }
                   }
                 if (meshIndexMask == 0)
                   meshIndexMask = indexMask;
@@ -316,30 +316,50 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
               FWARNING (("Mesh with empty faceList\n"));
             }
           
-          if (isSingleIndex)
-            cerr << "XXXXX OBJ Mesh " << meshI->name 
-                 << " isSingleIndex" << endl;
-
           // fill the geo properties
           if (meshIndexMask) 
             {
                 beginEditCP ( geoPtr );
                 {
-                if (meshIndexMask & 1)
-                    geoPtr->getIndexMapping().push_back( Geometry::MapPosition );
-                if (meshIndexMask & 2)
-                    geoPtr->getIndexMapping().push_back( Geometry::MapTexCoords );
-                if (meshIndexMask & 4)
-                  geoPtr->getIndexMapping().push_back( Geometry::MapNormal );
 
-                geoPtr->setPositions ( coordPtr );
-                geoPtr->setTexCoords ( texCoordPtr );
-                geoPtr->setNormals   ( normalPtr );
-                geoPtr->setIndices   ( indexPtr );
-                geoPtr->setLengths   ( lensPtr );
-                geoPtr->setTypes     ( typePtr );
+                  if (isSingleIndex)
+                  {
+                    indexType = 0;
+                    if (meshIndexMask & 1)
+                      indexType |= Geometry::MapPosition;
+                    if (meshIndexMask & 2)
+                      indexType |= Geometry::MapTexCoords;
+                    if (meshIndexMask & 4)
+                      indexType |= Geometry::MapNormal;
+                    geoPtr->getIndexMapping().push_back( indexType );
+                  }
+                  else
+                  {
+                    if (meshIndexMask & 1)
+                    {
+                      indexType = Geometry::MapPosition;
+                      geoPtr->getIndexMapping().push_back( indexType);
+                    }
+                    if (meshIndexMask & 2)
+                    {
+                      indexType = Geometry::MapTexCoords;
+                      geoPtr->getIndexMapping().push_back( indexType);
+                    }
+                    if (meshIndexMask & 4)
+                    {
+                      indexType = Geometry::MapNormal;
+                      geoPtr->getIndexMapping().push_back( indexType);
+                    }
+                  }
 
-                if (meshI->mtlPtr == NullFC)
+                  geoPtr->setPositions ( coordPtr );
+                  geoPtr->setTexCoords ( texCoordPtr );
+                  geoPtr->setNormals   ( normalPtr );
+                  geoPtr->setIndices   ( indexPtr );
+                  geoPtr->setLengths   ( lensPtr );
+                  geoPtr->setTypes     ( typePtr );
+                  
+                  if (meshI->mtlPtr == NullFC)
                   {
                     meshI->mtlPtr = SimpleTexturedMaterial::create();
                     beginEditCP( meshI->mtlPtr );
@@ -350,80 +370,83 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                     }
                     endEditCP( meshI->mtlPtr );
                   }
-                geoPtr->setMaterial  ( meshI->mtlPtr ); 
-              }
-              endEditCP ( geoPtr );
-
-            beginEditCP(lensPtr);
-            beginEditCP(typePtr);
-            beginEditCP(indexPtr);
-            
-            for ( faceI = meshI->faceList.begin(); 
-                  faceI != meshI->faceList.end(); faceI++)
-            {
-                n = faceI->tieVec.size();
+                  geoPtr->setMaterial  ( meshI->mtlPtr ); 
+                }
+                endEditCP ( geoPtr );
+                
+                beginEditCP(lensPtr);
+                beginEditCP(typePtr);
+                beginEditCP(indexPtr);
+                
+                for ( faceI = meshI->faceList.begin(); 
+                      faceI != meshI->faceList.end(); faceI++)
+                {
+                  n = faceI->tieVec.size();
                   
-                // add the lens entry
-                lensPtr->push_back(n);
-
-                // add the type entry
-                typePtr->push_back(GL_POLYGON);
+                  // add the lens entry
+                  lensPtr->push_back(n);
                   
-                // create the index values
-                for (i = 0; i < n; i++)
-                    for (j = 0; j < 3; j++)
+                  // add the type entry
+                  typePtr->push_back(GL_POLYGON);
+                  
+                  // create the index values
+                  for (i = 0; i < n; i++)
+                    if (isSingleIndex)
+                      indexPtr->push_back( faceI->tieVec[i].index[0]);
+                    else
+                      for (j = 0; j < 3; j++)
                         if ( meshIndexMask & (1 << j))
-                            indexPtr->push_back( faceI->tieVec[i].index[j]);
-            }
+                          indexPtr->push_back( faceI->tieVec[i].index[j]);
+                }
             
-            endEditCP(indexPtr);
-            endEditCP(typePtr);
-            endEditCP(lensPtr);
-            
-            createSharedIndex( geoPtr );
-
-            // check if we have normals
-            if ((meshIndexMask & 4) == 0)
-              calcVertexNormals(geoPtr);
-            
-            // TODO; need opt flag
-						createOptimizedPrimitives(geoPtr);
-            
-            // create and link the node
-            nodePtr = Node::create();
-            beginEditCP ( nodePtr );
-            {
-              nodePtr->setCore( geoPtr );
-            }
-            endEditCP ( nodePtr );
-            
-            if (meshList.size() > 1)
-              {
-                if (rootPtr == NullFC)
+                endEditCP(indexPtr);
+                endEditCP(typePtr);
+                endEditCP(lensPtr);
+                
+                createSharedIndex( geoPtr );
+                
+                // check if we have normals
+                if ((meshIndexMask & 4) == 0)
+                  calcVertexNormals(geoPtr);
+                
+                // TODO; need opt flag
+                createOptimizedPrimitives(geoPtr);
+                
+                // create and link the node
+                nodePtr = Node::create();
+                beginEditCP ( nodePtr );
+                {
+                  nodePtr->setCore( geoPtr );
+                }
+                endEditCP ( nodePtr );
+                
+                if (meshList.size() > 1)
                   {
-                    rootPtr = Node::create();
-                    beginEditCP (rootPtr);
-                    {
-                      rootPtr->setCore ( Group::create() );
-                      rootPtr->addChild(nodePtr);
-                    }
-                    endEditCP (rootPtr);
+                    if (rootPtr == NullFC)
+                      {
+                        rootPtr = Node::create();
+                        beginEditCP (rootPtr);
+                        {
+                          rootPtr->setCore ( Group::create() );
+                          rootPtr->addChild(nodePtr);
+                        }
+                        endEditCP (rootPtr);
+                      }
+                    else
+                      {
+                        beginEditCP(rootPtr);
+                        {
+                          rootPtr->addChild(nodePtr);
+                        }
+                        endEditCP  (rootPtr);
+                      }
                   }
                 else
-                    {
-                      beginEditCP(rootPtr);
-                      {
-                        rootPtr->addChild(nodePtr);
-                      }
-                      endEditCP  (rootPtr);
-                    }
-              }
-            else
-              rootPtr = nodePtr;
+                  rootPtr = nodePtr;
             }
         }
     }
-  
+    
   
   return rootPtr;
 }
@@ -655,6 +678,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
   std::map<std::string, osg::Image*> imageMap;
   std::map<std::string, osg::Image*>::iterator iI;
   Image *image = 0;
+  bool constDiffuse, constAmbient, constSpecular;
 
   if (in)
     for (in >> elem; in.eof() == false; in >> elem) 
@@ -673,8 +697,12 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
             mtlPtr = SimpleTexturedMaterial::create();
             beginEditCP(mtlPtr);
             mtlPtr->setColorMaterial(GL_NONE);
+            mtlPtr->setEnvMode(GL_MODULATE);
             mtlMap[elem] = mtlPtr;
             mtlCount++;
+            constDiffuse  = false;
+            constAmbient  = false;
+            constSpecular = false;
           }
           else
           {
@@ -690,15 +718,18 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
               {
               case MTL_DIFFUSE_ME:
                 in >> a >> b >> c;
-                mtlPtr->setDiffuse( Color3f( a,b,c ));
+                if (!constDiffuse) 
+                  mtlPtr->setDiffuse( Color3f( a,b,c ));
                 break;
               case MTL_AMBIENT_ME:
                 in >> a >> b >> c;
-                mtlPtr->setAmbient( Color3f( a,b,c ));
+                if (!constAmbient)
+                  mtlPtr->setAmbient( Color3f( a,b,c ));
                 break;
               case MTL_SPECULAR_ME:
                 in >> a >> b >> c;
-                mtlPtr->setSpecular( Color3f( a,b,c ));
+                if (!constSpecular)
+                  mtlPtr->setSpecular( Color3f( a,b,c ));
                 break;
               case MTL_SHININESS_ME:
                 in >> a;
@@ -734,11 +765,20 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 }
                 if (image) {
                   mtlPtr->setImage(image);
-
-                  // force stand material ?!?
-                  mtlPtr->setDiffuse( Color3f( .8, .8, .8 ) );
-                  mtlPtr->setSpecular( Color3f( 1, 1, 1 ) );
-                  mtlPtr->setShininess( 20 );
+                  switch (mtlElem) {
+                  case MTL_MAP_KD_ME:
+                    constDiffuse = true;
+                    mtlPtr->setDiffuse  ( Color3f( 1, 1, 1) );
+                    break;
+                  case MTL_MAP_KA_ME:
+                    constAmbient = true;
+                    mtlPtr->setAmbient  ( Color3f( 1, 1, 1) );
+                    break;
+                  case MTL_MAP_KS_ME:
+                    constSpecular = true;
+                    mtlPtr->setSpecular ( Color3f( 1, 1, 1) );
+                    break;
+                  }
                 }
                 else
                 {

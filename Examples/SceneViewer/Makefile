@@ -28,7 +28,7 @@ LIBTYPE ?= dbg
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer
 PROJINC = -I. -DQT_CLEAN_NAMESPACE # -DOSG_DEBUG
-PROJLIB = -lefence
+PROJLIB = # -lefence
 PROBACK = *.ndf
 ######################################################################
 

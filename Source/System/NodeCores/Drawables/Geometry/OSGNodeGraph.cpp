@@ -370,13 +370,15 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
       FNOTICE (( "Optimize nonmanifold mesh: buffer %d triangles\n",
                  nonManifoldList.size() ));
       pathVec[++pathI].type = GL_TRIANGLES;
-      for ( ; currentNode; currentNode = currentNode->next )
+      for ( ; currentNode; currentNode = currentNode->next ) {
+        cost += 3;
         pathVec[pathI].path.push_back(currentNode->index);
+      }
     }
     pathVec[++pathI].clear();
   }
 
-    return cost;
+  return cost;
 }                                                  
 
 //----------------------------------------------------------------------
