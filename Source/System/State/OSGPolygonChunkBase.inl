@@ -387,7 +387,7 @@ void PolygonChunkBase::setOffsetFill(const bool &value)
 
 //! Get the value of the  index element the PolygonChunk::_mfStipple field.
 inline
-Int32 &PolygonChunk::getStipple(const UInt32 index)
+Int32 &PolygonChunkBase::getStipple(const UInt32 index)
 {
     return _mfStipple[index];
 }
