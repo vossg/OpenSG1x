@@ -4,13 +4,16 @@ using namespace OSG;
 
 /*! \page Multithreading Multithreading
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-	\ref TutorialMultithreadigSimpleExample <BR>
-	\ref TutorialMultithreadingChangeList <BR>
-	\ref TutorialMultithreadingTutorial <BR>
-	\ref TutorialMultithreadingBarriers 
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+	>\ref TutorialMultithreadigSimpleExample <BR>
+	>\ref TutorialMultithreadingChangeList <BR>
+	>\ref TutorialMultithreadingTutorial <BR>
+	>\ref TutorialMultithreadingBarriers 
+</td></tr></table>
 <HR>
 
 Multithreading is often not very easy to handle and even more often it is dangerous and evil to debug. However, multithreading is powerful and very useful in

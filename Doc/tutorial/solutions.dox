@@ -5,14 +5,17 @@ OSG_USING_NAMESPACE;
 /*! 
 \page Solutions Appendix A - Solutions
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-		\ref SolIntroductionEx1 <BR>
-		\ref SolIntroductionEx2 <BR>
-		\ref SolBasicEx1 <BR>
-		\ref SolBasicEx2 <BR> 
-		\ref SolNodecores2 <BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+		>\ref SolIntroductionEx1 <BR>
+		>\ref SolIntroductionEx2 <BR>
+		>\ref SolBasicEx1 <BR>
+		>\ref SolBasicEx2 <BR> 
+		>\ref SolNodecores2 <BR>
+</td></tr></table>
 <HR>
 
 \section SolIntroductionEx1 Chapter Introduction - Exercise 1

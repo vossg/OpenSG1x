@@ -5,16 +5,19 @@ OSG_USING_NAMESPACE;
 /*! 
 \page Geometry Geometry
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-    \ref GeometryBackground <BR>
-    \ref GeometryLearningByDoing <BR>
-    \ref GeometryPrimitiveTypes <BR>
-    \ref GeometryIterator<BR>
-    \ref GeometryIndexing <BR> 
-    \ref GeometryEfficientManipulation <BR>
-    \ref TutorialGeometryUtilities <BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+    >\ref GeometryBackground <BR>
+    >\ref GeometryLearningByDoing <BR>
+    >\ref GeometryPrimitiveTypes <BR>
+    >\ref GeometryIterator<BR>
+    >\ref GeometryIndexing <BR> 
+    >\ref GeometryEfficientManipulation <BR>
+    >\ref TutorialGeometryUtilities <BR>
+</td></tr></table>
 <HR>
 
 Geometry is actually a common core like all the others from the last chapter, too. However, the geometry core is of course the most important and most complicated
@@ -339,92 +342,92 @@ number of vertices, not the number of quads, triangles or whatever. So with some
 
 Here is a list of all supported primitives:
 
-<TABLE>
+<TABLE border="0">
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             Type
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             Number of vertices per primitive
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_POINTS
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             1
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_LINES
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             2
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_LINE_STRIP
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             any
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_LINE_LOOP
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             any
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_TRIANGLES
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             3
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_TRIANGLE_STRIP
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             any
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_TRIANGLE_FAN
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             any
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_QUADS
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             4
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_QUAD_STRIP
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             any
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             GL_POLYGON
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             any
         </TD>
     </TR>

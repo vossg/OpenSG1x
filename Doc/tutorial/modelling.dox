@@ -7,12 +7,15 @@ OSG_USING_NAMESPACE;
 /*! 
 \page Modeling Using Models from Modeling Packages
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-	\ref TutorialModelingWhat <BR>
-	\ref TutorialModelingThingsGoodToKnow <BR>
-	\ref TutorialModelingUsingBINFiles
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+	>\ref TutorialModelingWhat <BR>
+	>\ref TutorialModelingThingsGoodToKnow <BR>
+	>\ref TutorialModelingUsingBINFiles
+</td></tr></table>
 <HR>
 
 One very important aspect when creating virtual environments is modeling. A powerfull scenegraph system like OpenSG is not that usefull at all, if there is 

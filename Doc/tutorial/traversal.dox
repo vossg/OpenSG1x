@@ -7,15 +7,18 @@ OSG_USING_NAMESPACE;
 /*! 
 \page Traversal Traversal of the Graph
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-	\ref TutorialTraversalActions <BR>
-	\ref TutorialTraversalActionsRender <BR>
-	\ref TutorialTraversalActionsIntersect <BR>
-    \ref TutorialTraversalActionsTraverse <BR>
-	\ref TutorialTraversalGraphOps <BR>
-	\ref TutorialTraversalTutorial
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+	>\ref TutorialTraversalActions <BR>
+	>\ref TutorialTraversalActionsRender <BR>
+	>\ref TutorialTraversalActionsIntersect <BR>
+    >\ref TutorialTraversalActionsTraverse <BR>
+	>\ref TutorialTraversalGraphOps <BR>
+	>\ref TutorialTraversalTutorial
+</td></tr></table>
 <HR>
 
 What have we learned so far? We know how to create a scenegraph and we can use the simple scene manager to have a fully functional application. In the last

@@ -21,7 +21,32 @@ using namespace std;
 SimpleSceneManager *mgr;
 NodePtr scene;
 
-UInt32 counter = 0;
+// A simple class that counts the number of entered nodes
+class counter{
+	public:
+		//constructor 
+		counter(void){
+			mCount = 0;
+		}
+		
+		//method that will be called when entering
+		//a new node
+		Action::ResultE enter(NodePtr& node){
+			mCount++;
+			return Action::Continue;
+		}
+		
+		UInt16 getCount(void){
+			return mCount;
+		}
+		
+		void reset(){
+			mCount = 0;
+		}
+	
+	private:
+		UInt16 mCount;
+};
 
 int setupGLUT( int *argc, char *argv[] );
 
@@ -51,10 +76,12 @@ Action::ResultE isGeometry(NodePtr& node){
 }
 
 //This one will count how many nodes are stored in the graph
+/*
 Action::ResultE countNodes(NodePtr& node){
 	counter++;
 	return Action::Continue;
 }
+*/
 
 
 NodePtr createScenegraph(char* filename){
@@ -120,7 +147,7 @@ void reshape(int w, int h)
 
 void display(void)
 {
-        mgr->redraw();
+	mgr->redraw();
 }
 
 void mouse(int button, int state, int x, int y)
@@ -179,13 +206,13 @@ void keyboard(unsigned char k, int x, int y){
 		case 's':
 			cout << "Splitting Graph now...";
 			
-			counter=0;
+			counter c;
 			
 			traverse(scene,
-					osgTypedFunctionFunctor1CPtrRef
-					<Action::ResultE, NodePtr>(countNodes));
+					osgTypedMethodFunctor1ObjPtrCPtrRef
+					<Action::ResultE, counter, NodePtr>(&c, &counter::enter));
 					
-			cout << "Number of nodes before splitting: " << counter << endl;
+			cout << "Number of nodes before splitting: " << c.getCount() << endl;
 			
 			SplitGraphOp* spo = new SplitGraphOp;
 			spo->setMaxPolygons(50);
@@ -194,13 +221,13 @@ void keyboard(unsigned char k, int x, int y){
 			
 			cout << "done" << endl;
 			
-			counter=0;
+			c.reset();
 			
 			traverse(scene,
-					osgTypedFunctionFunctor1CPtrRef
-					<Action::ResultE, NodePtr>(countNodes));
-					
-			cout << "Number of nodes after splitting: " << counter << endl;
+					osgTypedMethodFunctor1ObjPtrCPtrRef
+					<Action::ResultE, counter, NodePtr>(&c, &counter::enter));
+										
+			cout << "Number of nodes after splitting: " << c.getCount() << endl;
 			
 		break;
 

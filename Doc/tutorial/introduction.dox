@@ -4,15 +4,18 @@ using namespace OSG;
 
 /*! \page TutorialIntroduction Introduction
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-    \ref TutorialWhatIsOpenSG <BR>
-    \ref TutorialWhatIsOpenSGNot <BR>
-    \ref TutorialInstallation <BR>
-    \ref TutorialMakingAndExecuting <BR>
-    \ref TutorialCompilation <BR>
-    \ref TutorialExercises <BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+    >\ref TutorialWhatIsOpenSG <BR>
+    >\ref TutorialWhatIsOpenSGNot <BR>
+    >\ref TutorialInstallation <BR>
+    >\ref TutorialMakingAndExecuting <BR>
+    >\ref TutorialCompilation <BR>
+    >\ref TutorialExercises <BR>
+</td></tr></table>
 <HR>
 
 \image html opensg_logo_small.png ""

@@ -4,20 +4,23 @@ using namespace OSG;
 
 /*! \page doxypages Appendix C - More Documentation and Tools
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-	\ref TutorialAppendixCDoxy<BR>
-	\ref TutorialAppendixCMailinglist<BR>
-	\ref TutorialAppendixCTestfiles<BR>
-	\ref TutorialAppendixCDesperate<BR>
-	\ref TutorialAppendixCSceneViewer
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+	>\ref TutorialAppendixCDoxy<BR>
+	>\ref TutorialAppendixCMailinglist<BR>
+	>\ref TutorialAppendixCTestfiles<BR>
+	>\ref TutorialAppendixCDesperate<BR>
+	>\ref TutorialAppendixCSceneViewer
+</td></tr></table>
 <HR>
 
 \section TutorialAppendixCDoxy Doxygen Documentation Pages
 
 Although, I really tried hard and spent a lot of time, this documentation cannot cover every question that might appear... ;-) So, there still will be some
-unanswered questions after all, most of them, I hope, are class specific questions like: "what was that method called" for example. In that case the
+unanswered questions after all, most of them, I hope, are class specific questions like: "what methods are available" for example. In that case the
 doxgen documentation from OpenSG may help you. 
 
 For version 1.2 you can find that documentation online: <A HREF="http://www.opensg.org/doc-1.2.0/index.html">http://www.opensg.org/doc-1.2.0/index.html</A>.
@@ -39,7 +42,7 @@ as the inheritance diagramm. The following image shows the detailed page of the 
 
 In this case, you can see that Transform is derived from FieldContainer. As I mentioned before, please keep in mind, that most of the imortant methods and member
 variables are not stored in the classes themselves, but in their corresponding base classes. If you have a look at the methods of osg::Transform, you will notice
-that there is not much interesting to see. However the most important method for this class is setMatrix() which can be found in osg::TransformBase. You can 
+that there is not much interesting to see. However, the most important method for this class is setMatrix() which can be found in osg::TransformBase. You can 
 simply click on that class in the inheritance diagram.
 
 The bad news is, that this doxygen documentation is not quite complete. A detailed description for every (or at least most) methods or classes in general is
@@ -48,10 +51,10 @@ you.
 
 \section TutorialAppendixCMailinglist OpenSG Mailinglist
 
-However, you need not to desperate, because there is always a last chance where you can and nearly always will get help. The OpenSG mailinglists can be found
+However, you need not to desperate, because there is always a last chance where you can get help. The OpenSG mailinglist can be found
 at sourceforge.net : <A HREF="http://sourceforge.net/mail/?group_id=5283">http://sourceforge.net/mail/?group_id=5283</A> where you can subscribe to
-the userlist, which is the most interesting one. You can read all mails in the archieve without subscribing, but you need to if you want to send mails yourself. 
-When subscribing, you can also let sourceforge send you a mail in a digest every two or three days, where all new messages are bundled in a single message. 
+the userlist, which is the most interesting one. You can read all mails in the archieve without subscribing, but you need to, if you want to send mails yourself. 
+When subscribing, you can also let sourceforge send you a mail in a digest every two or three days, where all new messages are bundled in a single mail. 
 
 The developers themselves, among other experienced users, are very active in replying to questions - so if there is nobody who can help you... then 
 no one will ;-)
@@ -64,13 +67,15 @@ However, this should be one of your last options in order to solve a problem... 
 
 \section TutorialAppendixCDesperate  Despairing
 
-Well, if everything fails... read the source code. You should only do that if you are a excellent programmer and have a considerable amount of time... OpenSG is quite powerful and uses some pretty sophisticated C++ code, that can be quite intimidating at first. Don't worry, it's actually quite logical once you see the logic.
+Well, if everything fails... read the source code. You should only do that if you are an excellent programmer and have a considerable amount of time... 
+OpenSG is quite powerful and uses some pretty sophisticated C++ code, that can be quite intimidating at first. Don't worry, it's actually quite logical 
+once you see the logic.
 
 \section TutorialAppendixCSceneViewer OpenSG Scene Viewer
 
 Actually the OpenSG Scene Viewer is not related to documentation in any way, but it is a useful tool from time to time. The scene viewer enables you to load any
-scene file, that OpenSG is able to read and besides rendering the model there is also a tree view of the graph structure. Especially for exported files from
-modeling packages this comes in very useful. The following image  shows the running appication with the Beethoven model loaded
+scene file, that OpenSG is able to read and besides of rendering the model, there is also a tree view of the graph structure. Especially for exported files from
+modeling packages this comes in very useful. The following image shows the running appication with the Beethoven model loaded
 
 \image html sceneViewer.png "The OpenSG Scene Viewer in action"
 \image latex sceneViewer.eps "The OpenSG Scene Viewer in action" width = 10cm 

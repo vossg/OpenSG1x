@@ -97,7 +97,16 @@ NodePtr createScenegraph(){
     // we know want to extract the mesh geometry out of the graph
     // it is sufficent to pass the model only as root for searching
     NodePtr womanGeometry = checkName(w_high);
-    GeometryPtr geo = GeometryPtr::dcast(womanGeometry->getCore());
+	GeometryPtr geo;
+	if (womanGeometry != NullFC){
+		geo = GeometryPtr::dcast(womanGeometry->getCore());
+		if (geo == NullFC)
+			std::cout << "Casting failed!" << std::endl;
+	}else{ 
+		std::cout << "No correct geometry node found!" << std::endl;
+		//create a dummy object
+		geo = makeBoxGeo(0.5,0.5,0.5,1,1,1);
+	}
     
     // generating a material *********************************
     

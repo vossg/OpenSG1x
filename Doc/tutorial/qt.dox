@@ -5,30 +5,35 @@ OSG_USING_NAMESPACE;
 /*! 
 \page QT Appendix B - OpenSG with QT
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-	\ref TutorialQTGeneral<BR>
-	\ref TutorialQTDesigner<BR>
-	\ref TutorialQTCompiling<BR>
-	\ref TutorialQTPassiveWindow<BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+	>\ref TutorialQTGeneral<BR>
+	>\ref TutorialQTDesigner<BR>
+	>\ref TutorialQTCompiling<BR>
+	>\ref TutorialQTPassiveWindow
+</td></tr></table>
 <HR>
 
-Throughout the tutorials we used a GLUT Window for rendering, but as I mentioned earlier, there are some more options. QT (from Trolltech (www.trolltech.com)) is
+Throughout the tutorials we used a GLUT Window for rendering, but as I mentioned earlier, there are some more options. QT (from Trolltech - <A HREF="http://www.trolltech.com">
+www.trolltech.com</A>) is
 a very common and powerful cross platform tool for rapid GUI development. This appendix will show you how to create a simple application that is capable to
-render OpenSG content, though this will not (and can not) be an introduction to QT development. If you are new to QT have a look at their website where you
+render OpenSG content, though this will not (and can not) be an introduction to QT development. If you are new to QT, have a look at their website where you
 can find some tutorials dealing with QT stuff only.
+Additionally the last section will deal with a passive window that is integrated in an QT environment.
 
 \section TutorialQTGeneral General
 
 We are going to develop a simple application that features one incredible button which will allow us to load a file from disk. The most space will be taken by
-the area in which the model will be rendered. Here is an image what the application will be looking like. The model was loaded by clicking the load button and then
-selecting the appropiate file with a standart dialog.
+the area in which the model will be rendered in. Here is an image what the application will look like. The model was loaded by clicking the load button and then
+selecting the appropiate file with a standard dialog.
 
 \image html qtdesigner_final.png "The application we will create"
 \image latex qtdesigner_final.eps "The application we will create" width = 8cm
 
-I will show you step by step what you have to do, but I also assume that you have some basic knowledge of QT. However, dont't worry if you have not - this one
+I will show you step by step what you have to do, but I also assume that you have some basic knowledge of QT. However, don't worry if you have not - this one
 was my very first QT application ;-)
 
 \subsection TutorialQTGeneralPrerequisites Prerequisites
@@ -42,7 +47,7 @@ In addition to that, you need to compile OpenSG with QT support (Windows binarie
 
 ./configure --enable-glut --enable-tif --enable-png --enable-jpg --enable-qt --with-qt=/usr/qt/3/
 
-The configure script might be able to find the location of qt, if it does not you have to add the last parameter.
+The configure script might be able to find the location of qt itself, if it does not you have to add the last parameter.
 
 <I>
 Note:  Your path to QT might be different. If you compiled it yourself, it is possibly /usr/local/qt/3/
@@ -52,7 +57,7 @@ The rest of the process is just the same as usual. You are now ready to create Q
 
 \section TutorialQTDesigner QTDesigner
 
-We start our work with with the designer from qt. On Linux boxes this application is found in "your_qt_folder/bin". I believe Windows users will have an entry 
+We start our work with the designer from QT. On Linux boxes this application is found in "your_qt_folder/bin". I believe Windows users will have an entry 
 in their start menu. After startup, you should see a window like below - if it is totally different, consider that you may have started the wrong application.
 
 \image html qtdesigner_newdialog.png "Designer window after startup"
@@ -67,7 +72,7 @@ of the window. On the left hand side is the "Toolbox" where you can select diffe
 
 \subsection TutorialQTDesignerBuildGUI Building the GUI
 
-First of all we drop in all GUI elements we will need. In the toolbox select "Common Widgets", if not already selected. Now click on the first entry "PushButon"
+First of all we drop in all GUI elements we will need. In the toolbox select "Common Widgets", if not already selected. Now click on the first entry "PushButton"
 and drag a little rectangular area at the top of the "Form1" window. Choose a reasonable size for a button. Now again in the toolbox select "Custom Widgets", 
 where you should find a "OSGQGLManagedDesignerWidget". If not, depending on your installation, you need to create it first. If you have it installed you can
 skip the next section
@@ -99,10 +104,10 @@ like this
 
 Now we are going to give our elements some reasonable names and values. If you select an object (like the button or the custom widget), you will see the 
 corresponding properties in the "Property Editor/Signal Handlers" Window on the right side. Select the push button and change it's name from "PushButton1" to
-"loadButton". The caption of the button will not change, as we changed only the internal name - look for the property called text and change the value to "load".
-That will change the capption of the button.
+"loadButton". The caption of the button will not change, as we altered the internal name only - look for the property called text and change the value to "load".
+Now the button says "load".
 
-Now change the name of the OSGQGLManagedDesignerWidget to "osgWidget". Finally select the window itself and change the name from "Form1" to "MainWindow" as well
+Change the name of the OSGQGLManagedDesignerWidget to "osgWidget". Finally select the window itself and change the name from "Form1" to "MainWindow" as well
 as the "caption" property from "Form1" to "OpenSG Viewer".
 
 \subsection TutorialQTDesignerSingal Creating a Slot
@@ -149,8 +154,8 @@ void MainWindow::load()
 \endcode
 
 Now it is about time to save everything. Select "File > Save All". I advise you to create a new folder - let us name it OpenSGViewer. QT suggests the filename
-"mainwindow.ui", which is alright for us. Just click "OK" after you have entered the new folder. If you have a look in that folder you will see that there are
-two files now: "mainwindow.ui" and "mainwindow.ui.h". The latter contains exactly what we have written in the editor, where as the first on is created 
+"mainwindow.ui", which is alright for us. Just click "OK" after you have switched to the new folder. If you have a look in that folder you will see that there are
+two files now: "mainwindow.ui" and "mainwindow.ui.h". The latter contains exactly what we have written in the editor, where as the first one is created 
 automatically by QT and describes the GUI.
 
 \subsection TutorialQTDesignerMain  Main File
@@ -187,7 +192,7 @@ applications main window and execute it.
 
 \section TutorialQTCompiling Compiling
 
-Compiling involves three more steps than usual, because the designer does nor produce C++ code right away. This is intend, because in this way it is much easier
+Compiling involves three more steps than usual, because the designer does not produce C++ code right away. This is intend, because in this way it is much easier
 to extend an application with the designer, without destroying code that was added in between. Execute the following commands one after another. First we create
 C++ source files from the generated ui file.
 
@@ -232,17 +237,18 @@ Here you go!
 
 \section TutorialQTPassiveWindow Passive Window with QT / Plain OpenGL Code
 
-In section \ref TutorialWindowsWindows you have learned that passive windows do not handle opengl contexts and are designed to fit easyily into existing 
+In section \ref TutorialWindowsWindows you have learned that passive windows do not handle OpenGL contexts and are designed to fit easyily into existing 
 applications. I will present to you another example application which will use a passive window and still offering all basic features we used so far, like
 loading of files and navigation. This example application is implemented with QT, too, but it should be no big deal to use any other window manager like MFC, 
 xwWidges, etc. (it is just that I have no clue how MFC stuff works ;-), but if you do, feel free to contribute an example...) 
 
 If you read the online tutorial right from the beginning, you have seen a lot of different problems and solutions and you have rendered a few million polygons
 with OpenGL so far - but you have never ever used a single OpenGL command, like Vertex3f(....) or the like. Well, that actually should not bother us, but what 
-if you want or even have to insert plain OpenGl code? Using the tools you learned so far this would not be possible, but as you might expect, this will be
-possible by using a passive window. This too I will show you in the upcoming application.
+if you want or even have to insert plain OpenGL code for some reason? Using the tools you know so far this would not be possible, but as you might expect, 
+this will be possible by using a passive window. This, too, I will show you in the upcoming tutorial.
 
-This time we don't need the designer (although you can, if you want to design a GUI), but we will have a window class derived from QGLWidget. Please do not
+This time we don't need the designer (although you can, if you want to design a more advanced GUI), but we will have a window class derived from QGLWidget. 
+Please do not
 mistake this with OSGQGLManagedDesignerWidget we used it the previous application. The QGLWidget has really nothing to do with OpenSG and thus does not 
 support any OpenSG functionality on it's own. As the name already says, it offers support for OpenGL.
 
@@ -392,11 +398,11 @@ int main( int argc, char **argv ){
 \endcode
 
 This time you won't need to call the 'uic' and 'moc' commands like in the last example, because we have not used the designer to create an interface. However
-hacking the long OpenSG paramters and other attributes into the terminal is quite time robbing, so I offer you a Makefile which also can be taken for you
+hacking the long OpenSG paramters and other attributes into the terminal is quite time robbing, so I offer you a Makefile which also can be taken for your
 future projects.
 
 \code
-	# This Makefile will compile the OpenSGWidget application (2nd tutorial in qt.dox)
+# This Makefile will compile the OpenSGWidget application (2nd tutorial in qt.dox)
 # The first totorial has to be compiled by hand (see qt.dox)
 
 
@@ -440,7 +446,7 @@ So if you have saved all three file in the same folder (or just use the premade 
 finishes type "./OSGWidget" which should show you a window with a torus (like always ;-) ). You can add any number of files as parameters to the command line
 call which will then be loaded. 
 
-So far so good, know we want to add some plain OpenGl code. Well, if you are using a passive window this is really very easy, as you only need to add it to
+So far so good, know we want to add some plain OpenGL code. Well, if you are using a passive window this is really very easy, as you only need to add it to
 the paintGL() method. So please replace your painGL() method with the following code
 
 \code

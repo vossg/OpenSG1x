@@ -7,13 +7,16 @@ OSG_USING_NAMESPACE;
 /*! 
 \page FirstApp First Application
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-    \ref FirstAppTutorial <BR>
-    \ref FirstAppTutorialGLUT <BR>
-    \ref FirstAppTutorialSSM <BR>
-    \ref FirstAppTutorialScenegraph <BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+    >\ref FirstAppTutorial <BR>
+    >\ref FirstAppTutorialGLUT <BR>
+    >\ref FirstAppTutorialSSM <BR>
+    >\ref FirstAppTutorialScenegraph
+</td></tr></table>
 <HR>
 
 I personally like doing things and watch what happens, before I actually understand what I am doing. This is why a want to begin with a little OpenSG application
@@ -25,7 +28,7 @@ The following code will create a wonderful torus, which you will see again in fu
 palace is build upon a first stone, and this torus will be our first step in handling OpenSG! You can copy and paste this code or you can use the 
 provided file. You will
 find all files related to this online tutorial in <PRE>your_opensg_folder/Doc/tutorial/progs</PRE> of your copy of OpenSG (CVS version only!). The filenames are
-given at the beginning of the appropiate tuotorials. 
+given at the beginning of the appropiate tutorials. 
 
 \code
 

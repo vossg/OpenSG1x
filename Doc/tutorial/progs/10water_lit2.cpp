@@ -14,9 +14,6 @@ OSG_USING_NAMESPACE
 // this will specify the resolution of the mesh
 #define N   100
 
-//[TODO: remove this counter later]
-Int32 counter = 0;
-
 //the two dimensional array that will store all height values
 Real32 wMesh[N][N];
 

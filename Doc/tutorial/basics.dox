@@ -6,27 +6,30 @@ using namespace OSG;
 
 \page TutorialBasics Basics
 \latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="../../../Images/underscore.png" style="border-width:0px">
 
 Chapter Overview
 <HR>
-    \ref Datatypes<br>
-    \ref BasicMath<br>
-    \ref BasicColor<br>
-    \ref BasicNode<br>
-    \ref basicNodeNames<br>
-    \ref BasicNodeVolumes<br>
-    \ref BasicCores<br>
-    \ref TutorialBasicTutorial<br>
-    \ref BasicFieldContainer<br>
-    \ref TutorialBasicEditingFieldContainers<br>
-	\ref TutorialBasicFieldContainerCoredPtr<br>
-    \ref TutorialBasicStandardGeometry<br>
-    \ref TutorialBasicTutorial2<br>
-    \ref TutorialBasicImages<br>
-    \ref TutorialBasicTutorial3<br>
-    \ref TutorialBasicLoadingSaving<br>
-    \ref TutorialBasicTutorial4<br>
-    \ref TutorialBasicExercises<br>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+    >\ref Datatypes<br>
+    >\ref BasicMath<br>
+    >\ref BasicColor<br>
+    >\ref BasicNode<br>
+    >\ref basicNodeNames<br>
+    >\ref BasicNodeVolumes<br>
+    >\ref BasicCores<br>
+    >\ref TutorialBasicTutorial<br>
+    >\ref BasicFieldContainer<br>
+    >\ref TutorialBasicEditingFieldContainers<br>
+	>\ref TutorialBasicFieldContainerCoredPtr<br>
+    >\ref TutorialBasicStandardGeometry<br>
+    >\ref TutorialBasicTutorial2<br>
+    >\ref TutorialBasicImages<br>
+    >\ref TutorialBasicTutorial3<br>
+    >\ref TutorialBasicLoadingSaving<br>
+    >\ref TutorialBasicTutorial4<br>
+    >\ref TutorialBasicExercises<br>
+</td></tr></table>
 <HR>
 
 If you have read this tutorial right from the beginning, you are now able to install OpenSG, you know a few things about GLUT as well as the 
@@ -52,12 +55,14 @@ OpenSG has its own base types for integers and floats. In many cases you can get
 would, but if you want to develop a cross platform application it is safer to use the OpenSG wrapper base types. 
 
 These types can be easily identified by their names
-<TABLE>
+<TABLE border="0">
   <TR>
-    <TD>[U]Int<I>N</I></TD><TD><I>N</I> defines how many bits to use. 8, 16, 32 or 64 are supported. The optinal U stands for unsigned </TD>
+    <TD style="border:1px solid black">[U]Int<I>N</I></TD>
+	<TD style="border:1px solid black"><I>N</I> defines how many bits to use. 8, 16, 32 or 64 are supported. The optinal U stands for unsigned </TD>
   </TR>
   <TR>  
-    <TD>Real<I>N</I></TD><TD>Floating point with either N = 32, 64 or 128 bits precision</TD>
+    <TD style="border:1px solid black">Real<I>N</I></TD>
+	<TD style="border:1px solid black">Floating point with either N = 32, 64 or 128 bits precision</TD>
   </TR>
 </TABLE>
 
@@ -572,7 +577,7 @@ This can become tedious and lead to unexpected failures, therefore versions afte
 (told ya using a newer version was better!). These are known as Smart Pointers, in OpenSG the class is called 
 \code
 	RefPtr<>
-\code
+\endcode
 
 A RefPtr is just like any other pointer, except that it automatically increments and decrements the reference count of an object assigned to it. So when you 
 set a RefPtr, its current object's refcount in decremeneted, and the new objects refcount is incremented. When the RefPtr object is destroyed, the object's 
@@ -1188,36 +1193,36 @@ With that the code becomes even a bit longer, but that should not scare you to u
 If you want to specify the fields to be changed you need to know the appropriate field mask. That is not as hard as it sounds, because the
 names are very easy to "guess", here are a few examples
 
-<TABLE>
+<TABLE border="0">
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             Set the core of a node
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             Node::CoreFieldMask
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             Add or sub a child
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             Node::ChildrenFieldMask
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             Set the matrix of a transform core
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             Transform::MatrixFieldMask
         </TD>
     </TR>
     <TR>
-        <TD>
+        <TD style="border:1px solid black">
             Set the choice field of a switch
         </TD>
-        <TD>
+        <TD style="border:1px solid black">
             Switch::ChoiceFieldMask
         </TD>
     </TR>
