@@ -65,8 +65,10 @@
 #include "OSGImage.h"
 #include "OSGImageFileHandler.h"
 
+/*
 #include "OSGSFImageTypes.h"
 #include "OSGMFImageTypes.h"
+*/
 
 OSG_USING_NAMESPACE
 
@@ -78,11 +80,19 @@ OSG_USING_NAMESPACE
 
 #else
 
+/* jbehr; shouldn't this be done outside of OSGImage ?!?
 OSG_DLLEXPORT_DEF1(SField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
+*/
 
 #endif
 
+UInt32 Image::_formatMap[][2] = {
+	{ OSG_L_PF, 1 },
+	{ OSG_LA_PF, 2 },
+	{ OSG_RGB_PF, 3 },
+	{ OSG_RGBA_PF, 4 },
+};
 
 
 /* enum VecBase::VectorSizeE
@@ -95,7 +105,7 @@ OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
 */
 
 
-/* const char *VecBase::getClassName(void)
+/* const Char8 *VecBase::getClassName(void)
  *  brief Classname
 */
 
@@ -130,7 +140,7 @@ OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
 //----------------------------
 //
 //Parameters:
-//p: int width, int height, const char *pixelFormat, unsigned char *data = 0
+//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapSize, Int32 frameSize, Time frameDelay, UChar8 *data
 //GlobalVars:
 //g: 
 //Returns:
@@ -145,47 +155,24 @@ OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
 //s:
 //
 //------------------------------
-Bool Image::set ( int width, int height, 
-										 const char *pixelFormat, unsigned char *data  )
+Bool Image::set ( PixelFormat pF,
+									Int32 w, Int32 h, Int32 d, 
+									Int32 mmS, Int32 fS,
+									Time fD,
+									UChar8 *da)
 {
-	_width = width;
-	_height = height;
-	_depth = 1;
-	_pixelDepth = 0;
-	_pixelFormat.set(pixelFormat);
+	_pixelFormat = pF;
 
-	return createData(data);
-}
-//----------------------------
-// Function name: set
-//----------------------------
-//
-//Parameters:
-//p: int width, int height, int depth,const char *pixelFormat, unsigned char *data = 0
-//GlobalVars:
-//g: 
-//Returns:
-//r:bool
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: set methode wich sets the image data
-//SeeAlso:
-//s:
-//
-//------------------------------
-Bool Image::set ( int width, int height, int depth, 
-										 const char *pixelFormat, unsigned char *data )
-{
-	_width = width;
-	_height = height;
-	_depth = depth;
-	_pixelDepth = 0;
-	_pixelFormat.set(pixelFormat);
-	
-	return createData(data);
+	_width = w;
+	_height = h;
+	_depth = d;
+
+	_mipmapSize = mmS;
+
+	_frameSize = fS;
+	_frameDelay = fD;
+
+	return createData(da);
 }
 
 //----------------------------
@@ -193,7 +180,7 @@ Bool Image::set ( int width, int height, int depth,
 //----------------------------
 //
 //Parameters:
-//p: const char *pixelFormat, Image *destination = 0
+//p: const Char8 *pixelFormat, Image *destination = 0
 //GlobalVars:
 //g: 
 //Returns:
@@ -208,10 +195,10 @@ Bool Image::set ( int width, int height, int depth,
 //s:
 //
 //------------------------------
-Bool Image::reformat (const char *pixelFormat, Image *destination )
+Bool Image::reformat (const PixelFormat pF, Image *destination )
 {
 		/*
-	unsigned char *data;
+	UChar8 *data;
 	int srcI, destI, DestSize;
 	Bool valid = false;
 	int sum;
@@ -223,7 +210,7 @@ Bool Image::reformat (const char *pixelFormat, Image *destination )
 	// TODO !!! code all the cases !!!
 	if ( size() && pixelDepth && (pixelDepth != _pixelDepth) ) {
 		DestSize = pixelDepth * _width * _height * _depth;
-		data = new unsigned char[DestSize];
+		data = new UChar8[DestSize];
 		if (data) 
 			switch (_pixelDepth) {
 			case 1: // source pixelDepth == 1
@@ -339,7 +326,7 @@ Bool Image::reformat (const char *pixelFormat, Image *destination )
 //----------------------------
 //
 //Parameters:
-//p: unsigned char pixelValue
+//p: UChar8 pixelValue
 //GlobalVars:
 //g: 
 //Returns:
@@ -353,14 +340,14 @@ Bool Image::reformat (const char *pixelFormat, Image *destination )
 //SeeAlso:
 //s:
 //----------------------------------------------------------------------
-void Image::clear(unsigned char pixelValue)
+void Image::clear(UChar8 pixelValue)
 {
 	unsigned long n = size();
-	unsigned char *data = _data;
+	UChar8 *d = _data;
 
-	if (n && data) 
+	if (n && d) 
 		while (n--) 
-			*data++ = pixelValue;
+			*d++ = pixelValue;
 }
 
 //----------------------------
@@ -383,11 +370,10 @@ void Image::clear(unsigned char pixelValue)
 //s:
 //
 //------------------------------
-Bool Image::scale (int width, int height, int depth,
-											Image *destination )
+Bool Image::scale (int width, int height, int depth, Image *destination )
 {
 	Bool retCode = true;
-	unsigned char *data, *dest, *slice, *line, *pixel;
+	UChar8 *data, *dest, *slice, *line, *pixel;
 	float sx, sy, sz, p;
 	int x,y,z;
   
@@ -396,20 +382,20 @@ Bool Image::scale (int width, int height, int depth,
 		sy = float(_height) / float(height);
 		sz = float(_depth) / float(depth);
 		if (destination) {
-			destination->set(width,height,depth,_pixelFormat.str());
+			destination->set(_pixelFormat,width,height,depth);
 			dest = data = destination->data();
 		}
 		else
-			dest = data = new unsigned char[width * height * depth * _pixelDepth];
+			dest = data = new UChar8[width * height * depth * _bpp];
 
 		if (data) {			
 			for ( z = 0; z < depth; z++) {
-				slice = _data + int(sz * z + 0.5) * _pixelDepth * _width * _height;
+				slice = _data + int(sz * z + 0.5) * _bpp * _width * _height;
 				for ( y = 0; y < height; y++) {
-					line = slice + int (sy * y + 0.5) * _pixelDepth * _width;
+					line = slice + int (sy * y + 0.5) * _bpp * _width;
 					for ( x = 0; x < width; x++) {
-						pixel = line + int(sx * x + 0.5) * _pixelDepth;
-						p = _pixelDepth;
+						pixel = line + int(sx * x + 0.5) * _bpp;
+						p = _bpp;
 						while (p--)
 							*dest++ = *pixel++;
 					}
@@ -438,7 +424,7 @@ Bool Image::scale (int width, int height, int depth,
 //----------------------------
 //
 //Parameters:
-//p: const char *fileName
+//p: const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -453,7 +439,7 @@ Bool Image::scale (int width, int height, int depth,
 //s:
 //
 //------------------------------
-Bool Image::write (const char *fileName )
+Bool Image::write (const Char8 *fileName )
 {
   return ImageFileHandler::the().write(*this, fileName);
 }
@@ -463,7 +449,7 @@ Bool Image::write (const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const char *fileName
+//p: const Char8 *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -478,7 +464,7 @@ Bool Image::write (const char *fileName )
 //s:
 //
 //------------------------------
-Bool Image::read (const char *fileName )
+Bool Image::read (const Char8 *fileName )
 {
 	return ImageFileHandler::the().read(*this, fileName);
 }
@@ -497,7 +483,7 @@ Bool Image::read (const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const unsigned char *data
+//p: const UChar88 *data
 //GlobalVars:
 //g: 
 //Returns:
@@ -512,60 +498,35 @@ Bool Image::read (const char *fileName )
 //s:
 //
 //------------------------------
-Bool Image::createData (const unsigned char *data )
+Bool Image::createData (const UChar8 *data )
 {
-		int i, bitCount = 0, c;
-	unsigned long size;
-	Bool expectDigit;
-	const char *format = _pixelFormat.str();
+	Int32 i, byteCount = 0, mapSize = sizeof(_formatMap)/sizeof(UInt32[2]);
 
-	if (!_pixelFormat.empty()) {
-		expectDigit = false;
-		for (i = 0; (c = format[i]); i++) {
-			if (expectDigit)
-				if (isdigit(c))
-					bitCount += (c - '0');
-			  else {
-					bitCount = 0;
-					break;
-				}
-			else {
-				if (!isalpha(c)) {
-					bitCount = 0;
-					break;
-				}
-			}
-			expectDigit = !expectDigit;
-		}
-	}
+	// set bbp
+	for (i = 0; i < mapSize; mapSize++)
+		if (_formatMap[i][0] == _pixelFormat)
+			_bpp = _formatMap[i][1];
 
-	if (!bitCount || (bitCount & 7)) {
-		SWARNING << "Invalid pixelFormat string in Image::createData()" << endl;
-	}
-	else {
-		_pixelDepth = bitCount >> 3;
-		size = _width * _height * _depth *  _pixelDepth;
-	}
-
+	// set dimension
 	_dimension = 0;
+	if (_depth == 1)
+		if (_height == 1)
+			_dimension = 1;
+		else
+			_dimension = 2;
+	else
+		_dimension = 3;
 
+	// delete old data
 	if (_data)
 		delete [] _data;
 
-	if (size) {
-		_data = new unsigned char[size];
+	// copy new data
+	if ((byteCount = size())) {
+		_data = new UChar8[byteCount];
 		if (_data) {
 			if (data)
-				memcpy(_data, data, size);
-
-			if (_depth == 1)
-				if (_height == 1)
-					_dimension = 1;
-				else
-					_dimension = 2;
-			else
-				_dimension = 3;
-
+				memcpy(_data, data, byteCount);
 		}
 		else
 			SWARNING << "Couldn't alloc image data in Image::createData()!\n";
@@ -610,7 +571,10 @@ Bool Image::createData (const unsigned char *data )
 //
 //------------------------------
 Image::Image (void )
-: _dimension(0), _width(0), _height(0), _depth(0), _pixelDepth(0),
+: _pixelFormat(OSG_INVALID_PF), 
+	_width(0), _height(0), _depth(0), _mipmapSize(0), 
+	_frameSize(0), _frameDelay(0),
+	_bpp(0),_dimension(0),
 	_data(0)
 {
 	return;
@@ -637,9 +601,12 @@ Image::Image (void )
 //
 //------------------------------
 Image::Image (const Image &obj, Bool copy )
-: _dimension(0), _width(obj._width), _height(obj._height), _depth(obj._depth),
-  _pixelDepth(0), _pixelFormat(obj._pixelFormat), _data(0)
-
+: _pixelFormat(obj._pixelFormat),
+	_width(obj._width), _height(obj._height), _depth(obj._depth),
+	_mipmapSize(obj._mipmapSize), 
+	_frameSize(obj._frameSize), _frameDelay(obj._frameDelay),
+	_bpp(0), _dimension(0),
+	_data(0)
 {
 	createData ( copy ? obj._data : 0 );
 }
@@ -666,8 +633,7 @@ Image::Image (const Image &obj, Bool copy )
 //------------------------------
 Image::~Image (void )
 {
-	if (_data) 
-	{
+	if (_data) {
 		delete [] _data;
 		_data = 0;
 	}	
@@ -678,7 +644,7 @@ Image::~Image (void )
 //----------------------------
 //
 //Parameters:
-//p: int width, int height, int depth, const char *pixelFormat, unsigned char *data = 0
+//p: int width, int height, int depth, const Char8 *pixelFormat, UChar8 *data = 0
 //GlobalVars:
 //g: 
 //Returns:
@@ -693,40 +659,16 @@ Image::~Image (void )
 //s:
 //
 //------------------------------
-Image::Image ( int width, int height, int depth, 
-										 const char *pixelFormat, unsigned char *data )
-: _dimension(0), _width(width), _height(height), _depth(depth), 
-	_pixelDepth(0), _pixelFormat(pixelFormat), _data(0)
-{
-	createData(data);
-}
-
-//----------------------------
-// Function name: Image
-//----------------------------
-//
-//Parameters:
-//p: int width, int height, const char *pixelFormat, unsigned char *data = 0
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: construktor
-//SeeAlso:
-//s:
-//
-//------------------------------
-Image::Image ( int width, int height, const char *pixelFormat, 
-										 unsigned char *data )
-: _dimension(0),
-  _width(width), _height(height), _depth(1),
-  _pixelDepth(0), _pixelFormat(pixelFormat),
-  _data(0)     
+Image::Image ( PixelFormat pixelFormat, 
+							 Int32 width, Int32 height, Int32 depth, 
+							 Int32 mipmapSize, Int32 frameSize, Time frameDelay,
+							 UChar8 *data)
+	: _pixelFormat(pixelFormat),
+		_width(width), _height(height), _depth(depth),
+		_mipmapSize(mipmapSize), 
+		_frameSize(frameSize), _frameDelay(frameDelay),
+		_bpp(0), _dimension(0),
+		_data(0)
 {
 	createData(data);
 }
@@ -762,13 +704,16 @@ Image::Image ( int width, int height, const char *pixelFormat,
 //------------------------------
 Bool Image::operator == (const Image &image )
 {
- unsigned long i, size = _width * _height * _depth * _pixelDepth;
+ unsigned long i, s = size();
 
   if ((_width == image._width) &&
       (_height == image._height) &&
       (_depth == image._depth) &&
-      (_pixelDepth == image._pixelDepth)) {
-    for (i = 0; i < size; ++i)
+			(_mipmapSize == image._mipmapSize) &&
+			(_frameSize == image._frameSize) &&
+			(_frameDelay == image._frameDelay) &&
+      (_pixelFormat == image._pixelFormat)) {
+    for (i = 0; i < s; ++i)
       if (image._data[i] != _data[i])
         return false;
     return true;

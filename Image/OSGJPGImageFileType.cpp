@@ -128,7 +128,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
   };
 
   unsigned char *destData;
-	const char * pixelFormat;
+	Image::PixelFormat pixelFormat;
   typedef struct my_error_mgr * my_error_ptr;
   struct my_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
@@ -154,22 +154,21 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 	
 	switch (cinfo.output_components) {
 	case 1:
-		pixelFormat = "L8";
+		pixelFormat = Image::OSG_L_PF;
 		break;
 	case 2:
-		pixelFormat = "L8A8";
+		pixelFormat = Image::OSG_LA_PF;
 		break;
 	case 3:
-		pixelFormat = "R8B8G8";
+		pixelFormat = Image::OSG_RGB_PF;
 		break;
 	case 4:
-		pixelFormat = "R8B8G8L8";
+		pixelFormat = Image::OSG_RGBA_PF;
 		break;
 	};
 
-  if ( image.set(cinfo.output_width,cinfo.output_height,pixelFormat)) {
-		destData = image.data()
-			+(image.width()*image.height()*image.pixelDepth());
+  if ( image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
+		destData = image.data() + image.size();
 		row_stride = cinfo.output_width * cinfo.output_components;
 		buffer = (*cinfo.mem->alloc_sarray)
 			((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );

@@ -177,7 +177,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 		}
 	
 		if (valid) {
-			image.set(w,h, ((bpp == 3) ? "R8G8B8" : "R8G8B8A8"));
+			image.set(((bpp == 3) ? Image::OSG_RGB_PF : Image::OSG_RGBA_PF),w,h );
 			dest = image.data();
 			
 			red   = 3; 
@@ -241,16 +241,15 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 
 #ifdef TIFF_LIB
 
-  	TIFF *out = TIFFOpen(fileName, "w");
-  	int lineSize = image.width() * image.pixelDepth();
+	TIFF *out = TIFFOpen(fileName, "w");
+	int lineSize = image.width() * image.bpp();
 	int photometric, samplesPerPixel;
 	const unsigned char *data;
-  	int row;
-
+	int row;
+	
 	// TODO: implemet all cases correct 
-
-	switch (image.pixelDepth()) 
-	{
+	
+	switch (image.bpp()) 	{
 	case 1:
 		samplesPerPixel = 1;
 		photometric = PHOTOMETRIC_MINISBLACK;
@@ -268,9 +267,8 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 		photometric = PHOTOMETRIC_RGB;
 		break;
 	}
-
-	if (out) 
-	{
+	
+	if (out) {
 		TIFFSetField(out, TIFFTAG_IMAGEWIDTH,  image.width());
 		TIFFSetField(out, TIFFTAG_IMAGELENGTH, image.height());
 		TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
@@ -281,8 +279,7 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 		TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
 		TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, -1));
 		
-		for (row = 0; row < image.height(); row++) 
-		{
+		for (row = 0; row < image.height(); row++) {
 			data = image.data() + ((image.height() - row - 1) * lineSize);
 			if (TIFFWriteScanline(out, (tdata_t)data, row, 0) < 0)
 				break;
@@ -290,20 +287,20 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 		
 		TIFFClose(out);
 	}
-
+	
 #else
-
+	
 	SWARNING << getName() 
-			 << " write is not compiled into the current binary " 
-			 << endl;
-
+					 << " write is not compiled into the current binary " 
+					 << endl;
+	
 #endif
-
+	
 	return retCode;
 }
 
 /******************************
-*protected
+*protected 
 ******************************/
 
 
@@ -346,9 +343,9 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 //
 //------------------------------
 TIFImageFileType::TIFImageFileType ( const char *suffixArray[], 
-									UInt16 suffixByteCount, 
-									Int16 majorMagic, 
-									Int16 minorMagic )
+																		 UInt16 suffixByteCount, 
+																		 Int16 majorMagic, 
+																		 Int16 minorMagic )
 	: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
 {
 	return;

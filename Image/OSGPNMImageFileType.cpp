@@ -54,20 +54,20 @@
 #include <fstream.h>
 #endif
 
+#include <OSGLog.h>
+
+#define OSG_COMPILEIMAGE
+
+#include "OSGPNMImageFileType.h"
+
 #ifdef OSG_SGI_STL
-#include <limits>
+//#include <limits>
 #ifndef INT_MAX
 #define INT_MAX numeric_limits<int>::max()
 #endif
 #else
 #include <limits.h>
 #endif
-
-#include <OSGLog.h>
-
-#define OSG_COMPILEIMAGE
-
-#include "OSGPNMImageFileType.h"
 
 OSG_USING_NAMESPACE
 
@@ -81,8 +81,8 @@ static const char *suffixArray[] =
 };
 
 PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
-											sizeof(suffixArray),
-											'P', -1 );
+																						sizeof(suffixArray),
+																						'P', -1 );
 
 
 /*****************************
@@ -138,17 +138,17 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 	case 1:
 	case 4:
 		maxValue = 1;
-		image.set (width, height, "L8" );
+		image.set (Image::OSG_L_PF,width, height);
 		break;
 	case 2:
 	case 5:
 		maxValue = 0;
-		image.set( width, height, "L8" );
+		image.set( Image::OSG_L_PF,width, height );
 		break;
 	case 3:
 	case 6:
 		maxValue = 0;
-		image.set( width, height, "R8G8B8" );
+		image.set( Image::OSG_RGB_PF, width, height );
 		break;
 	default:
 		SWARNING << "unknown image format type " << type << " in " << fileName
@@ -175,7 +175,7 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 		SINFO << "read pnm file of type " << type << ", "
 					<< width << "x" << height << endl;
 
-		lineSize = width * image.pixelDepth();
+		lineSize = width * image.bpp();
 		if (type >= 4) { // image is binary
 			for (y = height - 1; y >= 0; y--) 
 				in.read((char *) &(image.data()[y * lineSize]), lineSize);
@@ -223,7 +223,7 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 {	
 	Int16  p, y, x, lineSize;
 	ofstream  out(fileName);
-	UInt16 bpp = image.pixelDepth();
+	UInt16 bpp = image.bpp();
 	UInt8  *data = 0;
 
 	if (out.rdbuf()->is_open()) {
@@ -244,13 +244,13 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 
 		if (bpp & 1) {
 			// with alpha
-			lineSize = image.pixelDepth() * image.width();		
+			lineSize = image.bpp() * image.width();		
 			for (y = image.height() - 1; y >= 0; y--) 
 				out.write((char *) (image.data() + (lineSize * y)), lineSize);
 		}
 		else {
 			// skip alpha
-			lineSize = image.pixelDepth() * image.width();		
+			lineSize = image.bpp() * image.width();		
 			for (y = image.height() - 1; y >= 0; y--) {
 				data = (UInt8*)(image.data() + (lineSize * y));
 				for ( x = 0; x < image.width(); x++) {

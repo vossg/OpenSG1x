@@ -39,6 +39,7 @@
 
 #ifndef OSGIMAGE_CLASS_DECLARATION
 #define OSGIMAGE_CLASS_DECLARATION
+
 #ifdef  __sgi
 #pragma  once 
 #endif 
@@ -61,6 +62,15 @@
 #define OSG_IMAGE_DLLTMPLMAPPING
 #endif
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
+extern "C" {
+#include <GL/gl.h>
+}
+
+#include <OSGTime.h>
 #include <OSGString.h>
 #include <OSGStringLink.h>
 #include <OSGBaseTypes.h>
@@ -90,6 +100,12 @@ public:
 //enums    		 							 
 //----------------------------
 
+	enum PixelFormat { 	OSG_INVALID_PF = 0,
+											OSG_L_PF       = GL_LUMINANCE,
+											OSG_LA_PF      = GL_LUMINANCE_ALPHA,
+											OSG_RGB_PF     = GL_RGB,
+											OSG_RGBA_PF    = GL_RGBA,
+	};		
 
 //----------------------------
 //types    		 						   
@@ -111,32 +127,29 @@ public:
   virtual ~Image (void);
 
   /** construktor */
-  Image (int width, int height, int depth, const char *pixelFormat, 
-    	    	unsigned char *data = 0);
-
-  /** construktor */
-  Image (int width, int height, const char *pixelFormat, 
-    	    	  unsigned char *data = 0);
+  Image ( PixelFormat pixelFormat, 
+					Int32 width, Int32 height = 1, Int32 depth = 1, 
+					Int32 mipmapSize = 1, Int32 frameSize = 1, Time frameDelay = 0.0,
+					UChar8 *data = 0);
 
   /** set methode wich sets the image data */
-  Bool set (int width, int height, const char *pixelFormat, 
-						unsigned char *data = 0);
-
-  /** set methode wich sets the image data */
-  Bool set (int width, int height, int depth,
-						const char *pixelFormat, unsigned char *data = 0);
+  Bool set ( PixelFormat pixelFormat,
+						 Int32 width, Int32 height = 1, Int32 depth = 1, 
+						 Int32 mipmapSize = 1, Int32 frameSize = 1, Time frameDelay = 0.0,
+						 UChar8 *data = 0);
 
   /** reformate the image to the given pixelFormat */
-  Bool reformat (const char *pixelFormat, Image *destination = 0);
+  Bool reformat ( PixelFormat pixelFormat, Image *destination = 0);
 
   /** scale the image to the given dimension */
-  Bool scale (int width, int height, int depth =1, Image *destination = 0);
+  Bool scale ( Int32 width, Int32 height = 1, Int32 depth = 1, 
+							 Image *destination = 0);
 
   /** methode to write the image data to the given File */
-  Bool write (const char *fileName);
+  Bool write (const Char8 *fileName);
 
   /** methode to read the image data from the given File */
-  Bool read (const char *fileName);
+  Bool read (const Char8 *fileName);
 
   /** Equality comparison operator */
   Bool operator == (const Image &image);
@@ -145,35 +158,39 @@ public:
   Bool operator < (const Image &image);
 
   /** get method for attribute dimension */
-  int dimension (void) const { return _dimension; }
+  Int32 dimension (void) const { return _dimension; }
 
   /** get method for attribute width */
-  int width (void) const { return _width; }
+  Int32 width (void) const { return _width; }
 
   /** get method for attribute height */
-  int height (void) const { return _height; }
+  Int32 height (void) const { return _height; }
 
   /** get method for attribute depth */
-  int depth (void) const { return _depth; }
+  Int32 depth (void) const { return _depth; }
 
-  /** get method for attribute pixelDepth */
-  unsigned char pixelDepth (void) const { return _pixelDepth; }
+  /** get method for attribute bpp */
+	UChar8 bpp (void) const { return _bpp; }
 
   /** get method for attribute pixelFormat */
-  const String & pixelFormat (void) const { return _pixelFormat; }
+	PixelFormat pixelFormat (void) const { return _pixelFormat; }
 
- /// get the size of used mem
-  inline unsigned long size(void) const
-    { return _width * _height * _depth * _pixelDepth; }     
+  /** get the size of used mem */
+  inline unsigned long size ( Bool withMipmap = true, 
+															Bool withFrames = true) const
+		{ return  (_width * _height * _depth) *
+				      (withMipmap ? _mipmapSize : 1) *
+				      (withFrames ? _frameSize : 1);
+		}
 
   /** get method for attribute data */
-  inline unsigned char *data (void) { return _data; }
+  inline UChar8 *data (void) { return _data; }
 
   /** get method for attribute data */
-  inline const unsigned char *data (void) const { return _data; }
+  inline const UChar8 *data (void) const { return _data; }
 
   /** clears the image (sets all pixel to pixelValue) */
-  virtual void clear(unsigned char pixelValue = 128);
+  virtual void clear (UChar8 pixelValue = 0);
 
 protected:
 
@@ -186,27 +203,38 @@ protected:
 //types    		 								 
 //------------------------------
 
+	/** pixelFormat/bpp map */
+	static UInt32 _formatMap[][2];
 
-  /** image dimension ( 0= unvalid 1,2 or 3) */
-  int _dimension;
+  /** PixelFormat */
+	PixelFormat _pixelFormat;
 
   /** image width */
-  int _width;
+  Int32 _width;
 
   /** image height */
-  int _height;
+  Int32 _height;
 
   /** image depth */
-  int _depth;
+  Int32 _depth;
 
-  /** pixelDepth */
-  unsigned char _pixelDepth;
+	/** number of mipmaps */
+	Int32 _mipmapSize;
 
-  /** [RGBAL] [0-9] fprmat */
-  String _pixelFormat;
+	/** number of frames */
+	Int32 _frameSize;
+
+	/** frame delay */
+	Time _frameDelay;
+
+  /** byte per pixel */
+	UChar8 _bpp;
+
+  /** image dimension ( 0= unvalid 1,2 or 3 is valid ) */
+  Int32 _dimension;
 
   /** image data, can be NULL */
-  unsigned char * _data;
+	UChar8 * _data;
 
 //---------------------------
 //class Variables 			     
@@ -269,13 +297,12 @@ private:
 //instance functions  				  
 //------------------------------
 
-  /** internal method to alloc and copy the image data */
-  Bool createData (const unsigned char *data);
+  /** Internal method to alloc and copy the image data */
+  Bool createData (const UChar8 *data);
 
 };
 
 typedef Image* ImageP;
-
 
 OSG_END_NAMESPACE
 
