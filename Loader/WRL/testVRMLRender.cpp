@@ -664,16 +664,6 @@ int main (int argc, char **argv)
 
     ract = OSG::DrawAction::create();
 
-    cerr << "Calculating normals...";
-
-    // Task 1: Cal Vertex Normals
-    ract->registerEnterFunction( OSG::Geometry::getClassType(),
-                                    OSG::osgFunctionFunctor2( calcVNormal ) );
-
-//  ract->apply( dlight );
-
-    cerr << "done." << endl;
-
     // Task 2: draw wireframe bbox, if wanted
     ract->registerEnterFunction( OSG::Geometry::getClassType(),
                                     OSG::osgFunctionFunctor2( wireDraw ) );
