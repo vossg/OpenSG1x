@@ -164,14 +164,22 @@ bool PThreadLockBase::request(void)
 
 SprocLockBase::SprocLockBase(void):
      Inherited    (    ),
+#ifdef OSG_SPROC_USE_LOCK
     _pLowLevelLock(NULL)
+#else
+    _pLowLevelSema(NULL)
+#endif
 {
 }
 
 SprocLockBase::SprocLockBase(const Char8  *szName,
                                    UInt32  uiId  ):
      Inherited    (szName, uiId),
+#ifdef OSG_SPROC_USE_LOCK
     _pLowLevelLock(NULL        )
+#else
+    _pLowLevelSema(NULL        )
+#endif
 {
 }
 
@@ -193,12 +201,23 @@ bool SprocLockBase::init(void)
     if(pThreadManager->getArena() == NULL)
         return false;
 
+#ifdef OSG_SPROC_USE_LOCK
     _pLowLevelLock = usnewlock(pThreadManager->getArena());
 
     if(_pLowLevelLock == NULL)
         return false;
 
     usinitlock(_pLowLevelLock);
+
+#else
+    _pLowLevelSema = usnewsema(pThreadManager->getArena(), 1);
+
+    if(_pLowLevelSema == NULL)
+        return false;
+
+    usinitsema(_pLowLevelSema, 1);
+    usctlsema (_pLowLevelSema, CS_RECURSIVEON, NULL);
+#endif
 
     return true;
 }
@@ -215,26 +234,46 @@ void SprocLockBase::shutdown(void)
     if(pThreadManager->getArena() == NULL)
         return;
 
+#ifdef OSG_SPROC_USE_LOCK
     if(_pLowLevelLock != NULL)
     {
         usfreelock(_pLowLevelLock, pThreadManager->getArena());
-
+    
         _pLowLevelLock = NULL;
     }
+#else
+    if(_pLowLevelSema != NULL)
+    {
+        usfreesema(_pLowLevelSema, pThreadManager->getArena());
+
+        _pLowLevelSema = NULL;
+    }
+#endif
+
 }
 
 /*------------------------------- Lock ------------------------------------*/
 
 void SprocLockBase::aquire(void)
 {
+#ifdef OSG_SPROC_USE_LOCK
     if(_pLowLevelLock != NULL)
         ussetlock(_pLowLevelLock);
+#else
+    if(_pLowLevelSema != NULL)
+        uspsema(_pLowLevelSema);
+#endif
 }
 
 void SprocLockBase::release(void)
 {
+#ifdef OSG_SPROC_USE_LOCK
     if(_pLowLevelLock != NULL)
         usunsetlock(_pLowLevelLock);
+#else
+    if(_pLowLevelSema != NULL)
+        usvsema(_pLowLevelSema);
+#endif
 }
 
 bool SprocLockBase::request(void)
@@ -242,8 +281,13 @@ bool SprocLockBase::request(void)
     bool  returnValue = false;
     Int32 rc          = 0;
 
+#ifdef OSG_SPROC_USE_LOCK
     if(_pLowLevelLock != NULL)
         rc = uscsetlock(_pLowLevelLock, 0);
+#else
+    if(_pLowLevelSema != NULL)
+        rc = uscpsema(_pLowLevelSema);
+#endif
 
     returnValue = (rc == 1);
 

@@ -264,7 +264,12 @@ class SprocLockBase : public LockCommonBase
 
     friend class LockPool;
 
-    ulock_t _pLowLevelLock;
+//#define OSG_SPROC_USE_LOCK
+#ifdef OSG_SPROC_USE_LOCK
+    ulock_t  _pLowLevelLock;
+#else
+    usema_t *_pLowLevelSema;
+#endif
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     SprocLockBase(const SprocLockBase &source);
