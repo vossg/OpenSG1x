@@ -368,6 +368,8 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
 
 AC_GDZ_WRITE_PACKET_MAKE()
 
+AC_GDZ_WRITE_BUILDS_MAKE()
+
 if [[ "$enable_win_localstorage" = yes ]]; then
     AC_DEFINE(OSG_ASPECT_USE_LOCALSTORAGE)
 else
@@ -380,7 +382,7 @@ fi
 
 ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
 
-AC_GDZ_WRITE_BUILDS_MAKE()
+AC_GDZ_WRITE_SYSTEM_COMMON()
 
 
 

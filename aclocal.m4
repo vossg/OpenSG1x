@@ -684,3 +684,21 @@ dnl e5
 ])
 
 
+
+AC_DEFUN(AC_GDZ_WRITE_SYSTEM_COMMON,
+[
+dnl e7
+
+    ac_gdz_common_sys_mk_os_base_e7=$build_os
+
+    ac_gdz_common_sys_mk_in_e7=$ac_gdz_commonconf_dir/commonSys.mk.in
+    ac_gdz_common_sys_mk_e7=$ac_gdz_common_dir/common.mk
+
+    AC_SUBST(ac_gdz_common_sys_mk_os_base_e7)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_sys_mk_e7:$ac_gdz_common_sys_mk_in_e7)
+])
+
+
