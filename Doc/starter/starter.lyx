@@ -859,42 +859,68 @@ What do you mean by %s?
 \family typewriter 
 FDEBUG
 \family default 
- (( )) are only compiled in when OSG_DEBUG is set.
- The OSG_DEBUG define is automatically set while compiling the system in
- debug (default) mode.
+ (( )) are only compiled in when 
+\family typewriter 
+OSG_DEBUG
+\family default 
+ is set.
+ The 
+\family typewriter 
+OSG_DEBUG
+\family default 
+ define is automatically set while compiling the system in debug (default)
+ mode.
 \layout Standard
 
 The user can activate/deactivate various elements per log message during
- runtime by changing the LogHeaderElem mask.
- The following elements are supported right know:
-\layout Description
+ runtime by changing the 
+\family typewriter 
+LogHeaderElem
+\family default 
+ mask.
+ The following elements are supported right know: 
+\layout Standard
 
-LOG_BEGIN_NEWLINE_HEADER creates a extra newline infront of every output
-\layout Description
 
-LOG_TYPE_HEADER writes the Level (e.g.
- WARNING) as first element
-\layout Description
-
-LOG_TIMESTAMP_HEADER writes a timestamp 
-\layout Description
-
-LOG_MODULE_HEADER writes the name of the current module 
-\layout Description
-
-LOG_FILE_HEADER writes the source file name
-\layout Description
-
-LOG_LINE_HEADER writes the source line number 
-\layout Description
-
-LOG_END_NEWLINE_HEADER creates a extra newline at the end 
+\family typewriter 
+LOG_BEGIN_NEWLINE_HEADER
+\family default 
+ (creates a extra newline infront of every output), 
+\family typewriter 
+LOG_TYPE_HEADER
+\family default 
+ (writes the Level (e.g.
+ WARNING) as first element), 
+\family typewriter 
+LOG_TIMESTAMP_HEADER
+\family default 
+ (writes a timestamp ), 
+\family typewriter 
+LOG_MODULE_HEADER
+\family default 
+ (writes the name of the current module ), 
+\family typewriter 
+LOG_FILE_HEADER
+\family default 
+ (writes the source file name), 
+\family typewriter 
+LOG_LINE_HEADER
+\family default 
+ (writes the source line number) and 
+\family typewriter 
+LOG_END_NEWLINE_HEADER
+\family default 
+ (creates a extra newline at the end) 
 \layout Standard
 
 When unchanged, the timestamp will be the time in seconds since the programm
  started.
  The user can set/reset the timestamp at any time (e.g.
- osgLog().resetRefTime()).
+ 
+\family typewriter 
+osgLog().resetRefTime())
+\family default 
+.
 \layout Section
 
 Math
@@ -2837,12 +2863,126 @@ SimpleSceneManager
 \layout Chapter
 
 Loader
+\layout Standard
+
+As OpenSG user/developer you can always instanciate all your nodes, cores
+ or whatever objects you need one by one in your application code.
+ 
+\layout Standard
+
+In addition, OpenSG also provides, as most scenegraph libraries, a set of
+ loader which create a scene tree or image from a given file.
+ The system creates singleton Handler for both types (
+\family typewriter 
+SceneFileHandler
+\family default 
+ and 
+\family typewriter 
+ImageFileHandler
+\family default 
+) which handles all abstract requests.
+ The concreate loader are coded in mime/file type handler (e.g.
+ 
+\family typewriter 
+OSGTIFImageFileType.h/OSGTIFImageFileType.cpp
+\family default 
+) and autmatically registered.
+ 
+\layout Standard
+
+The system architecture is designed to handle buildin types but and also
+ to fetch loader for a specific type on request.
+ In the current version (1.0) only build in types are provided since the
+ meta interfaces may not be final yet.
+ However the 1.0 version comes with a sufficient set of build in loaders
+ and you can always extend the library to handle you own file format.
 \layout Section
 
 Usage
+\layout Standard
+
+You can always use a specific loader directly, but in most cases you would
+ ask the Handler (e.g.
+ 
+\family typewriter 
+SceneFileHandler
+\family default 
+) to load a file indepentend of the file type.
+ There is always just one handler (it is a singleton object) you can access
+ the object using the static 
+\family typewriter 
+the()
+\family default 
+ method (e.g.
+ 
+\family typewriter 
+osg::SceneFileType::the()
+\family default 
+).
+ The Handler knows all the valid suffixes for every mime/file type and can
+ pick the correct loader automatically.
+ 
+\layout Standard
+
+If you would like to get a loader for a specific type or suffix you can
+ just ask the handler to find it (e.g.
+ 
+\family typewriter 
+OSGSceneFileHandler::the().getFileType(
+\begin_inset Quotes eld
+\end_inset 
+
+foo
+\begin_inset Quotes erd
+\end_inset 
+
+)
+\family default 
+).
 \layout Subsection
 
 Scene
+\layout Standard
+
+The Scene Handler provides two interfaces to load a scene: 
+\family typewriter 
+read
+\family default 
+ (returns a single root node or 
+\family typewriter 
+NullFC
+\family default 
+ on fealture) or 
+\family typewriter 
+readTopNodes
+\family default 
+ (does not create a extra root but returns all top nodes ).
+ 
+\layout Standard
+
+Just use the Handler to find and use the correct type for the given suffix:
+ 
+\family typewriter 
+osg::NodePtr rootPtr = osg::SceneFileType::the().read(
+\begin_inset Quotes eld
+\end_inset 
+
+test.wrl
+\begin_inset Quotes erd
+\end_inset 
+
+)
+\family default 
+ for example would pick the vrml loader (suffix is 
+\begin_inset Quotes eld
+\end_inset 
+
+wrl
+\begin_inset Quotes erd
+\end_inset 
+
+), parse the file and returns the result.
+ 
 \layout Subsection
 
 Image
@@ -2851,15 +2991,193 @@ Image
 \end_inset 
 
 
+\layout Standard
+
+The image loader works more or less the same way es the scene loader.
+ Let the singleton handler pick the mime type and just check the return
+ value: 
+\family typewriter 
+osg::ImageFileType::the().read(
+\begin_inset Quotes eld
+\end_inset 
+
+test.tif
+\begin_inset Quotes erd
+\end_inset 
+
+) 
+\family default 
+for example would pick the tif loader (suffix 
+\begin_inset Quotes eld
+\end_inset 
+
+tif
+\begin_inset Quotes erd
+\end_inset 
+
+ ), start loading the file, and return the new 
+\family typewriter 
+Image
+\family default 
+ or 
+\family typewriter 
+Null
+\family default 
+.
 \layout Section
 
 Write our own
+\layout Standard
+
+For every new mime/file you have to write a new 
+\family typewriter 
+
+\begin_inset Quotes eld
+\end_inset 
+
+Type
+\begin_inset Quotes erd
+\end_inset 
+
+
+\family default 
+ class (e.g.
+ 
+\family typewriter 
+FooImageType.h/FooImageType.cpp
+\family default 
+).
+ Every Type is handle as singleton object and must provide a 
+\family typewriter 
+the()
+\family default 
+ method to access the static instance.
+ The class must be derived from the base Type (e.g.
+ 
+\family typewriter 
+ImageFileType
+\family default 
+) to be registered.
+ You don't have to register the new type in any extra class.
+ Just included it in the OpenSG source tree and it should work with the
+ Handler.
 \layout Subsection
 
 Scene
+\layout Standard
+
+Since scene loader are usually more complex and require sometimes some extra
+ library they are stored in extra directories (e.g.
+ 
+\family typewriter 
+OpenSG/Loader/OBJ
+\family default 
+).
+ To write you own scene handler perform the following steps:
+\layout Enumerate
+
+Create a new directory for your mime type (e.g.
+ 
+\family typewriter 
+OpenSG/Loader/FOO
+\family default 
+)
+\layout Enumerate
+
+Copy the code from a simple loader (e.g.
+ 
+\family typewriter 
+Loader/RAW
+\family default 
+)
+\layout Enumerate
+
+Change the file file/class name to match you type.
+\layout Enumerate
+
+Change the _suffixA values in the *.cpp file (e.g 
+\family typewriter 
+{
+\begin_inset Quotes eld
+\end_inset 
+
+foo
+\begin_inset Quotes erd
+\end_inset 
+
+}
+\family default 
+ ), you can includes as many valid suffixes as you want
+\layout Enumerate
+
+Write the 
+\family typewriter 
+read() 
+\family default 
+methods to load your type
+\layout Enumerate
+
+configure/make opensg libs
 \layout Subsection
 
 Image
+\layout Standard
+
+Image loader are usually not to complex.
+ The just use some kind of extra lib (e.g.
+ tiflib) to load the image data.
+ Since the extra lib is normally not included in the opensg source tree
+ we do not store the code in a extra, mime type specific directory.
+ The are all stored in 
+\family typewriter 
+OpenSG/Image.
+ 
+\layout Standard
+
+To write you own scene handler perform the following steps:
+\layout Enumerate
+
+Copy the code from a simple loader (e.g.
+ 
+\family typewriter 
+Image/PNMImageFileType.*
+\family default 
+)
+\layout Enumerate
+
+Change the file file/class name to match you type.
+\layout Enumerate
+
+Change the _suffixA values in the *.cpp file (e.g 
+\family typewriter 
+{
+\begin_inset Quotes eld
+\end_inset 
+
+foo
+\begin_inset Quotes erd
+\end_inset 
+
+}
+\family default 
+ ), you can includes as many valid suffixes as you want
+\layout Enumerate
+
+Change the 
+\family typewriter 
+getMimeType() 
+\family default 
+method in *.h to return the new mime type.
+\layout Enumerate
+
+Write the 
+\family typewriter 
+read()/write() 
+\family default 
+methods to load/write your type
+\layout Enumerate
+
+configure/make opensg libs
 \layout Chapter
 
 Creating new FieldContainer classes
