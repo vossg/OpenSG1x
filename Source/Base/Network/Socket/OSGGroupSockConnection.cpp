@@ -204,20 +204,27 @@ Connection::Channel GroupSockConnection::selectChannel(Time timeout)
     ChannelIndex index;
     SocketSelection selection,result;
 
-    // if thre is data in the read buffer, return current channel
+    // if there is data in the read buffer, return current channel
     if(_zeroCopyThreshold != 1 &&
        _currentReadBuffer != readBufEnd())
     {
         FFATAL(("Channel change ignores data in current buffer"))
         return indexToChannel(_readIndex);
     }    
+
+    if(_selection[_readIndex] &&
+       _sockets[_readIndex].getAvailable())
+    {
+        return indexToChannel(_readIndex);;
+    }
+
     // wait for first socket to deliver data
     for(index = 0 ; index < _sockets.size() ; ++index)
     {
         if(_selection[index])
             selection.setRead(_sockets[index]);
     }
-
+    
     try 
     {
         // select ok ?
@@ -242,6 +249,7 @@ Connection::Channel GroupSockConnection::selectChannel(Time timeout)
     {
         throw ReadError(e.what());
     }
+
     // return channel id
     return indexToChannel(_readIndex);
 }
