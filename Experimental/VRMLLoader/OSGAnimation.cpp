@@ -270,12 +270,16 @@ void Animation::resolve(NodePtr pRoot)
 
     cerr << "Checking interpolator target nodes..." << endl;
     
+#ifndef OSG_NOFUNCTORS
+
     OSG::Action *act2;  
 
     act2 = OSG::Action::create (                                      );   
     act2->registerEnterFunction(OSG::VRMLTransform::getClassType(),
                                 OSG::osgFunctionFunctor2(animResolver));      
     act2->apply(pRoot);
+
+#endif
     
     cerr << "done !\n";    
 }

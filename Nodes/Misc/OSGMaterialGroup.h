@@ -130,6 +130,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
                                              Action   *pAction);
     static Action::ResultE MatGroupDrawLeave(CNodePtr &cnode, 
                                              Action   *pAction);
+
+    static Action::ResultE MatGroupRenderEnter(CNodePtr &cnode, 
+                                             Action   *pAction);
+    static Action::ResultE MatGroupRenderLeave(CNodePtr &cnode, 
+                                             Action   *pAction);
 #endif
 
     //-----------------------------------------------------------------------

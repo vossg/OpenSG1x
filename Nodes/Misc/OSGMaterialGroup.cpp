@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.8 2001/08/10 03:33:11 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.9 2001/09/01 19:10:03 jbehr Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -135,6 +135,39 @@ OSG::Action::ResultE MaterialGroup::MatGroupDrawLeave(CNodePtr &cnode,
         return pSC->drawLeave(pAction);
     }
 }
+OSG::Action::ResultE MaterialGroup::MatGroupRenderEnter(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->renderEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE MaterialGroup::MatGroupRenderLeave(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->renderLeave(pAction);
+    }
+}
 #endif
 
 void MaterialGroup::initMethod (void)
@@ -164,10 +197,16 @@ void MaterialGroup::initMethod (void)
 #else
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
-                                        MaterialGroup::MatGroupEnter));
+                                        MaterialGroup::MatGroupDrawEnter));
     DrawAction::registerLeaveDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         MaterialGroup::MatGroupDrawLeave));
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        MaterialGroup::MatGroupRenderEnter));
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        MaterialGroup::MatGroupRenderLeave));
 #endif
 }
 

@@ -170,6 +170,23 @@ OSG::Action::ResultE Geometry::GeoDrawEnter(CNodePtr &cnode,
     }
 }
 
+OSG::Action::ResultE Geometry::GeoRenderEnter(CNodePtr &cnode, 
+                                            Action  *pAction)
+{
+    NodeCore *pNC = cnode.getCPtr();
+    Geometry *pSC = dynamic_cast<Geometry *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "GEDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->render(pAction);
+    }
+}
+
 OSG::Action::ResultE Geometry::GeoIntEnter(CNodePtr &cnode, 
                                            Action  *pAction)
 {
@@ -213,6 +230,11 @@ void Geometry::initMethod (void)
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         Geometry::GeoDrawEnter));
+
+    RenderAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Geometry::GeoRenderEnter));
+
 
     IntersectAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
