@@ -233,7 +233,7 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
     AC_MSG_RESULT($ac_gdz_compiler_path)
 ])
 
-AC_DEFUN(AC_GDZ_SET_COMPILER_DEFAULTS,
+AC_DEFUN(AC_GDZ_GUESS_COMPILER_DEFAULTS,
 [
     # guess compiler if not set
     if test "x$ac_gdz_compiler" == "x"
@@ -251,7 +251,10 @@ AC_DEFUN(AC_GDZ_SET_COMPILER_DEFAULTS,
         esac
         echo "selected compiler $ac_gdz_compiler for system $build_os"
     fi
-    
+])
+
+AC_DEFUN(AC_GDZ_SET_COMPILER_DEFAULTS,
+[
     ac_gdz_check_compiler_available=no
 
     AC_MSG_CHECKING("site config conf.$build-$ac_gdz_compiler.in")
