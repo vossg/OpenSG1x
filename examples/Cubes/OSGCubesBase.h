@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OpenSG/OSGBaseTypes.h>
 #include <OpenSG/OSGFieldDescription.h>
 #include <OpenSG/OSGFieldContainer.h>
-#include <OSGMyLibDef.h>
+#include <OSGMyDef.h>
 #include <OpenSG/OSGNodeCore.h>
 #include <OpenSG/OSGMaterialFields.h>	// Material type
 #include <OpenSG/OSGPnt3fFields.h>	// Position type
@@ -105,21 +105,18 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-	static const osg::UInt32    MaterialFieldId	= Inherited::NextFieldId;
-	static const osg::BitVector MaterialFieldMask	= Inherited::NextFieldMask;
+    enum
+    {
+        MaterialFieldId = Inherited::NextFieldId,
+        PositionFieldId = MaterialFieldId + 1,
+        LengthFieldId = PositionFieldId + 1,
+        ColorFieldId = LengthFieldId + 1
+    };
 
-	static const osg::UInt32    PositionFieldId   = MaterialFieldId + 1;
-	static const osg::BitVector PositionFieldMask = MaterialFieldMask << 1;
-
-	static const osg::UInt32    LengthFieldId   = PositionFieldId + 1;
-	static const osg::BitVector LengthFieldMask = PositionFieldMask << 1;
-
-	static const osg::UInt32    ColorFieldId   = LengthFieldId + 1;
-	static const osg::BitVector ColorFieldMask = LengthFieldMask << 1;
-
-	static const osg::UInt32	NextFieldId   = ColorFieldId + 1;
-	static const osg::BitVector	NextFieldMask = ColorFieldMask << 1;
-
+    static const osg::BitVector MaterialFieldMask;
+    static const osg::BitVector PositionFieldMask;
+    static const osg::BitVector LengthFieldMask;
+    static const osg::BitVector ColorFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -151,6 +148,16 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
+
+    virtual void                   executeSync(      FieldContainer &other,
+                                               const BitVector      &whichField);
+
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
+                                     const BitVector    &whichField);
 
     /*--------------------------- access fields ----------------------------*/
 
@@ -213,16 +220,16 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 
     /*! The cubes' material.
      */
-    SFMaterialPtr	_material;
+    SFMaterialPtr	_sfMaterial;
     /*! The cubes' positions.
      */
-    MFPnt3f	_position;
+    MFPnt3f	_mfPosition;
     /*! The cubes' sizes.
      */
-    MFReal32	_length;
+    MFReal32	_mfLength;
     /*! The cubes' colors.
      */
-    MFColor3f	_color;
+    MFColor3f	_mfColor;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -232,6 +239,9 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     CubesBase(const CubesBase &source);
     virtual ~CubesBase(void); 
     
+
+    void executeSyncImpl(      CubesBase *pOther,
+                         const BitVector         &whichField);
 
   private:
 

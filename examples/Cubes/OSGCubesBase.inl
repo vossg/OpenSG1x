@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -58,12 +58,6 @@
 
 #include <OpenSG/OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -115,7 +109,7 @@ inline CubesPtr CubesBase::create(void)
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = osg::dcast<CubesPtr>(
+        fc = CubesPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -138,56 +132,66 @@ inline CubesPtr CubesBase::createEmpty(void)
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_MYLIB_DLLMAPPING
 SFMaterialPtr *CubesBase::getSFMaterial(void)
 {
-	return &_material;
+	return &_sfMaterial;
 }
 
+OSG_MYLIB_DLLMAPPING
 MFPnt3f *CubesBase::getMFPosition(void)
 {
-	return &_position;
+	return &_mfPosition;
 }
 
+OSG_MYLIB_DLLMAPPING
 MFReal32 *CubesBase::getMFLength(void)
 {
-	return &_length;
+	return &_mfLength;
 }
 
+OSG_MYLIB_DLLMAPPING
 MFColor3f *CubesBase::getMFColor(void)
 {
-	return &_color;
+	return &_mfColor;
 }
 
 
+OSG_MYLIB_DLLMAPPING
 MaterialPtr &CubesBase::getMaterial(void)
 {
-	return _material.getValue();
+	return _sfMaterial.getValue();
 }
 
+OSG_MYLIB_DLLMAPPING
 const MaterialPtr &CubesBase::getMaterial(void) const
 {
-	return _material.getValue();
+	return _sfMaterial.getValue();
 }
 
+OSG_MYLIB_DLLMAPPING
 void CubesBase::setMaterial( MaterialPtr value )
 {
-	_material.setValue(value);
+	_sfMaterial.setValue(value);
 }
 
 
+OSG_MYLIB_DLLMAPPING
 Pnt3f &CubesBase::getPosition( UInt32 index)
 {
-	return _position.getValue( index );
+	return _mfPosition.getValue( index );
 }
 
+OSG_MYLIB_DLLMAPPING
 Real32 &CubesBase::getLength( UInt32 index)
 {
-	return _length.getValue( index );
+	return _mfLength.getValue( index );
 }
 
+OSG_MYLIB_DLLMAPPING
 Color3f &CubesBase::getColor( UInt32 index)
 {
-	return _color.getValue( index );
+	return _mfColor.getValue( index );
 }
 
 

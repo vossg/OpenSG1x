@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -61,7 +61,7 @@
 #include <OpenSG/OSGConfig.h>
 
 #include <OpenSG/OSGFieldContainerPtr.h>
-#include <OSGMyLibDef.h>
+#include <OSGMyDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -79,9 +79,11 @@ typedef FCPtr<NodeCorePtr, Cubes> CubesPtr;
  */
 
 template <>
-struct FieldDataTraits<CubesPtr> : public Traits
+struct FieldDataTraits<CubesPtr> : 
+    public FieldTraitsRecurseMapper<CubesPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFCubesPtr"; }
     static char *getMName(void) { return "MFCubesPtr"; }

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -41,6 +41,8 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILEMYLIB
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -54,7 +56,6 @@
 
 #include <GL/gl.h>
 
-#define OSG_COMPILEMYLIB
 
 #include <OpenSG/OSGAction.h>
 #include <OpenSG/OSGDrawAction.h>
@@ -85,7 +86,7 @@ A test node for directly rendering to OpenGL.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.3 2001/05/23 23:03:20 dirk Exp $";
+char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.4 2001/07/10 14:01:50 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
