@@ -385,7 +385,7 @@ void Window::validateGLObject ( UInt32 id )
 {
 	UInt32 s;
 
-    	if ( id == 0 )
+    if ( id == 0 )
 	{
 	    SWARNING << "Window::validateGLObject: id is 0!" << endl;
     	    return;
@@ -432,11 +432,18 @@ void Window::refreshGLObject( UInt32 id )
 
 void Window::doRefreshGLObject( UInt32 id )
 {
+    if ( id == 0 )
+	{
+	    SWARNING << "Window::validateGLObject: id is 0!" << endl;
+    	    return;
+	}
+	
 	if ( id >= _mfGlObjectStatus.size() )
 	{
-		SWARNING << "Window::refreshGLObject: nothing known about id " << id
-				 << "!" << endl;
-		return;
+		// this can happen if an object is refreshed before it is rendered.
+
+		for(UInt32 s = _mfGlObjectStatus.size(); s <= id; s++)
+			_mfGlObjectStatus.push_back( notused );
 	}
 	
 	switch ( _mfGlObjectStatus[id] ) 
@@ -473,11 +480,18 @@ void Window::reinitializeGLObject( UInt32 id )
 
 void Window::doReinitializeGLObject( UInt32 id )
 {
+    if ( id == 0 )
+	{
+	    SWARNING << "Window::validateGLObject: id is 0!" << endl;
+    	    return;
+	}
+	
 	if ( id >= _mfGlObjectStatus.size() )
 	{
-		SWARNING << "Window::reinitializeGLObject: nothing known "
-		    	 << "about id " << id << "!" << endl;
-		return;
+		// this can happen if an object is reinitialized before it is rendered.
+
+		for(UInt32 s = _mfGlObjectStatus.size(); s <= id; s++)
+			_mfGlObjectStatus.push_back( notused );
 	}
 	
 	switch ( _mfGlObjectStatus[id] ) 
@@ -595,6 +609,8 @@ void Window::setupGL ( void )
 {	
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 	glPixelStorei( GL_PACK_ALIGNMENT, 1 );
+	
+	glEnable( GL_DEPTH_TEST );
 }
 
 /*---------------------------- properties ---------------------------------*/
