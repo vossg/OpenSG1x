@@ -19,7 +19,6 @@
 #include <OpenSG/OSGGroup.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <OpenSG/OSGTriangleIterator.h>
-#include <OpenSG/OSGBaseFunctions.h>
 
 // New Headers
 
@@ -92,9 +91,7 @@ void keyboard(unsigned char k, int x, int y)
                 IntersectAction *act = IntersectAction::create();
                 
                 act->setLine(l);
-                double t = getSystemTime();
                 act->apply(fileroot);
-                printf("picking time %f seconds\n", getSystemTime() - t);
             
                 beginEditCP(isectPoints);
                 isectPoints->setValue(l.getPosition(), 0);
