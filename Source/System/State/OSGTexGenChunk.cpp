@@ -82,7 +82,7 @@ osg::TexGenChunk::_sfGenFuncQPlane.
  *                           Class variables                               *
 \***************************************************************************/
 
-StateChunkClass TexGenChunk::_class("TexGen", osgMaxTextures);
+StateChunkClass TexGenChunk::_class("TexGen", osgMaxTexCoords);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -170,8 +170,26 @@ static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func,
 void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 {
     glErr("TexGenChunk::activate precheck");
+ 
+    Window *win = action->getWindow();   
+
+    Real32 ntexcoords;
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= ntexcoords)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TexGenChunk::activate: Trying to bind texcoord unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, ntexcoords));
+#endif
+        return;        
+    }
         
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    TextureChunk::activateTexture(win, idx);
 
     FDEBUG(("TexGenChunk::activate\n"));
 
@@ -239,8 +257,10 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
     // change from me to me?
     // this assumes I haven't changed in the meantime. 
     // is that a valid assumption?
-    if(old == this)
-        return;
+    // No, for TexGen it's not, as TexGen depends on the current 
+    // toWorld matrix!!!
+    // if(old == this)
+    //     return;
 
     TexGenChunk *oldp      = dynamic_cast<TexGenChunk *>(old);
     
@@ -254,11 +274,29 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
     }
 
     glErr("TexGenChunk::changeFrom precheck");
+
+    Window *win = action->getWindow();   
+
+    Real32 ntexcoords;
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= ntexcoords)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TexGenChunk::changeFrom: Trying to bind texcoord unit "
+                  "%d, but Window %p only supports %d!\n",
+                  idx, win, ntexcoords));
+#endif
+        return;        
+    }
  
     Matrix cameraMat = action->getCameraToWorld();
     cameraMat.invert();
    
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    TextureChunk::activateTexture(win, idx);
 
     changeGenFunc(oldp->getGenFuncS(), oldp->getSBeacon(), GL_S, 
                 GL_TEXTURE_GEN_S, 
@@ -280,7 +318,25 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
 {
     glErr("TexGenChunk::deactivate precheck");
 
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    Window *win = action->getWindow();   
+
+    Real32 ntexcoords;
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= ntexcoords)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TexGenChunk::deactivate: Trying to bind texcoord unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, ntexcoords));
+#endif
+        return;        
+    }
+
+    TextureChunk::activateTexture(win, idx);
 
     if(getGenFuncS() != GL_NONE || getSBeacon() != NullFC)
         glDisable(GL_TEXTURE_GEN_S);

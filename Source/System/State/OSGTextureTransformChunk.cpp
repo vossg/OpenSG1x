@@ -72,7 +72,8 @@ from the osg::TransformChunk and uses its matrix.
  *                           Class variables                               *
 \***************************************************************************/
 
-StateChunkClass TextureTransformChunk::_class("TextureTransform", osgMaxTextures);
+StateChunkClass TextureTransformChunk::_class("TextureTransform",
+                                              osgMaxTexCoords);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -130,7 +131,25 @@ void TextureTransformChunk::dump(      UInt32    ,
 
 void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
 {
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    Window *win = action->getWindow();
+    
+    Real32 ntexcoords;
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= ntexcoords)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TextureTransformChunk::deactivate: Trying to bind texcoord unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, ntexcoords));
+#endif
+        return;        
+    }
+
+    TextureChunk::activateTexture(win, idx);
   
     glMatrixMode(GL_TEXTURE);
     glLoadMatrixf(getMatrix().getValues());
@@ -144,7 +163,25 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     if ( old == this )
         return;
 
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    Window *win = action->getWindow();
+    
+    Real32 ntexcoords;
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= ntexcoords)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TextureTransformChunk::deactivate: Trying to bind texcoord unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, ntexcoords));
+#endif
+        return;        
+    }
+
+    TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
     glLoadMatrixf(getMatrix().getValues());
@@ -153,7 +190,25 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
 
 void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
 {
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    Window *win = action->getWindow();   
+
+    Real32 ntexcoords;
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= ntexcoords)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TextureTransformChunk::deactivate: Trying to bind texcoord unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, ntexcoords));
+#endif
+        return;        
+    }
+
+    TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
     glLoadIdentity();

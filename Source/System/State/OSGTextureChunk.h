@@ -50,7 +50,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-#define osgMaxTextures 8
+#define osgMaxTexImages 16
+#define osgMaxTexCoords 8
 
 /*! \brief State chunk for textures. See \ref PageSystemTextureChunk 
     for a description.
@@ -136,7 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     static bool hasMultiTexture(Window *win);
     static void activeTexture  (Window *win, UInt16 texture);
-    static void activateTexture(Window *win, UInt16 texture);
+    static bool activateTexture(Window *win, UInt16 texture);
 
     /*! \}                                                                 */
 

@@ -357,10 +357,33 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
     // does the window support cubemaps?
     if(action->getWindow()->hasExtension(_arbCubeTex) == false)
         return;
+        
+    Window *win = action->getWindow();
     
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    Real32 nteximages, ntexcoords;
+    if(isnanf(nteximages = 
+                win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
+    {
+        nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= nteximages)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("CubeTextureChunk::activate: Trying to bind image unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, nteximages));
+#endif
+        return;        
+    }
     
-    action->getWindow()->validateGLObject(getGLId());
+    TextureChunk::activateTexture(win, idx);
+    
+    win->validateGLObject(getGLId());
 
     glErr("CubeTextureChunk::activate precheck");
   
@@ -368,50 +391,67 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, getGLId());
 
-    glEnable(GL_TEXTURE_CUBE_MAP_ARB);
-
-    glErr("CubeTextureChunk::activate");
-
-    // texture env
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
-    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
-                (GLfloat*)getEnvColor().getValuesRGBA());
-
 #ifdef GL_NV_point_sprite
-    if(getPointSprite() &&
-       action->getWindow()->hasExtension(_nvPointSprite))
+    if(idx < ntexcoords)
     {
-        glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_TRUE);
+        if(getPointSprite() &&
+           win->hasExtension(_nvPointSprite))
+        {
+            glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_TRUE);
+        }
     }
 #endif
 
-    if(getLodBias() != 0.0f &&
-       action->getWindow()->hasExtension(_extTextureLodBias))
+    if(idx < nteximages)
     {
-        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
-	          getLodBias());
+        if(getLodBias() != 0.0f &&
+           win->hasExtension(_extTextureLodBias))
+        {
+            glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	              getLodBias());
+        }
+    }
+
+    if(idx < win->getConstantValue(GL_MAX_TEXTURE_UNITS))
+    {
+        // texture env
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
+        glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
+                    (GLfloat*)getEnvColor().getValuesRGBA());
+
+        if(getEnvMode() == GL_COMBINE_EXT)
+        {
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
+            glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB());
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
+            glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_EXT,getEnvOperand0Alpha());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
+        }
+
+        TextureChunk::handleTextureShader(win, GL_TEXTURE_CUBE_MAP_ARB);
+
+        if(getShaderOperation() != GL_NONE &&
+           win->hasExtension(_nvTextureShader) &&
+           idx == 0)
+        {
+            glEnable(GL_TEXTURE_SHADER_NV);
+        }
+        glEnable(GL_TEXTURE_CUBE_MAP_ARB);
     }
     
-    if(getEnvMode() == GL_COMBINE_EXT)
-    {
-        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
-        glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB()); 
-
-        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
-        glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_EXT,getEnvOperand0Alpha());
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
-    }
+    glErr("CubeTextureChunk::activate");
 }
 
 void CubeTextureChunk::changeFrom(  DrawActionBase *action, 
@@ -440,57 +480,123 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     CubeTextureChunk *oldp      = dynamic_cast<CubeTextureChunk *>(old);
 
     glErr("CubeTextureChunk::changeFrom precheck");
- 
-    TextureChunk::activateTexture(action->getWindow(), idx);
 
-    action->getWindow()->validateGLObject(getGLId());
+    Window *win = action->getWindow();   
+
+    if(TextureChunk::activateTexture(win, idx))
+        return; // trying to use too many textures
+
+    Real32 dummy;
+    UInt32 nteximages, ntexcoords, ntexunits;
+    
+    ntexunits = static_cast<UInt32>(
+                            win->getConstantValue(GL_MAX_TEXTURE_UNITS));
+    
+    if(isnanf(dummy = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
+    {
+        nteximages = ntexunits;
+    }
+    else
+    {
+        nteximages = static_cast<UInt32>(dummy);
+    }
+    
+    if(isnanf(dummy = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = ntexunits;
+    }
+    else
+    {
+        ntexcoords = static_cast<UInt32>(dummy);
+    }
+
+    if(idx >= nteximages)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("TextureChunk::activate: Trying to bind image unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, nteximages));
+#endif
+        return;        
+    }
+
+    win->validateGLObject(getGLId());
     
     FDEBUG(("CubeTextureChunk::activate - %d\n", getGLId()));
 
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, getGLId());
 
-    if(oldp->getEnvMode() != getEnvMode())
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
-
-
-    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
-                    (GLfloat*)getEnvColor().getValuesRGBA());
-
 #ifdef GL_NV_point_sprite
-    if(oldp->getPointSprite() != getPointSprite() &&
-       action->getWindow()->hasExtension(_nvPointSprite)
-      )
+    if(idx < ntexcoords)
     {
-        glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, getPointSprite());
+        if(oldp->getPointSprite() != getPointSprite() &&
+           win->hasExtension(_nvPointSprite)
+          )
+        {
+            glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, getPointSprite());
+        }
     }
 #endif
- 
-    if(oldp->getLodBias() != getLodBias() &&
-       action->getWindow()->hasExtension(_extTextureLodBias))
-    {
-        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
-	          getLodBias());
-    }
-   
-    if(getEnvMode() == GL_COMBINE_EXT)
-    {
-        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
-        glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB()); 
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB()); 
 
-        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
-        glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_EXT,getEnvOperand0Alpha());
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
+    if(idx < nteximages)
+    {
+        if(oldp->getLodBias() != getLodBias() &&
+           win->hasExtension(_extTextureLodBias)
+          )
+        {
+            glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
+	              getLodBias());
+        }
+    }
+
+    if(idx < ntexunits)
+    {
+        if(oldp->getEnvMode() != getEnvMode())
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
+
+        glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
+                        (GLfloat*)getEnvColor().getValuesRGBA());
+
+        if(getEnvMode() == GL_COMBINE_EXT)
+        {
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
+            glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand1RGB());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand2RGB());
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
+            glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_EXT,getEnvOperand0Alpha());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
+        }
+
+        if(win->hasExtension(_nvTextureShader))
+        {
+            if(      getShaderOperation() != GL_NONE &&
+               oldp->getShaderOperation() == GL_NONE
+              )
+            {
+                handleTextureShader(win, GL_TEXTURE_CUBE_MAP_ARB);
+                if(idx == 0)
+                    glEnable(GL_TEXTURE_SHADER_NV);
+            }
+            else if(      getShaderOperation() == GL_NONE &&
+                    oldp->getShaderOperation() != GL_NONE
+                   )
+            {
+                glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_NONE);
+                if(idx == 0)
+                    glDisable(GL_TEXTURE_SHADER_NV);
+            }
+        }
     }
 
     glErr("CubeTextureChunk::changeFrom");
@@ -502,25 +608,73 @@ void CubeTextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     if(action->getWindow()->hasExtension(_arbCubeTex) == false)
         return;
         
-    TextureChunk::activateTexture(action->getWindow(), idx);
+    Window *win = action->getWindow();   
 
-    glDisable(GL_TEXTURE_CUBE_MAP_ARB);
+    Real32 nteximages, ntexcoords;
+    if(isnanf(nteximages = 
+                win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
+    {
+        nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+    if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
+    {
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+    }
+
+    if(idx >= nteximages)
+    {
+#ifdef OSG_DEBUG
+        FWARNING(("CubeTextureChunk::deactivate: Trying to bind image unit %d,"
+                  " but Window %p only supports %d!\n",
+                  idx, win, nteximages));
+#endif
+        return;        
+    }
+
+
+    bool isActive = false;
 
 #ifdef GL_NV_point_sprite
     if(getPointSprite() &&
-       action->getWindow()->hasExtension(_nvPointSprite)
+       win->hasExtension(_nvPointSprite) &&
+       idx < ntexcoords
       )
     {
+        if(!isActive)
+        {
+            TextureChunk::activateTexture(win, idx);
+            isActive = true;
+        }
         glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_FALSE);
     }
 #endif
 
     if(getLodBias() != 0.0f &&
-       action->getWindow()->hasExtension(_extTextureLodBias))
+       win->hasExtension(_extTextureLodBias))
     {
+        if(!isActive)
+            TextureChunk::activateTexture(win, idx);
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
 	          0.0f);
     }
+    
+    
+    if(idx >= static_cast<UInt16>(win->getConstantValue(GL_MAX_TEXTURE_UNITS)))
+        return; // tetxures >= MTU are not enabled and don't have an env
+        
+    if(!isActive)
+        TextureChunk::activateTexture(win, idx);
+
+    if(getShaderOperation() != GL_NONE &&
+       win->hasExtension(_nvTextureShader))
+    {
+        glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_NONE);
+
+        if(idx == 0)
+            glDisable(GL_TEXTURE_SHADER_NV);
+    }
+
+    glDisable(GL_TEXTURE_CUBE_MAP_ARB);
 
     glErr("CubeTextureChunk::deactivate");
 }

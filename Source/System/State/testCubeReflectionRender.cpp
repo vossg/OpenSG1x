@@ -7,6 +7,7 @@
 #include <OSGSimpleSceneManager.h>
 #include <OSGSceneFileHandler.h>
 
+#include <OSGMaterialGroup.h>
 #include <OSGSimpleMaterial.h>
 #include <OSGCubeTextureChunk.h>
 #include <OSGTexGenChunk.h>
@@ -82,13 +83,20 @@ void keyboard(unsigned char k, int, int)
 
 
 
-Action::ResultE setGeoMaterial(NodePtr& node)
+Action::ResultE setMaterial(NodePtr& node)
 {   
     GeometryPtr geo = GeometryPtr::dcast(node->getCore());
     
     if(geo!=NullFC)
     {
         geo->setMaterial(cuberefmat);
+    }   
+    
+    MaterialGroupPtr mg = MaterialGroupPtr::dcast(node->getCore());
+    
+    if(mg!=NullFC)
+    {
+        mg->setMaterial(cuberefmat);
     }   
     
     return Action::Continue; 
@@ -158,7 +166,7 @@ int main(int argc, char **argv)
     // set all geos to use the cube reflection material
     traverse(scene, 
              osgTypedFunctionFunctor1CPtrRef<Action::ResultE, NodePtr>
-             (setGeoMaterial));
+             (setMaterial));
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;

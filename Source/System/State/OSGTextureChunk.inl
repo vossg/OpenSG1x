@@ -96,12 +96,27 @@ void TextureChunk::activeTexture(Window *win, UInt16 texture)
 }
 
 //! call glActiveTexture via the extension mechanism, if MultiTextures
-//! are supported
+//! are supported. Return false if successful, true if not.
 inline 
-void TextureChunk::activateTexture(Window *win, UInt16 texture)
+bool TextureChunk::activateTexture(Window *win, UInt16 texture)
 {
     if(hasMultiTexture(win))
+    {
         activeTexture(win, texture);
+    }
+#ifdef OSG_DEBUG
+    else
+    {
+        if(texture != 0)
+        {
+            FWARNING(("TextureChunk::activateTexture: trying to activate "
+                "texture %d, but Window %p doesn't support multi-textures!\n",
+                texture, win));
+            return true;
+        }
+    }
+#endif
+    return false;
 }
 
 inline

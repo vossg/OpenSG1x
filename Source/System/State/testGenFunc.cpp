@@ -13,13 +13,19 @@
 #include <OSGImage.h>
 #include <OSGTexGenChunk.h>
 
+#include <OSGWebInterface.h>
+
 
 OSG_USING_NAMESPACE
+using namespace std;
 
 SimpleSceneManager *mgr;
+WebInterface *webInterface;
 
 TextureChunkPtr tx1,tx2;
-TransformPtr trans;
+TransformPtr trans1,trans2;
+NodePtr transn1,transn2;
+TexGenChunkPtr tg;
 
 // redraw the window
 void display(void)
@@ -33,17 +39,36 @@ void display(void)
                    Quaternion( Vec3f(0,1,0), 
                                t / 1000.f));   
     
-    beginEditCP(trans, Transform::MatrixFieldMask);
+    beginEditCP(trans1, Transform::MatrixFieldMask);
     {
-        trans->setMatrix(m);
+        trans1->setMatrix(m);
     }   
-    endEditCP  (trans, Transform::MatrixFieldMask);
+    endEditCP  (trans1, Transform::MatrixFieldMask);
+    
+    m.setTransform(Vec3f(      osgsin(t / 500.f), 
+                               osgcos(t / 500.f), 
+                               osgsin(t / 500.f)),
+                   Quaternion( Vec3f(0,1,0), 
+                               t / 1000.f));   
+    
+    beginEditCP(trans2, Transform::MatrixFieldMask);
+    {
+        trans2->setMatrix(m);
+    }   
+    endEditCP  (trans2, Transform::MatrixFieldMask);
 
     // render    
     mgr->redraw();
 
     // all done, swap    
     glutSwapBuffers();
+}
+
+void idle( void )
+{
+    webInterface->waitRequest(0.01);
+    webInterface->handleRequests();
+    glutPostRedisplay();
 }
 
 // react to size changes
@@ -79,6 +104,16 @@ void keyboard(unsigned char k, int, int)
 
     case 27:    osgExit();
                 exit(1);
+    case '1':   beginEditCP(tg);
+                tg->setSBeacon(transn1);
+                endEditCP(tg);
+                cout << "trans1" << endl;
+                break;
+    case '2':   beginEditCP(tg);
+                tg->setSBeacon(transn2);
+                endEditCP(tg);
+                cout << "trans2" << endl;
+                break;
     }
 }
 
@@ -96,7 +131,7 @@ int main(int argc, char **argv)
     
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-    glutIdleFunc(display);
+    glutIdleFunc(idle);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
@@ -135,7 +170,7 @@ int main(int argc, char **argv)
     tx1->setWrapT(GL_REPEAT);
     endEditCP(tx1);
 
-    TexGenChunkPtr tg = TexGenChunk::create();
+    tg = TexGenChunk::create();
     
     beginEditCP(tg);
     tg->setGenFuncS(GL_EYE_LINEAR);
@@ -162,21 +197,25 @@ int main(int argc, char **argv)
     beginEditCP(geo, Geometry::MaterialFieldMask);
     geo->setMaterial(mat);
     endEditCP(geo, Geometry::MaterialFieldMask);
-       
-    NodePtr transn = makeCoredNode<Transform>(&trans);
-    beginEditCP(transn, Node::CoreFieldMask | Node::ChildrenFieldMask);
+      
+    transn1 = makeCoredNode<Transform>(&trans1);
+    beginEditCP(transn1, Node::CoreFieldMask | Node::ChildrenFieldMask);
     {
-        transn->addChild(torus);
+        transn1->addChild(torus);
     }
-    endEditCP  (transn, Node::CoreFieldMask | Node::ChildrenFieldMask);
+    endEditCP  (transn1, Node::CoreFieldMask | Node::ChildrenFieldMask);
+
+
+    transn2 = makeCoredNode<Transform>(&trans2);
 
     NodePtr scene = makeCoredNode<Group>();  
     beginEditCP(scene);
-    scene->addChild(transn);
+    scene->addChild(transn1);
+    scene->addChild(transn2);
     endEditCP(scene);
     
     beginEditCP(tg);
-    tg->setSBeacon(scene);
+    tg->setSBeacon(torus);
     endEditCP(tg);
     
     // create the SimpleSceneManager helper
@@ -190,6 +229,9 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
     mgr->redraw();
+
+    webInterface = new WebInterface();
+    webInterface->setRoot(scene);
     
     // GLUT main loop
     glutMainLoop();

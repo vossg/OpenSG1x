@@ -8,6 +8,7 @@
 
 #include <OSGSimpleMaterial.h>
 #include <OSGTextureChunk.h>
+#include <OSGCubeTextureChunk.h>
 #include <OSGImage.h>
 #include <OSGTexGenChunk.h>
 #include <OSGTextureTransformChunk.h>
@@ -84,9 +85,22 @@ int main(int argc, char **argv)
     PassiveWindowPtr pwin=PassiveWindow::create();
     pwin->init();
 
-    // create the two textures
-    TextureChunkPtr tx1 = TextureChunk::create();
-    TextureChunkPtr tx2 = TextureChunk::create();
+    UInt32 ntex, ntexgen;
+    UInt32 uselodbias, usepointsprite, usecubemaps;
+    
+    if(argc < 2 || sscanf(argv[1], "%d", &ntex) != 1)
+        ntex = 2;
+    if(argc < 3 || sscanf(argv[2], "%d", &ntexgen) != 1)
+        ntexgen = 0;
+    if(argc < 4 || sscanf(argv[3], "%d", &uselodbias) != 1)
+        uselodbias = 0;
+    if(argc < 5 || sscanf(argv[4], "%d", &usepointsprite) != 1)
+        usepointsprite = 0;
+    if(argc < 6 || sscanf(argv[5], "%d", &usecubemaps) != 1)
+        usecubemaps = 0;
+        
+    // create the textures
+    TextureChunkPtr *tx = new TextureChunkPtr [ntex];
    
     UChar8 imgdata1[] =
         {  255,0,0,  0,255,0,  0,0,255, 255,0,255 };
@@ -98,36 +112,64 @@ int main(int argc, char **argv)
     ImagePtr pImg2 = Image::create();
     pImg2->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
     
-    beginEditCP(tx1);
-    tx1->setImage(pImg1); // NOTE: the image is NOT copied, the variable
-                          // needs to be kept around as long as the 
-                          // texture is used
-    tx1->setMinFilter(GL_LINEAR);
-    tx1->setMagFilter(GL_LINEAR);
-    tx1->setWrapS(GL_REPEAT);
-    tx1->setWrapT(GL_REPEAT);
-    tx1->setEnvMode(GL_REPLACE);
-    endEditCP(tx1);
+    for(UInt16 i = 0; i < ntex; ++i)
+    {
+        CubeTextureChunkPtr ctp;
+        
+        if(usecubemaps)
+        {
+            ctp = CubeTextureChunk::create();
+            tx[i] = ctp;
+        }
+        else
+            tx[i] = TextureChunk::create();
+            
+        beginEditCP(tx[i]);
+        tx[i]->setImage( (i&1) ? pImg2 : pImg1 ); 
+        if(usecubemaps)
+        {
+            ctp->setPosZImage( (i&1) ? pImg2 : pImg1 );
+            ctp->setPosXImage( (i&1) ? pImg2 : pImg1 );
+            ctp->setNegXImage( (i&1) ? pImg2 : pImg1 );
+            ctp->setPosYImage( (i&1) ? pImg2 : pImg1 );
+            ctp->setNegYImage( (i&1) ? pImg2 : pImg1 );
+        }
+        tx[i]->setMinFilter(GL_LINEAR);
+        tx[i]->setMagFilter(GL_LINEAR);
+        tx[i]->setWrapS(GL_REPEAT);
+        tx[i]->setWrapT(GL_REPEAT);
+        tx[i]->setEnvMode(GL_REPLACE);
+        if(uselodbias)
+            tx[i]->setLodBias(2);
+        if(usepointsprite)
+            tx[i]->setPointSprite(true);
+        endEditCP(tx[i]);
+    }
     
-    beginEditCP(tx2);
-    tx2->setImage(pImg2); // NOTE: the image is NOT copied, the variable
-                          // needs to be kept around as long as the 
-                          // texture is used
-    tx2->setMinFilter(GL_NEAREST);
-    tx2->setMagFilter(GL_NEAREST);
-    tx2->setWrapS(GL_REPEAT);
-    tx2->setWrapT(GL_REPEAT);
-    tx2->setEnvMode(GL_MODULATE);
-    endEditCP(tx2);
+    TexGenChunkPtr tg = TexGenChunk::create();
     
+    beginEditCP(tg);
+    tg->setGenFuncS(GL_EYE_LINEAR);
+    tg->setGenFuncSPlane(Vec4f(0,.15,0,0));
+    endEditCP(tg);
+
     // create the multi-textured material
     SimpleMaterialPtr mat = SimpleMaterial::create();
     
     beginEditCP(mat);
     mat->setDiffuse(Color3f(1,1,1));
     mat->setLit(false);
-    mat->addChunk(tx1);
-    mat->addChunk(tx2);
+    
+    for(UInt16 i = 0; i < ntex; ++i)
+    {
+        mat->addChunk(tx[i]);
+    }
+    
+    for(UInt16 i = 0; i < ntexgen; ++i)
+    {
+        mat->addChunk(tg);
+    }
+
     endEditCP(mat);
     
     // create the scene
