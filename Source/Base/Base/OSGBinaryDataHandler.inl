@@ -34,7 +34,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef WIN32
+#ifdef WIN32
+#include <winsock.h>
+#else
 #include <netinet/in.h>
 #endif
 #include <sys/types.h>
