@@ -1,5 +1,8 @@
 #include <OSGConfig.h>
 
+// just compile this under Windows
+#ifdef WIN32
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -387,3 +390,6 @@ int main (int argc, char **argv)
 	
     return (0);
 }
+
+// just compile this under Windows
+#endif

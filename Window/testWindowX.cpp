@@ -35,10 +35,7 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
 
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
 #include "OSGRAWSceneFileType.h"
-#endif
-
 #include "OSGTrackball.h"
 
 using namespace OSG;
