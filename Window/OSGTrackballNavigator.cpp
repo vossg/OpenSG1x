@@ -137,9 +137,14 @@ void TrackballNavigator::setUp(Vec3f new_up)
 
 void TrackballNavigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 {
-    MatrixLookAt(_tMatrix,new_at,new_at+(new_at-new_from),new_up);
-    _rDistance=(new_at-new_from).length();
-    updateFinalMatrix();
+    bool b=MatrixLookAt(_tMatrix,new_at,new_at+(new_at-new_from),new_up);
+    if (!b)
+    {
+        _rDistance=(new_at-new_from).length();
+        updateFinalMatrix();
+    }
+    else
+        FNOTICE(("TrackballNavigator: set(.,.,.), failed")); 
 }
 
 void TrackballNavigator::set(Matrix new_matrix)
@@ -257,7 +262,7 @@ void TrackballNavigator::updateFinalMatrix()
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.5 2002/06/26 16:43:45 istoynov Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.6 2002/08/02 11:13:30 istoynov Exp $";
     static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 
