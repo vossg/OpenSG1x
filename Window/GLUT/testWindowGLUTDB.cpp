@@ -183,7 +183,7 @@ vis(int visible)
     }
 }
 
-void key(unsigned char key, int x, int y)
+void key(unsigned char key, int , int )
 {
     switch ( key )
     {

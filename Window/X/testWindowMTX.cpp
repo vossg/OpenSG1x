@@ -99,7 +99,7 @@ int            mouseb = 0,
 double  basetime;
 #define dpr cout << getSystemTime()-basetime << ":" << Thread::getAspect() << ":"
 
-void doCamTrans (UInt32 id)
+void doCamTrans (UInt32 )
 {
     Matrix m1, m2, m3;
     Quaternion q1;
@@ -148,7 +148,7 @@ void *drawThreadProc (void *arg)
     return ( NULL );
 }
 
-int wait_for_map_notify(Display *display, XEvent *event, char *arg)
+int wait_for_map_notify(Display *, XEvent *event, char *arg)
 {
     return( event->type == MapNotify && event->xmap.window == (::Window)arg );
 }

@@ -67,7 +67,7 @@ PerspectiveCameraPtr cam;
 Bool          stopIt = false;
 int           lastx=0, lasty=0;
 
-int wait_for_map_notify(Display *display, XEvent *event, char *arg)
+int wait_for_map_notify(Display *, XEvent *event, char *arg)
 {
     return( event->type == MapNotify && event->xmap.window == (::Window)arg );
 }

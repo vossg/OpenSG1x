@@ -53,7 +53,7 @@ mouse(int button, int state, int x, int y)
 }
 
 void
-key(unsigned char key, int x, int y)
+key(unsigned char key, int , int )
 {
     switch(key)
     {

@@ -120,7 +120,7 @@ void dlist2( Window *win, UInt32 id )
 // this, so we can test OpenGL object handling
 
     
-Action::ResultE doDraw( CNodePtr& node, Action * action )
+Action::ResultE doDraw( CNodePtr&, Action * action )
 {
     DrawAction *a = dynamic_cast<DrawAction*>(action);
 
