@@ -565,7 +565,8 @@ void GroupMCastConnection::initialize()
         clientHost = message.getString();
         clientPort = message.getUInt32();
 
-        std::cout << clientHost << " " << clientPort << std::endl;
+        SINFO << "Server:" << clientHost 
+              << " Port:" << clientPort << std::endl;
         _receiver.push_back(SocketAddress(clientHost.c_str(),clientPort));
     }
     for(index = 0 ; index < _sockets.size() ; ++index)
@@ -595,6 +596,7 @@ void GroupMCastConnection::initialize()
         // send the message
         _sockets[index].send(message);
     }
+
     // start write thread
     _sendQueueThread=BaseThread::get(threadName);
     _sendQueueThreadRunning = true;
