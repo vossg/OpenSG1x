@@ -1636,6 +1636,399 @@ inline UInt32 IndexDic::entryCount(void) const
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
 
+    calcVertexTangents calculates the tangents/ binormals for the geometry's vertices, see
+    \ref PageSystemGeoFunctionsCalcTangents for a description. 
+*/
+
+OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
+                                                       Int32 srcTexIndex,
+                                                       Int32 dstAttribTan,
+                                                       Int32 dstAttribBin)
+{
+    GeoTexCoords4fPtr tangentP, binormalP;
+    std::vector<Vec3f> tangent, binormal, normal;
+    UInt16 mapTan = 0, mapBin = 0, mapTex = 0;
+    
+    // fallback in case of user error: use none mode
+    if (dstAttribTan == dstAttribBin)
+        dstAttribBin = -1;
+    
+    switch (srcTexIndex) {
+        case 0:
+            mapTex = Geometry::MapTexCoords;
+            break;
+        case 1:
+            mapTex = Geometry::MapTexCoords1;
+            break;
+        case 2:
+            mapTex = Geometry::MapTexCoords2;
+            break;
+        case 3:
+            mapTex = Geometry::MapTexCoords3;
+            break;
+        default:
+            FWARNING(("Currently only 4 TexCoords allowed in GeoPtr\n"));  
+            srcTexIndex = 0;
+            mapTex = Geometry::MapTexCoords;
+            break;
+    }
+  
+    switch (dstAttribTan) {    
+        case Geometry::TexCoordsFieldId:
+            beginEditCP(geo);
+            {
+                // because we need more than 2 coords, as is usual,
+                // it is safer & easier to set a new texCoordsPtr 
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords;
+            break;
+        case Geometry::TexCoords1FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords1(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords1;
+            break;
+        case Geometry::TexCoords2FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords2(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords2;
+            break;
+        case Geometry::TexCoords3FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords3(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords3;
+            break;
+        
+        case Geometry::PositionsFieldId:
+        case Geometry::NormalsFieldId:
+        case Geometry::ColorsFieldId:
+        case Geometry::SecondaryColorsFieldId:
+            FWARNING(("Case currently not treated, using NONE\n"));     
+            dstAttribTan = -1;
+              
+        case -1:
+            tangentP = GeoTexCoords4f::create();    // to be deleted
+            break;
+    }
+    
+    switch (dstAttribBin) {
+        case Geometry::TexCoordsFieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords;
+            break;
+        case Geometry::TexCoords1FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords1(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords1;
+            break;
+        case Geometry::TexCoords2FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords2(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords2;
+            break;
+        case Geometry::TexCoords3FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords3(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords3;
+            break;
+        
+        case Geometry::PositionsFieldId:
+        case Geometry::NormalsFieldId:
+        case Geometry::ColorsFieldId:
+        case Geometry::SecondaryColorsFieldId:
+            FWARNING(("Case currently not treated, using NONE\n")); 
+            dstAttribBin = -1;
+                  
+        case -1:
+            binormalP = GeoTexCoords4f::create();
+            break;
+    }
+    
+    // can't eval what combination was meant
+    if ( srcTexIndex < 0 || srcTexIndex > 3 || 
+        (dstAttribTan == -1 && dstAttribBin == -1)) {
+        FFATAL(("Index set not supported in calcVertexNormals()\n"));
+        return;
+    }
+    
+    GeoIndicesPtr ip = geo->getIndices();
+        
+    // HACK but without indices it crashes
+    if (ip == NullFC || ip->size() == 0) {
+        FFATAL(("Geo without indices in calcVertexNormals()\n"));
+        return;
+    }
+    
+    GeoPositionsPtr positions = geo->getPositions();
+    
+    // Get the positions property
+    if (positions == NullFC) {
+        FFATAL(("Geo without positions in calcVertexNormals()\n"));
+        return;
+    }
+
+    MFUInt16 &im = geo->getIndexMapping();
+    Int16 niTan = (mapTan > 0) ? geo->calcMappingIndex(mapTan) : -1,
+          niBin = (mapBin > 0) ? geo->calcMappingIndex(mapBin) : -1;
+          
+    Int32 indexMapSize = im.size(), j, imsize = 0;
+    UInt32 i, val, nind = ip->size() / (indexMapSize ? indexMapSize : 1);
+    bool multiIndex = (indexMapSize > 1) ? true : false;
+    
+    if (multiIndex) {
+        
+        // separate the attrib's index if exist
+        if (niTan >= 0) 
+            im[niTan] = im[niTan] &~ mapTan;
+        if (niBin >= 0)
+            im[niBin] = im[niBin] &~ mapBin; 
+            
+        // if im[ni] < 1 erase because index is unused
+        MFUInt16::iterator imIt = im.begin();
+        if (niTan == niBin) {
+            if (niTan >= 0 && im[niTan] < 1)
+                im.erase(imIt + niTan);
+            else 
+                niTan = niBin = -1;    // not deleted
+        }
+        else if (niTan < niBin) {
+            if (niBin >= 0 && im[niBin] < 1)
+                im.erase(imIt + niBin);
+            else 
+                niBin = -1;
+            if (niTan >= 0 && im[niTan] < 1)
+                im.erase(imIt + niTan);
+            else 
+                niTan = -1;
+        }
+        else {
+            if (niTan >= 0 && im[niTan] < 1)
+                im.erase(imIt + niTan);
+            else 
+                niTan = -1;
+            if (niBin >= 0 && im[niBin] < 1)
+                im.erase(imIt + niBin);
+            else 
+                niBin = -1;
+        }
+
+        // create new mapping for attribs
+        UInt16 map = 0;
+        if (mapTan > 0)
+            map |= mapTan;
+        if (mapBin > 0)
+            map |= mapBin;
+        if (map > 0)
+            im.push_back(map);
+        imsize = im.size();
+
+        // add an entry to the indices for the attribs        
+        std::vector<UInt32> indexBuffer;
+        int status, l, g, ibSize;
+        
+        if (niTan < 0 && niBin < 0) {
+            status = 0;
+        }
+        else if (niBin < 0 && niTan >= 0 || 
+                 niBin >= 0 && niTan < 0 ||
+                 niBin >= 0 && niBin == niTan) {
+            status = 1;
+            l = (niBin < niTan) ? niTan : niBin;
+        }
+        else /*if (niBin > 0 && niTan > 0)*/ {
+            status = 2;
+            l = (niBin < niTan) ? niBin : niTan;
+            g = (niBin < niTan) ? niTan : niBin;
+        }
+        
+        // discard positions l and g and provide index for tangent|binormal
+        for (i=0; i<nind; i++) {
+            for (j=0; j<indexMapSize; j++) {
+                switch (status) {
+                    case 0:
+                        indexBuffer.push_back(ip->getValue(i*indexMapSize+j));
+                        break;
+                    case 1: 
+                        if (j != l)
+                            indexBuffer.push_back(ip->getValue(i*indexMapSize+j));
+                        break;
+                    case 2:
+                        if (j != l && j != g)
+                            indexBuffer.push_back(ip->getValue(i*indexMapSize+j));
+                        break;
+                }
+            }
+            indexBuffer.push_back(0);    // will be tangent|binormal index
+        }
+        ibSize = indexBuffer.size();
+        
+        beginEditCP(ip);
+        {
+            ip->clear();
+            if (imsize != indexMapSize)
+                ip->resize(ibSize);
+            
+            for (i=0; i<ibSize; i++) 
+                ip->setValue(indexBuffer[i], i);
+        }
+        endEditCP(ip);
+        
+    } // multiIndex
+    
+    TriangleIterator tI;
+    IndexDic indexDic;
+    Int32 k, index, v[3];
+    Vec4f vect(0, 0, 0, 0);
+    
+    std::vector<Int32>indexVec;
+    Int16 niPos = geo->calcMappingIndex(Geometry::MapPosition),
+          niNorm = geo->calcMappingIndex(Geometry::MapNormal),
+          niTex = geo->calcMappingIndex(mapTex);
+    indexVec.resize(3);    
+    
+    beginEditCP(ip);
+    
+    // init property arrays
+    for (i=0; i<nind; i++) {
+        tangent.push_back(Vec3f::Null);
+        binormal.push_back(Vec3f::Null);
+        normal.push_back(Vec3f::Null);    
+    }
+    
+    for (tI=geo->beginTriangles(), i=0; tI!=geo->endTriangles(); ++tI, ++i) {  
+        
+        // first, get index for every vertex
+        for (k=0; k<3; k++) {
+            index = tI.getIndexIndex(k);
+            
+            if (multiIndex) {
+                // make vertex unique with resp. to Position, Normal, TexCoord
+                for (j=0; j<imsize; j++) {
+                    if (j == niPos || j == niNorm || j == niTex)
+                        indexVec[j] = ip->getValue(index + j);
+                }
+                v[k] = indexDic.entry(indexVec);
+            }
+            else {
+                v[k] = tI.getPositionIndex(k); //index;
+            }
+        }
+        
+        // second, calculate tangent and binormal for every tri
+        Int32 v0 = tI.getPositionIndex(0),
+              v1 = tI.getPositionIndex(1),
+              v2 = tI.getPositionIndex(2);
+        Vec2f t0, t1, t2, tex1, tex2;
+        Vec3f edge1, edge2, sdir, tdir;
+        
+        switch (srcTexIndex) {
+            case 0:
+                t0 = tI.getTexCoords(0);
+                t1 = tI.getTexCoords(1);
+                t2 = tI.getTexCoords(2);
+                break;
+            case 1:
+                t0 = tI.getTexCoords1(0);
+                t1 = tI.getTexCoords1(1);
+                t2 = tI.getTexCoords1(2);
+                break;
+            case 2:
+                t0 = tI.getTexCoords2(0);
+                t1 = tI.getTexCoords2(1);
+                t2 = tI.getTexCoords2(2);
+                break;
+            case 3:
+                t0 = tI.getTexCoords3(0);
+                t1 = tI.getTexCoords3(1);
+                t2 = tI.getTexCoords3(2);
+                break;
+        }
+        
+        edge1 = tI.getPosition(1) - tI.getPosition(0),
+        edge2 = tI.getPosition(2) - tI.getPosition(0);
+        tex1 = t1 - t0;
+        tex2 = t2 - t0;
+        
+        Real32 invDet = 1.0 / (tex1[0]*tex2[1] - tex2[0]*tex1[1]);
+        sdir = invDet * (tex2[1]*edge1 - tex1[1]*edge2);    // tangent
+        tdir = invDet * (tex1[0]*edge2 - tex2[0]*edge1);    // binormal
+        
+        // set value for every vertex
+        int tanOffset = (imsize == 0) ? 0 : imsize-1;
+        
+        for (k=0; k<3; k++) {
+            tangent[v[k]] += sdir;
+            binormal[v[k]] += tdir;
+            normal[v[k]] = tI.getNormal(k);
+            ip->setValue(v[k], tI.getIndexIndex(k) + tanOffset); 
+        }
+    }
+    endEditCP(ip);
+    
+    // orthogonalize vectors (Gram-Schmidt) and calc handedness
+    beginEditCP(tangentP);
+    beginEditCP(binormalP);
+    
+    Vec3f T, B, N;
+    Real32 sign = 0, l1, l2;
+    tangentP->clear();
+    binormalP->clear();
+        
+    for (i=0; i<nind; i++) {
+        T = tangent[i];
+        B = binormal[i];
+        N = normal[i];    // must be normalized: n*n = 1
+        sign = ((N.cross(T)).dot(B) < 0) ? -1 : 1;
+        
+        T = T - N.dot(T) * N;
+        T.normalize();
+        B = B - N.dot(B) * N - T.dot(B) * T;
+        B.normalize(); 
+        
+        vect.setValues(T[0], T[1], T[2], sign);
+        tangentP->getField().push_back(vect); 
+        vect.setValues(B[0], B[1], B[2], sign);
+        binormalP->getField().push_back(vect); 
+    }
+
+    endEditCP(tangentP);
+    endEditCP(binormalP);
+}
+
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+
     createOptimizedPrimitives changes the Geometry to make it faster to render
     by creating triangle strips and fans, see \ref
     PageSystemGeoFunctionsOptimizeGeo for a description.

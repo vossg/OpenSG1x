@@ -56,6 +56,12 @@ OSG_SYSTEMLIB_DLLMAPPING
 void                    calcFaceNormals     (GeometryPtr geo);
 
 OSG_SYSTEMLIB_DLLMAPPING 
+void                    calcVertexTangents  (GeometryPtr geo,
+                                             Int32 srcTexIndex = 0,
+                                             Int32 dstAttribTan = Geometry::TexCoords1FieldId,
+                                             Int32 dstAttribBin = Geometry::TexCoords2FieldId);
+
+OSG_SYSTEMLIB_DLLMAPPING 
 Int32                   setIndexFromVRMLData(GeometryPtr geo,
                                              std::vector<Int32> &coordIndex,
                                              std::vector<Int32> &normalIndex,
