@@ -154,7 +154,7 @@ protected:
    bool cdata_mode;
 
    //! char which was put back internally
-   xml_char_type putback_char;
+   int putback_char;
 };
 
 //! dtd input stream iterator

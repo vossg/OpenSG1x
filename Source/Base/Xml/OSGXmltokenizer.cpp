@@ -63,24 +63,27 @@ void xmlstream_iterator::get_next()
 
    // get next char
    xml_char_type c;
+   int c2;
 
    do
    {
       if (putback_char == -1 )
       {
-         c = instr.get();
+         c2 = instr.get();
+		 c = (xml_char_type) c2;
          location.step();
       }
       else
       {
-         c = putback_char;
+         c2 = putback_char;
+		 c = (xml_char_type) c2;
          putback_char = -1;
          location.step();
       }
 
       // do we have an eof?
       // TODO: check for instr.eof()
-      if (c == EOF)
+      if (c2 == EOF)
       {
          if (generic.length()==0)
          {
@@ -105,7 +108,7 @@ void xmlstream_iterator::get_next()
 
             return;
          }
-         putback_char = c;
+         putback_char = c2;
          location.step(-1);
          break;
       }
@@ -117,9 +120,10 @@ void xmlstream_iterator::get_next()
          xml_char_type delim = c;
          do
          {
-            c = instr.get();
+            c2 = instr.get();
+		    c = (xml_char_type) c2;
             location.step();
-            if (c==EOF)
+            if (c2==EOF)
                break;
             generic += c;
          } while (c != delim);
