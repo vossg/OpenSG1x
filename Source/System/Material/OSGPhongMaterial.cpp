@@ -246,6 +246,9 @@ void PhongMaterial::prepareLocalChunks(void)
 
 void PhongMaterial::createFragmentProgram(void)
 {
+    if(_fpChunk == NullFC)
+        return;
+
     bool has_tex_chunk = false;
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
@@ -455,7 +458,7 @@ ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.6 2003/10/11 19:00:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.7 2003/10/17 16:02:46 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 
