@@ -23,10 +23,6 @@ int main (int argc, char **argv)
 	
 	osgInit(argc, argv);
 
-#ifdef __linux
-    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
-#endif
-
 	SceneFileHandler::the().print();
 
 	node = SceneFileHandler::the().read(fileName, 0);
