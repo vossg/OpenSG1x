@@ -116,9 +116,19 @@
     ?copyFromBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
 
-    ?getBinSize@DVRVolumeBase@osg@@UAEIAB_K@Z
     ?copyToBin@?$MField@VNodePtr@osg@@$0A@@osg@@QBEXAAVBinaryDataHandler@2@@Z
     ?copyFromBin@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
 
     ?setValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImageComposer@2@@osg@@$0A@@osg@@QAEXABV?$FCPtr@VAttachmentContainerPtr@osg@@VImageComposer@2@@2@@Z
+    ?getValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEAAV?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@2@XZ
+    ?getValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QBEABV?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@2@XZ
+    ?setValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXABV?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@2@@Z
+    ?getClassType@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ
+    ??1?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@UAE@XZ
+    ??0?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAE@ABV?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@1@@Z
+    ??0?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAE@ABV01@@Z
+    ?getBinSize@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEIXZ
+    ?copyFromBin@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?syncWith@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAV12@@Z
+    ?copyToBin@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
