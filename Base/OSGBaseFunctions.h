@@ -185,6 +185,22 @@ OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgpow(const FloatTypeT &rVal,
                   const FloatTypeT &rExp);
 
+/*! \brief osglog
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+FloatTypeT osglog(const FloatTypeT &rVal);
+
+/*! \brief osgexp
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+FloatTypeT osgexp(const FloatTypeT &rVal);
+
 /*! \brief osgfloor
  *  \ingroup BaseMathFunctions
  */

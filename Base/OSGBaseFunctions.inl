@@ -337,6 +337,36 @@ Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
 #endif
 }
 
+/*! \brief osglog
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
+Real32 osglog(const Real32 &rVal)
+{
+#ifdef OSG_HAS_FLOATMATH
+    return logf(rVal);
+#else
+    return (Real32) log((Real32) rVal);
+#endif
+}
+
+/*! \brief osgexp
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
+Real32 osgexp(const Real32 &rVal)
+{
+#ifdef OSG_HAS_FLOATMATH
+    return expf(rVal);
+#else
+    return (Real32) exp((Real32) rVal);
+#endif
+}
+
 /*! \brief osgfloor
  *  \ingroup BaseMathFunctions
  */
@@ -519,6 +549,28 @@ OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
 {
     return pow(rValue, rExp);
+}
+
+/*! \brief osglog
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
+Real64 osglog(const Real64 &rVal)
+{
+    return log(rVal);
+}
+
+/*! \brief osgexp
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
+Real64 osgexp(const Real64 &rVal)
+{
+    return exp(rVal);
 }
 
 /*! \brief osgfloor
