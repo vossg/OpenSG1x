@@ -136,7 +136,7 @@ Int32 createSingleIndex ( GeometryPtr geo );
  */
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 calcPrimitiveCount ( GeometryPtr geo,
-                            UInt32 &triangle, UInt32 &line, UInt32 &point);
+                            UInt32 &triangle, UInt32 &line, UInt32 &point );
 
 /*! \brief merge the given geometries into a minimal number of nodes
  *  \ingroup Geometry

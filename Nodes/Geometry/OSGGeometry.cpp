@@ -677,21 +677,23 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
         if(el)
         {
             GeometryPtr geo(this);
-            UInt32 ntri,nl,np;
+            UInt32 ntri,nl,np,is;
             
             calcPrimitiveCount(geo, ntri, nl, np);
             el->add(ntri);
             coll->getElem(statNLines)->add(nl);
             coll->getElem(statNLines)->add(np);
             
-            if(getIndices() != NullFC)
+            if(getIndices() == NullFC)
             {
-                coll->getElem(statNVertices)->add(getIndices()->getSize());
+                is = getPositions()->getSize();
             }
             else
             {
-                coll->getElem(statNVertices)->add(getPositions()->getSize());
+                is = getIndexMapping().size();
+                is = getIndices()->getSize() / ( is ? is : 1 );
             }
+            coll->getElem(statNVertices)->add(is);
         }
     }
     

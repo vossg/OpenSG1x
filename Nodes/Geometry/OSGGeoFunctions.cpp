@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.47 2002/04/22 18:20:58 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.48 2002/04/23 21:29:48 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1146,7 +1146,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   vector<NodeGraph::Path> pathVec[2];
   TriangleIterator tI;
   GeoPositionsPtr posPtr;
-  Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0;
+  Int32 cost = 0, startCost, bestCost = 0, worstCost = 0, best = 0;
   Int32 i, j, k, n, pN, index, indexMapSize;
   bool multiIndex;
   vector<int> primitive;
@@ -1168,7 +1168,14 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
       indexMapSize = (geoPtr->getIndexMapping().size());
       multiIndex = (indexMapSize > 1) ? true : false;
       calcPrimitiveCount(geoPtr,triN,lineN,pointN);
-      indexPtr = geoPtr->getIndices();
+      indexPtr = geoPtr->getIndices();      
+      if (indexPtr == NullFC)
+        startCost = pN;
+      else
+        if (indexMapSize)
+          startCost = indexPtr->size() / indexMapSize;
+        else
+          startCost = indexPtr->size();
     }
   else
     {
@@ -1178,8 +1185,8 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   if (pN && (indexPtr != NullFC))
     {
 
-      FNOTICE (( "Start Geometry optimisation: tri/line/point: %d/%d/%d\n",
-                 triN, lineN, pointN));
+      FNOTICE (( "Start geo opt: start/tri cost: %d/%d imp: %d tri/line/point: %d/%d/%d\n",
+                 startCost, (triN * 3), indexMapSize, triN, lineN, pointN));
       
       inputT = getSystemTime();
       
@@ -1200,8 +1207,8 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                 }
               graph.setNode ( triCount++, v[0], v[1], v[2] );
             }
-          FLOG (( "XXXXX IndexDic entry: %d/%d\n", 
-                  indexDic.entryCount(), (triN * 3) ));
+          FNOTICE (( "Multi-index dic entry: %d/%d\n", 
+                     indexDic.entryCount(), (triN * 3) ));
         }
       else
         {
@@ -1254,7 +1261,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
         }
       
       // valid result
-      if (bestCost) 
+      if (bestCost && (bestCost < startCost))
         {
           
           // check/create the indexPtr/lengthsPtr/geoTypePtr
@@ -1351,9 +1358,14 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
           FNOTICE (( "Graph in/opt/out timing: %g/%g/%g \n",
                      inputT, optimizeT, outputT  ));
           
-          FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d\n",
-                     double ( double(bestCost) / double(triN * 3) * 100.0),
+          FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d \n",
+                     double ( double(bestCost) / double(startCost) * 100.0),
                      iteration, bestCost, worstCost ));
+        }
+      else 
+        {
+          FNOTICE (( "startCost (%d) <= bestCost (%d), triCost(%d); keep geo data\n",
+                     startCost, bestCost, (triN * 3) ));
         }
     }
   
@@ -1463,13 +1475,14 @@ OSG_SYSTEMLIB_DLLMAPPING
 UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
                                  UInt32 &triangle,
                                  UInt32 &line,
-                                 UInt32 &point)
+                                 UInt32 &point )
 {
   GeoPTypesUI8Ptr geoTypePtr;
   GeoPLengthsUI32Ptr lensPtr;
   GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::iterator typeI, endTypeI;
   GeoPLengthsUI32Ptr::StoredObjectType::StoredFieldType::iterator lenI;
   UInt32 lN, tN, len, type;
+
   // TODO; should we really reset the values ?
   triangle = line = point = 0;
 
