@@ -224,7 +224,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
         Int32  _iTimesUsed;
         bool   _bOwnName;
         Char8 *_szName;
-        
+        bool   _bWriten;
+
       public:
 
         FCInfo(void);
@@ -293,26 +294,53 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static Action::ResultE writeVTransformLeave(CNodePtr &pGroup,
                                                 Action   *pAction);
 
-    static void writePoints   (GeometryPtr      pGeo, 
-                               FILE            *pFile,
-                               VRMLWriteAction *pWriter);
-    static void writeNormals  (GeometryPtr      pGeo, 
-                               FILE            *pFile,
-                               VRMLWriteAction *pWriter);
-    static void writeColors   (GeometryPtr      pGeo, 
-                               FILE            *pFile,
-                               VRMLWriteAction *pWriter);
-    static void writeTexCoords(GeometryPtr      pGeo, 
-                               FILE            *pFile,
-                               VRMLWriteAction *pWriter);
+    static void writePoints   (      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
+    static void writeNormals  (      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
+    static void writeColors   (      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
+    static void writeTexCoords(      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
 
-    static void writeIndex    (GeometryPtr      pGeo, 
-                               FILE            *pFile,
-                               VRMLWriteAction *pWriter);
+    static void writeIndex    (      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
 
-    static void writeMaterial (GeometryPtr      pGeo, 
-                               FILE            *pFile,
-                               VRMLWriteAction *pWriter);
+    static void writeLineIndex(      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
+
+    static void writeMaterial (      GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
+
+    static bool writeGeoCommon(      NodePtr          pNode,
+                                     GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter,
+                               const Char8           *setTypename);
+
+    static void writePointSet (      NodePtr          pNode,
+                                     GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter);
+
+    static void writeLineSet  (      NodePtr          pNode,
+                                     GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter,
+                                     bool             bSinglePrimitiveGeo);
+
+    static void writeFaceSet  (      NodePtr          pNode,
+                                     GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter,
+                                     bool             bSinglePrimitiveGeo);
 
     static Action::ResultE writeGeoEnter(CNodePtr &pGroup,
                                          Action   *pAction);
@@ -332,6 +360,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     FILE          *_pFile;
 
     TraversalMode  _eTraversalMode;    
+    bool           _currentUse;
     UInt32         _uiOptions;
 
     vector<FCInfo> _vFCInfos;
@@ -350,10 +379,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     void decIndent  (UInt32 uiDelta);
     void printIndent(void);
 
-    void    addNodeUse     (CNodePtr          &pNode);
-    void    addContainerUse(FieldContainerPtr &pContainter);
+    void    setCurrentUse  (bool bVal                    );
+    bool    isCurrentUse   (void                         );
 
-    FCInfo *getInfo(CNodePtr &pNode);
+    void    addNodeUse     (CNodePtr          &pNode     );
+    void    addContainerUse(FieldContainerPtr &pContainer);
+
+    FCInfo *getInfo        (FieldContainerPtr &pContainer);
 };
 
 //---------------------------------------------------------------------------

@@ -93,16 +93,18 @@ VRMLWriteAction::ActionInitializer::~ActionInitializer(void)
 }
 
 VRMLWriteAction::FCInfo::FCInfo(void) :
-    _iTimesUsed(0),
+    _iTimesUsed(0     ),
     _bOwnName   (false),
-    _szName     (NULL)
+    _szName     (NULL ),
+    _bWriten    (false)
 {
 }
 
 VRMLWriteAction::FCInfo::FCInfo(const FCInfo &source) :
     _iTimesUsed(source._iTimesUsed),
-    _bOwnName  (source._bOwnName),
-    _szName    (NULL)
+    _bOwnName  (source._bOwnName  ),
+    _szName    (NULL              ),
+    _bWriten   (source._bWriten   )
 {
     if(_bOwnName == true)
     {
@@ -217,12 +219,12 @@ const Char8 *VRMLWriteAction::FCInfo::getName(void) const
 
 bool VRMLWriteAction::FCInfo::getWriten(void) const
 {
-    return _iTimesUsed < 0;
+    return _bWriten;
 }
 
 void VRMLWriteAction::FCInfo::setWriten(void)
 {
-    _iTimesUsed = -1;
+    _bWriten = true;
 }
 
 Int32 VRMLWriteAction::FCInfo::clear(void)
@@ -236,6 +238,7 @@ Int32 VRMLWriteAction::FCInfo::clear(void)
 
     _bOwnName = false;
     _szName   = NULL;
+    _bWriten  = false;
 
     return 0;
 }
@@ -347,20 +350,39 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
-        FCInfo *pInfo = pWriter->getInfo(pGroup);
+        NodeCorePtr pCore = pNode->getCore();
 
-        if(pInfo == NULL)
+        FCInfo *pInfo     = pWriter->getInfo(pGroup);
+        FCInfo *pCoreInfo = pWriter->getInfo(pCore );
+
+        if(pInfo == NULL || pCoreInfo == NULL)
         {
+            fprintf(stderr, "Info missing %p %p\n", pInfo, pCoreInfo);
             return Action::Quit;
         }
 
-        if((pInfo->getName()    != NULL) &&
-           (pInfo->getWriten() == false) &&
-           (pInfo->getName()[0] != '\0'))
+        if(pCoreInfo->getUse()    >  0 && 
+           pCoreInfo->getWriten() == true)
+        {
+            pWriter->printIndent();
+            fprintf(pFile, "Group # osg shared %s\n", pCoreInfo->getName());
+
+//            pWriter->setCurrentUse(true);
+        }
+        else if((pCoreInfo->getName()    != NULL) &&
+               (pCoreInfo->getName()[0] != '\0'))
+        {
+            pWriter->printIndent();
+            fprintf(pFile, "DEF %s Group\n", pCoreInfo->getName());
+            
+            pCoreInfo->setWriten();
+        }
+        else if((pInfo->getName()    != NULL) &&
+                (pInfo->getName()[0] != '\0'))
         {
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Group\n", pInfo->getName());
-
+            
             pInfo->setWriten();
         }
         else
@@ -371,14 +393,14 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
                     
         pWriter->printIndent();
         fprintf(pFile, "{\n");
-
+        
         if(pNode->getNChildren() != 0)
         {
             pWriter->incIndent(4);
             
             pWriter->printIndent();
             fprintf(pFile, "children [\n");
-        
+            
             pWriter->incIndent(4);        
         }
     }
@@ -409,18 +431,23 @@ Action::ResultE VRMLWriteAction::writeGroupLeave(CNodePtr &pGroup,
             return Action::Quit;
         }
 
-        if(pNode->getNChildren() != 0)
+        if(pWriter->isCurrentUse() == false)
         {
-            pWriter->decIndent(4);
-            
+            if(pNode->getNChildren() != 0)
+            {
+                pWriter->decIndent(4);
+                
+                pWriter->printIndent();
+                fprintf(pFile, "]\n");
+                
+                pWriter->decIndent(4);
+            }
+
             pWriter->printIndent();
-            fprintf(pFile, "]\n");
-
-            pWriter->decIndent(4);
+            fprintf(pFile, "}\n");
         }
-
-        pWriter->printIndent();
-        fprintf(pFile, "}\n");
+        
+        pWriter->setCurrentUse(false);
     }
 
     return Action::Continue;
@@ -809,14 +836,21 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
     {
         pWriter->printIndent();
- 
+
+        for(UInt32 i = 0; i < it.getLength(); ++i)
+        {
+            fprintf(pFile, "%d, ", it.getPositionIndex(i));
+        }
+
+/*
         fprintf(pFile, "%d,%d,%d,", it.getPositionIndex(0), 
                                     it.getPositionIndex(1), 
                                     it.getPositionIndex(2));
         if(it.getPositionIndex(3) != -1)
             fprintf(pFile, "%d,", it.getPositionIndex(3));
+            */
         
-        fprintf(pFile, "-1\n");
+        fprintf(pFile, "-1,\n");
     }
 
     pWriter->decIndent(4);
@@ -837,13 +871,20 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         {
             pWriter->printIndent();
 
+            for(UInt32 i = 0; i < it.getLength(); ++i)
+            {
+                fprintf(pFile, "%d, ", it.getNormalIndex(i));
+            }
+
+/*
             fprintf(pFile, "%d,%d,%d,", it.getNormalIndex(0), 
                                         it.getNormalIndex(1), 
                                         it.getNormalIndex(2));
             if(it.getNormalIndex(3) != -1)
                 fprintf(pFile, "%d,", it.getNormalIndex(3));
+                */
 
-            fprintf(pFile, "-1\n");
+            fprintf(pFile, "-1,\n");
         }
 
         pWriter->decIndent(4);
@@ -863,13 +904,19 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         {
             pWriter->printIndent();
 
+            for(UInt32 i = 0; i < it.getLength(); ++i)
+            {
+                fprintf(pFile, " %d,", it.getColorIndex(i));
+            }
+/*
             fprintf(pFile, "%d,%d,%d,", it.getColorIndex(0), 
                                         it.getColorIndex(1), 
                                         it.getColorIndex(2));
             if(it.getColorIndex(3) != -1)
                 fprintf(pFile, "%d,", it.getColorIndex(3));
+                */
 
-            fprintf(pFile, "-1\n");
+            fprintf(pFile, "-1,\n");
         }
 
         pWriter->decIndent(4);
@@ -889,13 +936,152 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         {
             pWriter->printIndent();
 
+            for(UInt32 i = 0; i < it.getLength(); ++i)
+            {
+                fprintf(pFile, "%d,", it.getTexCoordsIndex(i));
+            }
+/*
             fprintf(pFile, "%d,%d,%d,", it.getTexCoordsIndex(0), 
                                         it.getTexCoordsIndex(1), 
                                         it.getTexCoordsIndex(2));
             if(it.getTexCoordsIndex(3) != -1)
                 fprintf(pFile, "%d,", it.getTexCoordsIndex(3));
+                */
 
-            fprintf(pFile, "-1\n");
+            fprintf(pFile, "-1,\n");
+        }
+
+        pWriter->decIndent(4);
+        pWriter->printIndent();
+        fprintf(pFile, "]\n");
+    }
+}
+
+void VRMLWriteAction::writeLineIndex(GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter)
+{
+    if(pGeo == NullFC)
+        return;
+
+    GeoIndicesUI32Ptr  pIndex  = GeoIndicesUI32Ptr ::dcast(pGeo->getIndices());
+    GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr   ::dcast(pGeo->getTypes());
+    GeoPLengthsUI32Ptr pLength = GeoPLengthsUI32Ptr::dcast(pGeo->getLengths());
+
+    if((pIndex  == NullFC) ||
+       (pTypes  == NullFC) ||
+       (pLength == NullFC))
+    {
+        return;
+    }
+
+    GeoIndicesUI32::StoredFieldType  *pIndexField  = pIndex->getFieldPtr();
+    GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
+    GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
+
+    if(pIndexField          == NULL ||
+       pIndexField->size()  == 0    ||
+       pTypeField           == NULL ||
+       pTypeField->size()   == 0    ||
+       pLengthField         == NULL ||
+       pLengthField->size() == 0)
+    {
+        return;
+    }
+
+    pWriter->printIndent();
+    fprintf(pFile, "coordIndex [\n");
+    pWriter->incIndent(4);
+
+    PrimitiveIterator it;
+    UInt32            i;
+
+    for(it = pGeo->beginPrimitives(); it != pGeo->endPrimitives(); ++it)
+    {
+        if(it.getType() == GL_LINES)
+        {
+            for(i = 0; i < it.getLength(); i += 2)
+            {
+                pWriter->printIndent();
+
+                fprintf(pFile, "%d, %d, -1,\n", 
+                        it.getPositionIndex(i),
+                        it.getPositionIndex(i + 1));
+            }
+        }
+        else if(it.getType() == GL_LINE_STRIP)
+        {
+            pWriter->printIndent();
+
+            for(i = 0; i < it.getLength(); ++i)
+            {
+                fprintf(pFile, "%d, ", it.getPositionIndex(i));
+            }
+
+            fprintf(pFile, "-1,\n");
+        }
+        else if(it.getType() == GL_LINE_LOOP)
+        {
+            pWriter->printIndent();
+
+            for(i = 0; i < it.getLength(); ++i)
+            {
+                fprintf(pFile, "%d, ", it.getPositionIndex(i));
+            }
+
+            fprintf(pFile, "%d, -1, \n", it.getPositionIndex(i - 1));
+        }
+    }
+
+    pWriter->decIndent(4);
+    pWriter->printIndent();
+    fprintf(pFile, "]\n");
+
+
+    if(pGeo->getColors() != NullFC && pGeo->getColors()->getSize() > 0)
+    {
+        pWriter->printIndent();
+        fprintf(pFile, "colorIndex [\n");
+        pWriter->incIndent(4);
+
+        PrimitiveIterator it;
+        UInt32            i;
+        
+        for(it = pGeo->beginPrimitives(); it != pGeo->endPrimitives(); ++it)
+        {
+            if(it.getType() == GL_LINES)
+            {
+                for(i = 0; i < it.getLength(); i += 2)
+                {
+                    pWriter->printIndent();
+
+                    fprintf(pFile, "%d, %d, -1,\n", 
+                            it.getColorIndex(i),
+                            it.getColorIndex(i + 1));
+                }
+            }
+            else if(it.getType() == GL_LINE_STRIP)
+            {
+                pWriter->printIndent();
+                
+                for(i = 0; i < it.getLength(); ++i)
+                {
+                    fprintf(pFile, "%d, ", it.getColorIndex(i));
+                }
+                
+                fprintf(pFile, "-1,\n");
+            }
+            else if(it.getType() == GL_LINE_LOOP)
+            {
+                pWriter->printIndent();
+                
+                for(i = 0; i < it.getLength(); ++i)
+                {
+                    fprintf(pFile, "%d, ", it.getColorIndex(i));
+                }
+                
+                fprintf(pFile, "%d, -1, \n", it.getColorIndex(i - 1));
+            }
         }
 
         pWriter->decIndent(4);
@@ -1006,13 +1192,164 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     subRefCP(st);
 }
 
+bool VRMLWriteAction::writeGeoCommon(NodePtr          pNode,
+                                     GeometryPtr      pGeo, 
+                                     FILE            *pFile,
+                                     VRMLWriteAction *pWriter,
+                                     const Char8     *setTypename)
+{
+    FCInfo *pInfo     = pWriter->getInfo(pNode);
+    FCInfo *pCoreInfo = pWriter->getInfo(pGeo);
+
+    if(pInfo == NULL || pCoreInfo == NULL || setTypename == NULL)
+    {
+        fprintf(stderr, "Info missing %p %p\n", pInfo, pCoreInfo);
+        return false;
+    }
+
+    if(pCoreInfo->getUse()    >  0 && 
+       pCoreInfo->getWriten() == true)
+    {
+        pWriter->printIndent();
+        fprintf(pFile, "geometry USE %s\n", pCoreInfo->getName());
+        pWriter->setCurrentUse(true);
+    }
+    else
+    {
+        if((pCoreInfo->getName()    != NULL) &&
+           (pCoreInfo->getName()[0] != '\0'))
+        {
+            pWriter->printIndent();
+            fprintf(pFile, "geometry DEF %s %s\n", 
+                    pCoreInfo->getName(), 
+                    setTypename);
+            
+            pCoreInfo->setWriten();
+        }
+        else if((pInfo->getName()    != NULL) &&
+                (pInfo->getName()[0] != '\0'))
+        {
+            pWriter->printIndent();
+            fprintf(pFile, 
+                    "geometry DEF %s %s\n", 
+                    pInfo->getName(), 
+                    setTypename);
+            
+            pInfo->setWriten();
+        }
+        else
+        {
+            pWriter->printIndent();
+            fprintf(pFile, "geometry %s\n", setTypename);
+
+        }
+
+        pWriter->printIndent();
+        fprintf(pFile, "{\n");
+        
+        pWriter->incIndent(4);
+    }
+
+    return true;
+#if 0
+
+//        pWriter->printIndent();
+// !!!        fprintf(pFile, "colorPerVertex  %s\n", 
+// !!!                pGeo->getColorPerVertex() ? "TRUE" : "FALSE");
+
+//        pWriter->printIndent();
+// !!!        fprintf(pFile, "normalPerVertex %s\n",
+// !!!                pGeo->getNormalPerVertex() ? "TRUE" : "FALSE");
+#endif
+}
+
+void VRMLWriteAction::writePointSet(NodePtr          pNode,
+                                    GeometryPtr      pGeo, 
+                                    FILE            *pFile,
+                                    VRMLWriteAction *pWriter)
+{
+    fprintf(stderr, "point set not supported\n");
+
+    if(writeGeoCommon(pNode, pGeo, pFile, pWriter, "PointSet") == true)
+    {
+        
+        if(pWriter->isCurrentUse() == false)
+        {
+            pWriter->decIndent(4);
+            
+            pWriter->printIndent();
+            fprintf(pFile, "}\n");
+        }
+
+        pWriter->setCurrentUse(false);
+    }
+}
+
+void VRMLWriteAction::writeLineSet(NodePtr          pNode,
+                                   GeometryPtr      pGeo, 
+                                   FILE            *pFile,
+                                   VRMLWriteAction *pWriter,
+                                   bool             bSinglePrimitiveGeo)
+{
+    if(writeGeoCommon(pNode, pGeo, pFile, pWriter, "IndexedLineSet") == true)
+    {
+        
+        if(pWriter->isCurrentUse() == false)
+        {
+            writePoints   (pGeo, pFile, pWriter);
+            writeColors   (pGeo, pFile, pWriter);
+            
+            writeLineIndex(pGeo, pFile, pWriter);
+            
+            pWriter->decIndent(4);
+            
+            pWriter->printIndent();
+            fprintf(pFile, "}\n");
+
+            writeMaterial(pGeo, pFile, pWriter);
+        }
+
+        pWriter->setCurrentUse(false);
+    }
+}
+
+void VRMLWriteAction::writeFaceSet(NodePtr          pNode,
+                                   GeometryPtr      pGeo, 
+                                   FILE            *pFile,
+                                   VRMLWriteAction *pWriter,
+                                   bool             bSinglePrimitiveGeo)
+{
+    if(writeGeoCommon(pNode, pGeo, pFile, pWriter, "IndexedFaceSet") == true)
+    {
+        if(pWriter->isCurrentUse() == false)
+        {
+            writePoints   (pGeo, pFile, pWriter);
+            writeNormals  (pGeo, pFile, pWriter);
+            writeColors   (pGeo, pFile, pWriter);
+            writeTexCoords(pGeo, pFile, pWriter);
+            
+            writeIndex    (pGeo, pFile, pWriter);
+            
+            pWriter->decIndent(4);
+            
+            pWriter->printIndent();
+            fprintf(pFile, "}\n");
+
+            writeMaterial(pGeo, pFile, pWriter);
+        }
+
+        pWriter->setCurrentUse(false);
+    }
+}
+
+
 Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
                                                Action   *pAction)
 {
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
-
-    GeometryPtr pGeo = 
-        GeometryPtr::dcast(pGroup.getNode()->getCore());
+    
+    NodePtr     pNode(pGroup);
+    GeometryPtr pGeo = GeometryPtr::dcast(pNode->getCore());
 
     if(pWriter == NULL || pGeo == NullFC)
     {
@@ -1039,28 +1376,12 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
-        FCInfo *pInfo = pWriter->getInfo(pGroup);
-//        FCInfo *pGeoInfo
-
-        if(pInfo == NULL)
-        {
-            return Action::Quit;
-        }
-
-        if(pInfo->getName() != NULL && pInfo->getName()[0] != '\0')
-        {
-            pWriter->printIndent();
-            fprintf(pFile, "DEF %s Shape\n", pInfo->getName());
-            pInfo->setWriten();
-        }
-        else
-        {
-            pWriter->printIndent();
-            fprintf(pFile, "Shape\n");
-        }
-
+        pWriter->printIndent();
+        fprintf(pFile, "Shape\n");
         pWriter->printIndent();
         fprintf(pFile, "{\n");
+        
+        pWriter->incIndent(4);
 
         PrimitiveIterator pIt  = pGeo->beginPrimitives();
         PrimitiveIterator pEnd = pGeo->endPrimitives();
@@ -1068,7 +1389,7 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
         UInt32 uiPointCount = 0;
         UInt32 uiLineCount  = 0;
         UInt32 uiFaceCount  = 0;
-        
+
         while(pIt != pEnd)
         {
             if(pIt.getType() == GL_LINES      ||
@@ -1095,35 +1416,37 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
                 uiLineCount,
                 uiFaceCount);
 
-        pWriter->incIndent(4);
-
-        pWriter->printIndent();
-        fprintf(pFile, "geometry IndexedFaceSet\n");
-
-        pWriter->printIndent();
-        fprintf(pFile, "{\n");
-
-        pWriter->incIndent(4);
-
-//        pWriter->printIndent();
-// !!!        fprintf(pFile, "colorPerVertex  %s\n", 
-// !!!                pGeo->getColorPerVertex() ? "TRUE" : "FALSE");
-
-//        pWriter->printIndent();
-// !!!        fprintf(pFile, "normalPerVertex %s\n",
-// !!!                pGeo->getNormalPerVertex() ? "TRUE" : "FALSE");
-
-        writePoints   (pGeo, pFile, pWriter);
-        writeNormals  (pGeo, pFile, pWriter);
-        writeColors   (pGeo, pFile, pWriter);
-        writeTexCoords(pGeo, pFile, pWriter);
-        writeIndex    (pGeo, pFile, pWriter);
-        pWriter->decIndent(4);
-
-        pWriter->printIndent();
-        fprintf(pFile, "}\n");
-
-        writeMaterial(pGeo, pFile, pWriter);
+        if(uiPointCount != 0)
+        {
+            if((uiLineCount != 0) || (uiFaceCount != 0))
+            {
+                fprintf(stderr, 
+                        "ERROR writer does not support mixed primitives"
+                        "including points\n");
+            }
+            else
+            {
+                writePointSet(pNode, pGeo, pFile, pWriter);
+            }
+        }
+        
+        if(uiLineCount != 0)
+        {
+            writeLineSet(pNode,
+                         pGeo, 
+                         pFile, 
+                         pWriter, 
+                         ((uiPointCount == 0) && (uiFaceCount == 0)));
+        }
+        
+        if(uiFaceCount != 0)
+        {
+            writeFaceSet(pNode,
+                         pGeo,
+                         pFile,
+                         pWriter,
+                         ((uiPointCount == 0) && (uiLineCount == 0)));
+        }
     }
 
     return Action::Continue;
@@ -1151,7 +1474,7 @@ Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &,
         }
 
         pWriter->decIndent(4);
-
+        
         pWriter->printIndent();
         fprintf(pFile, "}\n");
     }
@@ -1298,6 +1621,16 @@ void VRMLWriteAction::printIndent(void)
     }
 }
 
+void VRMLWriteAction::setCurrentUse(bool bVal)
+{
+    _currentUse = bVal;
+}
+
+bool VRMLWriteAction::isCurrentUse(void)
+{
+    return _currentUse;
+}
+
 void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
 { 
     if(pCNode == NullFC)
@@ -1338,8 +1671,11 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
 
     if(pInfoCore->getUse() > 1)
     {
-        pInfoCore->buildName(pCore->getTypeName(), 
-                             pCore. getFieldContainerId());
+        if(pCorename != NullFC)
+        {
+            pInfoCore->buildName(pCore->getTypeName(), 
+                                 pCore. getFieldContainerId());
+        }
     }
 }
 
@@ -1364,15 +1700,16 @@ void VRMLWriteAction::addContainerUse(FieldContainerPtr &pContainer)
     }
 }
 
-VRMLWriteAction::FCInfo *VRMLWriteAction::getInfo(CNodePtr &pNode)
+VRMLWriteAction::FCInfo *VRMLWriteAction::getInfo(
+    FieldContainerPtr &pContainer)
 {
-    if(pNode == NullFC)
+    if(pContainer == NullFC)
         return NULL;
 
-    if(pNode.getFieldContainerId() >= _vFCInfos.size())
+    if(pContainer.getFieldContainerId() >= _vFCInfos.size())
         return NULL;
 
-    return &(_vFCInfos[pNode.getFieldContainerId()]);
+    return &(_vFCInfos[pContainer.getFieldContainerId()]);
 }
 
 
@@ -1390,13 +1727,14 @@ VRMLWriteAction::FCInfo *VRMLWriteAction::getInfo(CNodePtr &pNode)
  */
 
 VRMLWriteAction::VRMLWriteAction(void) :
-     Inherited     (),
-    _material      (NULL),
-    _uiIndent      (0),
-    _pFile         (NULL),
+     Inherited     (            ),
+    _material      (NULL        ),
+    _uiIndent      (0           ),
+    _pFile         (NULL        ),
     _eTraversalMode(OSGCollectFC),
+    _currentUse    (false       ),
     _uiOptions     (OSGNoOptions),
-    _vFCInfos      ()
+    _vFCInfos      (            )
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
@@ -1410,13 +1748,14 @@ VRMLWriteAction::VRMLWriteAction(void) :
  */
 
 VRMLWriteAction::VRMLWriteAction(const VRMLWriteAction &source) :
-     Inherited     (source),
-    _material      (source._material),
-    _uiIndent      (source._uiIndent),
-    _pFile         (NULL),
+     Inherited     (source                ),
+    _material      (source._material      ),
+    _uiIndent      (source._uiIndent      ),
+    _pFile         (NULL                  ),
     _eTraversalMode(source._eTraversalMode),
-    _uiOptions     (source._uiOptions),
-    _vFCInfos      (source._vFCInfos)
+    _currentUse    (source._currentUse    ),
+    _uiOptions     (source._uiOptions     ),
+    _vFCInfos      (source._vFCInfos      )
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
