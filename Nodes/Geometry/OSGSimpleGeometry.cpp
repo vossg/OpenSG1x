@@ -217,7 +217,7 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     geo->setIndices(index);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+                                    Geometry::MapTexcoords);
     geo->setTypes(types);
     geo->setLengths(lens);
     endEditCP(geo);
@@ -478,7 +478,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+                                    Geometry::MapTexcoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -626,7 +626,7 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+                                    Geometry::MapTexcoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -853,7 +853,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                       Geometry::MapNormal |
-                      Geometry::MapTexCoords);
+                      Geometry::MapTexcoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -991,7 +991,7 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+                                    Geometry::MapTexcoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -1139,7 +1139,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal |
-                                    Geometry::MapTexCoords);
+                                    Geometry::MapTexcoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
