@@ -22,6 +22,7 @@ using OSG::Pnt4f;
 using OSG::Matrix4f;
 using OSG::Matrix;
 using OSG::Quaternion;
+using OSG::TransformationMatrix;
 
 using OSG::UInt8;
 using OSG::UInt16;
@@ -29,6 +30,7 @@ using OSG::UInt32;
 using OSG::Int32;
 
 using OSG::Real32;
+using OSG::Real64;
 
 using OSG::osgcos;
 using OSG::osgsin;
@@ -40,7 +42,6 @@ using OSG::MatrixPerspective;
 using OSG::MatrixStereoPerspective;
 using OSG::MatrixLookAt;
 using OSG::MatrixProjection;
-
 
 // instantiate all classes to find compile problems
 
@@ -1370,15 +1371,124 @@ void matutilitytest( void )
 	
 }
 
+void matNSMTest(void)
+{
+
+
+    Matrix m1,m2,m3;
+    TransformationMatrix<Real64> md1,md2,md3;
+
+		// first single precision floats
+
+
+		cout << "====================================================" << endl
+				 << "  Testing the matrix functions sqrt, exp, and log" << endl
+				 << "====================================================" << endl
+				 << endl
+				 << "32 bit float types" << endl;
+
+		m1.setIdentity();
+
+		cout << endl << "Test matrix is identity!"  << endl;
+
+		m1.sqrt(m2);
+		m3.sqrtOf(m1);
+
+		cout << "A.sqrt():" << endl << m2 << endl
+				 << "sqrtOf(A):" << endl << m3 << endl;
+
+		m1.exp(m2);
+		m3.expOf(m1);
+		
+		cout << "A.exp():" << endl << m2 << endl
+				 << "expOf(A):" << endl << m3 << endl;
+
+		cout << "A.log():" << m1.log(m2) << endl << m2 << endl
+				 << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl << endl;
+
+
+		do 
+				for (int i=0;i<4;i++)
+						for (int j=0;j<4;j++)
+								m1[i][j] = Real32(rand())/Real32(RAND_MAX);
+		while (m1.det() < 0);
+
+		cout << endl << "Test matrix (A):" << endl << m1 << endl;
+
+		m1.sqrt(m2);
+		m3.sqrtOf(m1);
+
+		cout << "A.sqrt():" << endl << m2 << endl
+				 << "sqrtOf(A):" << endl << m3 << endl;
+
+		m2.mult(m2);
+		m3.mult(m3);
+		m2.addScaled(m1,-1.0);
+		m3.addScaled(m1,-1.0);
+
+		cout << "Accuracy:" << endl 
+				 << "|A.sqrt()*A.sqrt()-A|:  " << m2.norm2() << endl
+				 << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << m3.norm2() << endl << endl;
+
+		m1.exp(m2);
+		m3.expOf(m1);
+		
+		cout << "A.exp():" << endl << m2 << endl
+				 << "expOf(A):" << endl << m3 << endl;
+
+		cout << "A.log():" << m1.log(m2) << endl << m2 << endl
+				 << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl;
+
+		m1.exp(m2);
+		m2.log(m3);
+		m2.setValue(m3);
+		m3.addScaled(m1,-1.0);
+
+		cout << "A.exp.log():" << endl << m2 << endl
+				 << "|A.exp().log()-A|):  " << m3.norm2() << endl;
+
+
+		// now double precision floats
+
+
+		cout << endl 
+				 << "64 bit float types (accuracies only)" << endl << endl;
+
+		for (int i=0;i<4;i++)
+				for (int j=0;j<4;j++)
+						md1[i][j] = Real64(m1[i][j]);
+						
+
+		md1.sqrt(md2);
+		md3.sqrtOf(md1);
+		md2.mult(md2);
+		md3.mult(md3);
+		md2.addScaled(md1,-1.0);
+		md3.addScaled(md1,-1.0);
+
+		cout << "|A.sqrt()*A.sqrt()-A|:  " << md2.norm2() << endl
+				 << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << md3.norm2() << endl;
+
+		md1.exp(md2);
+		md2.log(md3);
+		md3.addScaled(md1,-1.0);
+
+		cout << "|A.exp().log()-A|:  " << md3.norm2() << endl << endl;
+
+}
+
+
+
 int main(void)
 {
     osgInit(0, NULL);
 
     vectorTestConstructAndSetTest();
 //    vectorMathTests();
-//    matrixTest();
+    matrixTest();
 //   quattest();
 //	matutilitytest();
+		matNSMTest();
 
     return 0;
 }
