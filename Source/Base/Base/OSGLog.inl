@@ -169,32 +169,39 @@ std::ostream &Log::doHeader(      LogLevel  level,
                                   UInt32    line)
 {
     LogOStream &sout = *(_streamVec[level]);
-
+		const char *sep   = ( (_headerElem & LOG_TAB_HEADER) ? "\t" : ":" );
+    const char *color = ( (_headerElem & LOG_COLOR_HEADER) ?
+                           _levelColor[level] : 0 );
+    const char *resetColor = "\x1b[0m";
+    
     if(_headerElem) 
     {
         if(_headerElem & LOG_BEGIN_NEWLINE_HEADER)
             sout << std::endl;   
-        
-        if(_headerElem & LOG_TYPE_HEADER)
-            sout << _levelName[level] << ":";
+
+        if(_headerElem & LOG_TYPE_HEADER) 
+        {
+            if (color)
+                sout << color;          
+            sout << _levelName[level] << sep;          
+            if (color)
+                sout << resetColor;
+        }
 
         if(_headerElem & LOG_TIMESTAMP_HEADER) 
-            sout << " ts: " << (getSystemTime() - _refTime);
+            sout << (getSystemTime() - _refTime) << sep;
 
         if(module && *module && (_headerElem & LOG_MODULE_HEADER))
-            sout << " mod: " << module;
+            sout << module << sep;
 
         if(file && *file && (_headerElem & LOG_FILE_HEADER)) 
         {
-            sout << " file: " << file;
+            sout << file;
 
             if(_headerElem & LOG_LINE_HEADER)
-                sout << ':' << line;
-        }
-        else
-        {
-            if(_headerElem & LOG_LINE_HEADER)
-                sout << " line:" << line;
+                sout << ":" << line;
+
+						sout << sep;
         }
 
         if(_headerElem & LOG_END_NEWLINE_HEADER)

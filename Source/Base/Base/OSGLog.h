@@ -92,7 +92,10 @@ enum LogHeaderElem
     LOG_FILE_HEADER          = 16,
     LOG_LINE_HEADER          = 32,
     LOG_END_NEWLINE_HEADER   = 64,
-    LOG_ALL_HEADER           = 127
+
+		LOG_COLOR_HEADER         = 8192,
+		LOG_TAB_HEADER           = 16384,
+    LOG_ALL_HEADER           = 32767
 };
 
 /*! \ingroup GrpBaseLog
@@ -361,6 +364,7 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     static       std::ostream *_nilstreamP;
 
     static const Char8        *_levelName[];
+    static const Char8        *_levelColor[];
 
     /*! \{                                                                 */
     /*---------------------------------------------------------------------*/
@@ -403,7 +407,7 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
 typedef Log *LogP;
 
 #ifndef OSG_LOG_MODULE
-#define OSG_LOG_MODULE "UNKNOWN MODULE"
+#define OSG_LOG_MODULE "OpenSG"
 #endif
 
 extern OSG_BASE_DLLMAPPING LogP osgLogP;
