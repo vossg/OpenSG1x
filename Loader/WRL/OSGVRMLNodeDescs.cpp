@@ -2578,6 +2578,7 @@ void VRMLAppearanceDesc::init(const Char8 *OSG_VRML_ARG(szName))
 #endif
 
     _pNodeProto = ChunkMaterial::create();
+    addRefCP(_pNodeProto);
 
     _pGenAtt    = GenericAtt::create();
     _pGenAtt->setInternal(true);
@@ -2845,6 +2846,7 @@ VRMLMaterialDesc::VRMLMaterialDesc(void) :
 
 VRMLMaterialDesc::~VRMLMaterialDesc(void)
 {
+	subRefCP(_pDefMat);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -2953,7 +2955,8 @@ void VRMLMaterialDesc::endProtoInterface(void)
                        1.f - _defaultTransparency    .getValue());
     
     _pDefMat = ChunkMaterial::create();
-
+    addRefCP(_pDefMat);
+    
     pMatChunk = MaterialChunk::create();
 
     pMatChunk->setAmbient(cCol);
