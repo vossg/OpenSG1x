@@ -327,10 +327,10 @@ class glextFuncInit
         glextFuncInit(char *name, UInt32 format, UInt32 dim) :
             _name(name), _format(format), _dim(dim) {};
 
-        void init(UInt32 (&extids)[numFormats][4])
+        void init(UInt32 (&extids)[numFormats][4], UInt32 extension)
         {
             extids[_format - formatBase][_dim] =
-                                        Window::registerFunction(_name);
+                              Window::registerFunction(_name, extension);
         }
 
     private:
@@ -1663,21 +1663,26 @@ bool GeoPumpFactory::glextInitFunction(void)
     }
 
     for(i = 0; i < 8; i++)
-        secondaryColorInitFuncs[i].init(SecColorIDs);
+        secondaryColorInitFuncs[i].init(SecColorIDs, _extSecondaryColor);
 
     for(i = 0; i < 16; i++)
-        multiTexCoordsInitFuncs[i].init(TexCoords1IDs);
+        multiTexCoordsInitFuncs[i].init(TexCoords1IDs, _extMultitexture);
 
     _funcglSecondaryColorPointer  = Window::registerFunction(
-                            OSG_DLSYM_UNDERSCORE"glSecondaryColorPointerEXT");
+                            OSG_DLSYM_UNDERSCORE"glSecondaryColorPointerEXT",
+                            _extSecondaryColor);
     _funcglClientActiveTextureARB = Window::registerFunction(
-                            OSG_DLSYM_UNDERSCORE"glClientActiveTextureARB");
+                            OSG_DLSYM_UNDERSCORE"glClientActiveTextureARB",
+                            _extMultitexture);
     _funcglLockArraysEXT          = Window::registerFunction(
-                                OSG_DLSYM_UNDERSCORE"glLockArraysEXT");
+                                OSG_DLSYM_UNDERSCORE"glLockArraysEXT",
+                                _extCompiledVertexArray);
     _funcglUnlockArraysEXT        = Window::registerFunction(
-                                OSG_DLSYM_UNDERSCORE"glUnlockArraysEXT");
+                                OSG_DLSYM_UNDERSCORE"glUnlockArraysEXT",
+                                _extCompiledVertexArray);
     _funcglDrawRangeElementsEXT   = Window::registerFunction(
-                                OSG_DLSYM_UNDERSCORE"glDrawRangeElementsEXT");
+                                OSG_DLSYM_UNDERSCORE"glDrawRangeElementsEXT",
+                                _extDrawRangeElements);
 
     return true;
 }

@@ -106,17 +106,24 @@ void ProgramChunk::initMethod (void)
 ProgramChunk::ProgramChunk(void) :
     Inherited()
 {
+    UInt32 extension = Window::registerExtension("GL_ARB_vertex_program");
+    
     _funcProgramString                  =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glProgramStringARB");
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glProgramStringARB", 
+            extension);
     _funcBindProgram                    =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBindProgramARB");
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBindProgramARB", 
+            extension);
     _funcDeletePrograms                 =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteProgramsARB");
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteProgramsARB", 
+            extension);
     _funcProgramLocalParameter4fv       =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE
-                                            "glProgramLocalParameter4fvARB");
+                                            "glProgramLocalParameter4fvARB", 
+            extension);
     _funcGetProgramiv       =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetProgramivARB");
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetProgramivARB", 
+            extension);
 }
 
 ProgramChunk::ProgramChunk(const ProgramChunk &source) :
