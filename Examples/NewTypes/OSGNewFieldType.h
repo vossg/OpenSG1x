@@ -254,8 +254,8 @@ typedef MField<TripleInt> MFTripleInt;
 #ifndef OSG_COMPILETRIPLEINTINST
 
 // Declare the functions/classes/methods Windows needs
-//OSG_DLLEXPORT_DECL1(SField, TripleInt, )
-//OSG_DLLEXPORT_DECL1(MField, TripleInt, )
+OSG_DLLEXPORT_DECL1(SField, TripleInt, )
+OSG_DLLEXPORT_DECL1(MField, TripleInt, )
 
 #endif
 

@@ -66,7 +66,7 @@ DataType FieldDataTraits<TripleIntLib>::_type("TripleIntLib", "");
 // These macros instantiate the necessary template methods for the fields
 OSG_DLLEXPORT_SFIELD_DEF1(TripleIntLib, OSG_MYLIBRARY_DLLTMPLMAPPING);
 // !!! Doesn't work?!? 
-// OSG_DLLEXPORT_MFIELD_DEF1(TripleIntLib, OSG_MYLIBRARY_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(TripleIntLib, OSG_MYLIBRARY_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 

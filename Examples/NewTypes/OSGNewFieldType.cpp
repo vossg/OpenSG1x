@@ -65,7 +65,7 @@ DataType FieldDataTraits<TripleInt>::_type("TripleInt", "");
 // These macros instantiate the necessary template methods for the fields
 OSG_DLLEXPORT_SFIELD_DEF1(TripleInt, );
 // !!! Doesn't work?!? 
-// OSG_DLLEXPORT_MFIELD_DEF1(TripleInt, );
+OSG_DLLEXPORT_MFIELD_DEF1(TripleInt, );
 
 OSG_END_NAMESPACE
 
