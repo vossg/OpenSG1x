@@ -304,13 +304,11 @@ class OSGLightChunk : public OSGStateChunk
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
-
     OSGLightChunk(void);
     OSGLightChunk(const OSGLightChunk &source);    
     virtual ~OSGLightChunk(void); 
 
-	OSGLightChunk & operator =(const OSGLightChunk &source);
+	OSGLightChunk &operator =(const OSGLightChunk &source);
 };
 
 //---------------------------------------------------------------------------
