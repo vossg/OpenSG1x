@@ -48,6 +48,10 @@
 #include "OSGSharedLibrary.h"
 #include "OSGBaseFunctions.h"
 
+#ifndef WIN32
+#include <dlfcn.h>
+#endif
+
 OSG_USING_NAMESPACE
 
 Char8 SharedLibrary::_szApplicationName[] = "Application";
