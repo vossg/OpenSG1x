@@ -48,135 +48,69 @@
 
 #include <iostream>
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-//---------------------------------------------------------------------------
-//  FUNCTION: 
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters: 
-//p: 
-//
-//g: GlobalVars:
-//g: 
-//
-//r: Return:
-//r: 
-//
-//c: Caution:
-//c: 
-//
-//a: Assumptions:
-//a: 
-//
-//d: Description:
-//d: 
-//
-//s: SeeAlso:
-//s: 
-//---------------------------------------------------------------------------
-
 OSG_BEGIN_NAMESPACE
 
-inline 
-void initLog() 
+//---------------------------------------------------------------------------
+//  LogStream
+//---------------------------------------------------------------------------
+
+inline
+LogOStream::LogOStream(std::streambuf *buf) : 
+    std::ostream(buf) 
 {
-    if(osgLogP == NULL)
-        doInitLog();
 }
 
-inline 
-Log &osgLog() 
-{
-    initLog();
 
-    return *osgLogP;
+inline
+LogOStream::~LogOStream(void)
+{
 }
 
-inline 
-void indentLog(UInt32 indent, std::ostream &stream)
+inline
+void LogOStream::setrdbuf(std::streambuf *buf) 
 {
-    for(UInt32 i = 0; i < indent; i++)
-    {
-        stream << " ";
-    }
+#ifdef OSG_STREAM_RDBUF_HAS_PARAM
+    std::ostream::rdbuf(buf); 
+#else
+    bp = buf; 
+#endif
 }
 
-inline 
-std::ostream &osgStartLog(      bool      logHeader,
-                                LogLevel  level, 
-                          const Char8    *module,
-                          const Char8    *file, 
-                                UInt32    line)
+//---------------------------------------------------------------------------
+//  LogBuf
+//---------------------------------------------------------------------------
+
+inline
+LogBuf::Chunk::Chunk(void) : 
+    data(NULL), 
+    size(   0) 
 {
-    initLog();
-
-    osgLogP->lock();
-
-    if(osgLogP->checkModule(module)) 
-    {
-        if(logHeader)
-            osgLogP->doHeader(level,module,file,line);
-
-        return osgLogP->stream(level);
-    }
-    else
-        return osgLogP->nilstream();
 }
+
+
+inline
+LogBuf::Chunk::~Chunk(void)
+{
+    delete data; 
+}
+
+
+inline
+bool LogBuf::getEnabled(void)
+{
+    return _enabled; 
+}
+
+
+inline
+void LogBuf::setEnabled(bool value)
+{
+    _enabled = value; 
+}
+
+//---------------------------------------------------------------------------
+//  Log
+//---------------------------------------------------------------------------
 
 inline 
 bool Log::checkLevel(LogLevel level)
@@ -200,6 +134,14 @@ inline
 void Log::resetRefTime(void)
 {
     _refTime = osg::getSystemTime();
+}
+
+
+inline
+Log::Module::Module(void) : 
+    name(NULL), 
+    isStatic(true) 
+{
 }
 
 inline
@@ -226,38 +168,79 @@ std::ostream &Log::doHeader(      LogLevel  level,
                             const Char8    *file, 
                                   UInt32    line)
 {
-    LogOStream & sout = *(_streamVec[level]);
+    LogOStream &sout = *(_streamVec[level]);
 
-    if (_headerElem) 
+    if(_headerElem) 
     {
-        if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
+        if(_headerElem & LOG_BEGIN_NEWLINE_HEADER)
             sout << std::endl;   
         
-        if (_headerElem & LOG_TYPE_HEADER)
+        if(_headerElem & LOG_TYPE_HEADER)
             sout << _levelName[level] << ":";
 
-        if (_headerElem & LOG_TIMESTAMP_HEADER) 
+        if(_headerElem & LOG_TIMESTAMP_HEADER) 
             sout << " ts: " << (osg::getSystemTime() - _refTime);
 
-        if (module && *module && (_headerElem & LOG_MODULE_HEADER))
+        if(module && *module && (_headerElem & LOG_MODULE_HEADER))
             sout << " mod: " << module;
 
-        if ( file && *file && (_headerElem & LOG_FILE_HEADER)) {
+        if(file && *file && (_headerElem & LOG_FILE_HEADER)) 
+        {
             sout << " file: " << file;
-            if (_headerElem & LOG_LINE_HEADER)
+
+            if(_headerElem & LOG_LINE_HEADER)
                 sout << ':' << line;
         }
         else
-            if (_headerElem & LOG_LINE_HEADER)
+        {
+            if(_headerElem & LOG_LINE_HEADER)
                 sout << " line:" << line;
+        }
 
-        if (_headerElem & LOG_END_NEWLINE_HEADER)
+        if(_headerElem & LOG_END_NEWLINE_HEADER)
             sout << std::endl;   
         else
             sout << ' ';
     }
 
     return sout;
+}
+
+inline 
+void initLog(void) 
+{
+    if(osgLogP == NULL)
+        doInitLog();
+}
+
+inline 
+Log &osgLog(void) 
+{
+    initLog();
+
+    return *osgLogP;
+}
+
+inline 
+std::ostream &osgStartLog(      bool      logHeader,
+                                LogLevel  level, 
+                          const Char8    *module,
+                          const Char8    *file, 
+                                UInt32    line)
+{
+    initLog();
+
+    osgLogP->lock();
+
+    if(osgLogP->checkModule(module)) 
+    {
+        if(logHeader)
+            osgLogP->doHeader(level,module,file,line);
+
+        return osgLogP->stream(level);
+    }
+    else
+        return osgLogP->nilstream();
 }
 
 inline  
@@ -269,6 +252,15 @@ std::ostream &endLog(std::ostream &strm)
     
     strm << std::endl;
     return strm;
+}
+
+inline 
+void indentLog(UInt32 indent, std::ostream &stream)
+{
+    for(UInt32 i = 0; i < indent; i++)
+    {
+        stream << " ";
+    }
 }
 
 OSG_END_NAMESPACE
