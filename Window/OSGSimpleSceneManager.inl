@@ -68,6 +68,13 @@ inline NodePtr SimpleSceneManager::getRoot(void)
     return _root;
 }
 
+/*! get the action used to render the scene
+ */
+inline DrawActionBase *SimpleSceneManager::getAction(void)
+{
+    return _action;
+}
+
 /*! set the root of the displayed tree
  */
 inline void SimpleSceneManager::setRoot(NodePtr root)
@@ -130,6 +137,6 @@ inline NodePtr SimpleSceneManager::getHighlight(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.4 2001/10/10 22:04:56 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.5 2001/10/11 08:26:09 dirk Exp $"
 
 
