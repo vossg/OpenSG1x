@@ -39,6 +39,7 @@
 
 #ifdef WIN32
 #include <malloc.h>
+#define YYSIZE_T size_t
 #endif
 #include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>
