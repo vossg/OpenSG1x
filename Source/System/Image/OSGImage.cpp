@@ -605,7 +605,7 @@ void Image::setAttachmentField ( const std::string &key,
             SFString::getClassType(),
             key.c_str(),
             0, 0,
-            false,
+            true,
             (FieldIndexAccessMethod) &ImageGenericAtt::getDynamicField);
         UInt32 fieldId = att->addField(*pDesc);
         field=att->getField(fieldId);
