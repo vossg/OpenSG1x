@@ -126,19 +126,19 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoColors3fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoColors4fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoColors3ubPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoColors4ubPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 

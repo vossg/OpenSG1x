@@ -76,6 +76,7 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 };
 #endif
 
+#if 0
 #if 1
 #if 1//defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
@@ -100,6 +101,7 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
     AttachmentDescT::getInitMethod(),
     AttachmentDescT::getDesc(),
     sizeof(FieldDescription *));
+#endif
 #endif
 #endif
 
@@ -247,7 +249,7 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
 
 /*! \class DynFieldAttachment
  */
-
+#if 0
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
 FieldContainerType DynFieldAttachment<AttachmentDescT>::_type =
@@ -271,6 +273,7 @@ FieldContainerType DynFieldAttachment<AttachmentDescT>::_type(
     NULL,
     0,
     true);
+#endif
 #endif
 
 OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(DynFieldAttachment,

@@ -80,33 +80,33 @@ efficient as the specific one.
 
 #else
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty, 
-                           GeoPositionsPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty, 
+                                GeoPositionsPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoNormalsPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
+                                GeoNormalsPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoColorsPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
+                                GeoColorsPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoTexCoordsPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
+                                GeoTexCoordsPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoIndicesPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
+                                GeoIndicesPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoPTypesPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
+                                GeoPTypesPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoPLengthsPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
+                                GeoPLengthsPropertyDesc, 
+                                OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 

@@ -322,11 +322,26 @@ struct NameAttachmentDesc
 
     typedef SFString           FieldTypeT;
 
-    static const Char8         *getTypeName  (void) { return "Name";          }
-    static const Char8         *getFieldName (void) { return "name";          }
-    static const Char8         *getGroupName (void) { return "name";          }
-    static const Char8         *getClassName (void) { return "NameAttachment";}
-
+    static const Char8         *getTypeName  (void) 
+    {
+        return "Name";          
+    }
+    static const Char8         *getFieldName (void) 
+    {
+        return "name";          
+    }
+    static const Char8         *getGroupName (void) 
+    { 
+        return "name";          
+    }
+    static const Char8         *getClassName (void) 
+    {
+        return "NameAttachment";
+    }
+    static const Char8         *getParentTypeName(void) 
+    {
+        return "Attachment";    
+    }
 
     static InitContainerF     getInitMethod(void) { return NULL;            }
 

@@ -4132,9 +4132,22 @@ DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
 #ifdef __sgi
 #pragma instantiate DynFieldAttachment<GenericAttDesc>::_type
 #else
+template <>
+FieldContainerType DynFieldAttachment<GenericAttDesc>::_type(
+    GenericAttDesc::getTypeName(),
+    GenericAttDesc::getParentTypeName(),
+    GenericAttDesc::getGroupName(),
+    (PrototypeCreateF) &DynFieldAttachment<GenericAttDesc>::createEmpty,
+    NULL,
+    NULL,
+    0,
+    true);
+
+/*
 OSG_ABSTR_FC_DLLEXPORT_DEF(DynFieldAttachment, 
                            GenericAttDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
+                           */
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

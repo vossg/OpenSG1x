@@ -79,7 +79,7 @@ OSG_BEGIN_NAMESPACE
 
 OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
                            NameAttachmentDesc,
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 

@@ -163,25 +163,25 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions2fPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions3fPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions4fPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions2dPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions3dPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions4dPropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 

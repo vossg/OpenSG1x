@@ -687,7 +687,23 @@ OSG_USING_STD_NAMESPACE
 
 #define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)
 
-/*
+#define OSG_ABSTR_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)
+
+#define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)
+
+
+#define  OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template<>                                                     \
+FieldContainerType CLASSNAME< T1 >::_type =                    \
+    FieldContainerType(                                        \
+        T1::getTypeName(),                                     \
+        T1::getParentTypeName(),                               \
+        T1::getGroupName(),                                    \
+        (PrototypeCreateF) &CLASSNAME< T1 >::createEmpty,      \
+        T1::getInitMethod(),                                   \
+        _desc,                                                 \
+        sizeof(FieldDescription *))
+
 #define  OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
 template<>                                                     \
 FieldContainerType CLASSNAME< T1 >::_type =                    \
@@ -699,7 +715,29 @@ FieldContainerType CLASSNAME< T1 >::_type =                    \
         T1::getInitMethod(),                                   \
         _desc,                                                 \
         sizeof(FieldDescription *))
- */
+
+
+#define  OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template <>                                                         \
+FieldContainerType AbstractGeoProperty< T1 >::_type(                \
+        T1           ::getTypeName  (),                             \
+        InheritedDesc::getTypeName  (),                             \
+        T1           ::getGroupName (),                             \
+        NULL,                                                       \
+        T1           ::getInitMethod(),                             \
+        NULL,                                                       \
+        0)
+
+#define  OSG_GEOPROP_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template <>                                                   \
+FieldContainerType GeoProperty< T1 >::_type(                  \
+    T1           ::getTypeName(),                             \
+    InheritedDesc::getTypeName(),                             \
+    T1           ::getGroupName(),                            \
+    (PrototypeCreateF) &GeoProperty< T1 >::createEmpty,       \
+    T1           ::getInitMethod(),                           \
+    T1           ::getDesc(),                                 \
+    sizeof(FieldDescription *))
 
 
 #define OSG_DLLEXPORT_SFIELD_DEF1(T1,     DLLMAPPING) \
@@ -1153,13 +1191,13 @@ const FieldType MField< T1, T2 >::_fieldType(         \
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)
 #endif
 
-#endif
-
 
 #elif defined (__sgi)
 #define OSG_EXTERN_EXPORT
 #else
 #error Could not determine system
+#endif
+
 #endif
 
 #ifdef _OSG_HAVE_CONFIGURED_H_

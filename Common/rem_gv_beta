@@ -86,3 +86,18 @@ if test -w Loader/OBJ/tmp_gv; then
     fi
 
 fi
+
+
+if test -w Loader/WRL/tmp_gv; then 
+
+    if test -w Loader/WRL/tmp_gv/OSGVRMLSceneFileType.hpp; then
+        echo "mv Loader/WRL/tmp_gv/OSGVRMLSceneFileType.hpp Loader/WRL"
+        mv Loader/WRL/tmp_gv/OSGVRMLSceneFileType.hpp Loader/WRL
+    fi
+
+    if test -w Loader/WRL/tmp_gv/OSGVRMLSceneFileType.cpp; then
+        echo "mv Loader/WRL/tmp_gv/OSGVRMLSceneFileType.cpp Loader/WRL"
+        mv Loader/WRL/tmp_gv/OSGVRMLSceneFileType.cpp Loader/WRL
+    fi
+
+fi

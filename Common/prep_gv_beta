@@ -21,6 +21,13 @@ if ! test -w Loader/OBJ/tmp_gv; then
     mkdir Loader/OBJ/tmp_gv
 fi
 
+if ! test -w Loader/WRL/tmp_gv; then 
+    echo "Need Loader/WRL/tmp_gv"
+	echo "mkdir Loader/WRL/tmp_gv"
+
+    mkdir Loader/WRL/tmp_gv
+fi
+
 if test -w Base/tmp_gv; then
 	echo "Moving stuff out of the way"
 
@@ -99,5 +106,16 @@ if test -w Base/tmp_gv; then
     if test -w Loader/OBJ/OSGOBJSceneFileType.cpp; then
         echo "mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv"
         mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv
+    fi
+
+
+    if test -w Loader/WRL/OSGVRMLSceneFileType.hpp; then
+        echo "mv Loader/WRL/OSGVRMLSceneFileType.hpp Loader/WRL/tmp_gv"
+        mv Loader/WRL/OSGVRMLSceneFileType.hpp Loader/WRL/tmp_gv
+    fi
+
+    if test -w Loader/WRL/OSGVRMLSceneFileType.cpp; then
+        echo "mv Loader/WRL/OSGVRMLSceneFileType.cpp Loader/WRL/tmp_gv"
+        mv Loader/WRL/OSGVRMLSceneFileType.cpp Loader/WRL/tmp_gv
     fi
 fi

@@ -41,6 +41,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if 0
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
 FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type = 
@@ -71,7 +72,7 @@ FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type(
         NULL,
         0);
 #endif
-
+#endif
 
 OSG_ABSTR_FIELD_CONTAINER_INL_TMPL_DEF(AbstractGeoProperty,
                                        GeoPropertyDesc,
@@ -141,7 +142,7 @@ const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask =
 
 /** \brief Attachment type
  */
-
+#if 0
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
 FieldContainerType GeoProperty<GeoPropertyDesc>::_type = 
@@ -171,6 +172,7 @@ FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
     GeoPropertyDesc::getInitMethod(),
     GeoPropertyDesc::getDesc(),
     sizeof(FieldDescription *));
+#endif
 #endif
 
 OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,

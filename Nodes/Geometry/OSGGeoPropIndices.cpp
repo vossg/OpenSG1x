@@ -76,9 +76,9 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoIndicesUI32PropertyDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #endif
 
