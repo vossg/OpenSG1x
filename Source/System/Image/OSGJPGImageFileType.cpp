@@ -207,6 +207,19 @@ JPGImageFileType& JPGImageFileType::the (void)
 *public
 *******************************/
 
+void JPGImageFileType::setQuality(UInt32 cl)
+{
+    if(cl > 100)
+        cl = 100;
+    
+    _quality = cl;
+}
+
+UInt32 JPGImageFileType::getQuality(void)
+{
+    return _quality;
+}
+
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
@@ -358,7 +371,7 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image),
     cinfo.in_color_space = (image->getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
-    jpeg_set_quality(&cinfo, 90, TRUE);
+    jpeg_set_quality(&cinfo, _quality, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
 
     buffer = &data;
@@ -519,7 +532,7 @@ UInt64 JPGImageFileType::storeData(const ImagePtr &OSG_JPG_ARG(image  ),
     cinfo.in_color_space = (image->getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
-    jpeg_set_quality(&cinfo, 90, TRUE);
+    jpeg_set_quality(&cinfo, _quality, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
 
     imagebuffer = &data;
@@ -554,7 +567,8 @@ JPGImageFileType::JPGImageFileType( const Char8 *mimeType,
                                     const Char8 *suffixArray[],
                                     UInt16 suffixByteCount,
                                     UInt32 flags) :
-    ImageFileType(mimeType, suffixArray, suffixByteCount, flags)
+    ImageFileType(mimeType, suffixArray, suffixByteCount, flags),
+    _quality(90)
 {
     return;
 }
@@ -564,7 +578,8 @@ JPGImageFileType::JPGImageFileType( const Char8 *mimeType,
 Dummy Copy Constructor
 */
 JPGImageFileType::JPGImageFileType(const JPGImageFileType &obj) :
-    ImageFileType(obj)
+    ImageFileType(obj),
+    _quality(obj._quality)
 {
     return;
 }

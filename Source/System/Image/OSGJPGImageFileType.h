@@ -68,6 +68,9 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
+    void  setQuality(UInt32 cl);
+    UInt32 getQuality(void);
+  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */
@@ -121,6 +124,8 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
   private:
 
     typedef ImageFileType   Inherited;
+
+    UInt32 _quality;
 
     static JPGImageFileType _the;
 
