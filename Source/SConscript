@@ -135,6 +135,7 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     RenderingBackend
     Statistics
     State
+    Text
     Window
     ../Experimental/NativeFileIO
     ../Experimental/NewAction
