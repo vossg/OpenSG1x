@@ -191,8 +191,6 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 			beginEditCP(type, FieldBits::AllFields);
 			type->getFieldPtr()->addValue( GL_TRIANGLES );
 			endEditCP(type, FieldBits::AllFields);
-			
-			geo->setNormalPerVertex( true );
 		}
 
 		SimpleMaterialPtr mat = SimpleMaterial::create();

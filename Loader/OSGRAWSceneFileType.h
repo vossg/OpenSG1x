@@ -98,10 +98,10 @@ public:
   static  RAWSceneFileType & staticThe (void) { return _the; }
 #endif
 
-  /** read the image from the given file */
+  /** read the model from the given file */
   virtual NodePtr read (const char *fileName) const;
 
-  /** write the image to the given file */
+  /** write the model to the given file */
   virtual Bool write (const NodePtr node, const char *fileName) const;
 
   /** get method for the type name */
