@@ -9893,19 +9893,46 @@ case "$build_os" in
         echo "please contact me (vossg@camtech.ntu.edu.sg) beforehand"
     ;;
     linux*)
+        warn_gl=0
         if test -e /usr/lib/libGL.so -a -e /usr/lib/libGL.so.1 
         then
             diff -q /usr/lib/libGL.so /usr/lib/libGL.so.1 > /dev/null
             if test $? != 0
             then
-                echo "#############################"
-                echo "WARNING"
-                echo "#############################"
+                warn_gl=1
+            fi
+        fi
+        
+        warn_x11=0
+        if test -e /usr/X11R6/lib/libGLU.a -a ! -e /usr/X11R6/lib/libGLU.so
+        then
+            warn_x11=1
+        fi
+        
+        if test $warn_gl != 0 -o $warn_x11 != 0
+        then
+            echo "#############################"
+            echo "WARNING"
+            echo "#############################"
+            
+            if test $warn_gl != 0
+            then
                 echo "The libraries" 
                 \ls -ol /usr/lib/libGL.*so* | sed -e 's|^.*/usr|/usr|'
                 echo "differ from each other. This is usually a sign of a broken installation"
                 echo "If OpenSG programs crash when accessing OpenGL extensions, please make "
                 echo "sure your OpenGL installation is ok."
+                echo
+            fi
+            
+            if test $warn_x11 != 0  
+            then           
+                echo "Your system has /usr/X11R6/lib/libGLU.a but no /usr/X11R6/lib/libGLU.so!" 
+                echo "This can lead to linking problems. If you get unresolved symbols" 
+                echo "like gluErrorString, please execute (as root)"
+                echo
+                echo "ln -s /usr/lib/libGLU.so /usr/X11R6/lib/libGLU.so"
+                echo
             fi
         fi
     ;;
