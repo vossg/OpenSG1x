@@ -67,6 +67,10 @@
 
 #include <OSGUInt32Fields.h> // VertexProfile type
 #include <OSGUInt32Fields.h> // FragmentProfile type
+#include <OSGStringFields.h> // VertexEntryPoint type
+#include <OSGStringFields.h> // VertexArguments type
+#include <OSGStringFields.h> // FragmentEntryPoint type
+#include <OSGStringFields.h> // FragmentArguments type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGCGChunkFields.h>
@@ -91,14 +95,22 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 
     enum
     {
-        VertexProfileFieldId   = Inherited::NextFieldId,
-        FragmentProfileFieldId = VertexProfileFieldId   + 1,
-        GLIdFieldId            = FragmentProfileFieldId + 1,
-        NextFieldId            = GLIdFieldId            + 1
+        VertexProfileFieldId      = Inherited::NextFieldId,
+        FragmentProfileFieldId    = VertexProfileFieldId      + 1,
+        VertexEntryPointFieldId   = FragmentProfileFieldId    + 1,
+        VertexArgumentsFieldId    = VertexEntryPointFieldId   + 1,
+        FragmentEntryPointFieldId = VertexArgumentsFieldId    + 1,
+        FragmentArgumentsFieldId  = FragmentEntryPointFieldId + 1,
+        GLIdFieldId               = FragmentArgumentsFieldId  + 1,
+        NextFieldId               = GLIdFieldId               + 1
     };
 
     static const OSG::BitVector VertexProfileFieldMask;
     static const OSG::BitVector FragmentProfileFieldMask;
+    static const OSG::BitVector VertexEntryPointFieldMask;
+    static const OSG::BitVector VertexArgumentsFieldMask;
+    static const OSG::BitVector FragmentEntryPointFieldMask;
+    static const OSG::BitVector FragmentArgumentsFieldMask;
     static const OSG::BitVector GLIdFieldMask;
 
 
@@ -128,14 +140,28 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 
            SFUInt32            *getSFVertexProfile  (void);
            SFUInt32            *getSFFragmentProfile(void);
+           SFString            *getSFVertexEntryPoint(void);
+           MFString            *getMFVertexArguments(void);
+           SFString            *getSFFragmentEntryPoint(void);
+           MFString            *getMFFragmentArguments(void);
            SFUInt32            *getSFGLId           (void);
 
            UInt32              &getVertexProfile  (void);
      const UInt32              &getVertexProfile  (void) const;
            UInt32              &getFragmentProfile(void);
      const UInt32              &getFragmentProfile(void) const;
+           std::string         &getVertexEntryPoint(void);
+     const std::string         &getVertexEntryPoint(void) const;
+           std::string         &getFragmentEntryPoint(void);
+     const std::string         &getFragmentEntryPoint(void) const;
            UInt32              &getGLId           (void);
      const UInt32              &getGLId           (void) const;
+           std::string         &getVertexArguments(const UInt32 index);
+           MFString            &getVertexArguments(void);
+     const MFString            &getVertexArguments(void) const;
+           std::string         &getFragmentArguments(const UInt32 index);
+           MFString            &getFragmentArguments(void);
+     const MFString            &getFragmentArguments(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -144,6 +170,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 
      void setVertexProfile  ( const UInt32 &value );
      void setFragmentProfile( const UInt32 &value );
+     void setVertexEntryPoint( const std::string &value );
+     void setFragmentEntryPoint( const std::string &value );
      void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -192,6 +220,10 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 
     SFUInt32            _sfVertexProfile;
     SFUInt32            _sfFragmentProfile;
+    SFString            _sfVertexEntryPoint;
+    MFString            _mfVertexArguments;
+    SFString            _sfFragmentEntryPoint;
+    MFString            _mfFragmentArguments;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */

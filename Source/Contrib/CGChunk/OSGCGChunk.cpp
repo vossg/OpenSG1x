@@ -251,16 +251,30 @@ void CGChunk::updateCGContext(void)
     if(getFragmentProfile() == CG_PROFILE_UNKNOWN)
         setFragmentProfile(cgGLGetLatestProfile(CG_GL_FRAGMENT));
     cgGLSetOptimalOptions((CGprofile) getFragmentProfile());
-    
+
     // reload programs
     if(hasVP() && !getVertexProgram().empty())
     {
         if(cgIsProgram((CGprogram) _vProgram))
             cgDestroyProgram((CGprogram) _vProgram);
 
+        const char *entry = NULL;
+        if(!getVertexEntryPoint().empty())
+            entry = getVertexEntryPoint().c_str();
+    
+        const char **args = NULL;
+        if(!getVertexArguments().empty())
+        {
+            UInt32 asize = getVertexArguments().size();
+            args = new const char *[asize + 1];
+            for(UInt32 i=0;i<asize;++i)
+                args[i] = getVertexArguments()[i].c_str();
+            args[asize] = NULL;
+        }
+        
         _vProgram = (OSGCGprogram) cgCreateProgram((CGcontext) _context,
                                     CG_SOURCE, getVertexProgram().c_str(),
-                                    (CGprofile) getVertexProfile(), NULL, NULL);
+                                    (CGprofile) getVertexProfile(), entry, args);
         if(_vProgram)
         {
             _vp_isvalid = true;
@@ -271,6 +285,9 @@ void CGChunk::updateCGContext(void)
             _vp_isvalid = false;
             FWARNING(("Couldn't load vertex program!\n"));
         }
+        
+        if(!getVertexArguments().empty())
+            delete [] args;
     }
 
     if(hasFP() && !getFragmentProgram().empty())
@@ -278,9 +295,23 @@ void CGChunk::updateCGContext(void)
         if(cgIsProgram((CGprogram) _fProgram))
             cgDestroyProgram((CGprogram) _fProgram);
 
+        const char *entry = NULL;
+        if(!getFragmentEntryPoint().empty())
+            entry = getFragmentEntryPoint().c_str();
+    
+        const char **args = NULL;
+        if(!getFragmentArguments().empty())
+        {
+            UInt32 asize = getFragmentArguments().size();
+            args = new const char *[asize + 1];
+            for(UInt32 i=0;i<asize;++i)
+                args[i] = getFragmentArguments()[i].c_str();
+            args[asize] = NULL;
+        }
+        
         _fProgram = (OSGCGprogram) cgCreateProgram((CGcontext) _context,
                                     CG_SOURCE, getFragmentProgram().c_str(),
-                                    (CGprofile) getFragmentProfile(), NULL, NULL);
+                                    (CGprofile) getFragmentProfile(), entry, args);
         if(cgIsProgram((CGprogram) _fProgram))
         {
             _fp_isvalid = true;
@@ -291,6 +322,9 @@ void CGChunk::updateCGContext(void)
             _fp_isvalid = false;
             FWARNING(("Couldn't load fragment program!\n"));
         }
+
+        if(!getFragmentArguments().empty())
+            delete [] args;
     }
 }
 

@@ -110,6 +110,34 @@ SFUInt32 *CGChunkBase::getSFFragmentProfile(void)
     return &_sfFragmentProfile;
 }
 
+//! Get the CGChunk::_sfVertexEntryPoint field.
+inline
+SFString *CGChunkBase::getSFVertexEntryPoint(void)
+{
+    return &_sfVertexEntryPoint;
+}
+
+//! Get the CGChunk::_mfVertexArguments field.
+inline
+MFString *CGChunkBase::getMFVertexArguments(void)
+{
+    return &_mfVertexArguments;
+}
+
+//! Get the CGChunk::_sfFragmentEntryPoint field.
+inline
+SFString *CGChunkBase::getSFFragmentEntryPoint(void)
+{
+    return &_sfFragmentEntryPoint;
+}
+
+//! Get the CGChunk::_mfFragmentArguments field.
+inline
+MFString *CGChunkBase::getMFFragmentArguments(void)
+{
+    return &_mfFragmentArguments;
+}
+
 //! Get the CGChunk::_sfGLId field.
 inline
 SFUInt32 *CGChunkBase::getSFGLId(void)
@@ -160,6 +188,48 @@ void CGChunkBase::setFragmentProfile(const UInt32 &value)
     _sfFragmentProfile.setValue(value);
 }
 
+//! Get the value of the CGChunk::_sfVertexEntryPoint field.
+inline
+std::string &CGChunkBase::getVertexEntryPoint(void)
+{
+    return _sfVertexEntryPoint.getValue();
+}
+
+//! Get the value of the CGChunk::_sfVertexEntryPoint field.
+inline
+const std::string &CGChunkBase::getVertexEntryPoint(void) const
+{
+    return _sfVertexEntryPoint.getValue();
+}
+
+//! Set the value of the CGChunk::_sfVertexEntryPoint field.
+inline
+void CGChunkBase::setVertexEntryPoint(const std::string &value)
+{
+    _sfVertexEntryPoint.setValue(value);
+}
+
+//! Get the value of the CGChunk::_sfFragmentEntryPoint field.
+inline
+std::string &CGChunkBase::getFragmentEntryPoint(void)
+{
+    return _sfFragmentEntryPoint.getValue();
+}
+
+//! Get the value of the CGChunk::_sfFragmentEntryPoint field.
+inline
+const std::string &CGChunkBase::getFragmentEntryPoint(void) const
+{
+    return _sfFragmentEntryPoint.getValue();
+}
+
+//! Set the value of the CGChunk::_sfFragmentEntryPoint field.
+inline
+void CGChunkBase::setFragmentEntryPoint(const std::string &value)
+{
+    _sfFragmentEntryPoint.setValue(value);
+}
+
 //! Get the value of the CGChunk::_sfGLId field.
 inline
 UInt32 &CGChunkBase::getGLId(void)
@@ -181,6 +251,48 @@ void CGChunkBase::setGLId(const UInt32 &value)
     _sfGLId.setValue(value);
 }
 
+
+//! Get the value of the \a index element the CGChunk::_mfVertexArguments field.
+inline
+std::string &CGChunkBase::getVertexArguments(const UInt32 index)
+{
+    return _mfVertexArguments[index];
+}
+
+//! Get the CGChunk::_mfVertexArguments field.
+inline
+MFString &CGChunkBase::getVertexArguments(void)
+{
+    return _mfVertexArguments;
+}
+
+//! Get the CGChunk::_mfVertexArguments field.
+inline
+const MFString &CGChunkBase::getVertexArguments(void) const
+{
+    return _mfVertexArguments;
+}
+
+//! Get the value of the \a index element the CGChunk::_mfFragmentArguments field.
+inline
+std::string &CGChunkBase::getFragmentArguments(const UInt32 index)
+{
+    return _mfFragmentArguments[index];
+}
+
+//! Get the CGChunk::_mfFragmentArguments field.
+inline
+MFString &CGChunkBase::getFragmentArguments(void)
+{
+    return _mfFragmentArguments;
+}
+
+//! Get the CGChunk::_mfFragmentArguments field.
+inline
+const MFString &CGChunkBase::getFragmentArguments(void) const
+{
+    return _mfFragmentArguments;
+}
 
 OSG_END_NAMESPACE
 

@@ -70,6 +70,18 @@ const OSG::BitVector  CGChunkBase::VertexProfileFieldMask =
 const OSG::BitVector  CGChunkBase::FragmentProfileFieldMask = 
     (TypeTraits<BitVector>::One << CGChunkBase::FragmentProfileFieldId);
 
+const OSG::BitVector  CGChunkBase::VertexEntryPointFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::VertexEntryPointFieldId);
+
+const OSG::BitVector  CGChunkBase::VertexArgumentsFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::VertexArgumentsFieldId);
+
+const OSG::BitVector  CGChunkBase::FragmentEntryPointFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::FragmentEntryPointFieldId);
+
+const OSG::BitVector  CGChunkBase::FragmentArgumentsFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::FragmentArgumentsFieldId);
+
 const OSG::BitVector  CGChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << CGChunkBase::GLIdFieldId);
 
@@ -85,6 +97,18 @@ const OSG::BitVector CGChunkBase::MTInfluenceMask =
 */
 /*! \var UInt32          CGChunkBase::_sfFragmentProfile
     vertex profile
+*/
+/*! \var std::string     CGChunkBase::_sfVertexEntryPoint
+    
+*/
+/*! \var std::string     CGChunkBase::_mfVertexArguments
+    
+*/
+/*! \var std::string     CGChunkBase::_sfFragmentEntryPoint
+    
+*/
+/*! \var std::string     CGChunkBase::_mfFragmentArguments
+    
 */
 /*! \var UInt32          CGChunkBase::_sfGLId
     
@@ -104,6 +128,26 @@ FieldDescription *CGChunkBase::_desc[] =
                      FragmentProfileFieldId, FragmentProfileFieldMask,
                      false,
                      (FieldAccessMethod) &CGChunkBase::getSFFragmentProfile),
+    new FieldDescription(SFString::getClassType(), 
+                     "vertexEntryPoint", 
+                     VertexEntryPointFieldId, VertexEntryPointFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getSFVertexEntryPoint),
+    new FieldDescription(MFString::getClassType(), 
+                     "vertexArguments", 
+                     VertexArgumentsFieldId, VertexArgumentsFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getMFVertexArguments),
+    new FieldDescription(SFString::getClassType(), 
+                     "fragmentEntryPoint", 
+                     FragmentEntryPointFieldId, FragmentEntryPointFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getSFFragmentEntryPoint),
+    new FieldDescription(MFString::getClassType(), 
+                     "fragmentArguments", 
+                     FragmentArgumentsFieldId, FragmentArgumentsFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getMFFragmentArguments),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -166,6 +210,10 @@ void CGChunkBase::executeSync(      FieldContainer &other,
 CGChunkBase::CGChunkBase(void) :
     _sfVertexProfile          (UInt32(6145)), 
     _sfFragmentProfile        (UInt32(6145)), 
+    _sfVertexEntryPoint       (), 
+    _mfVertexArguments        (), 
+    _sfFragmentEntryPoint     (), 
+    _mfFragmentArguments      (), 
     _sfGLId                   (), 
     Inherited() 
 {
@@ -178,6 +226,10 @@ CGChunkBase::CGChunkBase(void) :
 CGChunkBase::CGChunkBase(const CGChunkBase &source) :
     _sfVertexProfile          (source._sfVertexProfile          ), 
     _sfFragmentProfile        (source._sfFragmentProfile        ), 
+    _sfVertexEntryPoint       (source._sfVertexEntryPoint       ), 
+    _mfVertexArguments        (source._mfVertexArguments        ), 
+    _sfFragmentEntryPoint     (source._sfFragmentEntryPoint     ), 
+    _mfFragmentArguments      (source._mfFragmentArguments      ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
@@ -205,6 +257,26 @@ UInt32 CGChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFragmentProfile.getBinSize();
     }
 
+    if(FieldBits::NoField != (VertexEntryPointFieldMask & whichField))
+    {
+        returnValue += _sfVertexEntryPoint.getBinSize();
+    }
+
+    if(FieldBits::NoField != (VertexArgumentsFieldMask & whichField))
+    {
+        returnValue += _mfVertexArguments.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FragmentEntryPointFieldMask & whichField))
+    {
+        returnValue += _sfFragmentEntryPoint.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FragmentArgumentsFieldMask & whichField))
+    {
+        returnValue += _mfFragmentArguments.getBinSize();
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         returnValue += _sfGLId.getBinSize();
@@ -227,6 +299,26 @@ void CGChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
     {
         _sfFragmentProfile.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VertexEntryPointFieldMask & whichField))
+    {
+        _sfVertexEntryPoint.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VertexArgumentsFieldMask & whichField))
+    {
+        _mfVertexArguments.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FragmentEntryPointFieldMask & whichField))
+    {
+        _sfFragmentEntryPoint.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FragmentArgumentsFieldMask & whichField))
+    {
+        _mfFragmentArguments.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -252,6 +344,26 @@ void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFragmentProfile.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (VertexEntryPointFieldMask & whichField))
+    {
+        _sfVertexEntryPoint.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VertexArgumentsFieldMask & whichField))
+    {
+        _mfVertexArguments.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FragmentEntryPointFieldMask & whichField))
+    {
+        _sfFragmentEntryPoint.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FragmentArgumentsFieldMask & whichField))
+    {
+        _mfFragmentArguments.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyFromBin(pMem);
@@ -271,6 +383,18 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
 
     if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
         _sfFragmentProfile.syncWith(pOther->_sfFragmentProfile);
+
+    if(FieldBits::NoField != (VertexEntryPointFieldMask & whichField))
+        _sfVertexEntryPoint.syncWith(pOther->_sfVertexEntryPoint);
+
+    if(FieldBits::NoField != (VertexArgumentsFieldMask & whichField))
+        _mfVertexArguments.syncWith(pOther->_mfVertexArguments);
+
+    if(FieldBits::NoField != (FragmentEntryPointFieldMask & whichField))
+        _sfFragmentEntryPoint.syncWith(pOther->_sfFragmentEntryPoint);
+
+    if(FieldBits::NoField != (FragmentArgumentsFieldMask & whichField))
+        _mfFragmentArguments.syncWith(pOther->_mfFragmentArguments);
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);

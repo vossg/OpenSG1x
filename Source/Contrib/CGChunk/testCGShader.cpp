@@ -187,6 +187,11 @@ int main(int argc, char **argv)
         cg->setVertexProgram(_vp_program);
         cg->setFragmentProfile(CG_PROFILE_ARBFP1);
         cg->setFragmentProgram(_fp_program);
+        // some optional parameters.
+        //cg->setVertexEntryPoint("main");
+        //cg->getVertexArguments().push_back("...");
+        //cg->setFragmentEntryPoint("main");
+        //cg->getFragmentArguments().push_back("...");
     endEditCP(cg);
 
     TextureChunkPtr tex_base = TextureChunk::create();
