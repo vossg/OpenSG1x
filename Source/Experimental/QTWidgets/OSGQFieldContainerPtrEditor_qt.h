@@ -71,13 +71,24 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
     virtual void setLabelsVisible(bool bLabels  );
     virtual void setReadOnly     (bool bReadOnly);
 
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex, UInt32 uiAspect  );
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex,
+                                 UInt32            uiAspect      );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex  );
 
-    virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void writeField     (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex  );
+
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex  );
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex  );
 
   protected slots:
     virtual void slotIdChanged(void);
@@ -99,14 +110,14 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
     QLabel      *_pLabelId;
     QLineEdit   *_pLineEditId;
 
-    QLabel      *_pLabelBasePtr;
-    QLabel      *_pLabelBasePtrValue;
+    QLabel      *_pLabelInfo;
+    QLabel      *_pLabelInfoData;
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerPtrEditor_qt.inl"
 
-#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.2 2004/08/13 15:20:59 neumannc Exp $"
 
 #endif /* _OSGQFIELDCONTAINERPTREDITOR_QT_H_ */

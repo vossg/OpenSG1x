@@ -80,13 +80,13 @@ QFieldContainerPtrEditor::setLabelsVisible(bool bLabels)
 
     if(bLabels == true)
     {
-        _pLabelId     ->show();
-        _pLabelBasePtr->show();
+        _pLabelId  ->show();
+        _pLabelInfo->show();
     }
     else
     {
-        _pLabelId     ->hide();
-        _pLabelBasePtr->hide();
+        _pLabelId  ->hide();
+        _pLabelInfo->hide();
     }
 }
 
@@ -104,6 +104,7 @@ QFieldContainerPtrEditor::readField(
     UInt32            uiValueIndex, UInt32 uiAspect  )
 {
     std::string strBasePtr;
+    std::string strInfo;
 
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
@@ -117,7 +118,7 @@ QFieldContainerPtrEditor::readField(
             _pLineEditId->setText     ("NullFC");
             _pLineEditId->blockSignals(false   );
 
-            _pLabelBasePtrValue->setText("0x0");
+            _pLabelInfoData->setText("NullFC (0x0)");
         }
         else
         {
@@ -130,7 +131,12 @@ QFieldContainerPtrEditor::readField(
             FieldDataTraits<void *>::putToString(
                 pSF->getValue().getBaseCPtr(), strBasePtr);
 
-            _pLabelBasePtrValue->setText(strBasePtr.c_str());
+            strInfo.assign(pSF->getValue()->getType().getCName());
+            strInfo.append(" ("                                 );
+            strInfo.append(strBasePtr                           );
+            strInfo.append(")"                                  );
+
+            _pLabelInfoData->setText(strInfo.c_str());
         }
     }
     else
@@ -145,7 +151,7 @@ QFieldContainerPtrEditor::readField(
             _pLineEditId->setText     ("NullFC");
             _pLineEditId->blockSignals(false   );
 
-            _pLabelBasePtrValue->setText("0x0");
+            _pLabelInfoData->setText("NullFC (0x0)");
         }
         else
         {
@@ -158,7 +164,12 @@ QFieldContainerPtrEditor::readField(
             FieldDataTraits<void *>::putToString(
                 (*pMF)[uiValueIndex].getBaseCPtr(), strBasePtr);
 
-            _pLabelBasePtrValue->setText(strBasePtr.c_str());
+            strInfo.assign((*pMF)[uiValueIndex]->getType().getCName());
+            strInfo.append(" ("                                      );
+            strInfo.append(strBasePtr                                );
+            strInfo.append(")"                                       );
+
+            _pLabelInfoData->setText(strInfo.c_str());
         }
     }
 }
@@ -199,25 +210,79 @@ QFieldContainerPtrEditor::writeField(
 }
 
 void
+QFieldContainerPtrEditor::addFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QFieldContainerPtrEditor::addFieldElem: "
+                 << "can not add to SField."
+                 << endLog;
+    }
+    else
+    {
+        MField<FieldContainerPtr> *pMF =
+            reinterpret_cast<MField<FieldContainerPtr> *>(
+                pFC->getField(uiFieldId));
+        UInt32 uiInsertIndex = osgMin(uiValueIndex, pMF->size());
+
+        pMF->insert(pMF->begin() + uiInsertIndex, NullFC);
+    }
+}
+
+void
+QFieldContainerPtrEditor::removeFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QFieldContainerPtrEditor::removeFieldElem: "
+                 << "can not remove from SField."
+                 << endLog;
+    }
+    else
+    {
+        MField<FieldContainerPtr> *pMF =
+            reinterpret_cast<MField<FieldContainerPtr> *>(
+                pFC->getField(uiFieldId));
+        UInt32 uiRemoveIndex = osgMin(uiValueIndex,
+                                      pMF->empty() ? 0 : pMF->size() - 1);
+
+        pMF->erase(pMF->begin() + uiRemoveIndex);
+    }
+}
+
+void
 QFieldContainerPtrEditor::slotIdChanged(void)
 {
-    Char8            szBasePtrBuffer[20];
+    std::string       strBasePtr;
+    std::string       strInfo;
     UInt32            uiContId =
         TypeTraits<UInt32>::getFromString(_pLineEditId->text().latin1());
-
     FieldContainerPtr pCont    =
         FieldContainerFactory::the()->getContainer(uiContId);
 
     if(pCont != NullFC)
     {
-        sprintf(szBasePtrBuffer, "%p", pCont.getBaseCPtr());
+        FieldDataTraits<void *>::putToString(
+            pCont.getBaseCPtr(), strBasePtr);
 
-        _pLabelBasePtrValue->setText(szBasePtrBuffer);
+        strInfo.assign(pCont->getType().getCName());
+        strInfo.append(" ("                       );
+        strInfo.append(strBasePtr                 );
+        strInfo.append(")"                        );
+
+        _pLabelInfoData->setText(strInfo.c_str());
     }
     else
     {
-        _pLineEditId       ->setText("0"         );
-        _pLabelBasePtrValue->setText("NULL (0x0)");
+        _pLineEditId->blockSignals(true    );
+        _pLineEditId->setText     ("NullFC");
+        _pLineEditId->blockSignals(false   );
+
+        _pLabelInfoData->setText("NullFC (0x0)");
     }
 
     emit valueChanged();
@@ -234,20 +299,20 @@ QFieldContainerPtrEditor::createChildWidgets(void)
     _pLineEditId        = new QLineEdit  ("", this,
                               "QFieldContainerPtrEditor::_pLineEditId");
 
-    _pLabelBasePtr      = new QLabel     ("Base Ptr ", this,
-                              "QFieldContainerPtrEditor::_pLabelBasePtr");
-    _pLabelBasePtrValue = new QLabel     ("", this,
-                              "QFieldContainerPtrEditor::_pLineEditBasePtr");
+    _pLabelInfo         = new QLabel     ("Info ", this,
+                              "QFieldContainerPtrEditor::_pLabelInfo");
+    _pLabelInfoData     = new QLabel     ("", this,
+                              "QFieldContainerPtrEditor::_pLabelInfoData");
 }
 
 void
 QFieldContainerPtrEditor::layoutChildWidgets(void)
 {
-    _pHBox->addWidget(_pLabelId,                     0);
-    _pHBox->addWidget(_pLineEditId,                 10);
-    _pHBox->addWidget(_pLabelBasePtr,                0);
-    _pHBox->addWidget(_pLabelBasePtrValue,          10);
-    _pHBox->addWidget(this->getActionButton(),      10);
+    _pHBox->addWidget(_pLabelId,                0);
+    _pHBox->addWidget(_pLineEditId,            10);
+    _pHBox->addWidget(_pLabelInfo,              0);
+    _pHBox->addWidget(_pLabelInfoData,         10);
+    _pHBox->addWidget(this->getActionButton(), 10);
 }
 
 void
@@ -273,7 +338,7 @@ QFieldContainerPtrEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.2 2004/07/30 17:00:18 a-m-z Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.3 2004/08/13 15:20:58 neumannc Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }

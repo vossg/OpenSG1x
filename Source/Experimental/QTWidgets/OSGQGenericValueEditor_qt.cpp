@@ -146,6 +146,25 @@ QGenericValueEditor::writeField(
 }
 
 void
+QGenericValueEditor::addFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    SWARNING << "QGenericValueEditor::addFieldElem: operation not supported."
+             << endLog;
+}
+
+void
+QGenericValueEditor::removeFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    SWARNING << "QGerericValueEditor::removeFieldElem: operation not "
+             << "supported."
+             << endLog;
+}
+
+void
 QGenericValueEditor::slotLineEditValueChanged(void)
 {
     emit valueChanged();
@@ -196,7 +215,7 @@ QGenericValueEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.2 2004/08/13 15:20:59 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQGENERICVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQGENERICVALUEEDITORQT_INLINE_CVSID;
 }

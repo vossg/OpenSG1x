@@ -72,13 +72,24 @@ class OSG_WINDOWQTLIB_DLLMAPPING QGenericValueEditor : public QAbstractValueEdit
     virtual void setLabelsVisible(bool bLabelsVisible);
     virtual void setReadOnly     (bool bReadOnly     );
 
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex, UInt32 uiAspect  );
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex,
+                                 UInt32            uiAspect     );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-    virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void writeField     (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
   protected slots:
     void slotLineEditValueChanged(void);
@@ -99,6 +110,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQGenericValueEditor_qt.inl"
 
-#define OSGQGENERICVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQGenericValueEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQGENERICVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQGenericValueEditor_qt.h,v 1.2 2004/08/13 15:20:59 neumannc Exp $"
 
 #endif /* _OSGQGENERICVALUEEDITOR_QT_H_ */

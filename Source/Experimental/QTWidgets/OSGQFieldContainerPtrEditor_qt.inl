@@ -36,6 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include <OSGSysFieldDataType.h>
+
 #include <qlabel.h>
 #include <qlineedit.h>
 
@@ -53,17 +55,36 @@ QFieldContainerPtrEditor::getValue(FieldContainerPtr &pFC) const
 inline void
 QFieldContainerPtrEditor::setValue(const FieldContainerPtr &pFC)
 {
-    Char8 szBasePtrBuffer[20];
+    std::string strBasePtr;
+    std::string strInfo;
 
-    _pLineEditId->setText(
-        TypeTraits<UInt32>::putToString(pFC.getFieldContainerId()).c_str());
+    if(pFC != NullFC)
+    {
+        _pLineEditId->blockSignals(true    );
+        _pLineEditId->setText(
+            TypeTraits<UInt32>::putToString(pFC.getFieldContainerId()).c_str());
+        _pLineEditId->blockSignals(false   );
 
-    sprintf(szBasePtrBuffer, "%p", pFC.getBaseCPtr());
+        FieldDataTraits<void *>::putToString(
+            pFC.getBaseCPtr(), strBasePtr);
 
-    _pLabelBasePtrValue->setText(szBasePtrBuffer);
+        strInfo.assign(pFC->getType().getCName());
+        strInfo.append(" ("                     );
+        strInfo.append(strBasePtr               );
+        strInfo.append(")"                      );
 
+        _pLabelInfoData->setText(strInfo.c_str());
+    }
+    else
+    {
+        _pLineEditId->blockSignals(true    );
+        _pLineEditId->setText     ("NullFC");
+        _pLineEditId->blockSignals(false   );
+
+        _pLabelInfoData->setText("NullFC (0x0)");
+    }
 }
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.2 2004/07/30 17:00:18 a-m-z Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.inl,v 1.3 2004/08/13 15:20:59 neumannc Exp $"

@@ -158,6 +158,48 @@ QMatrixEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
     }
 }
 
+void
+QMatrixEditor::addFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QMatrixEditor::addFieldElem: can not add to SField."
+                 << endLog;
+    }
+    else
+    {
+        MFMatrix *pMF           =
+            dynamic_cast<MFMatrix *>(pFC->getField(uiFieldId));
+        UInt32    uiInsertIndex =  osgMin(uiValueIndex, pMF->size());
+
+        pMF->insert(pMF->begin() + uiInsertIndex, Matrix());
+    }
+}
+
+void
+QMatrixEditor::removeFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QMatrixEditor::removeFieldElem: can not remove "
+                 << "from SField."
+                 << endLog;
+    }
+    else
+    {
+        MFMatrix *pMF          =
+            dynamic_cast<MFMatrix *>(pFC->getField(uiFieldId));
+        UInt32    uiEraseIndex = osgMin(uiValueIndex,
+                                        pMF->empty() ? 0 : pMF->size() - 1);
+
+        pMF->erase(pMF->begin() + uiEraseIndex);
+    }
+}
+
 void QMatrixEditor::createChildWidgets(void)
 {
     _pGrid = new QGridLayout(this, 4, 9, 0, 1, "QMatrixEditor::_pGrid");
@@ -268,7 +310,7 @@ void QMatrixEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMatrixEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMatrixEditor_qt.cpp,v 1.2 2004/08/13 15:20:59 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQMATRIXEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQMATRIXEDITORQT_INLINE_CVSID;
 }

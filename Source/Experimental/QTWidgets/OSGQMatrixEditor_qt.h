@@ -69,13 +69,24 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMatrixEditor : public QAbstractValueEditor
     virtual void setLabelsVisible(bool bLabels  );
     virtual void setReadOnly     (bool bReadOnly);
 
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex, UInt32 uiAspect  );
-    virtual void readField (FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex,
+                                 UInt32            uiAspect     );
+    virtual void readField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-    virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                            UInt32            uiValueIndex                   );
+    virtual void writeField     (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
   private:
     typedef QAbstractValueEditor Inherited;
@@ -93,6 +104,6 @@ OSG_END_NAMESPACE
 
 //#include "OSGQMatrixEditor_qt.inl"
 
-#define OSGQMATRIXEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMatrixEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQMATRIXEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMatrixEditor_qt.h,v 1.2 2004/08/13 15:20:59 neumannc Exp $"
 
 #endif /* _OSGQMATRIXEDITOR_QT_H_ */
