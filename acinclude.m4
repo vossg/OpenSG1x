@@ -485,9 +485,11 @@ dnl e2
     
                 cygwin*)
                     echo Skipping ${ac_gdz_package_name}
+                    continue
                 ;;
                 darwin*)
                     echo Skipping ${ac_gdz_package_name}
+                    continue
                 ;;
                 *)
                     ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
