@@ -105,7 +105,7 @@ DrawTreeNode::~DrawTreeNode(void)
 
 #if !defined(OSG_OPT_DRAWTREE)
 
-#if 0
+#if 1
     subRefP(_pFirstChild);
     subRefP(_pBrother   );
 #else
