@@ -141,6 +141,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
 
     static bool               addSceneFileType(SceneFileType &fileType);
+    static bool               subSceneFileType(SceneFileType &fileType);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

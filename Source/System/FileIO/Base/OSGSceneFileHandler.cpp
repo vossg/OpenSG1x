@@ -559,6 +559,36 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
     return retCode;
 }
 
+bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
+{
+	bool retCode = false;
+
+    std::list<IDString>::iterator sI;
+         FileTypeMap   ::iterator smI;
+
+    IDString suffix;
+
+    if(_the == NULL)
+    {
+        _the = new SceneFileHandler;
+    }
+
+    for(  sI  = fileType.suffixList().begin();
+          sI != fileType.suffixList().end();
+        ++sI)
+    {
+        suffix.set(sI->str());
+        suffix.toLower();
+
+        smI = _the->_suffixTypeMap.find(suffix);
+		if (smI != _the->_suffixTypeMap.end())
+        {
+            _the->_suffixTypeMap.erase(smI);
+            retCode = true;
+        }
+    }
+    return retCode;
+}
 
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)

@@ -94,6 +94,7 @@ SceneFileType::SceneFileType(const SceneFileType &obj) :
 //---------------------------------------------------------
 SceneFileType::~SceneFileType(void)
 {
+    SceneFileHandler::subSceneFileType(*this);
     return;
 }
 
