@@ -88,14 +88,21 @@ void FTGLFont::initMethod (void)
 
 /*----------------------- constructors & destructors ----------------------*/
 
+static void   APIENTRY FTGLFontGenTextures   (GLsizei n, GLuint *textures);
+static void   APIENTRY FTGLFontDeleteTextures(GLsizei n, const GLuint *textures);
+static GLuint APIENTRY FTGLFontGenLists      (GLsizei range);
+static void   APIENTRY FTGLFontDeleteLists   (GLuint list, GLsizei range);
+
 FTGLFont::FTGLFont(void) :
     Inherited(),
     _font(NULL)
 {
     // Set up FTGL
     
-    FTLibrary::Instance().setGLCallbacks(osgGenTextures, osgDeleteTextures, 
-                                         osgGenLists, osgDeleteLists);    
+	FTLibrary::Instance().setGLCallbacks( (FTLibrary::GenTexturesCB)FTGLFontGenTextures, 
+											(FTLibrary::DeleteTexturesCB)FTGLFontDeleteTextures, 
+											(FTLibrary::GenListsCB)FTGLFontGenLists, 
+											(FTLibrary::DeleteListsCB)FTGLFontDeleteLists);    
 }
 
 FTGLFont::FTGLFont(const FTGLFont &source) :
@@ -221,34 +228,34 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
 /*! Helper functions to let FTGL use OpenSG GL object handling
 */
 
-void FTGLFont::handleGLDummy(Window *, UInt32 )
+void FTGLFontHandleGLDummy(Window *, UInt32 )
 {
 }
 
-void FTGLFont::osgGenTextures(GLsizei n, GLuint *textures)
+void APIENTRY FTGLFontGenTextures(GLsizei n, GLuint *textures)
 {
     for(UInt32 i = 0; i < n; ++i)
         textures[i] = Window::registerGLObject(osgTypedFunctionVoidFunctor2Ptr<
                                                  Window,
                                                  UInt32>(
-                                                     &FTGLFont::handleGLDummy), 1);
+                                                     &FTGLFontHandleGLDummy), 1);
 }
 
-void FTGLFont::osgDeleteTextures(GLsizei n, const GLuint *textures)
+void APIENTRY FTGLFontDeleteTextures(GLsizei n, const GLuint *textures)
 {
     for(UInt32 i = 0; i < n; ++i)
         Window::destroyGLObject(textures[i], 1);
 }
 
-GLuint FTGLFont::osgGenLists(GLsizei range)
+GLuint APIENTRY FTGLFontGenLists(GLsizei range)
 {
     return Window::registerGLObject(osgTypedFunctionVoidFunctor2Ptr<
                                                  Window,
                                                  UInt32>(
-                                                     &FTGLFont::handleGLDummy), range);
+                                                     &FTGLFontHandleGLDummy), range);
 }
 
-void FTGLFont::osgDeleteLists(GLuint list, GLsizei range)
+void APIENTRY FTGLFontDeleteLists(GLuint list, GLsizei range)
 {
     Window::destroyGLObject(list, range);
 }
@@ -266,7 +273,7 @@ void FTGLFont::osgDeleteLists(GLuint list, GLsizei range)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.1 2004/08/05 05:22:50 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.2 2004/08/27 14:06:02 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 

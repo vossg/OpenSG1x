@@ -137,12 +137,6 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLFont : public FTGLFontBase
 
     void onCreate(const FTGLFont *source = NULL);
     
-    static void   handleGLDummy    (Window *win, UInt32 id);
-    static void   osgGenTextures   (GLsizei n, GLuint *textures);
-    static void   osgDeleteTextures(GLsizei n, const GLuint *textures);
-    static GLuint osgGenLists      (GLsizei range);
-    static void   osgDeleteLists   (GLuint list, GLsizei range);
-
     /*! \}                                                                 */
     
     // prohibit default functions (move to 'public' if you need one)
@@ -157,6 +151,6 @@ OSG_END_NAMESPACE
 #include <OSGFTGLFontBase.inl>
 #include <OSGFTGLFont.inl>
 
-#define OSGFTGLFONT_HEADER_CVSID "@(#)$Id: OSGFTGLFont.h,v 1.1 2004/08/05 05:22:50 dirk Exp $"
+#define OSGFTGLFONT_HEADER_CVSID "@(#)$Id: OSGFTGLFont.h,v 1.2 2004/08/27 14:06:02 dirk Exp $"
 
 #endif /* _OSGFTGLFONT_H_ */
