@@ -8,6 +8,7 @@
 #include <OSGBaseFunctions.h>
 #include <OSGSceneFileHandler.h>
 #include <OSGBINWriter.h>
+#include <OSGSceneFileHandler.h>
 
 /* */
 int main(int argc, char *argv[])
@@ -44,20 +45,6 @@ int main(int argc, char *argv[])
         root->addChild(node);
     }
 
-    std::cout << "write:" << argv[argc - 1] << std::endl;
-    std::ofstream out(argv[argc - 1], std::ios::binary);
-    if(!out)
-    {
-        std::cerr <<
-            "ERROR: Cannot create file " <<
-            argv[argc - 1] <<
-            "" <<
-            std::endl;
-        return 1;
-    }
-
-    OSG::BINWriter writer(out);
-
     // print volume
     root->invalidateVolume();
     root->updateVolume();
@@ -66,8 +53,7 @@ int main(int argc, char *argv[])
     vol.getBounds(vmin, vmax);
     std::cout << "Volume: from " << vmin << " to " << vmax << std::endl;
 
-    writer.write(root);
-    out.close();
+    OSG::SceneFileHandler::the().write(root,argv[argc-1]);
 
     OSG::endEditCP(root);
     OSG::endEditCP(group);
