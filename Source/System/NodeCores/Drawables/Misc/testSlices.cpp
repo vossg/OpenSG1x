@@ -103,6 +103,8 @@ SlicesPtr slicesCore;
 TransformPtr cam_trans;
 unsigned numberOfSlices;
 
+BlendChunkPtr blendChunkPtr;
+
 Navigator navigator;
 
 int mouseb = 0;
@@ -280,6 +282,26 @@ void key(unsigned char key, int x, int y)
                 std::cerr << "File dumped." << std::endl;
                 }
                 break;                  
+    case 'a':   // Additive blending
+                if(blendChunkPtr->getDestFactor() == GL_ONE_MINUS_SRC_ALPHA)
+                {
+                    beginEditCP (blendChunkPtr);
+                    {
+                      blendChunkPtr->setSrcFactor  ( GL_SRC_ALPHA           );
+                      blendChunkPtr->setDestFactor ( GL_ONE );
+                    }
+                    endEditCP   (blendChunkPtr);
+                }
+                else
+                {
+                    beginEditCP (blendChunkPtr);
+                    {
+                      blendChunkPtr->setSrcFactor  ( GL_SRC_ALPHA           );
+                      blendChunkPtr->setDestFactor ( GL_ONE_MINUS_SRC_ALPHA );
+                    }
+                    endEditCP   (blendChunkPtr);
+                }
+                break;                
     case 'L':   glDisable( GL_LIGHTING );
       std::cerr << "Lighting disabled." << std::endl;
       break;
@@ -487,7 +509,8 @@ int main (int argc, char **argv)
         std::cout << "Create ChunkMaterial" << std::endl;
         ChunkMaterialPtr  texMatPtr     = ChunkMaterial::create();
         TextureChunkPtr   texChunkPtr   = TextureChunk::create();
-        BlendChunkPtr     blendChunkPtr = BlendChunk::create();
+        
+        blendChunkPtr = BlendChunk::create();
         beginEditCP (texChunkPtr);
         {
           texChunkPtr->setImage     ( imageP);
