@@ -97,9 +97,11 @@ void (*ClusterWindow::getFunctionByName ( const Char8 * ))()
 
 void ClusterWindow::init( void )
 {
-    Connection   *connection;
-    RemoteAspect *remoteAspect;
-    MFString::iterator s;
+    GroupConnection    *connection;
+    RemoteAspect       *remoteAspect;
+    int                 i;
+    MFString::iterator  s;
+    Connection::Channel channel;
 
     if(getNetwork()->getMainConnection())
     {
@@ -111,7 +113,9 @@ void ClusterWindow::init( void )
     {
         setConnectionType("StreamSock");
     }
-    connection=ConnectionFactory::the().create(getConnectionType());
+    connection=ConnectionFactory::the().createGroup(getConnectionType());
+    connection->setDestination(getConnectionDestination());
+    connection->setInterface(getConnectionInterface());
     if(connection == NULL)
     {
         SFATAL << "Unknown connection type " 
@@ -175,7 +179,7 @@ void ClusterWindow::init( void )
                 {
                     SINFO << "Found at address " << respAddress << std::endl;
                     // connect to server
-                    connection->connect(respAddress);
+                    connection->connectPoint(respAddress);
                     retry=false;
                 }
             }
@@ -196,13 +200,16 @@ void ClusterWindow::init( void )
 #endif
     for(UInt32 i=0;i<getServers().size();++i)
     {
-        connection->selectChannel();
+        channel = connection->selectChannel();
+        connection->subSelection(channel);
         connection->getValue(serverLittleEndian);
         if(serverLittleEndian != littleEndian)
         {
             forceNetworkOrder=true;
         }
     }
+    connection->resetSelection();
+    // tell the servers the encoding mode
     connection->putValue(forceNetworkOrder);
     connection->flush();
     connection->setNetworkOrder((forceNetworkOrder != 0));
@@ -210,10 +217,6 @@ void ClusterWindow::init( void )
     {
         SLOG << "Run clustering in network order mode" << std::endl;
     }
-    // send alive all 2 seconds
-    connection->setSendAliveInterval(2);
-    // never request alive
-    connection->setReadAliveTimeout(-1);
 }
 
 void ClusterWindow::render(RenderActionBase *action)

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,39 +36,36 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGCLUSTERWINDOW_H_
-#define _OSGCLUSTERWINDOW_H_
+#ifndef _OSGIMAGECOMPOSER_H_
+#define _OSGIMAGECOMPOSER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-#include <OSGClusterWindowBase.h>
-#include <OSGStatCollector.h>
-#include <OSGStatElemTypes.h>
-#include <OSGClusterNetwork.h>
+
+#include <OSGImageComposerBase.h>
+#include <OSGWindow.h>
+#include <OSGClusterWindow.h>
+#include <OSGViewport.h>
 
 OSG_BEGIN_NAMESPACE
 
-class Connection;
-class ClusterServer;
-class RemoteAspect;
-
-class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
+class OSG_SYSTEMLIB_DLLMAPPING ImageComposer : public ImageComposerBase
 {
   private:
 
-    typedef ClusterWindowBase Inherited;
+    typedef ImageComposerBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   window functions                           */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField, 
-                         UInt32    origin    );
+    virtual void changed(BitVector  whichField, 
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -80,116 +77,110 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name            GL implementation functions                       */
+    /*! \name      setup                                                   */
     /*! \{                                                                 */
 
-    virtual void    (*getFunctionByName ( const Char8 *s ))();
+    void setup(bool             isClient,
+               UInt32           clusterId,
+               WindowPtr        localWindow, 
+               ClusterWindowPtr clusterWindow);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name      Window system implementation functions                  */
+    /*! \name      composition                                             */
     /*! \{                                                                 */
 
-    virtual void    activate          (void                           );
-    virtual void    deactivate        (void                           );
-    virtual void    swap              (void                           );
-    virtual void    init              (void                           );
-    virtual void    render            (RenderActionBase *action = NULL);
-    virtual void    renderAllViewports(RenderActionBase *action = NULL);
-    virtual void    frameInit         (void                           );
-    virtual void    frameExit         (void                           );
-
+    virtual void open           ( void             );
+    virtual void composeViewport( ViewportPtr port );
+    virtual void composeWindow  ( void             );
+    virtual void close          ( void             );
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name               connection pool                                */
+    /*! \name      features                                                */
     /*! \{                                                                 */
 
-    ClusterNetwork *getNetwork(void);
+    virtual bool   getClientRendering(void);
+    virtual UInt32 getUsableServers  (void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Statistics                                 */
-    /*! \{                                                                 */
-
-    StatCollector *getStatistics(void                  ) const;
-    void           setStatistics(StatCollector * stat  );
-
-    /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
     /*---------------------------------------------------------------------*/
-    /*! \name      client window funcitons                                 */
+    /*! \name                  protected variables                         */
     /*! \{                                                                 */
 
-    virtual void clientInit              (void                    );
-    virtual void clientPreSync           (void                    );
-    virtual void clientRender            (RenderActionBase *action);
-    virtual void clientSwap              (void                    );
+    bool             _isClient;
+    UInt32           _clusterId;
+    UInt32           _clusterSize;
+    UInt32           _serverCount;
+    WindowPtr        _localWindow;
+    ClusterWindowPtr _clusterWindow;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name      server window funcitons                                 */
+    /*! \name                  get                                         */
     /*! \{                                                                 */
-
-    virtual void serverInit              ( WindowPtr window,UInt32 id  );
-    virtual void serverRender            ( WindowPtr window,UInt32 id,
-                                           RenderActionBase *action    );
-    virtual void serverSwap              ( WindowPtr window,UInt32 id  );
+    
+    bool             isClient     (void);
+    UInt32           clusterId    (void);
+    UInt32           clusterSize  (void);
+    UInt32           serverCount  (void);
+    WindowPtr        localWindow  (void);
+    ClusterWindowPtr clusterWindow(void);
 
     /*! \}                                                                 */
 
     /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors / Destructor                   */
+    /*! \name                  helpers                                     */
     /*! \{                                                                 */
 
-    ClusterWindow(void);
-    ClusterWindow(const ClusterWindow &source);
-    virtual ~ClusterWindow(void); 
+    bool getScreenAlignedBBox(NodePtr        root,
+                              ViewportPtr    vp,
+                              UInt32        &l,
+                              UInt32        &b,
+                              UInt32        &r,
+                              UInt32        &t,
+                              UInt32        &front,
+                              UInt32        &back);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name               unsynced thread variables                      */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    bool               _firstFrame;
-    StatCollector     *_statistics;
+    ImageComposer(void);
+    ImageComposer(const ImageComposer &source);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
+    virtual ~ImageComposer(void); 
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-    /*---------------------------------------------------------------------*/
-    /*! \name               private members                                */
-    /*! \{                                                                 */
 
-    ClusterNetwork    *_network;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name              init method                                     */
-    /*! \{                                                                 */
+    friend class FieldContainer;
+    friend class ImageComposerBase;
 
     static void initMethod(void);
 
-    /*! \}                                                                 */
-    friend class FieldContainer;
-    friend class ClusterWindowBase;
-    friend class ClusterServer;
-    friend class ClusterClient;
-
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const ClusterWindow &source);
+
+    void operator =(const ImageComposer &source);
 };
 
-typedef ClusterWindow *ClusterWindowP;
+typedef ImageComposer *ImageComposerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGClusterWindow.inl>
-#include <OSGClusterWindowBase.inl>
+#include <OSGImageComposerBase.inl>
+#include <OSGImageComposer.inl>
 
-#define OSGCLUSTERWINDOW_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGECOMPOSER_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGCLUSTERWINDOW_H_ */
+#endif /* _OSGIMAGECOMPOSER_H_ */

@@ -110,11 +110,18 @@ SFString *ClusterWindowBase::getSFConnectionType(void)
     return &_sfConnectionType;
 }
 
-//! Get the ClusterWindow::_sfClientWindow field.
+//! Get the ClusterWindow::_sfConnectionInterface field.
 inline
-SFWindowPtr *ClusterWindowBase::getSFClientWindow(void)
+SFString *ClusterWindowBase::getSFConnectionInterface(void)
 {
-    return &_sfClientWindow;
+    return &_sfConnectionInterface;
+}
+
+//! Get the ClusterWindow::_sfConnectionDestination field.
+inline
+SFString *ClusterWindowBase::getSFConnectionDestination(void)
+{
+    return &_sfConnectionDestination;
 }
 
 //! Get the ClusterWindow::_sfServicePort field.
@@ -131,6 +138,13 @@ SFString *ClusterWindowBase::getSFServiceAddress(void)
     return &_sfServiceAddress;
 }
 
+//! Get the ClusterWindow::_sfClientWindow field.
+inline
+SFWindowPtr *ClusterWindowBase::getSFClientWindow(void)
+{
+    return &_sfClientWindow;
+}
+
 //! Get the ClusterWindow::_sfInterleave field.
 inline
 SFUInt32 *ClusterWindowBase::getSFInterleave(void)
@@ -143,6 +157,13 @@ inline
 SFUInt32 *ClusterWindowBase::getSFFrameCount(void)
 {
     return &_sfFrameCount;
+}
+
+//! Get the ClusterWindow::_sfComposer field.
+inline
+SFImageComposerPtr *ClusterWindowBase::getSFComposer(void)
+{
+    return &_sfComposer;
 }
 
 
@@ -167,25 +188,46 @@ void ClusterWindowBase::setConnectionType(const std::string &value)
     _sfConnectionType.setValue(value);
 }
 
-//! Get the value of the ClusterWindow::_sfClientWindow field.
+//! Get the value of the ClusterWindow::_sfConnectionInterface field.
 inline
-WindowPtr &ClusterWindowBase::getClientWindow(void)
+std::string &ClusterWindowBase::getConnectionInterface(void)
 {
-    return _sfClientWindow.getValue();
+    return _sfConnectionInterface.getValue();
 }
 
-//! Get the value of the ClusterWindow::_sfClientWindow field.
+//! Get the value of the ClusterWindow::_sfConnectionInterface field.
 inline
-const WindowPtr &ClusterWindowBase::getClientWindow(void) const
+const std::string &ClusterWindowBase::getConnectionInterface(void) const
 {
-    return _sfClientWindow.getValue();
+    return _sfConnectionInterface.getValue();
 }
 
-//! Set the value of the ClusterWindow::_sfClientWindow field.
+//! Set the value of the ClusterWindow::_sfConnectionInterface field.
 inline
-void ClusterWindowBase::setClientWindow(const WindowPtr &value)
+void ClusterWindowBase::setConnectionInterface(const std::string &value)
 {
-    _sfClientWindow.setValue(value);
+    _sfConnectionInterface.setValue(value);
+}
+
+//! Get the value of the ClusterWindow::_sfConnectionDestination field.
+inline
+std::string &ClusterWindowBase::getConnectionDestination(void)
+{
+    return _sfConnectionDestination.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfConnectionDestination field.
+inline
+const std::string &ClusterWindowBase::getConnectionDestination(void) const
+{
+    return _sfConnectionDestination.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfConnectionDestination field.
+inline
+void ClusterWindowBase::setConnectionDestination(const std::string &value)
+{
+    _sfConnectionDestination.setValue(value);
 }
 
 //! Get the value of the ClusterWindow::_sfServicePort field.
@@ -230,6 +272,27 @@ void ClusterWindowBase::setServiceAddress(const std::string &value)
     _sfServiceAddress.setValue(value);
 }
 
+//! Get the value of the ClusterWindow::_sfClientWindow field.
+inline
+WindowPtr &ClusterWindowBase::getClientWindow(void)
+{
+    return _sfClientWindow.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfClientWindow field.
+inline
+const WindowPtr &ClusterWindowBase::getClientWindow(void) const
+{
+    return _sfClientWindow.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfClientWindow field.
+inline
+void ClusterWindowBase::setClientWindow(const WindowPtr &value)
+{
+    _sfClientWindow.setValue(value);
+}
+
 //! Get the value of the ClusterWindow::_sfInterleave field.
 inline
 UInt32 &ClusterWindowBase::getInterleave(void)
@@ -270,6 +333,27 @@ inline
 void ClusterWindowBase::setFrameCount(const UInt32 &value)
 {
     _sfFrameCount.setValue(value);
+}
+
+//! Get the value of the ClusterWindow::_sfComposer field.
+inline
+ImageComposerPtr &ClusterWindowBase::getComposer(void)
+{
+    return _sfComposer.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfComposer field.
+inline
+const ImageComposerPtr &ClusterWindowBase::getComposer(void) const
+{
+    return _sfComposer.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfComposer field.
+inline
+void ClusterWindowBase::setComposer(const ImageComposerPtr &value)
+{
+    _sfComposer.setValue(value);
 }
 
 

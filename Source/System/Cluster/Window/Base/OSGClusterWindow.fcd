@@ -9,6 +9,7 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
 The base class for all windows.
 	<Field
@@ -30,13 +31,22 @@ The base class for all windows.
 	How to connect to the servers
 	</Field>
 	<Field
-		name="clientWindow"
-		type="WindowPtr"
+		name="connectionInterface"
+		type="std::string"
 		cardinality="single"
 		visibility="external"
 		access="public"
 	>
-	Window for client rendering
+	Which network interface to use for communication
+	</Field>
+	<Field
+		name="connectionDestination"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Multicast address for multicast connections
 	</Field>
 	<Field
 		name="servicePort"
@@ -59,6 +69,15 @@ The base class for all windows.
 	Broadcast or Multicast address used for server search
 	</Field>
 	<Field
+		name="clientWindow"
+		type="WindowPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Window for client rendering
+	</Field>
+	<Field
 		name="interleave"
 		type="UInt32"
 		cardinality="single"
@@ -73,6 +92,14 @@ The base class for all windows.
 		cardinality="single"
 		visibility="external"
 		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="composer"
+		type="ImageComposerPtr"
+		cardinality="single"
+		visibility="external"
 		access="public"
 	>
 	</Field>

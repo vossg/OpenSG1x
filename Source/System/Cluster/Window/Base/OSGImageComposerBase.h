@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class ClusterWindow
+ **     class ImageComposer
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCLUSTERWINDOWBASE_H_
-#define _OSGCLUSTERWINDOWBASE_H_
+#ifndef _OSGIMAGECOMPOSERBASE_H_
+#define _OSGIMAGECOMPOSERBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,64 +63,38 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGWindow.h> // Parent
+#include <OSGAttachmentContainer.h> // Parent
 
-#include <OSGStringFields.h> // Servers type
-#include <OSGStringFields.h> // ConnectionType type
-#include <OSGStringFields.h> // ConnectionInterface type
-#include <OSGStringFields.h> // ConnectionDestination type
-#include <OSGUInt32Fields.h> // ServicePort type
-#include <OSGStringFields.h> // ServiceAddress type
-#include <OSGWindowFields.h> // ClientWindow type
-#include <OSGUInt32Fields.h> // Interleave type
-#include <OSGUInt32Fields.h> // FrameCount type
-#include <OSGImageComposerFields.h> // Composer type
+#include <OSGBoolFields.h> // Enabled type
+#include <OSGBoolFields.h> // Statistics type
 
-#include <OSGClusterWindowFields.h>
+#include <OSGImageComposerFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class ClusterWindow;
+class ImageComposer;
 class BinaryDataHandler;
 
-//! \brief ClusterWindow Base Class.
+//! \brief ImageComposer Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
+class OSG_SYSTEMLIB_DLLMAPPING ImageComposerBase : public AttachmentContainer
 {
   private:
 
-    typedef Window    Inherited;
+    typedef AttachmentContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef ClusterWindowPtr  Ptr;
-
     enum
     {
-        ServersFieldId               = Inherited::NextFieldId,
-        ConnectionTypeFieldId        = ServersFieldId               + 1,
-        ConnectionInterfaceFieldId   = ConnectionTypeFieldId        + 1,
-        ConnectionDestinationFieldId = ConnectionInterfaceFieldId   + 1,
-        ServicePortFieldId           = ConnectionDestinationFieldId + 1,
-        ServiceAddressFieldId        = ServicePortFieldId           + 1,
-        ClientWindowFieldId          = ServiceAddressFieldId        + 1,
-        InterleaveFieldId            = ClientWindowFieldId          + 1,
-        FrameCountFieldId            = InterleaveFieldId            + 1,
-        ComposerFieldId              = FrameCountFieldId            + 1,
-        NextFieldId                  = ComposerFieldId              + 1
+        EnabledFieldId    = Inherited::NextFieldId,
+        StatisticsFieldId = EnabledFieldId    + 1,
+        NextFieldId       = StatisticsFieldId + 1
     };
 
-    static const OSG::BitVector ServersFieldMask;
-    static const OSG::BitVector ConnectionTypeFieldMask;
-    static const OSG::BitVector ConnectionInterfaceFieldMask;
-    static const OSG::BitVector ConnectionDestinationFieldMask;
-    static const OSG::BitVector ServicePortFieldMask;
-    static const OSG::BitVector ServiceAddressFieldMask;
-    static const OSG::BitVector ClientWindowFieldMask;
-    static const OSG::BitVector InterleaveFieldMask;
-    static const OSG::BitVector FrameCountFieldMask;
-    static const OSG::BitVector ComposerFieldMask;
+    static const OSG::BitVector EnabledFieldMask;
+    static const OSG::BitVector StatisticsFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -147,53 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFServers        (void);
-           SFString            *getSFConnectionType (void);
-           SFString            *getSFConnectionInterface(void);
-           SFString            *getSFConnectionDestination(void);
-           SFUInt32            *getSFServicePort    (void);
-           SFString            *getSFServiceAddress (void);
-           SFWindowPtr         *getSFClientWindow   (void);
-           SFUInt32            *getSFInterleave     (void);
-           SFUInt32            *getSFFrameCount     (void);
-           SFImageComposerPtr  *getSFComposer       (void);
+           SFBool              *getSFEnabled        (void);
+           SFBool              *getSFStatistics     (void);
 
-           std::string         &getConnectionType (void);
-     const std::string         &getConnectionType (void) const;
-           std::string         &getConnectionInterface(void);
-     const std::string         &getConnectionInterface(void) const;
-           std::string         &getConnectionDestination(void);
-     const std::string         &getConnectionDestination(void) const;
-           UInt32              &getServicePort    (void);
-     const UInt32              &getServicePort    (void) const;
-           std::string         &getServiceAddress (void);
-     const std::string         &getServiceAddress (void) const;
-           WindowPtr           &getClientWindow   (void);
-     const WindowPtr           &getClientWindow   (void) const;
-           UInt32              &getInterleave     (void);
-     const UInt32              &getInterleave     (void) const;
-           UInt32              &getFrameCount     (void);
-     const UInt32              &getFrameCount     (void) const;
-           ImageComposerPtr    &getComposer       (void);
-     const ImageComposerPtr    &getComposer       (void) const;
-           std::string         &getServers        (const UInt32 index);
-           MFString            &getServers        (void);
-     const MFString            &getServers        (void) const;
+           bool                &getEnabled        (void);
+     const bool                &getEnabled        (void) const;
+           bool                &getStatistics     (void);
+     const bool                &getStatistics     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setConnectionType ( const std::string &value );
-     void setConnectionInterface( const std::string &value );
-     void setConnectionDestination( const std::string &value );
-     void setServicePort    ( const UInt32 &value );
-     void setServiceAddress ( const std::string &value );
-     void setClientWindow   ( const WindowPtr &value );
-     void setInterleave     ( const UInt32 &value );
-     void setFrameCount     ( const UInt32 &value );
-     void setComposer       ( const ImageComposerPtr &value );
+     void setEnabled        ( const bool &value );
+     void setStatistics     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -216,22 +158,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Construction                               */
-    /*! \{                                                                 */
-
-    static  ClusterWindowPtr      create          (void); 
-    static  ClusterWindowPtr      createEmpty     (void); 
-
-    /*! \}                                                                 */
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Copy                                   */
-    /*! \{                                                                 */
-
-    virtual FieldContainerPtr     shallowCopy     (void) const; 
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -239,38 +165,30 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFString            _mfServers;
-    SFString            _sfConnectionType;
-    SFString            _sfConnectionInterface;
-    SFString            _sfConnectionDestination;
-    SFUInt32            _sfServicePort;
-    SFString            _sfServiceAddress;
-    SFWindowPtr         _sfClientWindow;
-    SFUInt32            _sfInterleave;
-    SFUInt32            _sfFrameCount;
-    SFImageComposerPtr   _sfComposer;
+    SFBool              _sfEnabled;
+    SFBool              _sfStatistics;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ClusterWindowBase(void);
-    ClusterWindowBase(const ClusterWindowBase &source);
+    ImageComposerBase(void);
+    ImageComposerBase(const ImageComposerBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ClusterWindowBase(void); 
+    virtual ~ImageComposerBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      ClusterWindowBase *pOther,
+    void executeSyncImpl(      ImageComposerBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -284,7 +202,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const ClusterWindowBase &source);
+    void operator =(const ImageComposerBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -292,10 +210,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 //---------------------------------------------------------------------------
 
 
-typedef ClusterWindowBase *ClusterWindowBaseP;
+typedef ImageComposerBase *ImageComposerBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGIMAGECOMPOSERBASE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGCLUSTERWINDOWBASE_H_ */
+#endif /* _OSGIMAGECOMPOSERBASE_H_ */
