@@ -113,6 +113,8 @@ char *FCBaseTemplate_h[]={
 "@@FieldIdsAndMasksDecl@@",
 "@@endif",
 "",
+"    static const OSG::BitVector MTInfluenceMask;",
+"",
 "    /*---------------------------------------------------------------------*/",
 "    /*! \\name                    Class Get                                 */",
 "    /*! \\{                                                                 */",
@@ -373,7 +375,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.29 2002/12/04 14:22:21 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };
