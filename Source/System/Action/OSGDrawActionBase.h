@@ -73,12 +73,6 @@ class Viewport;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 {
   public:
