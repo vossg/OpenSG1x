@@ -111,19 +111,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
     typedef NewAction                    Inherited;
     typedef ActorBase::ActorBaseState    ActorBaseState;
 
-    class StateUseCounter;
-
-    typedef std::list<ActorBaseState *>   StateStore;
-    typedef StateStore::iterator          StateStoreIt;
-    typedef StateStore::const_iterator    StateStoreConstIt;
-
-    typedef std::list<StateUseCounter>    StateUseStore;
-    typedef StateUseStore::iterator       StateUseStoreIt;
-    typedef StateUseStore::const_iterator StateUseStoreConstIt;
-
     class StateUseCounter
     {
       public:
+        typedef std::list<ActorBaseState *>::iterator StateStoreIt;
+
         inline StateUseCounter(      StateStoreIt     itState,
                                      Int32            iUseCount);
         inline StateUseCounter(const StateUseCounter &source   );
@@ -139,6 +131,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
         StateStoreIt _itState;
         Int32        _iUseCount;
     };
+
+    typedef std::list<ActorBaseState *>   StateStore;
+    typedef StateStore::iterator          StateStoreIt;
+    typedef StateStore::const_iterator    StateStoreConstIt;
+
+    typedef std::list<StateUseCounter>    StateUseStore;
+    typedef StateUseStore::iterator       StateUseStoreIt;
+    typedef StateUseStore::const_iterator StateUseStoreConstIt;
 
     class NodeQueueEntry
     {
@@ -222,6 +222,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityAction.inl"
 
-#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.2 2004/04/21 12:15:16 neumannc Exp $"
+#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.3 2004/04/22 08:00:37 a-m-z Exp $"
 
 #endif /* _OSGPRIORITYACTION_H_ */
