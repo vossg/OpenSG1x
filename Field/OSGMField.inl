@@ -623,16 +623,6 @@ const FieldTypeT &MField<FieldTypeT, fieldNameSpace>::operator [](
 
 /*-------------------------- field information ------------------------------*/
 
-/** \brief Return the cardinality of the field, allways MULTI_FIELD
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-FieldType::Cardinality MField<FieldTypeT, 
-                              fieldNameSpace>::getCardinality (void) const
-{
-    return FieldType::MULTI_FIELD;
-}
-
 /** \brief Returns the size of the field
  */
 

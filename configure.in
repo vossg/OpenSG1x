@@ -6,10 +6,10 @@ AC_INIT(Base/OSGConfig.h)
 
 dnl ############# Default Settings #####################
 
-if [[ $srcdir = . ]]; then
+if test $srcdir = .; then
 	ac_gdz_src_dir=`pwd`
 	ac_gdz_lib_src_dir=`pwd`
-elif [[ $srcdir = .. ]]; then
+elif test $srcdir = ..; then
     ac_gdz_src_dir=`pwd`/..
     ac_gdz_lib_src_dir=`pwd`/..
 else
@@ -65,11 +65,11 @@ dnl ############# SUFFIX Settings #####################
 AC_ARG_WITH(suffix,     [  --with-suffix=SUFFIX               add suffix to build dir],
 			,with_suffix=no) 
 
-if [[ "$with_suffix" = yes ]]; then
+if test "$with_suffix" = yes; then
 	ac_gdz_suffix=
-elif [[ "$with_suffix" = no ]]; then
+elif test "$with_suffix" = no; then
 	ac_gdz_suffix=
-elif [[ "X$with_suffix" = X ]]; then
+elif test "X$with_suffix" = X; then
 	ac_gdz_suffix=
 else
 	ac_gdz_suffix=-$with_suffix
@@ -80,9 +80,9 @@ dnl ############# STL Settings #####################
 AC_ARG_WITH(stl,     [  --with-stl=DIR                     Where to find the stl to use],
 			,with_stl=no) 
 
-if [[ "$with_stl" = yes ]]; then
+if test "$with_stl" = yes; then
 	ac_gdz_stl_dir=
-elif [[ "$with_stl" = no ]]; then
+elif test "$with_stl" = no; then
 	ac_gdz_stl_dir=
 else
 	ac_gdz_stl_dir=$with_stl
@@ -93,12 +93,12 @@ dnl ############# GLUT Settings #####################
 AC_ARG_WITH(glut,     [  --with-glut=DIR                    Use glut, if DIR is given use the file from the give directory],
 			,with_glut=no) 
 
-if [[ "$with_glut" = yes ]]; then
+if test "$with_glut" = yes; then
 	ac_gdz_glut_dir=yes
 	ac_gdz_conf_package_defs=-DOSG_WITH_GLUT
 	ac_gdz_conf_package_glut='1'
 	ac_gdz_conf_package_glut_e1='1'
-elif [[ "$with_glut" = no ]]; then
+elif test "$with_glut" = no; then
 	ac_gdz_glut_dir=
 else
 	ac_gdz_glut_dir=$with_glut
@@ -112,12 +112,12 @@ dnl ############# QT Settings #####################
 AC_ARG_WITH(qt,     [  --with-qt=DIR                      Use qt, if DIR is given use the file from the give directory],
 			,with_qt=no) 
 
-if [[ "$with_qt" = yes ]]; then
+if test "$with_qt" = yes; then
 	ac_gdz_qt_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT'
 	ac_gdz_conf_package_qt='1'
 	ac_gdz_conf_package_qt_e1='1'
-elif [[ "$with_qt" = no ]]; then
+elif test "$with_qt" = no; then
 	ac_gdz_qt_dir=
 else
 	ac_gdz_qt_dir=$with_qt
@@ -131,12 +131,12 @@ dnl ############# TIF Settings #####################
 AC_ARG_WITH(tif,     [  --with-tif=DIR                     Use tif lib, if DIR is given use the file from the give directory],
 			,with_tif=no) 
 
-if [[ "$with_tif" = yes ]]; then
+if test "$with_tif" = yes; then
 	ac_gdz_tif_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_TIF'
 	ac_gdz_conf_package_tif='1'
 	ac_gdz_conf_package_tif_e1='1'
-elif [[ "$with_tif" = no ]]; then
+elif test "$with_tif" = no; then
 	ac_gdz_tif_dir=
 else
 	ac_gdz_tif_dir=$with_tif
@@ -150,12 +150,12 @@ dnl ############# JPG Settings #####################
 AC_ARG_WITH(jpg,     [  --with-jpg=DIR                     Use jpg lib, if DIR is given use the file from the give directory],
 			,with_jpg=no) 
 
-if [[ "$with_jpg" = yes ]]; then
+if test "$with_jpg" = yes; then
 	ac_gdz_jpg_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_JPG'
 	ac_gdz_conf_package_jpg='1'
 	ac_gdz_conf_package_jpg_e1='1'
-elif [[ "$with_jpg" = no ]]; then
+elif test "$with_jpg" = no; then
 	ac_gdz_jpg_dir=
 else
 	ac_gdz_jpg_dir=$with_jpg
@@ -169,12 +169,12 @@ dnl ############# PNG Settings #####################
 AC_ARG_WITH(png,     [  --with-png=DIR                     Use png lib, if DIR is given use the file from the give directory],
 			,with_png=no) 
 
-if [[ "$with_png" = yes ]]; then
+if test "$with_png" = yes; then
 	ac_gdz_png_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_PNG'
 	ac_gdz_conf_package_png='1'
 	ac_gdz_conf_package_png_e1='1'
-elif [[ "$with_png" = no ]]; then
+elif test "$with_png" = no; then
 	ac_gdz_png_dir=
 else
 	ac_gdz_png_dir=$with_png
@@ -183,17 +183,18 @@ else
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_PNG'
 fi
 
+
 dnl ############# MNG Settings #####################
 
 AC_ARG_WITH(mng,     [  --with-mng=DIR                     Use mng lib, if DIR is given use the file from the give directory],
 			,with_mng=no) 
 
-if [[ "$with_mng" = yes ]]; then
+if test "$with_mng" = yes; then
 	ac_gdz_mng_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MNG'
 	ac_gdz_conf_package_mng='1'
 	ac_gdz_conf_package_mng_e1='1'
-elif [[ "$with_mng" = no ]]; then
+elif test "$with_mng" = no; then
 	ac_gdz_mng_dir=
 else
 	ac_gdz_mng_dir=$with_mng
@@ -207,12 +208,12 @@ dnl ############# GIF Settings #####################
 AC_ARG_WITH(gif,     [  --with-gif                         Include gif image support],
 			,with_gif=no) 
 
-if [[ "$with_gif" = yes ]]; then
+if test "$with_gif" = yes; then
 	ac_gdz_gif_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_GIF'
 	ac_gdz_conf_package_gif='1'
 	ac_gdz_conf_package_gif_e1='1'
-elif [[ "$with_gif" = no ]]; then
+elif test "$with_gif" = no; then
 	ac_gdz_gif_dir=
 else
 	ac_gdz_gif_dir=
@@ -226,11 +227,11 @@ dnl ############# efence Settings #####################
 AC_ARG_WITH(efence,     [  --with-efence=DIR                  Use efence lib, if DIR is given use the file from the give directory],
 			,with_efence=no) 
 
-if [[ "$with_efence" = yes ]]; then
+if test "$with_efence" = yes; then
 	ac_gdz_efence_dir=
 	ac_gdz_conf_package_efence='1'
 	ac_gdz_conf_package_efence_e1='1'
-elif [[ "$with_efence" = no ]]; then
+elif test "$with_efence" = no; then
 	ac_gdz_efence_dir=
 else
 	ac_gdz_efence_dir=$with_efence
@@ -245,12 +246,12 @@ dnl ############# Myrinet Settings #####################
 AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                 Use Myrinet lib, if DIR is given use the file from the give directory],
 			,with_myrinet=no) 
 
-if [[ "$with_myrinet" = yes ]]; then
+if test "$with_myrinet" = yes; then
 	ac_gdz_myrinet_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
 	ac_gdz_conf_package_myrinet='1'
 	ac_gdz_conf_package_myrinet_e1='1'
-elif [[ "$with_myrinet" = no ]]; then
+elif test "$with_myrinet" = no; then
 	ac_gdz_myrinet_dir=
 else
 	ac_gdz_myrinet_dir=$with_myrinet
@@ -258,6 +259,7 @@ else
 	ac_gdz_conf_package_myrinet_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
 fi
+
 
 dnl ############# loglevel Settings #####################
 
@@ -288,7 +290,7 @@ AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors
 
 dnl ############# Helper #####################
 
-function FK_GDZ_CREATE_PACKAGE_DIRS
+FK_GDZ_CREATE_PACKAGE_DIRS ()
 {
     ac_gdz_package_dir_build=${1}Lib
     ac_gdz_package_dir_test=${1}Test
@@ -403,9 +405,10 @@ AC_GDZ_LIBEXT()
 AC_GDZ_SOEXT()
 AC_GDZ_SOPRAEFIX()
 
+
 if test $build_os = cygwin; 
 then 
-	if [[ $ac_gdz_compiler_base != g++ ]]; then
+	if test $ac_gdz_compiler_base != g++; then
 
 		AC_GDZ_SET_SYSTEM_DIRS()
 
@@ -459,11 +462,11 @@ then
 
 	ac_gdz_sed_exe=sed
 
-	ac_gdz_gmake_exe=gmake
+	ac_gdz_gmake_exe=make
 
 else 
 
-	if [[ $build_os = solaris2.7 ]]; then
+	if test $build_os = solaris2.7; then
 		ac_gdz_compiler_exe_shared="$CC -shared"
 	else
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
@@ -474,7 +477,14 @@ else
 	ac_gdz_flex_exe=flex
 	ac_gdz_bison_exe=bison
 
-	ac_gdz_gmake_exe=gmake
+dnl No linux distribution comes without GNU Make, but not everyone places
+dnl a symlink from gmake to make
+
+	if test $build_os = linux-gnu; then
+		ac_gdz_gmake_exe=make
+	else
+		ac_gdz_gmake_exe=gmake
+	fi
 
 	ac_gdz_ln_exe="ln -s"
 
@@ -485,8 +495,8 @@ else
 
 	ac_gdz_base_system_libs='-lm'
 
-    if [[ $ac_gdz_conf_package_efence = "1" ]]; then
-        if [[ "x"$ac_gdz_efence_dir = "x" ]]; then
+    if $ac_gdz_conf_package_efence = "1"; then
+        if "x"$ac_gdz_efence_dir = "x" ; then
             ac_gdz_test_debug_libs=' -lefence'
         else
             ac_gdz_test_debug_libs=" -L$ac_gdz_efence_dir -lefence"
@@ -498,7 +508,6 @@ else
 		ac_gdz_base_system_libs='-lpthread '$ac_gdz_base_system_libs
     fi
 fi 
-
 
 if ! test -w Builds; then 
 	echo Need Builds
@@ -540,12 +549,12 @@ ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler$ac_gdz_suffix
 
 AC_CONFIG_HEADER($ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in)
 
-if [[ $build_os = cygwin ]]; then 
-	if [[ ! -w $ac_gdz_package_sub_dir_out/Base ]]; then
+if test $build_os = cygwin; then 
+	if test ! -w $ac_gdz_package_sub_dir_out/Base; then
 		mkdir $ac_gdz_package_sub_dir_out/Base
 	fi
 
-	if [[ $ac_gdz_compiler_base = g++ ]]; then
+	if test $ac_gdz_compiler_base = g++; then
 		ac_gdz_gen_base_inc_e1="../Base"
 	else
 		ac_gdz_gen_base_inc_e1="..\\Base"
@@ -600,7 +609,7 @@ AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)
 
 
-if [[ "$enable_compiler_pedantic_errors" = yes ]]; then
+if test "$enable_compiler_pedantic_errors" = yes; then
     ac_gdz_ped_errors_e1=1
 else
     ac_gdz_ped_errors_e1=0    
@@ -612,16 +621,16 @@ ac_gdz_commonpackage_dir_e1=$ac_gdz_commonpackage_dir
 
 AC_SUBST(ac_gdz_commonpackage_dir_e1)
 
-if [[ "$prefix" = NONE ]]; then
+if test "$prefix" = NONE; then
     ac_gdz_install_prefix=/usr/local
-elif [[ "$prefix" = "BUILD" ]]; then
+elif test "$prefix" = "BUILD"; then
     ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
-elif [[ "$prefix" = "" ]]; then
+elif test "$prefix" = ""; then
     ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
 else
     prefix_f=${prefix#\/}
 
-    if [[ $prefix = $prefix_f ]]; then
+    if $prefix = $prefix_f; then
         echo 'Local Path'
         ac_gdz_install_prefix=$ac_gdz_src_dir/$prefix
     else
@@ -657,7 +666,8 @@ AC_GDZ_WRITE_COMMON_GIF()
 
 AC_GDZ_WRITE_COMMON_GL()
 
-AC_GDZ_WRITE_COMMON_MYRINET()
+dnl disabled (files missing)
+dnl AC_GDZ_WRITE_COMMON_MYRINET()
 
 AC_GDZ_WRITE_OSG_CONFIG()
 
@@ -669,13 +679,13 @@ ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.m
 
 AC_GDZ_WRITE_BUILDS_MAKE()
 
-if [[ "$enable_win_localstorage" = yes ]]; then
+if test "$enable_win_localstorage" = yes; then
     AC_DEFINE(OSG_ASPECT_USE_LOCALSTORAGE)
 else
     AC_DEFINE(OSG_ASPECT_USE_DECLSPEC)
 fi
 
-if [[ "$enable_win_bool_is_unsigned" = yes ]]; then
+if test "$enable_win_bool_is_unsigned" = yes; then
     AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
 fi
 

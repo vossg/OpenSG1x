@@ -229,16 +229,6 @@ void SField<FieldTypeT,
 
 /*------------------------- field information -------------------------------*/
 
-/** \brief Returns the field cardinality, allways Field::SINGLE_FIELD
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-FieldType::Cardinality SField<FieldTypeT, 
-                              fieldNameSpace>::getCardinality (void) const
-{
-    return FieldType::SINGLE_FIELD;
-}
-
 /** \brief Returns the size of the field, allway 1
  */
 

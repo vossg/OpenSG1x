@@ -33,13 +33,13 @@ DOC_ENV += OSGPOOL="$(OSGPOOL)"
 # if multiple compilers have been used)
 
 default:
-	gmake -C Builds/${OS_BASE}* 
+	$(MAKE) -C Builds/${OS_BASE}* 
 
 install:
-	cd Builds/${OS_BASE}* && gmake install
+	cd Builds/${OS_BASE}* && $(MAKE) install
 
 clean:
-	cd Builds/${OS_BASE}* && gmake clean
+	cd Builds/${OS_BASE}* && $(MAKE) clean
 
 
 # standard targets
@@ -53,9 +53,9 @@ help:
 	@echo 
 	@echo "doc          run doxygen to create the documentation"
 	@echo "fcdToBase    run through the tree and regenerate all the Base sources"
-	@echo "<default>    go into the Builds directory and call gmake"
-	@echo "install      go into the Builds directory and call gmake install"
-	@echo "clean        go into the Builds directory and call gmake clean"
+	@echo "<default>    go into the Builds directory and call $(MAKE)"
+	@echo "install      go into the Builds directory and call $(MAKE) install"
+	@echo "clean        go into the Builds directory and call $(MAKE) clean"
 
 
 .PHONY: doc

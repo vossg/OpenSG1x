@@ -338,8 +338,6 @@ class MField : public Field
 
     /*----------------------- field information -----------------------------*/
     
-    FieldType::Cardinality getCardinality (void) const;
-
     // MField has a vector<> interface and an OSG interface, so both are 
     // sensible
     virtual UInt32     size    (void) const;

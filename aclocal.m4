@@ -42,30 +42,30 @@ else
     AC_PATH_PROGS(CXX, $1, unknown_compiler, $PATH:$2)
 fi
 
-AC_PROG_CXX_GNU
+dnl AC_PROG_CXX_GNU
 
 dnl Check whether -g works, even if CXXFLAGS is set, in case the package
 dnl plays around with CXXFLAGS (such as to build both debugging and
 dnl normal versions of a library), tasteless as that idea is.
-ac_test_CXXFLAGS="${CXXFLAGS+set}"
-ac_save_CXXFLAGS="$CXXFLAGS"
-CXXFLAGS=
-AC_PROG_CXX_G
-if test "$ac_test_CXXFLAGS" = set; then
-  CXXFLAGS="$ac_save_CXXFLAGS"
-elif test $ac_cv_prog_cxx_g = yes; then
-  if test "$GXX" = yes; then
-    CXXFLAGS="-g -O2"
-  else
-    CXXFLAGS="-g"
-  fi
-else
-  if test "$GXX" = yes; then
-    CXXFLAGS="-O2"
-  else
-    CXXFLAGS=
-  fi
-fi
+dnl ac_test_CXXFLAGS="${CXXFLAGS+set}"
+dnl ac_save_CXXFLAGS="$CXXFLAGS"
+dnl CXXFLAGS=
+dnl AC_PROG_CXX_G
+dnl if test "$ac_test_CXXFLAGS" = set; then
+dnl   CXXFLAGS="$ac_save_CXXFLAGS"
+dnl elif test $ac_cv_prog_cxx_g = yes; then
+dnl   if test "$GXX" = yes; then
+dnl    CXXFLAGS="-g -O2"
+dnl  else
+dnl    CXXFLAGS="-g"
+dnl  fi
+dnl else 
+dnl if test "$GXX" = yes; then
+dnl    CXXFLAGS="-O2"
+dnl  else
+dnl    CXXFLAGS=
+dnl  fi
+dnl fi
 ])
 
 AC_DEFUN(AC_GDZ_PROG_CC_WORKS,
@@ -91,12 +91,12 @@ cross_compiling=$ac_cv_prog_cc_cross
 ])
 
 AC_DEFUN(AC_GDZ_PROG_CC_AVAILABLE,
-[AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) works])
+[AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) is available])
 
 AC_LANG_SAVE
 AC_LANG_C
 
-if [[ "xset$2" = xset ]]; then
+if test "xset$2" = xset; then
     AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH)
 else
     AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH:$2)
@@ -118,8 +118,8 @@ AC_DEFUN(AC_GDZ_FIND_PROG_DIR,
 
     for drive in c d e f g; do
         for progdir in "Program Files/" "Programme/" ""; do
-            if test -d "//$drive/${progdir}${test_path}"; then
-                ac_gdz_find_prog_dir_result="//$drive/${progdir}${test_path}"
+            if test -d "/cygdrive/$drive/${progdir}${test_path}"; then
+                ac_gdz_find_prog_dir_result="/cygdrive/$drive/${progdir}${test_path}"
                 break 2
             fi
         done
@@ -236,7 +236,7 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
 AC_DEFUN(AC_GDZ_GUESS_COMPILER_DEFAULTS,
 [
     # guess compiler if not set
-    if test "x$ac_gdz_compiler" == "x"
+    if test "x$ac_gdz_compiler" = "x"
     then
         case "$build_os" in
         cygwin*)    ac_gdz_compiler=icl50 
@@ -298,7 +298,7 @@ AC_DEFUN(AC_GDZ_EXEEXT,
 
     esac
 
-    if [[ $ac_gdz_exe_suffix = "." ]]; then
+    if test $ac_gdz_exe_suffix = "."; then
         ac_gdz_exe_suffix=
     fi
 ])
@@ -308,7 +308,7 @@ AC_DEFUN(AC_GDZ_OBJEXT,
     case "$build_os" in
 
        cygwin*)
-        if [[ $ac_gdz_compiler_base = g++ ]]; then
+        if test $ac_gdz_compiler_base = g++; then
         	AC_MSG_CHECKING(obj suffix)
         	ac_gdz_obj_suffix=.o
         	AC_MSG_RESULT($ac_gdz_obj_suffix)
@@ -334,7 +334,7 @@ AC_DEFUN(AC_GDZ_LIBEXT,
     case "$build_os" in
 
        cygwin*)
-        if [[ $ac_gdz_compiler_base = g++ ]]; then
+        if test $ac_gdz_compiler_base = g++; then
 	        ac_gdz_lib_suffix=.a
         else
 	        ac_gdz_lib_suffix=.lib
@@ -394,8 +394,8 @@ AC_DEFUN(AC_GDZ_FIND_STUDIO_DIR,
 
     for drive in c d e f g; do
      for progdir in "Program Files" "Programme"; do
-      if test -d "//$drive/$progdir/Microsoft Visual Studio"; then
-       ac_gdz_find_prog_dir_result="//$drive/$progdir/Microsoft Visual Studio"
+      if test -d "/cygdrive/$drive/$progdir/Microsoft Visual Studio"; then
+       ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/Microsoft Visual Studio"
        break 2
       fi
      done
@@ -436,35 +436,35 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
 [
     changequote(<<, >>)dnl
 
-    let i=0
+    for ac_gdz_package_name in ${ac_gdz_packages} ; do
 
-    until [[ $i = ${#ac_gdz_package[*]} ]]; do
+        eval ac_gdz_package=\${ac_gdz_package_${ac_gdz_package_name}}
 
-        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
+        p1=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
         p1=`echo $p1 | sed 's/://g'`
 
-        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
+        p2=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
         p2=`echo $p2 | sed 's/://g'`
 
-        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
+        p3=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
         p3=`echo $p3 | sed 's/://g'`
 
-        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
+        p4=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
         p4=`echo $p4 | sed 's/://g'`
 
-        p5=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
+        p5=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
         p5=`echo $p5 | sed 's/://g'`
 
-        p6=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\6/'`
+        p6=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\6/'`
         p6=`echo $p6 | sed 's/://g'`
 
-        p7=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
+        p7=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
         p7=`echo $p7 | sed 's/://g'`
 
-        p8=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\8/'`
+        p8=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\8/'`
         p8=`echo $p8 | sed 's/://g'`
     
-        if [[ ${build_os} = "cygwin" ]]; then
+        if test ${build_os} = "cygwin"; then
             p4=`echo $p4 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
             p5=`echo $p5 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
         else
@@ -472,16 +472,14 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
             p5=`echo $p5 | sed 's/@WINDOWSYSTEM@/X/g'`
         fi
 
-        ac_gdz_package_name[$i]=$p1;
-        ac_gdz_package_fact_init[$i]=$p2;
-        ac_gdz_package_dirs[$i]=$p3;
-        ac_gdz_package_inc_dep[$i]=$p4;
-        ac_gdz_package_link_dep[$i]=$p5;
-        ac_gdz_package_testinc_dep[$i]=$p6;
-        ac_gdz_package_testlink_dep[$i]=$p7;
-        ac_gdz_package_def[$i]=$p8;
-
-        let i=i+1
+        eval ac_gdz_package_name_${ac_gdz_package_name}=\$p1;
+        eval ac_gdz_package_fact_init_${ac_gdz_package_name}=\$p2
+        eval ac_gdz_package_dirs_${ac_gdz_package_name}=\$p3;
+        eval ac_gdz_package_inc_dep_${ac_gdz_package_name}=\$p4;
+        eval ac_gdz_package_link_dep_${ac_gdz_package_name}=\$p5;
+        eval ac_gdz_package_testinc_dep_${ac_gdz_package_name}=\$p6;
+        eval ac_gdz_package_testlink_dep_${ac_gdz_package_name}=\$p7;
+        eval ac_gdz_package_def_${ac_gdz_package_name}=\$p8;
     done
 
     changequote([, ])dnl
@@ -493,73 +491,69 @@ AC_DEFUN(AC_GDZ_WRITE_PACKET_MAKE,
 
 dnl e2
 
-    let i=0
-
     changequote(<<, >>)dnl
 
-    until [[ $i = ${#ac_gdz_package[*]} ]]; do
+    for ac_gdz_package_name in ${ac_gdz_packages} ; do
 
-        echo configuring package $i ${ac_gdz_package_name[$i]} ${ac_gdz_package_def[$i]}
+        echo configuring package ${ac_gdz_package_name}
 
-        if [[ ${ac_gdz_package_name[$i]} = "WindowX" ]]; then
-            if [[ ${build_os} = "cygwin" ]]; then
-                echo Skipping ${ac_gdz_package_name[$i]}
-                let i=i+1
+        if test ${ac_gdz_package_name} = "WindowX"; then
+            if test ${build_os} = "cygwin"; then
+                echo Skipping ${ac_gdz_package_name}
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
             fi
         fi
-        if [[ ${ac_gdz_package_name[$i]} = "WindowWIN32" ]]; then
-            if [[ ${build_os} != "cygwin" ]]; then
-                echo Skipping ${ac_gdz_package_name[$i]}
-                let i=i+1
+        if test ${ac_gdz_package_name} = "WindowWIN32"; then
+            if test ${build_os} != "cygwin"; then
+                echo Skipping ${ac_gdz_package_name}
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowWIN32Lib"
             fi
         fi
-        if [[ ${ac_gdz_package_name[$i]} = "WindowQT" ]]; then
-            if [[ ${ac_gdz_conf_package_qt} = 0 ]]; then
-                echo Skipping ${ac_gdz_package_name[$i]}
-                let i=i+1
+        if test ${ac_gdz_package_name} = "WindowQT"; then
+            if test ${ac_gdz_conf_package_qt} = 0; then
+                echo Skipping ${ac_gdz_package_name}
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowQTLib"
             fi
         fi
-        if [[ ${ac_gdz_package_name[$i]} = "WindowGLUT" ]]; then
-            if [[ ${ac_gdz_conf_package_glut} = 0 ]]; then
-                echo Skipping ${ac_gdz_package_name[$i]}
-                let i=i+1
+        if test ${ac_gdz_package_name} = "WindowGLUT"; then
+            if test ${ac_gdz_conf_package_glut} = 0; then
+                echo Skipping ${ac_gdz_package_name}
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowGLUTLib"
             fi
         fi
 
-        ac_gdz_package_def_out=${ac_gdz_package_def[$i]}
+        eval ac_gdz_package_def_out=\${ac_gdz_package_def_${ac_gdz_package_name}}
 
-        ac_gdz_package_name_out=${ac_gdz_package_name[$i]}
+        ac_gdz_package_name_out=${ac_gdz_package_name}
 
-        ac_gdz_package_inc_dep_out=${ac_gdz_package_inc_dep[$i]}
+        eval ac_gdz_package_inc_dep_out=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
         ac_gdz_package_inc_dep_out_files= 
 
-        ac_gdz_package_link_dep_out=${ac_gdz_package_link_dep[$i]}
+        eval ac_gdz_package_link_dep_out=\${ac_gdz_package_link_dep_${ac_gdz_package_name}}
 
-        for dir in ${ac_gdz_package_inc_dep[$i]}; do
+        eval ac_gdz_package_inc_dep=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
+
+        for dir in ${ac_gdz_package_inc_dep}; do
 
             ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir
 
-            if [[ -d $ac_gdz_package_check_dir_e2 ]]; then
+            if test -d $ac_gdz_package_check_dir_e2; then
                 ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk
             else
                 ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
 
-                if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+                if test -r $ac_gdz_package_check_file_e2; then
                     ac_gdz_package_inc_dep_out_files="$ac_gdz_package_inc_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
     
-                    if [[ $build_os = cygwin ]]; then
+                    if test $build_os = cygwin; then
                         ac_gdz_package_link_dep_out="$ac_gdz_package_link_dep_out $dir"
                     fi
                 else
@@ -570,23 +564,27 @@ dnl e2
 
         ac_gdz_package_link_dep_out_files=
 
-        for dir in ${ac_gdz_package_link_dep[$i]}; do
+        eval ac_gdz_package_link_dep=\${ac_gdz_package_link_dep_${ac_gdz_package_name}}
+
+        for dir in ${ac_gdz_package_link_dep}; do
             ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
             
-            if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+            if test -r $ac_gdz_package_check_file_e2; then
                 ac_gdz_package_link_dep_out_files="$ac_gdz_package_link_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
             else
                 ac_gdz_package_link_dep_out_files=$ac_gdz_package_link_dep_out_files' $(BUILD_BASE)'/$dir/common.mk
             fi
         done
 
-        ac_gdz_package_testinc_dep_out=${ac_gdz_package_name_out}Lib' '${ac_gdz_package_testinc_dep[$i]}
+        eval ac_gdz_package_testinc_dep_out=\"\${ac_gdz_package_name_out}Lib  \${ac_gdz_package_testinc_dep_${ac_gdz_package_name}}\"
         ac_gdz_package_testinc_dep_out_files='$(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
 
-        for dir in ${ac_gdz_package_testinc_dep[$i]}; do
+        eval ac_gdz_package_testinc_dep=\${ac_gdz_package_testinc_dep_${ac_gdz_package_name}}
+
+        for dir in ${ac_gdz_package_testinc_dep}; do
             ac_gdz_package_check_file_e2=$ac_gdz_src_dir/$dir/common.mk
             
-            if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+            if test -r $ac_gdz_package_check_file_e2; then
                 ac_gdz_package_testinc_dep_out_files="$ac_gdz_package_testinc_dep_out_files $ac_gdz_src_dir/$dir/common.mk"
             else
                 ac_gdz_package_testinc_dep_out_files=$ac_gdz_package_testinc_dep_out_files' $(BUILD_BASE)'/$dir/common.mk
@@ -594,14 +592,15 @@ dnl e2
         done
 
 
-        ac_gdz_package_testlink_dep_out=${ac_gdz_package_name_out}Lib' '${ac_gdz_package_testlink_dep[$i]}
-dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_files' $(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
+        eval ac_gdz_package_testlink_dep_out=\"\${ac_gdz_package_name_out}Lib' '\${ac_gdz_package_testlink_dep_${ac_gdz_package_name}}\"
         ac_gdz_package_testlink_dep_out_files='$(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
 
-        for dir in ${ac_gdz_package_testlink_dep[$i]}; do
+        eval ac_gdz_package_testlink_dep=\${ac_gdz_package_testlink_dep_${ac_gdz_package_name}}
+
+        for dir in ${ac_gdz_package_testlink_dep}; do
             ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
             
-            if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+            if test -r $ac_gdz_package_check_file_e2; then
                 ac_gdz_package_testlink_dep_out_files="$ac_gdz_package_testlink_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
             else
                 ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_testlink_dep_out_files' $(BUILD_BASE)'/$dir/common.mk
@@ -609,25 +608,27 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         done
 
 
-        ac_gdz_package_dir_base=${ac_gdz_package_sub_dir_out}/${ac_gdz_package_name[$i]}
+        ac_gdz_package_dir_base=${ac_gdz_package_sub_dir_out}/${ac_gdz_package_name}
         ac_gdz_package_dir=${ac_gdz_package_dir_base}Lib
         ac_gdz_package_test_dir=${ac_gdz_package_dir_base}Test
 
         ac_gdz_common_packet_make=${ac_gdz_package_dir}/Makefile
         ac_gdz_common_packet_testmake=${ac_gdz_package_test_dir}/Makefile
 
-        if [[ ${ac_gdz_package_fact_init[$i]} = "1" ]]; then
-            if [[ $build_os = cygwin ]]; then
+        eval ac_gdz_package_fact_init=\${ac_gdz_package_fact_init_${ac_gdz_package_name}}
+
+        if test ${ac_gdz_package_fact_init} = "1"; then
+            if test $build_os = cygwin; then
                 ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
                 ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
                 ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
                 ac_gdz_package_so_needs_init_e2=1
-            elif [[ $build_os = linux-gnu ]]; then
+            elif test $build_os = linux-gnu; then
                 ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
                 ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
                 ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
                 ac_gdz_package_so_needs_init_e2=0
-            elif [[ $build_os = solaris2.7 ]]; then
+            elif test $build_os = solaris2.7; then
                 ac_gdz_common_init_code_i_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
                 ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
                 ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
@@ -652,27 +653,29 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         iFirstTime="yes"
         ac_gdz_package_def_e2=
 
-        for dir in ${ac_gdz_package_dirs[$i]}; do
+        eval ac_gdz_package_dirs=\${ac_gdz_package_dirs_${ac_gdz_package_name}}
+
+        for dir in ${ac_gdz_package_dirs}; do
 
             p1=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\1/'`
             p2=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\2/'`
             
         	FK_GDZ_CREATE_PACKAGE_DIRS ${ac_gdz_package_dir_base}
         
-            if [[ -n $p2 ]]; then
-                if [[ $build_os = $p2 ]]; then
+            if test -n "$p2"; then
+                if test $build_os = $p2; then
                     ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
 
                     ac_gdz_def_file=$p1/lib.def
 
                     echo "Check Def : $ac_gdz_def_file"
 
-                    if [[ -r $ac_gdz_def_file ]]; then
-                        if [[ $iFirstTime = "yes" ]]; then
+                    if test -r $ac_gdz_def_file; then
+                        if test $iFirstTime = "yes"; then
                             ac_gdz_package_def_e2=lib.def
-                            echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def"
+                            echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def"
                             echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
-                            cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def
+                            cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def
                             cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
                             iFirstTime="no"
                         else
@@ -688,12 +691,12 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
 
                 echo "Check Def : $ac_gdz_def_file"
 
-                if [[ -r $ac_gdz_def_file ]]; then
-                    if [[ $iFirstTime = "yes" ]]; then
+                if test -r $ac_gdz_def_file; then
+                    if test $iFirstTime = "yes"; then
                         ac_gdz_package_def_e2=lib.def
-                        echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def"
+                        echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def"
                         echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
-                        cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def
+                        cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def
                         cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
                         iFirstTime="no"
                     else
@@ -712,7 +715,7 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
 
         ac_gdz_package_test_debug_libs_e2=$ac_gdz_test_debug_libs
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
             ac_gdz_src_dir_win_e2=`cygpath -w $ac_gdz_src_dir`
             ac_gdz_win_pool_e2=${ac_gdz_project_praefix}POOL_WIN"     ?= "$ac_gdz_src_dir_win_e2
 
@@ -753,7 +756,6 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
                    $ac_gdz_common_init_code_files_e2 
                    $ac_gdz_common_mk_files_e2])
 
-        let i=i+1
     done
 
 ])
@@ -786,11 +788,11 @@ dnl e4
     ac_gdz_stl_lib_e4=
     ac_gdz_stl_dir_e4=
 
-    if [[ -n "$ac_gdz_stl_dir" ]]; then
+    if test -n "$ac_gdz_stl_dir"; then
         ac_gdz_stl_lib_e4='-lCio'
         ac_gdz_stl_dir_e4=$ac_gdz_stl_dir
     else
-        if [[ $build_os = irix6.5 ]]; then
+        if test $build_os = irix6.5; then
             ac_gdz_stl_lib_e4='-lCio'
         fi
     fi
@@ -814,14 +816,14 @@ dnl e5
     ac_gdz_glut_incdir_e5=
     ac_gdz_glut_libdir_e5=
 
-    if [[ "$with_glut" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_glut" = yes; then
+        if test $build_os = cygwin; then
            ac_gdz_glut_lib_e5='glut32.lib'
         else
            ac_gdz_glut_lib_e5='-lglut'
         fi
-    elif [[ -n "$ac_gdz_glut_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_glut_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
            ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
            ac_gdz_glut_lib_e5='glut32.lib'
@@ -856,8 +858,8 @@ dnl e5
     ac_gdz_qt_libdir_e6=
     ac_gdz_qt_moc_e6=
 
-    if [[ -n "$ac_gdz_qt_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test -n "$ac_gdz_qt_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_qt_incdir_e6='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
            ac_gdz_qt_libdir_e6='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
            ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
@@ -926,14 +928,14 @@ dnl e9
     ac_gdz_tif_incdir_e9=
     ac_gdz_tif_libdir_e9=
 
-    if [[ "$with_tif" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_tif" = yes; then
+        if test $build_os = cygwin; then
            ac_gdz_tif_lib_e9='tif32.lib'
         else
            ac_gdz_tif_lib_e9='-ltiff'
         fi
-    elif [[ -n "$ac_gdz_tif_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_tif_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_tif_incdir_e9='"'`cygpath -w $ac_gdz_tif_dir/include`'"'
            ac_gdz_tif_libdir_e9='"'`cygpath -w $ac_gdz_tif_dir/lib`'"'
            ac_gdz_tif_lib_e9='tif32.lib'
@@ -964,14 +966,14 @@ dnl e10
     ac_gdz_jpg_incdir_e10=
     ac_gdz_jpg_libdir_e10=
 
-    if [[ "$with_jpg" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_jpg" = yes; then
+        if $build_os = cygwin; then
            ac_gdz_jpg_lib_e10='jpg32.lib'
         else
            ac_gdz_jpg_lib_e10='-ljpeg'
         fi
-    elif [[ -n "$ac_gdz_jpg_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_jpg_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_jpg_incdir_e10='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
            ac_gdz_jpg_libdir_e10='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
            ac_gdz_jpg_lib_e10='jpg32.lib'
@@ -1002,14 +1004,14 @@ dnl e11
     ac_gdz_png_incdir_e11=
     ac_gdz_png_libdir_e11=
 
-    if [[ "$with_png" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_png" = yes; then
+        if test $build_os = cygwin; then
            ac_gdz_png_lib_e11='png32.lib'
         else
            ac_gdz_png_lib_e11='-lpng -lz'
         fi
-    elif [[ -n "$ac_gdz_png_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_png_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_png_incdir_e11='"'`cygpath -w $ac_gdz_png_dir/include`'"'
            ac_gdz_png_libdir_e11='"'`cygpath -w $ac_gdz_png_dir/lib`'"'
            ac_gdz_png_lib_e11='png32.lib'
@@ -1040,14 +1042,14 @@ dnl e12
     ac_gdz_mng_incdir_e12=
     ac_gdz_mng_libdir_e12=
 
-    if [[ "$with_mng" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_mng" = yes; then
+        if test $build_os = cygwin; then
            ac_gdz_mng_lib_e12='mng32.lib'
         else
            ac_gdz_mng_lib_e12='-lmng'
         fi
-    elif [[ -n "$ac_gdz_mng_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_mng_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_mng_incdir_e12='"'`cygpath -w $ac_gdz_mng_dir/include`'"'
            ac_gdz_mng_libdir_e12='"'`cygpath -w $ac_gdz_mng_dir/lib`'"'
            ac_gdz_mng_lib_e12='mng32.lib'
@@ -1078,14 +1080,14 @@ dnl e13
     ac_gdz_gif_incdir_e13=
     ac_gdz_gif_libdir_e13=
 
-    if [[ "$with_gif" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_gif" = yes; then
+        if test $build_os = cygwin; then
            ac_gdz_gif_lib_e13=
         else
            ac_gdz_gif_lib_e13=
         fi
-    elif [[ -n "$ac_gdz_gif_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_gif_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_gif_incdir_e13=
            ac_gdz_gif_libdir_e13=
            ac_gdz_gif_lib_e13=
@@ -1117,14 +1119,14 @@ dnl e14
     ac_gdz_myrinet_incdir_e14=
     ac_gdz_myrinet_libdir_e14=
 
-    if [[ "$with_myrinet" = yes ]]; then
-        if [[ $build_os = cygwin ]]; then
+    if test "$with_myrinet" = yes; then
+        if test $build_os = cygwin; then
            ac_gdz_myrinet_lib_e14='gm32.lib'
         else
            ac_gdz_myrinet_lib_e14='-lgm'
         fi
-    elif [[ -n "$ac_gdz_myrinet_dir" ]]; then
-        if [[ $build_os = cygwin ]]; then
+    elif test -n "$ac_gdz_myrinet_dir"; then
+        if test $build_os = cygwin; then
            ac_gdz_myrinet_incdir_e14='"'`cygpath -w $ac_gdz_myrinet_dir/include`'"'
            ac_gdz_myrinet_libdir_e14='"'`cygpath -w $ac_gdz_myrinet_dir/lib`'"'
            ac_gdz_myrinet_lib_e14='gm32.lib'
@@ -1156,18 +1158,18 @@ dnl e15
     ac_gdz_glut_incdir_e15=
     ac_gdz_glut_libdir_e15=
 
-    if [[ "$with_glut" = yes ]]; then
+    if test "$with_glut" = yes; then
         ac_gdz_have_glut_e15=yes
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_glut_lib_e15='glut32.lib'
         else
            ac_gdz_glut_lib_e15='-lglut'
         fi
-    elif [[ -n "$ac_gdz_glut_dir" ]]; then
+    elif test -n "$ac_gdz_glut_dir"; then
 
         ac_gdz_have_glut_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_glut_incdir_e15='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
            ac_gdz_glut_libdir_e15='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
            ac_gdz_glut_lib_e15='"glut32.lib"'
@@ -1189,11 +1191,11 @@ dnl e15
     ac_gdz_qt_libdir_e15=
     ac_gdz_qt_moc_e15=
 
-    if [[ -n "$ac_gdz_qt_dir" ]]; then
+    if test -n "$ac_gdz_qt_dir"; then
 
         ac_gdz_have_qt_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_qt_incdir_e15='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
            ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
            ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
@@ -1217,21 +1219,21 @@ dnl e15
     ac_gdz_tif_incdir_e15=
     ac_gdz_tif_libdir_e15=
 
-    if [[ "$with_tif" = yes ]]; then
+    if test "$with_tif" = yes; then
 
         ac_gdz_have_tif_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_tif_lib_e15='tif32.lib'
         else
            ac_gdz_tif_lib_e15='-ltiff'
         fi
 
-    elif [[ -n "$ac_gdz_tif_dir" ]]; then
+    elif test -n "$ac_gdz_tif_dir"; then
 
         ac_gdz_have_tif_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_tif_incdir_e15='"'`cygpath -w $ac_gdz_tif_dir/include`'"'
            ac_gdz_tif_libdir_e15='"'`cygpath -w $ac_gdz_tif_dir/lib`'"'
            ac_gdz_tif_lib_e15='"tif32.lib"'
@@ -1252,21 +1254,21 @@ dnl e15
     ac_gdz_jpg_incdir_e15=
     ac_gdz_jpg_libdir_e15=
 
-    if [[ "$with_jpg" = yes ]]; then
+    if test "$with_jpg" = yes; then
 
         ac_gdz_have_jpg_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_jpg_lib_e15='"jpg32.lib"'
         else
            ac_gdz_jpg_lib_e15='"-ljpeg"'
         fi
 
-    elif [[ -n "$ac_gdz_jpg_dir" ]]; then
+    elif test -n "$ac_gdz_jpg_dir"; then
 
         ac_gdz_have_jpg_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_jpg_incdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
            ac_gdz_jpg_libdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
            ac_gdz_jpg_lib_e15='"jpg32.lib"'
@@ -1288,21 +1290,21 @@ dnl e15
     ac_gdz_png_incdir_e15=
     ac_gdz_png_libdir_e15=
 
-    if [[ "$with_png" = yes ]]; then
+    if test "$with_png" = yes; then
 
         ac_gdz_have_png_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_png_lib_e15='"png32.lib"'
         else
            ac_gdz_png_lib_e15='"-lpng -lz"'
         fi
 
-    elif [[ -n "$ac_gdz_png_dir" ]]; then
+    elif test -n "$ac_gdz_png_dir"; then
 
         ac_gdz_have_png_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_png_incdir_e15='"'`cygpath -w $ac_gdz_png_dir/include`'"'
            ac_gdz_png_libdir_e15='"'`cygpath -w $ac_gdz_png_dir/lib`'"'
            ac_gdz_png_lib_e15='"png32.lib"'
@@ -1324,21 +1326,21 @@ dnl e15
     ac_gdz_mng_incdir_e15=
     ac_gdz_mng_libdir_e15=
 
-    if [[ "$with_mng" = yes ]]; then
+    if test "$with_mng" = yes; then
 
         ac_gdz_have_mng_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_mng_lib_e15='"mng32.lib"'
         else
            ac_gdz_mng_lib_e15='"-lmng"'
         fi
 
-    elif [[ -n "$ac_gdz_mng_dir" ]]; then
+    elif test -n "$ac_gdz_mng_dir"; then
 
         ac_gdz_have_mng_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_mng_incdir_e15='"'`cygpath -w $ac_gdz_mng_dir/include`'"'
            ac_gdz_mng_libdir_e15='"'`cygpath -w $ac_gdz_mng_dir/lib`'"'
            ac_gdz_mng_lib_e15='"mng32.lib"'
@@ -1365,20 +1367,20 @@ dnl e15
     ac_gdz_gif_incdir_e15=
     ac_gdz_gif_libdir_e15=
 
-    if [[ "$with_gif" = yes ]]; then
+    if test "$with_gif" = yes; then
         
         ac_gdz_have_gif_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_gif_lib_e15=
         else
            ac_gdz_gif_lib_e15=
         fi
-    elif [[ -n "$ac_gdz_gif_dir" ]]; then
+    elif test -n "$ac_gdz_gif_dir"; then
 
         ac_gdz_have_gif_e15=yes
 
-        if [[ $build_os = cygwin ]]; then
+        if test $build_os = cygwin; then
            ac_gdz_gif_incdir_e15=
            ac_gdz_gif_libdir_e15=
            ac_gdz_gif_lib_e15=
@@ -1445,4 +1447,8 @@ dnl e15
 
     AC_OUTPUT($ac_gdz_osg_config_e15:$ac_gdz_osg_config_in_e15)
 ])
+
+
+
+
 

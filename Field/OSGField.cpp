@@ -149,6 +149,11 @@ const DataType &Field::getContentType(void) const
     return getType().getContentType();
 }
 
+FieldType::Cardinality Field::getCardinality(void) const
+{
+    return getType().getCardinality();
+}
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/

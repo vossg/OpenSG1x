@@ -130,7 +130,7 @@ class OSG_BASE_DLLMAPPING Field
 
     /*----------------------- field information -----------------------------*/
 
-    virtual FieldType::Cardinality getCardinality (void) const = 0;
+    virtual FieldType::Cardinality getCardinality (void) const;
 
     virtual UInt32                 size (void)           const = 0;
 
