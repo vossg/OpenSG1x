@@ -123,8 +123,8 @@ typedef struct {
 
 
 static GIFStream*	GIFRead(char *), *GIFReadFP(FILE *);
-static int		GIFTest(char *);
-static int		GIFWrite(char *, GIFStream *, int);
+       int		GIFTest(char *);
+       int		GIFWrite(char *, GIFStream *, int);
 static int		GIFWriteFP(FILE *, GIFStream *, int);
 static int 	GIFFree (GIFStream *);
 
@@ -198,7 +198,7 @@ bool GIFImageFileType::read (Image &image, const char *fileName )
 	int colorIndex;
 	unsigned frameCount = 0, currentFrame = 0;
 	unsigned char *colorMap = 0;
-    int imageSize = 0;
+//    int imageSize = 0;
 	int colorMapSize;
     Time frameDelay;
 
@@ -417,10 +417,9 @@ bool GIFImageFileType::write (const Image &image, const char *fileName )
              << " write is not compiled into the current binary " 
              << endLog;
 
-    return false;
-
 #endif                     
 
+    return false;
 }
 
 /******************************
@@ -615,7 +614,7 @@ static void readImage(FILE *, int, int, int, unsigned char *);
 static jmp_buf                  setjmp_buffer;
 
 static int    verbose = GIF_FALSE;
-static int    showComment = GIF_FALSE;
+//static int    showComment = GIF_FALSE;
 
 int     GIFTest(char *file)
 {
@@ -941,7 +940,7 @@ static int      clear_code, end_code;
 
 static void initLWZ(int input_code_size)
 {
-	static int	inited = GIF_FALSE;
+//	static int	inited = GIF_FALSE;
 
 	set_code_size = input_code_size;
 	code_size     = set_code_size + 1;
@@ -1097,7 +1096,8 @@ static void readImage(FILE *fd, int interlace, int width, int height,
 {
     unsigned char	*dp, c;      
 
-    int		v, xpos = 0, ypos = 0, pass = 0;
+    int		v, xpos = 0, ypos = 0;
+//    int pass = 0;
 
 	/*
 	**  Initialize the Compression routines
@@ -1271,7 +1271,8 @@ static int optimizeCMAP(GIFStream *stream)
 		unsigned char	*dp = img->data.image.data;
 		unsigned char	*ep = dp + img->width * img->height;
 		struct cval 	vals[256];
-		int		i, j;
+		int		i;
+//        int  j;
 		unsigned char	tmap[256][3], rmap[256];
 
 
@@ -1662,14 +1663,14 @@ static int EOFCode;
 static void putImage(FILE *fp, int interlaced, int bpp, int width, int height, 
                      unsigned char *data)
 {
-	unsigned char	*end = data + width * height;
+//	unsigned char	*end = data + width * height;
 	int		left = interlaced ? width : width * height;
 	int		cury = 0, pass = 0;
 	unsigned char	*dp = data;
 	long		fcode;
 	code_int	v, i, ent, disp, hsize_reg;
 	int		c, hshift;
-	int		skip = 8;
+//	int		skip = 8;
 
 	if (bpp <= 1) {
 		g_init_bits = 3;

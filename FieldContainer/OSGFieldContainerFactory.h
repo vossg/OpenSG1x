@@ -85,6 +85,19 @@ typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
  *  \brief FieldContainerFactory
  */
 
+struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
+{
+    virtual UInt32 map(UInt32 uiId) = 0;
+};
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup FieldContainerLib
+ *  \brief FieldContainerFactory
+ */
+
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 {
   public:
@@ -200,6 +213,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     Lock                   *_pStoreLock;
     Lock                   *_pMapLock;
 
+    FieldContainerMapper   *_pMapper;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -232,7 +247,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-   /*--------------------------- types -------------------------------------*/
+    /*--------------------------- types -------------------------------------*/
         
     FieldContainerType *findType    (      UInt32  uiTypeId) const;
     FieldContainerType *findType    (const Char8  *szName  ) const;
@@ -242,18 +257,23 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     Bool                initializePendingTypes(void);
 
-   /*--------------------------- groups ------------------------------------*/
+    /*--------------------------- groups ------------------------------------*/
 
           UInt16  findGroupId  (const Char8  *szName   ) const;
     const Char8  *findGroupName(      UInt16  uiGroupId) const;
         
-          UInt16  getNumGroups (void)                       const;
+          UInt16  getNumGroups (void)                    const;
 
-   /*------------------------------- get -----------------------------------*/
+    /*----------------------------- mapper ----------------------------------*/
 
-    FieldContainerPtr getContainer(UInt32 uiFieldContainerId) const;
+    void setMapper(FieldContainerMapper *pMapper);
 
-   /*---------------------------- create -----------------------------------*/
+    /*------------------------------- get -----------------------------------*/
+
+    FieldContainerPtr getContainer      (UInt32 uiFieldContainerId) const;
+    FieldContainerPtr getMappedContainer(UInt32 uiFieldContainerId) const;
+
+    /*---------------------------- create -----------------------------------*/
 
     FieldContainerPtr createFieldContainer(const Char8 *name) const;
     NodePtr           createNode          (const Char8 *name) const;
@@ -266,7 +286,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 	/* name given: output only the given type,
 	   out given: output all types into the stream, 
 	   no name, no out: output all types into separate files
-	 */
+       */
 	void writeFCD( char * name = NULL, ostream * out = NULL );
 	
     /*------------------------- your_operators ------------------------------*/

@@ -139,10 +139,10 @@ Int32 Image::_formatMap[][2] = {
 //
 //------------------------------
 Bool Image::set ( PixelFormat pF,
-									Int32 w, Int32 h, Int32 d, 
-									Int32 mmS, Int32 fS,
-									Time fD,
-									UChar8 *da, 
+                  Int32 w, Int32 h, Int32 d, 
+                  Int32 mmS, Int32 fS,
+                  Time fD,
+                  UChar8 *da, 
                   Bool doCopy )
 {
 	_pixelFormat = pF;
@@ -181,73 +181,73 @@ Bool Image::set ( PixelFormat pF,
 //------------------------------
 Bool Image::addValue (const char *value)
 {
-  static Image *currentImage = 0;
-  static UChar8 *currentData = 0;
+    static Image *currentImage = 0;
+    static UChar8 *currentData = 0;
   
 	Int32 width, height, pixelDepth;
-  Int64 i,j, size, v;
-  UChar8  *data;
-  PixelFormat pf;
+    Int64 j, v;
+//    UChar8  *data;
+    PixelFormat pf;
 	Bool isHead = strchr(value,' ') ? true : false;
   
-  // make sure we only read one image at a time
-  if ( currentImage == this ) {
-    if (isHead) {
-      FDEBUG (("Start new read cycle in image::addValue()\n"));
-    }
-  }
-  else {
-    if (!isHead) {
-      FFATAL (("Additional image date for different image\n"));
-    }
-  }
-  currentImage = this;
-
-	if (isHead) {
-    // read the head
-    sscanf(value, "%d %d %d", &width, &height, &pixelDepth);        
-    
-    FDEBUG (( "Image::addValue() set: w/h/bpp: %d/%d/%d\n", 
-              width,height,pixelDepth ));
-
-	  switch (pixelDepth) {
-    case 1:
-      pf = osg::Image::OSG_L_PF;
-      break;
-    case 2:
-      pf = osg::Image::OSG_LA_PF;
-      break;
-    case 3:
-      pf = osg::Image::OSG_RGB_PF;
-      break;
-    case 4:
-      pf = osg::Image::OSG_RGBA_PF;
-      break;
-    default:
-      pf = osg::Image::OSG_INVALID_PF;
-      FFATAL (("Invalid pixel depth: %d\n", pixelDepth));
-      break;
-    }
-    
-    if (pf && (width > 0) && (height > 0)) {
-      set(pf, width, height );
-      currentData = _data;
+    // make sure we only read one image at a time
+    if ( currentImage == this ) {
+        if (isHead) {
+            FDEBUG (("Start new read cycle in image::addValue()\n"));
+        }
     }
     else {
-      currentData = 0;
+        if (!isHead) {
+            FFATAL (("Additional image date for different image\n"));
+        }
     }
-  }
-  else {
-    if (currentData) {
-      // add data
-      // TODO; should we check the bounds, should be done by the parser ?
-      v = strtoul(value, 0, strchr(value, 'x') ? 16 : 10);
-      for (j = _bpp; j--;) 
-        *currentData++ = (v >> (8 * j)) & 255;
-    }
-  }
+    currentImage = this;
 
-  return (currentData ? true : false);
+	if (isHead) {
+        // read the head
+        sscanf(value, "%d %d %d", &width, &height, &pixelDepth);        
+    
+        FDEBUG (( "Image::addValue() set: w/h/bpp: %d/%d/%d\n", 
+                  width,height,pixelDepth ));
+
+        switch (pixelDepth) {
+            case 1:
+                pf = osg::Image::OSG_L_PF;
+                break;
+            case 2:
+                pf = osg::Image::OSG_LA_PF;
+                break;
+            case 3:
+                pf = osg::Image::OSG_RGB_PF;
+                break;
+            case 4:
+                pf = osg::Image::OSG_RGBA_PF;
+                break;
+            default:
+                pf = osg::Image::OSG_INVALID_PF;
+                FFATAL (("Invalid pixel depth: %d\n", pixelDepth));
+                break;
+        }
+    
+        if (pf && (width > 0) && (height > 0)) {
+            set(pf, width, height );
+            currentData = _data;
+        }
+        else {
+            currentData = 0;
+        }
+    }
+    else {
+        if (currentData) {
+            // add data
+            // TODO; should we check the bounds, should be done by the parser ?
+            v = strtoul(value, 0, strchr(value, 'x') ? 16 : 10);
+            for (j = _bpp; j--;) 
+                *currentData++ = (v >> (8 * j)) & 255;
+        }
+    }
+
+    return (currentData ? true : false);
 }
 
 //----------------------------
@@ -272,125 +272,125 @@ Bool Image::addValue (const char *value)
 //------------------------------
 Bool Image::reformat (const PixelFormat pF, Image *destination )
 {
-		/*
-	UChar8 *data;
-	int srcI, destI, DestSize;
-	Bool valid = false;
-	int sum;
+    /*
+      UChar8 *data;
+      int srcI, destI, DestSize;
+      Bool valid = false;
+      int sum;
 
-	cout << "INFO: Try to reformat image from pixelDepth " 
-			 << int(_pixelDepth) << " to " << int(pixelDepth) << " ... ";
-	cout.flush();
+      cout << "INFO: Try to reformat image from pixelDepth " 
+      << int(_pixelDepth) << " to " << int(pixelDepth) << " ... ";
+      cout.flush();
 
-	// TODO !!! code all the cases !!!
-	if ( size() && pixelDepth && (pixelDepth != _pixelDepth) ) {
-		DestSize = pixelDepth * _width * _height * _depth;
-		data = new UChar8[DestSize];
-		if (data) 
-			switch (_pixelDepth) {
-			case 1: // source pixelDepth == 1
-				switch (pixelDepth) {
-				case 1:
-					break;
-				case 2:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI++];
-					}
-					valid = true;
-					break;
-				case 3:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI++];
-					}
-					break;
-				case 4:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI++];
-					}
-					break;
-				}
-				break;
-			case 2: // source pixelDepth == 2
-				switch (pixelDepth) {
-				case 1:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						data[destI++] = _data[srcI++];
-						srcI++;
-					}
-					break;
-				case 2:
-					break;
-				case 3:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI++];
-						srcI++;
-					}
-					break;
-				case 4:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI];
-						data[destI++] = _data[srcI++];
-						data[destI++] = _data[srcI++];
-					}
-					break;
-				}
-				break;
-			case 3: // source pixelDepth == 3
-				switch (pixelDepth) {
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					for (srcI = destI = 0; destI < DestSize; ) {
-						sum = 0;
-						sum += data[destI++] = _data[srcI++];
-						sum += data[destI++] = _data[srcI++];
-						sum += data[destI++] = _data[srcI++];
-						data[destI++] = sum / 3;
-					}
-					valid = true;
-					break;
-				}
-				break;
-			case 4: // source pixelDepth == 4
-				switch (pixelDepth) {
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				}
-				break;
-			default:
-			  SWARNING << "Unvalid pixeldepth (" << pixelDepth
-				         << " ) in Image::reformat() !\n" << endl;
-			}
-		if (valid) {
-			delete [] _data;
-			_data = data;
-			_pixelDepth = pixelDepth;
-		}
-	}
-	cout << (valid ? " done" : " failed") << endl;
+      // TODO !!! code all the cases !!!
+      if ( size() && pixelDepth && (pixelDepth != _pixelDepth) ) {
+      DestSize = pixelDepth * _width * _height * _depth;
+      data = new UChar8[DestSize];
+      if (data) 
+      switch (_pixelDepth) {
+      case 1: // source pixelDepth == 1
+      switch (pixelDepth) {
+      case 1:
+      break;
+      case 2:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI++];
+      }
+      valid = true;
+      break;
+      case 3:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI++];
+      }
+      break;
+      case 4:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI++];
+      }
+      break;
+      }
+      break;
+      case 2: // source pixelDepth == 2
+      switch (pixelDepth) {
+      case 1:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      data[destI++] = _data[srcI++];
+      srcI++;
+      }
+      break;
+      case 2:
+      break;
+      case 3:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI++];
+      srcI++;
+      }
+      break;
+      case 4:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI];
+      data[destI++] = _data[srcI++];
+      data[destI++] = _data[srcI++];
+      }
+      break;
+      }
+      break;
+      case 3: // source pixelDepth == 3
+      switch (pixelDepth) {
+      case 1:
+      break;
+      case 2:
+      break;
+      case 3:
+      break;
+      case 4:
+      for (srcI = destI = 0; destI < DestSize; ) {
+      sum = 0;
+      sum += data[destI++] = _data[srcI++];
+      sum += data[destI++] = _data[srcI++];
+      sum += data[destI++] = _data[srcI++];
+      data[destI++] = sum / 3;
+      }
+      valid = true;
+      break;
+      }
+      break;
+      case 4: // source pixelDepth == 4
+      switch (pixelDepth) {
+      case 1:
+      break;
+      case 2:
+      break;
+      case 3:
+      break;
+      case 4:
+      break;
+      }
+      break;
+      default:
+      SWARNING << "Unvalid pixeldepth (" << pixelDepth
+      << " ) in Image::reformat() !\n" << endl;
+      }
+      if (valid) {
+      delete [] _data;
+      _data = data;
+      _pixelDepth = pixelDepth;
+      }
+      }
+      cout << (valid ? " done" : " failed") << endl;
 
-	return valid;
+      return valid;
 
-	*/
+      */
 
 	return false;
 
@@ -457,8 +457,8 @@ Bool Image::scale ( int width, int height, int depth, Image *destination )
 
 		// set image data
 		destImage->set ( _pixelFormat, width, height, depth,
-										 _mipmapCount, _frameCount, _frameDelay, 0 );
-    // copy every mipmap in every frame
+                         _mipmapCount, _frameCount, _frameDelay, 0 );
+        // copy every mipmap in every frame
 		for (frame = 0; frame < _frameCount; frame++) {
 			for (mipmap = 0; mipmap < _mipmapCount; mipmap++) {
 
@@ -576,7 +576,7 @@ Bool Image::createMipmap ( Int32 level, Image *destination)
 
 	// create destination image
 	destImage->set( _pixelFormat, _width, _height, _depth,
-									level, _frameCount, _frameDelay, 0 );
+                    level, _frameCount, _frameDelay, 0 );
 
 	// copy the data;
 	for (frame = 0; frame < _frameCount; frame++) {
@@ -597,17 +597,17 @@ Bool Image::createMipmap ( Int32 level, Image *destination)
 			wm = (w == 1) ? w : (w >> 1);
 			hm = (h == 1) ? h : (h >> 1);
 			dm = (d == 1) ? d : (d >> 1);			
-		  for (di = 0; di < dm; di++) {
+            for (di = 0; di < dm; di++) {
 				for (hi = 0; hi < hm; hi++) {
 					for (wi = 0; wi < wm; wm++) {
 						for (channel = _bpp; channel < _bpp; channel++) {
 							value = 0;
 							for (i = 0; i < elem; i++) {
 								value += src[ ((wi*2)+offset[dim][i].w)*_bpp +
-														  ((hi*2)+offset[dim][i].h)*lineSize +
-														  ((di*2)+offset[dim][i].d)*sliceSize +
-														  channel 
-														];
+                                            ((hi*2)+offset[dim][i].h)*lineSize +
+                                            ((di*2)+offset[dim][i].d)*sliceSize +
+                                            channel 
+                                            ];
 							}
 							*dest++ = value / elem;
 						}
@@ -655,7 +655,7 @@ Bool Image::createMipmap ( Int32 level, Image *destination)
 //------------------------------
 Bool Image::write (const Char8 *fileName )
 {
-  return ImageFileHandler::the().write(*this, fileName);
+    return ImageFileHandler::the().write(*this, fileName);
 }
 
 //----------------------------
@@ -738,20 +738,20 @@ Bool Image::createData (const UChar8 *data, Bool doCopy )
 		delete [] _data;
 
 	// copy/link the data
-  if ((_isCopy = doCopy)) 
-    if ((byteCount = getSize())) {
-      _data = new UChar8[byteCount];
-      if (_data) {
-        if (data)
-          memcpy(_data, data, byteCount);
-      }
-      else
-        SWARNING << "Couldn't alloc image data in Image::createData()!\n";
-    }
+    if ((_isCopy = doCopy)) 
+        if ((byteCount = getSize())) {
+            _data = new UChar8[byteCount];
+            if (_data) {
+                if (data)
+                    memcpy(_data, data, byteCount);
+            }
+            else
+                SWARNING << "Couldn't alloc image data in Image::createData()!\n";
+        }
+        else
+            _data = 0;
     else
-      _data = 0;
-  else
-    _data = const_cast<UChar8*>(data);
+        _data = const_cast<UChar8*>(data);
 
 	return _data;
 }
@@ -777,9 +777,9 @@ Bool Image::createData (const UChar8 *data, Bool doCopy )
 //
 //------------------------------
 Bool Image::scaleData ( UChar8* srcData, 
-												Int32 srcW, Int32 srcH, Int32 srcD,
-												UChar8* destData, 
-												Int32 destW, Int32 destH, Int32 destD)
+                        Int32 srcW, Int32 srcH, Int32 srcD,
+                        UChar8* destData, 
+                        Int32 destW, Int32 destH, Int32 destD)
 {
 	Real32 sx = Real32(srcW) / Real32(destW);
 	Real32 sy = Real32(srcH) / Real32(destH);
@@ -845,11 +845,11 @@ Bool Image::scaleData ( UChar8* srcData,
 //
 //------------------------------
 Image::Image (void )
-: _pixelFormat(OSG_INVALID_PF), 
+    : _pixelFormat(OSG_INVALID_PF), 
 	_width(0), _height(0), _depth(0), _mipmapCount(0), 
 	_frameCount(0), _frameDelay(0),
 	_bpp(0),_dimension(0),
-  _isCopy(true),
+    _isCopy(true),
 	_data(0)
 {
 	return;
@@ -876,13 +876,13 @@ Image::Image (void )
 //
 //------------------------------
 Image::Image (const Image &obj, Bool doCopy )
-: _pixelFormat(obj._pixelFormat),
-	_width(obj._width), _height(obj._height), _depth(obj._depth),
-	_mipmapCount(obj._mipmapCount), 
-	_frameCount(obj._frameCount), _frameDelay(obj._frameDelay),
-	_bpp(0), _dimension(0),
-  _isCopy(true),
-	_data(0)
+    : _pixelFormat(obj._pixelFormat),
+      _width(obj._width), _height(obj._height), _depth(obj._depth),
+      _mipmapCount(obj._mipmapCount), 
+      _frameCount(obj._frameCount), _frameDelay(obj._frameDelay),
+      _bpp(0), _dimension(0),
+      _isCopy(true),
+      _data(0)
 {
 	createData ( doCopy ? obj._data : 0, true );
 }
@@ -936,16 +936,16 @@ Image::~Image (void )
 //
 //------------------------------
 Image::Image ( PixelFormat pixelFormat, 
-							 Int32 width, Int32 height, Int32 depth, 
-							 Int32 mipmapCount, Int32 frameCount, Time frameDelay,
-							 UChar8 *data, Bool doCopy )
+               Int32 width, Int32 height, Int32 depth, 
+               Int32 mipmapCount, Int32 frameCount, Time frameDelay,
+               UChar8 *data, Bool doCopy )
 	: _pixelFormat(pixelFormat),
-		_width(width), _height(height), _depth(depth),
-		_mipmapCount(mipmapCount), 
-		_frameCount(frameCount), _frameDelay(frameDelay),
-		_bpp(0), _dimension(0),
-    _isCopy(true),
-		_data(0)
+      _width(width), _height(height), _depth(depth),
+      _mipmapCount(mipmapCount), 
+      _frameCount(frameCount), _frameDelay(frameDelay),
+      _bpp(0), _dimension(0),
+      _isCopy(true),
+      _data(0)
 {
 	createData(data, doCopy );
 }
@@ -981,21 +981,21 @@ Image::Image ( PixelFormat pixelFormat,
 //------------------------------
 Bool Image::operator == (const Image &image )
 {
- unsigned long i, s = getSize();
+    unsigned long i, s = getSize();
 
-  if ((_width == image._width) &&
-      (_height == image._height) &&
-      (_depth == image._depth) &&
-			(_mipmapCount == image._mipmapCount) &&
-			(_frameCount == image._frameCount) &&
-			(_frameDelay == image._frameDelay) &&
-      (_pixelFormat == image._pixelFormat)) {
-    for (i = 0; i < s; ++i)
-      if (image._data[i] != _data[i])
-        return false;
-    return true;
-  }
-  return false;
+    if ((_width == image._width) &&
+        (_height == image._height) &&
+        (_depth == image._depth) &&
+        (_mipmapCount == image._mipmapCount) &&
+        (_frameCount == image._frameCount) &&
+        (_frameDelay == image._frameDelay) &&
+        (_pixelFormat == image._pixelFormat)) {
+        for (i = 0; i < s; ++i)
+            if (image._data[i] != _data[i])
+                return false;
+        return true;
+    }
+    return false;
 }
 //----------------------------
 // Function name: operator <
@@ -1042,8 +1042,8 @@ OSG_BEGIN_NAMESPACE
 #else
 
 OSG_DLLEXPORT_DEF1(SField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
+    OSG_DLLEXPORT_DEF1(MField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
-OSG_END_NAMESPACE
+    OSG_END_NAMESPACE

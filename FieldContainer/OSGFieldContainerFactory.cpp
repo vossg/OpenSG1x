@@ -137,7 +137,8 @@ FieldContainerFactory::FieldContainerFactory(void) :
     _pUnitTypesStore(NULL),
     _pFieldContainerStore(NULL),
     _pStoreLock     (NULL),
-    _pMapLock       (NULL)
+    _pMapLock       (NULL),
+    _pMapper        (NULL)
 {
     addInitFunction(&FieldContainerPtr::initialize);
     addInitFunction(&FieldContainerFactory::initializeFactory);
@@ -479,6 +480,14 @@ UInt16 FieldContainerFactory::getNumGroups (void) const
 
 /*------------------------------ get --------------------------------------*/
 
+void FieldContainerFactory::setMapper(FieldContainerMapper *pMapper)
+{
+    _pMapper = pMapper;
+}
+
+
+/*------------------------------ get --------------------------------------*/
+
 FieldContainerPtr FieldContainerFactory::getContainer(
     UInt32 uiContainerId) const
 {
@@ -494,6 +503,19 @@ FieldContainerPtr FieldContainerFactory::getContainer(
     _pStoreLock->release();
 
     return returnValue;
+}
+
+FieldContainerPtr FieldContainerFactory::getMappedContainer(
+    UInt32 uiContainerId) const
+{
+    if(_pMapper != NULL)
+    {
+        return getContainer(_pMapper->map(uiContainerId));
+    }
+    else
+    {
+        return getContainer(uiContainerId);
+    }
 }
 
 /*---------------------------- properties ---------------------------------*/
