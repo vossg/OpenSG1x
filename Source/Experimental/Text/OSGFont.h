@@ -1,5 +1,5 @@
-#ifndef FONT_CLASS_DECLARATION
-#define FONT_CLASS_DECLARATION
+#ifndef FONT_H_
+#define FONT_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -51,4 +51,4 @@ OSG_END_NAMESPACE
 
 #include <OSGFont.inl>
 
-#endif // FONT_CLASS_DECLARATION
+#endif // FONT_H_

@@ -1,5 +1,5 @@
-#ifndef GLYPH_CLASS_DECLARATION
-#define GLYPH_CLASS_DECLARATION
+#ifndef GLYPH_H_
+#define GLYPH_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -46,4 +46,4 @@ class OSG_SYSTEMLIB_DLLMAPPING FontGlyph
 
 OSG_END_NAMESPACE 
 
-#endif // GLYPH_CLASS_DECLARATION
+#endif // GLYPH_H_

@@ -1,5 +1,5 @@
-#ifndef TTFONT_CLASS_DECLARATION
-#define TTFONT_CLASS_DECLARATION
+#ifndef TTFONT_H_
+#define TTFONT_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -41,4 +41,4 @@ class OSG_SYSTEMLIB_DLLMAPPING TTFont : public virtual Font
 OSG_END_NAMESPACE 
 
 #endif // OSG_WITH_FREETYPE1
-#endif // TTFONT_CLASS_DECLARATION
+#endif // TTFONT_H_

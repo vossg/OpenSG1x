@@ -1,5 +1,5 @@
-#ifndef FONTFACTORY_CLASS_DECLARATION
-#define FONTFACTORY_CLASS_DECLARATION
+#ifndef FONTFACTORY_H_
+#define FONTFACTORY_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -40,4 +40,4 @@ OSG_END_NAMESPACE
 
 #include <OSGFontFactory.inl>
 
-#endif // FONTFACTORY_CLASS_DECLARATION
+#endif // FONTFACTORY_H_

@@ -1,5 +1,5 @@
-#ifndef VECTORGLYPH_CLASS_DECLARATION
-#define VECTORGLYPH_CLASS_DECLARATION
+#ifndef VECTORGLYPH_H_
+#define VECTORGLYPH_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -130,4 +130,4 @@ class VectorFontGlyph : public virtual FontGlyph
 
 OSG_END_NAMESPACE 
 
-#endif // VECTORGLYPH_CLASS_DECLARATION
+#endif // VECTORGLYPH_H_

@@ -1,5 +1,5 @@
-#ifndef TXFGLYPH_CLASS_DECLARATION
-#define TXFGLYPH_CLASS_DECLARATION
+#ifndef TXFGLYPH_H_
+#define TXFGLYPH_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -33,4 +33,4 @@ class OSG_SYSTEMLIB_DLLMAPPING TXFFontGlyph : public virtual FontGlyph
 
 OSG_END_NAMESPACE
 
-#endif // TXFGLYPH_CLASS_DECLARATION
+#endif // TXFGLYPH_H_

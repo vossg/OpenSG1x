@@ -1,5 +1,5 @@
-#ifndef FONTSTYLE_CLASS_DECLARATION
-#define FONTSTYLE_CLASS_DECLARATION
+#ifndef FONTSTYLE_H_
+#define FONTSTYLE_H_
 
 //#ifndef WIN32
 #include <OSGConfig.h>
@@ -159,4 +159,4 @@ typedef Text *TextP;
 
 OSG_END_NAMESPACE
 //#endif
-#endif // FONTSTYLE_CLASS_DECLARATION
+#endif // FONTSTYLE_H_

@@ -1,5 +1,5 @@
-#ifndef IMAGEGLYPH_CLASS_DECLARATION
-#define IMAGEGLYPH_CLASS_DECLARATION
+#ifndef IMAGEGLYPH_H_
+#define IMAGEGLYPH_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -52,4 +52,4 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFontGlyph : public virtual FontGlyph
 
 OSG_END_NAMESPACE
 
-#endif // IMAGEGLYPH_CLASS_DECLARATION
+#endif // IMAGEGLYPH_H_

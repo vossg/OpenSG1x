@@ -1,5 +1,5 @@
-#ifndef TXFFONT_CLASS_DECLARATION
-#define TXFFONT_CLASS_DECLARATION
+#ifndef TXFFONT_H_
+#define TXFFONT_H_
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
@@ -60,4 +60,4 @@ OSG_END_NAMESPACE
 
 #include <OSGTXFFont.inl>
 
-#endif // TXFFONT_CLASS_DECLARATION
+#endif // TXFFONT_H_
