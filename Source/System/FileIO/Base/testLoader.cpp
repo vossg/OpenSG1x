@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
+#include <iterator>
 
 #include "OSGBaseFunctions.h"
 #include "OSGNode.h"
@@ -18,7 +20,21 @@ int main (int argc, char **argv)
 
     osgInit(argc, argv);
 
-    SceneFileHandler::the().print();
+    std::list<const Char8 *> l;
+    
+    SceneFileHandler::the().getSuffixList(l,
+                    SceneFileType::OSG_READ_SUPPORTED);
+                    
+    std::cout << "Formats supported for reading: ";
+    std::copy(l.begin(), l.end(), std::ostream_iterator<std::string>(std::cout, ","));
+    std::cout << std::endl;
+     
+    SceneFileHandler::the().getSuffixList(l,
+                    SceneFileType::OSG_WRITE_SUPPORTED);
+                    
+    std::cout << "Formats supported for writing: ";
+    std::copy(l.begin(), l.end(), std::ostream_iterator<std::string>(std::cout, ","));
+    std::cout << std::endl;
 
     node = SceneFileHandler::the().read(fileName);
 

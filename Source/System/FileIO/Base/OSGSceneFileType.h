@@ -166,10 +166,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
                         UInt16  suffixByteCount,
                         bool    override,
                         UInt32  overridePriority,
-                        UInt32  flags = OSG_READ_SUPPORTED |
-                                        OSG_WRITE_SUPPORTED);
+                        UInt32  flags = OSG_READ_SUPPORTED);
 
-    SceneFileType (const SceneFileType &obj);
+    SceneFileType(const SceneFileType &obj);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -57,7 +57,9 @@ const Char8 *VRMLSceneFileType::_suffixA[] =  { "wrl" };
 VRMLSceneFileType VRMLSceneFileType::_the(_suffixA,
                                           sizeof(_suffixA),
                                           false,
-                                          10);
+                                          10,
+                                          OSG_READ_SUPPORTED | 
+                                          OSG_WRITE_SUPPORTED);
 
 VRMLFile *VRMLSceneFileType::_pVRMLLoader = NULL;
 
@@ -131,11 +133,13 @@ bool VRMLSceneFileType::write(const NodePtr &node, std::ostream &os,
 VRMLSceneFileType::VRMLSceneFileType(const Char8  *suffixArray[],
                                            UInt16  suffixByteCount,
                                            bool    override,
-                                           UInt32  overridePriority) :
+                                           UInt32  overridePriority,
+                                           UInt32  flags) :
     Inherited(suffixArray,
               suffixByteCount,
               override,
-              overridePriority)
+              overridePriority,
+              flags)
 {
 }
 

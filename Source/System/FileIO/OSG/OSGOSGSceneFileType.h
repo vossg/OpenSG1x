@@ -114,7 +114,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     OSGSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
                            bool    override,
-                           UInt32  overridePriority);
+                           UInt32  overridePriority,
+                           UInt32  flags);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

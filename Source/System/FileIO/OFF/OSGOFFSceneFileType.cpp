@@ -125,175 +125,275 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
     char                head[256];
     NodePtr             root;
     GeometryPtr         geo;
-    Vec3f               point;
+    Pnt3f               point;
+    Vec3f               norm;
+    Color4f             color;
+    Vec2f               texcoord;
     GeoPositions3fPtr   points;
     GeoIndicesUI32Ptr   index;
     GeoPLengthsPtr      lens;
     GeoPTypesPtr        type;
+    GeoNormals3fPtr     norms;
+    GeoColors4fPtr      colors;
+    GeoTexCoords2fPtr   texcoords;
     SimpleMaterialPtr   mat;
     Int32               i, j, k, n, vN, fN, pType;
-    Int32               triCount = 0, vertexCount, faceCount, uk;
-    Real64              x, y, z;
-
-    if(is)
+    Int32               triCount = 0, vertexCount, faceCount, edgeCount;
+    Real64              x, y, z, a;
+    bool                hasNormals = false, hasColors = false, hasTexCoords = false,
+                        has4DimPoints = false;
+    
+    if(!is)
     {
-        is >> head >> vertexCount >> faceCount >> uk;
+        return NullFC;
+    }
 
-        FDEBUG(("OFF Head/vertexCount/faceCount: %s/%d/%d\n", head,
-               vertexCount, faceCount));
+    is >> head >> vertexCount >> faceCount >> edgeCount;
 
-        if(vertexCount && faceCount)
+    FDEBUG(("OFF Head/vertexCount/faceCount: %s/%d/%d\n", head,
+           vertexCount, faceCount));
+
+    if(!vertexCount || !faceCount)
+    {
+        return NullFC;
+    }
+
+    if(strstr(head, "ST"))
+    {
+        hasTexCoords = true;
+    }
+
+    if(strstr(head, "C"))
+    {
+        hasColors = true;
+    }
+
+    if(strstr(head, "N"))
+    {
+        hasNormals = true;
+    }
+
+    if(strstr(head, "4"))
+    {
+        has4DimPoints = true;
+    }
+
+    if(strstr(head, "nOFF"))
+    {
+        int ndim;
+        
+        is >> ndim;
+        
+        if(ndim != 3)
         {
-            //-------------------------------------------------------------------
-            // create the OSG objects
-            root = Node::create();
-            geo = Geometry::create();
-            points = GeoPositions3f::create();
-            index = GeoIndicesUI32::create();
-            lens = GeoPLengthsUI32::create();
-            type = GeoPTypesUI8::create();
-            mat = SimpleMaterial::create();
+            FWARNING(("OFFSceneFileType::read: nOFF with ndim != 3 not supported.\n"));
+            return NullFC;
+        }
+    }
+    
+    if(has4DimPoints)
+    {
+         FWARNING(("OFFSceneFileType::read: 4D points not supported.\n"));
+        return NullFC;       
+    }
+    
+    
+    //-------------------------------------------------------------------
+    // create the OSG objects
+    root = Node::create();
+    geo = Geometry::create();
+    points = GeoPositions3f::create();
+    index = GeoIndicesUI32::create();
+    lens = GeoPLengthsUI32::create();
+    type = GeoPTypesUI8::create();
+    mat = SimpleMaterial::create();
+    if (hasNormals)
+        norms = GeoNormals3f::create();
+    if (hasColors)
+        colors = GeoColors4f::create();
+    if (hasTexCoords)
+        texcoords = GeoTexCoords2f::create();
 
-            beginEditCP(mat);
+    beginEditCP(mat);
+    {
+        mat->setDiffuse(Color3f(0.42, 0.42, 0.52));
+        mat->setSpecular(Color3f(1, 1, 1));
+        mat->setShininess(20);
+    }
+    endEditCP(mat);
+
+    beginEditCP(root, Node::CoreFieldMask);
+    {
+        root->setCore(geo);
+    }
+    endEditCP(root, Node::CoreFieldMask);
+
+    beginEditCP(geo);
+    {
+        geo->setPositions(points);
+        geo->setIndices(index);
+        geo->setLengths(lens);
+        geo->setTypes(type);
+        geo->setMaterial(mat);
+        if (hasNormals)
+            geo->setNormals(norms);
+        if (hasColors)
+            geo->setColors(colors);
+        if (hasTexCoords)
+            geo->setTexCoords(texcoords);
+            
+    }
+    endEditCP(geo);
+
+    //-------------------------------------------------------------------
+    // read/set the points
+    beginEditCP(points);
+    if(hasNormals)
+        beginEditCP(norms);
+    if(hasColors)
+        beginEditCP(colors);
+    if(hasTexCoords)
+        beginEditCP(texcoords);
+        
+    {
+        for(i = 0; (!is.eof()) && (i < vertexCount); i++)
+        {
+            is >> x >> y >> z;
+            point.setValues(x, y, z);
+            points->push_back(point);
+            
+            if(hasNormals)
             {
-                mat->setDiffuse(Color3f(0.42, 0.42, 0.52));
-                mat->setSpecular(Color3f(1, 1, 1));
-                mat->setShininess(20);
+                is >> x >> y >> z;
+                norm.setValues(x, y, z);
+                norms->push_back(norm);
             }
-            endEditCP(mat);
-
-            beginEditCP(root, Node::CoreFieldMask);
+            
+            if(hasColors)
             {
-                root->setCore(geo);
+                is >> x >> y >> z >> a;
+                color.setValuesRGBA(x, y, z, a);
+                colors->getField().push_back(color);
             }
-            endEditCP(root, Node::CoreFieldMask);
-
-            beginEditCP(geo);
+            
+            if(hasTexCoords)
             {
-                geo->setPositions(points);
-                geo->setIndices(index);
-                geo->setLengths(lens);
-                geo->setTypes(type);
-                geo->setMaterial(mat);
+                is >> x >> y;
+                texcoord.setValues(x, y);
+                texcoords->push_back(texcoord);
             }
-            endEditCP(geo);
+        }
+    }
+    endEditCP(points);
+    if(hasNormals)
+        endEditCP(norms);
+    if(hasColors)
+        endEditCP(colors);
+    if(hasTexCoords)
+        endEditCP(texcoords);
 
-            //-------------------------------------------------------------------
-            // read/set the points
-            beginEditCP(points);
+    //-------------------------------------------------------------------
+    // read the faces
+    // TODO; should we 'reserve' some index mem (3,4,..) ?
+    faceVec.resize(faceCount);
+    triCount = 0;
+    for(i = 0; (!is.eof()) && (i < faceCount); i++)
+    {
+        is >> n;
+        if(n >= 0)
+        {
+            triCount += n - 2;
+            for(j = 0; (!is.eof()) && (j < n); j++)
             {
-                for(i = 0; (!is.eof()) && (i < vertexCount); i++)
-                {
-                    is >> x >> y >> z;
-                    point.setValues(x, y, z);
-                    points->push_back(point);
-                }
-            }
-            endEditCP(points);
-
-            //-------------------------------------------------------------------
-            // read the faces
-            // TODO; should we 'reserve' some index mem (3,4,..) ?
-            faceVec.resize(faceCount);
-            triCount = 0;
-            for(i = 0; (!is.eof()) && (i < faceCount); i++)
-            {
-                is >> n;
-                if(n >= 0)
-                {
-                    triCount += n - 2;
-                    for(j = 0; (!is.eof()) && (j < n); j++)
-                    {
-                        is >> k;
-                        if((k >= 0) && (k < vertexCount))
-                            faceVec[i].push_back(k);
-                        else
-                        {
-                            FFATAL(("Invalid vertex index %d in face %d\n", k, i
-                                   ));
-                        }
-                    }
-                }
+                is >> k;
+                if((k >= 0) && (k < vertexCount))
+                    faceVec[i].push_back(k);
                 else
                 {
-                    FFATAL(("Invalid face vec num %d\n", n));
+                    FFATAL(("Invalid vertex index %d in face %d\n", k, i
+                           ));
                 }
             }
+            is.ignore(1000, '\n');
+        }
+        else
+        {
+            FFATAL(("Invalid face vec num %d\n", n));
+        }
+    }
 
-            //-------------------------------------------------------------------
-            // set the faces
-            for(i = 3; i <= 5; i++)
+    //-------------------------------------------------------------------
+    // set the faces
+    for(i = 3; i <= 5; i++)
+    {
+        n = 0;
+        for(j = 0; j < faceCount; j++)
+        {
+            fN = faceVec[j].size();
+            if(fN >= 5)
+                fN = 5;
+            if(fN == i)
             {
-                n = 0;
-                for(j = 0; j < faceCount; j++)
+                n += vN = faceVec[j].size();
+                for(k = vN - 1; k >= 0; k--)
                 {
-                    fN = faceVec[j].size();
-                    if(fN >= 5)
-                        fN = 5;
-                    if(fN == i)
-                    {
-                        n += vN = faceVec[j].size();
-                        for(k = vN - 1; k >= 0; k--)
-                        {
-                            index->getFieldPtr()->push_back(faceVec[j][k]);
-                        }
-
-                        if(i == 5)
-                        {
-                            beginEditCP(lens);
-                            {
-                                lens->push_back(n);
-                            }
-                            endEditCP(lens);
-
-                            beginEditCP(type, FieldBits::AllFields);
-                            {
-                                type->push_back(GL_POLYGON);
-                            }
-                            endEditCP(type, FieldBits::AllFields);
-                        }
-                    }
+                    index->getFieldPtr()->push_back(faceVec[j][k]);
                 }
 
-                if(n)
+                if(i == 5)
                 {
-                    switch(i)
+                    beginEditCP(lens);
                     {
-                    case 3:
-                        pType = GL_TRIANGLES;
-                        break;
-                    case 4:
-                        pType = GL_QUADS;
-                        break;
-                    default:
-                        pType = 0;
-                        break;
+                        lens->push_back(n);
                     }
+                    endEditCP(lens);
 
-                    if(pType)
+                    beginEditCP(type, FieldBits::AllFields);
                     {
-                        beginEditCP(lens);
-                        {
-                            lens->push_back(n);
-                        }
-                        endEditCP(lens);
-
-                        beginEditCP(type, FieldBits::AllFields);
-                        {
-                            type->push_back(pType);
-                        }
-                        endEditCP(type, FieldBits::AllFields);
+                        type->push_back(GL_POLYGON);
                     }
+                    endEditCP(type, FieldBits::AllFields);
                 }
+            }
+        }
+
+        if(n)
+        {
+            switch(i)
+            {
+            case 3:
+                pType = GL_TRIANGLES;
+                break;
+            case 4:
+                pType = GL_QUADS;
+                break;
+            default:
+                pType = 0;
+                break;
+            }
+
+            if(pType)
+            {
+                beginEditCP(lens);
+                {
+                    lens->push_back(n);
+                }
+                endEditCP(lens);
+
+                beginEditCP(type, FieldBits::AllFields);
+                {
+                    type->push_back(pType);
+                }
+                endEditCP(type, FieldBits::AllFields);
             }
         }
     }
 
     FNOTICE(("Number of triangle read: %d\n", triCount));
 
-		createSharedIndex(geo);
-    calcVertexNormals(geo);
-    createOptimizedPrimitives(geo);
+    createSharedIndex(geo);
+    if(!hasNormals)
+        calcVertexNormals(geo);
 
     return root;
 }

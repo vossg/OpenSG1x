@@ -69,7 +69,9 @@ const Char8 *OSGSceneFileType::_suffixA[] =  { "osg" };
 OSGSceneFileType OSGSceneFileType::_the(_suffixA,
                                         sizeof(_suffixA),
                                         false,
-                                        10);
+                                        10,
+                                        OSG_READ_SUPPORTED | 
+                                        OSG_WRITE_SUPPORTED);
 
 OSGLoader *OSGSceneFileType::_pFile = NULL;
 
@@ -155,11 +157,13 @@ bool OSGSceneFileType::write(const NodePtr &root, std::ostream &os,
 OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[],
                                          UInt16  suffixByteCount,
                                          bool    override,
-                                         UInt32  overridePriority) :
+                                         UInt32  overridePriority,
+                                         UInt32  flags) :
     Inherited(suffixArray,
               suffixByteCount,
               override,
-              overridePriority)
+              overridePriority,
+              flags)
 {
     return;
 }

@@ -115,7 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     VRMLSceneFileType(const Char8  *suffixArray[],
                             UInt16  suffixByteCount,
                             bool    override,
-                            UInt32  overridePriority);
+                            UInt32  overridePriority,
+                            UInt32  flags);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

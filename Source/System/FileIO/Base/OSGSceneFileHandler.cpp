@@ -176,17 +176,19 @@ Int32 SceneFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
     Int32                 count = 0;
     FileTypeMap::iterator sI;
 
+    suffixList.clear();
+    
     for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
     {
         SceneFileType *type = sI->second->front();
-        if(type->getFlags() & flags)
+        if((type->getFlags() & flags) == flags)
         {
             suffixList.push_back(sI->first.str());
             count++;
         }
     }
 
-  return count;
+    return count;
 }
 
 bool SceneFileHandler::isGZip(std::istream &is)

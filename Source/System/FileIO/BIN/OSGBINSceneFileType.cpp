@@ -125,8 +125,10 @@ bool BINSceneFileType::write(const NodePtr &node,
  */
 BINSceneFileType::BINSceneFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount, bool override,
-                                   UInt32 overridePriority) :
-        SceneFileType(suffixArray, suffixByteCount, override, overridePriority)
+                                   UInt32 overridePriority,
+                                   UInt32 flags) :
+        SceneFileType(suffixArray, suffixByteCount, override, overridePriority,
+                      flags)
 {
 }
 
@@ -150,7 +152,9 @@ const Char8 *BINSceneFileType::getName(void) const
 
 const Char8 *    BINSceneFileType::_suffixA[] = { "bin" };
 BINSceneFileType BINSceneFileType:: _the(_suffixA,
-                                         sizeof(_suffixA), false, 10);
+                                         sizeof(_suffixA), false, 10,
+                                         OSG_READ_SUPPORTED | 
+                                         OSG_WRITE_SUPPORTED);
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
