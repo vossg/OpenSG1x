@@ -67,12 +67,52 @@ FieldDescription *GeoPLengthsUI32PropertyDesc::_desc[] =
 #endif
 };
 
+FieldDescription *GeoPLengthsUI16PropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                               GeoPLengthsUI16PropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoPLengthsUI16PropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                               GeoPLengthsUI16PropertyDesc>::getFieldPtr)
+#endif
+};
+
+FieldDescription *GeoPLengthsUI8PropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                               GeoPLengthsUI8PropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoPLengthsUI8PropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                               GeoPLengthsUI8PropertyDesc>::getFieldPtr)
+#endif
+};
+
 OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
 
 OSG_BEGIN_NAMESPACE
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
                            GeoPLengthsUI32PropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
+                           GeoPLengthsUI16PropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
+                           GeoPLengthsUI8PropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE

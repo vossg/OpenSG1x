@@ -58,6 +58,10 @@ OSG_BEGIN_NAMESPACE
 /*! \name               Pointer Typedefs                               */
 /*! \{                                                                 */    
 
+typedef GeoPositions2s::PtrType  GeoPositions2sPtr;
+typedef GeoPositions3s::PtrType  GeoPositions3sPtr;
+typedef GeoPositions4s::PtrType  GeoPositions4sPtr;
+
 typedef GeoPositions2f::PtrType  GeoPositions2fPtr;
 typedef GeoPositions3f::PtrType  GeoPositions3fPtr;
 typedef GeoPositions4f::PtrType  GeoPositions4fPtr;
@@ -72,16 +76,26 @@ typedef GeoColors4f::PtrType     GeoColors4fPtr;
 typedef GeoColors4ub::PtrType    GeoColors4ubPtr;
 
 typedef GeoNormals3f::PtrType    GeoNormals3fPtr;
+typedef GeoNormals3s::PtrType    GeoNormals3sPtr;
 
 typedef GeoTexCoords1f::PtrType  GeoTexCoords1fPtr;
 typedef GeoTexCoords2f::PtrType  GeoTexCoords2fPtr;
 typedef GeoTexCoords3f::PtrType  GeoTexCoords3fPtr;
+typedef GeoTexCoords4f::PtrType  GeoTexCoords4fPtr;
+
+typedef GeoTexCoords1d::PtrType  GeoTexCoords1dPtr;
+typedef GeoTexCoords2d::PtrType  GeoTexCoords2dPtr;
+typedef GeoTexCoords3d::PtrType  GeoTexCoords3dPtr;
+typedef GeoTexCoords4d::PtrType  GeoTexCoords4dPtr;
 
 typedef GeoIndicesUI32::PtrType  GeoIndicesUI32Ptr;
+typedef GeoIndicesUI16::PtrType  GeoIndicesUI16Ptr;
 
 typedef GeoPTypesUI8::PtrType    GeoPTypesUI8Ptr;
 
 typedef GeoPLengthsUI32::PtrType GeoPLengthsUI32Ptr;
+typedef GeoPLengthsUI16::PtrType GeoPLengthsUI16Ptr;
+typedef GeoPLengthsUI8::PtrType  GeoPLengthsUI8Ptr;
 
 /*! \}                                                                 */
 

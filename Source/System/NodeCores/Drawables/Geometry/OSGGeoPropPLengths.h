@@ -107,6 +107,118 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
+/*! \brief The descriptor trait for osg::GeoPLengthsUI16.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoPLengthsUI16PropertyDesc : public GeoPLengthsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoPLengthsUI16";        }
+    static const Char8 *getClassName(void) { return "GeoPLengthsUI16Property";}
+    static const Char8 *getFieldName(void) { return "lengths";                }
+    static const Char8 *getGroupName(void) { return "GeoPLengths";            }
+
+    static InitContainerF     getInitMethod(void) { return NULL;              }
+
+    static UInt32             getFormat    (void) { return GL_UNSIGNED_SHORT; }
+    static UInt32             getFormatSize(void) { return sizeof(GLushort);  }
+    static UInt32             getDimension (void) { return 1;                 }
+    static UInt32             getStride    (void) { return 0;                 }
+
+    static FieldDescription **getDesc      (void) { return _desc;             }
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+    typedef GeoPLengths                Inherited;
+    typedef GeoPLengths::PtrType       InheritedPtr;
+
+    typedef GeoPLengthsPropertyDesc    InheritedDesc;
+
+    typedef MFUInt16                   StoredFieldType;
+
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> Interface;
+#endif    
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+typedef GeoProperty<GeoPLengthsUI16PropertyDesc> GeoPLengthsUI16;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPPLENGTHINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPLengthsUI16PropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+/*! \brief The descriptor trait for osg::GeoPLengthsUI8.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoPLengthsUI8PropertyDesc : public GeoPLengthsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoPLengthsUI8";        }
+    static const Char8 *getClassName(void) { return "GeoPLengthsUI8Property";}
+    static const Char8 *getFieldName(void) { return "lengths";               }
+    static const Char8 *getGroupName(void) { return "GeoPLengths";           }
+
+    static InitContainerF     getInitMethod(void) { return NULL;             }
+
+    static UInt32             getFormat    (void) { return GL_UNSIGNED_BYTE; }
+    static UInt32             getFormatSize(void) { return sizeof(GLubyte);  }
+    static UInt32             getDimension (void) { return 1;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+    typedef GeoPLengths                Inherited;
+    typedef GeoPLengths::PtrType       InheritedPtr;
+
+    typedef GeoPLengthsPropertyDesc    InheritedDesc;
+
+    typedef MFUInt8                   StoredFieldType;
+
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> Interface;
+#endif    
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+typedef GeoProperty<GeoPLengthsUI8PropertyDesc> GeoPLengthsUI8;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPPLENGTHINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPLengthsUI8PropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGGEOPROPPLENGTHS_H_ */

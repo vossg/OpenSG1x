@@ -388,6 +388,178 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
+
+
+/*! \brief The descriptor trait for osg::GeoPositions2s.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoPositions2sPropertyDesc : public GeoPositionsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoPositions2s";         }
+    static const Char8 *getClassName(void) { return "GeoPositions2sProperty"; }
+    static const Char8 *getFieldName(void) { return "positions";              }
+    static const Char8 *getGroupName(void) { return "GeoPositions";           }
+
+    static InitContainerF     getInitMethod(void) { return NULL;             }
+
+    static UInt32             getFormat    (void) { return GL_SHORT;         }
+    static UInt32             getFormatSize(void) { return sizeof(GLshort);  }
+    static UInt32             getDimension (void) { return 2;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+    
+    typedef GeoPositions               Inherited;
+    typedef GeoPositions::PtrType      InheritedPtr;
+
+    typedef GeoPositionsPropertyDesc   InheritedDesc;
+
+    typedef MFPnt2s                    StoredFieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent shorts
+typedef GeoProperty<GeoPositions2sPropertyDesc> GeoPositions2s;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPositions2sPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+
+/*! \brief The descriptor trait for osg::GeoPositions3s.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoPositions3sPropertyDesc : public GeoPositionsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoPositions3s";         }
+    static const Char8 *getClassName(void) { return "GeoPositions3sProperty"; }
+    static const Char8 *getFieldName(void) { return "positions";              }
+    static const Char8 *getGroupName(void) { return "GeoPositions";           }
+
+    static InitContainerF     getInitMethod(void) { return NULL;             }
+
+    static UInt32             getFormat    (void) { return GL_SHORT;         }
+    static UInt32             getFormatSize(void) { return sizeof(GLshort);  }
+    static UInt32             getDimension (void) { return 3;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+    
+    typedef GeoPositions               Inherited;
+    typedef GeoPositions::PtrType      InheritedPtr;
+
+    typedef GeoPositionsPropertyDesc   InheritedDesc;
+
+    typedef MFPnt3s                    StoredFieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent shorts
+typedef GeoProperty<GeoPositions3sPropertyDesc> GeoPositions3s;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPositions3sPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+
+/*! \brief The descriptor trait for osg::GeoPositions4s.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoPositions4sPropertyDesc : public GeoPositionsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoPositions4s";         }
+    static const Char8 *getClassName(void) { return "GeoPositions4sProperty"; }
+    static const Char8 *getFieldName(void) { return "positions";              }
+    static const Char8 *getGroupName(void) { return "GeoPositions";           }
+
+    static InitContainerF     getInitMethod(void) { return NULL;             }
+
+    static UInt32             getFormat    (void) { return GL_SHORT;         }
+    static UInt32             getFormatSize(void) { return sizeof(GLshort);  }
+    static UInt32             getDimension (void) { return 4;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+    
+    typedef GeoPositions               Inherited;
+    typedef GeoPositions::PtrType      InheritedPtr;
+
+    typedef GeoPositionsPropertyDesc   InheritedDesc;
+
+    typedef MFPnt4s                    StoredFieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent shorts
+typedef GeoProperty<GeoPositions4sPropertyDesc> GeoPositions4s;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoPositions4sPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
 OSG_END_NAMESPACE
 
 #include <OSGGeoPropPositions.inl>

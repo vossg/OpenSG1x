@@ -203,7 +203,7 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
     }
 
     if ((nodeList[1].size() + nodeList[2].size() + nodeList[3].size()) == 0) {
-        FWARNING (("Geometry without any shared vertex, skipping opt.\n"));
+        FINFO (("Geometry without any shared vertex, skipping opt.\n"));
         nodeLeft = 0;
     }
 

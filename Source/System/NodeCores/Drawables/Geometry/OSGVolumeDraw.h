@@ -46,6 +46,9 @@
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
 
+#include <OSGAction.h>
+#include <OSGMaterial.h>
+
 #include <OSGVolume.h>
 #include <OSGBoxVolume.h>
 
@@ -55,11 +58,15 @@ OSG_BEGIN_NAMESPACE
 /*! \name                   Draw Functions                             */
 /*! \{                                                                 */
 
-OSG_SYSTEMLIB_DLLMAPPING void drawVolume ( const DynamicVolume  &volume );
-OSG_SYSTEMLIB_DLLMAPPING void drawVolume ( const BoxVolume      &volume );
-OSG_SYSTEMLIB_DLLMAPPING void drawVolume ( const SphereVolume   &volume );
-OSG_SYSTEMLIB_DLLMAPPING void drawVolume ( const FrustumVolume  &volume );
-OSG_SYSTEMLIB_DLLMAPPING void drawVolume ( const CylinderVolume &volume );
+OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const DynamicVolume  &volume);
+OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const BoxVolume      &volume);
+OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const SphereVolume   &volume);
+OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const FrustumVolume  &volume);
+OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const CylinderVolume &volume);
+
+OSG_SYSTEMLIB_DLLMAPPING void dropVolume(DrawActionBase *action, 
+                                         NodePtr node,
+                                         Color3f col);
 
 /*! \}                                                                 */
 

@@ -67,12 +67,32 @@ FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
 #endif
 };
 
+FieldDescription *GeoNormals3sPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                  GeoNormals3sPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoNormals3sPropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                  GeoNormals3sPropertyDesc>::getFieldPtr)
+#endif
+};
+
 OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
 
 OSG_BEGIN_NAMESPACE
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoNormals3fPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
+                           GeoNormals3sPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE

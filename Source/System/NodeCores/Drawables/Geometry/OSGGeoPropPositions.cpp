@@ -149,6 +149,55 @@ FieldDescription *GeoPositions4dPropertyDesc::_desc[] =
 #endif
 };
 
+
+FieldDescription *GeoPositions2sPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions2sPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoPositions2sPropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions2sPropertyDesc>::getFieldPtr)
+#endif
+};
+
+FieldDescription *GeoPositions3sPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions3sPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoPositions3sPropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions3sPropertyDesc>::getFieldPtr)
+#endif
+};
+
+FieldDescription *GeoPositions4sPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions4sPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoPositions4sPropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions4sPropertyDesc>::getFieldPtr)
+#endif
+};
+
 OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
 
 OSG_BEGIN_NAMESPACE
@@ -173,34 +222,15 @@ OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoPositions4dPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
+                           GeoPositions2sPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
+                           GeoPositions3sPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
+                           GeoPositions4sPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
+
 OSG_END_NAMESPACE
-
-
-///---------------------------------------------------------------------------
-//  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

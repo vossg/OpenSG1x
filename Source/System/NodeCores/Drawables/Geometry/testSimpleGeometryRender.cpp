@@ -16,8 +16,10 @@
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
 
+#include <OSGChunkMaterial.h>
 #include <OSGSimpleMaterial.h>
 #include <OSGTextureChunk.h>
+#include <OSGMaterialChunk.h>
 
 #include <OSGWindow.h>
 #include <OSGGLUTWindow.h>
@@ -31,7 +33,7 @@
 OSG_USING_NAMESPACE
 
 DrawAction * dact;
-WindowPtr win;
+GLUTWindowPtr win;
 
 const int nobjects = 8;
 NodePtr  objects[nobjects];
@@ -136,7 +138,7 @@ int main (int argc, char **argv)
 
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutCreateWindow("OpenSG");
+    UInt32 id = glutCreateWindow("OpenSG");
     glutKeyboardFunc(key);
     glutReshapeFunc(resize);
     glutDisplayFunc(display);       
@@ -144,33 +146,34 @@ int main (int argc, char **argv)
     // glutMotionFunc(motion); 
     
     glutIdleFunc(display);
-
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    gluPerspective( 60, 1, 0.1, 10 );
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
-    
-    glPointSize( 3 );
-    
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_LIGHTING );
-    glEnable( GL_LIGHT0 );
-    glClearColor( .3, .3, .8, 1 );
-
-    // OSG
     
     // create a material (need that to test textures)
     
-    SimpleMaterialPtr mat;  
-    
-    mat = SimpleMaterial::create();
+    ChunkMaterialPtr mat;  
 
-    mat->setDiffuse( Color3f( 1,.8,.8 ) );
-    mat->setAmbient( Color3f( 0.1,0.1,0.1 ) );
-    mat->setSpecular( Color3f( 1,1,1 ) );
-    mat->setShininess( 20 );
+    beginEditCP(mat);
+    
+    mat = ChunkMaterial::create();
+   
+    MaterialChunkPtr mc = MaterialChunk::create();  
+ 
+    beginEditCP(mc);
+    mc->setDiffuse( Color4f( 1,.8,.8,1 ) );
+    mc->setAmbient( Color4f( 0.1,0.1,0.1,1 ) );
+    mc->setSpecular( Color4f( 1,1,1,1 ) );
+    mc->setShininess( 20 );
+ 
+    mc->setBackMaterial(true);
+    mc->setBackColorMaterial(GL_DIFFUSE);
+    mc->setBackDiffuse( Color4f( 1,0,0,1 ) );
+    mc->setBackAmbient( Color4f( 0.1,0.1,0.1,1 ) );
+    mc->setBackSpecular( Color4f( 0,1,0,1 ) );
+    mc->setBackShininess( 10 );
+    mc->setLit(true);
+ 
+    endEditCP(mc);
+
+    mat->addChunk(mc);
 
     // Texture chunk
     
@@ -193,6 +196,7 @@ int main (int argc, char **argv)
 
     mat->addChunk( xchunk );
 
+    endEditCP(mat);
 
     // create the objects
 
@@ -260,7 +264,9 @@ int main (int argc, char **argv)
     SimpleMaterialPtr nmat;     
     
     nmat = SimpleMaterial::create();
+    beginEditCP(nmat);
     nmat->setEmission( Color3f( 0,1,0 ) );
+    endEditCP(nmat);
     
     for ( UInt16 i = 0; i < nobjects; i++ )
     {
@@ -274,8 +280,29 @@ int main (int argc, char **argv)
     // The action
 
     win = GLUTWindow::create();
+    win->setId(id);
     win->init();
+
+    glEnable( GL_LIGHT0 );
+    float p[4]={0,0,1,0};
+    glLightfv(GL_LIGHT0, GL_POSITION, p);
+    float c[4]={1,1,1,1};
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, c);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, c);
     
+    glPointSize( 3 );
+    
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHTING );
+    glClearColor( .3, .3, .8, 1 );
+
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 10 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
+   
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
     dact->setFrustumCulling( false );

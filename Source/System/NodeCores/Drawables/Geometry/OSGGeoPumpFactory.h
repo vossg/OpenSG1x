@@ -143,11 +143,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     /*! \name               OpenGL Extension handling                      */
     /*! \{                                                                 */
 
-    static UInt32          _extSecondaryColor;
-    static UInt32          _extMultitexture;
+    static UInt32           _extSecondaryColor;
+    static UInt32           _extMultitexture;
+    static UInt32           _extCompiledVertexArray;
 
-    static UInt32          _funcglSecondaryColorPointer;
-    static UInt32          _funcglClientActiveTextureARB;
+    static UInt32           _funcglSecondaryColorPointer;
+    static UInt32           _funcglClientActiveTextureARB;
+    static UInt32           _funcglLockArraysEXT;
+    static UInt32           _funcglUnlockArraysEXT;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -92,25 +92,36 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
 
 void testTypes(void)
 {
-
 	SLOG << "Testing type completeness" << endLog;
-	DOTEST(GeoPTypesUI8, UInt8);
-	DOTEST(GeoPLengthsUI32, UInt32);
-	DOTEST(GeoIndicesUI32, UInt32);
-	DOTEST(GeoPositions2f, Pnt2f);
-	DOTEST(GeoPositions3f, Pnt3f);
-	DOTEST(GeoPositions4f, Pnt4f);
-	DOTEST(GeoPositions2d, Pnt2d);
-	DOTEST(GeoPositions3d, Pnt3d);
-	DOTEST(GeoPositions4d, Pnt4d);
-	DOTEST(GeoTexCoords1f, Real32);
-	DOTEST(GeoTexCoords2f, Vec2f);
-	DOTEST(GeoTexCoords3f, Vec3f);
-	DOTEST(GeoNormals3f, Vec3f);
-	DOTEST(GeoColors3ub, Color3ub);
-	DOTEST(GeoColors4ub, Color4ub);
-	DOTEST(GeoColors3f, Color3f);
-	DOTEST(GeoColors4f, Color4f);
+	DOTEST(GeoPTypesUI8,    UInt8   );
+	DOTEST(GeoPLengthsUI32, UInt32  );
+	DOTEST(GeoPLengthsUI16, UInt16  );
+	DOTEST(GeoPLengthsUI8,  UInt8   );
+	DOTEST(GeoIndicesUI32,  UInt32  );
+	DOTEST(GeoIndicesUI16,  UInt16  );
+	DOTEST(GeoPositions2s,  Pnt2s   );
+	DOTEST(GeoPositions3s,  Pnt3s   );
+	DOTEST(GeoPositions4s,  Pnt4s   );
+	DOTEST(GeoPositions2f,  Pnt2f   );
+	DOTEST(GeoPositions3f,  Pnt3f   );
+	DOTEST(GeoPositions4f,  Pnt4f   );
+	DOTEST(GeoPositions2d,  Pnt2d   );
+	DOTEST(GeoPositions3d,  Pnt3d   );
+	DOTEST(GeoPositions4d,  Pnt4d   );
+	DOTEST(GeoTexCoords1f,  Real32  );
+	DOTEST(GeoTexCoords2f,  Vec2f   );
+	DOTEST(GeoTexCoords3f,  Vec3f   );
+	DOTEST(GeoTexCoords4f,  Vec4f   );
+	DOTEST(GeoTexCoords1d,  Real64  );
+	DOTEST(GeoTexCoords2d,  Vec2d   );
+	DOTEST(GeoTexCoords3d,  Vec3d   );
+	DOTEST(GeoTexCoords4d,  Vec4d   );
+	DOTEST(GeoNormals3f,    Vec3f   );
+	DOTEST(GeoNormals3s,    Vec3s   );
+	DOTEST(GeoColors3ub,    Color3ub);
+	DOTEST(GeoColors4ub,    Color4ub);
+	DOTEST(GeoColors3f,     Color3f );
+	DOTEST(GeoColors4f,     Color4f );
 	SLOG << "Types done" << endLog;
 }
 
@@ -202,6 +213,8 @@ int main (int argc, char **argv)
          << p1->getVolume().getScalarVolume() << std::endl;
 
 	testTypes();
+	
+	osgExit();
 	
     return 0;
 }

@@ -101,11 +101,14 @@ GeoPumpFactory::_glextInitFuncWrapper(GeoPumpFactory::glextInitFunction);
 */
 UInt32 GeoPumpFactory::_extSecondaryColor;
 UInt32 GeoPumpFactory::_extMultitexture;
+UInt32 GeoPumpFactory::_extCompiledVertexArray;
 
 /*! OpenGL extension function indices.
 */
 UInt32 GeoPumpFactory::_funcglSecondaryColorPointer;
 UInt32 GeoPumpFactory::_funcglClientActiveTextureARB;
+UInt32 GeoPumpFactory::_funcglLockArraysEXT;
+UInt32 GeoPumpFactory::_funcglUnlockArraysEXT;
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -854,17 +857,42 @@ void GeoPump129(Window   *win,
         LengthsData = (UChar8*) &lendummy;
         lendummy = PositionsPtr->getSize();
     }
+        
+    UInt32 LengthsInd = 0, TypesInd = 0, IndicesInd = 0, 
+           IndicesSize = IndicesPtr->getSize();
 
-    UInt32 LengthsInd = 0,TypesInd = 0, IndicesInd = 0;
-
+    if (win->hasExtension(GeoPumpFactory::_extCompiledVertexArray))
+    {
+            void (OSG_APIENTRY*_glLockArraysEXT) (GLint first, GLsizei count)=
+            (void (OSG_APIENTRY*) (GLint first, GLsizei count))
+                win->getFunction(GeoPumpFactory::_funcglLockArraysEXT);
+                
+            _glLockArraysEXT(0, IndicesSize);
+    }
+    
     for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
     {
         UInt32 count  = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
         UInt32 * vind = (UInt32*)(IndicesData + IndicesStride * IndicesInd);
         IndicesInd += count;
 
+#if 0
         glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
                         IndicesPtr->getFormat(),vind);
+#else
+        glDrawRangeElements(*(TypesData + TypesInd++ * TypesStride),
+                        0, IndicesSize, count,
+                        IndicesPtr->getFormat(), vind);
+#endif                        
+    }
+
+    if (win->hasExtension(GeoPumpFactory::_extCompiledVertexArray))
+    {
+            void (OSG_APIENTRY*_glUnlockArraysEXT) (void)=
+            (void (OSG_APIENTRY*) (void))
+                win->getFunction(GeoPumpFactory::_funcglUnlockArraysEXT);
+                
+            _glUnlockArraysEXT();
     }
 
     if(modified&(1<<0)) glDisableClientState(GL_VERTEX_ARRAY);
@@ -1589,6 +1617,7 @@ bool GeoPumpFactory::glextInitFunction(void)
 {
     _extSecondaryColor = Window::registerExtension("GL_EXT_secondary_color");
     _extMultitexture   = Window::registerExtension("GL_ARB_multitexture");
+    _extCompiledVertexArray = Window::registerExtension("GL_EXT_compiled_vertex_array");
 
     UInt16 i,j;
     for(i = 0; i < numFormats; i++)
@@ -1606,8 +1635,14 @@ bool GeoPumpFactory::glextInitFunction(void)
     for(i = 0; i < 16; i++)
         multiTexCoordsInitFuncs[i].init(TexCoords1IDs);
 
-    _funcglSecondaryColorPointer = Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColorPointerEXT");
-    _funcglClientActiveTextureARB = Window::registerFunction(OSG_DLSYM_UNDERSCORE"glClientActiveTextureARB");
+    _funcglSecondaryColorPointer = Window::registerFunction(
+                            OSG_DLSYM_UNDERSCORE"glSecondaryColorPointerEXT");
+    _funcglClientActiveTextureARB = Window::registerFunction(
+                            OSG_DLSYM_UNDERSCORE"glClientActiveTextureARB");
+    _funcglLockArraysEXT = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glLockArraysEXT");
+    _funcglUnlockArraysEXT = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glUnlockArraysEXT");
 
     return true;
 }

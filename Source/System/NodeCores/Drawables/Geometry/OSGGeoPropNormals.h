@@ -103,6 +103,64 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
+/*! \brief The descriptor trait for osg::GeoNormals3s.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoNormals3sPropertyDesc : public GeoNormalsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+
+    static const Char8 *getTypeName  (void) { return "GeoNormals3s";         }
+    static const Char8 *getClassName (void) { return "GeoNormals3sProperty"; }
+    static const Char8 *getFieldName (void) { return "normals";              }
+    static const Char8 *getGroupName (void) { return "GeoNormals";           }
+
+    static InitContainerF     getInitMethod(void) { return NULL;            }
+
+    static UInt32             getFormat    (void) { return GL_SHORT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLshort); }
+    static UInt32             getDimension (void) { return 3;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+
+    typedef GeoNormals                 Inherited;
+    typedef GeoNormals::PtrType        InheritedPtr;
+
+    typedef GeoNormalsPropertyDesc     InheritedDesc;
+
+    typedef MFVec3s                    StoredFieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoNormalsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+typedef GeoProperty<GeoNormals3sPropertyDesc> GeoNormals3s;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPNORMALINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoNormals3sPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
 OSG_END_NAMESPACE
+
+#include <OSGGeoPropNormals.inl>
 
 #endif /* _OSGGEOPROPNORMALS_H_ */
