@@ -114,9 +114,10 @@ endif
 HEADERS  := $(wildcard *.h *.H *.hh *.hxx *.ui)
 # all ui files that neads moc 
 UI_IN   := $(wildcard *.ui)
+UI_H    := $(addsuffix .h, $(basename $(UI_IN))) 
 UI_CPP  := $(addsuffix .cpp, $(basename $(UI_IN))) 
 # all qt files that neads moc 
-MOC_IN   := $(shell grep -l Q_OBJECT *.[hH])
+MOC_IN   := $(shell grep -l Q_OBJECT *.[hH]) $(UI_H)
 MOC_CPP  := $(addsuffix .cpp, $(basename $(addprefix moc_,$(MOC_IN)))) 
 # all source files without generated sources
 SOURCES  := $(filter-out $(UI_CPP) $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
@@ -128,6 +129,8 @@ LIBOBJS  := $(filter-out main.*.o ,$(BINOBJS))
 DEPLIST  := $(addsuffix .$(SYSDEP).dep,$(basename $(SOURCES) ))
 # existing dependencies
 DEPFOUND := $(filter $(wildcard *.dep),$(DEPLIST))
+
+#$(error $(BINOBJS) -- $(LIBOBJS))
 
 #ifeq ($(strip $(HEADERS)),)
 #$(warning HEADERS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
