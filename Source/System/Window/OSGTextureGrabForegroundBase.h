@@ -67,6 +67,8 @@
 
 #include <OSGTextureChunkFields.h> // Texture type
 #include <OSGBoolFields.h> // AutoResize type
+#include <OSGGLenumFields.h> // BindTarget type
+#include <OSGGLenumFields.h> // CopyTarget type
 
 #include <OSGTextureGrabForegroundFields.h>
 
@@ -90,11 +92,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabForegroundBase : public Foreground
     {
         TextureFieldId    = Inherited::NextFieldId,
         AutoResizeFieldId = TextureFieldId    + 1,
-        NextFieldId       = AutoResizeFieldId + 1
+        BindTargetFieldId = AutoResizeFieldId + 1,
+        CopyTargetFieldId = BindTargetFieldId + 1,
+        NextFieldId       = CopyTargetFieldId + 1
     };
 
     static const OSG::BitVector TextureFieldMask;
     static const OSG::BitVector AutoResizeFieldMask;
+    static const OSG::BitVector BindTargetFieldMask;
+    static const OSG::BitVector CopyTargetFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -123,11 +129,17 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabForegroundBase : public Foreground
 
            SFTextureChunkPtr   *getSFTexture        (void);
            SFBool              *getSFAutoResize     (void);
+           SFGLenum            *getSFBindTarget     (void);
+           SFGLenum            *getSFCopyTarget     (void);
 
            TextureChunkPtr     &getTexture        (void);
      const TextureChunkPtr     &getTexture        (void) const;
            bool                &getAutoResize     (void);
      const bool                &getAutoResize     (void) const;
+           GLenum              &getBindTarget     (void);
+     const GLenum              &getBindTarget     (void) const;
+           GLenum              &getCopyTarget     (void);
+     const GLenum              &getCopyTarget     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,6 +148,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabForegroundBase : public Foreground
 
      void setTexture        ( const TextureChunkPtr &value );
      void setAutoResize     ( const bool &value );
+     void setBindTarget     ( const GLenum &value );
+     void setCopyTarget     ( const GLenum &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -183,6 +197,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabForegroundBase : public Foreground
 
     SFTextureChunkPtr   _sfTexture;
     SFBool              _sfAutoResize;
+    SFGLenum            _sfBindTarget;
+    SFGLenum            _sfCopyTarget;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

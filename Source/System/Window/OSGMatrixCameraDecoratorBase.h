@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class TextureGrabBackground
+ **     class MatrixCameraDecorator
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGTEXTUREGRABBACKGROUNDBASE_H_
-#define _OSGTEXTUREGRABBACKGROUNDBASE_H_
+#ifndef _OSGMATRIXCAMERADECORATORBASE_H_
+#define _OSGMATRIXCAMERADECORATORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,44 +63,50 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGSolidBackground.h> // Parent
+#include <OSGCameraDecorator.h> // Parent
 
-#include <OSGTextureChunkFields.h> // Texture type
-#include <OSGBoolFields.h> // AutoResize type
-#include <OSGGLenumFields.h> // BindTarget type
-#include <OSGGLenumFields.h> // CopyTarget type
+#include <OSGMatrixFields.h> // PreViewing type
+#include <OSGMatrixFields.h> // PostViewing type
+#include <OSGMatrixFields.h> // PreProjectionTranslation type
+#include <OSGMatrixFields.h> // PostProjectionTranslation type
+#include <OSGMatrixFields.h> // PreProjection type
+#include <OSGMatrixFields.h> // PostProjection type
 
-#include <OSGTextureGrabBackgroundFields.h>
+#include <OSGMatrixCameraDecoratorFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class TextureGrabBackground;
+class MatrixCameraDecorator;
 class BinaryDataHandler;
 
-//! \brief TextureGrabBackground Base Class.
+//! \brief MatrixCameraDecorator Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackground
+class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraDecoratorBase : public CameraDecorator
 {
   private:
 
-    typedef SolidBackground Inherited;
+    typedef CameraDecorator Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        TextureFieldId    = Inherited::NextFieldId,
-        AutoResizeFieldId = TextureFieldId    + 1,
-        BindTargetFieldId = AutoResizeFieldId + 1,
-        CopyTargetFieldId = BindTargetFieldId + 1,
-        NextFieldId       = CopyTargetFieldId + 1
+        PreViewingFieldId                = Inherited::NextFieldId,
+        PostViewingFieldId               = PreViewingFieldId                + 1,
+        PreProjectionTranslationFieldId  = PostViewingFieldId               + 1,
+        PostProjectionTranslationFieldId = PreProjectionTranslationFieldId  + 1,
+        PreProjectionFieldId             = PostProjectionTranslationFieldId + 1,
+        PostProjectionFieldId            = PreProjectionFieldId             + 1,
+        NextFieldId                      = PostProjectionFieldId            + 1
     };
 
-    static const OSG::BitVector TextureFieldMask;
-    static const OSG::BitVector AutoResizeFieldMask;
-    static const OSG::BitVector BindTargetFieldMask;
-    static const OSG::BitVector CopyTargetFieldMask;
+    static const OSG::BitVector PreViewingFieldMask;
+    static const OSG::BitVector PostViewingFieldMask;
+    static const OSG::BitVector PreProjectionTranslationFieldMask;
+    static const OSG::BitVector PostProjectionTranslationFieldMask;
+    static const OSG::BitVector PreProjectionFieldMask;
+    static const OSG::BitVector PostProjectionFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -127,29 +133,37 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFTextureChunkPtr   *getSFTexture        (void);
-           SFBool              *getSFAutoResize     (void);
-           SFGLenum            *getSFBindTarget     (void);
-           SFGLenum            *getSFCopyTarget     (void);
+           SFMatrix            *getSFPreViewing     (void);
+           SFMatrix            *getSFPostViewing    (void);
+           SFMatrix            *getSFPreProjectionTranslation(void);
+           SFMatrix            *getSFPostProjectionTranslation(void);
+           SFMatrix            *getSFPreProjection  (void);
+           SFMatrix            *getSFPostProjection (void);
 
-           TextureChunkPtr     &getTexture        (void);
-     const TextureChunkPtr     &getTexture        (void) const;
-           bool                &getAutoResize     (void);
-     const bool                &getAutoResize     (void) const;
-           GLenum              &getBindTarget     (void);
-     const GLenum              &getBindTarget     (void) const;
-           GLenum              &getCopyTarget     (void);
-     const GLenum              &getCopyTarget     (void) const;
+           Matrix              &getPreViewing     (void);
+     const Matrix              &getPreViewing     (void) const;
+           Matrix              &getPostViewing    (void);
+     const Matrix              &getPostViewing    (void) const;
+           Matrix              &getPreProjectionTranslation(void);
+     const Matrix              &getPreProjectionTranslation(void) const;
+           Matrix              &getPostProjectionTranslation(void);
+     const Matrix              &getPostProjectionTranslation(void) const;
+           Matrix              &getPreProjection  (void);
+     const Matrix              &getPreProjection  (void) const;
+           Matrix              &getPostProjection (void);
+     const Matrix              &getPostProjection (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setTexture        ( const TextureChunkPtr &value );
-     void setAutoResize     ( const bool &value );
-     void setBindTarget     ( const GLenum &value );
-     void setCopyTarget     ( const GLenum &value );
+     void setPreViewing     ( const Matrix &value );
+     void setPostViewing    ( const Matrix &value );
+     void setPreProjectionTranslation( const Matrix &value );
+     void setPostProjectionTranslation( const Matrix &value );
+     void setPreProjection  ( const Matrix &value );
+     void setPostProjection ( const Matrix &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -176,8 +190,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  TextureGrabBackgroundPtr      create          (void); 
-    static  TextureGrabBackgroundPtr      createEmpty     (void); 
+    static  MatrixCameraDecoratorPtr      create          (void); 
+    static  MatrixCameraDecoratorPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -195,32 +209,34 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFTextureChunkPtr   _sfTexture;
-    SFBool              _sfAutoResize;
-    SFGLenum            _sfBindTarget;
-    SFGLenum            _sfCopyTarget;
+    SFMatrix            _sfPreViewing;
+    SFMatrix            _sfPostViewing;
+    SFMatrix            _sfPreProjectionTranslation;
+    SFMatrix            _sfPostProjectionTranslation;
+    SFMatrix            _sfPreProjection;
+    SFMatrix            _sfPostProjection;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    TextureGrabBackgroundBase(void);
-    TextureGrabBackgroundBase(const TextureGrabBackgroundBase &source);
+    MatrixCameraDecoratorBase(void);
+    MatrixCameraDecoratorBase(const MatrixCameraDecoratorBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~TextureGrabBackgroundBase(void); 
+    virtual ~MatrixCameraDecoratorBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      TextureGrabBackgroundBase *pOther,
+    void executeSyncImpl(      MatrixCameraDecoratorBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -234,7 +250,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const TextureGrabBackgroundBase &source);
+    void operator =(const MatrixCameraDecoratorBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -242,10 +258,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
 //---------------------------------------------------------------------------
 
 
-typedef TextureGrabBackgroundBase *TextureGrabBackgroundBaseP;
+typedef MatrixCameraDecoratorBase *MatrixCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREGRABBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGMATRIXCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGTEXTUREGRABBACKGROUNDBASE_H_ */
+#endif /* _OSGMATRIXCAMERADECORATORBASE_H_ */

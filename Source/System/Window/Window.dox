@@ -307,6 +307,17 @@ now.
 
 \endhint
 
+\subsubsection PageSystemWindowCameraDecoratorsMatrix Additional Matrices
+
+The osg::MatrixCameraDecorator allows you to modify the matrices used for
+rendering. It features separate matrices that are pre- and appended to the
+viewing, projectionTranslation and projection matrices. 
+
+The main use is to manipulate the viewing matrix to allow a single camera to
+look into different directions in different viewports. Note that if you want to
+use a head-tracked environment, the \ref
+PageSystemWindowCameraDecoratorsStereoProjection makes that a lot easier.
+
 \subsubsection PageSystemWindowCameraDecoratorsStereo Stereo
 
 An interesting applications of CameraDecorators is the use to generate the

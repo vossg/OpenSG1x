@@ -150,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static 
     inline Int32                getExtensionId    (const Char8  *s   );
     inline bool                 hasExtension      (      UInt32  id  );
+           bool                 hasExtension      (const Char8  *s   );
     static 
     inline bool                 hasCommonExtension(      UInt32  id  );
            void                *getFunction       (      UInt32  id  );

@@ -162,22 +162,49 @@ void TextureGrabBackground::clear(DrawActionBase *action, Viewport *port)
 
     glErr("TextureGrabBackground::bind precheck");
     
-    glBindTexture(GL_TEXTURE_2D, t->getGLId());
+    GLenum bindTarget = getBindTarget(), copyTarget = getCopyTarget();
+    
+    if(bindTarget == GL_NONE)
+    {
+       if(i->getDepth() > 1)
+       {
+            FWARNING(("TextureGrabBackground:: 3D textures not "
+                        "supported for this window!\n"));
+            Inherited::clear(action, port);
+            return;
+       }
+       else if(h > 1)        bindTarget = GL_TEXTURE_2D;
+       else                  bindTarget = GL_TEXTURE_1D;        
+    }
+    
+    if(copyTarget == GL_NONE)
+        copyTarget = bindTarget;
+    
+    glBindTexture(bindTarget, t->getGLId());
 
     glErr("TextureGrabBackground::copy precheck");
 
-    if(h > 1)
+    if(copyTarget == GL_TEXTURE_3D)
     {
-        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, w, h);
+        FWARNING(("TextureGrabBackground:: grabbing to 3D textures not "
+                  "supported yet!\n"));      
+    }
+    else if(copyTarget == GL_TEXTURE_1D)
+    {
+        glCopyTexSubImage1D(copyTarget, 0, 0, 
+                            port->getPixelLeft(), port->getPixelBottom(), 
+                            w);
     }
     else
     {
-        glCopyTexSubImage1D(GL_TEXTURE_1D, 0, 0, 0, 0, w);
+        glCopyTexSubImage2D(copyTarget, 0, 0, 0, 
+                            port->getPixelLeft(), port->getPixelBottom(), 
+                            w, h);
     }
-
+    
     glErr("TextureGrabBackground::copy postcheck");
    
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(bindTarget, 0);
    
     // now do the clearing
     Inherited::clear(action, port);

@@ -789,6 +789,29 @@ UInt32 OSG::Window::registerExtension(const Char8 *s)
     return r;
 }
 
+/*! Check if the Window supports the given extension. 
+    Should be used for initialisation checks only, for checks done often it's
+    recommended to register the extensions and use hasExtension(UInt32) instead.  
+*/
+bool OSG::Window::hasExtension(const Char8 *s)
+{
+    if(std::find(_ignoredExtensions.begin(),
+                 _ignoredExtensions.end(),
+                 s)                         != _ignoredExtensions.end())
+    {
+        return false;
+    }
+    
+    if(std::find(_extensions.begin(),
+                 _extensions.end(),
+                 s)                         != _extensions.end())
+    {
+        return true;
+    }
+    
+    return false;
+}
+
 /*! Register new OpenGL extensions to ignore. See \ref PageSystemOGLExt for details. 
 */
 void OSG::Window::ignoreExtensions(const Char8 *s)
@@ -987,16 +1010,6 @@ void OSG::Window::frameInit(void)
                 _extensions.push_back(*it);
             }
         }
-        
-/*          std::back_insert_iterator< std::vector<std::string> > 
-            extension_back_inserter(_extensions);
-
-            std::copy(string_token_iterator(
-                                foo,
-                                ",. "),
-                  string_token_iterator(),
-                  extension_back_inserter);
-*/
         std::sort(_extensions.begin(), _extensions.end());
                  
         // if we don't have any extensions, add something anyway
@@ -1264,6 +1277,8 @@ void OSG::Window::setupGL( void )
     GLfloat nul[4]={0,0,0,0};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, nul);
     glLightfv(GL_LIGHT0, GL_SPECULAR, nul);
+    
+    frameInit();    // call it to setup extensions
 }
 
 /*-------------------------- your_category---------------------------------*/

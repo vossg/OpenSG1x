@@ -110,6 +110,20 @@ SFBool *TextureGrabBackgroundBase::getSFAutoResize(void)
     return &_sfAutoResize;
 }
 
+//! Get the TextureGrabBackground::_sfBindTarget field.
+inline
+SFGLenum *TextureGrabBackgroundBase::getSFBindTarget(void)
+{
+    return &_sfBindTarget;
+}
+
+//! Get the TextureGrabBackground::_sfCopyTarget field.
+inline
+SFGLenum *TextureGrabBackgroundBase::getSFCopyTarget(void)
+{
+    return &_sfCopyTarget;
+}
+
 
 //! Get the value of the TextureGrabBackground::_sfTexture field.
 inline
@@ -151,6 +165,48 @@ inline
 void TextureGrabBackgroundBase::setAutoResize(const bool &value)
 {
     _sfAutoResize.setValue(value);
+}
+
+//! Get the value of the TextureGrabBackground::_sfBindTarget field.
+inline
+GLenum &TextureGrabBackgroundBase::getBindTarget(void)
+{
+    return _sfBindTarget.getValue();
+}
+
+//! Get the value of the TextureGrabBackground::_sfBindTarget field.
+inline
+const GLenum &TextureGrabBackgroundBase::getBindTarget(void) const
+{
+    return _sfBindTarget.getValue();
+}
+
+//! Set the value of the TextureGrabBackground::_sfBindTarget field.
+inline
+void TextureGrabBackgroundBase::setBindTarget(const GLenum &value)
+{
+    _sfBindTarget.setValue(value);
+}
+
+//! Get the value of the TextureGrabBackground::_sfCopyTarget field.
+inline
+GLenum &TextureGrabBackgroundBase::getCopyTarget(void)
+{
+    return _sfCopyTarget.getValue();
+}
+
+//! Get the value of the TextureGrabBackground::_sfCopyTarget field.
+inline
+const GLenum &TextureGrabBackgroundBase::getCopyTarget(void) const
+{
+    return _sfCopyTarget.getValue();
+}
+
+//! Set the value of the TextureGrabBackground::_sfCopyTarget field.
+inline
+void TextureGrabBackgroundBase::setCopyTarget(const GLenum &value)
+{
+    _sfCopyTarget.setValue(value);
 }
 
 
