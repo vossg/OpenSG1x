@@ -214,11 +214,12 @@ void WebInterface::decodeUrl(const std::string &url,
     char                        bu[2];
     int                         c;
 
-    path.clear();
+    path = "";
     param.clear();
    
     while(sI !=url.end() && *sI != ' ' && *sI != '?') 
-        path.push_back(*(sI++));
+        path += *(sI++);
+
     if(*sI == '?')
     {
         do
@@ -227,7 +228,8 @@ void WebInterface::decodeUrl(const std::string &url,
             // read name
             while(++sI != url.end() && 
                   *sI != ' ' && *sI != '=' && *sI != '&') 
-                name.push_back(*sI);
+                name += *sI;
+
             if(*sI == '=')
             {
                 // read value
@@ -235,7 +237,7 @@ void WebInterface::decodeUrl(const std::string &url,
                 {
                     switch(*sI)
                     {
-                        case '+': value.push_back(' ');
+                        case '+': value += ' ';
                             break;
                         case '%': 
                             for(c = 0 ; c < 2 ; ++c)
@@ -249,10 +251,10 @@ void WebInterface::decodeUrl(const std::string &url,
                                     else
                                         bu[c] -= '0';
                             }
-                            value.push_back((char)(bu[0]*16+bu[1]));
+                            value += (char)(bu[0]*16+bu[1]);
                             break;
                         default:
-                            value.push_back(*sI);
+                            value += *sI;
                     }
                 }
             }
@@ -300,14 +302,15 @@ bool WebInterface::checkRequest(std::string &url)
     char bu[4];
     char ch;
 
-    url.clear();
-
+    url = "";
+    
     if(!_socket.waitReadable(0))
         return false;
     _accepted = _socket.accept();
     if(_accepted.recv(bu,4) && strncmp(bu,"GET ",4) == 0)
         while(_accepted.recv(&ch,1) && ch != ' ') 
-            url.push_back(ch);
+            url += ch;
+
     do
         while(_accepted.recv(&ch,1) && ch != '\n');
     while(_accepted.recv(&ch,1) && ch != '\r');
