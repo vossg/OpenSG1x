@@ -1,0 +1,20 @@
+/* XPM */
+
+#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+
+OSG_BEGIN_NAMESPACE
+
+static const Char8 *XPMNew[] = {
+"7 6 3 1",
+".	c None",
+"+	c #000000",
+"@	c #FF0000",
+"..+....",
+"..+....",
+"+++++..",
+"..+....",
+"..+....",
+"......."};
+
+OSG_END_NAMESPACE

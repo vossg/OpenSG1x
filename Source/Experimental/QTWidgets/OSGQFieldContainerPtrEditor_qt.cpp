@@ -52,8 +52,16 @@
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qstrlist.h>
+#include <qpixmap.h>
+#include <qtooltip.h>
+
+#include <OSGNew.xpm>
+#include <OSGTarget.xpm>
 
 OSG_USING_NAMESPACE
+
+QPixmap *QFieldContainerPtrEditor::_pPixmapNew    = NULL;
+QPixmap *QFieldContainerPtrEditor::_pPixmapTarget = NULL;
 
 ValueEditorRegistrator _regFCPtr( ValueEditorRegistrator  ::FCPtrEditor,
                                  &QFieldContainerPtrEditor::create      );
@@ -71,6 +79,7 @@ QFieldContainerPtrEditor::QFieldContainerPtrEditor(
 
     : Inherited(pParent, name)
 {
+    initStatic();
     updateStaticTypeList();
 
     createChildWidgets  ();
@@ -265,6 +274,16 @@ QFieldContainerPtrEditor::slotButtonShowTargetClicked(void)
 }
 
 void
+QFieldContainerPtrEditor::initStatic(void)
+{
+    if(_pPixmapNew == NULL)
+        _pPixmapNew = new QPixmap(XPMNew);
+
+    if(_pPixmapTarget == NULL)
+        _pPixmapTarget = new QPixmap(XPMTarget);
+}
+
+void
 QFieldContainerPtrEditor::createChildWidgets(void)
 {
     _pHBox      = new QHBoxLayout   (this, 0, 2,
@@ -278,10 +297,8 @@ QFieldContainerPtrEditor::createChildWidgets(void)
     _pCBoxType  = new QComboBox     (true, this,
                     "QFieldContainerPtrEditor::_pCBoxType");
         
-    _pButtonCreateNew  = new QPushButton("New FC", this,
-                             "QFieldContainerPtrEditor::_pButtonCreateNew");
-    _pButtonShowTarget = new QPushButton("->", this,
-                             "QFieldContainerPtrEditor::_pButtonShowTarget");
+    _pButtonCreateNew  = new QPushButton(this, "QFieldContainerPtrEditor::_pButtonCreateNew");
+    _pButtonShowTarget = new QPushButton(this, "QFieldContainerPtrEditor::_pButtonShowTarget");
 }
 
 void
@@ -301,6 +318,12 @@ QFieldContainerPtrEditor::layoutChildWidgets(void)
 void
 QFieldContainerPtrEditor::initSelf(void)
 {
+    _pButtonCreateNew ->setPixmap (*_pPixmapNew );
+    _pButtonCreateNew ->setFixedSize(16, 16     );
+    
+    _pButtonShowTarget ->setPixmap (*_pPixmapTarget );
+    _pButtonShowTarget ->setFixedSize(16, 16        );
+
     connect(_pSpinBoxId, SIGNAL(valueChanged    (void           )),
             this,        SLOT  (slotIdChanged   (void           )) );
    
@@ -310,6 +333,9 @@ QFieldContainerPtrEditor::initSelf(void)
             this,               SLOT  (slotButtonShowTargetClicked(void)) );
     
     _pCBoxType->insertStrList(_pTypeNames);
+
+    QToolTip::add(_pButtonCreateNew, "Create new FieldContainer");
+    QToolTip::add(_pButtonShowTarget, "Edit FieldContainer");
 }
 
 void
@@ -387,7 +413,7 @@ QFieldContainerPtrEditor::updateData(FieldContainerPtr &fcPtr) const
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.6 2004/12/20 11:09:52 neumannc Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.7 2005/01/03 15:51:44 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }

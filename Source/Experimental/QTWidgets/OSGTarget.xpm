@@ -1,0 +1,19 @@
+/* XPM */
+
+#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+
+OSG_BEGIN_NAMESPACE
+
+static const Char8 *XPMTarget[] = {
+"7 6 2 1",
+".	c None",
+"+	c #000000",
+"...++..",
+"....++.",
+"+++++++",
+"+++++++",
+"....++.",
+"...++.."};
+
+OSG_END_NAMESPACE

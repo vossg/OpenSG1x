@@ -52,6 +52,7 @@ class QLabel;
 class QComboBox;
 class QPushButton;
 class QStrList;
+class QPixmap;
 
 OSG_BEGIN_NAMESPACE
 
@@ -108,6 +109,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator=          (const QFieldContainerPtrEditor &source);
 
+    void initStatic          (void);
     void createChildWidgets  (void);
     void layoutChildWidgets  (void);
     void initSelf            (void);
@@ -118,6 +120,8 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerPtrEditor
     void updateData        (FieldContainerPtr &fcPtr) const;
     
     static QStrList *_pTypeNames;
+    static QPixmap    *_pPixmapNew;
+    static QPixmap    *_pPixmapTarget;
 
     QHBoxLayout     *_pHBox;
 
@@ -133,6 +137,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerPtrEditor_qt.inl"
 
-#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.4 2004/12/20 11:09:53 neumannc Exp $"
+#define OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerPtrEditor_qt.h,v 1.5 2005/01/03 15:51:44 a-m-z Exp $"
 
 #endif /* _OSGQFIELDCONTAINERPTREDITOR_QT_H_ */
