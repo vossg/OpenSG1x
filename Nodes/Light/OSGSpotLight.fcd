@@ -22,6 +22,7 @@
 		cardinality="single"
 		visibility="external"
 	>
+	The drop-off exponent of the spotlight.
 	</Field>
 	<Field
 		name="spotCutOff"
@@ -29,5 +30,6 @@
 		cardinality="single"
 		visibility="external"
 	>
+	The cut-off angle of the spotlight (in radians, not degrees!).
 	</Field>
 </FieldContainer>

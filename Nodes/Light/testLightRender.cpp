@@ -209,7 +209,7 @@ int main (int argc, char **argv)
 	sl->setPosition(0,0,0);
 	sl->setSpotDirection(0,0,-1);
 	sl->setSpotExponent(10);
-	sl->setSpotCutOff(45);
+	sl->setSpotCutOffDeg(45);
 	sl->setBeacon( tnode );
 	endEditCP(sl);
 
@@ -265,7 +265,7 @@ int main (int argc, char **argv)
 	sl->setPosition(1,1,1);
 	sl->setSpotDirection(-1,-1,-1);
 	sl->setSpotExponent(10);
-	sl->setSpotCutOff(45);
+	sl->setSpotCutOffDeg(45);
 	sl->setBeacon( root );
 	endEditCP(sl);
 

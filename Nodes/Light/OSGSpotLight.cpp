@@ -221,11 +221,6 @@ SpotLight::~SpotLight(void)
 
 /*------------------------------- set -----------------------------------*/
 
-void SpotLight::setSpotDirection(Real32 rX, Real32 rY, Real32 rZ)
-{
-    _sfDirection.getValue().setValues(rX, rY, rZ);
-}
-
 
 /** \brief react to field changes
  */
@@ -288,7 +283,9 @@ Action::ResultE SpotLight::drawEnter(Action * action )
 
     glLightfv( light, GL_POSITION, pos.getValues() );
     glLightfv( light, GL_SPOT_DIRECTION, dir.getValues() );
-    glLightf( light, GL_SPOT_CUTOFF, _sfSpotCutOff.getValue() );
+	Real32 deg=rad2deg(_sfSpotCutOff.getValue());
+	if ( deg > 90 ) deg = 180;
+    glLightf( light, GL_SPOT_CUTOFF, deg );
     glLightf( light, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
 
     glPopMatrix();
