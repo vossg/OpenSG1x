@@ -170,13 +170,13 @@ void BoxVolume::getSize(Vec3f &vec) const
 
 /*-------------------------- operation ------------------------------------*/
 
-/*
-/// Unequality comparisons
-bool BoxVolume::operator != (const BoxVolume &b1, const BoxVolume &b2)
+
+/// Inequality comparisons
+bool operator != (const BoxVolume &b1, const BoxVolume &b2)
 { 
 	return !(b1 == b2); 
 }
-*/
+
 
 /***************************************************************************\
  *                           Instance methods                              *

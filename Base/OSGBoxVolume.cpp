@@ -279,7 +279,7 @@ Bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
 }
 
   /// intersect the box with another volume 
-Bool BoxVolume::intersect (const Volume &volume) const
+Bool BoxVolume::intersect (const Volume &) const
 {
 	//return volume.intersect(*this);
 	return false;
@@ -482,11 +482,5 @@ Bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
 	        (b2._max[2] == b2._max[2]));
 }
 
-
-/// write values in stream
-ostream &operator <<(ostream &os, const BoxVolume &obj)
-{
-	return os << obj._min << ", " << obj._max;
-}
 
 OSG_END_NAMESPACE
