@@ -1,8 +1,10 @@
 #! /bin/sh
 
 if ! test -w Base/tmp_gv; then 
-    echo "Need $ac_gdz_src_dir/Base/tmp_gv"
-	echo "mkdir $ac_gdz_src_dir/Base/tmp_gv"
+    echo "Need Base/tmp_gv"
+	echo "mkdir Base/tmp_gv"
+
+    mkdir Base/tmp_gv
 fi
 
 if test -w Base/tmp_gv; then
