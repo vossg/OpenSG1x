@@ -506,40 +506,39 @@ bool Line::intersect(const BoxVolume &box,
 {
     Pnt3f low;
     Pnt3f high;
-
+    
     box.getBounds(low, high);
-
+    
     Real32 r;
     Real32 te;
     Real32 tl;
-
+    
     Real32 in  = 0.f;
     Real32 out = Inf;
-
-    if(_dir[0] > Eps || _dir[0] < -Eps)
+    
+    if(_dir[0] > Eps)
     {
         r = 1.f / _dir[0];
-
-        if(_dir[0] > 0.f)
-        {
-            te = (low [0] - _pos[0]) * r;
-            tl = (high[0] - _pos[0]) * r;
-        }
-        else
-        {
-            te = (high[0] - _pos[0]) * r;
-            tl = (low [0] - _pos[0]) * r;
-        }
-
-        // check for flat boxes, count them as intersected
-        if(tl-te < Eps)        
-            return true;
-        
-//        if (te > 1)   return false;
-
+    
+        te = (low [0] - _pos[0]) * r;
+        tl = (high[0] - _pos[0]) * r;
+    
         if(tl < out)   
             out = tl;
-
+    
+        if(te > in)    
+            in  = te;
+    }
+    else if(_dir[0] < -Eps)
+    {
+        r = 1.f / _dir[0];
+    
+        te = (high[0] - _pos[0]) * r;
+        tl = (low [0] - _pos[0]) * r;
+    
+        if(tl < out)   
+            out = tl;
+    
         if(te > in)    
             in  = te;
     }
@@ -547,64 +546,67 @@ bool Line::intersect(const BoxVolume &box,
     {
         return false;
     }
-
-    if(_dir[1] > Eps || _dir[1] < -Eps)
+    
+    if(_dir[1] > Eps)
     {
-        r= 1.f / _dir[1];
-
-        if(_dir[1] > 0.f)
-        {
-            te  = (low [1] - _pos[1]) * r;
-            tl  = (high[1] - _pos[1]) * r;
-        }
-        else
-        {
-            te = (high[1] - _pos[1]) * r;
-            tl = (low [1] - _pos[1]) * r;
-        }
-
-        // check for flat boxes, count them as intersected
-        if(tl-te < Eps)
-            return true;
-
-//      if (te > 1)   return false;
-
-        if(tl < out)
+        r = 1.f / _dir[1];
+    
+        te = (low [1] - _pos[1]) * r;
+        tl = (high[1] - _pos[1]) * r;
+    
+        if(tl < out)   
             out = tl;
-
+    
         if(te > in)    
             in  = te;
-
+    
+        if(in-out >= Eps)
+            return false;
+    }
+    else if(_dir[1] < -Eps)
+    {
+        r = 1.f / _dir[1];
+    
+        te = (high[1] - _pos[1]) * r;
+        tl = (low [1] - _pos[1]) * r;
+    
+        if(tl < out)   
+            out = tl;
+    
+        if(te > in)    
+            in  = te;
+    
+        if(in-out >= Eps)
+            return false;
     }
     else if(_pos[1] < low[1] || _pos[1] > high[1])
     {
         return false;
     }
-
-    if(_dir[2] > Eps || _dir[2] < -Eps)
+    
+    if(_dir[2] > Eps)
     {
         r = 1.f / _dir[2];
-
-        if(_dir[2] > 0.f)
-        {
-            te  = (low [2] - _pos[2]) * r;
-            tl  = (high[2] - _pos[2]) * r;
-        }
-        else
-        {
-            te = (high[2] - _pos[2]) * r;
-            tl = (low [2] - _pos[2]) * r;
-        }
-
-        // check for flat boxes, count them as intersected
-        if(tl-te < Eps)
-            return true;
-
-//        if (te > 1)   return false;
-
+    
+        te = (low [2] - _pos[2]) * r;
+        tl = (high[2] - _pos[2]) * r;
+    
         if(tl < out)   
             out = tl;
-
+    
+        if(te > in)    
+            in  = te;
+    }
+    else if(_dir[2] < -Eps)
+    {
+        r = 1.f / _dir[2];
+    
+        te = (high[2] - _pos[2]) * r;
+        tl = (low [2] - _pos[2]) * r;
+    
+        if(tl < out)   
+            out = tl;
+    
         if(te > in)    
             in  = te;
     }
@@ -612,14 +614,12 @@ bool Line::intersect(const BoxVolume &box,
     {
         return false;
     }
-
+    
     enter = in;
     exit  = out;
-
-    if(enter > exit)
-        return false;
-
-    return true;
+    
+    // Eps: count flat boxes as intersected
+    return enter-exit < Eps;
 }
 
 #ifdef __sgi
