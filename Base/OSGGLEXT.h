@@ -232,6 +232,38 @@
 #define GL_PER_STAGE_CONSTANTS_NV        0x8535
 #endif
 
-#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.4 2002/06/28 09:00:41 dirk Exp $"
+
+#ifndef GL_EXT_paletted_texture
+#define GL_EXT_paletted_texture 1
+
+#define GL_TABLE_TOO_LARGE_EXT                  0x8031
+#define GL_COLOR_TABLE_FORMAT_EXT               0x80D8
+#define GL_COLOR_TABLE_WIDTH_EXT                0x80D9
+#define GL_COLOR_TABLE_RED_SIZE_EXT             0x80DA
+#define GL_COLOR_TABLE_GREEN_SIZE_EXT           0x80DB
+#define GL_COLOR_TABLE_BLUE_SIZE_EXT            0x80DC
+#define GL_COLOR_TABLE_ALPHA_SIZE_EXT           0x80DD
+#define GL_COLOR_TABLE_LUMINANCE_SIZE_EXT       0x80DE
+#define GL_COLOR_TABLE_INTENSITY_SIZE_EXT       0x80DF
+#define GL_TEXTURE_INDEX_SIZE_EXT               0x80ED
+#define GL_COLOR_INDEX1_EXT                     0x80E2
+#define GL_COLOR_INDEX2_EXT                     0x80E3
+#define GL_COLOR_INDEX4_EXT                     0x80E4
+#define GL_COLOR_INDEX8_EXT                     0x80E5
+#define GL_COLOR_INDEX12_EXT                    0x80E6
+#define GL_COLOR_INDEX16_EXT                    0x80E7
+
+#endif
+
+
+#ifndef GL_EXT_shared_texture_palette
+#define GL_EXT_shared_texture_palette 1
+
+#define GL_SHARED_TEXTURE_PALETTE_EXT           0x81FB
+
+#endif 
+
+
+#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.5 2002/08/06 05:06:51 vossg Exp $"
 
 #endif /* _OSGGL_H_ */
