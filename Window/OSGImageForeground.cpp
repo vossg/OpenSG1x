@@ -78,7 +78,7 @@ Background is the base class for all background clearing.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.11 2002/06/01 10:37:26 vossg Exp $";
+char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.12 2002/06/30 05:04:24 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -149,8 +149,9 @@ ImageForeground::~ImageForeground(void)
 /** \brief react to field changes
  */
 
-void ImageForeground::changed(BitVector, UInt32)
+void ImageForeground::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

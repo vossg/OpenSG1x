@@ -132,10 +132,12 @@ void RegisterCombinersChunk::initMethod (void)
 
 //! react to field changes
 
-void RegisterCombinersChunk::changed(BitVector, UInt32)
+void RegisterCombinersChunk::changed(BitVector whichField, UInt32 origin)
 {
     // does it make sense to put the combiner settings into a dlist?
     // if yes we would need to invalidate it here
+
+    Inherited::changed(whichField, origin);
 }
 
 bool RegisterCombinersChunk::isTransparent(void) const
@@ -622,7 +624,7 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.3 2002/06/13 03:16:18 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.4 2002/06/30 05:04:22 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }

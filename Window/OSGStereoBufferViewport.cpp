@@ -86,8 +86,9 @@ void StereoBufferViewport::initMethod (void)
 
 //! react to field changes
 
-void StereoBufferViewport::changed(BitVector, UInt32)
+void StereoBufferViewport::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes
@@ -170,7 +171,7 @@ void StereoBufferViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.4 2002/06/01 10:37:26 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.5 2002/06/30 05:04:24 vossg Exp $";
     static char cvsid_hpp[] = OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTEREOBUFFERVIEWPORT_INLINE_CVSID;
 }

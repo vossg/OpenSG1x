@@ -55,11 +55,15 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Changed                                   */
 
-void ComponentTransform::changed(BitVector which, UInt32 origin)
+void ComponentTransform::changed(BitVector whichField, UInt32 origin)
 {
     ComponentTransformPtr ptr(*this);
 
-    if(which != MatrixFieldMask)
+    if((whichField & CenterFieldMask          ) ||
+       (whichField & RotationFieldMask        ) ||
+       (whichField & ScaleFieldMask           ) ||
+       (whichField & ScaleOrientationFieldMask) ||
+       (whichField & TranslationFieldMask     )  )
     {
         beginEditCP(ptr, MatrixFieldMask);
         {
@@ -73,9 +77,11 @@ void ComponentTransform::changed(BitVector which, UInt32 origin)
     }
     else
     {
-        this->Transform::changed(which, origin);
+        Inherited::changed(whichField, origin);
     }
+
 }
+
 void ComponentTransform::dump(      UInt32    uiIndent, 
                               const BitVector bvFlags) const
 {
@@ -173,7 +179,7 @@ void ComponentTransform::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.10 2002/06/01 10:37:23 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.11 2002/06/30 05:04:22 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
 }

@@ -93,8 +93,9 @@ void PassiveWindow::initMethod (void)
 
 //! react to field changes
 
-void PassiveWindow::changed(BitVector, UInt32)
+void PassiveWindow::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes
@@ -156,7 +157,7 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.7 2002/06/01 10:37:26 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.8 2002/06/30 05:04:24 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
 }

@@ -66,8 +66,9 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void DistanceLOD::changed(BitVector, UInt32)
+void DistanceLOD::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -196,7 +197,7 @@ void DistanceLOD::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.21 2002/06/01 10:37:23 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.22 2002/06/30 05:04:22 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }

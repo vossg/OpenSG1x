@@ -151,8 +151,9 @@ PerspectiveCamera::~PerspectiveCamera(void)
 /** \brief react to field changes
  */
 
-void PerspectiveCamera::changed(BitVector, UInt32)
+void PerspectiveCamera::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------- your_category---------------------------------*/

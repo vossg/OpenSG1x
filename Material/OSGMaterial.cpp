@@ -77,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.20 2002/06/01 10:37:22 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.21 2002/06/30 05:04:21 vossg Exp $";
 
 OSG_BEGIN_NAMESPACE
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
@@ -162,8 +162,10 @@ StatePtr Material::getState(void)
 /** \brief react to field changes
  */
 
-void Material::changed(BitVector, UInt32)
+void Material::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
+
     rebuildState();
 }
 

@@ -151,8 +151,9 @@ PassiveBackground::~PassiveBackground(void)
 /** \brief react to field changes
  */
 
-void PassiveBackground::changed(BitVector, UInt32)
+void PassiveBackground::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------- your_category---------------------------------*/

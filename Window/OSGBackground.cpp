@@ -156,8 +156,9 @@ Background::~Background(void)
 /** \brief react to field changes
  */
 
-void Background::changed(BitVector, UInt32)
+void Background::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

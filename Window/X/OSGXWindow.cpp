@@ -91,8 +91,9 @@ void XWindow::initMethod (void)
 
 //! react to field changes
 
-void XWindow::changed(BitVector, UInt32)
+void XWindow::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

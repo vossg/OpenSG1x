@@ -91,8 +91,9 @@ void MultiDisplayWindow::initMethod (void)
 
 //! react to field changes
 
-void MultiDisplayWindow::changed(BitVector, UInt32)
+void MultiDisplayWindow::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

@@ -74,7 +74,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.9 2002/06/01 10:37:26 vossg Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.10 2002/06/30 05:04:24 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -145,8 +145,9 @@ TileCameraDecorator::~TileCameraDecorator(void)
 /** \brief react to field changes
  */
 
-void TileCameraDecorator::changed(BitVector, UInt32)
+void TileCameraDecorator::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 

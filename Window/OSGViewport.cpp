@@ -152,8 +152,9 @@ Viewport::~Viewport(void)
 /** \brief react to field changes
  */
 
-void Viewport::changed(BitVector, UInt32)
+void Viewport::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*---------------------------- properties ---------------------------------*/

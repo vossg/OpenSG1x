@@ -154,8 +154,9 @@ Camera::~Camera(void)
 /** \brief react to field changes
  */
 
-void Camera::changed(BitVector, UInt32)
+void Camera::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
     
 

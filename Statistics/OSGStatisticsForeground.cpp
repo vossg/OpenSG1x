@@ -85,8 +85,9 @@ void StatisticsForeground::initMethod (void)
 
 //! react to field changes
 
-void StatisticsForeground::changed(BitVector, UInt32)
+void StatisticsForeground::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes
@@ -111,7 +112,7 @@ void StatisticsForeground::dump(      UInt32    ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.3 2002/06/01 10:37:25 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.4 2002/06/30 05:04:23 vossg Exp $";
     static char cvsid_hpp[] = OSGSTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTATISTICSFOREGROUND_INLINE_CVSID;
 }

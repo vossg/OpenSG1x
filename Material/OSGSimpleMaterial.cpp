@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.30 2002/06/28 06:03:56 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.31 2002/06/30 05:04:21 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -156,9 +156,9 @@ SimpleMaterial::~SimpleMaterial(void)
 /** \brief react to field changes
  */
 
-void SimpleMaterial::changed(BitVector vec, UInt32 origin)
+void SimpleMaterial::changed(BitVector whichField, UInt32 origin)
 {
-    Inherited::changed(vec, origin);
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------- your_category---------------------------------*/

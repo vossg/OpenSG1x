@@ -138,8 +138,9 @@ State::~State(void)
 /** \brief react to field changes
  */
 
-void State::changed(BitVector, UInt32)
+void State::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

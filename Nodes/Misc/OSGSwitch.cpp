@@ -54,8 +54,9 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
-void Switch::changed(BitVector, UInt32)
+void Switch::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------------------------------------------------------*/

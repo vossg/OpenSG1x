@@ -210,8 +210,9 @@ void Window::onDestroy(void)
 /** \brief react to field changes
  */
 
-void Window::changed(BitVector, UInt32)
+void Window::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------ access -----------------------------------*/

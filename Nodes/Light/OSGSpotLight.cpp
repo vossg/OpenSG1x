@@ -64,8 +64,9 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void SpotLight::changed(BitVector, UInt32)
+void SpotLight::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------------------------------------------------------*/

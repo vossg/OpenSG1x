@@ -94,8 +94,9 @@ void PointLight::makeChunk(void)
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void PointLight::changed(BitVector, UInt32)
+void PointLight::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------------------------------------------------------*/

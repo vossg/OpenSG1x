@@ -139,8 +139,9 @@ Foreground::~Foreground(void)
 /** \brief react to field changes
  */
 
-void Foreground::changed(BitVector, UInt32)
+void Foreground::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

@@ -92,8 +92,9 @@ void SkyBackground::initMethod (void)
 
 //! react to field changes
 
-void SkyBackground::changed(BitVector, UInt32)
+void SkyBackground::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes
@@ -393,7 +394,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.11 2002/06/01 10:37:26 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.12 2002/06/30 05:04:24 vossg Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }

@@ -149,8 +149,9 @@ MaterialChunk::~MaterialChunk(void)
 /** \brief react to field changes
  */
 
-void MaterialChunk::changed(BitVector, UInt32)
+void MaterialChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

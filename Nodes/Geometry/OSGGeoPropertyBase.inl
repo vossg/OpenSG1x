@@ -170,8 +170,8 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
 }
 
 template <class GeoPropertyDesc> inline 
-void GeoProperty<GeoPropertyDesc>::changed(BitVector, 
-                                           UInt32   )
+void GeoProperty<GeoPropertyDesc>::changed(BitVector whichField, 
+                                           UInt32    origin    )
 {
     MFFieldContainerPtr::iterator parentsIt  = Self::_parents.begin();
     MFFieldContainerPtr::iterator parentsEnd = Self::_parents.end();
@@ -182,6 +182,8 @@ void GeoProperty<GeoPropertyDesc>::changed(BitVector,
                               ChangedOrigin::Child);
         ++parentsIt;
     }
+
+    LocalInherited::changed(whichField, origin);
 }
 
 template <class GeoPropertyDesc> inline 

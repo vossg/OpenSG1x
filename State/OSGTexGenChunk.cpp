@@ -114,8 +114,9 @@ void TexGenChunk::initMethod (void)
 
 //! react to field changes
 
-void TexGenChunk::changed(BitVector, UInt32)
+void TexGenChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes
@@ -296,7 +297,7 @@ bool TexGenChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGTexGenChunk.cpp,v 1.2 2002/06/11 08:59:23 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGTexGenChunk.cpp,v 1.3 2002/06/30 05:04:22 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGTEXGENCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGTEXGENCHUNK_INLINE_CVSID;
 }

@@ -902,8 +902,6 @@ Action::ResultE Geometry::render(Action *action)
 void Geometry::changed(BitVector whichField, 
                        UInt32    origin    )
 {
-    Inherited::changed(whichField, origin);
-
     if(whichField & TypesFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
@@ -1256,6 +1254,8 @@ void Geometry::changed(BitVector whichField,
     // invalidate the dlist cache
     if (getDlistCache())
         Window::refreshGLObject( getGLId() );
+
+    Inherited::changed(whichField, origin);
 }
 
     

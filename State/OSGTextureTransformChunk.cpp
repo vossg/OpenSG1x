@@ -92,8 +92,9 @@ void TextureTransformChunk::initMethod (void)
 
 //! react to field changes
 
-void TextureTransformChunk::changed(BitVector, UInt32)
+void TextureTransformChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes
@@ -153,7 +154,7 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.9 2002/06/10 22:10:47 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.10 2002/06/30 05:04:22 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }

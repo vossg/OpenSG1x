@@ -66,8 +66,9 @@ void DirectionalLight::setDirection(Real32 rX, Real32 rY, Real32 rZ)
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void DirectionalLight::changed(BitVector, UInt32)
+void DirectionalLight::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------------------------------------------------------*/

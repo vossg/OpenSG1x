@@ -103,8 +103,9 @@ void WIN32Window::initMethod (void)
 
 //! react to field changes
 
-void WIN32Window::changed(BitVector, UInt32)
+void WIN32Window::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

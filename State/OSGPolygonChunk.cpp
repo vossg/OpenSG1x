@@ -72,7 +72,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.14 2002/06/01 10:37:25 vossg Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.15 2002/06/30 05:04:22 vossg Exp $";
 
 StateChunkClass PolygonChunk::_class("Polygon");
 
@@ -145,8 +145,9 @@ PolygonChunk::~PolygonChunk(void)
 /** \brief react to field changes
  */
 
-void PolygonChunk::changed(BitVector, UInt32)
+void PolygonChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

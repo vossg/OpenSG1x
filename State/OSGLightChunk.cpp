@@ -145,8 +145,9 @@ LightChunk::~LightChunk(void)
 /** \brief react to field changes
  */
 
-void LightChunk::changed(BitVector, UInt32)
+void LightChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

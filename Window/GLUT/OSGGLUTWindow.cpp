@@ -104,8 +104,9 @@ void GLUTWindow::initMethod (void)
 
 //! react to field changes
 
-void GLUTWindow::changed(BitVector, UInt32)
+void GLUTWindow::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

@@ -105,8 +105,9 @@ void QTWindow::initMethod (void)
 
 //! react to field changes
 
-void QTWindow::changed(BitVector, UInt32)
+void QTWindow::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

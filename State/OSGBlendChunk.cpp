@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.17 2002/06/13 03:16:18 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.18 2002/06/30 05:04:22 vossg Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -155,8 +155,9 @@ BlendChunk::~BlendChunk(void)
 /** \brief react to field changes
  */
 
-void BlendChunk::changed(BitVector, UInt32)
+void BlendChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

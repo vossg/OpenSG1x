@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.41 2002/06/17 12:27:14 jbehr Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.42 2002/06/30 05:04:22 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -196,9 +196,9 @@ TextureChunk::~TextureChunk(void)
     it consistent with the cubeTexture specifics
  */
 
-void TextureChunk::changed(BitVector fields, UInt32)
+void TextureChunk::changed(BitVector whichField, UInt32 origin)
 {
-    if((fields & ~(MinFilterFieldMask | MagFilterFieldId)) == 0)
+    if((whichField & ~(MinFilterFieldMask | MagFilterFieldId)) == 0)
     {
         if((getMinFilter() != GL_NEAREST) &&
            (getMinFilter() != GL_LINEAR))
@@ -214,6 +214,8 @@ void TextureChunk::changed(BitVector fields, UInt32)
     {
         Window::reinitializeGLObject(getGLId());
     }
+
+    Inherited::changed(whichField, origin);
 }
 
 bool TextureChunk::isTransparent(void) const

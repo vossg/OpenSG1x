@@ -79,7 +79,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.13 2002/06/01 10:37:26 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.14 2002/06/30 05:04:24 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -150,8 +150,9 @@ SolidBackground::~SolidBackground(void)
 /** \brief react to field changes
  */
 
-void SolidBackground::changed(BitVector, UInt32)
+void SolidBackground::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------- your_category---------------------------------*/

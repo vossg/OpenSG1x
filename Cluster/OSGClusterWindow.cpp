@@ -120,8 +120,9 @@ void ClusterWindow::initMethod (void)
 
 //! react to field changes
 
-void ClusterWindow::changed(BitVector, UInt32)
+void ClusterWindow::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

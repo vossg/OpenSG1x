@@ -143,8 +143,9 @@ void Billboard::initMethod (void)
 
 //! react to field changes
 
-void Billboard::changed(BitVector, UInt32)
+void Billboard::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 //! output the instance for debug purposes

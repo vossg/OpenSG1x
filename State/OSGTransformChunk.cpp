@@ -145,8 +145,9 @@ TransformChunk::~TransformChunk(void)
 /** \brief react to field changes
  */
 
-void TransformChunk::changed(BitVector, UInt32)
+void TransformChunk::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/

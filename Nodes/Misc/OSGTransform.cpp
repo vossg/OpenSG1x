@@ -61,9 +61,11 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void Transform::changed(BitVector, UInt32)
+void Transform::changed(BitVector whichField, UInt32 origin)
 {
     invalidateVolume();
+
+    Inherited::changed(whichField, origin);
 }
 
 /*-------------------------------------------------------------------------*/

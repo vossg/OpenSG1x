@@ -112,8 +112,9 @@ void LightBase::makeChunk(void)
 /*-------------------------------------------------------------------------*/
 /*                             Sync                                     */
 
-void LightBase::changed(BitVector, UInt32)
+void LightBase::changed(BitVector whichField, UInt32 origin)
 {
+    Inherited::changed(whichField, origin);
 }
 
 
