@@ -98,6 +98,13 @@ public:
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Destructor                               */
+    /*! \{                                                                 */
+	~OSGWindowQTPlugin();
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Qt Plugin Interface                        */
     /*! \{                                                                 */
 	QStringList keys() const;
@@ -136,7 +143,7 @@ public:
 
 //OSG_END_NAMESPACE
 
-#define OSGWINDOWQTPLUGIN_HEADER_CVSID "@(#)$Id: OSGWindowQTPlugin.h,v 1.1 2003/06/17 15:35:19 eschler Exp $"
+#define OSGWINDOWQTPLUGIN_HEADER_CVSID "@(#)$Id: OSGWindowQTPlugin.h,v 1.2 2003/07/09 08:53:32 dirk Exp $"
 
 #endif /* OSG_WITH_QT */
 

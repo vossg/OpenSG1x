@@ -86,6 +86,13 @@ OSGWindowQTPlugin::OSGWindowQTPlugin()
 	osgInit(0, NULL);
 }
 
+/*! Destruct plugin
+ */
+OSGWindowQTPlugin::~OSGWindowQTPlugin()
+{
+	osgExit();
+}
+
 
 /*! Get keys of the widget types of this plugin.
  */
@@ -329,7 +336,7 @@ Q_EXPORT_PLUGIN( OSGWindowQTPlugin )
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGWindowQTPlugin.cpp,v 1.1 2003/06/17 15:35:19 eschler Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGWindowQTPlugin.cpp,v 1.2 2003/07/09 08:53:32 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGWINDOWQTPLUGIN_HEADER_CVSID;
 }
 
