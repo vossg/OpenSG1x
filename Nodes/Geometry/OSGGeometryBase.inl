@@ -176,12 +176,6 @@ const GeoPTypesPtr &GeometryBase::getTypes(void) const
 }
 
 inline
-void GeometryBase::setTypes(const GeoPTypesPtr &value)
-{
-    _sfTypes.setValue(value);
-}
-
-inline
 GeoPLengthsPtr &GeometryBase::getLengths(void)
 {
     return _sfLengths.getValue();
@@ -191,12 +185,6 @@ inline
 const GeoPLengthsPtr &GeometryBase::getLengths(void) const
 {
     return _sfLengths.getValue();
-}
-
-inline
-void GeometryBase::setLengths(const GeoPLengthsPtr &value)
-{
-    _sfLengths.setValue(value);
 }
 
 inline
@@ -212,12 +200,6 @@ const GeoPositionsPtr &GeometryBase::getPositions(void) const
 }
 
 inline
-void GeometryBase::setPositions(const GeoPositionsPtr &value)
-{
-    _sfPositions.setValue(value);
-}
-
-inline
 GeoNormalsPtr &GeometryBase::getNormals(void)
 {
     return _sfNormals.getValue();
@@ -227,12 +209,6 @@ inline
 const GeoNormalsPtr &GeometryBase::getNormals(void) const
 {
     return _sfNormals.getValue();
-}
-
-inline
-void GeometryBase::setNormals(const GeoNormalsPtr &value)
-{
-    _sfNormals.setValue(value);
 }
 
 inline
@@ -248,12 +224,6 @@ const GeoColorsPtr &GeometryBase::getColors(void) const
 }
 
 inline
-void GeometryBase::setColors(const GeoColorsPtr &value)
-{
-    _sfColors.setValue(value);
-}
-
-inline
 GeoTexCoordsPtr &GeometryBase::getTexCoords(void)
 {
     return _sfTexCoords.getValue();
@@ -263,12 +233,6 @@ inline
 const GeoTexCoordsPtr &GeometryBase::getTexCoords(void) const
 {
     return _sfTexCoords.getValue();
-}
-
-inline
-void GeometryBase::setTexCoords(const GeoTexCoordsPtr &value)
-{
-    _sfTexCoords.setValue(value);
 }
 
 inline
@@ -284,12 +248,6 @@ const GeoIndicesPtr &GeometryBase::getIndices(void) const
 }
 
 inline
-void GeometryBase::setIndices(const GeoIndicesPtr &value)
-{
-    _sfIndices.setValue(value);
-}
-
-inline
 MaterialPtr &GeometryBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
@@ -299,12 +257,6 @@ inline
 const MaterialPtr &GeometryBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
-}
-
-inline
-void GeometryBase::setMaterial(const MaterialPtr &value)
-{
-    _sfMaterial.setValue(value);
 }
 
 inline
@@ -364,5 +316,5 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.11 2002/02/27 09:34:18 vossg Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.12 2002/03/04 01:49:35 vossg Exp $"
 

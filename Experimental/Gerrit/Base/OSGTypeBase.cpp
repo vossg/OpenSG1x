@@ -50,6 +50,10 @@
 #include "OSGTypeBase.h"
 #include <OSGTypeFactory.h>
 
+#ifdef OSG_GV_BETA
+#include <OSGTime.h>
+#endif
+
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -118,6 +122,14 @@ TypeBase::TypeBase(const TypeBase &source) :
 
     _bTypeBaseInitialized(source._bTypeBaseInitialized)
 {
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
+                0,
+                getSystemTime(), 
+                getPerfCounter(),
+                this,
+                _szName.str());
+#endif
 }
 
 bool TypeBase::initialize(void)
@@ -187,10 +199,29 @@ TypeBase::TypeBase(const Char8 *szName,
     _bTypeBaseInitialized(false)
 {
     _uiTypeId = TypeFactory::the()->registerType(this);
+
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) c (%p|%s|%u)\n", 
+                0,
+                getSystemTime(), 
+                getPerfCounter(),
+                this,
+                _szName.str(),
+                _uiTypeId);
+#endif
 }
 
 TypeBase::~TypeBase(void)
 {
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
+                0,
+                getSystemTime(), 
+                getPerfCounter(),
+                this,
+                _szName.str(),
+                _uiTypeId);
+#endif
 }
 
 

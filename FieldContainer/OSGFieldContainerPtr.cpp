@@ -56,6 +56,10 @@
 #include "OSGLock.h"
 #include "OSGFieldContainer.h"
 
+#ifdef OSG_GV_BETA
+#include "OSGTime.h"
+#endif
+
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -443,9 +447,9 @@ void FieldContainerPtrBase::subRef(void) const
 
     (*getRefCountP())--;
 
-    _pRefCountLock->release(_storeP);
-
     subRefUnlocked();
+
+    _pRefCountLock->release(_storeP);
 }
 
 void FieldContainerPtrBase::subRefUnlocked(void) const
@@ -460,6 +464,16 @@ void FieldContainerPtrBase::subRefUnlocked(void) const
         UInt8 *pTmp = getFirstElemP();
 
         ((FieldContainer *) pTmp)->onDestroy();
+
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
+                Thread::getAspect(),
+                getSystemTime(), 
+                getPerfCounter(),
+                pTmp,
+                ((FieldContainer *) pTmp)->getType().getCName(),
+                ((FieldContainer *) pTmp)->getType().getId());
+#endif
 
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
@@ -484,6 +498,16 @@ void FieldContainerPtrBase::subRefUntraced(void) const
         UInt8 *pTmp = getFirstElemP();
 
         ((FieldContainer *) pTmp)->onDestroy();
+
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
+                Thread::getAspect(),
+                getSystemTime(), 
+                getPerfCounter(),
+                pTmp,
+                ((FieldContainer *) pTmp)->getType().getCName(),
+                ((FieldContainer *) pTmp)->getType().getId());
+#endif
 
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {

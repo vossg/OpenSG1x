@@ -45,6 +45,8 @@ int main (int argc, char **argv)
 
     VRMLWriteAction *pWriter = VRMLWriteAction::create();
 
+    pWriter->addOptions(VRMLWriteAction::OSGNoIndent |
+                        VRMLWriteAction::OSGNoNormals);
     pWriter->open("test.wrl");
 
     pWriter->write(pScene);

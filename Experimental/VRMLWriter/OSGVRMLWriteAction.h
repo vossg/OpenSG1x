@@ -92,6 +92,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
         OSGWrite     = 0x0002
     };
 
+    enum WriterOption
+    {
+        OSGNoOptions = 0x0000,
+        OSGNoIndent  = 0x0001,
+        OSGNoNormals = 0x0002
+    };
+
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
@@ -141,6 +148,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     void close(void);
 
     /*------------------------- assignment ----------------------------------*/
+
+    void   addOptions(UInt32 uiOptions);
+    void   subOptions(UInt32 uiOptions);
+
+    UInt32 getOptions(void            );
 
     virtual Action::ResultE write(NodePtr node);
 
@@ -320,6 +332,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     FILE          *_pFile;
 
     TraversalMode  _eTraversalMode;    
+    UInt32         _uiOptions;
 
     vector<FCInfo> _vFCInfos;
 

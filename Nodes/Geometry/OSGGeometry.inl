@@ -84,17 +84,237 @@ void Geometry::invalidateDlistCache(void)
     Window::refreshGLObject( getGLId() );
 }
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
 /*------------------------------ access -----------------------------------*/
 
-/*------------------------------ access -----------------------------------*/
+inline
+void Geometry::setTypes(const GeoPTypesPtr &value)
+{
+    GeometryPtr thisP = getPtr();
 
-/*------------------------------- size ----------------------------------*/
+    addRefCP(value);
 
-/*------------------------------- dump ----------------------------------*/
+    if(_sfTypes.getValue() != NullFC)
+    {
+        beginEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTypes.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTypes.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(TypesFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfTypes.setValue(value);
+}
+
+inline
+void Geometry::setLengths(const GeoPLengthsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfLengths.getValue() != NullFC)
+    {
+        beginEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfLengths.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfLengths.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(LengthsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfLengths.setValue(value);
+}
+
+inline
+void Geometry::setPositions(const GeoPositionsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfPositions.getValue() != NullFC)
+    {
+        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfPositions.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfPositions.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(PositionsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfPositions.setValue(value);
+}
+
+inline
+void Geometry::setNormals(const GeoNormalsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfNormals.getValue() != NullFC)
+    {
+        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfNormals.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfNormals.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(NormalsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfNormals.setValue(value);
+}
+
+inline
+void Geometry::setColors(const GeoColorsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfColors.getValue() != NullFC)
+    {
+        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfColors.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfColors.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(ColorsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfColors.setValue(value);
+}
+
+inline
+void Geometry::setTexCoords(const GeoTexCoordsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfTexCoords.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(TexCoordsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfTexCoords.setValue(value);
+}
+
+inline
+void Geometry::setIndices(const GeoIndicesPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfIndices.getValue() != NullFC)
+    {
+        beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfIndices.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfIndices.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(IndicesFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfIndices.setValue(value);
+}
+
+inline
+void Geometry::setMaterial(const MaterialPtr &value)
+{
+    setRefdCP(_sfMaterial.getValue(), value);
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

@@ -108,18 +108,24 @@ void AttachmentContainer::addAttachment(const AttachmentPtr &fieldContainerP,
 
     addRefCP(fieldContainerP);
 
-    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
-
     beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
     {
         fieldContainerP->addParent(getPtr());
     }
     endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
 
+    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
+
     if(fcI != _attachmentMap.getValue().end())
     {
-// TODO SUBPARENT
+        beginEditCP((*fcI).second, Attachment::ParentsFieldMask);
+        {
+            (*fcI).second->subParent(getPtr());
+        }
+        endEditCP  ((*fcI).second, Attachment::ParentsFieldMask);
+
         subRefCP((*fcI).second);
+
         (*fcI).second = fieldContainerP;
     }
     else
@@ -264,7 +270,25 @@ AttachmentContainer::AttachmentContainer(const AttachmentContainer &source) :
 
 AttachmentContainer::~AttachmentContainer(void)
 {
-    // TODO Unlink Tree
+    AttachmentMap::iterator attIt  = _attachmentMap.getValue().begin();
+    AttachmentMap::iterator attEnd = _attachmentMap.getValue().end();
+
+    AttachmentContainerPtr thisP = getPtr();
+
+    while(attIt != attEnd)
+    {
+        beginEditCP((*attIt).second, Attachment::ParentsFieldMask);
+        {
+            (*attIt).second->subParent(thisP);
+        }
+        endEditCP  ((*attIt).second, Attachment::ParentsFieldMask);
+
+        subRefCP   ((*attIt).second);
+
+        ++attIt;
+    }
+
+    _attachmentMap.getValue().clear();
 }
 
 /*-------------------------------------------------------------------------*/

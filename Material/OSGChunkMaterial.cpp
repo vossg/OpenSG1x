@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.20 2002/02/26 06:10:16 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.21 2002/03/04 01:49:35 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -220,6 +220,8 @@ void ChunkMaterial::rebuildState(void)
     else
     {
         _pState = State::create();
+
+        addRefCP(_pState);
     }
 
     MFStateChunkPtr::iterator it        = _mfChunks.begin();

@@ -185,14 +185,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    void setTypes          ( const GeoPTypesPtr &value );
-    void setLengths        ( const GeoPLengthsPtr &value );
-    void setPositions      ( const GeoPositionsPtr &value );
-    void setNormals        ( const GeoNormalsPtr &value );
-    void setColors         ( const GeoColorsPtr &value );
-    void setTexCoords      ( const GeoTexCoordsPtr &value );
-    void setIndices        ( const GeoIndicesPtr &value );
-    void setMaterial       ( const MaterialPtr &value );
     void setDlistCache     ( const bool &value );
 
     /*! \}                                                                 */

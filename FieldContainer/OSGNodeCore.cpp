@@ -209,15 +209,6 @@ NodeCore::~NodeCore(void)
 
 void NodeCore::onDestroy(void)
 {
-/*
-    MFNodePtr::iterator parentIt = _parents.begin();
-
-    while(parentIt != _parents.end())
-    {
-        subRefCP(*parentIt);
-        parentIt++;
-    }
-*/
 }
 
 /*-------------------------------------------------------------------------*/
@@ -225,7 +216,6 @@ void NodeCore::onDestroy(void)
 
 void NodeCore::addParent(const NodePtr &parent)
 {
-     addRefCP(parent);
     _parents.addValue(parent);
 }
 
@@ -235,7 +225,6 @@ void NodeCore::subParent(const NodePtr &parent)
 
     if(parentIt != _parents.end())
     {
-         subRefCP(parent);
         _parents.erase(parentIt);
     }
 }

@@ -49,6 +49,11 @@
 #include <OSGMField.h>
 #include <OSGSField.h>
 
+#ifdef OSG_GV_BETA
+#include <OSGTime.h>
+#include <OSGThread.h>
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 class Field;
@@ -332,6 +337,16 @@ class FieldContainer
 
         result->onCreate(*prototypeP);
 
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
+                Thread::getAspect(),
+                getSystemTime(),
+                getPerfCounter(),
+                result._storeP,
+                ObjectType::getClassType().getCName(),
+                ObjectType::getClassType().getId());
+#endif
+
 #ifdef OSG_DEBUG_TYPED_FCPTR
         result.updateTypedStore();
 #endif
@@ -373,6 +388,16 @@ class FieldContainer
             
             pTmp += sizeof(ObjectType);
         }
+
+#ifdef OSG_GV_BETA
+        fprintf(stderr, "GV_MEM_FC_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
+                Thread::getAspect(),
+                getSystemTime(),
+                getPerfCounter(),
+                result._storeP,
+                ObjectType::getClassType().getCName(),
+                ObjectType::getClassType().getId());
+#endif
 
 #ifdef OSG_DEBUG_TYPED_FCPTR
         result.updateTypedStore();

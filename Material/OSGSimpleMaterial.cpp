@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.23 2002/02/26 06:10:16 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.24 2002/03/04 01:49:35 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -213,6 +213,8 @@ void SimpleMaterial::rebuildState(void)
     else
     {
         _pState = State::create();
+
+        addRefCP(_pState);
     }
 
     beginEditCP(_materialChunk);

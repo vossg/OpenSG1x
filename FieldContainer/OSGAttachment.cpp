@@ -150,7 +150,6 @@ MFFieldContainerPtr *Attachment::getMFParents(void)
 
 void Attachment::addParent(FieldContainerPtr parent)
 {
-     addRefCP        (parent);
     _parents.addValue(parent);
 }
 
@@ -160,7 +159,6 @@ void Attachment::subParent(FieldContainerPtr parent)
 
     if(parentIt != _parents.end())
     {
-         subRefCP     (parent);
         _parents.erase(parentIt);
     }
 }

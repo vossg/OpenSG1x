@@ -648,17 +648,7 @@ void FieldContainerType::terminate(void)
 {
     UInt32 i;
 
-    if(_pPrototype != NullFC)
-    {
-        if(GlobalSystemState == Shutdown)
-        {
-            _pPrototype.subRefUntraced();
-        }
-        else
-        {
-            _pPrototype.subRefUnlocked();
-        }
-    }
+    subRefCP(_pPrototype);
 
     _bInitialized = false;
 

@@ -614,6 +614,9 @@ void VRMLWriteAction::writeNormals(GeometryPtr      pGeo,
                                    FILE            *pFile,
                                    VRMLWriteAction *pWriter)
 {
+    if(0 != (pWriter->getOptions() & VRMLWriteAction::OSGNoNormals))
+        return;
+
     if(pGeo == NullFC)
         return;
 
@@ -818,7 +821,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     pWriter->printIndent();
     fprintf(pFile, "]\n");
     
-    if(pGeo->getNormals() != NullFC && pGeo->getNormals()->getSize() > 0)
+    if(pGeo->getNormals()           != NullFC && 
+       pGeo->getNormals()->getSize() > 0      &&
+       0 == (pWriter->getOptions() & VRMLWriteAction::OSGNoNormals))
     {
         pWriter->printIndent();
         fprintf(pFile, "normalIndex [\n");
@@ -1266,12 +1271,18 @@ bool VRMLWriteAction::terminateAction(void)
 
 void VRMLWriteAction::incIndent(UInt32 uiDelta)
 {
-    _uiIndent += uiDelta;
+    if(0 == (_uiOptions & OSGNoIndent))
+    {
+        _uiIndent += uiDelta;
+    }
 }
 
 void VRMLWriteAction::decIndent(UInt32 uiDelta)
 {
-    _uiIndent -= uiDelta;
+    if(0 == (_uiOptions & OSGNoIndent))
+    {
+        _uiIndent -= uiDelta;
+    }
 }
 
 void VRMLWriteAction::printIndent(void)
@@ -1382,6 +1393,7 @@ VRMLWriteAction::VRMLWriteAction(void) :
     _uiIndent      (0),
     _pFile         (NULL),
     _eTraversalMode(OSGCollectFC),
+    _uiOptions     (OSGNoOptions),
     _vFCInfos      ()
 {
     if(_defaultEnterFunctors)
@@ -1401,6 +1413,7 @@ VRMLWriteAction::VRMLWriteAction(const VRMLWriteAction &source) :
     _uiIndent      (source._uiIndent),
     _pFile         (NULL),
     _eTraversalMode(source._eTraversalMode),
+    _uiOptions     (source._uiOptions),
     _vFCInfos      (source._vFCInfos)
 {
     if(_defaultEnterFunctors)
@@ -1463,6 +1476,21 @@ void VRMLWriteAction::close(void)
     {
         fclose(_pFile);
     }
+}
+
+void VRMLWriteAction::addOptions(UInt32 uiOptions)
+{
+    _uiOptions |= uiOptions;
+}
+
+void VRMLWriteAction::subOptions(UInt32 uiOptions)
+{
+    _uiOptions &= ~uiOptions;
+}
+
+UInt32 VRMLWriteAction::getOptions(void)
+{
+    return _uiOptions;
 }
 
 Action::ResultE VRMLWriteAction::write(NodePtr node)

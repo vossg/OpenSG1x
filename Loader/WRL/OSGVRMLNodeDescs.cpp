@@ -585,7 +585,7 @@ void VRMLNodeDesc::dump(const Char8 *szNodeName)
 
     if(_pGenAtt != NullFC)
     {
-        fprintf(stderr, "\t\t%d Desc\n",
+        fprintf(stderr, "\t\t%u Desc\n",
                 _pGenAtt->getType().getNumFieldDescs());
 
         for(UInt32 i = 2; i <= _pGenAtt->getType().getNumFieldDescs(); i++)

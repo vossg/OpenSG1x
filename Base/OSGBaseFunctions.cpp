@@ -157,9 +157,6 @@ bool OSG::osgExit(void)
 
     GlobalSystemState = Shutdown;
 
-// Check it (GV)
-//    Thread::getCurrentChangeList()->setReadOnly(true);
-
     if(osgExitFunctions != NULL)
     {
         for(Int32 i = osgExitFunctions->size() - 1; i >= 0; i--)

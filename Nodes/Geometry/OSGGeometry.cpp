@@ -202,6 +202,86 @@ Geometry::Geometry(const Geometry &source) :
 
 Geometry::~Geometry(void)
 {
+    GeometryPtr thisP = getPtr();
+
+    if(_sfTypes.getValue() != NullFC)
+    {
+        beginEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTypes.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTypes.getValue());
+    }
+
+    if(_sfLengths.getValue() != NullFC)
+    {
+        beginEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfLengths.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfLengths.getValue());
+    }
+
+    if(_sfPositions.getValue() != NullFC)
+    {
+        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfPositions.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfPositions.getValue());
+    }
+
+    if(_sfNormals.getValue() != NullFC)
+    {
+        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfNormals.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfNormals.getValue());
+    }
+
+    if(_sfColors.getValue() != NullFC)
+    {
+        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfColors.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfColors.getValue());
+    }
+
+    if(_sfTexCoords.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords.getValue());
+    }
+
+    if(_sfIndices.getValue() != NullFC)
+    {
+        beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfIndices.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfIndices.getValue());
+    }
+
+    subRefCP(_sfMaterial.getValue());
 }
 
 /** \brief instance initialization

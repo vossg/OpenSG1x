@@ -103,6 +103,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     bool               merge            (const GeometryPtr other);
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    void setTypes    (const GeoPTypesPtr    &value);
+    void setLengths  (const GeoPLengthsPtr  &value);
+    void setPositions(const GeoPositionsPtr &value);
+    void setNormals  (const GeoNormalsPtr   &value);
+    void setColors   (const GeoColorsPtr    &value);
+    void setTexCoords(const GeoTexCoordsPtr &value);
+    void setIndices  (const GeoIndicesPtr   &value);
+    void setMaterial (const MaterialPtr     &value);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Iterator Access                        */

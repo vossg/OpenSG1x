@@ -55,10 +55,14 @@ OSG_BEGIN_NAMESPACE
 
 typedef Real64 Time;
 
-OSG_BASE_DLLMAPPING Time getSystemTime(void);
+OSG_BASE_DLLMAPPING 
+Time getSystemTime(void);
 
+OSG_BASE_DLLMAPPING
+Int64 getPerfCounter(void);
 
-typedef Time *TimeP;
+OSG_BASE_DLLMAPPING
+Int64 getPerfCounterFreq(void);
 
 OSG_END_NAMESPACE
 

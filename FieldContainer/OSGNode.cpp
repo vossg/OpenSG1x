@@ -123,6 +123,8 @@ void Node::setCore(const NodeCorePtr &core)
 
     thisP.setParentFieldPos(CoreFieldId);
 
+    addRefCP(core);
+
     if(_core.getValue() != NullFC)
     {
         beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
@@ -143,8 +145,6 @@ void Node::setCore(const NodeCorePtr &core)
             _core.getValue()->addParent(thisP);
         }
         endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
-
-        addRefCP(_core.getValue());
     }
 
     // TODO Check if required (GV)
@@ -163,8 +163,6 @@ void Node::unlink(void)
     MFNodePtr::iterator vChildIt = _children.begin();
     MFNodePtr::iterator endChild = _children.end  ();
 
-    addRefCP(getPtr());
-
     while(vChildIt != endChild)
     {
         (*vChildIt)->setParent(NullFC);
@@ -182,16 +180,12 @@ void Node::unlink(void)
         
         subRefCP(getCore());
     }
-
-    subRefCP(getPtr());
 }
 
 void Node::unlinkSubTree(void)
 {
     MFNodePtr::iterator vChildIt = _children.begin();
     MFNodePtr::iterator endChild = _children.end  ();
-
-    addRefCP(getPtr());
 
     while(vChildIt != endChild)
     {
@@ -211,8 +205,6 @@ void Node::unlinkSubTree(void)
 
         subRefCP(getCore());
     }
-
-    subRefCP(getPtr());
 }
 
 #ifdef OSG_WIN32_ICL
@@ -230,9 +222,9 @@ void Node::addChild(const NodePtr &childP)
         addRefCP(childP);
 
         // already somebody else's child?
-        if ( childP->getParent() != NullFC )
+        if(childP->getParent() != NullFC)
         {
-            childP->getParent()->subChild( childP );
+            childP->getParent()->subChild(childP);
         }
 
         _children.addValue(childP);
@@ -244,7 +236,9 @@ void Node::addChild(const NodePtr &childP)
         endEditCP  (childP, Node::ParentFieldMask);
 
         // TODO Check if required (GV)
+#ifndef OSG_GV_BETA
         invalidateVolume();
+#endif
     }
 }
 
@@ -258,12 +252,12 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
         addRefCP(childP);
 
         // already somebody else's child?
-        if ( childP->getParent() != NullFC )
+        if(childP->getParent() != NullFC)
         {
-            childP->getParent()->subChild( childP );
+            childP->getParent()->subChild(childP);
         }
 
-        childIt   += childIndex;
+        childIt += childIndex;
 
         _children.insert(childIt, childP);
 
@@ -275,12 +269,14 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
     }
 
     // TODO check if required (GV)
+#ifndef OSG_GV_BETA
     invalidateVolume();
+#endif
 }
 
 void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
-    if(childP != NullFC)
+    if(childP != NullFC && childIndex < _children.size())
     {
         // do the ref early, to prevent destroys on getParent(a)->addChild(a)
         addRefCP(childP);
@@ -295,9 +291,9 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         subRefCP(_children.getValue(childIndex));
 
         // already somebody else's child?
-        if ( childP->getParent() != NullNode )
+        if(childP->getParent() != NullNode)
         {
-            childP->getParent()->subChild( childP );
+            childP->getParent()->subChild(childP);
         }
 
         // set the new child
@@ -311,7 +307,9 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
     }
 
     // TODO check if required (GV)
+#ifndef OSG_GV_BETA
     invalidateVolume();
+#endif
 }
 
 //! return true on success, false on child not found
@@ -339,9 +337,9 @@ bool Node::replaceChildBy(const NodePtr &childP,
             subRefCP(childP);
 
             // already somebody else's child?
-            if ( newChildP->getParent() != NullFC )
+            if(newChildP->getParent() != NullFC)
             {
-                newChildP->getParent()->subChild( newChildP );
+                newChildP->getParent()->subChild(newChildP);
             }
 
             (*childIt) = newChildP;
@@ -353,7 +351,9 @@ bool Node::replaceChildBy(const NodePtr &childP,
             endEditCP  (newChildP, Node::ParentFieldMask);
 
             // TODO check if required (GV)
+#ifndef OSG_GV_BETA
             invalidateVolume();
+#endif
 
             return true;
         }
@@ -401,7 +401,9 @@ void Node::subChild(const NodePtr &childP)
     }
 
     // TODO check if required (GV)
+#ifndef OSG_GV_BETA
     invalidateVolume();
+#endif
 }
 
 void Node::subChild(UInt32 childIndex)
@@ -424,7 +426,9 @@ void Node::subChild(UInt32 childIndex)
     }
 
     // TODO check if required (GV)
+#ifndef OSG_GV_BETA
     invalidateVolume();
+#endif
 }
 
 NodePtr Node::getChild(UInt32 childIndex)
@@ -771,6 +775,34 @@ Node::Node(const Node &source) :
 
 Node::~Node(void)
 {
+    if(_core.getValue() != NullFC)
+    {
+        NodePtr thisP = getPtr();
+
+        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        {
+            _core.getValue()->subParent(thisP);
+        }
+        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+
+        subRefCP(_core.getValue());
+    }
+
+    MFNodePtr::iterator       vChildIt    = _children.begin();
+    MFNodePtr::const_iterator endChildren = _children.end  ();
+
+    while(vChildIt != endChildren)
+    {
+        beginEditCP(*vChildIt, Node::ParentFieldMask);
+        {
+            (*vChildIt)->setParent(NullNode);
+        }
+        endEditCP  (*vChildIt, Node::ParentFieldMask);
+
+        subRefCP(*vChildIt);
+
+        ++vChildIt;
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -778,12 +810,6 @@ Node::~Node(void)
 
 void Node::setParent(const NodePtr &parent)
 {
-    if(parent != NullFC)
-        addRefCP(parent);
-
-    if(_parent.getValue() != NullFC)
-        subRefCP(_parent.getValue());
-    
     _parent.setValue(parent);
 }
 

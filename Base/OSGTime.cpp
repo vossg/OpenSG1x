@@ -50,7 +50,6 @@
 #include <iostream>
 
 #ifdef WIN32
-  #include <winsock.h>
   #include <time.h>
 #else
   #include <sys/types.h>
@@ -78,7 +77,7 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_BASE_DLLMAPPING Time getSystemTime (void)
+Time getSystemTime (void)
 {
     Time time;
 
@@ -101,6 +100,41 @@ OSG_BASE_DLLMAPPING Time getSystemTime (void)
 #endif
 
     return time;
+}
+
+Int64 getPerfCounter(void)
+{
+#ifdef WIN32
+    Int64 iCounter;
+    
+    QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&iCounter));
+
+    return iCounter;
+#else
+#ifdef OSG_LONGLONG_HAS_LL
+    return 0LL;
+#else
+    return 0;
+#endif
+#endif
+}
+
+Int64 getPerfCounterFreq(void)
+{
+#ifdef WIN32
+    Int64 iCounterFreq;
+    
+    QueryPerformanceFrequency(
+        reinterpret_cast<LARGE_INTEGER *>(&iCounterFreq));
+
+    return iCounterFreq;
+#else
+#ifdef OSG_LONGLONG_HAS_LL
+    return 0LL;
+#else
+    return 0;
+#endif
+#endif
 }
 
 /*-------------------------------------------------------------------------*\
