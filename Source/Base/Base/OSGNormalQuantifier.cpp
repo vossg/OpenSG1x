@@ -136,9 +136,9 @@ void NormalQuantifier::build (UInt32 numberSubdivisions)
     {
         for(UInt32 octant = 0; octant < 8; octant++) 
         {
-            UInt32 xoctant = (octant & 4)>0?-1:1;
-            UInt32 yoctant = (octant & 2)>0?-1:1;
-            UInt32 zoctant = (octant & 1)>0?-1:1;
+            Int32 xoctant = (octant & 4)>0?-1:1;
+            Int32 yoctant = (octant & 2)>0?-1:1;
+            Int32 zoctant = (octant & 1)>0?-1:1;
             
             Vec3f point1(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
             Vec3f point2(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
