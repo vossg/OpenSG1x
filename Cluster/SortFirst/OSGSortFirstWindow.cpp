@@ -146,7 +146,6 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
                                     UInt32 id,
                                     RenderAction *action        )
 {
-    cout << "server render" << endl;
     TileCameraDecoratorPtr deco;
     ViewportPtr serverPort;
     ViewportPtr clientPort;
@@ -282,11 +281,9 @@ void SortFirstWindow::clientInit( void )
     // read all node infos
     for(UInt32 i=0;i<_connection->getChannelCount();++i)
     {
-        cout << "read cluster node info" << endl;
         _connection->selectChannel();
         _connection->getValue(id);
         renderNode.copyFromBin(*_connection);
-        cout << id << endl;
         renderNode.dump();
         _tileLoadBalancer->addRenderNode(renderNode,id);    
     }
