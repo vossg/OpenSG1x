@@ -662,18 +662,6 @@ void osgSwap(TypeT & lVal, TypeT & rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgdegree2rad(const FloatTypeT rVal)
-{
-    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
-
-    return  osgdegree2rad(RealType(rVal));
-}
-
-/*! \ingroup GrpBaseBaseMathFn
- */
-
 inline
 Real32 osgdegree2rad(const Real32 rValue)
 {
@@ -689,22 +677,22 @@ Real64 osgdegree2rad(const Real64 rValue)
    return (rValue/360) * 2 * 3.1415926535;
 }
 
-/*! \}                                                                 */
-/*---------------------------------------------------------------------*/
-/*! \name rad2degree                                                   */
-/*! \{                                                                 */
-
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType
-    osgrad2degree(const FloatTypeT rVal)
+typename TypeTraits<FloatTypeT>::RealReturnType 
+    osgdegree2rad(const FloatTypeT rVal)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgrad2degree(RealType(rVal));
+    return  osgdegree2rad(RealType(rVal));
 }
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name rad2degree                                                   */
+/*! \{                                                                 */
 
 /*! \ingroup GrpBaseBaseMathFn
  */
@@ -722,6 +710,18 @@ inline
 Real64 osgrad2degree(const Real64 rValue)
 {
     return (rValue/(2 * 3.1415926535)) * 360;
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+template <class FloatTypeT> inline
+typename TypeTraits<FloatTypeT>::RealReturnType
+    osgrad2degree(const FloatTypeT rVal)
+{
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
+
+    return  osgrad2degree(RealType(rVal));
 }
 
 /*! \}                                                                 */
