@@ -124,7 +124,8 @@ SField<FieldTypeT, fieldNameSpace>::~SField(void)
 //! Return a reference to the stored value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void)
+SField<FieldTypeT, fieldNameSpace>::reference 
+    SField<FieldTypeT, fieldNameSpace>::getValue(void)
 {
     return _value;
 }
@@ -132,7 +133,8 @@ FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void)
 //! Return a const reference to the stored value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-const FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void) const
+SField<FieldTypeT, fieldNameSpace>::const_reference
+    SField<FieldTypeT, fieldNameSpace>::getValue(void) const
 {
     return _value;
 }

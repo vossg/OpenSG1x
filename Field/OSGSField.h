@@ -80,7 +80,11 @@ class SField : public Field
 
     typedef          SField<FieldTypeT, fieldNameSpace>          Self;
 
-    typedef          FieldTypeT                                  StoredType;
+
+
+    typedef          FieldTypeT  StoredType;
+    typedef          FieldTypeT &reference;
+    typedef const    FieldTypeT &const_reference;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
@@ -109,8 +113,8 @@ class SField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-                  FieldTypeT &getValue(void);
-            const FieldTypeT &getValue(void) const;
+                  reference   getValue(void);
+            const_reference   getValue(void) const;
 
     virtual       UInt32      getSize (void) const;
 
