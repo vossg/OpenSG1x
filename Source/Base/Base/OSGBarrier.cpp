@@ -242,12 +242,11 @@ void SprocBarrierBase::enter(UInt32 uiNumWaitFor)
 
 WinThreadBarrierBase::WinThreadBarrierBase(const Char8  *szName,
                                                  UInt32  uiId  ) :
-     Inherited      (szName, uiId),
+     Inherited   (szName, uiId),
 
-    _uiCount        (0),
-    _pMutex1        (NULL),
-    _pMutex2        (NULL),
-    _pConditionEvent(NULL)
+    _pMutex1     (NULL),
+    _pBarrierSema(NULL),
+    _uiNumWaiters(0   )
 
 {
 }
@@ -266,16 +265,6 @@ bool WinThreadBarrierBase::init(void)
 
     pTmp = new Char8[strlen(_szName) + 5];
 
-    sprintf(pTmp, "%sWE", _szName);
-
-    _pConditionEvent = CreateEvent(NULL, TRUE, FALSE, pTmp);
-
-    if(_pConditionEvent == NULL)
-    {
-        fprintf(stderr, "Event create failed\n");
-        return false;
-    }
-
     sprintf(pTmp, "%sM1", _szName);
 
     _pMutex1 = CreateMutex(NULL,   // no security attributes
@@ -284,25 +273,19 @@ bool WinThreadBarrierBase::init(void)
 
     if(_pMutex1 == NULL)
     {
-        CloseHandle(_pConditionEvent);
-
         fprintf(stderr, "Create mutex1 failed\n");
         return false;
     }
 
+    sprintf(pTmp, "%sS", _szName);
 
-    sprintf(pTmp, "%sM2", _szName);
+    _pBarrierSema = CreateSemaphore(NULL, 0, 42, pTmp);
 
-    _pMutex2 = CreateMutex(NULL,   // no security attributes
-                           FALSE,  // initially not owned
-                           pTmp);  // name of mutex
-
-    if(_pMutex2 == NULL)
+    if(_pBarrierSema == NULL)
     {
-        CloseHandle(_pConditionEvent);
         CloseHandle(_pMutex1);
 
-        fprintf(stderr, "Create mutex2 failed\n");
+        fprintf(stderr, "Create semaphore failed\n");
         return false;
     }
 
@@ -315,58 +298,48 @@ bool WinThreadBarrierBase::init(void)
 
 void WinThreadBarrierBase::shutdown(void)
 {
-    if(_pConditionEvent != NULL)
-        CloseHandle(_pConditionEvent);
-
     if(_pMutex1 != NULL)
         CloseHandle(_pMutex1);
 
-    if(_pMutex2 != NULL)
-        CloseHandle(_pMutex2);
+    if(_pBarrierSema != NULL)
+        CloseHandle(_pBarrierSema);
 }
 
 /*------------------------------ Enter ------------------------------------*/
 
 void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 {
-    if(uiNumWaitFor <= 1)
-        return;
+	WaitForSingleObject(_pMutex1, INFINITE);
 
-    WaitForSingleObject(_pMutex1, INFINITE);
+	++_uiNumWaiters;
 
-    _uiCount++;
+	if(_uiNumWaiters == uiNumWaitFor) 
+	{
+		--_uiNumWaiters;
 
-    if(_uiCount < uiNumWaitFor)
-    {
-        /* not enough threads are waiting => wait */
+		ReleaseMutex(_pMutex1);
 
-        ReleaseMutex(_pMutex1);
-        WaitForSingleObject(_pConditionEvent, INFINITE);
-    }
-    else
-    {
-        /* ok, enough threads are waiting
-           => wake up all waiting threads
-        */
+		ReleaseSemaphore(_pBarrierSema, uiNumWaitFor - 1, NULL);
 
-        ReleaseMutex(_pMutex1);
-        SetEvent(_pConditionEvent);
+		return;
+	}
+	else
+	{
+		ReleaseMutex(_pMutex1);
 
-    }
+		WaitForSingleObject(_pBarrierSema, INFINITE);
+		
+		WaitForSingleObject(_pMutex1, INFINITE);
 
-    WaitForSingleObject(_pMutex2, INFINITE);
+		--_uiNumWaiters;
 
-    if(_uiCount == uiNumWaitFor)
-    {
-        _uiCount = 0;
-        ResetEvent(_pConditionEvent);
-    }
-
-    ReleaseMutex(_pMutex2);
+		ReleaseMutex(_pMutex1);
+	}
 }
 
 
 #endif /* OSG_USE_WINTHREADS */
+
 
 
 
