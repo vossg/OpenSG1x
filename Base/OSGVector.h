@@ -458,6 +458,8 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef StorageInterfaceT Inherited;
+
     typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
 
     typedef                        ValueTypeT                  ValueType;
@@ -694,8 +696,6 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef StorageInterfaceT Inherited;
-
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -774,6 +774,8 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef PointInterface<ValueTypeT, StorageInterfaceT> Inherited;
 
     typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
 
@@ -958,8 +960,6 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef PointInterface<ValueTypeT, StorageInterfaceT> Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
