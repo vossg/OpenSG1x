@@ -1,28 +1,67 @@
 # trivial makefile for OpenSG tutorials
 
-SYSTEM := $(shell uname)
-
-# set the path to the installed OpenSG root directory here
-# if you installed in /usr/local:
-# OSGROOT := /usr/local
-# use this if you installed in Builds/*/
-
-# try to get configured information first, will not work if more
-# than one system is configured from one dir. Just for the 1.0
-
-PREFIXSUFFIX := $(shell ../CommonConf/config.guess)
-
--include .prefix.$(PREFIXSUFFIX)
-
-OSGROOT ?= $(OSGINSTALLPREFIX)
-
-OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
-
 # the path where GLUT is found
 # you can ignore this on Linux, it's in the system libs
 GLUTPATH := /igd/a4/software/$(SYSTEM)
 
-### System dependences ###############################################
+# use debug or opt libs?
+LIBTYPE := dbg
+
+# set the path to the installed osg-config executable here
+# if you don't set it, the system tries to guess
+# e.g. if you installed in /usr/local:
+# OSGCONFIG := /usr/local/nom/osg-config
+
+
+# *****************************************************
+# you shouldn't have to change anything after this line
+# *****************************************************
+
+# try to guess the OSGCONFIG path
+
+OSGCONFIG := notset
+
+# try to get configured information first, will not work if more
+# than one system is configured from one dir. Just for the 1.0
+
+OSGINSTALLPREFIX := notset
+
+PREFIXSUFFIX := $(shell ../CommonConf/config.guess)
+-include .prefix.$(PREFIXSUFFIX)
+
+ifneq ($(OSGINSTALLPREFIX),notset)
+    OSGCONFIG := $(OSGINSTALLPREFIX)/bin/osg-config
+endif
+
+# if configure info wasn't found, maybe a Builds/* install?
+ifeq ($(OSGCONFIG),notset)
+    INSTALLROOT := $(wildcard ../Builds/$(shell ../CommonConf/config.guess)-*)
+    OSGCONF := $(wildcard $(INSTALLROOT)/bin/osg-config)
+    ifneq ($(OSGCONF),)
+        OSGCONFIG := $(OSGCONF)
+    endif
+endif
+
+# maybe we can find it in the path?
+ifeq ($(OSGCONFIG),notset)
+    OSGCONF := \
+       $(shell if which osg-config >/dev/null 2>&1; then which osg-config; fi )  
+    OSGCONF := $(strip $(OSGCONF))
+    ifneq ($(OSGCONF),)
+        OSGCONFIG := $(OSGCONF)
+    endif
+endif
+
+# ok, give up
+ifeq ($(OSGCONFIG),notset)
+    $(error Can't find osg-config, please configure the Makefile or \
+            add it to your PATH)
+endif
+
+### System dependencies ###############################################
+
+# Set the system we're running on
+SYSTEM := $(shell uname)
 
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
@@ -30,37 +69,32 @@ GLUTPATH := /igd/a4/software/$(SYSTEM)
 ifeq ($(SYSTEM),IRIX)
         CCOUT := -o 
         LDOUT := -o 
-		LINK  := 
+	LINK  := 
 endif
-ifeq ($(SYTEM),IRIX64)
+ifeq ($(SYSTEM),IRIX64)
         CCOUT := -o 
         LDOUT := -o 
-		LINK  := 
+	LINK  := 
 endif
 ifeq ($(SYSTEM),Linux)
         CCOUT := -o 
         LDOUT := -o 
-		LINK  := 
+	LINK  := 
 endif
 ifeq ($(findstring WIN,$(SYSTEM)),WIN)
         OS := WIN32
         CCOUT := -Fo
         LDOUT := /out:
-		LINK  := -link
+	LINK  := -link
 endif
-
-# use debug or opt libs?
-LIBTYPE := dbg
 
 # Var settings
 
-CC = "$(shell $(OSGROOT)/bin/osg-config --compiler)"
+CC = "$(shell $(OSGCONFIG) --compiler)"
 
-CCFLAGS = \
-  $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --cflags Base System GLUT)
+CCFLAGS = $(shell $(OSGCONFIG) --$(LIBTYPE) --cflags Base System GLUT)
 
-LDFLAGS = $(LINK) \
-  $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --libs Base System GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --$(LIBTYPE) --libs Base System GLUT)
 
 
 # all tutorials in this directory
@@ -87,7 +121,7 @@ Clean: clean
 	$(CC) -c $(CCFLAGS) $<
 
 %: %.o
-	$(CC) (LDOUT)$@ $< $(LDFLAGS)
+	$(CC) $(LDOUT)$@ $< $(LDFLAGS)
 
 %: %.cpp
 	$(CC) $(CCFLAGS) $< $(LDFLAGS) $(LDOUT)$@ 
