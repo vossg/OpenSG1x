@@ -3,14 +3,17 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 
-#ifndef WIN32
 
-// Headers
 #include <fstream>
 #include <strstream>
 #include <string>
 #include <GL/glut.h>
 #include <OSGConfig.h>
+#include "OSGLog.h"
+
+#ifndef WIN32
+
+// Headers
 #include <OSGSimpleGeometry.h>
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGGLUTWindow.h>
@@ -23,7 +26,6 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-#include "OSGLog.h"
 #include "OSGFontStyleFactory.h"
 #include "OSGTXFFont.h"
 #include "OSGTXFFontStyle.h"

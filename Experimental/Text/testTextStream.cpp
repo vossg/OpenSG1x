@@ -3,18 +3,17 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 
-#ifndef WIN32
 
-#include <OSGLog.h>
-
-#ifdef OSG_WITH_FREETYPE1
-
-// Headers
 #include <fstream>
 #include <strstream>
 #include <string>
 #include <GL/glut.h>
 #include <OSGConfig.h>
+#include "OSGLog.h"
+
+#ifndef WIN32
+
+// Headers
 #include <OSGSimpleGeometry.h>
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGGLUTWindow.h>
@@ -25,6 +24,7 @@
 #include <OSGGeometry.h>
 #include <OSGPathHandler.h>
 
+#ifdef OSG_WITH_FREETYPE1
 
 #include "OSGFontStyleFactory.h"
 #include "OSGTXFFont.h"
@@ -250,7 +250,7 @@ void motion(int x, int y)
 }
 
 // react to keys
-void keyboard(unsigned char k, int x, int y)
+void keyboard(unsigned char k, int , int )
 {
     switch(k)
     {

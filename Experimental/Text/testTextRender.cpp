@@ -3,13 +3,17 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 
-#ifndef WIN32
 
-// Headers
 #include <fstream>
+#include <strstream>
 #include <string>
 #include <GL/glut.h>
 #include <OSGConfig.h>
+#include "OSGLog.h"
+
+#ifndef WIN32
+
+// Headers
 #include <OSGSimpleGeometry.h>
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGGLUTWindow.h>
@@ -19,15 +23,14 @@
 #include <OSGGroup.h>
 #include <OSGGeometry.h>
 #include <OSGPathHandler.h>
-#include <OSGBlendChunk.h>
 
-
-#include "OSGLog.h"
+#ifdef OSG_WITH_FREETYPE1
 
 #include "OSGFontStyleFactory.h"
-#include "OSGFontStyle.h"
+#include "OSGTXFFont.h"
+#include "OSGTXFFontStyle.h"
+#include "OSGTTFontStyle.h"
 #include "OSGText.h"
-#include "OSGFontFactory.h"
 
 
 // Activate the OpenSG namespace
@@ -320,6 +323,16 @@ int setupGLUT(int *argc, char *argv[])
 
     return winid;
 }
+
+#else
+
+int main (int argc, char **argv)
+{
+  FFATAL (("Freetype1 lib needed\n"));
+    
+  return -1;
+}
+#endif
 
 #else
 
