@@ -104,7 +104,7 @@ void display (UInt32 id)
 }
 
 
-void *drawThreadProc (void *arg) 
+void drawThreadProc (void *arg) 
 {               
     int     *my_id = (int *) arg;
             
@@ -125,7 +125,7 @@ void *drawThreadProc (void *arg)
     
     win[*my_id]->deactivate();
 
-    return ( NULL );
+    return;
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
