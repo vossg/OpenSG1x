@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 template <class ValueTypeT>
-class OSG_WINDOWQTLIB_DLLMAPPING SpinBoxHelper :
+class SpinBoxHelper :
     public SpinBoxHelperTraits<ValueTypeT>
 {
     /*==========================  PUBLIC  =================================*/
@@ -68,11 +68,12 @@ class OSG_WINDOWQTLIB_DLLMAPPING SpinBoxHelper :
     /*! \{                                                                 */
 
     SpinBoxHelper(void                                                 );
+    // The .net 7.0 compiler doesn't compile this with the default parameters :-(
     SpinBoxHelper(ValueType initialValue,
-                  ValueType lowerBound   = Traits::_initLowerBound,
-                  ValueType upperBound   = Traits::_initUpperBound,
-                  ValueType stepSize     = Traits::_defaultStepSize,
-                  ValueType pageStepSize = Traits::_defaultPageStepSize);
+                  ValueType lowerBound   /*= Traits::_initLowerBound*/,
+                  ValueType upperBound   /*= Traits::_initUpperBound*/,
+                  ValueType stepSize     /*= Traits::_defaultStepSize*/,
+                  ValueType pageStepSize /*= Traits::_defaultPageStepSize*/);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -145,8 +146,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSpinBoxHelper.inl"
 
-#define OSGSPINBOXHELPER_HEADER_CVSID "@(#)$Id: OSGSpinBoxHelper.h,v 1.1 2004/07/30 15:32:15 neumannc Exp $"
+#define OSGSPINBOXHELPER_HEADER_CVSID "@(#)$Id: OSGSpinBoxHelper.h,v 1.2 2004/11/26 13:55:30 a-m-z Exp $"
 
 #endif /* _OSGSPINBOXHELPER_H_ */
-
-
