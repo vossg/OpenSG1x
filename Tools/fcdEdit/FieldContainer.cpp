@@ -1431,7 +1431,12 @@ bool FieldContainer::writeTempl(
 
                     s = new char [ strlen(fieldtype) + 20];
                     
-                    if(strncmp(valueStart, "std::", 5) == 0)
+                    if (tolower(valueStart[0]) == 's' &&
+                        tolower(valueStart[1]) == 't' &&
+                        tolower(valueStart[2]) == 'd' &&
+                                valueStart[3]  == ':' && 
+                                valueStart[4]  == ':'
+                       )
                     {
                         valueStart += 5;
                         *valueStart = toupper(*valueStart);
