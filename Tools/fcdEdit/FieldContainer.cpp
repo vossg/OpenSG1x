@@ -559,9 +559,13 @@ bool FieldContainer::writeDesc (const char *fN)
 	    out << _description << endl;
  
     for (npI = _fieldList.begin(); npI != _fieldList.end(); npI++) {
+      if(!npI->type())
+      {
+        cerr << "Type of field " << npI->name() << "is NULL!?!" << endl;
+      }
       out << nprefix << "<Field" << endl;
       putField(out, pprefix, NAME_FIELD, npI->name());
-      putField(out, pprefix, TYPE_FIELD, npI->type()?npI->type():"Bool");
+      putField(out, pprefix, TYPE_FIELD, npI->type()?npI->type():"***NULL***");
       putField(out, pprefix, CARDINALITY_FIELD, npI->cardinalityStr());
       putField(out, pprefix, VISIBILITY_FIELD, npI->visibilityStr());
       putField(out, pprefix, DEFAULTVALUE_FIELD, npI->defaultValue());

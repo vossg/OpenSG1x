@@ -74,7 +74,8 @@ Field::Field (void )
 	_cardinality = 0;
 	_visibility = 1;
 	_access = 0;
-
+    setType(0);
+    
 	return;
 }
 
@@ -90,6 +91,8 @@ Field::Field (const Field &obj )
   _description(0), _header(0)
 {
 	*this = obj;
+    _type = NULL;
+    setType(obj._type);
 }
 
 //----------------------------------------------------------------------
