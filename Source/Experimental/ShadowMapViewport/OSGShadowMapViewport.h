@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     void checkLights(RenderActionBase* action);
     void updateLights(void);
     void initializeLights(RenderActionBase *action);
+    void clearLights(UInt32 size);
     void createShadowMaps(RenderActionBase* action);
     void projectShadowMaps(RenderActionBase* action);
     bool extensionCheck();
@@ -133,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     std::vector<TransformPtr>       _lightCamTrans;
     std::vector<NodePtr>            _lightCamBeacons;
     std::vector<UInt32>             _lightStates;
-    std::vector<ImagePtr>           _shadowTextures;
+    std::vector<ImagePtr>           _shadowImages;
     std::vector<TextureChunkPtr>    _texChunks;
 
     /*---------------------------------------------------------------------*/
@@ -177,6 +178,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.3 2004/08/07 15:40:55 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.4 2004/08/12 16:17:06 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

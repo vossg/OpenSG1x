@@ -146,7 +146,7 @@ ShadowMapViewport::ShadowMapViewport(void) :
     _lightCamTrans(),
     _lightCamBeacons(),
     _lightStates(),
-    _shadowTextures(),
+    _shadowImages(),
     _texChunks()
 {
 }
@@ -170,7 +170,7 @@ ShadowMapViewport::ShadowMapViewport(const ShadowMapViewport &source) :
     _lightCamTrans(source._lightCamTrans),
     _lightCamBeacons(source._lightCamBeacons),
     _lightStates(source._lightStates),
-    _shadowTextures(source._shadowTextures),
+    _shadowImages(source._shadowImages),
     _texChunks(source._texChunks)
 {
 }
@@ -241,15 +241,15 @@ void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
     addRefCP(_texGen);
     beginEditCP(_texGen);//------Setting up TexGen--------------
     {
-        _texGen->setSBeacon(_dummy);    
-        _texGen->setTBeacon(_dummy);    
-        _texGen->setRBeacon(_dummy);    
-        _texGen->setQBeacon(_dummy);    
+        _texGen->setSBeacon(_dummy);
+        _texGen->setTBeacon(_dummy);
+        _texGen->setRBeacon(_dummy);
+        _texGen->setQBeacon(_dummy);
             
-        _texGen->setGenFuncS(GL_EYE_LINEAR);    
-        _texGen->setGenFuncT(GL_EYE_LINEAR);    
-        _texGen->setGenFuncR(GL_EYE_LINEAR);    
-        _texGen->setGenFuncQ(GL_EYE_LINEAR);    
+        _texGen->setGenFuncS(GL_EYE_LINEAR);
+        _texGen->setGenFuncT(GL_EYE_LINEAR);
+        _texGen->setGenFuncR(GL_EYE_LINEAR);
+        _texGen->setGenFuncQ(GL_EYE_LINEAR);
     }
     endEditCP(_texGen);
 
@@ -275,6 +275,7 @@ void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
 
 void ShadowMapViewport::onDestroy(void)
 {
+    clearLights(_lights.size());
     subRefCP(_tiledeco);
     subRefCP(_silentBack);
     subRefCP(_blender);
@@ -488,9 +489,18 @@ void ShadowMapViewport::updateLights(void)
                 isSpot = true;
                 isDirect = false;
 
+                Vec3f lightpos = tmpSpot->getPosition();
+                Vec3f lightdir = tmpSpot->getDirection();
+                if(tmpSpot->getBeacon() != NullFC)
+                {
+                    Matrix m = tmpSpot->getBeacon()->getToWorld();
+                    m.mult(lightpos);
+                    m.mult(lightdir);
+                }
+
                 //<-- ???
-                q.setValue(Vec3f(0,0,-1),tmpSpot->getDirection());
-                tmpMatrix.setTransform(Vec3f(tmpSpot->getPosition()),q);
+                q.setValue(Vec3f(0,0,-1), lightdir);
+                tmpMatrix.setTransform(Vec3f(lightpos),q);
             }
             else if(_lights[i]->getType() == DirectionalLight::getClassType())
             {
@@ -511,7 +521,14 @@ void ShadowMapViewport::updateLights(void)
 
                 getSceneRoot()->getVolume().getCenter(center);
 
-                MatrixLookAt(tmpMatrix,center + tmpDir->getDirection(),
+                Vec3f lightdir = tmpDir->getDirection();
+                if(tmpDir->getBeacon() != NullFC)
+                {
+                    Matrix m = tmpDir->getBeacon()->getToWorld();
+                    m.mult(lightdir);
+                }
+                
+                MatrixLookAt(tmpMatrix,center + lightdir,
                              center,Vec3f(0,1,0));
                 tmpMatrix.invert();
             }
@@ -620,24 +637,7 @@ void ShadowMapViewport::updateLights(void)
 
 void ShadowMapViewport::initializeLights(RenderActionBase *action)
 {
-    // Garbage-Collection of old LightCameras and Stuff.
-    // Maybe still a memory-leak TODO: Needs to be improved!
-    if(_oldLights.size() > 0)
-    {
-        FDEBUG(("Clearing Lightcamera-Garbage!\n"));
-
-        for(UInt32 i=0; i<_oldLights.size(); ++i)
-        {
-            getRoot()->subChild(_lightCamBeacons[i]);
-            subRefCP(_lightCameras[i]);
-        }
-
-        _lightCameras.clear();
-        _lightCamTrans.clear();
-        _lightCamBeacons.clear();
-        _lightStates.clear();
-        _shadowTextures.clear();
-    }
+    clearLights(_oldLights.size());
 
     FDEBUG(("Initialising lights.\n"));
 
@@ -686,21 +686,20 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
 
         //----------Shadowtexture-Images and Texture-Chunks-----------
 
-        _shadowTextures.push_back(Image::create());
+        _shadowImages.push_back(Image::create());
 
-        beginEditCP(_shadowTextures[i]);
-            //_shadowTextures[i]->set(Image::OSG_L_PF,_mapRenderSize,_mapRenderSize,
-            //                        1,1,1,0,NULL);
-            _shadowTextures[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
+        beginEditCP(_shadowImages[i]);
+            _shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
                                     1,1,1,0,NULL);
-        endEditCP(_shadowTextures[i]);
+        endEditCP(_shadowImages[i]);
 
         _texChunks.push_back(TextureChunk::create());
+        addRefCP(_texChunks[i]);
 
         // Preparation of Texture be a Depth-Texture
         beginEditCP(_texChunks[i]);
         {
-            _texChunks[i]->setImage(_shadowTextures[i]);
+            _texChunks[i]->setImage(_shadowImages[i]);
             _texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
             _texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
             _texChunks[i]->setMinFilter(GL_LINEAR);
@@ -724,6 +723,29 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
 
     updateLights();
 }
+
+void ShadowMapViewport::clearLights(UInt32 size)
+{
+    if(size > 0)
+    {
+        FDEBUG(("Clearing Lightcamera-Garbage!\n"));
+
+        for(UInt32 i=0; i < size; ++i)
+        {
+            getRoot()->subChild(_lightCamBeacons[i]);
+            subRefCP(_lightCameras[i]);
+            subRefCP(_texChunks[i]);
+        }
+
+        _lightCameras.clear();
+        _lightCamTrans.clear();
+        _lightCamBeacons.clear();
+        _lightStates.clear();
+        _texChunks.clear();
+        _shadowImages.clear();
+    }
+}
+
 //------------------------------------------------
 
 
@@ -982,7 +1004,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.3 2004/08/07 15:40:55 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.4 2004/08/12 16:17:06 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
@@ -992,4 +1014,3 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-
