@@ -9,8 +9,10 @@ endif
 
 OSGMAINMAKE    = 1
 
-SUBLIBS        = Action Action/DrawAction Base Field FieldContainer 	\
-				 Image Loader Log Nodes	State Window
+SUBLIBS        = Action Action/DrawAction Base Field FieldContainer Log \
+			     Loader Nodes State Window
+
+#				 Image 
 
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
