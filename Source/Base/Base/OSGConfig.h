@@ -294,6 +294,15 @@
 # endif // defined(__GNUC__) && defined(__linux)
 
 /*-------------------------------------------------------------------------*/
+/*                              Linux gcc ia64                             */
+
+# if defined(__GNUC__) && defined(__linux) && defined(__ia64)
+
+# define SIZE_T_NEQ_UINT32
+
+# endif // defined(__GNUC__) && defined(__linux) && defined(__ia64)
+
+/*-------------------------------------------------------------------------*/
 /*                              Linux icc                                  */
 
 # if defined(__INTEL_COMPILER) && defined(__linux)

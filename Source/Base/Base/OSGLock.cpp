@@ -483,17 +483,17 @@ LockPool *LockPool::create(void)
 
 void LockPool::aquire(void *keyP)
 {
-    _pLocks[(UInt32(keyP) & uiLockPoolMask) >> 7].aquire();
+    _pLocks[(UInt64(keyP) & uiLockPoolMask) >> 7].aquire();
 }
 
 void LockPool::release(void *keyP)
 {
-    _pLocks[(UInt32(keyP) & uiLockPoolMask) >> 7].release();
+    _pLocks[(UInt64(keyP) & uiLockPoolMask) >> 7].release();
 }
 
 bool LockPool::request(void *keyP)
 {
-    return _pLocks[(UInt32(keyP) & uiLockPoolMask) >> 7].request();
+    return _pLocks[(UInt64(keyP) & uiLockPoolMask) >> 7].request();
 }
 
 #ifdef OSG_WIN32_ICL
