@@ -85,6 +85,15 @@ int main(int argc, char **argv)
 {
     osgInit(argc,argv);
 
+    // ATI Radeon Linux driver is buggy, doesn't handle dlisted geometry
+    // correct. Disable DList caching as a workaround.
+    FieldContainerPtr pProto = Geometry::getClassType().getPrototype();
+    GeometryPtr pGeoProto = GeometryPtr::dcast(pProto);
+    if(pGeoProto != NullFC)
+    {
+        pGeoProto->setDlistCache(false);
+    }
+
     // GLUT init
     glutInit(&argc, argv);
     
@@ -110,6 +119,7 @@ int main(int argc, char **argv)
    
     vp->addParameter("foo", 0, Vec4f(1,0,0,0));
     vp->addParameter("bar", 1, Vec4f(0,1,0,0));
+    vp->addParameter("baz", 3, Vec4f(0,0,1,0));
     
     endEditCP(vp);
     
@@ -139,7 +149,7 @@ int main(int argc, char **argv)
     
     beginEditCP(mat);
     mat->setDiffuse(Color3f(1,1,1));
-    mat->setLit(false);
+    mat->setLit(true);
     //mat->addChunk(tx1);
     mat->addChunk(vp);
     endEditCP(mat);
@@ -172,6 +182,19 @@ int main(int argc, char **argv)
     p->push_back(Pnt3f(-1,  1,  1));
     endEditCP(pnts);
 
+
+    GeoNormals3fPtr norms = GeoNormals3f::create();
+    g1->setNormals(norms);
+    beginEditCP(norms);
+    norms->push_back(Vec3f(-1, -1, -1));
+    norms->push_back(Vec3f( 1, -1, -1));
+    norms->push_back(Vec3f( 1,  1, -1));
+    norms->push_back(Vec3f(-1,  1, -1));
+    norms->push_back(Vec3f(-1, -1,  1));
+    norms->push_back(Vec3f( 1, -1,  1));
+    norms->push_back(Vec3f( 1,  1,  1));
+    norms->push_back(Vec3f(-1,  1,  1));
+    endEditCP(norms);
 
     GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
     g1->setTexCoords(texs);

@@ -362,19 +362,27 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus)
         void (OSG_APIENTRY* bindProgram)(GLenum target, GLuint prog) =
             (void (OSG_APIENTRY*)(GLenum target, GLuint prog))
             win->getFunction(_funcBindProgram);
+             
+        glErr("ProgramChunk::handleGL: bindProgram precheck");
         
         bindProgram(target, id);
+             
+        glErr("ProgramChunk::handleGL: bindProgram postcheck");
         
         if(mode != Window::needrefresh)
         {
             // get "glProgramStringARB" function pointer
             void (OSG_APIENTRY* programString)(GLenum target, GLenum format, 
-                        GLsizei len, const void *string) =
+                        GLsizei lesn, const void *string) =
                 (void (OSG_APIENTRY*)(GLenum target, GLenum format, 
                         GLsizei len, const void *string))
                 win->getFunction(_funcProgramString);
             
-            glErr("ProgramChunk::programString precheck");
+            glErr("ProgramChunk::handleGL: programString precheck");
+            
+            glEnable(target);
+            
+            glErr("ProgramChunk::handleGL: enable postcheck");
             
             programString(target, GL_PROGRAM_FORMAT_ASCII_ARB,
                             getProgram().size(), getProgram().c_str());
@@ -390,6 +398,10 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus)
                 SWARNING << "ProgramChunk::programString postcheck failed:"
                          << gluErrorString(err) << endLog;
             }
+            
+            glDisable(target);
+            
+            glErr("ProgramChunk::handleGL: disable postcheck");
         }
         
         void (OSG_APIENTRY* programLocalParameter4fv)(GLenum target, 
@@ -398,7 +410,7 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus)
                         GLuint index, const GLfloat *params))
             win->getFunction(_funcProgramLocalParameter4fv);
              
-        glErr("ProgramChunk::programLocalParameter precheck");
+        glErr("ProgramChunk::handleGL: programLocalParameter precheck");
        
         for(UInt16 i = 0; i < getParamValues().size(); ++i)
         {
@@ -406,13 +418,10 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus)
             
             programLocalParameter4fv(target, i, val.getValues());
             
-            // for some reason ATI 2.5.1 drivers generate an error
-            // on LocalParameter 0. But it works correctly...
-            if(i == 0)
-                glGetError();
+            glErr("ProgramChunk::handleGL: programLocalParameter");
         }      
              
-        glErr("ProgramChunk::programLocalParameter postcheck");
+        glErr("ProgramChunk::handleGL: programLocalParameter postcheck");
     }
     else
     {
@@ -442,10 +451,16 @@ void ProgramChunk::activate(DrawActionBase *action, UInt32)
     void (OSG_APIENTRY* bindProgram)(GLenum target, GLuint prog) =
         (void (OSG_APIENTRY*)(GLenum target, GLuint prog))
         action->getWindow()->getFunction(_funcBindProgram);
-
-    bindProgram(target, getGLId());
+             
+    glErr("ProgramChunk::activate: bindProgram precheck");
 
     glEnable(target);
+             
+    glErr("ProgramChunk::activate: enable postcheck");
+
+    bindProgram(target, getGLId());
+             
+    glErr("ProgramChunk::activate: bindProgram postcheck");
 }
 
 void ProgramChunk::changeFrom(DrawActionBase *action, 
@@ -481,11 +496,17 @@ void ProgramChunk::changeFrom(DrawActionBase *action,
     void (OSG_APIENTRY* bindProgram)(GLenum target, GLuint prog) =
         (void (OSG_APIENTRY*)(GLenum target, GLuint prog))
         action->getWindow()->getFunction(_funcBindProgram);
-
-    bindProgram(target, getGLId());
+             
+    glErr("ProgramChunk::changeFrom: bindProgram precheck");
 
     if(old->getProgram().empty())
         glEnable(target);
+             
+    glErr("ProgramChunk::changeFrom: enable postcheck");
+
+    bindProgram(target, getGLId());
+             
+    glErr("ProgramChunk::changeFrom: bindProgram postcheck");
 }
 
 void ProgramChunk::deactivate(DrawActionBase *action, UInt32)
@@ -509,9 +530,16 @@ void ProgramChunk::deactivate(DrawActionBase *action, UInt32)
         (void (OSG_APIENTRY*)(GLenum target, GLuint prog))
         action->getWindow()->getFunction(_funcBindProgram);
 
+             
+    glErr("ProgramChunk::deactivate: bindProgram precheck");
+
     bindProgram(target, getGLId());
+             
+    glErr("ProgramChunk::deactivate: bindProgram postcheck");
 
     glDisable(target);
+             
+    glErr("ProgramChunk::deactivate: disable postcheck");
 }
 
 

@@ -45,7 +45,7 @@ environment). The maximum number of concurrently active slots of the
 osg::StateChunk type is also stored in the osg::StateChunkClass.
 
 \anchor State The complete OpenGL state wrapper is the osg::State. It
-primarily contains a vector of \ref PageSystemosg::StateChunk
+primarily contains a vector of \ref PageSystemStateChunk
 "osg::StateChunks". For every type of chunk there are as many slots as
 possibly concurrently active copies of the chunk. A chunk can be \ref
 osg::StateChunk::activate "activated", which sets the OpenGL state
