@@ -51,7 +51,7 @@ float facemax,fcullmax,pmax;
 float sum_facemax=0,sum_fcullmax=0,sum_pmax=0;
 int                      animFrames=4;
 RenderAction             *raction;
-StatCollector            stat;
+StatCollector            stats;
 float                    sum_travTime;
 float                    sum_drawTime;
 TransformPtr             cart;
@@ -287,13 +287,13 @@ public:
             if(i==0 && _win->getPort().size() >1)
                 continue;
             _action->setWindow( _win.getCPtr() );
-            _action->setStatistics( &stat );
+            _action->setStatistics( &stats );
             _win->getPort(i)->render( _action );
             _action->setStatistics( NULL );
             StatElem *statElem;
-            statElem=stat.getElem(DrawActionBase::statTravTime);
+            statElem=stats.getElem(DrawActionBase::statTravTime);
             travTime=statElem->getValue();
-            statElem=stat.getElem(RenderAction::statDrawTime);
+            statElem=stats.getElem(RenderAction::statDrawTime);
             drawTime=statElem->getValue();
             glFinish();
             t=-getSystemTime();
