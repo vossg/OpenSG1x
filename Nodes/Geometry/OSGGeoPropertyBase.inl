@@ -43,6 +43,7 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
+#include "OSGGeoPropInterfaceFields.h"
 
 OSG_BEGIN_NAMESPACE
 
