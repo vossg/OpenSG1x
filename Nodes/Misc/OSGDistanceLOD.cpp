@@ -79,7 +79,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.9 2001/08/07 17:07:01 dirk Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.10 2001/08/09 21:41:12 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -105,16 +105,45 @@ char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.9 2001/08/07 17:07:
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE DistanceLOD::DistLODDraw(CNodePtr &cnode, 
+                                              Action  *pAction)
+{
+    NodeCore    *pNC = cnode.getCPtr();
+    DistanceLOD *pSC = dynamic_cast<DistanceLOD *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "DLDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->draw(pAction);
+    }
+}
+#endif
+
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
 void DistanceLOD::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
+
 	DrawAction::registerEnterDefault( getClassType(),
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,
 								DistanceLODPtr,
 								Action*>(&DistanceLOD::draw));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        DistanceLOD::DistLODDraw));
+
+#endif
 }
 
 /***************************************************************************\

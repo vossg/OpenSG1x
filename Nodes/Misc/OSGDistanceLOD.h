@@ -107,9 +107,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
 	
-	//draw the "right" object
-	Action::ResultE draw( Action* action );
-
   protected:
 
     //-----------------------------------------------------------------------
@@ -128,6 +125,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE DistLODDraw(CNodePtr &cnode, 
+                                       Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
@@ -141,6 +143,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     DistanceLOD(void);
     DistanceLOD(const DistanceLOD &source);
     virtual ~DistanceLOD(void); 
+
+	//draw the "right" object
+	Action::ResultE draw( Action* action );
     
   private:
 
