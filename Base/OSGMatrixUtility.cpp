@@ -179,19 +179,20 @@ OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
                  << " very small, setting to 1!\n" << endl;
         rZeroparallax = 1;
     }
-
-    rTop = osgtan( rFovy/2.0 ) * rNear; /* Calculate upper and lower clipping planes */
+    
+    /* Calculate upper and lower clipping planes */
+    rTop = osgtan(rFovy / 2.0) * rNear; 
     rBottom = -rTop;
 
-
-    gltan = osgtan( rFovy/2.0 ) * rAspect;  /* Calculate left and right clipping planes */
-    rLeft =  ( -gltan + rEye / rZeroparallax ) * rNear;
-    rRight = (  gltan + rEye / rZeroparallax ) * rNear;
+    /* Calculate left and right clipping planes */
+    gltan = osgtan(rFovy / 2.0) * rAspect;  
+    rLeft =  (-gltan + rEye / rZeroparallax) * rNear;
+    rRight = ( gltan + rEye / rZeroparallax) * rNear;
 
     d = rRight - rLeft;
 
-    rLeft += d * ( 1  - rOverlap ) * ( rWhicheye - .5f );
-    rRight += d * ( 1  - rOverlap ) * ( rWhicheye - .5f );
+    rLeft  += d * (1  - rOverlap) * (rWhicheye - .5f);
+    rRight += d * (1  - rOverlap) * (rWhicheye - .5f);
 
     MatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
 
