@@ -437,7 +437,14 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     {
         LengthSize = 1;
         LengthData = (UChar8*) &lendummy;
-        lendummy = PositionPtr->getSize();
+        if(IndexData)
+        {
+            lendummy = IndexPtr->getSize() / nmappings;
+        }
+        else
+        {
+            lendummy = PositionPtr->getSize();
+        }
     }
     else
     {
