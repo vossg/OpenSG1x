@@ -154,24 +154,18 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     bool hasVP(void);
     bool hasFP(void);
 
-    typedef struct
-    {
-        CGcontext context;
-
-        CGprogram vProgram;
-        bool vp_isvalid;
-        CGprogram fProgram;
-        bool fp_isvalid;
-    } cgS;
+    CGcontext   _context;
+    CGprogram   _vProgram;
+    bool        _vp_isvalid;
+    CGprogram   _fProgram;
+    bool        _fp_isvalid;
     
-    typedef std::map<Window *, cgS> cgMap;
-    typedef cgMap::iterator cgMapIt;
+    void createCGContext(void);
+    void updateCGContext(void);
+    
+    void parseProgramParams(CGprogram prog);
+    void parseParams(CGparameter param);
 
-    void updateCGContexts(void);
-    cgMapIt createCGContext(Window *win);
-    void updateCGContext(Window *win);
-
-    cgMap _contexts;
     static CGcontext _current_context;
 };
 
@@ -182,6 +176,6 @@ OSG_END_NAMESPACE
 #include <OSGCGChunkBase.inl>
 #include <OSGCGChunk.inl>
 
-#define OSGCGCHUNK_HEADER_CVSID "@(#)$Id: OSGCGChunk.h,v 1.3 2003/05/12 15:15:01 amz Exp $"
+#define OSGCGCHUNK_HEADER_CVSID "@(#)$Id: OSGCGChunk.h,v 1.1 2003/06/25 14:22:43 amz Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

@@ -48,6 +48,7 @@
 #include <OSGGL.h>
 #include <OSGGLU.h>
 #include <OSGGLEXT.h>
+#include <OSGRemoteAspect.h>
 
 #include "OSGCGChunk.h"
 
@@ -104,13 +105,21 @@ void CGChunk::cgErrorCallback(void)
 
 CGChunk::CGChunk(void) :
     Inherited(),
-    _contexts()
+    _context(NULL),
+    _vProgram(NULL),
+    _fProgram(NULL),
+    _vp_isvalid(false),
+    _fp_isvalid(false)
 {
 }
 
 CGChunk::CGChunk(const CGChunk &source) :
     Inherited(source),
-    _contexts()
+    _context(source._context),
+    _vProgram(source._vProgram),
+    _fProgram(source._fProgram),
+    _vp_isvalid(source._vp_isvalid),
+    _fp_isvalid(source._fp_isvalid)
 {
 }
 
@@ -118,7 +127,7 @@ CGChunk::~CGChunk(void)
 {
 }
 
-void CGChunk::onCreate(const CGChunk *source)
+void CGChunk::onCreate(const CGChunk */*source*/)
 {
     // Doesn't work in external shared libraries!
     //if(GlobalSystemState == Startup)
@@ -132,6 +141,9 @@ void CGChunk::onCreate(const CGChunk *source)
         return;
     }
 
+    // we need this for clustering without it handleGL is never called.
+    RemoteAspect::addFieldFilter(CGChunk::getClassType().getId(), CGChunk::GLIdFieldMask);
+    
     cgSetErrorCallback(CGChunk::cgErrorCallback);
 
 
@@ -149,22 +161,16 @@ void CGChunk::onCreate(const CGChunk *source)
 
 void CGChunk::onDestroy(void)
 {
-    for(std::map<Window *, cgS>::iterator i = _contexts.begin();i != _contexts.end();++i)
-    {
-    	cgS cg = (*i).second;
-    	if(cgIsProgram(cg.vProgram))
-            cgDestroyProgram(cg.vProgram);
-        if(cgIsProgram(cg.fProgram))
-            cgDestroyProgram(cg.fProgram);
-        if(cgIsContext(cg.context))
-            cgDestroyContext(cg.context);
-    }
-
+    if(cgIsProgram(_vProgram))
+        cgDestroyProgram(_vProgram);
+    if(cgIsProgram(_fProgram))
+        cgDestroyProgram(_fProgram);
+    if(cgIsContext(_context))
+        cgDestroyContext(_context);
+        
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
 }
-
-/*------------------------- Chunk Class Access ---------------------------*/
 
 const StateChunkClass *CGChunk::getClass(void) const
 {
@@ -180,7 +186,7 @@ void CGChunk::changed(BitVector whichField, UInt32 origin)
     if((whichField & VertexProgramFieldMask) ||
        (whichField & FragmentProgramFieldMask))
     {
-        updateCGContexts();
+        updateCGContext();
     }
 }
 
@@ -193,57 +199,59 @@ void CGChunk::dump(      UInt32    ,
 /*! GL object handler
     create the program and destroy it
 */
-void CGChunk::handleGL(Window *win, UInt32 idstatus)
+void CGChunk::handleGL(Window */*win*/, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
 
     Window::unpackIdStatus(idstatus, id, mode);
 
-    // ACHTUNG da ich nicht mitbekomme wenn ein gl fenster zerstoert wird
-    // und das neue fenster auch den gleichen pointer wie das alte hat,
-    // fange ich das beim neu erzeugen eines gl fensters ab!
-    if(mode == Window::initialize)
+    if(mode == Window::destroy)
     {
-        cgMapIt i = _contexts.find(win);
-        if(i == _contexts.end())
-            i = createCGContext(win);
-        else
-            createCGContext(win); // update old pointer with new program.
-
-        _current_context = (*i).second.context;
+        ;
+    }
+    else if(mode == Window::finaldestroy)
+    {
+        //SWARNING << "Last program user destroyed" << std::endl;
+    }
+    else if(mode == Window::initialize || mode == Window::reinitialize ||
+            mode == Window::needrefresh)
+    {
+        if(mode != Window::needrefresh)
+        {
+            createCGContext();
+        }
+        
+        // set params
+    }
+    else
+    {
+        SWARNING << "CGChunk(" << this << "::handleGL: Illegal mode: "
+             << mode << " for id " << id << std::endl;
     }
 }
 
-void CGChunk::updateCGContexts(void)
-{
-	for(std::map<Window *, cgS>::iterator i = _contexts.begin();i != _contexts.end();++i)
-	{
-		updateCGContext((*i).first);
-    }
-}
-
-CGChunk::cgMapIt CGChunk::createCGContext(Window *win)
+void CGChunk::createCGContext(void)
 {
     // create a new cg context.
-    cgS cg;
-    cg.context = cgCreateContext();
-    cg.vProgram = NULL;
-    cg.fProgram = NULL;
-    cg.vp_isvalid = false;
-    cg.fp_isvalid = false;
+    _context = cgCreateContext();
+    _vProgram = NULL;
+    _fProgram = NULL;
+    _vp_isvalid = false;
+    _fp_isvalid = false;
 
-    _current_context = cg.context;
+    _current_context = _context;
 
     if(hasVP() && !getVertexProgram().empty())
     {
-        cg.vProgram = cgCreateProgram(cg.context, CG_SOURCE, getVertexProgram().c_str(),
+        _vProgram = cgCreateProgram(_context, CG_SOURCE, getVertexProgram().c_str(),
                                       CG_PROFILE_ARBVP1, NULL, NULL);
 
-        if(cgIsProgram(cg.vProgram))
+        if(cgIsProgram(_vProgram))
         {
-            cg.vp_isvalid = true;
-            cgGLLoadProgram(cg.vProgram);
+            _vp_isvalid = true;
+            cgGLLoadProgram(_vProgram);
+            //parseProgramParams(_vProgram);
         }
         else
         {
@@ -253,68 +261,63 @@ CGChunk::cgMapIt CGChunk::createCGContext(Window *win)
 
     if(hasFP() && !getFragmentProgram().empty())
     {
-        cg.fProgram = cgCreateProgram(cg.context, CG_SOURCE, getFragmentProgram().c_str(),
+        _fProgram = cgCreateProgram(_context, CG_SOURCE, getFragmentProgram().c_str(),
                                       CG_PROFILE_ARBFP1, NULL, NULL);
-        if(cgIsProgram(cg.fProgram))
+        if(cgIsProgram(_fProgram))
         {
-            cg.fp_isvalid = true;
-            cgGLLoadProgram(cg.fProgram);
+            _fp_isvalid = true;
+            cgGLLoadProgram(_fProgram);
+            //parseProgramParams(_fProgram);
         }
         else
         {
             FWARNING(("Couldn't load fragment program!\n"));
         }
     }
-    _contexts.insert(std::pair<Window *, cgS>(win, cg));
-    return _contexts.find(win);
 }
 
-void CGChunk::updateCGContext(Window *win)
+void CGChunk::updateCGContext(void)
 {
-    cgMapIt i = _contexts.find(win);
-    if(i == _contexts.end())
-    {
-    	FWARNING(("Couldn't update context!\n"));
-    	return;
-    }
+    if(_context == NULL)
+        return;
 
-    _current_context = (*i).second.context;
+    _current_context = _context;
 
     // reload programs
     if(hasVP() && !getVertexProgram().empty())
     {
-        if(cgIsProgram((*i).second.vProgram))
-            cgDestroyProgram((*i).second.vProgram);
+        if(cgIsProgram(_vProgram))
+            cgDestroyProgram(_vProgram);
 
-        (*i).second.vProgram = cgCreateProgram((*i).second.context, CG_SOURCE, getVertexProgram().c_str(),
-                                               CG_PROFILE_ARBVP1, NULL, NULL);
-        if(cgIsProgram((*i).second.vProgram))
+        _vProgram = cgCreateProgram(_context, CG_SOURCE, getVertexProgram().c_str(),
+                                    CG_PROFILE_ARBVP1, NULL, NULL);
+        if(_vProgram)
         {
-            (*i).second.vp_isvalid = true;
-            cgGLLoadProgram((*i).second.vProgram);
+            _vp_isvalid = true;
+            cgGLLoadProgram(_vProgram);
         }
         else
         {
-            (*i).second.vp_isvalid = false;
+            _vp_isvalid = false;
             FWARNING(("Couldn't load vertex program!\n"));
         }
     }
 
     if(hasFP() && !getFragmentProgram().empty())
     {
-        if(cgIsProgram((*i).second.fProgram))
-            cgDestroyProgram((*i).second.fProgram);
+        if(cgIsProgram(_fProgram))
+            cgDestroyProgram(_fProgram);
 
-        (*i).second.fProgram = cgCreateProgram((*i).second.context, CG_SOURCE, getFragmentProgram().c_str(),
+        _fProgram = cgCreateProgram(_context, CG_SOURCE, getFragmentProgram().c_str(),
                                                CG_PROFILE_ARBFP1, NULL, NULL);
-        if(cgIsProgram((*i).second.fProgram))
+        if(cgIsProgram(_fProgram))
         {
-            (*i).second.fp_isvalid = true;
-            cgGLLoadProgram((*i).second.fProgram);
+            _fp_isvalid = true;
+            cgGLLoadProgram(_fProgram);
         }
         else
         {
-            (*i).second.fp_isvalid = false;
+            _fp_isvalid = false;
             FWARNING(("Couldn't load fragment program!\n"));
         }
     }
@@ -322,29 +325,22 @@ void CGChunk::updateCGContext(Window *win)
 
 /*------------------------------ State ------------------------------------*/
 
-void CGChunk::activate(DrawActionBase *action, UInt32 idx)
+void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 {
-    cgMapIt i = _contexts.find(action->getWindow());
-
-    // Ok das wird normalerweise in handleGL gemacht allerdings im cluster
-    // (auf der serverseite) wird handleGL nicht aufgerufen!
-    if(i == _contexts.end())
-    	i = createCGContext(action->getWindow());
-
-    _current_context = (*i).second.context;
+    _current_context = _context;
 
     action->getWindow()->validateGLObject(getGLId());
 
-    if((*i).second.vp_isvalid)
+    if(_vp_isvalid)
     {
         cgGLEnableProfile(CG_PROFILE_ARBVP1);
-        cgGLBindProgram((*i).second.vProgram);
+        cgGLBindProgram(_vProgram);
     }
 
-    if((*i).second.fp_isvalid)
+    if(_fp_isvalid)
     {
         cgGLEnableProfile(CG_PROFILE_ARBFP1);
-        cgGLBindProgram((*i).second.fProgram);
+        cgGLBindProgram(_fProgram);
     }
 }
 
@@ -352,9 +348,9 @@ void CGChunk::activate(DrawActionBase *action, UInt32 idx)
 
 
 void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
-                                UInt32 idx)
+                                UInt32 /*idx*/)
 {
-	CGChunk *old = dynamic_cast<CGChunk *>(old_chunk);
+    CGChunk *old = dynamic_cast<CGChunk *>(old_chunk);
 
     if(old == NULL)
     {
@@ -362,42 +358,31 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         return;
     }
 
-    cgMapIt i = _contexts.find(action->getWindow());
-    if(i == _contexts.end())
-    	i = createCGContext(action->getWindow());
-
-    _current_context = (*i).second.context;
+    _current_context = _context;
 
     action->getWindow()->validateGLObject(getGLId());
 
-    if((*i).second.vp_isvalid)
+    if(_vp_isvalid)
     {
         cgGLEnableProfile(CG_PROFILE_ARBVP1);
-        cgGLBindProgram((*i).second.vProgram);
+        cgGLBindProgram(_vProgram);
     }
 
-    if((*i).second.fp_isvalid)
+    if(_fp_isvalid)
     {
         cgGLEnableProfile(CG_PROFILE_ARBFP1);
-        cgGLBindProgram((*i).second.fProgram);
+        cgGLBindProgram(_fProgram);
     }
 }
 
 
-void CGChunk::deactivate(DrawActionBase *action, UInt32 idx)
+void CGChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
 {
-	cgMapIt i = _contexts.find(action->getWindow());
-    if(i == _contexts.end())
-    {
-    	FWARNING(("CGChunk::deactivate : Couldn't find contex!\n"));
-    	return;
-    }
-
-    if((*i).second.fp_isvalid)
+    if(_fp_isvalid)
         cgGLDisableProfile(CG_PROFILE_ARBFP1);
 
-    if((*i).second.vp_isvalid)
-	   cgGLDisableProfile(CG_PROFILE_ARBVP1);
+    if(_vp_isvalid)
+        cgGLDisableProfile(CG_PROFILE_ARBVP1);
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -455,6 +440,45 @@ bool CGChunk::hasFP(void)
     return false;
 }
 
+void CGChunk::parseProgramParams(CGprogram prog)
+{
+    parseParams(cgGetFirstParameter(prog, CG_PROGRAM));
+}
+
+void CGChunk::parseParams(CGparameter param)
+{
+    if(!param)
+        return;
+
+    do
+    {
+        switch(cgGetParameterType(param))
+        {
+            case CG_STRUCT :
+                parseParams(cgGetFirstStructParameter(param));
+            break;
+            case CG_ARRAY :
+            {
+                int ArraySize = cgGetArraySize(param, 0);
+                int i;
+                for(i=0; i < ArraySize; ++i)
+                    parseParams(cgGetArrayParameter(param, i));
+            }
+            break;
+            default: // Display parameter information
+                const char *name = cgGetParameterName(param);
+                CGtype paramType = cgGetParameterType(param);
+                const char *type = cgGetTypeString(paramType);
+                CGresource paramRes = cgGetParameterResource(param);
+                const char *resource = cgGetResourceString(paramRes);
+                printf("-- Name = '%s'\n", name);
+                printf("-- Type = '%s'\n", type);
+                printf("-- Resource = '%s'\n\n", resource);
+        }
+    }
+    while((param = cgGetNextParameter(param)) != 0);
+}
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -468,7 +492,7 @@ bool CGChunk::hasFP(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGChunk.cpp,v 1.5 2003/05/12 15:15:01 amz Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGChunk.cpp,v 1.2 2003/07/28 08:44:22 amz Exp $";
     static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
 
@@ -478,4 +502,3 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-
