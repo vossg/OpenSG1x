@@ -214,6 +214,9 @@ void Navigator::moveTo(Int16 x, Int16 y)
     Real32 width=_vp->getPixelWidth();
     Real32 height=_vp->getPixelHeight();
 
+    if(width <= 0 || height <= 0)
+        return;
+
     Real32 fromX=(2.0f * _lastX - width) / width;
     Real32 fromY=(height - 2.0f * _lastY) / height;
     Real32 toX=(2.0f * x - width) / width;
@@ -640,7 +643,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.12 2002/08/07 04:04:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.13 2002/08/11 13:30:28 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

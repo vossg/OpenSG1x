@@ -108,6 +108,12 @@ void ShearedStereoCameraDecorator::dump(      UInt32    ,
 void ShearedStereoCameraDecorator::getProjection( Matrix &result, 
                                                   UInt32 width, UInt32 height)
 {
+    if(width == 0 || height == 0)
+    {
+        result.setIdentity();
+        return;
+    }
+       
     PerspectiveCameraPtr cam = PerspectiveCameraPtr::dcast(getDecoratee());
     
     if(cam == NullFC)
@@ -144,7 +150,7 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.6 2002/08/07 04:04:14 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.7 2002/08/11 13:30:28 dirk Exp $";
     static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

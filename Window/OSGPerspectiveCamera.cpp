@@ -169,7 +169,8 @@ void PerspectiveCamera::getProjection( Matrix& result,
 {
     Real32 fov = getFov();
 
-    if(fov < 0)
+    // catch some illegal cases
+    if(fov < 0 || width == 0 || height == 0)
     {
         result.setIdentity();
         return;

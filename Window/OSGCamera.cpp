@@ -264,6 +264,11 @@ void Camera::getFrustum( FrustumVolume& result, const Viewport& p )
 
 bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 {
+    if(port.getPixelWidth() <= 0 || port.getPixelHeight() <= 0)
+    {
+        return false;
+    }
+    
     Matrix proj, projtrans, view;
 
     getProjection( proj, port.getPixelWidth(), port.getPixelHeight() );

@@ -100,7 +100,7 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
 {
     ImageP img = getImage();
     
-    if(!img)
+    if(!img || img->getWidth() <= 0 || img->getHeight() <= 0)
         return; 
 
     glClearColor(_sfColor.getValue()[0],
@@ -168,7 +168,7 @@ void ImageBackground::dump(      UInt32     ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.10 2002/08/07 04:04:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.11 2002/08/11 13:30:28 dirk Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }

@@ -46,7 +46,6 @@
 #include <OSGConfig.h>
 #include <OSGBaseFunctions.h>
 #include <OSGImageFileType.h>
-#include <OSGNodePtr.h>
 #include <OSGSolidBackground.h>
 #include <OSGViewport.h>
 #include <OSGLogoData.h>
@@ -822,7 +821,7 @@ bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.32 2002/08/07 04:04:14 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.33 2002/08/11 13:30:28 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
