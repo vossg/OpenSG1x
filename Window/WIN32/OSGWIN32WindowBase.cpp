@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.2 2002/02/07 08:51:14 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.3 2002/02/08 10:29:23 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 
@@ -209,10 +209,10 @@ void WIN32WindowBase::executeSync(      FieldContainer &other,
 #endif
 
 WIN32WindowBase::WIN32WindowBase(void) :
-    _sfHwnd                   (), 
-    _sfHdc                    (), 
-    _sfHglrc                  (), 
-    _sfPaintstruct            (), 
+    _sfHwnd                   (HWND(0)), 
+    _sfHdc                    (HDC(0)), 
+    _sfHglrc                  (HGLRC(0)), 
+    _sfPaintstruct            (PAINTSTRUCT(0)), 
     Inherited() 
 {
 }

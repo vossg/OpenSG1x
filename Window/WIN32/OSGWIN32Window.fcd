@@ -15,7 +15,7 @@ The class for WIN32 windows.
 		type="HWND"
 		cardinality="single"
 		visibility="internal"
-		defaultValue=""
+		defaultValue="0"
 		header="OSGWIN32WindowDataFields.h"
 		access="public"
 	>
@@ -25,6 +25,7 @@ The class for WIN32 windows.
 		type="HDC"
 		cardinality="single"
 		visibility="internal"
+		defaultValue="0"
 		header="OSGWIN32WindowDataFields.h"
 		access="public"
 	>
@@ -34,6 +35,7 @@ The class for WIN32 windows.
 		type="HGLRC"
 		cardinality="single"
 		visibility="internal"
+		defaultValue="0"
 		header="OSGWIN32WindowDataFields.h"
 		access="public"
 	>
@@ -43,6 +45,7 @@ The class for WIN32 windows.
 		type="PAINTSTRUCT"
 		cardinality="single"
 		visibility="internal"
+		defaultValue="0"
 		header="OSGWIN32WindowDataFields.h"
 		access="public"
 	>
