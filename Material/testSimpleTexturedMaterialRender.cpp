@@ -30,7 +30,7 @@ OSG_USING_NAMESPACE
 
 
 DrawAction * dact;
-
+WindowPtr win;
 NodePtr plane,torus;
 
 void
@@ -45,6 +45,8 @@ display(void)
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     else
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+    win->frameInit();
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -62,6 +64,8 @@ display(void)
     glPopMatrix();
 
     glPopMatrix();
+
+    win->frameExit();
 
     glutSwapBuffers();
 }
@@ -141,7 +145,7 @@ int main (int argc, char **argv)
     //
     // The action
 
-    WindowPtr win = GLUTWindow::create();
+    win = GLUTWindow::create();
 
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
