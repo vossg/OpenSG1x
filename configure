@@ -1835,7 +1835,7 @@ if test "${enable_opt_drawtree+set}" = set; then
   enableval="$enable_opt_drawtree"
   :
 else
-  enable_opt_drawtree=no
+  enable_opt_drawtree=yes
 fi
  
 
