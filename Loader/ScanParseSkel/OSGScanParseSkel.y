@@ -233,6 +233,7 @@ protoId : nodeTypeId { if(_pSkel != NULL)
                         _pSkel->beginProto(OSGScanParseSkel_text); }
         | SCRIPT     { if(_pSkel != NULL) 
                         _pSkel->beginProto(OSGScanParseSkel_text); }
+;
 
 proto : PROTO 
         protoId 
