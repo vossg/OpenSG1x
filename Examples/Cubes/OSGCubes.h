@@ -113,7 +113,7 @@ class OSG_MYLIB_DLLMAPPING Cubes : public CubesBase
    
     // updates 
     
-    void adjustVolume( Volume & volume );
+    void adjustVolume(Volume & volume);
  
   protected:
 

@@ -174,17 +174,17 @@ void Cubes::changed(BitVector, UInt32)
 /** \brief output the instance for debug purposes
  */
 
-void Cubes::dump(      UInt32     uiIndent, 
-                         const BitVector bvFlags) const
+void Cubes::dump(       UInt32    uiIndent, 
+                  const BitVector bvFlags) const
 {
     SLOG << "Dump Cubes NI" << std::endl;
 }
 
     
-Action::ResultE Cubes::drawPrimitives(DrawActionBase * action )
+Action::ResultE Cubes::drawPrimitives(DrawActionBase * action)
 {
-    if ( getMFPosition()->size() != getMFLength()->size() ||
-         getMFPosition()->size() != getMFColor()->size() )
+    if(getMFPosition()->size() != getMFLength()->size() ||
+       getMFPosition()->size() != getMFColor ()->size() )
     {
         SWARNING << "Cubes::draw: inconsistent attributes!" << std::endl;
         return Action::Continue;
@@ -248,7 +248,7 @@ Action::ResultE Cubes::drawPrimitives(DrawActionBase * action )
 }
 
 
-void Cubes::adjustVolume( Volume & volume )
+void Cubes::adjustVolume(Volume & volume)
 {   
     volume.setValid();
     volume.setEmpty();
@@ -257,19 +257,19 @@ void Cubes::adjustVolume( Volume & volume )
     MFReal32  *len = getMFLength();
     
     // go through all the cubes adjusting the volume
-    for ( int i = 0; i < pos->size(); i++ )
+    for(int i = 0; i < pos->size(); i++)
     {
         Pnt3f center = (*pos)[i];
         
         Real32 l = (*len)[i] / 2;
         
         // create the corners of the cube
-        for ( Int16 z = -1; z <= 1; z += 2 )
-        for ( Int16 y = -1; y <= 1; y += 2 )
-        for ( Int16 x = -1; x <= 1; x += 2 )
-            volume.extendBy( Pnt3f( center[0] + x * l, 
-                                    center[1] + y * l, 
-                                    center[2] + z * l )  );
+        for (Int16 z = -1; z <= 1; z += 2)
+        for (Int16 y = -1; y <= 1; y += 2)
+        for (Int16 x = -1; x <= 1; x += 2)
+            volume.extendBy(Pnt3f(center[0] + x * l, 
+                                  center[1] + y * l, 
+                                  center[2] + z * l));
     }
 }
 
