@@ -259,16 +259,11 @@ To resolve this problem you need to add the path where that library resides to y
 
 
 \code
-
 export PATH="/cygdrive/c/Program Files/Microsoft Visual Studio .NET/Common7/IDE:$PATH"
-
 \endcode
-
 Note that this should be a Unix/Cygwin path, i.e. using "/" instead of "\" and using "/cygdrive/c/" instead of "C:".
 
-Alternatively you can use the GUI approach described below. In that case you should use the Windows version of the path.
-
-</I>
+Alternatively you can use the GUI approach described below. In that case you should use the Windows version of the path.</I>
 
 If you are one of the GUI-clickers, you also can add both paths in the environment variables panel found in
 System Preferences>System>Extended>Environment Variables. (The actual words may differ, as I own only the german Windows version). The following image shows
@@ -406,6 +401,8 @@ The download page offers two different versions of OpenSG for Windows. One is us
 the STLPort. I would recommend the STLPort in any case, because it is much faster! Especially if you are loading VRML files from
 disk or you are manipulating big parts of geometry data the STLPort is quite often more than two times faster! The necessary header files
 are also automatically installed, so you do not have to download it yourself.
+
+If you decide to use STLport, you will also have to add the STLport library stlport_vc7.lib (inluded in the OpenSG distribution) to the list of linked libraries, otherwise you will get many undefined symbol errors involving STL-based classes like vectors and strings.
 </I>
 
 \section TutorialMakingAndExecuting Making and executing the tutorials

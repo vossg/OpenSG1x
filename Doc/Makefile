@@ -48,6 +48,7 @@ DOCS_SYS   := ../Source/System/Action  										\
               ../Source/System/NodeCores/Drawables/Geometry                 \
               ../Source/System/NodeCores/Drawables/Misc                     \
               ../Source/System/NodeCores/Drawables/Particles                \
+              ../Source/System/NodeCores/Drawables/VolRen                   \
               ../Source/System/NodeCores/Groups/Base                        \
               ../Source/System/NodeCores/Groups/Light                       \
               ../Source/System/NodeCores/Groups/Misc                        \
