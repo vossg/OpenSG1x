@@ -95,12 +95,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 
     typedef pair<FieldContainerPtrBase, BitVector> ChangeEntry;
     typedef FieldContainerPtrBase                  RefEntry;    
+    typedef UInt32                                 IdRefEntry;
 
     typedef vector<ChangeEntry>::size_type      changed_size_type;
     typedef vector<ChangeEntry>::const_iterator changed_const_iterator;
 
     typedef vector<RefEntry>::size_type         refd_size_type;
     typedef vector<RefEntry>::const_iterator    refd_const_iterator;
+
+    typedef vector<IdRefEntry>::size_type       idrefd_size_type;
+    typedef vector<IdRefEntry>::const_iterator  idrefd_const_iterator;
 
   private:
 
@@ -148,8 +152,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     vector<RefEntry>    _vAddRefdFieldContainers;
     vector<RefEntry>    _vSubRefdFieldContainers;
     
-    vector<RefEntry>    _vCreatedFieldContainers;
-    vector<RefEntry>    _vDeletedFieldContainers;
+    vector<IdRefEntry>  _vCreatedFieldContainers;
+    vector<IdRefEntry>  _vDestroyedFieldContainers;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -216,27 +220,35 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     refd_const_iterator    beginSubRefd(void) const;
     refd_const_iterator    endSubRefd  (void) const;
 
-    refd_const_iterator    beginCreated(void) const;
-    refd_const_iterator    endCreated  (void) const;
+    idrefd_const_iterator  beginCreated(void) const;
+    idrefd_const_iterator  endCreated  (void) const;
 
-    refd_size_type         sizeCreated (void) const;
+    idrefd_size_type       sizeCreated (void) const;
 
-    void    addChanged  (const FieldContainerPtrBase &pFieldContainer, 
+    idrefd_const_iterator  beginDestroyed(void) const;
+    idrefd_const_iterator  endDestroyed  (void) const;
+
+    idrefd_size_type       sizeDestroyed (void) const;
+
+    void addChanged  (const FieldContainerPtrBase &pFieldContainer, 
                                BitVector         bvWhichField);
-    void    addAddRefd  (const FieldContainerPtrBase &pFieldContainer);
-    void    addSubRefd  (const FieldContainerPtrBase &pFieldContainer);
+    void addAddRefd  (const FieldContainerPtrBase &pFieldContainer);
+    void addSubRefd  (const FieldContainerPtrBase &pFieldContainer);
 
-    void    clearAll(void);
-    Bool merge   (const ChangeList &list);
+    void addCreated  (const UInt32 uiContainerId);
+    void addDestroyed(const UInt32 uiContainerId);
+    
+    void clearAll    (void);
+    Bool merge       (const ChangeList &list);
 
-    void    applyTo       (UInt32 uiAspectId);
-    void    applyToCurrent(void);
+    void setAspect  (UInt32 uiAspectId);
 
-    void    setAspect  (UInt32 uiAspectId);
+    void setReadOnly(Bool bReadOnly);
 
-    void    setReadOnly(Bool bReadOnly);
+    void applyTo       (UInt32 uiAspectId);
+    void applyToCurrent(void);
 
-    void    dump(void);
+    void dump(void);
 };
 
 //---------------------------------------------------------------------------

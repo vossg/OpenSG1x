@@ -316,7 +316,7 @@ NodeCore::~NodeCore (void )
 {
 }
 
-void NodeCore::finalize(void)
+void NodeCore::onDestroy(void)
 {
 /*
     MFNodePtr::iterator parentIt = _parents.begin();

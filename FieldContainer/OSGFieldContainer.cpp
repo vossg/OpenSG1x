@@ -172,7 +172,7 @@ FieldContainer::~FieldContainer(void)
 {
 }
 
-void FieldContainer::finalize(void)
+void FieldContainer::onDestroy(void)
 {
 }
 

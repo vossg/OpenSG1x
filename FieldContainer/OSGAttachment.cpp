@@ -260,7 +260,7 @@ Attachment::~Attachment(void)
 {
 }
 
-void Attachment::finalize(void)
+void Attachment::onDestroy(void)
 {
     MFFieldContainerPtr::iterator parentIt = _parents.begin();
 

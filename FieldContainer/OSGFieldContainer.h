@@ -50,6 +50,7 @@
 #include <OSGStringLink.h>
 #include <OSGFieldContainerFactory.h>
 #include <OSGThreadManager.h>
+#include <OSGChangeList.h>
 #include <OSGMField.h>
 #include <OSGSField.h>
 
@@ -267,8 +268,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     FieldContainer(const FieldContainer &obj);
     virtual ~FieldContainer (void);
 
-    virtual void finalize(void);
-
     template <class ObjectPtrT>
     static void newPtr(      
                        ObjectPtrT                &result, 
@@ -294,6 +293,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
         *((UInt32 *) pTmp) = 
             FieldContainerFactory::the()->registerFieldContainer(result);
+
+        Thread::getCurrentChangeList()->addCreated(*((UInt32 *) pTmp));
 
         pTmp += sizeof(UInt32);
 
@@ -335,6 +336,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
         *((UInt32 *) pTmp) = 
             FieldContainerFactory::the()->registerFieldContainer(result);
+
+        Thread::getCurrentChangeList()->addCreated(*((UInt32 *) pTmp));
 
         pTmp += sizeof(UInt32);
         
@@ -399,6 +402,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
             void onCreate       (void);
             void onCreate       (const FieldContainer &source);
+
+    virtual void onDestroy      (void);
 
     virtual void executeSync    (FieldContainer &other,
                                  BitVector       whichField) = 0;

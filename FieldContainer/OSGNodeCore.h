@@ -182,7 +182,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
     NodeCore(const NodeCore &obj);
     virtual ~NodeCore(void);
 
-    virtual void finalize(void);
+    virtual void onDestroy(void);
 
     void addParent(const NodePtr &parent);
     void subParent(const NodePtr &parent);

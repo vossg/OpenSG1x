@@ -112,7 +112,7 @@ ChangeList::ChangeList(void) :
     _vAddRefdFieldContainers(),
     _vSubRefdFieldContainers(),
     _vCreatedFieldContainers(),
-    _vDeletedFieldContainers()
+    _vDestroyedFieldContainers()
 {
 //    Aspect::addList(this, _aspectId);
 }
@@ -199,11 +199,30 @@ void ChangeList::addSubRefd(const FieldContainerPtrBase &pFieldContainer)
     _vSubRefdFieldContainers.push_back(pFieldContainer);
 }
 
+void ChangeList::addCreated  (const UInt32 uiContainerId)
+{
+    if(_bReadOnly == true)
+        return;
+
+    _vCreatedFieldContainers.push_back(uiContainerId);
+}
+
+void ChangeList::addDestroyed(const UInt32 uiContainerId)
+{
+    if(_bReadOnly == true)
+        return;
+
+    _vDestroyedFieldContainers.push_back(uiContainerId);
+}
+
 void ChangeList::clearAll(void)
 {
     _vChangedFieldContainers.clear();
     _vAddRefdFieldContainers.clear();
     _vSubRefdFieldContainers.clear();
+
+    _vCreatedFieldContainers  .clear();
+    _vDestroyedFieldContainers.clear();
 }
 
 Bool ChangeList::merge(const ChangeList &list)
@@ -211,18 +230,26 @@ Bool ChangeList::merge(const ChangeList &list)
     Bool returnValue = true;
  
     _vChangedFieldContainers.insert(_vChangedFieldContainers.end(),
-                               list.beginChanged(), 
-                               list.endChanged());
+                                    list.beginChanged(), 
+                                    list.endChanged());
     
     
     _vAddRefdFieldContainers.insert(_vAddRefdFieldContainers.end(),
-                               list.beginAddRefd(), 
-                               list.endAddRefd());
+                                    list.beginAddRefd(), 
+                                    list.endAddRefd());
     
     
     _vSubRefdFieldContainers.insert(_vSubRefdFieldContainers.end(),
-                               list.beginSubRefd(), 
-                               list.endSubRefd());
+                                    list.beginSubRefd(), 
+                                    list.endSubRefd());
+
+    _vCreatedFieldContainers.insert(_vCreatedFieldContainers.end(),
+                                    list.beginCreated(),
+                                    list.endCreated());
+
+    _vDestroyedFieldContainers.insert(_vDestroyedFieldContainers.end(),
+                                      list.beginDestroyed(),
+                                      list.endDestroyed());
 
     return returnValue;
 }
@@ -262,9 +289,7 @@ void ChangeList::applyTo(UInt32 uiAspectId)
 //        osgSubRefCP(_subRefdFieldContainerV[i]);
     }
 
-    _vChangedFieldContainers.clear();
-    _vAddRefdFieldContainers.clear();
-    _vSubRefdFieldContainers.clear();
+    clearAll();
 
     _bReadOnly = false;
 }
@@ -321,6 +346,18 @@ void ChangeList::dump(void)
     {
         fprintf(stderr, "\t%d\n", 
                 _vSubRefdFieldContainers[i].getFieldContainerId());
+    }
+
+    fprintf(stderr, "CLCreate:\n");
+    for(i = 0; i < _vCreatedFieldContainers.size(); i++)
+    {
+        fprintf(stderr, "\t%d\n", _vCreatedFieldContainers[i]);
+    }
+    
+    fprintf(stderr, "CLDestroy:\n");
+    for(i = 0; i < _vDestroyedFieldContainers.size(); i++)
+    {
+        fprintf(stderr, "\t%d\n", _vDestroyedFieldContainers[i]);
     }
 }
 

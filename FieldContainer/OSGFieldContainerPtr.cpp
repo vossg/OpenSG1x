@@ -360,9 +360,11 @@ void FieldContainerPtrBase::subRef(void) const
 
     if((*getRefCountP()) <= 0)
     {
+        Thread::getCurrentChangeList()->addDestroyed(*getIdP());
+
         UInt8 *pTmp = getFirstElemP();
 
-        ((FieldContainer *) pTmp)->finalize();
+        ((FieldContainer *) pTmp)->onDestroy();
 
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {

@@ -163,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
     virtual ~Attachment(void);
 
-    virtual void finalize(void);
+    virtual void onDestroy  (void);
 
     virtual void executeSync(FieldContainer &other,
                              BitVector       whichField);
