@@ -143,6 +143,7 @@ void selectCamera( uint cameraNr )
 	OSG::NodePtr			node = OSG::NullNode;
 	OSG::VRMLTransformPtr	vrmlTrans;
 	OSG::Real32				fieldOfView;
+	OSG::NamePtr			namePtr;
 
 	if( cameraNr>cameraBeacons.size() )
 	{
@@ -164,7 +165,11 @@ void selectCamera( uint cameraNr )
 		fieldOfView = foundAttach->getFieldOfView();
 	
 	
-	cerr << "Activating camera#" << cameraNr << endl
+	// --- find the name attachment
+	namePtr = OSG::NamePtr::dcast( 
+		node->findAttachment(OSG::Name::getClassType().getGroupId()) );
+	
+	cerr << "Activating viewpoint: " << namePtr->getFieldPtr()->getValue() << endl
 		<< "Position:    " << vrmlTrans->getSFTranslation()->getValue() << endl
 		<< "Orientation: " << vrmlTrans->getSFRotation()->getValue() << endl
 		<< "Fov:         " << fieldOfView << endl << endl;
