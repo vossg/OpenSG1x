@@ -141,11 +141,13 @@ OSG_FIELD_CONTAINER_DEF(GLUTWindow, GLUTWindowPtr)
 GLUTWindow::GLUTWindow( void ) :
 	Inherited(), _winid( 0 )
 {
+	setupGL();
 }
 
 GLUTWindow::GLUTWindow( const GLUTWindow& source ) :
-	Inherited(), _winid( 0 )
+	Inherited( source ), _winid( source._winid )
 {
+	setupGL();
 }
 
 /** \brief Destructor

@@ -47,13 +47,18 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
+#include <OSGFunctors.h>
+#include <OSGThreadManager.h>
+#include <OSGLock.h>
 #include <OSGSField.h>
 #include <OSGMField.h>
 #include <OSGSFSysTypes.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldDescription.h>
-#include <OSGWindowBase.h> 
+#include "OSGWindowBase.h" 
+
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -110,20 +115,27 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(WidthField              )
+    OSG_FC_FIRST_FIELD_IDM_DECL(WidthField)
 
-    OSG_FC_FIELD_IDM_DECL      (HeightField, WidthField )
-    OSG_FC_FIELD_IDM_DECL      (PortsField,  HeightField)
+    OSG_FC_FIELD_IDM_DECL      (HeightField,		WidthField )
+    OSG_FC_FIELD_IDM_DECL      (PortsField, 		HeightField)
+    OSG_FC_FIELD_IDM_DECL      (ResizePendingField, PortsField)
+    OSG_FC_FIELD_IDM_DECL      (GLObjectFlagsField, ResizePendingField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL (PortsField              )
+    OSG_FC_LAST_FIELD_IDM_DECL (GLObjectFlagsField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
+	enum GLObjectFlagE { 
+		notused, initialize, initialized, needrefresh, destroy, finaldestroy };
+
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+	typedef Functor2Base<void,GLObjectFlagE,UInt32> GLObjectFunctor;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -159,21 +171,32 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     
     
     void      setWidth  (UInt16 width);
-    UInt16    getWidth  (void);
+    UInt16    getWidth  (void) const;
     SFUInt16 *getSFWidth(void);
     
 
     void      setHeight  (UInt16 height);
-    UInt16    getHeight  (void);
+    UInt16    getHeight  (void) const;
     SFUInt16 *getSFHeight(void);
-   
 
     void setSize(UInt16 width, UInt16 height);
 
-    
-    virtual void draw  (DrawAction *action);
-    virtual void resize(int width, int height);
-    
+
+	static UInt32	registerGLObject ( GLObjectFunctor functor, UInt32 num );
+	void			validateGLObject ( UInt32 id );	
+	void			refreshGLObject ( UInt32 id );	
+	static void 	destroyGLObject  ( UInt32 id, UInt32 num );
+ 
+    virtual void draw   			(DrawAction *action);
+ 	virtual void drawAllViewports 	(DrawAction *action);
+	virtual void frame  			(void);
+   
+	void		setResizePending ( Bool resizePending );
+	Bool		isResizePending  ( void );
+ 
+    virtual void resize 			(int width, int height);
+ 	virtual void resizeGL			(void);
+	   
     // Window-system dependent functions
     
     // init the window: create the context  
@@ -205,6 +228,71 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+	class GLObject {
+
+	  public:		  
+	    GLObject( GLObjectFunctor funct ) : 
+			functor( funct ), refCounter( 0 ) 
+		{}
+
+		GLObjectFunctor& getFunctor ( void ) 
+		{
+		    return ( functor );
+		};
+		  
+	    void setFunctor ( GLObjectFunctor funct )
+		{
+			functor = funct;
+		};
+
+		UInt32 getRefCounter ( void ) 
+		{
+  		    return ( refCounter );
+		}
+
+		UInt32 incRefCounter ( void )
+		{
+			UInt32 val;
+			
+			if ( ! _GLObjectLock )
+			{
+				_GLObjectLock = ThreadManager::the()->getLock(NULL);
+			}
+			
+			_GLObjectLock->aquire();
+			val = refCounter = refCounter + 1;
+			_GLObjectLock->release();
+			
+			return val;
+		}
+
+		UInt32 decRefCounter ( void )
+		{
+			UInt32 val;
+			
+			if ( ! _GLObjectLock )
+			{
+				_GLObjectLock = ThreadManager::the()->getLock(NULL);
+			}
+			
+			_GLObjectLock->aquire();
+			if ( refCounter )
+				val = refCounter = refCounter - 1;
+			else
+				val = 0;
+			_GLObjectLock->release();
+			
+			return val;
+		}
+
+	  protected:		
+		GLObjectFunctor functor;
+		volatile UInt32 refCounter;
+	};
+
+	typedef MField<GLObjectFlagE> MFGLObjectFlagE;
+	
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -218,25 +306,44 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //-----------------------------------------------------------------------
 
     /** The width of the window. */
-    SFUInt16      _width;
+    SFUInt16		_width;
 
     /** The height of the window. */
-    SFUInt16      _height;
+    SFUInt16		_height;
 
     /** The viewports used by the window. */
-    MFViewportPtr _ports;
+    MFViewportPtr	_ports;
 
-    /** The pipe this window is on. */
-    // SFPipePtr _parent;
+    /** Flag a pending resize. */
+    SFBool  		_resizePending;
+
+    /** The GLObject flags for this window. */
+	// This should be global through all aspects
+    MFGLObjectFlagE _glObjectFlags;
 
     /** NYI: dlist sharing brothers */
-    
+ 
+	/** GLObject stuff **/
+
+	static Lock                       *_GLObjectLock;
+
+	static vector<Window::GLObject*>  _glObjects;
+
+	static vector<UInt32>			  _glObjectDestroyList;
+   
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+   
+    SFBool  		*getSFResizePending(void);
+    MFGLObjectFlagE *getMFGLObjectFlags(void);
 
     Window(void);
+    Window(const Window &source);
     virtual ~Window(void); 
+	
+	// called when the context is created, to setup general OpenGL options
+	virtual void setupGL( void );
 
   private:
 
@@ -282,7 +389,6 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
 
     // prohibit default functions (move to 'public' if you need one)
 
-    Window(const Window &source);
     Window& operator =(const Window &source);
 };
 
@@ -317,6 +423,17 @@ struct FieldDataTraits<WindowPtr> : public Traits
  */
 
 typedef SField<WindowPtr>       SFWindowPtr;
+
+
+
+template <>
+struct FieldDataTraits<Window::GLObjectFlagE> : public Traits
+{
+    enum                           { StringConvertable = 0x00  };
+
+    static Char8 *getSName(void)   { return "SFGLObjectFlagE"; }
+    static Char8 *getMName(void)   { return "MFGLObjectFlagE"; }
+};
 
 #ifndef OSG_COMPILEWINDOWINST
 #if defined(__sgi)

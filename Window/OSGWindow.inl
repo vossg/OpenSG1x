@@ -106,12 +106,12 @@ OSG_ABSTR_FIELD_CONTAINER_INL_DEF(Window, WindowPtr)
 /*------------------------------ access -----------------------------------*/
 
 
-inline UInt16 Window::getWidth( void )
+inline UInt16 Window::getWidth( void ) const
 {
 	return _width.getValue();
 }
 
-inline SFUInt16 *Window::getSFWidth( void )
+inline SFUInt16 *Window::getSFWidth( void ) 
 {
 	return &_width;
 }
@@ -121,12 +121,12 @@ inline void Window::setWidth( UInt16 width )
 	_width.setValue( width );
 }
 
-inline UInt16 Window::getHeight( void )
+inline UInt16 Window::getHeight( void ) const
 {
 	return _height.getValue();
 }
 
-inline SFUInt16 *Window::getSFHeight( void )
+inline SFUInt16 *Window::getSFHeight( void ) 
 {
 	return &_height;
 }
@@ -141,6 +141,28 @@ inline void Window::setSize( UInt16 width, UInt16 height )
 {
 	setHeight( height );
 	setWidth( width );
+}
+
+
+inline SFBool *Window::getSFResizePending( void ) 
+{
+	return &_resizePending;
+}
+
+inline void Window::setResizePending( Bool resizePending )
+{
+	_resizePending.setValue( resizePending );
+}
+
+inline Bool Window::isResizePending ( void )
+{
+	return _resizePending.getValue();
+}
+
+
+inline Window::MFGLObjectFlagE *Window::getMFGLObjectFlags( void ) 
+{
+	return &_glObjectFlags;
 }
 
 /*---------------------------- properties ---------------------------------*/
