@@ -128,7 +128,7 @@ int main (int argc, char **argv)
 	torus_geo->setMaterial( tm );
 	
 	
-	dact = new DrawAction;
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 	

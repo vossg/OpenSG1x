@@ -99,7 +99,7 @@ int main (int argc, char **argv)
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
 		
-	dact = new DrawAction;
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 	

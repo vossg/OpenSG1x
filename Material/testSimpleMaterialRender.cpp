@@ -127,7 +127,7 @@ int main (int argc, char **argv)
 	// as there no useful except Material yet adding Chunks will 
 	// have to wait a little...
 	
-	dact = new DrawAction;
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 	
