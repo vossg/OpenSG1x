@@ -1236,6 +1236,8 @@ int main(int argc,char **argv)
 
         // init client
         clusterWindow->setConnectionType(connectionType);
+        // needs to be called before init()!
+        clusterWindow->setConnectionParams(connectionParameters);
         if(clientRendering)
         {
             clusterWindow->setClientWindow(clientWindow);
@@ -1245,7 +1247,6 @@ int main(int argc,char **argv)
         clientWindow->resize(winwidth,winheight);
         clusterWindow->setConnectionDestination(connectionDestination);
         clusterWindow->setConnectionInterface(connectionInterface);
-        clusterWindow->setConnectionParams(connectionParameters);
         glutMainLoop();
     }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)

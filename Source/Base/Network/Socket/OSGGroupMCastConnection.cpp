@@ -168,15 +168,17 @@ void GroupMCastConnection::setParams(const std::string &params)
         std::string str = params.substr(i + option.size());
 
         std::stringstream ss;
-        UInt32 i = 0;
-        while(i < str.length() && str[i] != ',' && isdigit(str[i]))
+        UInt32 j = 0;
+        while(j < str.length() && str[j] != ',' && isdigit(str[j]))
         {
-            ss << str[i++];
+            ss << str[j++];
         }
-        UInt8 ttl;
+        UInt32 ttl;
         ss >> ttl;
-        _mcastSocket.setTTL(ttl);
-        FINFO(("GroupMCastConnection::setParams : setting ttl to %d.\n", (int) ttl));
+        if(ttl > 255)
+            ttl = 255;
+        _mcastSocket.setTTL((unsigned char) ttl);
+        FINFO(("GroupMCastConnection::setParams : setting ttl to %u.\n", ttl));
     }
 }
 
