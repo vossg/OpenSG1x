@@ -74,7 +74,7 @@ AC_DEFUN(AC_GDZ_FIND_PROG_DIR,
     ac_gdz_find_prog_dir_result=""
 
     for drive in c d e f g; do
-        for progdir in "ProgramFiles" "Programme"; do
+        for progdir in "Program Files" "Programme"; do
             if test -d "//$drive/$progdir/$1"; then
                 ac_gdz_find_prog_dir_result="//$drive/$progdir/$1"
                 break 2
@@ -290,7 +290,7 @@ AC_DEFUN(AC_GDZ_FIND_STUDIO_DIR,
     ac_gdz_find_prog_dir_result=""
 
     for drive in c d e f g; do
-     for progdir in "ProgramFiles" "Programme"; do
+     for progdir in "Program Files" "Programme"; do
       if test -d "//$drive/$progdir/Microsoft Visual Studio"; then
        ac_gdz_find_prog_dir_result="//$drive/$progdir/Microsoft Visual Studio"
        break 2

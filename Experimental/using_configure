@@ -19,7 +19,8 @@ cd Builds/mips-sgi-irix6.5-CC
 gmake
 
 
-CYGWIN :
+CYGWIN (ICL4.5, including patch P000223C, P000421C, p000512c, P000616C)
+       (ICL5.0)
 
 bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
 cd Build/i686-pc-cygwin-icl45
