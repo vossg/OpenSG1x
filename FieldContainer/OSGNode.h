@@ -177,15 +177,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                       Volume                                 */
     /*! \{                                                                 */
     
-    const DynamicVolume &getVolume       (Bool update = true   );
+           DynamicVolume &getVolume       (Bool update = true   );
     
-    const DynamicVolume &getVolume       (void                 ) const;
+    const  DynamicVolume &getVolume       (void                 ) const;
     
-          void           getWorldVolume  (DynamicVolume &result);
+           void           getWorldVolume  (DynamicVolume &result);
     
-          void           updateVolume    (void                 );
+           void           updateVolume    (void                 );
 
-          void           invalidateVolume(void                 );
+           void           invalidateVolume(void                 );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

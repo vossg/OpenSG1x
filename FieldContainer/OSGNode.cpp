@@ -536,11 +536,13 @@ void Node::updateVolume(void)
 
 void Node::invalidateVolume(void)
 {
-    if(_volume.getValue().getInstance().isValid() == true)
+    Volume &vol=_volume.getValue().getInstance();
+    
+    if(vol.isValid() == true && vol.isStatic() == false)
     {
         beginEdit(VolumeFieldMask, _volume);
 
-        _volume.getValue().getInstance().setValid(false);
+        vol.setValid(false);
 
         endEdit(VolumeFieldMask, _volume);
 

@@ -53,7 +53,7 @@ const DynamicVolume &Node::getVolume(void) const
 }
 
 inline
-const DynamicVolume &Node::getVolume(Bool update)
+DynamicVolume &Node::getVolume(Bool update)
 {
     if(update == true)
         updateVolume();
@@ -84,7 +84,7 @@ UInt32 Node::getNChildren(void) const
 {
     return _children.size();
 }
-
+ 
 OSG_END_NAMESPACE
 
 #define OSGNODE_INLINE_CVSID "@(#)$Id: $"
