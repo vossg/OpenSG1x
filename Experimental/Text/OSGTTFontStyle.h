@@ -49,15 +49,15 @@ public:
   virtual bool set_ttInstance (TT_Instance *ttInstance, TT_Face *ttFace);
 
   /** return specified (ASCII-) Glyph */
-  virtual VectorFontGlyph * getVectorGlyph (Int32 which);
+  virtual VectorFontGlyph * getVectorGlyph (UInt8 which);
 
-  virtual ImageFontGlyph * getImageGlyph (Int32 which);
+  virtual ImageFontGlyph * getImageGlyph (UInt8 which);
 
   virtual bool createTXFMap(UChar8 *characters=NULL, Int32 gap=1);
 
   virtual unsigned char *getTXFImageMap (void);
 
-  virtual TXFGlyphInfo *getTXFGlyphInfo (Int32 ascii);
+  virtual TXFGlyphInfo *getTXFGlyphInfo (UInt8 ascii);
 
   virtual bool dump(ostream & out);
 

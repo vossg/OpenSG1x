@@ -47,12 +47,12 @@ TTFontStyle::~TTFontStyle (void )
 	return;
 }
 
-VectorFontGlyph * TTFontStyle::getVectorGlyph (Int32 ascii)
+VectorFontGlyph * TTFontStyle::getVectorGlyph (UInt8 ascii)
 {
     return _vectorGlyphs[ascii];
 }
 
-ImageFontGlyph * TTFontStyle::getImageGlyph (Int32 ascii)
+ImageFontGlyph * TTFontStyle::getImageGlyph (UInt8 ascii)
 {
     return _imageGlyphs[ascii];
 }
@@ -166,10 +166,10 @@ Int32 cmpIGlyphs(void *g1, void *g2)
 }
 
 
-void qsortIGlyphs(Int32 numGlyphs, Uchar8 *indices,
+void qsortIGlyphs(Int32 numGlyphs, UChar8 *indices,
 		  vector<ImageFontGlyph *> iGlyphs)
 {
-  Uchar8 split, *upper, *lower, up=1;
+  UChar8 split, *upper, *lower, up=1;
 
   if(numGlyphs <= 1) return;
    
@@ -198,20 +198,20 @@ void qsortIGlyphs(Int32 numGlyphs, Uchar8 *indices,
 
 
 
-bool TTFontStyle::createTXFMap(Char8 *characters, Int32 gap)
+bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
 {
-  Int32 i, j, k numChars, numCreated=0, width, height, x, y;
+  Int32 i, j, k, numChars, numCreated=0, width, height, x, y;
   Int32 start, current, rowHeight, spaceLeft, numSorted;
   const Int32 *res, *bb;
-  Uchar8 *createdIndices=NULL, *sortedIndices=NULL, *imageBuffer=NULL;
-  Uchar8 *img, *srcPixel, *dstPixel;
+  UChar8 *createdIndices=NULL, *sortedIndices=NULL, *imageBuffer=NULL;
+  UChar8 *img, *srcPixel, *dstPixel;
   TXFGlyphInfo *glyph=NULL;
   Real32 x_f, y_f, xstep, ystep, scale;
   bool retVal;
   Int8 *dims;
 
   if(characters) {
-    numChars = strlen(characters);
+    numChars = strlen(reinterpret_cast<char*>(characters));
     start = 0;
   }
   else {
@@ -219,13 +219,13 @@ bool TTFontStyle::createTXFMap(Char8 *characters, Int32 gap)
     start = 1;
   }
 
-  createdIndices = new Uchar8[numChars];
+  createdIndices = new UChar8[numChars];
     
   for(i=start; i<numChars; i++) {
     retVal = _imageGlyphs[characters ? characters[i] : i]->create();
     if(retVal) {
       createdIndices[numCreated++]=
-	(Uchar8)(characters ? characters[i] : i);
+	(UChar8)(characters ? characters[i] : i);
     }
   }
 
@@ -241,7 +241,7 @@ bool TTFontStyle::createTXFMap(Char8 *characters, Int32 gap)
   width = 512;
   i=0; x=gap; y=gap;
 
-  sortedIndices = new Uchar8[numCreated];
+  sortedIndices = new UChar8[numCreated];
   numSorted = 0;
   while (true) {
     current = createdIndices[i];
@@ -284,7 +284,7 @@ bool TTFontStyle::createTXFMap(Char8 *characters, Int32 gap)
 
   height = 1;
   while(height < y+rowHeight+gap) height *=2;
-  imageBuffer= new Uchar8 [width*height*2];
+  imageBuffer= new UChar8 [width*height*2];
 
   i=0; x=gap; y=gap;
   xstep = 0.5 / width;
@@ -368,7 +368,7 @@ bool TTFontStyle::createTXFMap(Char8 *characters, Int32 gap)
 
 
 
-Uchar8 *TTFontStyle::getTXFImageMap (void)
+UChar8 *TTFontStyle::getTXFImageMap (void)
 {
   if(!_txfImageMap) createTXFMap();
 
@@ -376,7 +376,7 @@ Uchar8 *TTFontStyle::getTXFImageMap (void)
 }
 
 
-TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo (Int32 which)
+TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo (UInt8 which)
 {
   if(!_txfImageMap) createTXFMap();
 
@@ -396,7 +396,7 @@ bool TTFontStyle::dump(ostream & out)
   UInt32 swapit = 0x12345678;
   UInt32 zero = 0, buffer, nc=0;
   UInt16 sbuffer;
-  Uchar8 *oBuffer;
+  UChar8 *oBuffer;
 
   out << (Char8)0xff << "txf";
   out.write(reinterpret_cast<Char8*>(&swapit),4);
@@ -429,7 +429,7 @@ bool TTFontStyle::dump(ostream & out)
       out.write(reinterpret_cast<Char8*>(&sbuffer), 2);
     }
 
-  oBuffer = new Uchar8 [_txfFontWidth*_txfFontHeight];
+  oBuffer = new UChar8 [_txfFontWidth*_txfFontHeight];
   for (Int32 j=0; j< _txfFontWidth*_txfFontHeight; j++)
     oBuffer[j] = _txfImageMap[2*j];
   out.write(reinterpret_cast<Char8*>(oBuffer), _txfFontWidth*_txfFontHeight);
