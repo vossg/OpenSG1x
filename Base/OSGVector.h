@@ -496,7 +496,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 	 *      Vec4f v4f(v2f);
 	 *  }              
 	 *  \endcode
-	 *  This will at least give you some array read out of bounce erros;       
+	 *  This will at least give you some array read out of bounds erros;       
 	 *  So this constructor make the things a little bit more save, but you
 	 *  will get nasty error messages from the compiler if the argument does
 	 *  not satisfy the requirements given above. 
@@ -595,7 +595,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 	 *      v4f.setValue(v2f);
 	 *  }              
 	 *  \endcode
-	 *  This will at least give you some array read out of bounce erros;       
+	 *  This will at least give you some array read out of bounds erros;       
 	 *  So this function make the things a little bit more save, but you
      *  will get nasty error messages from the compiler if the argument does
      *  not satisfy the requirements given above.
@@ -813,7 +813,7 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 	 *      Vec4f v4f(v2f);
 	 *  }              
 	 *  \endcode
-	 *  This will at least give you some array read out of bounce erros;       
+	 *  This will at least give you some array read out of bounds erros;       
 	 *  So this constructor make the things a little bit more save, but you
 	 *  will get nasty error messages from the compiler if the argument does
 	 *  not satisfy the requirements given above. 
