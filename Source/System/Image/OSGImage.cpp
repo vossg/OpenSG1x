@@ -1279,21 +1279,13 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                 case OSG_UINT16_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-#if BYTE_ORDER != LITTLE_ENDIAN
-                        destDataUC16[i] = (((UInt16) (sourceData[i])) & 0x00ff);
-#else
                         destDataUC16[i] = (UInt16) (sourceData[i]<<8);
-#endif
                     }
                     break;
                 case OSG_UINT32_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-#if BYTE_ORDER != LITTLE_ENDIAN
-                        destDataUC32[i] = (((UInt32) (sourceData[i])) & 0x000000ff);
-#else
                         destDataUC32[i] = (UInt32) (sourceData[i]<<24);
-#endif
                     }
                     break;
                 case OSG_FLOAT32_IMAGEDATA:
@@ -1315,21 +1307,13 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                 case OSG_UINT8_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-#if BYTE_ORDER != LITTLE_ENDIAN
-                        destData[i] = (UInt8) (sourceDataUC16[i] & 0x00ff);
-#else
                         destData[i] = (UInt8) (sourceDataUC16[i]>>8);
-#endif
                     }
                     break;
                 case OSG_UINT32_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-#if BYTE_ORDER != LITTLE_ENDIAN
-                        destDataUC32[i] = (((UInt32) (sourceDataUC16[i])) & 0x0000ffff);
-#else
                         destDataUC32[i] = (UInt32) (sourceDataUC16[i]<<16);
-#endif
                     }
                     break;
                 case OSG_FLOAT32_IMAGEDATA:
@@ -1350,21 +1334,13 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                 case OSG_UINT8_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-#if BYTE_ORDER != LITTLE_ENDIAN
-                        destData[i] = (UInt8) (sourceDataUC32[i] & 0xff);
-#else
                         destData[i] = (UInt8) (sourceDataUC32[i] >> 24);
-#endif
                     }
                     break;
                 case OSG_UINT16_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-#if BYTE_ORDER != LITTLE_ENDIAN
-                        destDataUC16[i] = (UInt16) (sourceDataUC32[i] << 16);
-#else
                         destDataUC16[i] = (UInt16) (sourceDataUC32[i] >> 16);
-#endif
                     }
                     break;
                 case OSG_FLOAT32_IMAGEDATA:
