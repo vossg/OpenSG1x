@@ -75,7 +75,11 @@
 
 #ifdef OSG_STL_HAS_HASH_MAP
 #ifdef OSG_USE_HASH_COMPARE
+#ifdef OSG_HASH_MAP_AS_EXT
+#include <ext/hash_map>
+#else
 #include <hash_map>
+#endif
 #endif
 #endif
 
