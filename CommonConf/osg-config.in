@@ -336,6 +336,11 @@ while test $# -gt 0; do
       fi;
       lib_QT=yes
       ;;
+    Contrib)
+      lib_Base=yes
+      lib_System=yes
+      lib_Contrib=yes
+      ;;
     *)
       usage 1 1>&2
       ;;
@@ -440,6 +445,11 @@ img_incs_path=
 img_libs=
 img_defs=
 sys_defs=
+
+if test "$lib_Contrib" = "yes"; then
+    opensg_libs="$opensg_libs ${link_pre}OSGContrib${dbg_char}${link_suf}"
+    system_libs="$system_libs $base_libs"
+fi;
 
 if test "$lib_System" = "yes"; then
     opensg_libs="$opensg_libs ${link_pre}OSGSystem${dbg_char}${link_suf}"
